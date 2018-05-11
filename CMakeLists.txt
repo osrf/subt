@@ -1,0 +1,12 @@
+cmake_minimum_required(VERSION 3.5.1)
+project(subt)
+
+if(NOT WIN32)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -Wextra")
+endif()
+
+set (SUBT_MAJOR_VERSION 0)
+set (SUBT_MINOR_VERSION 1)
+set (SUBT_PATCH_VERSION 0)
+set (SUBT_VERSION_FULL
+  ${SUBT_MAJOR_VERSION}.${SUBT_MINOR_VERSION}.${SUBT_PATCH_VERSION})
