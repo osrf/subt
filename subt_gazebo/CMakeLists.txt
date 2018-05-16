@@ -36,7 +36,6 @@ find_package(gazebo REQUIRED)
 include_directories(
   include
   ${GAZEBO_INCLUDE_DIRS}
-  ${roscpp_INCLUDE_DIRS}
   ${catkin_INCLUDE_DIRS}
 )
 
@@ -54,8 +53,7 @@ catkin_package(
 set(game_logic_plugin_name GameLogicPlugin)
 add_library(${game_logic_plugin_name} src/GameLogicPlugin.cc)
 target_link_libraries(${game_logic_plugin_name}
-  ${GAZEBO_LIBRARIES}
-  ${roscpp_LIBRARIES}
+  ${catkin_LIBRARIES}
   ${sensor_msgs_LIBRARIES}
 )
 install(TARGETS ${game_logic_plugin_name}

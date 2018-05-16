@@ -27,7 +27,6 @@ GZ_REGISTER_WORLD_PLUGIN(GameLogicPlugin)
 /////////////////////////////////////////////////
 void GameLogicPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr /*_sdf*/)
 {
-
   GZ_ASSERT(_world, "GameLogicPlugin world pointer is NULL");
   this->world = _world;
 
