@@ -11,13 +11,14 @@ set (SUBT_PATCH_VERSION 0)
 set (SUBT_VERSION_FULL
   ${SUBT_MAJOR_VERSION}.${SUBT_MINOR_VERSION}.${SUBT_PATCH_VERSION})
 
-find_package(catkin REQUIRED COMPONENTS
-  gazebo_ros
-  gazebo_plugins
-  roscpp
-  std_msgs
-  std_srvs
-  message_generation
+find_package(catkin REQUIRED
+  COMPONENTS
+    gazebo_ros
+    gazebo_plugins
+    roscpp
+    std_msgs
+    std_srvs
+    message_generation
 )
 
 find_package(gazebo REQUIRED)
@@ -41,6 +42,12 @@ include_directories(
 
 link_directories(
   ${GAZEBO_LIBRARY_DIRS}
+)
+
+catkin_package(
+  CATKIN_DEPENDS
+    message_runtime
+    std_srvs
 )
 
 #############
