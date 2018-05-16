@@ -27,9 +27,6 @@ namespace gazebo
   /// \brief A plugin that takes care of all the SubT challenge logic.
   class GameLogicPlugin : public WorldPlugin
   {
-    /// \brief Destructor
-    public: virtual ~GameLogicPlugin();
-
     // Documentation inherited
     public: virtual void Load(physics::WorldPtr _world, sdf::ElementPtr _sdf);
 

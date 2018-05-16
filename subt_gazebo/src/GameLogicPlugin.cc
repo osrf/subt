@@ -25,25 +25,19 @@ using namespace gazebo;
 GZ_REGISTER_WORLD_PLUGIN(GameLogicPlugin)
 
 /////////////////////////////////////////////////
-GameLogicPlugin::~GameLogicPlugin()
-{
-  event::Events::DisconnectWorldUpdateBegin(this->updateConnection);
-}
-
-/////////////////////////////////////////////////
-void GameLogicPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
+void GameLogicPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr /*_sdf*/)
 {
 
   GZ_ASSERT(_world, "GameLogicPlugin world pointer is NULL");
   this->world = _world;
 
   this->updateConnection = event::Events::ConnectWorldUpdateBegin(
-          std::bind(&WindPlugin::OnUpdate, this));
+          std::bind(&GameLogicPlugin::OnUpdate, this));
 
-  gzmsg << "Starting SubT..." << std::endl;
+  gzmsg << "Starting SubT" << std::endl;
 }
 
 /////////////////////////////////////////////////
-void WindPlugin::OnUpdate()
+void GameLogicPlugin::OnUpdate()
 {
 }

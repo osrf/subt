@@ -7,5 +7,10 @@
     <include>
       <uri>model://sun</uri>
     </include>
+
+    <!-- The SubT challenge logic plugin -->
+    <plugin name="game_logic_plugin" filename="libGameLogicPlugin.so">
+    </plugin>
+
   </world>
 </sdf>
