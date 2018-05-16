@@ -50,18 +50,27 @@ catkin_package(
     std_srvs
 )
 
+# Create the libGameLogicPlugin.so library.
+set(game_logic_plugin_name GameLogicPlugin)
+add_library(${game_logic_plugin_name} src/GameLogicPlugin.cc)
+target_link_libraries(${game_logic_plugin_name}
+  ${GAZEBO_LIBRARIES}
+  ${roscpp_LIBRARIES}
+  ${sensor_msgs_LIBRARIES}
+)
+install(TARGETS ${game_logic_plugin_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+
 #############
 ## Install ##
 #############
 
-# Install all the world files
-install(DIRECTORY worlds/
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/worlds)
-
-# Install all the model files
-install(DIRECTORY models/
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/models)
-
 # Install all the launch files
 install(DIRECTORY launch/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch)
+
+# Install all the world files
+install(DIRECTORY worlds/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/worlds)
