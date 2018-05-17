@@ -54,9 +54,19 @@ set(game_logic_plugin_name GameLogicPlugin)
 add_library(${game_logic_plugin_name} src/GameLogicPlugin.cc)
 target_link_libraries(${game_logic_plugin_name}
   ${catkin_LIBRARIES}
-  ${sensor_msgs_LIBRARIES}
 )
 install(TARGETS ${game_logic_plugin_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+
+# Create the libCommsClient.so library.
+set(comms_client_name CommsClient)
+add_library(${comms_client_name} src/CommsClient.cc)
+target_link_libraries(${comms_client_name}
+  ${catkin_LIBRARIES}
+)
+install(TARGETS ${comms_client_name}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
