@@ -18,8 +18,13 @@
 #define SUBT_GAZEBO_COMMSCLIENT_HH_
 
 #include <cstdint>
+#include <functional>
 #include <iostream>
 #include <string>
+
+#include <ignition/transport/Node.hh>
+
+#include "subt_gazebo/protobuf/datagram.pb.h"
 
 namespace subt
 {
@@ -28,7 +33,7 @@ namespace subt
   {
     /// \brief Constructor.
     /// \param[in] _localAddress Your local address.
-    CommsClient(const std::string &_localAddress);
+    explicit CommsClient(const std::string &_localAddress);
 
     /// \brief Get your local address.
     /// \return The local address.
@@ -75,32 +80,14 @@ namespace subt
         return false;
       }
 
+      this->cb = std::bind(_cb, _obj, std::placeholders::_1,
+        std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
+
       // Mapping the "unicast socket" to a topic name.
-      const auto unicastEndPoint = _address + ":" + std::to_string(_port);
+      const auto endPoint = _address + ":" + std::to_string(_port);
 
-      //if (!this->broker->Bind(this->Host(), this, unicastEndPoint))
-      //  return false;
-//
-      //// Register the user callback using the topic name as the key.
-      //this->callbacks[unicastEndPoint] = std::bind(_cb, _obj,
-      //    std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
-      //    std::placeholders::_4);
-//
-      //// Only enable broadcast if the address is a regular unicast address.
-      //if (_address != this->kMulticast)
-      //{
-      //  const std::string bcastEndPoint = "broadcast:" + std::to_string(_port);
-//
-      //  if (!this->broker->Bind(this->Host(), this, bcastEndPoint))
-      //    return false;
-//
-      //  // Register the user callback using the broadcast topic as the key.
-      //  this->callbacks[bcastEndPoint] = std::bind(_cb, _obj,
-      //      std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
-      //      std::placeholders::_4);
-      //}
-
-      return true;
+      // Advertise a oneway service for receiving message requests.
+      return node.Advertise(endPoint, &CommsClient::OnMessage, this);
     }
 
     /// \brief Send some data to other/s member/s of the team.
@@ -116,9 +103,26 @@ namespace subt
     /// sending messages notifies an error (meaning that the message was not
     /// sent).
     public: bool SendTo(const std::string &_data,
-                        const std::string &_dstAddress = "",
+                        const std::string &_dstAddress,
                         const uint32_t _port = kDefaultPort);
 
+    /// \brief Function called each time a new datagram message is received.
+    private: void OnMessage(const msgs::Datagram &_msg);
+
+    /// \def Callback_t
+    /// \brief The callback specified by the user when new data is available.
+    /// The callback contains four parameters:
+    ///   _srcAddress: The source address of the agent sending the message.
+    ///   _dstAddress: The destination address of the message.
+    ///   _dstPort: The destination port of the message.
+    ///   _data: The payload of the message.
+    private: using Callback_t =
+      std::function<void(const std::string &_srcAddress,
+                         const std::string &_dstAddress,
+                         const uint32_t _dstPort,
+                         const std::string &_data)>;
+
+    /// \brief The local address.
     private: const std::string localAddress;
 
     /// \brief Address used to send a message to all the members of the swarm
@@ -129,11 +133,20 @@ namespace subt
     /// support multiple multicast groups, only one.
     private: const std::string kMulticast = "multicast";
 
+    /// \brief Address used to centralize all messages sent from the agents.
+    private: const std::string kBrokerService = "broker";
+
     /// \brief Default port.
     private: static const uint32_t kDefaultPort = 4100u;
 
     /// \brief Maximum transmission payload size (octets) for each message.
     private: static const uint32_t kMtu = 1500;
+
+    /// \brief An Ignition Transport node for communications.
+    private: ignition::transport::Node node;
+
+    /// \brief The callback registered by the user.
+    private: Callback_t cb;
   };
 }
 #endif

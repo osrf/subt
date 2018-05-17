@@ -12,5 +12,9 @@
     <plugin name="game_logic_plugin" filename="libGameLogicPlugin.so">
     </plugin>
 
+    <!-- The SubT comms broker plugin -->
+    <plugin name="comms_broker_plugin" filename="libCommsBrokerPlugin.so">
+    </plugin>
+
   </world>
 </sdf>

@@ -15,6 +15,7 @@
  *
 */
 
+#include "subt_gazebo/protobuf/datagram.pb.h"
 #include "subt_gazebo/CommsClient.hh"
 
 using namespace subt;
@@ -50,14 +51,21 @@ bool CommsClient::SendTo(const std::string &_data,
     return false;
   }
 
-  //msgs::Datagram msg;
-  //msg.set_src_address(this->Host());
-  //msg.set_dst_address(_dstAddress);
-  //msg.set_dst_port(_port);
-  //msg.set_data(_data);
-//
-  //// The neighbors list will be included in the broker.
-  //this->broker->Push(msg);
+  msgs::Datagram msg;
+  msg.set_src_address(this->Host());
+  msg.set_dst_address(_dstAddress);
+  msg.set_dst_port(_port);
+  msg.set_data(_data);
 
-  return true;
+  return this->node.Request(this->kBrokerService, msg);
+}
+
+//////////////////////////////////////////////////
+void CommsClient::OnMessage(const msgs::Datagram &_msg)
+{
+  if (this->cb)
+  {
+    this->cb(_msg.src_address(), _msg.dst_address(),
+             _msg.dst_port(), _msg.data());
+  }
 }

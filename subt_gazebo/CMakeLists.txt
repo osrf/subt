@@ -49,6 +49,11 @@ catkin_package(
     std_srvs
 )
 
+# Protobuf.
+add_subdirectory(src/protobuf)
+set_source_files_properties(${PROTO_SOURCES} ${PROTO_HEADERS}
+                            PROPERTIES GENERATED TRUE)
+
 # Create the libGameLogicPlugin.so library.
 set(game_logic_plugin_name GameLogicPlugin)
 add_library(${game_logic_plugin_name} src/GameLogicPlugin.cc)
@@ -60,12 +65,23 @@ install(TARGETS ${game_logic_plugin_name}
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
 
+# Create the libCommsBrokerPlugin.so library.
+set(comms_broker_plugin_name CommsBrokerPlugin)
+add_library(${comms_broker_plugin_name} src/CommsBrokerPlugin.cc)
+target_link_libraries(${comms_broker_plugin_name}
+  ${catkin_LIBRARIES}
+  ${PROTO_SOURCES}
+)
+add_dependencies(${comms_broker_plugin_name} protobuf_compilation)
+install(TARGETS ${comms_broker_plugin_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+
 # Create the libCommsClient.so library.
-add_subdirectory(src/protobuf)
-set_source_files_properties(${PROTO_SOURCES} ${PROTO_HEADERS}
-                            PROPERTIES GENERATED TRUE)
 set(comms_client_name CommsClient)
 add_library(${comms_client_name} src/CommsClient.cc)
+include_directories(${PROJECT_BINARY_DIR}/include)
 target_link_libraries(${comms_client_name}
   ${catkin_LIBRARIES}
   ${PROTO_SOURCES}
