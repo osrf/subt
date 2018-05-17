@@ -18,6 +18,7 @@
 #define SUBT_GAZEBO_COMMSCLIENT_HH_
 
 #include <cstdint>
+#include <iostream>
 #include <string>
 
 namespace subt
@@ -63,7 +64,7 @@ namespace subt
                             const uint32_t _dstPort,
                             const std::string &_data),
               C *_obj,
-              const std::string &_address = this->localAddress,
+              const std::string &_address = "",
               const int _port = kDefaultPort)
     {
       // Sanity check: Make sure that you use your local address or multicast.
@@ -115,7 +116,7 @@ namespace subt
     /// sending messages notifies an error (meaning that the message was not
     /// sent).
     public: bool SendTo(const std::string &_data,
-                        const std::string &_dstAddress = this->localAddress,
+                        const std::string &_dstAddress = "",
                         const uint32_t _port = kDefaultPort);
 
     private: const std::string localAddress;
@@ -127,6 +128,9 @@ namespace subt
     /// \brief Address used to bind to a multicast group. Note that we do not
     /// support multiple multicast groups, only one.
     private: const std::string kMulticast = "multicast";
+
+    /// \brief Default port.
+    private: static const uint32_t kDefaultPort = 4100u;
 
     /// \brief Maximum transmission payload size (octets) for each message.
     private: static const uint32_t kMtu = 1500;

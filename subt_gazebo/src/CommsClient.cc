@@ -20,7 +20,7 @@
 using namespace subt;
 
 //////////////////////////////////////////////////
-CommsClient(const std::string &_localAddress)
+CommsClient::CommsClient(const std::string &_localAddress)
   : localAddress(_localAddress)
 {
   // Sanity check: Verity that local address is not empty.
