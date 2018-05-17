@@ -54,9 +54,7 @@ set(game_logic_plugin_name GameLogicPlugin)
 add_library(${game_logic_plugin_name} src/GameLogicPlugin.cc)
 target_link_libraries(${game_logic_plugin_name}
   ${catkin_LIBRARIES}
-  ${PROTO_SRC}
 )
-add_dependencies(game_logic_plugin_name protobuf_compilation)
 install(TARGETS ${game_logic_plugin_name}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
@@ -64,11 +62,15 @@ install(TARGETS ${game_logic_plugin_name}
 
 # Create the libCommsClient.so library.
 add_subdirectory(src/protobuf)
+set_source_files_properties(${PROTO_SOURCES} ${PROTO_HEADERS}
+                            PROPERTIES GENERATED TRUE)
 set(comms_client_name CommsClient)
 add_library(${comms_client_name} src/CommsClient.cc)
 target_link_libraries(${comms_client_name}
   ${catkin_LIBRARIES}
+  ${PROTO_SOURCES}
 )
+add_dependencies(${comms_client_name} protobuf_compilation)
 install(TARGETS ${comms_client_name}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
