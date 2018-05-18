@@ -27,7 +27,7 @@ find_package(gazebo REQUIRED)
 ## Message generation ##
 ########################
 
-# Add here SubT messages.
+# Add here SubT ROS messages.
 
 ###########
 ## Build ##
@@ -91,6 +91,27 @@ install(TARGETS ${comms_client_name}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
+
+###########
+## Tests ##
+###########
+
+configure_file (test/test_config.h.in
+  ${PROJECT_BINARY_DIR}/include/test/test_config.h)
+
+catkin_add_gtest(test_comms test/comms.cc)
+link_directories(${Boost_LIBRARY_DIRS})
+target_link_libraries(test_comms
+  ${catkin_LIBRARIES}
+  ${GAZEBO_LIBRARIES}
+  gazebo_test_fixture
+  boost_thread
+  ${comms_client_name}
+)
+add_dependencies(test_comms
+  ${comms_broker_plugin_name}
+  ${comms_client_name}
+)
 
 #############
 ## Install ##

@@ -20,11 +20,12 @@
 #include <cstdint>
 #include <functional>
 #include <iostream>
+#include <map>
 #include <string>
-
 #include <ignition/transport/Node.hh>
 
 #include "subt_gazebo/protobuf/datagram.pb.h"
+#include "subt_gazebo/CommonTypes.hh"
 
 namespace subt
 {
@@ -33,7 +34,7 @@ namespace subt
   {
     /// \brief Constructor.
     /// \param[in] _localAddress Your local address.
-    explicit CommsClient(const std::string &_localAddress);
+    public: explicit CommsClient(const std::string &_localAddress);
 
     /// \brief Get your local address.
     /// \return The local address.
@@ -72,41 +73,74 @@ namespace subt
               const std::string &_address = "",
               const int _port = kDefaultPort)
     {
+      // Sanity check: Make sure that we're using a valid address.
+      if (this->Host().empty())
+        return false;
+
+      // Use current address if _address is not provided.
+      std::string address = _address;
+      if (address.empty())
+        address = this->Host();
+
       // Sanity check: Make sure that you use your local address or multicast.
-      if ((_address != this->kMulticast) && (_address != this->Host()))
+      if ((address != kMulticast) && (address != this->Host()))
       {
         std::cerr << "[" << this->Host() << "] Bind() error: Address ["
-                  << _address << "] is not your local address" << std::endl;
+                  << address << "] is not your local address" << std::endl;
         return false;
       }
 
-      this->cb = std::bind(_cb, _obj, std::placeholders::_1,
+      // Mapping the "unicast socket" to a topic name.
+      const auto endPoint = address + ":" + std::to_string(_port);
+
+      // Sanity check: Make sure that this address is not already used.
+      if (this->callbacks.find(endPoint) != this->callbacks.end())
+      {
+        std::cerr << "[" << this->Host() << "] Bind() error: Address ["
+                  << address << "] already used" << std::endl;
+        return false;
+      }
+
+      // Advertise oneway service for receiving message requests.
+      if (!node.Advertise(endPoint, &CommsClient::OnMessage, this))
+        return false;
+
+      this->callbacks[endPoint] = std::bind(_cb, _obj, std::placeholders::_1,
         std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
 
-      // Mapping the "unicast socket" to a topic name.
-      const auto endPoint = _address + ":" + std::to_string(_port);
+      // Advertise the broadcast endpoint if we haven't done it yet.
+      const auto bcastEndpoint = kBroadcast + ":" + std::to_string(_port);
+      if (this->callbacks.find(bcastEndpoint) == this->callbacks.end())
+      {
+        // Advertise oneway service for receiving message requests.
+        if (!node.Advertise(bcastEndpoint, &CommsClient::OnMessage, this))
+          return false;
 
-      // Advertise a oneway service for receiving message requests.
-      return node.Advertise(endPoint, &CommsClient::OnMessage, this);
+        this->callbacks[bcastEndpoint] = std::bind(_cb, _obj,
+          std::placeholders::_1, std::placeholders::_2,
+          std::placeholders::_3, std::placeholders::_4);
+      }
+
+      return true;
     }
 
     /// \brief Send some data to other/s member/s of the team.
     ///
-    /// \param[in] _data Payload.
+    /// \param[in] _data Payload. The maximum size of the payload is 1500 bytes.
     /// \param[in] _dstAddress Destination address. Note that the destination
     /// address might be a unicast address, "kBroadcast" or "kMulticast".
     /// In the case of broadcast and multicast communications your node
     /// will receive your own message if you're bind to your local or the
     /// multicast address.
     /// \param[in] _port Destination port.
-    /// \return True when success or false if the underlying library used for
-    /// sending messages notifies an error (meaning that the message was not
-    /// sent).
+    /// \return True when success or false otherwise (e.g.: if the payload was
+    /// bigger than 1500 bytes).
     public: bool SendTo(const std::string &_data,
                         const std::string &_dstAddress,
                         const uint32_t _port = kDefaultPort);
 
     /// \brief Function called each time a new datagram message is received.
+    /// \param[in] _msg The incoming message.
     private: void OnMessage(const msgs::Datagram &_msg);
 
     /// \def Callback_t
@@ -125,28 +159,15 @@ namespace subt
     /// \brief The local address.
     private: const std::string localAddress;
 
-    /// \brief Address used to send a message to all the members of the swarm
-    /// listening on a specific port.
-    private: const std::string kBroadcast = "broadcast";
-
-    /// \brief Address used to bind to a multicast group. Note that we do not
-    /// support multiple multicast groups, only one.
-    private: const std::string kMulticast = "multicast";
-
-    /// \brief Address used to centralize all messages sent from the agents.
-    private: const std::string kBrokerService = "broker";
-
-    /// \brief Default port.
-    private: static const uint32_t kDefaultPort = 4100u;
-
     /// \brief Maximum transmission payload size (octets) for each message.
     private: static const uint32_t kMtu = 1500;
 
     /// \brief An Ignition Transport node for communications.
     private: ignition::transport::Node node;
 
-    /// \brief The callback registered by the user.
-    private: Callback_t cb;
+    /// \brief User callbacks. The key is the topic name
+    /// (e.g.: "/subt/192.168.2.1/4000") and the value is the user callback.
+    private: std::map<std::string, Callback_t> callbacks;
   };
 }
 #endif

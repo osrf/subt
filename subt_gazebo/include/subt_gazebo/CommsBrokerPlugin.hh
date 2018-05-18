@@ -17,7 +17,8 @@
 #ifndef SUBT_GAZEBO_COMMSBROKERPLUGIN_HH_
 #define SUBT_GAZEBO_COMMSBROKERPLUGIN_HH_
 
-#include <string>
+#include <mutex>
+#include <queue>
 #include <gazebo/common/Event.hh>
 #include <gazebo/common/Plugin.hh>
 #include <gazebo/physics/physics.hh>
@@ -37,12 +38,12 @@ namespace gazebo
     /// \brief Callback for World Update events.
     private: void OnUpdate();
 
+    /// \brief Process all incoming messages.
+    private: void ProcessIncomingMsgs();
+
     /// \brief Callback executed when a new request is received.
     /// \param _req The datagram contained in the request.
-    void OnMessage(const subt::msgs::Datagram &_req);
-
-    /// \brief Address used to centralize all messages sent from the agents.
-    private: const std::string kBrokerSrv = "broker";
+    private: void OnMessage(const subt::msgs::Datagram &_req);
 
     /// \brief World pointer.
     private: physics::WorldPtr world;
@@ -52,6 +53,13 @@ namespace gazebo
 
     /// \brief An Ignition Transport node for communications.
     private: ignition::transport::Node node;
+
+    /// \brief Collection of incoming messages received during the last
+    /// simulation step.
+    private: std::queue<subt::msgs::Datagram> incomingMsgs;
+
+    /// \brief Protect data from races.
+    private: std::mutex mutex;
   };
 }
 #endif

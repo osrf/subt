@@ -15,7 +15,11 @@
  *
 */
 
+#include <iostream>
+#include <string>
+
 #include "subt_gazebo/protobuf/datagram.pb.h"
+#include "subt_gazebo/CommonTypes.hh"
 #include "subt_gazebo/CommsClient.hh"
 
 using namespace subt;
@@ -42,6 +46,10 @@ std::string CommsClient::Host() const
 bool CommsClient::SendTo(const std::string &_data,
     const std::string &_dstAddress, const uint32_t _port)
 {
+  // Sanity check: Make sure that we're using a valid address.
+  if (this->Host().empty())
+    return false;
+
   // Restrict the maximum size of a message.
   if (_data.size() > this->kMtu)
   {
@@ -57,15 +65,20 @@ bool CommsClient::SendTo(const std::string &_data,
   msg.set_dst_port(_port);
   msg.set_data(_data);
 
-  return this->node.Request(this->kBrokerService, msg);
+  return this->node.Request(kBrokerService, msg);
 }
 
 //////////////////////////////////////////////////
 void CommsClient::OnMessage(const msgs::Datagram &_msg)
 {
-  if (this->cb)
+  auto endPoint = _msg.dst_address() + ":" + std::to_string(_msg.dst_port());
+
+  for (auto cb : this->callbacks)
   {
-    this->cb(_msg.src_address(), _msg.dst_address(),
-             _msg.dst_port(), _msg.data());
+    if (cb.first == endPoint && cb.second)
+    {
+      cb.second(_msg.src_address(), _msg.dst_address(),
+                _msg.dst_port(), _msg.data());
+    }
   }
 }

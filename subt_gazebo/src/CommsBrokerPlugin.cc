@@ -18,10 +18,12 @@
 #include <gazebo/common/Assert.hh>
 #include <gazebo/common/Events.hh>
 
+#include "subt_gazebo/CommonTypes.hh"
 #include "subt_gazebo/CommsBrokerPlugin.hh"
 #include "subt_gazebo/protobuf/datagram.pb.h"
 
 using namespace gazebo;
+using namespace subt;
 
 GZ_REGISTER_WORLD_PLUGIN(CommsBrokerPlugin)
 
@@ -37,10 +39,10 @@ void CommsBrokerPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr /*_sdf*/)
   gzmsg << "Starting SubT comms broker" << std::endl;
 
   // Advertise a oneway service for centralizing all message requests.
-  if (!node.Advertise(this->kBrokerSrv, &CommsBrokerPlugin::OnMessage, this))
+  if (!node.Advertise(kBrokerService, &CommsBrokerPlugin::OnMessage, this))
   {
-    std::cerr << "Error advertising service [" << this->kBrokerSrv << "]"
-              << std::endl;
+    gzerr << "Error advertising service [" << kBrokerService << "]"
+          << std::endl;
     return;
   }
 }
@@ -49,14 +51,28 @@ void CommsBrokerPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr /*_sdf*/)
 void CommsBrokerPlugin::OnUpdate()
 {
   // ToDo: Step the comms model.
+
+  std::lock_guard<std::mutex> lk(this->mutex);
+  this->ProcessIncomingMsgs();
+}
+
+/////////////////////////////////////////////////
+void CommsBrokerPlugin::ProcessIncomingMsgs()
+{
+  while (!this->incomingMsgs.empty())
+  {
+    // Forward the messages.
+    auto const &msg = this->incomingMsgs.front();
+    auto endPoint = msg.dst_address() + ":" + std::to_string(msg.dst_port());
+    this->node.Request(endPoint, msg);
+    this->incomingMsgs.pop();
+  }
 }
 
 /////////////////////////////////////////////////
 void CommsBrokerPlugin::OnMessage(const subt::msgs::Datagram &_req)
 {
-  // ToDo: Use the comms model.
-
-  // Forward the message.
-  auto endPoint = _req.dst_address() + ":" + std::to_string(_req.dst_port());
-  this->node.Request(endPoint, _req);
+  // Just save the message, it will be processed later.
+  std::lock_guard<std::mutex> lk(this->mutex);
+  this->incomingMsgs.push(_req);
 }
