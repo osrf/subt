@@ -72,3 +72,8 @@ install(DIRECTORY launch/
 # Install all the world files
 install(DIRECTORY worlds/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/worlds)
+
+# Install all the model files
+install(DIRECTORY models/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/models)
+
