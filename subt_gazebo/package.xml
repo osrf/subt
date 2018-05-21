@@ -18,4 +18,8 @@
   <build_depend>message_generation</build_depend>
   <exec_depend>message_runtime</exec_depend>
 
+  <export>
+    <!-- path to models -->
+    <gazebo_ros gazebo_model_path="${prefix}/models"/>
+  </export>
 </package>
