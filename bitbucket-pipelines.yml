@@ -1,0 +1,24 @@
+image: ubuntu:xenial
+
+pipelines:
+  default:
+    - step:
+        script:
+          # Install dependencies
+          - echo "deb http://packages.ros.org/ros/ubuntu xenial main" > /etc/apt/sources.list.d/ros-latest.list
+          - apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
+          - apt-get update
+          - apt-get -y install mercurial cmake pkg-config cppcheck build-essential lcov curl python git gazebo9 libgazebo9-dev ros-kinetic-gazebo-plugins ros-kinetic-gazebo-ros ros-kinetic-xacro
+          # SubT
+          - mkdir -p subt_ws/src
+          - cd subt_ws/src
+          - hg clone https://bitbucket.org/osrf/subt
+              # Static checker first.
+          - cd subt/subt_gazebo
+          - sh tools/code_check.sh
+          - cd ../../..
+              # Build and run tests.
+          - source /opt/ros/kinetic/setup.bash
+          - catkin_make
+          - catkin_make tests
+          - catkin_make test
