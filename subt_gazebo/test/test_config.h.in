@@ -27,18 +27,24 @@
 
 namespace subt
 {
-
   /// \brief Initialize the Gazebo environment for running tests.
   void initGazeboEnv()
   {
-    // Needed to find the world files.
     std::string worldPath = SUBT_GAZEBO_PROJECT_SOURCE_PATH "/worlds";
     char *current = std::getenv("GAZEBO_RESOURCE_PATH");
     if (current)
       worldPath += ":" + std::string(current);
 
-    // Set the partition name for this process.
+    // Needed to find the world files.
     setenv("GAZEBO_RESOURCE_PATH", worldPath.c_str(), 1);
+
+    std::string modelPath = SUBT_GAZEBO_PROJECT_SOURCE_PATH "/models";
+    current = std::getenv("GAZEBO_MODEL_PATH");
+    if (current)
+      modelPath += ":" + std::string(current);
+
+    // Needed to find the models.
+    setenv("GAZEBO_MODEL_PATH", modelPath.c_str(), 1);
   }
 
   /// \brief Wait until a boolean variable is set to true for a given number
