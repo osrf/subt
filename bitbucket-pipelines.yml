@@ -7,8 +7,10 @@ pipelines:
           # Install dependencies
           - echo "deb http://packages.ros.org/ros/ubuntu xenial main" > /etc/apt/sources.list.d/ros-latest.list
           - apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
+          - echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable xenial main" > /etc/apt/sources.list.d/gazebo-stable.list
+          - apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys D2486D2DD83DB69272AFE98867170598AF249743
           - apt-get update
-          - apt-get -y install mercurial cmake pkg-config cppcheck build-essential lcov curl python git gazebo9 libgazebo9-dev ros-kinetic-gazebo-plugins ros-kinetic-gazebo-ros ros-kinetic-xacro
+          - apt-get -y install mercurial cmake pkg-config cppcheck build-essential lcov curl python git gazebo9 libgazebo9-dev ros-kinetic-gazebo9-dev ros-kinetic-gazebo9-plugins ros-kinetic-gazebo9-ros ros-kinetic-gazebo9-ros-pkgs ros-kinetic-xacro
           # SubT
           - mkdir -p subt_ws/src
           - cd subt_ws/src
