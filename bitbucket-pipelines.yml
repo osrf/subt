@@ -12,13 +12,12 @@ pipelines:
           - apt-get update
           - apt-get -y install mercurial cmake pkg-config cppcheck build-essential lcov curl python git gazebo9 libgazebo9-dev ros-kinetic-gazebo9-dev ros-kinetic-gazebo9-plugins ros-kinetic-gazebo9-ros ros-kinetic-gazebo9-ros-pkgs ros-kinetic-xacro
           # SubT
-          - mkdir -p subt_ws/src
-          - cd subt_ws/src
-          - hg clone https://bitbucket.org/osrf/subt
+          - mkdir -p /tmp/subt_ws/src
+          - ln -s `pwd` /tmp/subt_ws/src
               # Static checker first.
-          - cd subt/subt_gazebo
+          - cd subt_gazebo
           - sh tools/code_check.sh
-          - cd ../../..
+          - cd /tmp/subt_ws
               # Build and run tests.
           - source /opt/ros/kinetic/setup.bash
           - catkin_make
