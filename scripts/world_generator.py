@@ -184,6 +184,7 @@ if __name__ == '__main__':
     parser.add_argument('--origin_y', type=int, default=100)
     parser.add_argument('--target-length', type=int, default=1000)
     parser.add_argument('--show', action='store_true')
+    parser.add_argument('--num-robots', type=int, default=0)
     parser.add_argument('output_name')
     args = parser.parse_args()
 
@@ -211,10 +212,25 @@ if __name__ == '__main__':
         plt.imshow(dg, origin='lower', cmap='gray')
         plt.show()
 
-    print(args.output_name)
+    robots = []
+
+    if args.num_robots > 0:
+        (r, c) = np.where(grid.grid)
+        for ii in range(0, args.num_robots):
+            idx = np.random.randint(0, len(r))
+            name = 'robot_' + str(ii)
+            robots.append((name, 20 * (r[idx] - args.origin_x), 20 * (c[idx] - args.origin_y)))
+            
 
     with open(args.output_name + '.world', 'w') as f:
         f.write('<sdf version="1.6">\n<world name="{name}">\n'.format(name=args.output_name))
         f.write('\n  '.join(node_to_xml(root, (args.origin_x, args.origin_y), 200)))
+        for robot in robots:
+            f.write('<include>')
+            f.write('  <static>false</static>')
+            f.write('  <name>{name}</name>'.format(name=robot[0]))
+            f.write('  <pose>{x} {y} 0 0 0 0</pose>'.format(x=robot[1], y=robot[2]))
+            f.write('  <uri>model://subt_pioneer</uri>')
+            f.write('</include>')
         f.write('\n</world></sdf>')
 
