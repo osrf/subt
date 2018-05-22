@@ -22,4 +22,4 @@ pipelines:
           - source /opt/ros/kinetic/setup.bash
           - catkin_make
           - catkin_make tests
-          - catkin_make test
+          - catkin_make run_tests
