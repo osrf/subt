@@ -1,0 +1,2410 @@
+
+<sdf version="1.6">
+<world name="cave_8000_0">
+<include>
+    <static>true</static>
+    <name>cave_0_0</name>
+    <pose>0 0 0 0 0 -1.5707963267948966</pose>
+    <uri>model://cave_4way_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_1_0</name>
+    <pose>20 0 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_2_0</name>
+    <pose>40 0 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_3_0</name>
+    <pose>60 0 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_4_0</name>
+    <pose>80 0 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_5_0</name>
+    <pose>100 0 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_6_0</name>
+    <pose>120 0 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_7_0</name>
+    <pose>140 0 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_8_0</name>
+    <pose>160 0 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_8_1</name>
+    <pose>160 20 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_8_2</name>
+    <pose>160 40 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_8_3</name>
+    <pose>160 60 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_8_4</name>
+    <pose>160 80 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_8_5</name>
+    <pose>160 100 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_8_6</name>
+    <pose>160 120 0 0 0 -1.5707963267948966</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_9_6</name>
+    <pose>180 120 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_9_7</name>
+    <pose>180 140 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_9_8</name>
+    <pose>180 160 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_9_9</name>
+    <pose>180 180 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_9_10</name>
+    <pose>180 200 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_9_11</name>
+    <pose>180 220 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_9_12</name>
+    <pose>180 240 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_9_13</name>
+    <pose>180 260 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_9_14</name>
+    <pose>180 280 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_9_15</name>
+    <pose>180 300 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_9_16</name>
+    <pose>180 320 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_9_17</name>
+    <pose>180 340 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_9_18</name>
+    <pose>180 360 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_9_19</name>
+    <pose>180 380 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_9_20</name>
+    <pose>180 400 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_9_21</name>
+    <pose>180 420 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_9_22</name>
+    <pose>180 440 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_9_23</name>
+    <pose>180 460 0 0 0 -1.5707963267948966</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_23</name>
+    <pose>200 460 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_24</name>
+    <pose>200 480 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_25</name>
+    <pose>200 500 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_26</name>
+    <pose>200 520 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_27</name>
+    <pose>200 540 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_28</name>
+    <pose>200 560 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_29</name>
+    <pose>200 580 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_30</name>
+    <pose>200 600 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_31</name>
+    <pose>200 620 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_32</name>
+    <pose>200 640 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_33</name>
+    <pose>200 660 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_34</name>
+    <pose>200 680 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_35</name>
+    <pose>200 700 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_36</name>
+    <pose>200 720 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_37</name>
+    <pose>200 740 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_38</name>
+    <pose>200 760 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_39</name>
+    <pose>200 780 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_40</name>
+    <pose>200 800 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_41</name>
+    <pose>200 820 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_42</name>
+    <pose>200 840 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_43</name>
+    <pose>200 860 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_44</name>
+    <pose>200 880 0 0 0 -1.5707963267948966</pose>
+    <uri>model://cave_3way_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_11_44</name>
+    <pose>220 880 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_12_44</name>
+    <pose>240 880 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_13_44</name>
+    <pose>260 880 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_14_44</name>
+    <pose>280 880 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_15_44</name>
+    <pose>300 880 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_16_44</name>
+    <pose>320 880 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_17_44</name>
+    <pose>340 880 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_18_44</name>
+    <pose>360 880 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_19_44</name>
+    <pose>380 880 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_20_44</name>
+    <pose>400 880 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_21_44</name>
+    <pose>420 880 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_22_44</name>
+    <pose>440 880 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_23_44</name>
+    <pose>460 880 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_24_44</name>
+    <pose>480 880 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_25_44</name>
+    <pose>500 880 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_26_44</name>
+    <pose>520 880 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_27_44</name>
+    <pose>540 880 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_28_44</name>
+    <pose>560 880 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_29_44</name>
+    <pose>580 880 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_30_44</name>
+    <pose>600 880 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_31_44</name>
+    <pose>620 880 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_32_44</name>
+    <pose>640 880 0 0 0 3.141592653589793</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_32_43</name>
+    <pose>640 860 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_32_42</name>
+    <pose>640 840 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_32_41</name>
+    <pose>640 820 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_32_40</name>
+    <pose>640 800 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_32_39</name>
+    <pose>640 780 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_32_38</name>
+    <pose>640 760 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_32_37</name>
+    <pose>640 740 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_32_36</name>
+    <pose>640 720 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_32_35</name>
+    <pose>640 700 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_32_34</name>
+    <pose>640 680 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_32_33</name>
+    <pose>640 660 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_32_32</name>
+    <pose>640 640 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_32_31</name>
+    <pose>640 620 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_32_30</name>
+    <pose>640 600 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_32_29</name>
+    <pose>640 580 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_32_28</name>
+    <pose>640 560 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_45</name>
+    <pose>200 900 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_46</name>
+    <pose>200 920 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_47</name>
+    <pose>200 940 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_48</name>
+    <pose>200 960 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_49</name>
+    <pose>200 980 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_50</name>
+    <pose>200 1000 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_51</name>
+    <pose>200 1020 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_52</name>
+    <pose>200 1040 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_53</name>
+    <pose>200 1060 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_54</name>
+    <pose>200 1080 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_55</name>
+    <pose>200 1100 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_56</name>
+    <pose>200 1120 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_57</name>
+    <pose>200 1140 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_58</name>
+    <pose>200 1160 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_59</name>
+    <pose>200 1180 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_60</name>
+    <pose>200 1200 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_10_61</name>
+    <pose>200 1220 0 0 0 -1.5707963267948966</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_11_61</name>
+    <pose>220 1220 0 0 0 3.141592653589793</pose>
+    <uri>model://cave_3way_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_12_61</name>
+    <pose>240 1220 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_13_61</name>
+    <pose>260 1220 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_14_61</name>
+    <pose>280 1220 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_15_61</name>
+    <pose>300 1220 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_16_61</name>
+    <pose>320 1220 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_17_61</name>
+    <pose>340 1220 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_18_61</name>
+    <pose>360 1220 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_19_61</name>
+    <pose>380 1220 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_20_61</name>
+    <pose>400 1220 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_21_61</name>
+    <pose>420 1220 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_22_61</name>
+    <pose>440 1220 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_23_61</name>
+    <pose>460 1220 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_23_62</name>
+    <pose>460 1240 0 0 0 3.141592653589793</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_22_62</name>
+    <pose>440 1240 0 0 0 -1.5707963267948966</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_11_60</name>
+    <pose>220 1200 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_11_59</name>
+    <pose>220 1180 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_11_58</name>
+    <pose>220 1160 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_11_57</name>
+    <pose>220 1140 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_11_56</name>
+    <pose>220 1120 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_11_55</name>
+    <pose>220 1100 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_11_54</name>
+    <pose>220 1080 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_11_53</name>
+    <pose>220 1060 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_11_52</name>
+    <pose>220 1040 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_0_-1</name>
+    <pose>0 -20 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_0_-2</name>
+    <pose>0 -40 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_0_-3</name>
+    <pose>0 -60 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_0_-4</name>
+    <pose>0 -80 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_0_-5</name>
+    <pose>0 -100 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_0_-6</name>
+    <pose>0 -120 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_0_-7</name>
+    <pose>0 -140 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_0_-8</name>
+    <pose>0 -160 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_0_-9</name>
+    <pose>0 -180 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_0_-10</name>
+    <pose>0 -200 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_0_-11</name>
+    <pose>0 -220 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-1_-11</name>
+    <pose>-20 -220 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-2_-11</name>
+    <pose>-40 -220 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-3_-11</name>
+    <pose>-60 -220 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-4_-11</name>
+    <pose>-80 -220 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-5_-11</name>
+    <pose>-100 -220 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-6_-11</name>
+    <pose>-120 -220 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-7_-11</name>
+    <pose>-140 -220 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-8_-11</name>
+    <pose>-160 -220 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-9_-11</name>
+    <pose>-180 -220 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-10_-11</name>
+    <pose>-200 -220 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-11_-11</name>
+    <pose>-220 -220 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-12_-11</name>
+    <pose>-240 -220 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-13_-11</name>
+    <pose>-260 -220 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-14_-11</name>
+    <pose>-280 -220 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-15_-11</name>
+    <pose>-300 -220 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-16_-11</name>
+    <pose>-320 -220 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-17_-11</name>
+    <pose>-340 -220 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-18_-11</name>
+    <pose>-360 -220 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-19_-11</name>
+    <pose>-380 -220 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-20_-11</name>
+    <pose>-400 -220 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-21_-11</name>
+    <pose>-420 -220 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-22_-11</name>
+    <pose>-440 -220 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-23_-11</name>
+    <pose>-460 -220 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-24_-11</name>
+    <pose>-480 -220 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-25_-11</name>
+    <pose>-500 -220 0 0 0 -1.5707963267948966</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-25_-12</name>
+    <pose>-500 -240 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-26_-12</name>
+    <pose>-520 -240 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-27_-12</name>
+    <pose>-540 -240 0 0 0 -1.5707963267948966</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-27_-13</name>
+    <pose>-540 -260 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-27_-14</name>
+    <pose>-540 -280 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-27_-15</name>
+    <pose>-540 -300 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-27_-16</name>
+    <pose>-540 -320 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-27_-17</name>
+    <pose>-540 -340 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-28_-17</name>
+    <pose>-560 -340 0 0 0 -1.5707963267948966</pose>
+    <uri>model://cave_4way_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-28_-18</name>
+    <pose>-560 -360 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-29_-18</name>
+    <pose>-580 -360 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-30_-18</name>
+    <pose>-600 -360 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-31_-18</name>
+    <pose>-620 -360 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-32_-18</name>
+    <pose>-640 -360 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-33_-18</name>
+    <pose>-660 -360 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-34_-18</name>
+    <pose>-680 -360 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-35_-18</name>
+    <pose>-700 -360 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-36_-18</name>
+    <pose>-720 -360 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-37_-18</name>
+    <pose>-740 -360 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-38_-18</name>
+    <pose>-760 -360 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-39_-18</name>
+    <pose>-780 -360 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-40_-18</name>
+    <pose>-800 -360 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-41_-18</name>
+    <pose>-820 -360 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-42_-18</name>
+    <pose>-840 -360 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-43_-18</name>
+    <pose>-860 -360 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-44_-18</name>
+    <pose>-880 -360 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-45_-18</name>
+    <pose>-900 -360 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-46_-18</name>
+    <pose>-920 -360 0 0 0 -1.5707963267948966</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-46_-19</name>
+    <pose>-920 -380 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-46_-20</name>
+    <pose>-920 -400 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-46_-21</name>
+    <pose>-920 -420 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-46_-22</name>
+    <pose>-920 -440 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-46_-23</name>
+    <pose>-920 -460 0 0 0 0.0</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-45_-23</name>
+    <pose>-900 -460 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-45_-22</name>
+    <pose>-900 -440 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-45_-21</name>
+    <pose>-900 -420 0 0 0 -1.5707963267948966</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-44_-21</name>
+    <pose>-880 -420 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-43_-21</name>
+    <pose>-860 -420 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-42_-21</name>
+    <pose>-840 -420 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-41_-21</name>
+    <pose>-820 -420 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-41_-20</name>
+    <pose>-820 -400 0 0 0 -1.5707963267948966</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-40_-20</name>
+    <pose>-800 -400 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-39_-20</name>
+    <pose>-780 -400 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-38_-20</name>
+    <pose>-760 -400 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-37_-20</name>
+    <pose>-740 -400 0 0 0 3.141592653589793</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-37_-21</name>
+    <pose>-740 -420 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-37_-22</name>
+    <pose>-740 -440 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-37_-23</name>
+    <pose>-740 -460 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-37_-24</name>
+    <pose>-740 -480 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-37_-25</name>
+    <pose>-740 -500 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-37_-26</name>
+    <pose>-740 -520 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-37_-27</name>
+    <pose>-740 -540 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-37_-28</name>
+    <pose>-740 -560 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-37_-29</name>
+    <pose>-740 -580 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-37_-30</name>
+    <pose>-740 -600 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-37_-31</name>
+    <pose>-740 -620 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-29_-17</name>
+    <pose>-580 -340 0 0 0 -1.5707963267948966</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-28_-16</name>
+    <pose>-560 -320 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-28_-15</name>
+    <pose>-560 -300 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-28_-14</name>
+    <pose>-560 -280 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-28_-13</name>
+    <pose>-560 -260 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-28_-12</name>
+    <pose>-560 -240 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-28_-11</name>
+    <pose>-560 -220 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-28_-10</name>
+    <pose>-560 -200 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-28_-9</name>
+    <pose>-560 -180 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-28_-8</name>
+    <pose>-560 -160 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-28_-7</name>
+    <pose>-560 -140 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-28_-6</name>
+    <pose>-560 -120 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-28_-5</name>
+    <pose>-560 -100 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-28_-4</name>
+    <pose>-560 -80 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-28_-3</name>
+    <pose>-560 -60 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-28_-2</name>
+    <pose>-560 -40 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-28_-1</name>
+    <pose>-560 -20 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-28_0</name>
+    <pose>-560 0 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-28_1</name>
+    <pose>-560 20 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-28_2</name>
+    <pose>-560 40 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-28_3</name>
+    <pose>-560 60 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-28_4</name>
+    <pose>-560 80 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-28_5</name>
+    <pose>-560 100 0 0 0 -1.5707963267948966</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-27_5</name>
+    <pose>-540 100 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-26_5</name>
+    <pose>-520 100 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-25_5</name>
+    <pose>-500 100 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-24_5</name>
+    <pose>-480 100 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-23_5</name>
+    <pose>-460 100 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-22_5</name>
+    <pose>-440 100 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-21_5</name>
+    <pose>-420 100 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-20_5</name>
+    <pose>-400 100 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-19_5</name>
+    <pose>-380 100 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-18_5</name>
+    <pose>-360 100 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-17_5</name>
+    <pose>-340 100 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-1_0</name>
+    <pose>-20 0 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-2_0</name>
+    <pose>-40 0 0 0 0 3.141592653589793</pose>
+    <uri>model://cave_3way_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-2_-1</name>
+    <pose>-40 -20 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-2_-2</name>
+    <pose>-40 -40 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-2_-3</name>
+    <pose>-40 -60 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-2_-4</name>
+    <pose>-40 -80 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-2_-5</name>
+    <pose>-40 -100 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-2_-6</name>
+    <pose>-40 -120 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-2_-7</name>
+    <pose>-40 -140 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-2_-8</name>
+    <pose>-40 -160 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-2_-9</name>
+    <pose>-40 -180 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-3_-9</name>
+    <pose>-60 -180 0 0 0 0.0</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-3_-8</name>
+    <pose>-60 -160 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-3_-7</name>
+    <pose>-60 -140 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-3_-6</name>
+    <pose>-60 -120 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-3_-5</name>
+    <pose>-60 -100 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-3_-4</name>
+    <pose>-60 -80 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-3_-3</name>
+    <pose>-60 -60 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-3_-2</name>
+    <pose>-60 -40 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-3_-1</name>
+    <pose>-60 -20 0 0 0 -1.5707963267948966</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-3_0</name>
+    <pose>-60 0 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-4_0</name>
+    <pose>-80 0 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-5_0</name>
+    <pose>-100 0 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-6_0</name>
+    <pose>-120 0 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-7_0</name>
+    <pose>-140 0 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-8_0</name>
+    <pose>-160 0 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-9_0</name>
+    <pose>-180 0 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-10_0</name>
+    <pose>-200 0 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-11_0</name>
+    <pose>-220 0 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-12_0</name>
+    <pose>-240 0 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-13_0</name>
+    <pose>-260 0 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-14_0</name>
+    <pose>-280 0 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-15_0</name>
+    <pose>-300 0 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-16_0</name>
+    <pose>-320 0 0 0 0 0.0</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-16_1</name>
+    <pose>-320 20 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-16_2</name>
+    <pose>-320 40 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-16_3</name>
+    <pose>-320 60 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-16_4</name>
+    <pose>-320 80 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-16_5</name>
+    <pose>-320 100 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-16_6</name>
+    <pose>-320 120 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-16_7</name>
+    <pose>-320 140 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-16_8</name>
+    <pose>-320 160 0 0 0 3.141592653589793</pose>
+    <uri>model://cave_3way_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-15_8</name>
+    <pose>-300 160 0 0 0 0.0</pose>
+    <uri>model://cave_3way_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-14_8</name>
+    <pose>-280 160 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-13_8</name>
+    <pose>-260 160 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-12_8</name>
+    <pose>-240 160 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-11_8</name>
+    <pose>-220 160 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-10_8</name>
+    <pose>-200 160 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-9_8</name>
+    <pose>-180 160 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-8_8</name>
+    <pose>-160 160 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-7_8</name>
+    <pose>-140 160 0 0 0 3.141592653589793</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-7_7</name>
+    <pose>-140 140 0 0 0 0.0</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-6_7</name>
+    <pose>-120 140 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-5_7</name>
+    <pose>-100 140 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-4_7</name>
+    <pose>-80 140 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-3_7</name>
+    <pose>-60 140 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-2_7</name>
+    <pose>-40 140 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-1_7</name>
+    <pose>-20 140 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_0_7</name>
+    <pose>0 140 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_1_7</name>
+    <pose>20 140 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_2_7</name>
+    <pose>40 140 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_3_7</name>
+    <pose>60 140 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_4_7</name>
+    <pose>80 140 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_5_7</name>
+    <pose>100 140 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_6_7</name>
+    <pose>120 140 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_7_7</name>
+    <pose>140 140 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_8_7</name>
+    <pose>160 140 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-15_9</name>
+    <pose>-300 180 0 0 0 -1.5707963267948966</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-14_9</name>
+    <pose>-280 180 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-13_9</name>
+    <pose>-260 180 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-12_9</name>
+    <pose>-240 180 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-11_9</name>
+    <pose>-220 180 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-10_9</name>
+    <pose>-200 180 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-9_9</name>
+    <pose>-180 180 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-8_9</name>
+    <pose>-160 180 0 0 0 3.141592653589793</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-17_8</name>
+    <pose>-340 160 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-18_8</name>
+    <pose>-360 160 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-19_8</name>
+    <pose>-380 160 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-20_8</name>
+    <pose>-400 160 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-21_8</name>
+    <pose>-420 160 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-22_8</name>
+    <pose>-440 160 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-23_8</name>
+    <pose>-460 160 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-24_8</name>
+    <pose>-480 160 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-25_8</name>
+    <pose>-500 160 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-26_8</name>
+    <pose>-520 160 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-27_8</name>
+    <pose>-540 160 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-28_8</name>
+    <pose>-560 160 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-29_8</name>
+    <pose>-580 160 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-30_8</name>
+    <pose>-600 160 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-31_8</name>
+    <pose>-620 160 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-32_8</name>
+    <pose>-640 160 0 0 0 0.0</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-32_9</name>
+    <pose>-640 180 0 0 0 3.141592653589793</pose>
+    <uri>model://cave_3way_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-31_9</name>
+    <pose>-620 180 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-30_9</name>
+    <pose>-600 180 0 0 0 3.141592653589793</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-33_9</name>
+    <pose>-660 180 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-34_9</name>
+    <pose>-680 180 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-35_9</name>
+    <pose>-700 180 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-36_9</name>
+    <pose>-720 180 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-37_9</name>
+    <pose>-740 180 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-38_9</name>
+    <pose>-760 180 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-39_9</name>
+    <pose>-780 180 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-40_9</name>
+    <pose>-800 180 0 0 0 -1.5707963267948966</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-40_8</name>
+    <pose>-800 160 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-40_7</name>
+    <pose>-800 140 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-40_6</name>
+    <pose>-800 120 0 0 0 0.0</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-39_6</name>
+    <pose>-780 120 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_3way_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-39_5</name>
+    <pose>-780 100 0 0 0 0.0</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-38_5</name>
+    <pose>-760 100 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-37_5</name>
+    <pose>-740 100 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-36_5</name>
+    <pose>-720 100 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-35_5</name>
+    <pose>-700 100 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-34_5</name>
+    <pose>-680 100 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-33_5</name>
+    <pose>-660 100 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-32_5</name>
+    <pose>-640 100 0 0 0 0.0</pose>
+    <uri>model://cave_3way_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-31_5</name>
+    <pose>-620 100 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-30_5</name>
+    <pose>-600 100 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-29_5</name>
+    <pose>-580 100 0 0 0 3.141592653589793</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-29_4</name>
+    <pose>-580 80 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-29_3</name>
+    <pose>-580 60 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-29_2</name>
+    <pose>-580 40 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-29_1</name>
+    <pose>-580 20 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-29_0</name>
+    <pose>-580 0 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-29_-1</name>
+    <pose>-580 -20 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-29_-2</name>
+    <pose>-580 -40 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-29_-3</name>
+    <pose>-580 -60 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-29_-4</name>
+    <pose>-580 -80 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-29_-5</name>
+    <pose>-580 -100 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-29_-6</name>
+    <pose>-580 -120 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-29_-7</name>
+    <pose>-580 -140 0 0 0 0.0</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-32_6</name>
+    <pose>-640 120 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-32_7</name>
+    <pose>-640 140 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-39_7</name>
+    <pose>-780 140 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_-39_8</name>
+    <pose>-780 160 0 0 0 0.0</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_0_1</name>
+    <pose>0 20 0 0 0 -1.5707963267948966</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_1_1</name>
+    <pose>20 20 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_2_1</name>
+    <pose>40 20 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_3_1</name>
+    <pose>60 20 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_4_1</name>
+    <pose>80 20 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_5_1</name>
+    <pose>100 20 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_6_1</name>
+    <pose>120 20 0 0 0 1.5707963267948966</pose>
+    <uri>model://cave_straight_20m</uri>
+  </include>
+  <include>
+    <static>true</static>
+    <name>cave_7_1</name>
+    <pose>140 20 0 0 0 3.141592653589793</pose>
+    <uri>model://cave_L_20m</uri>
+  </include>
+</world></sdf>
