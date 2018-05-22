@@ -248,8 +248,8 @@ if __name__ == '__main__':
                 length_met = True
                 break
 
-    print('Target Length: ', args.target_length)
-    print('Current Length: ', np.sum(grid.grid) * 20)
+    # print('Target Length: ', args.target_length)
+    # print('Current Length: ', np.sum(grid.grid) * 20)
 
     robots = []
     robots_idx = []
@@ -261,7 +261,7 @@ if __name__ == '__main__':
         while len(robots) != args.num_robots:
             idx = np.random.randint(0, len(r))
             if tries > 100:
-                print("Couldn't locate robots")
+                print("Couldn't locate robots, stopping at: ", len(robots))
                 break
             if idx in used:
                 tries = tries + 1
@@ -269,7 +269,6 @@ if __name__ == '__main__':
             if grid.types[r[idx], c[idx]] in (b'L1', b'L2', b'L3', b'L4', b'T1', b'T2', b'T3', b'T4'):
                 tries = tries + 1
                 continue
-            print(grid.types[r[idx],c[idx]])
             name = 'robot_' + str(len(robots))
             robots.append((name,
                            20 * (r[idx] - args.origin_x),
