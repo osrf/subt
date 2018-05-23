@@ -15,4 +15,3 @@ Refer the [system setup tutorial](https://bitbucket.org/osrf/subt/wiki/tutorials
 
 1. [Tutorials](https://bitbucket.org/osrf/subt/wiki/tutorials)
 1. [Documentation](https://bitbucket.org/osrf/subt/wiki/documentation)
-
