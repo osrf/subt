@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sdf version="1.4">
+  <world name="default">
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+    <model name ='model_light'>
+      <pose>0 0 0.025 0 0 0</pose>
+      <link name ='link_light'>
+        <pose>0 0 0 0 1.5708 0</pose>
+        <inertial>
+          <mass>1.2</mass>
+          <inertia>
+            <ixx>0.001087473</ixx>
+            <iyy>0.001087473</iyy>
+            <izz>0.001087473</izz>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyz>0</iyz>
+          </inertia>
+        </inertial>
+        <collision name ='collision'>
+          <geometry>
+            <cylinder><radius>0.025</radius><length>0.1</length></cylinder>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <cylinder><radius>0.025</radius><length>0.1</length></cylinder>
+          </geometry>
+        </visual>
+        <light name='light_source1' type='spot'>
+          <pose>0 0 -0.05 0 0 0</pose>
+        </light>
+        <light name='light_source2' type='spot'>
+          <pose>0 0 0.05 3.14159 0 0</pose>
+        </light>
+        <light name='light_source3' type='spot'>
+          <pose>0 0.05 0 1.570796 0 0</pose>
+        </light>
+      </link>
+      <plugin name='light_control' filename='libSampleFlashLightPlugin.so'>
+        <flash_light>
+          <link_name>link_light</link_name>
+          <light_name>light_source1</light_name>
+          <duration>0.1</duration>
+          <interval>0.4</interval>
+          <color>
+            <R>0.0</R>
+            <G>1.0</G>
+            <B>1.0</B>
+          </color>
+          <angle>60</angle>
+          <range>30</range>
+        </flash_light>
+        <flash_light>
+          <link_name>link_light</link_name>
+          <light_name>light_source2</light_name>
+          <duration>0.05</duration>
+          <interval>0.05</interval>
+          <color>
+            <R>1.0</R>
+            <G>1.0</G>
+            <B>0.0</B>
+          </color>
+          <angle>45</angle>
+          <range>30</range>
+        </flash_light>
+        <flash_light>
+          <link_name>link_light</link_name>
+          <light_name>light_source3</light_name>
+          <duration>0.25</duration>
+          <interval>0.0</interval>
+          <color>
+            <R>1.0</R>
+            <G>0.0</G>
+            <B>0.0</B>
+          </color>
+          <angle>40</angle>
+          <range>30</range>
+        </flash_light>
+      </plugin>
+    </model>
+  </world>
+</sdf>

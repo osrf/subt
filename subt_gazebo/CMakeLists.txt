@@ -61,6 +61,18 @@ install(TARGETS ${game_logic_plugin_name}
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
 
+# Create the libSampleFlashLightPlugin.so library.
+set(sample_flash_light_plugin_name SampleFlashLightPlugin)
+add_library(${sample_flash_light_plugin_name} src/SampleFlashLightPlugin.cc src/FlashLightPluginBase.cc)
+target_link_libraries(${sample_flash_light_plugin_name}
+  ${catkin_LIBRARIES}
+  ${sensor_msgs_LIBRARIES}
+)
+install(TARGETS ${sample_flash_light_plugin_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+
 #############
 ## Install ##
 #############
