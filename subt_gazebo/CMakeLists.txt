@@ -27,7 +27,7 @@ find_package(gazebo REQUIRED)
 ## Message generation ##
 ########################
 
-# Add here SubT messages.
+# Add here SubT ROS messages.
 
 ###########
 ## Build ##
@@ -49,14 +49,45 @@ catkin_package(
     std_srvs
 )
 
+# Protobuf.
+add_subdirectory(src/protobuf)
+set_source_files_properties(${PROTO_SOURCES} ${PROTO_HEADERS}
+                            PROPERTIES GENERATED TRUE)
+
 # Create the libGameLogicPlugin.so library.
 set(game_logic_plugin_name GameLogicPlugin)
 add_library(${game_logic_plugin_name} src/GameLogicPlugin.cc)
 target_link_libraries(${game_logic_plugin_name}
   ${catkin_LIBRARIES}
-  ${sensor_msgs_LIBRARIES}
 )
 install(TARGETS ${game_logic_plugin_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+
+# Create the libCommsBrokerPlugin.so library.
+set(comms_broker_plugin_name CommsBrokerPlugin)
+add_library(${comms_broker_plugin_name} src/CommsBrokerPlugin.cc)
+target_link_libraries(${comms_broker_plugin_name}
+  ${catkin_LIBRARIES}
+  ${PROTO_SOURCES}
+)
+add_dependencies(${comms_broker_plugin_name} protobuf_compilation)
+install(TARGETS ${comms_broker_plugin_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+
+# Create the libCommsClient.so library.
+set(comms_client_name CommsClient)
+add_library(${comms_client_name} src/CommsClient.cc)
+include_directories(${PROJECT_BINARY_DIR}/include)
+target_link_libraries(${comms_client_name}
+  ${catkin_LIBRARIES}
+  ${PROTO_SOURCES}
+)
+add_dependencies(${comms_client_name} protobuf_compilation)
+install(TARGETS ${comms_client_name}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
@@ -72,6 +103,27 @@ install(TARGETS ${sample_flash_light_plugin_name}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
+
+###########
+## Tests ##
+###########
+
+configure_file (test/test_config.h.in
+  ${PROJECT_BINARY_DIR}/include/test/test_config.h)
+
+catkin_add_gtest(test_comms test/comms.cc)
+link_directories(${Boost_LIBRARY_DIRS})
+target_link_libraries(test_comms
+  ${catkin_LIBRARIES}
+  ${GAZEBO_LIBRARIES}
+  gazebo_test_fixture
+  boost_thread
+  ${comms_client_name}
+)
+add_dependencies(test_comms
+  ${comms_broker_plugin_name}
+  ${comms_client_name}
+)
 
 #############
 ## Install ##
