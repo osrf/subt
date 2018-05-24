@@ -1,11 +1,28 @@
+/*
+ * Copyright (C) 2018 Open Source Robotics Foundation
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+*/
+
+#include <string>
+#include <vector>
+
 #include "gazebo/msgs/msgs.hh"
 #include "gazebo/transport/transport.hh"
 #include "gazebo/common/Plugin.hh"
 #include "gazebo/physics/physics.hh"
 #include "ignition/math/Color.hh"
-
-#include <vector>
-#include <memory>
 
 namespace gazebo
 {
@@ -13,7 +30,8 @@ namespace gazebo
   class FlashLightSettings;
 
   /// \brief A plugin that turns on/off a light component in the model.
-  // This plugin accesses <light> components in the model specified by <flash_light> as a parameter.
+  // This plugin accesses <light> components in the model specified
+  // by <flash_light> as a parameter.
   //
   // <flash_light>
   //   <link_name>link_light</link_name>
@@ -31,11 +49,13 @@ namespace gazebo
   //
   // More than one <flash_light> can exist.
   //
-  // Settings for each flash light is separately stored in a FlashLightSettings class, which takes
-  // care of light specifications such as color, range, blinking interval, and so on.
+  // Settings for each flash light is separately stored in a
+  // FlashLightSettings class, which takes care of light specifications
+  // such as color, range, blinking interval, and so on.
   //
   // This base class provides basic functions to turn the lights on/off.
-  // Users can create their own flash light plugin by inheriting this base model.
+  // Users can create their own flash light plugin by inheriting this base
+  // model.
   //
   class FlashLightPluginBase : public ModelPlugin
   {
@@ -65,8 +85,9 @@ namespace gazebo
 
     /// \brief Turn on a flash light specified by the name and its link
     /// \param[in] _light_name The name of flash light
-    /// \param[in] _link_name The name of the link on which the light is attached
-    public: virtual bool TurnOn(const std::string _light_name, const std::string _link_name) final;
+    /// \param[in] _link_name The name of the link holding the light
+    public: virtual bool TurnOn(
+        const std::string _light_name, const std::string _link_name) final;
 
     /// \brief Turn on all flash lights
     public: virtual bool TurnOnAll() final;
@@ -79,8 +100,9 @@ namespace gazebo
 
     /// \brief Turn off a flash light specified by the name
     /// \param[in] _light_name The name of flash light
-    /// \param[in] _link_name The name of the link on which the light is attached
-    public: virtual bool TurnOff(const std::string _light_name, const std::string _link_name) final;
+    /// \param[in] _link_name The name of the link holding the light
+    public: virtual bool TurnOff(const std::string _light_name,
+        const std::string _link_name) final;
 
     /// \brief Turn off all flash lights
     public: virtual bool TurnOffAll() final;
