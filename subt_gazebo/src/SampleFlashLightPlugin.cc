@@ -15,7 +15,7 @@
  *
 */
 
-#include "FlashLightPluginBase.hh"
+#include "subt_gazebo/FlashLightPluginBase.hh"
 
 namespace gazebo
 {

@@ -15,7 +15,7 @@
  *
 */
 
-#include "FlashLightPluginBase.hh"
+#include "subt_gazebo/FlashLightPluginBase.hh"
 
 using namespace gazebo;
 
@@ -319,14 +319,14 @@ void FlashLightPluginBase::OnUpdate()
 }
 
 //////////////////////////////////////////////////
-bool FlashLightPluginBase::TurnOn(const std::string _light_name)
+bool FlashLightPluginBase::TurnOn(const std::string &_light_name)
 {
   return this->TurnOn(_light_name, "");
 }
 
 //////////////////////////////////////////////////
 bool FlashLightPluginBase::TurnOn(
-  const std::string _light_name, const std::string _link_name)
+  const std::string &_light_name, const std::string &_link_name)
 {
   bool f_found = false;
 
@@ -377,14 +377,14 @@ bool FlashLightPluginBase::TurnOnAll()
 }
 
 //////////////////////////////////////////////////
-bool FlashLightPluginBase::TurnOff(const std::string _light_name)
+bool FlashLightPluginBase::TurnOff(const std::string &_light_name)
 {
   return this->TurnOff(_light_name, "");
 }
 
 //////////////////////////////////////////////////
-bool FlashLightPluginBase::TurnOff(const std::string _light_name,
-  const std::string _link_name)
+bool FlashLightPluginBase::TurnOff(const std::string &_light_name,
+  const std::string &_link_name)
 {
   bool f_found = false;
 
@@ -433,4 +433,3 @@ bool FlashLightPluginBase::TurnOffAll()
 
   return f_found;
 }
-

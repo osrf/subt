@@ -15,9 +15,11 @@
  *
 */
 
+#ifndef SUBT_GAZEBO_FLASHLIGHTPLUGINBASE_HH_
+#define SUBT_GAZEBO_FLASHLIGHTPLUGINBASE_HH_
+
 #include <string>
 #include <vector>
-
 #include "gazebo/msgs/msgs.hh"
 #include "gazebo/transport/transport.hh"
 #include "gazebo/common/Plugin.hh"
@@ -81,13 +83,13 @@ namespace gazebo
     /// If more than one link have lights with the identical name,
     /// the first appearing light in the list will be updated.
     /// \param[in] _light_name The name of flash light
-    public: virtual bool TurnOn(const std::string _light_name) final;
+    public: virtual bool TurnOn(const std::string &_light_name) final;
 
     /// \brief Turn on a flash light specified by the name and its link
     /// \param[in] _light_name The name of flash light
     /// \param[in] _link_name The name of the link holding the light
     public: virtual bool TurnOn(
-        const std::string _light_name, const std::string _link_name) final;
+        const std::string &_light_name, const std::string &_link_name) final;
 
     /// \brief Turn on all flash lights
     public: virtual bool TurnOnAll() final;
@@ -96,13 +98,13 @@ namespace gazebo
     /// If more than one link have lights with the identical name,
     /// the first appearing light in the list will be updated.
     /// \param[in] _light_name The name of flash light
-    public: virtual bool TurnOff(const std::string _light_name) final;
+    public: virtual bool TurnOff(const std::string &_light_name) final;
 
     /// \brief Turn off a flash light specified by the name
     /// \param[in] _light_name The name of flash light
     /// \param[in] _link_name The name of the link holding the light
-    public: virtual bool TurnOff(const std::string _light_name,
-        const std::string _link_name) final;
+    public: virtual bool TurnOff(const std::string &_light_name,
+        const std::string &_link_name) final;
 
     /// \brief Turn off all flash lights
     public: virtual bool TurnOffAll() final;
@@ -181,3 +183,4 @@ namespace gazebo
     public: void SwitchOff();
   };
 }
+#endif
