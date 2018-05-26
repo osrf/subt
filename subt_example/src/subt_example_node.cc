@@ -15,11 +15,21 @@
  *
 */
 
+#include <chrono>
+#include <iostream>
+#include <thread>
+
 #include <ros/ros.h>
 #include <subt_gazebo/CommsClient.hh>
 
 /////////////////////////////////////////////////
 int main(int /*argc*/, char **/*argv*/)
 {
+  using namespace std::chrono_literals;
+
   subt::CommsClient client1{"addr1"};
+
+  ROS_INFO("Starting competitor\n");
+
+  std::this_thread::sleep_for(1000s);
 }

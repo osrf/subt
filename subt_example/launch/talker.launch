@@ -5,5 +5,7 @@
   </include>
 
   # Spawn your team here.
+  <node pkg="subt_example" name="subt_example_node"
+        type="subt_example_node" output="screen" />
 
 </launch>
