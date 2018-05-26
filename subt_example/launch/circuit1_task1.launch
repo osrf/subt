@@ -1,0 +1,9 @@
+<launch>
+
+  # Launch the SubT world.
+  <include file="$(find subt_gazebo)/launch/lava_tube.launch">
+  </include>
+
+  # Spawn your team here.
+
+</launch>
