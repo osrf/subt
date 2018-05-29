@@ -93,7 +93,7 @@ install(TARGETS ${comms_client_name}
   RUNTIME DESTINATION bin)
 
 # Create the libFlashLightPlugin.so library.
-set(flash_light_plugin_name FlashLightPlugin)
+set(flash_light_plugin_name FlashLightPluginLocal)
 add_library(${flash_light_plugin_name} src/FlashLightPlugin.cc)
 target_link_libraries(${flash_light_plugin_name}
   ${catkin_LIBRARIES}
@@ -111,6 +111,7 @@ target_link_libraries(${light_control_plugin_name}
   ${sensor_msgs_LIBRARIES}
   ${flash_light_plugin_name}
 )
+add_dependencies(${light_control_plugin_name} ${flash_light_plugin_name})
 install(TARGETS ${light_control_plugin_name}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
