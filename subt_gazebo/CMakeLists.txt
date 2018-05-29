@@ -117,6 +117,20 @@ install(TARGETS ${light_control_plugin_name}
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
 
+# Create the libLightControlClient.so library.
+set(light_control_client_name LightControlClient)
+add_library(${light_control_client_name} src/LightControlClient.cc)
+include_directories(${PROJECT_BINARY_DIR}/include)
+target_link_libraries(${light_control_client_name}
+  ${catkin_LIBRARIES}
+  ${PROTO_SOURCES}
+)
+add_dependencies(${light_control_client_name} protobuf_compilation)
+install(TARGETS ${light_control_client_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+
 ###########
 ## Tests ##
 ###########
