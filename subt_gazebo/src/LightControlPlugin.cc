@@ -16,13 +16,10 @@
 */
 
 #include "subt_gazebo/LightControlPlugin.hh"
+#include "subt_gazebo/CommonTypes.hh"
 
 using namespace gazebo;
-
-//////////////////////////////////////////////////
-LightControlPlugin::LightControlPlugin(): FlashLightPlugin(), count{10}
-{
-}
+using namespace subt;
 
 //////////////////////////////////////////////////
 void LightControlPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
@@ -30,13 +27,18 @@ void LightControlPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
   // === must call this ===
   FlashLightPlugin::Load(_parent, _sdf);
 
-  // === User's code goes here ===
-  gzmsg << "Plugin Loaded: LightControlPlugin\n" << std::endl;
-  this->world = _parent->GetWorld();
-  start_time = this->world->SimTime();
-  this->count = 10;
-  gzmsg << this->count << " sec to turn on..." << std::endl;
-  this->TurnOffAll();
+  this->updateConnection = event::Events::ConnectWorldUpdateBegin(
+          std::bind(&LightControlPlugin::OnUpdate, this));
+
+  gzmsg << "Starting light controller" << std::endl;
+
+  // Advertise a oneway service for centralizing all message requests.
+  if (!node.Advertise(kLightCommTopic, &LightControlPlugin::OnMessage, this))
+  {
+    gzerr << "Error advertising service [" << kLightCommTopic << "]"
+          << std::endl;
+    return;
+  }
 }
 
 //////////////////////////////////////////////////
@@ -45,22 +47,65 @@ void LightControlPlugin::OnUpdate()
   // === must call this ===
   FlashLightPlugin::OnUpdate();
 
-  // === User's code goes here ===
-  common::Time current_time = this->world->SimTime();
-  if (current_time.Double() - this->start_time.Double() > 1.0)
+  std::lock_guard<std::mutex> lk(this->mutex);
+  this->ProcessIncomingMsgs();
+}
+
+/////////////////////////////////////////////////
+void LightControlPlugin::ProcessIncomingMsgs()
+{
+  while (!this->incomingMsgs.empty())
   {
-    this->count--;
-    this->start_time = current_time;
-    if (this->count > 0)
+    // Execute the received command.
+    auto const &msg = this->incomingMsgs.front();
+    std::string light_name = msg.light_name();
+    std::string link_name = "";
+    if (msg.has_link_name())
     {
-      gzmsg << this->count << " sec to turn on..." << std::endl;
+      link_name = msg.link_name();
     }
-    else if (this->count == 0)
+
+    // Command to turn on/off
+    if (msg.has_f_turn_on())
     {
-      this->TurnOnAll();
-      gzmsg << "Lights are on now." << std::endl;
+      if (light_name.empty())
+      {
+        if (msg.f_turn_on())
+        {
+          this->TurnOnAll();
+        }
+        else
+        {
+          this->TurnOffAll();
+        }
+      }
+      else
+      {
+        if (msg.f_turn_on())
+        {
+          this->TurnOn(light_name, link_name);
+        }
+        else
+        {
+          this->TurnOff(light_name, link_name);
+        }
+      }
+    }
+    // Command to change duration/interval
+    else
+    {
+      this->ChangeDuration(light_name, link_name, msg.duration());
+      this->ChangeInterval(light_name, link_name, msg.interval());
     }
   }
+}
+
+/////////////////////////////////////////////////
+void LightControlPlugin::OnMessage(const subt::msgs::LightCommand &_req)
+{
+  // Just save the message, it will be processed later.
+  std::lock_guard<std::mutex> lk(this->mutex);
+  this->incomingMsgs.push(_req);
 }
 
 // Register this plugin with the simulator

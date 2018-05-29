@@ -34,5 +34,8 @@ namespace subt
 
   /// \brief Default port.
   const uint32_t kDefaultPort = 4100u;
+
+  /// \brief Address used to send a light control command.
+  const std::string kLightCommTopic = "light_command";
 }
 #endif
