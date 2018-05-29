@@ -15,8 +15,8 @@
  *
 */
 
-#ifndef SUBT_GAZEBO_FLASHLIGHTPLUGINBASE_HH_
-#define SUBT_GAZEBO_FLASHLIGHTPLUGINBASE_HH_
+#ifndef SUBT_GAZEBO_FLASHLIGHTPLUGIN_HH_
+#define SUBT_GAZEBO_FLASHLIGHTPLUGIN_HH_
 
 #include <string>
 #include <vector>
@@ -59,7 +59,7 @@ namespace gazebo
   // Users can create their own flash light plugin by inheriting this base
   // model.
   //
-  class FlashLightPluginBase : public ModelPlugin
+  class GAZEBO_VISIBLE FlashLightPlugin : public ModelPlugin
   {
     /// \brief list of light settings to control
     private: std::vector<std::shared_ptr<FlashLightSettings>> list_flash_light;

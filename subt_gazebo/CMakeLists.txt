@@ -92,14 +92,26 @@ install(TARGETS ${comms_client_name}
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
 
-# Create the libSampleFlashLightPlugin.so library.
-set(sample_flash_light_plugin_name SampleFlashLightPlugin)
-add_library(${sample_flash_light_plugin_name} src/SampleFlashLightPlugin.cc src/FlashLightPluginBase.cc)
-target_link_libraries(${sample_flash_light_plugin_name}
+# Create the libFlashLightPlugin.so library.
+set(flash_light_plugin_name FlashLightPlugin)
+add_library(${flash_light_plugin_name} src/FlashLightPlugin.cc)
+target_link_libraries(${flash_light_plugin_name}
   ${catkin_LIBRARIES}
   ${sensor_msgs_LIBRARIES}
 )
-install(TARGETS ${sample_flash_light_plugin_name}
+install(TARGETS ${flash_light_plugin_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+# Create the libLightControlPlugin.so library.
+set(light_control_plugin_name LightControlPlugin)
+add_library(${light_control_plugin_name} src/LightControlPlugin.cc)
+target_link_libraries(${light_control_plugin_name}
+  ${catkin_LIBRARIES}
+  ${sensor_msgs_LIBRARIES}
+  ${flash_light_plugin_name}
+)
+install(TARGETS ${light_control_plugin_name}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
@@ -140,4 +152,3 @@ install(DIRECTORY worlds/
 # Install all the model files
 install(DIRECTORY models/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/models)
-

@@ -39,7 +39,7 @@
           <pose>0 0.05 0 1.570796 0 0</pose>
         </light>
       </link>
-      <plugin name='light_control' filename='libSampleFlashLightPlugin.so'>
+      <plugin name='light_control' filename='libLightControlPlugin.so'>
         <flash_light>
           <link_name>link_light</link_name>
           <light_name>light_source1</light_name>

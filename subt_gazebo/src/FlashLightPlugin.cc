@@ -15,7 +15,7 @@
  *
 */
 
-#include "subt_gazebo/FlashLightPluginBase.hh"
+#include "subt_gazebo/FlashLightPlugin.hh"
 
 using namespace gazebo;
 
@@ -259,7 +259,7 @@ void FlashLightSettings::SwitchOff()
 }
 
 //////////////////////////////////////////////////
-void FlashLightPluginBase::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
+void FlashLightPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
 {
   // Store the pointers to the model and world
   this->model = _parent;
@@ -295,11 +295,11 @@ void FlashLightPluginBase::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
 
   // listen to the update event by the World
   this->updateConnection = event::Events::ConnectWorldUpdateBegin(
-    std::bind(&FlashLightPluginBase::OnUpdate, this));
+    std::bind(&FlashLightPlugin::OnUpdate, this));
 }
 
 //////////////////////////////////////////////////
-void FlashLightPluginBase::OnUpdate()
+void FlashLightPlugin::OnUpdate()
 {
   common::Time current_time = this->world->SimTime();
 
@@ -319,13 +319,13 @@ void FlashLightPluginBase::OnUpdate()
 }
 
 //////////////////////////////////////////////////
-bool FlashLightPluginBase::TurnOn(const std::string &_light_name)
+bool FlashLightPlugin::TurnOn(const std::string &_light_name)
 {
   return this->TurnOn(_light_name, "");
 }
 
 //////////////////////////////////////////////////
-bool FlashLightPluginBase::TurnOn(
+bool FlashLightPlugin::TurnOn(
   const std::string &_light_name, const std::string &_link_name)
 {
   bool f_found = false;
@@ -355,7 +355,7 @@ bool FlashLightPluginBase::TurnOn(
 }
 
 //////////////////////////////////////////////////
-bool FlashLightPluginBase::TurnOnAll()
+bool FlashLightPlugin::TurnOnAll()
 {
   bool f_found = false;
 
@@ -377,13 +377,13 @@ bool FlashLightPluginBase::TurnOnAll()
 }
 
 //////////////////////////////////////////////////
-bool FlashLightPluginBase::TurnOff(const std::string &_light_name)
+bool FlashLightPlugin::TurnOff(const std::string &_light_name)
 {
   return this->TurnOff(_light_name, "");
 }
 
 //////////////////////////////////////////////////
-bool FlashLightPluginBase::TurnOff(const std::string &_light_name,
+bool FlashLightPlugin::TurnOff(const std::string &_light_name,
   const std::string &_link_name)
 {
   bool f_found = false;
@@ -413,7 +413,7 @@ bool FlashLightPluginBase::TurnOff(const std::string &_light_name,
 }
 
 //////////////////////////////////////////////////
-bool FlashLightPluginBase::TurnOffAll()
+bool FlashLightPlugin::TurnOffAll()
 {
   bool f_found = false;
 

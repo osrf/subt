@@ -15,14 +15,14 @@
  *
 */
 
-#include "subt_gazebo/FlashLightPluginBase.hh"
+#include "subt_gazebo/FlashLightPlugin.hh"
 
 namespace gazebo
 {
-  /// \brief An example usage of FlashLightPluginBase class
+  /// \brief An example usage of FlashLightPlugin class
   // This sample plugin just waits for 10 seconds,
   // then it turns on all lights.
-  class SampleFlashLightPlugin : public FlashLightPluginBase
+  class LightControlPlugin : public FlashLightPlugin
   {
     private: common::Time start_time;
     private: int count;
@@ -33,10 +33,10 @@ namespace gazebo
     public: void Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
     {
       // === must call this ===
-      FlashLightPluginBase::Load(_parent, _sdf);
+      FlashLightPlugin::Load(_parent, _sdf);
 
       // === User's code goes here ===
-      gzmsg << "Plugin Loaded: SampleFlashLightPlugin\n" << std::endl;
+      gzmsg << "Plugin Loaded: LightControlPlugin\n" << std::endl;
       this->world = _parent->GetWorld();
       start_time = this->world->SimTime();
       this->count = 10;
@@ -50,7 +50,7 @@ namespace gazebo
     public: void OnUpdate()
     {
       // === must call this ===
-      FlashLightPluginBase::OnUpdate();
+      FlashLightPlugin::OnUpdate();
 
       // === User's code goes here ===
       common::Time current_time = this->world->SimTime();
@@ -72,5 +72,5 @@ namespace gazebo
   };
 
   // Register this plugin with the simulator
-  GZ_REGISTER_MODEL_PLUGIN(SampleFlashLightPlugin)
+  GZ_REGISTER_MODEL_PLUGIN(LightControlPlugin)
 }
