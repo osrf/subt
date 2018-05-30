@@ -18,7 +18,6 @@
 #include <queue>
 #include "subt_gazebo/FlashLightPlugin.hh"
 #include "subt_gazebo/protobuf/lightcommand.pb.h"
-#include "gazebo/common/Time.hh"
 
 namespace gazebo
 {

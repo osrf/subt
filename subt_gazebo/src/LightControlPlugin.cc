@@ -15,8 +15,9 @@
  *
 */
 
-#include "subt_gazebo/LightControlPlugin.hh"
 #include "subt_gazebo/CommonTypes.hh"
+#include "subt_gazebo/LightControlPlugin.hh"
+#include "subt_gazebo/protobuf/lightcommand.pb.h"
 
 using namespace gazebo;
 using namespace subt;
@@ -92,11 +93,16 @@ void LightControlPlugin::ProcessIncomingMsgs()
       }
     }
     // Command to change duration/interval
-    else
+    if (msg.has_duration())
     {
       this->ChangeDuration(light_name, link_name, msg.duration());
+    }
+    if (msg.has_interval())
+    {
       this->ChangeInterval(light_name, link_name, msg.interval());
     }
+
+    this->incomingMsgs.pop();
   }
 }
 
