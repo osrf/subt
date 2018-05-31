@@ -59,7 +59,7 @@ bool LightControlPlugin::Control(
   std_srvs::SetBool::Request &_req,
   std_srvs::SetBool::Response &_res)
 {
-  if(_req.data)
+  if (_req.data)
   {
     _res.success = this->TurnOnAll();
   }
