@@ -222,14 +222,25 @@ def node_to_xml(node, origin, depth=0):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--grid_size', type=int, default=200)
-    parser.add_argument('--origin_x', type=int, default=100)
-    parser.add_argument('--origin_y', type=int, default=100)
-    parser.add_argument('--target-length', type=int, default=1000)
-    parser.add_argument('--show', action='store_true')
-    parser.add_argument('--num-robots', type=int, default=0)
+    parser.add_argument('--grid-size', type=int, default=200,
+            help='Length and width of the grid that will be populated')
+    parser.add_argument('--origin-x', type=int, default=100,
+            help='X origin in the grid that will be populated.')
+    parser.add_argument('--origin-y', type=int, default=100,
+            help='Y origin in the grid that will be populated.')
+    parser.add_argument('--target-length', type=int, default=1000,
+            help='Target total length of the cave system to be generated')
+    parser.add_argument('--show', action='store_true',
+            help='Show schematic image of cave system generated')
+    parser.add_argument('--num-robots', type=int, default=0,
+            help='Number of robots to seed into cave system')
+    parser.add_argument('--seed', type=int,
+            help='Random number generator seed')
     parser.add_argument('output_name')
     args = parser.parse_args()
+
+    if args.seed is not None:
+        np.random.seed(args.seed)
 
     length_met = False
 
@@ -283,12 +294,15 @@ if __name__ == '__main__':
         plt.figure()
         dg = dg / np.max(dg)
         plt.imshow(dg)
-        robots_idx = np.array(robots_idx)
-        plt.scatter(robots_idx[:, 1]*3, robots_idx[:, 0]*3)
+        if len(robots_idx):
+            robots_idx = np.array(robots_idx)
+            plt.scatter(robots_idx[:, 1]*3, robots_idx[:, 0]*3)
 
         plt.figure()
         plt.imshow(grid.grid)
-        plt.scatter(robots_idx[:, 0], robots_idx[:, 1])
+        
+        if len(robots_idx):
+            plt.scatter(robots_idx[:, 0], robots_idx[:, 1])
         plt.show()
 
     with open(args.output_name + '.world', 'w') as f:
