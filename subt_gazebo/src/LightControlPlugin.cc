@@ -15,12 +15,9 @@
  *
 */
 
-#include "subt_gazebo/CommonTypes.hh"
 #include "subt_gazebo/LightControlPlugin.hh"
-#include "subt_gazebo/protobuf/lightcommand.pb.h"
 
 using namespace gazebo;
-using namespace subt;
 
 //////////////////////////////////////////////////
 void LightControlPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
@@ -28,8 +25,20 @@ void LightControlPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
   // === must call this ===
   FlashLightPlugin::Load(_parent, _sdf);
 
-  std::string serviceName;
+  // Make sure the ROS node for Gazebo has already been initialized
+  if (!ros::isInitialized())
+  {
+    ROS_FATAL_STREAM(
+      "A ROS node for Gazebo has not been initialized, unable to load plugin. "
+      << "Load the Gazebo system plugin 'libgazebo_ros_api_plugin.so'"
+      << " in the gazebo_ros package)");
+    return;
+  }
 
+  printf("Plugin Loaded: ROSFlashLightPlugin\n");
+
+  // Service name is renamed if an alternative one is given in SDF.
+  std::string serviceName;
   if (_sdf->HasElement("main_switch_srvs"))
   {
     serviceName = _sdf->Get<std::string>("main_switch_srvs");
@@ -39,16 +48,6 @@ void LightControlPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
     serviceName = "light_control";
   }
 
-  // Make sure the ROS node for Gazebo has already been initialized
-  if (!ros::isInitialized())
-  {
-    ROS_FATAL_STREAM("A ROS node for Gazebo has not been initialized, unable to load plugin. "
-      << "Load the Gazebo system plugin 'libgazebo_ros_api_plugin.so' in the gazebo_ros package)");
-    return;
-  }
-
-  printf("Plugin Loaded: ROSFlashLightPlugin\n");
-
   // ROS service to receive a command to control the light
   ros::NodeHandle n;
   this->service
@@ -57,19 +56,19 @@ void LightControlPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
 
 //////////////////////////////////////////////////
 bool LightControlPlugin::Control(
-  std_srvs::SetBool::Request &req,
-  std_srvs::SetBool::Response &res)
+  std_srvs::SetBool::Request &_req,
+  std_srvs::SetBool::Response &_res)
 {
-  if(req.data)
+  if(_req.data)
   {
-    res.success = this->TurnOnAll();
+    _res.success = this->TurnOnAll();
   }
   else
   {
-    res.success = this->TurnOffAll();
+    _res.success = this->TurnOffAll();
   }
 
-  return res.success;
+  return _res.success;
 }
 
 // Register this plugin with the simulator

@@ -15,31 +15,33 @@
  *
 */
 
+#ifndef GAZEBO_PLUGINS_LIGHTCONTROLPLUGIN_HH_
+#define GAZEBO_PLUGINS_LIGHTCONTROLPLUGIN_HH_
+
 #include <queue>
 
 #include "ros/ros.h"
 #include "std_srvs/SetBool.h"
 
 #include "subt_gazebo/FlashLightPlugin.hh"
-#include "subt_gazebo/protobuf/lightcommand.pb.h"
 
 namespace gazebo
 {
-  /// \brief An example usage of FlashLightPlugin class
-  // This sample plugin just waits for 10 seconds,
-  // then it turns on all lights.
+  /// \brief An plugin providing a ros service to turn on/off the lights.
   class LightControlPlugin : public FlashLightPlugin
   {
-    /// \brief Called when the plugin is loaded.
-    //  It sets the time to wait.
+    // Documentation inherited.
     public: void Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf) override;
-    // Called by ROS service client
+
+    /// \brief Called by ROS service client.
+    /// \param[in] _req A request to turn on/off the lights.
+    /// \param[in] _res A response to indicate success or failure.
+    /// \return True if the order is successful.
     public: bool Control(
-      std_srvs::SetBool::Request &req,
-      std_srvs::SetBool::Response &res);
+      std_srvs::SetBool::Request &_req, std_srvs::SetBool::Response &_res);
 
-
-    private:
-      ros::ServiceServer service;
+    /// \brief ROS service server.
+    private: ros::ServiceServer service;
   };
 }
+#endif
