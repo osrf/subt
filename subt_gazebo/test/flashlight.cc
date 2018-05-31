@@ -201,12 +201,6 @@ class FlashLightTest : public ServerFixture
 
   /// \brief Protect data from races.
   protected: std::mutex mutex;
-
-  /// \brief Node.
-  protected: transport::NodePtr node;
-
-  protected: transport::SubscriberPtr sub;
-
 };
 
 /////////////////////////////////////////////////
@@ -221,10 +215,7 @@ TEST_F(FlashLightTest, Default)
   ASSERT_TRUE(world != NULL);
 
   // Subscribe to plugin notifications
-  this->node = transport::NodePtr(new transport::Node());
-  this->node->Init();
-  this->sub
-    = node->Subscribe("~/light/modify", &FlashLightTest::lightCb,
+  this->node->Subscribe("~/light/modify", &FlashLightTest::lightCb,
       (FlashLightTest*)this);
 
   // Initialize the records.
