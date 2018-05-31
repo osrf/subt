@@ -28,90 +28,48 @@ void LightControlPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
   // === must call this ===
   FlashLightPlugin::Load(_parent, _sdf);
 
-  this->updateConnection = event::Events::ConnectWorldUpdateBegin(
-          std::bind(&LightControlPlugin::OnUpdate, this));
+  std::string serviceName;
 
-  gzmsg << "Starting light controller" << std::endl;
-
-  // Advertise a oneway service for centralizing all message requests.
-  if (!node.Advertise(kLightCommTopic, &LightControlPlugin::OnMessage, this))
+  if (_sdf->HasElement("main_switch_srvs"))
   {
-    gzerr << "Error advertising service [" << kLightCommTopic << "]"
-          << std::endl;
+    serviceName = _sdf->Get<std::string>("main_switch_srvs");
+  }
+  else
+  {
+    serviceName = "light_control";
+  }
+
+  // Make sure the ROS node for Gazebo has already been initialized
+  if (!ros::isInitialized())
+  {
+    ROS_FATAL_STREAM("A ROS node for Gazebo has not been initialized, unable to load plugin. "
+      << "Load the Gazebo system plugin 'libgazebo_ros_api_plugin.so' in the gazebo_ros package)");
     return;
   }
+
+  printf("Plugin Loaded: ROSFlashLightPlugin\n");
+
+  // ROS service to receive a command to control the light
+  ros::NodeHandle n;
+  this->service
+    = n.advertiseService(serviceName, &LightControlPlugin::Control, this);
 }
 
 //////////////////////////////////////////////////
-void LightControlPlugin::OnUpdate()
+bool LightControlPlugin::Control(
+  std_srvs::SetBool::Request &req,
+  std_srvs::SetBool::Response &res)
 {
-  // === must call this ===
-  FlashLightPlugin::OnUpdate();
-
-  std::lock_guard<std::mutex> lk(this->mutex);
-  this->ProcessIncomingMsgs();
-}
-
-/////////////////////////////////////////////////
-void LightControlPlugin::ProcessIncomingMsgs()
-{
-  while (!this->incomingMsgs.empty())
+  if(req.data)
   {
-    // Execute the received command.
-    auto const &msg = this->incomingMsgs.front();
-    std::string light_name = msg.light_name();
-    std::string link_name = "";
-    if (msg.has_link_name())
-    {
-      link_name = msg.link_name();
-    }
-
-    // Command to turn on/off
-    if (msg.has_f_turn_on())
-    {
-      if (light_name.empty())
-      {
-        if (msg.f_turn_on())
-        {
-          this->TurnOnAll();
-        }
-        else
-        {
-          this->TurnOffAll();
-        }
-      }
-      else
-      {
-        if (msg.f_turn_on())
-        {
-          this->TurnOn(light_name, link_name);
-        }
-        else
-        {
-          this->TurnOff(light_name, link_name);
-        }
-      }
-    }
-    // Command to change duration/interval
-    if (msg.has_duration())
-    {
-      this->ChangeDuration(light_name, link_name, msg.duration());
-    }
-    if (msg.has_interval())
-    {
-      this->ChangeInterval(light_name, link_name, msg.interval());
-    }
-
-    this->incomingMsgs.pop();
+    res.success = this->TurnOnAll();
   }
-}
+  else
+  {
+    res.success = this->TurnOffAll();
+  }
 
-/////////////////////////////////////////////////
-void LightControlPlugin::OnMessage(const subt::msgs::LightCommand &_req)
-{
-  // Just save the message, it will be processed later.
-  std::lock_guard<std::mutex> lk(this->mutex);
-  this->incomingMsgs.push(_req);
+  return res.success;
 }
 
 // Register this plugin with the simulator

@@ -16,6 +16,10 @@
 */
 
 #include <queue>
+
+#include "ros/ros.h"
+#include "std_srvs/SetBool.h"
+
 #include "subt_gazebo/FlashLightPlugin.hh"
 #include "subt_gazebo/protobuf/lightcommand.pb.h"
 
@@ -28,31 +32,14 @@ namespace gazebo
   {
     /// \brief Called when the plugin is loaded.
     //  It sets the time to wait.
-    public: void Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf);
+    public: void Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf) override;
+    // Called by ROS service client
+    public: bool Control(
+      std_srvs::SetBool::Request &req,
+      std_srvs::SetBool::Response &res);
 
-    /// \brief Called when the world is updated
-    //  It counts down as it checks the simulation time.
-    //  When the count gets zero, it turns on the lights.
-    public: void OnUpdate();
 
-    /// \brief Process all incoming messages.
-    private: void ProcessIncomingMsgs();
-
-    /// \brief Callback executed when a new request is received.
-    /// \param _req The light command contained in the request.
-    private: void OnMessage(const subt::msgs::LightCommand &_req);
-
-    /// \brief Connection to World Update events.
-    private: event::ConnectionPtr updateConnection;
-
-    /// \brief An Ignition Transport node for communications.
-    private: ignition::transport::Node node;
-
-    /// \brief Collection of incoming messages received during the last
-    /// simulation step.
-    private: std::queue<subt::msgs::LightCommand> incomingMsgs;
-
-    /// \brief Protect data from races.
-    private: std::mutex mutex;
+    private:
+      ros::ServiceServer service;
   };
 }

@@ -162,6 +162,7 @@
         <child>box</child>
       </joint>
       <plugin name='light_control' filename='libLightControlPlugin.so'>
+        <main_switch_srvs>light_switch</main_switch_srvs>
         <start>true</start>
         <flash_light>
           <light_id>cylinder/light_source1</light_id>

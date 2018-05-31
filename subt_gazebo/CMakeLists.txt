@@ -109,9 +109,7 @@ add_library(${light_control_plugin_name} src/LightControlPlugin.cc)
 target_link_libraries(${light_control_plugin_name}
   ${catkin_LIBRARIES}
   ${flash_light_plugin_name}
-  ${PROTO_SOURCES}
 )
-add_dependencies(${light_control_plugin_name} protobuf_compilation)
 install(TARGETS ${light_control_plugin_name}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
