@@ -209,6 +209,10 @@ TEST_F(FlashLightTest, OffAndOn)
 {
   using namespace std::chrono_literals;
 
+  // ROS spinning
+  std::shared_ptr<ros::AsyncSpinner> async_ros_spin_;
+  async_ros_spin_.reset(new ros::AsyncSpinner(0));
+  async_ros_spin_->start();
 
   // Load a world.
   Load("flash_light_example.world", false);
@@ -295,6 +299,7 @@ TEST_F(FlashLightTest, OffAndOn)
     this->CheckRec(updated, duration, interval, 0.01);
   }
 
+  async_ros_spin_->stop();
 }
 
 /////////////////////////////////////////////////
@@ -306,7 +311,7 @@ int main(int argc, char **argv)
   ::testing::InitGoogleTest(&argc, argv);
 
   // Start ROS
-  ros::init(argc, argv, "test_flashlight");
-  
+  ros::init(argc,argv,"test_flashlight");
+
   return RUN_ALL_TESTS();
 }
