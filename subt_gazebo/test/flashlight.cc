@@ -15,7 +15,6 @@
  *
 */
 
-
 #include <string>
 #include <sstream>
 #include <cmath>
@@ -24,23 +23,25 @@
 #include <chrono>
 #include <thread>
 
+#include "ros/ros.h"
+#include "std_srvs/SetBool.h"
+
 #include <gtest/gtest.h>
 
-#include <gazebo/physics/physics.hh>
 #include <gazebo/test/ServerFixture.hh>
 
-#include "subt_gazebo/LightControlClient.hh"
 #include "test/test_config.h"
 
 using namespace gazebo;
 using namespace subt;
+
 
 // information to record for the lights in the enviornment
 struct RecordInfo
 {
   double duration;
   double interval;
-  common::Time last_update;
+  common::Time lastUpdate;
 };
 
 /////////////////////////////////////////////////
@@ -57,21 +58,21 @@ class FlashLightTest : public ServerFixture
   protected: void InitRec()
   {
     std::lock_guard<std::mutex> lk(this->mutex);
-    common::Time current_time = physics::get_world()->SimTime();
-    this->flash_light[0].duration = -1;
-    this->flash_light[1].duration = -1;
-    this->flash_light[2].duration = -1;
-    this->flash_light[3].duration = -1;
-    this->flash_light[0].interval = -1;
-    this->flash_light[1].interval = -1;
-    this->flash_light[2].interval = -1;
-    this->flash_light[3].interval = -1;
-    this->flash_light[0].last_update = current_time;
-    this->flash_light[1].last_update = current_time;
-    this->flash_light[2].last_update = current_time;
-    this->flash_light[3].last_update = current_time;
-    this->f_called = false;
-    this->s_time = current_time;
+    common::Time currentTime = physics::get_world()->SimTime();
+    this->flashLight[0].duration = -1;
+    this->flashLight[1].duration = -1;
+    this->flashLight[2].duration = -1;
+    this->flashLight[3].duration = -1;
+    this->flashLight[0].interval = -1;
+    this->flashLight[1].interval = -1;
+    this->flashLight[2].interval = -1;
+    this->flashLight[3].interval = -1;
+    this->flashLight[0].lastUpdate = currentTime;
+    this->flashLight[1].lastUpdate = currentTime;
+    this->flashLight[2].lastUpdate = currentTime;
+    this->flashLight[3].lastUpdate = currentTime;
+    this->called = false;
+    this->startTime = currentTime;
   }
 
   // Callback for light/modify topic
@@ -85,12 +86,12 @@ class FlashLightTest : public ServerFixture
     ss >> indx;
     indx--;
 
-    bool f_correct_index = true;
+    bool correctIndex = true;
     if (indx < 0 || 3 < indx)
     {
-      f_correct_index = false;
+      correctIndex = false;
     }
-    EXPECT_TRUE(f_correct_index);
+    EXPECT_TRUE(correctIndex);
 
     physics::WorldPtr world = physics::get_world();
 
@@ -99,71 +100,71 @@ class FlashLightTest : public ServerFixture
     {
       // Get the current time
 
-      common::Time current_time = world->SimTime();
+      common::Time currentTime = world->SimTime();
 
       // Update to flash
       std::lock_guard<std::mutex> lk(this->mutex);
       if (_msg->range() > 0)
       {
-        this->flash_light[indx].interval
-          = current_time.Double() - this->flash_light[indx].last_update.Double();
+        this->flashLight[indx].interval
+          = currentTime.Double() - this->flashLight[indx].lastUpdate.Double();
       }
       // Update to dim
       else
       {
-        this->flash_light[indx].duration
-          = current_time.Double() - this->flash_light[indx].last_update.Double();
+        this->flashLight[indx].duration
+          = currentTime.Double() - this->flashLight[indx].lastUpdate.Double();
       }
 
       // Update the last update time
-      this->flash_light[indx].last_update = current_time;
-
-      this->f_called = true;
+      this->flashLight[indx].lastUpdate = currentTime;
     }
+
+    this->called = true;
   }
 
   /// \brief A function to check if we got the assumed results.
-  /// \param[in] _f_update Whether the light has been updated within its phase.
+  /// \param[in] _updated Whether the light has been updated within its phase.
   /// \param[in] _duration Expected duration time.
   /// \param[in] _interval Expected interval time.
-  /// \param[in] _max_err Maximum error which can be accepted in seconds.
+  /// \param[in] _maxErr Maximum error which can be accepted in seconds.
   protected: void CheckRec(
-    const std::vector<bool> &_f_update,
+    const std::vector<bool> &_updated,
     const std::vector<double> &_duration,
     const std::vector<double> &_interval,
-    const double &_max_err)
+    const double &_maxErr)
   {
     // Determine if the callback function must have been called.
     // If at least one of the lights is to be updated, it is supposed to have
     // been called.
-    bool f_called = false;
+    bool called = false;
     for (int i = 0; i < 4; ++i)
     {
-      if (_f_update[i])
+      if (_updated[i])
       {
-        f_called = true;
+        called = true;
       }
     }
 
     // Get necessary time information.
     std::lock_guard<std::mutex> lk(this->mutex);
-    common::Time &s_time = this->s_time;
-    common::Time e_time = physics::get_world()->SimTime();
-    double last_up[4];
-    last_up[0] = this->flash_light[0].last_update.Double();
-    last_up[1] = this->flash_light[1].last_update.Double();
-    last_up[2] = this->flash_light[2].last_update.Double();
-    last_up[3] = this->flash_light[3].last_update.Double();
+    common::Time &startTime = this->startTime;
+    common::Time endTime = physics::get_world()->SimTime();
+    double lastUp[4];
+    lastUp[0] = this->flashLight[0].lastUpdate.Double();
+    lastUp[1] = this->flashLight[1].lastUpdate.Double();
+    lastUp[2] = this->flashLight[2].lastUpdate.Double();
+    lastUp[3] = this->flashLight[3].lastUpdate.Double();
 
-    if (f_called)
+    if (called)
     {
       // The callback function is assumed to have been called.
-      EXPECT_TRUE(this->f_called);
+      EXPECT_TRUE(this->called);
     }
     else
     {
       // the callback function is assumed to have never been called.
-      EXPECT_FALSE(this->f_called);
+      EXPECT_FALSE(this->called);
     }
 
     // Check records of each light
@@ -172,176 +173,140 @@ class FlashLightTest : public ServerFixture
     for (int i = 0; i < 4; ++i)
     {
       gzmsg << "checking light [" << i << "]" << std::endl;
-      if (_f_update[i] && _interval[i] > 0)
+      if (_updated[i] && _interval[i] > 0)
       {
         // The light is assumed to have been updated within its phase.
-        EXPECT_LE(e_time.Double() - last_up[i],
-                  std::max(_duration[i], _interval[i]) + _max_err);
+        EXPECT_LE(endTime.Double() - lastUp[i],
+                  std::max(_duration[i], _interval[i]) + _maxErr);
 
         // The light has been flashing by the assumed duration and interval.
-        EXPECT_NEAR(this->flash_light[i].duration, _duration[i], _max_err);
-        EXPECT_NEAR(this->flash_light[i].interval, _interval[i], _max_err);
+        EXPECT_NEAR(this->flashLight[i].duration, _duration[i], _maxErr);
+        EXPECT_NEAR(this->flashLight[i].interval, _interval[i], _maxErr);
       }
       else
       {
         // The light is assumed to have never been updated from the beginning.
-        EXPECT_LE(last_up[i] - s_time.Double(), _max_err);
+        EXPECT_LE(lastUp[i] - startTime.Double(), _maxErr);
       }
     }
   }
 
   /// \brief A list of records about actual duration/interval.
-  protected: struct RecordInfo flash_light[4];
+  protected: struct RecordInfo flashLight[4];
 
   /// \brief A flag indicating whether the callback was called.
-  protected: bool f_called;
+  protected: bool called;
 
   /// \brief The time when the records were initialized.
-  protected: common::Time s_time;
+  protected: common::Time startTime;
 
   /// \brief Protect data from races.
   protected: std::mutex mutex;
 };
 
 /////////////////////////////////////////////////
-TEST_F(FlashLightTest, Default)
+TEST_F(FlashLightTest, OffAndOn)
 {
   using namespace std::chrono_literals;
 
-  // Load a world
+
+  // Load a world.
   Load("flash_light_example.world", false);
   // Get a pointer to the world, make sure world loads.
   physics::WorldPtr world = physics::get_world("default");
-  ASSERT_TRUE(world != NULL);
+  ASSERT_TRUE(world != nullptr);
 
-  // Subscribe to plugin notifications
-  this->node->Subscribe("~/light/modify", &FlashLightTest::lightCb,
+  // Subscribe to plugin notifications.
+  transport::SubscriberPtr sceneSub
+    = this->node->Subscribe("~/light/modify", &FlashLightTest::lightCb,
       (FlashLightTest*)this);
+
+  // Get a ROS service client.
+  ros::NodeHandle n;
+  ros::ServiceClient client
+    = n.serviceClient<std_srvs::SetBool>("/light_switch");
+  EXPECT_TRUE(client.isValid());
+  EXPECT_TRUE(client.waitForExistence());
 
   // Initialize the records.
   this->InitRec();
 
-  // Wait for a while to measure the actual duration and interval
+  // Wait for a while to measure the actual duration and interval.
   std::this_thread::sleep_for(1s);
 
   // Check if the actual duration and interval are the supposed ones.
   // NOTE: maximum error is set to 0.01 sec.
   {
-    std::vector<bool> f_update = {true, true, false, false};
+    std::vector<bool> updated = {true, true, false, false};
     std::vector<double> duration = {0.1, 0.05, 1.0, 1.0};
     std::vector<double> interval = {0.4, 0.05, 0.1, 0.0};
-    this->CheckRec(f_update, duration, interval, 0.01);
+    this->CheckRec(updated, duration, interval, 0.01);
   }
 
-  // Initialize the records.
-  this->InitRec();
-
-  // Make clients
-  gzmsg << "Creating Clients" << std::endl;
-  subt::LightControlClient client1("light_source1", "cylinder");
-  subt::LightControlClient client2("light_source2", "cylinder");
-  subt::LightControlClient client3("light_source3", "box");
-  subt::LightControlClient client4("light_source4", "box");
-
-  // Wait for a while to measure the actual duration and interval
-  std::this_thread::sleep_for(1s);
-
-  // Check if the lights are not changed.
-  // NOTE: maximum error is set to 0.01 sec.
-  {
-    std::vector<bool> f_update = {true, true, false, false};
-    std::vector<double> duration = {0.1, 0.05, 1.0, 1.0};
-    std::vector<double> interval = {0.4, 0.05, 0.1, 0.0};
-    this->CheckRec(f_update, duration, interval, 0.01);
-  }
-
-  // Toggle them
-  gzmsg << "Toggling the lights" << std::endl;
-  client1.TurnOff();
-  client2.TurnOff();
-  client3.TurnOn();
-  client4.TurnOn();
-
-  // Initialize the records.
-  this->InitRec();
-
-  // Wait for a while to measure the actual duration and interval
-  std::this_thread::sleep_for(2s);
-
-  // Check if the lights are not changed.
-  // NOTE: maximum error is set to 0.01 sec.
-  {
-    std::vector<bool> f_update = {false, false, true, true};
-    std::vector<double> duration = {0.1, 0.05, 1.0, 1.0};
-    std::vector<double> interval = {0.4, 0.05, 0.1, 0.0};
-    this->CheckRec(f_update, duration, interval, 0.01);
-  }
-
-  // Turn them on
-  gzmsg << "Turning on all lights" << std::endl;
-  client1.TurnOn();
-  client2.TurnOn();
-  client3.TurnOn();
-  client4.TurnOn();
-
-  // Change their duration and interval
-  gzmsg << "Changing duration and interval" << std::endl;
-  client1.ChangeDuration(0.85);
-  client1.ChangeInterval(0.1);
-  client2.ChangeDuration(0.1);
-  client2.ChangeInterval(0.0);
-  client3.ChangeDuration(0.4);
-  client3.ChangeInterval(0.25);
-  client4.ChangeDuration(0.25);
-  client4.ChangeInterval(0.55);
-
-  // Initialize the records.
-  this->InitRec();
-
-  // Wait for a while to measure the actual duration and interval
-  std::this_thread::sleep_for(2s);
-
-  // Check if the duration and interval of lights were changed as expected.
-  // NOTE: maximum error is set to 0.01 sec.
-  {
-    std::vector<bool> f_update = {true, true, true, true};
-    std::vector<double> duration = {0.85, 0.1, 0.4, 0.25};
-    std::vector<double> interval = {0.1, 0.0, 0.25, 0.55};
-    this->CheckRec(f_update, duration, interval, 0.01);
-  }
-
-  // Turn them off
+  // Turn them off.
   gzmsg << "Turning off all lights" << std::endl;
-  client1.TurnOff();
-  client2.TurnOff();
-  client3.TurnOff();
-  client4.TurnOff();
+  {
+    std_srvs::SetBool srv;
+    srv.request.data = false;
+    bool success = client.call(srv);
+    EXPECT_TRUE(success);
+  }
 
-  // Allow some time for the plugin to stop blinking
+  // Allow some time for the plugin to stop blinking.
   // After this, the callback function is not supposed to be called any more.
   std::this_thread::sleep_for(100ms);
 
   // Initialize the records.
   this->InitRec();
 
-  // Wait for a while to measure the actual duration and interval
+  // Wait for a while to measure the actual duration and interval.
   std::this_thread::sleep_for(500ms);
 
   // Check if all of them stopped to be updated.
   // NOTE: maximum error is set to 0.01 sec.
   {
-    std::vector<bool> f_update = {false, false, false, false};
+    std::vector<bool> updated = {false, false, false, false};
     std::vector<double> duration = {-1, -1, -1, -1};
     std::vector<double> interval = {-1, -1, -1, -1};
-    this->CheckRec(f_update, duration, interval, 0.01);
+    this->CheckRec(updated, duration, interval, 0.01);
   }
+
+  // Turn them on.
+  gzmsg << "Turning on all lights" << std::endl;
+  {
+    std_srvs::SetBool srv;
+    srv.request.data = true;
+    bool success = client.call(srv);
+    EXPECT_TRUE(success);
+  }
+
+  // Initialize the records.
+  this->InitRec();
+
+  // Wait for a while to measure the actual duration and interval.
+  std::this_thread::sleep_for(2s);
+
+  // Check if the duration and interval of lights were changed as expected.
+  // NOTE: maximum error is set to 0.01 sec.
+  {
+    std::vector<bool> updated = {true, true, true, true};
+    std::vector<double> duration = {0.1, 0.05, 1.0, 1.0};
+    std::vector<double> interval = {0.4, 0.05, 0.1, 0.0};
+    this->CheckRec(updated, duration, interval, 0.01);
+  }
+
 }
 
 /////////////////////////////////////////////////
 int main(int argc, char **argv)
 {
+
   initGazeboEnv();
 
   ::testing::InitGoogleTest(&argc, argv);
+
+  // Start ROS
+  ros::init(argc, argv, "test_flashlight");
+  
   return RUN_ALL_TESTS();
 }

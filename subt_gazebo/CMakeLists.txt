@@ -143,11 +143,9 @@ target_link_libraries(test_flashlight
   ${GAZEBO_LIBRARIES}
   gazebo_test_fixture
   boost_thread
-  ${light_control_client_name}
 )
 add_dependencies(test_flashlight
   ${light_control_plugin_name}
-  ${light_control_client_name}
 )
 
 #############

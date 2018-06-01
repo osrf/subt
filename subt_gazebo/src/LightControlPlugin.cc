@@ -35,7 +35,7 @@ void LightControlPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
     return;
   }
 
-  printf("Plugin Loaded: ROSFlashLightPlugin\n");
+  gzmsg << "Plugin Loaded: LightControlPlugin" << std::endl;
 
   // Service name is renamed if an alternative one is given in SDF.
   std::string serviceName;
