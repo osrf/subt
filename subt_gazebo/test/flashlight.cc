@@ -205,7 +205,7 @@ class FlashLightTest : public ServerFixture
 };
 
 /////////////////////////////////////////////////
-TEST_F(FlashLightTest, OffAndOn)
+TEST_F(FlashLightTest, switchOffAndOn)
 {
   using namespace std::chrono_literals;
 
