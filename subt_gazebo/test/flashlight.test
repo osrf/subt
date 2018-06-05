@@ -1,5 +1,11 @@
 <launch>
 
-  <test test-name="test_flashlight" pkg="subt_gazebo" type="test_flashlight" time-limit="10.0" />
+  <param name="/use_sim_time" value="true" />
+
+  <!-- gazebo server-->
+  <node name="gazebo" pkg="gazebo_ros" type="gzserver" respawn="false" output="screen" args="-r $(find subt_gazebo)/worlds/flash_light_example.world" />
+
+
+  <test test-name="node_flashlight" pkg="subt_gazebo" type="test_flashlight" time-limit="10.0" />
 
 </launch>
