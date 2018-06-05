@@ -43,7 +43,9 @@ struct RecordInfo
   common::Time lastUpdate;
 };
 
-class FlashLightTest: public testing::Test
+/////////////////////////////////////////////////
+/// \brief A fixture class for testing the ROS flashlight plugin within Gazebo.
+class FlashLightTest : public testing::Test
 {
   // Constructor.
   public: FlashLightTest(): testing::Test(){}
