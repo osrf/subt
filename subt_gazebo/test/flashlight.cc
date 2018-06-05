@@ -45,8 +45,7 @@ struct RecordInfo
 };
 
 /////////////////////////////////////////////////
-/// \brief A fixture class for testing the LightControl plugin within Gazebo
-/// and clients using the LightControlClient library.
+/// \brief A fixture class for testing the ROS flashlight plugin within Gazebo.
 class FlashLightTest : public ServerFixture
 {
   /// \brief Constructor.

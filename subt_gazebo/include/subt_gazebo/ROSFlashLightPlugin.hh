@@ -15,8 +15,8 @@
  *
 */
 
-#ifndef GAZEBO_PLUGINS_LIGHTCONTROLPLUGIN_HH_
-#define GAZEBO_PLUGINS_LIGHTCONTROLPLUGIN_HH_
+#ifndef GAZEBO_PLUGINS_ROSFLASHLIGHTPLUGIN_HH_
+#define GAZEBO_PLUGINS_ROSFLASHLIGHTPLUGIN_HH_
 
 #include <queue>
 
@@ -28,7 +28,7 @@
 namespace gazebo
 {
   /// \brief An plugin providing a ros service to turn on/off the lights.
-  class LightControlPlugin : public FlashLightPlugin
+  class ROSFlashLightPlugin : public FlashLightPlugin
   {
     // Documentation inherited.
     public: void Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf) override;

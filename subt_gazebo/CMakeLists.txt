@@ -103,14 +103,14 @@ install(TARGETS ${flash_light_plugin_name}
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
 
-# Create the libLightControlPlugin.so library.
-set(light_control_plugin_name LightControlPlugin)
-add_library(${light_control_plugin_name} src/LightControlPlugin.cc)
-target_link_libraries(${light_control_plugin_name}
+# Create the libROSFlashLightPlugin.so library.
+set(ros_flashlight_plugin_name ROSFlashLightPlugin)
+add_library(${ros_flashlight_plugin_name} src/ROSFlashLightPlugin.cc)
+target_link_libraries(${ros_flashlight_plugin_name}
   ${catkin_LIBRARIES}
   ${flash_light_plugin_name}
 )
-install(TARGETS ${light_control_plugin_name}
+install(TARGETS ${ros_flashlight_plugin_name}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
@@ -145,7 +145,7 @@ target_link_libraries(test_flashlight
   boost_thread
 )
 add_dependencies(test_flashlight
-  ${light_control_plugin_name}
+  ${ros_flashlight_plugin_name}
 )
 
 #############
