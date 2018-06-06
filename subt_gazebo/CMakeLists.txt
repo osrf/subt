@@ -92,23 +92,12 @@ install(TARGETS ${comms_client_name}
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
 
-# Create the libFlashLightPlugin.so library.
-set(flash_light_plugin_name FlashLightPlugin)
-add_library(${flash_light_plugin_name} src/FlashLightPlugin.cc)
-target_link_libraries(${flash_light_plugin_name}
-  ${catkin_LIBRARIES}
-)
-install(TARGETS ${flash_light_plugin_name}
-  ARCHIVE DESTINATION lib
-  LIBRARY DESTINATION lib
-  RUNTIME DESTINATION bin)
-
 # Create the libROSFlashLightPlugin.so library.
 set(ros_flashlight_plugin_name ROSFlashLightPlugin)
 add_library(${ros_flashlight_plugin_name} src/ROSFlashLightPlugin.cc)
 target_link_libraries(${ros_flashlight_plugin_name}
   ${catkin_LIBRARIES}
-  ${flash_light_plugin_name}
+  FlashLightPlugin
 )
 install(TARGETS ${ros_flashlight_plugin_name}
   ARCHIVE DESTINATION lib

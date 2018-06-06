@@ -23,7 +23,7 @@
 #include "ros/ros.h"
 #include "std_srvs/SetBool.h"
 
-#include "subt_gazebo/FlashLightPlugin.hh"
+#include "gazebo/plugins/FlashLightPlugin.hh"
 
 namespace gazebo
 {
