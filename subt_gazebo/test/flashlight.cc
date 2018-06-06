@@ -15,13 +15,13 @@
  *
 */
 
-#include <string>
-#include <sstream>
-#include <cmath>
-#include <vector>
 #include <algorithm>
 #include <chrono>
+#include <cmath>
+#include <sstream>
+#include <string>
 #include <thread>
+#include <vector>
 
 #include "ros/ros.h"
 #include "std_srvs/SetBool.h"
@@ -34,7 +34,6 @@
 
 using namespace gazebo;
 using namespace subt;
-
 
 // information to record for the lights in the enviornment
 struct RecordInfo
