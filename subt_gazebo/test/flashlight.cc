@@ -40,6 +40,7 @@ struct RecordInfo
 {
   double duration;
   double interval;
+  bool flashing;
   common::Time lastUpdate;
 };
 
@@ -48,22 +49,24 @@ struct RecordInfo
 class FlashLightTest : public testing::Test
 {
   // Constructor.
-  public: FlashLightTest(): testing::Test(){}
-
-  // Destructor.
-  public: ~FlashLightTest()
+  public: FlashLightTest(): testing::Test()
   {
-    if (node != nullptr)
-    {
-      node->Fini();
-    }
   }
 
-  // Callback for light/modify topic
-  public: void lightCb(ConstLightPtr &_msg);
+  // Destructor.
+  public: virtual ~FlashLightTest()
+  {
+  }
+
+  // Callback for Responses about entity_info
+  public: void ResponseCb(ConstResponsePtr &_msg);
 
   /// \brief Initializer.
   protected: void InitRec();
+
+  /// \brief Send requests for entity information for a specified time.
+  /// \param[in] _term The length of time to keep sending requests.
+  protected: void SendRequests(double _term);
 
   /// \brief A function to check if we got the assumed results.
   /// \param[in] _updated Whether the light has been updated within its phase.
@@ -82,6 +85,12 @@ class FlashLightTest : public testing::Test
   /// \brief Gazebo transport subscriber.
   protected: transport::SubscriberPtr sceneSub;
 
+  /// \brief Publisher to request for entity_info
+  protected: transport::PublisherPtr entityInfoPub;
+
+  /// \brief Subscriber to get entity_info.
+  protected: transport::SubscriberPtr entityInfoSub;
+
   /// \brief ROS node handler.
   protected: ros::NodeHandle n;
 
@@ -91,9 +100,6 @@ class FlashLightTest : public testing::Test
   /// \brief A list of records about actual duration/interval.
   private: struct RecordInfo flashLight[4];
 
-  /// \brief A flag indicating whether the callback was called.
-  private: bool called;
-
   /// \brief The time when the records were initialized.
   private: common::Time startTime;
 
@@ -102,48 +108,81 @@ class FlashLightTest : public testing::Test
 };
 
 /////////////////////////////////////////////////
-
-void FlashLightTest::lightCb(ConstLightPtr &_msg)
+void FlashLightTest::ResponseCb(ConstResponsePtr &_msg)
 {
-  // Determine which light is to be updated
-  int indx;
-  std::string name = _msg->name();
-  std::stringstream ss;
-  ss << name.substr(name.length() - 1);
-  ss >> indx;
-  indx--;
-
-  bool correctIndex = true;
-  if (indx < 0 || 3 < indx)
-  {
-    correctIndex = false;
-  }
-  ASSERT_TRUE(correctIndex);
-
-  // Get the current time
+  // Get the current time.
   common::Time currentSimTime(ros::Time::now().toSec());
 
-  // Update to flash
+  //DBG
+  std::cout << currentSimTime.Double() << ": ";
+
+  // Extract necessary information from the response message.
+  msgs::Model modelMsg;
+  modelMsg.ParseFromString(_msg->serialized_data());
+
+  //std::cout << "model name: " << modelMsg.name() << std::endl;
+
+  int countLight = 0;
+  for (int ilink = 0; ilink < modelMsg.link_size(); ++ilink)
   {
-    std::lock_guard<std::mutex> lk(this->mutexData);
-    if (_msg->range() > 0)
+    msgs::Link linkMsg = modelMsg.link(ilink);
+    //std::cout << "link name[" << ilink << "]: " << linkMsg.name() << std::endl;
+    for (int ilight = 0; ilight < linkMsg.light_size(); ++ilight)
     {
-      this->flashLight[indx].interval
-        = currentSimTime.Double() - this->flashLight[indx].lastUpdate.Double();
-    }
-    // Update to dim
-    else
-    {
-      this->flashLight[indx].duration
-        = currentSimTime.Double() - this->flashLight[indx].lastUpdate.Double();
-    }
+      msgs::Light lightMsg = linkMsg.light(ilight);
+      //std::cout << "light name[" << ilight << "]: " << lightMsg.name() << ", range: " << lightMsg.range() << std::endl;
+      //DBG
+      std::cout << lightMsg.range() << ", ";
 
-    // Update the last update time
-    this->flashLight[indx].lastUpdate = currentSimTime;
+      // Update to flash
+      {
+        std::lock_guard<std::mutex> lk(this->mutexData);
 
-    this->called = true;
+        // dim -> flash
+        if (!this->flashLight[countLight].flashing)
+        {
+          if (lightMsg.range() > 0)
+          {
+            this->flashLight[countLight].interval
+              = currentSimTime.Double()
+                - this->flashLight[countLight].lastUpdate.Double();
+            // Update the last update time
+            this->flashLight[countLight].lastUpdate = currentSimTime;
+            // Update the current flashing state.
+            this->flashLight[countLight].flashing = true;
+
+            // std::cout << "light name[" << countLight << "]: "
+            // << lightMsg.name()
+            // << ", interval: " << this->flashLight[countLight].interval
+            // << std::endl;
+          }
+        }
+        // flash -> dim
+        else
+        {
+          if (lightMsg.range() == 0)
+          {
+            this->flashLight[countLight].duration
+              = currentSimTime.Double()
+                - this->flashLight[countLight].lastUpdate.Double();
+            // Update the last update time
+            this->flashLight[countLight].lastUpdate = currentSimTime;
+            // Update the current flashing state.
+            this->flashLight[countLight].flashing = false;
+
+            // std::cout << "light name[" << countLight << "]: "
+            // << lightMsg.name()
+            // << ", duration: " << this->flashLight[countLight].duration
+            // << std::endl;
+          }
+        }
+      }
+
+      ++countLight;
+    }
   }
-
+  //DBG
+  std::cout << std::endl;
 }
 
 /////////////////////////////////////////////////
@@ -160,12 +199,31 @@ void FlashLightTest::InitRec()
     this->flashLight[1].interval = -1;
     this->flashLight[2].interval = -1;
     this->flashLight[3].interval = -1;
+    this->flashLight[0].flashing = false;
+    this->flashLight[1].flashing = false;
+    this->flashLight[2].flashing = false;
+    this->flashLight[3].flashing = false;
     this->flashLight[0].lastUpdate = currentSimTime;
     this->flashLight[1].lastUpdate = currentSimTime;
     this->flashLight[2].lastUpdate = currentSimTime;
     this->flashLight[3].lastUpdate = currentSimTime;
     this->startTime = currentSimTime;
-    this->called = false;
+  }
+}
+
+/////////////////////////////////////////////////
+void FlashLightTest::SendRequests(double _term)
+{
+  double timeToSleep = 0.01;
+  int trials = (int)(_term / timeToSleep);
+  for (int i = 0; i < trials; ++i)
+  {
+    msgs::Request msg;
+    msg.set_id(0);
+    msg.set_request("entity_info");
+    msg.set_data("light_model");
+    this->entityInfoPub->Publish(msg);
+    ros::Duration(timeToSleep).sleep();
   }
 }
 
@@ -176,18 +234,6 @@ void FlashLightTest::CheckRec(
   const std::vector<double> &_interval,
   const double &_maxErr)
 {
-  // Determine if the callback function must have been called.
-  // If at least one of the lights is to be updated, it is supposed to have
-  // been called.
-  bool someCalled = false;
-  for (int i = 0; i < 4; ++i)
-  {
-    if (_updated[i])
-    {
-      someCalled = true;
-    }
-  }
-
   // Get necessary time information.
   common::Time endTime(ros::Time::now().toSec());
   double lastUp[4];
@@ -196,17 +242,6 @@ void FlashLightTest::CheckRec(
   lastUp[1] = this->flashLight[1].lastUpdate.Double();
   lastUp[2] = this->flashLight[2].lastUpdate.Double();
   lastUp[3] = this->flashLight[3].lastUpdate.Double();
-
-  if (someCalled)
-  {
-    // The callback function is assumed to have been called.
-    ASSERT_TRUE(this->called);
-  }
-  else
-  {
-    // the callback function is assumed to have never been called.
-    ASSERT_FALSE(this->called);
-  }
 
   // Check records of each light
   // NOTE: Taking some errors caused by callback functions into consideration.
@@ -239,17 +274,16 @@ TEST_F(FlashLightTest, switchOffAndOn)
   async_ros_spin_.reset(new ros::AsyncSpinner(0));
   async_ros_spin_->start();
 
-  //ros::Duration(5.0).sleep();
-
   // Initialize the transport node
   this->node = transport::NodePtr(new transport::Node());
   this->node->Init();
-  // Subscribe to plugin notifications.
-  this->sceneSub
-    = this->node->Subscribe("~/light/modify",
-                            &FlashLightTest::lightCb,
+  this->entityInfoPub
+    = this->node->Advertise<msgs::Request>("~/request");
+  // Subcribe for entity_info.
+  this->entityInfoSub
+    = this->node->Subscribe("~/response",
+                            &FlashLightTest::ResponseCb,
                             dynamic_cast<FlashLightTest*>(this));
-
 
   // Get a ROS service client.
   this->client
@@ -260,8 +294,8 @@ TEST_F(FlashLightTest, switchOffAndOn)
   // Initialize the records.
   this->InitRec();
 
-  // Wait for a while to measure the actual duration and interval.
-  ros::Duration(1.5).sleep();
+  // Measure the actual duration and interval time.
+  this->SendRequests(3.0);
 
   // Check if the actual duration and interval are the supposed ones.
   // NOTE: maximum error is set to 0.01 sec.
@@ -287,8 +321,8 @@ TEST_F(FlashLightTest, switchOffAndOn)
   // Initialize the records.
   this->InitRec();
 
-  // Wait for a while to measure the actual duration and interval.
-  ros::Duration(0.5).sleep();
+  // Measure the actual duration and interval time.
+  this->SendRequests(1.5);
 
   // Check if all of them stopped to be updated.
   // NOTE: maximum error is set to 0.01 sec.
@@ -310,8 +344,8 @@ TEST_F(FlashLightTest, switchOffAndOn)
   // Initialize the records.
   this->InitRec();
 
-  // Wait for a while to measure the actual duration and interval.
-  ros::Duration(2.0).sleep();
+  // Measure the actual duration and interval time.
+  this->SendRequests(3.0);
 
   // Check if the duration and interval of lights were changed as expected.
   // NOTE: maximum error is set to 0.01 sec.
