@@ -15,9 +15,10 @@
  *
 */
 
-#include <string>
-#include <sstream>
 #include <cmath>
+#include <sstream>
+#include <string>
+#include <thread>
 #include <vector>
 
 #include "ros/ros.h"
@@ -65,8 +66,7 @@ class FlashLightTest : public testing::Test
   protected: void InitRec();
 
   /// \brief Send requests for entity information for a specified time.
-  /// \param[in] _term The length of time to keep sending requests.
-  protected: void SendRequests(double _term);
+  public: void SendRequests();
 
   /// \brief A function to check if we got the assumed results.
   /// \param[in] _updated Whether the light has been updated within its phase.
@@ -105,6 +105,15 @@ class FlashLightTest : public testing::Test
 
   /// \brief Protect data from races.
   private: std::mutex mutexData;
+
+  /// \brief A thread to send requests for entity_info
+  protected: std::thread requester;
+
+  /// \brief True if the thread should keep running.
+  protected: bool running;
+
+  /// \brief Protect the flag.
+  protected: std::mutex mutexRunning;
 };
 
 /////////////////////////////////////////////////
@@ -113,26 +122,17 @@ void FlashLightTest::ResponseCb(ConstResponsePtr &_msg)
   // Get the current time.
   common::Time currentSimTime(ros::Time::now().toSec());
 
-  //DBG
-  std::cout << currentSimTime.Double() << ": ";
-
   // Extract necessary information from the response message.
   msgs::Model modelMsg;
   modelMsg.ParseFromString(_msg->serialized_data());
-
-  //std::cout << "model name: " << modelMsg.name() << std::endl;
 
   int countLight = 0;
   for (int ilink = 0; ilink < modelMsg.link_size(); ++ilink)
   {
     msgs::Link linkMsg = modelMsg.link(ilink);
-    //std::cout << "link name[" << ilink << "]: " << linkMsg.name() << std::endl;
     for (int ilight = 0; ilight < linkMsg.light_size(); ++ilight)
     {
       msgs::Light lightMsg = linkMsg.light(ilight);
-      //std::cout << "light name[" << ilight << "]: " << lightMsg.name() << ", range: " << lightMsg.range() << std::endl;
-      //DBG
-      std::cout << lightMsg.range() << ", ";
 
       // Update to flash
       {
@@ -150,11 +150,6 @@ void FlashLightTest::ResponseCb(ConstResponsePtr &_msg)
             this->flashLight[countLight].lastUpdate = currentSimTime;
             // Update the current flashing state.
             this->flashLight[countLight].flashing = true;
-
-            // std::cout << "light name[" << countLight << "]: "
-            // << lightMsg.name()
-            // << ", interval: " << this->flashLight[countLight].interval
-            // << std::endl;
           }
         }
         // flash -> dim
@@ -169,11 +164,6 @@ void FlashLightTest::ResponseCb(ConstResponsePtr &_msg)
             this->flashLight[countLight].lastUpdate = currentSimTime;
             // Update the current flashing state.
             this->flashLight[countLight].flashing = false;
-
-            // std::cout << "light name[" << countLight << "]: "
-            // << lightMsg.name()
-            // << ", duration: " << this->flashLight[countLight].duration
-            // << std::endl;
           }
         }
       }
@@ -181,8 +171,6 @@ void FlashLightTest::ResponseCb(ConstResponsePtr &_msg)
       ++countLight;
     }
   }
-  //DBG
-  std::cout << std::endl;
 }
 
 /////////////////////////////////////////////////
@@ -212,11 +200,10 @@ void FlashLightTest::InitRec()
 }
 
 /////////////////////////////////////////////////
-void FlashLightTest::SendRequests(double _term)
+void FlashLightTest::SendRequests()
 {
-  double timeToSleep = 0.01;
-  int trials = (int)(_term / timeToSleep);
-  for (int i = 0; i < trials; ++i)
+  double timeToSleep = 0.1;
+  while(true)
   {
     msgs::Request msg;
     msg.set_id(0);
@@ -224,6 +211,12 @@ void FlashLightTest::SendRequests(double _term)
     msg.set_data("light_model");
     this->entityInfoPub->Publish(msg);
     ros::Duration(timeToSleep).sleep();
+
+    std::lock_guard<std::mutex> lk(this->mutexRunning);
+    if (!running)
+    {
+      break;
+    }
   }
 }
 
@@ -248,6 +241,7 @@ void FlashLightTest::CheckRec(
   // NOTE: If the interval is 0, the callback is not called.
   for (int i = 0; i < 4; ++i)
   {
+    std::cout << "checking light[" << i << "]" << std::endl;
     if (_updated[i] && _interval[i] > 0)
     {
       // The light is assumed to have been updated within its phase.
@@ -291,19 +285,25 @@ TEST_F(FlashLightTest, switchOffAndOn)
   ASSERT_TRUE(client.isValid());
   ASSERT_TRUE(client.waitForExistence());
 
+  // Start the thread to repeatedly publishing a request.
+  this->running = true;
+  this->requester = std::thread(&FlashLightTest::SendRequests,
+                                dynamic_cast<FlashLightTest*>(this));
+
+  ros::Duration(0.5).sleep();
+
   // Initialize the records.
   this->InitRec();
 
-  // Measure the actual duration and interval time.
-  this->SendRequests(3.0);
+  ros::Duration(2.0).sleep();
 
   // Check if the actual duration and interval are the supposed ones.
   // NOTE: maximum error is set to 0.01 sec.
   {
     std::vector<bool> updated = {true, true, false, false};
-    std::vector<double> duration = {0.1, 0.05, 1.0, 1.0};
-    std::vector<double> interval = {0.4, 0.05, 0.1, 0.0};
-    this->CheckRec(updated, duration, interval, 0.01);
+    std::vector<double> duration = {0.4, 0.2, 2.0, 1.0};
+    std::vector<double> interval = {1.2, 0.2, 0.4, 0.0};
+    this->CheckRec(updated, duration, interval, 0.25);
   }
 
   // Turn them off.
@@ -316,13 +316,12 @@ TEST_F(FlashLightTest, switchOffAndOn)
 
   // Allow some time for the plugin to stop blinking.
   // After this, the callback function is not supposed to be called any more.
-  ros::Duration(0.1).sleep();
+  ros::Duration(0.2).sleep();
 
   // Initialize the records.
   this->InitRec();
 
-  // Measure the actual duration and interval time.
-  this->SendRequests(1.5);
+  ros::Duration(2.0).sleep();
 
   // Check if all of them stopped to be updated.
   // NOTE: maximum error is set to 0.01 sec.
@@ -330,7 +329,7 @@ TEST_F(FlashLightTest, switchOffAndOn)
     std::vector<bool> updated = {false, false, false, false};
     std::vector<double> duration = {-1, -1, -1, -1};
     std::vector<double> interval = {-1, -1, -1, -1};
-    this->CheckRec(updated, duration, interval, 0.01);
+    this->CheckRec(updated, duration, interval, 0.25);
   }
 
   // Turn them on.
@@ -341,22 +340,28 @@ TEST_F(FlashLightTest, switchOffAndOn)
     EXPECT_TRUE(success);
   }
 
+  // Allow some time for the plugin to stop blinking.
+  // After this, the callback function is not supposed to be called any more.
+  ros::Duration(0.2).sleep();
+
   // Initialize the records.
   this->InitRec();
 
-  // Measure the actual duration and interval time.
-  this->SendRequests(3.0);
+  ros::Duration(3.0).sleep();
 
   // Check if the duration and interval of lights were changed as expected.
   // NOTE: maximum error is set to 0.01 sec.
   {
     std::vector<bool> updated = {true, true, true, true};
-    std::vector<double> duration = {0.1, 0.05, 1.0, 1.0};
-    std::vector<double> interval = {0.4, 0.05, 0.1, 0.0};
-    this->CheckRec(updated, duration, interval, 0.01);
+    std::vector<double> duration = {0.4, 0.2, 2.0, 1.0};
+    std::vector<double> interval = {1.2, 0.2, 0.4, 0.0};
+    this->CheckRec(updated, duration, interval, 0.25);
   }
-
-  node->Fini();
+  {
+    std::lock_guard<std::mutex> lk(this->mutexRunning);
+    this->running = false;
+  }
+  this->requester.join();
 }
 
 /////////////////////////////////////////////////
