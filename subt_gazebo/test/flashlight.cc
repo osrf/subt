@@ -100,6 +100,9 @@ class FlashLightTest : public testing::Test
   /// \brief A list of records about actual duration/interval.
   private: struct RecordInfo flashLight[4];
 
+  /// \brief True if a response is sent back.
+  private: bool responded;
+
   /// \brief The time when the records were initialized.
   private: common::Time startTime;
 
@@ -171,6 +174,10 @@ void FlashLightTest::ResponseCb(ConstResponsePtr &_msg)
       ++countLight;
     }
   }
+  {
+    std::lock_guard<std::mutex> lk(this->mutexData);
+    this->responded = true;
+  }
 }
 
 /////////////////////////////////////////////////
@@ -196,6 +203,7 @@ void FlashLightTest::InitRec()
     this->flashLight[2].lastUpdate = currentSimTime;
     this->flashLight[3].lastUpdate = currentSimTime;
     this->startTime = currentSimTime;
+    this->responded = false;
   }
 }
 
@@ -231,6 +239,7 @@ void FlashLightTest::CheckRec(
   common::Time endTime(ros::Time::now().toSec());
   double lastUp[4];
   std::lock_guard<std::mutex> lk(this->mutexData);
+  ASSERT_TRUE(this->responded) << "The callback funciton was not called.";
   lastUp[0] = this->flashLight[0].lastUpdate.Double();
   lastUp[1] = this->flashLight[1].lastUpdate.Double();
   lastUp[2] = this->flashLight[2].lastUpdate.Double();
@@ -246,16 +255,20 @@ void FlashLightTest::CheckRec(
     {
       // The light is assumed to have been updated within its phase.
       EXPECT_LE(endTime.Double() - lastUp[i],
-                std::max(_duration[i], _interval[i]) + _maxErr);
+                std::max(_duration[i], _interval[i]) + _maxErr)
+      << "flashLight[" << i << "]";
 
       // The light has been flashing by the assumed duration and interval.
-      EXPECT_NEAR(flashLight[i].duration, _duration[i], _maxErr);
-      EXPECT_NEAR(flashLight[i].interval, _interval[i], _maxErr);
+      EXPECT_NEAR(flashLight[i].duration, _duration[i], _maxErr)
+      << "flashLight[" << i << "]";
+      EXPECT_NEAR(flashLight[i].interval, _interval[i], _maxErr)
+      << "flashLight[" << i << "]";
     }
     else
     {
       // The light is assumed to have never been updated from the beginning.
-      EXPECT_LE(lastUp[i] - this->startTime.Double(), _maxErr);
+      EXPECT_LE(lastUp[i] - this->startTime.Double(), _maxErr)
+      << "flashLight[" << i << "]";
     }
   }
 }
@@ -357,6 +370,7 @@ TEST_F(FlashLightTest, switchOffAndOn)
     std::vector<double> interval = {1.2, 0.2, 0.4, 0.0};
     this->CheckRec(updated, duration, interval, 0.25);
   }
+
   {
     std::lock_guard<std::mutex> lk(this->mutexRunning);
     this->running = false;
