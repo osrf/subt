@@ -78,6 +78,7 @@ add_library(${comms_broker_plugin_name} src/CommsBrokerPlugin.cc)
 target_link_libraries(${comms_broker_plugin_name}
   ${catkin_LIBRARIES}
   ${PROTO_SOURCES}
+  ${ignition-transport4_LIBRARIES}
 )
 add_dependencies(${comms_broker_plugin_name}
   protobuf_compilation
