@@ -61,17 +61,49 @@ install(TARGETS ${game_logic_plugin_name}
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
 
+function (generate_world GENERATED_WORLD_NAME TARGET_LENGTH)
+
+  file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/worlds/)
+  file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/launch/)
+
+  execute_process(COMMAND python
+    "${CMAKE_CURRENT_SOURCE_DIR}/scripts/world_generator.py"
+    "--grid-size=200" "--origin-x=100" "--origin-y=100"
+    "--target-length=${TARGET_LENGTH}"
+    "--seed=42"
+    ${CMAKE_CURRENT_BINARY_DIR}/worlds/${GENERATED_WORLD_NAME}
+    )
+
+  configure_file(launch/generated_world.launch.in
+    ${CMAKE_CURRENT_BINARY_DIR}/launch/${GENERATED_WORLD_NAME}.launch)
+
+endfunction()
+
+generate_world("benchmark_cave_1km" "1000")
+
 #############
 ## Install ##
 #############
 
 # Install all the launch files
 install(DIRECTORY launch/
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch)
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch
+  PATTERN "*.in" EXCLUDE)
+
+# Install generated launch files
+install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/launch/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch
+  PATTERN "*.in" EXCLUDE)
 
 # Install all the world files
 install(DIRECTORY worlds/
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/worlds)
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/worlds
+  PATTERN "*.in" EXCLUDE)
+
+# Install generated world files
+install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/worlds/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/worlds
+  PATTERN "*.in" EXCLUDE)
 
 # Install all the model files
 install(DIRECTORY models/
