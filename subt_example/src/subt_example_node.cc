@@ -27,6 +27,7 @@ int main(int /*argc*/, char **/*argv*/)
 {
   using namespace std::chrono_literals;
 
+  // Instantiate a communication handler for sending and receiving data.
   subt::CommsClient client1{"addr1"};
 
   ROS_INFO("Starting competitor\n");
