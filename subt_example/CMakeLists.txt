@@ -47,6 +47,10 @@ target_link_libraries(subt_example_node ${catkin_LIBRARIES})
 ## Install ##
 #############
 
+# Install all the launch files
+install(DIRECTORY launch/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch)
+
 ## Mark executables and/or libraries for installation
 install(TARGETS subt_example_node
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
