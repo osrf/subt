@@ -16,10 +16,11 @@ pipelines:
           - ln -s `pwd` /tmp/subt_ws/src
               # Static checker first.
           - cd subt_gazebo
+          - touch /tmp/cpp_check.suppress
           - sh tools/code_check.sh
           - cd /tmp/subt_ws
               # Build and run tests.
           - source /opt/ros/kinetic/setup.bash
           - catkin_make
           - catkin_make tests
-          - catkin_make run_tests
+          - catkin_make run_tests -j1
