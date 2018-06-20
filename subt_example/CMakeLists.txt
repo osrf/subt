@@ -15,6 +15,7 @@ find_package(catkin REQUIRED
   COMPONENTS
     message_generation
     subt_gazebo
+    roscpp
 )
 
 find_package(gazebo REQUIRED)
