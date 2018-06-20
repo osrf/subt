@@ -1,0 +1,15 @@
+<package format="2">
+  <name>subt_iris_description</name>
+  <version>0.1.0</version>
+  <description>ROS package for iris quadcopter for the DARPA SubT challenge.</description>
+  <license>Apache 2.0</license>
+  <maintainer email="sloretz@openrobotics.org">Shane Loretz</maintainer>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>gazebo_ros</depend>
+  <depend>rotors_description</depend>
+  <depend>rotors_gazebo</depend>
+  <depend>rotors_gazebo_plugins</depend>
+
+</package>
