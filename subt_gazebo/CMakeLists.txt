@@ -56,9 +56,8 @@ set_source_files_properties(${PROTO_SOURCES} ${PROTO_HEADERS}
                             PROPERTIES GENERATED TRUE)
 add_library(${protobuf_lib_name} STATIC ${PROTO_SOURCES})
 add_dependencies(${protobuf_lib_name} protobuf_compilation)
-set_property(TARGET ${protobuf_lib_name} PROPERTY POSITION_INDEPENDENT_CODE ON)
 set_target_properties(${protobuf_lib_name}
-  PROPERTIES COMPILE_FLAGS "-Wno-unused-parameter")
+  PROPERTIES POSITION_INDEPENDENT_CODE ON COMPILE_FLAGS "-Wno-unused-parameter")
 
 # Create the libGameLogicPlugin.so library.
 set(game_logic_plugin_name GameLogicPlugin)
