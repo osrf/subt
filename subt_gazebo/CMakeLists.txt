@@ -22,6 +22,7 @@ find_package(catkin REQUIRED
 )
 
 find_package(gazebo REQUIRED)
+find_package(ignition-transport4 REQUIRED)
 
 ########################
 ## Message generation ##
@@ -47,6 +48,12 @@ catkin_package(
   CATKIN_DEPENDS
     message_runtime
     std_srvs
+  INCLUDE_DIRS
+    include
+  LIBRARIES
+    CommsClient
+  CFG_EXTRAS
+    ${PROJECT_NAME}-extras.cmake
 )
 
 # Protobuf.
@@ -71,8 +78,12 @@ add_library(${comms_broker_plugin_name} src/CommsBrokerPlugin.cc)
 target_link_libraries(${comms_broker_plugin_name}
   ${catkin_LIBRARIES}
   ${PROTO_SOURCES}
+  ${ignition-transport4_LIBRARIES}
 )
-add_dependencies(${comms_broker_plugin_name} protobuf_compilation)
+add_dependencies(${comms_broker_plugin_name}
+  protobuf_compilation
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+)
 install(TARGETS ${comms_broker_plugin_name}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
@@ -85,12 +96,21 @@ include_directories(${PROJECT_BINARY_DIR}/include)
 target_link_libraries(${comms_client_name}
   ${catkin_LIBRARIES}
   ${PROTO_SOURCES}
+  ignition-transport4::ignition-transport4
+  protobuf::libprotobuf
 )
 add_dependencies(${comms_client_name} protobuf_compilation)
 install(TARGETS ${comms_client_name}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
+install(
+  FILES
+    include/${PROJECT_NAME}/CommonTypes.hh
+    include/${PROJECT_NAME}/CommsClient.hh
+    ${PROTO_HEADERS}
+  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+)
 
 ###########
 ## Tests ##
@@ -117,15 +137,17 @@ add_dependencies(test_comms
 ## Install ##
 #############
 
+install(FILES cmake/${PROJECT_NAME}-extras.cmake
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/cmake)
+
 # Install all the launch files
 install(DIRECTORY launch/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch)
-
-# Install all the world files
-install(DIRECTORY worlds/
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/worlds)
 
 # Install all the model files
 install(DIRECTORY models/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/models)
 
+# Install all the world files
+install(DIRECTORY worlds/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/worlds)

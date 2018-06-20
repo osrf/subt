@@ -1,0 +1,20 @@
+<package format="2">
+  <name>subt_example</name>
+  <version>0.1.0</version>
+  <description>A reference participant for the DARPA SubT challenge.</description>
+  <license>Apache 2.0</license>
+  <maintainer email="caguero@openrobotics.org">Carlos Agüero</maintainer>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>roscpp</depend>
+  <depend>subt_gazebo</depend>
+
+  <build_depend>message_generation</build_depend>
+  <exec_depend>message_runtime</exec_depend>
+
+  <export>
+    <!-- path to models -->
+    <gazebo_ros gazebo_model_path="${prefix}/models"/>
+  </export>
+</package>

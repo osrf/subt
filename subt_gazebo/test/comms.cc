@@ -20,6 +20,7 @@
 #include <gazebo/physics/physics.hh>
 #include <gazebo/test/ServerFixture.hh>
 
+#include "subt_gazebo/protobuf/datagram.pb.h"
 #include "subt_gazebo/CommonTypes.hh"
 #include "subt_gazebo/CommsClient.hh"
 #include "test/test_config.h"
