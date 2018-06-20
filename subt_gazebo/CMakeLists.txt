@@ -56,10 +56,15 @@ catkin_package(
     ${PROJECT_NAME}-extras.cmake
 )
 
-# Protobuf.
+# Create a static library with the Protobuf messages used internally.
+set(protobuf_lib_name SubtProtobuf)
 add_subdirectory(src/protobuf)
 set_source_files_properties(${PROTO_SOURCES} ${PROTO_HEADERS}
                             PROPERTIES GENERATED TRUE)
+add_library(${protobuf_lib_name} STATIC ${PROTO_SOURCES})
+add_dependencies(${protobuf_lib_name} protobuf_compilation)
+set_target_properties(${protobuf_lib_name}
+  PROPERTIES POSITION_INDEPENDENT_CODE ON COMPILE_FLAGS "-Wno-unused-parameter")
 
 # Create the libGameLogicPlugin.so library.
 set(game_logic_plugin_name GameLogicPlugin)
@@ -77,7 +82,7 @@ set(comms_broker_plugin_name CommsBrokerPlugin)
 add_library(${comms_broker_plugin_name} src/CommsBrokerPlugin.cc)
 target_link_libraries(${comms_broker_plugin_name}
   ${catkin_LIBRARIES}
-  ${PROTO_SOURCES}
+  ${protobuf_lib_name}
   ${ignition-transport4_LIBRARIES}
 )
 add_dependencies(${comms_broker_plugin_name}
@@ -95,7 +100,7 @@ add_library(${comms_client_name} src/CommsClient.cc)
 include_directories(${PROJECT_BINARY_DIR}/include)
 target_link_libraries(${comms_client_name}
   ${catkin_LIBRARIES}
-  ${PROTO_SOURCES}
+  ${protobuf_lib_name}
   ignition-transport4::ignition-transport4
   protobuf::libprotobuf
 )
