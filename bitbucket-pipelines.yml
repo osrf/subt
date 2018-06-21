@@ -4,9 +4,14 @@ pipelines:
   default:
     - step:
         script:
-          # Install dependencies
+          # tzdata wants us to select the geographic area in which we live.
           - apt-get update
+          - export DEBIAN_FRONTEND=noninteractive
+          - apt-get install -y tzdata
+          - ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
+          - dpkg-reconfigure --frontend noninteractive tzdata
           - apt-get -y install gnupg
+          # Install dependencies
           - echo "deb http://packages.ros.org/ros/ubuntu bionic main" > /etc/apt/sources.list.d/ros-latest.list
           - apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
           - echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable bionic main" > /etc/apt/sources.list.d/gazebo-stable.list
@@ -26,3 +31,4 @@ pipelines:
           - catkin_make
           - catkin_make tests
           - catkin_make run_tests -j1
+          
