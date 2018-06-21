@@ -21,6 +21,8 @@ find_package(catkin REQUIRED
     message_generation
 )
 
+file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include)
+
 find_package(gazebo REQUIRED)
 find_package(ignition-transport4 REQUIRED)
 
@@ -129,7 +131,8 @@ configure_file (test/test_config.h.in
   ${CATKIN_DEVEL_PREFIX}/include/test/test_config.h)
 
 find_package(rostest REQUIRED)
-add_rostest_gtest(test_comms test/comms.test test/comms.cc)
+
+catkin_add_executable_with_gtest(test_comms test/comms.cc)
 target_include_directories(test_comms
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 target_link_libraries(test_comms
@@ -140,6 +143,11 @@ target_link_libraries(test_comms
 add_dependencies(test_comms
   ${comms_broker_plugin_name}
   ${comms_client_name}
+)
+# WORKING_DIRECTORY is used to make sure that the Gazebo plugins are found.
+add_rostest(test/comms.test
+  WORKING_DIRECTORY "${CATKIN_DEVEL_PREFIX}/lib"
+  DEPENDENCIES test_comms
 )
 
 #############
