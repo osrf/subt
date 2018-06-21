@@ -25,7 +25,14 @@
 #include <ignition/transport/Node.hh>
 #include <sdf/sdf.hh>
 
-#include "subt_gazebo/protobuf/datagram.pb.h"
+namespace subt
+{
+  namespace msgs
+  {
+    // Forward declarations.
+    class Datagram;
+  }
+}
 
 namespace gazebo
 {

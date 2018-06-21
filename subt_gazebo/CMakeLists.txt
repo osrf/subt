@@ -50,6 +50,7 @@ catkin_package(
     std_srvs
   INCLUDE_DIRS
     include
+    ${CATKIN_DEVEL_PREFIX}/include
   LIBRARIES
     CommsClient
   CFG_EXTRAS
@@ -80,6 +81,8 @@ install(TARGETS ${game_logic_plugin_name}
 # Create the libCommsBrokerPlugin.so library.
 set(comms_broker_plugin_name CommsBrokerPlugin)
 add_library(${comms_broker_plugin_name} src/CommsBrokerPlugin.cc)
+target_include_directories(${comms_broker_plugin_name}
+  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 target_link_libraries(${comms_broker_plugin_name}
   ${catkin_LIBRARIES}
   ${protobuf_lib_name}
@@ -97,7 +100,8 @@ install(TARGETS ${comms_broker_plugin_name}
 # Create the libCommsClient.so library.
 set(comms_client_name CommsClient)
 add_library(${comms_client_name} src/CommsClient.cc)
-include_directories(${PROJECT_BINARY_DIR}/include)
+target_include_directories(${comms_client_name}
+  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 target_link_libraries(${comms_client_name}
   ${catkin_LIBRARIES}
   ${protobuf_lib_name}
@@ -122,20 +126,20 @@ install(
 ###########
 
 configure_file (test/test_config.h.in
-  ${PROJECT_BINARY_DIR}/include/test/test_config.h)
+  ${CATKIN_DEVEL_PREFIX}/include/test/test_config.h)
 
-catkin_add_gtest(test_comms test/comms.cc)
-link_directories(${Boost_LIBRARY_DIRS})
+find_package(rostest REQUIRED)
+add_rostest_gtest(test_comms test/comms.test test/comms.cc)
+target_include_directories(test_comms
+  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 target_link_libraries(test_comms
   ${catkin_LIBRARIES}
-  ${GAZEBO_LIBRARIES}
-  gazebo_test_fixture
-  boost_thread
   ${comms_client_name}
+  ${GAZEBO_LIBRARIES}
 )
 add_dependencies(test_comms
-  ${comms_broker_plugin_name}
   ${comms_client_name}
+  ${comms_broker_plugin_name}
 )
 
 #############
