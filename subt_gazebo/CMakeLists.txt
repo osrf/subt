@@ -138,8 +138,8 @@ target_link_libraries(test_comms
   ${GAZEBO_LIBRARIES}
 )
 add_dependencies(test_comms
-  ${comms_client_name}
   ${comms_broker_plugin_name}
+  ${comms_client_name}
 )
 
 #############
