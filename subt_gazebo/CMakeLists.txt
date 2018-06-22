@@ -145,6 +145,9 @@ add_dependencies(test_comms
 ## Install ##
 #############
 
+install(FILES cmake/${PROJECT_NAME}-extras.cmake
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/cmake)
+
 # Install all the launch files
 install(DIRECTORY launch/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch
