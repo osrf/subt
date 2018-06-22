@@ -22,12 +22,13 @@ find_package(catkin REQUIRED
 )
 
 find_package(gazebo REQUIRED)
+find_package(ignition-transport4 REQUIRED)
 
 ########################
 ## Message generation ##
 ########################
 
-# Add here SubT messages.
+# Add here SubT ROS messages.
 
 ###########
 ## Build ##
@@ -70,14 +71,11 @@ set(game_logic_plugin_name GameLogicPlugin)
 add_library(${game_logic_plugin_name} src/GameLogicPlugin.cc)
 target_link_libraries(${game_logic_plugin_name}
   ${catkin_LIBRARIES}
-  ${sensor_msgs_LIBRARIES}
 )
 install(TARGETS ${game_logic_plugin_name}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
-
-generate_world("benchmark_cave_1km" "1000")
 
 # Create the libCommsBrokerPlugin.so library.
 set(comms_broker_plugin_name CommsBrokerPlugin)
@@ -140,7 +138,6 @@ add_dependencies(test_comms
   ${comms_client_name}
 )
 
-
 #############
 ## Install ##
 #############
@@ -152,10 +149,10 @@ install(FILES cmake/${PROJECT_NAME}-extras.cmake
 install(DIRECTORY launch/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch)
 
-# Install all the world files
-install(DIRECTORY worlds/
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/worlds)
-
 # Install all the model files
 install(DIRECTORY models/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/models)
+
+# Install all the world files
+install(DIRECTORY worlds/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/worlds)
