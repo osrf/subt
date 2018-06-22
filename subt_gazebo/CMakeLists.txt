@@ -47,7 +47,23 @@ catkin_package(
   CATKIN_DEPENDS
     message_runtime
     std_srvs
+  INCLUDE_DIRS
+    include
+  LIBRARIES
+    CommsClient
+  CFG_EXTRAS
+    ${PROJECT_NAME}-extras.cmake
 )
+
+# Create a static library with the Protobuf messages used internally.
+set(protobuf_lib_name SubtProtobuf)
+add_subdirectory(src/protobuf)
+set_source_files_properties(${PROTO_SOURCES} ${PROTO_HEADERS}
+                            PROPERTIES GENERATED TRUE)
+add_library(${protobuf_lib_name} STATIC ${PROTO_SOURCES})
+add_dependencies(${protobuf_lib_name} protobuf_compilation)
+set_target_properties(${protobuf_lib_name}
+  PROPERTIES POSITION_INDEPENDENT_CODE ON COMPILE_FLAGS "-Wno-unused-parameter")
 
 # Create the libGameLogicPlugin.so library.
 set(game_logic_plugin_name GameLogicPlugin)
@@ -61,25 +77,69 @@ install(TARGETS ${game_logic_plugin_name}
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
 
-function (generate_world GENERATED_WORLD_NAME TARGET_LENGTH)
-
-  file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/worlds/)
-  file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/launch/)
-
-  execute_process(COMMAND python
-    "${CMAKE_CURRENT_SOURCE_DIR}/scripts/world_generator.py"
-    "--grid-size=200" "--origin-x=100" "--origin-y=100"
-    "--target-length=${TARGET_LENGTH}"
-    "--seed=42"
-    ${CMAKE_CURRENT_BINARY_DIR}/worlds/${GENERATED_WORLD_NAME}
-    )
-
-  configure_file(launch/generated_world.launch.in
-    ${CMAKE_CURRENT_BINARY_DIR}/launch/${GENERATED_WORLD_NAME}.launch)
-
-endfunction()
-
 generate_world("benchmark_cave_1km" "1000")
+
+# Create the libCommsBrokerPlugin.so library.
+set(comms_broker_plugin_name CommsBrokerPlugin)
+add_library(${comms_broker_plugin_name} src/CommsBrokerPlugin.cc)
+target_link_libraries(${comms_broker_plugin_name}
+  ${catkin_LIBRARIES}
+  ${protobuf_lib_name}
+  ${ignition-transport4_LIBRARIES}
+)
+add_dependencies(${comms_broker_plugin_name}
+  protobuf_compilation
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+)
+install(TARGETS ${comms_broker_plugin_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+
+# Create the libCommsClient.so library.
+set(comms_client_name CommsClient)
+add_library(${comms_client_name} src/CommsClient.cc)
+include_directories(${PROJECT_BINARY_DIR}/include)
+target_link_libraries(${comms_client_name}
+  ${catkin_LIBRARIES}
+  ${protobuf_lib_name}
+  ignition-transport4::ignition-transport4
+  protobuf::libprotobuf
+)
+add_dependencies(${comms_client_name} protobuf_compilation)
+install(TARGETS ${comms_client_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+install(
+  FILES
+    include/${PROJECT_NAME}/CommonTypes.hh
+    include/${PROJECT_NAME}/CommsClient.hh
+    ${PROTO_HEADERS}
+  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+)
+
+###########
+## Tests ##
+###########
+
+configure_file (test/test_config.h.in
+  ${PROJECT_BINARY_DIR}/include/test/test_config.h)
+
+catkin_add_gtest(test_comms test/comms.cc)
+link_directories(${Boost_LIBRARY_DIRS})
+target_link_libraries(test_comms
+  ${catkin_LIBRARIES}
+  ${GAZEBO_LIBRARIES}
+  gazebo_test_fixture
+  boost_thread
+  ${comms_client_name}
+)
+add_dependencies(test_comms
+  ${comms_broker_plugin_name}
+  ${comms_client_name}
+)
+
 
 #############
 ## Install ##

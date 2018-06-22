@@ -1,13 +1,13 @@
-<?xml version='1.0'?>
-<sdf version ='1.6'>
+<?xml version="1.0" ?>
+<sdf version="1.6">
   <model name="indian_tunnel">
+    <static>true</static>
     <link name="indian_tunnel_link">
       <pose>0 0 0 0 0 0</pose>
       <collision name="indian_tunnel_collision">
         <geometry>
           <mesh>
             <uri>model://indian_tunnel/indian_tunnel.dae</uri>
-            <scale>1 1 1</scale>
           </mesh>
         </geometry>
       </collision>
@@ -15,12 +15,10 @@
         <geometry>
           <mesh>
             <uri>model://indian_tunnel/indian_tunnel.dae</uri>
-            <scale>1 1 1</scale>
           </mesh>
         </geometry>
         <cast_shadows>false</cast_shadows>
       </visual>
     </link>
-    <static>true</static>
   </model>
 </sdf>

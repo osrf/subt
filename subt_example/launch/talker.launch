@@ -1,0 +1,11 @@
+<launch>
+
+  # Launch the SubT world.
+  <include file="$(find subt_gazebo)/launch/lava_tube.launch">
+  </include>
+
+  # Spawn your team here.
+  <node pkg="subt_example" name="subt_example_node"
+        type="subt_example_node" output="screen" />
+
+</launch>
