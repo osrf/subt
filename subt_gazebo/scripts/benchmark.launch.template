@@ -1,8 +1,9 @@
 <launch>
+  <arg name="world_path" default="$(find gazebo_subt)/worlds/@(world_name).world"/>
 
   # Gazebo world.
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
-    <arg name="world_name" value="$(find subt_gazebo)/worlds/${GENERATED_WORLD_NAME}.world"/>
+    <arg name="world_name" value="$(arg world_path)"/>
     <arg name="paused" value="false"/>
     <arg name="use_sim_time" value="true"/>
     <arg name="gui" value="true"/>

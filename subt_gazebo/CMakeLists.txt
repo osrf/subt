@@ -150,25 +150,12 @@ install(FILES cmake/${PROJECT_NAME}-extras.cmake
 
 # Install all the launch files
 install(DIRECTORY launch/
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch
-  PATTERN "*.in" EXCLUDE)
-
-# Install generated launch files
-install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/launch/
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch
-  PATTERN "*.in" EXCLUDE)
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch)
 
 # Install all the world files
 install(DIRECTORY worlds/
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/worlds
-  PATTERN "*.in" EXCLUDE)
-
-# Install generated world files
-install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/worlds/
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/worlds
-  PATTERN "*.in" EXCLUDE)
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/worlds)
 
 # Install all the model files
 install(DIRECTORY models/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/models)
-

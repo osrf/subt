@@ -1,13 +1,20 @@
 #!/usr/bin/env python3
 
 import argparse
+import os
+import sys
 
 import numpy as np
-import matplotlib.pyplot as plt
 
+import em
+
+script_dir = os.path.dirname(os.path.realpath(__file__))
+template_files = [
+        os.path.join(script_dir, 'benchmark.world.template'),
+        os.path.join(script_dir, 'benchmark.launch.template')
+]
 
 DIRECTIONS = ('north', 'east', 'south', 'west')
-
 
 class CavePiece(object):
     """
@@ -198,26 +205,40 @@ def node_to_xml(node, origin, depth=0):
     """
     Converts element to SDF XML.
     """
+
+    class NodeInfo(object):
+        def __init__(self, model_name, loc_x, loc_y, tf):
+            self.loc_x = loc_x
+            self.loc_y = loc_y
+            self.model_name = model_name
+            self.x = loc_x * 20
+            self.y = loc_y * 20
+            self.z = 0.0
+            self.roll = node.piece.tf[0]
+            self.pitch = node.piece.tf[1]
+            self.yaw = node.piece.tf[2]
+
     loc_x = node.loc[0] - origin[0]
     loc_y = node.loc[1] - origin[1]
 
-    model_name = node.piece.model_name
-    rr, pp, yy = node.piece.tf
-    x, y, z = loc_x * 20, loc_y * 20, 0
-
-    s = []
-    s.append('<include>')
-    s.append('  <static>true</static>')
-    s.append('  <name>cave_{loc_x}_{loc_y}</name>'.format(**locals()))
-    s.append('  <pose>{x} {y} {z} {rr} {pp} {yy}</pose>'.format(**locals()))
-    s.append('  <uri>model://{model_name}</uri>'.format(**locals()))
-    s.append('</include>')
+    nodes = []
+    ni = NodeInfo(node.piece.model_name, loc_x, loc_y, node.piece.tf)
+    nodes.append(ni)
 
     if depth != 0:
         for d in DIRECTIONS:
             if node.connections[d]:
-                s.extend(node_to_xml(node.connections[d], origin, depth-1))
-    return s
+                nodes.extend(node_to_xml(node.connections[d], origin, depth-1))
+    return nodes
+
+
+def generate_files(template_data):
+    files = {}
+    for template_file in template_files:
+        with open(template_file, 'r') as f:
+            data = f.read()
+        files[template_file] = em.expand(data, template_data)
+    return files
 
 
 if __name__ == '__main__':
@@ -236,6 +257,10 @@ if __name__ == '__main__':
             help='Number of robots to seed into cave system')
     parser.add_argument('--seed', type=int,
             help='Random number generator seed')
+    parser.add_argument('-n', '--dry-run', action='store_true', default=False,
+            help='print generated files to stdout, but do not write them to disk')
+    parser.add_argument('-o', '--output', default='/tmp/subt/',
+        help='directory in which to output the generated files')
     parser.add_argument('output_name')
     args = parser.parse_args()
 
@@ -259,68 +284,43 @@ if __name__ == '__main__':
                 length_met = True
                 break
 
-    # print('Target Length: ', args.target_length)
-    # print('Current Length: ', np.sum(grid.grid) * 20)
-
-    robots = []
-    robots_idx = []
-    used = set()
-
-    if args.num_robots > 0:
-        (r, c) = np.where(grid.grid > 0)
-        tries = 0
-        while len(robots) != args.num_robots:
-            idx = np.random.randint(0, len(r))
-            if tries > 100:
-                print("Couldn't locate robots, stopping at: ", len(robots))
-                break
-            if idx in used:
-                tries = tries + 1
-                continue
-            if grid.types[r[idx], c[idx]] in (b'L1', b'L2', b'L3', b'L4', b'T1', b'T2', b'T3', b'T4'):
-                tries = tries + 1
-                continue
-            name = 'robot_' + str(len(robots))
-            robots.append((name,
-                           20 * (r[idx] - args.origin_x),
-                           20 * (c[idx] - args.origin_y),
-                           np.pi * np.random.randn(1)[0]))
-            robots_idx.append((c[idx], r[idx]))
-            used.add(idx)
-
     if args.show:
+        import matplotlib.pyplot as plt
         dg = np.zeros((args.grid_size*3, args.grid_size*3))
         draw_element(dg, root, 500)
         plt.figure()
         dg = dg / np.max(dg)
         plt.imshow(dg)
-        if len(robots_idx):
-            robots_idx = np.array(robots_idx)
-            plt.scatter(robots_idx[:, 1]*3, robots_idx[:, 0]*3)
-
         plt.figure()
         plt.imshow(grid.grid)
-        
-        if len(robots_idx):
-            plt.scatter(robots_idx[:, 0], robots_idx[:, 1])
         plt.show()
 
-    with open(args.output_name + '.world', 'w') as f:
-        f.write("""
-<sdf version="1.6">
-<world name="{name}">
-""".format(name=args.output_name))
+    template_data = {
+            'world_name': args.output_name,
+            'nodes': node_to_xml(root, (args.origin_x, args.origin_y), 200)
+            }
 
-        f.write('\n  '.join(node_to_xml(root,
-                                        (args.origin_x, args.origin_y),
-                                        200)))
-        for robot in robots:
-            f.write("""
-<include>
-  <static>false</static>
-  <name>{name}</name>
-  <pose>{x} {y} 0.1 0 0 {yaw}</pose>
-  <uri>model://subt_pioneer</uri>
-</include>
-""".format(name=robot[0], x=robot[1], y=robot[2], yaw=robot[3]))
-        f.write('\n</world></sdf>')
+    files = generate_files(template_data)
+    if not args.dry_run and not os.path.isdir(args.output):
+        if os.path.exists(args.output) and not os.path.isdir(args.output):
+            print('Error, given output directory exists but is not a directory.', file=sys.stderr)
+            sys.exit(1)
+        print('creating directory: ' + args.output)
+        os.makedirs(args.output)
+
+    for name, content in files.items():
+        if name.endswith('.template'):
+            name = name[:-len('.template')]
+        name = os.path.basename(name)
+        if args.dry_run:
+            print('# file: ' + name)
+            print(content)
+        else:
+            if name.endswith('.world'):
+                ext = '.world'
+            elif name.endswith('.launch'):
+                ext = '.launch'
+            file_path = os.path.join(args.output, args.output_name + ext)
+            print('writing file ' + file_path)
+            with open(file_path, 'w+') as f:
+                f.write(content)
