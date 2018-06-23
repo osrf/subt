@@ -53,7 +53,7 @@ namespace gazebo
   /// </flash_light>
   /// ...
   ///
-  class ROSFlashLightPlugin : public FlashLightPlugin
+  class RosFlashLightPlugin : public FlashLightPlugin
   {
     // Documentation inherited.
     public: void Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf) override;

@@ -20,7 +20,7 @@
 using namespace gazebo;
 
 //////////////////////////////////////////////////
-void ROSFlashLightPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
+void RosFlashLightPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
 {
   // === must call this ===
   FlashLightPlugin::Load(_parent, _sdf);
@@ -35,7 +35,7 @@ void ROSFlashLightPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
     return;
   }
 
-  gzmsg << "Plugin Loaded: ROSFlashLightPlugin" << std::endl;
+  gzmsg << "Plugin Loaded: RosFlashLightPlugin" << std::endl;
 
   // Service name is renamed if an alternative one is given in SDF.
   std::string serviceName;
@@ -51,11 +51,11 @@ void ROSFlashLightPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
   // ROS service to receive a command to control the light
   ros::NodeHandle n;
   this->service
-    = n.advertiseService(serviceName, &ROSFlashLightPlugin::Control, this);
+    = n.advertiseService(serviceName, &RosFlashLightPlugin::Control, this);
 }
 
 //////////////////////////////////////////////////
-bool ROSFlashLightPlugin::Control(
+bool RosFlashLightPlugin::Control(
   std_srvs::SetBool::Request &_req,
   std_srvs::SetBool::Response &_res)
 {
@@ -72,4 +72,4 @@ bool ROSFlashLightPlugin::Control(
 }
 
 // Register this plugin with the simulator
-GZ_REGISTER_MODEL_PLUGIN(ROSFlashLightPlugin)
+GZ_REGISTER_MODEL_PLUGIN(RosFlashLightPlugin)
