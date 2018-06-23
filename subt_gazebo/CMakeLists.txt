@@ -104,6 +104,19 @@ install(TARGETS ${ros_flashlight_plugin_name}
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
 
+# Create the libRosLedPlugin.so library.
+set(ros_led_plugin_name RosLedPlugin)
+add_library(${ros_led_plugin_name} src/RosLedPlugin.cc)
+target_link_libraries(${ros_led_plugin_name}
+  ${catkin_LIBRARIES}
+  RosFlashLightPlugin
+  LedPlugin
+)
+install(TARGETS ${ros_led_plugin_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+
 ###########
 ## Tests ##
 ###########

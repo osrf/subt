@@ -15,15 +15,15 @@
  *
 */
 
-#ifndef GAZEBO_PLUGINS_ROSFLASHLIGHTPLUGIN_HH_
-#define GAZEBO_PLUGINS_ROSFLASHLIGHTPLUGIN_HH_
+#ifndef GAZEBO_PLUGINS_ROSLEDPLUGIN_HH_
+#define GAZEBO_PLUGINS_ROSLEDPLUGIN_HH_
 
 #include <queue>
 
 #include "ros/ros.h"
 #include "std_srvs/SetBool.h"
 
-#include "gazebo/plugins/FlashLightPlugin.hh"
+#include "gazebo/plugins/LedPlugin.hh"
 
 namespace gazebo
 {
@@ -53,7 +53,7 @@ namespace gazebo
   /// </flash_light>
   /// ...
   ///
-  class RosFlashLightPlugin : public FlashLightPlugin
+  class RosLedPlugin : public LedPlugin
   {
     // Documentation inherited.
     public: void Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf) override;
@@ -62,7 +62,7 @@ namespace gazebo
     /// \param[in] _req A request to turn on/off the lights.
     /// \param[in] _res A response to indicate success or failure.
     /// \return True if the order is successful.
-    public: virtual bool Control(
+    public: bool Control(
       std_srvs::SetBool::Request &_req, std_srvs::SetBool::Response &_res);
 
     /// \brief ROS service server.
