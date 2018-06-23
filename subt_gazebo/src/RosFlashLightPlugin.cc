@@ -15,7 +15,7 @@
  *
 */
 
-#include "subt_gazebo/ROSFlashLightPlugin.hh"
+#include "subt_gazebo/RosFlashLightPlugin.hh"
 
 using namespace gazebo;
 

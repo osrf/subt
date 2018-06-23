@@ -92,9 +92,9 @@ install(TARGETS ${comms_client_name}
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
 
-# Create the libROSFlashLightPlugin.so library.
-set(ros_flashlight_plugin_name ROSFlashLightPlugin)
-add_library(${ros_flashlight_plugin_name} src/ROSFlashLightPlugin.cc)
+# Create the libRosFlashLightPlugin.so library.
+set(ros_flashlight_plugin_name RosFlashLightPlugin)
+add_library(${ros_flashlight_plugin_name} src/RosFlashLightPlugin.cc)
 target_link_libraries(${ros_flashlight_plugin_name}
   ${catkin_LIBRARIES}
   FlashLightPlugin

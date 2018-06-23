@@ -161,7 +161,7 @@
         <parent>cylinder</parent>
         <child>box</child>
       </joint>
-      <plugin name='light_control' filename='libROSFlashLightPlugin.so'>
+      <plugin name='light_control' filename='libRosFlashLightPlugin.so'>
         <main_switch_srvs>light_switch</main_switch_srvs>
         <enable>true</enable>
         <flash_light>
