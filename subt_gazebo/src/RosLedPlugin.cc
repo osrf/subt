@@ -23,7 +23,7 @@ using namespace gazebo;
 void RosLedPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
 {
   // === must call this ===
-  FlashLightPlugin::Load(_parent, _sdf);
+  LedPlugin::Load(_parent, _sdf);
 
   // Make sure the ROS node for Gazebo has already been initialized
   if (!ros::isInitialized())

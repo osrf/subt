@@ -109,7 +109,6 @@ set(ros_led_plugin_name RosLedPlugin)
 add_library(${ros_led_plugin_name} src/RosLedPlugin.cc)
 target_link_libraries(${ros_led_plugin_name}
   ${catkin_LIBRARIES}
-  RosFlashLightPlugin
   LedPlugin
 )
 install(TARGETS ${ros_led_plugin_name}
@@ -146,7 +145,17 @@ target_link_libraries(test_flashlight
 )
 add_dependencies(test_flashlight
   ${ros_flashlight_plugin_name}
+    ${ros_led_plugin_name}
 )
+add_rostest_gtest(test_led test/led.test test/led.cc)
+target_link_libraries(test_led
+  ${catkin_LIBRARIES}
+  ${GAZEBO_LIBRARIES}
+)
+add_dependencies(test_led
+  ${ros_led_plugin_name}
+)
+
 
 #############
 ## Install ##
