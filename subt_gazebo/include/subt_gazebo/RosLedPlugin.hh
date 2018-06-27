@@ -20,10 +20,10 @@
 
 #include <queue>
 
-#include "ros/ros.h"
-#include "std_srvs/SetBool.h"
+#include <ros/ros.h>
+#include <std_srvs/SetBool.h>
 
-#include "gazebo/plugins/LedPlugin.hh"
+#include <gazebo/plugins/LedPlugin.hh>
 
 namespace gazebo
 {
