@@ -15,6 +15,8 @@ RUN apt-get update \
         lsb-release \
         mercurial \
         python3-dbg \
+        python3-empy \
+        python3-numpy \
         python3-pip \
         python3-venv \
         software-properties-common \
