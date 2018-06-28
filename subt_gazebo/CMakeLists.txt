@@ -156,3 +156,9 @@ install(DIRECTORY models/
 # Install all the world files
 install(DIRECTORY worlds/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/worlds)
+
+install(PROGRAMS
+  scripts/world_generator
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+
+
