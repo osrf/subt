@@ -20,10 +20,9 @@
 
 #include <queue>
 
-#include "ros/ros.h"
-#include "std_srvs/SetBool.h"
-
-#include "gazebo/plugins/FlashLightPlugin.hh"
+#include <gazebo/plugins/FlashLightPlugin.hh>
+#include <ros/ros.h>
+#include <std_srvs/SetBool.h>
 
 namespace gazebo
 {
@@ -39,11 +38,11 @@ namespace gazebo
   /// the lights are turned on. In the case of false, they are turned off.
   ///
   /// This plugin inherits from FlashLightPlugin. While the format of parameters
-  /// follows that of the base plugin, it also accepts <main_switch_srvs>,
+  /// follows that of the base plugin, it also accepts <service_name>,
   /// to change the ROS service name.
   ///
   /// Example:
-  /// <main_switch_srvs>light_control1</main_switch_srvs>
+  /// <service_name>light_control1</service_name>
   /// <enable>true</enable>
   /// <flash_light>
   ///  <light_id>link1/light_source</light_id>

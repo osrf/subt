@@ -38,14 +38,10 @@ void RosFlashLightPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
   gzmsg << "Plugin Loaded: RosFlashLightPlugin" << std::endl;
 
   // Service name is renamed if an alternative one is given in SDF.
-  std::string serviceName;
-  if (_sdf->HasElement("main_switch_srvs"))
+  std::string serviceName = "light_control";
+  if (_sdf->HasElement("service_name"))
   {
-    serviceName = _sdf->Get<std::string>("main_switch_srvs");
-  }
-  else
-  {
-    serviceName = "light_control";
+    serviceName = _sdf->Get<std::string>("service_name");
   }
 
   // ROS service to receive a command to control the light
