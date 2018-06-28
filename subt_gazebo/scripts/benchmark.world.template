@@ -7,6 +7,8 @@
     <static>true</static>
     <name>cave_@(node.loc_x)_@(node.loc_y)</name>
     <pose>@(node.x) @(node.y) @(node.z) @(node.roll) @(node.pitch) @(node.yaw)</pose>
+    <uri>model://@(node.model_name)</uri>
+  </include>
 @[end for]@
 
 </world>
