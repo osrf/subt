@@ -4,19 +4,23 @@ FROM nvidia/opengl:1.0-glvnd-devel-ubuntu18.04
 # Tools I find useful during development
 RUN apt-get update \
  && apt-get install -y \
-        wget \
-        lsb-release \
-        sudo \
-        mercurial \
-        git \
-        vim \
+        build-essential \
         cmake \
         gdb \
-        software-properties-common \
+        git \
+        libbluetooth-dev \
+        libcwiid-dev \
+        libspnav-dev \
+        libusb-dev \
+        lsb-release \
+        mercurial \
         python3-dbg \
         python3-pip \
         python3-venv \
-        build-essential \
+        software-properties-common \
+        sudo \
+        vim \
+        wget \
  && apt-get clean
 
 # Add a user with the same user_id as the user outside the container
@@ -49,11 +53,12 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu 
  && sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list' \
  && sudo apt-get update \
  && sudo apt-get install -y \
-    ros-melodic-desktop-full \
+    libgazebo9-dev \
+    gazebo9 \
     python-catkin-tools \
     python-rosinstall \
-    gazebo9 \
-    libgazebo9-dev \
+    ros-melodic-desktop-full \
+    ros-melodic-robot-localization \
  && sudo rosdep init \
  && sudo apt-get clean
 
