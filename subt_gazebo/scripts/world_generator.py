@@ -5,7 +5,6 @@ import os
 import sys
 
 import numpy as np
-
 import em
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
@@ -251,15 +250,11 @@ if __name__ == '__main__':
             help='Y origin in the grid that will be populated.')
     parser.add_argument('--target-length', type=int, default=1000,
             help='Target total length of the cave system to be generated')
-    parser.add_argument('--show', action='store_true',
-            help='Show schematic image of cave system generated')
-    parser.add_argument('--num-robots', type=int, default=0,
-            help='Number of robots to seed into cave system')
     parser.add_argument('--seed', type=int,
             help='Random number generator seed')
     parser.add_argument('-n', '--dry-run', action='store_true', default=False,
             help='print generated files to stdout, but do not write them to disk')
-    parser.add_argument('-o', '--output', default='/tmp/subt/',
+    parser.add_argument('-o', '--output-dir', default='/tmp/subt/',
         help='directory in which to output the generated files')
     parser.add_argument('output_name')
     args = parser.parse_args()
@@ -284,29 +279,19 @@ if __name__ == '__main__':
                 length_met = True
                 break
 
-    if args.show:
-        import matplotlib.pyplot as plt
-        dg = np.zeros((args.grid_size*3, args.grid_size*3))
-        draw_element(dg, root, 500)
-        plt.figure()
-        dg = dg / np.max(dg)
-        plt.imshow(dg)
-        plt.figure()
-        plt.imshow(grid.grid)
-        plt.show()
-
     template_data = {
+            'output_dir': args.output_dir,
             'world_name': args.output_name,
             'nodes': node_to_xml(root, (args.origin_x, args.origin_y), 200)
             }
 
     files = generate_files(template_data)
-    if not args.dry_run and not os.path.isdir(args.output):
-        if os.path.exists(args.output) and not os.path.isdir(args.output):
+    if not args.dry_run and not os.path.isdir(args.output_dir):
+        if os.path.exists(args.output_dir) and not os.path.isdir(args.output_dir):
             print('Error, given output directory exists but is not a directory.', file=sys.stderr)
             sys.exit(1)
-        print('creating directory: ' + args.output)
-        os.makedirs(args.output)
+        print('creating directory: ' + args.output_dir)
+        os.makedirs(args.output_dir)
 
     for name, content in files.items():
         if name.endswith('.template'):
@@ -320,7 +305,7 @@ if __name__ == '__main__':
                 ext = '.world'
             elif name.endswith('.launch'):
                 ext = '.launch'
-            file_path = os.path.join(args.output, args.output_name + ext)
+            file_path = os.path.join(args.output_dir, args.output_name + ext)
             print('writing file ' + file_path)
             with open(file_path, 'w+') as f:
                 f.write(content)

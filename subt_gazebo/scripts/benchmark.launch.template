@@ -1,5 +1,5 @@
 <launch>
-  <arg name="world_path" default="$(find gazebo_subt)/worlds/@(world_name).world"/>
+  <arg name="world_path" default="@(output_dir)/@(world_name).world"/>
 
   # Gazebo world.
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
