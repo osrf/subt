@@ -58,6 +58,7 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu 
     python-catkin-tools \
     python-rosinstall \
     ros-melodic-desktop-full \
+    ros-melodic-tf2-sensor-msgs \
     ros-melodic-robot-localization \
  && sudo rosdep init \
  && sudo apt-get clean
