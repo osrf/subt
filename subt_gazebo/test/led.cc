@@ -129,7 +129,6 @@ void LedTest::ResponseCb(ConstResponsePtr &_msg)
   msgs::Model modelMsg;
   modelMsg.ParseFromString(_msg->serialized_data());
 
-  int countVisual = 0;
   for (int ilink = 0; ilink < modelMsg.link_size(); ++ilink)
   {
     msgs::Link linkMsg = modelMsg.link(ilink);
@@ -137,22 +136,38 @@ void LedTest::ResponseCb(ConstResponsePtr &_msg)
     {
       msgs::Visual visualMsg = linkMsg.visual(ivisual);
 
+      int indxVisual;
+      if (visualMsg.name() == "light_model::light_source::lamp")
+      {
+        indxVisual = 0;
+      }
+      else if(visualMsg.name() == "light_model::handle::button")
+      {
+        indxVisual = 1;
+      }
+      else
+      {
+        continue;
+      }
+
+      std::cout << "visual: " << visualMsg.name() << ", flashing: " << this->led[indxVisual].flashing << ", trans: " << visualMsg.transparency() << std::endl;
+
       // Update to flash
       {
         std::lock_guard<std::mutex> lk(this->mutexData);
 
         // dim -> flash
-        if (!this->led[countVisual].flashing)
+        if (!this->led[indxVisual].flashing)
         {
           if (visualMsg.transparency() == 0)
           {
-            this->led[countVisual].interval
+            this->led[indxVisual].interval
               = currentSimTime.Double()
-                - this->led[countVisual].lastUpdate.Double();
+                - this->led[indxVisual].lastUpdate.Double();
             // Update the last update time
-            this->led[countVisual].lastUpdate = currentSimTime;
+            this->led[indxVisual].lastUpdate = currentSimTime;
             // Update the current flashing state.
-            this->led[countVisual].flashing = true;
+            this->led[indxVisual].flashing = true;
           }
         }
         // flash -> dim
@@ -160,18 +175,16 @@ void LedTest::ResponseCb(ConstResponsePtr &_msg)
         {
           if (visualMsg.transparency() > 0)
           {
-            this->led[countVisual].duration
+            this->led[indxVisual].duration
               = currentSimTime.Double()
-                - this->led[countVisual].lastUpdate.Double();
+                - this->led[indxVisual].lastUpdate.Double();
             // Update the last update time
-            this->led[countVisual].lastUpdate = currentSimTime;
+            this->led[indxVisual].lastUpdate = currentSimTime;
             // Update the current flashing state.
-            this->led[countVisual].flashing = false;
+            this->led[indxVisual].flashing = false;
           }
         }
       }
-
-      ++countVisual;
     }
   }
   {
