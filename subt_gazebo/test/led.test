@@ -3,7 +3,7 @@
   <param name="/use_sim_time" value="true" />
 
   <!-- gazebo server-->
-  <node name="gazebo" pkg="gazebo_ros" type="gzserver" respawn="false" output="screen" args="-r $(find subt_gazebo)/worlds/led_example.world --verbose" />
+  <node name="gazebo" pkg="gazebo_ros" type="gzserver" respawn="false" output="screen" args="-r $(find subt_gazebo)/test/led_test.world --verbose" />
 
   <!-- client -->
   <!--<node name="gazebo_gui" pkg="gazebo_ros" type="gzclient" respawn="false" output="screen"/>-->

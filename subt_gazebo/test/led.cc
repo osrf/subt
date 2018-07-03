@@ -21,15 +21,14 @@
 #include <thread>
 #include <vector>
 
-#include "ros/ros.h"
-#include "std_srvs/SetBool.h"
-
-#include <gtest/gtest.h>
-
-#include <gazebo/transport/transport.hh>
-#include <gazebo/msgs/msgs.hh>
 #include <gazebo/gazebo.hh>
 #include <gazebo/gazebo_client.hh>
+#include <gazebo/msgs/msgs.hh>
+#include <gazebo/rendering/Camera.hh>
+#include <gazebo/transport/transport.hh>
+#include <gtest/gtest.h>
+#include <ros/ros.h>
+#include <std_srvs/SetBool.h>
 
 #include "test/test_config.h"
 
@@ -59,14 +58,11 @@ class LedTest : public testing::Test
   {
   }
 
-  // Callback for Responses about entity_info
-  public: void ResponseCb(ConstResponsePtr &_msg);
+  // Callback for camera image
+  public: void CameraCb(ConstImageStampedPtr &_msg);
 
   /// \brief Initializer.
   protected: void InitRec();
-
-  /// \brief Send requests for entity information for a specified time.
-  public: void SendRequests();
 
   /// \brief A function to check if we got the assumed results.
   /// \param[in] _updated Whether the light has been updated within its phase.
@@ -74,22 +70,16 @@ class LedTest : public testing::Test
   /// \param[in] _interval Expected interval time.
   /// \param[in] _maxErr Maximum error which can be accepted in seconds.
   protected: void CheckRec(
-    const std::vector<bool> &_updated,
-    const std::vector<double> &_duration,
-    const std::vector<double> &_interval,
+    const bool &_updated,
+    const double &_duration,
+    const double &_interval,
     const double &_maxErr);
 
   /// \brief Node for Gazebo transport.
   protected: gazebo::transport::NodePtr node;
 
-  /// \brief Gazebo transport subscriber.
-  protected: transport::SubscriberPtr sceneSub;
-
-  /// \brief Publisher to request for entity_info
-  protected: transport::PublisherPtr entityInfoPub;
-
-  /// \brief Subscriber to get entity_info.
-  protected: transport::SubscriberPtr entityInfoSub;
+  /// \brief Subscriber to get the camera image.
+  protected: transport::SubscriberPtr cameraSub;
 
   /// \brief ROS node handler.
   protected: ros::NodeHandle n;
@@ -98,98 +88,71 @@ class LedTest : public testing::Test
   protected: ros::ServiceClient client;
 
   /// \brief A list of records about actual duration/interval.
-  private: struct RecordInfo led[2];
+  private: struct RecordInfo led;
 
   /// \brief True if a response is sent back.
-  private: bool responded;
+  private: bool called;
 
   /// \brief The time when the records were initialized.
   private: common::Time startTime;
 
   /// \brief Protect data from races.
   private: std::mutex mutexData;
-
-  /// \brief A thread to send requests for entity_info
-  protected: std::thread requester;
-
-  /// \brief True if the thread should keep running.
-  protected: bool running;
-
-  /// \brief Protect the flag.
-  protected: std::mutex mutexRunning;
 };
 
 /////////////////////////////////////////////////
-void LedTest::ResponseCb(ConstResponsePtr &_msg)
+void LedTest::CameraCb(ConstImageStampedPtr &_msg)
 {
   // Get the current time.
   common::Time currentSimTime(ros::Time::now().toSec());
 
-  // Extract necessary information from the response message.
-  msgs::Model modelMsg;
-  modelMsg.ParseFromString(_msg->serialized_data());
+  // Get the camera image
+  msgs::Image imageMsg = _msg->image();
+  common::Image image;
+  msgs::Set(image, imageMsg);
+  // Get the left top pixel.
+  ignition::math::Color color = image.Pixel(0, 0);
 
-  for (int ilink = 0; ilink < modelMsg.link_size(); ++ilink)
+  bool flashing = false;
+  if (color.R() > 0.9 && color.G() > 0.9 && color.B() > 0.9)
+    flashing = true;
+
+  std::cout << "flashing: " << flashing << std::endl;
+
+  // Update to flash
+  // dim -> flash
+  if (!this->led.flashing)
   {
-    msgs::Link linkMsg = modelMsg.link(ilink);
-    for (int ivisual = 0; ivisual < linkMsg.visual_size(); ++ivisual)
+    if (flashing)
     {
-      msgs::Visual visualMsg = linkMsg.visual(ivisual);
-
-      int indxVisual;
-      if (visualMsg.name() == "light_model::light_source::lamp")
-      {
-        indxVisual = 0;
-      }
-      else if(visualMsg.name() == "light_model::handle::button")
-      {
-        indxVisual = 1;
-      }
-      else
-      {
-        continue;
-      }
-
-      std::cout << "visual: " << visualMsg.name() << ", flashing: " << this->led[indxVisual].flashing << ", trans: " << visualMsg.transparency() << std::endl;
-
-      // Update to flash
-      {
-        std::lock_guard<std::mutex> lk(this->mutexData);
-
-        // dim -> flash
-        if (!this->led[indxVisual].flashing)
-        {
-          if (visualMsg.transparency() == 0)
-          {
-            this->led[indxVisual].interval
-              = currentSimTime.Double()
-                - this->led[indxVisual].lastUpdate.Double();
-            // Update the last update time
-            this->led[indxVisual].lastUpdate = currentSimTime;
-            // Update the current flashing state.
-            this->led[indxVisual].flashing = true;
-          }
-        }
-        // flash -> dim
-        else
-        {
-          if (visualMsg.transparency() > 0)
-          {
-            this->led[indxVisual].duration
-              = currentSimTime.Double()
-                - this->led[indxVisual].lastUpdate.Double();
-            // Update the last update time
-            this->led[indxVisual].lastUpdate = currentSimTime;
-            // Update the current flashing state.
-            this->led[indxVisual].flashing = false;
-          }
-        }
-      }
+      std::lock_guard<std::mutex> lk(this->mutexData);
+      this->led.interval
+        = currentSimTime.Double()
+          - this->led.lastUpdate.Double();
+      // Update the last update time
+      this->led.lastUpdate = currentSimTime;
+      // Update the current flashing state.
+      this->led.flashing = true;
+    }
+  }
+  // flash -> dim
+  else
+  {
+    if (!flashing)
+    {
+      std::lock_guard<std::mutex> lk(this->mutexData);
+      this->led.duration
+        = currentSimTime.Double()
+          - this->led.lastUpdate.Double();
+      // Update the last update time
+      this->led.lastUpdate = currentSimTime;
+      // Update the current flashing state.
+      this->led.flashing = false;
     }
   }
   {
     std::lock_guard<std::mutex> lk(this->mutexData);
-    this->responded = true;
+    this->called = true;
   }
 }
 
@@ -199,80 +162,45 @@ void LedTest::InitRec()
   common::Time currentSimTime(ros::Time::now().toSec());
   {
     std::lock_guard<std::mutex> lk(this->mutexData);
-    this->led[0].duration = -1;
-    this->led[1].duration = -1;
-    this->led[0].interval = -1;
-    this->led[1].interval = -1;
-    this->led[0].flashing = false;
-    this->led[1].flashing = false;
-    this->led[0].lastUpdate = currentSimTime;
-    this->led[1].lastUpdate = currentSimTime;
+    this->led.duration = -1;
+    this->led.interval = -1;
+    this->led.flashing = false;
+    this->led.lastUpdate = currentSimTime;
     this->startTime = currentSimTime;
-    this->responded = false;
-  }
-}
-
-/////////////////////////////////////////////////
-void LedTest::SendRequests()
-{
-  double timeToSleep = 0.1;
-  while(true)
-  {
-    msgs::Request msg;
-    msg.set_id(0);
-    msg.set_request("entity_info");
-    msg.set_data("light_model");
-    this->entityInfoPub->Publish(msg);
-    ros::Duration(timeToSleep).sleep();
-
-    std::lock_guard<std::mutex> lk(this->mutexRunning);
-    if (!running)
-    {
-      break;
-    }
+    this->called = false;
   }
 }
 
 /////////////////////////////////////////////////
 void LedTest::CheckRec(
-  const std::vector<bool> &_updated,
-  const std::vector<double> &_duration,
-  const std::vector<double> &_interval,
+  const bool &_updated,
+  const double &_duration,
+  const double &_interval,
   const double &_maxErr)
 {
   // Get necessary time information.
   common::Time endTime(ros::Time::now().toSec());
-  double lastUp[2];
   std::lock_guard<std::mutex> lk(this->mutexData);
-  ASSERT_TRUE(this->responded) << "The callback funciton was not called.";
-  lastUp[0] = this->led[0].lastUpdate.Double();
-  lastUp[1] = this->led[1].lastUpdate.Double();
+  ASSERT_TRUE(this->called) << "The callback funciton was not called.";
+  double lastUp = this->led.lastUpdate.Double();
 
   // Check records of each light
   // NOTE: Taking some errors caused by callback functions into consideration.
   // NOTE: If the interval is 0, the callback is not called.
-  for (int i = 0; i < 2; ++i)
+  if (_updated && _interval > 0)
   {
-    std::cout << "checking light[" << i << "]" << std::endl;
-    if (_updated[i] && _interval[i] > 0)
-    {
-      // The light is assumed to have been updated within its phase.
-      EXPECT_LE(endTime.Double() - lastUp[i],
-                std::max(_duration[i], _interval[i]) + _maxErr)
-      << "led[" << i << "]";
+    // The light is assumed to have been updated within its phase.
+    EXPECT_LE(endTime.Double() - lastUp,
+              std::max(_duration, _interval) + _maxErr);
 
-      // The light has been flashing by the assumed duration and interval.
-      EXPECT_NEAR(led[i].duration, _duration[i], _maxErr)
-      << "led[" << i << "]";
-      EXPECT_NEAR(led[i].interval, _interval[i], _maxErr)
-      << "led[" << i << "]";
-    }
-    else
-    {
-      // The light is assumed to have never been updated from the beginning.
-      EXPECT_LE(lastUp[i] - this->startTime.Double(), _maxErr)
-      << "led[" << i << "]";
-    }
+    // The light has been flashing by the assumed duration and interval.
+    EXPECT_NEAR(led.duration, _duration, _maxErr);
+    EXPECT_NEAR(led.interval, _interval, _maxErr);
+  }
+  else
+  {
+    // The light is assumed to have never been updated from the beginning.
+    EXPECT_LE(lastUp - this->startTime.Double(), _maxErr);
   }
 }
 
@@ -287,12 +215,10 @@ TEST_F(LedTest, switchOffAndOn)
   // Initialize the transport node
   this->node = transport::NodePtr(new transport::Node());
   this->node->Init();
-  this->entityInfoPub
-    = this->node->Advertise<msgs::Request>("~/request");
-  // Subcribe for entity_info.
-  this->entityInfoSub
-    = this->node->Subscribe("~/response",
-                            &LedTest::ResponseCb,
+  // Subcribe for camera.
+  this->cameraSub
+    = this->node->Subscribe("~/camera/link/camera/image",
+                            &LedTest::CameraCb,
                             dynamic_cast<LedTest*>(this));
 
   // Get a ROS service client.
@@ -300,11 +226,6 @@ TEST_F(LedTest, switchOffAndOn)
     = this->n.serviceClient<std_srvs::SetBool>("/light_switch");
   ASSERT_TRUE(this->client.isValid());
   ASSERT_TRUE(this->client.waitForExistence());
-
-  // Start the thread to repeatedly publishing a request.
-  this->running = true;
-  this->requester = std::thread(&LedTest::SendRequests,
-                                dynamic_cast<LedTest*>(this));
 
   ros::Duration(0.5).sleep();
 
@@ -315,10 +236,7 @@ TEST_F(LedTest, switchOffAndOn)
 
   // Check if the actual duration and interval are the supposed ones.
   {
-    std::vector<bool> updated = {true, true};
-    std::vector<double> duration = {1.0, 0.6};
-    std::vector<double> interval = {0.6, 0.8};
-    this->CheckRec(updated, duration, interval, 0.25);
+    this->CheckRec(true, 0.8, 0.6, 0.25);
   }
 
   // Turn them off.
@@ -341,10 +259,7 @@ TEST_F(LedTest, switchOffAndOn)
   // Check if all of them stopped to be updated.
   // NOTE: maximum error is set to 0.01 sec.
   {
-    std::vector<bool> updated = {false, false};
-    std::vector<double> duration = {-1, -1};
-    std::vector<double> interval = {-1, -1};
-    this->CheckRec(updated, duration, interval, 0.25);
+    this->CheckRec(false, -1, -1, 0.25);
   }
 
   // Turn them on.
@@ -362,22 +277,13 @@ TEST_F(LedTest, switchOffAndOn)
   // Initialize the records.
   this->InitRec();
 
-  ros::Duration(3.0).sleep();
+  ros::Duration(2.0).sleep();
 
   // Check if the duration and interval of lights were changed as expected.
   // NOTE: maximum error is set to 0.01 sec.
   {
-    std::vector<bool> updated = {true, true};
-    std::vector<double> duration = {1.0, 0.6};
-    std::vector<double> interval = {0.6, 0.8};
-    this->CheckRec(updated, duration, interval, 0.25);
+    this->CheckRec(true, 0.8, 0.6, 0.25);
   }
-
-  {
-    std::lock_guard<std::mutex> lk(this->mutexRunning);
-    this->running = false;
-  }
-  this->requester.join();
 }
 
 /////////////////////////////////////////////////
