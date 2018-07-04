@@ -92,7 +92,7 @@
         </visual>
       </link>
       <plugin name='light_control' filename='libRosLedPlugin.so'>
-        <main_switch_srvs>light_switch</main_switch_srvs>
+        <service_name>light_switch</service_name>
         <enable>true</enable>
         <flash_light>
           <light_id>light_source/lamp</light_id>

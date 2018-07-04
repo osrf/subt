@@ -87,7 +87,7 @@ class LedTest : public testing::Test
   /// \brief ROS service client.
   protected: ros::ServiceClient client;
 
-  /// \brief A list of records about actual duration/interval.
+  /// \brief A record about actual duration/interval.
   private: struct RecordInfo led;
 
   /// \brief True if a response is sent back.
@@ -116,8 +116,6 @@ void LedTest::CameraCb(ConstImageStampedPtr &_msg)
   bool flashing = false;
   if (color.R() > 0.9 && color.G() > 0.9 && color.B() > 0.9)
     flashing = true;
-
-  std::cout << "flashing: " << flashing << std::endl;
 
   // Update to flash
   // dim -> flash
@@ -229,17 +227,14 @@ TEST_F(LedTest, switchOffAndOn)
 
   ros::Duration(0.5).sleep();
 
-  // Initialize the records.
   this->InitRec();
 
   ros::Duration(2.0).sleep();
 
   // Check if the actual duration and interval are the supposed ones.
-  {
-    this->CheckRec(true, 0.8, 0.6, 0.25);
-  }
+  this->CheckRec(true, 0.8, 0.6, 0.25);
 
-  // Turn them off.
+  // Turn it off.
   {
     std_srvs::SetBool srv;
     srv.request.data = false;
@@ -256,13 +251,10 @@ TEST_F(LedTest, switchOffAndOn)
 
   ros::Duration(2.0).sleep();
 
-  // Check if all of them stopped to be updated.
-  // NOTE: maximum error is set to 0.01 sec.
-  {
-    this->CheckRec(false, -1, -1, 0.25);
-  }
+  // Check if it stopped to be updated.
+  this->CheckRec(false, -1, -1, 0.25);
 
-  // Turn them on.
+  // Turn it on.
   {
     std_srvs::SetBool srv;
     srv.request.data = true;
@@ -280,10 +272,9 @@ TEST_F(LedTest, switchOffAndOn)
   ros::Duration(2.0).sleep();
 
   // Check if the duration and interval of lights were changed as expected.
-  // NOTE: maximum error is set to 0.01 sec.
-  {
-    this->CheckRec(true, 0.8, 0.6, 0.25);
-  }
+  this->CheckRec(true, 0.8, 0.6, 0.25);
+
+  this->node->Fini();
 }
 
 /////////////////////////////////////////////////

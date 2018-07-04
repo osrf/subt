@@ -5,9 +5,6 @@
   <!-- gazebo server-->
   <node name="gazebo" pkg="gazebo_ros" type="gzserver" respawn="false" output="screen" args="-r $(find subt_gazebo)/test/led_test.world --verbose" />
 
-  <!-- client -->
-  <!--<node name="gazebo_gui" pkg="gazebo_ros" type="gzclient" respawn="false" output="screen"/>-->
-
   <test test-name="led" pkg="subt_gazebo" type="test_led" time-limit="10.0" />
 
 </launch>

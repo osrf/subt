@@ -39,9 +39,9 @@ void RosLedPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
 
   // Service name is renamed if an alternative one is given in SDF.
   std::string serviceName;
-  if (_sdf->HasElement("main_switch_srvs"))
+  if (_sdf->HasElement("service_name"))
   {
-    serviceName = _sdf->Get<std::string>("main_switch_srvs");
+    serviceName = _sdf->Get<std::string>("service_name");
   }
   else
   {
