@@ -21,13 +21,14 @@
 #include <thread>
 #include <vector>
 
+#include <gtest/gtest.h>
+#include <ros/ros.h>
+#include <std_srvs/SetBool.h>
+
 #include <gazebo/gazebo.hh>
 #include <gazebo/gazebo_client.hh>
 #include <gazebo/msgs/msgs.hh>
 #include <gazebo/transport/transport.hh>
-#include <gtest/gtest.h>
-#include <ros/ros.h>
-#include <std_srvs/SetBool.h>
 
 #include "test/test_config.h"
 
@@ -248,25 +249,24 @@ void FlashLightTest::CheckRec(
   // NOTE: If the interval is 0, the callback is not called.
   for (int i = 0; i < 4; ++i)
   {
-    std::cout << "checking light[" << i << "]" << std::endl;
     if (_updated[i] && _interval[i] > 0)
     {
       // The light is assumed to have been updated within its phase.
       EXPECT_LE(endTime.Double() - lastUp[i],
                 std::max(_duration[i], _interval[i]) + _maxErr)
-      << "flashLight[" << i << "]";
+      << "flashLight[" << i << "] is supposed to be updated.";
 
       // The light has been flashing by the assumed duration and interval.
       EXPECT_NEAR(flashLight[i].duration, _duration[i], _maxErr)
-      << "flashLight[" << i << "]";
+      << "flashLight[" << i << "] has a wrong duration time.";
       EXPECT_NEAR(flashLight[i].interval, _interval[i], _maxErr)
-      << "flashLight[" << i << "]";
+      << "flashLight[" << i << "] has a wrong interval time.";
     }
     else
     {
       // The light is assumed to have never been updated from the beginning.
       EXPECT_LE(lastUp[i] - this->startTime.Double(), _maxErr)
-      << "flashLight[" << i << "]";
+      << "flashLight[" << i << "] is supposed not to be updated.";
     }
   }
 }
