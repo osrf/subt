@@ -80,9 +80,6 @@ class FlashLightTest : public testing::Test
   /// \brief Node for Gazebo transport.
   protected: gazebo::transport::NodePtr node;
 
-  /// \brief Gazebo transport subscriber.
-  protected: transport::SubscriberPtr sceneSub;
-
   /// \brief Publisher to request for entity_info
   protected: transport::PublisherPtr entityInfoPub;
 
@@ -248,7 +245,6 @@ void FlashLightTest::CheckRec(
   // NOTE: If the interval is 0, the callback is not called.
   for (int i = 0; i < 4; ++i)
   {
-    std::cout << "checking light[" << i << "]" << std::endl;
     if (_updated[i] && _interval[i] > 0)
     {
       // The light is assumed to have been updated within its phase.
