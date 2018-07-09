@@ -132,18 +132,18 @@
       <plugin name='light_control' filename='libRosLedPlugin.so'>
         <service_name>light_switch</service_name>
         <enable>true</enable>
-        <flash_light>
-          <light_id>light_source/lamp</light_id>
+        <light>
+          <id>light_source/lamp</id>
           <duration>1.0</duration>
           <interval>0.6</interval>
           <enable>true</enable>
-        </flash_light>
-        <flash_light>
-          <light_id>handle/button</light_id>
+        </light>
+        <light>
+          <id>handle/button</id>
           <duration>0.6</duration>
           <interval>0.8</interval>
           <enable>true</enable>
-        </flash_light>
+        </light>
       </plugin>
     </model>
     <gravity>0 0 -9.8</gravity>
