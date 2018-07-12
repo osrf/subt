@@ -16,20 +16,36 @@
        See jackal_description for details. -->
   <arg name="config" default="$(arg default_config)" />
 
-  <!-- Load Jackal's description, controllers, and teleop nodes. -->
-  <include file="$(find jackal_description)/launch/description.launch">
-    <arg name="config" value="$(arg config)" />
+  <!-- Spawn Jackal -->
+  <include file="$(find subt_example)/launch/spawn_jackal.launch">
+    <arg name="namespace" value="robot1"/>
+    <arg name="x" value="0"/>
+    <arg name="y" value="0"/>
+    <arg name="z" value="1"/>
+    <arg name="yaw" value="0"/>
+    <arg name="urdf_extras" value="$(find subt_example)/urdf/jackal_equipments.urdf.xacro"/>
+    <arg name="config" value="$(arg config)"/>
   </include>
-  <include file="$(find jackal_control)/launch/control.launch" />
+  <include file="$(find subt_example)/launch/spawn_jackal.launch">
+    <arg name="namespace" value="robot2"/>
+    <arg name="x" value="2"/>
+    <arg name="y" value="1"/>
+    <arg name="z" value="0.2"/>
+    <arg name="yaw" value="3.14159"/>
+    <arg name="urdf_extras" value="$(find subt_example)/urdf/jackal_equipments.urdf.xacro"/>
+    <arg name="config" value="$(arg config)"/>
+  </include>
+  <include file="$(find subt_example)/launch/spawn_jackal.launch">
+    <arg name="namespace" value="robot3"/>
+    <arg name="x" value="-2"/>
+    <arg name="y" value="0"/>
+    <arg name="z" value="0.2"/>
+    <arg name="yaw" value="1.5"/>
+    <arg name="urdf_extras" value="$(find subt_example)/urdf/jackal_equipments.urdf.xacro"/>
+    <arg name="config" value="$(arg config)"/>
+  </include>
+
   <include file="$(find jackal_control)/launch/teleop.launch">
     <arg name="joystick" value="true"/>
   </include>
-
-  <!-- Spawn Jackal -->
-  <node name="urdf_spawner1" pkg="gazebo_ros" type="spawn_model"
-        args="-urdf -model jackal1 -robot_namespace jackal1 -param robot_description -x 0 -y 0 -z 1.0" />
-
-  <node name="urdf_spawner2" pkg="gazebo_ros" type="spawn_model"
-        args="-urdf -model jackal2 -robot_namespace jackal2 -param robot_description -x 2 -y 0 -z 1.0" />
-
 </launch>

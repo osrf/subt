@@ -12,6 +12,8 @@
     <arg name="namespace" value="robot1"/>
     <arg name="x" value="0"/>
     <arg name="y" value="0"/>
+    <arg name="z" value="0"/>
+    <arg name="yaw" value="0"/>
     <arg name="laser_enabled" value="$(arg laser_enabled)"/>
     <arg name="kinect_enabled" value="$(arg kinect_enabled)"/>
     <arg name="urdf_extras" value="$(find subt_example)/urdf/husky_equipments.urdf.xacro"/>
@@ -20,6 +22,8 @@
     <arg name="namespace" value="robot2"/>
     <arg name="x" value="2"/>
     <arg name="y" value="1"/>
+    <arg name="z" value="0"/>
+    <arg name="yaw" value="3.14159"/>
     <arg name="laser_enabled" value="$(arg laser_enabled)"/>
     <arg name="kinect_enabled" value="$(arg kinect_enabled)"/>
     <arg name="urdf_extras" value="$(find subt_example)/urdf/husky_equipments.urdf.xacro"/>
@@ -28,6 +32,8 @@
     <arg name="namespace" value="robot3"/>
     <arg name="x" value="-2"/>
     <arg name="y" value="0"/>
+    <arg name="z" value="0"/>
+    <arg name="yaw" value="1.5"/>
     <arg name="laser_enabled" value="$(arg laser_enabled)"/>
     <arg name="kinect_enabled" value="$(arg kinect_enabled)"/>
     <arg name="urdf_extras" value="$(find subt_example)/urdf/husky_equipments.urdf.xacro"/>

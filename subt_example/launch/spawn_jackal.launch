@@ -1,6 +1,4 @@
 <?xml version="1.0"?>
-
-<!-- reference: https://github.com/bsb808/nre_simmultihusky/blob/master/launch/husky.launch -->
 <launch>
   <arg name="namespace" default="robot1"/>
   <!-- Generate the tf_prefix from the namespace -->
@@ -12,41 +10,39 @@
   <arg name="y" default="0"/>
   <arg name="z" default="0"/>
   <arg name="yaw" default="0"/>
-  <arg name="laser_enabled" default="false"/>
-  <arg name="kinect_enabled" default="false"/>
-  <arg name="ur5_enabled" default="false"/>
   <arg name="urdf_extras" default=""/>
+
+  <arg name="config" default="base" />
 
   <group ns="$(arg namespace)">
     <!-- load robot description -->
-    <param name="robot_description" command="$(find xacro)/xacro.py '$(find subt_example)/urdf/husky.urdf.xacro'
-             laser_enabled:=$(arg laser_enabled)
-             ur5_enabled:=$(arg ur5_enabled)
-             kinect_enabled:=$(arg kinect_enabled)
-             nsp:=$(arg namespace)
-             tfpre:=$(arg tfpre)
-             urdf_extras:=$(arg urdf_extras)
-             " />
+    <param name="robot_description"
+      command="$(find jackal_description)/scripts/env_run
+               $(find jackal_description)/urdf/configs/$(arg config)
+               $(find xacro)/xacro $(find subt_example)/urdf/jackal.urdf.xacro
+               nsp:=$(arg namespace)
+               urdf_extras:=$(arg urdf_extras)
+              " />
 
     <!-- spawn the model with a specified name -->
-    <node name="spawn_husky_model" pkg="gazebo_ros" type="spawn_model"
-      args="-x $(arg x) -y $(arg y) -z $(arg z) -Y $(arg yaw) -unpause -urdf -param robot_description -model Husky_$(arg namespace)"/>
+    <node name="spawn_jackal_model" pkg="gazebo_ros" type="spawn_model"
+      args="-x $(arg x) -y $(arg y) -z $(arg z) -Y $(arg yaw) -unpause -urdf -param robot_description -model Jackal_$(arg namespace)"/>
 
     <!-- publish the robot's states -->
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 
     <!-- load control configurations -->
-    <rosparam command="load" file="$(find husky_control)/config/control.yaml" />
+    <rosparam command="load" file="$(find jackal_control)/config/control.yaml" />
 
     <!-- substitute the base link frame -->
-    <rosparam param="husky_velocity_controller/base_frame_id" subst_value="True">$(arg tfpre)/base_link</rosparam>
+    <rosparam param="jackal_velocity_controller/base_frame_id" subst_value="True">$(arg tfpre)/base_link</rosparam>
 
     <!-- spawn a controller -->
-    <node name="base_controller_spawner" pkg="controller_manager" type="spawner" args="husky_joint_publisher husky_velocity_controller --shutdown-timeout 3"/>
+    <node name="base_controller_spawner" pkg="controller_manager" type="spawner" args="jackal_joint_publisher jackal_velocity_controller --shutdown-timeout 3"/>
 
     <!-- localication -->
     <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization">
-        <rosparam command="load" file="$(find husky_control)/config/localization.yaml" />
+        <rosparam command="load" file="$(find jackal_control)/config/robot_localization.yaml" />
     </node>
 
     <!-- Fake localization: Uses the ground truth odometry from the
@@ -68,11 +64,7 @@
       <param name="link_name" value="$(arg tfpre)/base_link" />
     </node>
 
-    <!-- Twist mux is a node from Clearpath that mixes control commands from multiple sources -->
-    <node pkg="twist_mux" type="twist_mux" name="twist_mux">
-      <rosparam command="load" file="$(find husky_control)/config/twist_mux.yaml" />
-      <remap from="cmd_vel_out" to="husky_velocity_controller/cmd_vel"/>
-    </node>
-
+    <node pkg="topic_tools" type="relay" name="cmd_vel_relay"
+      args="cmd_vel jackal_velocity_controller/cmd_vel" />
   </group>
 </launch>
