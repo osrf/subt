@@ -127,74 +127,18 @@
       </inertial>
   </link>
 
-  <xacro:unless value="$(optenv JACKAL_FRONT_ACCESSORY_FENDER 0)">
-    <link name="front_fender_link">
-      <visual>
-        <geometry>
-          <mesh filename="package://jackal_description/meshes/jackal-fender.stl"/>
-        </geometry>
-        <material name="yellow" />
-      </visual>
-    </link>
-  </xacro:unless>
-
-  <xacro:if value="$(optenv JACKAL_FRONT_ACCESSORY_FENDER 0)">
-    <link name="front_fender_link">
-      <visual>
-        <geometry>
-          <mesh filename="package://jackal_description/meshes/accessory_fender.stl"/>
-        </geometry>
-        <material name="yellow" />
-      </visual>
-    </link>
-
-    <link name="front_fender_accessory_link"/>
-    <joint name="front_fender_accessory_joint" type="fixed">
-      <origin xyz="0.25629 0 0.07455" rpy="${PI} 0 0" />
-      <parent link="front_fender_link" />
-      <child link="front_fender_accessory_link" />
-    </joint>
-  </xacro:if>
-
-  <joint name="front_fender_joint" type="fixed">
-    <origin xyz="0 0 0" rpy="0 0 0"/>
+  <link name="fenders_link">
+    <visual>
+      <origin xyz="0 0 ${footprint_vertical_offset}" rpy="${PI/2} 0 ${PI/2}"/>
+      <geometry>
+        <mesh filename="package://jackal_description/meshes/jackal-fenders.stl"/>
+      </geometry>
+      <material name="yellow" />
+    </visual>
+  </link>
+  <joint name="fenders_joint" type="fixed">
     <parent link="chassis_link" />
-    <child link="front_fender_link" />
-  </joint>
-
-  <xacro:unless value="$(optenv JACKAL_REAR_ACCESSORY_FENDER 0)">
-    <link name="rear_fender_link">
-      <visual>
-        <geometry>
-          <mesh filename="package://jackal_description/meshes/jackal-fender.stl"/>
-        </geometry>
-        <material name="yellow" />
-      </visual>
-    </link>
-  </xacro:unless>
-
-  <xacro:if value="$(optenv JACKAL_REAR_ACCESSORY_FENDER 0)">
-    <link name="rear_fender_link">
-      <visual>
-        <geometry>
-          <mesh filename="package://jackal_description/meshes/accessory_fender.stl"/>
-        </geometry>
-        <material name="yellow" />
-      </visual>
-    </link>
-
-    <link name="rear_fender_accessory_link"/>
-    <joint name="rear_fender_accessory_joint" type="fixed">
-      <origin xyz="0.25629 0 0.07455" rpy="${PI} 0 0" />
-      <parent link="rear_fender_link" />
-      <child link="rear_fender_accessory_link" />
-    </joint>
-  </xacro:if>
-
-  <joint name="rear_fender_joint" type="fixed">
-    <origin xyz="0 0 0" rpy="0 0 ${PI}"/>
-    <parent link="chassis_link" />
-    <child link="rear_fender_link" />
+    <child link="fenders_link" />
   </joint>
 
   <!-- TODO: Make this internal_imu_link or something, and use a mixed-in xacro
@@ -293,24 +237,24 @@
   </gazebo>
 
   <gazebo reference="base_link">
-   <turnGravityOff>false</turnGravityOff>
+    <turnGravityOff>false</turnGravityOff>
   </gazebo>
 
   <gazebo reference="chassis_link">
-   <material>Gazebo/DarkGrey</material>
-   <turnGravityOff>false</turnGravityOff>
+    <material>Gazebo/DarkGrey</material>
+    <turnGravityOff>false</turnGravityOff>
   </gazebo>
-   <gazebo reference="imu_link">
-   <turnGravityOff>false</turnGravityOff>
+    <gazebo reference="imu_link">
+    <turnGravityOff>false</turnGravityOff>
   </gazebo>
 
   <gazebo reference="navsat_link">
-   <material>Gazebo/DarkGrey</material>
-   <turnGravityOff>false</turnGravityOff>
+    <material>Gazebo/DarkGrey</material>
+    <turnGravityOff>false</turnGravityOff>
   </gazebo>
   <gazebo reference="fenders_link">
-   <material>Gazebo/Yellow</material>
-   <turnGravityOff>false</turnGravityOff>
+    <material>Gazebo/Yellow</material>
+    <turnGravityOff>false</turnGravityOff>
   </gazebo>
 
   <!-- Optional standard accessories, including their simulation data. The rendering
