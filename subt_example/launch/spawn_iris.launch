@@ -7,7 +7,7 @@
 
   <include file="$(find rotors_gazebo)/launch/spawn_mav.launch">
     <arg name="mav_name" value="$(arg mav_name)" />
-    <arg name="model" value="$(find subt_iris_description)/urdf/iris_with_sensors.xacro" />
+    <arg name="model" value="$(find subt_example)/urdf/iris_with_sensors.xacro" />
     <arg name="enable_logging" value="false" />
     <arg name="enable_ground_truth" value="false" />
     <arg name="log_file" value="iris"/>

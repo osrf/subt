@@ -16,5 +16,8 @@
     <plugin name="comms_broker_plugin" filename="libCommsBrokerPlugin.so">
     </plugin>
 
+    <!-- rotors_gazebo support -->
+    <plugin name="ros_interface_plugin" filename="librotors_gazebo_ros_interface_plugin.so"/>
+
   </world>
 </sdf>

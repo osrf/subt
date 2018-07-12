@@ -1,17 +1,12 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="world_name" default="basic"/>
-  <arg name="paused" value="false"/>
-
-  <include file="$(find gazebo_ros)/launch/empty_world.launch">
-    <!-- spawns world plugin librotors_gazebo_ros_interface_plugin.so -->
-    <arg name="world_name" value="$(find rotors_gazebo)/worlds/$(arg world_name).world"/>
-    <arg name="paused" value="$(arg paused)"/>
-    <arg name="verbose" value="true"/>
+  
+  <!-- Launch the SubT world. -->
+  <include file="$(find subt_gazebo)/launch/lava_tube.launch">
   </include>
 
   <group ns="iris">
-    <include file="$(find subt_iris_description)/launch/spawn_iris.launch">
+    <include file="$(find subt_example)/launch/spawn_iris.launch">
       <arg name="mav_name" value="iris" />
     </include>
 
