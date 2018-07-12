@@ -62,6 +62,10 @@ install(DIRECTORY launch/
 install(DIRECTORY urdf/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/urdf)
 
+# Install a python script
+catkin_install_python(PROGRAMS scripts/teleop_twist_keyboard.py
+DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+
 ## Mark executables and/or libraries for installation
 install(TARGETS subt_example_node
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
