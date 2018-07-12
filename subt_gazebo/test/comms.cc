@@ -16,26 +16,28 @@
 */
 
 #include <gtest/gtest.h>
+#include <ros/ros.h>
 #include <chrono>
-#include <gazebo/physics/physics.hh>
-#include <gazebo/test/ServerFixture.hh>
 
-#include "subt_gazebo/protobuf/datagram.pb.h"
 #include "subt_gazebo/CommonTypes.hh"
 #include "subt_gazebo/CommsClient.hh"
 #include "test/test_config.h"
+#include "TestUtils.hh"
 
-using namespace gazebo;
 using namespace subt;
 
 /////////////////////////////////////////////////
 /// \brief A fixture class for testing the CommsBroker plugin within Gazebo and
 /// clients using the CommsClient library.
-class CommsTest : public ServerFixture
+class CommsTest : public testing::Test, public subt::GazeboTest
 {
   /// \brief Constructor.
   public: CommsTest()
   {
+    // Wait until Gazebo is ready.
+    using namespace std::chrono_literals;
+    EXPECT_TRUE(this->WaitForGazebo(5s));
+
     EXPECT_TRUE(this->client1.Bind(&CommsTest::OnUnicastMsg, this));
     EXPECT_TRUE(this->client1.Bind(&CommsTest::OnMulticastMsg, this,
       kMulticast));
@@ -52,20 +54,20 @@ class CommsTest : public ServerFixture
   {
     {
       // An empty address is not allowed.
-      subt::CommsClient client("");
+      CommsClient client("");
       EXPECT_FALSE(client.Bind(&CommsTest::OnUnicastMsg, this));
       EXPECT_FALSE(client.Bind(&CommsTest::OnMulticastMsg, this, kMulticast));
     }
 
     {
       // Bind() to an address that is not local is not allowed.
-      subt::CommsClient client("addr");
+      CommsClient client("addr");
       EXPECT_FALSE(client.Bind(&CommsTest::OnUnicastMsg, this, "other"));
     }
 
     {
       // A double Bind() is not allowed.
-      subt::CommsClient client("addr");
+      CommsClient client("addr");
       EXPECT_TRUE(client.Bind(&CommsTest::OnUnicastMsg, this));
       EXPECT_FALSE(client.Bind(&CommsTest::OnUnicastMsg, this));
       EXPECT_TRUE(client.Bind(&CommsTest::OnMulticastMsg, this, kMulticast));
@@ -81,8 +83,8 @@ class CommsTest : public ServerFixture
   {
     this->unicastCallbackExecuted = true;
     EXPECT_EQ("addr2", _srcAddress);
-    EXPECT_TRUE(_dstAddress == "addr1" || _dstAddress == subt::kBroadcast);
-    EXPECT_EQ(subt::kDefaultPort, _dstPort);
+    EXPECT_TRUE(_dstAddress == "addr1" || _dstAddress == kBroadcast);
+    EXPECT_EQ(kDefaultPort, _dstPort);
     EXPECT_EQ("_data_", _data);
   }
 
@@ -94,8 +96,8 @@ class CommsTest : public ServerFixture
   {
     this->multicastCallbackExecuted = true;
     EXPECT_EQ("addr2", _srcAddress);
-    EXPECT_EQ(subt::kMulticast, _dstAddress);
-    EXPECT_EQ(subt::kDefaultPort, _dstPort);
+    EXPECT_EQ(kMulticast, _dstAddress);
+    EXPECT_EQ(kDefaultPort, _dstPort);
     EXPECT_EQ("_data_", _data);
   }
 
@@ -113,10 +115,10 @@ class CommsTest : public ServerFixture
   protected: bool multicastCallbackExecuted = false;
 
   /// \brief A comms client.
-  protected: subt::CommsClient client1{"addr1"};
+  protected: CommsClient client1{"addr1"};
 
   /// \brief A comms client.
-  protected: subt::CommsClient client2{"addr2"};
+  protected: CommsClient client2{"addr2"};
 };
 
 /////////////////////////////////////////////////
@@ -130,13 +132,6 @@ TEST_F(CommsTest, Comms)
 {
   using namespace std::chrono_literals;
 
-  // Load a world
-  Load("lava_tube.world", false);
-
-  // Get a pointer to the world, make sure world loads.
-  physics::WorldPtr world = physics::get_world("default");
-  ASSERT_TRUE(world != NULL);
-
   // Unicast.
   this->client2.SendTo("_data_", "addr1");
 
@@ -147,7 +142,7 @@ TEST_F(CommsTest, Comms)
   this->Reset();
 
   // Multicast.
-  this->client2.SendTo("_data_", subt::kMulticast);
+  this->client2.SendTo("_data_", kMulticast);
 
   waitUntilBoolVar(this->multicastCallbackExecuted, 1ms, 300);
   EXPECT_FALSE(this->unicastCallbackExecuted);
@@ -156,7 +151,7 @@ TEST_F(CommsTest, Comms)
   this->Reset();
 
   // Broadcast.
-  this->client2.SendTo("_data_", subt::kBroadcast);
+  this->client2.SendTo("_data_", kBroadcast);
 
   waitUntilBoolVar(this->unicastCallbackExecuted, 1ms, 300);
   EXPECT_TRUE(this->unicastCallbackExecuted);
@@ -166,8 +161,8 @@ TEST_F(CommsTest, Comms)
 /////////////////////////////////////////////////
 int main(int argc, char **argv)
 {
-  initGazeboEnv();
-
   ::testing::InitGoogleTest(&argc, argv);
+  ros::init(argc, argv, "comms_test");
+
   return RUN_ALL_TESTS();
 }
