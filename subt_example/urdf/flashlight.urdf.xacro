@@ -1,19 +1,74 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro" name="flashlight">
-  <xacro:macro name="flashlight" params="flashlight_prefix">
-    <include>
-      <uri>model://flashlight</uri>
-    </include>
-
-    <joint name="joint" type="fixed">
-  		<parent link="base_link"/>
-  		<child link="flashlight_model::handle"/>
-    </joint>
-
-		<!--<gazebo>
-      <plugin name="${flashlight_prefix}_flashlight_control" filename="libdummy.so">
-        <service_name>${flash_light_prefix}_flashlight/switch</service_name>
-      </plugin>
-		</gazebo>-->
+  <xacro:macro name="flashlight" params="flashlight_prefix parent_link *pose">
+    <gazebo>
+      <model name='${flashlight_prefix}_flashlight_model'>
+        <xacro:insert_block name="pose"/>
+        <link name='handle'>
+          <pose>0 0 0.075 0 0 0</pose>
+          <collision name='collision'>
+            <geometry>
+              <cylinder>
+                <radius>0.025</radius>
+                <length>0.15</length>
+              </cylinder>
+            </geometry>
+          </collision>
+          <visual name='visual'>
+            <geometry>
+              <cylinder>
+                <radius>0.025</radius>
+                <length>0.15</length>
+              </cylinder>
+            </geometry>
+          </visual>
+        </link>
+        <link name='light_source'>
+          <pose>0 0 0.15 0 0 0</pose>
+          <light name='lamp' type='spot'>
+            <pose>0 0 0.0 0 3.14159 0</pose>
+            <attenuation>
+              <range>50</range>
+              <linear>0.05</linear>
+            </attenuation>
+            <diffuse>1 1 1 1</diffuse>
+            <specular>1 1 1 1</specular>
+            <spot>
+              <inner_angle>1</inner_angle>
+              <outer_angle>1.1</outer_angle>
+              <falloff>1</falloff>
+            </spot>
+            <direction>0 0 -1</direction>
+          </light>
+          <visual name='lamp'>
+            <geometry>
+              <sphere>
+                <radius>0.025</radius>
+              </sphere>
+            </geometry>
+            <transparency>0</transparency>
+            <material>
+              <ambient>1 1 1 1</ambient>
+              <diffuse>1 1 1 1</diffuse>
+              <specular>1 1 1 1</specular>
+              <emissive>1 1 1 1</emissive>
+            </material>
+          </visual>
+        </link>
+        <joint name='joint' type='fixed'>
+          <parent>handle</parent>
+          <child>light_source</child>
+        </joint>
+        <!--
+        <plugin?
+        -->
+      </model>
+    </gazebo>
+    <gazebo>
+      <joint name='${flashlight_prefix}_flashlight_joint' type='fixed'>
+        <parent>${parent_link}</parent>
+        <child>${flashlight_prefix}_flashlight_model::handle</child>
+      </joint>
+    </gazebo>
 	</xacro:macro>
 </robot>

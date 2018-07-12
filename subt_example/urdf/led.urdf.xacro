@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="flashlight">
+  <xacro:macro name="led" params="led_prefix parent_link color *pose">
+    <gazebo>
+      <model name='${led_prefix}_led_model'>
+        <xacro:insert_block name='pose'/>
+        <link name='led_body'>
+          <collision name='collision'>
+            <geometry>
+              <sphere>
+                <radius>0.025</radius>
+              </sphere>
+            </geometry>
+          </collision>
+          <visual name='visual'>
+            <geometry>
+              <sphere>
+                <radius>0.025</radius>
+              </sphere>
+            </geometry>
+            <material>
+              <ambient>1 1 1 1</ambient>
+              <diffuse>1 1 1 1</diffuse>
+              <specular>1 1 1 1</specular>
+              <emissive>${color} 1</emissive>
+            </material>
+          </visual>
+          <light name='light' type='point'>
+            <pose>0 0 0 0 0 0</pose>
+            <attenuation>
+              <range>0.20</range>
+              <linear>0.10</linear>
+            </attenuation>
+            <diffuse>${color} 1</diffuse>
+            <specular>${color} 1</specular>
+          </light>
+        </link>
+        <!--
+        <plugin?
+        -->
+      </model>
+    </gazebo>
+    <gazebo>
+      <joint name='${led_prefix}_led_joint' type='fixed'>
+        <parent>${parent_link}</parent>
+        <child>${led_prefix}_led_model::led_body</child>
+      </joint>
+    </gazebo>
+	</xacro:macro>
+</robot>

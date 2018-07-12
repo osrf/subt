@@ -9,9 +9,28 @@
   <arg name="kinect_enabled" default="false"/>
 
   <include file="$(find husky_gazebo)/launch/spawn_husky.launch">
+    <arg name="robot_namespace" value="robot1"/>
+    <arg name="x" value="0"/>
+    <arg name="y" value="0"/>
     <arg name="laser_enabled" value="$(arg laser_enabled)"/>
     <arg name="kinect_enabled" value="$(arg kinect_enabled)"/>
-    <arg name="urdf_extras" value="$(find subt_example)/urdf/husky.equipments.urdf.xacro"
+    <arg name="urdf_extras" value="$(find subt_example)/urdf/husky_equipments.urdf.xacro"/>
+  </include>
+  <include file="$(find husky_gazebo)/launch/spawn_husky.launch">
+    <arg name="robot_namespace" value="robot2"/>
+    <arg name="x" value="2"/>
+    <arg name="y" value="1"/>
+    <arg name="laser_enabled" value="$(arg laser_enabled)"/>
+    <arg name="kinect_enabled" value="$(arg kinect_enabled)"/>
+    <arg name="urdf_extras" value="$(find subt_example)/urdf/husky_equipments.urdf.xacro"/>
+  </include>
+  <include file="$(find husky_gazebo)/launch/spawn_husky.launch">
+    <arg name="robot_namespace" value="robot3"/>
+    <arg name="x" value="-2"/>
+    <arg name="y" value="0"/>
+    <arg name="laser_enabled" value="$(arg laser_enabled)"/>
+    <arg name="kinect_enabled" value="$(arg kinect_enabled)"/>
+    <arg name="urdf_extras" value="$(find subt_example)/urdf/husky_equipments.urdf.xacro"/>
   </include>
 
   <include file="$(find teleop_twist_joy)/launch/teleop.launch"/>
