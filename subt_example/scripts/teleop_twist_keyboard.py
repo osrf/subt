@@ -32,6 +32,8 @@ q/z : increase/decrease max speeds by 10%
 w/x : increase/decrease only linear speed by 10%
 e/c : increase/decrease only angular speed by 10%
 
+0-9 : select robots by index
+
 CTRL-C to quit
 """
 
@@ -65,6 +67,19 @@ speedBindings={
 		'c':(1,.9),
 	      }
 
+selectBindings={
+        '1':1,
+        '2':2,
+        '3':3,
+        '4':4,
+        '5':5,
+        '6':6,
+        '7':7,
+        '8':8,
+        '9':9,
+        '0':0,
+}
+
 def getKey():
 	tty.setraw(sys.stdin.fileno())
 	select.select([sys.stdin], [], [], 0)
@@ -79,7 +94,11 @@ def vels(speed,turn):
 if __name__=="__main__":
     	settings = termios.tcgetattr(sys.stdin)
 
-	pub = rospy.Publisher('robot1/cmd_vel', Twist, queue_size = 1)
+	indexRobot = 1
+	pub = []
+	for i in range(0,10):
+		pub.append(rospy.Publisher('robot' + str(i) + '/cmd_vel', Twist, queue_size = 1))
+
 	rospy.init_node('teleop_twist_keyboard')
 
 	speed = rospy.get_param("~speed", 0.5)
@@ -108,6 +127,10 @@ if __name__=="__main__":
 				if (status == 14):
 					print(msg)
 				status = (status + 1) % 15
+			elif key in selectBindings.keys():
+				indexRobot = selectBindings[key]
+				print("You select robot" + str(indexRobot))
+				continue
 			else:
 				x = 0
 				y = 0
@@ -119,7 +142,7 @@ if __name__=="__main__":
 			twist = Twist()
 			twist.linear.x = x*speed; twist.linear.y = y*speed; twist.linear.z = z*speed;
 			twist.angular.x = 0; twist.angular.y = 0; twist.angular.z = th*turn
-			pub.publish(twist)
+			pub[indexRobot].publish(twist)
 
 	except Exception as e:
 		print(e)
@@ -128,6 +151,7 @@ if __name__=="__main__":
 		twist = Twist()
 		twist.linear.x = 0; twist.linear.y = 0; twist.linear.z = 0
 		twist.angular.x = 0; twist.angular.y = 0; twist.angular.z = 0
-		pub.publish(twist)
+		for i in range(0,10):
+				pub[indexRobot].publish(twist)
 
-    		termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
+    	termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
