@@ -45,7 +45,9 @@
     <arg name="config" value="$(arg config)"/>
   </include>
 
+<!--
   <include file="$(find jackal_control)/launch/teleop.launch">
     <arg name="joystick" value="true"/>
   </include>
+-->
 </launch>
