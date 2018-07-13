@@ -9,7 +9,7 @@
   <arg name="kinect_enabled" default="false"/>
 
   <include file="$(find subt_example)/launch/spawn_husky.launch">
-    <arg name="namespace" value="robot1"/>
+    <arg name="namespace" value="robotA"/>
     <arg name="x" value="0"/>
     <arg name="y" value="0"/>
     <arg name="z" value="0"/>
@@ -19,7 +19,7 @@
     <arg name="urdf_extras" value="$(find subt_example)/urdf/husky_equipments.urdf.xacro"/>
   </include>
   <include file="$(find subt_example)/launch/spawn_husky.launch">
-    <arg name="namespace" value="robot2"/>
+    <arg name="namespace" value="robotB"/>
     <arg name="x" value="2"/>
     <arg name="y" value="1"/>
     <arg name="z" value="0"/>
@@ -29,7 +29,7 @@
     <arg name="urdf_extras" value="$(find subt_example)/urdf/husky_equipments.urdf.xacro"/>
   </include>
   <include file="$(find subt_example)/launch/spawn_husky.launch">
-    <arg name="namespace" value="robot3"/>
+    <arg name="namespace" value="robotC"/>
     <arg name="x" value="-2"/>
     <arg name="y" value="0"/>
     <arg name="z" value="0"/>

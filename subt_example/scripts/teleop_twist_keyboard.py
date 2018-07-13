@@ -7,7 +7,7 @@ import rospy
 
 from geometry_msgs.msg import Twist
 
-import sys, select, termios, tty
+import sys, select, termios, tty, yaml, rospkg
 
 msg = """
 Reading from the keyboard  and Publishing to Twist!
@@ -67,19 +67,6 @@ speedBindings={
 		'c':(1,.9),
 	      }
 
-selectBindings={
-        '1':1,
-        '2':2,
-        '3':3,
-        '4':4,
-        '5':5,
-        '6':6,
-        '7':7,
-        '8':8,
-        '9':9,
-        '0':0,
-}
-
 def getKey():
 	tty.setraw(sys.stdin.fileno())
 	select.select([sys.stdin], [], [], 0)
@@ -92,12 +79,25 @@ def vels(speed,turn):
 	return "currently:\tspeed %s\tturn %s " % (speed,turn)
 
 if __name__=="__main__":
-    	settings = termios.tcgetattr(sys.stdin)
+	settings = termios.tcgetattr(sys.stdin)
 
-	indexRobot = 1
-	pub = []
-	for i in range(0,10):
-		pub.append(rospy.Publisher('robot' + str(i) + '/cmd_vel', Twist, queue_size = 1))
+	rospack = rospkg.RosPack()
+
+	try:
+		f = open(rospack.get_path('subt_example') + '/config/robot_list.yaml', 'r')
+		dict_robot = yaml.load_all(f.read())
+	except Exception as e:
+		print(e)
+
+	robotNames = {}
+	pubs = {}
+	for robot in dict_robot:
+		key = str((len(pubs)+1)%10)
+		robotNames[key] = robot['name']
+		pubs[key] = rospy.Publisher(robot['name'] + '/cmd_vel', Twist, queue_size = 1)
+		if len(pubs) == 10:
+			break
+	currntRobotKey = '1'
 
 	rospy.init_node('teleop_twist_keyboard')
 
@@ -112,6 +112,13 @@ if __name__=="__main__":
 	try:
 		print(msg)
 		print(vels(speed,turn))
+		print('--------------------------')
+		print('to switch robots:')
+		for i in range(0,len(pubs)):
+			key = str((i+1)%10)
+			print(key + ': ' + robotNames[key])
+		print('--------------------------')
+
 		while(1):
 			key = getKey()
 			if key in moveBindings.keys():
@@ -127,9 +134,9 @@ if __name__=="__main__":
 				if (status == 14):
 					print(msg)
 				status = (status + 1) % 15
-			elif key in selectBindings.keys():
-				indexRobot = selectBindings[key]
-				print("You select robot" + str(indexRobot))
+			elif key in robotNames.keys():
+				currentRobotKey = key
+				print("You selected " + robotNames[key] + " to control")
 				continue
 			else:
 				x = 0
@@ -142,7 +149,7 @@ if __name__=="__main__":
 			twist = Twist()
 			twist.linear.x = x*speed; twist.linear.y = y*speed; twist.linear.z = z*speed;
 			twist.angular.x = 0; twist.angular.y = 0; twist.angular.z = th*turn
-			pub[indexRobot].publish(twist)
+			pubs[currentRobotKey].publish(twist)
 
 	except Exception as e:
 		print(e)
@@ -151,7 +158,7 @@ if __name__=="__main__":
 		twist = Twist()
 		twist.linear.x = 0; twist.linear.y = 0; twist.linear.z = 0
 		twist.angular.x = 0; twist.angular.y = 0; twist.angular.z = 0
-		for i in range(0,10):
-				pub[indexRobot].publish(twist)
+		for key in pubs.keys():
+			pubs[key].publish(twist)
 
     	termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
