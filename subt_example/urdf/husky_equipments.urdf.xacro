@@ -8,7 +8,7 @@
     <pose>0.3 -0.3 0.3 0 ${M_PI*0.5} ${-M_PI*0.1}</pose>
   </xacro:flashlight>
   <xacro:flashlight flashlight_prefix="downward" parent_link="base_link">
-    <pose>0.4 0 0.4 0 ${M_PI*0.75} 0</pose>
+    <pose>0.4 0 0.4 0 ${M_PI*0.6} 0</pose>
   </xacro:flashlight>
   <xacro:flashlight flashlight_prefix="left" parent_link="base_link">
     <pose>0.3 0.3 0.3 0 ${M_PI*0.5} ${M_PI*0.1}</pose>
