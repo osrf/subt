@@ -97,7 +97,7 @@ if __name__=="__main__":
 		pubs[key] = rospy.Publisher(robot['name'] + '/cmd_vel', Twist, queue_size = 1)
 		if len(pubs) == 10:
 			break
-	currntRobotKey = '1'
+	currentRobotKey = '1'
 
 	rospy.init_node('teleop_twist_keyboard')
 
