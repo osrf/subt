@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro" name="lights">
 
-  <xacro:include filename="$(find subt_example)/urdf/flashlight.urdf.xacro" />
-  <xacro:include filename="$(find subt_example)/urdf/led.urdf.xacro" />
+  <xacro:include filename="$(find subt_gazebo)/urdf/flashlight.urdf.xacro" />
+  <xacro:include filename="$(find subt_gazebo)/urdf/led.urdf.xacro" />
 
   <xacro:flashlight flashlight_prefix="right" parent_link="base_link">
     <pose>0.3 -0.3 0.3 0 ${M_PI*0.5} ${-M_PI*0.1}</pose>
