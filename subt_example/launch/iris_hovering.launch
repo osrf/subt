@@ -10,8 +10,6 @@
       <arg name="mav_name" value="iris" />
     </include>
 
-    <!-- TODO(sloretz) spawn node to turn imu/magnetometer/pressure sensor into odometry -->
-
     <!-- Sends motor commands to hold position -->
     <node name="lee_position_controller_node" pkg="rotors_control" type="lee_position_controller_node">
       <rosparam command="load" file="$(find rotors_gazebo)/resource/lee_controller_iris.yaml" />

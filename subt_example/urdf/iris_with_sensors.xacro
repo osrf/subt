@@ -3,7 +3,6 @@
 <robot name="iris_with_sensors" xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:include filename="$(find rotors_description)/urdf/iris_base.xacro" />
 
-  <!-- TODO(sloretz) instead of odometry plugin, offer IMU, magnetometer, pressure sensor -->
   <xacro:odometry_plugin_macro
     namespace="${namespace}"
     odometry_sensor_suffix="1"
