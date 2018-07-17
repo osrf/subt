@@ -15,13 +15,33 @@
       <pose>1 0 3.0 0 0 0</pose>
     </include>
 
-    <plugin name="boxGateStart" filename="libContainPlugin.so">
+    <plugin name="boxGateStartHusky" filename="libContainPlugin.so">
+      <entity>/::base_link</entity>
+      <namespace>subt/start</namespace>
+      <pose>1 0 0.2 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>0.3 5.2 2.0</size>
+        </box>
+      </geometry>
+    </plugin>
+    <plugin name="boxGateStartIris" filename="libContainPlugin.so">
+      <entity>iris::base_link</entity>
+      <namespace>subt/start</namespace>
+      <pose>1 0 0.2 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>0.3 5.2 2.0</size>
+        </box>
+      </geometry>
+    </plugin>
+    <plugin name="boxGateStartJackal" filename="libContainPlugin.so">
       <entity>jackal::base_link</entity>
       <namespace>subt/start</namespace>
       <pose>1 0 0.2 0 0 0</pose>
       <geometry>
         <box>
-          <size>0.3 5.2 1.0</size>
+          <size>0.3 5.2 2.0</size>
         </box>
       </geometry>
     </plugin>
@@ -33,13 +53,33 @@
       <pose>8 0 3.0 0 0 0</pose>
     </include>
 
-    <plugin name="boxGateFinish" filename="libContainPlugin.so">
+    <plugin name="boxGateFinishHusky" filename="libContainPlugin.so">
+      <entity>/::base_link</entity>
+      <namespace>subt/finish</namespace>
+      <pose>8 0 0.2 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>0.3 5.2 2.0</size>
+        </box>
+      </geometry>
+    </plugin>
+    <plugin name="boxGateFinishIris" filename="libContainPlugin.so">
+      <entity>iris::base_link</entity>
+      <namespace>subt/finish</namespace>
+      <pose>8 0 0.2 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>0.3 5.2 2.0</size>
+        </box>
+      </geometry>
+    </plugin>
+    <plugin name="boxGateFinishJackal" filename="libContainPlugin.so">
       <entity>jackal::base_link</entity>
       <namespace>subt/finish</namespace>
       <pose>8 0 0.2 0 0 0</pose>
       <geometry>
         <box>
-          <size>0.3 5.2 1.0</size>
+          <size>0.3 5.2 2.0</size>
         </box>
       </geometry>
     </plugin>
