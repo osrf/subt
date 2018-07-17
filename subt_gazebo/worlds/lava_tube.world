@@ -8,6 +8,42 @@
       <uri>model://sun</uri>
     </include>
 
+    <!-- Start: Gate -->
+    <include>
+      <name>gate_start</name>
+      <uri>model://gate</uri>
+      <pose>1 0 3.0 0 0 0</pose>
+    </include>
+
+    <plugin name="boxGateStart" filename="libContainPlugin.so">
+      <entity>jackal::base_link</entity>
+      <namespace>subt/start</namespace>
+      <pose>1 0 0.2 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>0.3 5.2 1.0</size>
+        </box>
+      </geometry>
+    </plugin>
+
+    <!-- Finish: Gate -->
+    <include>
+      <name>gate_finish</name>
+      <uri>model://gate</uri>
+      <pose>8 0 3.0 0 0 0</pose>
+    </include>
+
+    <plugin name="boxGateFinish" filename="libContainPlugin.so">
+      <entity>jackal::base_link</entity>
+      <namespace>subt/finish</namespace>
+      <pose>8 0 0.2 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>0.3 5.2 1.0</size>
+        </box>
+      </geometry>
+    </plugin>
+
     <!-- The SubT challenge logic plugin -->
     <plugin name="game_logic_plugin" filename="libGameLogicPlugin.so">
     </plugin>
