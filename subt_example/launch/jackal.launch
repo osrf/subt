@@ -44,10 +44,7 @@
     <arg name="urdf_extras" value="$(find subt_example)/urdf/jackal_equipments.urdf.xacro"/>
     <arg name="config" value="$(arg config)"/>
   </include>
+  
+  <include file="$(find subt_example)/launch/teleop.launch"/>
 
-<!--
-  <include file="$(find jackal_control)/launch/teleop.launch">
-    <arg name="joystick" value="true"/>
-  </include>
--->
 </launch>

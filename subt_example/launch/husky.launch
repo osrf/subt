@@ -39,8 +39,6 @@
     <arg name="urdf_extras" value="$(find subt_example)/urdf/husky_equipments.urdf.xacro"/>
   </include>
 
-<!--
-  <include file="$(find teleop_twist_joy)/launch/teleop.launch"/>
--->
+  <include file="$(find subt_example)/launch/teleop.launch"/>
 
 </launch>
