@@ -11,9 +11,21 @@
             <uri>model://cave_straight_40m/meshes/cave_straight_40m.dae</uri>
           </mesh>
         </geometry>
+        <surface>
+          <contact>
+             <collide_bitmask>0xffff</collide_bitmask>
+          </contact>
+          <friction>
+            <ode>
+              <mu>100</mu>
+              <mu2>50</mu2>
+            </ode>
+          </friction>
+        </surface>
       </collision>
       <visual name="base_visual">
         <pose>0 0 0 0 0 0</pose>
+        <cast_shadows>false</cast_shadows>
         <geometry>
           <mesh>
             <uri>model://cave_straight_40m/meshes/cave_straight_40m.dae</uri>
