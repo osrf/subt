@@ -168,3 +168,9 @@ install(DIRECTORY models/
 # Install all the world files
 install(DIRECTORY worlds/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/worlds)
+
+install(PROGRAMS
+  scripts/world_generator
+  scripts/benchmark.launch.template
+  scripts/benchmark.world.template
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
