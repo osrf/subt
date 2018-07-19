@@ -159,6 +159,6 @@ install(DIRECTORY worlds/
 
 install(PROGRAMS
   scripts/world_generator
+  scripts/benchmark.launch.template
+  scripts/benchmark.world.template
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
-
-
