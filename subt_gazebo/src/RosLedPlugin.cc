@@ -15,15 +15,15 @@
  *
 */
 
-#include "subt_gazebo/RosLedPlugin.hh"
+#include "subt_gazebo/RosFlashLightPlugin.hh"
 
 using namespace gazebo;
 
 //////////////////////////////////////////////////
-void RosLedPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
+void RosFlashLightPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
 {
   // === must call this ===
-  LedPlugin::Load(_parent, _sdf);
+  FlashLightPlugin::Load(_parent, _sdf);
 
   // Make sure the ROS node for Gazebo has already been initialized
   if (!ros::isInitialized())
@@ -35,27 +35,23 @@ void RosLedPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
     return;
   }
 
-  gzmsg << "Plugin Loaded: RosLedPlugin" << std::endl;
+  gzmsg << "Plugin Loaded: RosFlashLightPlugin" << std::endl;
 
   // Service name is renamed if an alternative one is given in SDF.
-  std::string serviceName;
+  std::string serviceName = "light_control";
   if (_sdf->HasElement("service_name"))
   {
     serviceName = _sdf->Get<std::string>("service_name");
-  }
-  else
-  {
-    serviceName = "light_control";
   }
 
   // ROS service to receive a command to control the light
   ros::NodeHandle n;
   this->service
-    = n.advertiseService(serviceName, &RosLedPlugin::Control, this);
+    = n.advertiseService(serviceName, &RosFlashLightPlugin::Control, this);
 }
 
 //////////////////////////////////////////////////
-bool RosLedPlugin::Control(
+bool RosFlashLightPlugin::Control(
   std_srvs::SetBool::Request &_req,
   std_srvs::SetBool::Response &_res)
 {
@@ -72,4 +68,4 @@ bool RosLedPlugin::Control(
 }
 
 // Register this plugin with the simulator
-GZ_REGISTER_MODEL_PLUGIN(RosLedPlugin)
+GZ_REGISTER_MODEL_PLUGIN(RosFlashLightPlugin)
