@@ -58,10 +58,10 @@ namespace gazebo
     private: bool finished = false;
 
     /// \brief Start time used for scoring.
-    std::chrono::steady_clock::time_point startTime;
+    private: std::chrono::steady_clock::time_point startTime;
 
     /// \brief Finish time used for scoring.
-    std::chrono::steady_clock::time_point finishTime;
+    private: std::chrono::steady_clock::time_point finishTime;
   };
 }
 #endif
