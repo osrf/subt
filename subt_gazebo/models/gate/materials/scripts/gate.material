@@ -1,0 +1,19 @@
+material vrc/gate
+{
+  receive_shadows off
+	technique
+	{
+		pass
+		{
+			ambient 1.0 1.0 1.0 1.0
+			diffuse 1.0 1.0 1.0 1.0
+			specular 0.1 0.1 0.1 1.0 12.5
+      emissive 0.2 0.2 0.2 1.0
+
+			texture_unit
+			{
+				texture gate.png
+			}
+		}
+	}
+}
