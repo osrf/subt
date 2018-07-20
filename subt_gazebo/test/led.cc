@@ -201,6 +201,15 @@ void LedTest::CheckRec(
 /////////////////////////////////////////////////
 TEST_F(LedTest, switchOffAndOn)
 {
+  // NOTE: this additional time is to make sure that a visual object to update
+  // has been created in the environment before publishing a message.
+  // Otherwise, a duplicate object will be created and the original one will
+  // never be updated.
+  // This problem is solved by the patch (Pull Request # 2983), which has
+  // been merged into gazebo7 as of July 16, 2018. This if satement should be
+  // removed once the patch is forwarded up to gazebo9.
+  ros::Duration(1.0).sleep();
+
   // ROS spinning
   std::shared_ptr<ros::AsyncSpinner> async_ros_spin_;
   async_ros_spin_.reset(new ros::AsyncSpinner(0));
@@ -221,7 +230,7 @@ TEST_F(LedTest, switchOffAndOn)
   ASSERT_TRUE(this->client.isValid());
   ASSERT_TRUE(this->client.waitForExistence());
 
-  ros::Duration(2.5).sleep();
+  ros::Duration(0.5).sleep();
 
   this->InitRec();
 
