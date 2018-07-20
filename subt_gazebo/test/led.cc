@@ -17,7 +17,6 @@
 
 #include <cmath>
 #include <sstream>
-#include <string>
 #include <thread>
 #include <vector>
 
@@ -30,10 +29,7 @@
 #include <ros/ros.h>
 #include <std_srvs/SetBool.h>
 
-#include "test/test_config.h"
-
 using namespace gazebo;
-using namespace subt;
 
 // information to record for the lights in the enviornment
 struct RecordInfo
@@ -225,7 +221,7 @@ TEST_F(LedTest, switchOffAndOn)
   ASSERT_TRUE(this->client.isValid());
   ASSERT_TRUE(this->client.waitForExistence());
 
-  ros::Duration(0.5).sleep();
+  ros::Duration(2.5).sleep();
 
   this->InitRec();
 
@@ -280,9 +276,6 @@ TEST_F(LedTest, switchOffAndOn)
 /////////////////////////////////////////////////
 int main(int argc, char **argv)
 {
-
-  initGazeboEnv();
-
   ::testing::InitGoogleTest(&argc, argv);
 
   // Start ROS
