@@ -17,7 +17,6 @@
 
 #include <cmath>
 #include <sstream>
-#include <string>
 #include <thread>
 #include <vector>
 
@@ -30,10 +29,7 @@
 #include <gazebo/msgs/msgs.hh>
 #include <gazebo/transport/transport.hh>
 
-#include "test/test_config.h"
-
 using namespace gazebo;
-using namespace subt;
 
 // information to record for the lights in the enviornment
 struct RecordInfo
@@ -80,9 +76,6 @@ class FlashLightTest : public testing::Test
 
   /// \brief Node for Gazebo transport.
   protected: gazebo::transport::NodePtr node;
-
-  /// \brief Gazebo transport subscriber.
-  protected: transport::SubscriberPtr sceneSub;
 
   /// \brief Publisher to request for entity_info
   protected: transport::PublisherPtr entityInfoPub;
@@ -379,9 +372,6 @@ TEST_F(FlashLightTest, switchOffAndOn)
 /////////////////////////////////////////////////
 int main(int argc, char **argv)
 {
-
-  initGazeboEnv();
-
   ::testing::InitGoogleTest(&argc, argv);
 
   // Start ROS
