@@ -25,15 +25,10 @@
 #include <ignition/transport/Node.hh>
 
 #include "subt_gazebo/CommonTypes.hh"
+#include "subt_gazebo/protobuf/datagram.pb.h"
 
 namespace subt
 {
-  namespace msgs
-  {
-    // Forward declarations.
-    class Datagram;
-  }
-
   /// \brief ToDo.
   class CommsClient
   {
