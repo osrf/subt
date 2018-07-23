@@ -1,10 +1,11 @@
+<?xml version="1.0"?>
 <launch>
 
-  # Launch the SubT world.
+  <!-- Launch the SubT world. -->
   <include file="$(find subt_gazebo)/launch/lava_tube.launch">
   </include>
 
-  # Spawn your team here.
+  <!-- Spawn your team here. -->
   <arg name="laser_enabled" default="false"/>
   <arg name="kinect_enabled" default="false"/>
 

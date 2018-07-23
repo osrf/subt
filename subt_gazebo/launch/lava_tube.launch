@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
 
-  # Gazebo world.
+  <!-- Gazebo world. -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="world_name" value="$(find subt_gazebo)/worlds/lava_tube.world"/>
     <arg name="paused" value="false"/>
