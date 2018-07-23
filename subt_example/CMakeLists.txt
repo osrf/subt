@@ -61,11 +61,6 @@ target_link_libraries(teleop_node ${catkin_LIBRARIES} yaml-cpp)
 # Install all the launch files
 install(DIRECTORY launch/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch)
-
-# Install all the urdf files
-install(DIRECTORY urdf/
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/urdf)
-
 # Install all config files
 install(DIRECTORY config/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/config)
@@ -75,9 +70,13 @@ catkin_install_python(PROGRAMS scripts/teleop_twist_keyboard.py
 DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
 
-## Mark executables and/or libraries for installation
+# Mark executables and/or libraries for installation
 install(TARGETS subt_example_node teleop_node
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
+
+# Install all the urdf file
+install(DIRECTORY urdf
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})

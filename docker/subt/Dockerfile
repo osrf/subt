@@ -6,6 +6,7 @@ RUN apt-get update \
  && apt-get install -y \
         build-essential \
         cmake \
+        cppcheck \
         gdb \
         git \
         libbluetooth-dev \
@@ -15,6 +16,8 @@ RUN apt-get update \
         lsb-release \
         mercurial \
         python3-dbg \
+        python3-empy \
+        python3-numpy \
         python3-pip \
         python3-venv \
         software-properties-common \
@@ -58,6 +61,9 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu 
     python-catkin-tools \
     python-rosinstall \
     ros-melodic-desktop-full \
+    ros-melodic-joystick-drivers \
+    ros-melodic-pointcloud-to-laserscan \
+    ros-melodic-spacenav-node \
     ros-melodic-tf2-sensor-msgs \
     ros-melodic-robot-localization \
  && sudo rosdep init \

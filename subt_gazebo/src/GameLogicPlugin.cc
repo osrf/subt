@@ -33,10 +33,41 @@ void GameLogicPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr /*_sdf*/)
   this->updateConnection = event::Events::ConnectWorldUpdateBegin(
           std::bind(&GameLogicPlugin::OnUpdate, this));
 
+  this->node.Subscribe("/subt/start/contain",
+    &GameLogicPlugin::OnStart, this);
+  this->node.Subscribe("/subt/finish/contain",
+    &GameLogicPlugin::OnFinish, this);
+
   gzmsg << "Starting SubT" << std::endl;
 }
 
 /////////////////////////////////////////////////
 void GameLogicPlugin::OnUpdate()
 {
+}
+
+/////////////////////////////////////////////////
+void GameLogicPlugin::OnStart(const ignition::msgs::Boolean &_msg)
+{
+  if (this->started || !_msg.data())
+    return;
+
+  this->started = true;
+  this->startTime = std::chrono::steady_clock::now();
+  gzmsg << "Scoring has Started" << std::endl;
+}
+
+/////////////////////////////////////////////////
+void GameLogicPlugin::OnFinish(const ignition::msgs::Boolean &_msg)
+{
+  if (!this->started || this->finished || !_msg.data())
+    return;
+
+  this->finished = true;
+  this->finishTime = std::chrono::steady_clock::now();
+
+  auto elapsed = this->finishTime - this->startTime;
+  gzmsg << "Scoring has finished. Elapsed time: "
+        << std::chrono::duration_cast<std::chrono::seconds>(elapsed).count()
+        << " seconds" << std::endl;
 }

@@ -1,15 +1,16 @@
+<?xml version="1.0"?>
 <launch>
 
-  # Launch the SubT world.
+  <!-- Launch the SubT world. -->
   <include file="$(find subt_gazebo)/launch/lava_tube.launch">
   </include>
 
-  # Spawn your team here.
+  <!-- Spawn your team here. -->
   <!-- Short-term hack to support the original front_laser:=true argument for spawning
        the simulator. This will be removed in favour of using the config:=x arg instead. -->
   <arg name="front_laser" default="true" />
   <arg name="default_config" value="front_laser" if="$(arg front_laser)" />
-  <arg name="default_config" value="base" unless="$(arg front_laser)" />
+  <arg name="default_config" value="base" unless="$(arg front_laser)" /> 
   <!-- end of hack -->
 
   <!-- Configuration of Jackal which you would like to simulate.
