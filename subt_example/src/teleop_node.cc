@@ -67,18 +67,19 @@ SubtTeleop::SubtTeleop():
 
   this->nh.getParam("button_map", this->joyButtonIndexMap);
 
-  std::vector<YAML::Node> robotConf = YAML::LoadAllFromFile(ros::package::getPath("subt_example") + "/config/robot_list.yaml");
-  for (std::size_t i = 0; i < robotConf.size(); ++i)
+  std::vector<std::string> robotNames;
+  this->nh.getParam("robot_names", robotNames);
+
+  for (auto name: robotNames)
   {
-    std::string name = robotConf[i]["name"].as<std::string>();
-    std::string button = robotConf[i]["joy_select_button"].as<std::string>();
     // mapping from robot's name to a publisher
     this->velPubMap[name] = this->nh.advertise<geometry_msgs::Twist>(name + "/cmd_vel", 1);
-    // mapping from button (e.g., 'A', 'B', 'X', 'Y') to robot's name
-    this->joyButtonRobotMap[button] = name;
   }
+  // mapping from button (e.g., 'A', 'B', 'X', 'Y') to robot's name
+  this->nh.getParam("select_button_map", this->joyButtonRobotMap);
+
   // select the first robot in default
-  this->currentRobot = this->joyButtonRobotMap["A"];
+  this->currentRobot = this->joyButtonRobotMap.begin()->second;
 
   this->joySub = this->nh.subscribe<sensor_msgs::Joy>("joy", 10, &SubtTeleop::joyCallback, this);
 }

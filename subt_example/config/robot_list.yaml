@@ -1,9 +1,9 @@
----
-name: 'robotA'
-joy_select_button: 'A'
----
-name: 'robotB'
-joy_select_button: 'B'
----
-name: 'robotC'
-joy_select_button: 'X'
+robot_names:
+  - robotA
+  - robotB
+  - robotC
+
+select_button_map:
+  A: robotA
+  B: robotB
+  C: robotC
