@@ -30,7 +30,7 @@
 
     <!-- spawn the model with a specified name -->
     <node name="spawn_husky_model" pkg="gazebo_ros" type="spawn_model"
-      args="-x $(arg x) -y $(arg y) -z $(arg z) -Y $(arg yaw) -unpause -urdf -param robot_description -model Husky_$(arg namespace)"/>
+      args="-x $(arg x) -y $(arg y) -z $(arg z) -Y $(arg yaw) -unpause -urdf -param robot_description -model $(arg namespace)"/>
 
     <!-- publish the robot's states -->
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />

@@ -5,6 +5,82 @@
       <uri>model://indian_tunnel</uri>
     </include>
 
+    <!-- Start: Gate -->
+    <include>
+      <name>gate_start</name>
+      <uri>model://gate</uri>
+      <pose>1 0 3.0 0 0 0</pose>
+    </include>
+
+    <plugin name="boxGateStartHusky" filename="libContainPlugin.so">
+      <entity>/::base_link</entity>
+      <namespace>subt/start</namespace>
+      <pose>1 0 0.2 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>0.3 5.2 2.0</size>
+        </box>
+      </geometry>
+    </plugin>
+    <plugin name="boxGateStartIris" filename="libContainPlugin.so">
+      <entity>iris::base_link</entity>
+      <namespace>subt/start</namespace>
+      <pose>1 0 0.2 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>0.3 5.2 2.0</size>
+        </box>
+      </geometry>
+    </plugin>
+    <plugin name="boxGateStartJackal" filename="libContainPlugin.so">
+      <entity>jackal::base_link</entity>
+      <namespace>subt/start</namespace>
+      <pose>1 0 0.2 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>0.3 5.2 2.0</size>
+        </box>
+      </geometry>
+    </plugin>
+
+    <!-- Finish: Gate -->
+    <include>
+      <name>gate_finish</name>
+      <uri>model://gate</uri>
+      <pose>8 0 3.0 0 0 0</pose>
+    </include>
+
+    <plugin name="boxGateFinishHusky" filename="libContainPlugin.so">
+      <entity>/::base_link</entity>
+      <namespace>subt/finish</namespace>
+      <pose>8 0 0.2 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>0.3 5.2 2.0</size>
+        </box>
+      </geometry>
+    </plugin>
+    <plugin name="boxGateFinishIris" filename="libContainPlugin.so">
+      <entity>iris::base_link</entity>
+      <namespace>subt/finish</namespace>
+      <pose>8 0 0.2 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>0.3 5.2 2.0</size>
+        </box>
+      </geometry>
+    </plugin>
+    <plugin name="boxGateFinishJackal" filename="libContainPlugin.so">
+      <entity>jackal::base_link</entity>
+      <namespace>subt/finish</namespace>
+      <pose>8 0 0.2 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>0.3 5.2 2.0</size>
+        </box>
+      </geometry>
+    </plugin>
+
     <!-- The SubT challenge logic plugin -->
     <plugin name="game_logic_plugin" filename="libGameLogicPlugin.so">
     </plugin>
@@ -12,6 +88,9 @@
     <!-- The SubT comms broker plugin -->
     <plugin name="comms_broker_plugin" filename="libCommsBrokerPlugin.so">
     </plugin>
+
+    <!-- rotors_gazebo support -->
+    <plugin name="ros_interface_plugin" filename="librotors_gazebo_ros_interface_plugin.so"/>
 
   </world>
 </sdf>

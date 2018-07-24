@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<sdf version="1.4">
+  <model name="gate">
+    <static>true</static>
+    <pose>0 0 0 0 0 0</pose>
+    <link name="link">
+      <collision name="right_collision">
+        <pose>0 -2.5 -2.5 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.2 0.2 2.0</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="left_collision">
+        <pose>0 2.5 -2.5 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.2 0.2 2.0</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="top_collision">
+        <pose>0 0 -1.4 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.2 5.2 0.2</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <visual name="visual">
+        <pose>0 0 -3.5 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://gate/meshes/gate.dae</uri>
+            <scale>1 1 0.5</scale>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <uri>model://gate/materials/scripts/gate.material</uri>
+            <uri>model://gate/materials/textures</uri>
+            <name>vrc/gate</name>
+          </script>
+        </material>
+      </visual>
+
+    </link>
+  </model>
+</sdf>

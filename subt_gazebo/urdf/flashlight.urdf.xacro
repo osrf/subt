@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro" name="flashlight">
-  <xacro:macro name="flashlight" params="flashlight_prefix parent_link *pose">
+  <xacro:macro name="flashlight" params="flashlight_prefix parent_link *pose **plugin_params">
     <gazebo>
-      <model name='${flashlight_prefix}_flashlight_model'>
+      <model name='${flashlight_prefix}_flashlight'>
         <xacro:insert_block name="pose"/>
         <link name='handle'>
           <pose>0 0 0.05 0 0 0</pose>
@@ -62,15 +62,19 @@
           <parent>handle</parent>
           <child>light_source</child>
         </joint>
-        <!--
-        <plugin?
-        -->
+        <plugin name='light_control' filename='libRosLedPlugin.so'>
+          <service_name>flashlight_switch</service_name>
+          <light>
+            <id>light_source/lamp</id>
+            <xacro:insert_block name="plugin_params"/>
+          </light>
+        </plugin>
       </model>
     </gazebo>
     <gazebo>
       <joint name='${flashlight_prefix}_flashlight_joint' type='fixed'>
         <parent>${parent_link}</parent>
-        <child>${flashlight_prefix}_flashlight_model::handle</child>
+        <child>${flashlight_prefix}_flashlight::handle</child>
       </joint>
     </gazebo>
 	</xacro:macro>

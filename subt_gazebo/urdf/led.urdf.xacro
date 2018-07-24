@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro" name="flashlight">
-  <xacro:macro name="led" params="led_prefix parent_link color *pose">
+  <xacro:macro name="led" params="led_prefix parent_link color *pose **plugin_params">
     <gazebo>
-      <model name='${led_prefix}_led_model'>
+      <model name='${led_prefix}_led'>
         <xacro:insert_block name='pose'/>
         <link name='led_body'>
           <collision name='collision'>
@@ -12,7 +12,7 @@
               </sphere>
             </geometry>
           </collision>
-          <visual name='visual'>
+          <visual name='marker'>
             <geometry>
               <sphere>
                 <radius>0.025</radius>
@@ -25,7 +25,7 @@
               <emissive>${color} 1</emissive>
             </material>
           </visual>
-          <light name='light' type='point'>
+          <light name='marker' type='point'>
             <pose>0 0 0 0 0 0</pose>
             <attenuation>
               <range>0.20</range>
@@ -35,15 +35,19 @@
             <specular>${color} 1</specular>
           </light>
         </link>
-        <!--
-        <plugin?
-        -->
+        <plugin name='light_control' filename='libRosLedPlugin.so'>
+          <service_name>led_switch</service_name>
+          <light>
+            <id>led_body/marker</id>
+            <xacro:insert_block name="plugin_params"/>
+          </light>
+        </plugin>
       </model>
     </gazebo>
     <gazebo>
       <joint name='${led_prefix}_led_joint' type='fixed'>
         <parent>${parent_link}</parent>
-        <child>${led_prefix}_led_model::led_body</child>
+        <child>${led_prefix}_led::led_body</child>
       </joint>
     </gazebo>
 	</xacro:macro>

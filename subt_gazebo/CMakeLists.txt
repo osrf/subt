@@ -21,6 +21,8 @@ find_package(catkin REQUIRED
     message_generation
 )
 
+file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include)
+
 find_package(gazebo REQUIRED)
 find_package(ignition-transport4 REQUIRED)
 
@@ -50,6 +52,7 @@ catkin_package(
     std_srvs
   INCLUDE_DIRS
     include
+    ${CATKIN_DEVEL_PREFIX}/include
   LIBRARIES
     CommsClient
   CFG_EXTRAS
@@ -80,6 +83,8 @@ install(TARGETS ${game_logic_plugin_name}
 # Create the libCommsBrokerPlugin.so library.
 set(comms_broker_plugin_name CommsBrokerPlugin)
 add_library(${comms_broker_plugin_name} src/CommsBrokerPlugin.cc)
+target_include_directories(${comms_broker_plugin_name}
+  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 target_link_libraries(${comms_broker_plugin_name}
   ${catkin_LIBRARIES}
   ${protobuf_lib_name}
@@ -97,7 +102,8 @@ install(TARGETS ${comms_broker_plugin_name}
 # Create the libCommsClient.so library.
 set(comms_client_name CommsClient)
 add_library(${comms_client_name} src/CommsClient.cc)
-include_directories(${PROJECT_BINARY_DIR}/include)
+target_include_directories(${comms_client_name}
+  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 target_link_libraries(${comms_client_name}
   ${catkin_LIBRARIES}
   ${protobuf_lib_name}
@@ -117,26 +123,64 @@ install(
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
 )
 
+# Create the libRosLedPlugin.so library.
+set(ros_led_plugin_name RosLedPlugin)
+add_library(${ros_led_plugin_name} src/RosLedPlugin.cc)
+target_link_libraries(${ros_led_plugin_name}
+  ${catkin_LIBRARIES}
+  LedPlugin
+)
+install(TARGETS ${ros_led_plugin_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+
 ###########
 ## Tests ##
 ###########
 
 configure_file (test/test_config.h.in
-  ${PROJECT_BINARY_DIR}/include/test/test_config.h)
+  ${CATKIN_DEVEL_PREFIX}/include/test/test_config.h)
 
-catkin_add_gtest(test_comms test/comms.cc)
-link_directories(${Boost_LIBRARY_DIRS})
+find_package(rostest REQUIRED)
+
+catkin_add_executable_with_gtest(test_comms test/comms.cc)
+target_include_directories(test_comms
+  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 target_link_libraries(test_comms
   ${catkin_LIBRARIES}
-  ${GAZEBO_LIBRARIES}
-  gazebo_test_fixture
-  boost_thread
   ${comms_client_name}
+  ${GAZEBO_LIBRARIES}
 )
 add_dependencies(test_comms
   ${comms_broker_plugin_name}
   ${comms_client_name}
 )
+# WORKING_DIRECTORY is used to make sure that the Gazebo plugins are found.
+add_rostest(test/comms.test
+  WORKING_DIRECTORY "${CATKIN_DEVEL_PREFIX}/lib"
+  DEPENDENCIES test_comms
+)
+
+find_package(rostest REQUIRED)
+add_rostest_gtest(test_flashlight test/flashlight.test test/flashlight.cc)
+target_link_libraries(test_flashlight
+  ${catkin_LIBRARIES}
+  ${GAZEBO_LIBRARIES}
+)
+add_dependencies(test_flashlight
+  ${ros_flashlight_plugin_name}
+    ${ros_led_plugin_name}
+)
+add_rostest_gtest(test_led test/led.test test/led.cc)
+target_link_libraries(test_led
+  ${catkin_LIBRARIES}
+  ${GAZEBO_LIBRARIES}
+)
+add_dependencies(test_led
+  ${ros_led_plugin_name}
+)
+
 
 #############
 ## Install ##
@@ -160,3 +204,9 @@ install(DIRECTORY urdf/
 # Install all the world files
 install(DIRECTORY worlds/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/worlds)
+
+install(PROGRAMS
+  scripts/world_generator
+  scripts/benchmark.launch.template
+  scripts/benchmark.world.template
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
