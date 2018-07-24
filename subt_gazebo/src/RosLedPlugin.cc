@@ -44,6 +44,19 @@ void RosLedPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
     serviceName = _sdf->Get<std::string>("service_name");
   }
 
+  if (serviceName[0] != '/')
+  {
+    std::string prefix = _parent->GetScopedName();
+    int pos = prefix.find("::");
+    while (pos > 0)
+    {
+      prefix.replace(pos, 2, "/");
+      pos = prefix.find("::");
+    }
+    serviceName = "/" + prefix + "/" + serviceName;
+  }
+  gzmsg << "service name: " << serviceName << std::endl;
+
   // ROS service to receive a command to control the light
   ros::NodeHandle n;
   this->service

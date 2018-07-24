@@ -285,7 +285,7 @@ TEST_F(FlashLightTest, switchOffAndOn)
 
   // Get a ROS service client.
   this->client
-    = this->n.serviceClient<std_srvs::SetBool>("/light_switch");
+    = this->n.serviceClient<std_srvs::SetBool>("/light_model/light_switch");
   ASSERT_TRUE(client.isValid());
   ASSERT_TRUE(client.waitForExistence());
 
