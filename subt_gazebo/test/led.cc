@@ -208,7 +208,7 @@ TEST_F(LedTest, switchOffAndOn)
   // This problem is solved by the patch (Pull Request # 2983), which has
   // been merged into gazebo7 as of July 16, 2018. This if satement should be
   // removed once the patch is forwarded up to gazebo9.
-  ros::Duration(1.0).sleep();
+  ros::Duration(1.5).sleep();
 
   // ROS spinning
   std::shared_ptr<ros::AsyncSpinner> async_ros_spin_;
@@ -226,7 +226,7 @@ TEST_F(LedTest, switchOffAndOn)
 
   // Get a ROS service client.
   this->client
-    = this->n.serviceClient<std_srvs::SetBool>("/light_switch");
+    = this->n.serviceClient<std_srvs::SetBool>("/light_model/light_switch");
   ASSERT_TRUE(this->client.isValid());
   ASSERT_TRUE(this->client.waitForExistence());
 
