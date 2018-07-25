@@ -19,7 +19,9 @@
 #include <ros/ros.h>
 #include <ros/package.h>
 #include <sensor_msgs/Joy.h>
-#include <yaml-cpp/yaml.h>
+#include <std_srvs/SetBool.h>
+
+#include <ros/console.h>
 
 class SubtTeleop
 {
@@ -46,6 +48,9 @@ private:
   std::string currentRobot;
 
   ros::Subscriber joySub;
+
+  std::vector<std::string> lightSrvNameList;
+  std::map<std::string, ros::ServiceClient> lightSrvMap;
 };
 
 SubtTeleop::SubtTeleop():
@@ -66,33 +71,70 @@ SubtTeleop::SubtTeleop():
   this->nh.param("scale_angular_turbo", this->angularScaleTurbo, this->angularScaleTurbo);
 
   this->nh.getParam("button_map", this->joyButtonIndexMap);
+  this->nh.getParam("select_button_map", this->joyButtonRobotMap);
+  this->nh.getParam("light_switches", this->lightSrvNameList);
 
   std::vector<std::string> robotNames;
   this->nh.getParam("robot_names", robotNames);
-
-  for (auto name: robotNames)
+  for (auto robotName: robotNames)
   {
     // mapping from robot's name to a publisher
-    this->velPubMap[name] = this->nh.advertise<geometry_msgs::Twist>(name + "/cmd_vel", 1);
+    this->velPubMap[robotName]
+      = this->nh.advertise<geometry_msgs::Twist>(robotName + "/cmd_vel", 1);
+
+    for (auto suffix: this->lightSrvNameList)
+    {
+      std::string serviceName = "/" + robotName + suffix;
+      this->lightSrvMap[serviceName]
+        = this->nh.serviceClient<std_srvs::SetBool>(serviceName);
+    }
   }
-  // mapping from button (e.g., 'A', 'B', 'X', 'Y') to robot's name
-  this->nh.getParam("select_button_map", this->joyButtonRobotMap);
 
   // select the first robot in default
   this->currentRobot = this->joyButtonRobotMap.begin()->second;
+  ROS_INFO_STREAM("First robot: " << this->currentRobot);
 
   this->joySub = this->nh.subscribe<sensor_msgs::Joy>("joy", 10, &SubtTeleop::joyCallback, this);
 }
 
 void SubtTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
 {
-  for (auto &pair: joyButtonIndexMap)
+
+  std_srvs::SetBool srv;
+  if (joy->buttons[this->joyButtonIndexMap["L"]])
+  {
+    srv.request.data = true;
+    for (auto suffix: this->lightSrvNameList)
+    {
+      std::string serviceName = "/" + this->currentRobot + suffix;
+      this->lightSrvMap[serviceName].call(srv);
+    }
+    return;
+  }
+  else if (joy->buttons[this->joyButtonIndexMap["R"]])
+  {
+    srv.request.data = false;
+    for (auto suffix: this->lightSrvNameList)
+    {
+      std::string serviceName = "/" + this->currentRobot + suffix;
+      this->lightSrvMap[serviceName].call(srv);
+    }
+    return;
+  }
+  
+  for (auto &pair: this->joyButtonIndexMap)
   {
     if (joy->buttons[pair.second])
     {
-      this->currentRobot = this->joyButtonRobotMap[pair.first];
+      std::string name = this->joyButtonRobotMap[pair.first];
+      if (name.length() > 0)
+      {
+        this->currentRobot = name;
+      }
+      return;
     }
   }
+
   geometry_msgs::Twist twist;
 
   double triggerRate = -0.5 * joy->axes[this->enableTrigger] + 0.5;
