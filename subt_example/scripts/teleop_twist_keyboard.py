@@ -9,6 +9,8 @@ from geometry_msgs.msg import Twist
 
 import sys, select, termios, tty, yaml, rospkg
 
+from std_srvs.srv import SetBool
+
 msg = """
 Reading from the keyboard  and Publishing to Twist!
 ---------------------------
@@ -140,6 +142,18 @@ if __name__=="__main__":
 				currentRobotKey = key
 				print("You selected " + robotNames[key] + " to control")
 				continue
+			elif key == 'a' or key == 's':
+				for suffix in dict_robot['light_service_suffixes']:
+					serviceName = '/' + robotNames[currentRobotKey] + suffix
+					rospy.wait_for_service(serviceName)
+					try:
+						light_switch = rospy.ServiceProxy(serviceName, SetBool)
+						if key == 'a':
+							light_switch(True)
+						else:
+							light_switch(False)
+					except rospy.ServiceException, e:
+						print("Service call failed: %s" % e)
 			else:
 				x = 0
 				y = 0
