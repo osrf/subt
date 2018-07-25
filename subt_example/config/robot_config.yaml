@@ -1,0 +1,17 @@
+robot_names:
+  - robotA
+  - robotB
+  - robotC
+
+select_button_map:
+  A: robotA
+  B: robotB
+  X: robotC
+
+light_service_suffixes:
+  - /center_led/led_switch
+  - /downward_flashlight/flashlight_switch
+  - /left_flashlight/flashlight_switch
+  - /left_led/led_switch
+  - /right_flashlight/flashlight_switch
+  - /right_led/led_switch
