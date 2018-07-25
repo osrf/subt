@@ -111,7 +111,7 @@ SubtTeleop::SubtTeleop():
   // Load robot config information. Setting values must be loaded by rosparam.
   std::vector<std::string> robotNames;
   this->nh.getParam("robot_names", robotNames);
-  this->nh.getParam("select_button_map", this->joyButtonRobotMap);
+  this->nh.getParam("button_robot_map", this->joyButtonRobotMap);
   this->nh.getParam("light_service_suffixes", this->lightSrvSuffixList);
 
   for (auto robotName: robotNames)
