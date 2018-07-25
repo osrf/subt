@@ -17,47 +17,81 @@
 
 #include <geometry_msgs/Twist.h>
 #include <ros/ros.h>
-#include <ros/package.h>
 #include <sensor_msgs/Joy.h>
 #include <std_srvs/SetBool.h>
 
-#include <ros/console.h>
-
 class SubtTeleop
 {
-public:
-  SubtTeleop();
+  /// \brief Constructor.
+  public: SubtTeleop();
 
-private:
-  void joyCallback(const sensor_msgs::Joy::ConstPtr& joy);
+  /// \brief Callback function for a joy stick control.
+  private: void joyCallback(const sensor_msgs::Joy::ConstPtr& joy);
 
-  ros::NodeHandle nh;
+  /// \brief ROS node handler.
+  private: ros::NodeHandle nh;
 
-  int linear, angular;
-  int enableTrigger;
-  double linearScale, angularScale;
+  /// \brief Index for the linear axis of the joy stick.
+  private: int linear;
 
-  int linearTurbo, angularTurbo;
-  int enableTurboTrigger;
-  double linearScaleTurbo, angularScaleTurbo;
+  /// \brief Index for the angular axis of the joy stick.
+  private: int angular;
 
-  std::map<std::string, int> joyButtonIndexMap;
+  /// \brief Index for the button to enable the joy stick control.
+  private: int enableTrigger;
 
-  std::map<std::string, ros::Publisher> velPubMap;
-  std::map<std::string, std::string> joyButtonRobotMap;
-  std::string currentRobot;
+  /// \brief Scale value for the linear axis input.
+  private: double linearScale;
 
-  ros::Subscriber joySub;
+  /// \brief Scale value for the angular axis input.
+  private: double angularScale;
 
-  std::vector<std::string> lightSrvNameList;
-  std::map<std::string, ros::ServiceClient> lightSrvMap;
+  /// \brief Index for the linear axis of the joy stick (Turbo mode).
+  private: int linearTurbo;
+
+  /// \brief Index for the angular axis of the joy stick (Turbo mode).
+  private: int angularTurbo;
+
+  /// \brief Index for the button to enable the joy stick control (Turbo mode).
+  private: int enableTurboTrigger;
+
+  /// \brief Scale value for the linear axis input (Turbo mode).
+  private: double linearScaleTurbo;
+
+  /// \brief Scale value for the angular axis input (Turbo mode).
+  private: double angularScaleTurbo;
+
+  /// \brief Subscriber to get input values from the joy control.
+  private: ros::Subscriber joySub;
+
+  /// \brief Map from a button name to an index.
+  /// e.g., 'A' -> 1
+  /// this mapping should be stored in a yaml file.
+  private: std::map<std::string, int> joyButtonIndexMap;
+
+  /// \brief Map from an button name to a robot name.
+  private: std::map<std::string, std::string> joyButtonRobotMap;
+
+  /// \brief Map from a robot name to a ROS publisher object.
+  private: std::map<std::string, ros::Publisher> velPubMap;
+
+  /// \brief the name of the robot currently under control.
+  private: std::string currentRobot;
+
+  /// \brief List of light control service names (suffix).
+  private: std::vector<std::string> lightSrvSuffixList;
+
+  /// \brief Map from a service name to a service client object.
+  private: std::map<std::string, ros::ServiceClient> lightSrvMap;
 };
 
+/////////////////////////////////////////////////
 SubtTeleop::SubtTeleop():
   linear(1), angular(0), enableTrigger(9), linearScale(0), angularScale(0),
   linearTurbo(4), angularTurbo(3), enableTurboTrigger(10),
   linearScaleTurbo(0), angularScaleTurbo(0)
 {
+  // Load joy control settings. Setting values must be loaded by rosparam.
   this->nh.param("axis_linear", this->linear, this->linear);
   this->nh.param("axis_angular", this->angular, this->angular);
   this->nh.param("enable_trigger", this->enableTrigger, this->enableTrigger);
@@ -67,61 +101,74 @@ SubtTeleop::SubtTeleop():
   this->nh.param("axis_linear_turbo", this->linearTurbo, this->linearTurbo);
   this->nh.param("axis_angular_turbo", this->angularTurbo, this->angularTurbo);
   this->nh.param("enable_turbo_trigger", this->enableTurboTrigger, -1);
-  this->nh.param("scale_linear_turbo", this->linearScaleTurbo, this->linearScaleTurbo);
-  this->nh.param("scale_angular_turbo", this->angularScaleTurbo, this->angularScaleTurbo);
+  this->nh.param(
+    "scale_linear_turbo", this->linearScaleTurbo, this->linearScaleTurbo);
+  this->nh.param(
+    "scale_angular_turbo", this->angularScaleTurbo, this->angularScaleTurbo);
 
   this->nh.getParam("button_map", this->joyButtonIndexMap);
-  this->nh.getParam("select_button_map", this->joyButtonRobotMap);
-  this->nh.getParam("light_switches", this->lightSrvNameList);
 
+  // Load robot config information. Setting values must be loaded by rosparam.
   std::vector<std::string> robotNames;
   this->nh.getParam("robot_names", robotNames);
+  this->nh.getParam("select_button_map", this->joyButtonRobotMap);
+  this->nh.getParam("light_service_suffixes", this->lightSrvSuffixList);
+
   for (auto robotName: robotNames)
   {
-    // mapping from robot's name to a publisher
+    // Create a publisher object to generate a velocity command, and associate
+    // it to the corresponding robot's name.
     this->velPubMap[robotName]
       = this->nh.advertise<geometry_msgs::Twist>(robotName + "/cmd_vel", 1);
 
-    for (auto suffix: this->lightSrvNameList)
+    // Create service clients to control flashlights/LEDs, and associate them
+    // to the corresponding service names.
+    for (auto suffix: this->lightSrvSuffixList)
     {
+      // Note: a service name is formatted like, "/<robot name><suffix>"
       std::string serviceName = "/" + robotName + suffix;
       this->lightSrvMap[serviceName]
         = this->nh.serviceClient<std_srvs::SetBool>(serviceName);
     }
   }
 
-  // select the first robot in default
+  // Select the first robot in default
   this->currentRobot = this->joyButtonRobotMap.begin()->second;
-  ROS_INFO_STREAM("First robot: " << this->currentRobot);
 
-  this->joySub = this->nh.subscribe<sensor_msgs::Joy>("joy", 10, &SubtTeleop::joyCallback, this);
+  // Subscribe "joy" topic to listen to the joy control.
+  this->joySub
+    = this->nh.subscribe<sensor_msgs::Joy>(
+      "joy", 10, &SubtTeleop::joyCallback, this);
 }
 
+/////////////////////////////////////////////////
 void SubtTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
 {
-
   std_srvs::SetBool srv;
+  // If L button was pressed, turn the lights on.
   if (joy->buttons[this->joyButtonIndexMap["L"]])
   {
     srv.request.data = true;
-    for (auto suffix: this->lightSrvNameList)
+    for (auto suffix: this->lightSrvSuffixList)
     {
       std::string serviceName = "/" + this->currentRobot + suffix;
       this->lightSrvMap[serviceName].call(srv);
     }
     return;
   }
-  else if (joy->buttons[this->joyButtonIndexMap["R"]])
+  // If R button was pressed, turn the lights off.
+  if (joy->buttons[this->joyButtonIndexMap["R"]])
   {
     srv.request.data = false;
-    for (auto suffix: this->lightSrvNameList)
+    for (auto suffix: this->lightSrvSuffixList)
     {
       std::string serviceName = "/" + this->currentRobot + suffix;
       this->lightSrvMap[serviceName].call(srv);
     }
     return;
   }
-  
+
+  // If another button was pressed, choose the associated robot.
   for (auto &pair: this->joyButtonIndexMap)
   {
     if (joy->buttons[pair.second])
@@ -137,9 +184,12 @@ void SubtTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
 
   geometry_msgs::Twist twist;
 
+  // Since a trigger value spans from 1 to -1, it is remapped so it does from 0
+  // to 1.
   double triggerRate = -0.5 * joy->axes[this->enableTrigger] + 0.5;
   double triggerTurboRate = -0.5 * joy->axes[this->enableTurboTrigger] + 0.5;
 
+  // If the trigger values are non zero, calculate control values.
   if (triggerRate > 0)
   {
     twist.angular.z
@@ -157,9 +207,11 @@ void SubtTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
         * joy->axes[this->linearTurbo] * triggerTurboRate;
   }
 
+  // Publish the control values.
   this->velPubMap[this->currentRobot].publish(twist);
 }
 
+/////////////////////////////////////////////////
 int main(int argc, char** argv)
 {
   ros::init(argc, argv, "teleop_node");
