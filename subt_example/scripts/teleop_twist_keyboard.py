@@ -2,12 +2,14 @@
 
 from __future__ import print_function
 
-import roslib; roslib.load_manifest('teleop_twist_keyboard')
+import roslib
 import rospy
 
 from geometry_msgs.msg import Twist
 
 import sys, select, termios, tty, yaml, rospkg
+
+from std_srvs.srv import SetBool
 
 msg = """
 Reading from the keyboard  and Publishing to Twist!
@@ -33,6 +35,8 @@ w/x : increase/decrease only linear speed by 10%
 e/c : increase/decrease only angular speed by 10%
 
 0-9 : select robots by index
+
+a/s : turn lights on/off
 
 CTRL-C to quit
 """
@@ -84,17 +88,17 @@ if __name__=="__main__":
 	rospack = rospkg.RosPack()
 
 	try:
-		f = open(rospack.get_path('subt_example') + '/config/robot_list.yaml', 'r')
-		dict_robot = yaml.load_all(f.read())
+		f = open(rospack.get_path('subt_example') + '/config/robot_config.yaml', 'r')
+		dict_robot = yaml.load(f.read())
 	except Exception as e:
 		print(e)
 
 	robotNames = {}
 	pubs = {}
-	for robot in dict_robot:
+	for robot in dict_robot['robot_names']:
 		key = str((len(pubs)+1)%10)
-		robotNames[key] = robot['name']
-		pubs[key] = rospy.Publisher(robot['name'] + '/cmd_vel', Twist, queue_size = 1)
+		robotNames[key] = robot
+		pubs[key] = rospy.Publisher(robot + '/cmd_vel', Twist, queue_size = 1)
 		if len(pubs) == 10:
 			break
 	currentRobotKey = '1'
@@ -111,13 +115,13 @@ if __name__=="__main__":
 
 	try:
 		print(msg)
-		print(vels(speed,turn))
 		print('--------------------------')
-		print('to switch robots:')
+		print('Robot List:')
 		for i in range(0,len(pubs)):
 			key = str((i+1)%10)
 			print(key + ': ' + robotNames[key])
 		print('--------------------------')
+		print(vels(speed,turn))
 
 		while(1):
 			key = getKey()
@@ -138,6 +142,18 @@ if __name__=="__main__":
 				currentRobotKey = key
 				print("You selected " + robotNames[key] + " to control")
 				continue
+			elif key == 'a' or key == 's':
+				for suffix in dict_robot['light_service_suffixes']:
+					serviceName = '/' + robotNames[currentRobotKey] + suffix
+					rospy.wait_for_service(serviceName)
+					try:
+						light_switch = rospy.ServiceProxy(serviceName, SetBool)
+						if key == 'a':
+							light_switch(True)
+						else:
+							light_switch(False)
+					except rospy.ServiceException, e:
+						print("Service call failed: %s" % e)
 			else:
 				x = 0
 				y = 0
