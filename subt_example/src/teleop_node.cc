@@ -169,21 +169,15 @@ void SubtTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
   }
 
   // If another button was pressed, choose the associated robot.
-  for (auto &pair: this->joyButtonIndexMap)
+  for (auto &pair: this->joyButtonRobotMap)
   {
-    if (joy->buttons[pair.second])
+    if (joy->buttons[this->joyButtonIndexMap[pair.first]])
     {
-      std::string name = this->joyButtonRobotMap[pair.first];
-      if (name.length() > 0)
-      {
-        this->currentRobot = name;
-      }
-      return;
+      this->currentRobot = pair.second;
     }
   }
 
   geometry_msgs::Twist twist;
-
   // Since a trigger value spans from 1 to -1, it is remapped so it does from 0
   // to 1.
   double triggerRate = -0.5 * joy->axes[this->enableTrigger] + 0.5;
