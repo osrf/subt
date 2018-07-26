@@ -65,6 +65,10 @@ install(TARGETS subt_example_node
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
+# Install a python script
+catkin_install_python(PROGRAMS scripts/cmdvel_transform.py
+DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+
 # Install all the urdf file
 install(DIRECTORY urdf
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
