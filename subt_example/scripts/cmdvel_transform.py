@@ -31,13 +31,17 @@ def callbackCmdVel(data):
 	poseStamped.pose = newPose
 	pub.publish(poseStamped)
 
-if __name__=="__main__" and len(sys.argv) == 4:
+if __name__=="__main__":
+	filtered_argv = rospy.myargv(sys.argv)
+
+	if len(filtered_argv) != 4:
+		exit()
 
 	rospy.init_node('cmd_vel_converter', anonymous=True)
 
-	rospy.Subscriber(sys.argv[1], Twist, callbackCmdVel)
-	pub = rospy.Publisher(sys.argv[2], PoseStamped, queue_size=1)
-	buff = eval(sys.argv[3])
+	rospy.Subscriber(filtered_argv[1], Twist, callbackCmdVel)
+	pub = rospy.Publisher(filtered_argv[2], PoseStamped, queue_size=1)
+	buff = eval(filtered_argv[3])
 	currentPose = Pose()
 	currentPose.position.x = buff[0]
 	currentPose.position.y = buff[1]
