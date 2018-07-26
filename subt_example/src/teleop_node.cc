@@ -195,10 +195,10 @@ void SubtTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
       = this->verticalScale * joy->axes[this->vertical] * triggerRate;
     twist.angular.z
       = this->angularScale * joy->axes[this->angular] * triggerRate;
-  }
 
-  // Publish the control values.
-  this->velPubMap[this->currentRobot].publish(twist);
+    // Publish the control values.
+    this->velPubMap[this->currentRobot].publish(twist);
+  }
 }
 
 /////////////////////////////////////////////////
