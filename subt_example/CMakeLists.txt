@@ -66,7 +66,7 @@ install(TARGETS subt_example_node
 )
 
 # Install a python script
-catkin_install_python(PROGRAMS scripts/cmdvel_transform.py
+catkin_install_python(PROGRAMS scripts/cmdvel_converter.py
 DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
 # Install all the urdf file

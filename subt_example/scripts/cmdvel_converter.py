@@ -20,10 +20,14 @@ class Converter:
 		self.mutex.release()
 
 	def callbackCmdVel(self, data):
-		vel = data
 		self.mutex.acquire()
+		if self.currentPose is None or self.pub is None:
+			self.mutex.release()
+			return
 		newPose = self.currentPose
 		self.mutex.release()
+		vel = data
+
 		quaternion = (newPose.orientation.x, newPose.orientation.y, newPose.orientation.z, newPose.orientation.w)
 		vec = (vel.linear.x, vel.linear.y, vel.linear.z, 1)
 		Rot = tf.quaternion_matrix(quaternion).tolist()
@@ -31,6 +35,7 @@ class Converter:
 		newPose.position.x += buff[0]
 		newPose.position.y += buff[1]
 		newPose.position.z += buff[2]
+
 		quaternion0 = (newPose.orientation.x, newPose.orientation.y, newPose.orientation.z, newPose.orientation.w)
 		quaternion1 = tf.quaternion_from_euler(vel.angular.x, vel.angular.y, vel.angular.z)
 		quaternion = tf.quaternion_multiply(quaternion1, quaternion0)
@@ -38,6 +43,7 @@ class Converter:
 		newPose.orientation.y = quaternion[1]
 		newPose.orientation.z = quaternion[2]
 		newPose.orientation.w = quaternion[3]
+
 		poseStamped = PoseStamped()
 		poseStamped.pose = newPose
 		self.pub.publish(poseStamped)
