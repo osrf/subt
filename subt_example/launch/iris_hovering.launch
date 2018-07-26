@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-  
+
   <!-- Launch the SubT world. -->
   <include file="$(find subt_gazebo)/launch/lava_tube.launch">
   </include>
@@ -20,7 +20,10 @@
     <!-- Given robot_descriptom parameter and joint states, publish TF frames -->
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 
-    <!-- Set an initial point for the quadcopter to hover at -->
-    <node name="waypoint_publisher" pkg="rotors_gazebo" type="waypoint_publisher" args="0 0 1 0 5"/>
+    <node name="cmdvel_transform" pkg="subt_example" type="cmdvel_converter.py" args="/iris/odometry_sensor1/pose /iris/cmd_vel /iris/command/pose"/>
+    <include file="$(find teleop_twist_joy)/launch/teleop.launch"/>
+
+    <!-- Set an initial point for the quadcopter to hover at
+    <node name="waypoint_publisher" pkg="rotors_gazebo" type="waypoint_publisher" args="0 0 1 0 5"/>-->
   </group>
 </launch>
