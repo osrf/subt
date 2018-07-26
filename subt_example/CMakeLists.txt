@@ -66,9 +66,8 @@ install(DIRECTORY config/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/config)
 
 # Install a python script
-catkin_install_python(PROGRAMS scripts/teleop_twist_keyboard.py
+catkin_install_python(PROGRAMS scripts/teleop_twist_keyboard.py scripts/cmdvel_converter.py
 DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
-
 
 # Mark executables and/or libraries for installation
 install(TARGETS subt_example_node teleop_node
@@ -76,10 +75,6 @@ install(TARGETS subt_example_node teleop_node
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
-
-# Install a python script
-catkin_install_python(PROGRAMS scripts/cmdvel_converter.py
-DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
 # Install all the urdf file
 install(DIRECTORY urdf

@@ -20,7 +20,7 @@
     <!-- Given robot_descriptom parameter and joint states, publish TF frames -->
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 
-    <node name="cmdvel_transform" pkg="subt_example" type="cmdvel_converter.py" args="/iris/odometry_sensor1/pose /iris/cmd_vel /iris/command/pose"/>
+    <node name="cmdvel_transform" pkg="subt_example" type="cmdvel_converter.py" args="/iris/odometry_sensor1/pose /cmd_vel /iris/command/pose"/>
     <include file="$(find teleop_twist_joy)/launch/teleop.launch"/>
 
     <!-- Set an initial point for the quadcopter to hover at

@@ -37,29 +37,29 @@ class SubtTeleop
   /// \brief Index for the angular axis of the joy stick.
   private: int angular;
 
-  /// \brief Index for the button to enable the joy stick control.
-  private: int enableTrigger;
-
   /// \brief Scale value for the linear axis input.
   private: double linearScale;
 
   /// \brief Scale value for the angular axis input.
   private: double angularScale;
 
-  /// \brief Index for the linear axis of the joy stick (Turbo mode).
-  private: int linearTurbo;
+  /// \brief Index for the vertical axis (z axis) of the joy stick.
+  private: int vertical;
 
-  /// \brief Index for the angular axis of the joy stick (Turbo mode).
-  private: int angularTurbo;
+  /// \brief Index for the horizontal axis (y axis) of the joy stick.
+  private: int horizontal;
+
+  /// \brief Scale value for the vertical axis (z axis) input.
+  private: double verticalScale;
+
+  /// \brief Scale value for the horizontal axis (y axis) input.
+  private: double horizontalScale;
+
+  /// \brief Index for the button to enable the joy stick control.
+  private: int enableTrigger;
 
   /// \brief Index for the button to enable the joy stick control (Turbo mode).
   private: int enableTurboTrigger;
-
-  /// \brief Scale value for the linear axis input (Turbo mode).
-  private: double linearScaleTurbo;
-
-  /// \brief Scale value for the angular axis input (Turbo mode).
-  private: double angularScaleTurbo;
 
   /// \brief Subscriber to get input values from the joy control.
   private: ros::Subscriber joySub;
@@ -87,24 +87,24 @@ class SubtTeleop
 
 /////////////////////////////////////////////////
 SubtTeleop::SubtTeleop():
-  linear(1), angular(0), enableTrigger(9), linearScale(0), angularScale(0),
-  linearTurbo(4), angularTurbo(3), enableTurboTrigger(10),
-  linearScaleTurbo(0), angularScaleTurbo(0)
+  linear(1), angular(0), linearScale(0), angularScale(0),
+  vertical(4), horizontal(3), verticalScale(0), horizontalScale(0),
+  enableTrigger(9), enableTurboTrigger(10)
 {
   // Load joy control settings. Setting values must be loaded by rosparam.
   this->nh.param("axis_linear", this->linear, this->linear);
   this->nh.param("axis_angular", this->angular, this->angular);
-  this->nh.param("enable_trigger", this->enableTrigger, this->enableTrigger);
   this->nh.param("scale_linear", this->linearScale, this->linearScale);
   this->nh.param("scale_angular", this->angularScale, this->angularScale);
 
-  this->nh.param("axis_linear_turbo", this->linearTurbo, this->linearTurbo);
-  this->nh.param("axis_angular_turbo", this->angularTurbo, this->angularTurbo);
+  this->nh.param("axis_vertical", this->vertical, this->vertical);
+  this->nh.param("axis_horizontal", this->horizontal, this->horizontal);
+  this->nh.param("scale_vertical", this->verticalScale, this->verticalScale);
+  this->nh.param(
+    "scale_horizontal", this->horizontalScale, this->horizontalScale);
+
+  this->nh.param("enable_trigger", this->enableTrigger, this->enableTrigger);
   this->nh.param("enable_turbo_trigger", this->enableTurboTrigger, -1);
-  this->nh.param(
-    "scale_linear_turbo", this->linearScaleTurbo, this->linearScaleTurbo);
-  this->nh.param(
-    "scale_angular_turbo", this->angularScaleTurbo, this->angularScaleTurbo);
 
   this->nh.getParam("button_map", this->joyButtonIndexMap);
 
@@ -181,24 +181,20 @@ void SubtTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
   // Since a trigger value spans from 1 to -1, it is remapped so it does from 0
   // to 1.
   double triggerRate = -0.5 * joy->axes[this->enableTrigger] + 0.5;
-  double triggerTurboRate = -0.5 * joy->axes[this->enableTurboTrigger] + 0.5;
+  if (triggerRate == 0)
+    triggerRate = -0.5 * joy->axes[this->enableTurboTrigger] + 0.5;
 
   // If the trigger values are non zero, calculate control values.
   if (triggerRate > 0)
   {
-    twist.angular.z
-      = this->angularScale * joy->axes[this->angular] * triggerRate;
     twist.linear.x
       = this->linearScale * joy->axes[this->linear] * triggerRate;
-  }
-  else if (triggerTurboRate > 0)
-  {
+    twist.linear.y
+      = this->horizontalScale * joy->axes[this->horizontal] * triggerRate;
+    twist.linear.z
+      = this->verticalScale * joy->axes[this->vertical] * triggerRate;
     twist.angular.z
-      = this->angularScaleTurbo
-        * joy->axes[this->angularTurbo] * triggerTurboRate;
-    twist.linear.x
-      = this->linearScaleTurbo
-        * joy->axes[this->linearTurbo] * triggerTurboRate;
+      = this->angularScale * joy->axes[this->angular] * triggerRate;
   }
 
   // Publish the control values.

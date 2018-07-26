@@ -10,7 +10,7 @@
        the simulator. This will be removed in favour of using the config:=x arg instead. -->
   <arg name="front_laser" default="true" />
   <arg name="default_config" value="front_laser" if="$(arg front_laser)" />
-  <arg name="default_config" value="base" unless="$(arg front_laser)" /> 
+  <arg name="default_config" value="base" unless="$(arg front_laser)" />
   <!-- end of hack -->
 
   <!-- Configuration of Jackal which you would like to simulate.
@@ -45,7 +45,29 @@
     <arg name="urdf_extras" value="$(find subt_example)/urdf/jackal_equipments.urdf.xacro"/>
     <arg name="config" value="$(arg config)"/>
   </include>
-  
+
+  <!-- Iris quadcopter -->
+  <group ns="Iris">
+    <include file="$(find subt_example)/launch/spawn_iris.launch">
+      <arg name="mav_name" value="Iris" />
+      <arg name="x" value="-1"/>
+      <arg name="y" value="-1"/>
+      <arg name="z" value="0"/>
+    </include>
+    <!-- Sends motor commands to hold position -->
+    <node name="lee_position_controller_node" pkg="rotors_control" type="lee_position_controller_node">
+      <rosparam command="load" file="$(find rotors_gazebo)/resource/lee_controller_iris.yaml" />
+      <rosparam command="load" file="$(find rotors_gazebo)/resource/iris.yaml" />
+      <remap from="odometry" to="odometry_sensor1/odometry" />
+    </node>
+
+    <!-- Given robot_descriptom parameter and joint states, publish TF frames -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+    <!-- Convert cmd_vel into pose command so as to provide the same interface -->
+    <node name="cmdvel_transform" pkg="subt_example" type="cmdvel_converter.py" args="/Iris/odometry_sensor1/pose /Iris/cmd_vel /Iris/command/pose"/>
+  </group>
+
   <include file="$(find subt_example)/launch/teleop.launch"/>
 
 </launch>
