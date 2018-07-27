@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="lights">
+  <xacro:property name="M_PI" value="3.14159"/>
+
+  <xacro:include filename="$(find subt_gazebo)/urdf/flashlight.urdf.xacro" />
+  <xacro:include filename="$(find subt_gazebo)/urdf/led.urdf.xacro" />
+
+  <xacro:flashlight flashlight_prefix="downward" parent_link="${namespace}/base_link">
+    <pose>0 0 0.1 0 ${M_PI/3*2} 0</pose>
+    <block>
+      <duration>1</duration>
+      <interval>0</interval>
+      <color>1 1 1</color>
+    </block>
+  </xacro:flashlight>
+
+  <xacro:led led_prefix="center" parent_link="${namespace}/base_link" color="0 1 0">
+    <pose>0 0 -0.05 0 0 0</pose>
+    <params>
+      <block>
+        <duration>0.25</duration>
+        <interval>0</interval>
+        <color>1 0 0</color>
+      </block>
+      <block>
+        <duration>0.25</duration>
+        <interval>0</interval>
+        <color>0 1 0</color>
+      </block>
+      <block>
+        <duration>0.25</duration>
+        <interval>0</interval>
+        <color>0 0 1</color>
+      </block>
+    </params>
+  </xacro:led>
+</robot>
