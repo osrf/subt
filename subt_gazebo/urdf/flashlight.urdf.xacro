@@ -6,6 +6,9 @@
         <xacro:insert_block name="pose"/>
         <link name='handle'>
           <pose>0 0 0.05 0 0 0</pose>
+          <inertia>
+            <mass>0.001</mass>
+          </inertia>
           <collision name='collision'>
             <geometry>
               <cylinder>
@@ -28,6 +31,9 @@
         </link>
         <link name='light_source'>
           <pose>0 0 0.10 0 0 0</pose>
+          <inertia>
+            <mass>0.001</mass>
+          </inertia>
           <light name='lamp' type='spot'>
             <pose>0 0 0.0 0 3.14159 0</pose>
             <attenuation>

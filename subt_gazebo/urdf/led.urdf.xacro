@@ -5,6 +5,9 @@
       <model name='${led_prefix}_led'>
         <xacro:insert_block name='pose'/>
         <link name='led_body'>
+          <inertia>
+            <mass>0.00001</mass>
+          </inertia>
           <collision name='collision'>
             <geometry>
               <sphere>
