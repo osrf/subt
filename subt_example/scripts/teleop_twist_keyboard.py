@@ -15,15 +15,15 @@ msg = """
 Reading from the keyboard  and Publishing to Twist!
 ---------------------------
 Moving around:
-   u    i    o
-   j    k    l
-   m    ,    .
+   u	i	o
+   j	k	l
+   m	,	.
 
 For Holonomic mode (strafing), hold down the shift key:
 ---------------------------
-   U    I    O
-   J    K    L
-   M    <    >
+   U	I	O
+   J	K	L
+   M	<	>
 
 t : up (+z)
 b : down (-z)
@@ -60,7 +60,7 @@ moveBindings = {
 		'M':(-1,1,0,0),
 		't':(0,0,1,0),
 		'b':(0,0,-1,0),
-	       }
+		   }
 
 speedBindings={
 		'q':(1.1,1.1),
@@ -69,7 +69,7 @@ speedBindings={
 		'x':(.9,1),
 		'e':(1,1.1),
 		'c':(1,.9),
-	      }
+		  }
 
 def getKey():
 	tty.setraw(sys.stdin.fileno())
@@ -145,7 +145,6 @@ if __name__=="__main__":
 			elif key == 'a' or key == 's':
 				for suffix in dict_robot['light_service_suffixes']:
 					serviceName = '/' + robotNames[currentRobotKey] + suffix
-					rospy.wait_for_service(serviceName)
 					try:
 						light_switch = rospy.ServiceProxy(serviceName, SetBool)
 						if key == 'a':
@@ -153,7 +152,8 @@ if __name__=="__main__":
 						else:
 							light_switch(False)
 					except rospy.ServiceException, e:
-						print("Service call failed: %s" % e)
+						pass
+				continue
 			else:
 				x = 0
 				y = 0
@@ -177,4 +177,4 @@ if __name__=="__main__":
 		for key in pubs.keys():
 			pubs[key].publish(twist)
 
-    	termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
+		termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
