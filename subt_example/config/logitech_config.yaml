@@ -3,16 +3,23 @@
 
 axis_linear: 1  # Left thumb stick vertical
 scale_linear: 0.7
+scale_linear_turbo: 1.5
 axis_angular: 0  # Left thumb stick horizontal
 scale_angular: 0.4
+scale_angular_turbo: 0.8
 
 axis_vertical: 4  # Right thumb stick vertical
-scale_vertical: 1.5
+scale_vertical: 0.7
+scale_vertical_turbo: 1.5
 axis_horizontal: 3  # Right thumb stick horizontal
-scale_horizontal: 1.0
+scale_horizontal: 0.7
+scale_horizontal_turbo: 1.5
 
-enable_trigger: 2  # Left trigger (LT) button
-enable_turbo_trigger: 5  # Right trigger (RT) button
+enable_button: 4  # Left button (LB)
+enable_turbo_button: 5  # Right button (RB)
+
+light_on_trigger: 2  # Left trigger (LT)
+light_off_trigger: 5  # Right trigger (RT)
 
 button_map:
   A: 0
@@ -21,3 +28,8 @@ button_map:
   Y: 3
   L: 4
   R: 5
+
+joy_node:
+  dev: /dev/input/js0
+  deadzone: 0.1
+  autorepeat_rate: 20
