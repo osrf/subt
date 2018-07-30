@@ -20,6 +20,7 @@
 #include <std_srvs/SetBool.h>
 
 #include <cmath>
+#include <mutex>
 #include <sstream>
 #include <thread>
 #include <vector>
@@ -37,8 +38,8 @@ using namespace gazebo;
 class FlashLihgtTest : public testing::Test
 {
   // Constructor.
-  public: FlashLihgtTest(): cameraCalled(false), visual_flashing(false),
-  responded(false), light_flashing(false), running(false)
+  public: FlashLihgtTest(): cameraCalled(false), visualFlashing(false),
+  responded(false), lightFlashing(false), running(false)
   {
   }
 
@@ -78,7 +79,7 @@ class FlashLihgtTest : public testing::Test
   protected: bool cameraCalled;
 
   /// \brief True if a visual object is flashing.
-  protected: bool visual_flashing;
+  protected: bool visualFlashing;
 
   /// \brief Protect data from races.
   protected: std::mutex mutexCamera;
@@ -87,7 +88,7 @@ class FlashLihgtTest : public testing::Test
   protected: bool responded;
 
   /// \brief True if a light object is flashing.
-  protected: bool light_flashing;
+  protected: bool lightFlashing;
 
   /// \brief Protect data from races.
   protected: std::mutex mutexResponse;
@@ -113,9 +114,9 @@ void FlashLihgtTest::CameraCb(ConstImageStampedPtr &_msg)
   ignition::math::Color color = image.Pixel(0, 0);
 
   std::lock_guard<std::mutex> lk(this->mutexCamera);
-  this->visual_flashing = false;
+  this->visualFlashing = false;
   if (color.R() > 0.9 && color.G() > 0.9 && color.B() > 0.9)
-    this->visual_flashing = true;
+    this->visualFlashing = true;
 
   this->cameraCalled = true;
 }
@@ -136,11 +137,11 @@ void FlashLihgtTest::ResponseCb(ConstResponsePtr &_msg)
 
   if (lightMsg.range() > 0)
   {
-    this->light_flashing = true;
+    this->lightFlashing = true;
   }
   else
   {
-    this->light_flashing = false;
+    this->lightFlashing = false;
   }
 
   this->responded = true;
@@ -226,11 +227,11 @@ TEST_F(FlashLihgtTest, switchOffAndOn)
   // Check if the light is flashing.
   {
     std::lock_guard<std::mutex> lk(this->mutexResponse);
-    EXPECT_TRUE(this->light_flashing) << "The light is not flashing.";
+    EXPECT_TRUE(this->lightFlashing) << "The light is not flashing.";
   }
   {
     std::lock_guard<std::mutex> lk(this->mutexCamera);
-    EXPECT_TRUE(this->visual_flashing) << "The visual is not flashing.";
+    EXPECT_TRUE(this->visualFlashing) << "The visual is not flashing.";
   }
 
   // Turn it off.
@@ -246,11 +247,11 @@ TEST_F(FlashLihgtTest, switchOffAndOn)
   // Check the results.
   {
     std::lock_guard<std::mutex> lk(this->mutexResponse);
-    EXPECT_FALSE(this->light_flashing) << "The light was not turned off.";
+    EXPECT_FALSE(this->lightFlashing) << "The light was not turned off.";
   }
   {
     std::lock_guard<std::mutex> lk(this->mutexCamera);
-    EXPECT_FALSE(this->visual_flashing) << "The visual was not turned off.";
+    EXPECT_FALSE(this->visualFlashing) << "The visual was not turned off.";
   }
 
   // Turn it on again.
@@ -266,11 +267,11 @@ TEST_F(FlashLihgtTest, switchOffAndOn)
   // Check if the light is flashing.
   {
     std::lock_guard<std::mutex> lk(this->mutexResponse);
-    EXPECT_TRUE(this->light_flashing) << "The light is not flashing.";
+    EXPECT_TRUE(this->lightFlashing) << "The light is not flashing.";
   }
   {
     std::lock_guard<std::mutex> lk(this->mutexCamera);
-    EXPECT_TRUE(this->visual_flashing) << "The visual is not flashing.";
+    EXPECT_TRUE(this->visualFlashing) << "The visual is not flashing.";
   }
 
   {
