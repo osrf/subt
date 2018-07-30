@@ -15,8 +15,8 @@
  *
 */
 
-#ifndef GAZEBO_PLUGINS_ROSLEDPLUGIN_HH_
-#define GAZEBO_PLUGINS_ROSLEDPLUGIN_HH_
+#ifndef GAZEBO_PLUGINS_ROSFLASHLIGHTPLUGIN_HH_
+#define GAZEBO_PLUGINS_ROSFLASHLIGHTPLUGIN_HH_
 
 #include <ros/ros.h>
 #include <std_srvs/SetBool.h>
@@ -51,7 +51,7 @@ namespace gazebo
   /// </light>
   /// ...
   ///
-  class RosLedPlugin : public LedPlugin
+  class RosFlashLightPlugin : public LedPlugin
   {
     // Documentation inherited.
     public: void Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf) override;

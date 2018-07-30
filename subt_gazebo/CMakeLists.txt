@@ -123,9 +123,9 @@ install(
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
 )
 
-# Create the libRosLedPlugin.so library.
-set(ros_led_plugin_name RosLedPlugin)
-add_library(${ros_led_plugin_name} src/RosLedPlugin.cc)
+# Create the libRosFlashLightPlugin.so library.
+set(ros_led_plugin_name RosFlashLightPlugin)
+add_library(${ros_led_plugin_name} src/RosFlashLightPlugin.cc)
 target_link_libraries(${ros_led_plugin_name}
   ${catkin_LIBRARIES}
   LedPlugin
