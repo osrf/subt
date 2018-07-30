@@ -123,6 +123,18 @@ install(
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
 )
 
+# Create the libRosFlashLightPlugin.so library.
+set(ros_flashlight_plugin_name RosFlashLightPlugin)
+add_library(${ros_flashlight_plugin_name} src/RosFlashLightPlugin.cc)
+target_link_libraries(${ros_flashlight_plugin_name}
+  ${catkin_LIBRARIES}
+  LedPlugin
+)
+install(TARGETS ${ros_flashlight_plugin_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+
 ###########
 ## Tests ##
 ###########
@@ -149,6 +161,17 @@ add_rostest(test/comms.test
   WORKING_DIRECTORY "${CATKIN_DEVEL_PREFIX}/lib"
   DEPENDENCIES test_comms
 )
+
+find_package(rostest REQUIRED)
+add_rostest_gtest(test_flashlight test/flashlight.test test/flashlight.cc)
+target_link_libraries(test_flashlight
+  ${catkin_LIBRARIES}
+  ${GAZEBO_LIBRARIES}
+)
+add_dependencies(test_flashlight
+  ${ros_flashlight_plugin_name}
+)
+
 
 #############
 ## Install ##
