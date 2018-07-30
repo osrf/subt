@@ -15,6 +15,10 @@
  *
 */
 
+#include <gtest/gtest.h>
+#include <ros/ros.h>
+#include <std_srvs/SetBool.h>
+
 #include <cmath>
 #include <sstream>
 #include <thread>
@@ -25,9 +29,6 @@
 #include <gazebo/msgs/msgs.hh>
 #include <gazebo/rendering/Camera.hh>
 #include <gazebo/transport/transport.hh>
-#include <gtest/gtest.h>
-#include <ros/ros.h>
-#include <std_srvs/SetBool.h>
 
 using namespace gazebo;
 
@@ -36,7 +37,8 @@ using namespace gazebo;
 class FlashLihgtTest : public testing::Test
 {
   // Constructor.
-  public: FlashLihgtTest(): testing::Test()
+  public: FlashLihgtTest(): cameraCalled(false), visual_flashing(false),
+  responded(false), light_flashing(false), running(false)
   {
   }
 
@@ -125,17 +127,21 @@ void FlashLihgtTest::ResponseCb(ConstResponsePtr &_msg)
   msgs::Model modelMsg;
   modelMsg.ParseFromString(_msg->serialized_data());
 
-  ASSERT_TRUE(modelMsg.link_size() > 0) << "The model must have a link.";
+  ASSERT_GT(modelMsg.link_size(), 0) << "The model must have a link.";
   msgs::Link linkMsg = modelMsg.link(0);
-  ASSERT_TRUE(linkMsg.light_size() > 0) << "The link must have a light.";
+  ASSERT_GT(linkMsg.light_size(), 0) << "The link must have a light.";
   msgs::Light lightMsg = linkMsg.light(0);
 
   std::lock_guard<std::mutex> lk(this->mutexResponse);
 
   if (lightMsg.range() > 0)
+  {
     this->light_flashing = true;
+  }
   else
+  {
     this->light_flashing = false;
+  }
 
   this->responded = true;
 }
@@ -144,7 +150,7 @@ void FlashLihgtTest::ResponseCb(ConstResponsePtr &_msg)
 void FlashLihgtTest::SendRequests()
 {
   double timeToSleep = 0.2;
-  while(true)
+  while (true)
   {
     msgs::Request msg;
     msg.set_id(0);
@@ -172,11 +178,6 @@ TEST_F(FlashLihgtTest, switchOffAndOn)
   // been merged into gazebo7 as of July 16, 2018. This if satement should be
   // removed once the patch is forwarded up to gazebo9.
   ros::Duration(1.5).sleep();
-
-  this->cameraCalled = false;
-  this->responded = false;
-  this->light_flashing = false;
-  this->visual_flashing = false;
 
   // ROS spinning
   std::shared_ptr<ros::AsyncSpinner> async_ros_spin_;
@@ -285,7 +286,7 @@ int main(int argc, char **argv)
   ::testing::InitGoogleTest(&argc, argv);
 
   // Start ROS
-  ros::init(argc,argv,"test_led");
+  ros::init(argc, argv, "test_led");
 
   // Start Gazebo client
   gazebo::client::setup(argc, argv);
