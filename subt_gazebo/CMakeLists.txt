@@ -124,13 +124,13 @@ install(
 )
 
 # Create the libRosFlashLightPlugin.so library.
-set(ros_led_plugin_name RosFlashLightPlugin)
-add_library(${ros_led_plugin_name} src/RosFlashLightPlugin.cc)
-target_link_libraries(${ros_led_plugin_name}
+set(ros_flashlight_plugin_name RosFlashLightPlugin)
+add_library(${ros_flashlight_plugin_name} src/RosFlashLightPlugin.cc)
+target_link_libraries(${ros_flashlight_plugin_name}
   ${catkin_LIBRARIES}
   LedPlugin
 )
-install(TARGETS ${ros_led_plugin_name}
+install(TARGETS ${ros_flashlight_plugin_name}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
@@ -170,15 +170,6 @@ target_link_libraries(test_flashlight
 )
 add_dependencies(test_flashlight
   ${ros_flashlight_plugin_name}
-    ${ros_led_plugin_name}
-)
-add_rostest_gtest(test_led test/led.test test/led.cc)
-target_link_libraries(test_led
-  ${catkin_LIBRARIES}
-  ${GAZEBO_LIBRARIES}
-)
-add_dependencies(test_led
-  ${ros_led_plugin_name}
 )
 
 
