@@ -106,7 +106,7 @@
         <parent>cylinder</parent>
         <child>box</child>
       </joint>
-      <plugin name='light_control' filename='libRosLedPlugin.so'>
+      <plugin name='light_control' filename='libRosFlashLightPlugin.so'>
         <service_name>light_switch</service_name>
         <enable>true</enable>
         <light>
