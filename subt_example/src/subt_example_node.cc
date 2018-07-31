@@ -110,7 +110,7 @@ Controller::Controller(const std::string &_name, const std::string &_address):
 
   std::vector<std::string> flashlightSrvSuffixList;
   this->n.getParam(
-    "light_service_suffixes", flashlightSrvSuffixList);
+    "flashlight_service_suffixes", flashlightSrvSuffixList);
   std::vector<std::string> selectLedSrvSuffixList;
   this->n.getParam(
     "select_led_service_suffixes", selectLedSrvSuffixList);

@@ -8,30 +8,50 @@
   <xacro:flashlight flashlight_prefix="downward" parent_link="${namespace}/base_link">
     <pose>0 0 0.1 0 ${M_PI/3*2} 0</pose>
     <block>
+      <enable>false</enable>
       <duration>1</duration>
       <interval>0</interval>
       <color>1 1 1</color>
     </block>
   </xacro:flashlight>
 
-  <xacro:led led_prefix="center" parent_link="${namespace}/base_link" color="0 1 0">
+  <xacro:led led_prefix="right" parent_link="${namespace}/base_link">
+    <pose>-0.05 -0.05 0.05 0 0 0</pose>
+    <params>
+      <enable>false</enable>
+      <duration>0.3</duration>
+      <interval>0.3</interval>
+      <color>1 0.8 0</color>
+    </params>
+  </xacro:led>
+  <xacro:led led_prefix="center" parent_link="${namespace}/base_link">
     <pose>0 0 -0.05 0 0 0</pose>
     <params>
+      <enable>false</enable>
       <block>
-        <duration>0.25</duration>
+        <duration>0.2</duration>
         <interval>0</interval>
         <color>1 0 0</color>
       </block>
       <block>
-        <duration>0.25</duration>
+        <duration>0.2</duration>
         <interval>0</interval>
         <color>0 1 0</color>
       </block>
       <block>
-        <duration>0.25</duration>
+        <duration>0.2</duration>
         <interval>0</interval>
         <color>0 0 1</color>
       </block>
+    </params>
+  </xacro:led>
+  <xacro:led led_prefix="left" parent_link="${namespace}/base_link">
+    <pose>-0.05 0.05 0.05 0 0 0</pose>
+    <params>
+      <enable>false</enable>
+      <duration>0.3</duration>
+      <interval>0.3</interval>
+      <color>1 0.8 0</color>
     </params>
   </xacro:led>
 </robot>

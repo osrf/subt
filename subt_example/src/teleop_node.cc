@@ -146,7 +146,7 @@ SubtTeleop::SubtTeleop():
   std::vector<std::string> robotNames;
   this->nh.getParam("robot_names", robotNames);
   this->nh.getParam("button_robot_map", this->joyButtonRobotMap);
-  this->nh.getParam("light_service_suffixes", this->lightSrvSuffixList);
+  this->nh.getParam("flashlight_service_suffixes", this->lightSrvSuffixList);
 
   for (auto robotName: robotNames)
   {

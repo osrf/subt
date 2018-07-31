@@ -10,13 +10,10 @@ button_robot_map:
   X: robotC
   Y: Iris
 
-light_service_suffixes:
-  - /center_led/led_switch
+flashlight_service_suffixes:
   - /downward_flashlight/flashlight_switch
   - /left_flashlight/flashlight_switch
-  - /left_led/led_switch
   - /right_flashlight/flashlight_switch
-  - /right_led/led_switch
 
 robot_address_map:
   robotA: 128.0.0.10
