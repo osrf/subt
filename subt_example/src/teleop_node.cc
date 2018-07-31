@@ -18,7 +18,8 @@
 #include <geometry_msgs/Twist.h>
 #include <ros/ros.h>
 #include <sensor_msgs/Joy.h>
-#include <std_srvs/SetBool.h>
+#include <std_msgs/Bool.h>
+#include <std_msgs/String.h>
 
 class SubtTeleop
 {
@@ -79,8 +80,17 @@ class SubtTeleop
   /// \brief Index for the trigger to turn lights off.
   private: int lightOffTrigger;
 
+  /// \brief Index for horizontal axis of arrow keys.
+  private: int axisArrowHorizontal;
+
+  /// \brief Index for vertial axis of arrow keys.
+  private: int axisArrowVertical;
+
   /// \brief Subscriber to get input values from the joy control.
   private: ros::Subscriber joySub;
+
+  /// \brief List of robot names.
+  private: std::vector<std::string> robotNames;
 
   /// \brief Map from a button name to an index.
   /// e.g., 'A' -> 1
@@ -90,17 +100,23 @@ class SubtTeleop
   /// \brief Map from an button name to a robot name.
   private: std::map<std::string, std::string> joyButtonRobotMap;
 
-  /// \brief Map from a robot name to a ROS publisher object.
+  /// \brief Map from a robot name to its address.
+  private: std::map<std::string, std::string> robotAddressMap;
+
+  /// \brief Map from a robot name to a ROS publisher to control velocity.
   private: std::map<std::string, ros::Publisher> velPubMap;
+
+  /// \brief Map from a robot name to a ROS publisher to control comm.
+  private: std::map<std::string, ros::Publisher> commPubMap;
+
+  /// \brief Map from a robot name to a ROS publisher to control selection LED.
+  private: std::map<std::string, ros::Publisher> selPubMap;
+
+  /// \brief Map from a robot name to a ROS publisher to control flashlights.
+  private: std::map<std::string, ros::Publisher> lightPubMap;
 
   /// \brief the name of the robot currently under control.
   private: std::string currentRobot;
-
-  /// \brief List of light control service names (suffix).
-  private: std::vector<std::string> lightSrvSuffixList;
-
-  /// \brief Map from a service name to a service client object.
-  private: std::map<std::string, ros::ServiceClient> lightSrvMap;
 };
 
 /////////////////////////////////////////////////
@@ -108,7 +124,8 @@ SubtTeleop::SubtTeleop():
   linear(1), angular(0), linearScale(0), linearScaleTurbo(0), angularScale(0),
   angularScaleTurbo(0), vertical(4), horizontal(3), verticalScale(0),
   verticalScaleTurbo(0), horizontalScale(0), horizontalScaleTurbo(0),
-  enableButton(4), enableTurboButton(5), lightOnTrigger(2), lightOffTrigger(5)
+  enableButton(4), enableTurboButton(5), lightOnTrigger(2), lightOffTrigger(5),
+  axisArrowHorizontal(6), axisArrowVertical(7)
 {
   // Load joy control settings. Setting values must be loaded by rosparam.
   this->nh.param("axis_linear", this->linear, this->linear);
@@ -140,35 +157,51 @@ SubtTeleop::SubtTeleop():
   this->nh.param(
     "light_off_trigger", this->lightOffTrigger, this->lightOffTrigger);
 
+  this->nh.param(
+    "axis_arrow_horizontal",
+    this->axisArrowHorizontal, this->axisArrowHorizontal);
+  this->nh.param(
+    "axis_arrow_vertical", this->axisArrowVertical, this->axisArrowVertical);
+
   this->nh.getParam("button_map", this->joyButtonIndexMap);
 
   // Load robot config information. Setting values must be loaded by rosparam.
-  std::vector<std::string> robotNames;
-  this->nh.getParam("robot_names", robotNames);
+  this->nh.getParam("robot_names", this->robotNames);
   this->nh.getParam("button_robot_map", this->joyButtonRobotMap);
-  this->nh.getParam("light_service_suffixes", this->lightSrvSuffixList);
+  this->nh.getParam("robot_address_map", this->robotAddressMap);
 
-  for (auto robotName: robotNames)
+  for (auto robotName: this->robotNames)
   {
     // Create a publisher object to generate a velocity command, and associate
     // it to the corresponding robot's name.
     this->velPubMap[robotName]
       = this->nh.advertise<geometry_msgs::Twist>(
-        robotName + "/cmd_vel", 1, true);
+        robotName + "/cmd_vel_relay", 1, true);
 
-    // Create service clients to control flashlights/LEDs, and associate them
-    // to the corresponding service names.
-    for (auto suffix: this->lightSrvSuffixList)
-    {
-      // Note: a service name is formatted like, "/<robot name><suffix>"
-      std::string serviceName = "/" + robotName + suffix;
-      this->lightSrvMap[serviceName]
-        = this->nh.serviceClient<std_srvs::SetBool>(serviceName);
-    }
+    // Create a publisher object to generate a selection command, and associate
+    // it to the corresponding robot's name.
+    this->selPubMap[robotName]
+      = this->nh.advertise<std_msgs::Bool>(
+        robotName + "/select", 1, true);
+
+    // Create a publisher object to generate a comm command, and associate
+    // it to the corresponding robot's name.
+    this->commPubMap[robotName]
+      = this->nh.advertise<std_msgs::String>(
+        robotName + "/comm", 1, true);
+
+    // Create a publisher object to generate a light command, and associate
+    // it to the corresponding robot's name.
+    this->lightPubMap[robotName]
+      = this->nh.advertise<std_msgs::Bool>(
+        robotName + "/light", 1, true);
   }
 
   // Select the first robot in default
   this->currentRobot = this->joyButtonRobotMap.begin()->second;
+  std_msgs::Bool msg;
+  msg.data = true;
+  this->selPubMap[this->currentRobot].publish(msg);
 
   // Subscribe "joy" topic to listen to the joy control.
   this->joySub
@@ -179,27 +212,19 @@ SubtTeleop::SubtTeleop():
 /////////////////////////////////////////////////
 void SubtTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
 {
-  std_srvs::SetBool srv;
+  std_msgs::Bool msg;
   // If LT was triggered, turn the lights on.
   if (joy->axes[this->lightOnTrigger] < 0)
   {
-    srv.request.data = true;
-    for (auto suffix: this->lightSrvSuffixList)
-    {
-      std::string serviceName = "/" + this->currentRobot + suffix;
-      this->lightSrvMap[serviceName].call(srv);
-    }
+    msg.data = true;
+    this->lightPubMap[this->currentRobot].publish(msg);
     return;
   }
   // If RT was triggered, turn the lights off.
   if (joy->axes[this->lightOffTrigger] < 0)
   {
-    srv.request.data = false;
-    for (auto suffix: this->lightSrvSuffixList)
-    {
-      std::string serviceName = "/" + this->currentRobot + suffix;
-      this->lightSrvMap[serviceName].call(srv);
-    }
+    msg.data = false;
+    this->lightPubMap[this->currentRobot].publish(msg);
     return;
   }
 
@@ -208,13 +233,36 @@ void SubtTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
   {
     if (joy->buttons[this->joyButtonIndexMap[pair.first]])
     {
+      msg.data = false;
+      this->selPubMap[this->currentRobot].publish(msg);
       this->currentRobot = pair.second;
+      msg.data = true;
+      this->selPubMap[this->currentRobot].publish(msg);
       return;
     }
   }
 
-  geometry_msgs::Twist twist;
+  // If an arrow key was pressed, send a comm command to the current robot so
+  // it sends a message to the one associated with the key.
+  if (joy->axes[this->axisArrowVertical] != 0
+    || joy->axes[this->axisArrowHorizontal] != 0)
+  {
+    std_msgs::String addressMsg;
+    if (joy->axes[this->axisArrowVertical] == 1)
+      addressMsg.data = this->robotAddressMap[this->robotNames[3]];
+    else if (joy->axes[this->axisArrowVertical] == -1)
+      addressMsg.data = this->robotAddressMap[this->robotNames[0]];
+    else if (joy->axes[this->axisArrowHorizontal] == 1)
+      addressMsg.data = this->robotAddressMap[this->robotNames[2]];
+    else
+      addressMsg.data = this->robotAddressMap[this->robotNames[1]];
 
+    ROS_INFO_STREAM("sending a message to " << addressMsg.data);
+    this->commPubMap[this->currentRobot].publish(addressMsg);
+    return;
+  }
+
+  geometry_msgs::Twist twist;
   // If the trigger values are non zero, calculate control values.
   if (joy->buttons[this->enableButton])
   {
