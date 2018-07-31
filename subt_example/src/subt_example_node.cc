@@ -165,9 +165,9 @@ class Controller
 /////////////////////////////////////////////////
 int main(int argc, char** argv)
 {
-  if (argc != 3)
+  if (argc < 3)
   {
-    ROS_ERROR("Needs an argument for the competitor's name and address.");
+    ROS_ERROR_STREAM("Needs an argument for the competitor's name and address.");
     return -1;
   }
 
