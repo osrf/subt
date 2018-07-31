@@ -189,13 +189,28 @@ void Controller::teleopCommCallback(const std_msgs::String::ConstPtr& _dest)
 {
   ROS_INFO("teleopCommCallback");
   this->client.SendTo("_data_", _dest->data);
+  
+  std_srvs::SetBool srv;
+  srv.request.data = true;
+  for (auto service: this->commLedSrvList)
+  {
+    service.call(srv);
+  }
+
+  ros::Duration(0.1).sleep();
+
+  srv.request.data = false;
+  for (auto service: this->commLedSrvList)
+  {
+    service.call(srv);
+  }
 }
 
 /////////////////////////////////////////////////
-void Controller::commClientCallback(const std::string &_srcAddress,
-                                const std::string &_dstAddress,
-                                const uint32_t _dstPort,
-                                const std::string &_data)
+void Controller::commClientCallback(const std::string &/*_srcAddress*/,
+                                const std::string &/*_dstAddress*/,
+                                const uint32_t /*_dstPort*/,
+                                const std::string &/*_data*/)
 {
   ROS_INFO("commClientCallback");
 
@@ -206,7 +221,7 @@ void Controller::commClientCallback(const std::string &_srcAddress,
     service.call(srv);
   }
 
-  ros::Duration(3.0).sleep();
+  ros::Duration(0.1).sleep();
 
   srv.request.data = false;
   for (auto service: this->commLedSrvList)

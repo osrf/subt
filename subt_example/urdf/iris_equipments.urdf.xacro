@@ -25,21 +25,21 @@
     </params>
   </xacro:led>
   <xacro:led led_prefix="center" parent_link="${namespace}/base_link">
-    <pose>0 0 -0.05 0 0 0</pose>
+    <pose>-0.1 0 0.05 0 0 0</pose>
     <params>
       <enable>false</enable>
       <block>
-        <duration>0.2</duration>
+        <duration>0.1</duration>
         <interval>0</interval>
         <color>1 0 0</color>
       </block>
       <block>
-        <duration>0.2</duration>
+        <duration>0.1</duration>
         <interval>0</interval>
         <color>0 1 0</color>
       </block>
       <block>
-        <duration>0.2</duration>
+        <duration>0.1</duration>
         <interval>0</interval>
         <color>0 0 1</color>
       </block>
