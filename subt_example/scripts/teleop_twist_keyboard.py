@@ -6,10 +6,11 @@ import roslib
 import rospy
 
 from geometry_msgs.msg import Twist
+from std_msgs.msg import Bool, String
 
 import sys, select, termios, tty, yaml, rospkg
 
-from std_srvs.srv import SetBool
+
 
 msg = """
 Reading from the keyboard  and Publishing to Twist!
@@ -71,6 +72,19 @@ speedBindings={
 		'c':(1,.9),
 		  }
 
+addressBindings={
+		'!':'1',
+		'@':'2',
+		'#':'3',
+		'$':'4',
+		'%':'5',
+		'^':'6',
+		'&':'7',
+		'*':'8',
+		'(':'9',
+		')':'0',
+}
+
 def getKey():
 	tty.setraw(sys.stdin.fileno())
 	select.select([sys.stdin], [], [], 0)
@@ -93,17 +107,28 @@ if __name__=="__main__":
 	except Exception as e:
 		print(e)
 
+	rospy.init_node('teleop_twist_keyboard')
+
 	robotNames = {}
-	pubs = {}
+	velPubs = {}
+	commPubs = {}
+	selPubs = {}
+	lightPubs = {}
+	addressMap = {}
 	for robot in dict_robot['robot_names']:
-		key = str((len(pubs)+1)%10)
+		key = str((len(robotNames)+1)%10)
 		robotNames[key] = robot
-		pubs[key] = rospy.Publisher(robot + '/cmd_vel', Twist, queue_size = 1)
-		if len(pubs) == 10:
+		velPubs[key] = rospy.Publisher(robot + '/cmd_vel_relay', Twist, queue_size = 1)
+		commPubs[key] = rospy.Publisher(robot + '/comm', String, queue_size = 1)
+		selPubs[key] = rospy.Publisher(robot + '/select', Bool, queue_size = 1)
+		lightPubs[key] = rospy.Publisher(robot + '/light', Bool, queue_size = 1)
+		addressMap[key] = dict_robot['robot_address_map'][robot]
+		if len(robotNames) == 10:
 			break
 	currentRobotKey = '1'
-
-	rospy.init_node('teleop_twist_keyboard')
+	flag = Bool()
+	flag.data = True
+	selPubs[currentRobotKey].publish(flag)
 
 	speed = rospy.get_param("~speed", 0.5)
 	turn = rospy.get_param("~turn", 1.0)
@@ -117,9 +142,10 @@ if __name__=="__main__":
 		print(msg)
 		print('--------------------------')
 		print('Robot List:')
-		for i in range(0,len(pubs)):
+		for i in range(0,len(robotNames)):
 			key = str((i+1)%10)
 			print(key + ': ' + robotNames[key])
+		print('To send a packet: Shift+<number key>')
 		print('--------------------------')
 		print(vels(speed,turn))
 
@@ -139,20 +165,26 @@ if __name__=="__main__":
 					print(msg)
 				status = (status + 1) % 15
 			elif key in robotNames.keys():
+				flag = Bool()
+				flag.data = False
+				selPubs[currentRobotKey].publish(flag)
 				currentRobotKey = key
+				flag.data = True
+				selPubs[currentRobotKey].publish(flag)
 				print("You selected " + robotNames[key] + " to control")
 				continue
-			elif key == 'a' or key == 's':
-				for suffix in dict_robot['light_service_suffixes']:
-					serviceName = '/' + robotNames[currentRobotKey] + suffix
-					try:
-						light_switch = rospy.ServiceProxy(serviceName, SetBool)
-						if key == 'a':
-							light_switch(True)
-						else:
-							light_switch(False)
-					except rospy.ServiceException, e:
-						pass
+			elif key in addressBindings.keys():
+				commPubs[currentRobotKey].publish(addressMap[addressBindings[key]])
+				continue
+			elif key == 'a':
+				flag = Bool()
+				flag.data = True
+				lightPubs[currentRobotKey].publish(flag)
+				continue
+			elif key == 's':
+				flag = Bool()
+				flag.data = False
+				lightPubs[currentRobotKey].publish(flag)
 				continue
 			else:
 				x = 0
@@ -165,7 +197,7 @@ if __name__=="__main__":
 			twist = Twist()
 			twist.linear.x = x*speed; twist.linear.y = y*speed; twist.linear.z = z*speed;
 			twist.angular.x = 0; twist.angular.y = 0; twist.angular.z = th*turn
-			pubs[currentRobotKey].publish(twist)
+			velPubs[currentRobotKey].publish(twist)
 
 	except Exception as e:
 		print(e)
@@ -174,7 +206,7 @@ if __name__=="__main__":
 		twist = Twist()
 		twist.linear.x = 0; twist.linear.y = 0; twist.linear.z = 0
 		twist.angular.x = 0; twist.angular.y = 0; twist.angular.z = 0
-		for key in pubs.keys():
-			pubs[key].publish(twist)
+		for key in velPubs.keys():
+			velPubs[key].publish(twist)
 
 		termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
