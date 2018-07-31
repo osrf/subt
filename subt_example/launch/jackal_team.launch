@@ -71,6 +71,7 @@
   <node name="robotC_control" pkg="subt_example" type="subt_example_node" args="robotC 128.0.0.12" />
   <node name="Iris_control" pkg="subt_example" type="subt_example_node" args="Iris 128.0.0.13" />
 
+  <!-- Teleop node -->
   <include file="$(find subt_example)/launch/teleop.launch"/>
 
 </launch>
