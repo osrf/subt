@@ -18,6 +18,12 @@ light_service_suffixes:
   - /right_flashlight/flashlight_switch
   - /right_led/led_switch
 
+robot_address_map:
+  robotA: 128.0.0.10
+  robotB: 128.0.0.11
+  robotC: 128.0.0.12
+  Iris: 128.0.0.13
+
 select_led_service_suffixes:
   - /left_led/led_switch
   - /right_led/led_switch
