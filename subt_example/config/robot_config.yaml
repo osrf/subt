@@ -17,3 +17,10 @@ light_service_suffixes:
   - /left_led/led_switch
   - /right_flashlight/flashlight_switch
   - /right_led/led_switch
+
+select_led_service_suffixes:
+  - /left_led/led_switch
+  - /right_led/led_switch
+
+comm_led_service_suffixes:
+  - /center_led/led_switch
