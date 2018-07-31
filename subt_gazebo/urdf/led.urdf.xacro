@@ -49,7 +49,7 @@
             <specular>${color} 1</specular>
           </light>
         </link>
-        <plugin name='light_control' filename='libRosLedPlugin.so'>
+        <plugin name='light_control' filename='libRosFlashLightPlugin.so'>
           <service_name>led_switch</service_name>
           <light>
             <id>led_body/marker</id>
