@@ -122,10 +122,10 @@ class SubtTeleop
 /////////////////////////////////////////////////
 SubtTeleop::SubtTeleop():
   linear(1), angular(0), linearScale(0), linearScaleTurbo(0), angularScale(0),
-  angularScaleTurbo(0), vertical(4), horizontal(3), verticalScale(0),
+  angularScaleTurbo(0), vertical(3), horizontal(2), verticalScale(0),
   verticalScaleTurbo(0), horizontalScale(0), horizontalScaleTurbo(0),
-  enableButton(4), enableTurboButton(5), lightOnTrigger(2), lightOffTrigger(5),
-  axisArrowHorizontal(6), axisArrowVertical(7)
+  enableButton(4), enableTurboButton(5), lightOnTrigger(6), lightOffTrigger(7),
+  axisArrowHorizontal(4), axisArrowVertical(5)
 {
   // Load joy control settings. Setting values must be loaded by rosparam.
   this->nh.param("axis_linear", this->linear, this->linear);
@@ -214,14 +214,14 @@ void SubtTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
 {
   std_msgs::Bool msg;
   // If LT was triggered, turn the lights on.
-  if (joy->axes[this->lightOnTrigger] < 0)
+  if (joy->buttons[this->lightOnTrigger])
   {
     msg.data = true;
     this->lightPubMap[this->currentRobot].publish(msg);
     return;
   }
   // If RT was triggered, turn the lights off.
-  if (joy->axes[this->lightOffTrigger] < 0)
+  if (joy->buttons[this->lightOffTrigger])
   {
     msg.data = false;
     this->lightPubMap[this->currentRobot].publish(msg);
