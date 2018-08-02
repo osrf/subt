@@ -19,7 +19,7 @@
 
   <group ns="$(arg namespace)">
     <!-- load robot description -->
-    <param name="robot_description" command="$(find xacro)/xacro.py '$(find subt_example)/urdf/husky.urdf.xacro'
+    <param name="robot_description" command="$(find xacro)/xacro '$(find subt_example)/urdf/husky.urdf.xacro'
              laser_enabled:=$(arg laser_enabled)
              ur5_enabled:=$(arg ur5_enabled)
              kinect_enabled:=$(arg kinect_enabled)
