@@ -63,9 +63,10 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu 
     ros-melodic-desktop-full \
     ros-melodic-joystick-drivers \
     ros-melodic-pointcloud-to-laserscan \
+    ros-melodic-robot-localization \
     ros-melodic-spacenav-node \
     ros-melodic-tf2-sensor-msgs \
-    ros-melodic-robot-localization \
+    ros-melodic-twist-mux \
  && sudo rosdep init \
  && sudo apt-get clean
 
