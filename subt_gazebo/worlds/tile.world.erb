@@ -1,0 +1,135 @@
+<%
+  # Tile world generator
+  #
+  # Command line options (usage erb [opt]=[arg]):
+  # s: seed for randomization, defaults to random
+  # t: tile type, defaults to 'cave'
+  # n: number of tiles per dimension, defaults to 10
+
+  ###############################################
+  #                                             #
+  #           COMMAND LINE ARGUMENTS            #
+  #                                             #
+  ###############################################
+
+  vars = ARGV.take_while {|arg| arg[/^\w+=/]}
+  ARGV.slice!(0, vars.size)
+  vars.each do |var|
+    k, v = var.split('=', 2)
+    TOPLEVEL_BINDING.eval %Q(#{k} = "#{v}")
+  end
+
+  # Seed
+  seed = rand(0..10000000)
+  if (defined? s)
+    seed = s.to_i
+  end
+  srand(seed)
+
+  # Tile type
+  $type = 'cave'
+  if (defined? t)
+    $type = t.to_s
+    if ($type != 'cave')
+      raise('Unsupported tile type')
+      exit
+    end
+  end
+
+  # Number of tiles per dimension
+  $n = 10
+  if (defined? n)
+    $n = n.to_i
+  end
+
+  ###############################################
+  #                                             #
+  #                TILE PARAMS                  #
+  #                                             #
+  ###############################################
+
+  # Tile X/Y dimensions in meters
+  tile_dimension = 20
+
+  # Increase this number as more tile meshes are added
+  type_total_count = 0
+  if ($type == 'cave')
+    type_total_count = 8
+  end
+
+  # Keep all possible tile types
+  tile_types = []
+  for i in (1..type_total_count)
+    tile_types.push($type + '_tile_' + i.to_s)
+  end
+
+  ###############################################
+  #                                             #
+  #               RANDOMIZATION                 #
+  #                                             #
+  ###############################################
+
+  tiles = []
+  for x in (0..($n - 1))
+    for y in (0..($n - 1))
+
+      # Skip start tile
+      if x == 0 and y == 0
+        next
+      end
+
+      tile =
+      {
+        :name => tile_types.sample(),
+        :x => tile_dimension * x,
+        :y => tile_dimension * y,
+        :yaw => [0, Math::PI*0.5, -Math::PI*0.5, Math::PI].sample()
+      }
+      tiles.push(tile)
+    end
+  end
+%>
+<?xml version="1.0" ?>
+<!--
+  Generated from tile.world.erb
+  Seed: <%= seed %>
+  Type: <%= $type %>
+  N: <%= $n %>
+-->
+<sdf version="1.6">
+  <world name="default">
+
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose>-51.7 -49.4 62.0 0 0.5 0.8</pose>
+      </camera>
+    </gui>
+
+    <scene>
+      <ambient>0.8 0.8 0.8 1.0</ambient>
+      <background>0.67 0.67 0.50 1.0</background>
+      <grid>0</grid>
+      <origin_visual>0</origin_visual>
+    </scene>
+
+    <include>
+      <uri>model://<%= $type %>_tile_start</uri>
+    </include>
+
+  <%
+    count = 0
+    for tile in tiles
+      count = count + 1
+  %>
+    <include>
+      <uri>model://<%= tile[:name] %></uri>
+      <name>tile_<%= count.to_s %></name>
+      <pose><%= tile[:x] %> <%= tile[:y] %> 0 0 0 <%= tile[:yaw] %></pose>
+    </include>
+  <%
+    end
+  %>
+
+  </world>
+</sdf>
+
