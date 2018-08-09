@@ -11,9 +11,9 @@ button_robot_map:
   Y: Iris
 
 flashlight_service_suffixes:
-  - /downward_flashlight/flashlight_switch
-  - /left_flashlight/flashlight_switch
-  - /right_flashlight/flashlight_switch
+  - /downward_flashlight/enable
+  - /left_flashlight/enable
+  - /right_flashlight/enable
 
 robot_address_map:
   Husky1: 128.0.0.10
@@ -22,8 +22,8 @@ robot_address_map:
   Iris: 128.0.0.13
 
 select_led_service_suffixes:
-  - /left_led/led_switch
-  - /right_led/led_switch
+  - /left_led/enable
+  - /right_led/enable
 
 comm_led_service_suffixes:
-  - /center_led/led_switch
+  - /center_led/enable

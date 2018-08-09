@@ -136,7 +136,8 @@ if __name__=="__main__":
 		print(msg)
 		print('--------------------------')
 		print('Robot List:')
-		for key in robotKeyNameMap.keys():
+		for i in range(0,len(robotKeyNameMap)):
+			key = str((i+1)%10)
 			print(key + ': ' + robotKeyNameMap[key])
 		print('To send a packet: Shift+<number key>')
 		print('--------------------------')

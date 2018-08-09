@@ -85,7 +85,7 @@
           <child>light_source</child>
         </joint>
         <plugin name='light_control' filename='libRosFlashLightPlugin.so'>
-          <service_name>flashlight_switch</service_name>
+          <service_name>enable</service_name>
           <light>
             <id>light_source/lamp</id>
             <xacro:insert_block name="plugin_params"/>

@@ -50,7 +50,7 @@
           </light>
         </link>
         <plugin name='light_control' filename='libRosFlashLightPlugin.so'>
-          <service_name>led_switch</service_name>
+          <service_name>enable</service_name>
           <light>
             <id>led_body/marker</id>
             <xacro:insert_block name="plugin_params"/>
