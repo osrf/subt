@@ -15,6 +15,7 @@
  *
 */
 
+#include <std_msgs/Int32.h>
 #include <functional>
 #include <utility>
 #include <gazebo/common/Assert.hh>
@@ -38,12 +39,18 @@ void GameLogicPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
   this->ParseObjectsOfInterest(_sdf);
 
   // Initialize the ROS node.
-  this->rosnode.reset(new ros::NodeHandle());
+  this->rosnode.reset(new ros::NodeHandle("subt"));
 
   // Advertise the service to call when an object of interest is recognized.
   this->objectOfInterestSrv =
     this->rosnode->advertiseService("objects_of_interest/new",
     &GameLogicPlugin::OnNewObjectOfInterest, this);
+
+  this->scorePub = this->rosnode->advertise<std_msgs::Int32>("score", 1000);
+
+  // Publish the score.
+  this->scoreTimer = this->rosnode->createTimer(
+    ros::Duration(1.0), &GameLogicPlugin::PublishScore, this);
 
   this->updateConnection = event::Events::ConnectWorldUpdateBegin(
           std::bind(&GameLogicPlugin::OnUpdate, this));
@@ -104,8 +111,12 @@ bool GameLogicPlugin::OnNewObjectOfInterest(
   subt_msgs::ObjectOfInterest::Response &/*_res*/)
 {
   gzmsg << "New object of interest reported." << std::endl;
-  this->totalScore += this->ScoreObjectOfInterest(_req.pose);
-  gzmsg << "Total score: " << this->totalScore << std::endl << std::endl;
+
+  {
+    std::lock_guard<std::mutex> lock(this->mutex);
+    this->totalScore += this->ScoreObjectOfInterest(_req.pose);
+    gzmsg << "Total score: " << this->totalScore << std::endl << std::endl;
+  }
 
   return true;
 }
@@ -200,6 +211,18 @@ double GameLogicPlugin::ScoreObjectOfInterest(
   this->objectsOfInterest.erase(std::get<0>(minDistance));
 
   return score;
+}
+
+/////////////////////////////////////////////////
+void GameLogicPlugin::PublishScore(const ros::TimerEvent &/*_event*/)
+{
+  std_msgs::Int32 msg;
+
+  {
+    std::lock_guard<std::mutex> lock(this->mutex);
+    msg.data = this->totalScore;
+    this->scorePub.publish(msg);
+  }
 }
 
 /////////////////////////////////////////////////

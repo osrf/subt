@@ -24,6 +24,7 @@
 #include <chrono>
 #include <map>
 #include <memory>
+#include <mutex>
 #include <string>
 #include <gazebo/common/Event.hh>
 #include <gazebo/common/Plugin.hh>
@@ -64,9 +65,15 @@ namespace gazebo
       subt_msgs::ObjectOfInterest::Request &_req,
       subt_msgs::ObjectOfInterest::Response &_res);
 
-    /// \brief ToDo.
+    /// \brief Calculate the score of a new object of interest request.
+    /// \param[in] _pose The object pose.
+    /// \return The score obtained for this object.
     private: double ScoreObjectOfInterest(
       const geometry_msgs::PoseStamped &_pose);
+
+    /// \brief Publish the score.
+    /// \param[in] _event Unused.
+    private: void PublishScore(const ros::TimerEvent &_event);
 
     /// \brief World pointer.
     private: physics::WorldPtr world;
@@ -98,8 +105,17 @@ namespace gazebo
     /// \brief Service server for processing objects of interest.
     private: ros::ServiceServer objectOfInterestSrv;
 
+    /// \brief Publish the score.
+    private: ros::Publisher scorePub;
+
     /// \brief Total score.
     private: double totalScore = 0.0;
+
+    /// \brief A timer to publish the score at a given frequency.
+    private: ros::Timer scoreTimer;
+
+    /// \brief A mutex.
+    private: std::mutex mutex;
   };
 }
 #endif
