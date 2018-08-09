@@ -16,8 +16,10 @@ find_package(catkin REQUIRED
     gazebo_ros
     gazebo_plugins
     roscpp
+    geometry_msgs
     std_msgs
     std_srvs
+    subt_msgs
     message_generation
 )
 
@@ -49,10 +51,10 @@ link_directories(
 catkin_package(
   CATKIN_DEPENDS
     message_runtime
+    subt_msgs
     std_srvs
   INCLUDE_DIRS
     include
-    ${CATKIN_DEVEL_PREFIX}/include
   LIBRARIES
     CommsClient
   CFG_EXTRAS
