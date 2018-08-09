@@ -99,31 +99,25 @@ def vels(speed,turn):
 if __name__=="__main__":
 	settings = termios.tcgetattr(sys.stdin)
 
-	rospack = rospkg.RosPack()
-
-	try:
-		f = open(rospack.get_path('subt_example') + '/config/robot_config.yaml', 'r')
-		dict_robot = yaml.load(f.read())
-	except Exception as e:
-		print(e)
-
 	rospy.init_node('teleop_twist_keyboard')
 
-	robotNames = {}
+	robotNames = rospy.get_param('robot_names')
+	robotAddressMap = rospy.get_param('robot_address_map')
+	robotKeyNameMap = {}
 	velPubs = {}
 	commPubs = {}
 	selPubs = {}
 	lightPubs = {}
 	addressMap = {}
-	for robot in dict_robot['robot_names']:
-		key = str((len(robotNames)+1)%10)
-		robotNames[key] = robot
+	for robot in robotNames:
+		key = str((len(robotKeyNameMap)+1)%10)
+		robotKeyNameMap[key] = robot
 		velPubs[key] = rospy.Publisher(robot + '/cmd_vel_relay', Twist, queue_size = 1)
 		commPubs[key] = rospy.Publisher(robot + '/comm', String, queue_size = 1)
 		selPubs[key] = rospy.Publisher(robot + '/select', Bool, queue_size = 1)
 		lightPubs[key] = rospy.Publisher(robot + '/light', Bool, queue_size = 1)
-		addressMap[key] = dict_robot['robot_address_map'][robot]
-		if len(robotNames) == 10:
+		addressMap[key] = robotAddressMap[robot]
+		if len(robotKeyNameMap) == 10:
 			break
 	currentRobotKey = '1'
 	flag = Bool()
@@ -142,9 +136,8 @@ if __name__=="__main__":
 		print(msg)
 		print('--------------------------')
 		print('Robot List:')
-		for i in range(0,len(robotNames)):
-			key = str((i+1)%10)
-			print(key + ': ' + robotNames[key])
+		for key in robotKeyNameMap.keys():
+			print(key + ': ' + robotKeyNameMap[key])
 		print('To send a packet: Shift+<number key>')
 		print('--------------------------')
 		print(vels(speed,turn))
@@ -164,14 +157,14 @@ if __name__=="__main__":
 				if (status == 14):
 					print(msg)
 				status = (status + 1) % 15
-			elif key in robotNames.keys():
+			elif key in robotKeyNameMap.keys():
 				flag = Bool()
 				flag.data = False
 				selPubs[currentRobotKey].publish(flag)
 				currentRobotKey = key
 				flag.data = True
 				selPubs[currentRobotKey].publish(flag)
-				print("You selected " + robotNames[key] + " to control")
+				print("You selected " + robotKeyNameMap[key] + " to control")
 				continue
 			elif key in addressBindings.keys():
 				commPubs[currentRobotKey].publish(addressMap[addressBindings[key]])

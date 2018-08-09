@@ -1,0 +1,29 @@
+robot_names:
+  - Jackal1
+  - Jackal2
+  - Jackal3
+  - Iris
+
+button_robot_map:
+  A: Jackal1
+  B: Jackal2
+  X: Jackal3
+  Y: Iris
+
+flashlight_service_suffixes:
+  - /downward_flashlight/flashlight_switch
+  - /left_flashlight/flashlight_switch
+  - /right_flashlight/flashlight_switch
+
+robot_address_map:
+  Jackal1: 128.0.0.10
+  Jackal2: 128.0.0.11
+  Jackal3: 128.0.0.12
+  Iris: 128.0.0.13
+
+select_led_service_suffixes:
+  - /left_led/led_switch
+  - /right_led/led_switch
+
+comm_led_service_suffixes:
+  - /center_led/led_switch

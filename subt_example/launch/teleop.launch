@@ -4,7 +4,7 @@
   <arg name="joy_dev" default="/dev/input/js0" />
   <arg name="joystick" default="true" />
   <arg name="config" default="$(find subt_example)/config/logitech_config.yaml"/>
-  <arg name="robot_config" default="$(find subt_example)/config/robot_config.yaml"/>
+  <arg name="robot_config" default="$(find subt_example)/config/jackal_config.yaml"/>
 
   <rosparam command="load" file="$(arg config)" />
   <param name="joy_node/dev" value="$(arg joy_dev)" />

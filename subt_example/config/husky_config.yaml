@@ -1,13 +1,13 @@
 robot_names:
-  - robotA
-  - robotB
-  - robotC
+  - Husky1
+  - Husky2
+  - Husky3
   - Iris
 
 button_robot_map:
-  A: robotA
-  B: robotB
-  X: robotC
+  A: Husky1
+  B: Husky2
+  X: Husky3
   Y: Iris
 
 flashlight_service_suffixes:
@@ -16,9 +16,9 @@ flashlight_service_suffixes:
   - /right_flashlight/flashlight_switch
 
 robot_address_map:
-  robotA: 128.0.0.10
-  robotB: 128.0.0.11
-  robotC: 128.0.0.12
+  Husky1: 128.0.0.10
+  Husky2: 128.0.0.11
+  Husky3: 128.0.0.12
   Iris: 128.0.0.13
 
 select_led_service_suffixes:

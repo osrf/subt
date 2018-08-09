@@ -19,7 +19,7 @@
 
   <!-- Spawn Jackal -->
   <include file="$(find subt_example)/launch/spawn_jackal.launch">
-    <arg name="namespace" value="robotA"/>
+    <arg name="namespace" value="Jackal1"/>
     <arg name="x" value="0"/>
     <arg name="y" value="0"/>
     <arg name="z" value="1"/>
@@ -28,7 +28,7 @@
     <arg name="config" value="$(arg config)"/>
   </include>
   <include file="$(find subt_example)/launch/spawn_jackal.launch">
-    <arg name="namespace" value="robotB"/>
+    <arg name="namespace" value="Jackal2"/>
     <arg name="x" value="2"/>
     <arg name="y" value="1"/>
     <arg name="z" value="0.2"/>
@@ -37,7 +37,7 @@
     <arg name="config" value="$(arg config)"/>
   </include>
   <include file="$(find subt_example)/launch/spawn_jackal.launch">
-    <arg name="namespace" value="robotC"/>
+    <arg name="namespace" value="Jackal3"/>
     <arg name="x" value="-2"/>
     <arg name="y" value="0"/>
     <arg name="z" value="0.1"/>
@@ -66,12 +66,14 @@
   </group>
 
   <!-- Competitor's control nodes -->
-  <node name="robotA_control" pkg="subt_example" type="subt_example_node" args="robotA 128.0.0.10" />
-  <node name="robotB_control" pkg="subt_example" type="subt_example_node" args="robotB 128.0.0.11" />
-  <node name="robotC_control" pkg="subt_example" type="subt_example_node" args="robotC 128.0.0.12" />
+  <node name="Jackal1_control" pkg="subt_example" type="subt_example_node" args="Jackal1 128.0.0.10" />
+  <node name="Jackal2_control" pkg="subt_example" type="subt_example_node" args="Jackal2 128.0.0.11" />
+  <node name="Jackal3_control" pkg="subt_example" type="subt_example_node" args="Jackal3 128.0.0.12" />
   <node name="Iris_control" pkg="subt_example" type="subt_example_node" args="Iris 128.0.0.13" />
 
   <!-- Teleop node -->
-  <include file="$(find subt_example)/launch/teleop.launch"/>
+  <include file="$(find subt_example)/launch/teleop.launch">
+    <arg name="robot_config" value="$(find subt_example)/config/jackal_config.yaml"/>
+  </include>
 
 </launch>
