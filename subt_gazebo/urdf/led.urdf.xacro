@@ -54,6 +54,10 @@
           <light>
             <id>led_body/marker</id>
             <xacro:insert_block name="plugin_params"/>
+            <enable>false</enable>
+            <duration>1</duration>
+            <interval>0</interval>
+            <color>1 1 1</color>
           </light>
         </plugin>
       </model>
