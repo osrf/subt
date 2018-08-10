@@ -54,7 +54,7 @@
   # Increase this number as more tile meshes are added
   type_total_count = 0
   if ($type == 'cave')
-    type_total_count = 8
+    type_total_count = 10
   end
 
   # Keep all possible tile types
@@ -63,12 +63,20 @@
     tile_types.push($type + '_tile_' + i.to_s)
   end
 
+  blocker = $type + '_tile_blocker'
+
   ###############################################
   #                                             #
   #               RANDOMIZATION                 #
   #                                             #
   ###############################################
 
+  # Get -1 if n < 0 and +1 if n >= 0
+  def sign(_n)
+    return _n == 0 ? 1 : _n.abs / _n
+  end
+
+  # Grid tiles
   tiles = []
   for x in (0..($n - 1))
     for y in (0..($n - 1))
@@ -86,6 +94,45 @@
         :yaw => [0, Math::PI*0.5, -Math::PI*0.5, Math::PI].sample()
       }
       tiles.push(tile)
+    end
+  end
+
+  # Cap blockers
+  cap_blockers = []
+  for x in (0..($n - 1))
+    for y in [-1, $n]
+
+      # Skip start tile
+      if x == 0 and y == -1
+        next
+      end
+
+      cap_blocker =
+      {
+        :name => blocker,
+        :x => tile_dimension * x,
+        :y => tile_dimension * y + tile_dimension * 0.5 * -sign(y),
+        :yaw => 0
+      }
+      cap_blockers.push(cap_blocker)
+    end
+  end
+  for y in (0..($n - 1))
+    for x in [-1, $n]
+
+      # Skip start tile
+      if y == 0 and x == -1
+        next
+      end
+
+      cap_blocker =
+      {
+        :name => blocker,
+        :x => tile_dimension * x + tile_dimension * 0.5 * -sign(x),
+        :y => tile_dimension * y,
+        :yaw => 0
+      }
+      cap_blockers.push(cap_blocker)
     end
   end
 %>
@@ -112,10 +159,12 @@
       <origin_visual>0</origin_visual>
     </scene>
 
+    <!-- Start tile -->
     <include>
       <uri>model://<%= $type %>_tile_start</uri>
     </include>
 
+    <!-- Grid tiles -->
   <%
     count = 0
     for tile in tiles
@@ -129,6 +178,29 @@
   <%
     end
   %>
+
+    <!-- Cap blockers -->
+  <%
+    for tile in cap_blockers
+      count = count + 1
+  %>
+    <include>
+      <uri>model://<%= tile[:name] %></uri>
+      <name>tile_<%= count.to_s %></name>
+      <pose><%= tile[:x] %> <%= tile[:y] %> 0 0 0 <%= tile[:yaw] %></pose>
+    </include>
+  <%
+    end
+  %>
+
+    <!-- The SubT comms broker plugin -->
+    <plugin name="comms_broker_plugin" filename="libCommsBrokerPlugin.so">
+    </plugin>
+
+    <!-- rotors_gazebo support -->
+    <plugin name="ros_interface_plugin"
+            filename="librotors_gazebo_ros_interface_plugin.so"/>
+
 
   </world>
 </sdf>
