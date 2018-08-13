@@ -20,6 +20,8 @@ RUN apt-get update \
         python3-numpy \
         python3-pip \
         python3-venv \
+        ruby2.5 \
+        ruby2.5-dev \
         software-properties-common \
         sudo \
         vim \
