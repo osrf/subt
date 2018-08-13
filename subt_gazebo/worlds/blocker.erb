@@ -1,0 +1,50 @@
+<%
+  # Template for a blocker model
+  #
+  # Required variables
+  # * $type (string) Tile type
+  # * $name (string) Unique model name
+  # * $pose (number[6]) XYZRPY
+
+  scale = 1.2
+%>
+
+<model name="<%= $name %>">
+
+  <pose>
+    <%= $pose[0] %>
+    <%= $pose[1] %>
+    <%= $pose[2] %>
+    <%= $pose[3] %>
+    <%= $pose[4] %>
+    <%= $pose[5] %>
+  </pose>
+
+  <static>true</static>
+
+  <link name="link">
+    <pose>0 0 0 <%= Math::PI * 0.5 %> 0 0</pose>
+    <collision name="collision">
+      <geometry>
+        <mesh>
+          <scale> <%= scale %> <%= scale %> <%= scale %></scale>
+          <uri>
+            model://<%= $type %>_tile_blocker/meshes/<%= $type %>_tile_blocker.obj
+          </uri>
+        </mesh>
+      </geometry>
+    </collision>
+    <visual name="visual">
+      <geometry>
+        <mesh>
+          <scale> <%= scale %> <%= scale %> <%= scale %></scale>
+          <uri>
+            model://<%= $type %>_tile_blocker/meshes/<%= $type %>_tile_blocker.obj
+          </uri>
+        </mesh>
+      </geometry>
+    </visual>
+  </link>
+
+</model>
+
