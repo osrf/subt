@@ -23,12 +23,14 @@
 
 #include <chrono>
 #include <iostream>
-#include <thread>
+#include <string>
+#include <vector>
 
 #include <subt_gazebo/CommsClient.hh>
 
 using namespace std::chrono_literals;
 
+/// \brief. Example control class, running as a ROS node to control a robot.
 class Controller
 {
   /// \brief Constructor.
@@ -40,21 +42,21 @@ class Controller
 
   /// \brief Callback function for selection command.
   /// \param[in] _select True if the robot is selected. False if unselected.
-  public: void TeleopSelectCallback(const std_msgs::Bool::ConstPtr& _select);
+  public: void TeleopSelectCallback(const std_msgs::Bool::ConstPtr &_select);
 
   /// \brief Callback function for velocity command.
   /// \param[in] _vel Velocity to apply the robot.
-  public: void TeleopVelCallback(const geometry_msgs::Twist::ConstPtr& _vel);
+  public: void TeleopVelCallback(const geometry_msgs::Twist::ConstPtr &_vel);
 
   /// \brief Callback function for light command.
   /// \param[in] _switch True if the flashlights are to be on. False if to be
   ///                    off.
-  public: void TeleopLightCallback(const std_msgs::Bool::ConstPtr& _switch);
+  public: void TeleopLightCallback(const std_msgs::Bool::ConstPtr &_switch);
 
   /// \brief Callback function for communication command.
   /// \param[in] _dest The destination address to which the robot sends its
   ///                  packet through the network.
-  public: void TeleopCommCallback(const std_msgs::String::ConstPtr& _dest);
+  public: void TeleopCommCallback(const std_msgs::String::ConstPtr &_dest);
 
   /// \brief Callback function for message from other comm clients.
   /// \param[in] _srcAddress The address of the robot who sent the packet.
@@ -65,6 +67,9 @@ class Controller
                                   const std::string &_dstAddress,
                                   const uint32_t _dstPort,
                                   const std::string &_data);
+
+  /// \brief Helper function to flash the communication indicator.
+  private: void FlashCommIndicator();
 
   /// \brief Name of the robot.
   private: std::string name;
@@ -164,7 +169,7 @@ Controller::Controller(const std::string &_name, const std::string &_address):
 }
 
 /////////////////////////////////////////////////
-void Controller::TeleopSelectCallback(const std_msgs::Bool::ConstPtr& _select)
+void Controller::TeleopSelectCallback(const std_msgs::Bool::ConstPtr &_select)
 {
   ROS_INFO("TeleopSelectCallback");
 
@@ -177,7 +182,7 @@ void Controller::TeleopSelectCallback(const std_msgs::Bool::ConstPtr& _select)
 }
 
 /////////////////////////////////////////////////
-void Controller::TeleopVelCallback(const geometry_msgs::Twist::ConstPtr& _vel)
+void Controller::TeleopVelCallback(const geometry_msgs::Twist::ConstPtr &_vel)
 {
   ROS_INFO("TeleopVelCallback");
 
@@ -185,7 +190,7 @@ void Controller::TeleopVelCallback(const geometry_msgs::Twist::ConstPtr& _vel)
 }
 
 /////////////////////////////////////////////////
-void Controller::TeleopLightCallback(const std_msgs::Bool::ConstPtr& _switch)
+void Controller::TeleopLightCallback(const std_msgs::Bool::ConstPtr &_switch)
 {
   ROS_INFO_STREAM("TeleopLightCallback" << this->flashlightSrvList.size());
 
@@ -198,25 +203,11 @@ void Controller::TeleopLightCallback(const std_msgs::Bool::ConstPtr& _switch)
 }
 
 /////////////////////////////////////////////////
-void Controller::TeleopCommCallback(const std_msgs::String::ConstPtr& _dest)
+void Controller::TeleopCommCallback(const std_msgs::String::ConstPtr &_dest)
 {
   ROS_INFO("TeleopCommCallback");
   this->client.SendTo("_data_", _dest->data);
-
-  std_srvs::SetBool srv;
-  srv.request.data = true;
-  for (auto service : this->commLedSrvList)
-  {
-    service.call(srv);
-  }
-
-  ros::Duration(0.1).sleep();
-
-  srv.request.data = false;
-  for (auto service : this->commLedSrvList)
-  {
-    service.call(srv);
-  }
+  this->FlashCommIndicator();
 }
 
 /////////////////////////////////////////////////
@@ -226,7 +217,12 @@ void Controller::CommClientCallback(const std::string &/*_srcAddress*/,
                                 const std::string &/*_data*/)
 {
   ROS_INFO("CommClientCallback");
+  this->FlashCommIndicator();
+}
 
+/////////////////////////////////////////////////
+void Controller::FlashCommIndicator()
+{
   std_srvs::SetBool srv;
   srv.request.data = true;
   for (auto service : this->commLedSrvList)
@@ -248,8 +244,7 @@ int main(int argc, char** argv)
 {
   if (argc < 2)
   {
-    ROS_ERROR_STREAM(
-      "Needs an argument for the competitor's name.");
+    ROS_ERROR_STREAM("Needs an argument for the competitor's name.");
     return -1;
   }
 

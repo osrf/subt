@@ -21,13 +21,18 @@
 #include <std_msgs/Bool.h>
 #include <std_msgs/String.h>
 
+#include <map>
+#include <string>
+#include <vector>
+
+/// \brief. Tele-operation node to control a team of robots by joy sticks.
 class SubtTeleop
 {
   /// \brief Constructor.
   public: SubtTeleop();
 
   /// \brief Callback function for a joy stick control.
-  private: void joyCallback(const sensor_msgs::Joy::ConstPtr& joy);
+  private: void joyCallback(const sensor_msgs::Joy::ConstPtr &joy);
 
   /// \brief ROS node handler.
   private: ros::NodeHandle nh;
@@ -210,7 +215,7 @@ SubtTeleop::SubtTeleop():
 }
 
 /////////////////////////////////////////////////
-void SubtTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
+void SubtTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr &joy)
 {
   std_msgs::Bool msg;
   // If LT was triggered, turn the lights on.
