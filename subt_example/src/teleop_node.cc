@@ -170,7 +170,7 @@ SubtTeleop::SubtTeleop():
   this->nh.getParam("button_robot_map", this->joyButtonRobotMap);
   this->nh.getParam("robot_address_map", this->robotAddressMap);
 
-  for (auto robotName: this->robotNames)
+  for (auto robotName : this->robotNames)
   {
     // Create a publisher object to generate a velocity command, and associate
     // it to the corresponding robot's name.
@@ -229,7 +229,7 @@ void SubtTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
   }
 
   // If another button was pressed, choose the associated robot.
-  for (auto &pair: this->joyButtonRobotMap)
+  for (auto &pair : this->joyButtonRobotMap)
   {
     if (joy->buttons[this->joyButtonIndexMap[pair.first]])
     {
