@@ -28,8 +28,6 @@
 
 #include <subt_gazebo/CommsClient.hh>
 
-using namespace std::chrono_literals;
-
 /// \brief. Example control class, running as a ROS node to control a robot.
 class Controller
 {

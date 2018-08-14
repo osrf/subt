@@ -32,7 +32,7 @@ class SubtTeleop
   public: SubtTeleop();
 
   /// \brief Callback function for a joy stick control.
-  private: void joyCallback(const sensor_msgs::Joy::ConstPtr &joy);
+  private: void JoyCallback(const sensor_msgs::Joy::ConstPtr &_joy);
 
   /// \brief ROS node handler.
   private: ros::NodeHandle nh;
@@ -211,22 +211,22 @@ SubtTeleop::SubtTeleop():
   // Subscribe "joy" topic to listen to the joy control.
   this->joySub
     = this->nh.subscribe<sensor_msgs::Joy>(
-      "joy", 1, &SubtTeleop::joyCallback, this);
+      "joy", 1, &SubtTeleop::JoyCallback, this);
 }
 
 /////////////////////////////////////////////////
-void SubtTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr &joy)
+void SubtTeleop::JoyCallback(const sensor_msgs::Joy::ConstPtr &_joy)
 {
   std_msgs::Bool msg;
   // If LT was triggered, turn the lights on.
-  if (joy->buttons[this->lightOnTrigger])
+  if (_joy->buttons[this->lightOnTrigger])
   {
     msg.data = true;
     this->lightPubMap[this->currentRobot].publish(msg);
     return;
   }
   // If RT was triggered, turn the lights off.
-  if (joy->buttons[this->lightOffTrigger])
+  if (_joy->buttons[this->lightOffTrigger])
   {
     msg.data = false;
     this->lightPubMap[this->currentRobot].publish(msg);
@@ -236,7 +236,7 @@ void SubtTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr &joy)
   // If another button was pressed, choose the associated robot.
   for (auto &pair : this->joyButtonRobotMap)
   {
-    if (joy->buttons[this->joyButtonIndexMap[pair.first]])
+    if (_joy->buttons[this->joyButtonIndexMap[pair.first]])
     {
       msg.data = false;
       this->selPubMap[this->currentRobot].publish(msg);
@@ -249,16 +249,16 @@ void SubtTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr &joy)
 
   // If an arrow key was pressed, send a comm command to the current robot so
   // it sends a message to the one associated with the key.
-  if (joy->axes[this->axisArrowVertical] != 0
-    || joy->axes[this->axisArrowHorizontal] != 0)
+  if (_joy->axes[this->axisArrowVertical] != 0
+    || _joy->axes[this->axisArrowHorizontal] != 0)
   {
     std_msgs::String addressMsg;
     unsigned int index;
-    if (joy->axes[this->axisArrowVertical] == 1)
+    if (_joy->axes[this->axisArrowVertical] == 1)
       index = 3;
-    else if (joy->axes[this->axisArrowVertical] == -1)
+    else if (_joy->axes[this->axisArrowVertical] == -1)
       index = 0;
-    else if (joy->axes[this->axisArrowHorizontal] == 1)
+    else if (_joy->axes[this->axisArrowHorizontal] == 1)
       index = 2;
     else
       index = 1;
@@ -274,30 +274,30 @@ void SubtTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr &joy)
 
   geometry_msgs::Twist twist;
   // If the trigger values are non zero, calculate control values.
-  if (joy->buttons[this->enableButton])
+  if (_joy->buttons[this->enableButton])
   {
     twist.linear.x
-      = this->linearScale * joy->axes[this->linear];
+      = this->linearScale * _joy->axes[this->linear];
     twist.linear.y
-      = this->horizontalScale * joy->axes[this->horizontal];
+      = this->horizontalScale * _joy->axes[this->horizontal];
     twist.linear.z
-      = this->verticalScale * joy->axes[this->vertical];
+      = this->verticalScale * _joy->axes[this->vertical];
     twist.angular.z
-      = this->angularScale * joy->axes[this->angular];
+      = this->angularScale * _joy->axes[this->angular];
 
     // Publish the control values.
     this->velPubMap[this->currentRobot].publish(twist);
   }
-  else if (joy->buttons[this->enableTurboButton])
+  else if (_joy->buttons[this->enableTurboButton])
   {
     twist.linear.x
-      = this->linearScaleTurbo * joy->axes[this->linear];
+      = this->linearScaleTurbo * _joy->axes[this->linear];
     twist.linear.y
-      = this->horizontalScaleTurbo * joy->axes[this->horizontal];
+      = this->horizontalScaleTurbo * _joy->axes[this->horizontal];
     twist.linear.z
-      = this->verticalScaleTurbo * joy->axes[this->vertical];
+      = this->verticalScaleTurbo * _joy->axes[this->vertical];
     twist.angular.z
-      = this->angularScaleTurbo * joy->axes[this->angular];
+      = this->angularScaleTurbo * _joy->axes[this->angular];
 
     // Publish the control values.
     this->velPubMap[this->currentRobot].publish(twist);
