@@ -6,6 +6,7 @@
   </include>
 
   <!-- Spawn your team here. -->
+
   <!-- Short-term hack to support the original front_laser:=true argument for spawning
        the simulator. This will be removed in favour of using the config:=x arg instead. -->
   <arg name="front_laser" default="true" />
@@ -19,7 +20,7 @@
 
   <!-- Spawn Jackal -->
   <include file="$(find subt_example)/launch/spawn_jackal.launch">
-    <arg name="namespace" value="Jackal1"/>
+    <arg name="namespace" value="Jackal"/>
     <arg name="x" value="0"/>
     <arg name="y" value="0"/>
     <arg name="z" value="1"/>
@@ -27,23 +28,14 @@
     <arg name="urdf_extras" value="$(find subt_example)/urdf/jackal_equipments.urdf.xacro"/>
     <arg name="config" value="$(arg config)"/>
   </include>
-  <include file="$(find subt_example)/launch/spawn_jackal.launch">
-    <arg name="namespace" value="Jackal2"/>
+  <!-- Span Husky -->
+  <include file="$(find subt_example)/launch/spawn_husky.launch">
+    <arg name="namespace" value="Husky"/>
     <arg name="x" value="2"/>
     <arg name="y" value="1"/>
-    <arg name="z" value="0.2"/>
+    <arg name="z" value="0"/>
     <arg name="yaw" value="3.14159"/>
-    <arg name="urdf_extras" value="$(find subt_example)/urdf/jackal_equipments.urdf.xacro"/>
-    <arg name="config" value="$(arg config)"/>
-  </include>
-  <include file="$(find subt_example)/launch/spawn_jackal.launch">
-    <arg name="namespace" value="Jackal3"/>
-    <arg name="x" value="-2"/>
-    <arg name="y" value="0"/>
-    <arg name="z" value="0.1"/>
-    <arg name="yaw" value="1.5"/>
-    <arg name="urdf_extras" value="$(find subt_example)/urdf/jackal_equipments.urdf.xacro"/>
-    <arg name="config" value="$(arg config)"/>
+    <arg name="urdf_extras" value="$(find subt_example)/urdf/husky_equipments.urdf.xacro"/>
   </include>
   <!-- Iris quadcopter -->
   <group ns="Iris">
@@ -66,14 +58,13 @@
   </group>
 
   <!-- Competitor's control nodes -->
-  <node name="Jackal1_control" pkg="subt_example" type="subt_example_node" args="Jackal1 128.0.0.10" />
-  <node name="Jackal2_control" pkg="subt_example" type="subt_example_node" args="Jackal2 128.0.0.11" />
-  <node name="Jackal3_control" pkg="subt_example" type="subt_example_node" args="Jackal3 128.0.0.12" />
-  <node name="Iris_control" pkg="subt_example" type="subt_example_node" args="Iris 128.0.0.13" />
+  <node name="Jackal_control" pkg="subt_example" type="subt_example_node" args="Jackal 128.0.0.10" />
+  <node name="Husky_control" pkg="subt_example" type="subt_example_node" args="Husky 128.0.0.11" />
+  <node name="Iris_control" pkg="subt_example" type="subt_example_node" args="Iris 128.0.0.12" />
 
   <!-- Teleop node -->
   <include file="$(find subt_example)/launch/teleop.launch">
-    <arg name="robot_config" value="$(find subt_example)/config/jackal_config.yaml"/>
+    <arg name="robot_config" value="$(find subt_example)/config/robot_config.yaml"/>
   </include>
 
 </launch>

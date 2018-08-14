@@ -248,17 +248,22 @@ void SubtTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
     || joy->axes[this->axisArrowHorizontal] != 0)
   {
     std_msgs::String addressMsg;
+    unsigned int index;
     if (joy->axes[this->axisArrowVertical] == 1)
-      addressMsg.data = this->robotAddressMap[this->robotNames[3]];
+      index = 3;
     else if (joy->axes[this->axisArrowVertical] == -1)
-      addressMsg.data = this->robotAddressMap[this->robotNames[0]];
+      index = 0;
     else if (joy->axes[this->axisArrowHorizontal] == 1)
-      addressMsg.data = this->robotAddressMap[this->robotNames[2]];
+      index = 2;
     else
-      addressMsg.data = this->robotAddressMap[this->robotNames[1]];
+      index = 1;
 
-    ROS_INFO_STREAM("sending a message to " << addressMsg.data);
-    this->commPubMap[this->currentRobot].publish(addressMsg);
+    if (index < this->robotNames.size())
+    {
+      addressMsg.data = this->robotAddressMap[this->robotNames[index]];
+      ROS_INFO_STREAM("sending a message to " << addressMsg.data);
+      this->commPubMap[this->currentRobot].publish(addressMsg);
+    }
     return;
   }
 
