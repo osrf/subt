@@ -11,6 +11,7 @@ RUN apt-get update \
         git \
         libbluetooth-dev \
         libcwiid-dev \
+        libgoogle-glog-dev \
         libspnav-dev \
         libusb-dev \
         lsb-release \
