@@ -1,0 +1,267 @@
+<?xml version="1.0"?>
+<!-- references
+  https://github.com/jackal/jackal/blob/indigo-devel/jackal_description/urdf/jackal.urdf.xacro
+-->
+<robot name="jackal" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:arg name="urdf_extras" default="$(find jackal_description)/urdf/empty.urdf" />
+  <xacro:arg name="nsp" default="nameless_robot" />
+
+  <xacro:property name="PI" value="3.1415926535897931" />
+
+  <xacro:property name="wheelbase" value="0.262" />
+  <xacro:property name="track" value="0.37559" />
+  <xacro:property name="wheel_vertical_offset" value="0.0345" />
+  <xacro:property name="footprint_vertical_offset" value="-0.0655" />
+
+  <xacro:property name="wheel_radius" value="0.098" />
+  <xacro:property name="wheel_width" value="0.040" />
+
+  <xacro:property name="chassis_length" value="0.420" />
+  <xacro:property name="chassis_width" value="0.310" />
+  <xacro:property name="chassis_height" value="0.184" />
+
+  <xacro:property name="dummy_inertia" value="1e-09"/>
+
+  <xacro:property name="mount_spacing" value="0.120" />
+
+  <material name="dark_grey"><color rgba="0.2 0.2 0.2 1.0" /></material>
+  <material name="light_grey"><color rgba="0.4 0.4 0.4 1.0" /></material>
+  <material name="yellow"><color rgba="0.8 0.8 0.0 1.0" /></material>
+  <material name="black"><color rgba="0.15 0.15 0.15 1.0" /></material>
+
+  <xacro:macro name="wheel" params="prefix *joint_pose">
+
+    <link name="${prefix}_wheel_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
+        <geometry>
+          <mesh filename="package://jackal_description/meshes/jackal-wheel.stl"/>
+        </geometry>
+        <material name="black" />
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
+        <geometry>
+          <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.477"/>
+        <inertia
+          ixx="0.0013" ixy="0" ixz="0"
+          iyy="0.0024" iyz="0"
+          izz="0.0013"/>
+      </inertial>
+    </link>
+
+    <gazebo reference="${prefix}_wheel_link">
+      <material>Gazebo/DarkGrey</material>
+    </gazebo>
+
+    <joint name="${prefix}_wheel" type="continuous">
+      <parent link="chassis_link"/>
+      <child link="${prefix}_wheel_link" />
+      <xacro:insert_block name="joint_pose" />
+      <axis xyz="0 1 0" />
+    </joint>
+
+    <!-- In reality, Jackal has only two motors, one per side. However, it's more
+         straightforward for Gazebo to simulate as if there's an actuator per wheel. -->
+    <transmission name="${prefix}_wheel_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}_wheel">
+        <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="${prefix}_actuator">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+  </xacro:macro>
+
+  <xacro:wheel prefix="front_left">
+    <origin xyz="${wheelbase/2} ${track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+  </xacro:wheel>
+  <xacro:wheel prefix="front_right">
+    <origin xyz="${wheelbase/2} ${-track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+  </xacro:wheel>
+  <xacro:wheel prefix="rear_left">
+    <origin xyz="${-wheelbase/2} ${track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+  </xacro:wheel>
+  <xacro:wheel prefix="rear_right">
+    <origin xyz="${-wheelbase/2} ${-track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+  </xacro:wheel>
+
+  <link name="base_link"></link>
+
+  <joint name="base_link_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="base_link"/>
+    <child link="chassis_link" />
+  </joint>
+
+  <link name="chassis_link">
+    <visual>
+      <origin xyz="0 0 ${footprint_vertical_offset}" rpy="${PI/2} 0 ${PI/2}"/>
+      <geometry>
+        <mesh filename="package://jackal_description/meshes/jackal-base.stl"/>
+      </geometry>
+      <material name="dark_grey" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 ${chassis_height/2}"/>
+      <geometry>
+        <box size="${chassis_length} ${chassis_width} ${chassis_height}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <!-- Center of mass -->
+      <origin xyz="0.012  0.002 0.067" rpy="0 0 0"/>
+      <mass value="16.523"/>
+      <!-- Moments of inertia: ( chassis without wheels ) -->
+      <inertia
+        ixx="0.3136" ixy="-0.0008" ixz="0.0164"
+        iyy="0.3922" iyz="-0.0009"
+        izz="0.4485"/>
+      </inertial>
+  </link>
+
+  <link name="fenders_link">
+    <visual>
+      <origin xyz="0 0 ${footprint_vertical_offset}" rpy="${PI/2} 0 ${PI/2}"/>
+      <geometry>
+        <mesh filename="package://jackal_description/meshes/jackal-fenders.stl"/>
+      </geometry>
+      <material name="yellow" />
+    </visual>
+  </link>
+  <joint name="fenders_joint" type="fixed">
+    <parent link="chassis_link" />
+    <child link="fenders_link" />
+  </joint>
+
+  <!-- TODO: Make this internal_imu_link or something, and use a mixed-in xacro
+       to supply the joint between it and imu_link. This is important so that imu_link
+       always points to the "active" IMU. When an upgrade IMU is connected, the
+       internal_imu_link should remain, but imu_link should point to the upgrade one. -->
+  <link name="imu_link">
+    <inertial>
+      <mass value="0.001"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="${dummy_inertia}" ixy="0.0" ixz="0.0" iyy="${dummy_inertia}" iyz="0.0" izz="${dummy_inertia}"/>
+    </inertial>
+  </link>
+  <joint name="imu_joint" type="fixed">
+    <parent link="chassis_link" />
+    <child link="imu_link" />
+  </joint>
+
+  <!-- TODO: Same note as applies to imu_link -->
+  <link name="navsat_link">
+    <visual>
+      <geometry>
+        <cylinder radius="0.026" length="0.016" />
+      </geometry>
+      <origin xyz="0 0 0.008" />
+      <material name="black" />
+    </visual>
+  </link>
+  <joint name="navsat_joint" type="fixed">
+    <parent link="chassis_link" />
+    <child link="navsat_link" />
+    <origin xyz="-0.180 0.126 0.1815" />
+  </joint>
+
+  <link name="mid_mount"></link>
+  <joint name="mid_mount_joint" type="fixed">
+    <parent link="chassis_link" />
+    <child link="mid_mount" />
+    <origin xyz="0 0 ${chassis_height}" />
+  </joint>
+
+  <link name="rear_mount"></link>
+  <joint name="rear_mount_joint" type="fixed">
+    <parent link="mid_mount" />
+    <child link="rear_mount" />
+    <origin xyz="${-mount_spacing} 0 0" />
+  </joint>
+
+  <link name="front_mount"></link>
+  <joint name="front_mount_joint" type="fixed">
+    <parent link="mid_mount" />
+    <child link="front_mount" />
+    <origin xyz="${mount_spacing} 0 0" />
+  </joint>
+
+  <!-- Bring in simulation data for Gazebo. -->
+  <!-- reference: https://github.com/NicksSimulationsROS/multi_jackal/blob/ros-kinetic/multi_jackal_description/urdf/jackal.gazebo -->
+  <gazebo>
+   <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+     <robotNamespace>/$(arg nsp)</robotNamespace>
+   </plugin>
+  </gazebo>
+
+  <gazebo>
+   <plugin name="imu_controller" filename="libhector_gazebo_ros_imu.so">
+     <robotNamespace>/$(arg nsp)</robotNamespace>
+     <updateRate>50.0</updateRate>
+     <bodyName>imu_link</bodyName>
+     <topicName>imu/data</topicName>
+     <frameId>$(arg nsp)/base_link</frameId>
+     <accelDrift>0.00 0.00 0.00</accelDrift>
+     <accelGaussianNoise>0.001 0.001 0.001</accelGaussianNoise>
+     <rateDrift>0.00 0.00 0.00 </rateDrift>
+     <rateGaussianNoise>0.001 0.001 0.001 </rateGaussianNoise>
+     <headingDrift>0.00</headingDrift>
+     <headingGaussianNoise>0.001</headingGaussianNoise>
+   </plugin>
+  </gazebo>
+
+  <gazebo>
+   <plugin name="gps_controller" filename="libhector_gazebo_ros_gps.so">
+     <robotNamespace>/$(arg nsp)</robotNamespace>
+     <updateRate>40</updateRate>
+     <bodyName>navsat_link</bodyName>
+     <frameId>$(arg nsp)/base_link</frameId>
+     <topicName>navsat/fix</topicName>
+     <velocityTopicName>navsat/vel</velocityTopicName>
+     <referenceLatitude>-34.93</referenceLatitude>
+     <referenceLongitude>138.6</referenceLongitude>
+     <referenceHeading>0</referenceHeading>
+     <referenceAltitude>0</referenceAltitude>
+     <gaussianNoise>0.001 0.001 0.001</gaussianNoise>
+     <velocityGaussianNoise>0 0 0</velocityGaussianNoise>
+     <drift>0.0001 0.0001 0.0001</drift>
+   </plugin>
+  </gazebo>
+
+  <gazebo reference="base_link">
+    <turnGravityOff>false</turnGravityOff>
+  </gazebo>
+
+  <gazebo reference="chassis_link">
+    <material>Gazebo/DarkGrey</material>
+    <turnGravityOff>false</turnGravityOff>
+  </gazebo>
+    <gazebo reference="imu_link">
+    <turnGravityOff>false</turnGravityOff>
+  </gazebo>
+
+  <gazebo reference="navsat_link">
+    <material>Gazebo/DarkGrey</material>
+    <turnGravityOff>false</turnGravityOff>
+  </gazebo>
+  <gazebo reference="fenders_link">
+    <material>Gazebo/Yellow</material>
+    <turnGravityOff>false</turnGravityOff>
+  </gazebo>
+
+  <!-- Optional standard accessories, including their simulation data. The rendering
+       of these into the final description is controlled by optenv variables, which
+       default each one to off.-->
+  <xacro:include filename="$(find jackal_description)/urdf/accessories.urdf.xacro" />
+
+  <!-- Optional custom includes. -->
+  <xacro:include filename="$(arg urdf_extras)" />
+</robot>
