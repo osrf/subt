@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="flashlight">
+  <xacro:macro name="led" params="led_prefix parent_link default_color:='0 0 0' *pose **plugin_params">
+    <gazebo>
+      <model name='${led_prefix}_led'>
+        <xacro:insert_block name='pose'/>
+        <link name='led_body'>
+          <inertial>
+            <pose>0 0 0 0 0 0</pose>
+            <mass>0.00001</mass>
+            <inertia>
+              <ixx>1.0e-05</ixx>
+              <ixy>0</ixy>
+              <ixz>0</ixz>
+              <iyy>1.0e-05</iyy>
+              <iyz>0</iyz>
+              <izz>1.0e-05</izz>
+            </inertia>
+          </inertial>
+          <collision name='collision'>
+            <pose>0 0 0 0 0 0</pose>
+            <geometry>
+              <sphere>
+                <radius>0.025</radius>
+              </sphere>
+            </geometry>
+          </collision>
+          <visual name='marker'>
+            <pose>0 0 0 0 0 0</pose>
+            <geometry>
+              <sphere>
+                <radius>0.025</radius>
+              </sphere>
+            </geometry>
+            <material>
+              <ambient>1 1 1 1</ambient>
+              <diffuse>1 1 1 1</diffuse>
+              <specular>1 1 1 1</specular>
+              <emissive>${default_color} 1</emissive>
+            </material>
+          </visual>
+          <light name='marker' type='point'>
+            <pose>0 0 0 0 0 0</pose>
+            <attenuation>
+              <range>0.20</range>
+              <linear>0.10</linear>
+            </attenuation>
+            <diffuse>${default_color} 1</diffuse>
+            <specular>${default_color} 1</specular>
+          </light>
+        </link>
+        <plugin name='light_control' filename='libRosFlashLightPlugin.so'>
+          <service_name>enable</service_name>
+          <light>
+            <id>led_body/marker</id>
+            <xacro:insert_block name="plugin_params"/>
+            <enable>false</enable>
+            <duration>1</duration>
+            <interval>0</interval>
+            <color>1 1 1</color>
+          </light>
+        </plugin>
+      </model>
+    </gazebo>
+    <gazebo>
+      <joint name='${led_prefix}_led_joint' type='fixed'>
+        <parent>${parent_link}</parent>
+        <child>${led_prefix}_led::led_body</child>
+      </joint>
+    </gazebo>
+	</xacro:macro>
+</robot>

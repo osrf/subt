@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<robot name="iris_with_sensors" xmlns:xacro="http://ros.org/wiki/xacro">
+<robot name="iris_with_sensors" xmlns:xacro="http://www.ros.org/wiki/xacro">
   <xacro:include filename="$(find rotors_description)/urdf/iris_base.xacro" />
 
   <xacro:odometry_plugin_macro
@@ -33,6 +33,8 @@
     <inertia ixx="0.00001" ixy="0.0" ixz="0.0" iyy="0.00001" iyz="0.0" izz="0.00001" />
     <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
   </xacro:odometry_plugin_macro>
+
+  <xacro:include filename="$(find subt_example)/urdf/iris_equipments.urdf.xacro" />
 
   <!-- Mount a magnetometer. -->
   <xacro:default_magnetometer namespace="${namespace}" parent_link="${namespace}/base_link" />
