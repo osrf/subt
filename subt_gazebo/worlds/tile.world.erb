@@ -1,0 +1,345 @@
+<%
+  # Tile world generator
+  #
+  # Command line options (usage erb [opt]=[arg]):
+  # s: seed for randomization, defaults to random
+  # t: tile type, defaults to 'cave'
+  # n_x: number of tiles on X dimension, defaults to 20
+  # n_y: number of tiles on Y dimension, must be odd, defaults to 5
+
+  ###############################################
+  #                                             #
+  #           COMMAND LINE ARGUMENTS            #
+  #                                             #
+  ###############################################
+
+  vars = ARGV.take_while {|arg| arg[/^\w+=/]}
+  ARGV.slice!(0, vars.size)
+  vars.each do |var|
+    k, v = var.split('=', 2)
+    TOPLEVEL_BINDING.eval %Q(#{k} = "#{v}")
+  end
+
+  # Seed
+  seed = rand(0..10000000)
+  if (defined? s)
+    seed = s.to_i
+  end
+  srand(seed)
+
+  # Tile type
+  $type = 'cave'
+  if (defined? t)
+    $type = t.to_s
+    if ($type != 'cave')
+      raise('Unsupported tile type')
+      exit
+    end
+  end
+
+  # Number of tiles per dimension
+  $n_x = 20
+  if (defined? n_x)
+    $n_x = n_x.to_i
+  end
+  $n_y = 5
+  if (defined? n_y)
+    $n_y = n_y.to_i
+  end
+
+  ###############################################
+  #                                             #
+  #           IMPORT OTHER ERB FILES            #
+  #                                             #
+  ###############################################
+
+  # Relative path from where the script is being run to the script's directory
+  DIR = File.dirname(__FILE__)
+
+  # Helper function to import another erb file
+  def fromFile filename
+    return ERB.new(File.read(filename), nil, nil, '_sub01').result(binding)
+  end
+
+  ###############################################
+  #                                             #
+  #                TILE PARAMS                  #
+  #                                             #
+  ###############################################
+
+  # Tile X/Y dimensions in meters
+  tile_dimension = 20
+
+  # Entrance offset from staging area on X axis
+  entrance_offset = tile_dimension
+
+  # Increase this number as more tile meshes are added
+  type_total_count = 0
+  if ($type == 'cave')
+    type_total_count = 10
+  end
+
+  # Keep all possible tile types
+  tile_types = []
+  for i in (1..type_total_count)
+    tile_types.push($type + '_tile_' + i.to_s)
+  end
+
+  ###############################################
+  #                                             #
+  #               RANDOMIZATION                 #
+  #                                             #
+  ###############################################
+
+  # Get -1 if n < 0 and +1 if n >= 0
+  def sign(_n)
+    return _n == 0 ? 1 : _n.abs / _n
+  end
+
+  # Grid tiles
+  half_n_y = ($n_y/2).floor
+  tiles = []
+  for x in (0..($n_x - 1))
+    for y in (-half_n_y..half_n_y)
+
+      tile =
+      {
+        :name => tile_types.sample(),
+        :x => entrance_offset + tile_dimension * x,
+        :y => tile_dimension * y,
+        :yaw => [0, Math::PI*0.5, -Math::PI*0.5, Math::PI].sample()
+      }
+      tiles.push(tile)
+    end
+  end
+
+  # Cap blockers
+  cap_blockers = []
+  for x in (0..($n_x - 1))
+    for y in [-half_n_y - 1, half_n_y + 1]
+
+      cap_blocker =
+      {
+        :name => $blocker_tile,
+        :x => entrance_offset + tile_dimension * x,
+        :y => tile_dimension * y + tile_dimension * 0.5 * -sign(y),
+        :yaw => 0
+      }
+      cap_blockers.push(cap_blocker)
+    end
+  end
+  for y in (-half_n_y..half_n_y)
+    for x in [-1, $n_x]
+
+      # Skip start tile
+      if y == 0 and x == -1
+        next
+      end
+
+      cap_blocker =
+      {
+        :name => $blocker_tile,
+        :x => entrance_offset +
+              tile_dimension * x + tile_dimension * 0.5 * -sign(x),
+        :y => tile_dimension * y,
+        :yaw => 0
+      }
+      cap_blockers.push(cap_blocker)
+    end
+  end
+%>
+<?xml version="1.0" ?>
+<!--
+  Generated from tile.world.erb
+  Seed: <%= seed %>
+  Type: <%= $type %>
+  N_x: <%= $n_x %>
+  N_y: <%= $n_y %>
+-->
+<sdf version="1.6">
+  <world name="default">
+
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose>-51.7 -49.4 62.0 0 0.5 0.8</pose>
+      </camera>
+    </gui>
+
+    <scene>
+      <ambient>0.8 0.8 0.8 1.0</ambient>
+      <background>0.34 0.39 0.43 1.0</background>
+      <grid>false</grid>
+      <origin_visual>true</origin_visual>
+    </scene>
+
+    <!-- TODO(chapulina): Entrance placeholder -->
+    <model name="staging">
+      <pose><%= entrance_offset - 20 %> 0 -0.002 0 0 0</pose>
+     <static>true</static>
+     <link name="link">
+       <pose>0 0 -0.5 0 0 0</pose>
+       <visual name="visual">
+         <geometry>
+           <box>
+             <size>25 25 1</size>
+           </box>
+         </geometry>
+         <material>
+           <script>
+             <uri>file://media/materials/scripts/gazebo.material</uri>
+             <name>Gazebo/Residential</name>
+           </script>
+         </material>
+       </visual>
+       <collision name="collision">
+         <geometry>
+           <box>
+             <size>25 20 1</size>
+           </box>
+         </geometry>
+       </collision>
+     </link>
+    </model>
+
+    <% entrance_scale = 0.008 %>
+    <model name="mine_entrance">
+      <pose>
+        <%= entrance_offset - 10 %>
+        0
+        -0.001
+        0
+        0
+        <%= -Math::PI * 0.5%>
+      </pose>
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <mesh>
+              <scale>
+                <%= entrance_scale %>
+                <%= entrance_scale %> <%= entrance_scale %>
+              </scale>
+              <uri>model://mine_entrance/meshes/Entrance.obj</uri>
+            </mesh>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <mesh>
+              <scale>
+                <%= entrance_scale %>
+                <%= entrance_scale %> <%= entrance_scale %>
+              </scale>
+              <uri>model://mine_entrance/meshes/Entrance.obj</uri>
+            </mesh>
+          </geometry>
+        </visual>
+      </link>
+    </model>
+
+    <light name='user_spot_light_0' type='spot'>
+      <pose><%= entrance_offset - 8 %> 0 15 0 0.65 0</pose>
+      <diffuse>1 1 1 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <direction>0 0 -1</direction>
+      <attenuation>
+        <range>30</range>
+        <constant>0.001</constant>
+        <linear>0.01</linear>
+        <quadratic>0.000</quadratic>
+      </attenuation>
+      <cast_shadows>1</cast_shadows>
+      <spot>
+        <inner_angle>0.0</inner_angle>
+        <outer_angle>1.5</outer_angle>
+        <falloff>0.01</falloff>
+      </spot>
+    </light>
+
+  <%
+    barrier_step = 4.3
+    for x in (0..4)
+      for y in [-1, 1]
+  %>
+    <include>
+      <name>barrier_<%= x %>_<%= y %></name>
+      <pose>
+        <%= entrance_offset - 12 - barrier_step * x %>
+        <%= y * 11 %>
+        0
+        0
+        0
+        0
+      </pose>
+      <uri>model://jersey_barrier</uri>
+    </include>
+  <%
+      end
+    end
+  %>
+
+  <%
+    for x in [-9.5, -32]
+      for y in (-2..2)
+        if (x == -9.5 and y.abs() < 2)
+          next
+        end
+  %>
+    <include>
+      <name>barrier_<%= x %>_<%= y %></name>
+      <pose>
+        <%= entrance_offset + x %>
+        <%= barrier_step * y %>
+        0
+        0
+        0
+        <%= Math::PI * 0.5 %>
+      </pose>
+      <uri>model://jersey_barrier</uri>
+    </include>
+  <%
+      end
+    end
+  %>
+
+
+    <!-- Grid tiles -->
+  <%
+    count = 0
+    for tile in tiles
+      count = count + 1
+  %>
+    <include>
+      <uri>model://<%= tile[:name] %></uri>
+      <name>tile_<%= count.to_s %></name>
+      <pose><%= tile[:x] %> <%= tile[:y] %> 0 0 0 <%= tile[:yaw] %></pose>
+    </include>
+  <%
+    end
+  %>
+
+    <!-- Cap blockers -->
+    <%
+      for tile in cap_blockers
+        count = count + 1
+        $name = 'blocker_'  + count.to_s
+        $pose = [tile[:x], tile[:y], 0, 0, 0, tile[:yaw]]
+    %>
+      <%= fromFile(DIR + "/blocker.erb") %>
+    <%
+      end
+    %>
+
+    <!-- The SubT comms broker plugin -->
+    <plugin name="comms_broker_plugin" filename="libCommsBrokerPlugin.so">
+    </plugin>
+
+    <!-- rotors_gazebo support -->
+    <plugin name="ros_interface_plugin"
+            filename="librotors_gazebo_ros_interface_plugin.so"/>
+
+
+  </world>
+</sdf>
+
