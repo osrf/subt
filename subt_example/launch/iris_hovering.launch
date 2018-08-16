@@ -1,8 +1,11 @@
 <?xml version="1.0"?>
 <launch>
-  
+
+  <arg name="scenario" default="lava_tube"/>
+
   <!-- Launch the SubT world. -->
-  <include file="$(find subt_gazebo)/launch/lava_tube.launch">
+  <include file="$(find subt_gazebo)/launch/competition.launch">
+    <arg name="scenario" value="$(arg scenario)"/>
   </include>
 
   <group ns="iris">
