@@ -1,13 +1,6 @@
 <?xml version="1.0"?>
 <launch>
 
-  <arg name="scenario" default="lava_tube"/>
-
-  <!-- Launch the SubT world. -->
-  <include file="$(find subt_gazebo)/launch/competition.launch">
-    <arg name="scenario" value="$(arg scenario)"/>
-  </include>
-
   <!-- Spawn your team here. -->
   <arg name="laser_enabled" default="false"/>
   <arg name="kinect_enabled" default="false"/>
