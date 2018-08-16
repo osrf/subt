@@ -1,10 +1,6 @@
 <?xml version="1.0"?>
 <launch>
 
-  <!-- Launch the SubT world. -->
-  <include file="$(find subt_gazebo)/launch/lava_tube.launch">
-  </include>
-
   <!-- Spawn your team here. -->
 
   <!-- Short-term hack to support the original front_laser:=true argument for spawning
@@ -23,7 +19,7 @@
     <arg name="namespace" value="Jackal"/>
     <arg name="x" value="0"/>
     <arg name="y" value="0"/>
-    <arg name="z" value="1"/>
+    <arg name="z" value="0.1"/>
     <arg name="yaw" value="0"/>
     <arg name="urdf_extras" value="$(find subt_example)/urdf/jackal_equipments.urdf.xacro"/>
     <arg name="config" value="$(arg config)"/>
@@ -33,7 +29,7 @@
     <arg name="namespace" value="Husky"/>
     <arg name="x" value="2"/>
     <arg name="y" value="1"/>
-    <arg name="z" value="0"/>
+    <arg name="z" value="0.1"/>
     <arg name="yaw" value="3.14159"/>
     <arg name="urdf_extras" value="$(find subt_example)/urdf/husky_equipments.urdf.xacro"/>
   </include>
@@ -43,7 +39,7 @@
       <arg name="mav_name" value="Iris" />
       <arg name="x" value="-1"/>
       <arg name="y" value="-1"/>
-      <arg name="z" value="0"/>
+      <arg name="z" value="0.1"/>
     </include>
     <!-- Sends motor commands to hold position -->
     <node name="lee_position_controller_node" pkg="rotors_control" type="lee_position_controller_node">
