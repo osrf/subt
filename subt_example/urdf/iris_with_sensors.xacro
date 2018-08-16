@@ -35,4 +35,49 @@
   </xacro:odometry_plugin_macro>
 
   <xacro:include filename="$(find subt_example)/urdf/iris_equipments.urdf.xacro" />
+
+  <!-- Mount a magnetometer. -->
+  <xacro:default_magnetometer namespace="${namespace}" parent_link="${namespace}/base_link" />
+
+  <!-- Mount a pressure sensor. -->
+  <xacro:default_pressure_sensor namespace="${namespace}" parent_link="${namespace}/base_link" />
+
+  <!-- Front camera. -->
+  <xacro:camera_macro
+    namespace="${namespace}"
+    parent_link="${namespace}/base_link"
+    camera_suffix="front"
+    frame_rate="30"
+    horizontal_fov="2"
+    image_width="752"
+    image_height="480"
+    image_format="L8"
+    min_distance="0.02"
+    max_distance="50"
+    noise_mean="0.0"
+    noise_stddev="0.007"
+    enable_visual="false">
+    <box size="0.02 0.05 0.05" />
+    <origin xyz="0.1 0 0" rpy="0 0 0" />
+  </xacro:camera_macro>
+
+  <!-- Lower camera. -->
+  <xacro:camera_macro
+    namespace="${namespace}"
+    parent_link="${namespace}/base_link"
+    camera_suffix="lower"
+    frame_rate="30"
+    horizontal_fov="2"
+    image_width="752"
+    image_height="480"
+    image_format="L8"
+    min_distance="0.02"
+    max_distance="50"
+    noise_mean="0.0"
+    noise_stddev="0.007"
+    enable_visual="false">
+    <box size="0.02 0.05 0.05" />
+    <origin xyz="0 0 -0.07" rpy="0 1.57 0" />
+  </xacro:camera_macro>
+
 </robot>
