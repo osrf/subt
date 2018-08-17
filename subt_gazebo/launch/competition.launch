@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
 <launch>
+  <arg name="scenario" default="lava_tube"/>
 
-  <!-- Gazebo world. -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
-    <arg name="world_name" value="$(find subt_gazebo)/worlds/lava_tube.world"/>
+    <arg name="world_name"
+         value="$(find subt_gazebo)/worlds/$(arg scenario).world" />
     <arg name="paused" value="false"/>
     <arg name="use_sim_time" value="true"/>
     <arg name="gui" value="true"/>

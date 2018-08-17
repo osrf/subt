@@ -17,6 +17,12 @@
             <uri>model://indian_tunnel/indian_tunnel.dae</uri>
           </mesh>
         </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0.95 0.8 0.8 1</diffuse>
+          <specular>0.1 0.95 0.95 1</specular>
+          <emissive>0 0 0 1</emissive>
+        </material>
         <cast_shadows>false</cast_shadows>
       </visual>
     </link>

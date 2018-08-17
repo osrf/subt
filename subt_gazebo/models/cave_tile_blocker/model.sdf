@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="cave_tile_blocker">
+    <static>true</static>
+    <link name="link">
+      <pose>0 0 0 1.570796 0 0</pose>
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://cave_tile_blocker/meshes/cave_tile_blocker.obj</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://cave_tile_blocker/meshes/cave_tile_blocker.obj</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>

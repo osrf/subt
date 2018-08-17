@@ -1,0 +1,26 @@
+robot_names:
+  - Jackal
+  - Husky
+  - Iris
+
+button_robot_map:
+  A: Jackal
+  B: Husky
+  X: Iris
+
+flashlight_service_suffixes:
+  - /downward_flashlight/enable
+  - /left_flashlight/enable
+  - /right_flashlight/enable
+
+robot_address_map:
+  Jackal: 128.0.0.10
+  Husky: 128.0.0.11
+  Iris: 128.0.0.12
+
+select_led_service_suffixes:
+  - /left_led/enable
+  - /right_led/enable
+
+comm_led_service_suffixes:
+  - /center_led/enable

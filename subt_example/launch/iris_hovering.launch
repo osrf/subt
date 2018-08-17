@@ -1,9 +1,5 @@
 <?xml version="1.0"?>
 <launch>
-  
-  <!-- Launch the SubT world. -->
-  <include file="$(find subt_gazebo)/launch/lava_tube.launch">
-  </include>
 
   <group ns="iris">
     <include file="$(find subt_example)/launch/spawn_iris.launch">
