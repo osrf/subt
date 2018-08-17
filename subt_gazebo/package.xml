@@ -11,11 +11,12 @@
   <depend>gazebo_plugins</depend>
   <depend>gazebo_ros</depend>
   <depend>roscpp</depend>
+  <depend>geometry_msgs</depend>
   <depend>sensor_msgs</depend>
+  <depend>subt_msgs</depend>
   <depend>std_msgs</depend>
   <depend>std_srvs</depend>
 
-  <build_depend>message_generation</build_depend>
   <exec_depend>message_runtime</exec_depend>
 
   <export>

@@ -16,8 +16,10 @@ find_package(catkin REQUIRED
     gazebo_ros
     gazebo_plugins
     roscpp
+    geometry_msgs
     std_msgs
     std_srvs
+    subt_msgs
     message_generation
 )
 
@@ -49,10 +51,10 @@ link_directories(
 catkin_package(
   CATKIN_DEPENDS
     message_runtime
+    subt_msgs
     std_srvs
   INCLUDE_DIRS
     include
-    ${CATKIN_DEVEL_PREFIX}/include
   LIBRARIES
     CommsClient
   CFG_EXTRAS
@@ -162,7 +164,6 @@ add_rostest(test/comms.test
   DEPENDENCIES test_comms
 )
 
-find_package(rostest REQUIRED)
 add_rostest_gtest(test_flashlight test/flashlight.test test/flashlight.cc)
 target_link_libraries(test_flashlight
   ${catkin_LIBRARIES}
@@ -171,7 +172,6 @@ target_link_libraries(test_flashlight
 add_dependencies(test_flashlight
   ${ros_flashlight_plugin_name}
 )
-
 
 #############
 ## Install ##
