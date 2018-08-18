@@ -5,6 +5,31 @@
       <uri>model://indian_tunnel</uri>
     </include>
 
+    <!-- Temporary Gate -->
+    <include>
+      <name>gate_temp</name>
+      <uri>model://gate</uri>
+      <pose>4.5 0 3.0 0 0 0</pose>
+    </include>
+    <model name="start_area">
+      <static>true</static>
+      <pose>4.5 0 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="start_collision_check">
+          <geometry>
+            <box>
+              <size>0.2 5.0 2.0</size>
+            </box>
+          </geometry>
+          <surface>
+            <contact>
+              <collide_without_contact>1</collide_without_contact>
+            </contact>
+          </surface>
+        </collision>
+      </link>
+    </model>
+    
     <!-- Start: Gate -->
     <include>
       <name>gate_start</name>
