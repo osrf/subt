@@ -23,9 +23,11 @@
 #include <gazebo/common/Events.hh>
 #include <ignition/math/Pose3.hh>
 
+#include "subt_gazebo/CommonTypes.hh"
 #include "subt_gazebo/GameLogicPlugin.hh"
 
 using namespace gazebo;
+using namespace subt;
 
 GZ_REGISTER_WORLD_PLUGIN(GameLogicPlugin)
 
@@ -59,6 +61,16 @@ void GameLogicPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
     &GameLogicPlugin::OnStart, this);
   this->node.Subscribe("/subt/finish/contain",
     &GameLogicPlugin::OnFinish, this);
+
+  // Gazebo transport
+  this->gzNode = gazebo::transport::NodePtr(new gazebo::transport::Node());
+  this->gzNode->Init();
+
+  this->startCollisionSub = this->gzNode->Subscribe("~/physics/contacts",
+    &GameLogicPlugin::OnStartCollision, this);
+
+  this->node.Subscribe("/subt/finish",
+    &GameLogicPlugin::OnFinishMessage, this);
 
   gzmsg << "Starting SubT" << std::endl;
 }
@@ -228,6 +240,46 @@ void GameLogicPlugin::PublishScore(const ros::TimerEvent &/*_event*/)
 /////////////////////////////////////////////////
 void GameLogicPlugin::OnUpdate()
 {
+}
+
+/////////////////////////////////////////////////
+void GameLogicPlugin::OnStartCollision(ConstContactsPtr &_msg)
+{
+  if (this->started)
+    return;
+
+  // to ignore the collisions with the ground and the gate, just skip checking
+  // collisions for a while at the beginning.
+  //if (this->world->SimTime() < 3.0)
+  //  return;
+
+  for (int i = 0; i < _msg->contact_size(); ++i)
+  {
+    auto contact = _msg->contact(i);
+    if (contact.collision1() == kStartCollisionName ||
+        contact.collision2() == kStartCollisionName)
+    {
+      this->started = true;
+      this->startTime = std::chrono::steady_clock::now();
+      gzmsg << "Scoring has Started" << std::endl;
+      break;
+    }
+  }
+}
+
+/////////////////////////////////////////////////
+void GameLogicPlugin::OnFinishMessage(const ignition::msgs::Boolean &_msg)
+{
+  if (!this->started || this->finished || !_msg.data())
+    return;
+
+  this->finished = true;
+  this->finishTime = std::chrono::steady_clock::now();
+
+  auto elapsed = this->finishTime - this->startTime;
+  gzmsg << "Scoring has finished. Elapsed time: "
+        << std::chrono::duration_cast<std::chrono::seconds>(elapsed).count()
+        << " seconds" << std::endl;
 }
 
 /////////////////////////////////////////////////

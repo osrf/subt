@@ -34,5 +34,10 @@ namespace subt
 
   /// \brief Default port.
   const uint32_t kDefaultPort = 4100u;
+
+  /// \brief Scoped name of collision which detects an entering object in the
+  /// start area to initiate the game.
+  const std::string kStartCollisionName
+    = "start_area::link::start_collision_check";
 }
 #endif

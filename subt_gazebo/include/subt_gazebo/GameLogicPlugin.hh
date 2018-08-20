@@ -29,6 +29,7 @@
 #include <gazebo/common/Event.hh>
 #include <gazebo/common/Plugin.hh>
 #include <gazebo/physics/physics.hh>
+#include <gazebo/transport/Node.hh>
 #include <ignition/math/Vector3.hh>
 #include <sdf/sdf.hh>
 
@@ -43,6 +44,15 @@ namespace gazebo
 
     /// \brief Callback for World Update events.
     private: void OnUpdate();
+
+    /// \brief Callback triggered when a pair of links collide. It starts the
+    /// timer if a specified start area is collided by some object.
+    /// \param[in] _msg The message containing a list of collision information.
+    private: void OnStartCollision(ConstContactsPtr &_msg);
+
+    /// \brief Callback triggered when the finish message is received.
+    /// \param[in] _msg The message containing if the game is to be finished.
+    private: void OnFinishMessage(const ignition::msgs::Boolean &_msg);
 
     /// \brief Callback triggered when the start gate is crossed.
     /// \param[in] _msg The message containing if the gate was crossed or left.
@@ -83,6 +93,15 @@ namespace gazebo
 
     /// \brief Ignition Transport node.
     private: ignition::transport::Node node;
+
+    /// \brief Gazebo Transport node.
+    private: gazebo::transport::NodePtr gzNode;
+
+    /// \brief Gazebo Transport Subscriber to check the collision.
+    private: gazebo::transport::SubscriberPtr startCollisionSub;
+
+    /// \brief Mutex for the subscriber of startcollision.
+    //private: std::mutex startCollisionMutex;
 
     /// \brief Whether the task has started.
     private: bool started = false;
