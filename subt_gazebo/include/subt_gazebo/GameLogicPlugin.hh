@@ -51,9 +51,9 @@ namespace gazebo
     /// \param[in] _msg The message containing a list of collision information.
     private: void OnStartCollision(ConstContactsPtr &_msg);
 
-    /// \brief ROS service callback triggered when the finish message is
-    /// received.
-    /// \param[in]  _req The message containing if the game is to be finished.
+    /// \brief ROS service callback triggered when the service is called.
+    /// \param[in]  _req The message containing a flag telling if the game is to
+    /// be finished.
     /// \param[out] _res The response message.
     private: bool OnFinishCall(
       std_srvs::SetBool::Request &_req, std_srvs::SetBool::Response &_res);
