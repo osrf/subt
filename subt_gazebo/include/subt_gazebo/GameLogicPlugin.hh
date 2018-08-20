@@ -58,14 +58,6 @@ namespace gazebo
     private: bool OnFinishCall(
       std_srvs::SetBool::Request &_req, std_srvs::SetBool::Response &_res);
 
-    /// \brief Callback triggered when the start gate is crossed.
-    /// \param[in] _msg The message containing if the gate was crossed or left.
-    private: void OnStart(const ignition::msgs::Boolean &_msg);
-
-    /// \brief Callback triggered when the finish gate is crossed.
-    /// \param[in] _msg The message containing if the gate was crossed or left.
-    private: void OnFinish(const ignition::msgs::Boolean &_msg);
-
     /// \brief Parse all the objects of interest.
     /// \param[in] _sdf The SDF element containing the objects of interest.
     private: void ParseObjectsOfInterest(sdf::ElementPtr _sdf);
