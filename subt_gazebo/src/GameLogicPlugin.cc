@@ -285,5 +285,5 @@ bool GameLogicPlugin::OnFinishCall(
           << " seconds" << std::endl;
     _res.success = true;
   }
-  return _res.success;
+  return true;
 }
