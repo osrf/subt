@@ -99,9 +99,6 @@ namespace gazebo
     /// \brief Gazebo Transport Subscriber to check the collision.
     private: gazebo::transport::SubscriberPtr startCollisionSub;
 
-    /// \brief Mutex for the subscriber of startcollision.
-    //private: std::mutex startCollisionMutex;
-
     /// \brief Whether the task has started.
     private: bool started = false;
 
