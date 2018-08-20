@@ -34,6 +34,16 @@ GZ_REGISTER_WORLD_PLUGIN(GameLogicPlugin)
 /////////////////////////////////////////////////
 void GameLogicPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
 {
+  // Make sure the ROS node for Gazebo has already been initialized
+  if (!ros::isInitialized())
+  {
+    ROS_FATAL_STREAM(
+      "A ROS node for Gazebo has not been initialized, unable to load plugin. "
+      << "Load the Gazebo system plugin 'libgazebo_ros_api_plugin.so'"
+      << " in the gazebo_ros package)");
+    return;
+  }
+
   GZ_ASSERT(_world, "GameLogicPlugin world pointer is NULL");
   this->world = _world;
 
@@ -69,8 +79,10 @@ void GameLogicPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
   this->startCollisionSub = this->gzNode->Subscribe("~/physics/contacts",
     &GameLogicPlugin::OnStartCollision, this);
 
-  this->node.Subscribe("/subt/finish",
-    &GameLogicPlugin::OnFinishMessage, this);
+  // ROS service to receive a command to finish the game.
+  ros::NodeHandle n;
+  this->finishService = n.advertiseService(
+    "/subt/finish", &GameLogicPlugin::OnFinishCall, this);
 
   gzmsg << "Starting SubT" << std::endl;
 }
@@ -268,18 +280,25 @@ void GameLogicPlugin::OnStartCollision(ConstContactsPtr &_msg)
 }
 
 /////////////////////////////////////////////////
-void GameLogicPlugin::OnFinishMessage(const ignition::msgs::Boolean &_msg)
+bool GameLogicPlugin::OnFinishCall(
+  std_srvs::SetBool::Request &_req, std_srvs::SetBool::Response &_res)
 {
-  if (!this->started || this->finished || !_msg.data())
-    return;
+  if (!this->started || this->finished || !_req.data)
+  {
+    _res.success = false;
+  }
+  else
+  {
+    this->finished = true;
+    this->finishTime = std::chrono::steady_clock::now();
 
-  this->finished = true;
-  this->finishTime = std::chrono::steady_clock::now();
-
-  auto elapsed = this->finishTime - this->startTime;
-  gzmsg << "Scoring has finished. Elapsed time: "
-        << std::chrono::duration_cast<std::chrono::seconds>(elapsed).count()
-        << " seconds" << std::endl;
+    auto elapsed = this->finishTime - this->startTime;
+    gzmsg << "Scoring has finished. Elapsed time: "
+          << std::chrono::duration_cast<std::chrono::seconds>(elapsed).count()
+          << " seconds" << std::endl;
+    _res.success = true;
+  }
+  return _res.success;
 }
 
 /////////////////////////////////////////////////

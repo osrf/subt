@@ -19,6 +19,7 @@
 
 #include <geometry_msgs/PoseStamped.h>
 #include <ros/ros.h>
+#include <std_srvs/SetBool.h>
 #include <std_srvs/Trigger.h>
 #include <subt_msgs/ObjectOfInterest.h>
 #include <chrono>
@@ -50,9 +51,12 @@ namespace gazebo
     /// \param[in] _msg The message containing a list of collision information.
     private: void OnStartCollision(ConstContactsPtr &_msg);
 
-    /// \brief Callback triggered when the finish message is received.
-    /// \param[in] _msg The message containing if the game is to be finished.
-    private: void OnFinishMessage(const ignition::msgs::Boolean &_msg);
+    /// \brief ROS service callback triggered when the finish message is
+    /// received.
+    /// \param[in]  _req The message containing if the game is to be finished.
+    /// \param[out] _res The response message.
+    private: bool OnFinishCall(
+      std_srvs::SetBool::Request &_req, std_srvs::SetBool::Response &_res);
 
     /// \brief Callback triggered when the start gate is crossed.
     /// \param[in] _msg The message containing if the gate was crossed or left.
@@ -96,6 +100,9 @@ namespace gazebo
 
     /// \brief Gazebo Transport node.
     private: gazebo::transport::NodePtr gzNode;
+
+    /// \brief ROS service server to receive a call to finish the game.
+    private: ros::ServiceServer finishService;
 
     /// \brief Gazebo Transport Subscriber to check the collision.
     private: gazebo::transport::SubscriberPtr startCollisionSub;
