@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="led">
+
+  <xacro:macro name="led" params="led_prefix *joint_pose">
+    <link name="${led_prefix}_led_link">
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://x1_description/meshes/led.dae" />
+        </geometry>
+      </visual>
+    </link>
+
+    <joint name="${led_prefix}_led" type="fixed">
+      <parent link="base_link"/>
+      <child link="${led_prefix}_led_link"/>
+      <xacro:insert_block name="joint_pose"/>
+    </joint>
+
+  </xacro:macro>
+</robot>

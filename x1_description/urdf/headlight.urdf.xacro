@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="headlight">
+
+  <xacro:macro name="headlight" params="headlight_prefix *joint_pose">
+    <link name="${headlight_prefix}_headlight_link">
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://x1_description/meshes/headlight.dae" />
+        </geometry>
+      </visual>
+    </link>
+
+    <joint name="${headlight_prefix}_headlight" type="fixed">
+      <parent link="base_link"/>
+      <child link="${headlight_prefix}_headlight_link"/>
+      <xacro:insert_block name="joint_pose"/>
+    </joint>
+
+  </xacro:macro>
+</robot>

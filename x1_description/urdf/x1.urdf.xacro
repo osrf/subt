@@ -1,0 +1,245 @@
+<?xml version="1.0"?>
+<!--
+Software License Agreement (BSD)
+
+\file      x1.urdf.xacro
+\authors   Carlos Aguero <caguero@openrobotics.org>, Paul Bovbel <pbovbel@clearpathrobotics.com>, Devon Ash <dash@clearpathrobotics.com>
+\copyright Copyright (c) 2015, Clearpath Robotics, Inc., All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that
+the following conditions are met:
+ * Redistributions of source code must retain the above copyright notice, this list of conditions and the
+   following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the
+   following disclaimer in the documentation and/or other materials provided with the distribution.
+ * Neither the name of Clearpath Robotics nor the names of its contributors may be used to endorse or promote
+   products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WAR-
+RANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, IN-
+DIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<robot name="x1" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:arg name="laser_enabled" default="false" />
+  <xacro:arg name="laser_xyz" default="$(optenv X1_LMS1XX_XYZ 0.2206 0.0 0.00635)" />
+  <xacro:arg name="laser_rpy" default="$(optenv X1_LMS1XX_RPY 0.0 0.0 0.0)" />
+
+  <xacro:arg name="kinect_enabled" default="false" />
+  <xacro:arg name="kinect_xyz" default="$(optenv X1_KINECT_XYZ 0 0 0)" />
+  <xacro:arg name="kinect_rpy" default="$(optenv X1_KINECT_RPY 0 0.18 3.14)" />
+
+  <xacro:property name="x1_bumper_extend" value="$(optenv X1_FORWARD_BUMPER_EXTEND 0)" />
+
+  <xacro:arg name="robot_namespace" default="/" />
+  <xacro:arg name="urdf_extras" default="empty.urdf" />
+
+  <!-- Included URDF/XACRO Files -->
+  <xacro:include filename="$(find x1_description)/urdf/decorations.urdf.xacro" />
+  <xacro:include filename="$(find x1_description)/urdf/wheel.urdf.xacro" />
+  <xacro:include filename="$(find x1_description)/urdf/headlight.urdf.xacro" />
+  <xacro:include filename="$(find x1_description)/urdf/led.urdf.xacro" />
+
+  <xacro:include filename="$(find husky_description)/urdf/accessories/kinect_camera.urdf.xacro"/>
+  <xacro:include filename="$(find husky_description)/urdf/accessories/sick_lms1xx_mount.urdf.xacro"/>
+  <xacro:include filename="$(find husky_description)/urdf/accessories/sensor_arch.urdf.xacro"/>
+
+  <xacro:property name="M_PI" value="3.14159"/>
+
+  <!-- Base Size -->
+  <xacro:property name="base_x_size" value="0.98740000" />
+  <xacro:property name="base_y_size" value="0.57090000" />
+  <xacro:property name="base_z_size" value="0.24750000" />
+
+  <!-- Wheel Mounting Positions -->
+  <xacro:property name="wheelbase" value="0.5120" />
+  <xacro:property name="track" value="0.5708" />
+  <xacro:property name="wheel_vertical_offset" value="0.03282" />
+
+  <!-- Wheel Properties -->
+  <xacro:property name="wheel_length" value="0.1143" />
+  <xacro:property name="wheel_radius" value="0.1651" />
+
+  <!-- Base link is the center of the robot's bottom plate -->
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://x1_description/meshes/chassis.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="${x1_bumper_extend / 200.0} 0 ${base_z_size/4}" rpy="0 0 0" />
+      <geometry>
+        <box size="${base_x_size + x1_bumper_extend / 100.0} ${base_y_size} ${base_z_size/2}"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0 0 ${base_z_size*3/4}" rpy="0 0 0" />
+      <geometry>
+        <box size="${base_x_size*4/5} ${base_y_size} ${base_z_size/2}"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Base footprint is on the ground under the robot -->
+  <link name="base_footprint"/>
+
+  <joint name="base_footprint_joint" type="fixed">
+    <origin xyz="0 0 ${wheel_vertical_offset - wheel_radius}" rpy="0 0 0" />
+    <parent link="base_link" />
+    <child link="base_footprint" />
+  </joint>
+
+  <!-- Interial link stores the robot's inertial information -->
+  <link name="inertial_link">
+    <inertial>
+      <mass value="46.034" />
+      <origin xyz="-0.00065 -0.085 0.062" />
+      <inertia ixx="0.6022" ixy="-0.02364" ixz="-0.1197" iyy="1.7386" iyz="-0.001544" izz="2.0296" />
+    </inertial>
+  </link>
+
+  <joint name="inertial_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="base_link" />
+    <child link="inertial_link" />
+  </joint>
+
+  <!-- IMU Link is the standard mounting position for the UM6 IMU.-->
+  <!-- Can be modified with environment variables in /etc/ros/setup.bash -->
+  <link name="imu_link"/>
+  <joint name="imu_joint" type="fixed">
+    <origin xyz="$(optenv X1_IMU_XYZ 0.19 0 0.149)" rpy="$(optenv X1_IMU_RPY 0 -1.5708 3.1416)" />
+    <parent link="base_link" />
+    <child link="imu_link" />
+  </joint>
+  <gazebo reference="imu_link">
+  </gazebo>
+
+  <!-- X1 wheel macros -->
+  <xacro:x1_wheel wheel_prefix="front_left">
+    <origin xyz="${wheelbase/2} ${track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+  </xacro:x1_wheel>
+  <xacro:x1_wheel wheel_prefix="front_right">
+    <origin xyz="${wheelbase/2} ${-track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+  </xacro:x1_wheel>
+  <xacro:x1_wheel wheel_prefix="rear_left">
+    <origin xyz="${-wheelbase/2} ${track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+  </xacro:x1_wheel>
+  <xacro:x1_wheel wheel_prefix="rear_right">
+    <origin xyz="${-wheelbase/2} ${-track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+  </xacro:x1_wheel>
+
+  <xacro:x1_decorate />
+
+  <!-- Head lights -->
+  <xacro:headlight headlight_prefix="right">
+    <origin xyz="-0.461459  0.216803 0.124431" rpy="0 0 0" />
+  </xacro:headlight>
+  <xacro:headlight headlight_prefix="center_right">
+    <origin xyz="-0.485766 0.0844 0.124431" rpy="0 0 0" />
+  </xacro:headlight>
+  <xacro:headlight headlight_prefix="center_left">
+    <origin xyz="-0.485766 -0.0844 0.124431" rpy="0 0 0" />
+  </xacro:headlight>
+  <xacro:headlight headlight_prefix="left">
+    <origin xyz="-0.461459  -0.216803 0.124431" rpy="0 0 0" />
+  </xacro:headlight>
+
+   <!-- LEDs -->
+  <xacro:led led_prefix="rear_left">
+    <origin xyz="0.42493 -0.13619 0.209188" rpy="0 1.573 0" />
+  </xacro:led>
+  <xacro:led led_prefix="rear_center">
+    <origin xyz="0.42493 0 0.209188" rpy="0 1.573 0" />
+  </xacro:led>
+  <xacro:led led_prefix="rear_right">
+    <origin xyz="0.42493 0.13619 0.209188" rpy="0 1.573 0" />
+  </xacro:led>
+  <xacro:led led_prefix="left_lateral_rear">
+    <origin xyz="0.066047 -0.212211 0.209188" rpy="0 1.573 -1.539" />
+  </xacro:led>
+  <xacro:led led_prefix="left_lateral_front">
+    <origin xyz="-0.066047 -0.212211 0.209188" rpy="0 1.573 -1.539" />
+  </xacro:led>
+  <xacro:led led_prefix="right_lateral_rear">
+    <origin xyz="0.066047 0.212211 0.209188" rpy="0 1.573 1.539" />
+  </xacro:led>
+  <xacro:led led_prefix="right_lateral_front">
+    <origin xyz="-0.066047 0.212211 0.209188" rpy="0 1.573 1.539" />
+  </xacro:led>
+
+  <xacro:if value="$(arg laser_enabled)">
+
+    <sick_lms1xx_mount prefix="base"/>
+
+    <sick_lms1xx frame="base_laser" topic="scan" robot_namespace="$(arg robot_namespace)"/>
+
+    <joint name="laser_mount_joint" type="fixed">
+      <origin xyz="$(arg laser_xyz)" rpy="$(arg laser_rpy)" />
+      <parent link="top_plate_link" />
+      <child link="base_laser_mount" />
+    </joint>
+
+  </xacro:if>
+
+  <xacro:if value="$(arg kinect_enabled)">
+
+    <xacro:sensor_arch prefix="" parent="top_plate_link">
+      <origin xyz="-0.35 0 0.51" rpy="0 0 -3.14"/>
+    </xacro:sensor_arch>
+    <joint name="kinect_frame_joint" type="fixed">
+      <origin xyz="$(arg kinect_xyz)" rpy="$(arg kinect_rpy)" />
+      <parent link="sensor_arch_mount_link"/>
+      <child link="camera_link"/>
+    </joint>
+
+    <xacro:kinect_camera prefix="camera" robot_namespace="$(arg robot_namespace)"/>
+  </xacro:if>
+
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>$(arg robot_namespace)</robotNamespace>
+    </plugin>
+  </gazebo>
+
+  <gazebo>
+    <plugin name="imu_controller" filename="libhector_gazebo_ros_imu.so">
+      <robotNamespace>$(arg robot_namespace)</robotNamespace>
+      <updateRate>50.0</updateRate>
+      <bodyName>base_link</bodyName>
+      <topicName>imu/data</topicName>
+      <accelDrift>0.005 0.005 0.005</accelDrift>
+      <accelGaussianNoise>0.005 0.005 0.005</accelGaussianNoise>
+      <rateDrift>0.005 0.005 0.005 </rateDrift>
+      <rateGaussianNoise>0.005 0.005 0.005 </rateGaussianNoise>
+      <headingDrift>0.005</headingDrift>
+      <headingGaussianNoise>0.005</headingGaussianNoise>
+    </plugin>
+  </gazebo>
+
+  <gazebo>
+    <plugin name="gps_controller" filename="libhector_gazebo_ros_gps.so">
+      <robotNamespace>$(arg robot_namespace)</robotNamespace>
+      <updateRate>40</updateRate>
+      <bodyName>base_link</bodyName>
+      <frameId>base_link</frameId>
+      <topicName>navsat/fix</topicName>
+      <velocityTopicName>navsat/vel</velocityTopicName>
+      <referenceLatitude>49.9</referenceLatitude>
+      <referenceLongitude>8.9</referenceLongitude>
+      <referenceHeading>0</referenceHeading>
+      <referenceAltitude>0</referenceAltitude>
+      <drift>0.0001 0.0001 0.0001</drift>
+    </plugin>
+  </gazebo>
+
+  <!-- Optional custom includes. -->
+  <xacro:include filename="$(arg urdf_extras)" />
+
+</robot>
