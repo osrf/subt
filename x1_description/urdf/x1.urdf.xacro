@@ -138,18 +138,14 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
   <xacro:x1_decorate />
 
   <!-- Head lights -->
-  <xacro:headlight headlight_prefix="right">
-    <origin xyz="0.461459  0.216803 0.124431" rpy="0 0 3.1416" />
-  </xacro:headlight>
-  <xacro:headlight headlight_prefix="center_right">
-    <origin xyz="0.485766 0.0844 0.124431" rpy="0 0 3.1416" />
-  </xacro:headlight>
-  <xacro:headlight headlight_prefix="center_left">
-    <origin xyz="0.485766 -0.0844 0.124431" rpy="0 0 3.1416" />
-  </xacro:headlight>
-  <xacro:headlight headlight_prefix="left">
-    <origin xyz="0.461459  -0.216803 0.124431" rpy="0 0 3.1416" />
-  </xacro:headlight>
+  <xacro:headlight headlight_prefix="right"
+    xyz="0.461459  0.216803 0.124431" rpy="0 0 3.1416" />
+  <xacro:headlight headlight_prefix="center_right"
+    xyz="0.485766 0.0844 0.124431" rpy="0 0 3.1416" />
+  <xacro:headlight headlight_prefix="center_left"
+    xyz="0.485766 -0.0844 0.124431" rpy="0 0 3.1416" />
+  <xacro:headlight headlight_prefix="left"
+    xyz="0.461459  -0.216803 0.124431" rpy="0 0 3.1416" />
 
    <!-- LEDs -->
   <xacro:led led_prefix="rear_left">

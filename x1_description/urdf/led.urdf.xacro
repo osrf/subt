@@ -2,15 +2,48 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro" name="led">
 
   <xacro:macro name="led" params="led_prefix *joint_pose">
+
     <link name="${led_prefix}_led_link">
 
-      <visual>
+      <visual name="marker">
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
           <mesh filename="package://x1_description/meshes/led.dae" />
         </geometry>
       </visual>
+<!--
+      <gazebo>
+        <light name="marker" type='point'>
+          <pose>0 0 0 0 0 0</pose>
+          <attenuation>
+            <range>50</range>
+            <linear>0.05</linear>
+          </attenuation>
+          <diffuse>1 1 1 1</diffuse>
+          <specular>1 1 1 1</specular>
+          <spot>
+            <inner_angle>2</inner_angle>
+            <outer_angle>2.1</outer_angle>
+            <falloff>1</falloff>
+          </spot>
+          <direction>1 0 0</direction>
+        </light>
+      </gazebo>-->
+
     </link>
+<!--
+    <gazebo>
+      <plugin name='light_control' filename='libRosFlashLightPlugin.so'>
+        <service_name>enable</service_name>
+        <light>
+          <id>${led_prefix}_led_link/marker</id>
+          <enable>false</enable>
+          <duration>1</duration>
+          <interval>0</interval>
+          <color>1 1 1</color>
+        </light>
+      </plugin>
+    </gazebo>-->
 
     <joint name="${led_prefix}_led" type="fixed">
       <parent link="base_link"/>

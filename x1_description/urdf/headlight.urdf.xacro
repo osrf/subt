@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro" name="headlight">
 
-  <xacro:macro name="headlight" params="headlight_prefix *joint_pose">
+  <xacro:macro name="headlight" params="headlight_prefix xyz rpy">
     <link name="${headlight_prefix}_headlight_link">
 
       <visual>
@@ -15,8 +15,65 @@
     <joint name="${headlight_prefix}_headlight" type="fixed">
       <parent link="base_link"/>
       <child link="${headlight_prefix}_headlight_link"/>
-      <xacro:insert_block name="joint_pose"/>
+      <origin xyz="${xyz}" rpy="${rpy}"/>
     </joint>
+
+    <gazebo>
+      <model name="${headlight_prefix}_headlight_lamp">
+        <pose>${xyz} ${rpy}</pose>
+        <link name="body">
+          <pose>-0.0005 0 0 0 0 0</pose>
+          <light name="light_source" type="spot">
+            <pose>-0.025 0 0.06 0 1.573 0</pose>
+            <attenuation>
+              <range>50</range>
+              <linear>0.05</linear>
+            </attenuation>
+            <diffuse>0 0 0 1</diffuse>
+            <specular>0 0 0 1</specular>
+            <spot>
+              <inner_angle>1</inner_angle>
+              <outer_angle>1.1</outer_angle>
+              <falloff>1</falloff>
+            </spot>
+            <direction>0 0 -1</direction>
+          </light>
+
+          <visual name="light_source">
+            <geometry>
+              <mesh>
+                <uri>package://x1_description/meshes/headlight_lamp.dae</uri>
+              </mesh>
+            </geometry>
+            <transparency>1</transparency>
+            <material>
+              <ambient>1 1 1 1</ambient>
+              <diffuse>1 1 1 1</diffuse>
+              <specular>1 1 1 1</specular>
+              <emissive>0 0 0 1</emissive>
+            </material>
+          </visual>
+        </link>
+
+        <plugin name='light_control' filename='libRosFlashLightPlugin.so'>
+          <service_name>enable</service_name>
+          <light>
+            <id>body/light_source</id>
+            <enable>false</enable>
+            <duration>1</duration>
+            <interval>0</interval>
+            <color>1 1 1</color>
+          </light>
+        </plugin>
+      </model>
+    </gazebo>
+
+    <gazebo>
+      <joint name="${headlight_prefix}_headlight" type="fixed">
+        <parent>base_link</parent>
+        <child>${headlight_prefix}_headlight_lamp::body</child>
+      </joint>
+    </gazebo>
 
   </xacro:macro>
 </robot>
