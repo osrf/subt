@@ -19,12 +19,12 @@
     </joint>
 
     <gazebo>
-      <model name="${headlight_prefix}_headlight_lamp">
+      <model name="${headlight_prefix}_headlight">
         <pose>${xyz} ${rpy}</pose>
         <link name="body">
           <pose>-0.0005 0 0 0 0 0</pose>
           <light name="light_source" type="spot">
-            <pose>-0.025 0 0.06 0 1.573 0</pose>
+            <pose>-0.025 0 0.055 0 1.573 0</pose>
             <attenuation>
               <range>50</range>
               <linear>0.05</linear>
@@ -71,7 +71,7 @@
     <gazebo>
       <joint name="${headlight_prefix}_headlight" type="fixed">
         <parent>base_link</parent>
-        <child>${headlight_prefix}_headlight_lamp::body</child>
+        <child>${headlight_prefix}_headlight::body</child>
       </joint>
     </gazebo>
 

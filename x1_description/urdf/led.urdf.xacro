@@ -19,7 +19,7 @@
     </joint>
 
     <gazebo>
-      <model name="${led_prefix}_led_lamp">
+      <model name="${led_prefix}_led">
         <pose>${xyz} ${rpy}</pose>
         <link name="body">
           <pose>0 0 0.0005 0 0 0</pose>
@@ -66,7 +66,7 @@
     <gazebo>
       <joint name="${led_prefix}_led" type="fixed">
         <parent>base_link</parent>
-        <child>${led_prefix}_led_lamp::body</child>
+        <child>${led_prefix}_led::body</child>
       </joint>
     </gazebo>
 

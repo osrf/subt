@@ -31,6 +31,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 
   <arg name="x" default="0.0"/>
   <arg name="y" default="0.0"/>
+  <arg name="z" default="0"/>
   <arg name="yaw" default="0.0"/>
 
   <arg name="laser_enabled" default="$(optenv X1_LMS1XX_ENABLED false)"/>
@@ -61,6 +62,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
     <group unless="$(arg multimaster)">
       <include file="$(find x1_control)/launch/control.launch">
         <arg name="multimaster" value="$(arg multimaster)"/>
+        <arg name="robot_namespace" value="$(arg robot_namespace)"/>
         <arg name="laser_enabled" value="$(arg laser_enabled)"/>
         <arg name="kinect_enabled" value="$(arg kinect_enabled)"/>
         <arg name="urdf_extras" value="$(arg urdf_extras)"/>
@@ -102,6 +104,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
     <node name="spawn_x1_model" pkg="gazebo_ros" type="spawn_model"
         args="-x $(arg x)
               -y $(arg y)
+              -z $(arg z)
               -Y $(arg yaw)
               -unpause
               -urdf

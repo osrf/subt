@@ -36,6 +36,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
   <xacro:property name="x1_bumper_extend" value="$(optenv X1_FORWARD_BUMPER_EXTEND 0)" />
 
   <xacro:arg name="robot_namespace" default="/" />
+  <xacro:arg name="tfpre" default="x0_tf" />
   <xacro:arg name="urdf_extras" default="empty.urdf" />
 
   <!-- Included URDF/XACRO Files -->
@@ -138,76 +139,86 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
   <xacro:x1_decorate />
 
   <!-- Head lights -->
-  <xacro:headlight headlight_prefix="right"
-    xyz="0.461459  0.216803 0.124431" rpy="0 0 3.1416" />
-  <xacro:headlight headlight_prefix="center_right"
-    xyz="0.485766 0.0844 0.124431" rpy="0 0 3.1416" />
-  <xacro:headlight headlight_prefix="center_left"
-    xyz="0.485766 -0.0844 0.124431" rpy="0 0 3.1416" />
   <xacro:headlight headlight_prefix="left"
+    xyz="0.461459  0.216803 0.124431" rpy="0 0 3.1416" />
+  <xacro:headlight headlight_prefix="center_left"
+    xyz="0.485766 0.0844 0.124431" rpy="0 0 3.1416" />
+  <xacro:headlight headlight_prefix="center_right"
+    xyz="0.485766 -0.0844 0.124431" rpy="0 0 3.1416" />
+  <xacro:headlight headlight_prefix="right"
     xyz="0.461459  -0.216803 0.124431" rpy="0 0 3.1416" />
 
    <!-- LEDs -->
   <xacro:led led_prefix="rear_right" xyz="-0.42493 -0.13619 0.209188" rpy="0 1.573 3.1416">
     <plugin_params>
       <block>
-        <duration>0.2</duration>
-        <interval>0.2</interval>
-        <color>0 1 0</color>
+        <duration>0.3</duration>
+        <interval>0.3</interval>
+        <color>1 0.8</color>
       </block>
     </plugin_params>
   </xacro:led>
   <xacro:led led_prefix="rear_center" xyz="-0.42493 0 0.209188" rpy="0 1.573 3.1416">
     <plugin_params>
       <block>
-        <duration>0.2</duration>
-        <interval>0.2</interval>
-        <color>1 1 0</color>
+        <duration>0.1</duration>
+        <interval>0</interval>
+        <color>1 0 0</color>
+      </block>
+      <block>
+        <duration>0.1</duration>
+        <interval>0</interval>
+        <color>0 1 0</color>
+      </block>
+      <block>
+        <duration>0.1</duration>
+        <interval>0</interval>
+        <color>0 0 1</color>
       </block>
     </plugin_params>
   </xacro:led>
   <xacro:led led_prefix="rear_left" xyz="-0.42493 0.13619 0.209188" rpy="0 1.573 3.1416">
     <plugin_params>
       <block>
-        <duration>0.2</duration>
-        <interval>0.2</interval>
-        <color>1 0 0</color>
+        <duration>0.3</duration>
+        <interval>0.3</interval>
+        <color>1 0.8</color>
       </block>
     </plugin_params>
   </xacro:led>
   <xacro:led led_prefix="right_lateral_front" xyz="0.066047 -0.212211 0.209188" rpy="0 1.573 -1.539">
     <plugin_params>
       <block>
-        <duration>0.2</duration>
-        <interval>0.2</interval>
-        <color>0 1 0</color>
+        <duration>0.3</duration>
+        <interval>0.3</interval>
+        <color>1 0.8</color>
       </block>
     </plugin_params>
   </xacro:led>
   <xacro:led led_prefix="right_lateral_rear" xyz="-0.066047 -0.212211 0.209188" rpy="0 1.573 -1.539">
     <plugin_params>
       <block>
-        <duration>0.1</duration>
-        <interval>0.1</interval>
-        <color>0 1 0</color>
+        <duration>0.3</duration>
+        <interval>0.3</interval>
+        <color>1 0.8</color>
       </block>
     </plugin_params>
   </xacro:led>
   <xacro:led led_prefix="left_lateral_front" xyz="0.066047 0.212211 0.209188" rpy="0 1.573 1.539">
     <plugin_params>
       <block>
-        <duration>0.2</duration>
-        <interval>0.2</interval>
-        <color>1 0 0</color>
+        <duration>0.3</duration>
+        <interval>0.3</interval>
+        <color>1 0.8</color>
       </block>
     </plugin_params>
   </xacro:led>
   <xacro:led led_prefix="left_lateral_rear" xyz="-0.066047 0.212211 0.209188" rpy="0 1.573 1.539">
     <plugin_params>
       <block>
-        <duration>0.1</duration>
-        <interval>0.1</interval>
-        <color>1 0 0</color>
+        <duration>0.3</duration>
+        <interval>0.3</interval>
+        <color>1 0.8</color>
       </block>
     </plugin_params>
   </xacro:led>
@@ -250,6 +261,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
     <plugin name="imu_controller" filename="libhector_gazebo_ros_imu.so">
       <robotNamespace>$(arg robot_namespace)</robotNamespace>
       <updateRate>50.0</updateRate>
+      <frameId>$(arg tfpre)base_link</frameId>
       <bodyName>base_link</bodyName>
       <topicName>imu/data</topicName>
       <accelDrift>0.005 0.005 0.005</accelDrift>
@@ -266,7 +278,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
       <robotNamespace>$(arg robot_namespace)</robotNamespace>
       <updateRate>40</updateRate>
       <bodyName>base_link</bodyName>
-      <frameId>base_link</frameId>
+      <frameId>$(arg tfpre)base_link</frameId>
       <topicName>navsat/fix</topicName>
       <velocityTopicName>navsat/vel</velocityTopicName>
       <referenceLatitude>49.9</referenceLatitude>

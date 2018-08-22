@@ -3,7 +3,7 @@
 
   <arg name="multimaster" default="$(optenv ROBOT_MULTIMASTER false)"/>
   <arg name="simulation" default="$(optenv ROBOT_SIMULATION false)"/>
-  <arg name="robot_namespace" default="$(optenv ROBOT_NAMESPACE robot)"/>
+  <arg name="robot_namespace" default="/"/>
 
   <arg name="config_extras"
        default="$(eval optenv('X1_CONFIG_EXTRAS', find('x1_control') + '/config/empty.yaml'))"/>
@@ -21,9 +21,10 @@
 
   <!-- Load robot description -->
   <include file="$(find x1_description)/launch/description.launch" >
-    <arg name="laser_enabled" default="$(arg laser_enabled)"/>
-    <arg name="kinect_enabled" default="$(arg kinect_enabled)"/>
-    <arg name="urdf_extras" default="$(arg urdf_extras)"/>
+    <arg name="robot_namespace" value="$(arg robot_namespace)"/>
+    <arg name="laser_enabled" value="$(arg laser_enabled)"/>
+    <arg name="kinect_enabled" value="$(arg kinect_enabled)"/>
+    <arg name="urdf_extras" value="$(arg urdf_extras)"/>
   </include>
 
   <!-- Load controller configuration -->
