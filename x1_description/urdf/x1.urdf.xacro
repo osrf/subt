@@ -67,7 +67,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
   <!-- Base link is the center of the robot's bottom plate -->
   <link name="base_link">
     <visual>
-      <origin xyz="0 0 0" rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="0 0 3.1416" />
       <geometry>
         <mesh filename="package://x1_description/meshes/chassis.dae" />
       </geometry>
@@ -139,27 +139,27 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 
   <!-- Head lights -->
   <xacro:headlight headlight_prefix="right">
-    <origin xyz="-0.461459  0.216803 0.124431" rpy="0 0 0" />
+    <origin xyz="0.461459  0.216803 0.124431" rpy="0 0 3.1416" />
   </xacro:headlight>
   <xacro:headlight headlight_prefix="center_right">
-    <origin xyz="-0.485766 0.0844 0.124431" rpy="0 0 0" />
+    <origin xyz="0.485766 0.0844 0.124431" rpy="0 0 3.1416" />
   </xacro:headlight>
   <xacro:headlight headlight_prefix="center_left">
-    <origin xyz="-0.485766 -0.0844 0.124431" rpy="0 0 0" />
+    <origin xyz="0.485766 -0.0844 0.124431" rpy="0 0 3.1416" />
   </xacro:headlight>
   <xacro:headlight headlight_prefix="left">
-    <origin xyz="-0.461459  -0.216803 0.124431" rpy="0 0 0" />
+    <origin xyz="0.461459  -0.216803 0.124431" rpy="0 0 3.1416" />
   </xacro:headlight>
 
    <!-- LEDs -->
   <xacro:led led_prefix="rear_left">
-    <origin xyz="0.42493 -0.13619 0.209188" rpy="0 1.573 0" />
+    <origin xyz="-0.42493 -0.13619 0.209188" rpy="0 1.573 3.1416" />
   </xacro:led>
   <xacro:led led_prefix="rear_center">
-    <origin xyz="0.42493 0 0.209188" rpy="0 1.573 0" />
+    <origin xyz="-0.42493 0 0.209188" rpy="0 1.573 3.1416" />
   </xacro:led>
   <xacro:led led_prefix="rear_right">
-    <origin xyz="0.42493 0.13619 0.209188" rpy="0 1.573 0" />
+    <origin xyz="-0.42493 0.13619 0.209188" rpy="0 1.573 3.1416" />
   </xacro:led>
   <xacro:led led_prefix="left_lateral_rear">
     <origin xyz="0.066047 -0.212211 0.209188" rpy="0 1.573 -1.539" />
