@@ -148,26 +148,68 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
     xyz="0.461459  -0.216803 0.124431" rpy="0 0 3.1416" />
 
    <!-- LEDs -->
-  <xacro:led led_prefix="rear_left">
-    <origin xyz="-0.42493 -0.13619 0.209188" rpy="0 1.573 3.1416" />
+  <xacro:led led_prefix="rear_right" xyz="-0.42493 -0.13619 0.209188" rpy="0 1.573 3.1416">
+    <plugin_params>
+      <block>
+        <duration>0.2</duration>
+        <interval>0.2</interval>
+        <color>0 1 0</color>
+      </block>
+    </plugin_params>
   </xacro:led>
-  <xacro:led led_prefix="rear_center">
-    <origin xyz="-0.42493 0 0.209188" rpy="0 1.573 3.1416" />
+  <xacro:led led_prefix="rear_center" xyz="-0.42493 0 0.209188" rpy="0 1.573 3.1416">
+    <plugin_params>
+      <block>
+        <duration>0.2</duration>
+        <interval>0.2</interval>
+        <color>1 1 0</color>
+      </block>
+    </plugin_params>
   </xacro:led>
-  <xacro:led led_prefix="rear_right">
-    <origin xyz="-0.42493 0.13619 0.209188" rpy="0 1.573 3.1416" />
+  <xacro:led led_prefix="rear_left" xyz="-0.42493 0.13619 0.209188" rpy="0 1.573 3.1416">
+    <plugin_params>
+      <block>
+        <duration>0.2</duration>
+        <interval>0.2</interval>
+        <color>1 0 0</color>
+      </block>
+    </plugin_params>
   </xacro:led>
-  <xacro:led led_prefix="left_lateral_rear">
-    <origin xyz="0.066047 -0.212211 0.209188" rpy="0 1.573 -1.539" />
+  <xacro:led led_prefix="right_lateral_front" xyz="0.066047 -0.212211 0.209188" rpy="0 1.573 -1.539">
+    <plugin_params>
+      <block>
+        <duration>0.2</duration>
+        <interval>0.2</interval>
+        <color>0 1 0</color>
+      </block>
+    </plugin_params>
   </xacro:led>
-  <xacro:led led_prefix="left_lateral_front">
-    <origin xyz="-0.066047 -0.212211 0.209188" rpy="0 1.573 -1.539" />
+  <xacro:led led_prefix="right_lateral_rear" xyz="-0.066047 -0.212211 0.209188" rpy="0 1.573 -1.539">
+    <plugin_params>
+      <block>
+        <duration>0.1</duration>
+        <interval>0.1</interval>
+        <color>0 1 0</color>
+      </block>
+    </plugin_params>
   </xacro:led>
-  <xacro:led led_prefix="right_lateral_rear">
-    <origin xyz="0.066047 0.212211 0.209188" rpy="0 1.573 1.539" />
+  <xacro:led led_prefix="left_lateral_front" xyz="0.066047 0.212211 0.209188" rpy="0 1.573 1.539">
+    <plugin_params>
+      <block>
+        <duration>0.2</duration>
+        <interval>0.2</interval>
+        <color>1 0 0</color>
+      </block>
+    </plugin_params>
   </xacro:led>
-  <xacro:led led_prefix="right_lateral_front">
-    <origin xyz="-0.066047 0.212211 0.209188" rpy="0 1.573 1.539" />
+  <xacro:led led_prefix="left_lateral_rear" xyz="-0.066047 0.212211 0.209188" rpy="0 1.573 1.539">
+    <plugin_params>
+      <block>
+        <duration>0.1</duration>
+        <interval>0.1</interval>
+        <color>1 0 0</color>
+      </block>
+    </plugin_params>
   </xacro:led>
 
   <xacro:if value="$(arg laser_enabled)">
