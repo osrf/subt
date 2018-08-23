@@ -49,7 +49,7 @@ namespace gazebo
     /// \brief Callback triggered when a pair of links collide. It starts the
     /// timer if a specified start area is collided by some object.
     /// \param[in] _msg The message containing a list of collision information.
-    private: void OnStartCollision(ConstContactsPtr &_msg);
+    private: void OnStartCollision(ConstIntPtr &_msg);
 
     /// \brief ROS service callback triggered when the service is called.
     /// \param[in]  _req The message containing a flag telling if the game is to

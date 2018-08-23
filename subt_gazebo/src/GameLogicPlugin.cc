@@ -71,7 +71,7 @@ void GameLogicPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
   this->gzNode = gazebo::transport::NodePtr(new gazebo::transport::Node());
   this->gzNode->Init();
 
-  this->startCollisionSub = this->gzNode->Subscribe("~/physics/contacts",
+  this->startCollisionSub = this->gzNode->Subscribe("/subt/start/touched",
     &GameLogicPlugin::OnStartCollision, this);
 
   // ROS service to receive a command to finish the game.
@@ -250,23 +250,14 @@ void GameLogicPlugin::OnUpdate()
 }
 
 /////////////////////////////////////////////////
-void GameLogicPlugin::OnStartCollision(ConstContactsPtr &_msg)
+void GameLogicPlugin::OnStartCollision(ConstIntPtr &/*_msg*/)
 {
   if (this->started)
     return;
 
-  for (int i = 0; i < _msg->contact_size(); ++i)
-  {
-    auto contact = _msg->contact(i);
-    if (contact.collision1() == kStartCollisionName ||
-        contact.collision2() == kStartCollisionName)
-    {
-      this->started = true;
-      this->startTime = std::chrono::steady_clock::now();
-      gzmsg << "Scoring has Started" << std::endl;
-      break;
-    }
-  }
+  this->started = true;
+  this->startTime = std::chrono::steady_clock::now();
+  gzmsg << "Scoring has Started" << std::endl;
 }
 
 /////////////////////////////////////////////////

@@ -28,7 +28,20 @@
             </contact>
           </surface>
         </collision>
+        <sensor name="start_area_sensor" type="contact">
+          <contact>
+            <collision>collision</collision>
+          </contact>
+        </sensor>
       </link>
+      <plugin name="touch_start_area" filename="libTouchPlugin.so">
+        <sensor>start_area_sensor</sensor>
+        <!-- empty target name lets the plugin detects everything -->
+        <target></target>
+        <time>1</time>
+        <namespace>subt/start</namespace>
+        <enabled>true</enabled>
+      </plugin>
     </model>
 
     <!-- The objects of interest -->
