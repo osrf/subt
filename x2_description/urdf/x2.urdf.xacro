@@ -23,13 +23,63 @@
   <material name="yellow"><color rgba="0.8 0.8 0.0 1.0" /></material>
   <material name="black"><color rgba="0.15 0.15 0.15 1.0" /></material>
 
-  <xacro:macro name="wheel" params="prefix *joint_pose">
+  <xacro:macro name="left_wheel" params="prefix *joint_pose">
 
     <link name="${prefix}_wheel_link">
       <visual>
         <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
         <geometry>
-          <mesh filename="package://x2_description/meshes/x2_wheel.dae"/>
+          <mesh filename="package://x2_description/meshes/x2_wheel_left.dae"/>
+        </geometry>
+        <material name="black" />
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
+        <geometry>
+          <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.477"/>
+        <inertia
+          ixx="0.0013" ixy="0" ixz="0"
+          iyy="0.0024" iyz="0"
+          izz="0.0013"/>
+      </inertial>
+    </link>
+
+    <gazebo reference="${prefix}_wheel_link">
+      <material>Gazebo/DarkGrey</material>
+    </gazebo>
+
+    <joint name="${prefix}_wheel" type="continuous">
+      <parent link="chassis_link"/>
+      <child link="${prefix}_wheel_link" />
+      <xacro:insert_block name="joint_pose" />
+      <axis xyz="0 1 0" />
+    </joint>
+
+    <!-- In reality, X2 has only two motors, one per side. However, it's more
+         straightforward for Gazebo to simulate as if there's an actuator per wheel. -->
+    <transmission name="${prefix}_wheel_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}_wheel">
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="${prefix}_actuator">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+  </xacro:macro>
+
+  <xacro:macro name="right_wheel" params="prefix *joint_pose">
+
+    <link name="${prefix}_wheel_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
+        <geometry>
+          <mesh filename="package://x2_description/meshes/x2_wheel_right.dae"/>
         </geometry>
         <material name="black" />
       </visual>
@@ -220,49 +270,73 @@
 
   </xacro:macro>
 
-  <xacro:wheel prefix="front_left">
+  <xacro:left_wheel prefix="front_left">
     <origin xyz="${wheelbase/2} ${track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
-  </xacro:wheel>
-  <xacro:wheel prefix="front_right">
-    <origin xyz="${wheelbase/2} ${-track/2} ${wheel_vertical_offset}" rpy="0 0 3.14159" />
-  </xacro:wheel>
-  <xacro:wheel prefix="rear_left">
+  </xacro:left_wheel>
+  <xacro:right_wheel prefix="front_right">
+    <origin xyz="${wheelbase/2} ${-track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+  </xacro:right_wheel>
+  <xacro:left_wheel prefix="rear_left">
     <origin xyz="${-wheelbase/2} ${track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
-  </xacro:wheel>
-  <xacro:wheel prefix="rear_right">
-    <origin xyz="${-wheelbase/2} ${-track/2} ${wheel_vertical_offset}" rpy="0 0 3.14159" />
-  </xacro:wheel>
+  </xacro:left_wheel>
+  <xacro:right_wheel prefix="rear_right">
+    <origin xyz="${-wheelbase/2} ${-track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+  </xacro:right_wheel>
 
   <!-- Head lights -->
   <xacro:headlight headlight_prefix="left"
-    xyz="-0.214809 0.149719 0.118767" rpy="0 0 0" />
+    xyz="0.22 0.145 ${footprint_vertical_offset+0.15}" rpy="0 0 ${PI}" />
 
-<!--
-  <xacro:headlight headlight_prefix="center_left"
-    xyz="0.485766 0.0844 0.124431" rpy="0 0 3.1416" />
-  <xacro:headlight headlight_prefix="center_right"
-    xyz="0.485766 -0.0844 0.124431" rpy="0 0 3.1416" />
   <xacro:headlight headlight_prefix="right"
-    xyz="0.461459  -0.216803 0.124431" rpy="0 0 3.1416" />
+    xyz="0.22 -0.145 ${footprint_vertical_offset+0.15}" rpy="0 0 ${PI}" />
 
-X: -118.767mm
-Y: 149.719mm
-Y: -214.809mm
+  <xacro:headlight headlight_prefix="front_left"
+    xyz="0.22 0.05 ${footprint_vertical_offset+0.15}" rpy="0 0 ${PI}" />
 
-Spotlight Right
-X: 118.767mm
-Y: 149.719mm
-Y: -214.809mm
+  <xacro:headlight headlight_prefix="front_right"
+    xyz="0.22 -0.05 ${footprint_vertical_offset+0.15}" rpy="0 0 ${PI}" />
 
-Spotlight Center Right
-X: 41.302mm
-Y: 149.719mm
-Y: -222.897mm
+  <!-- LED's -->
+  <xacro:led led_prefix="rear_center" xyz="${-0.127-wheelbase/2} 0 0.165" rpy="0 1.573 3.1416">
+    <plugin_params>
+      <block>
+        <duration>0.1</duration>
+        <interval>0</interval>
+        <color>1 0 0</color>
+      </block>
+      <block>
+        <duration>0.1</duration>
+        <interval>0</interval>
+        <color>0 1 0</color>
+      </block>
+      <block>
+        <duration>0.1</duration>
+        <interval>0</interval>
+        <color>0 0 1</color>
+      </block>
+    </plugin_params>
+  </xacro:led>
 
-Spotlight Center Left
-X: -41.302mm
-Y: 149.719mm
-Y: -222.897mm -->
+  <xacro:led led_prefix="right_lateral" xyz="0 ${-track/2} 0.15" rpy="0 1.573 -1.539">
+    <plugin_params>
+      <block>
+        <duration>0.3</duration>
+        <interval>0.3</interval>
+        <color>1 0.8</color>
+      </block>
+    </plugin_params>
+  </xacro:led>
+
+  <xacro:led led_prefix="left_lateral" xyz="0 ${track/2} 0.15" rpy="0 1.573 1.539">
+    <plugin_params>
+      <block>
+        <duration>0.3</duration>
+        <interval>0.3</interval>
+        <color>1 0.8</color>
+      </block>
+    </plugin_params>
+  </xacro:led>
+
 
   <link name="base_link"></link>
 
@@ -274,7 +348,7 @@ Y: -222.897mm -->
 
   <link name="chassis_link">
     <visual>
-      <origin xyz="0 0 ${footprint_vertical_offset}" rpy="${PI/2} 0 ${PI/2}"/>
+      <origin xyz="0 0 ${footprint_vertical_offset}" rpy="${PI/2} 0 ${-PI/2}"/>
       <geometry>
         <mesh filename="package://x2_description/meshes/x2_chassis.dae"/>
       </geometry>
