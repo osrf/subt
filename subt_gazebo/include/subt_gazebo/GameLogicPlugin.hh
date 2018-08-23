@@ -19,6 +19,7 @@
 
 #include <geometry_msgs/PoseStamped.h>
 #include <ros/ros.h>
+#include <std_srvs/SetBool.h>
 #include <std_srvs/Trigger.h>
 #include <subt_msgs/ObjectOfInterest.h>
 #include <chrono>
@@ -29,6 +30,7 @@
 #include <gazebo/common/Event.hh>
 #include <gazebo/common/Plugin.hh>
 #include <gazebo/physics/physics.hh>
+#include <gazebo/transport/Node.hh>
 #include <ignition/math/Vector3.hh>
 #include <sdf/sdf.hh>
 
@@ -44,13 +46,17 @@ namespace gazebo
     /// \brief Callback for World Update events.
     private: void OnUpdate();
 
-    /// \brief Callback triggered when the start gate is crossed.
-    /// \param[in] _msg The message containing if the gate was crossed or left.
-    private: void OnStart(const ignition::msgs::Boolean &_msg);
+    /// \brief Callback triggered when a pair of links collide. It starts the
+    /// timer if a specified start area is collided by some object.
+    /// \param[in] _msg The message containing a list of collision information.
+    private: void OnStartCollision(ConstIntPtr &_msg);
 
-    /// \brief Callback triggered when the finish gate is crossed.
-    /// \param[in] _msg The message containing if the gate was crossed or left.
-    private: void OnFinish(const ignition::msgs::Boolean &_msg);
+    /// \brief ROS service callback triggered when the service is called.
+    /// \param[in]  _req The message containing a flag telling if the game is to
+    /// be finished.
+    /// \param[out] _res The response message.
+    private: bool OnFinishCall(
+      std_srvs::SetBool::Request &_req, std_srvs::SetBool::Response &_res);
 
     /// \brief Parse all the objects of interest.
     /// \param[in] _sdf The SDF element containing the objects of interest.
@@ -83,6 +89,15 @@ namespace gazebo
 
     /// \brief Ignition Transport node.
     private: ignition::transport::Node node;
+
+    /// \brief Gazebo Transport node.
+    private: gazebo::transport::NodePtr gzNode;
+
+    /// \brief ROS service server to receive a call to finish the game.
+    private: ros::ServiceServer finishService;
+
+    /// \brief Gazebo Transport Subscriber to check the collision.
+    private: gazebo::transport::SubscriberPtr startCollisionSub;
 
     /// \brief Whether the task has started.
     private: bool started = false;

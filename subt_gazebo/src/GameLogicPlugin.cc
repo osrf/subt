@@ -23,15 +23,27 @@
 #include <gazebo/common/Events.hh>
 #include <ignition/math/Pose3.hh>
 
+#include "subt_gazebo/CommonTypes.hh"
 #include "subt_gazebo/GameLogicPlugin.hh"
 
 using namespace gazebo;
+using namespace subt;
 
 GZ_REGISTER_WORLD_PLUGIN(GameLogicPlugin)
 
 /////////////////////////////////////////////////
 void GameLogicPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
 {
+  // Make sure the ROS node for Gazebo has already been initialized
+  if (!ros::isInitialized())
+  {
+    ROS_FATAL_STREAM(
+      "A ROS node for Gazebo has not been initialized, unable to load plugin. "
+      << "Load the Gazebo system plugin 'libgazebo_ros_api_plugin.so'"
+      << " in the gazebo_ros package)");
+    return;
+  }
+
   GZ_ASSERT(_world, "GameLogicPlugin world pointer is NULL");
   this->world = _world;
 
@@ -55,10 +67,17 @@ void GameLogicPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
   this->updateConnection = event::Events::ConnectWorldUpdateBegin(
           std::bind(&GameLogicPlugin::OnUpdate, this));
 
-  this->node.Subscribe("/subt/start/contain",
-    &GameLogicPlugin::OnStart, this);
-  this->node.Subscribe("/subt/finish/contain",
-    &GameLogicPlugin::OnFinish, this);
+  // Gazebo transport
+  this->gzNode = gazebo::transport::NodePtr(new gazebo::transport::Node());
+  this->gzNode->Init();
+
+  this->startCollisionSub = this->gzNode->Subscribe("/subt/start/touched",
+    &GameLogicPlugin::OnStartCollision, this);
+
+  // ROS service to receive a command to finish the game.
+  ros::NodeHandle n;
+  this->finishService = n.advertiseService(
+    "/subt/finish", &GameLogicPlugin::OnFinishCall, this);
 
   gzmsg << "Starting SubT" << std::endl;
 }
@@ -231,9 +250,9 @@ void GameLogicPlugin::OnUpdate()
 }
 
 /////////////////////////////////////////////////
-void GameLogicPlugin::OnStart(const ignition::msgs::Boolean &_msg)
+void GameLogicPlugin::OnStartCollision(ConstIntPtr &/*_msg*/)
 {
-  if (this->started || !_msg.data())
+  if (this->started)
     return;
 
   this->started = true;
@@ -242,16 +261,20 @@ void GameLogicPlugin::OnStart(const ignition::msgs::Boolean &_msg)
 }
 
 /////////////////////////////////////////////////
-void GameLogicPlugin::OnFinish(const ignition::msgs::Boolean &_msg)
+bool GameLogicPlugin::OnFinishCall(
+  std_srvs::SetBool::Request &_req, std_srvs::SetBool::Response &_res)
 {
-  if (!this->started || this->finished || !_msg.data())
-    return;
+  _res.success = false;
+  if (this->started && !this->finished && _req.data)
+  {
+    this->finished = true;
+    this->finishTime = std::chrono::steady_clock::now();
 
-  this->finished = true;
-  this->finishTime = std::chrono::steady_clock::now();
-
-  auto elapsed = this->finishTime - this->startTime;
-  gzmsg << "Scoring has finished. Elapsed time: "
-        << std::chrono::duration_cast<std::chrono::seconds>(elapsed).count()
-        << " seconds" << std::endl;
+    auto elapsed = this->finishTime - this->startTime;
+    gzmsg << "Scoring has finished. Elapsed time: "
+          << std::chrono::duration_cast<std::chrono::seconds>(elapsed).count()
+          << " seconds" << std::endl;
+    _res.success = true;
+  }
+  return true;
 }
