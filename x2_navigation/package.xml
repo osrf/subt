@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package>
+  <name>x2_navigation</name>
+  <version>0.0.1</version>
+  <description>Launch files and code for autonomous navigation of the X2</description>
+  <author email="caguero@openrobotics.org">Carlos Aguero</author>
+  <author email="spourmehr@clearpathrobotics.com">Shokoofeh Pourmehr</author>
+  <maintainer email="caguero@openrobotics.org">Carlos Aguero</maintainer>
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roslaunch</build_depend>
+  <run_depend>amcl</run_depend>
+  <run_depend>gmapping</run_depend>
+  <run_depend>map_server</run_depend>
+  <run_depend>move_base</run_depend>
+  <run_depend>urdf</run_depend>
+  <run_depend>xacro</run_depend>
+
+  <export>
+
+  </export>
+</package>

@@ -1,0 +1,9 @@
+<launch>
+
+  <!--- Run gmapping -->
+  <include file="$(find x2_navigation)/launch/include/gmapping.launch" />
+
+  <!--- Run Move Base -->
+  <include file="$(find x2_navigation)/launch/include/move_base.launch" />
+
+</launch>

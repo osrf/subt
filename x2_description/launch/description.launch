@@ -1,0 +1,10 @@
+<launch>
+  <arg name="config" default="base" />
+
+  <param name="robot_description"
+         command="$(find x2_description)/scripts/env_run
+                    $(find x2_description)/urdf/configs/$(arg config)
+                    $(find xacro)/xacro $(find x2_description)/urdf/x2.urdf.xacro
+                    --inorder" />
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+</launch>
