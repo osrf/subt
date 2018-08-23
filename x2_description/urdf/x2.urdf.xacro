@@ -73,18 +73,196 @@
     </transmission>
   </xacro:macro>
 
+  <xacro:macro name="headlight" params="headlight_prefix xyz rpy">
+    <link name="${headlight_prefix}_headlight_link">
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://x2_description/meshes/headlight.dae" />
+        </geometry>
+      </visual>
+    </link>
+
+    <joint name="${headlight_prefix}_headlight" type="fixed">
+      <parent link="base_link"/>
+      <child link="${headlight_prefix}_headlight_link"/>
+      <origin xyz="${xyz}" rpy="${rpy}"/>
+    </joint>
+
+    <gazebo>
+      <model name="${headlight_prefix}_headlight">
+        <pose>${xyz} ${rpy}</pose>
+        <link name="body">
+          <pose>-0.0005 0 0 0 0 0</pose>
+          <light name="light_source" type="spot">
+            <pose>-0.025 0 0.055 0 1.573 0</pose>
+            <attenuation>
+              <range>50</range>
+              <linear>0.05</linear>
+            </attenuation>
+            <diffuse>0 0 0 1</diffuse>
+            <specular>0 0 0 1</specular>
+            <spot>
+              <inner_angle>1</inner_angle>
+              <outer_angle>1.1</outer_angle>
+              <falloff>1</falloff>
+            </spot>
+            <direction>0 0 -1</direction>
+          </light>
+
+          <visual name="light_source">
+            <geometry>
+              <mesh>
+                <uri>package://x2_description/meshes/headlight_lamp.dae</uri>
+              </mesh>
+            </geometry>
+            <transparency>1</transparency>
+            <material>
+              <ambient>1 1 1 1</ambient>
+              <diffuse>1 1 1 1</diffuse>
+              <specular>1 1 1 1</specular>
+              <emissive>0 0 0 1</emissive>
+            </material>
+          </visual>
+        </link>
+
+        <plugin name='light_control' filename='libRosFlashLightPlugin.so'>
+          <service_name>enable</service_name>
+          <light>
+            <id>body/light_source</id>
+            <enable>false</enable>
+            <duration>1</duration>
+            <interval>0</interval>
+            <color>1 1 1</color>
+          </light>
+        </plugin>
+      </model>
+    </gazebo>
+
+    <gazebo>
+      <joint name="${headlight_prefix}_headlight" type="fixed">
+        <parent>base_link</parent>
+        <child>${headlight_prefix}_headlight::body</child>
+      </joint>
+    </gazebo>
+
+  </xacro:macro>
+
+  <xacro:macro name="led" params="led_prefix xyz rpy **plugin_params">
+    <link name="${led_prefix}_led_link">
+
+      <visual name="marker">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://x2_description/meshes/led.dae" />
+        </geometry>
+      </visual>
+    </link>
+
+    <joint name="${led_prefix}_led" type="fixed">
+      <parent link="base_link"/>
+      <child link="${led_prefix}_led_link"/>
+      <origin xyz="${xyz}" rpy="${rpy}"/>
+    </joint>
+
+    <gazebo>
+      <model name="${led_prefix}_led">
+        <pose>${xyz} ${rpy}</pose>
+        <link name="body">
+          <pose>0 0 0.0005 0 0 0</pose>
+          <light name='light_source' type='point'>
+            <pose>0 0 0 0 0 0</pose>
+            <attenuation>
+              <range>0.20</range>
+              <linear>0.10</linear>
+            </attenuation>
+            <diffuse>0 0 0 1</diffuse>
+            <specular>0 0 0 1</specular>
+          </light>
+
+          <visual name="light_source">
+            <geometry>
+              <mesh>
+                <uri>package://x2_description/meshes/led_lamp.dae</uri>
+              </mesh>
+            </geometry>
+            <transparency>1</transparency>
+            <material>
+              <ambient>1 1 1 1</ambient>
+              <diffuse>1 1 1 1</diffuse>
+              <specular>1 1 1 1</specular>
+              <emissive>0 0 0 1</emissive>
+            </material>
+          </visual>
+        </link>
+
+        <plugin name='light_control' filename='libRosFlashLightPlugin.so'>
+          <service_name>enable</service_name>
+          <light>
+            <id>body/light_source</id>
+            <xacro:insert_block name="plugin_params"/>
+            <enable>false</enable>
+            <duration>1</duration>
+            <interval>0</interval>
+            <color>1 1 1</color>
+          </light>
+        </plugin>
+      </model>
+    </gazebo>
+
+    <gazebo>
+      <joint name="${led_prefix}_led" type="fixed">
+        <parent>base_link</parent>
+        <child>${led_prefix}_led::body</child>
+      </joint>
+    </gazebo>
+
+  </xacro:macro>
+
   <xacro:wheel prefix="front_left">
     <origin xyz="${wheelbase/2} ${track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
   </xacro:wheel>
   <xacro:wheel prefix="front_right">
-    <origin xyz="${wheelbase/2} ${-track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+    <origin xyz="${wheelbase/2} ${-track/2} ${wheel_vertical_offset}" rpy="0 0 3.14159" />
   </xacro:wheel>
   <xacro:wheel prefix="rear_left">
     <origin xyz="${-wheelbase/2} ${track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
   </xacro:wheel>
   <xacro:wheel prefix="rear_right">
-    <origin xyz="${-wheelbase/2} ${-track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+    <origin xyz="${-wheelbase/2} ${-track/2} ${wheel_vertical_offset}" rpy="0 0 3.14159" />
   </xacro:wheel>
+
+  <!-- Head lights -->
+  <xacro:headlight headlight_prefix="left"
+    xyz="-0.214809 0.149719 0.118767" rpy="0 0 0" />
+
+<!--
+  <xacro:headlight headlight_prefix="center_left"
+    xyz="0.485766 0.0844 0.124431" rpy="0 0 3.1416" />
+  <xacro:headlight headlight_prefix="center_right"
+    xyz="0.485766 -0.0844 0.124431" rpy="0 0 3.1416" />
+  <xacro:headlight headlight_prefix="right"
+    xyz="0.461459  -0.216803 0.124431" rpy="0 0 3.1416" />
+
+X: -118.767mm
+Y: 149.719mm
+Y: -214.809mm
+
+Spotlight Right
+X: 118.767mm
+Y: 149.719mm
+Y: -214.809mm
+
+Spotlight Center Right
+X: 41.302mm
+Y: 149.719mm
+Y: -222.897mm
+
+Spotlight Center Left
+X: -41.302mm
+Y: 149.719mm
+Y: -222.897mm -->
 
   <link name="base_link"></link>
 
