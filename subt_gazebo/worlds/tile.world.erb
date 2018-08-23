@@ -265,7 +265,20 @@
             </contact>
           </surface>
         </collision>
+        <sensor name="start_area_sensor" type="contact">
+          <contact>
+            <collision>collision</collision>
+          </contact>
+        </sensor>
       </link>
+      <plugin name="touch_start_area" filename="libTouchPlugin.so">
+        <sensor>start_area_sensor</sensor>
+        <!-- empty target name lets the plugin detects everything -->
+        <target></target>
+        <time>0.001</time>
+        <namespace>subt/start</namespace>
+        <enabled>true</enabled>
+      </plugin>
     </model>
     <!-- The SubT challenge logic plugin -->
     <plugin name="game_logic_plugin" filename="libGameLogicPlugin.so">

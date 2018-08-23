@@ -2,7 +2,7 @@
 <?xml version="1.0" ?>
 <!--
   Generated from tile.world.erb
-  Seed: 1481816
+  Seed: 2332740
   Type: cave
   N_x: 20
   N_y: 5
@@ -116,7 +116,20 @@
             </contact>
           </surface>
         </collision>
+        <sensor name="start_area_sensor" type="contact">
+          <contact>
+            <collision>collision</collision>
+          </contact>
+        </sensor>
       </link>
+      <plugin name="touch_start_area" filename="libTouchPlugin.so">
+        <sensor>start_area_sensor</sensor>
+        <!-- empty target name lets the plugin detects everything -->
+        <target></target>
+        <time>0.001</time>
+        <namespace>subt/start</namespace>
+        <enabled>true</enabled>
+      </plugin>
     </model>
     <!-- The SubT challenge logic plugin -->
     <plugin name="game_logic_plugin" filename="libGameLogicPlugin.so">
@@ -377,217 +390,217 @@
     <!-- Grid tiles -->
   
     <include>
-      <uri>model://cave_tile_2</uri>
+      <uri>model://cave_tile_4</uri>
       <name>tile_1</name>
       <pose>20 -40 0 0 0 -1.5707963267948966</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_2</uri>
+      <uri>model://cave_tile_7</uri>
       <name>tile_2</name>
-      <pose>20 -20 0 0 0 3.141592653589793</pose>
+      <pose>20 -20 0 0 0 1.5707963267948966</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_3</uri>
+      <uri>model://cave_tile_2</uri>
       <name>tile_3</name>
-      <pose>20 0 0 0 0 0</pose>
+      <pose>20 0 0 0 0 3.141592653589793</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_8</uri>
+      <uri>model://cave_tile_1</uri>
       <name>tile_4</name>
-      <pose>20 20 0 0 0 0</pose>
+      <pose>20 20 0 0 0 1.5707963267948966</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_5</uri>
+      <uri>model://cave_tile_4</uri>
       <name>tile_5</name>
       <pose>20 40 0 0 0 3.141592653589793</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_5</uri>
-      <name>tile_6</name>
-      <pose>40 -40 0 0 0 -1.5707963267948966</pose>
-    </include>
-  
-    <include>
-      <uri>model://cave_tile_6</uri>
-      <name>tile_7</name>
-      <pose>40 -20 0 0 0 3.141592653589793</pose>
-    </include>
-  
-    <include>
       <uri>model://cave_tile_8</uri>
-      <name>tile_8</name>
-      <pose>40 0 0 0 0 0</pose>
+      <name>tile_6</name>
+      <pose>40 -40 0 0 0 3.141592653589793</pose>
+    </include>
+  
+    <include>
+      <uri>model://cave_tile_1</uri>
+      <name>tile_7</name>
+      <pose>40 -20 0 0 0 -1.5707963267948966</pose>
     </include>
   
     <include>
       <uri>model://cave_tile_4</uri>
+      <name>tile_8</name>
+      <pose>40 0 0 0 0 -1.5707963267948966</pose>
+    </include>
+  
+    <include>
+      <uri>model://cave_tile_1</uri>
       <name>tile_9</name>
-      <pose>40 20 0 0 0 3.141592653589793</pose>
+      <pose>40 20 0 0 0 -1.5707963267948966</pose>
     </include>
   
     <include>
       <uri>model://cave_tile_7</uri>
       <name>tile_10</name>
-      <pose>40 40 0 0 0 3.141592653589793</pose>
-    </include>
-  
-    <include>
-      <uri>model://cave_tile_5</uri>
-      <name>tile_11</name>
-      <pose>60 -40 0 0 0 -1.5707963267948966</pose>
-    </include>
-  
-    <include>
-      <uri>model://cave_tile_10</uri>
-      <name>tile_12</name>
-      <pose>60 -20 0 0 0 -1.5707963267948966</pose>
+      <pose>40 40 0 0 0 1.5707963267948966</pose>
     </include>
   
     <include>
       <uri>model://cave_tile_2</uri>
+      <name>tile_11</name>
+      <pose>60 -40 0 0 0 3.141592653589793</pose>
+    </include>
+  
+    <include>
+      <uri>model://cave_tile_3</uri>
+      <name>tile_12</name>
+      <pose>60 -20 0 0 0 3.141592653589793</pose>
+    </include>
+  
+    <include>
+      <uri>model://cave_tile_4</uri>
       <name>tile_13</name>
-      <pose>60 0 0 0 0 3.141592653589793</pose>
+      <pose>60 0 0 0 0 -1.5707963267948966</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_7</uri>
+      <uri>model://cave_tile_4</uri>
       <name>tile_14</name>
-      <pose>60 20 0 0 0 3.141592653589793</pose>
+      <pose>60 20 0 0 0 0</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_10</uri>
+      <uri>model://cave_tile_2</uri>
       <name>tile_15</name>
-      <pose>60 40 0 0 0 0</pose>
+      <pose>60 40 0 0 0 3.141592653589793</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_9</uri>
+      <uri>model://cave_tile_4</uri>
       <name>tile_16</name>
-      <pose>80 -40 0 0 0 0</pose>
+      <pose>80 -40 0 0 0 1.5707963267948966</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_1</uri>
+      <uri>model://cave_tile_4</uri>
       <name>tile_17</name>
       <pose>80 -20 0 0 0 0</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_9</uri>
+      <uri>model://cave_tile_3</uri>
       <name>tile_18</name>
-      <pose>80 0 0 0 0 0</pose>
-    </include>
-  
-    <include>
-      <uri>model://cave_tile_6</uri>
-      <name>tile_19</name>
-      <pose>80 20 0 0 0 -1.5707963267948966</pose>
-    </include>
-  
-    <include>
-      <uri>model://cave_tile_6</uri>
-      <name>tile_20</name>
-      <pose>80 40 0 0 0 0</pose>
-    </include>
-  
-    <include>
-      <uri>model://cave_tile_9</uri>
-      <name>tile_21</name>
-      <pose>100 -40 0 0 0 3.141592653589793</pose>
+      <pose>80 0 0 0 0 -1.5707963267948966</pose>
     </include>
   
     <include>
       <uri>model://cave_tile_1</uri>
-      <name>tile_22</name>
-      <pose>100 -20 0 0 0 0</pose>
+      <name>tile_19</name>
+      <pose>80 20 0 0 0 0</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_3</uri>
-      <name>tile_23</name>
-      <pose>100 0 0 0 0 3.141592653589793</pose>
+      <uri>model://cave_tile_10</uri>
+      <name>tile_20</name>
+      <pose>80 40 0 0 0 3.141592653589793</pose>
+    </include>
+  
+    <include>
+      <uri>model://cave_tile_4</uri>
+      <name>tile_21</name>
+      <pose>100 -40 0 0 0 1.5707963267948966</pose>
+    </include>
+  
+    <include>
+      <uri>model://cave_tile_6</uri>
+      <name>tile_22</name>
+      <pose>100 -20 0 0 0 3.141592653589793</pose>
     </include>
   
     <include>
       <uri>model://cave_tile_8</uri>
+      <name>tile_23</name>
+      <pose>100 0 0 0 0 -1.5707963267948966</pose>
+    </include>
+  
+    <include>
+      <uri>model://cave_tile_4</uri>
       <name>tile_24</name>
       <pose>100 20 0 0 0 0</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_6</uri>
+      <uri>model://cave_tile_3</uri>
       <name>tile_25</name>
       <pose>100 40 0 0 0 3.141592653589793</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_2</uri>
+      <uri>model://cave_tile_7</uri>
       <name>tile_26</name>
-      <pose>120 -40 0 0 0 3.141592653589793</pose>
+      <pose>120 -40 0 0 0 -1.5707963267948966</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_9</uri>
+      <uri>model://cave_tile_5</uri>
       <name>tile_27</name>
-      <pose>120 -20 0 0 0 1.5707963267948966</pose>
+      <pose>120 -20 0 0 0 0</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_10</uri>
+      <uri>model://cave_tile_5</uri>
       <name>tile_28</name>
-      <pose>120 0 0 0 0 -1.5707963267948966</pose>
+      <pose>120 0 0 0 0 3.141592653589793</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_10</uri>
+      <uri>model://cave_tile_4</uri>
       <name>tile_29</name>
-      <pose>120 20 0 0 0 3.141592653589793</pose>
+      <pose>120 20 0 0 0 -1.5707963267948966</pose>
     </include>
   
     <include>
       <uri>model://cave_tile_7</uri>
       <name>tile_30</name>
-      <pose>120 40 0 0 0 -1.5707963267948966</pose>
+      <pose>120 40 0 0 0 0</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_10</uri>
+      <uri>model://cave_tile_9</uri>
       <name>tile_31</name>
       <pose>140 -40 0 0 0 3.141592653589793</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_6</uri>
-      <name>tile_32</name>
-      <pose>140 -20 0 0 0 0</pose>
-    </include>
-  
-    <include>
-      <uri>model://cave_tile_2</uri>
-      <name>tile_33</name>
-      <pose>140 0 0 0 0 -1.5707963267948966</pose>
-    </include>
-  
-    <include>
       <uri>model://cave_tile_7</uri>
+      <name>tile_32</name>
+      <pose>140 -20 0 0 0 3.141592653589793</pose>
+    </include>
+  
+    <include>
+      <uri>model://cave_tile_9</uri>
+      <name>tile_33</name>
+      <pose>140 0 0 0 0 1.5707963267948966</pose>
+    </include>
+  
+    <include>
+      <uri>model://cave_tile_8</uri>
       <name>tile_34</name>
       <pose>140 20 0 0 0 0</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_7</uri>
+      <uri>model://cave_tile_10</uri>
       <name>tile_35</name>
-      <pose>140 40 0 0 0 3.141592653589793</pose>
+      <pose>140 40 0 0 0 -1.5707963267948966</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_6</uri>
+      <uri>model://cave_tile_7</uri>
       <name>tile_36</name>
       <pose>160 -40 0 0 0 -1.5707963267948966</pose>
     </include>
@@ -595,119 +608,119 @@
     <include>
       <uri>model://cave_tile_1</uri>
       <name>tile_37</name>
-      <pose>160 -20 0 0 0 0</pose>
+      <pose>160 -20 0 0 0 1.5707963267948966</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_8</uri>
+      <uri>model://cave_tile_4</uri>
       <name>tile_38</name>
-      <pose>160 0 0 0 0 1.5707963267948966</pose>
+      <pose>160 0 0 0 0 0</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_1</uri>
+      <uri>model://cave_tile_6</uri>
       <name>tile_39</name>
       <pose>160 20 0 0 0 -1.5707963267948966</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_3</uri>
+      <uri>model://cave_tile_10</uri>
       <name>tile_40</name>
       <pose>160 40 0 0 0 3.141592653589793</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_10</uri>
+      <uri>model://cave_tile_8</uri>
       <name>tile_41</name>
-      <pose>180 -40 0 0 0 -1.5707963267948966</pose>
+      <pose>180 -40 0 0 0 3.141592653589793</pose>
     </include>
   
     <include>
       <uri>model://cave_tile_2</uri>
       <name>tile_42</name>
-      <pose>180 -20 0 0 0 1.5707963267948966</pose>
+      <pose>180 -20 0 0 0 -1.5707963267948966</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_10</uri>
+      <uri>model://cave_tile_7</uri>
       <name>tile_43</name>
       <pose>180 0 0 0 0 0</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_8</uri>
+      <uri>model://cave_tile_1</uri>
       <name>tile_44</name>
-      <pose>180 20 0 0 0 -1.5707963267948966</pose>
+      <pose>180 20 0 0 0 3.141592653589793</pose>
     </include>
   
     <include>
       <uri>model://cave_tile_5</uri>
       <name>tile_45</name>
-      <pose>180 40 0 0 0 -1.5707963267948966</pose>
+      <pose>180 40 0 0 0 0</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_2</uri>
+      <uri>model://cave_tile_4</uri>
       <name>tile_46</name>
-      <pose>200 -40 0 0 0 0</pose>
-    </include>
-  
-    <include>
-      <uri>model://cave_tile_2</uri>
-      <name>tile_47</name>
-      <pose>200 -20 0 0 0 3.141592653589793</pose>
-    </include>
-  
-    <include>
-      <uri>model://cave_tile_6</uri>
-      <name>tile_48</name>
-      <pose>200 0 0 0 0 1.5707963267948966</pose>
-    </include>
-  
-    <include>
-      <uri>model://cave_tile_2</uri>
-      <name>tile_49</name>
-      <pose>200 20 0 0 0 -1.5707963267948966</pose>
-    </include>
-  
-    <include>
-      <uri>model://cave_tile_3</uri>
-      <name>tile_50</name>
-      <pose>200 40 0 0 0 0</pose>
-    </include>
-  
-    <include>
-      <uri>model://cave_tile_6</uri>
-      <name>tile_51</name>
-      <pose>220 -40 0 0 0 3.141592653589793</pose>
+      <pose>200 -40 0 0 0 1.5707963267948966</pose>
     </include>
   
     <include>
       <uri>model://cave_tile_9</uri>
+      <name>tile_47</name>
+      <pose>200 -20 0 0 0 0</pose>
+    </include>
+  
+    <include>
+      <uri>model://cave_tile_8</uri>
+      <name>tile_48</name>
+      <pose>200 0 0 0 0 -1.5707963267948966</pose>
+    </include>
+  
+    <include>
+      <uri>model://cave_tile_8</uri>
+      <name>tile_49</name>
+      <pose>200 20 0 0 0 1.5707963267948966</pose>
+    </include>
+  
+    <include>
+      <uri>model://cave_tile_10</uri>
+      <name>tile_50</name>
+      <pose>200 40 0 0 0 3.141592653589793</pose>
+    </include>
+  
+    <include>
+      <uri>model://cave_tile_2</uri>
+      <name>tile_51</name>
+      <pose>220 -40 0 0 0 1.5707963267948966</pose>
+    </include>
+  
+    <include>
+      <uri>model://cave_tile_5</uri>
       <name>tile_52</name>
       <pose>220 -20 0 0 0 1.5707963267948966</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_9</uri>
+      <uri>model://cave_tile_7</uri>
       <name>tile_53</name>
       <pose>220 0 0 0 0 3.141592653589793</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_5</uri>
+      <uri>model://cave_tile_9</uri>
       <name>tile_54</name>
       <pose>220 20 0 0 0 -1.5707963267948966</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_9</uri>
+      <uri>model://cave_tile_4</uri>
       <name>tile_55</name>
-      <pose>220 40 0 0 0 3.141592653589793</pose>
+      <pose>220 40 0 0 0 1.5707963267948966</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_6</uri>
+      <uri>model://cave_tile_9</uri>
       <name>tile_56</name>
       <pose>240 -40 0 0 0 3.141592653589793</pose>
     </include>
@@ -715,71 +728,71 @@
     <include>
       <uri>model://cave_tile_10</uri>
       <name>tile_57</name>
-      <pose>240 -20 0 0 0 3.141592653589793</pose>
-    </include>
-  
-    <include>
-      <uri>model://cave_tile_2</uri>
-      <name>tile_58</name>
-      <pose>240 0 0 0 0 0</pose>
-    </include>
-  
-    <include>
-      <uri>model://cave_tile_6</uri>
-      <name>tile_59</name>
-      <pose>240 20 0 0 0 0</pose>
-    </include>
-  
-    <include>
-      <uri>model://cave_tile_9</uri>
-      <name>tile_60</name>
-      <pose>240 40 0 0 0 3.141592653589793</pose>
+      <pose>240 -20 0 0 0 0</pose>
     </include>
   
     <include>
       <uri>model://cave_tile_8</uri>
-      <name>tile_61</name>
-      <pose>260 -40 0 0 0 -1.5707963267948966</pose>
+      <name>tile_58</name>
+      <pose>240 0 0 0 0 1.5707963267948966</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_3</uri>
+      <uri>model://cave_tile_5</uri>
+      <name>tile_59</name>
+      <pose>240 20 0 0 0 1.5707963267948966</pose>
+    </include>
+  
+    <include>
+      <uri>model://cave_tile_8</uri>
+      <name>tile_60</name>
+      <pose>240 40 0 0 0 1.5707963267948966</pose>
+    </include>
+  
+    <include>
+      <uri>model://cave_tile_9</uri>
+      <name>tile_61</name>
+      <pose>260 -40 0 0 0 3.141592653589793</pose>
+    </include>
+  
+    <include>
+      <uri>model://cave_tile_6</uri>
       <name>tile_62</name>
       <pose>260 -20 0 0 0 -1.5707963267948966</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_2</uri>
+      <uri>model://cave_tile_5</uri>
       <name>tile_63</name>
       <pose>260 0 0 0 0 3.141592653589793</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_5</uri>
+      <uri>model://cave_tile_7</uri>
       <name>tile_64</name>
-      <pose>260 20 0 0 0 1.5707963267948966</pose>
+      <pose>260 20 0 0 0 0</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_10</uri>
+      <uri>model://cave_tile_2</uri>
       <name>tile_65</name>
       <pose>260 40 0 0 0 1.5707963267948966</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_5</uri>
+      <uri>model://cave_tile_6</uri>
       <name>tile_66</name>
-      <pose>280 -40 0 0 0 3.141592653589793</pose>
+      <pose>280 -40 0 0 0 0</pose>
     </include>
   
     <include>
       <uri>model://cave_tile_8</uri>
       <name>tile_67</name>
-      <pose>280 -20 0 0 0 -1.5707963267948966</pose>
+      <pose>280 -20 0 0 0 3.141592653589793</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_4</uri>
+      <uri>model://cave_tile_9</uri>
       <name>tile_68</name>
       <pose>280 0 0 0 0 0</pose>
     </include>
@@ -787,37 +800,37 @@
     <include>
       <uri>model://cave_tile_7</uri>
       <name>tile_69</name>
-      <pose>280 20 0 0 0 3.141592653589793</pose>
-    </include>
-  
-    <include>
-      <uri>model://cave_tile_1</uri>
-      <name>tile_70</name>
-      <pose>280 40 0 0 0 3.141592653589793</pose>
+      <pose>280 20 0 0 0 0</pose>
     </include>
   
     <include>
       <uri>model://cave_tile_9</uri>
+      <name>tile_70</name>
+      <pose>280 40 0 0 0 1.5707963267948966</pose>
+    </include>
+  
+    <include>
+      <uri>model://cave_tile_5</uri>
       <name>tile_71</name>
-      <pose>300 -40 0 0 0 -1.5707963267948966</pose>
+      <pose>300 -40 0 0 0 3.141592653589793</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_10</uri>
+      <uri>model://cave_tile_2</uri>
       <name>tile_72</name>
-      <pose>300 -20 0 0 0 3.141592653589793</pose>
+      <pose>300 -20 0 0 0 -1.5707963267948966</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_4</uri>
+      <uri>model://cave_tile_6</uri>
       <name>tile_73</name>
       <pose>300 0 0 0 0 1.5707963267948966</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_9</uri>
+      <uri>model://cave_tile_2</uri>
       <name>tile_74</name>
-      <pose>300 20 0 0 0 -1.5707963267948966</pose>
+      <pose>300 20 0 0 0 3.141592653589793</pose>
     </include>
   
     <include>
@@ -827,151 +840,151 @@
     </include>
   
     <include>
-      <uri>model://cave_tile_7</uri>
+      <uri>model://cave_tile_2</uri>
       <name>tile_76</name>
       <pose>320 -40 0 0 0 -1.5707963267948966</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_9</uri>
+      <uri>model://cave_tile_5</uri>
       <name>tile_77</name>
-      <pose>320 -20 0 0 0 3.141592653589793</pose>
+      <pose>320 -20 0 0 0 0</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_2</uri>
+      <uri>model://cave_tile_7</uri>
       <name>tile_78</name>
-      <pose>320 0 0 0 0 1.5707963267948966</pose>
+      <pose>320 0 0 0 0 0</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_1</uri>
+      <uri>model://cave_tile_6</uri>
       <name>tile_79</name>
       <pose>320 20 0 0 0 3.141592653589793</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_3</uri>
+      <uri>model://cave_tile_8</uri>
       <name>tile_80</name>
       <pose>320 40 0 0 0 -1.5707963267948966</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_9</uri>
+      <uri>model://cave_tile_2</uri>
       <name>tile_81</name>
       <pose>340 -40 0 0 0 3.141592653589793</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_3</uri>
+      <uri>model://cave_tile_10</uri>
       <name>tile_82</name>
-      <pose>340 -20 0 0 0 3.141592653589793</pose>
+      <pose>340 -20 0 0 0 -1.5707963267948966</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_8</uri>
+      <uri>model://cave_tile_7</uri>
       <name>tile_83</name>
       <pose>340 0 0 0 0 1.5707963267948966</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_3</uri>
+      <uri>model://cave_tile_8</uri>
       <name>tile_84</name>
       <pose>340 20 0 0 0 3.141592653589793</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_4</uri>
+      <uri>model://cave_tile_9</uri>
       <name>tile_85</name>
-      <pose>340 40 0 0 0 -1.5707963267948966</pose>
+      <pose>340 40 0 0 0 1.5707963267948966</pose>
     </include>
   
     <include>
       <uri>model://cave_tile_8</uri>
       <name>tile_86</name>
-      <pose>360 -40 0 0 0 1.5707963267948966</pose>
+      <pose>360 -40 0 0 0 0</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_6</uri>
+      <uri>model://cave_tile_2</uri>
       <name>tile_87</name>
-      <pose>360 -20 0 0 0 3.141592653589793</pose>
+      <pose>360 -20 0 0 0 1.5707963267948966</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_1</uri>
+      <uri>model://cave_tile_10</uri>
       <name>tile_88</name>
-      <pose>360 0 0 0 0 0</pose>
+      <pose>360 0 0 0 0 3.141592653589793</pose>
+    </include>
+  
+    <include>
+      <uri>model://cave_tile_5</uri>
+      <name>tile_89</name>
+      <pose>360 20 0 0 0 3.141592653589793</pose>
     </include>
   
     <include>
       <uri>model://cave_tile_4</uri>
-      <name>tile_89</name>
-      <pose>360 20 0 0 0 -1.5707963267948966</pose>
-    </include>
-  
-    <include>
-      <uri>model://cave_tile_1</uri>
       <name>tile_90</name>
       <pose>360 40 0 0 0 3.141592653589793</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_8</uri>
+      <uri>model://cave_tile_2</uri>
       <name>tile_91</name>
-      <pose>380 -40 0 0 0 1.5707963267948966</pose>
+      <pose>380 -40 0 0 0 3.141592653589793</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_4</uri>
+      <uri>model://cave_tile_3</uri>
       <name>tile_92</name>
-      <pose>380 -20 0 0 0 3.141592653589793</pose>
+      <pose>380 -20 0 0 0 0</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_10</uri>
+      <uri>model://cave_tile_5</uri>
       <name>tile_93</name>
-      <pose>380 0 0 0 0 0</pose>
+      <pose>380 0 0 0 0 3.141592653589793</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_8</uri>
+      <uri>model://cave_tile_2</uri>
       <name>tile_94</name>
       <pose>380 20 0 0 0 0</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_9</uri>
+      <uri>model://cave_tile_1</uri>
       <name>tile_95</name>
-      <pose>380 40 0 0 0 0</pose>
+      <pose>380 40 0 0 0 3.141592653589793</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_8</uri>
+      <uri>model://cave_tile_3</uri>
       <name>tile_96</name>
       <pose>400 -40 0 0 0 0</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_3</uri>
+      <uri>model://cave_tile_7</uri>
       <name>tile_97</name>
       <pose>400 -20 0 0 0 -1.5707963267948966</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_7</uri>
+      <uri>model://cave_tile_1</uri>
       <name>tile_98</name>
-      <pose>400 0 0 0 0 0</pose>
+      <pose>400 0 0 0 0 -1.5707963267948966</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_1</uri>
+      <uri>model://cave_tile_3</uri>
       <name>tile_99</name>
       <pose>400 20 0 0 0 0</pose>
     </include>
   
     <include>
-      <uri>model://cave_tile_6</uri>
+      <uri>model://cave_tile_4</uri>
       <name>tile_100</name>
       <pose>400 40 0 0 0 -1.5707963267948966</pose>
     </include>
