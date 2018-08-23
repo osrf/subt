@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- Spawn your team here. -->
+  <arg name="laser_enabled" default="false"/>
+  <arg name="kinect_enabled" default="false"/>
+
+  <include file="$(find x1_gazebo)/launch/spawn_x1.launch">
+    <arg name="laser_enabled" value="$(arg laser_enabled)"/>
+    <arg name="kinect_enabled" value="$(arg kinect_enabled)"/>
+  </include>
+
+  <include file="$(find teleop_twist_joy)/launch/teleop.launch"/>
+
+</launch>

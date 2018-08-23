@@ -91,6 +91,12 @@ class SubtTeleop
   /// \brief Index for vertial axis of arrow keys.
   private: int axisArrowVertical;
 
+  /// \brief Index for the left dead man's switch.
+  private: int leftDeadMan;
+
+  /// \brief Index for the right dead man's switch.
+  private: int rightDeadMan;
+
   /// \brief Subscriber to get input values from the joy control.
   private: ros::Subscriber joySub;
 
@@ -156,6 +162,11 @@ SubtTeleop::SubtTeleop():
   this->nh.param("enable_button", this->enableButton, this->enableButton);
   this->nh.param(
     "enable_turbo_button", this->enableTurboButton, this->enableTurboButton);
+
+  this->nh.param(
+    "dead_man_switch_left", this->leftDeadMan, this->leftDeadMan);
+  this->nh.param(
+    "dead_man_switch_right", this->rightDeadMan, this->rightDeadMan);
 
   this->nh.param(
     "light_on_trigger", this->lightOnTrigger, this->lightOnTrigger);
@@ -273,8 +284,11 @@ void SubtTeleop::JoyCallback(const sensor_msgs::Joy::ConstPtr &_joy)
   }
 
   geometry_msgs::Twist twist;
-  // If the trigger values are non zero, calculate control values.
-  if (_joy->buttons[this->enableButton])
+  // If the trigger button or dead man's switch is pressed,
+  // calculate control values.
+  if (_joy->buttons[this->enableButton] ||
+      _joy->buttons[this->rightDeadMan] ||
+      _joy->buttons[this->leftDeadMan])
   {
     twist.linear.x
       = this->linearScale * _joy->axes[this->linear];
