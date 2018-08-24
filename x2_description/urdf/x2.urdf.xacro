@@ -26,13 +26,13 @@
   <material name="yellow"><color rgba="0.8 0.8 0.0 1.0" /></material>
   <material name="black"><color rgba="0.15 0.15 0.15 1.0" /></material>
 
-  <xacro:macro name="left_wheel" params="prefix *joint_pose">
+  <xacro:macro name="wheel_common" params="prefix left_or_right *joint_pose">
 
     <link name="${prefix}_wheel_link">
       <visual>
         <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
         <geometry>
-          <mesh filename="package://x2_description/meshes/x2_wheel_left.dae"/>
+          <mesh filename="package://x2_description/meshes/x2_wheel_${left_or_right}.dae"/>
         </geometry>
         <material name="black" />
       </visual>
@@ -76,54 +76,16 @@
     </transmission>
   </xacro:macro>
 
-  <xacro:macro name="right_wheel" params="prefix *joint_pose">
-
-    <link name="${prefix}_wheel_link">
-      <visual>
-        <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
-        <geometry>
-          <mesh filename="package://x2_description/meshes/x2_wheel_right.dae"/>
-        </geometry>
-        <material name="black" />
-      </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
-        <geometry>
-          <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
-        </geometry>
-      </collision>
-      <inertial>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <mass value="0.477"/>
-        <inertia
-          ixx="0.0013" ixy="0" ixz="0"
-          iyy="0.0024" iyz="0"
-          izz="0.0013"/>
-      </inertial>
-    </link>
-
-    <gazebo reference="${prefix}_wheel_link">
-      <material>Gazebo/DarkGrey</material>
-    </gazebo>
-
-    <joint name="${prefix}_wheel" type="continuous">
-      <parent link="chassis_link"/>
-      <child link="${prefix}_wheel_link" />
+  <xacro:macro name="left_wheel" params="prefix *joint_pose">
+    <xacro:wheel_common prefix="${prefix}" left_or_right="left">
       <xacro:insert_block name="joint_pose" />
-      <axis xyz="0 1 0" />
-    </joint>
+    </xacro:wheel_common>
+  </xacro:macro>
 
-    <!-- In reality, X2 has only two motors, one per side. However, it's more
-         straightforward for Gazebo to simulate as if there's an actuator per wheel. -->
-    <transmission name="${prefix}_wheel_trans">
-      <type>transmission_interface/SimpleTransmission</type>
-      <joint name="${prefix}_wheel">
-        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-      </joint>
-      <actuator name="${prefix}_actuator">
-        <mechanicalReduction>1</mechanicalReduction>
-      </actuator>
-    </transmission>
+  <xacro:macro name="right_wheel" params="prefix *joint_pose">
+    <xacro:wheel_common prefix="${prefix}" left_or_right="right">
+      <xacro:insert_block name="joint_pose" />
+    </xacro:wheel_common>
   </xacro:macro>
 
   <xacro:macro name="headlight" params="headlight_prefix xyz rpy">
