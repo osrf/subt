@@ -4,11 +4,11 @@
 
   <group ns="bluetooth_teleop" if="$(arg joystick)">
 
-    <group unless="$(optenv X2_PS3 0)" >
+    <group if="$(optenv X2_PS4 0)" >
       <rosparam command="load" file="$(find x2_control)/config/teleop_ps4.yaml" />
     </group>
 
-    <group if="$(optenv X2_PS3 0)" >
+    <group unless="$(optenv X2_PS4 0)" >
       <rosparam command="load" file="$(find x2_control)/config/teleop.yaml" />
       <param name="joy_node/dev" value="$(arg joy_dev)" />
     </group>
