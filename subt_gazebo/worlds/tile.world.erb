@@ -237,6 +237,59 @@
         </visual>
       </link>
     </model>
+    <!-- Start Area where an object enters to initiate the game. -->
+    <model name="start_area">
+      <static>true</static>
+      <pose>
+        <%= entrance_offset - 10 %>
+        0
+        <%= 375.0 * entrance_scale / 2.0 %>
+        0
+        0
+        0
+      </pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>
+                <%= 125.0 * entrance_scale %>
+                <%= 625.0 * entrance_scale %>
+                <%= 375.0 * entrance_scale %>
+              </size>
+            </box>
+          </geometry>
+          <surface>
+            <contact>
+              <collide_without_contact>1</collide_without_contact>
+            </contact>
+          </surface>
+        </collision>
+        <sensor name="start_area_sensor" type="contact">
+          <contact>
+            <collision>collision</collision>
+          </contact>
+        </sensor>
+      </link>
+      <plugin name="touch_start_area" filename="libTouchPlugin.so">
+        <sensor>start_area_sensor</sensor>
+        <!-- empty target name lets the plugin detects everything -->
+        <target></target>
+        <time>0.001</time>
+        <namespace>subt/start</namespace>
+        <enabled>true</enabled>
+      </plugin>
+    </model>
+    <!-- The SubT challenge logic plugin -->
+    <plugin name="game_logic_plugin" filename="libGameLogicPlugin.so">
+      <!-- The collection of objects to locate -->
+      <object_of_interest>
+        <name>cone_1</name>
+      </object_of_interest>
+      <object_of_interest>
+        <name>cone_2</name>
+      </object_of_interest>
+    </plugin>
 
     <light name='user_spot_light_0' type='spot'>
       <pose><%= entrance_offset - 8 %> 0 15 0 0.65 0</pose>
@@ -342,4 +395,3 @@
 
   </world>
 </sdf>
-
