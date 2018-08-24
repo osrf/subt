@@ -1,10 +1,16 @@
 <launch>
   <arg name="config" default="base" />
+  <arg name="robot_namespace" default="/" />
+  <!-- Generate the tf_prefix from the namespace -->
+  <arg name="tfpre" default="" if="$(eval robot_namespace == '/')"/>
+  <arg name="tfpre" default="$(arg robot_namespace)_tf/" unless="$(eval robot_namespace == '/')"/>
 
   <param name="robot_description"
          command="$(find x2_description)/scripts/env_run
                     $(find x2_description)/urdf/configs/$(arg config)
                     $(find xacro)/xacro $(find x2_description)/urdf/x2.urdf.xacro
+                    robot_namespace:=$(arg robot_namespace)
+                    tfpre:=$(arg tfpre)
                     --inorder" />
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 </launch>

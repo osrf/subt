@@ -1,17 +1,21 @@
 <?xml version="1.0"?>
-<robot>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:arg name="robot_namespace" default="/" />
+  <xacro:arg name="tfpre" default="" />
+
   <gazebo>
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-      <robotNamespace>/</robotNamespace>
+      <robotNamespace>$(arg robot_namespace)</robotNamespace>
     </plugin>
   </gazebo>
 
   <gazebo>
     <plugin name="imu_controller" filename="libhector_gazebo_ros_imu.so">
-      <robotNamespace>/</robotNamespace>
+      <robotNamespace>$(arg robot_namespace)</robotNamespace>
       <updateRate>50.0</updateRate>
       <bodyName>imu_link</bodyName>
       <topicName>imu/data</topicName>
+      <frameId>$(arg tfpre)base_link</frameId>
       <accelDrift>0.005 0.005 0.005</accelDrift>
       <accelGaussianNoise>0.005 0.005 0.005</accelGaussianNoise>
       <rateDrift>0.005 0.005 0.005 </rateDrift>
@@ -24,9 +28,9 @@
   <gazebo>
     <plugin name="gps_controller" filename="libhector_gazebo_ros_gps.so">
       <updateRate>40</updateRate>
-      <robotNamespace>/</robotNamespace>
+      <robotNamespace>$(arg robot_namespace)</robotNamespace>
       <bodyName>navsat_link</bodyName>
-      <frameId>base_link</frameId>
+      <frameId>$(arg tfpre)base_link</frameId>
       <topicName>/navsat/fix</topicName>
       <velocityTopicName>/navsat/vel</velocityTopicName>
       <referenceLatitude>49.9</referenceLatitude>
