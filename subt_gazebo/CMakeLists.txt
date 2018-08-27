@@ -38,6 +38,16 @@ find_package(ignition-transport4 REQUIRED)
 ## Build ##
 ###########
 
+include_directories(
+  include
+  ${GAZEBO_INCLUDE_DIRS}
+  ${catkin_INCLUDE_DIRS}
+)
+
+link_directories(
+  ${GAZEBO_LIBRARY_DIRS}
+)
+
 catkin_package(
   CATKIN_DEPENDS
     message_runtime
@@ -49,16 +59,6 @@ catkin_package(
     CommsClient
   CFG_EXTRAS
     ${PROJECT_NAME}-extras.cmake
-)
-
-include_directories(
-  include
-  ${GAZEBO_INCLUDE_DIRS}
-  ${catkin_INCLUDE_DIRS}
-)
-
-link_directories(
-  ${GAZEBO_LIBRARY_DIRS}
 )
 
 # Create a static library with the Protobuf messages used internally.
