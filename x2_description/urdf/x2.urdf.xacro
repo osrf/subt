@@ -428,7 +428,7 @@
   </joint>
 
   <!-- Bring in simulation data for Gazebo. -->
-  <xacro:include filename="$(find x2_description)/urdf/jackal.gazebo">
+  <xacro:include filename="$(find x2_description)/urdf/x2.gazebo">
     <xacro:arg name="robot_namespace" default="$(arg robot_namespace)" />
     <xacro:arg name="tfpre" default="$(arg tfpre)" />
   </xacro:include>
