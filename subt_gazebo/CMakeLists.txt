@@ -38,16 +38,6 @@ find_package(ignition-transport4 REQUIRED)
 ## Build ##
 ###########
 
-include_directories(
-  include
-  ${GAZEBO_INCLUDE_DIRS}
-  ${catkin_INCLUDE_DIRS}
-)
-
-link_directories(
-  ${GAZEBO_LIBRARY_DIRS}
-)
-
 catkin_package(
   CATKIN_DEPENDS
     message_runtime
@@ -59,6 +49,16 @@ catkin_package(
     CommsClient
   CFG_EXTRAS
     ${PROJECT_NAME}-extras.cmake
+)
+
+include_directories(
+  include
+  ${GAZEBO_INCLUDE_DIRS}
+  ${catkin_INCLUDE_DIRS}
+)
+
+link_directories(
+  ${GAZEBO_LIBRARY_DIRS}
 )
 
 # Create a static library with the Protobuf messages used internally.
@@ -74,6 +74,7 @@ set_target_properties(${protobuf_lib_name}
 # Create the libGameLogicPlugin.so library.
 set(game_logic_plugin_name GameLogicPlugin)
 add_library(${game_logic_plugin_name} src/GameLogicPlugin.cc)
+add_dependencies(${game_logic_plugin_name} subt_msgs_generate_messages_cpp)
 target_link_libraries(${game_logic_plugin_name}
   ${catkin_LIBRARIES}
 )
