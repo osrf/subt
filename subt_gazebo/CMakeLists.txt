@@ -74,6 +74,7 @@ set_target_properties(${protobuf_lib_name}
 # Create the libGameLogicPlugin.so library.
 set(game_logic_plugin_name GameLogicPlugin)
 add_library(${game_logic_plugin_name} src/GameLogicPlugin.cc)
+add_dependencies(${game_logic_plugin_name} subt_msgs_generate_messages_cpp)
 target_link_libraries(${game_logic_plugin_name}
   ${catkin_LIBRARIES}
 )
