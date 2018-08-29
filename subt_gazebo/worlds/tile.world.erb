@@ -31,7 +31,7 @@
   $type = 'cave'
   if (defined? t)
     $type = t.to_s
-    if ($type != 'cave')
+    if ($type != 'cave') && ($type != 'mine')
       raise('Unsupported tile type')
       exit
     end
@@ -77,6 +77,8 @@
   type_total_count = 0
   if ($type == 'cave')
     type_total_count = 10
+  elsif ($type == 'mine')
+    type_total_count = 5
   end
 
   # Keep all possible tile types
