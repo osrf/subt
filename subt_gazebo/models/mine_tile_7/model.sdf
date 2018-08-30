@@ -3,7 +3,6 @@
   <model name="mine_tile_7">
     <static>true</static>
     <link name="link">
-      <pose>0 0 0 0 0 0</pose>
       <collision name="collision">
         <geometry>
           <mesh>
@@ -11,6 +10,55 @@
           </mesh>
         </geometry>
       </collision>
+      <collision name="collision_ground_1">
+        <pose>0.025509 6.140 5 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>7.195382 7.719435 0.001</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <!--<collision name="collision_ground_2">
+        <pose>0 -3.75 0 0 0 1.5708</pose>
+        <geometry>
+          <box>
+            <size>12.5 5 0.001</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="collision_ground_3">
+        <pose>2.5 0 4.5 0 1.5708 0</pose>
+        <geometry>
+          <box>
+            <size>9 5 0.001</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="collision_ground_4">
+        <pose>-2.5 0 4.5 0 1.5708 0</pose>
+        <geometry>
+          <box>
+            <size>9 5 0.001</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="collision_ground_5">
+        <pose>0 2.5 2.5 0 1.5708 1.5708</pose>
+        <geometry>
+          <box>
+            <size>5 5 0.001</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="collision_ground_6">
+        <pose>0 -2.5 6 0 1.5708 1.5708</pose>
+        <geometry>
+          <box>
+            <size>5 5 0.001</size>
+          </box>
+        </geometry>
+      </collision> -->
       <visual name="visual">
         <geometry>
           <mesh>
