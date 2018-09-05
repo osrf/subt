@@ -34,6 +34,8 @@ CommsClient::CommsClient(const std::string &_localAddress)
     std::cerr << "CommsClient::CommsClient() error: Local address shouldn't "
               << "be empty" << std::endl;
   }
+
+  this->enabled = this->Validate();
 }
 
 //////////////////////////////////////////////////
@@ -46,6 +48,10 @@ std::string CommsClient::Host() const
 bool CommsClient::SendTo(const std::string &_data,
     const std::string &_dstAddress, const uint32_t _port)
 {
+  // Sanity check: Make sure that the communications are enabled.
+  if (!this->enabled)
+    return false;
+
   // Sanity check: Make sure that we're using a valid address.
   if (this->Host().empty())
     return false;
@@ -81,4 +87,33 @@ void CommsClient::OnMessage(const msgs::Datagram &_msg)
                 _msg.dst_port(), _msg.data());
     }
   }
+}
+
+//////////////////////////////////////////////////
+bool CommsClient::Validate()
+{
+  ignition::msgs::StringMsg req;
+  req.set_data(this->localAddress);
+
+  ignition::msgs::Boolean rep;
+  bool result;
+  unsigned int timeout = 5000u;
+
+  bool executed = this->node.Request(
+    kValidationService, req, timeout, rep, result);
+
+  if (!executed)
+  {
+    std::cerr << "Validation service not available" << std::endl;
+    return false;
+  }
+
+  if (!result)
+  {
+    std::cerr << "Invalid address. Probably this address is already used"
+              << std::endl;
+    return false;
+  }
+
+  return true;
 }
