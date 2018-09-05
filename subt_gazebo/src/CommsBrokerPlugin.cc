@@ -15,6 +15,7 @@
  *
 */
 
+#include <algorithm>
 #include <gazebo/common/Assert.hh>
 #include <gazebo/common/Events.hh>
 
@@ -75,4 +76,25 @@ void CommsBrokerPlugin::OnMessage(const subt::msgs::Datagram &_req)
   // Just save the message, it will be processed later.
   std::lock_guard<std::mutex> lk(this->mutex);
   this->incomingMsgs.push(_req);
+}
+
+/////////////////////////////////////////////////
+bool CommsBrokerPlugin::OnRegistration(const ignition::msgs::StringMsg &_req,
+                                     ignition::msgs::Boolean &_rep)
+{
+  std::string address = _req.data();
+  bool result;
+
+  {
+    std::lock_guard<std::mutex> lk(this->mutex);
+    result = std::find(this->addresses.begin(), this->addresses.end(),
+      address) == this->addresses.end();
+  
+    if (result)
+      this->addresses.push_back(address);
+  }
+
+  _rep.set_data(result);
+
+  return result;
 }

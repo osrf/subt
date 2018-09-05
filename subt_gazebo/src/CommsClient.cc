@@ -35,7 +35,7 @@ CommsClient::CommsClient(const std::string &_localAddress)
               << "be empty" << std::endl;
   }
 
-  this->enabled = this->Validate();
+  this->enabled = this->Register();
 }
 
 //////////////////////////////////////////////////
@@ -90,7 +90,7 @@ void CommsClient::OnMessage(const msgs::Datagram &_msg)
 }
 
 //////////////////////////////////////////////////
-bool CommsClient::Validate()
+bool CommsClient::Register()
 {
   ignition::msgs::StringMsg req;
   req.set_data(this->localAddress);

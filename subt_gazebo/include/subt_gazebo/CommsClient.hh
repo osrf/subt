@@ -76,7 +76,7 @@ namespace subt
       // Sanity check: Make sure that the communications are enabled.
       if (!this->enabled)
         return false;
-      
+
       // Sanity check: Make sure that we're using a valid address.
       if (this->Host().empty())
         return false;
@@ -160,10 +160,10 @@ namespace subt
                          const uint32_t _dstPort,
                          const std::string &_data)>;
 
-    /// \brief Validate the current address. This will make a synchronous call
-    /// to the broker to validate the address.
+    /// \brief Register the current address. This will make a synchronous call
+    /// to the broker to validate and register the address.
     /// \return True when the address is valid or false otherwise.
-    private: bool Validate();
+    private: bool Register();
 
     /// \brief The local address.
     private: const std::string localAddress;
