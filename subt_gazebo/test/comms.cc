@@ -36,7 +36,7 @@ class CommsTest : public testing::Test, public subt::GazeboTest
   {
     // Wait until Gazebo is ready.
     using namespace std::chrono_literals;
-    EXPECT_TRUE(this->WaitForGazebo(20s));
+    EXPECT_TRUE(this->WaitForGazebo(120s));
 
     this->client1.reset(new CommsClient(this->addr1));
     this->client2.reset(new CommsClient(this->addr2));
@@ -70,7 +70,8 @@ class CommsTest : public testing::Test, public subt::GazeboTest
 
     {
       // A double Bind() is not allowed.
-      CommsClient client(this->addr1);
+      std::string addr = getRandomNumber();
+      CommsClient client(addr);
       EXPECT_TRUE(client.Bind(&CommsTest::OnUnicastMsg, this));
       EXPECT_FALSE(client.Bind(&CommsTest::OnUnicastMsg, this));
       EXPECT_TRUE(client.Bind(&CommsTest::OnMulticastMsg, this, kMulticast));

@@ -19,6 +19,8 @@
 
 #include <mutex>
 #include <queue>
+#include <string>
+#include <vector>
 #include <gazebo/common/Event.hh>
 #include <gazebo/common/Plugin.hh>
 #include <gazebo/physics/physics.hh>

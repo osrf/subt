@@ -98,7 +98,7 @@ bool CommsBrokerPlugin::OnRegistration(const ignition::msgs::StringMsg &_req,
     std::lock_guard<std::mutex> lk(this->mutex);
     result = std::find(this->addresses.begin(), this->addresses.end(),
       address) == this->addresses.end();
-  
+
     if (result)
       this->addresses.push_back(address);
   }

@@ -104,14 +104,14 @@ bool CommsClient::Register()
 
   if (!executed)
   {
-    std::cerr << "Validation service not available" << std::endl;
+    std::cerr << "[CommsClient] Validation service not available" << std::endl;
     return false;
   }
 
   if (!result)
   {
-    std::cerr << "Invalid address. Probably this address is already used"
-              << std::endl;
+    std::cerr << "[CommsClient] Invalid address. Probably this address is "
+              << "already used" << std::endl;
     return false;
   }
 
