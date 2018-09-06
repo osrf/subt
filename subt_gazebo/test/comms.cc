@@ -36,10 +36,13 @@ class CommsTest : public testing::Test, public subt::GazeboTest
   {
     // Wait until Gazebo is ready.
     using namespace std::chrono_literals;
-    EXPECT_TRUE(this->WaitForGazebo(5s));
+    EXPECT_TRUE(this->WaitForGazebo(20s));
 
-    EXPECT_TRUE(this->client1.Bind(&CommsTest::OnUnicastMsg, this));
-    EXPECT_TRUE(this->client1.Bind(&CommsTest::OnMulticastMsg, this,
+    this->client1.reset(new CommsClient(this->addr1));
+    this->client2.reset(new CommsClient(this->addr2));
+
+    EXPECT_TRUE(this->client1->Bind(&CommsTest::OnUnicastMsg, this));
+    EXPECT_TRUE(this->client1->Bind(&CommsTest::OnMulticastMsg, this,
       kMulticast));
   }
 
@@ -61,13 +64,13 @@ class CommsTest : public testing::Test, public subt::GazeboTest
 
     {
       // Bind() to an address that is not local is not allowed.
-      CommsClient client("addr");
+      CommsClient client(this->addr1);
       EXPECT_FALSE(client.Bind(&CommsTest::OnUnicastMsg, this, "other"));
     }
 
     {
       // A double Bind() is not allowed.
-      CommsClient client("addr");
+      CommsClient client(this->addr1);
       EXPECT_TRUE(client.Bind(&CommsTest::OnUnicastMsg, this));
       EXPECT_FALSE(client.Bind(&CommsTest::OnUnicastMsg, this));
       EXPECT_TRUE(client.Bind(&CommsTest::OnMulticastMsg, this, kMulticast));
@@ -82,8 +85,8 @@ class CommsTest : public testing::Test, public subt::GazeboTest
                              const std::string &_data)
   {
     this->unicastCallbackExecuted = true;
-    EXPECT_EQ("addr2", _srcAddress);
-    EXPECT_TRUE(_dstAddress == "addr1" || _dstAddress == kBroadcast);
+    EXPECT_EQ(this->addr2, _srcAddress);
+    EXPECT_TRUE(_dstAddress == this->addr1 || _dstAddress == kBroadcast);
     EXPECT_EQ(kDefaultPort, _dstPort);
     EXPECT_EQ("_data_", _data);
   }
@@ -95,7 +98,7 @@ class CommsTest : public testing::Test, public subt::GazeboTest
                                const std::string &_data)
   {
     this->multicastCallbackExecuted = true;
-    EXPECT_EQ("addr2", _srcAddress);
+    EXPECT_EQ(this->addr2, _srcAddress);
     EXPECT_EQ(kMulticast, _dstAddress);
     EXPECT_EQ(kDefaultPort, _dstPort);
     EXPECT_EQ("_data_", _data);
@@ -114,11 +117,15 @@ class CommsTest : public testing::Test, public subt::GazeboTest
   /// \brief Whether a multicast message has been received or not.
   protected: bool multicastCallbackExecuted = false;
 
-  /// \brief A comms client.
-  protected: CommsClient client1{"addr1"};
+  protected: std::string addr1 = getRandomNumber();
+
+  protected: std::string addr2 = getRandomNumber();
 
   /// \brief A comms client.
-  protected: CommsClient client2{"addr2"};
+  protected: std::unique_ptr<CommsClient> client1;
+
+  /// \brief A comms client.
+  protected: std::unique_ptr<CommsClient> client2;
 };
 
 /////////////////////////////////////////////////
@@ -133,7 +140,7 @@ TEST_F(CommsTest, Comms)
   using namespace std::chrono_literals;
 
   // Unicast.
-  this->client2.SendTo("_data_", "addr1");
+  this->client2->SendTo("_data_", this->addr1);
 
   waitUntilBoolVar(this->unicastCallbackExecuted, 1ms, 300);
   EXPECT_TRUE(this->unicastCallbackExecuted);
@@ -142,7 +149,7 @@ TEST_F(CommsTest, Comms)
   this->Reset();
 
   // Multicast.
-  this->client2.SendTo("_data_", kMulticast);
+  this->client2->SendTo("_data_", kMulticast);
 
   waitUntilBoolVar(this->multicastCallbackExecuted, 1ms, 300);
   EXPECT_FALSE(this->unicastCallbackExecuted);
@@ -151,7 +158,7 @@ TEST_F(CommsTest, Comms)
   this->Reset();
 
   // Broadcast.
-  this->client2.SendTo("_data_", kBroadcast);
+  this->client2->SendTo("_data_", kBroadcast);
 
   waitUntilBoolVar(this->unicastCallbackExecuted, 1ms, 300);
   EXPECT_TRUE(this->unicastCallbackExecuted);

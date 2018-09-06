@@ -6,6 +6,6 @@
   <!-- gazebo server-->
   <node name="gazebo" pkg="gazebo_ros" type="gzserver" respawn="false" output="screen" args="$(find subt_gazebo)/worlds/lava_tube.world" />
 
-  <test test-name="comms" pkg="subt_gazebo" type="test_comms" time-limit="10.0" />
+  <test test-name="comms" pkg="subt_gazebo" type="test_comms" time-limit="20.0" />
 
 </launch>

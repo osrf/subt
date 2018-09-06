@@ -100,7 +100,7 @@ bool CommsClient::Register()
   unsigned int timeout = 5000u;
 
   bool executed = this->node.Request(
-    kValidationService, req, timeout, rep, result);
+    kRegistrationService, req, timeout, rep, result);
 
   if (!executed)
   {

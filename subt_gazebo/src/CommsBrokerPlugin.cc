@@ -39,6 +39,15 @@ void CommsBrokerPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr /*_sdf*/)
 
   gzmsg << "Starting SubT comms broker" << std::endl;
 
+  // Advertise the service for registering addresses.
+  if (!node.Advertise(kRegistrationService, &CommsBrokerPlugin::OnRegistration,
+    this))
+  {
+    gzerr << "Error advertising service [" << kRegistrationService << "]"
+          << std::endl;
+    return;
+  }
+
   // Advertise a oneway service for centralizing all message requests.
   if (!node.Advertise(kBrokerService, &CommsBrokerPlugin::OnMessage, this))
   {
