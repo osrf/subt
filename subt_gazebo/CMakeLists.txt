@@ -85,7 +85,11 @@ install(TARGETS ${game_logic_plugin_name}
 
 # Create the libCommsBrokerPlugin.so library.
 set(comms_broker_plugin_name CommsBrokerPlugin)
-add_library(${comms_broker_plugin_name} src/CommsBrokerPlugin.cc)
+add_library(${comms_broker_plugin_name}
+  src/Broker.cc
+  src/CommsBrokerPlugin.cc
+  src/CommsModel.cc
+)
 target_include_directories(${comms_broker_plugin_name}
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 target_link_libraries(${comms_broker_plugin_name}
