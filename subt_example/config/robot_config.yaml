@@ -1,43 +1,47 @@
 robot_names:
-  - Jackal
-  #- Husky
   - X1
+  - X2
   - Iris
 
 button_robot_map:
-  A: Jackal
-  #B: Husky
-  B: X1
+  A: X1
+  B: X2
   X: Iris
 
 flashlight_service_suffixes:
-  - /downward_flashlight/enable
-  - /left_flashlight/enable
-  - /right_flashlight/enable
-  # note: X1 has different names for flashlights or headlights as follows:
+  # X1 and X2
   - /right_headlight/enable
   - /center_right_headlight/enable
   - /center_left_headlight/enable
   - /left_headlight/enable
+  # Iris
+  - /downward_flashlight/enable
+  - /left_flashlight/enable
+  - /right_flashlight/enable
 
 robot_address_map:
-  Jackal: 128.0.0.10
-  #Husky: 128.0.0.11
-  X1: 128.0.0.11
+  X1: 128.0.0.10
+  X2: 128.0.0.11
   Iris: 128.0.0.12
 
 select_led_service_suffixes:
-  - /left_led/enable
-  - /right_led/enable
-  # note: X1 has different names for LED indicators as follows:
+  # X1
   - /left_lateral_front_led/enable
   - /left_lateral_rear_led/enable
   - /rear_left_led/enable
   - /right_lateral_front_led/enable
   - /right_lateral_rear_led/enable
   - /rear_right_led/enable
+  # X2
+  - /left_lateral_led/enable
+  - /right_lateral_led/enable
+  # Iris
+  - /left_led/enable
+  - /right_led/enable
+
 
 comm_led_service_suffixes:
-  - /center_led/enable
-  # note: X1 has a different name for LED indicator as follows:
+  # X1 and X2
   - /rear_center_led/enable
+  # Iris
+  - /center_led/enable

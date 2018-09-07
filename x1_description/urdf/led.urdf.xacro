@@ -10,6 +10,15 @@
           <mesh filename="package://x1_description/meshes/led.dae" />
         </geometry>
       </visual>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.000001" />
+        <inertia
+          ixx="0.001"
+          ixy="0.0" iyy="0.001"
+          ixz="0.0" iyz="0.0" izz="0.001"
+        />
+      </inertial>
     </link>
 
     <joint name="${led_prefix}_led" type="fixed">
@@ -47,6 +56,15 @@
               <emissive>0 0 0 1</emissive>
             </material>
           </visual>
+          <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass>0.000001</mass>
+            <inertia>
+              <ixx>0.001</ixx>
+              <ixy>0.0</ixy><iyy>0.001</iyy>
+              <ixz>0.0</ixz><iyz>0.0</iyz><izz>0.001</izz>
+            </inertia>
+          </inertial>
         </link>
 
         <plugin name='light_control' filename='libRosFlashLightPlugin.so'>

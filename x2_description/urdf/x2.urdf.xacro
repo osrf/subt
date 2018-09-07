@@ -1,0 +1,443 @@
+<?xml version="1.0"?>
+<robot name="x2" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:arg name="robot_namespace" default="/" />
+  <xacro:arg name="tfpre" default="" />
+
+  <xacro:property name="PI" value="3.1415926535897931" />
+
+  <xacro:property name="wheelbase" value="0.262" />
+  <xacro:property name="track" value="0.37559" />
+  <xacro:property name="wheel_vertical_offset" value="0.0345" />
+  <xacro:property name="footprint_vertical_offset" value="-0.0655" />
+
+  <xacro:property name="wheel_radius" value="0.098" />
+  <xacro:property name="wheel_width" value="0.040" />
+
+  <xacro:property name="chassis_length" value="0.420" />
+  <xacro:property name="chassis_width" value="0.310" />
+  <xacro:property name="chassis_height" value="0.184" />
+
+  <xacro:property name="dummy_inertia" value="1e-09"/>
+
+  <xacro:property name="mount_spacing" value="0.120" />
+
+  <material name="dark_grey"><color rgba="0.2 0.2 0.2 1.0" /></material>
+  <material name="light_grey"><color rgba="0.4 0.4 0.4 1.0" /></material>
+  <material name="yellow"><color rgba="0.8 0.8 0.0 1.0" /></material>
+  <material name="black"><color rgba="0.15 0.15 0.15 1.0" /></material>
+
+  <xacro:macro name="wheel_common" params="prefix left_or_right *joint_pose">
+
+    <link name="${prefix}_wheel_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
+        <geometry>
+          <mesh filename="package://x2_description/meshes/x2_wheel_${left_or_right}.dae"/>
+        </geometry>
+        <material name="black" />
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
+        <geometry>
+          <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.477"/>
+        <inertia
+          ixx="0.0013" ixy="0" ixz="0"
+          iyy="0.0024" iyz="0"
+          izz="0.0013"/>
+      </inertial>
+    </link>
+
+    <gazebo reference="${prefix}_wheel_link">
+      <material>Gazebo/DarkGrey</material>
+    </gazebo>
+
+    <joint name="${prefix}_wheel" type="continuous">
+      <parent link="chassis_link"/>
+      <child link="${prefix}_wheel_link" />
+      <xacro:insert_block name="joint_pose" />
+      <axis xyz="0 1 0" />
+    </joint>
+
+    <!-- In reality, X2 has only two motors, one per side. However, it's more
+         straightforward for Gazebo to simulate as if there's an actuator per wheel. -->
+    <transmission name="${prefix}_wheel_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}_wheel">
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="${prefix}_actuator">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+  </xacro:macro>
+
+  <xacro:macro name="left_wheel" params="prefix *joint_pose">
+    <xacro:wheel_common prefix="${prefix}" left_or_right="left">
+      <xacro:insert_block name="joint_pose" />
+    </xacro:wheel_common>
+  </xacro:macro>
+
+  <xacro:macro name="right_wheel" params="prefix *joint_pose">
+    <xacro:wheel_common prefix="${prefix}" left_or_right="right">
+      <xacro:insert_block name="joint_pose" />
+    </xacro:wheel_common>
+  </xacro:macro>
+
+  <xacro:macro name="headlight" params="headlight_prefix xyz rpy">
+    <link name="${headlight_prefix}_headlight_link">
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://x2_description/meshes/headlight.dae" />
+        </geometry>
+      </visual>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.000001" />
+        <inertia
+          ixx="0.001"
+          ixy="0.0" iyy="0.001"
+          ixz="0.0" iyz="0.0" izz="0.001"
+        />
+      </inertial>
+    </link>
+
+    <joint name="${headlight_prefix}_headlight" type="fixed">
+      <parent link="base_link"/>
+      <child link="${headlight_prefix}_headlight_link"/>
+      <origin xyz="${xyz}" rpy="${rpy}"/>
+    </joint>
+
+    <gazebo>
+      <model name="${headlight_prefix}_headlight">
+        <pose>${xyz} ${rpy}</pose>
+        <link name="body">
+          <pose>-0.0005 0 0 0 0 0</pose>
+          <light name="light_source" type="spot">
+            <pose>-0.025 0 0.055 0 1.573 0</pose>
+            <attenuation>
+              <range>50</range>
+              <linear>0.05</linear>
+            </attenuation>
+            <diffuse>0 0 0 1</diffuse>
+            <specular>0 0 0 1</specular>
+            <spot>
+              <inner_angle>1</inner_angle>
+              <outer_angle>1.1</outer_angle>
+              <falloff>1</falloff>
+            </spot>
+            <direction>0 0 -1</direction>
+          </light>
+
+          <visual name="light_source">
+            <geometry>
+              <mesh>
+                <uri>package://x2_description/meshes/headlight_lamp.dae</uri>
+              </mesh>
+            </geometry>
+            <transparency>1</transparency>
+            <material>
+              <ambient>1 1 1 1</ambient>
+              <diffuse>1 1 1 1</diffuse>
+              <specular>1 1 1 1</specular>
+              <emissive>0 0 0 1</emissive>
+            </material>
+          </visual>
+          <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass>0.000001</mass>
+            <inertia>
+              <ixx>0.001</ixx>
+              <ixy>0.0</ixy><iyy>0.001</iyy>
+              <ixz>0.0</ixz><iyz>0.0</iyz><izz>0.001</izz>
+            </inertia>
+          </inertial>
+        </link>
+
+        <plugin name='light_control' filename='libRosFlashLightPlugin.so'>
+          <service_name>enable</service_name>
+          <light>
+            <id>body/light_source</id>
+            <enable>false</enable>
+            <duration>1</duration>
+            <interval>0</interval>
+            <color>1 1 1</color>
+          </light>
+        </plugin>
+      </model>
+    </gazebo>
+
+    <gazebo>
+      <joint name="${headlight_prefix}_headlight" type="fixed">
+        <parent>base_link</parent>
+        <child>${headlight_prefix}_headlight::body</child>
+      </joint>
+    </gazebo>
+
+  </xacro:macro>
+
+  <xacro:macro name="led" params="led_prefix xyz rpy **plugin_params">
+    <link name="${led_prefix}_led_link">
+
+      <visual name="marker">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://x2_description/meshes/led.dae" />
+        </geometry>
+      </visual>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.000001" />
+        <inertia
+          ixx="0.001"
+          ixy="0.0" iyy="0.001"
+          ixz="0.0" iyz="0.0" izz="0.001"
+        />
+      </inertial>
+    </link>
+
+    <joint name="${led_prefix}_led" type="fixed">
+      <parent link="base_link"/>
+      <child link="${led_prefix}_led_link"/>
+      <origin xyz="${xyz}" rpy="${rpy}"/>
+    </joint>
+
+    <gazebo>
+      <model name="${led_prefix}_led">
+        <pose>${xyz} ${rpy}</pose>
+        <link name="body">
+          <pose>0 0 0.0005 0 0 0</pose>
+          <light name='light_source' type='point'>
+            <pose>0 0 0 0 0 0</pose>
+            <attenuation>
+              <range>0.20</range>
+              <linear>0.10</linear>
+            </attenuation>
+            <diffuse>0 0 0 1</diffuse>
+            <specular>0 0 0 1</specular>
+          </light>
+
+          <visual name="light_source">
+            <geometry>
+              <mesh>
+                <uri>package://x2_description/meshes/led_lamp.dae</uri>
+              </mesh>
+            </geometry>
+            <transparency>1</transparency>
+            <material>
+              <ambient>1 1 1 1</ambient>
+              <diffuse>1 1 1 1</diffuse>
+              <specular>1 1 1 1</specular>
+              <emissive>0 0 0 1</emissive>
+            </material>
+          </visual>
+          <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass>0.000001</mass>
+            <inertia>
+              <ixx>0.001</ixx>
+              <ixy>0.0</ixy><iyy>0.001</iyy>
+              <ixz>0.0</ixz><iyz>0.0</iyz><izz>0.001</izz>
+            </inertia>
+          </inertial>
+        </link>
+
+        <plugin name='light_control' filename='libRosFlashLightPlugin.so'>
+          <service_name>enable</service_name>
+          <light>
+            <id>body/light_source</id>
+            <xacro:insert_block name="plugin_params"/>
+            <enable>false</enable>
+            <duration>1</duration>
+            <interval>0</interval>
+            <color>1 1 1</color>
+          </light>
+        </plugin>
+      </model>
+    </gazebo>
+
+    <gazebo>
+      <joint name="${led_prefix}_led" type="fixed">
+        <parent>base_link</parent>
+        <child>${led_prefix}_led::body</child>
+      </joint>
+    </gazebo>
+
+  </xacro:macro>
+
+  <xacro:left_wheel prefix="front_left">
+    <origin xyz="${wheelbase/2} ${track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+  </xacro:left_wheel>
+  <xacro:right_wheel prefix="front_right">
+    <origin xyz="${wheelbase/2} ${-track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+  </xacro:right_wheel>
+  <xacro:left_wheel prefix="rear_left">
+    <origin xyz="${-wheelbase/2} ${track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+  </xacro:left_wheel>
+  <xacro:right_wheel prefix="rear_right">
+    <origin xyz="${-wheelbase/2} ${-track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+  </xacro:right_wheel>
+
+  <!-- Head lights -->
+  <xacro:headlight headlight_prefix="left"
+    xyz="0.22 0.145 ${footprint_vertical_offset+0.15}" rpy="0 0 ${PI}" />
+
+  <xacro:headlight headlight_prefix="right"
+    xyz="0.22 -0.145 ${footprint_vertical_offset+0.15}" rpy="0 0 ${PI}" />
+
+  <xacro:headlight headlight_prefix="center_left"
+    xyz="0.22 0.05 ${footprint_vertical_offset+0.15}" rpy="0 0 ${PI}" />
+
+  <xacro:headlight headlight_prefix="center_right"
+    xyz="0.22 -0.05 ${footprint_vertical_offset+0.15}" rpy="0 0 ${PI}" />
+
+  <!-- LED's -->
+  <xacro:led led_prefix="rear_center" xyz="${-0.127-wheelbase/2} 0 0.165" rpy="0 1.573 3.1416">
+    <plugin_params>
+      <block>
+        <duration>0.1</duration>
+        <interval>0</interval>
+        <color>1 0 0</color>
+      </block>
+      <block>
+        <duration>0.1</duration>
+        <interval>0</interval>
+        <color>0 1 0</color>
+      </block>
+      <block>
+        <duration>0.1</duration>
+        <interval>0</interval>
+        <color>0 0 1</color>
+      </block>
+    </plugin_params>
+  </xacro:led>
+
+
+  <xacro:led led_prefix="right_lateral" xyz="0 ${-track/2} 0.15" rpy="0 1.573 -1.539">
+    <plugin_params>
+      <block>
+        <duration>0.3</duration>
+        <interval>0.3</interval>
+        <color>1 0.8</color>
+      </block>
+    </plugin_params>
+  </xacro:led>
+
+  <xacro:led led_prefix="left_lateral" xyz="0 ${track/2} 0.15" rpy="0 1.573 1.539">
+    <plugin_params>
+      <block>
+        <duration>0.3</duration>
+        <interval>0.3</interval>
+        <color>1 0.8</color>
+      </block>
+    </plugin_params>
+  </xacro:led>
+
+
+  <link name="base_link"></link>
+
+  <joint name="base_link_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="base_link"/>
+    <child link="chassis_link" />
+  </joint>
+
+  <link name="chassis_link">
+    <visual>
+      <origin xyz="0 0 ${footprint_vertical_offset}" rpy="${PI/2} 0 ${-PI/2}"/>
+      <geometry>
+        <mesh filename="package://x2_description/meshes/x2_chassis.dae"/>
+      </geometry>
+      <material name="dark_grey" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 ${chassis_height/2}"/>
+      <geometry>
+        <box size="${chassis_length} ${chassis_width} ${chassis_height}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <!-- Center of mass -->
+      <origin xyz="0.012  0.002 0.067" rpy="0 0 0"/>
+      <mass value="16.523"/>
+      <!-- Moments of inertia: ( chassis without wheels ) -->
+      <inertia
+        ixx="0.3136" ixy="-0.0008" ixz="0.0164"
+        iyy="0.3922" iyz="-0.0009"
+        izz="0.4485"/>
+    </inertial>
+  </link>
+
+  <!-- TODO: Make this internal_imu_link or something, and use a mixed-in xacro
+       to supply the joint between it and imu_link. This is important so that imu_link
+       always points to the "active" IMU. When an upgrade IMU is connected, the
+       internal_imu_link should remain, but imu_link should point to the upgrade one. -->
+  <link name="imu_link">
+    <inertial>
+      <mass value="0.001"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="${dummy_inertia}" ixy="0.0" ixz="0.0" iyy="${dummy_inertia}" iyz="0.0" izz="${dummy_inertia}"/>
+    </inertial>
+  </link>
+  <joint name="imu_joint" type="fixed">
+    <parent link="chassis_link" />
+    <child link="imu_link" />
+  </joint>
+
+  <!-- TODO: Same note as applies to imu_link -->
+  <link name="navsat_link">
+    <visual>
+      <geometry>
+        <cylinder radius="0.026" length="0.016" />
+      </geometry>
+      <origin xyz="0 0 0.008" />
+      <material name="black" />
+    </visual>
+  </link>
+  <joint name="navsat_joint" type="fixed">
+    <parent link="chassis_link" />
+    <child link="navsat_link" />
+    <origin xyz="-0.180 0.126 0.1815" />
+  </joint>
+
+  <link name="mid_mount"></link>
+  <joint name="mid_mount_joint" type="fixed">
+    <parent link="chassis_link" />
+    <child link="mid_mount" />
+    <origin xyz="0 0 ${chassis_height}" />
+  </joint>
+
+  <link name="rear_mount"></link>
+  <joint name="rear_mount_joint" type="fixed">
+    <parent link="mid_mount" />
+    <child link="rear_mount" />
+    <origin xyz="${-mount_spacing} 0 0" />
+  </joint>
+
+  <link name="front_mount"></link>
+  <joint name="front_mount_joint" type="fixed">
+    <parent link="mid_mount" />
+    <child link="front_mount" />
+    <origin xyz="${mount_spacing} 0 0" />
+  </joint>
+
+  <!-- Bring in simulation data for Gazebo. -->
+  <xacro:include filename="$(find x2_description)/urdf/x2.gazebo">
+    <xacro:arg name="robot_namespace" default="$(arg robot_namespace)" />
+    <xacro:arg name="tfpre" default="$(arg tfpre)" />
+  </xacro:include>
+
+  <!-- Optional standard accessories, including their simulation data. The rendering
+       of these into the final description is controlled by optenv variables, which
+       default each one to off.-->
+  <xacro:include filename="$(find x2_description)/urdf/accessories.urdf.xacro" />
+
+  <!-- Optional custom includes. -->
+  <xacro:include filename="$(optenv X2_URDF_EXTRAS empty.urdf)" />
+</robot>
