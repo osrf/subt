@@ -31,7 +31,7 @@
   $type = 'cave'
   if (defined? t)
     $type = t.to_s
-    if ($type != 'cave') && ($type != 'mine')
+    if ($type != 'cave') && ($type != 'tunnel')
       raise('Unsupported tile type')
       exit
     end
@@ -77,7 +77,7 @@
   type_total_count = 0
   if ($type == 'cave')
     type_total_count = 10
-  elsif ($type == 'mine')
+  elsif ($type == 'tunnel')
     type_total_count = 5
   end
 
@@ -204,7 +204,7 @@
     </model>
 
     <% entrance_scale = 0.008 %>
-    <model name="mine_entrance">
+    <model name="tunnel_entrance">
       <pose>
         <%= entrance_offset - 10 %>
         0
@@ -222,7 +222,7 @@
                 <%= entrance_scale %>
                 <%= entrance_scale %> <%= entrance_scale %>
               </scale>
-              <uri>model://mine_entrance/meshes/Entrance.obj</uri>
+              <uri>model://tunnel_entrance/meshes/Entrance.obj</uri>
             </mesh>
           </geometry>
         </collision>
@@ -233,7 +233,7 @@
                 <%= entrance_scale %>
                 <%= entrance_scale %> <%= entrance_scale %>
               </scale>
-              <uri>model://mine_entrance/meshes/Entrance.obj</uri>
+              <uri>model://tunnel_entrance/meshes/Entrance.obj</uri>
             </mesh>
           </geometry>
         </visual>

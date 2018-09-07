@@ -53,7 +53,7 @@
     </model>
 
     
-    <model name="mine_entrance">
+    <model name="tunnel_entrance">
       <pose>
         10
         0
@@ -71,7 +71,7 @@
                 0.008
                 0.008 0.008
               </scale>
-              <uri>model://mine_entrance/meshes/Entrance.obj</uri>
+              <uri>model://tunnel_entrance/meshes/Entrance.obj</uri>
             </mesh>
           </geometry>
         </collision>
@@ -82,7 +82,7 @@
                 0.008
                 0.008 0.008
               </scale>
-              <uri>model://mine_entrance/meshes/Entrance.obj</uri>
+              <uri>model://tunnel_entrance/meshes/Entrance.obj</uri>
             </mesh>
           </geometry>
         </visual>
