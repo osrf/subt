@@ -19,6 +19,7 @@
 /// \brief Broker for handling message delivery among robots.
 
 #include <deque>
+#include <map>
 #include <string>
 #include <vector>
 #include "subt_gazebo/protobuf/datagram.pb.h"

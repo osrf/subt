@@ -26,6 +26,9 @@
 #include <gazebo/physics/physics.hh>
 #include <ignition/transport/Node.hh>
 #include <sdf/sdf.hh>
+#include "subt_gazebo/Broker.hh"
+#include "subt_gazebo/CommsModel.hh"
+#include "subt_gazebo/SwarmTypes.hh"
 
 namespace subt
 {
@@ -41,14 +44,21 @@ namespace gazebo
   /// \brief A plugin that centralizes all SubT robot-to-robot communication.
   class CommsBrokerPlugin : public WorldPlugin
   {
+    /// \brief Class constructor.
+    public: CommsBrokerPlugin() = default;
+
     // Documentation inherited
     public: virtual void Load(physics::WorldPtr _world, sdf::ElementPtr _sdf);
 
     /// \brief Callback for World Update events.
     private: void OnUpdate();
 
-    /// \brief Process all incoming messages.
-    private: void ProcessIncomingMsgs();
+    /// \brief Send a message to each swarm member
+    /// with its updated neighbors list.
+    private: void NotifyNeighbors();
+
+    /// \brief Dispatch all incoming messages.
+    private: void DispatchMessages();
 
     /// \brief Callback executed when a new request is received.
     /// \param _req The datagram contained in the request.
@@ -65,18 +75,29 @@ namespace gazebo
     /// \brief Connection to World Update events.
     private: event::ConnectionPtr updateConnection;
 
-    /// \brief An Ignition Transport node for communications.
-    private: ignition::transport::Node node;
-
-    /// \brief Collection of incoming messages received during the last
-    /// simulation step.
-    private: std::queue<subt::msgs::Datagram> incomingMsgs;
-
-    /// \brief Vector of registered addresses.
-    private: std::vector<std::string> addresses;
+    /// \brief Information about the members of the swarm.
+    private: subt::SwarmMembershipPtr swarm;
 
     /// \brief Protect data from races.
     private: std::mutex mutex;
+
+    /// \brief Comms model that we're using.
+    private: std::unique_ptr<subt::CommsModel> commsModel;
+
+    /// \brief Broker instance.
+    private: subt::Broker broker;
+
+    /// \brief An Ignition Transport node for communications.
+    private: ignition::transport::Node node;
+
+    /// \brief Maximum data rate allowed per simulation cycle (bits).
+    private: uint32_t maxDataRatePerCycle;
+
+    /// \brief Random engine used to shuffle the messages.
+    private: std::default_random_engine rndEngine;
+
+    /// \brief Vector of registered addresses.
+    private: std::vector<std::string> addresses;
   };
 }
 #endif

@@ -73,6 +73,18 @@ void CommsModel::Update()
 }
 
 //////////////////////////////////////////////////
+uint32_t CommsModel::MaxDataRate() const
+{
+  return this->commsDataRateMax;
+}
+
+//////////////////////////////////////////////////
+uint16_t CommsModel::UdpOverhead() const
+{
+  return this->udpOverhead;
+}
+
+//////////////////////////////////////////////////
 void CommsModel::LoadParameters(sdf::ElementPtr _sdf)
 {
   GZ_ASSERT(_sdf, "CommsModel::LoadParameters() error: _sdf pointer is NULL");
@@ -314,14 +326,17 @@ void CommsModel::UpdateNeighborList(const std::string &_address)
     // this neighbor arriving successfully.
     auto commsProb = 1.0;
 
-    if ((commsProb > 0.0) &&
-        (this->commsDistanceMin > 0.0) &&
+    if ((this->commsDistanceMin > 0.0) &&
         (this->commsDistanceMin > commsDist))
+    {
       commsProb = 0.0;
+    }
     if ((commsProb > 0.0) &&
         (this->commsDistanceMax >= 0.0) &&
         (this->commsDistanceMax < commsDist))
+    {
       commsProb = 0.0;
+    }
 
     if (commsProb > 0.0)
     {

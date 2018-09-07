@@ -52,6 +52,14 @@ namespace subt
     /// between nodes and neighbors).
     public: void Update();
 
+    /// \brief Get the maximum data rate allowed (bits per second).
+    /// \return Maximum data rate allowed (bps).
+    public: uint32_t MaxDataRate() const;
+
+    /// \brief Get the overhead caused by UDP+IP+Ethernet headers (bytes).
+    /// \return The overhead in bytes.
+    public: uint16_t UdpOverhead() const;
+
     /// \brief Check if a "comms_model" block exists in the SDF element of the
     /// plugin. If so, update the value of the default parameters with the one
     /// read from the world file.

@@ -26,7 +26,8 @@
 using namespace subt;
 
 //////////////////////////////////////////////////
-bool Broker::Bind(const std::string &_clientAddress, const std::string &_endpoint)
+bool Broker::Bind(const std::string &_clientAddress,
+  const std::string &_endpoint)
 {
   // Make sure that the same client didn't bind the same end point before.
   if (this->endpoints.find(_endpoint) != this->endpoints.end())
