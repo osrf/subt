@@ -22,6 +22,7 @@
 
 #include <chrono>
 #include <cstdlib>
+#include <random>
 #include <string>
 #include <thread>
 
@@ -68,6 +69,20 @@ namespace subt
       ++i;
       std::this_thread::sleep_for(_sleepEach);
     }
+  }
+
+  /// \brief Get a random number based on an integer converted to string.
+  /// \return A random integer converted to string.
+  std::string getRandomNumber()
+  {
+    // Initialize random number generator.
+    uint32_t seed = std::random_device {}();
+    std::mt19937 randGenerator(seed);
+
+    // Create a random number based on an integer converted to string.
+    std::uniform_int_distribution<int32_t> d(0, INT_MAX);
+
+    return std::to_string(d(randGenerator));
   }
 }
 

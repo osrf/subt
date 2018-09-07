@@ -19,6 +19,8 @@
 
 #include <mutex>
 #include <queue>
+#include <string>
+#include <vector>
 #include <gazebo/common/Event.hh>
 #include <gazebo/common/Plugin.hh>
 #include <gazebo/physics/physics.hh>
@@ -52,6 +54,11 @@ namespace gazebo
     /// \param _req The datagram contained in the request.
     private: void OnMessage(const subt::msgs::Datagram &_req);
 
+    /// \brief Callback executed when a new registration request is received.
+    /// \param _req The address contained in the request.
+    private: bool OnRegistration(const ignition::msgs::StringMsg &_req,
+                                 ignition::msgs::Boolean &_rep);
+
     /// \brief World pointer.
     private: physics::WorldPtr world;
 
@@ -64,6 +71,9 @@ namespace gazebo
     /// \brief Collection of incoming messages received during the last
     /// simulation step.
     private: std::queue<subt::msgs::Datagram> incomingMsgs;
+
+    /// \brief Vector of registered addresses.
+    private: std::vector<std::string> addresses;
 
     /// \brief Protect data from races.
     private: std::mutex mutex;

@@ -73,6 +73,10 @@ namespace subt
               const std::string &_address = "",
               const int _port = kDefaultPort)
     {
+      // Sanity check: Make sure that the communications are enabled.
+      if (!this->enabled)
+        return false;
+
       // Sanity check: Make sure that we're using a valid address.
       if (this->Host().empty())
         return false;
@@ -156,6 +160,11 @@ namespace subt
                          const uint32_t _dstPort,
                          const std::string &_data)>;
 
+    /// \brief Register the current address. This will make a synchronous call
+    /// to the broker to validate and register the address.
+    /// \return True when the address is valid or false otherwise.
+    private: bool Register();
+
     /// \brief The local address.
     private: const std::string localAddress;
 
@@ -168,6 +177,10 @@ namespace subt
     /// \brief User callbacks. The key is the topic name
     /// (e.g.: "/subt/192.168.2.1/4000") and the value is the user callback.
     private: std::map<std::string, Callback_t> callbacks;
+
+    /// \brief True when the broker validated my address. Enabled must be true
+    /// for being able to send and receive data.
+    private: bool enabled = false;
   };
 }
 #endif

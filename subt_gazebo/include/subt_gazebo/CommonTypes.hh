@@ -32,6 +32,9 @@ namespace subt
   /// \brief Address used to centralize all messages sent from the agents.
   const std::string kBrokerService = "broker";
 
+  /// \brief Address used to validate an address.
+  const std::string kRegistrationService = "address/register";
+
   /// \brief Default port.
   const uint32_t kDefaultPort = 4100u;
 
