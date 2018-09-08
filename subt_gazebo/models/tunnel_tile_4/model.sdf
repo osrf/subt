@@ -1,0 +1,114 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="tunnel_tile_4">
+    <static>true</static>
+    <link name="link">
+      <pose>0 0 0 0 0 0</pose>
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://tunnel_tile_4/meshes/tunnel_tile_4.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+
+      <collision name="collision_ground_1">
+        <pose>0 9.32313 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>4.96733 1.35375 0.001</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="collision_ground_2">
+        <pose>0 5.630 0.600 -0.196366994 0 0</pose>
+        <geometry>
+          <box>
+            <size>4.96733 6.1507 0.001</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="collision_ground_3">
+        <pose>0 0 1.2 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>4.96733 5.2175 0.001</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="collision_ground_4">
+        <pose>0 -5.620 0.600000 0.196366994 0 0</pose>
+        <geometry>
+          <box>
+            <size>4.96733 6.1507 0.001</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="collision_ground_5">
+        <pose>0 -9.31813 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>4.96733 1.36375 0.001</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="collision_ground_6">
+        <pose>9.32313 0 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>1.35375 4.96733 0.001</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="collision_ground_7">
+        <pose>5.630 0 -1.25 0 -0.39287361 0</pose>
+        <geometry>
+          <box>
+            <size>6.53001 4.96733 0.001</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="collision_ground_8">
+        <pose>0 0 -2.5 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>5.2175 4.96733 0.001</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="collision_ground_9">
+        <pose>-5.620 0 -1.25 0 0.39287361 0</pose>
+        <geometry>
+          <box>
+            <size>6.53001 4.96733 0.001</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="collision_ground_10">
+        <pose>-9.31813 0 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>1.36375 4.96733 0.001</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://tunnel_tile_4/meshes/tunnel_tile_4.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>
