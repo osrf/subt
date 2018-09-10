@@ -35,7 +35,8 @@ namespace gazebo
     public: LightVisualPlugin();
 
     // Documentation inherited
-    public: virtual void Load(rendering::VisualPtr _parent, sdf::ElementPtr _sdf);
+    public: virtual void Load(rendering::VisualPtr _parent,
+        sdf::ElementPtr _sdf);
 
     /// \brief PreRender event callback
     public: virtual void PreRender();

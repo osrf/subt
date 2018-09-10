@@ -18,7 +18,6 @@
 #include <map>
 
 #include <gazebo/common/Assert.hh>
-#include <gazebo/common/Assert.hh>
 #include <gazebo/common/Events.hh>
 
 #include "subt_gazebo/CommonTypes.hh"
@@ -100,7 +99,8 @@ void LightVisualPlugin::PreRender()
   for (auto lightIt = this->dataPtr->lights.begin();
       lightIt != this->dataPtr->lights.end();)
   {
-    rendering::LightPtr light = this->dataPtr->scene->LightByName(lightIt->first);
+    rendering::LightPtr light =
+        this->dataPtr->scene->LightByName(lightIt->first);
     if (light)
     {
       light->ShowVisual(lightIt->second);
