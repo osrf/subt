@@ -78,6 +78,12 @@
               <specular>1 1 1 1</specular>
               <emissive>${default_color} 1</emissive>
             </material>
+            <plugin name='light_source_visualize' filename='libLightVisualPlugin.so'>
+              <light>
+                <id>lamp</id>
+                <visualize>false</visualize>
+              </light>
+            </plugin>
           </visual>
         </link>
         <joint name='joint' type='fixed'>
