@@ -19,6 +19,7 @@
 #include <string>
 
 #include "subt_gazebo/protobuf/datagram.pb.h"
+#include "subt_gazebo/protobuf/neighbor_m.pb.h"
 #include "subt_gazebo/CommonTypes.hh"
 #include "subt_gazebo/CommsClient.hh"
 
@@ -37,8 +38,7 @@ CommsClient::CommsClient(const std::string &_localAddress)
   }
 
   // Subscribe to the topic where neighbor updates are notified.
-  if (!this->node.Subscribe(kNeighborsTopic, &CommsClient::OnNeighborsReceived,
-        this))
+  if (!this->node.Subscribe(kNeighborsTopic, &CommsClient::OnNeighbors, this))
   {
     std::cerr << "Error subscribing to topic [" << kNeighborsTopic << "]"
               << std::endl;
@@ -136,7 +136,7 @@ void CommsClient::OnMessage(const msgs::Datagram &_msg)
 }
 
 //////////////////////////////////////////////////
-void CommsClient::OnNeighborsReceived(const msgs::Neighbor_M &_neighbors)
+void CommsClient::OnNeighbors(const msgs::Neighbor_M &_neighbors)
 {
   std::lock_guard<std::mutex> lock(this->mutex);
 

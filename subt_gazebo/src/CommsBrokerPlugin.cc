@@ -149,12 +149,15 @@ void CommsBrokerPlugin::DispatchMessages()
         if (ignition::math::Rand::DblUniform(0.0, 1.0) < neighborProb)
         {
           // Debug output
-          // gzdbg << "Sending message from " << msg.src_address() << " to "
-          //       << client.address << " (addressed to " << msg.dst_address()
-          //       << ")" << std::endl;
-
-          // ToDo(caguero): Send message.
-          // client.handler->OnMsgReceived(msg);
+          std::cout << "Sending message from " << msg.src_address() << " to "
+                    << client.address << " (addressed to " << msg.dst_address()
+                    << ")" << std::endl;
+          if (this->node.Request(client.address, msg))
+          {
+            std::cerr << "[CommsBrokerPlugin::DispatchMessages()]: Error "
+                      << "sending message to [" << client.address << "]" 
+                      << std::endl;
+          }
         }
         // else
         // {

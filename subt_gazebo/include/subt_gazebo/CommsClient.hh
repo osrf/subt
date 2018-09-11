@@ -37,6 +37,7 @@ namespace subt
   {
     /// \brief Constructor.
     /// \param[in] _localAddress Your local address.
+    /// Important: This address must be equal to a Gazebo model name.
     public: explicit CommsClient(const std::string &_localAddress);
 
     /// \brief Get your local address.
@@ -133,8 +134,8 @@ namespace subt
         return false;
       }
 
-      // Advertise oneway service for receiving message requests.
-      if (!this->node.Advertise(endPoint, &CommsClient::OnMessage, this))
+      // Advertise a oneway service for receiving message requests.
+      if (!this->node.Advertise(address, &CommsClient::OnMessage, this))
         return false;
 
       this->callbacks[endPoint] = std::bind(_cb, _obj, std::placeholders::_1,
@@ -144,9 +145,26 @@ namespace subt
       const auto bcastEndpoint = kBroadcast + ":" + std::to_string(_port);
       if (this->callbacks.find(bcastEndpoint) == this->callbacks.end())
       {
-        // Advertise oneway service for receiving message requests.
-        if (!this->node.Advertise(bcastEndpoint, &CommsClient::OnMessage, this))
+        req.Clear();
+        req.add_data(address);
+        req.add_data(bcastEndpoint);
+
+        executed = this->node.Request(
+          kEndPointRegistrationSrv, req, timeout, rep, result);
+
+        if (!executed)
+        {
+          std::cerr << "[CommsClient] Endpoint registration service not "
+                    << "available" << std::endl;
           return false;
+        }
+
+        if (!result)
+        {
+          std::cerr << "[CommsClient] Invalid data. Did you send the address "
+                    << "followed by the endpoint?" << std::endl;
+          return false;
+        }
 
         this->callbacks[bcastEndpoint] = std::bind(_cb, _obj,
           std::placeholders::_1, std::placeholders::_2,
@@ -191,8 +209,7 @@ namespace subt
     /// notifies these updates.
     ///
     /// \param[in] _neighbors The list of neighbors.
-    private: void OnNeighborsReceived(
-      const msgs::Neighbor_M &_neighbors);
+    private: void OnNeighbors(const msgs::Neighbor_M &_neighbors);
 
     /// \def Callback_t
     /// \brief The callback specified by the user when new data is available.

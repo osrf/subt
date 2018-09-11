@@ -22,6 +22,7 @@
 #include <gazebo/common/Event.hh>
 #include <gazebo/common/Plugin.hh>
 #include <gazebo/physics/physics.hh>
+#include <ignition/transport/Node.hh>
 #include <sdf/sdf.hh>
 #include "subt_gazebo/Broker.hh"
 #include "subt_gazebo/CommsModel.hh"
@@ -72,6 +73,9 @@ namespace gazebo
 
     /// \brief Random engine used to shuffle the messages.
     private: std::default_random_engine rndEngine;
+
+    /// \brief An Ignition Transport node to communicate with clients.
+    private: ignition::transport::Node node;
   };
 }
 #endif

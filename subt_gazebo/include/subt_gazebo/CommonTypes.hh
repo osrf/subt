@@ -46,7 +46,6 @@ namespace subt
 
   /// \brief Scoped name of collision which detects an entering object in the
   /// start area to initiate the game.
-  const std::string kStartCollisionName
-    = "start_area::link::collision";
+  const std::string kStartCollisionName  = "start_area::link::collision";
 }
 #endif
