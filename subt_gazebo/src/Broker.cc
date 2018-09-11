@@ -72,6 +72,7 @@ Broker::Broker()
 //////////////////////////////////////////////////
 void Broker::Reset()
 {
+  std::lock_guard<std::mutex> lk(this->mutex);
   this->incomingMsgs.clear();
   this->endpoints.clear();
 }

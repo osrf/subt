@@ -46,6 +46,8 @@ void CommsBrokerPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
 /////////////////////////////////////////////////
 void CommsBrokerPlugin::OnUpdate()
 {
+  // We need to lock the broker mutex from the outside because "commsModel"
+  // accesses its "swarm" member variable.
   std::lock_guard<std::mutex> lock(this->broker.Mutex());
 
   // Update the state of the communication model.
@@ -58,4 +60,10 @@ void CommsBrokerPlugin::OnUpdate()
   // the message according to the communication model.
   this->broker.DispatchMessages(
       this->maxDataRatePerCycle, this->commsModel->UdpOverhead());
+}
+
+/////////////////////////////////////////////////
+void CommsBrokerPlugin::Reset()
+{
+  this->broker.Reset();
 }

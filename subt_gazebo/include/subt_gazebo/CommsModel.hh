@@ -136,7 +136,7 @@ namespace subt
 
     /// \brief UDP header (8 bytes) + IPv4 header (20 bytes) +
     /// Ethernet 28 (bytes).
-    private: static const uint16_t udpOverhead = 56;
+    private: uint16_t udpOverhead = 56;
 
     /// \brief Pointer to the swarm.
     private: SwarmMembershipPtr swarm;

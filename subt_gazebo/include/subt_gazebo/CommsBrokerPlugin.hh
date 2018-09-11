@@ -34,7 +34,11 @@ namespace gazebo
     public: CommsBrokerPlugin() = default;
 
     // Documentation inherited
-    public: virtual void Load(physics::WorldPtr _world, sdf::ElementPtr _sdf);
+    public: virtual void Load(physics::WorldPtr _world,
+                              sdf::ElementPtr _sdf);
+
+    // Documentation inherited
+    public: virtual void Reset();
 
     /// \brief Callback for World Update events.
     private: void OnUpdate();
