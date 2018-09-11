@@ -62,10 +62,6 @@ bool CommsClient::SendTo(const std::string &_data,
   if (!this->enabled)
     return false;
 
-  // Sanity check: Make sure that we're using a valid address.
-  if (this->Host().empty())
-    return false;
-
   // Restrict the maximum size of a message.
   if (_data.size() > this->kMtu)
   {
@@ -99,7 +95,7 @@ bool CommsClient::Register()
 
   ignition::msgs::Boolean rep;
   bool result;
-  unsigned int timeout = 5000u;
+  const unsigned int timeout = 300u;
 
   bool executed = this->node.Request(
     kAddrRegistrationSrv, req, timeout, rep, result);
@@ -125,6 +121,7 @@ void CommsClient::OnMessage(const msgs::Datagram &_msg)
 {
   auto endPoint = _msg.dst_address() + ":" + std::to_string(_msg.dst_port());
 
+  std::lock_guard<std::mutex> lock(this->mutex);
   for (auto cb : this->callbacks)
   {
     if (cb.first == endPoint && cb.second)

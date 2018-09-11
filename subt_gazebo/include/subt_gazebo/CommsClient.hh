@@ -81,10 +81,6 @@ namespace subt
       if (!this->enabled)
         return false;
 
-      // Sanity check: Make sure that we're using a valid address.
-      if (this->Host().empty())
-        return false;
-
       // Use current address if _address is not provided.
       std::string address = _address;
       if (address.empty())
@@ -99,76 +95,73 @@ namespace subt
       }
 
       // Mapping the "unicast socket" to a topic name.
-      const auto endPoint = address + ":" + std::to_string(_port);
+      const auto unicastEndPoint = address + ":" + std::to_string(_port);
+      const auto bcastEndpoint = kBroadcast + ":" + std::to_string(_port);
+      bool bcastAdvertiseNeeded;
 
-      // Sanity check: Make sure that this address is not already used.
-      if (this->callbacks.find(endPoint) != this->callbacks.end())
       {
-        std::cerr << "[" << this->Host() << "] Bind() error: Address ["
-                  << address << "] already used" << std::endl;
-        return false;
+        std::lock_guard<std::mutex> lock(this->mutex);
+  
+        // Sanity check: Make sure that this address is not already used.
+        if (this->callbacks.find(unicastEndPoint) != this->callbacks.end())
+        {
+          std::cerr << "[" << this->Host() << "] Bind() error: Address ["
+                    << address << "] already used" << std::endl;
+          return false;
+        }
+
+        bcastAdvertiseNeeded = 
+          this->callbacks.find(bcastEndpoint) == this->callbacks.end();
       }
 
-      // Register the endpoint in the broker.
-      ignition::msgs::StringMsg_V req;
-      req.add_data(address);
-      req.add_data(endPoint);
-
-      ignition::msgs::Boolean rep;
-      bool result;
-      unsigned int timeout = 1000u;
-      bool executed = this->node.Request(
-        kEndPointRegistrationSrv, req, timeout, rep, result);
-
-      if (!executed)
+      // Register the endpoints in the broker.
+      // Note that the broadcast endpoint will only be registered once.
+      for (std::string endpoint : {unicastEndPoint, bcastEndpoint})
       {
-        std::cerr << "[CommsClient] Endpoint registration service not available"
-                  << std::endl;
-        return false;
-      }
-
-      if (!result)
-      {
-        std::cerr << "[CommsClient] Invalid data. Did you send the address "
-                  << "followed by the endpoint?" << std::endl;
-        return false;
+        if (endpoint != bcastEndpoint || bcastAdvertiseNeeded)
+        {
+          ignition::msgs::StringMsg_V req;
+          req.add_data(address);
+          req.add_data(endpoint);
+    
+          const unsigned int timeout = 300u;
+          ignition::msgs::Boolean rep;
+          bool result;
+          bool executed = this->node.Request(
+            kEndPointRegistrationSrv, req, timeout, rep, result);
+    
+          if (!executed)
+          {
+            std::cerr << "[CommsClient] Endpoint registration srv not available"
+                      << std::endl;
+            return false;
+          }
+    
+          if (!result)
+          {
+            std::cerr << "[CommsClient] Invalid data. Did you send the address "
+                      << "followed by the endpoint?" << std::endl;
+            return false;
+          }
+        }
       }
 
       // Advertise a oneway service for receiving message requests.
       if (!this->node.Advertise(address, &CommsClient::OnMessage, this))
         return false;
 
-      this->callbacks[endPoint] = std::bind(_cb, _obj, std::placeholders::_1,
-        std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-
-      // Advertise the broadcast endpoint if we haven't done it yet.
-      const auto bcastEndpoint = kBroadcast + ":" + std::to_string(_port);
-      if (this->callbacks.find(bcastEndpoint) == this->callbacks.end())
+      // Register the callbacks.
       {
-        req.Clear();
-        req.add_data(address);
-        req.add_data(bcastEndpoint);
-
-        executed = this->node.Request(
-          kEndPointRegistrationSrv, req, timeout, rep, result);
-
-        if (!executed)
+        std::lock_guard<std::mutex> lock(this->mutex);
+        for (std::string endpoint : {unicastEndPoint, bcastEndpoint})
         {
-          std::cerr << "[CommsClient] Endpoint registration service not "
-                    << "available" << std::endl;
-          return false;
+          if (endpoint != bcastEndpoint || bcastAdvertiseNeeded)
+          {
+            this->callbacks[endpoint] = std::bind(_cb, _obj,
+              std::placeholders::_1, std::placeholders::_2,
+              std::placeholders::_3, std::placeholders::_4);
+          }
         }
-
-        if (!result)
-        {
-          std::cerr << "[CommsClient] Invalid data. Did you send the address "
-                    << "followed by the endpoint?" << std::endl;
-          return false;
-        }
-
-        this->callbacks[bcastEndpoint] = std::bind(_cb, _obj,
-          std::placeholders::_1, std::placeholders::_2,
-          std::placeholders::_3, std::placeholders::_4);
       }
 
       return true;
