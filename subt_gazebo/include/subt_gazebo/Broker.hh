@@ -22,7 +22,10 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <ignition/msgs.hh>
+#include <ignition/transport/Node.hh>
 #include "subt_gazebo/protobuf/datagram.pb.h"
+#include "subt_gazebo/SwarmTypes.hh"
 
 #ifndef SUBT_GAZEBO_BROKER_HH_
 #define SUBT_GAZEBO_BROKER_HH_
@@ -46,7 +49,7 @@ namespace subt
   class Broker
   {
     /// \brief Constructor.
-    public: Broker() = default;
+    public: Broker();
 
     /// \brief Destructor.
     public: virtual ~Broker() = default;
@@ -71,10 +74,6 @@ namespace subt
     /// id was already registered).
     public: bool Register(const std::string &_id);
 
-    /// \brief Get the list of registered clients.
-    /// \return Collection of registered clients.
-    public: const std::vector<std::string> &Clients() const;
-
     /// \brief Get the list of endpoints bound.
     /// \return Map of endpoints. The key is the endpoint and the value is a
     /// vector containing the information of all the clients bound to this
@@ -95,16 +94,41 @@ namespace subt
     /// \brief Handle reset.
     public: void Reset();
 
+    /// \brief Get a mutator to the swarm.
+    /// \return A mutator to the swarm.
+    public: subt::SwarmMembershipPtr Swarm();
+
+    /// \brief Send a message to each member
+    /// with its updated neighbors list.
+    public: void NotifyNeighbors();
+
+    /// \brief Callback executed when a new registration request is received.
+    /// \param _req The address contained in the request.
+    private: bool OnRegistration(const ignition::msgs::StringMsg &_req,
+                                 ignition::msgs::Boolean &_rep);
+
+    /// \brief Callback executed when a new request is received.
+    /// \param _req The datagram contained in the request.
+    private: void OnMessage(const subt::msgs::Datagram &_req);
+
     /// \brief Queue to store the incoming messages received from the clients.
     protected: std::deque<msgs::Datagram> incomingMsgs;
-
-    /// \brief List of clients. The key is the ID of the client and the value
-    /// is a pointer to each client.
-    protected: std::vector<std::string> clients;
 
     /// \brief List of bound endpoints. The key is an endpoint and the
     /// value is the vector of clients bounded on that endpoint.
     protected: EndPoints_M endpoints;
+
+    /// \brief Information about the members of the swarm.
+    protected: subt::SwarmMembershipPtr swarm;
+
+    /// \brief An Ignition Transport node for communications.
+    private: ignition::transport::Node node;
+
+    /// \brief The publisher for notifying neighbor updates.
+    private: ignition::transport::Node::Publisher neighborPub;
+
+    /// \brief Protect data from races.
+    private: std::mutex mutex;
   };
 }  // namespace
 #endif

@@ -27,6 +27,7 @@ file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include)
 
 find_package(gazebo REQUIRED)
 find_package(ignition-transport4 REQUIRED)
+find_package(ignition-msgs1 REQUIRED)
 
 ########################
 ## Message generation ##

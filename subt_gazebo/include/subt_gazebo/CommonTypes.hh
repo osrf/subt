@@ -35,6 +35,9 @@ namespace subt
   /// \brief Address used to validate an address.
   const std::string kRegistrationService = "address/register";
 
+  /// \brief Address used to receive neighbor updates.
+  const std::string kNeighborsTopic = "neighbors";
+
   /// \brief Default port.
   const uint32_t kDefaultPort = 4100u;
 

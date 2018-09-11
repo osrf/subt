@@ -15,15 +15,47 @@
  *
 */
 
-#include <algorithm>
-#include <deque>
 #include <iostream>
-#include <map>
-#include <string>
+#include <gazebo/physics/PhysicsIface.hh>
+#include <gazebo/physics/World.hh>
 #include "subt_gazebo/protobuf/datagram.pb.h"
+#include "subt_gazebo/protobuf/neighbor_m.pb.h"
 #include "subt_gazebo/Broker.hh"
+#include "subt_gazebo/CommonTypes.hh"
 
 using namespace subt;
+
+//////////////////////////////////////////////////
+Broker::Broker()
+  : swarm(std::make_shared<SwarmMembership_M>())
+{
+  // Advertise the service for registering addresses.
+  if (!this->node.Advertise(kRegistrationService, &Broker::OnRegistration,
+        this))
+  {
+    std::cerr << "Error advertising service [" << kRegistrationService << "]"
+              << std::endl;
+    return;
+  }
+
+  // Advertise a oneway service for centralizing all message requests.
+  if (!this->node.Advertise(kBrokerService, &Broker::OnMessage, this))
+  {
+    std::cerr << "Error advertising service [" << kBrokerService << "]"
+              << std::endl;
+    return;
+  }
+
+  // Advertise a topic for notifying neighbor updates.
+  this->neighborPub =
+    this->node.Advertise<subt::msgs::Neighbor_M>(kNeighborsTopic);
+  if (!this->neighborPub)
+  {
+    std::cerr << "Error advertising topic [" << kNeighborsTopic << "]"
+              << std::endl;
+    return;
+  }
+}
 
 //////////////////////////////////////////////////
 bool Broker::Bind(const std::string &_clientAddress,
@@ -60,22 +92,32 @@ void Broker::Push(const msgs::Datagram &_msg)
 //////////////////////////////////////////////////
 bool Broker::Register(const std::string &_id)
 {
-  if (std::find(this->clients.begin(), this->clients.end(), _id) !=
-        this->clients.end())
+  if (this->swarm->find(_id) != this->swarm->end())
   {
     std::cerr << "Logger::Register() error: ID [" << _id << "] already exists"
               << std::endl;
     return false;
   }
 
-  this->clients.push_back(_id);
-  return true;
-}
+  std::cout << "Broker::Register() Name: [" << _id << "]" << std::endl;
 
-//////////////////////////////////////////////////
-const std::vector<std::string> &Broker::Clients() const
-{
-  return this->clients;
+  auto const &model = gazebo::physics::get_world()->ModelByName(_id);
+  if (!model)
+  {
+    std::cerr << "Broker::Register(): Error getting a model"
+              << "pointer for model [" << _id << "]" << std::endl;
+    return false;
+  }
+
+  auto newMember = std::make_shared<SwarmMember>();
+
+  // Name and address are the same in SubT.
+  newMember->address = _id;
+  newMember->name = _id;
+  newMember->model = model;
+  (*this->swarm)[_id] = newMember;
+
+  return true;
 }
 
 //////////////////////////////////////////////////
@@ -95,16 +137,14 @@ std::deque<msgs::Datagram> &Broker::Messages()
 bool Broker::Unregister(const std::string &_id)
 {
   // Sanity check: Make sure that the ID exists.
-  if (std::find(this->clients.begin(), this->clients.end(), _id) ==
-        this->clients.end())
+  if (this->swarm->find(_id) == this->swarm->end())
   {
     std::cerr << "Broker::Unregister() error: ID [" << _id << "] doesn't exist"
               << std::endl;
     return false;
   }
 
-  this->clients.erase(std::remove(
-    this->clients.begin(), this->clients.end(), _id), this->clients.end());
+  this->swarm->erase(_id);
 
   // Unbind.
   for (auto &endpointKv : this->endpoints)
@@ -129,4 +169,61 @@ void Broker::Reset()
 {
   this->incomingMsgs.clear();
   this->endpoints.clear();
+}
+
+//////////////////////////////////////////////////
+subt::SwarmMembershipPtr Broker::Swarm()
+{
+  return this->swarm;
+}
+
+//////////////////////////////////////////////////
+void Broker::NotifyNeighbors()
+{
+  subt::msgs::Neighbor_M neighbors;
+
+  // Send neighbors updates to each member of the swarm.
+  for (auto const &robot : (*this->Swarm()))
+  {
+    auto address = robot.first;
+    auto swarmMember = (*this->Swarm())[address];
+
+    // Populate the list of neighbors for this address.
+    ignition::msgs::StringMsg_V v;
+    for (auto const &neighbor : swarmMember->neighbors)
+      v.add_data(neighbor.first);
+
+    // Add the list of neighbors for each address.
+    (*neighbors.mutable_neighbors())[address] = v;
+  }
+
+  // Notify all clients the updated list of neighbors.
+  this->neighborPub.Publish(neighbors);
+}
+
+/////////////////////////////////////////////////
+bool Broker::OnRegistration(const ignition::msgs::StringMsg &_req,
+    ignition::msgs::Boolean &_rep)
+{
+  std::string address = _req.data();
+  bool result;
+
+  {
+    std::lock_guard<std::mutex> lk(this->mutex);
+    result = this->Register(address);
+  }
+
+  _rep.set_data(result);
+
+  return result;
+}
+
+/////////////////////////////////////////////////
+void Broker::OnMessage(const subt::msgs::Datagram &_req)
+{
+  // Just save the message, it will be processed later.
+  std::lock_guard<std::mutex> lk(this->mutex);
+
+  // Save the message.
+  this->incomingMsgs.push_back(_req);
 }

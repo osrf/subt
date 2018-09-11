@@ -33,6 +33,16 @@ CommsClient::CommsClient(const std::string &_localAddress)
   {
     std::cerr << "CommsClient::CommsClient() error: Local address shouldn't "
               << "be empty" << std::endl;
+    return;
+  }
+
+  // Subscribe to the topic where neighbor updates are notified.
+  if (!this->node.Subscribe(kNeighborsTopic, &CommsClient::OnNeighborsReceived,
+        this))
+  {
+    std::cerr << "Error subscribing to topic [" << kNeighborsTopic << "]"
+              << std::endl;
+    return;
   }
 
   this->enabled = this->Register();
@@ -75,18 +85,10 @@ bool CommsClient::SendTo(const std::string &_data,
 }
 
 //////////////////////////////////////////////////
-void CommsClient::OnMessage(const msgs::Datagram &_msg)
+std::vector<std::string> CommsClient::Neighbors() const
 {
-  auto endPoint = _msg.dst_address() + ":" + std::to_string(_msg.dst_port());
-
-  for (auto cb : this->callbacks)
-  {
-    if (cb.first == endPoint && cb.second)
-    {
-      cb.second(_msg.src_address(), _msg.dst_address(),
-                _msg.dst_port(), _msg.data());
-    }
-  }
+  std::lock_guard<std::mutex> lock(this->mutex);
+  return this->neighbors;
 }
 
 //////////////////////////////////////////////////
@@ -116,4 +118,41 @@ bool CommsClient::Register()
   }
 
   return true;
+}
+
+//////////////////////////////////////////////////
+void CommsClient::OnMessage(const msgs::Datagram &_msg)
+{
+  auto endPoint = _msg.dst_address() + ":" + std::to_string(_msg.dst_port());
+
+  for (auto cb : this->callbacks)
+  {
+    if (cb.first == endPoint && cb.second)
+    {
+      cb.second(_msg.src_address(), _msg.dst_address(),
+                _msg.dst_port(), _msg.data());
+    }
+  }
+}
+
+//////////////////////////////////////////////////
+void CommsClient::OnNeighborsReceived(const msgs::Neighbor_M &_neighbors)
+{
+  std::lock_guard<std::mutex> lock(this->mutex);
+
+  std::cout << "Neighbor update" << std::endl;
+  this->neighbors.clear();
+
+  if (_neighbors.neighbors().find(this->localAddress) ==
+        _neighbors.neighbors().end())
+  {
+    std::cerr << "[CommsClient::OnNeighborsReceived] My current address ["
+              << this->localAddress << "] is not included in this neightbor "
+              << "update" << std::endl;
+    return;
+  }
+
+  auto currentNeighbors = _neighbors.neighbors().at(this->localAddress);
+  for (int i = 0; i < currentNeighbors.data().size(); ++i)
+    this->neighbors.push_back(currentNeighbors.data(i));
 }

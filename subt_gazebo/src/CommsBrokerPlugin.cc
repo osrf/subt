@@ -35,30 +35,13 @@ void CommsBrokerPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
   GZ_ASSERT(_sdf,   "CommsBrokerPlugin::Load() error: _sdf pointer is NULL");
 
   this->world = _world;
-  this->swarm = std::make_shared<SwarmMembership_M>();
-  this->rndEngine = std::default_random_engine(ignition::math::Rand::Seed());
-  this->commsModel.reset(new subt::CommsModel(this->swarm, this->world, _sdf));
+    this->rndEngine = std::default_random_engine(ignition::math::Rand::Seed());
+  this->commsModel.reset(new subt::CommsModel(
+    this->broker.Swarm(), this->world, _sdf));
   this->maxDataRatePerCycle = this->commsModel->MaxDataRate() *
       this->world->Physics()->GetMaxStepSize();
   this->updateConnection = event::Events::ConnectWorldUpdateBegin(
       std::bind(&CommsBrokerPlugin::OnUpdate, this));
-
-  // Advertise the service for registering addresses.
-  if (!node.Advertise(kRegistrationService, &CommsBrokerPlugin::OnRegistration,
-    this))
-  {
-    gzerr << "Error advertising service [" << kRegistrationService << "]"
-          << std::endl;
-    return;
-  }
-
-  // Advertise a oneway service for centralizing all message requests.
-  if (!node.Advertise(kBrokerService, &CommsBrokerPlugin::OnMessage, this))
-  {
-    gzerr << "Error advertising service [" << kBrokerService << "]"
-          << std::endl;
-    return;
-  }
 
   gzmsg << "Starting SubT comms broker" << std::endl;
 }
@@ -73,37 +56,13 @@ void CommsBrokerPlugin::OnUpdate()
     this->commsModel->Update();
 
     // Send a message to each swarm member with its updated neighbors list.
-    this->NotifyNeighbors();
+    this->broker.NotifyNeighbors();
   }
 
   // Dispatch all the incoming messages, deciding whether the destination gets
   // the message according to the communication model.
   // Mutex handling is done inside DispatchMessages().
   this->DispatchMessages();
-}
-
-//////////////////////////////////////////////////
-void CommsBrokerPlugin::NotifyNeighbors()
-{
-  const auto &clients = this->broker.Clients();
-
-  // Send neighbors update to each member of the swarm.
-  for (auto const &robot : (*this->swarm))
-  {
-    std::vector<std::string> v;
-    auto address = robot.first;
-    auto swarmMember = (*this->swarm)[address];
-
-    // This address is not registered as a broker client.
-    auto it = std::find(clients.begin(), clients.end(), address);
-    if (it == clients.end())
-      continue;
-
-    for (auto const &neighbor : swarmMember->neighbors)
-      v.push_back(neighbor.first);
-
-    // ToDo(caguero): Notify the node with its updated list of neighbors.
-  }
 }
 
 //////////////////////////////////////////////////
@@ -125,8 +84,10 @@ void CommsBrokerPlugin::DispatchMessages()
   // Get the current list of endpoints and clients bound.
   const EndPoints_M &endpoints = this->broker.EndPoints();
 
+  auto swarm = this->broker.Swarm();
+
   // Clear the data rate usage for each robot.
-  for (const auto &member : (*this->swarm))
+  for (const auto &member : (*swarm))
     member.second->dataRateUsage = 0;
 
   while (!incomingMsgsBuffer.empty())
@@ -136,7 +97,7 @@ void CommsBrokerPlugin::DispatchMessages()
     incomingMsgsBuffer.pop_front();
 
     // Sanity check: Make sure that the sender is a member of the swarm.
-    if (this->swarm->find(msg.src_address()) == this->swarm->end())
+    if (swarm->find(msg.src_address()) == swarm->end())
     {
       gzerr << "BrokerPlugin::DispatchMessages(): Discarding message. Robot ["
             << msg.src_address() << "] is not registered as a member of the "
@@ -145,16 +106,16 @@ void CommsBrokerPlugin::DispatchMessages()
     }
 
     // Get the list of neighbors of the sender.
-    const Neighbors_M &neighbors = (*this->swarm)[msg.src_address()]->neighbors;
+    const Neighbors_M &neighbors = (*swarm)[msg.src_address()]->neighbors;
 
     // Update the data rate usage.
     auto dataSize = (msg.data().size() + this->commsModel->UdpOverhead()) * 8;
-    (*this->swarm)[msg.src_address()]->dataRateUsage += dataSize;
+    (*swarm)[msg.src_address()]->dataRateUsage += dataSize;
     for (const auto &neighbor : neighbors)
     {
       // We account the overhead caused by the UDP/IP/Ethernet headers + the
       // payload. We convert the total amount of bytes to bits.
-      (*this->swarm)[neighbor.first]->dataRateUsage += dataSize;
+      (*swarm)[neighbor.first]->dataRateUsage += dataSize;
     }
 
     std::string dstEndPoint =
@@ -172,8 +133,7 @@ void CommsBrokerPlugin::DispatchMessages()
           continue;
 
         // Check if the maximum data rate has been reached in the destination.
-        if ((*this->swarm)[client.address]->dataRateUsage >
-            this->maxDataRatePerCycle)
+        if ((*swarm)[client.address]->dataRateUsage > this->maxDataRatePerCycle)
         {
           // Debug output
           // gzdbg << "Dropping message (max data rate) from "
@@ -206,48 +166,4 @@ void CommsBrokerPlugin::DispatchMessages()
       }
     }
   }
-}
-
-/////////////////////////////////////////////////
-// void CommsBrokerPlugin::ProcessIncomingMsgs()
-// {
-//   while (!this->incomingMsgs.empty())
-//   {
-//     // Forward the messages.
-//     auto const &msg = this->incomingMsgs.front();
-//     auto endPoint = msg.dst_address() + ":" + std::to_string(msg.dst_port());
-//     this->node.Request(endPoint, msg);
-//     this->incomingMsgs.pop();
-//   }
-// }
-
-/////////////////////////////////////////////////
-void CommsBrokerPlugin::OnMessage(const subt::msgs::Datagram &_req)
-{
-  // Just save the message, it will be processed later.
-  std::lock_guard<std::mutex> lk(this->mutex);
-
-  // ToDo(caguero): Save the message.
-  // this->incomingMsgs.push(_req);
-}
-
-/////////////////////////////////////////////////
-bool CommsBrokerPlugin::OnRegistration(const ignition::msgs::StringMsg &_req,
-                                     ignition::msgs::Boolean &_rep)
-{
-  std::string address = _req.data();
-  bool result;
-
-  {
-    std::lock_guard<std::mutex> lk(this->mutex);
-    result = std::find(this->addresses.begin(), this->addresses.end(),
-      address) == this->addresses.end();
-
-    if (result)
-      this->addresses.push_back(address);
-  }
-
-  _rep.set_data(result);
-
-  return result;
 }
