@@ -3,6 +3,8 @@
 SubT is the software used by teams participating in the DARPA Subterranean
 Challenge.
 
+![tunnel_action-small.jpg](https://bitbucket.org/repo/8ze6Mjd/images/2265205947-tunnel_action-small.jpg)
+
 ## Continuous integration
 
 Please refer to the [Bitbucket Pipelines](https://bitbucket.org/osrf/subt/addon/pipelines/home#!/results/branch/default).
