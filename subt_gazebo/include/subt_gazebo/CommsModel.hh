@@ -66,10 +66,13 @@ namespace subt
     /// \param[in] _sdf Pointer to the SDF element of the plugin.
     private: void LoadParameters(sdf::ElementPtr _sdf);
 
+    /// \brief ToDo.
+    private: void InitializeVisibility();
+
     /// \brief Populate a vector with the pairs of addresses that will be
     /// checked in UpdateVisibility() each iteration. Note that the vector will
     /// contain all combinations of two different elements (not permutations).
-    private: void CacheVisibilityPairs();
+    private: void UpdateVisibilityPairs();
 
     /// \brief Decide if each member of the swarm enters into a comms outage.
     private: void UpdateOutages();
@@ -147,23 +150,8 @@ namespace subt
     /// \brief Keep track of update sim-time.
     private: gazebo::common::Time lastUpdateTime;
 
-    /// \brief Index used compute the next visibility pair.
-    private: unsigned int visibilityIndex = 0;
-
-    /// \brief Number of visibility pairs computed per iteration.
-    private: unsigned int visibilityUpdatesPerCycle;
-
-    /// \brief Number of neighbor updates computed per iteration.
-    private: unsigned int neighborUpdatesPerCycle;
-
-    /// Index used to compute the next neighbor update.
-    private: unsigned int neighborIndex = 0;
-
     /// Vector containing all the addresses of the swarm.
     private: std::vector<std::string> addresses;
-
-    /// Update rate of the comms model.
-    private: double updateRate = 0.5;
   };
 }  // namespace
 #endif

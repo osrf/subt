@@ -42,24 +42,15 @@ CommsModel::CommsModel(SwarmMembershipPtr _swarm,
   GZ_ASSERT(_sdf,   "CommsModel() error: _sdf pointer is NULL");
 
   this->LoadParameters(_sdf);
-
-  this->CacheVisibilityPairs();
-
-  // Initialize visibility.
-  for (auto const &robotA : (*this->swarm))
-  {
-    auto addressA = robotA.second->address;
-    for (auto const &robotB : (*this->swarm))
-    {
-      auto addressB = robotB.second->address;
-      this->visibility[std::make_pair(addressA, addressB)] = false;
-    }
-  }
 }
 
 //////////////////////////////////////////////////
 void CommsModel::Update()
 {
+  this->UpdateVisibilityPairs();
+
+  this->InitializeVisibility();
+
   // Decide if each member of the swarm enters into a comms outage.
   this->UpdateOutages();
 
@@ -143,10 +134,6 @@ void CommsModel::LoadParameters(sdf::ElementPtr _sdf)
       this->commsDataRateMax =
         commsModelElem->Get<double>("comms_data_rate_max");
     }
-    if (commsModelElem->HasElement("update_rate"))
-    {
-      this->updateRate = commsModelElem->Get<double>("update_rate");
-    }
   }
 }
 
@@ -222,21 +209,37 @@ void CommsModel::UpdateOutages()
 }
 
 //////////////////////////////////////////////////
+void CommsModel::InitializeVisibility()
+{
+  // Initialize visibility.
+  for (auto const &robotA : (*this->swarm))
+  {
+    auto addressA = robotA.second->address;
+    for (auto const &robotB : (*this->swarm))
+    {
+      auto addressB = robotB.second->address;
+      this->visibility[std::make_pair(addressA, addressB)] = false;
+    }
+  }
+}
+
+//////////////////////////////////////////////////
 void CommsModel::UpdateVisibility()
 {
-  unsigned int counter = 0;
-
   // All combinations between a pair of vehicles.
-  while (counter < this->visibilityUpdatesPerCycle)
+  for (auto const &keyA : this->visibilityPairs)
   {
-    auto const &keyA = this->visibilityPairs.at(this->visibilityIndex);
     auto addressA = keyA.first;
     auto addressB = keyA.second;
     auto keyB = std::make_pair(addressB, addressA);
 
-    this->visibilityIndex =
-      (this->visibilityIndex + 1) % this->visibilityPairs.size();
-    ++counter;
+    // Sanity check: The model pointers should exist.
+    if (!(*swarm)[addressA]->model || !(*swarm)[addressB]->model)
+    {
+      this->visibility[keyA] = false;
+      this->visibility[keyB] = false;
+      continue;
+    }
 
     auto poseA = (*swarm)[addressA]->model->WorldPose();
     auto poseB = (*swarm)[addressB]->model->WorldPose();
@@ -252,17 +255,9 @@ void CommsModel::UpdateVisibility()
 //////////////////////////////////////////////////
 void CommsModel::UpdateNeighbors()
 {
-  unsigned int counter = 0;
-
   // Update the list of neighbors for each robot.
-  while (counter < this->neighborUpdatesPerCycle)
-  {
-    auto const &address = this->addresses.at(this->neighborIndex);
-    this->UpdateNeighborList(address);
-
-    this->neighborIndex = (this->neighborIndex + 1) % this->addresses.size();
-    ++counter;
-  }
+  for (const auto &addr : this->addresses)
+    this->UpdateNeighborList(addr);
 }
 
 //////////////////////////////////////////////////
@@ -359,8 +354,11 @@ void CommsModel::UpdateNeighborList(const std::string &_address)
 }
 
 //////////////////////////////////////////////////
-void CommsModel::CacheVisibilityPairs()
+void CommsModel::UpdateVisibilityPairs()
 {
+  this->addresses.clear();
+  this->visibilityPairs.clear();
+
   for (auto const &robotA : (*this->swarm))
   {
     auto addressA = robotA.second->address;
@@ -384,23 +382,5 @@ void CommsModel::CacheVisibilityPairs()
 
       this->visibilityPairs.push_back(aPair);
     }
-  }
-
-  this->visibilityUpdatesPerCycle = this->visibilityPairs.size() /
-      ((1.0 / this->updateRate) /
-       this->world->Physics()->GetMaxStepSize());
-
-  this->neighborUpdatesPerCycle = this->swarm->size() /
-      ((1.0 / this->updateRate) /
-       this->world->Physics()->GetMaxStepSize());
-
-  if (this->visibilityPairs.size() > 0)
-  {
-    // Make sure that we update at least one element in each update.
-    this->visibilityUpdatesPerCycle = std::max(1u,
-        this->visibilityUpdatesPerCycle);
-
-    this->neighborUpdatesPerCycle = std::max(1u,
-        this->neighborUpdatesPerCycle);
   }
 }
