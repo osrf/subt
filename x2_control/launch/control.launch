@@ -1,0 +1,24 @@
+<launch>
+  <arg name="robot_namespace" default="/" />
+  <!-- Generate the tf_prefix from the namespace -->
+  <arg name="tfpre" default="" if="$(eval robot_namespace == '/')"/>
+  <arg name="tfpre" default="$(arg robot_namespace)_tf/" unless="$(eval robot_namespace == '/')"/>
+
+  <rosparam command="load" file="$(find x2_control)/config/control.yaml" />
+
+  <!-- substitute the base link frame -->
+  <rosparam param="x2_velocity_controller/base_frame_id" subst_value="True">$(arg tfpre)base_link</rosparam>
+
+  <node name="controller_spawner" pkg="controller_manager" type="spawner"
+        args="x2_joint_publisher x2_velocity_controller" />
+
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization">
+    <rosparam command="load" file="$(find x2_control)/config/robot_localization.yaml" />
+  </node>
+
+  <node pkg="twist_mux" type="twist_mux" name="twist_mux">
+    <rosparam command="load" file="$(find x2_control)/config/twist_mux.yaml" />
+    <remap from="cmd_vel_out" to="x2_velocity_controller/cmd_vel"/>
+  </node>
+
+</launch>

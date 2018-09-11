@@ -1,0 +1,51 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="tunnel_tile_6">
+    <static>true</static>
+    <link name="link">
+      <pose>0 0 0 0 0 0</pose>
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://tunnel_tile_6/meshes/tunnel_tile_6.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+
+      <collision name="collision_ground_1">
+        <pose>0 9.323 5 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>6.356 1.354 0.001</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="collision_ground_2">
+        <pose>0 -0.070 2.467 0.2827433 0 0</pose>
+        <geometry>
+          <box>
+            <size>6.356 18.152 0.001</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="collision_ground_3">
+        <pose>0 -9.272 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>6.356 1.455 0.001</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://tunnel_tile_6/meshes/tunnel_tile_6.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>

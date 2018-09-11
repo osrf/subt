@@ -1,0 +1,60 @@
+<launch>
+
+  <arg name="use_map_topic" default="false"/>
+  <arg name="scan_topic" default="front/scan" />
+
+  <node pkg="amcl" type="amcl" name="amcl">
+    <param name="use_map_topic" value="$(arg use_map_topic)"/>
+    <!-- Publish scans from best pose at a max of 10 Hz -->
+    <param name="odom_model_type" value="diff"/>
+    <param name="odom_alpha5" value="0.1"/>
+    <param name="gui_publish_rate" value="10.0"/>
+    <param name="laser_max_beams" value="720"/>
+    <param name="laser_min_range" value="0.1"/>
+    <param name="laser_max_range" value="30.0"/>
+    <param name="min_particles" value="500"/>
+    <param name="max_particles" value="2000"/>
+    <!-- Maximum error between the true distribution and the estimated distribution. -->
+    <param name="kld_err" value="0.05"/>
+    <param name="kld_z" value="0.99"/>
+    <param name="odom_alpha1" value="0.2"/>
+    <param name="odom_alpha2" value="0.2"/>
+    <!-- translation std dev, m -->
+    <param name="odom_alpha3" value="0.2"/>
+    <param name="odom_alpha4" value="0.2"/>
+    <param name="laser_z_hit" value="0.5"/>
+    <param name="laser_z_short" value="0.05"/>
+    <param name="laser_z_max" value="0.05"/>
+    <param name="laser_z_rand" value="0.5"/>
+    <param name="laser_sigma_hit" value="0.2"/>
+    <param name="laser_lambda_short" value="0.1"/>
+    <param name="laser_model_type" value="likelihood_field"/>
+    <!-- Maximum distance to do obstacle inflation on map, for use in likelihood_field model. -->
+    <param name="laser_likelihood_max_dist" value="2.0"/>
+    <!-- Translational movement required before performing a filter update.  -->
+    <param name="update_min_d" value="0.1"/>
+    <!--Rotational movement required before performing a filter update. -->
+    <param name="update_min_a" value="0.314"/>
+    <param name="odom_frame_id" value="odom"/>
+    <param name="base_frame_id" value="base_link"/>
+    <param name="global_frame_id" value="map"/>
+    <!-- Number of filter updates required before resampling. -->
+    <param name="resample_interval" value="1"/>
+    <!-- Increase tolerance because the computer can get quite busy -->
+    <param name="transform_tolerance" value="1.0"/>
+    <!-- Exponential decay rate for the slow average weight filter, used in deciding when to recover by adding random poses. A good value might be 0.001. -->
+    <param name="recovery_alpha_slow" value="0.0"/>
+    <!--Exponential decay rate for the fast average weight filter, used in deciding when to recover by adding random poses. A good value might be 0.1. -->
+    <param name="recovery_alpha_fast" value="0.1"/>
+    <!-- Initial pose mean -->
+    <param name="initial_pose_x" value="0.0" />
+    <param name="initial_pose_y" value="0.0" />
+    <param name="initial_pose_a" value="0.0" />
+    <!-- When set to true, AMCL will subscribe to the map topic rather than making a service call to receive its map.-->
+    <param name="receive_map_topic" value="true"/>
+    <!--  When set to true, AMCL will only use the first map it subscribes to, rather than updating each time a new one is received. -->
+    <param name="first_map_only" value="false"/>
+    <remap from="scan" to="$(arg scan_topic)"/>
+  </node>
+
+</launch>

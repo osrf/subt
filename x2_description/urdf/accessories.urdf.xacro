@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!--
+    As you add to this URDF, please be aware that both the robot and
+    simulation include it. You must retain compatibility with all of
+    the following launch files:
+
+    jackal_viz/launch/view_model.launch
+    jackal_gazebo/launch/jackal_world.launch
+    jackal_base/launch/base.launch
+  -->
+
+  <!-- Macros to generate standoffs for offset payload mounting. -->
+  <xacro:include filename="$(find jackal_description)/urdf/accessories/standoffs.urdf.xacro" />
+
+  <!-- This optional plate mounts both the upgraded GPS and the Velodyne 3D LIDAR. -->
+  <xacro:include filename="$(find jackal_description)/urdf/accessories/bridge_plate.urdf.xacro" />
+
+  <!-- If enabled, generate the LASER payload (by default, a SICK LMS111). -->
+  <xacro:include filename="$(find jackal_description)/urdf/accessories/sick_lms1xx_mount.urdf.xacro" />
+  <xacro:if value="$(optenv JACKAL_LASER 0)">
+    <sick_lms1xx_mount prefix="$(optenv JACKAL_LASER_MOUNT front)"
+                       topic="$(optenv JACKAL_LASER_TOPIC front/scan)"/>
+
+    <joint name="$(optenv JACKAL_LASER_MOUNT front)_laser_mount_joint" type="fixed">
+      <origin xyz="$(optenv JACKAL_LASER_OFFSET 0 0 0)"
+              rpy="$(optenv JACKAL_LASER_RPY 0 0 0)" />
+      <parent link="$(optenv JACKAL_LASER_MOUNT front)_mount" />
+      <child link="$(optenv JACKAL_LASER_MOUNT front)_laser_mount" />
+    </joint>
+  </xacro:if>
+
+  <!-- If enabled, generate the upgraded Navsat payload (a Novatel Smart6). -->
+  <xacro:include filename="$(find jackal_description)/urdf/accessories/novatel_smart6.urdf.xacro" />
+  <xacro:if value="$(optenv JACKAL_NAVSAT 0)">
+    <bridge_plate mount="$(optenv JACKAL_NAVSAT_MOUNT rear)"
+                  height="$(optenv JACKAL_NAVSAT_HEIGHT 0.1)" />
+    <novatel_smart6 prefix="$(optenv JACKAL_NAVSAT_MOUNT rear)"/>
+
+    <joint name="$(optenv JACKAL_NAVSAT_MOUNT rear)_navsat_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <parent link="$(optenv JACKAL_NAVSAT_MOUNT rear)_bridge" />
+      <child link="$(optenv JACKAL_NAVSAT_MOUNT rear)_navsat" />
+    </joint>
+  </xacro:if>
+
+  <!-- Common camera mounts and accessory URDFs. -->
+  <xacro:include filename="$(find jackal_description)/urdf/accessories/camera_mount.urdf.xacro" />
+  <xacro:include filename="$(find pointgrey_camera_description)/urdf/pointgrey_flea3.urdf.xacro" />
+
+  <!-- If enabled, generate the flea3 camera payload with a tilt of 30 degrees. -->
+  <xacro:if value="$(optenv JACKAL_FLEA3 0)">
+    <camera_mount prefix="$(optenv JACKAL_FLEA3_MOUNT front)"
+                       tilt="$(optenv JACKAL_FLEA3_TILT 0.5236)"/>
+    <joint name="$(optenv JACKAL_FLEA3_MOUNT front)_camera_mount_joint" type="fixed">
+      <origin xyz="$(optenv JACKAL_FLEA3_OFFSET 0 0 0)"
+              rpy="$(optenv JACKAL_FLEA3_RPY 0 0 0)" />
+      <parent link="$(optenv JACKAL_FLEA3_MOUNT front)_mount" />
+      <child link="$(optenv JACKAL_FLEA3_MOUNT front)_camera_mount" />
+    </joint>
+
+    <pointgrey_flea3 frame="$(optenv JACKAL_FLEA3_MOUNT front)_camera" name="$(optenv JACKAL_FLEA3_NAME front)"
+      camera_x="0.0754" camera_y="0.029" camera_z="0.029"
+      camera_mass="0.085" hfov="1.0471975512" fps="60" width="640" height="512"/>
+    <joint name="$(optenv JACKAL_FLEA3_MOUNT front)_camera_bracket_joint" type="fixed">
+      <origin xyz="0.020 0 0.0245" rpy="0 0 0" />
+      <parent link="$(optenv JACKAL_FLEA3_MOUNT front)_camera_beam" />
+      <child link="$(optenv JACKAL_FLEA3_MOUNT front)_camera" />
+    </joint>
+  </xacro:if>
+
+  <xacro:include filename="$(find jackal_description)/urdf/accessories/stereo_camera_mount.urdf.xacro" />
+  <!-- If enabled, generates a pair of flea3 cameras for stereo vision with a tilt of 30 degrees. -->
+  <xacro:if value="$(optenv JACKAL_STEREO_FLEA3 0)">
+    <stereo_camera_mount prefix="$(optenv JACKAL_FLEA3_MOUNT front)"
+                       tilt="$(optenv JACKAL_FLEA3_TILT 0.5236)"/>
+    <joint name="$(optenv JACKAL_FLEA3_MOUNT front)_stereo_camera_mount_joint" type="fixed">
+      <origin xyz="$(optenv JACKAL_FLEA3_OFFSET 0 0 0)"
+              rpy="$(optenv JACKAL_FLEA3_RPY 0 0 0)" />
+      <parent link="$(optenv JACKAL_FLEA3_MOUNT front)_mount" />
+      <child link="$(optenv JACKAL_FLEA3_MOUNT front)_stereo_camera_mount" />
+    </joint>
+
+    <pointgrey_flea3 frame="$(optenv JACKAL_FLEA3_MOUNT front)_left_camera" name="$(optenv JACKAL_FLEA3_LEFT_NAME front/left)"
+      camera_x="0.0754" camera_y="0.029" camera_z="0.029"
+      camera_mass="0.085" hfov="1.0471975512" fps="60" width="640" height="512"/>
+    <joint name="$(optenv JACKAL_FLEA3_MOUNT front)_left_stereo_camera_bracket_joint" type="fixed">
+      <origin xyz="0.015 $(optenv JACKAL_STEREO_SEPERATION 0.16) 0.0599" rpy="0 0 0" />
+      <parent link="$(optenv JACKAL_FLEA3_MOUNT front)_stereo_camera_beam" />
+      <child link="$(optenv JACKAL_FLEA3_MOUNT front)_left_camera" />
+    </joint>
+
+    <pointgrey_flea3 frame="$(optenv JACKAL_FLEA3_MOUNT front)_right_camera" name="$(optenv JACKAL_FLEA3_RIGHT_NAME front/right)"
+      camera_x="0.0754" camera_y="0.029" camera_z="0.029"
+      camera_mass="0.085" hfov="1.0471975512" fps="60" width="640" height="512"/>
+    <joint name="$(optenv JACKAL_FLEA3_MOUNT front)_right_stereo_camera_bracket_joint" type="fixed">
+      <origin xyz="0.015 -$(optenv JACKAL_STEREO_SEPERATION 0.16) 0.0599" rpy="0 0 0" />
+      <parent link="$(optenv JACKAL_FLEA3_MOUNT front)_stereo_camera_beam" />
+      <child link="$(optenv JACKAL_FLEA3_MOUNT front)_right_camera" />
+    </joint>
+  </xacro:if>
+
+  <!-- If enabled, generate the bumblebee2 camera payload with a tilt of 0 degrees. -->
+  <xacro:include filename="$(find pointgrey_camera_description)/urdf/pointgrey_bumblebee2.urdf.xacro" />
+
+  <!-- If enabled, generate the bumblebee2 camera payload with a tilt of 0 degrees. -->
+  <xacro:if value="$(optenv JACKAL_BB2 0)">
+    <camera_mount prefix="$(optenv JACKAL_BB2_MOUNT front)"
+                        tilt="$(optenv JACKAL_BB2_TILT 0)"/>
+
+    <joint name="$(optenv JACKAL_BB2_MOUNT front)_camera_mount_joint" type="fixed">
+      <origin xyz="$(optenv JACKAL_BB2_OFFSET 0 0 0)"
+              rpy="$(optenv JACKAL_BB2_RPY 0 0 0)" />
+      <parent link="$(optenv JACKAL_BB2_MOUNT front)_mount" />
+      <child link="$(optenv JACKAL_BB2_MOUNT front)_camera_mount" />
+    </joint>
+
+    <BB2-08S2C-38 frame="$(optenv JACKAL_BB2_MOUNT front)_camera" name="$(optenv JACKAL_BB2_NAME front)" />
+    <joint name="$(optenv JACKAL_BB2_MOUNT front)_camera_bracket_joint" type="fixed">
+      <origin xyz="0.007 0 0.02450" rpy="0 0 0" />
+      <parent link="$(optenv JACKAL_BB2_MOUNT front)_camera_beam" />
+      <child link="$(optenv JACKAL_BB2_MOUNT front)_camera" />
+    </joint>
+  </xacro:if>
+
+
+</robot>

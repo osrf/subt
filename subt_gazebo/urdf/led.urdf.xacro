@@ -38,12 +38,20 @@
               <specular>1 1 1 1</specular>
               <emissive>${default_color} 1</emissive>
             </material>
+            <plugin name='light_source_visualize' filename='libLightVisualPlugin.so'>
+              <light>
+                <id>marker</id>
+                <visualize>false</visualize>
+              </light>
+            </plugin>
           </visual>
           <light name='marker' type='point'>
             <pose>0 0 0 0 0 0</pose>
             <attenuation>
-              <range>0.20</range>
+              <range>1</range>
+              <constant>0.5</constant>
               <linear>0.10</linear>
+              <quadratic>0.5</quadratic>
             </attenuation>
             <diffuse>${default_color} 1</diffuse>
             <specular>${default_color} 1</specular>

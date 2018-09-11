@@ -143,6 +143,18 @@ install(TARGETS ${ros_flashlight_plugin_name}
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
 
+# Create the libLightVisualPlugin.so library.
+set(light_visual_plugin_name LightVisualPlugin)
+add_library(${light_visual_plugin_name} src/LightVisualPlugin.cc)
+target_link_libraries(${light_visual_plugin_name}
+  ${catkin_LIBRARIES}
+)
+install(TARGETS ${light_visual_plugin_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+
+
 ###########
 ## Tests ##
 ###########

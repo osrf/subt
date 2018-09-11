@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package>
+  <name>x2_control</name>
+  <version>0.0.1</version>
+  <description>Controllers for X2</description>
+
+  <license>BSD</license>
+
+  <author email="caguero@openrobotics.org">Carlos Aguero</author>
+  <author email="mpurvis@clearpathrobotics.com">Mike Purvis</author>
+  <maintainer email="caguero@openrobotics.org">Carlos Aguero</maintainer>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roslaunch</build_depend>
+  <run_depend>controller_manager</run_depend>
+  <run_depend>interactive_marker_twist_server</run_depend>
+  <run_depend>diff_drive_controller</run_depend>
+  <run_depend>joint_state_controller</run_depend>
+  <run_depend>joy</run_depend>
+  <run_depend>robot_localization</run_depend>
+  <run_depend>teleop_twist_joy</run_depend>
+  <run_depend>topic_tools</run_depend>
+  <run_depend>twist_mux</run_depend>
+
+  <export>
+  </export>
+</package>

@@ -10,6 +10,15 @@
           <mesh filename="package://x1_description/meshes/headlight.dae" />
         </geometry>
       </visual>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.000001" />
+        <inertia
+          ixx="0.001"
+          ixy="0.0" iyy="0.001"
+          ixz="0.0" iyz="0.0" izz="0.001"
+        />
+      </inertial>
     </link>
 
     <joint name="${headlight_prefix}_headlight" type="fixed">
@@ -27,10 +36,12 @@
             <pose>-0.025 0 0.055 0 1.573 0</pose>
             <attenuation>
               <range>50</range>
-              <linear>0.05</linear>
+              <linear>0</linear>
+              <constant>0.1</constant>
+              <quadratic>0.0025</quadratic>
             </attenuation>
-            <diffuse>0 0 0 1</diffuse>
-            <specular>0 0 0 1</specular>
+            <diffuse>0.8 0.8 0.5 1</diffuse>
+            <specular>0.8 0.8 0.5 1</specular>
             <spot>
               <inner_angle>1</inner_angle>
               <outer_angle>1.1</outer_angle>
@@ -52,7 +63,22 @@
               <specular>1 1 1 1</specular>
               <emissive>0 0 0 1</emissive>
             </material>
+            <plugin name='light_source_visualize' filename='libLightVisualPlugin.so'>
+              <light>
+                <id>light_source</id>
+                <visualize>false</visualize>
+              </light>
+            </plugin>
           </visual>
+          <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass>0.000001</mass>
+            <inertia>
+              <ixx>0.001</ixx>
+              <ixy>0.0</ixy><iyy>0.001</iyy>
+              <ixz>0.0</ixz><iyz>0.0</iyz><izz>0.001</izz>
+            </inertia>
+          </inertial>
         </link>
 
         <plugin name='light_control' filename='libRosFlashLightPlugin.so'>

@@ -9,7 +9,7 @@ Please refer to the [Bitbucket Pipelines](https://bitbucket.org/osrf/subt/addon/
 
 ## Install
 
-Refer the [system setup tutorial](https://bitbucket.org/osrf/subt/wiki/tutorials/SystemSetup).
+Refer the [System Setup tutorials](https://bitbucket.org/osrf/subt/wiki/tutorials).
 
 ## Resources
 

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="flashlight">
-  <xacro:macro name="flashlight" params="flashlight_prefix parent_link default_color:='0 0 0' *pose **plugin_params">
+  <xacro:macro name="flashlight" params="flashlight_prefix parent_link default_color:='0.8 0.8 0.5' *pose **plugin_params">
     <gazebo>
       <model name='${flashlight_prefix}_flashlight'>
         <xacro:insert_block name="pose"/>
@@ -53,8 +53,10 @@
           <light name='lamp' type='spot'>
             <pose>0 0 0.0 0 3.14159 0</pose>
             <attenuation>
-              <range>50</range>
-              <linear>0.05</linear>
+              <range>15</range>
+              <linear>0</linear>
+              <constant>0.1</constant>
+              <quadratic>0.01</quadratic>
             </attenuation>
             <diffuse>${default_color} 1</diffuse>
             <specular>${default_color} 1</specular>
@@ -78,6 +80,12 @@
               <specular>1 1 1 1</specular>
               <emissive>${default_color} 1</emissive>
             </material>
+            <plugin name='light_source_visualize' filename='libLightVisualPlugin.so'>
+              <light>
+                <id>lamp</id>
+                <visualize>false</visualize>
+              </light>
+            </plugin>
           </visual>
         </link>
         <joint name='joint' type='fixed'>
