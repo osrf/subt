@@ -17,24 +17,13 @@
 #ifndef SUBT_GAZEBO_COMMSBROKERPLUGIN_HH_
 #define SUBT_GAZEBO_COMMSBROKERPLUGIN_HH_
 
-#include <mutex>
-#include <random>
+#include <cstdint>
 #include <gazebo/common/Event.hh>
 #include <gazebo/common/Plugin.hh>
 #include <gazebo/physics/physics.hh>
-#include <ignition/transport/Node.hh>
 #include <sdf/sdf.hh>
 #include "subt_gazebo/Broker.hh"
 #include "subt_gazebo/CommsModel.hh"
-
-namespace subt
-{
-  namespace msgs
-  {
-    // Forward declarations.
-    class Datagram;
-  }
-}
 
 namespace gazebo
 {
@@ -50,17 +39,11 @@ namespace gazebo
     /// \brief Callback for World Update events.
     private: void OnUpdate();
 
-    /// \brief Dispatch all incoming messages.
-    private: void DispatchMessages();
-
     /// \brief World pointer.
     private: physics::WorldPtr world;
 
     /// \brief Connection to World Update events.
     private: event::ConnectionPtr updateConnection;
-
-    /// \brief Protect data from races.
-    private: std::mutex mutex;
 
     /// \brief Comms model that we're using.
     private: std::unique_ptr<subt::CommsModel> commsModel;
@@ -70,12 +53,6 @@ namespace gazebo
 
     /// \brief Maximum data rate allowed per simulation cycle (bits).
     private: uint32_t maxDataRatePerCycle;
-
-    /// \brief Random engine used to shuffle the messages.
-    private: std::default_random_engine rndEngine;
-
-    /// \brief An Ignition Transport node to communicate with clients.
-    private: ignition::transport::Node node;
   };
 }
 #endif

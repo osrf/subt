@@ -20,6 +20,7 @@
 
 #include <deque>
 #include <map>
+#include <random>
 #include <string>
 #include <vector>
 #include <ignition/msgs.hh>
@@ -54,43 +55,6 @@ namespace subt
     /// \brief Destructor.
     public: virtual ~Broker() = default;
 
-    /// \brief This method associates an endpoint with a broker client and its
-    /// address. An endpoint is constructed as an address followed by ':',
-    /// followed by the port. E.g.: "192.168.1.5:8000" is a valid endpoint.
-    /// \param[in] _clientAddress Address of the broker client.
-    /// \param[in] _endpoint End point requested to bind.
-    /// \return True if the operation succeed or false otherwise (if the client
-    /// was already bound to the same endpoint).
-    public: bool Bind(const std::string &_clientAddress,
-                      const std::string &_endpoint);
-
-    /// \brief Queue a new message.
-    /// \param[in] _msg A new message.
-    public: void Push(const msgs::Datagram &_msg);
-
-    /// \brief Register a new client for message handling.
-    /// \param[in] _id Unique ID of the client.
-    /// \return True if the operation succeed of false otherwise (if the same
-    /// id was already registered).
-    public: bool Register(const std::string &_id);
-
-    /// \brief Get the list of endpoints bound.
-    /// \return Map of endpoints. The key is the endpoint and the value is a
-    /// vector containing the information of all the clients bound to this
-    /// endpoint.
-    /// \sa BrokerClientInfo.
-    public: const EndPoints_M &EndPoints() const;
-
-    /// \brief Get the current message queue.
-    /// \return Reference to the queue of messages.
-    public: std::deque<msgs::Datagram> &Messages();
-
-    /// \brief Unregister a client and unbind from all the endpoints.
-    /// \param[in] _id Unique ID of the client.
-    /// \return True if the operation succeed or false otherwise (if there is
-    /// no client registered for this ID).
-    public: bool Unregister(const std::string &_id);
-
     /// \brief Handle reset.
     public: void Reset();
 
@@ -102,6 +66,38 @@ namespace subt
     /// with its updated neighbors list.
     public: void NotifyNeighbors();
 
+    /// \brief Dispatch all incoming messages.
+    /// \param[in] _maxDataRatePerCycle
+    /// \param[in] _udpOverhead
+    public: void DispatchMessages(const uint32_t _maxDataRatePerCycle,
+                                  const uint16_t _udpOverhead);
+
+    /// \brief Get the mutex to lock from the outside of this class.
+    /// \return The mutex used in this class.
+    public: std::mutex &Mutex();
+
+    /// \brief This method associates an endpoint with a broker client and its
+    /// address. An endpoint is constructed as an address followed by ':',
+    /// followed by the port. E.g.: "192.168.1.5:8000" is a valid endpoint.
+    /// \param[in] _clientAddress Address of the broker client.
+    /// \param[in] _endpoint End point requested to bind.
+    /// \return True if the operation succeed or false otherwise (if the client
+    /// was already bound to the same endpoint).
+    private: bool Bind(const std::string &_clientAddress,
+                       const std::string &_endpoint);
+
+    /// \brief Register a new client for message handling.
+    /// \param[in] _id Unique ID of the client.
+    /// \return True if the operation succeed of false otherwise (if the same
+    /// id was already registered).
+    public: bool Register(const std::string &_id);
+
+    /// \brief Unregister a client and unbind from all the endpoints.
+    /// \param[in] _id Unique ID of the client.
+    /// \return True if the operation succeed or false otherwise (if there is
+    /// no client registered for this ID).
+    public: bool Unregister(const std::string &_id);
+
     /// \brief Callback executed when a new registration request is received.
     /// \param _req The address contained in the request.
     private: bool OnAddrRegistration(const ignition::msgs::StringMsg &_req,
@@ -109,8 +105,9 @@ namespace subt
 
      /// \brief Callback executed when a new registration request is received.
     /// \param _req The address contained in the request.
-    private: bool OnEndPointRegistration(const ignition::msgs::StringMsg_V &_req,
-                                         ignition::msgs::Boolean &_rep);
+    private: bool OnEndPointRegistration(
+                                        const ignition::msgs::StringMsg_V &_req,
+                                        ignition::msgs::Boolean &_rep);
 
     /// \brief Callback executed when a new request is received.
     /// \param _req The datagram contained in the request.
@@ -131,6 +128,9 @@ namespace subt
 
     /// \brief The publisher for notifying neighbor updates.
     private: ignition::transport::Node::Publisher neighborPub;
+
+    /// \brief Random engine used to shuffle the messages.
+    private: std::default_random_engine rndEngine;
 
     /// \brief Protect data from races.
     private: std::mutex mutex;

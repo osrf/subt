@@ -101,7 +101,7 @@ namespace subt
 
       {
         std::lock_guard<std::mutex> lock(this->mutex);
-  
+
         // Sanity check: Make sure that this address is not already used.
         if (this->callbacks.find(unicastEndPoint) != this->callbacks.end())
         {
@@ -110,7 +110,7 @@ namespace subt
           return false;
         }
 
-        bcastAdvertiseNeeded = 
+        bcastAdvertiseNeeded =
           this->callbacks.find(bcastEndpoint) == this->callbacks.end();
       }
 
@@ -123,20 +123,20 @@ namespace subt
           ignition::msgs::StringMsg_V req;
           req.add_data(address);
           req.add_data(endpoint);
-    
+
           const unsigned int timeout = 300u;
           ignition::msgs::Boolean rep;
           bool result;
           bool executed = this->node.Request(
             kEndPointRegistrationSrv, req, timeout, rep, result);
-    
+
           if (!executed)
           {
             std::cerr << "[CommsClient] Endpoint registration srv not available"
                       << std::endl;
             return false;
           }
-    
+
           if (!result)
           {
             std::cerr << "[CommsClient] Invalid data. Did you send the address "

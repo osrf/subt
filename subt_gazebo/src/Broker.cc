@@ -15,9 +15,12 @@
  *
 */
 
+#include <algorithm>
+#include <memory>
 #include <iostream>
 #include <gazebo/physics/PhysicsIface.hh>
 #include <gazebo/physics/World.hh>
+#include <ignition/math/Rand.hh>
 #include "subt_gazebo/protobuf/datagram.pb.h"
 #include "subt_gazebo/protobuf/neighbor_m.pb.h"
 #include "subt_gazebo/Broker.hh"
@@ -27,10 +30,11 @@ using namespace subt;
 
 //////////////////////////////////////////////////
 Broker::Broker()
-  : swarm(std::make_shared<SwarmMembership_M>())
+  : swarm(std::make_shared<SwarmMembership_M>()),
+    rndEngine(std::default_random_engine(ignition::math::Rand::Seed()))
 {
   // Advertise the service for registering addresses.
-  if (!this->node.Advertise(kAddrRegistrationSrv, 
+  if (!this->node.Advertise(kAddrRegistrationSrv,
         &Broker::OnAddrRegistration, this))
   {
     std::cerr << "Error advertising srv [" << kAddrRegistrationSrv << "]"
@@ -63,113 +67,6 @@ Broker::Broker()
               << std::endl;
     return;
   }
-}
-
-//////////////////////////////////////////////////
-bool Broker::Bind(const std::string &_clientAddress,
-  const std::string &_endpoint)
-{
-  // Make sure that the same client didn't bind the same end point before.
-  if (this->endpoints.find(_endpoint) != this->endpoints.end())
-  {
-    const auto &clientsV = this->endpoints[_endpoint];
-    for (const auto &client : clientsV)
-    {
-      if (client.address == _clientAddress)
-      {
-        std::cerr << "Broker::Bind() error: Address [" << _clientAddress
-                  << "] already used in a previous Bind()" << std::endl;
-        return false;
-      }
-    }
-  }
-
-  BrokerClientInfo clientInfo;
-  clientInfo.address = _clientAddress;
-  this->endpoints[_endpoint].push_back(clientInfo);
-  return true;
-}
-
-//////////////////////////////////////////////////
-void Broker::Push(const msgs::Datagram &_msg)
-{
-  // Queue the new message.
-  this->incomingMsgs.push_back(_msg);
-}
-
-//////////////////////////////////////////////////
-bool Broker::Register(const std::string &_id)
-{
-  if (this->swarm->find(_id) != this->swarm->end())
-  {
-    std::cerr << "Logger::Register() error: ID [" << _id << "] already exists"
-              << std::endl;
-    return false;
-  }
-
-  std::cout << "Broker::Register() Name: [" << _id << "]" << std::endl;
-
-  auto const &model = gazebo::physics::get_world()->ModelByName(_id);
-  if (!model)
-  {
-    std::cerr << "Broker::Register(): Error getting a model"
-              << "pointer for model [" << _id << "]" << std::endl;
-    return false;
-  }
-
-  auto newMember = std::make_shared<SwarmMember>();
-
-  // Name and address are the same in SubT.
-  newMember->address = _id;
-  newMember->name = _id;
-  newMember->model = model;
-  (*this->swarm)[_id] = newMember;
-
-  return true;
-}
-
-//////////////////////////////////////////////////
-const std::map<std::string, std::vector<BrokerClientInfo>>
-      &Broker::EndPoints() const
-{
-  return this->endpoints;
-}
-
-//////////////////////////////////////////////////
-std::deque<msgs::Datagram> &Broker::Messages()
-{
-  return this->incomingMsgs;
-}
-
-//////////////////////////////////////////////////
-bool Broker::Unregister(const std::string &_id)
-{
-  // Sanity check: Make sure that the ID exists.
-  if (this->swarm->find(_id) == this->swarm->end())
-  {
-    std::cerr << "Broker::Unregister() error: ID [" << _id << "] doesn't exist"
-              << std::endl;
-    return false;
-  }
-
-  this->swarm->erase(_id);
-
-  // Unbind.
-  for (auto &endpointKv : this->endpoints)
-  {
-    auto &clientsV = endpointKv.second;
-
-    auto i = std::begin(clientsV);
-    while (i != std::end(clientsV))
-    {
-      if (i->address == _id)
-        i = clientsV.erase(i);
-      else
-        ++i;
-    }
-  }
-
-  return true;
 }
 
 //////////////////////////////////////////////////
@@ -206,7 +103,194 @@ void Broker::NotifyNeighbors()
   }
 
   // Notify all clients the updated list of neighbors.
-  this->neighborPub.Publish(neighbors);
+  if (!this->neighborPub.Publish(neighbors))
+    std::cerr << "[Broker::NotifyNeighbors(): Error on update" << std::endl;
+}
+
+//////////////////////////////////////////////////
+void Broker::DispatchMessages(const uint32_t _maxDataRatePerCycle,
+    const uint16_t _udpOverhead)
+{
+  // Shuffle the messages.
+  std::shuffle(this->incomingMsgs.begin(), this->incomingMsgs.end(),
+      this->rndEngine);
+
+  // Clear the data rate usage for each robot.
+  for (const auto &member : (*this->swarm))
+    member.second->dataRateUsage = 0;
+
+  while (!this->incomingMsgs.empty())
+  {
+    // Get the next message to dispatch.
+    const subt::msgs::Datagram msg = this->incomingMsgs.front();
+    this->incomingMsgs.pop_front();
+
+    // Sanity check: Make sure that the sender is a member of the swarm.
+    if (this->swarm->find(msg.src_address()) == this->swarm->end())
+    {
+      std::cerr << "Broker::DispatchMessages(): Discarding message. Robot ["
+                << msg.src_address() << "] is not registered as a member of the"
+                << " swarm" << std::endl;
+      continue;
+    }
+
+    // Get the list of neighbors of the sender.
+    const Neighbors_M &neighbors = (*this->swarm)[msg.src_address()]->neighbors;
+
+    // Update the data rate usage.
+    auto dataSize = (msg.data().size() + _udpOverhead) * 8;
+    (*this->swarm)[msg.src_address()]->dataRateUsage += dataSize;
+    for (const auto &neighbor : neighbors)
+    {
+      // We account the overhead caused by the UDP/IP/Ethernet headers + the
+      // payload. We convert the total amount of bytes to bits.
+      (*this->swarm)[neighbor.first]->dataRateUsage += dataSize;
+    }
+
+    std::string dstEndPoint =
+      msg.dst_address() + ":" + std::to_string(msg.dst_port());
+    if (this->endpoints.find(dstEndPoint) != this->endpoints.end())
+    {
+      // Shuffle the clients bound to this endpoint.
+      std::vector<BrokerClientInfo> clientsV = this->endpoints.at(dstEndPoint);
+      std::shuffle(clientsV.begin(), clientsV.end(), this->rndEngine);
+
+      for (const BrokerClientInfo &client : clientsV)
+      {
+        // Make sure that we're sending the message to a valid neighbor.
+        if (neighbors.find(client.address) == neighbors.end())
+          continue;
+
+        // Check if the maximum data rate has been reached in the destination.
+        if ((*swarm)[client.address]->dataRateUsage > _maxDataRatePerCycle)
+        {
+          // Debug output
+          // gzdbg << "Dropping message (max data rate) from "
+          //       << msg.src_address() << " to " << client.address
+          //       << " (addressed to " << msg.dst_address()
+          //       << ")" << std::endl;
+          continue;
+        }
+
+        // Decide whether this neighbor gets this message, according to the
+        // probability of communication between them right now.
+        const double &neighborProb = neighbors.at(client.address);
+        if (ignition::math::Rand::DblUniform(0.0, 1.0) < neighborProb)
+        {
+          // Debug output
+          std::cout << "Sending message from " << msg.src_address() << " to "
+                    << client.address << " (addressed to " << msg.dst_address()
+                    << ")" << std::endl;
+          if (this->node.Request(client.address, msg))
+          {
+            std::cerr << "[CommsBrokerPlugin::DispatchMessages()]: Error "
+                      << "sending message to [" << client.address << "]"
+                      << std::endl;
+          }
+        }
+        // else
+        // {
+        //   // Debug output.
+        //   gzdbg << "Dropping message from " << msg.src_address() << " to "
+        //         << client.address << " (addressed to " << msg.dst_address()
+        //         << ")" << std::endl;
+        // }
+      }
+    }
+  }
+}
+
+/////////////////////////////////////////////////
+std::mutex &Broker::Mutex()
+{
+  return this->mutex;
+}
+
+//////////////////////////////////////////////////
+bool Broker::Bind(const std::string &_clientAddress,
+  const std::string &_endpoint)
+{
+  // Make sure that the same client didn't bind the same end point before.
+  if (this->endpoints.find(_endpoint) != this->endpoints.end())
+  {
+    const auto &clientsV = this->endpoints[_endpoint];
+    for (const auto &client : clientsV)
+    {
+      if (client.address == _clientAddress)
+      {
+        std::cerr << "Broker::Bind() error: Address [" << _clientAddress
+                  << "] already used in a previous Bind()" << std::endl;
+        return false;
+      }
+    }
+  }
+
+  BrokerClientInfo clientInfo;
+  clientInfo.address = _clientAddress;
+  this->endpoints[_endpoint].push_back(clientInfo);
+  return true;
+}
+
+//////////////////////////////////////////////////
+bool Broker::Register(const std::string &_id)
+{
+  if (this->swarm->find(_id) != this->swarm->end())
+  {
+    std::cerr << "Logger::Register() error: ID [" << _id << "] already exists"
+              << std::endl;
+    return false;
+  }
+
+  std::cout << "Broker::Register() Name: [" << _id << "]" << std::endl;
+
+  auto const &model = gazebo::physics::get_world()->ModelByName(_id);
+  if (!model)
+  {
+    std::cerr << "Broker::Register(): Error getting a model"
+              << "pointer for model [" << _id << "]" << std::endl;
+    return false;
+  }
+
+  auto newMember = std::make_shared<SwarmMember>();
+
+  // Name and address are the same in SubT.
+  newMember->address = _id;
+  newMember->name = _id;
+  newMember->model = model;
+  (*this->swarm)[_id] = newMember;
+
+  return true;
+}
+
+//////////////////////////////////////////////////
+bool Broker::Unregister(const std::string &_id)
+{
+  // Sanity check: Make sure that the ID exists.
+  if (this->swarm->find(_id) == this->swarm->end())
+  {
+    std::cerr << "Broker::Unregister() error: ID [" << _id << "] doesn't exist"
+              << std::endl;
+    return false;
+  }
+
+  this->swarm->erase(_id);
+
+  // Unbind.
+  for (auto &endpointKv : this->endpoints)
+  {
+    auto &clientsV = endpointKv.second;
+
+    auto i = std::begin(clientsV);
+    while (i != std::end(clientsV))
+    {
+      if (i->address == _id)
+        i = clientsV.erase(i);
+      else
+        ++i;
+    }
+  }
+
+  return true;
 }
 
 /////////////////////////////////////////////////
@@ -237,10 +321,15 @@ bool Broker::OnEndPointRegistration(const ignition::msgs::StringMsg_V &_req,
     return false;
   }
 
+  bool result;
   std::string clientAddress = _req.data(0);
   std::string endpoint = _req.data(1);
 
-  bool result = this->Bind(clientAddress, endpoint);
+  {
+    std::lock_guard<std::mutex> lk(this->mutex);
+    result = this->Bind(clientAddress, endpoint);
+  }
+
   _rep.set_data(result);
 
   return result;
