@@ -104,8 +104,13 @@ namespace subt
 
     /// \brief Callback executed when a new registration request is received.
     /// \param _req The address contained in the request.
-    private: bool OnRegistration(const ignition::msgs::StringMsg &_req,
-                                 ignition::msgs::Boolean &_rep);
+    private: bool OnAddrRegistration(const ignition::msgs::StringMsg &_req,
+                                     ignition::msgs::Boolean &_rep);
+
+     /// \brief Callback executed when a new registration request is received.
+    /// \param _req The address contained in the request.
+    private: bool OnEndPointRegistration(const ignition::msgs::StringMsg_V &_req,
+                                         ignition::msgs::Boolean &_rep);
 
     /// \brief Callback executed when a new request is received.
     /// \param _req The datagram contained in the request.

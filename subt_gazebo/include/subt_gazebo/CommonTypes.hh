@@ -29,11 +29,14 @@ namespace subt
   /// support multiple multicast groups, only one.
   const std::string kMulticast = "multicast";
 
-  /// \brief Address used to centralize all messages sent from the agents.
-  const std::string kBrokerService = "broker";
+  /// \brief Service used to centralize all messages sent from the agents.
+  const std::string kBrokerSrv = "broker";
 
-  /// \brief Address used to validate an address.
-  const std::string kRegistrationService = "address/register";
+  /// \brief Service used to validate an address.
+  const std::string kAddrRegistrationSrv = "address/register";
+
+  /// \brief Service used to register an end point.
+  const std::string kEndPointRegistrationSrv = "end_point/register";
 
   /// \brief Address used to receive neighbor updates.
   const std::string kNeighborsTopic = "neighbors";

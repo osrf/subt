@@ -108,8 +108,33 @@ namespace subt
         return false;
       }
 
+      // Register the endpoint in the broker.
+      ignition::msgs::StringMsg_V req;
+      req.add_data(address);
+      req.add_data(endPoint);
+
+      ignition::msgs::Boolean rep;
+      bool result;
+      unsigned int timeout = 1000u;
+      bool executed = this->node.Request(
+        kEndPointRegistrationSrv, req, timeout, rep, result);
+
+      if (!executed)
+      {
+        std::cerr << "[CommsClient] Endpoint registration service not available"
+                  << std::endl;
+        return false;
+      }
+
+      if (!result)
+      {
+        std::cerr << "[CommsClient] Invalid data. Did you send the address "
+                  << "followed by the endpoint?" << std::endl;
+        return false;
+      }
+
       // Advertise oneway service for receiving message requests.
-      if (!node.Advertise(endPoint, &CommsClient::OnMessage, this))
+      if (!this->node.Advertise(endPoint, &CommsClient::OnMessage, this))
         return false;
 
       this->callbacks[endPoint] = std::bind(_cb, _obj, std::placeholders::_1,
@@ -120,7 +145,7 @@ namespace subt
       if (this->callbacks.find(bcastEndpoint) == this->callbacks.end())
       {
         // Advertise oneway service for receiving message requests.
-        if (!node.Advertise(bcastEndpoint, &CommsClient::OnMessage, this))
+        if (!this->node.Advertise(bcastEndpoint, &CommsClient::OnMessage, this))
           return false;
 
         this->callbacks[bcastEndpoint] = std::bind(_cb, _obj,

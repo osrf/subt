@@ -30,19 +30,27 @@ Broker::Broker()
   : swarm(std::make_shared<SwarmMembership_M>())
 {
   // Advertise the service for registering addresses.
-  if (!this->node.Advertise(kRegistrationService, &Broker::OnRegistration,
-        this))
+  if (!this->node.Advertise(kAddrRegistrationSrv, 
+        &Broker::OnAddrRegistration, this))
   {
-    std::cerr << "Error advertising service [" << kRegistrationService << "]"
+    std::cerr << "Error advertising srv [" << kAddrRegistrationSrv << "]"
+              << std::endl;
+    return;
+  }
+
+  // Advertise the service for registering end points.
+  if (!this->node.Advertise(kEndPointRegistrationSrv,
+        &Broker::OnEndPointRegistration, this))
+  {
+    std::cerr << "Error advertising srv [" << kEndPointRegistrationSrv << "]"
               << std::endl;
     return;
   }
 
   // Advertise a oneway service for centralizing all message requests.
-  if (!this->node.Advertise(kBrokerService, &Broker::OnMessage, this))
+  if (!this->node.Advertise(kBrokerSrv, &Broker::OnMessage, this))
   {
-    std::cerr << "Error advertising service [" << kBrokerService << "]"
-              << std::endl;
+    std::cerr << "Error advertising srv [" << kBrokerSrv << "]" << std::endl;
     return;
   }
 
@@ -202,7 +210,7 @@ void Broker::NotifyNeighbors()
 }
 
 /////////////////////////////////////////////////
-bool Broker::OnRegistration(const ignition::msgs::StringMsg &_req,
+bool Broker::OnAddrRegistration(const ignition::msgs::StringMsg &_req,
     ignition::msgs::Boolean &_rep)
 {
   std::string address = _req.data();
@@ -213,6 +221,26 @@ bool Broker::OnRegistration(const ignition::msgs::StringMsg &_req,
     result = this->Register(address);
   }
 
+  _rep.set_data(result);
+
+  return result;
+}
+
+/////////////////////////////////////////////////
+bool Broker::OnEndPointRegistration(const ignition::msgs::StringMsg_V &_req,
+    ignition::msgs::Boolean &_rep)
+{
+  if (_req.data().size() != 2)
+  {
+    std::cerr << "[Broker::OnEndPointRegistration()] Expected two strings and "
+              << "got " << _req.data().size() << " instead" << std::endl;
+    return false;
+  }
+
+  std::string clientAddress = _req.data(0);
+  std::string endpoint = _req.data(1);
+
+  bool result = this->Bind(clientAddress, endpoint);
   _rep.set_data(result);
 
   return result;

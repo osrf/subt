@@ -81,7 +81,7 @@ bool CommsClient::SendTo(const std::string &_data,
   msg.set_dst_port(_port);
   msg.set_data(_data);
 
-  return this->node.Request(kBrokerService, msg);
+  return this->node.Request(kBrokerSrv, msg);
 }
 
 //////////////////////////////////////////////////
@@ -102,7 +102,7 @@ bool CommsClient::Register()
   unsigned int timeout = 5000u;
 
   bool executed = this->node.Request(
-    kRegistrationService, req, timeout, rep, result);
+    kAddrRegistrationSrv, req, timeout, rep, result);
 
   if (!executed)
   {
