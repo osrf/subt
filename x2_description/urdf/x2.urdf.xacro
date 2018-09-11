@@ -122,11 +122,13 @@
           <light name="light_source" type="spot">
             <pose>-0.025 0 0.055 0 1.573 0</pose>
             <attenuation>
-              <range>50</range>
-              <linear>0.05</linear>
+              <range>25</range>
+              <linear>0</linear>
+              <constant>0.1</constant>
+              <quadratic>0.005</quadratic>
             </attenuation>
-            <diffuse>0 0 0 1</diffuse>
-            <specular>0 0 0 1</specular>
+            <diffuse>0.8 0.8 0.5 1</diffuse>
+            <specular>0.8 0.8 0.5 1</specular>
             <spot>
               <inner_angle>1</inner_angle>
               <outer_angle>1.1</outer_angle>
@@ -216,8 +218,10 @@
           <light name='light_source' type='point'>
             <pose>0 0 0 0 0 0</pose>
             <attenuation>
-              <range>0.20</range>
+              <range>2.0</range>
+              <constant>0.5</constant>
               <linear>0.10</linear>
+              <quadratic>0.5</quadratic>
             </attenuation>
             <diffuse>0 0 0 1</diffuse>
             <specular>0 0 0 1</specular>

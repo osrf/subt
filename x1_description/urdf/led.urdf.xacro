@@ -35,8 +35,10 @@
           <light name='light_source' type='point'>
             <pose>0 0 0 0 0 0</pose>
             <attenuation>
-              <range>0.20</range>
+              <range>2.0</range>
+              <constant>0.5</constant>
               <linear>0.10</linear>
+              <quadratic>0.5</quadratic>
             </attenuation>
             <diffuse>0 0 0 1</diffuse>
             <specular>0 0 0 1</specular>

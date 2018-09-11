@@ -42,8 +42,10 @@
           <light name='marker' type='point'>
             <pose>0 0 0 0 0 0</pose>
             <attenuation>
-              <range>0.20</range>
+              <range>1</range>
+              <constant>0.5</constant>
               <linear>0.10</linear>
+              <quadratic>0.5</quadratic>
             </attenuation>
             <diffuse>${default_color} 1</diffuse>
             <specular>${default_color} 1</specular>
