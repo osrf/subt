@@ -29,7 +29,7 @@
 #include <gazebo/physics/PhysicsTypes.hh>
 #include <ignition/math.hh>
 #include <sdf/sdf.hh>
-#include "subt_gazebo/SwarmTypes.hh"
+#include "subt_gazebo/CommonTypes.hh"
 
 namespace subt
 {

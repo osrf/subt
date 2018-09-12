@@ -26,7 +26,7 @@
 #include <ignition/msgs.hh>
 #include <ignition/transport/Node.hh>
 #include "subt_gazebo/protobuf/datagram.pb.h"
-#include "subt_gazebo/SwarmTypes.hh"
+#include "subt_gazebo/CommonTypes.hh"
 
 #ifndef SUBT_GAZEBO_BROKER_HH_
 #define SUBT_GAZEBO_BROKER_HH_

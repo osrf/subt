@@ -17,10 +17,58 @@
 #ifndef SUBT_GAZEBO_COMMONTYPES_HH_
 #define SUBT_GAZEBO_COMMONTYPES_HH_
 
+#include <map>
+#include <memory>
 #include <string>
+#include <gazebo/common/Time.hh>
+#include <gazebo/physics/PhysicsTypes.hh>
 
 namespace subt
 {
+  /// \def Neighbors_M
+  /// \brief Map of neighbors
+  using Neighbors_M = std::map<std::string, double>;
+  
+  /// \brief Class used to store information about a member of the Swarm.
+  class SwarmMember
+  {
+    /// \brief Gazebo name used for this model.
+    public: std::string name;
+
+    /// \brief Address of the robot. E.g.: 192.168.1.2
+    public: std::string address;
+
+    /// \brief Model pointer.
+    public: gazebo::physics::ModelPtr model;
+
+    /// \brief List of neighbors and comms probabilities for this robot.
+    public: Neighbors_M neighbors;
+
+    /// \brief Is this robot on outage?
+    public: bool onOutage;
+
+    /// \brief When will the last outage finish?
+    public: gazebo::common::Time onOutageUntil;
+
+    /// \brief Current data rate usage (bits).
+    public: uint32_t dataRateUsage;
+  };
+
+  /// \def SwarmMemberPtr
+  /// \brief Shared pointer to SwarmMember
+  using SwarmMemberPtr = std::shared_ptr<SwarmMember>;
+
+  /// \def SwarmMembership_M
+  /// \brief Map containing information about the members of the swarm.
+  /// The key is the robot address. The value is a pointer to a SwarmMember
+  /// object that contains multiple information about the robot.
+  using SwarmMembership_M = std::map<std::string, SwarmMemberPtr>;
+
+  /// \def SwarmMembershipPtr
+  /// \brief A shared pointer to the membership data structure.
+  /// \sa SwarmMembership_M
+  using SwarmMembershipPtr = std::shared_ptr<SwarmMembership_M>;
+
   /// \brief Address used to send a message to all the members of the team
   /// listening on a specific port.
   const std::string kBroadcast = "broadcast";
