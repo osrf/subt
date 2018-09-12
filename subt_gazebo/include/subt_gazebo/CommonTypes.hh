@@ -28,7 +28,7 @@ namespace subt
   /// \def Neighbors_M
   /// \brief Map of neighbors
   using Neighbors_M = std::map<std::string, double>;
-  
+
   /// \brief Class used to store information about a member of the Swarm.
   class SwarmMember
   {
