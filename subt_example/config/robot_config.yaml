@@ -2,11 +2,13 @@ robot_names:
   - X1
   - X2
   - Iris
+  - Neo11
 
 button_robot_map:
   A: X1
   B: X2
   X: Iris
+  Y: Neo11
 
 flashlight_service_suffixes:
   # X1 and X2
@@ -14,7 +16,7 @@ flashlight_service_suffixes:
   - /center_right_headlight/enable
   - /center_left_headlight/enable
   - /left_headlight/enable
-  # Iris
+  # Iris and Pelican
   - /downward_flashlight/enable
   - /left_flashlight/enable
   - /right_flashlight/enable
@@ -23,6 +25,7 @@ robot_address_map:
   X1: X1
   X2: X2
   Iris: Iris
+  Neo11: Neo11
 
 select_led_service_suffixes:
   # X1
@@ -35,13 +38,12 @@ select_led_service_suffixes:
   # X2
   - /left_lateral_led/enable
   - /right_lateral_led/enable
-  # Iris
+  # Iris and Pelican
   - /left_led/enable
   - /right_led/enable
-
 
 comm_led_service_suffixes:
   # X1 and X2
   - /rear_center_led/enable
-  # Iris
+  # Iris and Pelican
   - /center_led/enable

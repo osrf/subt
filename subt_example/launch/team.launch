@@ -5,6 +5,8 @@
   <arg name="x1_name" default="X1" />
   <arg name="x2_name" default="X2" />
   <arg name="iris_name" default="Iris" />
+  <!--<arg name="pelican_name" default="Pelican" />-->
+  <arg name="neo11_name" default="Neo11" />
 
   <!-- Spawn X1 -->
   <arg name="laser_enabled" default="false"/>
@@ -61,10 +63,32 @@
     <node name="cmdvel_transform" pkg="subt_example" type="cmdvel_converter.py" args="/Iris/odometry_sensor1/pose /Iris/cmd_vel /Iris/command/pose"/>
   </group>
 
+  <!-- Neo11 quadcopter -->
+  <group ns="$(arg neo11_name)">
+    <include file="$(find subt_example)/launch/spawn_neo11.launch">
+      <arg name="mav_name" value="Neo11" />
+      <arg name="x" value="-2"/>
+      <arg name="y" value="-1"/>
+      <arg name="z" value="0.1"/>
+    </include>
+    <!-- Spawn a position controller -->
+    <node name="lee_position_controller_node" pkg="rotors_control" type="lee_position_controller_node">
+      <rosparam command="load" file="$(find rotors_gazebo)/resource/lee_controller_neo11.yaml" />
+      <rosparam command="load" file="$(find rotors_gazebo)/resource/neo11.yaml" />
+      <remap from="odometry" to="odometry_sensor1/odometry" />
+    </node>
+    <!-- Give robot_descriptom parameter and joint states, publish TF frames -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+    <!-- Convert cmd_vel into pose command so as to provide the same interface -->
+    <node name="cmdvel_transform" pkg="subt_example" type="cmdvel_converter.py" args="/Neo11/odometry_sensor1/pose /Neo11/cmd_vel /Neo11/command/pose"/>
+  </group>
+
   <!-- Competitor's control nodes -->
   <node name="$(arg x1_name)_control" pkg="subt_example" type="subt_example_node" args="$(arg x1_name) 128.0.0.10" />
   <node name="$(arg x2_name)_control" pkg="subt_example" type="subt_example_node" args="$(arg x2_name) 128.0.0.11" />
   <node name="$(arg iris_name)_control" pkg="subt_example" type="subt_example_node" args="$(arg iris_name) 128.0.0.12" />
+  <!--<node name="$(arg pelican_name)_control" pkg="subt_example" type="subt_example_node" args="$(arg pelican_name) 128.0.0.13" />-->
+  <node name="$(arg neo11_name)_control" pkg="subt_example" type="subt_example_node" args="$(arg neo11_name) 128.0.0.13" />
 
   <!-- Teleop node -->
   <include file="$(find subt_example)/launch/teleop.launch">

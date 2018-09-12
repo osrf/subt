@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<launch>
+
+  <group ns="pelican">
+    <include file="$(find subt_example)/launch/spawn_pelican.launch">
+      <arg name="mav_name" value="pelican" />
+    </include>
+
+    <!-- Converts joystick movements into sensors_msgs/Joy messages -->
+    <node name="joy_node" pkg="joy" type="joy_node" />
+
+    <!-- Converts sensor_msgs/Joy to mav_msgs/RollPitchYawRateThrust messages -->
+    <node name="rotors_joy_interface" pkg="rotors_joy_interface" type="rotors_joy_interface">
+      <!-- (almost) Mode 2 controls on a Logitech F310 gamepad -->
+      <param name="axis_roll_" value="2"/>
+      <param name="axis_pitch_" value="3"/>
+      <param name="axis_thrust_" value="1"/>
+      <!-- this node uses buttons for yaw :( so use left and right bumpers -->
+      <param name="button_yaw_left_" value="4"/>
+      <param name="button_yaw_right_" value="5"/>
+      <!-- make it more fun to fly -->
+      <param name="max_roll" value="0.3"/>
+      <param name="max_pitch" value="0.3"/>
+      <param name="max_yaw_rate" value="3"/>
+    </node>
+
+    <!-- Sends motor commands based given commanded rates for roll/pitch/yaw and thrust -->
+    <node name="roll_pitch_yawrate_thrust_controller_node" pkg="rotors_control" type="roll_pitch_yawrate_thrust_controller_node">
+      <rosparam command="load" file="$(find rotors_gazebo)/resource/roll_pitch_yawrate_thrust_controller_pelican.yaml" />
+      <rosparam command="load" file="$(find rotors_gazebo)/resource/pelican.yaml" />
+      <remap from="odometry" to="odometry_sensor1/odometry" />
+    </node>
+
+    <!-- Given robot_description parameter and joint states, publish TF frames -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+  </group>
+</launch>
