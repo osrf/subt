@@ -180,8 +180,8 @@ void Broker::DispatchMessages(const uint32_t _maxDataRatePerCycle,
         {
           // Debug output
           // std::cout << "Sending message from " << msg.src_address() << " to "
-          //           << client.address << " (addressed to " << msg.dst_address()
-          //           << ")" << std::endl;
+          //           << client.address << " (addressed to "
+          //           << msg.dst_address() << ")" << std::endl;
           if (!this->node.Request(client.address, msg))
           {
             std::cerr << "[CommsBrokerPlugin::DispatchMessages()]: Error "

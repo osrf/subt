@@ -164,24 +164,6 @@ configure_file (test/test_config.h.in
 
 find_package(rostest REQUIRED)
 
-catkin_add_executable_with_gtest(test_comms test/comms.cc)
-target_include_directories(test_comms
-  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
-target_link_libraries(test_comms
-  ${catkin_LIBRARIES}
-  ${comms_client_name}
-  ${GAZEBO_LIBRARIES}
-)
-add_dependencies(test_comms
-  ${comms_broker_plugin_name}
-  ${comms_client_name}
-)
-# WORKING_DIRECTORY is used to make sure that the Gazebo plugins are found.
-add_rostest(test/comms.test
-  WORKING_DIRECTORY "${CATKIN_DEVEL_PREFIX}/lib"
-  DEPENDENCIES test_comms
-)
-
 add_rostest_gtest(test_flashlight test/flashlight.test test/flashlight.cc)
 target_link_libraries(test_flashlight
   ${catkin_LIBRARIES}
