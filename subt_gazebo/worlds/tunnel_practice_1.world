@@ -706,12 +706,22 @@
 
     <!-- The SubT comms broker plugin -->
     <plugin name="comms_broker_plugin" filename="libCommsBrokerPlugin.so">
+      <comms_model>
+        <neighbor_distance_min>0.0</neighbor_distance_min>
+        <neighbor_distance_max>100.0</neighbor_distance_max>
+        <comms_distance_min>0.0</comms_distance_min>
+        <comms_distance_max>100.0</comms_distance_max>
+        <comms_drop_probability_min>0.0</comms_drop_probability_min>
+        <comms_drop_probability_max>0.0</comms_drop_probability_max>
+        <comms_outage_probability>0.0</comms_outage_probability>
+        <comms_outage_duration_min>0.0</comms_outage_duration_min>
+        <comms_outage_duration_max>10.0</comms_outage_duration_max>
+      </comms_model>
     </plugin>
 
     <!-- rotors_gazebo support -->
     <plugin name="ros_interface_plugin"
             filename="librotors_gazebo_ros_interface_plugin.so"/>
-
 
   </world>
 </sdf>

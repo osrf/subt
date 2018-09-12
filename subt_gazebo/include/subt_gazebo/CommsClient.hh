@@ -124,7 +124,7 @@ namespace subt
           req.add_data(address);
           req.add_data(endpoint);
 
-          const unsigned int timeout = 300u;
+          const unsigned int timeout = 3000u;
           ignition::msgs::Boolean rep;
           bool result;
           bool executed = this->node.Request(

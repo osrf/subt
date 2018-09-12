@@ -179,10 +179,10 @@ void Broker::DispatchMessages(const uint32_t _maxDataRatePerCycle,
         if (ignition::math::Rand::DblUniform(0.0, 1.0) < neighborProb)
         {
           // Debug output
-          std::cout << "Sending message from " << msg.src_address() << " to "
-                    << client.address << " (addressed to " << msg.dst_address()
-                    << ")" << std::endl;
-          if (this->node.Request(client.address, msg))
+          // std::cout << "Sending message from " << msg.src_address() << " to "
+          //           << client.address << " (addressed to " << msg.dst_address()
+          //           << ")" << std::endl;
+          if (!this->node.Request(client.address, msg))
           {
             std::cerr << "[CommsBrokerPlugin::DispatchMessages()]: Error "
                       << "sending message to [" << client.address << "]"
@@ -229,6 +229,10 @@ bool Broker::Bind(const std::string &_clientAddress,
   BrokerClientInfo clientInfo;
   clientInfo.address = _clientAddress;
   this->endpoints[_endpoint].push_back(clientInfo);
+
+  std::cout << "New endpoint registered [" << _endpoint << "] for client ["
+            << _clientAddress << "]" << std::endl;
+
   return true;
 }
 
@@ -259,6 +263,8 @@ bool Broker::Register(const std::string &_id)
   newMember->name = _id;
   newMember->model = model;
   (*this->swarm)[_id] = newMember;
+
+  std::cout << "New client registered [" << _id << "]" <<  std::endl;
 
   return true;
 }

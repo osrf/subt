@@ -29,6 +29,8 @@ using namespace subt;
 CommsClient::CommsClient(const std::string &_localAddress)
   : localAddress(_localAddress)
 {
+  this->enabled = false;
+
   // Sanity check: Verity that local address is not empty.
   if (_localAddress.empty())
   {
@@ -36,6 +38,9 @@ CommsClient::CommsClient(const std::string &_localAddress)
               << "be empty" << std::endl;
     return;
   }
+
+  if (!this->Register())
+    return;
 
   // Subscribe to the topic where neighbor updates are notified.
   if (!this->node.Subscribe(kNeighborsTopic, &CommsClient::OnNeighbors, this))
@@ -45,7 +50,7 @@ CommsClient::CommsClient(const std::string &_localAddress)
     return;
   }
 
-  this->enabled = this->Register();
+  this->enabled = true;
 }
 
 //////////////////////////////////////////////////
@@ -95,7 +100,7 @@ bool CommsClient::Register()
 
   ignition::msgs::Boolean rep;
   bool result;
-  const unsigned int timeout = 300u;
+  const unsigned int timeout = 3000u;
 
   bool executed = this->node.Request(
     kAddrRegistrationSrv, req, timeout, rep, result);
@@ -137,7 +142,6 @@ void CommsClient::OnNeighbors(const msgs::Neighbor_M &_neighbors)
 {
   std::lock_guard<std::mutex> lock(this->mutex);
 
-  std::cout << "Neighbor update" << std::endl;
   this->neighbors.clear();
 
   if (_neighbors.neighbors().find(this->localAddress) ==
