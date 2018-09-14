@@ -17,7 +17,7 @@
     </gui>
 
     <scene>
-      <ambient>0.2 0.2 0.2 1.0</ambient>
+      <ambient>1 1 1 1.0</ambient>
       <background>0.34 0.39 0.43 1.0</background>
       <grid>false</grid>
       <origin_visual>false</origin_visual>
@@ -131,14 +131,102 @@
         <enabled>true</enabled>
       </plugin>
     </model>
+
+    <!-- Objects of interest -->
+
+    <include>
+      <name>backpack_1</name>
+      <pose>38 33 0 0 0 0</pose>
+      <uri>model://Backpack</uri>
+    </include>
+
+    <include>
+      <name>toolbox_1</name>
+      <pose>121 62.2 -5 0 0 0.1</pose>
+      <uri>model://Toolbox</uri>
+    </include>
+
+    <include>
+      <name>extinguisher_1</name>
+      <pose>145 -62 -5 0 0 0.2</pose>
+      <uri>model://Extinguisher</uri>
+    </include>
+
+    <include>
+      <name>valve_1</name>
+      <pose>165 -62 -9 0 0 3.14159</pose>
+      <uri>model://Valve</uri>
+    </include>
+
+    <include>
+      <name>radio_1</name>
+      <pose>200 -117.9 -10 0 0 0.6</pose>
+      <uri>model://Radio</uri>
+    </include>
+
+    <include>
+      <name>duct_1</name>
+      <pose>220 -180 -7.1 0 -1.5708 -1.5708</pose>
+      <uri>model://Duct</uri>
+    </include>
+
+    <include>
+      <name>electrical_box_1</name>
+      <pose>242 0 -10 0 0 -0.2</pose>
+      <uri>model://Electrical Box</uri>
+    </include>
+
+    <include>
+      <name>phone_1</name>
+      <pose>262 -145 -9.997 1.57 0 -0.3</pose>
+      <uri>model://Phone</uri>
+    </include>
+
+    <include>
+      <name>backpack_2</name>
+      <pose>340 -2.1 -10 0 0 -0.4</pose>
+      <uri>model://Backpack</uri>
+    </include>
+
+    <include>
+      <name>radio_2</name>
+      <pose>342 -140 -10 0 0 -0.6</pose>
+      <uri>model://Radio</uri>
+    </include>
+
+
     <!-- The SubT challenge logic plugin -->
     <plugin name="game_logic_plugin" filename="libGameLogicPlugin.so">
       <!-- The collection of objects to locate -->
       <object_of_interest>
-        <name>cone_1</name>
+        <name>backpack_1</name>
       </object_of_interest>
       <object_of_interest>
-        <name>cone_2</name>
+        <name>toolbox_1</name>
+      </object_of_interest>
+      <object_of_interest>
+        <name>extinguisher_1</name>
+      </object_of_interest>
+      <object_of_interest>
+        <name>valve_1</name>
+      </object_of_interest>
+      <object_of_interest>
+        <name>radio_1</name>
+      </object_of_interest>
+      <object_of_interest>
+        <name>duct_1</name>
+      </object_of_interest>
+      <object_of_interest>
+        <name>electrical_box_1</name>
+      </object_of_interest>
+      <object_of_interest>
+        <name>phone_1</name>
+      </object_of_interest>
+      <object_of_interest>
+        <name>backpack_2</name>
+      </object_of_interest>
+      <object_of_interest>
+        <name>radio_2</name>
       </object_of_interest>
     </plugin>
 
