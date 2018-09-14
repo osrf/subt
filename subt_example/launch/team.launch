@@ -45,7 +45,7 @@
 
   <!-- X3 quadcopter -->
   <group ns="$(arg x3_name)">
-    <include file="$(find subt_example)/launch/spawn_x3.launch">
+    <include file="$(find x3_description)/launch/spawn_x3.launch">
       <arg name="mav_name" value="X3" />
       <arg name="x" value="-1"/>
       <arg name="y" value="-1"/>
@@ -65,7 +65,7 @@
 
   <!-- X4 quadcopter -->
   <group ns="$(arg x4_name)">
-    <include file="$(find subt_example)/launch/spawn_x4.launch">
+    <include file="$(find x4_description)/launch/spawn_x4.launch">
       <arg name="mav_name" value="X4" />
       <arg name="x" value="-2"/>
       <arg name="y" value="-1"/>
