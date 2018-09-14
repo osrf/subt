@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
-<robot name="neo11_with_sensors" xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <xacro:include filename="$(find rotors_description)/urdf/neo11_base.xacro" />
+<robot name="x3_with_sensors" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:include filename="$(find x3_description)/urdf/x3_base.xacro" />
 
   <xacro:odometry_plugin_macro
     namespace="${namespace}"
@@ -34,7 +34,7 @@
     <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
   </xacro:odometry_plugin_macro>
 
-  <xacro:include filename="$(find subt_example)/urdf/neo11_equipments.urdf.xacro" />
+  <xacro:include filename="$(find x3_description)/urdf/x3_equipments.urdf.xacro" />
 
   <!-- Mount a magnetometer. -->
   <xacro:default_magnetometer namespace="${namespace}" parent_link="${namespace}/base_link" />
