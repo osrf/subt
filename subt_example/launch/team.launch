@@ -5,7 +5,6 @@
   <arg name="x1_name" default="X1" />
   <arg name="x2_name" default="X2" />
   <arg name="x3_name" default="X3" />
-  <!--<arg name="pelican_name" default="Pelican" />-->
   <arg name="x4_name" default="X4" />
 
   <!-- Spawn X1 -->
@@ -28,8 +27,8 @@
   <arg name="default_config" value="front_laser" if="$(arg front_laser)" />
   <arg name="default_config" value="base" unless="$(arg front_laser)" />
   <!-- end of hack -->
-  <!-- Configuration of Jackal which you would like to simulate.
-       See jackal_description for details. -->
+  <!-- Configuration of X2 which you would like to simulate.
+       See x2_description for details. -->
   <arg name="config" default="$(arg default_config)" />
   <group ns="$(arg x2_name)">
     <include file="$(find x2_description)/launch/description.launch">
@@ -87,7 +86,6 @@
   <node name="$(arg x1_name)_control" pkg="subt_example" type="subt_example_node" args="$(arg x1_name) 128.0.0.10" />
   <node name="$(arg x2_name)_control" pkg="subt_example" type="subt_example_node" args="$(arg x2_name) 128.0.0.11" />
   <node name="$(arg x3_name)_control" pkg="subt_example" type="subt_example_node" args="$(arg x3_name) 128.0.0.12" />
-  <!--<node name="$(arg pelican_name)_control" pkg="subt_example" type="subt_example_node" args="$(arg pelican_name) 128.0.0.13" />-->
   <node name="$(arg x4_name)_control" pkg="subt_example" type="subt_example_node" args="$(arg x4_name) 128.0.0.13" />
 
   <!-- Teleop node -->
