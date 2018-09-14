@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <robot name="iris_with_sensors" xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <xacro:include filename="$(find rotors_description)/urdf/iris_base.xacro" />
+  <xacro:include filename="$(find x3_description)/urdf/x3_base.xacro" />
 
   <xacro:odometry_plugin_macro
     namespace="${namespace}"

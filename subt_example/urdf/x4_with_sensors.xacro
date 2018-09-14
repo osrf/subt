@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+
+<robot name="x4_with_sensors" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:include filename="$(find x4_description)/urdf/x4_base.xacro" />
+
+  <xacro:odometry_plugin_macro
+    namespace="${namespace}"
+    odometry_sensor_suffix="1"
+    parent_link="${namespace}/base_link"
+    pose_topic="odometry_sensor1/pose"
+    pose_with_covariance_topic="odometry_sensor1/pose_with_covariance"
+    position_topic="odometry_sensor1/position"
+    transform_topic="odometry_sensor1/transform"
+    odometry_topic="odometry_sensor1/odometry"
+    parent_frame_id="world"
+    child_frame_id="${namespace}/odometry_sensor1"
+    mass_odometry_sensor="0.00001"
+    measurement_divisor="1"
+    measurement_delay="0"
+    unknown_delay="0.0"
+    noise_normal_position="0 0 0"
+    noise_normal_quaternion="0 0 0"
+    noise_normal_linear_velocity="0 0 0"
+    noise_normal_angular_velocity="0 0 0"
+    noise_uniform_position="0 0 0"
+    noise_uniform_quaternion="0 0 0"
+    noise_uniform_linear_velocity="0 0 0"
+    noise_uniform_angular_velocity="0 0 0"
+    enable_odometry_map="false"
+    odometry_map=""
+    image_scale="">
+    <!-- [kg m^2] [kg m^2] [kg m^2] [kg m^2] [kg m^2] [kg m^2] -->
+    <inertia ixx="0.00001" ixy="0.0" ixz="0.0" iyy="0.00001" iyz="0.0" izz="0.00001" />
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+  </xacro:odometry_plugin_macro>
+
+  <xacro:include filename="$(find subt_example)/urdf/x4_equipments.urdf.xacro" />
+
+  <!-- Mount a magnetometer. -->
+  <xacro:default_magnetometer namespace="${namespace}" parent_link="${namespace}/base_link" />
+
+  <!-- Mount a pressure sensor. -->
+  <xacro:default_pressure_sensor namespace="${namespace}" parent_link="${namespace}/base_link" />
+
+  <!-- Front camera. -->
+  <xacro:camera_macro
+    namespace="${namespace}"
+    parent_link="${namespace}/base_link"
+    camera_suffix="front"
+    frame_rate="30"
+    horizontal_fov="2"
+    image_width="752"
+    image_height="480"
+    image_format="L8"
+    min_distance="0.02"
+    max_distance="50"
+    noise_mean="0.0"
+    noise_stddev="0.007"
+    enable_visual="false">
+    <box size="0.02 0.05 0.05" />
+    <origin xyz="0.1 0 0" rpy="0 0 0" />
+  </xacro:camera_macro>
+
+  <!-- Lower camera. -->
+  <xacro:camera_macro
+    namespace="${namespace}"
+    parent_link="${namespace}/base_link"
+    camera_suffix="lower"
+    frame_rate="30"
+    horizontal_fov="2"
+    image_width="752"
+    image_height="480"
+    image_format="L8"
+    min_distance="0.02"
+    max_distance="50"
+    noise_mean="0.0"
+    noise_stddev="0.007"
+    enable_visual="false">
+    <box size="0.02 0.05 0.05" />
+    <origin xyz="0 0 -0.07" rpy="0 1.57 0" />
+  </xacro:camera_macro>
+
+</robot>

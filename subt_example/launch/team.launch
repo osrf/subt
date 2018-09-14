@@ -4,9 +4,9 @@
   <!-- Spawn your team here. -->
   <arg name="x1_name" default="X1" />
   <arg name="x2_name" default="X2" />
-  <arg name="iris_name" default="Iris" />
+  <arg name="x3_name" default="X3" />
   <!--<arg name="pelican_name" default="Pelican" />-->
-  <arg name="neo11_name" default="Neo11" />
+  <arg name="x4_name" default="X4" />
 
   <!-- Spawn X1 -->
   <arg name="laser_enabled" default="false"/>
@@ -43,10 +43,10 @@
     </include>
   </group>
 
-  <!-- Iris quadcopter -->
-  <group ns="$(arg iris_name)">
-    <include file="$(find subt_example)/launch/spawn_iris.launch">
-      <arg name="mav_name" value="Iris" />
+  <!-- X3 quadcopter -->
+  <group ns="$(arg x3_name)">
+    <include file="$(find subt_example)/launch/spawn_x3.launch">
+      <arg name="mav_name" value="X3" />
       <arg name="x" value="-1"/>
       <arg name="y" value="-1"/>
       <arg name="z" value="0.1"/>
@@ -60,13 +60,13 @@
     <!-- Give robot_descriptom parameter and joint states, publish TF frames -->
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
     <!-- Convert cmd_vel into pose command so as to provide the same interface -->
-    <node name="cmdvel_transform" pkg="subt_example" type="cmdvel_converter.py" args="/Iris/odometry_sensor1/pose /Iris/cmd_vel /Iris/command/pose"/>
+    <node name="cmdvel_transform" pkg="subt_example" type="cmdvel_converter.py" args="/X3/odometry_sensor1/pose /X3/cmd_vel /X3/command/pose"/>
   </group>
 
-  <!-- Neo11 quadcopter -->
-  <group ns="$(arg neo11_name)">
-    <include file="$(find subt_example)/launch/spawn_neo11.launch">
-      <arg name="mav_name" value="Neo11" />
+  <!-- X4 quadcopter -->
+  <group ns="$(arg x4_name)">
+    <include file="$(find subt_example)/launch/spawn_x4.launch">
+      <arg name="mav_name" value="X4" />
       <arg name="x" value="-2"/>
       <arg name="y" value="-1"/>
       <arg name="z" value="0.1"/>
@@ -80,15 +80,15 @@
     <!-- Give robot_descriptom parameter and joint states, publish TF frames -->
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
     <!-- Convert cmd_vel into pose command so as to provide the same interface -->
-    <node name="cmdvel_transform" pkg="subt_example" type="cmdvel_converter.py" args="/Neo11/odometry_sensor1/pose /Neo11/cmd_vel /Neo11/command/pose"/>
+    <node name="cmdvel_transform" pkg="subt_example" type="cmdvel_converter.py" args="/X4/odometry_sensor1/pose /X4/cmd_vel /X4/command/pose"/>
   </group>
 
   <!-- Competitor's control nodes -->
   <node name="$(arg x1_name)_control" pkg="subt_example" type="subt_example_node" args="$(arg x1_name) 128.0.0.10" />
   <node name="$(arg x2_name)_control" pkg="subt_example" type="subt_example_node" args="$(arg x2_name) 128.0.0.11" />
-  <node name="$(arg iris_name)_control" pkg="subt_example" type="subt_example_node" args="$(arg iris_name) 128.0.0.12" />
+  <node name="$(arg x3_name)_control" pkg="subt_example" type="subt_example_node" args="$(arg x3_name) 128.0.0.12" />
   <!--<node name="$(arg pelican_name)_control" pkg="subt_example" type="subt_example_node" args="$(arg pelican_name) 128.0.0.13" />-->
-  <node name="$(arg neo11_name)_control" pkg="subt_example" type="subt_example_node" args="$(arg neo11_name) 128.0.0.13" />
+  <node name="$(arg x4_name)_control" pkg="subt_example" type="subt_example_node" args="$(arg x4_name) 128.0.0.13" />
 
   <!-- Teleop node -->
   <include file="$(find subt_example)/launch/teleop.launch">

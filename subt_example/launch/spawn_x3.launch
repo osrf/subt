@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="mav_name" default="x3" />
+  <arg name="x" default="0.0"/>
+  <arg name="y" default="0.0"/>
+  <arg name="z" default="0.1"/>
+
+  <include file="$(find rotors_gazebo)/launch/spawn_mav.launch">
+    <arg name="mav_name" value="$(arg mav_name)" />
+    <arg name="model" value="$(find subt_example)/urdf/x3_with_sensors.xacro" />
+    <arg name="enable_logging" value="false" />
+    <arg name="enable_ground_truth" value="false" />
+    <arg name="log_file" value="x3"/>
+    <arg name="x" value="$(arg x)"/>
+    <arg name="y" value="$(arg y)"/>
+    <arg name="z" value="$(arg z)"/>
+  </include>
+</launch>
