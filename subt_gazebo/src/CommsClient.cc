@@ -148,7 +148,7 @@ void CommsClient::OnNeighbors(const msgs::Neighbor_M &_neighbors)
         _neighbors.neighbors().end())
   {
     std::cerr << "[CommsClient::OnNeighborsReceived] My current address ["
-              << this->localAddress << "] is not included in this neightbor "
+              << this->localAddress << "] is not included in this neighbor "
               << "update" << std::endl;
     return;
   }
