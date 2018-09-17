@@ -58,9 +58,9 @@ namespace subt
     /// \brief Handle reset.
     public: void Reset();
 
-    /// \brief Get a mutator to the swarm.
-    /// \return A mutator to the swarm.
-    public: subt::SwarmMembershipPtr Swarm();
+    /// \brief Get a mutator to the team.
+    /// \return A mutator to the team.
+    public: subt::TeamMembershipPtr Team();
 
     /// \brief Send a message to each member
     /// with its updated neighbors list.
@@ -120,8 +120,8 @@ namespace subt
     /// value is the vector of clients bounded on that endpoint.
     protected: EndPoints_M endpoints;
 
-    /// \brief Information about the members of the swarm.
-    protected: subt::SwarmMembershipPtr swarm;
+    /// \brief Information about the members of the team.
+    protected: subt::TeamMembershipPtr team;
 
     /// \brief An Ignition Transport node for communications.
     private: ignition::transport::Node node;

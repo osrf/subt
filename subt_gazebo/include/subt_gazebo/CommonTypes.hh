@@ -29,8 +29,8 @@ namespace subt
   /// \brief Map of neighbors
   using Neighbors_M = std::map<std::string, double>;
 
-  /// \brief Class used to store information about a member of the Swarm.
-  class SwarmMember
+  /// \brief Class used to store information about a member of the team.
+  class TeamMember
   {
     /// \brief Gazebo name used for this model.
     public: std::string name;
@@ -54,20 +54,20 @@ namespace subt
     public: uint32_t dataRateUsage;
   };
 
-  /// \def SwarmMemberPtr
-  /// \brief Shared pointer to SwarmMember
-  using SwarmMemberPtr = std::shared_ptr<SwarmMember>;
+  /// \def TeamMemberPtr
+  /// \brief Shared pointer to TeamMember
+  using TeamMemberPtr = std::shared_ptr<TeamMember>;
 
-  /// \def SwarmMembership_M
-  /// \brief Map containing information about the members of the swarm.
-  /// The key is the robot address. The value is a pointer to a SwarmMember
+  /// \def TeamMembership_M
+  /// \brief Map containing information about the members of the team.
+  /// The key is the robot address. The value is a pointer to a TeamMember
   /// object that contains multiple information about the robot.
-  using SwarmMembership_M = std::map<std::string, SwarmMemberPtr>;
+  using TeamMembership_M = std::map<std::string, TeamMemberPtr>;
 
-  /// \def SwarmMembershipPtr
+  /// \def TeamMembershipPtr
   /// \brief A shared pointer to the membership data structure.
-  /// \sa SwarmMembership_M
-  using SwarmMembershipPtr = std::shared_ptr<SwarmMembership_M>;
+  /// \sa TeamMembership_M
+  using TeamMembershipPtr = std::shared_ptr<TeamMembership_M>;
 
   /// \brief Address used to send a message to all the members of the team
   /// listening on a specific port.

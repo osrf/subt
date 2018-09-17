@@ -33,9 +33,9 @@
 using namespace subt;
 
 //////////////////////////////////////////////////
-CommsModel::CommsModel(SwarmMembershipPtr _swarm,
+CommsModel::CommsModel(TeamMembershipPtr _team,
     gazebo::physics::WorldPtr _world, sdf::ElementPtr _sdf)
-  : swarm(_swarm),
+  : team(_team),
     world(_world)
 {
   GZ_ASSERT(_world, "CommsModel() error: _world pointer is NULL");
@@ -51,14 +51,14 @@ void CommsModel::Update()
 
   this->InitializeVisibility();
 
-  // Decide if each member of the swarm enters into a comms outage.
+  // Decide if each member of the team enters into a comms outage.
   this->UpdateOutages();
 
   // Update the visibility state between vehicles.
   // Make sure that this happens after UpdateOutages().
   this->UpdateVisibility();
 
-  // Update the neighbors list of each member of the swarm.
+  // Update the neighbors list of each member of the team.
   // Make sure that this happens after UpdateVisibility().
   this->UpdateNeighbors();
 }
@@ -152,26 +152,26 @@ void CommsModel::UpdateOutages()
   // Get elapsed time since the last update.
   auto dt = curTime - this->lastUpdateTime;
 
-  for (auto const &robot : (*this->swarm))
+  for (auto const &robot : (*this->team))
   {
     auto address = robot.first;
-    auto swarmMember = robot.second;
+    auto teamMember = robot.second;
 
     // Check if I am currently on a temporary outage.
-    if (swarmMember->onOutage &&
-        swarmMember->onOutageUntil != gazebo::common::Time::Zero)
+    if (teamMember->onOutage &&
+        teamMember->onOutageUntil != gazebo::common::Time::Zero)
     {
       // Check if the outage should finish.
-      if (this->world->SimTime() >= swarmMember->onOutageUntil)
+      if (this->world->SimTime() >= teamMember->onOutageUntil)
       {
-        swarmMember->onOutage = false;
+        teamMember->onOutage = false;
 
         // Debug output.
         // gzdbg << "[" << curTime << "] Robot " << address
         //       << " is back from an outage." << std::endl;
       }
     }
-    else if (!swarmMember->onOutage)
+    else if (!teamMember->onOutage)
     {
       // Check if we should go into an outage.
       // Notice that "commsOutageProbability" specifies the probability of going
@@ -181,7 +181,7 @@ void CommsModel::UpdateOutages()
           (ignition::math::Rand::DblUniform(0.0, 1.0) <
            this->commsOutageProbability * dt.Double()))
       {
-        swarmMember->onOutage = true;
+        teamMember->onOutage = true;
         // Debug output.
         // gzdbg << "[" << curTime << "] Robot " << address
         //       << " has started an outage." << std::endl;
@@ -191,12 +191,12 @@ void CommsModel::UpdateOutages()
             this->commsOutageDurationMax < 0)
         {
           // Permanent outage.
-          swarmMember->onOutageUntil = gazebo::common::Time::Zero;
+          teamMember->onOutageUntil = gazebo::common::Time::Zero;
         }
         else
         {
           // Temporal outage.
-          swarmMember->onOutageUntil = curTime +
+          teamMember->onOutageUntil = curTime +
             ignition::math::Rand::DblUniform(
               this->commsOutageDurationMin,
               this->commsOutageDurationMax);
@@ -212,10 +212,10 @@ void CommsModel::UpdateOutages()
 void CommsModel::InitializeVisibility()
 {
   // Initialize visibility.
-  for (auto const &robotA : (*this->swarm))
+  for (auto const &robotA : (*this->team))
   {
     auto addressA = robotA.second->address;
-    for (auto const &robotB : (*this->swarm))
+    for (auto const &robotB : (*this->team))
     {
       auto addressB = robotB.second->address;
       this->visibility[std::make_pair(addressA, addressB)] = false;
@@ -234,15 +234,15 @@ void CommsModel::UpdateVisibility()
     auto keyB = std::make_pair(addressB, addressA);
 
     // Sanity check: The model pointers should exist.
-    if (!(*swarm)[addressA]->model || !(*swarm)[addressB]->model)
+    if (!(*team)[addressA]->model || !(*team)[addressB]->model)
     {
       this->visibility[keyA] = false;
       this->visibility[keyB] = false;
       continue;
     }
 
-    auto poseA = (*swarm)[addressA]->model->WorldPose();
-    auto poseB = (*swarm)[addressB]->model->WorldPose();
+    auto poseA = (*team)[addressA]->model->WorldPose();
+    auto poseB = (*team)[addressB]->model->WorldPose();
 
     this->visibility[keyA] =
       poseA.Pos().Distance(poseB.Pos()) <= this->commsDistanceMax;
@@ -263,23 +263,23 @@ void CommsModel::UpdateNeighbors()
 //////////////////////////////////////////////////
 void CommsModel::UpdateNeighborList(const std::string &_address)
 {
-  GZ_ASSERT(this->swarm->find(_address) != this->swarm->end(),
-            "_address not found in the swarm.");
+  GZ_ASSERT(this->team->find(_address) != this->team->end(),
+            "_address not found in the team.");
 
-  auto swarmMember = (*this->swarm)[_address];
-  auto myPose = swarmMember->model->WorldPose();
+  auto teamMember = (*this->team)[_address];
+  auto myPose = teamMember->model->WorldPose();
 
   // Initialize the neighbors list.
-  swarmMember->neighbors.clear();
+  teamMember->neighbors.clear();
 
   // Decide whether this node goes into our neighbor list.
-  for (auto const &member : (*this->swarm))
+  for (auto const &member : (*this->team))
   {
     // Where is the other node?
     auto other = member.second;
 
     // Both robots are in an outage.
-    if (swarmMember->onOutage || other->onOutage)
+    if (teamMember->onOutage || other->onOutage)
     {
       continue;
     }
@@ -349,7 +349,7 @@ void CommsModel::UpdateNeighborList(const std::string &_address)
     // Also a message containing the neighbor list (not the probabilities)
     // will be sent out below, to allow robot controllers to query the
     // neighbor list.
-    swarmMember->neighbors[member.first] = commsProb;
+    teamMember->neighbors[member.first] = commsProb;
   }
 }
 
@@ -359,11 +359,11 @@ void CommsModel::UpdateVisibilityPairs()
   this->addresses.clear();
   this->visibilityPairs.clear();
 
-  for (auto const &robotA : (*this->swarm))
+  for (auto const &robotA : (*this->team))
   {
     auto addressA = robotA.second->address;
     this->addresses.push_back(addressA);
-    for (auto const &robotB : (*this->swarm))
+    for (auto const &robotB : (*this->team))
     {
       auto addressB = robotB.second->address;
       std::pair<std::string, std::string> aPair(addressA, addressB);

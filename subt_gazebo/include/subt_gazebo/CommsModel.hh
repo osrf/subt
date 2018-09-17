@@ -38,10 +38,10 @@ namespace subt
   {
     /// \brief Class constructor.
     ///
-    /// \param[in] _swarm Pointer to the swarm.
+    /// \param[in] _team Pointer to the team.
     /// \param[in] _world Pointer to the Gazebo world.
     /// \param[in] _sdf Pointer to the SDF element of the plugin.
-    public: CommsModel(SwarmMembershipPtr _swarm,
+    public: CommsModel(TeamMembershipPtr _team,
                        gazebo::physics::WorldPtr _world,
                        sdf::ElementPtr _sdf);
 
@@ -74,13 +74,13 @@ namespace subt
     /// contain all combinations of two different elements (not permutations).
     private: void UpdateVisibilityPairs();
 
-    /// \brief Decide if each member of the swarm enters into a comms outage.
+    /// \brief Decide if each member of the team enters into a comms outage.
     private: void UpdateOutages();
 
     /// \brief Update the visibility state between vehicles.
     private: void UpdateVisibility();
 
-    /// \brief Update the neighbors list of each member of the swarm.
+    /// \brief Update the neighbors list of each member of the team.
     private: void UpdateNeighbors();
 
     /// \brief Update the neighbor list for a single robot and notifies the
@@ -141,8 +141,8 @@ namespace subt
     /// Ethernet 28 (bytes).
     private: uint16_t udpOverhead = 56;
 
-    /// \brief Pointer to the swarm.
-    private: SwarmMembershipPtr swarm;
+    /// \brief Pointer to the team.
+    private: TeamMembershipPtr team;
 
     /// \brief Pointer to the Gazebo world.
     private: gazebo::physics::WorldPtr world;
@@ -150,7 +150,7 @@ namespace subt
     /// \brief Keep track of update sim-time.
     private: gazebo::common::Time lastUpdateTime;
 
-    /// Vector containing all the addresses of the swarm.
+    /// Vector containing all the addresses of the team.
     private: std::vector<std::string> addresses;
   };
 }  // namespace
