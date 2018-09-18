@@ -21,11 +21,14 @@
 #include <functional>
 #include <iostream>
 #include <map>
+#include <mutex>
 #include <string>
+#include <vector>
 #include <ignition/transport/Node.hh>
 
 #include "subt_gazebo/CommonTypes.hh"
 #include "subt_gazebo/protobuf/datagram.pb.h"
+#include "subt_gazebo/protobuf/neighbor_m.pb.h"
 
 namespace subt
 {
@@ -34,6 +37,7 @@ namespace subt
   {
     /// \brief Constructor.
     /// \param[in] _localAddress Your local address.
+    /// Important: This address must be equal to a Gazebo model name.
     public: explicit CommsClient(const std::string &_localAddress);
 
     /// \brief Get your local address.
@@ -77,10 +81,6 @@ namespace subt
       if (!this->enabled)
         return false;
 
-      // Sanity check: Make sure that we're using a valid address.
-      if (this->Host().empty())
-        return false;
-
       // Use current address if _address is not provided.
       std::string address = _address;
       if (address.empty())
@@ -95,34 +95,73 @@ namespace subt
       }
 
       // Mapping the "unicast socket" to a topic name.
-      const auto endPoint = address + ":" + std::to_string(_port);
+      const auto unicastEndPoint = address + ":" + std::to_string(_port);
+      const auto bcastEndpoint = kBroadcast + ":" + std::to_string(_port);
+      bool bcastAdvertiseNeeded;
 
-      // Sanity check: Make sure that this address is not already used.
-      if (this->callbacks.find(endPoint) != this->callbacks.end())
       {
-        std::cerr << "[" << this->Host() << "] Bind() error: Address ["
-                  << address << "] already used" << std::endl;
-        return false;
+        std::lock_guard<std::mutex> lock(this->mutex);
+
+        // Sanity check: Make sure that this address is not already used.
+        if (this->callbacks.find(unicastEndPoint) != this->callbacks.end())
+        {
+          std::cerr << "[" << this->Host() << "] Bind() error: Address ["
+                    << address << "] already used" << std::endl;
+          return false;
+        }
+
+        bcastAdvertiseNeeded =
+          this->callbacks.find(bcastEndpoint) == this->callbacks.end();
       }
 
-      // Advertise oneway service for receiving message requests.
-      if (!node.Advertise(endPoint, &CommsClient::OnMessage, this))
+      // Register the endpoints in the broker.
+      // Note that the broadcast endpoint will only be registered once.
+      for (std::string endpoint : {unicastEndPoint, bcastEndpoint})
+      {
+        if (endpoint != bcastEndpoint || bcastAdvertiseNeeded)
+        {
+          ignition::msgs::StringMsg_V req;
+          req.add_data(address);
+          req.add_data(endpoint);
+
+          const unsigned int timeout = 3000u;
+          ignition::msgs::Boolean rep;
+          bool result;
+          bool executed = this->node.Request(
+            kEndPointRegistrationSrv, req, timeout, rep, result);
+
+          if (!executed)
+          {
+            std::cerr << "[CommsClient] Endpoint registration srv not available"
+                      << std::endl;
+            return false;
+          }
+
+          if (!result)
+          {
+            std::cerr << "[CommsClient] Invalid data. Did you send the address "
+                      << "followed by the endpoint?" << std::endl;
+            return false;
+          }
+        }
+      }
+
+      // Advertise a oneway service for receiving message requests.
+      if (!this->node.Advertise(address, &CommsClient::OnMessage, this))
         return false;
 
-      this->callbacks[endPoint] = std::bind(_cb, _obj, std::placeholders::_1,
-        std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-
-      // Advertise the broadcast endpoint if we haven't done it yet.
-      const auto bcastEndpoint = kBroadcast + ":" + std::to_string(_port);
-      if (this->callbacks.find(bcastEndpoint) == this->callbacks.end())
+      // Register the callbacks.
       {
-        // Advertise oneway service for receiving message requests.
-        if (!node.Advertise(bcastEndpoint, &CommsClient::OnMessage, this))
-          return false;
-
-        this->callbacks[bcastEndpoint] = std::bind(_cb, _obj,
-          std::placeholders::_1, std::placeholders::_2,
-          std::placeholders::_3, std::placeholders::_4);
+        std::lock_guard<std::mutex> lock(this->mutex);
+        for (std::string endpoint : {unicastEndPoint, bcastEndpoint})
+        {
+          if (endpoint != bcastEndpoint || bcastAdvertiseNeeded)
+          {
+            this->callbacks[endpoint] = std::bind(_cb, _obj,
+              std::placeholders::_1, std::placeholders::_2,
+              std::placeholders::_3, std::placeholders::_4);
+          }
+        }
       }
 
       return true;
@@ -143,9 +182,27 @@ namespace subt
                         const std::string &_dstAddress,
                         const uint32_t _port = kDefaultPort);
 
+    /// \brief Get the list of local neighbors.
+    ///
+    /// \return A vector of addresses from your local neighbors.
+    public: std::vector<std::string> Neighbors() const;
+
+    /// \brief Register the current address. This will make a synchronous call
+    /// to the broker to validate and register the address.
+    /// \return True when the address is valid or false otherwise.
+    private: bool Register();
+
     /// \brief Function called each time a new datagram message is received.
     /// \param[in] _msg The incoming message.
     private: void OnMessage(const msgs::Datagram &_msg);
+
+    /// \brief Callback executed each time that a neighbor update is received.
+    /// The updates are coming from the broker. The broker decides which are
+    /// the robots inside the communication range of each other vehicle and
+    /// notifies these updates.
+    ///
+    /// \param[in] _neighbors The list of neighbors.
+    private: void OnNeighbors(const msgs::Neighbor_M &_neighbors);
 
     /// \def Callback_t
     /// \brief The callback specified by the user when new data is available.
@@ -160,16 +217,14 @@ namespace subt
                          const uint32_t _dstPort,
                          const std::string &_data)>;
 
-    /// \brief Register the current address. This will make a synchronous call
-    /// to the broker to validate and register the address.
-    /// \return True when the address is valid or false otherwise.
-    private: bool Register();
-
     /// \brief The local address.
     private: const std::string localAddress;
 
     /// \brief Maximum transmission payload size (octets) for each message.
     private: static const uint32_t kMtu = 1500;
+
+    /// \brief The current list of neighbors.
+    private: std::vector<std::string> neighbors;
 
     /// \brief An Ignition Transport node for communications.
     private: ignition::transport::Node node;
@@ -181,6 +236,9 @@ namespace subt
     /// \brief True when the broker validated my address. Enabled must be true
     /// for being able to send and receive data.
     private: bool enabled = false;
+
+    /// \brief A mutex for avoiding race conditions.
+    private: mutable std::mutex mutex;
   };
 }
 #endif

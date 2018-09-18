@@ -17,10 +17,58 @@
 #ifndef SUBT_GAZEBO_COMMONTYPES_HH_
 #define SUBT_GAZEBO_COMMONTYPES_HH_
 
+#include <map>
+#include <memory>
 #include <string>
+#include <gazebo/common/Time.hh>
+#include <gazebo/physics/PhysicsTypes.hh>
 
 namespace subt
 {
+  /// \def Neighbors_M
+  /// \brief Map of neighbors
+  using Neighbors_M = std::map<std::string, double>;
+
+  /// \brief Class used to store information about a member of the team.
+  class TeamMember
+  {
+    /// \brief Gazebo name used for this model.
+    public: std::string name;
+
+    /// \brief Address of the robot. E.g.: 192.168.1.2
+    public: std::string address;
+
+    /// \brief Model pointer.
+    public: gazebo::physics::ModelPtr model;
+
+    /// \brief List of neighbors and comms probabilities for this robot.
+    public: Neighbors_M neighbors;
+
+    /// \brief Is this robot on outage?
+    public: bool onOutage;
+
+    /// \brief When will the last outage finish?
+    public: gazebo::common::Time onOutageUntil;
+
+    /// \brief Current data rate usage (bits).
+    public: uint32_t dataRateUsage;
+  };
+
+  /// \def TeamMemberPtr
+  /// \brief Shared pointer to TeamMember
+  using TeamMemberPtr = std::shared_ptr<TeamMember>;
+
+  /// \def TeamMembership_M
+  /// \brief Map containing information about the members of the team.
+  /// The key is the robot address. The value is a pointer to a TeamMember
+  /// object that contains multiple information about the robot.
+  using TeamMembership_M = std::map<std::string, TeamMemberPtr>;
+
+  /// \def TeamMembershipPtr
+  /// \brief A shared pointer to the membership data structure.
+  /// \sa TeamMembership_M
+  using TeamMembershipPtr = std::shared_ptr<TeamMembership_M>;
+
   /// \brief Address used to send a message to all the members of the team
   /// listening on a specific port.
   const std::string kBroadcast = "broadcast";
@@ -29,18 +77,23 @@ namespace subt
   /// support multiple multicast groups, only one.
   const std::string kMulticast = "multicast";
 
-  /// \brief Address used to centralize all messages sent from the agents.
-  const std::string kBrokerService = "broker";
+  /// \brief Service used to centralize all messages sent from the agents.
+  const std::string kBrokerSrv = "broker";
 
-  /// \brief Address used to validate an address.
-  const std::string kRegistrationService = "address/register";
+  /// \brief Service used to validate an address.
+  const std::string kAddrRegistrationSrv = "address/register";
+
+  /// \brief Service used to register an end point.
+  const std::string kEndPointRegistrationSrv = "end_point/register";
+
+  /// \brief Address used to receive neighbor updates.
+  const std::string kNeighborsTopic = "neighbors";
 
   /// \brief Default port.
   const uint32_t kDefaultPort = 4100u;
 
   /// \brief Scoped name of collision which detects an entering object in the
   /// start area to initiate the game.
-  const std::string kStartCollisionName
-    = "start_area::link::collision";
+  const std::string kStartCollisionName  = "start_area::link::collision";
 }
 #endif

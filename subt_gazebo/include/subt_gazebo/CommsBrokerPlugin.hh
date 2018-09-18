@@ -17,47 +17,31 @@
 #ifndef SUBT_GAZEBO_COMMSBROKERPLUGIN_HH_
 #define SUBT_GAZEBO_COMMSBROKERPLUGIN_HH_
 
-#include <mutex>
-#include <queue>
-#include <string>
-#include <vector>
+#include <cstdint>
 #include <gazebo/common/Event.hh>
 #include <gazebo/common/Plugin.hh>
 #include <gazebo/physics/physics.hh>
-#include <ignition/transport/Node.hh>
 #include <sdf/sdf.hh>
-
-namespace subt
-{
-  namespace msgs
-  {
-    // Forward declarations.
-    class Datagram;
-  }
-}
+#include "subt_gazebo/Broker.hh"
+#include "subt_gazebo/CommsModel.hh"
 
 namespace gazebo
 {
   /// \brief A plugin that centralizes all SubT robot-to-robot communication.
   class CommsBrokerPlugin : public WorldPlugin
   {
+    /// \brief Class constructor.
+    public: CommsBrokerPlugin() = default;
+
     // Documentation inherited
-    public: virtual void Load(physics::WorldPtr _world, sdf::ElementPtr _sdf);
+    public: virtual void Load(physics::WorldPtr _world,
+                              sdf::ElementPtr _sdf);
+
+    // Documentation inherited
+    public: virtual void Reset();
 
     /// \brief Callback for World Update events.
     private: void OnUpdate();
-
-    /// \brief Process all incoming messages.
-    private: void ProcessIncomingMsgs();
-
-    /// \brief Callback executed when a new request is received.
-    /// \param _req The datagram contained in the request.
-    private: void OnMessage(const subt::msgs::Datagram &_req);
-
-    /// \brief Callback executed when a new registration request is received.
-    /// \param _req The address contained in the request.
-    private: bool OnRegistration(const ignition::msgs::StringMsg &_req,
-                                 ignition::msgs::Boolean &_rep);
 
     /// \brief World pointer.
     private: physics::WorldPtr world;
@@ -65,18 +49,14 @@ namespace gazebo
     /// \brief Connection to World Update events.
     private: event::ConnectionPtr updateConnection;
 
-    /// \brief An Ignition Transport node for communications.
-    private: ignition::transport::Node node;
+    /// \brief Comms model that we're using.
+    private: std::unique_ptr<subt::CommsModel> commsModel;
 
-    /// \brief Collection of incoming messages received during the last
-    /// simulation step.
-    private: std::queue<subt::msgs::Datagram> incomingMsgs;
+    /// \brief Broker instance.
+    private: subt::Broker broker;
 
-    /// \brief Vector of registered addresses.
-    private: std::vector<std::string> addresses;
-
-    /// \brief Protect data from races.
-    private: std::mutex mutex;
+    /// \brief Maximum data rate allowed per simulation cycle (bits).
+    private: uint32_t maxDataRatePerCycle;
   };
 }
 #endif

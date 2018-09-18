@@ -34,7 +34,10 @@ catkin_package(
 ## Build ##
 ###########
 
-include_directories(${catkin_INCLUDE_DIRS})
+include_directories(
+  ${catkin_INCLUDE_DIRS}
+  ${GAZEBO_INCLUDE_DIRS}
+)
 
 link_directories(
   ${GAZEBO_LIBRARY_DIRS}

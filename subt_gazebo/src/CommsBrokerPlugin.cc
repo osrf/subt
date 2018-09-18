@@ -15,95 +15,55 @@
  *
 */
 
-#include <algorithm>
+#include <functional>
+#include <mutex>
 #include <gazebo/common/Assert.hh>
 #include <gazebo/common/Events.hh>
 
-#include "subt_gazebo/CommonTypes.hh"
 #include "subt_gazebo/CommsBrokerPlugin.hh"
-#include "subt_gazebo/protobuf/datagram.pb.h"
 
 using namespace gazebo;
-using namespace subt;
 
 GZ_REGISTER_WORLD_PLUGIN(CommsBrokerPlugin)
 
 /////////////////////////////////////////////////
-void CommsBrokerPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr /*_sdf*/)
+void CommsBrokerPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
 {
   GZ_ASSERT(_world, "CommsBrokerPlugin world pointer is NULL");
-  this->world = _world;
+  GZ_ASSERT(_sdf,   "CommsBrokerPlugin::Load() error: _sdf pointer is NULL");
 
+  this->world = _world;
+  this->commsModel.reset(new subt::CommsModel(
+    this->broker.Team(), this->world, _sdf));
+  this->maxDataRatePerCycle = this->commsModel->MaxDataRate() *
+      this->world->Physics()->GetMaxStepSize();
   this->updateConnection = event::Events::ConnectWorldUpdateBegin(
-          std::bind(&CommsBrokerPlugin::OnUpdate, this));
+      std::bind(&CommsBrokerPlugin::OnUpdate, this));
 
   gzmsg << "Starting SubT comms broker" << std::endl;
-
-  // Advertise the service for registering addresses.
-  if (!node.Advertise(kRegistrationService, &CommsBrokerPlugin::OnRegistration,
-    this))
-  {
-    gzerr << "Error advertising service [" << kRegistrationService << "]"
-          << std::endl;
-    return;
-  }
-
-  // Advertise a oneway service for centralizing all message requests.
-  if (!node.Advertise(kBrokerService, &CommsBrokerPlugin::OnMessage, this))
-  {
-    gzerr << "Error advertising service [" << kBrokerService << "]"
-          << std::endl;
-    return;
-  }
 }
 
 /////////////////////////////////////////////////
 void CommsBrokerPlugin::OnUpdate()
 {
-  // ToDo: Step the comms model.
+  // We need to lock the broker mutex from the outside because "commsModel"
+  // accesses its "team" member variable.
+  std::lock_guard<std::mutex> lock(this->broker.Mutex());
 
-  std::lock_guard<std::mutex> lk(this->mutex);
-  this->ProcessIncomingMsgs();
+  // Update the state of the communication model.
+  this->commsModel->Update();
+
+  // Send a message to each team member with its updated neighbors list.
+  this->broker.NotifyNeighbors();
+
+  // Dispatch all the incoming messages, deciding whether the destination gets
+  // the message according to the communication model.
+  this->broker.DispatchMessages(
+      this->maxDataRatePerCycle, this->commsModel->UdpOverhead());
 }
 
 /////////////////////////////////////////////////
-void CommsBrokerPlugin::ProcessIncomingMsgs()
+void CommsBrokerPlugin::Reset()
 {
-  while (!this->incomingMsgs.empty())
-  {
-    // Forward the messages.
-    auto const &msg = this->incomingMsgs.front();
-    auto endPoint = msg.dst_address() + ":" + std::to_string(msg.dst_port());
-    this->node.Request(endPoint, msg);
-    this->incomingMsgs.pop();
-  }
-}
-
-/////////////////////////////////////////////////
-void CommsBrokerPlugin::OnMessage(const subt::msgs::Datagram &_req)
-{
-  // Just save the message, it will be processed later.
-  std::lock_guard<std::mutex> lk(this->mutex);
-  this->incomingMsgs.push(_req);
-}
-
-/////////////////////////////////////////////////
-bool CommsBrokerPlugin::OnRegistration(const ignition::msgs::StringMsg &_req,
-                                     ignition::msgs::Boolean &_rep)
-{
-  std::string address = _req.data();
-  bool result;
-
-  {
-    std::lock_guard<std::mutex> lk(this->mutex);
-    result = std::find(this->addresses.begin(), this->addresses.end(),
-      address) == this->addresses.end();
-
-    if (result)
-      this->addresses.push_back(address);
-  }
-
-  _rep.set_data(result);
-
-  return result;
+  this->broker.Reset();
 }

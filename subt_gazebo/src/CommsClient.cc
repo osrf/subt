@@ -19,6 +19,7 @@
 #include <string>
 
 #include "subt_gazebo/protobuf/datagram.pb.h"
+#include "subt_gazebo/protobuf/neighbor_m.pb.h"
 #include "subt_gazebo/CommonTypes.hh"
 #include "subt_gazebo/CommsClient.hh"
 
@@ -28,14 +29,28 @@ using namespace subt;
 CommsClient::CommsClient(const std::string &_localAddress)
   : localAddress(_localAddress)
 {
+  this->enabled = false;
+
   // Sanity check: Verity that local address is not empty.
   if (_localAddress.empty())
   {
     std::cerr << "CommsClient::CommsClient() error: Local address shouldn't "
               << "be empty" << std::endl;
+    return;
   }
 
-  this->enabled = this->Register();
+  if (!this->Register())
+    return;
+
+  // Subscribe to the topic where neighbor updates are notified.
+  if (!this->node.Subscribe(kNeighborsTopic, &CommsClient::OnNeighbors, this))
+  {
+    std::cerr << "Error subscribing to topic [" << kNeighborsTopic << "]"
+              << std::endl;
+    return;
+  }
+
+  this->enabled = true;
 }
 
 //////////////////////////////////////////////////
@@ -50,10 +65,6 @@ bool CommsClient::SendTo(const std::string &_data,
 {
   // Sanity check: Make sure that the communications are enabled.
   if (!this->enabled)
-    return false;
-
-  // Sanity check: Make sure that we're using a valid address.
-  if (this->Host().empty())
     return false;
 
   // Restrict the maximum size of a message.
@@ -71,22 +82,14 @@ bool CommsClient::SendTo(const std::string &_data,
   msg.set_dst_port(_port);
   msg.set_data(_data);
 
-  return this->node.Request(kBrokerService, msg);
+  return this->node.Request(kBrokerSrv, msg);
 }
 
 //////////////////////////////////////////////////
-void CommsClient::OnMessage(const msgs::Datagram &_msg)
+std::vector<std::string> CommsClient::Neighbors() const
 {
-  auto endPoint = _msg.dst_address() + ":" + std::to_string(_msg.dst_port());
-
-  for (auto cb : this->callbacks)
-  {
-    if (cb.first == endPoint && cb.second)
-    {
-      cb.second(_msg.src_address(), _msg.dst_address(),
-                _msg.dst_port(), _msg.data());
-    }
-  }
+  std::lock_guard<std::mutex> lock(this->mutex);
+  return this->neighbors;
 }
 
 //////////////////////////////////////////////////
@@ -97,10 +100,10 @@ bool CommsClient::Register()
 
   ignition::msgs::Boolean rep;
   bool result;
-  unsigned int timeout = 5000u;
+  const unsigned int timeout = 3000u;
 
   bool executed = this->node.Request(
-    kRegistrationService, req, timeout, rep, result);
+    kAddrRegistrationSrv, req, timeout, rep, result);
 
   if (!executed)
   {
@@ -116,4 +119,41 @@ bool CommsClient::Register()
   }
 
   return true;
+}
+
+//////////////////////////////////////////////////
+void CommsClient::OnMessage(const msgs::Datagram &_msg)
+{
+  auto endPoint = _msg.dst_address() + ":" + std::to_string(_msg.dst_port());
+
+  std::lock_guard<std::mutex> lock(this->mutex);
+  for (auto cb : this->callbacks)
+  {
+    if (cb.first == endPoint && cb.second)
+    {
+      cb.second(_msg.src_address(), _msg.dst_address(),
+                _msg.dst_port(), _msg.data());
+    }
+  }
+}
+
+//////////////////////////////////////////////////
+void CommsClient::OnNeighbors(const msgs::Neighbor_M &_neighbors)
+{
+  std::lock_guard<std::mutex> lock(this->mutex);
+
+  this->neighbors.clear();
+
+  if (_neighbors.neighbors().find(this->localAddress) ==
+        _neighbors.neighbors().end())
+  {
+    std::cerr << "[CommsClient::OnNeighborsReceived] My current address ["
+              << this->localAddress << "] is not included in this neighbor "
+              << "update" << std::endl;
+    return;
+  }
+
+  auto currentNeighbors = _neighbors.neighbors().at(this->localAddress);
+  for (int i = 0; i < currentNeighbors.data().size(); ++i)
+    this->neighbors.push_back(currentNeighbors.data(i));
 }

@@ -19,21 +19,14 @@ syntax = "proto3";
 package subt.msgs;
 
 /// \ingroup subt_msgs
-/// \interface Datagram
-/// \brief A message containing some payload to communicate among one or
-/// multiple teammates.
+/// \interface Neighbor
+/// \brief A message containing the list of neighbors for each client.
 
-message Datagram
+import "ignition/msgs/stringmsg_v.proto";
+
+message Neighbor_M
 {
-  /// \brief Address of the sender.
-  string src_address = 1;
-
-  /// \brief Address of the destination.
-  string dst_address = 2;
-
-  /// \brief Destination port.
-  uint32 dst_port    = 3;
-
-  /// \brief Payload.
-  string data        = 4;
+  /// \brief All the neighbors. The key is an address. The value is the 
+  /// collection of neighbors for that address.
+  map<string, ignition.msgs.StringMsg_V> neighbors = 1;
 }

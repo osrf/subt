@@ -36,7 +36,8 @@ class Controller
   /// "/Jackal/cmd_vel" if _name is specified as "Jackal".
   /// \param[in] _name Name of the robot.
   /// \param[in] _address The address for the network
-  public: Controller(const std::string &_name, const std::string &_address);
+  public: Controller(const std::string &_name,
+                     const std::string &_address);
 
   /// \brief Callback function for selection command.
   /// \param[in] _select True if the robot is selected. False if unselected.
@@ -100,13 +101,16 @@ class Controller
   private: std::vector<ros::ServiceClient> commLedSrvList;
 
   /// \brief Communication client.
-  private: subt::CommsClient client;
+  private: std::unique_ptr<subt::CommsClient> client;
 };
 
 /////////////////////////////////////////////////
-Controller::Controller(const std::string &_name, const std::string &_address):
-  name(_name), client(_address)
+Controller::Controller(const std::string &_name,
+                       const std::string &_address):
+  name(_name)
 {
+  this->client.reset(new subt::CommsClient(_address));
+
   this->teleopSelectSub
     = this->n.subscribe<std_msgs::Bool>(
       _name + "/select", 1, &Controller::TeleopSelectCallback, this);
@@ -120,7 +124,7 @@ Controller::Controller(const std::string &_name, const std::string &_address):
     = this->n.subscribe<std_msgs::String>(
       _name + "/comm", 1, &Controller::TeleopCommCallback, this);
 
-  this->client.Bind(&Controller::CommClientCallback, this);
+  this->client->Bind(&Controller::CommClientCallback, this);
 
   this->velPub
     = this->n.advertise<geometry_msgs::Twist>(_name + "/cmd_vel", 1);
@@ -204,15 +208,15 @@ void Controller::TeleopLightCallback(const std_msgs::Bool::ConstPtr &_switch)
 void Controller::TeleopCommCallback(const std_msgs::String::ConstPtr &_dest)
 {
   ROS_INFO("TeleopCommCallback");
-  this->client.SendTo("_data_", _dest->data);
+  this->client->SendTo("_data_", _dest->data);
   this->FlashCommIndicator();
 }
 
 /////////////////////////////////////////////////
 void Controller::CommClientCallback(const std::string &/*_srcAddress*/,
-                                const std::string &/*_dstAddress*/,
-                                const uint32_t /*_dstPort*/,
-                                const std::string &/*_data*/)
+                                    const std::string &/*_dstAddress*/,
+                                    const uint32_t /*_dstPort*/,
+                                    const std::string &/*_data*/)
 {
   ROS_INFO("CommClientCallback");
   this->FlashCommIndicator();
