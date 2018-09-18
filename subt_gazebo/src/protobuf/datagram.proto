@@ -15,7 +15,7 @@
  *
 */
 
-syntax = "proto2";
+syntax = "proto3";
 package subt.msgs;
 
 /// \ingroup subt_msgs
@@ -26,14 +26,14 @@ package subt.msgs;
 message Datagram
 {
   /// \brief Address of the sender.
-  required string src_address = 1;
+  string src_address = 1;
 
   /// \brief Address of the destination.
-  required string dst_address = 2;
+  string dst_address = 2;
 
   /// \brief Destination port.
-  required uint32 dst_port    = 3;
+  uint32 dst_port    = 3;
 
   /// \brief Payload.
-  required string data        = 4;
+  string data        = 4;
 }

@@ -131,14 +131,56 @@
         <enabled>true</enabled>
       </plugin>
     </model>
+
+    <!-- Objects of interest -->
+
+    <include>
+      <name>backpack_1</name>
+      <pose>140 35 -20 0 0 0</pose>
+      <uri>model://Backpack</uri>
+    </include>
+
+    <include>
+      <name>toolbox_1</name>
+      <pose>240 25 -35 0 0 0</pose>
+      <uri>model://Toolbox</uri>
+    </include>
+
+    <include>
+      <name>extinguisher_1</name>
+      <pose>130 2.2 -20 0 0 0</pose>
+      <uri>model://Extinguisher</uri>
+    </include>
+
+    <include>
+      <name>valve_1</name>
+      <pose>122.5 -65 -30 0 0 -1.5708</pose>
+      <uri>model://Valve</uri>
+    </include>
+
+    <include>
+      <name>radio_1</name>
+      <pose>31 2.2 -5 0 0 0</pose>
+      <uri>model://Radio</uri>
+    </include>
+
     <!-- The SubT challenge logic plugin -->
     <plugin name="game_logic_plugin" filename="libGameLogicPlugin.so">
       <!-- The collection of objects to locate -->
       <object_of_interest>
-        <name>cone_1</name>
+        <name>backpack_1</name>
       </object_of_interest>
       <object_of_interest>
-        <name>cone_2</name>
+        <name>toolbox_1</name>
+      </object_of_interest>
+      <object_of_interest>
+        <name>extinguisher_1</name>
+      </object_of_interest>
+      <object_of_interest>
+        <name>valve_1</name>
+      </object_of_interest>
+      <object_of_interest>
+        <name>radio_1</name>
       </object_of_interest>
     </plugin>
 
@@ -706,12 +748,22 @@
 
     <!-- The SubT comms broker plugin -->
     <plugin name="comms_broker_plugin" filename="libCommsBrokerPlugin.so">
+      <comms_model>
+        <neighbor_distance_min>0.0</neighbor_distance_min>
+        <neighbor_distance_max>100.0</neighbor_distance_max>
+        <comms_distance_min>0.0</comms_distance_min>
+        <comms_distance_max>100.0</comms_distance_max>
+        <comms_drop_probability_min>0.0</comms_drop_probability_min>
+        <comms_drop_probability_max>0.0</comms_drop_probability_max>
+        <comms_outage_probability>0.0</comms_outage_probability>
+        <comms_outage_duration_min>0.0</comms_outage_duration_min>
+        <comms_outage_duration_max>10.0</comms_outage_duration_max>
+      </comms_model>
     </plugin>
 
     <!-- rotors_gazebo support -->
     <plugin name="ros_interface_plugin"
             filename="librotors_gazebo_ros_interface_plugin.so"/>
-
 
   </world>
 </sdf>
