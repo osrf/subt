@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sdf version='1.6'>
+  <world name='default'>
+
+    <scene>
+      <grid>false</grid>
+    </scene>
+
+    <gui>
+      <camera name="user_camera">
+        <pose>40 -45 25 0 0.45 2.35</pose>
+      </camera>
+    </gui>
+
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+    <include>
+      <uri>model://subway_station</uri>
+    </include>
+
+  </world>
+</sdf>
