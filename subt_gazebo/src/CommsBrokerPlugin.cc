@@ -34,7 +34,7 @@ void CommsBrokerPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
 
   this->world = _world;
   this->commsModel.reset(new subt::CommsModel(
-    this->broker.Swarm(), this->world, _sdf));
+    this->broker.Team(), this->world, _sdf));
   this->maxDataRatePerCycle = this->commsModel->MaxDataRate() *
       this->world->Physics()->GetMaxStepSize();
   this->updateConnection = event::Events::ConnectWorldUpdateBegin(
@@ -47,13 +47,13 @@ void CommsBrokerPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
 void CommsBrokerPlugin::OnUpdate()
 {
   // We need to lock the broker mutex from the outside because "commsModel"
-  // accesses its "swarm" member variable.
+  // accesses its "team" member variable.
   std::lock_guard<std::mutex> lock(this->broker.Mutex());
 
   // Update the state of the communication model.
   this->commsModel->Update();
 
-  // Send a message to each swarm member with its updated neighbors list.
+  // Send a message to each team member with its updated neighbors list.
   this->broker.NotifyNeighbors();
 
   // Dispatch all the incoming messages, deciding whether the destination gets

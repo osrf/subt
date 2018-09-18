@@ -30,7 +30,7 @@ using namespace subt;
 
 //////////////////////////////////////////////////
 Broker::Broker()
-  : swarm(std::make_shared<SwarmMembership_M>()),
+  : team(std::make_shared<TeamMembership_M>()),
     rndEngine(std::default_random_engine(ignition::math::Rand::Seed()))
 {
   // Advertise the service for registering addresses.
@@ -78,9 +78,9 @@ void Broker::Reset()
 }
 
 //////////////////////////////////////////////////
-subt::SwarmMembershipPtr Broker::Swarm()
+subt::TeamMembershipPtr Broker::Team()
 {
-  return this->swarm;
+  return this->team;
 }
 
 //////////////////////////////////////////////////
@@ -88,15 +88,15 @@ void Broker::NotifyNeighbors()
 {
   subt::msgs::Neighbor_M neighbors;
 
-  // Send neighbors updates to each member of the swarm.
-  for (auto const &robot : (*this->Swarm()))
+  // Send neighbors updates to each member of the team.
+  for (auto const &robot : (*this->Team()))
   {
     auto address = robot.first;
-    auto swarmMember = (*this->Swarm())[address];
+    auto teamMember = (*this->Team())[address];
 
     // Populate the list of neighbors for this address.
     ignition::msgs::StringMsg_V v;
-    for (auto const &neighbor : swarmMember->neighbors)
+    for (auto const &neighbor : teamMember->neighbors)
       v.add_data(neighbor.first);
 
     // Add the list of neighbors for each address.
@@ -117,7 +117,7 @@ void Broker::DispatchMessages(const uint32_t _maxDataRatePerCycle,
       this->rndEngine);
 
   // Clear the data rate usage for each robot.
-  for (const auto &member : (*this->swarm))
+  for (const auto &member : (*this->team))
     member.second->dataRateUsage = 0;
 
   while (!this->incomingMsgs.empty())
@@ -126,26 +126,26 @@ void Broker::DispatchMessages(const uint32_t _maxDataRatePerCycle,
     const subt::msgs::Datagram msg = this->incomingMsgs.front();
     this->incomingMsgs.pop_front();
 
-    // Sanity check: Make sure that the sender is a member of the swarm.
-    if (this->swarm->find(msg.src_address()) == this->swarm->end())
+    // Sanity check: Make sure that the sender is a member of the team.
+    if (this->team->find(msg.src_address()) == this->team->end())
     {
       std::cerr << "Broker::DispatchMessages(): Discarding message. Robot ["
                 << msg.src_address() << "] is not registered as a member of the"
-                << " swarm" << std::endl;
+                << " team" << std::endl;
       continue;
     }
 
     // Get the list of neighbors of the sender.
-    const Neighbors_M &neighbors = (*this->swarm)[msg.src_address()]->neighbors;
+    const Neighbors_M &neighbors = (*this->team)[msg.src_address()]->neighbors;
 
     // Update the data rate usage.
     auto dataSize = (msg.data().size() + _udpOverhead) * 8;
-    (*this->swarm)[msg.src_address()]->dataRateUsage += dataSize;
+    (*this->team)[msg.src_address()]->dataRateUsage += dataSize;
     for (const auto &neighbor : neighbors)
     {
       // We account the overhead caused by the UDP/IP/Ethernet headers + the
       // payload. We convert the total amount of bytes to bits.
-      (*this->swarm)[neighbor.first]->dataRateUsage += dataSize;
+      (*this->team)[neighbor.first]->dataRateUsage += dataSize;
     }
 
     std::string dstEndPoint =
@@ -163,7 +163,7 @@ void Broker::DispatchMessages(const uint32_t _maxDataRatePerCycle,
           continue;
 
         // Check if the maximum data rate has been reached in the destination.
-        if ((*swarm)[client.address]->dataRateUsage > _maxDataRatePerCycle)
+        if ((*team)[client.address]->dataRateUsage > _maxDataRatePerCycle)
         {
           // Debug output
           // gzdbg << "Dropping message (max data rate) from "
@@ -239,7 +239,7 @@ bool Broker::Bind(const std::string &_clientAddress,
 //////////////////////////////////////////////////
 bool Broker::Register(const std::string &_id)
 {
-  if (this->swarm->find(_id) != this->swarm->end())
+  if (this->team->find(_id) != this->team->end())
   {
     std::cerr << "Logger::Register() error: ID [" << _id << "] already exists"
               << std::endl;
@@ -256,13 +256,13 @@ bool Broker::Register(const std::string &_id)
     return false;
   }
 
-  auto newMember = std::make_shared<SwarmMember>();
+  auto newMember = std::make_shared<TeamMember>();
 
   // Name and address are the same in SubT.
   newMember->address = _id;
   newMember->name = _id;
   newMember->model = model;
-  (*this->swarm)[_id] = newMember;
+  (*this->team)[_id] = newMember;
 
   std::cout << "New client registered [" << _id << "]" <<  std::endl;
 
@@ -273,14 +273,14 @@ bool Broker::Register(const std::string &_id)
 bool Broker::Unregister(const std::string &_id)
 {
   // Sanity check: Make sure that the ID exists.
-  if (this->swarm->find(_id) == this->swarm->end())
+  if (this->team->find(_id) == this->team->end())
   {
     std::cerr << "Broker::Unregister() error: ID [" << _id << "] doesn't exist"
               << std::endl;
     return false;
   }
 
-  this->swarm->erase(_id);
+  this->team->erase(_id);
 
   // Unbind.
   for (auto &endpointKv : this->endpoints)

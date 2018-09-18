@@ -1,0 +1,25 @@
+
+<?xml version='1.0' ?>
+<sdf version='1.6'>
+  <model name='Electrical Box'>
+    <static>true</static>
+    <link name='link'>
+      <pose>0 0 0 1.57 3.14159 0</pose>
+      <collision name='collision'>
+        <geometry>
+          <mesh>
+            <uri>model://Electrical Box/meshes/Electrical Box.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='visual'>
+        <geometry>
+          <mesh>
+            <uri>model://Electrical Box/meshes/Electrical Box.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>
+

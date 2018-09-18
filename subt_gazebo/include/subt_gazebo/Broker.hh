@@ -58,9 +58,9 @@ namespace subt
     /// \brief Handle reset.
     public: void Reset();
 
-    /// \brief Get a mutator to the swarm.
-    /// \return A mutator to the swarm.
-    public: subt::SwarmMembershipPtr Swarm();
+    /// \brief Get a mutator to the team.
+    /// \return A mutator to the team.
+    public: subt::TeamMembershipPtr Team();
 
     /// \brief Send a message to each member
     /// with its updated neighbors list.
@@ -99,18 +99,24 @@ namespace subt
     public: bool Unregister(const std::string &_id);
 
     /// \brief Callback executed when a new registration request is received.
-    /// \param _req The address contained in the request.
+    /// \param[in] _req The address contained in the request.
+    /// \param[out] _rep The result of the service. True when the registration
+    /// went OK or false otherwise (e.g.: the same address was already
+    /// registered).
     private: bool OnAddrRegistration(const ignition::msgs::StringMsg &_req,
                                      ignition::msgs::Boolean &_rep);
 
-     /// \brief Callback executed when a new registration request is received.
-    /// \param _req The address contained in the request.
+    /// \brief Callback executed when a new registration request is received.
+    /// \param[in] _req The end point contained in the request. The first
+    /// string is the client address and the second string is the end point.
+    /// \param[out] _rep The result of the service. True when the registration
+    /// went OK of false otherwise (e.g.: _req doesn't contain two strings).
     private: bool OnEndPointRegistration(
                                         const ignition::msgs::StringMsg_V &_req,
                                         ignition::msgs::Boolean &_rep);
 
     /// \brief Callback executed when a new request is received.
-    /// \param _req The datagram contained in the request.
+    /// \param[in] _req The datagram contained in the request.
     private: void OnMessage(const subt::msgs::Datagram &_req);
 
     /// \brief Queue to store the incoming messages received from the clients.
@@ -120,8 +126,8 @@ namespace subt
     /// value is the vector of clients bounded on that endpoint.
     protected: EndPoints_M endpoints;
 
-    /// \brief Information about the members of the swarm.
-    protected: subt::SwarmMembershipPtr swarm;
+    /// \brief Information about the members of the team.
+    protected: subt::TeamMembershipPtr team;
 
     /// \brief An Ignition Transport node for communications.
     private: ignition::transport::Node node;
