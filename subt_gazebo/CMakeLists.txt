@@ -154,6 +154,10 @@ install(TARGETS ${light_visual_plugin_name}
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
 
+# Install all the scripts
+install(PROGRAMS nodes/terminator.bash
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+
 
 ###########
 ## Tests ##

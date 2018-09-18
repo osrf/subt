@@ -93,4 +93,7 @@
     <arg name="robot_config" value="$(find subt_example)/config/robot_config.yaml"/>
   </include>
 
+  <!-- Make sure that there are no linger processes -->
+  <node name="terminator" pkg="subt_gazebo" type="terminator.bash" output="screen" />
+
 </launch>
