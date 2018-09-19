@@ -89,6 +89,10 @@ RUN mkdir -p subt_ws/src \
 WORKDIR /home/$USERNAME/subt_ws
 RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && catkin_make install'
 
+# Download and install rotors package
+RUN wget https://s3.amazonaws.com/osrf-distributions/subt_robot_examples/releases/subt_robot_examples_latest.tgz
+RUN tar xvf subt_robot_examples_latest.tgz
+
 RUN /bin/sh -c 'echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc' \
  && /bin/sh -c 'echo ". /usr/share/gazebo/setup.sh" >> ~/.bashrc' \
  && /bin/sh -c 'echo ". ~/subt_ws/install/setup.sh" >> ~/.bashrc'
