@@ -5,29 +5,29 @@
   <xacro:include filename="$(find subt_gazebo)/urdf/flashlight.urdf.xacro" />
   <xacro:include filename="$(find subt_gazebo)/urdf/led.urdf.xacro" />
 
-  <xacro:flashlight flashlight_prefix="right" parent_link="base_link">
-    <pose>0.3 -0.3 0.3 0 ${M_PI*0.5} ${-M_PI*0.1}</pose>
+  <xacro:flashlight flashlight_prefix="right" parent_link="${namespace}/base_link">
+    <pose>-0.02 -0.1 0.05 0 ${M_PI*0.4} ${-M_PI*0.1}</pose>
     <params></params>
   </xacro:flashlight>
-  <xacro:flashlight flashlight_prefix="downward" parent_link="base_link">
-    <pose>0.4 0 0.4 0 ${M_PI*0.6} 0</pose>
+  <xacro:flashlight flashlight_prefix="downward" parent_link="${namespace}/base_link">
+    <pose>0.05 0 0.1 0 ${M_PI/3*2} 0</pose>
     <params></params>
   </xacro:flashlight>
-  <xacro:flashlight flashlight_prefix="left" parent_link="base_link">
-    <pose>0.3 0.3 0.3 0 ${M_PI*0.5} ${M_PI*0.1}</pose>
+  <xacro:flashlight flashlight_prefix="left" parent_link="${namespace}/base_link">
+    <pose>-0.02 0.1 0.05 0 ${M_PI*0.4} ${M_PI*0.1}</pose>
     <params></params>
   </xacro:flashlight>
 
-  <xacro:led led_prefix="right" parent_link="base_link">
-    <pose>-0.3 -0.3 0.3 0 0 0</pose>
+  <xacro:led led_prefix="right" parent_link="${namespace}/base_link">
+    <pose>-0.05 -0.08 0.05 0 0 0</pose>
     <params>
       <duration>0.3</duration>
       <interval>0.3</interval>
       <color>1 0.8 0</color>
     </params>
   </xacro:led>
-  <xacro:led led_prefix="center" parent_link="base_link">
-    <pose>-0.3 0 0.3 0 0 0</pose>
+  <xacro:led led_prefix="center" parent_link="${namespace}/base_link">
+    <pose>-0.13 0 0.05 0 0 0</pose>
     <params>
       <block>
         <duration>0.1</duration>
@@ -46,8 +46,8 @@
       </block>
     </params>
   </xacro:led>
-  <xacro:led led_prefix="left" parent_link="base_link">
-    <pose>-0.3 0.3 0.3 0 0 0</pose>
+  <xacro:led led_prefix="left" parent_link="${namespace}/base_link">
+    <pose>-0.05 0.08 0.05 0 0 0</pose>
     <params>
       <duration>0.3</duration>
       <interval>0.3</interval>
