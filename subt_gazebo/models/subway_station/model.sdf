@@ -1,0 +1,62 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="subway_station">
+    <static>true</static>
+    <link name="link">
+      <pose>0 0 -3.66 0 0 0</pose>
+      <collision name="collision">
+        <pose>0 0 0.0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://subway_station/meshes/subway_station.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="ground_floor_visual">
+        <meta>
+          <layer>0</layer>
+        </meta>
+        <pose>0 0 0.0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://subway_station/meshes/subway_station.dae</uri>
+            <submesh>
+              <name>GroundFloor</name>
+              <center>false</center>
+            </submesh>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="level_01_visual">
+        <meta>
+          <layer>1</layer>
+        </meta>
+        <pose>0 0 0.0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://subway_station/meshes/subway_station.dae</uri>
+            <submesh>
+              <name>Level_01</name>
+              <center>false</center>
+            </submesh>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="level_02_visual">
+        <meta>
+          <layer>2</layer>
+        </meta>
+        <pose>0 0 0.0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://subway_station/meshes/subway_station.dae</uri>
+            <submesh>
+              <name>Level_02</name>
+              <center>false</center>
+            </submesh>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>
