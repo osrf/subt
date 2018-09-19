@@ -82,12 +82,12 @@ RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
  && hg clone https://bitbucket.org/osrf/subt
 
-RUN /bin/sh -c 'echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc' \
- && /bin/sh -c 'echo ". /usr/share/gazebo/setup.sh" >> ~/.bashrc'
-
 WORKDIR /home/$USERNAME/subt_ws
-RUN /bin/bash -c 'source /opt/ros/melodic/setup.sh'
-RUN /bin/bash -c '/opt/ros/melodic/bin/catkin_make install'
+RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && catkin_make install'
+
+RUN /bin/sh -c 'echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc' \
+ && /bin/sh -c 'echo ". /usr/share/gazebo/setup.sh" >> ~/.bashrc' \
+ && /bin/sh -c 'echo ". ~/subt_ws/install/setup.sh" >> ~/.bashrc'
 
 # Customize your image here.
 # E.g.:
