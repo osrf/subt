@@ -52,7 +52,7 @@
 
   <xacro:macro name="qvga_camera_and_mount">
     <camera_mount prefix="front"
-                  tilt="0.5236"/>
+                  tilt="0.2618"/>
     <joint name="front_camera_mount_joint" type="fixed">
       <origin xyz="0 0 0" rpy="0 0 0" />
       <parent link="front_mount" />
@@ -61,7 +61,8 @@
 
     <pointgrey_flea3 frame="front_camera" name="front"
       camera_x="0.0754" camera_y="0.029" camera_z="0.029"
-      camera_mass="0.085" hfov="1.0471975512" fps="30" width="320" height="240"/>
+      camera_mass="0.085" hfov="1.0471975512" fps="30" width="320" height="240"
+      near="0.01" />
     <joint name="front_camera_bracket_joint" type="fixed">
       <origin xyz="0.020 0 0.0245" rpy="0 0 0" />
       <parent link="front_camera_beam" />
@@ -71,7 +72,7 @@
 
   <xacro:macro name="hd_camera_and_mount">
     <camera_mount prefix="front"
-                  tilt="0.5236"/>
+                  tilt="0.2618"/>
     <joint name="front_camera_mount_joint" type="fixed">
       <origin xyz="0 0 0" rpy="0 0 0" />
       <parent link="front_mount" />
@@ -80,7 +81,8 @@
 
     <pointgrey_flea3 frame="front_camera" name="front"
       camera_x="0.0754" camera_y="0.029" camera_z="0.029"
-      camera_mass="0.085" hfov="1.0471975512" fps="30" width="1280" height="960"/>
+      camera_mass="0.085" hfov="1.0471975512" fps="30" width="1280" height="960"
+      near="0.01" />
     <joint name="front_camera_bracket_joint" type="fixed">
       <origin xyz="0.020 0 0.0245" rpy="0 0 0" />
       <parent link="front_camera_beam" />
