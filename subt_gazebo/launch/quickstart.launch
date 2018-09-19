@@ -13,4 +13,7 @@
     <arg name="extra_gazebo_args" value="--verbose"/>
   </include>
 
+  <include file="$(find subt_example)/launch/team.launch">
+  </include>
+
 </launch>
