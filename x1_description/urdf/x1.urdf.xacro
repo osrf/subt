@@ -35,9 +35,11 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 
   <xacro:property name="x1_bumper_extend" value="$(optenv X1_FORWARD_BUMPER_EXTEND 0)" />
 
-  <xacro:arg name="robot_namespace" default="/" />
+  <xacro:arg name="robot_namespace" default="" />
   <xacro:arg name="tfpre" default="x0_tf" />
   <xacro:arg name="urdf_extras" default="empty.urdf" />
+
+  <xacro:property name="namespace" value="$(arg robot_namespace)" />
 
   <!-- Included URDF/XACRO Files -->
   <xacro:include filename="$(find x1_description)/urdf/decorations.urdf.xacro" />
@@ -66,7 +68,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
   <xacro:property name="wheel_radius" value="0.1651" />
 
   <!-- Base link is the center of the robot's bottom plate -->
-  <link name="base_link">
+  <link name="${namespace}/base_link">
     <visual>
       <origin xyz="0 0 0" rpy="0 0 3.1416" />
       <geometry>
@@ -88,16 +90,16 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
   </link>
 
   <!-- Base footprint is on the ground under the robot -->
-  <link name="base_footprint"/>
+  <link name="${namespace}/base_footprint"/>
 
   <joint name="base_footprint_joint" type="fixed">
     <origin xyz="0 0 ${wheel_vertical_offset - wheel_radius}" rpy="0 0 0" />
-    <parent link="base_link" />
-    <child link="base_footprint" />
+    <parent link="${namespace}/base_link" />
+    <child link="${namespace}/base_footprint" />
   </joint>
 
   <!-- Interial link stores the robot's inertial information -->
-  <link name="inertial_link">
+  <link name="${namespace}/inertial_link">
     <inertial>
       <mass value="46.034" />
       <origin xyz="-0.00065 -0.085 0.062" />
@@ -107,19 +109,19 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 
   <joint name="inertial_joint" type="fixed">
     <origin xyz="0 0 0" rpy="0 0 0" />
-    <parent link="base_link" />
-    <child link="inertial_link" />
+    <parent link="${namespace}/base_link" />
+    <child link="${namespace}/inertial_link" />
   </joint>
 
   <!-- IMU Link is the standard mounting position for the UM6 IMU.-->
   <!-- Can be modified with environment variables in /etc/ros/setup.bash -->
-  <link name="imu_link"/>
+  <link name="${namespace}/imu_link"/>
   <joint name="imu_joint" type="fixed">
     <origin xyz="$(optenv X1_IMU_XYZ 0.19 0 0.149)" rpy="$(optenv X1_IMU_RPY 0 -1.5708 3.1416)" />
-    <parent link="base_link" />
-    <child link="imu_link" />
+    <parent link="${namespace}/base_link" />
+    <child link="${namespace}/imu_link" />
   </joint>
-  <gazebo reference="imu_link">
+  <gazebo reference="${namespace}/imu_link">
   </gazebo>
 
   <!-- X1 wheel macros -->
@@ -227,12 +229,12 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 
     <sick_lms1xx_mount prefix="base"/>
 
-    <sick_lms1xx frame="base_laser" topic="scan" robot_namespace="$(arg robot_namespace)"/>
+    <sick_lms1xx frame="base_laser" topic="scan" robot_namespace="${namespace}"/>
 
     <joint name="laser_mount_joint" type="fixed">
       <origin xyz="$(arg laser_xyz)" rpy="$(arg laser_rpy)" />
-      <parent link="top_plate_link" />
-      <child link="base_laser_mount" />
+      <parent link="${namespace}/top_plate_link" />
+      <child link="${namespace}/base_laser_mount" />
     </joint>
 
   </xacro:if>
@@ -244,25 +246,26 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
     </xacro:sensor_arch>
     <joint name="kinect_frame_joint" type="fixed">
       <origin xyz="$(arg kinect_xyz)" rpy="$(arg kinect_rpy)" />
-      <parent link="sensor_arch_mount_link"/>
-      <child link="camera_link"/>
+      <parent link="${namespace}/sensor_arch_mount_link"/>
+      <child link="${namespace}/camera_link"/>
     </joint>
 
-    <xacro:kinect_camera prefix="camera" robot_namespace="$(arg robot_namespace)"/>
+    <xacro:kinect_camera prefix="camera" robot_namespace="${namespace}"/>
   </xacro:if>
 
   <gazebo>
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-      <robotNamespace>$(arg robot_namespace)</robotNamespace>
+      <robotNamespace>${namespace}/</robotNamespace>
     </plugin>
   </gazebo>
 
   <gazebo>
     <plugin name="imu_controller" filename="libhector_gazebo_ros_imu.so">
-      <robotNamespace>$(arg robot_namespace)</robotNamespace>
+      <robotNamespace>${namespace}/</robotNamespace>
       <updateRate>50.0</updateRate>
-      <frameId>$(arg tfpre)base_link</frameId>
-      <bodyName>base_link</bodyName>
+      <!--TODO: The frame id and body name need the namespace-->
+      <frameId>${namespace}/base_link</frameId>
+      <bodyName>${namespace}/base_link</bodyName>
       <topicName>imu/data</topicName>
       <accelDrift>0.005 0.005 0.005</accelDrift>
       <accelGaussianNoise>0.005 0.005 0.005</accelGaussianNoise>
@@ -275,10 +278,10 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 
   <gazebo>
     <plugin name="gps_controller" filename="libhector_gazebo_ros_gps.so">
-      <robotNamespace>$(arg robot_namespace)</robotNamespace>
+      <robotNamespace>${namespace}/</robotNamespace>
       <updateRate>40</updateRate>
-      <bodyName>base_link</bodyName>
-      <frameId>$(arg tfpre)base_link</frameId>
+      <bodyName>${namespace}/base_link</bodyName>
+      <frameId>${namespace}/base_link</frameId>
       <topicName>navsat/fix</topicName>
       <velocityTopicName>navsat/vel</velocityTopicName>
       <referenceLatitude>49.9</referenceLatitude>
