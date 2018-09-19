@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="scenario" default="lava_tube"/>
+  <arg name="scenario" default="tunnel_practice_1"/>
 
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="world_name"
