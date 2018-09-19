@@ -57,6 +57,9 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 
 RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' \
  && sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list' \
+ && sudo /bin/sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-prerelease `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-prerelease.list' \
+ && sudo /bin/sh -c 'wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -' \
+ && sudo /bin/sh -c 'apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116' \
  && sudo apt-get update \
  && sudo apt-get install -y \
     libgazebo9-dev \
@@ -81,6 +84,10 @@ RUN mkdir -p subt_ws/src \
 
 RUN /bin/sh -c 'echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc' \
  && /bin/sh -c 'echo ". /usr/share/gazebo/setup.sh" >> ~/.bashrc'
+
+WORKDIR /home/$USERNAME/subt_ws
+RUN /bin/bash -c 'source /opt/ros/melodic/setup.sh'
+RUN /bin/bash -c '/opt/ros/melodic/bin/catkin_make install'
 
 # Customize your image here.
 # E.g.:
