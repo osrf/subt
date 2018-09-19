@@ -17,7 +17,7 @@
   <xacro:include filename="$(find jackal_description)/urdf/accessories/bridge_plate.urdf.xacro" />
 
   <!-- If enabled, generate the LASER payload (by default, a SICK LMS111). -->
-  <xacro:include filename="$(find jackal_description)/urdf/accessories/sick_lms1xx_mount.urdf.xacro" />
+  <!--<xacro:include filename="$(find jackal_description)/urdf/accessories/sick_lms1xx_mount.urdf.xacro" />
   <xacro:if value="$(optenv JACKAL_LASER 0)">
     <sick_lms1xx_mount prefix="$(optenv JACKAL_LASER_MOUNT front)"
                        topic="$(optenv JACKAL_LASER_TOPIC front/scan)"/>
@@ -28,6 +28,111 @@
       <parent link="$(optenv JACKAL_LASER_MOUNT front)_mount" />
       <child link="$(optenv JACKAL_LASER_MOUNT front)_laser_mount" />
     </joint>
+  </xacro:if>
+-->
+  <xacro:include filename="$(find x2_description)/urdf/short_range_laser_mount.urdf.xacro" />
+  <xacro:include filename="$(find x2_description)/urdf/mid_range_laser_mount.urdf.xacro" />
+  <xacro:include filename="$(find x2_description)/urdf/camera_mount.urdf.xacro" />
+  <xacro:include filename="$(find pointgrey_camera_description)/urdf/pointgrey_flea3.urdf.xacro" />
+
+  <xacro:macro name="planar_short_range_lidar_and_mount">
+    <short_range_laser_mount prefix="$(optenv JACKAL_LASER_MOUNT front)"
+                       topic="$(optenv JACKAL_LASER_TOPIC front/scan)"/>
+
+    <joint name="$(optenv JACKAL_LASER_MOUNT front)_laser_mount_joint" type="fixed">
+      <origin xyz="$(optenv JACKAL_LASER_OFFSET 0 0 0)"
+              rpy="$(optenv JACKAL_LASER_RPY 0 0 0)" />
+      <parent link="$(optenv JACKAL_LASER_MOUNT front)_mount" />
+      <child link="$(optenv JACKAL_LASER_MOUNT front)_laser_mount" />
+    </joint>
+  </xacro:macro>
+
+  <xacro:macro name="planar_mid_range_lidar_and_mount">
+    <mid_range_laser_mount prefix="$(optenv JACKAL_LASER_MOUNT front)"
+                       topic="$(optenv JACKAL_LASER_TOPIC front/scan)"/>
+
+    <joint name="$(optenv JACKAL_LASER_MOUNT front)_laser_mount_joint" type="fixed">
+      <origin xyz="$(optenv JACKAL_LASER_OFFSET 0 0 0)"
+              rpy="$(optenv JACKAL_LASER_RPY 0 0 0)" />
+      <parent link="$(optenv JACKAL_LASER_MOUNT front)_mount" />
+      <child link="$(optenv JACKAL_LASER_MOUNT front)_laser_mount" />
+    </joint>
+  </xacro:macro>
+
+  <xacro:macro name="qvga_camera_and_mount">
+    <camera_mount prefix="$(optenv JACKAL_FLEA3_MOUNT front)"
+                       tilt="$(optenv JACKAL_FLEA3_TILT 0.5236)"/>
+    <joint name="$(optenv JACKAL_FLEA3_MOUNT front)_camera_mount_joint" type="fixed">
+      <origin xyz="$(optenv JACKAL_FLEA3_OFFSET 0 0 0)"
+              rpy="$(optenv JACKAL_FLEA3_RPY 0 0 0)" />
+      <parent link="$(optenv JACKAL_FLEA3_MOUNT front)_mount" />
+      <child link="$(optenv JACKAL_FLEA3_MOUNT front)_camera_mount" />
+    </joint>
+
+    <pointgrey_flea3 frame="$(optenv JACKAL_FLEA3_MOUNT front)_camera" name="$(optenv JACKAL_FLEA3_NAME front)"
+      camera_x="0.0754" camera_y="0.029" camera_z="0.029"
+      camera_mass="0.085" hfov="1.0471975512" fps="30" width="320" height="240"/>
+    <joint name="$(optenv JACKAL_FLEA3_MOUNT front)_camera_bracket_joint" type="fixed">
+      <origin xyz="0.020 0 0.0245" rpy="0 0 0" />
+      <parent link="$(optenv JACKAL_FLEA3_MOUNT front)_camera_beam" />
+      <child link="$(optenv JACKAL_FLEA3_MOUNT front)_camera" />
+    </joint>
+  </xacro:macro>
+
+  <xacro:macro name="hd_camera_and_mount">
+    <camera_mount prefix="$(optenv JACKAL_FLEA3_MOUNT front)"
+                       tilt="$(optenv JACKAL_FLEA3_TILT 0.5236)"/>
+    <joint name="$(optenv JACKAL_FLEA3_MOUNT front)_camera_mount_joint" type="fixed">
+      <origin xyz="$(optenv JACKAL_FLEA3_OFFSET 0 0 0)"
+              rpy="$(optenv JACKAL_FLEA3_RPY 0 0 0)" />
+      <parent link="$(optenv JACKAL_FLEA3_MOUNT front)_mount" />
+      <child link="$(optenv JACKAL_FLEA3_MOUNT front)_camera_mount" />
+    </joint>
+
+    <pointgrey_flea3 frame="$(optenv JACKAL_FLEA3_MOUNT front)_camera" name="$(optenv JACKAL_FLEA3_NAME front)"
+      camera_x="0.0754" camera_y="0.029" camera_z="0.029"
+      camera_mass="0.085" hfov="1.0471975512" fps="30" width="1280" height="960"/>
+    <joint name="$(optenv JACKAL_FLEA3_MOUNT front)_camera_bracket_joint" type="fixed">
+      <origin xyz="0.020 0 0.0245" rpy="0 0 0" />
+      <parent link="$(optenv JACKAL_FLEA3_MOUNT front)_camera_beam" />
+      <child link="$(optenv JACKAL_FLEA3_MOUNT front)_camera" />
+    </joint>
+  </xacro:macro>
+
+  <!-- Sensor configuration #1
+         * 2D short range lidar
+         * QVGA camera
+  -->
+  <xacro:if value="$(optenv X2_SENSOR_CONFIG_1 0)">
+    <planar_short_range_lidar_and_mount />
+    <qvga_camera_and_mount />
+  </xacro:if>
+
+  <!-- Sensor configuration #2
+         * 2D short range lidar
+         * HD camera
+  -->
+  <xacro:if value="$(optenv X2_SENSOR_CONFIG_2 0)">
+    <planar_short_range_lidar_and_mount />
+    <hd_camera_and_mount />
+  </xacro:if>
+
+  <!-- Sensor configuration #3
+         * 2D mid range lidar
+         * QVGA camera
+  -->
+  <xacro:if value="$(optenv X2_SENSOR_CONFIG_3 0)">
+    <planar_mid_range_lidar_and_mount />
+    <qvga_camera_and_mount />
+  </xacro:if>
+
+  <!-- Sensor configuration #4
+         * 2D mid range lidar
+         * HD camera
+  -->
+  <xacro:if value="$(optenv X2_SENSOR_CONFIG_4 0)">
+    <planar_mid_range_lidar_and_mount />
+    <hd_camera_and_mount />
   </xacro:if>
 
   <!-- If enabled, generate the upgraded Navsat payload (a Novatel Smart6). -->

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>subt_sensors</name>
+  <version>0.0.1</version>
+  <description>The different sensors used in SubT.</description>
+
+  <author>Carlos Agüero</author>
+  <maintainer email="caguero@openrobotics.org">Carlos Agüero</maintainer>
+
+  <license>Apache 2.</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>rosconsole_bridge</depend>
+  <depend>roscpp</depend>
+  <depend>roscpp_serialization</depend>
+  <depend>sensor_msgs</depend>
+
+  <test_depend>roslaunch</test_depend>
+  <test_depend>roslint</test_depend>
+  <test_depend>rosunit</test_depend>
+</package>
