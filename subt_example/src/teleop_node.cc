@@ -299,8 +299,6 @@ void SubtTeleop::JoyCallback(const sensor_msgs::Joy::ConstPtr &_joy)
     twist.angular.z
       = this->angularScale * _joy->axes[this->angular];
 
-    std::cerr << "New vel command: " << twist << std::endl;
-
     // Publish the control values.
     this->velPubMap[this->currentRobot].publish(twist);
   }

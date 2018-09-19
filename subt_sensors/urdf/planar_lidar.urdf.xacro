@@ -17,9 +17,10 @@ limitations under the License.
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:macro name="planar_short_range_lidar" params="frame:=laser topic:=scan sample_size:=720 update_rate:=30
+  <xacro:macro name="planar_lidar" params="frame:=laser topic:=scan sample_size:=720 update_rate:=30
                min_angle:=-2.35619 max_angle:=2.35619 min_range:=0.1 max_range:=30.0 robot_namespace:=/
-               x:=0 y:=0 z:=0" >
+               x:=0 y:=0 z:=0
+               mesh:=package://subt_sensors/meshes/hokuyo.dae">
     <link name="${frame}">
       <inertial>
         <mass value="1e-5" />
@@ -30,7 +31,7 @@ limitations under the License.
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
           <!-- Origin of this mesh is the focal point of the LIDAR. -->
-          <mesh filename="package://subt_sensors/meshes/hokuyo.dae" />
+          <mesh filename="${mesh}" />
         </geometry>
       </visual>
       <collision>
@@ -52,13 +53,13 @@ limitations under the License.
             <horizontal>
               <samples>${sample_size}</samples>
               <resolution>1</resolution>
-              <max_angle>2.0944</max_angle> <!-- 120 Degree -->
-              <min_angle>-2.0944</min_angle> <!-- -120 Degree -->
+              <max_angle>${min_angle}</max_angle>
+              <min_angle>${max_angle}</min_angle>
             </horizontal>
           </scan>
           <range>
-            <min>0.10</min>
-            <max>5.0</max>
+            <min>${min_range}</min>
+            <max>${max_range}</max>
             <resolution>0.01</resolution>
           </range>
           <noise>

@@ -29,13 +29,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
-  <xacro:include filename="$(find subt_sensors)/urdf/2d_short_range_lidar.urdf.xacro" />
+  <xacro:include filename="$(find subt_sensors)/urdf/planar_lidar.urdf.xacro" />
 
-  <xacro:macro name="short_range_laser_mount" params="prefix topic
-    x:=0 y:=0 z:=0">
-
-    <planar_short_range_lidar frame="${prefix}_laser" topic="${topic}"
-      x="${x}" y="${y}" z="${z}"/>
+  <xacro:macro name="laser_mount" params="prefix x:=0 y:=0 z:=0">
 
     <link name="${prefix}_laser_mount">
       <visual>
