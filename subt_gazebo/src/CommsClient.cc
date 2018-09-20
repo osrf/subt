@@ -48,7 +48,7 @@ CommsClient::CommsClient(const std::string &_localAddress)
   // Retry registration for some time. The broker could be unavailable or
   // the model still not inserted into the simulation.
   while (!this->enabled && std::chrono::duration_cast<
-                     std::chrono::milliseconds>(elapsed).count() <= kMaxWaitTime)
+                    std::chrono::milliseconds>(elapsed).count() <= kMaxWaitTime)
   {
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
     this->enabled = this->Register();
