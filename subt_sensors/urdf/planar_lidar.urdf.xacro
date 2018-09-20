@@ -43,7 +43,7 @@ limitations under the License.
     </link>
 
     <gazebo reference="${frame}">
-      <turnGravityOff>true</turnGravityOff>
+      <turnGravityOff>false</turnGravityOff>
       <sensor type="gpu_ray" name="${frame}">
         <pose>${x} ${y} ${z} 0 0 0</pose>
         <visualize>false</visualize>
