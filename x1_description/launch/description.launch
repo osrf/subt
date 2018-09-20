@@ -1,21 +1,20 @@
 <?xml version="1.0"?>
 <launch>
 
-  <arg name="robot_namespace" default="/"/>
+  <arg name="robot_namespace" default=""/>
   <arg name="laser_enabled" default="$(optenv X1_LMS1XX_ENABLED false)"/>
   <arg name="kinect_enabled" default="$(optenv X1_KINECT_ENABLED false)"/>
   <arg name="urdf_extras" default="$(optenv X1_URDF_EXTRAS)"/>
   <!-- Generate the tf_prefix from the namespace -->
-  <arg name="tfpre" default="" if="$(eval robot_namespace == '/')"/>
-  <arg name="tfpre" default="$(arg robot_namespace)_tf/" unless="$(eval robot_namespace == '/')"/>
+  <arg name="tf_prefix" default="$(optenv ROS_NAMESPACE)"/>
 
   <param name="robot_description" command="$(find xacro)/xacro '$(find x1_description)/urdf/x1.urdf.xacro'
     --inorder
     robot_namespace:=$(arg robot_namespace)
     laser_enabled:=$(arg laser_enabled)
     kinect_enabled:=$(arg kinect_enabled)
-    tfpre:=$(arg tfpre)
     urdf_extras:=$(arg urdf_extras)
     " />
 
+  <param name="tf_prefix" type="string" value="$(arg tf_prefix)" />
 </launch>

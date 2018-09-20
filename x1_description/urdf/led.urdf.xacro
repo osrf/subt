@@ -2,7 +2,7 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro" name="led">
 
   <xacro:macro name="led" params="led_prefix xyz rpy **plugin_params">
-    <link name="${led_prefix}_led_link">
+    <link name="${namespace}/${led_prefix}_led_link">
 
       <visual name="marker">
         <origin xyz="0 0 0" rpy="0 0 0" />
@@ -22,8 +22,8 @@
     </link>
 
     <joint name="${led_prefix}_led" type="fixed">
-      <parent link="base_link"/>
-      <child link="${led_prefix}_led_link"/>
+      <parent link="${namespace}/base_link"/>
+      <child link="${namespace}/${led_prefix}_led_link"/>
       <origin xyz="${xyz}" rpy="${rpy}"/>
     </joint>
 
@@ -91,7 +91,7 @@
 
     <gazebo>
       <joint name="${led_prefix}_led" type="fixed">
-        <parent>base_link</parent>
+        <parent>${namespace}/base_link</parent>
         <child>${led_prefix}_led::body</child>
       </joint>
     </gazebo>
