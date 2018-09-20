@@ -15,6 +15,7 @@
  *
 */
 
+#include <chrono>
 #include <iostream>
 #include <string>
 
@@ -39,8 +40,27 @@ CommsClient::CommsClient(const std::string &_localAddress)
     return;
   }
 
-  if (!this->Register())
+  const unsigned int kMaxWaitTime = 10000u;
+  const auto kStart = std::chrono::steady_clock::now();
+  auto elapsed = std::chrono::steady_clock::now() - kStart;
+  this->enabled = this->Register();
+
+  // Retry registration for some time. The broker could be unavailable or
+  // the model still not inserted into the simulation.
+  while (!this->enabled && std::chrono::duration_cast<
+                     std::chrono::milliseconds>(elapsed).count() <= kMaxWaitTime)
+  {
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    this->enabled = this->Register();
+    elapsed = std::chrono::steady_clock::now() - kStart;
+  }
+
+  if (!this->enabled)
+  {
+    std::cerr << "[CommsClient] Validation service not available, invalid "
+              << "address or model not available" << std::endl;
     return;
+  }
 
   // Subscribe to the topic where neighbor updates are notified.
   if (!this->node.Subscribe(kNeighborsTopic, &CommsClient::OnNeighbors, this))
@@ -105,20 +125,7 @@ bool CommsClient::Register()
   bool executed = this->node.Request(
     kAddrRegistrationSrv, req, timeout, rep, result);
 
-  if (!executed)
-  {
-    std::cerr << "[CommsClient] Validation service not available" << std::endl;
-    return false;
-  }
-
-  if (!result)
-  {
-    std::cerr << "[CommsClient] Invalid address. Probably this address is "
-              << "already used" << std::endl;
-    return false;
-  }
-
-  return true;
+  return executed && result;
 }
 
 //////////////////////////////////////////////////
