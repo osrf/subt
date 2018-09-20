@@ -29,7 +29,7 @@ class Converter:
 		vel = data
 
 		quaternion = (newPose.orientation.x, newPose.orientation.y, newPose.orientation.z, newPose.orientation.w)
-		vec = (vel.linear.x - 0.19, vel.linear.y, vel.linear.z + 0.277, 1)
+		vec = (vel.linear.x - 0.03, vel.linear.y, vel.linear.z + 0.07, 1)
 		Rot = tf.quaternion_matrix(quaternion).tolist()
 		buff = numpy.matmul(Rot, vec)
 		newPose.position.x += buff[0]

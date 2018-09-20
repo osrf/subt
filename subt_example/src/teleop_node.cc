@@ -25,13 +25,13 @@
 #include <string>
 #include <vector>
 
-/// \brief. Tele-operation node to control a team of robots by joy sticks.
+/// \brief. Tele-operation node to control a team of robots by joysticks.
 class SubtTeleop
 {
   /// \brief Constructor.
   public: SubtTeleop();
 
-  /// \brief Callback function for a joy stick control.
+  /// \brief Callback function for a joystick control.
   private: void JoyCallback(const sensor_msgs::Joy::ConstPtr &_joy);
 
   /// \brief ROS node handler.

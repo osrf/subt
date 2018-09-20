@@ -25,22 +25,6 @@
     </plugin>
   </gazebo>
 
-  <gazebo>
-    <plugin name="gps_controller" filename="libhector_gazebo_ros_gps.so">
-      <updateRate>40</updateRate>
-      <robotNamespace>$(arg robot_namespace)</robotNamespace>
-      <bodyName>$(arg robot_namespace)/navsat_link</bodyName>
-      <frameId>$(arg robot_namespace)/base_link</frameId>
-      <topicName>/navsat/fix</topicName>
-      <velocityTopicName>/navsat/vel</velocityTopicName>
-      <referenceLatitude>49.9</referenceLatitude>
-      <referenceLongitude>8.9</referenceLongitude>
-      <referenceHeading>0</referenceHeading>
-      <referenceAltitude>0</referenceAltitude>
-      <drift>0.0001 0.0001 0.0001</drift>
-    </plugin>
-  </gazebo>
-
   <gazebo reference="base_link">
     <turnGravityOff>false</turnGravityOff>
   </gazebo>

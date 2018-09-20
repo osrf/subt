@@ -1,0 +1,41 @@
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:macro name="camera_mount" params="prefix tilt:=0">
+
+    <link name="${prefix}_camera_mount">
+      <visual>
+        <origin xyz="0 0 0" rpy="1.5707 0 1.5707" />
+        <geometry>
+          <mesh filename="package://jackal_description/meshes/camera-bracket.stl" scale="0.001 0.001 0.001" />
+        </geometry>
+        <material name="dark_grey" />
+      </visual>
+    </link>
+
+    <link name="${prefix}_camera_beam">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 1.5707" />
+        <geometry>
+          <mesh filename="package://jackal_description/meshes/camera-beam.stl" scale="0.001 0.001 0.001" />
+        </geometry>
+        <material name="dark_grey" />
+      </visual>
+    </link>
+
+    <joint name="${prefix}_camera_pivot_joint" type="fixed">
+      <origin xyz="0.102 0 0.008" rpy="0 ${tilt} 0" />
+      <parent link="${prefix}_camera_mount" />
+      <child link="${prefix}_camera_beam" />
+    </joint>
+
+    <gazebo reference="${prefix}_camera_beam">
+      <material>Gazebo/DarkGrey</material>
+    </gazebo>
+
+    <gazebo reference="${prefix}_camera_mount">
+      <material>Gazebo/DarkGrey</material>
+    </gazebo>
+
+  </xacro:macro>
+
+</robot>
