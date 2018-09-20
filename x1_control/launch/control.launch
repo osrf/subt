@@ -3,7 +3,7 @@
 
   <arg name="multimaster" default="$(optenv ROBOT_MULTIMASTER false)"/>
   <arg name="simulation" default="$(optenv ROBOT_SIMULATION false)"/>
-  <arg name="robot_namespace" default="/"/>
+  <arg name="robot_namespace" default=""/>
 
   <arg name="config_extras"
        default="$(eval optenv('X1_CONFIG_EXTRAS', find('x1_control') + '/config/empty.yaml'))"/>
@@ -29,6 +29,10 @@
 
   <!-- Load controller configuration -->
   <rosparam command="load" file="$(find x1_control)/config/control.yaml" />
+
+  <!-- substitute the base link frame -->
+  <rosparam param="x1_velocity_controller/base_frame_id" subst_value="True">$(arg robot_namespace)/base_link</rosparam>
+  <rosparam param="x1_velocity_controller/odom_frame_id" subst_value="True">$(arg robot_namespace)/odom</rosparam>
 
   <!-- Spawn controllers -->
   <node name="base_controller_spawner" pkg="controller_manager" type="spawner"
