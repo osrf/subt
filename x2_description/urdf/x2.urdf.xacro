@@ -407,7 +407,7 @@
     <child link="${namespace}/imu_link" />
   </joint>
 
-  <!-- TODO: Same note as applies to ${namespace}/imu_link -->
+  <!-- TODO: Same note as applies to imu_link -->
   <link name="${namespace}/navsat_link">
     <visual>
       <geometry>

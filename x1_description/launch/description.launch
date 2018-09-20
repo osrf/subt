@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
 
-  <arg name="robot_namespace" default="/"/>
+  <arg name="robot_namespace" default=""/>
   <arg name="laser_enabled" default="$(optenv X1_LMS1XX_ENABLED false)"/>
   <arg name="kinect_enabled" default="$(optenv X1_KINECT_ENABLED false)"/>
   <arg name="urdf_extras" default="$(optenv X1_URDF_EXTRAS)"/>
@@ -15,6 +15,6 @@
     kinect_enabled:=$(arg kinect_enabled)
     urdf_extras:=$(arg urdf_extras)
     " />
-_
+
   <param name="tf_prefix" type="string" value="$(arg tf_prefix)" />
 </launch>

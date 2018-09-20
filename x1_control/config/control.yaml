@@ -12,9 +12,6 @@ x1_velocity_controller:
   cmd_vel_timeout: 0.25
   velocity_rolling_window_size: 2
 
-  # Base frame_id
-  base_frame_id: base_link
-
   # Odometry fused with IMU is published by robot_localization, so
   # no need to publish a TF based on encoders alone.
   enable_odom_tf: false
