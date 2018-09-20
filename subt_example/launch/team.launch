@@ -89,7 +89,9 @@
   <node name="$(arg x4_name)_control" pkg="subt_example" type="subt_example_node" args="$(arg x4_name) 128.0.0.13" />
 
   <!-- Teleop node -->
+  <arg name="joy_dev" default="/dev/input/js0" />
   <include file="$(find subt_example)/launch/teleop.launch">
+    <arg name="joy_dev" default="$(arg joy_dev)" />
     <arg name="robot_config" value="$(find subt_example)/config/robot_config.yaml"/>
   </include>
 
