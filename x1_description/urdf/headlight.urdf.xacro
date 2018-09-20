@@ -2,7 +2,7 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro" name="headlight">
 
   <xacro:macro name="headlight" params="headlight_prefix xyz rpy">
-    <link name="${headlight_prefix}_headlight_link">
+    <link name="${namespace}/${headlight_prefix}_headlight_link">
 
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
@@ -22,8 +22,8 @@
     </link>
 
     <joint name="${headlight_prefix}_headlight" type="fixed">
-      <parent link="base_link"/>
-      <child link="${headlight_prefix}_headlight_link"/>
+      <parent link="${namespace}/base_link"/>
+      <child link="${namespace}/${headlight_prefix}_headlight_link"/>
       <origin xyz="${xyz}" rpy="${rpy}"/>
     </joint>
 
@@ -96,7 +96,7 @@
 
     <gazebo>
       <joint name="${headlight_prefix}_headlight" type="fixed">
-        <parent>base_link</parent>
+        <parent>${namespace}/base_link</parent>
         <child>${headlight_prefix}_headlight::body</child>
       </joint>
     </gazebo>

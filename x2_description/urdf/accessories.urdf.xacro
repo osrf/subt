@@ -1,5 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:property name="namespace" value="$(arg robot_namespace)" />
  
   <!-- Macros to generate standoffs for offset payload mounting. -->
   <xacro:include filename="$(find jackal_description)/urdf/accessories/standoffs.urdf.xacro" />
@@ -16,7 +18,7 @@
     <laser_mount prefix="front"/>
     <planar_lidar 
       frame="front_laser"
-      topic="front_scan"
+      topic="${namespace}/front_scan"
       mesh="package://subt_sensors/meshes/hokuyo.dae"
       min_angle="2.3562"
       max_angle="-2.3562"
@@ -26,7 +28,7 @@
 
     <joint name="front_laser_mount_joint" type="fixed">
       <origin xyz="0 0 0" rpy="0 0 0" />
-      <parent link="front_mount" />
+      <parent link="${namespace}/front_mount" />
       <child link="front_laser_mount" />
     </joint>
   </xacro:macro>
@@ -35,7 +37,7 @@
     <laser_mount prefix="front"/>
     <planar_lidar 
       frame="front_laser"
-      topic="front_scan"
+      topic="${namespace}/front_scan"
       mesh="package://subt_sensors/meshes/sick-lms1xx.dae"
       min_angle="2.3562"
       max_angle="-2.3562"
@@ -45,7 +47,7 @@
 
     <joint name="front_laser_mount_joint" type="fixed">
       <origin xyz="0 0 0" rpy="0 0 0" />
-      <parent link="front_mount" />
+      <parent link="${namespace}/front_mount" />
       <child link="front_laser_mount" />
     </joint>
   </xacro:macro>
@@ -55,7 +57,7 @@
                   tilt="0.2618"/>
     <joint name="front_camera_mount_joint" type="fixed">
       <origin xyz="0 0 0" rpy="0 0 0" />
-      <parent link="front_mount" />
+      <parent link="${namespace}/front_mount" />
       <child link="front_camera_mount" />
     </joint>
 
@@ -75,7 +77,7 @@
                   tilt="0.2618"/>
     <joint name="front_camera_mount_joint" type="fixed">
       <origin xyz="0 0 0" rpy="0 0 0" />
-      <parent link="front_mount" />
+      <parent link="${namespace}/front_mount" />
       <child link="front_camera_mount" />
     </joint>
 
