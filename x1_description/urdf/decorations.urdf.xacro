@@ -67,7 +67,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
     <joint name="top_plate_front_joint" type="fixed">
       <parent link="${namespace}/top_plate_link" />
       <child link="${namespace}/top_plate_front_link"/>
-      <origin xyz="0.36367 0 0.00639" rpy="0 0 0"/>
+      <origin xyz="0.24 0 0.00639" rpy="0 0 0"/>
     </joint>
     <!-- Top plate rear link-->
     <joint name="top_plate_rear_joint" type="fixed">
