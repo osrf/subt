@@ -77,7 +77,7 @@ done
 # E.g.:
 # -v "/opt/sublime_text:/opt/sublime_text" \
 
-sudo docker run -it \
+docker run -it \
   -e DISPLAY \
   -e QT_X11_NO_MITSHM=1 \
   -e XAUTHORITY=$XAUTH \
