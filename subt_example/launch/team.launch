@@ -58,6 +58,9 @@
     </node>
     <!-- Give robot_descriptom parameter and joint states, publish TF frames -->
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+    <node name="robot_state_publisher_fixed" pkg="robot_state_publisher" type="robot_state_publisher">
+        <remap from="joint_states" to="fixed/joint_states" />
+    </node>
     <!-- Convert cmd_vel into pose command so as to provide the same interface -->
     <node name="cmdvel_transform" pkg="subt_example" type="cmdvel_converter.py" args="/X3/odometry_sensor1/pose /X3/cmd_vel /X3/command/pose"/>
   </group>
@@ -78,6 +81,9 @@
     </node>
     <!-- Give robot_descriptom parameter and joint states, publish TF frames -->
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+    <node name="robot_state_publisher_fixed" pkg="robot_state_publisher" type="robot_state_publisher">
+        <remap from="joint_states" to="fixed/joint_states" />
+    </node>
     <!-- Convert cmd_vel into pose command so as to provide the same interface -->
     <node name="cmdvel_transform" pkg="subt_example" type="cmdvel_converter.py" args="/X4/odometry_sensor1/pose /X4/cmd_vel /X4/command/pose"/>
   </group>
