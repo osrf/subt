@@ -8,11 +8,5 @@
   <!-- Instantiate a controller. -->
   <xacro:controller_plugin_macro namespace="${namespace}" imu_sub_topic="imu" />
 
-  <!--
-  <xacro:if value="$(arg enable_ground_truth)">
-    <xacro:ground_truth_imu_and_odometry namespace="${namespace}" parent_link="${namespace}/base_link" />
-  </xacro:if>
-  -->
-
 </robot>
 
