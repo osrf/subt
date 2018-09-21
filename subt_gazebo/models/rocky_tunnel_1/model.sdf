@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="rocky_tunnel_1">
+    <static>true</static>
+    <link name="link">
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://rocky_tunnel_1/meshes/rocky_tunnel_1.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://rocky_tunnel_1/meshes/rocky_tunnel_1.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>
