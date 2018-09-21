@@ -22,7 +22,9 @@
     <pose>-0.05 -0.05 0.05 0 0 0</pose>
     <params>
       <duration>0.3</duration>
-      <interval>0.3</interval>
+      <!-- TODO Flashing make rendering choppy. Re-enable when fixed -->
+      <!--interval>0.3</interval-->
+      <interval>0.0</interval>
       <color>1 0.8 0</color>
     </params>
   </xacro:led>
@@ -50,7 +52,7 @@
     <pose>-0.05 0.05 0.05 0 0 0</pose>
     <params>
       <duration>0.3</duration>
-      <interval>0.3</interval>
+      <interval>0.0</interval>
       <color>1 0.8 0</color>
     </params>
   </xacro:led>
