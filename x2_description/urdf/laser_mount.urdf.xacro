@@ -29,11 +29,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
+  <xacro:property name="namespace" value="$(arg robot_namespace)" />
+
   <xacro:include filename="$(find subt_sensors)/urdf/planar_lidar.urdf.xacro" />
 
   <xacro:macro name="laser_mount" params="prefix x:=0 y:=0 z:=0">
 
-    <link name="${prefix}_laser_mount">
+    <link name="${namespace}/${prefix}_laser_mount">
       <visual>
         <origin xyz="${x} ${y} ${z}" rpy="0 0 0" />
         <geometry>
@@ -47,11 +49,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <joint name="${prefix}_laser_joint" type="fixed">
       <!-- This offset is from the base of the bracket to the LIDAR's focal point. -->
       <origin xyz="0 0 0.149" rpy="0 0 0" />
-      <parent link="${prefix}_laser_mount" />
-      <child link="${prefix}_laser" />
+      <parent link="${namespace}/${prefix}_laser_mount" />
+      <child link="${namespace}/${prefix}_laser" />
     </joint>
 
-    <gazebo reference="${prefix}_laser_mount">
+    <gazebo reference="${namespace}/${prefix}_laser_mount">
       <material>Gazebo/DarkGrey</material>
     </gazebo>
 

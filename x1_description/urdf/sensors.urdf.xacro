@@ -13,7 +13,7 @@
   <xacro:macro name="planar_short_range_lidar_and_mount">
     <laser_mount prefix="front"/>
     <planar_lidar 
-      name="front_laser"
+      name="${namespace}/front_laser"
       topic="${namespace}/front_scan"
       mesh="package://subt_sensors/meshes/hokuyo.dae"
       min_angle="2.3562"
@@ -25,14 +25,14 @@
     <joint name="front_laser_mount_joint" type="fixed">
       <origin xyz="0 0 0" rpy="0 0 0" />
       <parent link="${namespace}/top_plate_front_link" />
-      <child link="front_laser_mount" />
+      <child link="${namespace}/front_laser_mount" />
     </joint>
   </xacro:macro>
 
   <xacro:macro name="planar_mid_range_lidar_and_mount">
     <laser_mount prefix="front"/>
     <planar_lidar 
-      name="front_laser"
+      name="${namespace}/front_laser"
       topic="${namespace}/front_scan"
       mesh="package://subt_sensors/meshes/sick-lms1xx.dae"
       min_angle="2.3562"
@@ -44,28 +44,28 @@
     <joint name="front_laser_mount_joint" type="fixed">
       <origin xyz="0 0 0" rpy="0 0 0" />
       <parent link="${namespace}/top_plate_front_link" />
-      <child link="front_laser_mount" />
+      <child link="${namespace}/front_laser_mount" />
     </joint>
   </xacro:macro>
 
   <xacro:macro name="velodyne_mid_range_lidar_and_mount">
     <laser_mount prefix="front"/>
     <velodyne_lidar 
-      name="front_laser"
+      name="${namespace}/front_laser"
       topic="${namespace}/points"
     />
 
     <joint name="front_laser_mount_joint" type="fixed">
       <origin xyz="0 0 0" rpy="0 0 0" />
       <parent link="${namespace}/top_plate_link" />
-      <child link="front_laser_mount" />
+      <child link="${namespace}/front_laser_mount" />
     </joint>
   </xacro:macro>
 
   <xacro:macro name="velodyne_long_range_lidar_and_mount">
     <laser_mount prefix="front"/>
     <velodyne_lidar 
-      name="front_laser"
+      name="${namespace}/front_laser"
       topic="${namespace}/points"
       max_range="300"
     />
@@ -73,7 +73,7 @@
     <joint name="front_laser_mount_joint" type="fixed">
       <origin xyz="0 0 0" rpy="0 0 0" />
       <parent link="${namespace}/top_plate_link" />
-      <child link="front_laser_mount" />
+      <child link="${namespace}/front_laser_mount" />
     </joint>
   </xacro:macro>
 
@@ -83,17 +83,17 @@
     <joint name="front_camera_mount_joint" type="fixed">
       <origin xyz="0 0 0" rpy="0 0 0" />
       <parent link="${namespace}/top_plate_front_link" />
-      <child link="front_camera_mount" />
+      <child link="${namespace}/front_camera_mount" />
     </joint>
 
-    <pointgrey_flea3 frame="front_camera" name="front"
+    <pointgrey_flea3 frame="${namespace}/front_camera" name="front"
       camera_x="0.0754" camera_y="0.029" camera_z="0.029"
       camera_mass="0.085" hfov="1.0471975512" fps="30" width="320" height="240"
       near="0.01" />
     <joint name="front_camera_bracket_joint" type="fixed">
       <origin xyz="0.020 0 0.0245" rpy="0 0 0" />
-      <parent link="front_camera_beam" />
-      <child link="front_camera" />
+      <parent link="${namespace}/front_camera_beam" />
+      <child link="${namespace}/front_camera" />
     </joint>
   </xacro:macro>
 
@@ -103,17 +103,17 @@
     <joint name="front_camera_mount_joint" type="fixed">
       <origin xyz="0 0 0" rpy="0 0 0" />
       <parent link="${namespace}/top_plate_front_link" />
-      <child link="front_camera_mount" />
+      <child link="${namespace}/front_camera_mount" />
     </joint>
 
-    <pointgrey_flea3 frame="front_camera" name="front"
+    <pointgrey_flea3 frame="${namespace}/front_camera" name="front"
       camera_x="0.0754" camera_y="0.029" camera_z="0.029"
       camera_mass="0.085" hfov="1.0471975512" fps="30" width="1280" height="960"
       near="0.01" />
     <joint name="front_camera_bracket_joint" type="fixed">
       <origin xyz="0.020 0 0.0245" rpy="0 0 0" />
-      <parent link="front_camera_beam" />
-      <child link="front_camera" />
+      <parent link="${namespace}/front_camera_beam" />
+      <child link="${namespace}/front_camera" />
     </joint>
   </xacro:macro>
 
