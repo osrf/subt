@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="rviz_config" default="$(find subt_example)/config/x3.rviz" />
+  <node pkg="rviz" type="rviz"
+        name="x3_visualization" args="-d $(arg rviz_config)" />
+</launch>
