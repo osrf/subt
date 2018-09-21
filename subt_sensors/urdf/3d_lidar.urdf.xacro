@@ -50,9 +50,7 @@ limitations under the License.
     <link name="${name}">
       <visual name="${name}_visual">>
         <geometry>
-          <mesh>
-            <cylinder radius="0.025" length="0.1" />
-          </mesh>
+          <cylinder radius="0.025" length="0.1" />
         </geometry>
         <material name="${name}_visual_material">
           <color rgba="0.5 1.0 0.5 1.0" />
