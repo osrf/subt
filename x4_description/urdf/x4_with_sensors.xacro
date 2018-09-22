@@ -2,6 +2,7 @@
 
 <robot name="x4_with_sensors" xmlns:xacro="http://www.ros.org/wiki/xacro">
   <xacro:include filename="$(find x4_description)/urdf/x4_base.xacro" />
+  <xacro:include filename="$(find subt_sensors)/urdf/planar_lidar.urdf.xacro" />
 
   <xacro:odometry_plugin_macro
     namespace="${namespace}"
@@ -109,6 +110,22 @@
       <box size="0.02 0.05 0.05" />
       <origin xyz="0.1 0 0" rpy="0 0 0" />
     </xacro:camera_macro>
+
+    <planar_lidar 
+      name="${namespace}/laser"
+      topic="${namespace}/scan"
+      mesh="package://subt_sensors/meshes/hokuyo.dae"
+      min_angle="2.3562"
+      max_angle="-2.3562"
+      min_range="0.1"
+      max_range="5"
+    />
+
+    <joint name="front_laser_mount_joint" type="fixed">
+      <origin xyz="0 0 -0.05" rpy="0 0 0" />
+      <parent link="${namespace}/base_link" />
+      <child link="${namespace}/laser" />
+    </joint>
   </xacro:if>
 
   <!-- Sensor configuration #4
@@ -134,6 +151,22 @@
       <box size="0.02 0.05 0.05" />
       <origin xyz="0.1 0 0" rpy="0 0 0" />
     </xacro:camera_macro>
+
+    <planar_lidar 
+      name="${namespace}/laser"
+      topic="${namespace}/scan"
+      mesh="package://subt_sensors/meshes/sick-lms1xx.dae"
+      min_angle="2.3562"
+      max_angle="-2.3562"
+      min_range="0.1"
+      max_range="30"
+    />
+
+    <joint name="front_laser_mount_joint" type="fixed">
+      <origin xyz="0 0 -0.05" rpy="0 0 0" />
+      <parent link="${namespace}/base_link" />
+      <child link="${namespace}/laser" />
+    </joint>
   </xacro:if>
 
 </robot>
