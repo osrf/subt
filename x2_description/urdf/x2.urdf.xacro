@@ -340,7 +340,9 @@
     <plugin_params>
       <block>
         <duration>0.3</duration>
-        <interval>0.3</interval>
+        <!-- TODO Flashing make rendering choppy. Re-enable when fixed -->
+        <!--interval>0.3</interval-->
+        <interval>0.0</interval>
         <color>1 0.8</color>
       </block>
     </plugin_params>
@@ -350,7 +352,7 @@
     <plugin_params>
       <block>
         <duration>0.3</duration>
-        <interval>0.3</interval>
+        <interval>0.0</interval>
         <color>1 0.8</color>
       </block>
     </plugin_params>
