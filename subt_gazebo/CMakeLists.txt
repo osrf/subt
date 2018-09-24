@@ -164,15 +164,6 @@ configure_file (test/test_config.h.in
 
 find_package(rostest REQUIRED)
 
-add_rostest_gtest(test_flashlight test/flashlight.test test/flashlight.cc)
-target_link_libraries(test_flashlight
-  ${catkin_LIBRARIES}
-  ${GAZEBO_LIBRARIES}
-)
-add_dependencies(test_flashlight
-  ${ros_flashlight_plugin_name}
-)
-
 #############
 ## Install ##
 #############
