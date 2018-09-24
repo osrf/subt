@@ -1,11 +1,12 @@
 <?xml version="1.0"?>
 <package>
-  <name>x3_description</name>
+  <name>subt_description</name>
   <version>0.0.1</version>
-  <description>URDF robot description for X3</description>
+  <description>Common robot description files for SubT</description>
 
   <author email="caguero@openrobotics.org">Carlos Aguero</author>
   <author email="cole@openrobotics.org">Cole Biesemeyer</author>
+  <author email="addisu@openrobotics.org">Addisu Z. Taddese</author>
   <maintainer email="caguero@openrobotics.org">Carlos Aguero</maintainer>
 
   <license>BSD</license>
@@ -14,9 +15,6 @@
   <build_depend>roslaunch</build_depend>
   <run_depend>urdf</run_depend>
   <run_depend>xacro</run_depend>
-  <run_depend>rotors_description</run_depend>
-  <run_depend>rotors_gazebo</run_depend>
-  <run_depend>subt_description</run_depend>
 
   <export>
   </export>
