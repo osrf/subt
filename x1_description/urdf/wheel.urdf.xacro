@@ -47,11 +47,21 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 		</link>
 
 		<gazebo reference="${namespace}/${wheel_prefix}_wheel_link">
-			<mu1 value="1.0"/>
-			<mu2 value="1.0"/>
 			<kp value="10000000.0" />
 			<kd value="1.0" />
-			<fdir1 value="1 0 0"/>
+			<collision>
+				<surface>
+					<friction>
+						<ode>
+							<mu>1.0</mu>
+							<mu2>1.0</mu2>
+							<fdir1>0 0 1</fdir1>
+							<slip1>1e-3</slip1>
+							<slip2>0</slip2>
+						</ode>
+					</friction>
+				</surface>
+			</collision>
 		</gazebo>
 
 		<joint name="${wheel_prefix}_wheel" type="continuous">
