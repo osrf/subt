@@ -35,6 +35,7 @@
   </xacro:odometry_plugin_macro>
 
   <xacro:include filename="$(find x3_description)/urdf/x3_equipments.urdf.xacro" />
+  <xacro:include filename="$(find subt_sensors)/urdf/rgbd_camera.urdf.xacro" />
 
   <!-- Mount a magnetometer. -->
   <xacro:default_magnetometer namespace="${namespace}" parent_link="${namespace}/base_link" />
@@ -42,42 +43,89 @@
   <!-- Mount a pressure sensor. -->
   <xacro:default_pressure_sensor namespace="${namespace}" parent_link="${namespace}/base_link" />
 
-  <!-- Front camera. -->
-  <xacro:camera_macro
-    namespace="${namespace}"
-    parent_link="${namespace}/base_link"
-    camera_suffix="front"
-    frame_rate="30"
-    horizontal_fov="2"
-    image_width="752"
-    image_height="480"
-    image_format="L8"
-    min_distance="0.02"
-    max_distance="100"
-    noise_mean="0.0"
-    noise_stddev="0.007"
-    enable_visual="false">
-    <box size="0.02 0.05 0.05" />
-    <origin xyz="0.1 0 0" rpy="0 0 0" />
-  </xacro:camera_macro>
+  <!-- Mount an ADIS16448 IMU. -->
+  <xacro:default_imu namespace="${namespace}" parent_link="${namespace}/base_link" />
 
-  <!-- Lower camera. -->
-  <xacro:camera_macro
-    namespace="${namespace}"
-    parent_link="${namespace}/base_link"
-    camera_suffix="lower"
-    frame_rate="30"
-    horizontal_fov="2"
-    image_width="752"
-    image_height="480"
-    image_format="L8"
-    min_distance="0.02"
-    max_distance="50"
-    noise_mean="0.0"
-    noise_stddev="0.007"
-    enable_visual="false">
-    <box size="0.02 0.05 0.05" />
-    <origin xyz="0 0 -0.07" rpy="0 1.57 0" />
-  </xacro:camera_macro>
+  <!-- Sensor configuration #1
+         * QVGA camera
+         * IMU
+  -->
+  <xacro:if value="$(optenv X3_SENSOR_CONFIG_1 0)">
+    <xacro:camera_macro
+      namespace="${namespace}"
+      parent_link="${namespace}/base_link"
+      camera_suffix="front"
+      frame_rate="30"
+      horizontal_fov="2"
+      image_width="320"
+      image_height="240"
+      image_format="R8G8B8"
+      min_distance="0.02"
+      max_distance="100"
+      noise_mean="0.0"
+      noise_stddev="0.007"
+      enable_visual="true">
+      <box size="0.02 0.05 0.05" />
+      <origin xyz="0.1 0 0" rpy="0 0 0" />
+    </xacro:camera_macro>
+  </xacro:if>
+
+  <!-- Sensor configuration #2
+         * HD camera
+         * IMU
+  -->
+  <xacro:if value="$(optenv X3_SENSOR_CONFIG_2 0)">
+    <xacro:camera_macro
+      namespace="${namespace}"
+      parent_link="${namespace}/base_link"
+      camera_suffix="front"
+      frame_rate="30"
+      horizontal_fov="2"
+      image_width="1280"
+      image_height="960"
+      image_format="R8G8B8"
+      min_distance="0.02"
+      max_distance="100"
+      noise_mean="0.0"
+      noise_stddev="0.007"
+      enable_visual="true">
+      <box size="0.02 0.05 0.05" />
+      <origin xyz="0.1 0 0" rpy="0 0 0" />
+    </xacro:camera_macro>
+  </xacro:if>
+
+  <!-- Sensor configuration #3
+         * QVGA RGBD camera
+         * IMU
+  -->
+  <xacro:if value="$(optenv X3_SENSOR_CONFIG_3 0)">
+    <xacro:rgbd_camera
+       name="${namespace}/rgbd_camera"
+       width="320"
+       height="240"
+    />
+    <joint name="rgbd_camera_mount_joint" type="fixed">
+      <origin xyz="0.05 0 -0.05" rpy="0 0.2618 0" />
+      <parent link="${namespace}/base_link" />
+      <child link="${namespace}/rgbd_camera_link" />
+    </joint>
+  </xacro:if>
+
+  <!-- Sensor configuration #4
+         * VGA RGBD camera
+         * IMU
+  -->
+  <xacro:if value="$(optenv X3_SENSOR_CONFIG_4 0)">
+    <xacro:rgbd_camera
+       name="${namespace}/rgbd_camera"
+       width="640"
+       height="480"
+    />
+    <joint name="rgbd_camera_mount_joint" type="fixed">
+      <origin xyz="0.05 0 -0.05" rpy="0 0.2618 0" />
+      <parent link="${namespace}/base_link" />
+      <child link="${namespace}/rgbd_camera_link" />
+    </joint>
+  </xacro:if>
 
 </robot>

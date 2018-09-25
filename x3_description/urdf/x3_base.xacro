@@ -8,26 +8,13 @@
   <!-- Instantiate a controller. -->
   <xacro:controller_plugin_macro namespace="${namespace}" imu_sub_topic="imu" />
 
-  <xacro:if value="$(arg enable_mavlink_interface)">
-    <!-- Instantiate mavlink telemetry interface. -->
-    <xacro:default_mavlink_interface namespace="${namespace}" imu_sub_topic="imu" rotor_count="4" />
-  </xacro:if>
-
-  <!-- Mount an ADIS16448 IMU. -->
-  <xacro:default_imu namespace="${namespace}" parent_link="${namespace}/base_link" />
-
-  <xacro:if value="$(arg enable_ground_truth)">
-    <xacro:ground_truth_imu_and_odometry namespace="${namespace}" parent_link="${namespace}/base_link" />
-  </xacro:if>
-
-  <xacro:if value="$(arg enable_logging)">
-    <!-- Instantiate a logger -->
-    <xacro:bag_plugin_macro
-      namespace="${namespace}"
-      bag_file="$(arg log_file)"
-      rotor_velocity_slowdown_sim="${rotor_velocity_slowdown_sim}"
-      wait_to_record_bag="$(arg wait_to_record_bag)" />
-  </xacro:if>
-
+  <gazebo>
+    <plugin name="${namespace}_joint_state_publisher" filename="libgazebo_ros_joint_state_publisher.so">
+      <robotNamespace>${namespace}/fixed</robotNamespace>
+      <jointName>X3/pressure_sensor_joint, X3/magnetometer_joint, X3/imu_joint, X3/odometry_sensor1_joint</jointName>
+      <alwaysOn>true</alwaysOn>
+      <updateRate>1000</updateRate>
+    </plugin>
+  </gazebo>
 </robot>
 
