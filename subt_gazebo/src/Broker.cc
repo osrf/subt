@@ -246,15 +246,9 @@ bool Broker::Register(const std::string &_id)
     return false;
   }
 
-  std::cout << "Broker::Register() Name: [" << _id << "]" << std::endl;
-
   auto const &model = gazebo::physics::get_world()->ModelByName(_id);
   if (!model)
-  {
-    std::cerr << "Broker::Register(): Error getting a model"
-              << "pointer for model [" << _id << "]" << std::endl;
     return false;
-  }
 
   auto newMember = std::make_shared<TeamMember>();
 
