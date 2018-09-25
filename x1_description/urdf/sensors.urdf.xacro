@@ -18,8 +18,9 @@
       mesh="package://subt_sensors/meshes/hokuyo.dae"
       min_angle="-2.3562"
       max_angle="2.3562"
-      min_range="0.1"
+      min_range="0.06"
       max_range="5"
+      update_rate="20"
     />
 
     <joint name="front_laser_mount_joint" type="fixed">
@@ -38,7 +39,8 @@
       min_angle="-2.3562"
       max_angle="2.3562"
       min_range="0.1"
-      max_range="30"
+      max_range="20"
+      update_rate="20"
     />
 
     <joint name="front_laser_mount_joint" type="fixed">
@@ -53,6 +55,8 @@
     <velodyne_lidar 
       name="${namespace}/front_laser"
       topic="${namespace}/points"
+      max_range="75"
+      update_rate="15"
     />
 
     <joint name="front_laser_mount_joint" type="fixed">
@@ -67,7 +71,8 @@
     <velodyne_lidar 
       name="${namespace}/front_laser"
       topic="${namespace}/points"
-      max_range="300"
+      max_range="200"
+      update_rate="15"
     />
 
     <joint name="front_laser_mount_joint" type="fixed">
@@ -88,7 +93,7 @@
 
     <pointgrey_flea3 frame="${namespace}/front_camera" name="front"
       camera_x="0.0754" camera_y="0.029" camera_z="0.029"
-      camera_mass="0.085" hfov="1.0471975512" fps="30" width="320" height="240"
+      camera_mass="0.085" hfov="1.0471975512" fps="20" width="320" height="240"
       near="0.01" />
     <joint name="front_camera_bracket_joint" type="fixed">
       <origin xyz="0.020 0 0.0245" rpy="0 0 0" />
@@ -108,7 +113,7 @@
 
     <pointgrey_flea3 frame="${namespace}/front_camera" name="front"
       camera_x="0.0754" camera_y="0.029" camera_z="0.029"
-      camera_mass="0.085" hfov="1.0471975512" fps="30" width="1280" height="960"
+      camera_mass="0.085" hfov="1.0471975512" fps="20" width="1280" height="960"
       near="0.01" />
     <joint name="front_camera_bracket_joint" type="fixed">
       <origin xyz="0.020 0 0.0245" rpy="0 0 0" />

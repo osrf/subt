@@ -31,7 +31,7 @@ limitations under the License.
   -->
   <xacro:macro name="planar_lidar"
                params="name:=laser
-                       update_rate:=30
+                       update_rate:=40
                        samples:=720
                        min_angle:=-2.35619
                        max_angle:=2.35619
