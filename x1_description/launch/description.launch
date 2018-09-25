@@ -9,7 +9,6 @@
   <arg name="tf_prefix" default="$(optenv ROS_NAMESPACE)"/>
 
   <param name="robot_description" command="$(find xacro)/xacro '$(find x1_description)/urdf/x1.urdf.xacro'
-    --inorder
     robot_namespace:=$(arg robot_namespace)
     laser_enabled:=$(arg laser_enabled)
     kinect_enabled:=$(arg kinect_enabled)

@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
   <!-- Macro to insert a 2D scanning LIDAR with ROS integration.
     name: Name of the link associated to the sensor.
     topic: ROS topic name where the laser scan is published.
