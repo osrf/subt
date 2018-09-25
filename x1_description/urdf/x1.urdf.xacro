@@ -155,7 +155,9 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
     <plugin_params>
       <block>
         <duration>0.3</duration>
-        <interval>0.3</interval>
+        <!-- TODO Flashing make rendering choppy. Re-enable when fixed -->
+        <!--interval>0.3</interval-->
+        <interval>0.0</interval>
         <color>1 0.8</color>
       </block>
     </plugin_params>
@@ -183,7 +185,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
     <plugin_params>
       <block>
         <duration>0.3</duration>
-        <interval>0.3</interval>
+        <interval>0.0</interval>
         <color>1 0.8</color>
       </block>
     </plugin_params>
@@ -192,7 +194,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
     <plugin_params>
       <block>
         <duration>0.3</duration>
-        <interval>0.3</interval>
+        <interval>0.0</interval>
         <color>1 0.8</color>
       </block>
     </plugin_params>
@@ -201,7 +203,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
     <plugin_params>
       <block>
         <duration>0.3</duration>
-        <interval>0.3</interval>
+        <interval>0.0</interval>
         <color>1 0.8</color>
       </block>
     </plugin_params>
@@ -210,7 +212,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
     <plugin_params>
       <block>
         <duration>0.3</duration>
-        <interval>0.3</interval>
+        <interval>0.0</interval>
         <color>1 0.8</color>
       </block>
     </plugin_params>
@@ -219,11 +221,53 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
     <plugin_params>
       <block>
         <duration>0.3</duration>
-        <interval>0.3</interval>
+        <interval>0.0</interval>
         <color>1 0.8</color>
       </block>
     </plugin_params>
   </xacro:led>
+
+
+  <xacro:include filename="$(find x1_description)/urdf/sensors.urdf.xacro" />
+  <!-- Sensor configuration #1
+         * 2D short range lidar
+         * QVGA camera
+         * IMU
+  -->
+  <xacro:if value="$(optenv X1_SENSOR_CONFIG_1 0)">
+    <planar_short_range_lidar_and_mount />
+    <qvga_camera_and_mount />
+  </xacro:if>
+
+  <!-- Sensor configuration #2
+         * 2D mid range lidar
+         * HD camera
+         * IMU
+  -->
+  <xacro:if value="$(optenv X1_SENSOR_CONFIG_2 0)">
+    <planar_mid_range_lidar_and_mount />
+    <hd_camera_and_mount />
+  </xacro:if>
+
+  <!-- Sensor configuration #3
+         * 3D mid range lidar
+         * QVGA camera
+         * IMU
+  -->
+  <xacro:if value="$(optenv X1_SENSOR_CONFIG_3 0)">
+    <velodyne_mid_range_lidar_and_mount />
+    <qvga_camera_and_mount />
+  </xacro:if>
+
+  <!-- Sensor configuration #4
+         * 3D long range lidar
+         * HD camera
+         * IMU
+  -->
+  <xacro:if value="$(optenv X1_SENSOR_CONFIG_4 0)">
+    <velodyne_long_range_lidar_and_mount />
+    <hd_camera_and_mount />
+  </xacro:if>
 
   <xacro:if value="$(arg laser_enabled)">
 
@@ -273,22 +317,6 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
       <rateGaussianNoise>0.005 0.005 0.005 </rateGaussianNoise>
       <headingDrift>0.005</headingDrift>
       <headingGaussianNoise>0.005</headingGaussianNoise>
-    </plugin>
-  </gazebo>
-
-  <gazebo>
-    <plugin name="gps_controller" filename="libhector_gazebo_ros_gps.so">
-      <robotNamespace>${namespace}/</robotNamespace>
-      <updateRate>40</updateRate>
-      <bodyName>${namespace}/base_link</bodyName>
-      <frameId>${namespace}/base_link</frameId>
-      <topicName>navsat/fix</topicName>
-      <velocityTopicName>navsat/vel</velocityTopicName>
-      <referenceLatitude>49.9</referenceLatitude>
-      <referenceLongitude>8.9</referenceLongitude>
-      <referenceHeading>0</referenceHeading>
-      <referenceAltitude>0</referenceAltitude>
-      <drift>0.0001 0.0001 0.0001</drift>
     </plugin>
   </gazebo>
 

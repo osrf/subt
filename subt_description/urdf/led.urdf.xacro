@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="flashlight">
+  <xacro:macro name="led" params="led_prefix parent_link xyz rpy default_color:='0 0 0'  **plugin_params">
+
+    <link name="${namespace}/${led_prefix}_led_link">
+      <visual name="marker">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://subt_description/meshes/led.dae" />
+        </geometry>
+      </visual>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.000001" />
+        <inertia
+          ixx="0.001"
+          ixy="0.0" iyy="0.001"
+          ixz="0.0" iyz="0.0" izz="0.001"
+          />
+      </inertial>
+    </link>
+
+    <joint name="${led_prefix}_led" type="fixed">
+      <parent link="${parent_link}"/>
+      <child link="${namespace}/${led_prefix}_led_link"/>
+      <origin xyz="${xyz}" rpy="${rpy}"/>
+    </joint>
+
+    <gazebo>
+      <model name='${led_prefix}_led'>
+        <pose>${xyz} ${rpy}</pose> 
+        <link name='led_body'>
+          <inertial>
+            <mass>0.00001</mass>
+            <inertia>
+              <ixx>1.0e-05</ixx>
+              <ixy>0</ixy>
+              <ixz>0</ixz>
+              <iyy>1.0e-05</iyy>
+              <iyz>0</iyz>
+              <izz>1.0e-05</izz>
+            </inertia>
+          </inertial>
+          <visual name='marker'>
+            <pose>0 0 0.008 0 0 0</pose>
+            <geometry>
+              <sphere>
+                <radius>0.015</radius>
+              </sphere>
+            </geometry>
+            <transparency>1</transparency>
+            <material>
+              <ambient>1 1 1 1</ambient>
+              <diffuse>1 1 1 1</diffuse>
+              <specular>1 1 1 1</specular>
+              <emissive>${default_color} 1</emissive>
+            </material>
+            <plugin name='light_source_visualize' filename='libLightVisualPlugin.so'>
+              <light>
+                <id>marker</id>
+                <visualize>false</visualize>
+              </light>
+            </plugin>
+          </visual>
+          <light name='marker' type='point'>
+            <pose>0 0 0 0 ${M_PI} 0</pose>
+            <attenuation>
+              <range>1</range>
+              <constant>0.5</constant>
+              <linear>0.10</linear>
+              <quadratic>0.5</quadratic>
+            </attenuation>
+            <diffuse>${default_color} 1</diffuse>
+            <specular>${default_color} 1</specular>
+          </light>
+        </link>
+        <plugin name='light_control' filename='libRosFlashLightPlugin.so'>
+          <service_name>enable</service_name>
+          <light>
+            <id>led_body/marker</id>
+            <xacro:insert_block name="plugin_params"/>
+            <enable>false</enable>
+          </light>
+        </plugin>
+      </model>
+    </gazebo>
+    <gazebo>
+      <joint name='${led_prefix}_led_joint' type='fixed'>
+        <parent>${parent_link}</parent>
+        <child>${led_prefix}_led::led_body</child>
+      </joint>
+    </gazebo>
+	</xacro:macro>
+</robot>

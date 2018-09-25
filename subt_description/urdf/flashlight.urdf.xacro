@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="flashlight">
+  <xacro:macro name="flashlight" params="flashlight_prefix parent_link xyz rpy default_color:='0.8 0.8 0.5' **plugin_params">
+
+    <link name="${namespace}/${flashlight_prefix}_flashlight_link">
+      <visual>
+        <origin xyz="-0.065 0.0 0" rpy="0 0 -1.57" />
+        <geometry>
+          <mesh filename="package://subt_description/meshes/spotlight.dae" scale="0.01 0.01 0.01"/>
+        </geometry>
+      </visual>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.000001" />
+        <inertia
+          ixx="0.001"
+          ixy="0.0" iyy="0.001"
+          ixz="0.0" iyz="0.0" izz="0.001"
+        />
+      </inertial>
+    </link>
+
+    <joint name="${flashlight_prefix}_flashlight" type="fixed">
+      <parent link="${parent_link}"/>
+      <child link="${namespace}/${flashlight_prefix}_flashlight_link"/>
+      <origin xyz="${xyz}" rpy="${rpy}"/>
+    </joint>
+
+    <gazebo>
+      <model name='${flashlight_prefix}_flashlight'>
+        <pose>${xyz} ${rpy}</pose> 
+        <link name='light_source'>
+          <pose>0 0 0.0 0.01 ${M_PI/2} 0</pose>
+          <inertial>
+            <mass>0.0025</mass>
+            <inertia>
+              <ixx>1.0e-05</ixx>
+              <ixy>0</ixy>
+              <ixz>0</ixz>
+              <iyy>1.0e-05</iyy>
+              <iyz>0</iyz>
+              <izz>1.0e-05</izz>
+            </inertia>
+          </inertial>
+          <light name='lamp' type='spot'>
+            <pose>0 0 0.0 0 ${M_PI} 0</pose>
+            <attenuation>
+              <range>15</range>
+              <linear>0</linear>
+              <constant>0.1</constant>
+              <quadratic>0.01</quadratic>
+            </attenuation>
+            <diffuse>${default_color} 1</diffuse>
+            <specular>${default_color} 1</specular>
+            <spot>
+              <inner_angle>1</inner_angle>
+              <outer_angle>1.1</outer_angle>
+              <falloff>1</falloff>
+            </spot>
+            <direction>0 0 -1</direction>
+          </light>
+          <visual name='lamp'>
+            <geometry>
+              <cylinder>
+                <radius>0.019</radius>
+                <length>0.005</length>
+              </cylinder>
+              <!--<sphere>-->
+              <!--  <radius>0.020</radius>-->
+              <!--</sphere>-->
+            </geometry>
+            <transparency>0.0</transparency>
+            <material>
+              <ambient>1 1 1 1</ambient>
+              <diffuse>1 1 1 1</diffuse>
+              <specular>1 1 1 1</specular>
+              <emissive>${default_color} 1</emissive>
+            </material>
+            <plugin name='light_source_visualize' filename='libLightVisualPlugin.so'>
+              <light>
+                <id>lamp</id>
+                <visualize>false</visualize>
+              </light>
+            </plugin>
+          </visual>
+        </link>
+        <plugin name='light_control' filename='libRosFlashLightPlugin.so'>
+          <service_name>enable</service_name>
+          <light>
+            <id>light_source/lamp</id>
+            <xacro:insert_block name="plugin_params"/>
+            <enable>false</enable>
+            <duration>1</duration>
+            <interval>0</interval>
+            <color>1 1 1</color>
+          </light>
+        </plugin>
+      </model>
+    </gazebo>
+    <gazebo>
+      <joint name='${flashlight_prefix}_flashlight_joint' type='fixed'>
+        <parent>${parent_link}</parent>
+        <child>${flashlight_prefix}_flashlight::light_source</child>
+      </joint>
+    </gazebo>
+	</xacro:macro>
+</robot>

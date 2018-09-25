@@ -1,8 +1,11 @@
+<?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:property name="namespace" value="$(arg robot_namespace)" />
 
   <xacro:macro name="camera_mount" params="prefix tilt:=0">
 
-    <link name="${prefix}_camera_mount">
+    <link name="${namespace}/${prefix}_camera_mount">
       <visual>
         <origin xyz="0 0 0" rpy="1.5707 0 1.5707" />
         <geometry>
@@ -12,7 +15,7 @@
       </visual>
     </link>
 
-    <link name="${prefix}_camera_beam">
+    <link name="${namespace}/${prefix}_camera_beam">
       <visual>
         <origin xyz="0 0 0" rpy="0 0 1.5707" />
         <geometry>
@@ -24,15 +27,15 @@
 
     <joint name="${prefix}_camera_pivot_joint" type="fixed">
       <origin xyz="0.102 0 0.008" rpy="0 ${tilt} 0" />
-      <parent link="${prefix}_camera_mount" />
-      <child link="${prefix}_camera_beam" />
+      <parent link="${namespace}/${prefix}_camera_mount" />
+      <child link="${namespace}/${prefix}_camera_beam" />
     </joint>
 
-    <gazebo reference="${prefix}_camera_beam">
+    <gazebo reference="${namespace}/${prefix}_camera_beam">
       <material>Gazebo/DarkGrey</material>
     </gazebo>
 
-    <gazebo reference="${prefix}_camera_mount">
+    <gazebo reference="${namespace}/${prefix}_camera_mount">
       <material>Gazebo/DarkGrey</material>
     </gazebo>
 
