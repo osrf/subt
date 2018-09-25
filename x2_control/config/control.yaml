@@ -27,7 +27,7 @@ x2_velocity_controller:
   linear:
     x:
       has_velocity_limits    : true
-      max_velocity           : 2.0   # m/s
+      max_velocity           : 1.8   # m/s
       has_acceleration_limits: true
       max_acceleration       : 7.0   # m/s^2
   angular:
@@ -36,5 +36,3 @@ x2_velocity_controller:
       max_velocity           : 4.0   # rad/s
       has_acceleration_limits: true
       max_acceleration       : 25.0   # rad/s^2
-
-

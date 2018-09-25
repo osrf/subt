@@ -21,7 +21,7 @@
   <xacro:property name="moment_constant" value="0.016" /> <!-- [m] -->
   <xacro:property name="time_constant_up" value="0.0125" /> <!-- [s] -->
   <xacro:property name="time_constant_down" value="0.025" /> <!-- [s] -->
-  <xacro:property name="max_rot_velocity" value="838" /> <!-- [rad/s] -->
+  <xacro:property name="max_rot_velocity" value="800.0" /> <!-- [rad/s] -->
   <xacro:property name="sin30" value="0.5" />
   <xacro:property name="cos30" value="0.866025403784" />
   <xacro:property name="sqrt2" value="1.4142135623730951" />
@@ -69,7 +69,7 @@
     motor_number="0"
     rotor_drag_coefficient="${rotor_drag_coefficient}"
     rolling_moment_coefficient="${rolling_moment_coefficient}"
-    color="Blue"
+    color="Red"
     use_own_mesh="false"
     mesh="">
     <origin xyz="${arm_length_front_x} -${arm_length_front_y} ${rotor_offset_top}" rpy="0 0 0" />
@@ -91,7 +91,7 @@
     motor_number="1"
     rotor_drag_coefficient="${rotor_drag_coefficient}"
     rolling_moment_coefficient="${rolling_moment_coefficient}"
-    color="Red"
+    color="Blue"
     use_own_mesh="false"
     mesh="">
     <origin xyz="-${arm_length_back_x} ${arm_length_back_y} ${rotor_offset_top}" rpy="0 0 0" />
@@ -112,7 +112,7 @@
     motor_number="2"
     rotor_drag_coefficient="${rotor_drag_coefficient}"
     rolling_moment_coefficient="${rolling_moment_coefficient}"
-    color="Blue"
+    color="Red"
     use_own_mesh="false"
     mesh="">
     <origin xyz="${arm_length_front_x} ${arm_length_front_y} ${rotor_offset_top}" rpy="0 0 0" />
@@ -133,7 +133,7 @@
     motor_number="3"
     rotor_drag_coefficient="${rotor_drag_coefficient}"
     rolling_moment_coefficient="${rolling_moment_coefficient}"
-    color="Red"
+    color="Blue"
     use_own_mesh="false"
     mesh="">
     <origin xyz="-${arm_length_back_x} -${arm_length_back_y} ${rotor_offset_top}" rpy="0 0 0" />
