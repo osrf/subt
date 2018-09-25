@@ -56,7 +56,7 @@
       namespace="${namespace}"
       parent_link="${namespace}/base_link"
       camera_suffix="front"
-      frame_rate="30"
+      frame_rate="20"
       horizontal_fov="2"
       image_width="1280"
       image_height="960"
@@ -80,6 +80,8 @@
        name="${namespace}/rgbd_camera"
        width="640"
        height="480"
+       update_rate="20"
+       pointCloudCutoffMax="6"
     />
     <joint name="rgbd_camera_mount_joint" type="fixed">
       <origin xyz="0.05 0 -0.05" rpy="0 0.2618 0" />
@@ -98,7 +100,7 @@
       namespace="${namespace}"
       parent_link="${namespace}/base_link"
       camera_suffix="front"
-      frame_rate="30"
+      frame_rate="20"
       horizontal_fov="2"
       image_width="320"
       image_height="240"
@@ -118,8 +120,9 @@
       mesh="package://subt_sensors/meshes/hokuyo.dae"
       min_angle="-2.3562"
       max_angle="2.3562"
-      min_range="0.1"
+      min_range="0.04"
       max_range="5"
+      update_rate="20"
     />
 
     <joint name="front_laser_mount_joint" type="fixed">
@@ -139,7 +142,7 @@
       namespace="${namespace}"
       parent_link="${namespace}/base_link"
       camera_suffix="front"
-      frame_rate="30"
+      frame_rate="20"
       horizontal_fov="2"
       image_width="1280"
       image_height="960"
@@ -159,8 +162,9 @@
       mesh="package://subt_sensors/meshes/sick-lms1xx.dae"
       min_angle="-2.3562"
       max_angle="2.3562"
-      min_range="0.1"
-      max_range="30"
+      min_range="0.04"
+      max_range="20"
+      update_rate="20"
     />
 
     <joint name="front_laser_mount_joint" type="fixed">
