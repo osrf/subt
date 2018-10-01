@@ -8,7 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 add_service_files(
   FILES
-    ObjectOfInterest.srv
+    Artifact.srv
 )
 
 generate_messages(

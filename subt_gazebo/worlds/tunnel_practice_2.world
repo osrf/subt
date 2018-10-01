@@ -132,7 +132,7 @@
       </plugin>
     </model>
 
-    <!-- Objects of interest -->
+    <!-- Artifacts -->
 
     <include>
       <name>backpack_1</name>
@@ -197,37 +197,37 @@
 
     <!-- The SubT challenge logic plugin -->
     <plugin name="game_logic_plugin" filename="libGameLogicPlugin.so">
-      <!-- The collection of objects to locate -->
-      <object_of_interest>
+      <!-- The collection of artifacts to locate -->
+      <artifact>
         <name>backpack_1</name>
-      </object_of_interest>
-      <object_of_interest>
+      </artifact>
+      <artifact>
         <name>toolbox_1</name>
-      </object_of_interest>
-      <object_of_interest>
+      </artifact>
+      <artifact>
         <name>extinguisher_1</name>
-      </object_of_interest>
-      <object_of_interest>
+      </artifact>
+      <artifact>
         <name>valve_1</name>
-      </object_of_interest>
-      <object_of_interest>
+      </artifact>
+      <artifact>
         <name>radio_1</name>
-      </object_of_interest>
-      <object_of_interest>
+      </artifact>
+      <artifact>
         <name>duct_1</name>
-      </object_of_interest>
-      <object_of_interest>
+      </artifact>
+      <artifact>
         <name>electrical_box_1</name>
-      </object_of_interest>
-      <object_of_interest>
+      </artifact>
+      <artifact>
         <name>phone_1</name>
-      </object_of_interest>
-      <object_of_interest>
+      </artifact>
+      <artifact>
         <name>backpack_2</name>
-      </object_of_interest>
-      <object_of_interest>
+      </artifact>
+      <artifact>
         <name>radio_2</name>
-      </object_of_interest>
+      </artifact>
     </plugin>
 
     <light name='user_spot_light_0' type='spot'>
