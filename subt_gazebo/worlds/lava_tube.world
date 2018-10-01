@@ -44,7 +44,7 @@
       </plugin>
     </model>
 
-    <!-- The objects of interest -->
+    <!-- The artifacts -->
     <include>
       <name>cone_1</name>
       <pose>5 5 -0.76 0 0 0</pose>
@@ -59,12 +59,12 @@
     <!-- The SubT challenge logic plugin -->
     <plugin name="game_logic_plugin" filename="libGameLogicPlugin.so">
       <!-- The collection of objects to locate -->
-      <object_of_interest>
+      <artifact>
         <name>cone_1</name>
-      </object_of_interest>
-      <object_of_interest>
+      </artifact>
+      <artifact>
         <name>cone_2</name>
-      </object_of_interest>
+      </artifact>
     </plugin>
 
     <!-- The SubT comms broker plugin -->

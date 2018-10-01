@@ -47,16 +47,16 @@ void GameLogicPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
   GZ_ASSERT(_world, "GameLogicPlugin world pointer is NULL");
   this->world = _world;
 
-  // Parse the objects of interests.
-  this->ParseObjectsOfInterest(_sdf);
+  // Parse the artifacts.
+  this->ParseArtifacts(_sdf);
 
   // Initialize the ROS node.
   this->rosnode.reset(new ros::NodeHandle("subt"));
 
-  // Advertise the service to call when an object of interest is recognized.
-  this->objectOfInterestSrv =
-    this->rosnode->advertiseService("objects_of_interest/new",
-    &GameLogicPlugin::OnNewObjectOfInterest, this);
+  // Advertise the service to call when an artifact is recognized.
+  this->artifactSrv =
+    this->rosnode->advertiseService("artifacts/new",
+    &GameLogicPlugin::OnNewArtifact, this);
 
   this->scorePub = this->rosnode->advertise<std_msgs::Int32>("score", 1000);
 
@@ -83,70 +83,66 @@ void GameLogicPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
 }
 
 /////////////////////////////////////////////////
-void GameLogicPlugin::ParseObjectsOfInterest(sdf::ElementPtr _sdf)
+void GameLogicPlugin::ParseArtifacts(sdf::ElementPtr _sdf)
 {
-  sdf::ElementPtr objectOfInterestElem = _sdf->GetElement("object_of_interest");
-  while (objectOfInterestElem)
+  sdf::ElementPtr artifactElem = _sdf->GetElement("artifact");
+  while (artifactElem)
   {
     // Sanity check: "Name" is required.
-    if (!objectOfInterestElem->HasElement("name"))
+    if (!artifactElem->HasElement("name"))
     {
       gzerr << "[GameLogicPlugin]: Parameter <name> not found. Ignoring this "
-            << "object of interest" << std::endl;
-      objectOfInterestElem = _sdf->GetNextElement("object_of_interest");
+            << "artifact" << std::endl;
+      artifactElem = _sdf->GetNextElement("artifact");
       continue;
     }
-    std::string modelName = objectOfInterestElem->Get<std::string>("name");
+    std::string modelName = artifactElem->Get<std::string>("name");
 
     // Sanity check: The model should exist.
     physics::ModelPtr modelPtr = this->world->ModelByName(modelName);
     if (!modelPtr)
     {
        gzerr << "[GameLogicPlugin]: Unable to find model with name ["
-             << modelName << "]. Ignoring object of interest" << std::endl;
-       objectOfInterestElem = _sdf->GetNextElement("object_of_interest");
+             << modelName << "]. Ignoring artifact" << std::endl;
+       artifactElem = _sdf->GetNextElement("artifact");
        continue;
     }
 
-    // Sanity check: The object of interest shouldn't be repeated.
-    if (this->objectsOfInterest.find(modelName)
-        != this->objectsOfInterest.end())
+    // Sanity check: The artifact shouldn't be repeated.
+    if (this->artifacts.find(modelName) != this->artifacts.end())
     {
       gzerr << "[GameLogicPlugin]: Repeated model with name ["
-             << modelName << "]. Ignoring object of interest" << std::endl;
-      objectOfInterestElem = _sdf->GetNextElement("object_of_interest");
+             << modelName << "]. Ignoring artifact" << std::endl;
+      artifactElem = _sdf->GetNextElement("artifact");
       continue;
     }
 
-    this->objectsOfInterest[modelName] = modelPtr;
-    objectOfInterestElem =
-      objectOfInterestElem->GetNextElement("object_of_interest");
+    this->artifacts[modelName] = modelPtr;
+    artifactElem = artifactElem->GetNextElement("artifact");
   }
 }
 
 /////////////////////////////////////////////////
-bool GameLogicPlugin::OnNewObjectOfInterest(
-  subt_msgs::ObjectOfInterest::Request &_req,
-  subt_msgs::ObjectOfInterest::Response &/*_res*/)
+bool GameLogicPlugin::OnNewArtifact(subt_msgs::Artifact::Request &_req,
+  subt_msgs::Artifact::Response &/*_res*/)
 {
-  gzmsg << "New object of interest reported." << std::endl;
+  gzmsg << "New artifact reported." << std::endl;
 
   {
     std::lock_guard<std::mutex> lock(this->mutex);
-    this->totalScore += this->ScoreObjectOfInterest(_req.pose);
+    this->totalScore += this->ScoreArtifact(_req.pose);
     gzmsg << "Total score: " << this->totalScore << std::endl << std::endl;
   }
 
   return true;
 }
 
-double GameLogicPlugin::ScoreObjectOfInterest(
-  const geometry_msgs::PoseStamped &_pose)
+double GameLogicPlugin::ScoreArtifact(const geometry_msgs::PoseStamped &_pose)
 {
-  // Sanity check: Make sure that we still have objects of interest.
-  if (this->objectsOfInterest.empty())
+  // Sanity check: Make sure that we still have artifacts.
+  if (this->artifacts.empty())
   {
-    gzmsg << "  No remaining objects of interest" << std::endl;
+    gzmsg << "  No artifacts remaining" << std::endl;
     return 0.0;
   }
 
@@ -157,13 +153,13 @@ double GameLogicPlugin::ScoreObjectOfInterest(
     return 0.0;
   }
 
-  // From the list of all the objects of interest, find out which one is
+  // From the list of all the artifacts, find out which one is
   // closer (Euclidean distance) to the located by this request.
   ignition::math::Vector3d observedObjectPose(
     _pose.pose.position.x, _pose.pose.position.y, _pose.pose.position.z);
   std::tuple<std::string, ignition::math::Vector3d, double> minDistance =
     {"", ignition::math::Vector3d(), std::numeric_limits<double>::infinity()};
-  for (auto const object : this->objectsOfInterest)
+  for (auto const object : this->artifacts)
   {
     auto objName = object.first;
     auto objPosition = object.second->WorldPose().Pos();
@@ -225,9 +221,9 @@ double GameLogicPlugin::ScoreObjectOfInterest(
 
   gzmsg << "  [Total]: " << score << std::endl;
 
-  // Remove this object of interest to avoid getting score from the same object
-  // of interest multiple times.
-  this->objectsOfInterest.erase(std::get<0>(minDistance));
+  // Remove this artifact to avoid getting score from the same artifact
+  // multiple times.
+  this->artifacts.erase(std::get<0>(minDistance));
 
   return score;
 }
@@ -261,8 +257,8 @@ void GameLogicPlugin::OnStartCollision(ConstIntPtr &/*_msg*/)
 }
 
 /////////////////////////////////////////////////
-bool GameLogicPlugin::OnFinishCall(
-  std_srvs::SetBool::Request &_req, std_srvs::SetBool::Response &_res)
+bool GameLogicPlugin::OnFinishCall(std_srvs::SetBool::Request &_req,
+  std_srvs::SetBool::Response &_res)
 {
   _res.success = false;
   if (this->started && !this->finished && _req.data)

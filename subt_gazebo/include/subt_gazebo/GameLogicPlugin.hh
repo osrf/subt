@@ -21,7 +21,7 @@
 #include <ros/ros.h>
 #include <std_srvs/SetBool.h>
 #include <std_srvs/Trigger.h>
-#include <subt_msgs/ObjectOfInterest.h>
+#include <subt_msgs/Artifact.h>
 #include <chrono>
 #include <map>
 #include <memory>
@@ -55,27 +55,25 @@ namespace gazebo
     /// \param[in]  _req The message containing a flag telling if the game is to
     /// be finished.
     /// \param[out] _res The response message.
-    private: bool OnFinishCall(
-      std_srvs::SetBool::Request &_req, std_srvs::SetBool::Response &_res);
+    private: bool OnFinishCall(std_srvs::SetBool::Request &_req,
+                               std_srvs::SetBool::Response &_res);
 
-    /// \brief Parse all the objects of interest.
-    /// \param[in] _sdf The SDF element containing the objects of interest.
-    private: void ParseObjectsOfInterest(sdf::ElementPtr _sdf);
+    /// \brief Parse all the artifacts.
+    /// \param[in] _sdf The SDF element containing the artifacts.
+    private: void ParseArtifacts(sdf::ElementPtr _sdf);
 
-    /// \brief Callback executed to process a new object of interest request
+    /// \brief Callback executed to process a new artifact request
     /// sent by a team.
     /// \param[in] _req The service request.
     /// \param[out] _res The service response.
     /// \return True when the service call succeed or false otherwise.
-    private: bool OnNewObjectOfInterest(
-      subt_msgs::ObjectOfInterest::Request &_req,
-      subt_msgs::ObjectOfInterest::Response &_res);
+    private: bool OnNewArtifact(subt_msgs::Artifact::Request &_req,
+                                subt_msgs::Artifact::Response &_res);
 
-    /// \brief Calculate the score of a new object of interest request.
+    /// \brief Calculate the score of a new artifact request.
     /// \param[in] _pose The object pose.
     /// \return The score obtained for this object.
-    private: double ScoreObjectOfInterest(
-      const geometry_msgs::PoseStamped &_pose);
+    private: double ScoreArtifact(const geometry_msgs::PoseStamped &_pose);
 
     /// \brief Publish the score.
     /// \param[in] _event Unused.
@@ -111,14 +109,14 @@ namespace gazebo
     /// \brief Finish time used for scoring.
     private: std::chrono::steady_clock::time_point finishTime;
 
-    /// \brief Store all objects of interest.
-    private: std::map<std::string, physics::ModelPtr> objectsOfInterest;
+    /// \brief Store all artifacts.
+    private: std::map<std::string, physics::ModelPtr> artifacts;
 
     /// \brief The ROS node handler used for communications.
     private: std::unique_ptr<ros::NodeHandle> rosnode;
 
-    /// \brief Service server for processing objects of interest.
-    private: ros::ServiceServer objectOfInterestSrv;
+    /// \brief Service server for processing artifacts.
+    private: ros::ServiceServer artifactSrv;
 
     /// \brief Publish the score.
     private: ros::Publisher scorePub;
