@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<robot name="x4_with_sensors" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="x4_with_sensors" xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:include filename="$(find x4_description)/urdf/x4_base.xacro" />
   <xacro:include filename="$(find subt_sensors)/urdf/planar_lidar.urdf.xacro" />
   <xacro:include filename="$(find subt_sensors)/urdf/rgbd_camera.urdf.xacro" />
