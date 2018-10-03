@@ -127,8 +127,12 @@ install(
   FILES
     include/${PROJECT_NAME}/CommonTypes.hh
     include/${PROJECT_NAME}/CommsClient.hh
-    ${PROTO_HEADERS}
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+)
+install(
+  FILES
+    ${PROTO_HEADERS}
+  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}/protobuf
 )
 
 # Create the libRosFlashLightPlugin.so library.
