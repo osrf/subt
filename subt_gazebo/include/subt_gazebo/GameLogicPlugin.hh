@@ -114,14 +114,14 @@ namespace gazebo
 
     /// \brief Create an ArtifactType from a string.
     /// \param[in] _name The artifact in string format.
-    /// \param[in] _type The artifact type.
+    /// \param[out] _type The artifact type.
     /// \return True when the conversion succeed or false otherwise.
     private: bool ArtifactFromString(const std::string &_name,
                                      ArtifactType &_type);
 
     /// \brief Create an ArtifactType from an integer.
     /// \param[in] _typeInt The artifact in int format.
-    /// \param[in] _type The artifact type.
+    /// \param[out] _type The artifact type.
     /// \return True when the conversion succeed or false otherwise.
     private: bool ArtifactFromInt(const uint8_t &_typeInt,
                                   ArtifactType &_type);
