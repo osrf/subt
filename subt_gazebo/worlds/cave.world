@@ -133,13 +133,7 @@
     </model>
     <!-- The SubT challenge logic plugin -->
     <plugin name="game_logic_plugin" filename="libGameLogicPlugin.so">
-      <!-- The collection of artifacts to locate -->
-      <artifact>
-        <name>cone_1</name>
-      </artifact>
-      <artifact>
-        <name>cone_2</name>
-      </artifact>
+      <!-- Link the collection of artifacts to locate -->
     </plugin>
 
     <light name='user_spot_light_0' type='spot'>

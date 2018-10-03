@@ -22,11 +22,13 @@
 #include <std_srvs/SetBool.h>
 #include <std_srvs/Trigger.h>
 #include <subt_msgs/Artifact.h>
+#include <array>
 #include <chrono>
 #include <map>
 #include <memory>
 #include <mutex>
 #include <string>
+#include <utility>
 #include <gazebo/common/Event.hh>
 #include <gazebo/common/Plugin.hh>
 #include <gazebo/physics/physics.hh>
@@ -39,6 +41,35 @@ namespace gazebo
   /// \brief A plugin that takes care of all the SubT challenge logic.
   class GameLogicPlugin : public WorldPlugin
   {
+    /// \brief All the supported artifact types.
+    private: enum class ArtifactType : uint8_t
+    {
+      TYPE_BACKPACK       = 0,
+      TYPE_DUCT           = 1,
+      TYPE_ELECTRICAL_BOX = 2,
+      TYPE_EXTINGUISHER   = 3,
+      TYPE_PHONE          = 4,
+      TYPE_RADIO          = 5,
+      TYPE_TOOLBOX        = 6,
+      TYPE_VALVE          = 7,
+    };
+
+    /// \brief Mapping between enum types and strings.
+    const std::array<
+      const std::pair<ArtifactType, std::string>, 8> kArtifactTypes
+      {
+        {
+          {ArtifactType::TYPE_BACKPACK      , "TYPE_BACKPACK"},
+          {ArtifactType::TYPE_DUCT          , "TYPE_DUCT"},
+          {ArtifactType::TYPE_ELECTRICAL_BOX, "TYPE_ELECTRICAL_BOX"},
+          {ArtifactType::TYPE_EXTINGUISHER  , "TYPE_EXTINGUISHER"},
+          {ArtifactType::TYPE_PHONE         , "TYPE_PHONE"},
+          {ArtifactType::TYPE_RADIO         , "TYPE_RADIO"},
+          {ArtifactType::TYPE_TOOLBOX       , "TYPE_TOOLBOX"},
+          {ArtifactType::TYPE_VALVE         , "TYPE_VALVE"}
+        }
+      };
+
     // Documentation inherited
     public: virtual void Load(physics::WorldPtr _world,
                               sdf::ElementPtr _sdf);
@@ -71,13 +102,29 @@ namespace gazebo
                                 subt_msgs::Artifact::Response &_res);
 
     /// \brief Calculate the score of a new artifact request.
+    /// \param[in] _type The object type. See ArtifactType.
     /// \param[in] _pose The object pose.
     /// \return The score obtained for this object.
-    private: double ScoreArtifact(const geometry_msgs::PoseStamped &_pose);
+    private: double ScoreArtifact(const ArtifactType &_type,
+                                  const geometry_msgs::PoseStamped &_pose);
 
     /// \brief Publish the score.
     /// \param[in] _event Unused.
     private: void PublishScore(const ros::TimerEvent &_event);
+
+    /// \brief Create an ArtifactType from a string.
+    /// \param[in] _name The artifact in string format.
+    /// \param[in] _type The artifact type.
+    /// \return True when the conversion succeed or false otherwise.
+    private: bool ArtifactFromString(const std::string &_name,
+                                     ArtifactType &_type);
+
+    /// \brief Create an ArtifactType from an integer.
+    /// \param[in] _typeInt The artifact in int format.
+    /// \param[in] _type The artifact type.
+    /// \return True when the conversion succeed or false otherwise.
+    private: bool ArtifactFromInt(const uint8_t &_typeInt,
+                                  ArtifactType &_type);
 
     /// \brief World pointer.
     private: physics::WorldPtr world;
@@ -110,7 +157,11 @@ namespace gazebo
     private: std::chrono::steady_clock::time_point finishTime;
 
     /// \brief Store all artifacts.
-    private: std::map<std::string, physics::ModelPtr> artifacts;
+    /// The key is the object type. See ArtifactType for all supported values.
+    /// The value is another map, where the key is the model name and the value
+    /// is a Model pointer.
+    private: std::map<ArtifactType,
+                      std::map<std::string, physics::ModelPtr>> artifacts;
 
     /// \brief The ROS node handler used for communications.
     private: std::unique_ptr<ros::NodeHandle> rosnode;
