@@ -274,6 +274,9 @@ void GameLogicPlugin::PublishScore(const ros::TimerEvent &/*_event*/)
 
   {
     std::lock_guard<std::mutex> lock(this->mutex);
+    if (!this->started)
+      return;
+
     msg.data = this->totalScore;
     this->scorePub.publish(msg);
   }

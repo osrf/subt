@@ -168,6 +168,15 @@ configure_file (test/test_config.h.in
 
 find_package(rostest REQUIRED)
 
+add_rostest_gtest(test_score test/score.test test/score.cc)
+target_link_libraries(test_score
+  ${catkin_LIBRARIES}
+  ${GAZEBO_LIBRARIES}
+)
+add_dependencies(test_score
+  ${game_logic_plugin_name}
+)
+
 #############
 ## Install ##
 #############
