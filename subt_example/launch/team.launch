@@ -8,11 +8,7 @@
   <arg name="x4_name" default="X4" />
 
   <!-- Spawn X1 -->
-  <arg name="laser_enabled" default="false"/>
-  <arg name="kinect_enabled" default="false"/>
   <include file="$(find x1_gazebo)/launch/spawn_x1.launch">
-    <arg name="laser_enabled" value="$(arg laser_enabled)"/>
-    <arg name="kinect_enabled" value="$(arg kinect_enabled)"/>
     <arg name="robot_namespace" value="$(arg x1_name)"/>
     <arg name="x" value="2"/>
     <arg name="y" value="1"/>
@@ -21,18 +17,8 @@
   </include>
 
   <!-- Spawn X2 -->
-  <!-- Short-term hack to support the original front_laser:=true argument for spawning
-       the simulator. This will be removed in favour of using the config:=x arg instead. -->
-  <arg name="front_laser" default="true" />
-  <arg name="default_config" value="front_laser" if="$(arg front_laser)" />
-  <arg name="default_config" value="base" unless="$(arg front_laser)" />
-  <!-- end of hack -->
-  <!-- Configuration of X2 which you would like to simulate.
-       See x2_description for details. -->
-  <arg name="config" default="$(arg default_config)" />
   <group ns="$(arg x2_name)">
     <include file="$(find x2_description)/launch/description.launch">
-      <arg name="config" value="$(arg config)" />
       <arg name="robot_namespace" value="$(arg x2_name)" />
     </include>
     <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
