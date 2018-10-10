@@ -16,6 +16,7 @@
 */
 
 #include <std_msgs/Int32.h>
+#include <algorithm>
 #include <functional>
 #include <utility>
 #include <gazebo/common/Assert.hh>
@@ -98,6 +99,15 @@ void GameLogicPlugin::ParseArtifacts(sdf::ElementPtr _sdf)
     }
     std::string modelName = artifactElem->Get<std::string>("name");
 
+    // Sanity check: "Type" is required.
+    if (!artifactElem->HasElement("type"))
+    {
+      gzerr << "[GameLogicPlugin]: Parameter <type> not found. Ignoring this "
+            << "artifact" << std::endl;
+      artifactElem = _sdf->GetNextElement("artifact");
+      continue;
+    }
+
     // Sanity check: The model should exist.
     physics::ModelPtr modelPtr = this->world->ModelByName(modelName);
     if (!modelPtr)
@@ -108,16 +118,31 @@ void GameLogicPlugin::ParseArtifacts(sdf::ElementPtr _sdf)
        continue;
     }
 
-    // Sanity check: The artifact shouldn't be repeated.
-    if (this->artifacts.find(modelName) != this->artifacts.end())
+    // Sanity check: Make sure that the artifact type is supported.
+    std::string modelTypeStr = artifactElem->Get<std::string>("type");
+    ArtifactType modelType;
+    if (!this->ArtifactFromString(modelTypeStr, modelType))
     {
-      gzerr << "[GameLogicPlugin]: Repeated model with name ["
-             << modelName << "]. Ignoring artifact" << std::endl;
+      gzerr << "[GameLogicPlugin]: Unknown artifact type ["
+             << modelTypeStr << "]. Ignoring artifact" << std::endl;
       artifactElem = _sdf->GetNextElement("artifact");
       continue;
     }
 
-    this->artifacts[modelName] = modelPtr;
+    // Sanity check: The artifact shouldn't be repeated.
+    if (this->artifacts.find(modelType) != this->artifacts.end())
+    {
+      const auto &modelNames = this->artifacts[modelType];
+      if (modelNames.find(modelName) != modelNames.end())
+      {
+        gzerr << "[GameLogicPlugin]: Repeated model with name ["
+               << modelName << "]. Ignoring artifact" << std::endl;
+        artifactElem = _sdf->GetNextElement("artifact");
+        continue;
+      }
+    }
+
+    this->artifacts[modelType][modelName] = modelPtr;
     artifactElem = artifactElem->GetNextElement("artifact");
   }
 }
@@ -128,24 +153,27 @@ bool GameLogicPlugin::OnNewArtifact(subt_msgs::Artifact::Request &_req,
 {
   gzmsg << "New artifact reported." << std::endl;
 
+  ArtifactType artifactType;
+  if (!this->ArtifactFromInt(_req.type, artifactType))
+  {
+    gzerr << "Unknown artifact code. The number should be between 0 and "
+          << this->kArtifactTypes.size() - 1 << " but we received "
+          << _req.type << std::endl;
+    return false;
+  }
+
   {
     std::lock_guard<std::mutex> lock(this->mutex);
-    this->totalScore += this->ScoreArtifact(_req.pose);
+    this->totalScore += this->ScoreArtifact(artifactType, _req.pose);
     gzmsg << "Total score: " << this->totalScore << std::endl << std::endl;
   }
 
   return true;
 }
 
-double GameLogicPlugin::ScoreArtifact(const geometry_msgs::PoseStamped &_pose)
+double GameLogicPlugin::ScoreArtifact(const ArtifactType &_type,
+  const geometry_msgs::PoseStamped &_pose)
 {
-  // Sanity check: Make sure that we still have artifacts.
-  if (this->artifacts.empty())
-  {
-    gzmsg << "  No artifacts remaining" << std::endl;
-    return 0.0;
-  }
-
   // Sanity check: Make sure that we have crossed the starting gate.
   if (!this->started)
   {
@@ -153,13 +181,22 @@ double GameLogicPlugin::ScoreArtifact(const geometry_msgs::PoseStamped &_pose)
     return 0.0;
   }
 
-  // From the list of all the artifacts, find out which one is
+  // Sanity check: Make sure that we still have artifacts.
+  if (this->artifacts.find(_type) == this->artifacts.end())
+  {
+    gzmsg << "  No artifacts remaining" << std::endl;
+    return 0.0;
+  }
+
+  auto &potentialArtifacts = this->artifacts[_type];
+
+  // From the list of potential artifacts, find out which one is
   // closer (Euclidean distance) to the located by this request.
   ignition::math::Vector3d observedObjectPose(
     _pose.pose.position.x, _pose.pose.position.y, _pose.pose.position.z);
   std::tuple<std::string, ignition::math::Vector3d, double> minDistance =
     {"", ignition::math::Vector3d(), std::numeric_limits<double>::infinity()};
-  for (auto const object : this->artifacts)
+  for (auto const object : potentialArtifacts)
   {
     auto objName = object.first;
     auto objPosition = object.second->WorldPose().Pos();
@@ -223,7 +260,9 @@ double GameLogicPlugin::ScoreArtifact(const geometry_msgs::PoseStamped &_pose)
 
   // Remove this artifact to avoid getting score from the same artifact
   // multiple times.
-  this->artifacts.erase(std::get<0>(minDistance));
+  potentialArtifacts.erase(std::get<0>(minDistance));
+  if (potentialArtifacts.empty())
+    this->artifacts.erase(_type);
 
   return score;
 }
@@ -235,9 +274,42 @@ void GameLogicPlugin::PublishScore(const ros::TimerEvent &/*_event*/)
 
   {
     std::lock_guard<std::mutex> lock(this->mutex);
+    if (!this->started)
+      return;
+
     msg.data = this->totalScore;
     this->scorePub.publish(msg);
   }
+}
+
+/////////////////////////////////////////////////
+bool GameLogicPlugin::ArtifactFromString(const std::string &_name,
+  ArtifactType &_type)
+{
+  auto pos = std::find_if(
+    std::begin(this->kArtifactTypes),
+    std::end(this->kArtifactTypes),
+    [&_name](const typename std::pair<ArtifactType, std::string> &_pair)
+    {
+      return (std::get<1>(_pair) == _name);
+    });
+
+  if (pos == std::end(this->kArtifactTypes))
+    return false;
+
+  _type = std::get<0>(*pos);
+  return true;
+}
+
+/////////////////////////////////////////////////
+bool GameLogicPlugin::ArtifactFromInt(const uint8_t &_typeInt,
+  ArtifactType &_type)
+{
+  if (_typeInt > this->kArtifactTypes.size())
+    return false;
+
+  _type = static_cast<ArtifactType>(_typeInt);
+  return true;
 }
 
 /////////////////////////////////////////////////
