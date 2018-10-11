@@ -1,0 +1,118 @@
+
+<?xml version='1.0' ?>
+<sdf version='1.6'>
+
+  <model name="hatch">
+
+    <model name='wall'>
+      <static>true</static>
+      <link name='link_wall'>
+        <collision name='collision_wall'>
+          <geometry>
+            <mesh>
+              <uri>model://hatch/meshes/hatch.dae</uri>
+              <submesh>
+                <name>Hatch_Wall</name>
+              </submesh>
+            </mesh>
+          </geometry>
+        </collision>
+        <visual name='visual_wall'>
+          <geometry>
+            <mesh>
+              <uri>model://hatch/meshes/hatch.dae</uri>
+              <submesh>
+                <name>Hatch_Wall</name>
+              </submesh>
+            </mesh>
+          </geometry>
+        </visual>
+      </link>
+    </model>
+
+    <model name='frame'>
+      <static>true</static>
+      <link name='link_frame'>
+        <collision name='collision_frame'>
+          <geometry>
+            <mesh>
+              <uri>model://hatch/meshes/hatch.dae</uri>
+              <submesh>
+                <name>Hatch_Frame</name>
+              </submesh>
+            </mesh>
+          </geometry>
+        </collision>
+        <visual name='visual_frame'>
+          <geometry>
+            <mesh>
+              <uri>model://hatch/meshes/hatch.dae</uri>
+              <submesh>
+                <name>Hatch_Frame</name>
+              </submesh>
+            </mesh>
+          </geometry>
+        </visual>
+      </link>
+    </model>
+
+    <model name='door'>
+      <link name='link_door'>
+        <collision name='collision_door'>
+          <pose>0 -0.07 1.5 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.75 0.15 1.1</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name='visual_door'>
+          <geometry>
+            <mesh>
+              <uri>model://hatch/meshes/hatch.dae</uri>
+              <submesh>
+                <name>Hatch_Door</name>
+              </submesh>
+            </mesh>
+          </geometry>
+        </visual>
+        <inertial>
+          <pose>0 -0.07 1.5 0 0 0</pose>
+          <mass>20</mass>
+          <inertia>
+            <ixx>2.0542</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>2.9542</iyy>
+            <iyz>0</iyz>
+            <izz>0.975</izz>
+          </inertia>
+        </inertial>
+      </link>
+    </model>
+
+    <!-- Joint connecting the frame and the door -->
+    <joint name="hinge" type="revolute">
+      <parent>frame::link_frame</parent>
+      <child>door::link_door</child>
+      <pose>0.453415 0.02487 1.498729 0 0 0</pose>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-3</lower>
+          <upper>0</upper>
+        </limit>
+        <dynamics>
+          <damping>1.0</damping>
+          <friction>1.0</friction>
+        </dynamics>
+        <use_parent_model_frame>true</use_parent_model_frame>
+      </axis>
+      <physics>
+        <ode>
+          <cfm_damping>1</cfm_damping>
+        </ode>
+      </physics>
+    </joint>
+  </model>
+</sdf>
