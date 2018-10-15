@@ -16,7 +16,7 @@
     odometry_topic="odometry_sensor1/odometry"
     parent_frame_id="world"
     child_frame_id="${namespace}/odometry_sensor1"
-    mass_odometry_sensor="0.00001"
+    mass_odometry_sensor="0.001"
     measurement_divisor="1"
     measurement_delay="0"
     unknown_delay="0.0"

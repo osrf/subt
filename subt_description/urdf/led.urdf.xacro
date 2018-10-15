@@ -28,17 +28,17 @@
 
     <gazebo>
       <model name='${led_prefix}_led'>
-        <pose>${xyz} ${rpy}</pose> 
+        <pose>${xyz} ${rpy}</pose>
         <link name='led_body'>
           <inertial>
-            <mass>0.00001</mass>
+            <mass>0.001</mass>
             <inertia>
-              <ixx>1.0e-05</ixx>
+              <ixx>1.0e-06</ixx>
               <ixy>0</ixy>
               <ixz>0</ixz>
-              <iyy>1.0e-05</iyy>
+              <iyy>1.0e-06</iyy>
               <iyz>0</iyz>
-              <izz>1.0e-05</izz>
+              <izz>1.0e-06</izz>
             </inertia>
           </inertial>
           <visual name='marker'>
