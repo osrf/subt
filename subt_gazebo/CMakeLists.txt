@@ -72,13 +72,13 @@ add_dependencies(${protobuf_lib_name} protobuf_compilation)
 set_target_properties(${protobuf_lib_name}
   PROPERTIES POSITION_INDEPENDENT_CODE ON COMPILE_FLAGS "-Wno-unused-parameter")
 
-# Create the libBatteryPlugin.so library.
-set(battery_plugin_name BatteryPlugin)
-add_library(${battery_plugin_name} src/BatteryPlugin.cc)
-target_link_libraries(${battery_plugin_name}
+# Create the libJointMotionTimerPlugin.so library.
+set(joint_motion_timer_plugin_name JointMotionTimerPlugin)
+add_library(${joint_motion_timer_plugin_name} src/JointMotionTimerPlugin.cc)
+target_link_libraries(${joint_motion_timer_plugin_name}
   ${catkin_LIBRARIES}
 )
-install(TARGETS ${battery_plugin_name}
+install(TARGETS ${joint_motion_timer_plugin_name}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
