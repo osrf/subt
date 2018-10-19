@@ -256,8 +256,8 @@ void CommsModel::UpdateVisibility()
     auto poseA = (*team)[addressA]->model->WorldPose();
     auto poseB = (*team)[addressB]->model->WorldPose();
 
-    this->visibility[keyA] = 
-      this->simpleMode || 
+    this->visibility[keyA] =
+      this->simpleMode ||
       poseA.Pos().Distance(poseB.Pos()) <= this->commsDistanceMax;
 
     // Update the symmetric case.
