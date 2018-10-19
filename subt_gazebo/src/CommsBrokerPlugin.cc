@@ -15,6 +15,7 @@
  *
 */
 
+#include <ros/ros.h>
 #include <functional>
 #include <mutex>
 #include <gazebo/common/Assert.hh>
@@ -46,6 +47,30 @@ void CommsBrokerPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
 /////////////////////////////////////////////////
 void CommsBrokerPlugin::OnUpdate()
 {
+  uint32_t maxDataRate = this->maxDataRatePerCycle;
+  auto now = gazebo::physics::get_world()->SimTime();
+  auto dt = (now - this->lastROSParameterCheckTime).Double();
+
+  // It's time to query the ROS parameter server. We do it every second.
+  if (dt >= 1.0 )
+  {
+    bool value = false;
+    ros::param::get("/subt/comms/simple_mode", value);
+
+    if (!this->commsModel->SimpleMode() && value)
+    {
+      gzmsg << "Enabling simple mode comms" << std::endl;
+      maxDataRate = UINT32_MAX;
+    }
+    else if (this->commsModel->SimpleMode() && !value)
+    {
+      gzmsg << "Disabling simple mode comms" << std::endl;
+    }
+
+    this->commsModel->SetSimpleMode(value);
+    this->lastROSParameterCheckTime = now;
+  }
+
   // We need to lock the broker mutex from the outside because "commsModel"
   // accesses its "team" member variable.
   std::lock_guard<std::mutex> lock(this->broker.Mutex());
@@ -58,8 +83,7 @@ void CommsBrokerPlugin::OnUpdate()
 
   // Dispatch all the incoming messages, deciding whether the destination gets
   // the message according to the communication model.
-  this->broker.DispatchMessages(
-      this->maxDataRatePerCycle, this->commsModel->UdpOverhead());
+  this->broker.DispatchMessages(maxDataRate, this->commsModel->UdpOverhead());
 }
 
 /////////////////////////////////////////////////
