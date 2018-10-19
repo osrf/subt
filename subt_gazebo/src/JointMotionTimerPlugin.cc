@@ -17,7 +17,7 @@
 
 #include <functional>
 #include <vector>
-#include <boost/weak_ptr.hpp>
+#include <boost/weak_ptr.hpp>  // NOLINT
 #include <subt_gazebo/JointMotionTimerPlugin.hh>
 #include <gazebo/common/Events.hh>
 #include <gazebo/physics/Joint.hh>
