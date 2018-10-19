@@ -15,8 +15,8 @@
  *
 */
 
-#ifndef SUBT_GAZEBO_BATTERYPLUGIN_HH_
-#define SUBT_GAZEBO_BATTERYPLUGIN_HH_
+#ifndef SUBT_GAZEBO_JOINTMOTIONTIMERPLUGIN_HH_
+#define SUBT_GAZEBO_JOINTMOTIONTIMERPLUGIN_HH_
 
 #include <memory>
 #include <sdf/Element.hh>
@@ -25,13 +25,13 @@
 
 namespace subt_gazebo
 {
-  class BatteryPluginPrivate;
+  class JointMotionTimerPluginPrivate;
 
   /// \brief A plugin to track energy consumption of a model.
-  class BatteryPlugin : public gazebo::ModelPlugin
+  class JointMotionTimerPlugin : public gazebo::ModelPlugin
   {
     /// \brief Constructor
-    public: BatteryPlugin();
+    public: JointMotionTimerPlugin();
 
     /// \brief Plugin Load function
     /// \param[in] _parent Model pointer to the model defining this plugin
@@ -42,7 +42,7 @@ namespace subt_gazebo
     public: void OnUpdate();
 
     /// \brief Private data pointer.
-    private: std::unique_ptr<BatteryPluginPrivate> dataPtr;
+    private: std::unique_ptr<JointMotionTimerPluginPrivate> dataPtr;
   };
 }
 #endif

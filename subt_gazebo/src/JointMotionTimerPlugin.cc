@@ -16,15 +16,15 @@
 */
 
 #include <functional>
-#include <subt_gazebo/BatteryPlugin.hh>
+#include <subt_gazebo/JointMotionTimerPlugin.hh>
 #include <gazebo/common/Events.hh>
 #include <gazebo/physics/Model.hh>
 
 namespace subt_gazebo
 {
-GZ_REGISTER_MODEL_PLUGIN(BatteryPlugin)
+GZ_REGISTER_MODEL_PLUGIN(JointMotionTimerPlugin)
 
-class BatteryPluginPrivate
+class JointMotionTimerPluginPrivate
 {
   /// \brief Pointer to the model that defines this plugin
   public: gazebo::physics::ModelPtr model;
@@ -33,22 +33,22 @@ class BatteryPluginPrivate
   public: gazebo::event::ConnectionPtr updateConnection;
 };
 
-BatteryPlugin::BatteryPlugin()
-  : dataPtr(new BatteryPluginPrivate)
+JointMotionTimerPlugin::JointMotionTimerPlugin()
+  : dataPtr(new JointMotionTimerPluginPrivate)
 {
 }
 
-void BatteryPlugin::Load(gazebo::physics::ModelPtr _parent,
+void JointMotionTimerPlugin::Load(gazebo::physics::ModelPtr _parent,
                          sdf::ElementPtr /*_sdf*/)
 {
   this->dataPtr->model = _parent;
 
   this->dataPtr->updateConnection =
       gazebo::event::Events::ConnectWorldUpdateBegin(
-          std::bind(&BatteryPlugin::OnUpdate, this));
+          std::bind(&JointMotionTimerPlugin::OnUpdate, this));
 }
 
-void BatteryPlugin::OnUpdate()
+void JointMotionTimerPlugin::OnUpdate()
 {
 }
 }
