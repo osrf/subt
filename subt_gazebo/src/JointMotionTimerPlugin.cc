@@ -29,6 +29,8 @@ namespace subt_gazebo
 {
 GZ_REGISTER_MODEL_PLUGIN(JointMotionTimerPlugin)
 
+using JointWeakPtr = boost::weak_ptr<gazebo::physics::Joint>;
+
 class JointMotionTimerPluginPrivate
 {
   /// \brief Elapsed time.
@@ -39,8 +41,6 @@ class JointMotionTimerPluginPrivate
 
   /// \brief Pointer to the model that defines this plugin
   public: gazebo::physics::ModelPtr model;
-
-  using JointWeakPtr = boost::weak_ptr<gazebo::physics::Joint>;
 
   /// \brief Joints to check for motion.
   public: std::vector<JointWeakPtr> joints;
@@ -55,7 +55,7 @@ JointMotionTimerPlugin::JointMotionTimerPlugin()
 }
 
 void JointMotionTimerPlugin::Load(gazebo::physics::ModelPtr _parent,
-                         sdf::ElementPtr /*_sdf*/)
+                                  sdf::ElementPtr _sdf)
 {
   this->dataPtr->model = _parent;
 
@@ -70,6 +70,42 @@ void JointMotionTimerPlugin::Load(gazebo::physics::ModelPtr _parent,
   {
     gzerr << "Unable to get physics engine pointer." << std::endl;
     return;
+  }
+
+  // Get joints specified in sdf
+  if (_sdf->HasElement("all_joints"))
+  {
+    auto joints = _parent->GetJoints();
+    for (const auto &joint : joints)
+    {
+      if (!joint->HasType(gazebo::physics::Base::FIXED_JOINT))
+      {
+        this->dataPtr->joints.push_back(JointWeakPtr(joint));
+      }
+    }
+  }
+  else if (_sdf->HasElement("joint"))
+  {
+    auto elem = _sdf->GetElement("joint");
+    while (elem)
+    {
+      const std::string jointName = elem->Get<std::string>();
+      auto joint = this->dataPtr->model->GetJoint(jointName);
+      if (!joint)
+      {
+        gzerr << "Could not find joint [" << jointName << "]." << std::endl;
+      }
+      else if (joint->HasType(gazebo::physics::Base::FIXED_JOINT))
+      {
+        gzerr << "Joint [" << jointName << "] is a fixed joint, skipping."
+              << std::endl;
+      }
+      else
+      {
+        this->dataPtr->joints.push_back(JointWeakPtr(joint));
+      }
+      elem = elem->GetNextElement("joint");
+    }
   }
 
   this->dataPtr->updateConnection =

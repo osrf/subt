@@ -9,6 +9,9 @@
   <xacro:controller_plugin_macro namespace="${namespace}" imu_sub_topic="imu" />
 
   <gazebo>
+    <plugin name="${namespace}_joint_motion_timer" filename="libJointMotionTimerPlugin.so">
+      <all_joints/>
+    </plugin>
     <plugin name="${namespace}_joint_state_publisher" filename="libgazebo_ros_joint_state_publisher.so">
       <robotNamespace>${namespace}/fixed</robotNamespace>
       <jointName>X3/pressure_sensor_joint, X3/magnetometer_joint, X3/imu_joint, X3/odometry_sensor1_joint</jointName>
