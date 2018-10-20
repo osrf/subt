@@ -55,6 +55,9 @@ class JointMotionTimerPluginPrivate
   /// \brief Ignition transport publisher for elapsed time.
   public: ignition::transport::Node::Publisher elapsedTimePub;
 
+  /// \brief Ignition transport publisher for elapsed time updates.
+  public: ignition::transport::Node::Publisher elapsedTimeUpdatesPub;
+
   /// \brief World update connection pointer.
   public: gazebo::event::ConnectionPtr updateConnection;
 };
@@ -132,7 +135,12 @@ void JointMotionTimerPlugin::Load(gazebo::physics::ModelPtr _parent,
   this->dataPtr->node.reset(new ignition::transport::Node(nodeOptions));
 
   this->dataPtr->elapsedTimePub =
-    this->dataPtr->node->Advertise<ignition::msgs::Duration>("elapsed_time");
+    this->dataPtr->node->Advertise<ignition::msgs::Duration>(
+      "elapsed_time");
+
+  this->dataPtr->elapsedTimeUpdatesPub =
+    this->dataPtr->node->Advertise<ignition::msgs::Duration>(
+      "elapsed_time_updates");
 
   this->dataPtr->updateConnection =
       gazebo::event::Events::ConnectWorldUpdateBegin(
@@ -166,5 +174,9 @@ void JointMotionTimerPlugin::OnUpdate()
   msg.set_sec(this->dataPtr->elapsedTime.sec);
   msg.set_nsec(this->dataPtr->elapsedTime.nsec);
   this->dataPtr->elapsedTimePub.Publish(msg);
+  if (motionDetected)
+  {
+    this->dataPtr->elapsedTimeUpdatesPub.Publish(msg);
+  }
 }
 }
