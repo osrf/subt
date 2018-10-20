@@ -25,6 +25,16 @@
     </plugin>
   </gazebo>
 
+  <gazebo>
+    <plugin name="joint_motion_timer" filename="libJointMotionTimerPlugin.so">
+      <joint>front_left_wheel</joint>
+      <joint>front_right_wheel</joint>
+      <joint>rear_left_wheel</joint>
+      <joint>rear_right_wheel</joint>
+      <robotNamespace>${namespace}/</robotNamespace>
+    </plugin>
+  </gazebo>
+
   <gazebo reference="base_link">
     <turnGravityOff>false</turnGravityOff>
   </gazebo>
