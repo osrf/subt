@@ -16,8 +16,12 @@
 */
 
 #include <functional>
+#include <memory>
 #include <vector>
 #include <boost/weak_ptr.hpp>  // NOLINT
+#include <ignition/common/Time.hh>
+#include <ignition/msgs.hh>
+#include <ignition/transport/Node.hh>
 #include <subt_gazebo/JointMotionTimerPlugin.hh>
 #include <gazebo/common/Events.hh>
 #include <gazebo/physics/Joint.hh>
@@ -34,7 +38,7 @@ using JointWeakPtr = boost::weak_ptr<gazebo::physics::Joint>;
 class JointMotionTimerPluginPrivate
 {
   /// \brief Elapsed time.
-  public: double elapsedTime = 0.0;
+  public: ignition::common::Time elapsedTime;
 
   /// \brief PhysicsEngine pointer for getting timestep.
   public: gazebo::physics::PhysicsEnginePtr engine;
@@ -44,6 +48,12 @@ class JointMotionTimerPluginPrivate
 
   /// \brief Joints to check for motion.
   public: std::vector<JointWeakPtr> joints;
+
+  /// \brief Ignition transport node for communications.
+  public: std::unique_ptr<ignition::transport::Node> node;
+
+  /// \brief Ignition transport publisher for elapsed time.
+  public: ignition::transport::Node::Publisher elapsedTimePub;
 
   /// \brief World update connection pointer.
   public: gazebo::event::ConnectionPtr updateConnection;
@@ -108,6 +118,22 @@ void JointMotionTimerPlugin::Load(gazebo::physics::ModelPtr _parent,
     }
   }
 
+  ignition::transport::NodeOptions nodeOptions;
+  if (_sdf->HasElement("robotNamespace"))
+  {
+    const std::string robotNamespace = _sdf->Get<std::string>("robotNamespace");
+    if (!nodeOptions.SetNameSpace(robotNamespace))
+    {
+      gzerr << "Unable to set the ignition transport namespace: "
+            << robotNamespace
+            << std::endl;
+    }
+  }
+  this->dataPtr->node.reset(new ignition::transport::Node(nodeOptions));
+
+  this->dataPtr->elapsedTimePub =
+    this->dataPtr->node->Advertise<ignition::msgs::Duration>("elapsed_time");
+
   this->dataPtr->updateConnection =
       gazebo::event::Events::ConnectWorldUpdateBegin(
           std::bind(&JointMotionTimerPlugin::OnUpdate, this));
@@ -115,7 +141,7 @@ void JointMotionTimerPlugin::Load(gazebo::physics::ModelPtr _parent,
 
 void JointMotionTimerPlugin::OnUpdate()
 {
-  double dt = this->dataPtr->engine->GetMaxStepSize();
+  ignition::common::Time dt(this->dataPtr->engine->GetMaxStepSize());
 
   bool motionDetected = false;
   for (const auto &weakJoint : this->dataPtr->joints)
@@ -135,5 +161,10 @@ void JointMotionTimerPlugin::OnUpdate()
   {
     this->dataPtr->elapsedTime += dt;
   }
+
+  ignition::msgs::Duration msg;
+  msg.set_sec(this->dataPtr->elapsedTime.sec);
+  msg.set_nsec(this->dataPtr->elapsedTime.nsec);
+  this->dataPtr->elapsedTimePub.Publish(msg);
 }
 }
