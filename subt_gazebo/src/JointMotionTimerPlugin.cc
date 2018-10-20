@@ -37,6 +37,9 @@ using JointWeakPtr = boost::weak_ptr<gazebo::physics::Joint>;
 
 class JointMotionTimerPluginPrivate
 {
+  /// \brief Joint velocity threshold.
+  public: double velocityThreshold = 1e-2;
+
   /// \brief Elapsed time.
   public: ignition::common::Time elapsedTime;
 
@@ -83,6 +86,12 @@ void JointMotionTimerPlugin::Load(gazebo::physics::ModelPtr _parent,
   {
     gzerr << "Unable to get physics engine pointer." << std::endl;
     return;
+  }
+
+  if (_sdf->HasElement("joint_velocity_threshold"))
+  {
+    this->dataPtr->velocityThreshold =
+      _sdf->Get<double>("joint_velocity_threshold");
   }
 
   // Get joints specified in sdf
@@ -157,7 +166,7 @@ void JointMotionTimerPlugin::OnUpdate()
     gazebo::physics::JointPtr joint = weakJoint.lock();
     if (joint)
     {
-      if (std::abs(joint->GetVelocity(0)) > 1e-2)
+      if (std::abs(joint->GetVelocity(0)) > this->dataPtr->velocityThreshold)
       {
         motionDetected = true;
         break;
