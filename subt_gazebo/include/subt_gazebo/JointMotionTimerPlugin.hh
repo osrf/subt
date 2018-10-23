@@ -27,7 +27,39 @@ namespace subt
 {
   class JointMotionTimerPluginPrivate;
 
-  /// \brief A plugin to track energy consumption of a model.
+  /// \brief A plugin to track the elapsed time for which a model's joints
+  /// have been moving.
+  ///
+  /// This plugin checks whether any of the joint velocities in a model exceed
+  /// a threshold value. If so, a timer is incremented by the current timestep.
+  /// The plugin publishes the elapsed time as an ignition::msgs::Duration
+  /// on two ignition topics (with optional namespace robotNamespace):
+  ///
+  /// * /${robotNamespace}/elapsed_time: publishes every simulation step.
+  /// * /${robotNamespace}/elapsed_time_updates: publishes only when
+  ///   joint motion is detected.
+  ///
+  /// All non-fixed joints will be checked for motion if the <all_joints> tag
+  /// is supplied in the sdf. Alternatively, individual joint names to check
+  /// can be specified in <joint> sdf parameters.
+  ///
+  /// The <joint_velocity_threshold> sdf parameter can be use to specify the
+  /// joint velocity threshold above which motion is detected and time elapsed.
+  ///
+  /// An ignition namespace is used if the <robotNamespace> sdf parameter is
+  /// supplied. Otherwise the topics will be published in the global namespace.
+  ///
+  /// Examples:
+  /// <robotNamespace>r2d2</robotNamespace>
+  /// <all_joints/>
+  /// <joint_velocity_threshold>1e-2</joint_velocity_threshold>
+  /// ...
+  /// <robotNamespace>c3po</robotNamespace>
+  /// <joint>left_elbow</joint>
+  /// <joint>right_elbow</joint>
+  /// <joint_velocity_threshold>1e-6</joint_velocity_threshold>
+  /// ...
+  ///
   class JointMotionTimerPlugin : public gazebo::ModelPlugin
   {
     /// \brief Constructor
