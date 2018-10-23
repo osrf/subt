@@ -26,6 +26,7 @@
 
 #include "subt_gazebo/CommonTypes.hh"
 #include "subt_gazebo/GameLogicPlugin.hh"
+#include "subt_gazebo/protobuf/artifact.pb.h"
 
 using namespace gazebo;
 using namespace subt;
@@ -58,6 +59,15 @@ void GameLogicPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
   this->artifactSrv =
     this->rosnode->advertiseService("artifacts/new",
     &GameLogicPlugin::OnNewArtifact, this);
+
+  // Advertise the service to receive artifact reports. 
+  // Note that we're setting the scope to this service to SCOPE_T, so only
+  // nodes within the same process will be able to reach this plugin.
+  // The reason for this is to avoid the teams to use this service directly.
+  ignition::transport::AdvertiseServiceOptions opts;
+  opts.SetScope(ignition::transport::Scope_t::PROCESS);
+  this->node.Advertise("/subt/artifacts/new",
+    &GameLogicPlugin::OnNewArtifact, this, opts);
 
   this->scorePub = this->rosnode->advertise<std_msgs::Int32>("score", 1000);
 
@@ -171,6 +181,13 @@ bool GameLogicPlugin::OnNewArtifact(subt_msgs::Artifact::Request &_req,
   return true;
 }
 
+/////////////////////////////////////////////////
+void GameLogicPlugin::OnNewArtifact(const subt::msgs::Artifact &_req)
+{
+
+}
+
+/////////////////////////////////////////////////
 double GameLogicPlugin::ScoreArtifact(const ArtifactType &_type,
   const geometry_msgs::PoseStamped &_pose)
 {

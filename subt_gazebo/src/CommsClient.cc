@@ -27,8 +27,10 @@
 using namespace subt;
 
 //////////////////////////////////////////////////
-CommsClient::CommsClient(const std::string &_localAddress)
-  : localAddress(_localAddress)
+CommsClient::CommsClient(const std::string &_localAddress,
+  const bool _isPrivate)
+  : localAddress(_localAddress),
+    isPrivate(_isPrivate)
 {
   this->enabled = false;
 

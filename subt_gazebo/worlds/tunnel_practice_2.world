@@ -1357,6 +1357,14 @@
       <name>blocker_260_1</name>
       <pose>260 -150 -10 0 0 0</pose>
     </include>
+
+    <!-- Base station -->
+    <include>
+      <uri>model://base_station</uri>
+      <pose>-8 0 0 0 0 0</pose>
+      <plugin name="base_station_plugin" filename="libBaseStationPlugin.so">
+      </plugin>
+    </include>
     
 
     <!-- The SubT comms broker plugin -->

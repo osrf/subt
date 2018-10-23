@@ -36,6 +36,8 @@
 #include <ignition/math/Vector3.hh>
 #include <sdf/sdf.hh>
 
+#include "subt_gazebo/protobuf/artifact.pb.h"
+
 namespace gazebo
 {
   /// \brief A plugin that takes care of all the SubT challenge logic.
@@ -100,6 +102,11 @@ namespace gazebo
     /// \return True when the service call succeed or false otherwise.
     private: bool OnNewArtifact(subt_msgs::Artifact::Request &_req,
                                 subt_msgs::Artifact::Response &_res);
+
+    /// \brief Callback executed to process a new artifact request 
+    /// sent by a team.
+    /// \param[in] _req The service request.
+    private: void OnNewArtifact(const subt::msgs::Artifact &_req);
 
     /// \brief Calculate the score of a new artifact request.
     /// \param[in] _type The object type. See ArtifactType.

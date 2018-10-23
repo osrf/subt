@@ -72,12 +72,13 @@ add_dependencies(${protobuf_lib_name} protobuf_compilation)
 set_target_properties(${protobuf_lib_name}
   PROPERTIES POSITION_INDEPENDENT_CODE ON COMPILE_FLAGS "-Wno-unused-parameter")
 
-# Create the libGameLogicPlugin.so library.
+  # Create the libGameLogicPlugin.so library.
 set(game_logic_plugin_name GameLogicPlugin)
 add_library(${game_logic_plugin_name} src/GameLogicPlugin.cc)
 add_dependencies(${game_logic_plugin_name} subt_msgs_generate_messages_cpp)
 target_link_libraries(${game_logic_plugin_name}
   ${catkin_LIBRARIES}
+  ${protobuf_lib_name}
 )
 install(TARGETS ${game_logic_plugin_name}
   ARCHIVE DESTINATION lib
@@ -134,6 +135,21 @@ install(
     ${PROTO_HEADERS}
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}/protobuf
 )
+
+# Create the libBaseStationPlugin.so library.
+set(base_station_plugin_name BaseStationPlugin)
+add_library(${base_station_plugin_name} src/BaseStationPlugin.cc)
+target_include_directories(${base_station_plugin_name}
+  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
+target_link_libraries(${base_station_plugin_name}
+  ${catkin_LIBRARIES}
+  ${comms_client_name}
+  ${protobuf_lib_name}
+)
+install(TARGETS ${base_station_plugin_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
 
 # Create the libRosFlashLightPlugin.so library.
 set(ros_flashlight_plugin_name RosFlashLightPlugin)

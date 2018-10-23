@@ -38,7 +38,8 @@ namespace subt
     /// \brief Constructor.
     /// \param[in] _localAddress Your local address.
     /// Important: This address must be equal to a Gazebo model name.
-    public: explicit CommsClient(const std::string &_localAddress);
+    public: explicit CommsClient(const std::string &_localAddress,
+                                 const bool _isPrivate = false);
 
     /// \brief Get your local address.
     /// \return The local address.
@@ -147,7 +148,10 @@ namespace subt
       }
 
       // Advertise a oneway service for receiving message requests.
-      if (!this->node.Advertise(address, &CommsClient::OnMessage, this))
+      ignition::transport::AdvertiseServiceOptions opts;
+      if (this->isPrivate)
+        opts.SetScope(ignition::transport::Scope_t::PROCESS);
+      if (!this->node.Advertise(address, &CommsClient::OnMessage, this, opts))
         return false;
 
       // Register the callbacks.
@@ -236,6 +240,10 @@ namespace subt
     /// \brief True when the broker validated my address. Enabled must be true
     /// for being able to send and receive data.
     private: bool enabled = false;
+
+    /// \brief When true, the Ignition service will only be visible within
+    /// this process.
+    private: bool isPrivate = false;
 
     /// \brief A mutex for avoiding race conditions.
     private: mutable std::mutex mutex;

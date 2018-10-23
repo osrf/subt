@@ -1,0 +1,24 @@
+
+<?xml version='1.0' ?>
+<sdf version='1.6'>
+  <model name='BaseStation'>
+    <static>true</static>
+    <link name='link'>
+      <collision name='collision'>
+        <geometry>
+          <box>
+            <size>0.75 0.15 1.1</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name='visual'>
+        <geometry>
+          <box>
+            <size>0.75 0.15 1.1</size>
+          </box>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>
+    
