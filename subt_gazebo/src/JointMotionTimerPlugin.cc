@@ -22,12 +22,12 @@
 #include <ignition/common/Time.hh>
 #include <ignition/msgs.hh>
 #include <ignition/transport/Node.hh>
-#include <subt_gazebo/JointMotionTimerPlugin.hh>
 #include <gazebo/common/Events.hh>
 #include <gazebo/physics/Joint.hh>
 #include <gazebo/physics/Model.hh>
 #include <gazebo/physics/PhysicsEngine.hh>
 #include <gazebo/physics/World.hh>
+#include "subt_gazebo/JointMotionTimerPlugin.hh"
 
 namespace subt_gazebo
 {
@@ -35,6 +35,8 @@ GZ_REGISTER_MODEL_PLUGIN(JointMotionTimerPlugin)
 
 using JointWeakPtr = boost::weak_ptr<gazebo::physics::Joint>;
 
+/// \internal
+/// \brief Private data for the JointMotionTimerPlugin class.
 class JointMotionTimerPluginPrivate
 {
   /// \brief Joint velocity threshold.
@@ -65,11 +67,13 @@ class JointMotionTimerPluginPrivate
   public: gazebo::event::ConnectionPtr updateConnection;
 };
 
+/////////////////////////////////////////////////
 JointMotionTimerPlugin::JointMotionTimerPlugin()
   : dataPtr(new JointMotionTimerPluginPrivate)
 {
 }
 
+/////////////////////////////////////////////////
 void JointMotionTimerPlugin::Load(gazebo::physics::ModelPtr _parent,
                                   sdf::ElementPtr _sdf)
 {
@@ -156,6 +160,7 @@ void JointMotionTimerPlugin::Load(gazebo::physics::ModelPtr _parent,
           std::bind(&JointMotionTimerPlugin::OnUpdate, this));
 }
 
+/////////////////////////////////////////////////
 void JointMotionTimerPlugin::OnUpdate()
 {
   ignition::common::Time dt(this->dataPtr->engine->GetMaxStepSize());
