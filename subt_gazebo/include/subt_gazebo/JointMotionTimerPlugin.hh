@@ -23,7 +23,7 @@
 #include <gazebo/common/Plugin.hh>
 #include <gazebo/physics/Model.hh>
 
-namespace subt_gazebo
+namespace subt
 {
   class JointMotionTimerPluginPrivate;
 

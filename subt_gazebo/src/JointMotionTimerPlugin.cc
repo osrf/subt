@@ -29,7 +29,7 @@
 #include <gazebo/physics/World.hh>
 #include "subt_gazebo/JointMotionTimerPlugin.hh"
 
-namespace subt_gazebo
+namespace subt
 {
 GZ_REGISTER_MODEL_PLUGIN(JointMotionTimerPlugin)
 
