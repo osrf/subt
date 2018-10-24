@@ -38,11 +38,11 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
   /// \brief Constructor.
   public: ScoreTest()
   {
-    this->client.reset(new subt::CommsClient("my_address"));
-
     // Wait until Gazebo is ready.
     using namespace std::chrono_literals;
     EXPECT_TRUE(this->WaitForGazebo(120s));
+
+    this->client.reset(new subt::CommsClient("X2"));
   }
 
   /// \brief Reset the member variables used for checking test expectations.
@@ -62,8 +62,7 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     pose.mutable_position()->set_x(140.0);
     pose.mutable_position()->set_y(35.0);
     pose.mutable_position()->set_z(-20.0);
-    uint32_t type = static_cast<uint32_t>(
-      gazebo::GameLogicPlugin::ArtifactType::TYPE_BACKPACK);
+    uint32_t type = static_cast<uint32_t>(subt::ArtifactType::TYPE_BACKPACK);
     this->ReportArtifact(type, pose);
     ASSERT_TRUE(this->WaitUntilScoreIs(9));
 
@@ -71,8 +70,7 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     pose.mutable_position()->set_x(241.0);
     pose.mutable_position()->set_y(25.0);
     pose.mutable_position()->set_z(-35.0);
-    type = static_cast<uint32_t>(
-      gazebo::GameLogicPlugin::ArtifactType::TYPE_TOOLBOX);
+    type = static_cast<uint32_t>(subt::ArtifactType::TYPE_TOOLBOX);
     this->ReportArtifact(type, pose);
     ASSERT_TRUE(this->WaitUntilScoreIs(15));
 
@@ -80,8 +78,7 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     pose.mutable_position()->set_x(133.0);
     pose.mutable_position()->set_y(2.2);
     pose.mutable_position()->set_z(-20.0);
-    type = static_cast<uint32_t>(
-      gazebo::GameLogicPlugin::ArtifactType::TYPE_EXTINGUISHER);
+    type = static_cast<uint32_t>(subt::ArtifactType::TYPE_EXTINGUISHER);
     this->ReportArtifact(type, pose);
     ASSERT_TRUE(this->WaitUntilScoreIs(18));
 
@@ -89,8 +86,7 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     pose.mutable_position()->set_x(127.5);
     pose.mutable_position()->set_y(-65.0);
     pose.mutable_position()->set_z(-30.0);
-    type = static_cast<uint32_t>(
-      gazebo::GameLogicPlugin::ArtifactType::TYPE_VALVE);
+    type = static_cast<uint32_t>(subt::ArtifactType::TYPE_VALVE);
     this->ReportArtifact(type, pose);
     ASSERT_TRUE(this->WaitUntilScoreIs(18));
   }
