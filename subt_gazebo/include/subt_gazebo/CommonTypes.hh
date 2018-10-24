@@ -106,6 +106,9 @@ namespace subt
   /// address to report artifacts.
   const std::string kBaseStationName = "BaseStation";
 
+  /// \brief Internal service used to report new artifacts.
+  const std::string kNewArtifactSrv = "/subt/artifacts/new";
+
   /// \brief Default port.
   const uint32_t kDefaultPort = 4100u;
 

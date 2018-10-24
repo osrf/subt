@@ -39,6 +39,8 @@ namespace subt
     /// \brief Constructor.
     /// \param[in] _localAddress Your local address.
     /// Important: This address must be equal to a Gazebo model name.
+    /// \param[in] _isPrivate If true, only nodes within the same process will
+    /// be able to communicate with this client.
     public: explicit CommsClient(const std::string &_localAddress,
                                  const bool _isPrivate = false);
 

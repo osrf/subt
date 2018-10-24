@@ -17,6 +17,7 @@
 
 #include "subt_gazebo/BaseStationPlugin.hh"
 #include "subt_gazebo/CommsClient.hh"
+#include "subt_gazebo/CommonTypes.hh"
 #include "subt_gazebo/protobuf/artifact.pb.h"
 
 using namespace subt;
@@ -56,5 +57,5 @@ void BaseStationPlugin::OnArtifact(const std::string &/*_srcAddress*/,
   }
 
   // Report this artifact to the scoring plugin.
-  this->node.Request("/subt/artifacts/new", artifact);
+  this->node.Request(kNewArtifactSrv, artifact);
 }

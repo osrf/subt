@@ -15,7 +15,6 @@
  *
 */
 
-#include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/Twist.h>
 #include <ros/ros.h>
 #include <std_msgs/Bool.h>
@@ -211,7 +210,6 @@ void Controller::TeleopCommCallback(const std_msgs::String::ConstPtr &_dest)
 {
   ROS_INFO("TeleopCommCallback");
   this->client->SendTo("_data_", _dest->data);
-
   this->FlashCommIndicator();
 }
 

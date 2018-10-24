@@ -62,7 +62,7 @@ void GameLogicPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
   // The reason for this is to avoid the teams to use this service directly.
   ignition::transport::AdvertiseServiceOptions opts;
   opts.SetScope(ignition::transport::Scope_t::PROCESS);
-  this->node.Advertise("/subt/artifacts/new",
+  this->node.Advertise(kNewArtifactSrv,
     &GameLogicPlugin::OnNewArtifact, this, opts);
 
   this->scorePub = this->rosnode->advertise<std_msgs::Int32>("score", 1000);

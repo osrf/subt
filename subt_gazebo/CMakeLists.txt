@@ -70,7 +70,7 @@ add_dependencies(${protobuf_lib_name} protobuf_compilation)
 set_target_properties(${protobuf_lib_name}
   PROPERTIES POSITION_INDEPENDENT_CODE ON COMPILE_FLAGS "-Wno-unused-parameter")
 
-  # Create the libGameLogicPlugin.so library.
+# Create the libGameLogicPlugin.so library.
 set(game_logic_plugin_name GameLogicPlugin)
 add_library(${game_logic_plugin_name} src/GameLogicPlugin.cc)
 target_include_directories(${game_logic_plugin_name}
