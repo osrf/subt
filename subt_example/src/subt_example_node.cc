@@ -212,18 +212,6 @@ void Controller::TeleopCommCallback(const std_msgs::String::ConstPtr &_dest)
   ROS_INFO("TeleopCommCallback");
   this->client->SendTo("_data_", _dest->data);
 
-  // subt::msgs::Artifact artifact;
-  // ignition::msgs::Pose pose;
-  // pose.mutable_position()->set_x(1);
-  // pose.mutable_position()->set_y(2);
-  // pose.mutable_position()->set_z(3);
-
-  // artifact.set_type(0);
-  // artifact.mutable_pose()->CopyFrom(pose);
-
-  // // Send data to the base station.
-  // this->client->SendToBaseStation(artifact);
-
   this->FlashCommIndicator();
 }
 
