@@ -26,7 +26,7 @@ GZ_REGISTER_MODEL_PLUGIN(BaseStationPlugin)
 //////////////////////////////////////////////////
 BaseStationPlugin::BaseStationPlugin()
 {
-  gzmsg << "Base statation plugin loaded" << std::endl;
+  gzmsg << "Base station plugin loaded" << std::endl;
 }
 
 //////////////////////////////////////////////////
@@ -48,12 +48,10 @@ void BaseStationPlugin::OnArtifact(const std::string &/*_srcAddress*/,
   const std::string &/*_dstAddress*/, const uint32_t /*_dstPort*/,
   const std::string &_data)
 {
-  gzmsg << "Artifact reported to the base station!" << std::endl;
-
   subt::msgs::Artifact artifact;
   if (!artifact.ParseFromString(_data))
   {
-    std::cerr << "Error parsing artifact" << std::endl;
+    gzerr << "Error parsing artifact" << std::endl;
     return;
   }
 

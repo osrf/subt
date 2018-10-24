@@ -31,16 +31,23 @@
 #include <gazebo/common/Plugin.hh>
 #include <gazebo/physics/physics.hh>
 #include <gazebo/transport/Node.hh>
-#include <ignition/math/Vector3.hh>
 #include <sdf/sdf.hh>
 
 #include "subt_gazebo/CommonTypes.hh"
 
+// Forward declarations.
 namespace subt
 {
   namespace msgs
   {
     class Artifact;
+  }
+}
+namespace ignition
+{
+  namespace msgs
+  {
+    class Pose;
   }
 }
 

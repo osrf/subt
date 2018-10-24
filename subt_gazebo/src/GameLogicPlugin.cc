@@ -23,6 +23,7 @@
 #include <gazebo/common/Console.hh>
 #include <gazebo/common/Events.hh>
 #include <ignition/math/Pose3.hh>
+#include <ignition/math/Vector3.hh>
 
 #include "subt_gazebo/CommonTypes.hh"
 #include "subt_gazebo/GameLogicPlugin.hh"
@@ -155,8 +156,6 @@ void GameLogicPlugin::ParseArtifacts(sdf::ElementPtr _sdf)
 /////////////////////////////////////////////////
 void GameLogicPlugin::OnNewArtifact(const subt::msgs::Artifact &_req)
 {
-  gzmsg << "game logic: New artifact reported" << std::endl;
-
   ArtifactType artifactType;
   if (!this->ArtifactFromInt(_req.type(), artifactType))
   {

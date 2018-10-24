@@ -34,12 +34,15 @@ namespace subt
     /// \brief Constructor
     public: BaseStationPlugin();
 
-    /// \brief Plugin Load function
-    /// \param[in] _parent Model pointer to the model defining this plugin
-    /// \param[in] _sdf pointer to the SDF of the model
-    public: void Load(gazebo::physics::ModelPtr _parent, sdf::ElementPtr _sdf);
+    // Documentation inherited.
+    public: void Load(gazebo::physics::ModelPtr _parent,
+                      sdf::ElementPtr _sdf);
 
     /// \brief Callback for processing an artifact report.
+    /// \param[in] _srcAddress Unused.
+    /// \param[in] _dstAddress Unused.
+    /// \param[in] _dstPort Unused.
+    /// \param[in] _data Serialized artifact.
     public: void OnArtifact(const std::string &_srcAddress,
                             const std::string &_dstAddress,
                             const uint32_t _dstPort,

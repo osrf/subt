@@ -187,11 +187,13 @@ namespace subt
                         const std::string &_dstAddress,
                         const uint32_t _port = kDefaultPort);
 
-    /// \brief Send some data to other/s member/s of the team.
+    /// \brief Send some data to the base station.
     ///
     /// \param[in] _artifact Artifact to be reported to the base station.
     /// \return True when success or false otherwise (e.g.: if the payload was
     /// bigger than 1500 bytes).
+    /// Note that this function is subject to the same communication
+    /// restrictions than SendTo().
     public: bool SendToBaseStation(const subt::msgs::Artifact &_artifact);
 
     /// \brief Get the list of local neighbors.
