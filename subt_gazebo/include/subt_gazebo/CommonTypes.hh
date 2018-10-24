@@ -89,6 +89,10 @@ namespace subt
   /// \brief Address used to receive neighbor updates.
   const std::string kNeighborsTopic = "neighbors";
 
+  /// \brief The name of the base station in Gazebo. This is used as the
+  /// address to report artifacts.
+  const std::string kBaseStationName = "BaseStation";
+
   /// \brief Default port.
   const uint32_t kDefaultPort = 4100u;
 

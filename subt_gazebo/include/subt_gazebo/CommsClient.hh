@@ -27,6 +27,7 @@
 #include <ignition/transport/Node.hh>
 
 #include "subt_gazebo/CommonTypes.hh"
+#include "subt_gazebo/protobuf/artifact.pb.h"
 #include "subt_gazebo/protobuf/datagram.pb.h"
 #include "subt_gazebo/protobuf/neighbor_m.pb.h"
 
@@ -185,6 +186,13 @@ namespace subt
     public: bool SendTo(const std::string &_data,
                         const std::string &_dstAddress,
                         const uint32_t _port = kDefaultPort);
+
+    /// \brief Send some data to other/s member/s of the team.
+    ///
+    /// \param[in] _artifact Artifact to be reported to the base station.
+    /// \return True when success or false otherwise (e.g.: if the payload was
+    /// bigger than 1500 bytes).
+    public: bool SendToBaseStation(const subt::msgs::Artifact &_artifact);
 
     /// \brief Get the list of local neighbors.
     ///

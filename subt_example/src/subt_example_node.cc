@@ -15,6 +15,7 @@
  *
 */
 
+#include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/Twist.h>
 #include <ros/ros.h>
 #include <std_msgs/Bool.h>
@@ -27,6 +28,7 @@
 #include <vector>
 
 #include <subt_gazebo/CommsClient.hh>
+#include <subt_gazebo/protobuf/artifact.pb.h>
 
 /// \brief. Example control class, running as a ROS node to control a robot.
 class Controller
@@ -209,6 +211,19 @@ void Controller::TeleopCommCallback(const std_msgs::String::ConstPtr &_dest)
 {
   ROS_INFO("TeleopCommCallback");
   this->client->SendTo("_data_", _dest->data);
+
+  // subt::msgs::Artifact artifact;
+  // ignition::msgs::Pose pose;
+  // pose.mutable_position()->set_x(1);
+  // pose.mutable_position()->set_y(2);
+  // pose.mutable_position()->set_z(3);
+
+  // artifact.set_type(0);
+  // artifact.mutable_pose()->CopyFrom(pose);
+
+  // // Send data to the base station.
+  // this->client->SendToBaseStation(artifact);
+
   this->FlashCommIndicator();
 }
 

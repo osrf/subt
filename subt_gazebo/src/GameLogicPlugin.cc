@@ -184,7 +184,7 @@ bool GameLogicPlugin::OnNewArtifact(subt_msgs::Artifact::Request &_req,
 /////////////////////////////////////////////////
 void GameLogicPlugin::OnNewArtifact(const subt::msgs::Artifact &_req)
 {
-
+  gzmsg << "game logic: New artifact reported" << std::endl;
 }
 
 /////////////////////////////////////////////////

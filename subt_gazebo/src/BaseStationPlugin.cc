@@ -15,9 +15,6 @@
  *
 */
 
-#include <ros/ros.h>
-#include <subt_msgs/Artifact2.h>
-
 #include "subt_gazebo/BaseStationPlugin.hh"
 #include "subt_gazebo/CommsClient.hh"
 #include "subt_gazebo/protobuf/artifact.pb.h"
@@ -51,26 +48,15 @@ void BaseStationPlugin::OnArtifact(const std::string &/*_srcAddress*/,
   const std::string &/*_dstAddress*/, const uint32_t /*_dstPort*/,
   const std::string &_data)
 {
-  gzmsg << "Artifact reported!" << std::endl;
+  gzmsg << "Artifact reported to the base station!" << std::endl;
 
-  char *d = strdup(_data.c_str());
-
-  subt_msgs::Artifact2 rosArtifact;
-  uint32_t serialSize = ros::serialization::serializationLength(rosArtifact);
-  ros::serialization::IStream stream(reinterpret_cast<uint8_t *>(d), 
-    serialSize);
-  ros::serialization::Serializer<subt_msgs::Artifact2>::read(stream, rosArtifact);
+  subt::msgs::Artifact artifact;
+  if (!artifact.ParseFromString(_data))
+  {
+    std::cerr << "Error parsing artifact" << std::endl;
+    return;
+  }
 
   // Report this artifact to the scoring plugin.
-  subt::msgs::Artifact req;
-  req.set_type(rosArtifact.type);
-  req.mutable_pose()->mutable_position()->set_x(
-    rosArtifact.pose.pose.position.x);
-  req.mutable_pose()->mutable_position()->set_y(
-    rosArtifact.pose.pose.position.y);
-  req.mutable_pose()->mutable_position()->set_z(
-    rosArtifact.pose.pose.position.z);
-  this->node.Request("/subt/artifacts/new", req);
-
-  free(d);
+  this->node.Request("/subt/artifacts/new", artifact);
 } 

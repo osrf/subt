@@ -35,5 +35,5 @@ message Datagram
   uint32 dst_port    = 3;
 
   /// \brief Payload.
-  string data        = 4;
+  bytes data         = 4;
 }
