@@ -55,11 +55,6 @@ void GameLogicPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
   // Initialize the ROS node.
   this->rosnode.reset(new ros::NodeHandle("subt"));
 
-  // Advertise the service to call when an artifact is recognized.
-  this->artifactSrv =
-    this->rosnode->advertiseService("artifacts/new",
-    &GameLogicPlugin::OnNewArtifact, this);
-
   // Advertise the service to receive artifact reports.
   // Note that we're setting the scope to this service to SCOPE_T, so only
   // nodes within the same process will be able to reach this plugin.
@@ -158,38 +153,28 @@ void GameLogicPlugin::ParseArtifacts(sdf::ElementPtr _sdf)
 }
 
 /////////////////////////////////////////////////
-bool GameLogicPlugin::OnNewArtifact(subt_msgs::Artifact::Request &_req,
-  subt_msgs::Artifact::Response &/*_res*/)
+void GameLogicPlugin::OnNewArtifact(const subt::msgs::Artifact &_req)
 {
-  gzmsg << "New artifact reported." << std::endl;
+  gzmsg << "game logic: New artifact reported" << std::endl;
 
   ArtifactType artifactType;
-  if (!this->ArtifactFromInt(_req.type, artifactType))
+  if (!this->ArtifactFromInt(_req.type(), artifactType))
   {
     gzerr << "Unknown artifact code. The number should be between 0 and "
           << this->kArtifactTypes.size() - 1 << " but we received "
-          << _req.type << std::endl;
-    return false;
+          << _req.type() << std::endl;
   }
 
   {
     std::lock_guard<std::mutex> lock(this->mutex);
-    this->totalScore += this->ScoreArtifact(artifactType, _req.pose);
+    this->totalScore += this->ScoreArtifact(artifactType, _req.pose());
     gzmsg << "Total score: " << this->totalScore << std::endl << std::endl;
   }
-
-  return true;
-}
-
-/////////////////////////////////////////////////
-void GameLogicPlugin::OnNewArtifact(const subt::msgs::Artifact &_req)
-{
-  gzmsg << "game logic: New artifact reported" << std::endl;
 }
 
 /////////////////////////////////////////////////
 double GameLogicPlugin::ScoreArtifact(const ArtifactType &_type,
-  const geometry_msgs::PoseStamped &_pose)
+  const ignition::msgs::Pose &_pose)
 {
   // Sanity check: Make sure that we have crossed the starting gate.
   if (!this->started)
@@ -210,7 +195,7 @@ double GameLogicPlugin::ScoreArtifact(const ArtifactType &_type,
   // From the list of potential artifacts, find out which one is
   // closer (Euclidean distance) to the located by this request.
   ignition::math::Vector3d observedObjectPose(
-    _pose.pose.position.x, _pose.pose.position.y, _pose.pose.position.z);
+    _pose.position().x(), _pose.position().y(), _pose.position().z());
   std::tuple<std::string, ignition::math::Vector3d, double> minDistance =
     {"", ignition::math::Vector3d(), std::numeric_limits<double>::infinity()};
   for (auto const object : potentialArtifacts)
@@ -319,7 +304,7 @@ bool GameLogicPlugin::ArtifactFromString(const std::string &_name,
 }
 
 /////////////////////////////////////////////////
-bool GameLogicPlugin::ArtifactFromInt(const uint8_t &_typeInt,
+bool GameLogicPlugin::ArtifactFromInt(const uint32_t &_typeInt,
   ArtifactType &_type)
 {
   if (_typeInt > this->kArtifactTypes.size())

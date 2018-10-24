@@ -19,7 +19,6 @@ find_package(catkin REQUIRED
     geometry_msgs
     std_msgs
     std_srvs
-    subt_msgs
     message_generation
 )
 
@@ -52,7 +51,6 @@ link_directories(
 catkin_package(
   CATKIN_DEPENDS
     message_runtime
-    subt_msgs
     std_srvs
   INCLUDE_DIRS
     include
@@ -75,7 +73,8 @@ set_target_properties(${protobuf_lib_name}
   # Create the libGameLogicPlugin.so library.
 set(game_logic_plugin_name GameLogicPlugin)
 add_library(${game_logic_plugin_name} src/GameLogicPlugin.cc)
-add_dependencies(${game_logic_plugin_name} subt_msgs_generate_messages_cpp)
+target_include_directories(${game_logic_plugin_name}
+  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 target_link_libraries(${game_logic_plugin_name}
   ${catkin_LIBRARIES}
   ${protobuf_lib_name}
@@ -112,7 +111,7 @@ install(TARGETS ${comms_broker_plugin_name}
 set(comms_client_name CommsClient)
 add_library(${comms_client_name} src/CommsClient.cc)
 target_include_directories(${comms_client_name}
-  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
+  PUBLIC ${CATKIN_DEVEL_PREFIX}/include)
 target_link_libraries(${comms_client_name}
   ${catkin_LIBRARIES}
   ${protobuf_lib_name}
@@ -185,7 +184,10 @@ configure_file (test/test_config.h.in
 find_package(rostest REQUIRED)
 
 add_rostest_gtest(test_score test/score.test test/score.cc)
+target_include_directories(test_score
+  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 target_link_libraries(test_score
+  ${comms_client_name}
   ${catkin_LIBRARIES}
   ${GAZEBO_LIBRARIES}
 )

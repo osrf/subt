@@ -54,6 +54,19 @@ namespace subt
     public: uint32_t dataRateUsage;
   };
 
+  /// \brief All the supported artifact types.
+  enum class ArtifactType : uint32_t
+  {
+    TYPE_BACKPACK       = 0,
+    TYPE_DUCT           = 1,
+    TYPE_ELECTRICAL_BOX = 2,
+    TYPE_EXTINGUISHER   = 3,
+    TYPE_PHONE          = 4,
+    TYPE_RADIO          = 5,
+    TYPE_TOOLBOX        = 6,
+    TYPE_VALVE          = 7,
+  };
+
   /// \def TeamMemberPtr
   /// \brief Shared pointer to TeamMember
   using TeamMemberPtr = std::shared_ptr<TeamMember>;
