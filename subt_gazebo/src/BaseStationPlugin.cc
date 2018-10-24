@@ -59,4 +59,4 @@ void BaseStationPlugin::OnArtifact(const std::string &/*_srcAddress*/,
 
   // Report this artifact to the scoring plugin.
   this->node.Request("/subt/artifacts/new", artifact);
-} 
+}

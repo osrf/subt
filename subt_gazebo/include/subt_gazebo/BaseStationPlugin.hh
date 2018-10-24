@@ -19,6 +19,7 @@
 #define SUBT_GAZEBO_BASESTATIONPLUGIN_HH_
 
 #include <memory>
+#include <string>
 #include <gazebo/common/Plugin.hh>
 #include <gazebo/physics/Model.hh>
 #include <ignition/transport/Node.hh>

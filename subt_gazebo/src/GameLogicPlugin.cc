@@ -60,7 +60,7 @@ void GameLogicPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
     this->rosnode->advertiseService("artifacts/new",
     &GameLogicPlugin::OnNewArtifact, this);
 
-  // Advertise the service to receive artifact reports. 
+  // Advertise the service to receive artifact reports.
   // Note that we're setting the scope to this service to SCOPE_T, so only
   // nodes within the same process will be able to reach this plugin.
   // The reason for this is to avoid the teams to use this service directly.

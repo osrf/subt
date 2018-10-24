@@ -103,7 +103,7 @@ namespace gazebo
     private: bool OnNewArtifact(subt_msgs::Artifact::Request &_req,
                                 subt_msgs::Artifact::Response &_res);
 
-    /// \brief Callback executed to process a new artifact request 
+    /// \brief Callback executed to process a new artifact request
     /// sent by a team.
     /// \param[in] _req The service request.
     private: void OnNewArtifact(const subt::msgs::Artifact &_req);
