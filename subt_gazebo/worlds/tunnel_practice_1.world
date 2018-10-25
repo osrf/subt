@@ -753,7 +753,7 @@
     <!-- Base station -->
     <include>
       <uri>model://base_station</uri>
-      <pose>-8 0 0 0 0 0</pose>
+      <pose>-8 0 0 0 0 -1.5708</pose>
       <plugin name="base_station_plugin" filename="libBaseStationPlugin.so">
       </plugin>
     </include>

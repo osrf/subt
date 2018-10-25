@@ -4,18 +4,34 @@
   <model name='BaseStation'>
     <static>true</static>
     <link name='link'>
-      <collision name='collision'>
+      <collision name='collision_tent'>
         <geometry>
-          <box>
-            <size>0.75 0.15 1.1</size>
-          </box>
+          <mesh>
+            <uri>model://base_station/meshes/tent.dae</uri>
+          </mesh>
         </geometry>
       </collision>
-      <visual name='visual'>
+      <collision name='collision_antenna'>
+        <pose>0 -1 0 0 0 1.5708</pose>
         <geometry>
-          <box>
-            <size>0.75 0.15 1.1</size>
-          </box>
+          <mesh>
+            <uri>model://base_station/meshes/antenna.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='visual_tent'>
+        <geometry>
+          <mesh>
+            <uri>model://base_station/meshes/tent.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='visual_antenna'>
+        <pose>0 2 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://base_station/meshes/antenna.dae</uri>
+          </mesh>
         </geometry>
       </visual>
     </link>
