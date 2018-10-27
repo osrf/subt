@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <launch>
+  <arg name="debug" default="false"/>
   <arg name="scenario" default="tunnel_practice_1"/>
 
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
@@ -9,7 +10,7 @@
     <arg name="use_sim_time" value="true"/>
     <arg name="gui" value="true"/>
     <arg name="headless" value="false"/>
-    <arg name="debug" value="false"/>
+    <arg name="debug" value="$(arg debug)"/>
     <arg name="extra_gazebo_args" value="--verbose"/>
   </include>
 
