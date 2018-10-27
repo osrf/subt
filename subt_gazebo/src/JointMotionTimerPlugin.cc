@@ -187,16 +187,12 @@ void JointMotionTimerPlugin::OnUpdate()
   ignition::common::Time dt(this->dataPtr->engine->GetMaxStepSize());
 
   bool motionDetected = false;
-  for (const auto &weakJoint : this->dataPtr->joints)
+  for (const auto &joint : this->Joints())
   {
-    gazebo::physics::JointPtr joint = weakJoint.lock();
-    if (joint)
+    if (std::abs(joint->GetVelocity(0)) > this->dataPtr->velocityThreshold)
     {
-      if (std::abs(joint->GetVelocity(0)) > this->dataPtr->velocityThreshold)
-      {
-        motionDetected = true;
-        break;
-      }
+      motionDetected = true;
+      break;
     }
   }
 
