@@ -19,8 +19,11 @@
 #define SUBT_GAZEBO_JOINTMOTIONTIMERPLUGIN_HH_
 
 #include <memory>
+#include <vector>
+#include <ignition/common/Time.hh>
 #include <sdf/Element.hh>
 #include <gazebo/common/Plugin.hh>
+#include <gazebo/physics/Joint.hh>
 #include <gazebo/physics/Model.hh>
 
 namespace subt
@@ -62,13 +65,19 @@ namespace subt
   ///
   class JointMotionTimerPlugin : public gazebo::ModelPlugin
   {
-    /// \brief Constructor
+    /// \brief Constructor.
     public: JointMotionTimerPlugin();
 
     /// \brief Plugin Load function
     /// \param[in] _parent Model pointer to the model defining this plugin
     /// \param[in] _sdf pointer to the SDF of the model
     public: void Load(gazebo::physics::ModelPtr _parent, sdf::ElementPtr _sdf);
+
+    /// \brief Get the current amount of time the model has been in motion.
+    public: ignition::common::Time ElapsedTime() const;
+
+    /// \brief Get the joints currently checked by this plugin.
+    public: std::vector<gazebo::physics::JointPtr> Joints() const;
 
     /// \brief Callback for world update events.
     public: void OnUpdate();

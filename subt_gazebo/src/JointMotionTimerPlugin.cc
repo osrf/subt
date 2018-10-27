@@ -161,6 +161,27 @@ void JointMotionTimerPlugin::Load(gazebo::physics::ModelPtr _parent,
 }
 
 /////////////////////////////////////////////////
+ignition::common::Time JointMotionTimerPlugin::ElapsedTime() const
+{
+  return this->dataPtr->elapsedTime;
+}
+
+/////////////////////////////////////////////////
+std::vector<gazebo::physics::JointPtr> JointMotionTimerPlugin::Joints() const
+{
+  std::vector<gazebo::physics::JointPtr> joints;
+  for (const auto &weakJoint : this->dataPtr->joints)
+  {
+    gazebo::physics::JointPtr joint = weakJoint.lock();
+    if (joint)
+    {
+      joints.push_back(joint);
+    }
+  }
+  return joints;
+}
+
+/////////////////////////////////////////////////
 void JointMotionTimerPlugin::OnUpdate()
 {
   ignition::common::Time dt(this->dataPtr->engine->GetMaxStepSize());
