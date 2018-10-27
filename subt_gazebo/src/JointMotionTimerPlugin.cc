@@ -74,6 +74,11 @@ JointMotionTimerPlugin::JointMotionTimerPlugin()
 }
 
 /////////////////////////////////////////////////
+JointMotionTimerPlugin::~JointMotionTimerPlugin()
+{
+}
+
+/////////////////////////////////////////////////
 void JointMotionTimerPlugin::Load(gazebo::physics::ModelPtr _parent,
                                   sdf::ElementPtr _sdf)
 {

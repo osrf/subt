@@ -68,6 +68,9 @@ namespace subt
     /// \brief Constructor.
     public: JointMotionTimerPlugin();
 
+    /// \brief Destructor.
+    public: ~JointMotionTimerPlugin();
+
     /// \brief Plugin Load function
     /// \param[in] _parent Model pointer to the model defining this plugin
     /// \param[in] _sdf pointer to the SDF of the model
