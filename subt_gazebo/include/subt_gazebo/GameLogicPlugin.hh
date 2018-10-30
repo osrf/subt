@@ -126,6 +126,8 @@ namespace gazebo
     private: bool ArtifactFromInt(const uint8_t &_typeInt,
                                   ArtifactType &_type);
 
+    private: std::ofstream &Log();
+
     /// \brief World pointer.
     private: physics::WorldPtr world;
 
@@ -180,6 +182,9 @@ namespace gazebo
 
     /// \brief A mutex.
     private: std::mutex mutex;
+
+    /// Log file output stream.
+    private: std::ofstream logStream;
   };
 }
 #endif
