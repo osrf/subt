@@ -15,6 +15,8 @@
  *
 */
 
+#include <ignition/common/Console.hh>
+
 #include "subt_gazebo/BaseStationPlugin.hh"
 #include "subt_gazebo/CommsClient.hh"
 #include "subt_gazebo/CommonTypes.hh"
@@ -27,7 +29,7 @@ GZ_REGISTER_MODEL_PLUGIN(BaseStationPlugin)
 //////////////////////////////////////////////////
 BaseStationPlugin::BaseStationPlugin()
 {
-  gzmsg << "Base station plugin loaded" << std::endl;
+  ignmsg << "Base station plugin loaded" << std::endl;
 }
 
 //////////////////////////////////////////////////
@@ -52,7 +54,7 @@ void BaseStationPlugin::OnArtifact(const std::string &/*_srcAddress*/,
   subt::msgs::Artifact artifact;
   if (!artifact.ParseFromString(_data))
   {
-    gzerr << "Error parsing artifact" << std::endl;
+    ignerr << "Error parsing artifact" << std::endl;
     return;
   }
 

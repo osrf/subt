@@ -25,8 +25,9 @@ find_package(catkin REQUIRED
 file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include)
 
 find_package(gazebo REQUIRED)
-find_package(ignition-transport4 REQUIRED)
+find_package(ignition-common1 REQUIRED)
 find_package(ignition-msgs1 REQUIRED)
+find_package(ignition-transport4 REQUIRED)
 
 ########################
 ## Message generation ##
@@ -143,6 +144,7 @@ target_include_directories(${base_station_plugin_name}
 target_link_libraries(${base_station_plugin_name}
   ${catkin_LIBRARIES}
   ${comms_client_name}
+  ignition-common1::ignition-common1
   ${protobuf_lib_name}
 )
 install(TARGETS ${base_station_plugin_name}
