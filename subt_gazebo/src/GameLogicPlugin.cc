@@ -40,6 +40,12 @@ void GameLogicPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
   std::string logPath = "/dev/null";
 
   // Check if the game logic plugin has a <logging> element.
+  // The <logging> element can contain a <filename_prefix> child element.
+  // The <filename_prefix> is used to specify the log filename prefix. For
+  // example:
+  // <logging>
+  //   <filename_prefix>subt_tunnel_qual</filename_prefix>
+  // </logging>
   if (_sdf->HasElement("logging"))
   {
     sdf::ElementPtr loggingElem = _sdf->GetElement("logging");
