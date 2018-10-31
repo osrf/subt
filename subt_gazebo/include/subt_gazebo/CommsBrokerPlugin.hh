@@ -57,6 +57,9 @@ namespace gazebo
 
     /// \brief Maximum data rate allowed per simulation cycle (bits).
     private: uint32_t maxDataRatePerCycle;
+
+    /// \brief Last time the plugin checked the ROS parameter server.
+    private: gazebo::common::Time lastROSParameterCheckTime;
   };
 }
 #endif
