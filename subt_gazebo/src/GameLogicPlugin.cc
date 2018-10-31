@@ -36,22 +36,27 @@ GZ_REGISTER_WORLD_PLUGIN(GameLogicPlugin)
 /////////////////////////////////////////////////
 void GameLogicPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
 {
-  // Get the log filename.
-  std::string logFilename = _sdf->Get<std::string>("logFilename", "subt").first;
+  std::string logPath = "/dev/null";
+  if (_sdf->HasElement("logging"))
+  {
+    sdf::ElementPtr loggingElem = _sdf->GetElement("logging");
+    // Get the log filename.
+    std::string filenamePrefix = loggingElem->Get<std::string>(
+        "filename_prefix", "subt").first;
 
-  std::string logPath;
-  char *homePath = getenv("HOME");
-  if (!homePath)
-  {
-    gzerr << "Unable to get HOME environment variable. Report this error to "
-      << "https://bitbucket.org/osrf/subt/issues/new\n";
-    logPath = "/dev/null";
-  }
-  else
-  {
-    logPath = homePath;
-    logPath += "/" + logFilename + "_" +
-      common::Time::GetWallTimeAsISOString() + ".log";
+    char *homePath = getenv("HOME");
+    if (!homePath)
+    {
+      gzerr << "Unable to get HOME environment variable. Report this error to "
+        << "https://bitbucket.org/osrf/subt/issues/new. "
+        << "SubT logging will be disabled.\n";
+    }
+    else
+    {
+      logPath = homePath;
+      logPath += "/" + filenamePrefix + "_" +
+        common::Time::GetWallTimeAsISOString() + ".log";
+    }
   }
 
   this->logStream.open(logPath.c_str(), std::ios::out);
