@@ -269,6 +269,10 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
   </gazebo>
 
   <gazebo>
+    <enable_wind>true</enable_wind>
+  </gazebo>
+
+  <gazebo>
     <plugin name="imu_controller" filename="libhector_gazebo_ros_imu.so">
       <robotNamespace>${namespace}/</robotNamespace>
       <updateRate>50.0</updateRate>
@@ -282,6 +286,13 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
       <rateGaussianNoise>0.005 0.005 0.005 </rateGaussianNoise>
       <headingDrift>0.005</headingDrift>
       <headingGaussianNoise>0.005</headingGaussianNoise>
+    </plugin>
+  </gazebo>
+
+  <gazebo>
+    <plugin name="joint_motion_timer" filename="libJointMotionTimerPlugin.so">
+      <all_joints/>
+      <robotNamespace>${namespace}/</robotNamespace>
     </plugin>
   </gazebo>
 

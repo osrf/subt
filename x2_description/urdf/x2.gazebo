@@ -10,6 +10,10 @@
   </gazebo>
 
   <gazebo>
+    <enable_wind>true</enable_wind>
+  </gazebo>
+
+  <gazebo>
     <plugin name="imu_controller" filename="libhector_gazebo_ros_imu.so">
       <robotNamespace>$(arg robot_namespace)</robotNamespace>
       <updateRate>50.0</updateRate>
@@ -22,6 +26,16 @@
       <rateGaussianNoise>0.005 0.005 0.005 </rateGaussianNoise>
       <headingDrift>0.005</headingDrift>
       <headingGaussianNoise>0.005</headingGaussianNoise>
+    </plugin>
+  </gazebo>
+
+  <gazebo>
+    <plugin name="joint_motion_timer" filename="libJointMotionTimerPlugin.so">
+      <joint>front_left_wheel</joint>
+      <joint>front_right_wheel</joint>
+      <joint>rear_left_wheel</joint>
+      <joint>rear_right_wheel</joint>
+      <robotNamespace>${namespace}/</robotNamespace>
     </plugin>
   </gazebo>
 

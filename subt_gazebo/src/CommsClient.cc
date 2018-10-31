@@ -27,8 +27,10 @@
 using namespace subt;
 
 //////////////////////////////////////////////////
-CommsClient::CommsClient(const std::string &_localAddress)
-  : localAddress(_localAddress)
+CommsClient::CommsClient(const std::string &_localAddress,
+  const bool _isPrivate)
+  : localAddress(_localAddress),
+    isPrivate(_isPrivate)
 {
   this->enabled = false;
 
@@ -103,6 +105,22 @@ bool CommsClient::SendTo(const std::string &_data,
   msg.set_data(_data);
 
   return this->node.Request(kBrokerSrv, msg);
+}
+
+//////////////////////////////////////////////////
+bool CommsClient::SendToBaseStation(const subt::msgs::Artifact &_artifact)
+{
+  // Serialize the artifact.
+  std::string serializedData;
+  if (!_artifact.SerializeToString(&serializedData))
+  {
+    std::cerr << "CommsClient::SendToBaseStation(): Error serializing message\n"
+              << _artifact.DebugString() << std::endl;
+    return false;
+  }
+
+  // Send data to the base station.
+  return this->SendTo(serializedData, kBaseStationName);
 }
 
 //////////////////////////////////////////////////
