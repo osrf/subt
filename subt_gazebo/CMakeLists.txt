@@ -19,15 +19,15 @@ find_package(catkin REQUIRED
     geometry_msgs
     std_msgs
     std_srvs
-    subt_msgs
     message_generation
 )
 
 file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include)
 
 find_package(gazebo REQUIRED)
-find_package(ignition-transport4 REQUIRED)
+find_package(ignition-common1 REQUIRED)
 find_package(ignition-msgs1 REQUIRED)
+find_package(ignition-transport4 REQUIRED)
 
 ########################
 ## Message generation ##
@@ -52,7 +52,6 @@ link_directories(
 catkin_package(
   CATKIN_DEPENDS
     message_runtime
-    subt_msgs
     std_srvs
   INCLUDE_DIRS
     include
@@ -72,12 +71,25 @@ add_dependencies(${protobuf_lib_name} protobuf_compilation)
 set_target_properties(${protobuf_lib_name}
   PROPERTIES POSITION_INDEPENDENT_CODE ON COMPILE_FLAGS "-Wno-unused-parameter")
 
+# Create the libJointMotionTimerPlugin.so library.
+set(joint_motion_timer_plugin_name JointMotionTimerPlugin)
+add_library(${joint_motion_timer_plugin_name} src/JointMotionTimerPlugin.cc)
+target_link_libraries(${joint_motion_timer_plugin_name}
+  ${catkin_LIBRARIES}
+)
+install(TARGETS ${joint_motion_timer_plugin_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+
 # Create the libGameLogicPlugin.so library.
 set(game_logic_plugin_name GameLogicPlugin)
 add_library(${game_logic_plugin_name} src/GameLogicPlugin.cc)
-add_dependencies(${game_logic_plugin_name} subt_msgs_generate_messages_cpp)
+target_include_directories(${game_logic_plugin_name}
+  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 target_link_libraries(${game_logic_plugin_name}
   ${catkin_LIBRARIES}
+  ${protobuf_lib_name}
 )
 install(TARGETS ${game_logic_plugin_name}
   ARCHIVE DESTINATION lib
@@ -111,7 +123,7 @@ install(TARGETS ${comms_broker_plugin_name}
 set(comms_client_name CommsClient)
 add_library(${comms_client_name} src/CommsClient.cc)
 target_include_directories(${comms_client_name}
-  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
+  PUBLIC ${CATKIN_DEVEL_PREFIX}/include)
 target_link_libraries(${comms_client_name}
   ${catkin_LIBRARIES}
   ${protobuf_lib_name}
@@ -134,6 +146,22 @@ install(
     ${PROTO_HEADERS}
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}/protobuf
 )
+
+# Create the libBaseStationPlugin.so library.
+set(base_station_plugin_name BaseStationPlugin)
+add_library(${base_station_plugin_name} src/BaseStationPlugin.cc)
+target_include_directories(${base_station_plugin_name}
+  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
+target_link_libraries(${base_station_plugin_name}
+  ${catkin_LIBRARIES}
+  ${comms_client_name}
+  ignition-common1::ignition-common1
+  ${protobuf_lib_name}
+)
+install(TARGETS ${base_station_plugin_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
 
 # Create the libRosFlashLightPlugin.so library.
 set(ros_flashlight_plugin_name RosFlashLightPlugin)
@@ -169,7 +197,10 @@ configure_file (test/test_config.h.in
 find_package(rostest REQUIRED)
 
 add_rostest_gtest(test_score test/score.test test/score.cc)
+target_include_directories(test_score
+  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 target_link_libraries(test_score
+  ${comms_client_name}
   ${catkin_LIBRARIES}
   ${GAZEBO_LIBRARIES}
 )

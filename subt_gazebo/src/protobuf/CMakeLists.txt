@@ -9,6 +9,7 @@ include(${PROJECT_SOURCE_DIR}/cmake/Protobuf.cmake)
 ##############################################################################
 
 set(PROTO_MESSAGES
+  artifact.proto
   datagram.proto
   neighbor_m.proto
 )

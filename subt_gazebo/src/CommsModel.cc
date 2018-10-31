@@ -76,6 +76,18 @@ uint16_t CommsModel::UdpOverhead() const
 }
 
 //////////////////////////////////////////////////
+bool CommsModel::SimpleMode() const
+{
+  return this->simpleMode;
+}
+
+//////////////////////////////////////////////////
+void CommsModel::SetSimpleMode(const bool _value)
+{
+  this->simpleMode = _value;
+}
+
+//////////////////////////////////////////////////
 void CommsModel::LoadParameters(sdf::ElementPtr _sdf)
 {
   GZ_ASSERT(_sdf, "CommsModel::LoadParameters() error: _sdf pointer is NULL");
@@ -245,6 +257,7 @@ void CommsModel::UpdateVisibility()
     auto poseB = (*team)[addressB]->model->WorldPose();
 
     this->visibility[keyA] =
+      this->simpleMode ||
       poseA.Pos().Distance(poseB.Pos()) <= this->commsDistanceMax;
 
     // Update the symmetric case.
@@ -288,8 +301,8 @@ void CommsModel::UpdateNeighborList(const std::string &_address)
     if (other->address == _address)
       continue;
 
-    // Check if there's line of sight between the two vehicles.
-    // If there's no line of sight, guess what type of object is in between.
+    // ToDo: Check if there's line of sight between the two vehicles.
+
     auto key = std::make_pair(_address, other->address);
     GZ_ASSERT(this->visibility.find(key) != this->visibility.end(),
       "vehicle key not found in visibility");
@@ -297,6 +310,12 @@ void CommsModel::UpdateNeighborList(const std::string &_address)
     bool visible = this->visibility[key];
     if (!visible)
     {
+      continue;
+    }
+
+    if (this->simpleMode)
+    {
+      teamMember->neighbors[member.first] = 1.0;
       continue;
     }
 

@@ -60,6 +60,15 @@ namespace subt
     /// \return The overhead in bytes.
     public: uint16_t UdpOverhead() const;
 
+    /// \brief Query if the comms are set in simple mode or not.
+    /// \return true when the comms are in simple mode or false otherwise.
+    public: bool SimpleMode() const;
+
+    /// \brief Enable/disable simple mode. In this mode, all messages sent will
+    /// arrive to each destination.
+    /// \param[in] _value True to enable simple mode or false otherwise.
+    public: void SetSimpleMode(const bool _value);
+
     /// \brief Check if a "comms_model" block exists in the SDF element of the
     /// plugin. If so, update the value of the default parameters with the one
     /// read from the world file.
@@ -152,6 +161,10 @@ namespace subt
 
     /// Vector containing all the addresses of the team.
     private: std::vector<std::string> addresses;
+
+    /// When simple mode is enabled, all messages will be delivered to the
+    /// destinations.
+    private: bool simpleMode = false;
   };
 }  // namespace
 #endif

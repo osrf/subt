@@ -27,6 +27,7 @@
 #include <ignition/transport/Node.hh>
 
 #include "subt_gazebo/CommonTypes.hh"
+#include "subt_gazebo/protobuf/artifact.pb.h"
 #include "subt_gazebo/protobuf/datagram.pb.h"
 #include "subt_gazebo/protobuf/neighbor_m.pb.h"
 
@@ -38,7 +39,10 @@ namespace subt
     /// \brief Constructor.
     /// \param[in] _localAddress Your local address.
     /// Important: This address must be equal to a Gazebo model name.
-    public: explicit CommsClient(const std::string &_localAddress);
+    /// \param[in] _isPrivate If true, only nodes within the same process will
+    /// be able to communicate with this client.
+    public: explicit CommsClient(const std::string &_localAddress,
+                                 const bool _isPrivate = false);
 
     /// \brief Get your local address.
     /// \return The local address.
@@ -147,7 +151,10 @@ namespace subt
       }
 
       // Advertise a oneway service for receiving message requests.
-      if (!this->node.Advertise(address, &CommsClient::OnMessage, this))
+      ignition::transport::AdvertiseServiceOptions opts;
+      if (this->isPrivate)
+        opts.SetScope(ignition::transport::Scope_t::PROCESS);
+      if (!this->node.Advertise(address, &CommsClient::OnMessage, this, opts))
         return false;
 
       // Register the callbacks.
@@ -181,6 +188,15 @@ namespace subt
     public: bool SendTo(const std::string &_data,
                         const std::string &_dstAddress,
                         const uint32_t _port = kDefaultPort);
+
+    /// \brief Send some data to the base station.
+    ///
+    /// \param[in] _artifact Artifact to be reported to the base station.
+    /// \return True when success or false otherwise (e.g.: if the payload was
+    /// bigger than 1500 bytes).
+    /// Note that this function is subject to the same communication
+    /// restrictions than SendTo().
+    public: bool SendToBaseStation(const subt::msgs::Artifact &_artifact);
 
     /// \brief Get the list of local neighbors.
     ///
@@ -236,6 +252,10 @@ namespace subt
     /// \brief True when the broker validated my address. Enabled must be true
     /// for being able to send and receive data.
     private: bool enabled = false;
+
+    /// \brief When true, the Ignition service will only be visible within
+    /// this process.
+    private: bool isPrivate = false;
 
     /// \brief A mutex for avoiding race conditions.
     private: mutable std::mutex mutex;

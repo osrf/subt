@@ -62,8 +62,9 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu 
  && sudo /bin/sh -c 'apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116' \
  && sudo apt-get update \
  && sudo apt-get install -y \
-    libgazebo9-dev \
     gazebo9 \
+    libgazebo9-dev \
+    libignition-common-dev \
     python-catkin-tools \
     python-rosinstall \
     ros-melodic-desktop-full \

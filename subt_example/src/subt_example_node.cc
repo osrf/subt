@@ -27,6 +27,7 @@
 #include <vector>
 
 #include <subt_gazebo/CommsClient.hh>
+#include <subt_gazebo/protobuf/artifact.pb.h>
 
 /// \brief. Example control class, running as a ROS node to control a robot.
 class Controller
