@@ -20,6 +20,7 @@
 #include <mutex>
 #include <gazebo/common/Assert.hh>
 #include <gazebo/common/Events.hh>
+#include <ignition/common/Console.hh>
 
 #include "subt_gazebo/CommsBrokerPlugin.hh"
 
@@ -41,7 +42,7 @@ void CommsBrokerPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
   this->updateConnection = event::Events::ConnectWorldUpdateBegin(
       std::bind(&CommsBrokerPlugin::OnUpdate, this));
 
-  gzmsg << "Starting SubT comms broker" << std::endl;
+  ignmsg << "Starting SubT comms broker" << std::endl;
 }
 
 /////////////////////////////////////////////////
@@ -59,12 +60,12 @@ void CommsBrokerPlugin::OnUpdate()
 
     if (!this->commsModel->SimpleMode() && value)
     {
-      gzmsg << "Enabling simple mode comms" << std::endl;
+      igndbg << "Enabling simple mode comms" << std::endl;
       maxDataRate = UINT32_MAX;
     }
     else if (this->commsModel->SimpleMode() && !value)
     {
-      gzmsg << "Disabling simple mode comms" << std::endl;
+      igndbg << "Disabling simple mode comms" << std::endl;
     }
 
     this->commsModel->SetSimpleMode(value);
