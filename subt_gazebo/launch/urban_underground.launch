@@ -1,4 +1,5 @@
 <launch>
+  <arg name="extra_gazebo_args" default=""/>
 
   # Gazebo world.
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
@@ -8,7 +9,7 @@
     <arg name="gui" value="true"/>
     <arg name="headless" value="false"/>
     <arg name="debug" value="false"/>
-    <arg name="extra_gazebo_args" value="--verbose"/>
+    <arg name="extra_gazebo_args" value="$(arg extra_gazebo_args) --verbose"/>
   </include>
 
 </launch>

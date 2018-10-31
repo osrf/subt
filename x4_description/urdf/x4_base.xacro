@@ -28,6 +28,10 @@
   <xacro:controller_plugin_macro namespace="${namespace}" imu_sub_topic="imu" />
 
   <gazebo>
+    <enable_wind>true</enable_wind>
+  </gazebo>
+
+  <gazebo>
     <plugin name="${namespace}_joint_motion_timer" filename="libJointMotionTimerPlugin.so">
       <joint>X4/rotor_0_joint</joint>
       <joint>X4/rotor_1_joint</joint>

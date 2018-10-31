@@ -10,6 +10,10 @@
   </gazebo>
 
   <gazebo>
+    <enable_wind>true</enable_wind>
+  </gazebo>
+
+  <gazebo>
     <plugin name="imu_controller" filename="libhector_gazebo_ros_imu.so">
       <robotNamespace>$(arg robot_namespace)</robotNamespace>
       <updateRate>50.0</updateRate>
