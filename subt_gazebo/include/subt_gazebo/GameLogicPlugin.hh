@@ -126,6 +126,9 @@ namespace gazebo
     private: bool ArtifactFromInt(const uint8_t &_typeInt,
                                   ArtifactType &_type);
 
+    /// \brief Write a simulation timestamp to a logfile.
+    /// \return A file stream that can be used to write additional
+    /// information to the logfile.
     private: std::ofstream &Log();
 
     /// \brief World pointer.

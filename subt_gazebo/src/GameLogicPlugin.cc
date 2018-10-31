@@ -36,14 +36,19 @@ GZ_REGISTER_WORLD_PLUGIN(GameLogicPlugin)
 /////////////////////////////////////////////////
 void GameLogicPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
 {
+  // Default log path is /dev/null.
   std::string logPath = "/dev/null";
+
+  // Check if the game logic plugin has a <logging> element.
   if (_sdf->HasElement("logging"))
   {
     sdf::ElementPtr loggingElem = _sdf->GetElement("logging");
-    // Get the log filename.
+
+    // Get the log filename prefix.
     std::string filenamePrefix = loggingElem->Get<std::string>(
         "filename_prefix", "subt").first;
 
+    // Make sure that we can access the HOME environment variable.
     char *homePath = getenv("HOME");
     if (!homePath)
     {
@@ -53,12 +58,14 @@ void GameLogicPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
     }
     else
     {
+      // Construct the final log filename.
       logPath = homePath;
       logPath += "/" + filenamePrefix + "_" +
         common::Time::GetWallTimeAsISOString() + ".log";
     }
   }
 
+  // Open the log file.
   this->logStream.open(logPath.c_str(), std::ios::out);
 
   // Make sure the ROS node for Gazebo has already been initialized
