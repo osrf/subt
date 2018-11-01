@@ -27,7 +27,7 @@
 using namespace subt;
 
 //////////////////////////////////////////////////
-bool SimpleDOTParser::Parse(std::istream &_in, VisibilityGraph &_g)
+bool SimpleDOTParser::Parse(std::istream &_in, VisibilityGraph &_g) const
 {
   // This map stores the association between the node title and the vertex Id.
   std::map<std::string, ignition::math::graph::VertexId> verticesLUT;
@@ -132,7 +132,7 @@ bool SimpleDOTParser::Parse(std::istream &_in, VisibilityGraph &_g)
 }
 
 //////////////////////////////////////////////////
-void SimpleDOTParser::TrimWhitespaces(std::string &_str)
+void SimpleDOTParser::TrimWhitespaces(std::string &_str) const
 {
   // Remove comments.
   auto commentStart = _str.find("/*");
@@ -168,7 +168,7 @@ void SimpleDOTParser::TrimWhitespaces(std::string &_str)
 
 //////////////////////////////////////////////////
 std::vector<std::string> SimpleDOTParser::Split(const std::string &_str,
-  const std::string &_delim)
+  const std::string &_delim) const
 {
   std::vector<std::string> tokens;
   char *saveptr;
@@ -188,6 +188,7 @@ std::vector<std::string> SimpleDOTParser::Split(const std::string &_str,
 
 /// \brief ToDo.
 void SimpleDOTParser::NextRealLine(std::istream &_input, std::string &_line)
+  const
 {
   while (std::getline(_input, _line))
   {
@@ -201,7 +202,7 @@ void SimpleDOTParser::NextRealLine(std::istream &_input, std::string &_line)
 
 //////////////////////////////////////////////////
 bool SimpleDOTParser::ParseAttribute(std::string &_str, std::string &_key,
-  std::string &_value)
+  std::string &_value) const
 {
   std::string str = _str;
 

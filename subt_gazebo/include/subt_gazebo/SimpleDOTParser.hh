@@ -43,12 +43,12 @@ namespace subt
     /// \return True when the graph was successfully populated or false
     /// otherwise.
     public: bool Parse(std::istream &_in,
-                       VisibilityGraph &_g);
+                       VisibilityGraph &_g) const;
 
     /// \brief Remove comments, consecutive whitespaces, leading and trailing
     /// whitespaces and remove the trailing semicolon (if any).
     /// \param[in, out] _str The string to be parsed and converted.
-    private: void TrimWhitespaces(std::string &_str);
+    private: void TrimWhitespaces(std::string &_str) const;
 
     /// \brief Split the input string using a delimiter.
     /// \param[in] _str The input string.
@@ -56,7 +56,7 @@ namespace subt
     /// \return A vector containing the different substrings. If the delimiter
     /// is not found, the result will contain the input string.
     private: std::vector<std::string> Split(const std::string &_str,
-                                            const std::string &_delim);
+                                            const std::string &_delim) const;
 
     /// \brief Given an input stream, gets the next real line to be parsed.
     /// A real line is considered when there's something to be parsed.
@@ -64,7 +64,7 @@ namespace subt
     /// \param[in] _input The input stream.
     /// \param[out] _line The next real line.
     private: void NextRealLine(std::istream &_input,
-                               std::string &_line);
+                               std::string &_line) const;
 
     /// \brief Parse DOT attributes from an input string.
     /// \param[in, out] _str The input string. Note that the attributes are
@@ -75,7 +75,7 @@ namespace subt
     /// succesfully parsed. False when the attribute wasn't succesfully parsed.
     private: bool ParseAttribute(std::string &_str,
                                  std::string &_key,
-                                 std::string &_value);
+                                 std::string &_value) const;
   };
 }  // namespace
 #endif
