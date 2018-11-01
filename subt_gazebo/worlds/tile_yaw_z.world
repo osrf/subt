@@ -1,0 +1,85 @@
+
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <world name="default">
+
+    <include>
+      <name>tile_0</name>
+      <uri>model://tunnel_tile_5</uri>
+      <pose>60.000000 0.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_1</name>
+      <uri>model://tunnel_tile_5</uri>
+      <pose>60.000000 20.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_2</name>
+      <uri>model://tunnel_tile_5</uri>
+      <pose>60.000000 40.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_3</name>
+      <uri>model://tunnel_tile_5</uri>
+      <pose>0.000000 60.000000 10.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_4</name>
+      <uri>model://tunnel_tile_6</uri>
+      <pose>20.000000 60.000000 5.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_5</name>
+      <uri>model://tunnel_tile_6</uri>
+      <pose>40.000000 60.000000 0.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_6</name>
+      <uri>model://tunnel_tile_1</uri>
+      <pose>60.000000 60.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_7</name>
+      <uri>model://tunnel_tile_5</uri>
+      <pose>80.000000 60.000000 0.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_8</name>
+      <uri>model://tunnel_tile_5</uri>
+      <pose>100.000000 60.000000 0.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_9</name>
+      <uri>model://tunnel_tile_5</uri>
+      <pose>120.000000 60.000000 0.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_10</name>
+      <uri>model://tunnel_tile_5</uri>
+      <pose>60.000000 80.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_11</name>
+      <uri>model://tunnel_tile_5</uri>
+      <pose>60.000000 100.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_12</name>
+      <uri>model://tunnel_tile_5</uri>
+      <pose>60.000000 120.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+  </world>
+</sdf>

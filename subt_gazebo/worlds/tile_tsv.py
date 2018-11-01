@@ -7,7 +7,8 @@ import sys
 
 model_name_counter = 0
 
-def model_include_string(namePrefix, modelType, pose_x, pose_y, pose_yaw):
+def model_include_string(namePrefix, modelType,
+                         pose_x, pose_y, pose_z, pose_yaw):
     global model_name_counter
     modelName = namePrefix + "_" + str(model_name_counter)
     model_name_counter += 1
@@ -15,8 +16,10 @@ def model_include_string(namePrefix, modelType, pose_x, pose_y, pose_yaw):
     <include>
       <name>%s</name>
       <uri>model://%s</uri>
-      <pose>%f %f 0 0 0 %f</pose>
-    </include>""" % (modelName, modelType, float(pose_x), float(pose_y), float(pose_yaw))
+      <pose>%f %f %f 0 0 %f</pose>
+    </include>""" % (modelName, modelType,
+                     float(pose_x), float(pose_y), float(pose_z),
+                     float(pose_yaw))
 
 def print_tsv_model_includes(fileName):
     with open(fileName, 'rb') as tsvfile:
@@ -26,10 +29,11 @@ def print_tsv_model_includes(fileName):
                 if (len(cell) > 0):
                     for parts in csv.reader([cell]):
                         modelType = parts[0]
-                        yawDegrees = parts[1]
+                        yawDegrees = float(parts[1])
+                        z_level = float(parts[2])
                         print(model_include_string("tile", modelType,
-                                                   ix*20, iy*20,
-                                                   float(yawDegrees)*math.pi/180))
+                                                   ix*20, iy*20, z_level*5,
+                                                   yawDegrees*math.pi/180))
 
 def usage():
     print("""Usage:
