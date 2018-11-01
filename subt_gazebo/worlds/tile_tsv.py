@@ -41,12 +41,12 @@ def print_tsv_model_includes(args):
 def parse_args(argv):
     parser = argparse.ArgumentParser('Generate tiled world file from tsv.')
     parser.add_argument('file_name', help='name of tsv file to read')
-    parser.add_argument('--x0', dest='x0', default=0, help='origin X coordinate')
-    parser.add_argument('--y0', dest='y0', default=0, help='origin Y coordinate')
-    parser.add_argument('--z0', dest='z0', default=0, help='origin Z coordinate')
-    parser.add_argument('--x_scale', dest='x_scale', default=20, help='tile scale in X')
-    parser.add_argument('--y_scale', dest='y_scale', default=20, help='tile scale in Y')
-    parser.add_argument('--z_scale', dest='z_scale', default=5,  help='tile scale in Z')
+    parser.add_argument('--x0', dest='x0', type=float, default=0, help='origin X coordinate')
+    parser.add_argument('--y0', dest='y0', type=float, default=0, help='origin Y coordinate')
+    parser.add_argument('--z0', dest='z0', type=float, default=0, help='origin Z coordinate')
+    parser.add_argument('--x_scale', dest='x_scale', type=float, default=20, help='tile scale in X')
+    parser.add_argument('--y_scale', dest='y_scale', type=float, default=20, help='tile scale in Y')
+    parser.add_argument('--z_scale', dest='z_scale', type=float, default=5,  help='tile scale in Z')
     args = parser.parse_args()
     return args
 
