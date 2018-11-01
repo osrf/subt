@@ -27,14 +27,16 @@ TEST(SimpleDOTParserTest, StreamExtraction)
   SimpleDOTParser dotParser;
   VisibilityGraph graph;
   std::istringstream input(
+    "/* Comments should be ignored */ \n"
+    "\n"
     "graph {\n"
-    "  0 [label=\"type 0\"];\n"
-    "  1 [label=\"type 1\"];\n"
-    "  2 [label=\"type 2\"];\n"
-    "  3 [label=\"type 3\"];\n\n"
-    "  0 -- 1 [label=4];\n"
-    "  1 -- 2 [label=1];\n"
-    "  2 -- 0 [label=1];\n"
+    "  0 [label=\"type_0\"] ;\n"
+    "  1 [label=\"type_1\"]\n"
+    "  2 [label= \"type_2\"];\n"
+    "  3 [ label =\"type_3\"];\n\n"
+    "  0 -- 1  [label=3.5];\n"
+    "  1 -- 2 [  label=1];\n"
+    "  2 -- 0 [label= 1 ];\n"
     "}");
 
   ASSERT_TRUE(dotParser.Parse(input, graph));

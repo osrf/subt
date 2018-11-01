@@ -34,6 +34,7 @@ bool SimpleDOTParser::Parse(std::istream &_in, VisibilityGraph &_g)
 
   this->NextRealLine(_in, lineread);
 
+  // Parse the initial line.
   const std::string kGraphDelim = "graph";
   if (lineread.compare(0, kGraphDelim.size(), kGraphDelim) != 0)
   {
@@ -47,6 +48,7 @@ bool SimpleDOTParser::Parse(std::istream &_in, VisibilityGraph &_g)
     return false;
   }
 
+  // Parse the rest of the lines containing the vertices, edges and the '}'.
   do
   {
     this->NextRealLine(_in, lineread);
@@ -57,12 +59,8 @@ bool SimpleDOTParser::Parse(std::istream &_in, VisibilityGraph &_g)
     if (!this->ParseAttribute(lineread, key, value))
       return false;
 
-    // Remove leading and trailing whitespaces.
-    if (!lineread.empty() && isspace(lineread.front()))
-      lineread.erase(0, 1);
-
-    if (!lineread.empty() && isspace(lineread.back()))
-      lineread.pop_back();
+    // Trim whitespaces after removing the attributes.
+    this->TrimWhitespaces(lineread);
 
     // Edges.
     auto edge = this->Split(lineread, "--");
@@ -89,26 +87,45 @@ bool SimpleDOTParser::Parse(std::istream &_in, VisibilityGraph &_g)
           verticesLUT.find(edge[1]) == verticesLUT.end())
       {
         std::cerr << "Unable to find vertex while trying to create an edge.\n"
-                  << " Please, declare all vertices before the edges "
-                  << edge[0] << " " << edge[1]
-                  << std::endl;
+                  << " Please, declare all vertices before the edges ["
+                  << edge[0] << "--" << edge[1] << "]" << std::endl;
         return false;
       }
 
       auto vId1 = verticesLUT[edge[0]];
       auto vId2 = verticesLUT[edge[1]];
 
-      _g.AddEdge({vId1, vId2}, 0);
+      try
+      {
+        // We only support the 'label' attribute and is used as the edge weight.
+        double weight = 1;
+        if (key == "label")
+          weight = std::stod(value);
+
+        _g.AddEdge({vId1, vId2}, 0u, weight);
+      }
+      catch (const std::exception &_e)
+      {
+        std::cerr << "Parsing error: Unable to convert 'label' attribute from "
+                  << "an edge to double:\n\t" << value << std::endl;
+        return false;
+      }
     }
 
     // Vertices.
     if (edge.size() == 1 && lineread != "}")
     {
-      auto newVertex = _g.AddVertex(value, "");
+      auto newVertex = _g.AddVertex(lineread, value);
       verticesLUT[lineread] = newVertex.Id();
     }
   }
   while (!lineread.empty() && lineread != "}");
+
+  if (lineread != "}")
+  {
+    std::cerr << "Parsing error: Missing '}'" << std::endl;
+    return false;
+  }
 
   return true;
 }

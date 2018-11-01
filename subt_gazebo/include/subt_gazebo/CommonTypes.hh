@@ -34,7 +34,7 @@ namespace subt
   /// \brief An undirected graph to represent communication visibility between
   /// different areas of the world.
   using VisibilityGraph =
-    ignition::math::graph::UndirectedGraph<std::string, double>;
+    ignition::math::graph::UndirectedGraph<std::string, uint8_t>;
 
   /// \brief Class used to store information about a member of the team.
   class TeamMember

@@ -30,6 +30,11 @@ namespace subt
   /// doesn't implement the entire DOT spec. It only parses the relevant
   /// features needed for SubT.
   /// \ref https://en.wikipedia.org/wiki/DOT_(graph_description_language).
+  ///
+  /// This parser expects the vertices first, and then, the edges.
+  /// It only accepts one "label" attribute per line.
+  /// It only accepts one edge per line. E.g.: "1 -- 2 -- 3" is not supported.
+  /// It only supports single line comments delimited with /* ... */ .
   class SimpleDOTParser
   {
     /// \brief Parse an input stream and populate a visibiliy graph.
