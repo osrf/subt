@@ -54,8 +54,13 @@ def check_main():
     args = parse_args(sys.argv)
     print("""
 <?xml version="1.0" ?>
+<!--
+  Generated with the tile_tsv.py script:
+    %s
+-->
 <sdf version="1.6">
-  <world name="default">""")
+  <world name="default">""" %
+  (' '.join(sys.argv)))
     print_tsv_model_includes(args)
     print("""
   </world>
