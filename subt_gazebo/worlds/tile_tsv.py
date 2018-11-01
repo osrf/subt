@@ -32,7 +32,7 @@ def print_tsv_model_includes(fileName):
                         yawDegrees = float(parts[1])
                         z_level = float(parts[2])
                         print(model_include_string("tile", modelType,
-                                                   ix*20, iy*20, z_level*5,
+                                                   ix*20, -iy*20, z_level*5,
                                                    yawDegrees*math.pi/180))
 
 def usage():
