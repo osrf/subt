@@ -42,6 +42,8 @@ CommsModel::CommsModel(TeamMembershipPtr _team,
   GZ_ASSERT(_sdf,   "CommsModel() error: _sdf pointer is NULL");
 
   this->LoadParameters(_sdf);
+
+  VisibilityGraph g;
 }
 
 //////////////////////////////////////////////////

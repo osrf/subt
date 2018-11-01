@@ -102,6 +102,7 @@ add_library(${comms_broker_plugin_name}
   src/Broker.cc
   src/CommsBrokerPlugin.cc
   src/CommsModel.cc
+  src/SimpleDOTParser.cc
 )
 target_include_directories(${comms_broker_plugin_name}
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
