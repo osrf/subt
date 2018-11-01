@@ -108,7 +108,6 @@ add_library(${comms_broker_plugin_name}
 target_include_directories(${comms_broker_plugin_name}
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 target_link_libraries(${comms_broker_plugin_name}
-  PUBLIC
   ${catkin_LIBRARIES}
   ${protobuf_lib_name}
   ignition-math4::ignition-math4

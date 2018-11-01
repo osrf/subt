@@ -61,6 +61,8 @@ namespace subt
     /// \brief Given an input stream, gets the next real line to be parsed.
     /// A real line is considered when there's something to be parsed.
     /// E.g.: An empy new line is not a real line.
+    /// \param[in] _input The input stream.
+    /// \param[out] _line The next real line.
     private: void NextRealLine(std::istream &_input,
                                std::string &_line);
 
@@ -70,7 +72,7 @@ namespace subt
     /// \param[out] _key If present, the key attribute (e.g.: label).
     /// \param[out] _value If present, the value attribute (e.g.: "my_vertex").
     /// \return True when there was no attribute or the attribute was
-    /// succesfully parsed. False when the attribute wasn't parsed.
+    /// succesfully parsed. False when the attribute wasn't succesfully parsed.
     private: bool ParseAttribute(std::string &_str,
                                  std::string &_key,
                                  std::string &_value);

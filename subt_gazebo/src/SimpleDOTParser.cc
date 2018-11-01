@@ -29,9 +29,10 @@ using namespace subt;
 //////////////////////////////////////////////////
 bool SimpleDOTParser::Parse(std::istream &_in, VisibilityGraph &_g)
 {
+  // This map stores the association between the node title and the vertex Id.
   std::map<std::string, ignition::math::graph::VertexId> verticesLUT;
-  std::string lineread;
 
+  std::string lineread;
   this->NextRealLine(_in, lineread);
 
   // Parse the initial line.
