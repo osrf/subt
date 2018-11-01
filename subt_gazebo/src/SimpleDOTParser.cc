@@ -27,6 +27,93 @@
 using namespace subt;
 
 //////////////////////////////////////////////////
+bool SimpleDOTParser::Parse(std::istream &_in, VisibilityGraph &_g)
+{
+  std::map<std::string, ignition::math::graph::VertexId> verticesLUT;
+  std::string lineread;
+
+  this->NextRealLine(_in, lineread);
+
+  const std::string kGraphDelim = "graph";
+  if (lineread.compare(0, kGraphDelim.size(), kGraphDelim) != 0)
+  {
+    std::cerr << "Parsing error: graph not found" << std::endl;
+    return false;
+  }
+
+  if (lineread.back() != '{')
+  {
+    std::cerr << "Parsing error: { not found" << std::endl;
+    return false;
+  }
+
+  do
+  {
+    this->NextRealLine(_in, lineread);
+
+    // Are there any attributes?
+    std::string key;
+    std::string value;
+    if (!this->ParseAttribute(lineread, key, value))
+      return false;
+
+    // Remove leading and trailing whitespaces.
+    if (!lineread.empty() && isspace(lineread.front()))
+      lineread.erase(0, 1);
+
+    if (!lineread.empty() && isspace(lineread.back()))
+      lineread.pop_back();
+
+    // Edges.
+    auto edge = this->Split(lineread, "--");
+    if (edge.size() > 2u)
+    {
+      std::cerr << "Parsing error: Only edges with two vertices are supported"
+                << std::endl;
+      return false;
+    }
+
+    if (edge.size() == 2u)
+    {
+      for (auto i = 0u; i < 2u; ++i)
+      {
+        // Remove leading and trailing whitespaces.
+        if (!edge[i].empty() && isspace(edge[i].front()))
+          edge[i].erase(0, 1);
+
+        if (!edge[i].empty() && isspace(edge[i].back()))
+          edge[i].pop_back();
+      }
+
+      if (verticesLUT.find(edge[0]) == verticesLUT.end() ||
+          verticesLUT.find(edge[1]) == verticesLUT.end())
+      {
+        std::cerr << "Unable to find vertex while trying to create an edge.\n"
+                  << " Please, declare all vertices before the edges "
+                  << edge[0] << " " << edge[1]
+                  << std::endl;
+        return false;
+      }
+
+      auto vId1 = verticesLUT[edge[0]];
+      auto vId2 = verticesLUT[edge[1]];
+
+      _g.AddEdge({vId1, vId2}, 0);
+    }
+
+    // Vertices.
+    if (edge.size() == 1 && lineread != "}")
+    {
+      auto newVertex = _g.AddVertex(value, "");
+      verticesLUT[lineread] = newVertex.Id();
+    }
+  }
+  while (!lineread.empty() && lineread != "}");
+
+  return true;
+}
+
+//////////////////////////////////////////////////
 void SimpleDOTParser::TrimWhitespaces(std::string &_str)
 {
   // Remove comments.
@@ -140,105 +227,4 @@ bool SimpleDOTParser::ParseAttribute(std::string &_str, std::string &_key,
   _str.erase(attrStart, attrEnd - attrStart + 1);
 
   return true;
-}
-
-//////////////////////////////////////////////////
-std::istream &operator>>(std::istream &_in, VisibilityGraph &_g)
-{
-  std::map<std::string, ignition::math::graph::VertexId> verticesLUT;
-  std::string lineread;
-  SimpleDOTParser parser;
-
-  parser.NextRealLine(_in, lineread);
-
-  if (lineread.find("graph") != 0)
-  {
-    std::cerr << "Parsing error: graph not found" << std::endl;
-    return _in;
-  }
-
-  if (lineread.back() != '{')
-  {
-    std::cerr << "Parsing error: { not found" << std::endl;
-    return _in;
-  }
-
-  std::cout << lineread << std::endl;
-
-  do
-  {
-    parser.NextRealLine(_in, lineread);
-
-    // Are there any attributes?
-    std::string key;
-    std::string value;
-    if (!parser.ParseAttribute(lineread, key, value))
-      return _in;
-
-    // Remove leading and trailing whitespaces.
-    if (!lineread.empty() && isspace(lineread.front()))
-      lineread.erase(0, 1);
-
-    if (!lineread.empty() && isspace(lineread.back()))
-      lineread.pop_back();
-
-    if (!key.empty())
-    {
-      std::cout << "Attribute detected" << std::endl;
-      std::cout << "Key: [" << key << "]" << std::endl;
-      std::cout << "Value: [" << value << "]" << std::endl;
-    }
-
-    // Edges.
-    auto edge = parser.Split(lineread, "--");
-    if (edge.size() > 2u)
-    {
-      std::cerr << "Parsing error: Only edges with two vertices are supported"
-                << std::endl;
-      return _in;
-    }
-
-    if (edge.size() == 2u)
-    {
-      for (auto i = 0u; i < 2u; ++i)
-      {
-        // Remove leading and trailing whitespaces.
-        if (!edge[i].empty() && isspace(edge[i].front()))
-          edge[i].erase(0, 1);
-
-        if (!edge[i].empty() && isspace(edge[i].back()))
-          edge[i].pop_back();
-      }
-      std::cout << "Edge detected [" << edge[0] << "]--[" << edge[1] << "]\n";
-
-      if (verticesLUT.find(edge[0]) == verticesLUT.end() ||
-          verticesLUT.find(edge[1]) == verticesLUT.end())
-      {
-        std::cerr << "Unable to find vertex while trying to create an edge.\n"
-                  << " Please, declare all vertices before the edges "
-                  << edge[0] << " " << edge[1]
-                  << std::endl;
-        return _in;
-      }
-
-      auto vId1 = verticesLUT[edge[0]];
-      auto vId2 = verticesLUT[edge[1]];
-
-      _g.AddEdge({vId1, vId2}, 0);
-    }
-
-    // Vertices.
-    if (edge.size() == 1 && lineread != "}")
-    {
-      auto newVertex = _g.AddVertex(value, "");
-      std::cout << "Vertex detected [" << lineread << "]" << std::endl;
-
-      verticesLUT[lineread] = newVertex.Id();
-    }
-  }
-  while (!lineread.empty() && lineread != "}");
-
-  std::cout << "Graph:\n" << _g << std::endl;
-
-  return _in;
 }

@@ -18,7 +18,6 @@
 #include <istream>
 #include <string>
 #include <vector>
-#include <ignition/math/graph/Graph.hh>
 
 #include "subt_gazebo/CommonTypes.hh"
 
@@ -33,25 +32,33 @@ namespace subt
   /// \ref https://en.wikipedia.org/wiki/DOT_(graph_description_language).
   class SimpleDOTParser
   {
+    /// \brief Parse an input stream and populate a visibiliy graph.
+    /// \param[in] _in The input stream.
+    /// \param[out] _g The visibility graph.
+    /// \return True when the graph was successfully populated or false
+    /// otherwise.
+    public: bool Parse(std::istream &_in,
+                       VisibilityGraph &_g);
+
     /// \brief Remove comments, consecutive whitespaces, leading and trailing
     /// whitespaces and remove the trailing semicolon (if any).
     /// \param[in, out] _str The string to be parsed and converted.
-    public: void TrimWhitespaces(std::string &_str);
+    private: void TrimWhitespaces(std::string &_str);
 
     /// \brief Split the input string using a delimiter.
     /// \param[in] _str The input string.
     /// \param[in] _delim The delimiter.
     /// \return A vector containing the different substrings. If the delimiter
     /// is not found, the result will contain the input string.
-    public: std::vector<std::string> Split(const std::string &_str,
-                                           const std::string &_delim);
+    private: std::vector<std::string> Split(const std::string &_str,
+                                            const std::string &_delim);
 
     /// \brief Given an input stream, gets the next real line to be parsed.
     /// A real line is considered when there's something to be parsed.
     /// E.g.: An empy new line is not a real line.
-    public: void NextRealLine(std::istream &_input,
-                              std::string &_line);
-    
+    private: void NextRealLine(std::istream &_input,
+                               std::string &_line);
+
     /// \brief Parse DOT attributes from an input string.
     /// \param[in, out] _str The input string. Note that the attributes are
     /// removed from the input string after being parsed.
@@ -59,15 +66,9 @@ namespace subt
     /// \param[out] _value If present, the value attribute (e.g.: "my_vertex").
     /// \return True when there was no attribute or the attribute was
     /// succesfully parsed. False when the attribute wasn't parsed.
-    public: bool ParseAttribute(std::string &_str,
-                                std::string &_key,
-                                std::string &_value);
+    private: bool ParseAttribute(std::string &_str,
+                                 std::string &_key,
+                                 std::string &_value);
   };
-
-  /// \brief Stream extraction operator.
-  /// \param[in] _in An input stream.
-  /// \param[out] _g The visibility graph.
-  std::istream &operator>>(std::istream &_in,
-                           VisibilityGraph &_g);
 }  // namespace
 #endif
