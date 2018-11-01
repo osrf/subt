@@ -186,7 +186,7 @@ std::vector<std::string> SimpleDOTParser::Split(const std::string &_str,
   return tokens;
 }
 
-/// \brief ToDo.
+//////////////////////////////////////////////////
 void SimpleDOTParser::NextRealLine(std::istream &_input, std::string &_line)
   const
 {
