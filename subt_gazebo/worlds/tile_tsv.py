@@ -50,13 +50,6 @@ def parse_args(argv):
     args = parser.parse_args()
     return args
 
-def usage():
-    print("""Usage:
-\ttile_tsv.py test-file.tsv
-""", file=sys.stderr)
-    print(sys.argv)
-    sys.exit(getattr(os, 'EX_USAGE', 1))
-
 def check_main():
     args = parse_args(sys.argv)
     print("""
