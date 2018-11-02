@@ -378,6 +378,12 @@
     </include>
 
     <include>
+      <name>duct_1</name>
+      <uri>model://Duct</uri>
+      <pose>100.000000 220.000000 -15.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
       <name>tile_1</name>
       <uri>model://tunnel_tile_blocker</uri>
       <pose>160.000000 211.000000 -15.000000 0 0 0.000000</pose>
@@ -387,6 +393,12 @@
       <name>tile_2</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>240.000000 220.000000 -15.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>radio_1</name>
+      <uri>model://Radio</uri>
+      <pose>260.000000 220.000000 -15.000000 0 0 0.000000</pose>
     </include>
 
     <include>
@@ -456,6 +468,12 @@
     </include>
 
     <include>
+      <name>backpack_1</name>
+      <uri>model://Backpack</uri>
+      <pose>220.000000 180.000000 -15.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
       <name>tile_14</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>160.000000 160.000000 -15.000000 0 0 0.000000</pose>
@@ -477,6 +495,18 @@
       <name>tile_17</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>160.000000 140.000000 -15.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>extinguisher_1</name>
+      <uri>model://Extinguisher</uri>
+      <pose>180.000000 140.000000 -15.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>phone_1</name>
+      <uri>model://Phone</uri>
+      <pose>40.000000 120.000000 -15.000000 0 0 0.000000</pose>
     </include>
 
     <include>
@@ -546,9 +576,21 @@
     </include>
 
     <include>
+      <name>radio_2</name>
+      <uri>model://Radio</uri>
+      <pose>280.000000 100.000000 -15.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
       <name>tile_29</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>80.000000 80.000000 -15.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>toolbox_1</name>
+      <uri>model://Toolbox</uri>
+      <pose>100.000000 80.000000 -15.000000 0 0 0.000000</pose>
     </include>
 
     <include>
@@ -576,6 +618,12 @@
     </include>
 
     <include>
+      <name>electrical box_1</name>
+      <uri>model://Electrical Box</uri>
+      <pose>180.000000 60.000000 -15.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
       <name>tile_34</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>200.000000 60.000000 -15.000000 0 0 0.000000</pose>
@@ -585,6 +633,12 @@
       <name>tile_35</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>280.000000 60.000000 -15.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>duct_2</name>
+      <uri>model://Duct</uri>
+      <pose>300.000000 60.000000 -15.000000 0 0 0.000000</pose>
     </include>
 
     <include>
@@ -612,7 +666,7 @@
     </include>
 
     <include>
-      <name>backpack_1</name>
+      <name>backpack_2</name>
       <uri>model://Backpack</uri>
       <pose>140.000000 20.000000 -10.000000 0 0 0.000000</pose>
     </include>
@@ -621,6 +675,12 @@
       <name>tile_40</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>200.000000 20.000000 -15.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>phone_2</name>
+      <uri>model://Phone</uri>
+      <pose>220.000000 20.000000 -15.000000 0 0 0.000000</pose>
     </include>
 
     <include>
@@ -774,6 +834,12 @@
     </include>
 
     <include>
+      <name>backpack_3</name>
+      <uri>model://Backpack</uri>
+      <pose>60.000000 -80.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
       <name>tile_66</name>
       <uri>model://tunnel_tile_2</uri>
       <pose>80.000000 -80.000000 -5.000000 0 0 1.570796</pose>
@@ -792,6 +858,18 @@
     </include>
 
     <include>
+      <name>phone_3</name>
+      <uri>model://Phone</uri>
+      <pose>140.000000 -80.000000 -10.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>valve_1</name>
+      <uri>model://Valve</uri>
+      <pose>240.000000 -80.000000 -15.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
       <name>tile_69</name>
       <uri>model://tunnel_tile_2</uri>
       <pose>120.000000 -100.000000 -10.000000 0 0 1.570796</pose>
@@ -807,6 +885,12 @@
       <name>tile_71</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>140.000000 -120.000000 -10.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>valve_2</name>
+      <uri>model://Valve</uri>
+      <pose>160.000000 -120.000000 -10.000000 0 0 0.000000</pose>
     </include>
 
     <include>
@@ -876,9 +960,21 @@
     </include>
 
     <include>
+      <name>electrical box_2</name>
+      <uri>model://Electrical Box</uri>
+      <pose>180.000000 -220.000000 -10.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
       <name>tile_83</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>280.000000 -220.000000 -10.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>extinguisher_2</name>
+      <uri>model://Extinguisher</uri>
+      <pose>300.000000 -220.000000 -10.000000 0 0 0.000000</pose>
     </include>
 
     <include>
@@ -891,6 +987,12 @@
       <name>tile_85</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>280.000000 -260.000000 -10.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>toolbox_2</name>
+      <uri>model://Toolbox</uri>
+      <pose>260.000000 -280.000000 -10.000000 0 0 0.000000</pose>
     </include>
 
     <include>
@@ -918,8 +1020,76 @@
       <!-- The collection of artifacts to locate -->
 
       <artifact>
+        <name>duct_1</name>
+        <type>TYPE_DUCT</type>
+      </artifact>
+      <artifact>
+        <name>radio_1</name>
+        <type>TYPE_RADIO</type>
+      </artifact>
+      <artifact>
         <name>backpack_1</name>
         <type>TYPE_BACKPACK</type>
+      </artifact>
+      <artifact>
+        <name>extinguisher_1</name>
+        <type>TYPE_EXTINGUISHER</type>
+      </artifact>
+      <artifact>
+        <name>phone_1</name>
+        <type>TYPE_PHONE</type>
+      </artifact>
+      <artifact>
+        <name>radio_2</name>
+        <type>TYPE_RADIO</type>
+      </artifact>
+      <artifact>
+        <name>toolbox_1</name>
+        <type>TYPE_TOOLBOX</type>
+      </artifact>
+      <artifact>
+        <name>electrical box_1</name>
+        <type>TYPE_ELECTRICAL BOX</type>
+      </artifact>
+      <artifact>
+        <name>duct_2</name>
+        <type>TYPE_DUCT</type>
+      </artifact>
+      <artifact>
+        <name>backpack_2</name>
+        <type>TYPE_BACKPACK</type>
+      </artifact>
+      <artifact>
+        <name>phone_2</name>
+        <type>TYPE_PHONE</type>
+      </artifact>
+      <artifact>
+        <name>backpack_3</name>
+        <type>TYPE_BACKPACK</type>
+      </artifact>
+      <artifact>
+        <name>phone_3</name>
+        <type>TYPE_PHONE</type>
+      </artifact>
+      <artifact>
+        <name>valve_1</name>
+        <type>TYPE_VALVE</type>
+      </artifact>
+      <artifact>
+        <name>valve_2</name>
+        <type>TYPE_VALVE</type>
+      </artifact>
+      <artifact>
+        <name>electrical box_2</name>
+        <type>TYPE_ELECTRICAL BOX</type>
+      </artifact>
+      <artifact>
+        <name>extinguisher_2</name>
+        <type>TYPE_EXTINGUISHER</type>
+      </artifact>
+      <artifact>
+        <name>toolbox_2</name>
+        <type>TYPE_TOOLBOX</type>
       </artifact>
     </plugin>
 
