@@ -21,14 +21,14 @@ def model_include_string(tileNamePrefix, modelType,
         if not modelType in artifact_name_counter:
             artifact_name_counter[modelType] = 0
         artifact_name_counter[modelType] += 1
-        model_type = modelType.lower()
-        modelName = modelType.lower() + '_' + str(artifact_name_counter[modelType])
+        model_type = modelType.lower().replace(' ', '_')
+        modelName = model_type + '_' + str(artifact_name_counter[modelType])
         global plugin_artifacts
         plugin_artifacts += """
       <artifact>
         <name>%s</name>
         <type>TYPE_%s</type>
-      </artifact>""" % (modelName, modelType.upper())
+      </artifact>""" % (modelName, model_type.upper())
     return """
     <include>
       <name>%s</name>
