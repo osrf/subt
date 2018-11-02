@@ -6,13 +6,22 @@ import math
 import os
 import sys
 
-model_name_counter = 0
+tunnel_tile_name_counter = 0
+artifact_name_counter = {}
 
-def model_include_string(namePrefix, modelType,
+def model_include_string(tileNamePrefix, modelType,
                          pose_x, pose_y, pose_z, pose_yaw):
-    global model_name_counter
-    modelName = namePrefix + "_" + str(model_name_counter)
-    model_name_counter += 1
+    if 'tunnel_tile_' in modelType:
+        global tunnel_tile_name_counter
+        modelName = tileNamePrefix + "_" + str(tunnel_tile_name_counter)
+        tunnel_tile_name_counter += 1
+    else:
+        global artifact_name_counter
+        if not modelType in artifact_name_counter:
+            artifact_name_counter[modelType] = 0
+        artifact_name_counter[modelType] += 1
+        model_type = modelType.lower()
+        modelName = modelType.lower() + '_' + str(artifact_name_counter[modelType])
     return """
     <include>
       <name>%s</name>
