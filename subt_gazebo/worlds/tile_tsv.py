@@ -443,7 +443,7 @@ def check_main():
       <uri>model://jersey_barrier</uri>
     </include>
 """ %
-  (' '.join(sys.argv)))
+  (' '.join(sys.argv).replace('--', '-\-')))
     print_tsv_model_includes(args)
     global plugin_artifacts
     print("""
