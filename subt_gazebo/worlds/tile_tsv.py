@@ -8,6 +8,7 @@ import sys
 
 tunnel_tile_name_counter = 0
 artifact_name_counter = {}
+plugin_artifacts = ''
 
 def model_include_string(tileNamePrefix, modelType,
                          pose_x, pose_y, pose_z, pose_yaw):
@@ -22,6 +23,12 @@ def model_include_string(tileNamePrefix, modelType,
         artifact_name_counter[modelType] += 1
         model_type = modelType.lower()
         modelName = modelType.lower() + '_' + str(artifact_name_counter[modelType])
+        global plugin_artifacts
+        plugin_artifacts += """
+      <artifact>
+        <name>%s</name>
+        <type>TYPE_%s</type>
+      </artifact>""" % (modelName, modelType.upper())
     return """
     <include>
       <name>%s</name>
@@ -193,10 +200,6 @@ def check_main():
         <enabled>true</enabled>
       </plugin>
     </model>
-
-    <!-- Artifacts -->
-
-    <!-- The SubT challenge logic plugin -->
 
     <light name='user_spot_light_0' type='spot'>
       <pose>12 0 15 0 0.65 0</pose>
@@ -442,6 +445,7 @@ def check_main():
 """ %
   (' '.join(sys.argv)))
     print_tsv_model_includes(args)
+    global plugin_artifacts
     print("""
     <!-- Base station -->
     <include>
@@ -451,6 +455,11 @@ def check_main():
       </plugin>
     </include>
 
+    <!-- The SubT challenge logic plugin -->
+    <plugin name="game_logic_plugin" filename="libGameLogicPlugin.so">
+      <!-- The collection of artifacts to locate -->
+%s
+    </plugin>
 
     <!-- The SubT comms broker plugin -->
     <plugin name="comms_broker_plugin" filename="libCommsBrokerPlugin.so">
@@ -511,7 +520,7 @@ def check_main():
 
   </world>
 </sdf>""" %
-(args.wind_x, args.wind_y, args.wind_z))
+(plugin_artifacts, args.wind_x, args.wind_y, args.wind_z))
         
 if __name__ == '__main__':
     check_main()

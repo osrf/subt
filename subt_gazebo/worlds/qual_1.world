@@ -128,10 +128,6 @@
       </plugin>
     </model>
 
-    <!-- Artifacts -->
-
-    <!-- The SubT challenge logic plugin -->
-
     <light name='user_spot_light_0' type='spot'>
       <pose>12 0 15 0 0.65 0</pose>
       <diffuse>1 1 1 1</diffuse>
@@ -917,6 +913,15 @@
       </plugin>
     </include>
 
+    <!-- The SubT challenge logic plugin -->
+    <plugin name="game_logic_plugin" filename="libGameLogicPlugin.so">
+      <!-- The collection of artifacts to locate -->
+
+      <artifact>
+        <name>backpack_1</name>
+        <type>TYPE_BACKPACK</type>
+      </artifact>
+    </plugin>
 
     <!-- The SubT comms broker plugin -->
     <plugin name="comms_broker_plugin" filename="libCommsBrokerPlugin.so">
