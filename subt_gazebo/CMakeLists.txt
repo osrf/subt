@@ -108,6 +108,7 @@ add_library(${comms_broker_plugin_name}
 target_include_directories(${comms_broker_plugin_name}
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 target_link_libraries(${comms_broker_plugin_name}
+  PUBLIC
   ${catkin_LIBRARIES}
   ${protobuf_lib_name}
   ignition-math4::ignition-math4
@@ -189,6 +190,15 @@ install(TARGETS ${light_visual_plugin_name}
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
 
+# Create the generate_visibility_table executable
+set(generate_visibility_table_name generate_visibility_table)
+add_executable(${generate_visibility_table_name}
+  tools/${generate_visibility_table_name}.cc
+)
+target_link_libraries(${generate_visibility_table_name}
+  ${comms_broker_plugin_name}
+  ${GAZEBO_LIBRARIES}
+)
 
 ###########
 ## Tests ##
