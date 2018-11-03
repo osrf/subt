@@ -17,11 +17,9 @@
 #ifndef SUBT_GAZEBO_GAMELOGICPLUGIN_HH_
 #define SUBT_GAZEBO_GAMELOGICPLUGIN_HH_
 
-#include <geometry_msgs/PoseStamped.h>
 #include <ros/ros.h>
 #include <std_srvs/SetBool.h>
 #include <std_srvs/Trigger.h>
-#include <subt_msgs/Artifact.h>
 #include <array>
 #include <chrono>
 #include <map>
@@ -33,40 +31,44 @@
 #include <gazebo/common/Plugin.hh>
 #include <gazebo/physics/physics.hh>
 #include <gazebo/transport/Node.hh>
-#include <ignition/math/Vector3.hh>
 #include <sdf/sdf.hh>
+
+#include "subt_gazebo/CommonTypes.hh"
+
+// Forward declarations.
+namespace subt
+{
+  namespace msgs
+  {
+    class Artifact;
+  }
+}
+namespace ignition
+{
+  namespace msgs
+  {
+    class Pose;
+  }
+}
 
 namespace gazebo
 {
   /// \brief A plugin that takes care of all the SubT challenge logic.
   class GameLogicPlugin : public WorldPlugin
   {
-    /// \brief All the supported artifact types.
-    private: enum class ArtifactType : uint8_t
-    {
-      TYPE_BACKPACK       = 0,
-      TYPE_DUCT           = 1,
-      TYPE_ELECTRICAL_BOX = 2,
-      TYPE_EXTINGUISHER   = 3,
-      TYPE_PHONE          = 4,
-      TYPE_RADIO          = 5,
-      TYPE_TOOLBOX        = 6,
-      TYPE_VALVE          = 7,
-    };
-
     /// \brief Mapping between enum types and strings.
     const std::array<
-      const std::pair<ArtifactType, std::string>, 8> kArtifactTypes
+      const std::pair<subt::ArtifactType, std::string>, 8> kArtifactTypes
       {
         {
-          {ArtifactType::TYPE_BACKPACK      , "TYPE_BACKPACK"},
-          {ArtifactType::TYPE_DUCT          , "TYPE_DUCT"},
-          {ArtifactType::TYPE_ELECTRICAL_BOX, "TYPE_ELECTRICAL_BOX"},
-          {ArtifactType::TYPE_EXTINGUISHER  , "TYPE_EXTINGUISHER"},
-          {ArtifactType::TYPE_PHONE         , "TYPE_PHONE"},
-          {ArtifactType::TYPE_RADIO         , "TYPE_RADIO"},
-          {ArtifactType::TYPE_TOOLBOX       , "TYPE_TOOLBOX"},
-          {ArtifactType::TYPE_VALVE         , "TYPE_VALVE"}
+          {subt::ArtifactType::TYPE_BACKPACK      , "TYPE_BACKPACK"},
+          {subt::ArtifactType::TYPE_DUCT          , "TYPE_DUCT"},
+          {subt::ArtifactType::TYPE_ELECTRICAL_BOX, "TYPE_ELECTRICAL_BOX"},
+          {subt::ArtifactType::TYPE_EXTINGUISHER  , "TYPE_EXTINGUISHER"},
+          {subt::ArtifactType::TYPE_PHONE         , "TYPE_PHONE"},
+          {subt::ArtifactType::TYPE_RADIO         , "TYPE_RADIO"},
+          {subt::ArtifactType::TYPE_TOOLBOX       , "TYPE_TOOLBOX"},
+          {subt::ArtifactType::TYPE_VALVE         , "TYPE_VALVE"}
         }
       };
 
@@ -96,17 +98,14 @@ namespace gazebo
     /// \brief Callback executed to process a new artifact request
     /// sent by a team.
     /// \param[in] _req The service request.
-    /// \param[out] _res The service response.
-    /// \return True when the service call succeed or false otherwise.
-    private: bool OnNewArtifact(subt_msgs::Artifact::Request &_req,
-                                subt_msgs::Artifact::Response &_res);
+    private: void OnNewArtifact(const subt::msgs::Artifact &_req);
 
     /// \brief Calculate the score of a new artifact request.
     /// \param[in] _type The object type. See ArtifactType.
     /// \param[in] _pose The object pose.
     /// \return The score obtained for this object.
-    private: double ScoreArtifact(const ArtifactType &_type,
-                                  const geometry_msgs::PoseStamped &_pose);
+    private: double ScoreArtifact(const subt::ArtifactType &_type,
+                                  const ignition::msgs::Pose &_pose);
 
     /// \brief Publish the score.
     /// \param[in] _event Unused.
@@ -117,14 +116,19 @@ namespace gazebo
     /// \param[out] _type The artifact type.
     /// \return True when the conversion succeed or false otherwise.
     private: bool ArtifactFromString(const std::string &_name,
-                                     ArtifactType &_type);
+                                     subt::ArtifactType &_type);
 
     /// \brief Create an ArtifactType from an integer.
     /// \param[in] _typeInt The artifact in int format.
     /// \param[out] _type The artifact type.
     /// \return True when the conversion succeed or false otherwise.
-    private: bool ArtifactFromInt(const uint8_t &_typeInt,
-                                  ArtifactType &_type);
+    private: bool ArtifactFromInt(const uint32_t &_typeInt,
+                                  subt::ArtifactType &_type);
+
+    /// \brief Write a simulation timestamp to a logfile.
+    /// \return A file stream that can be used to write additional
+    /// information to the logfile.
+    private: std::ofstream &Log();
 
     /// \brief World pointer.
     private: physics::WorldPtr world;
@@ -160,14 +164,11 @@ namespace gazebo
     /// The key is the object type. See ArtifactType for all supported values.
     /// The value is another map, where the key is the model name and the value
     /// is a Model pointer.
-    private: std::map<ArtifactType,
+    private: std::map<subt::ArtifactType,
                       std::map<std::string, physics::ModelPtr>> artifacts;
 
     /// \brief The ROS node handler used for communications.
     private: std::unique_ptr<ros::NodeHandle> rosnode;
-
-    /// \brief Service server for processing artifacts.
-    private: ros::ServiceServer artifactSrv;
 
     /// \brief Publish the score.
     private: ros::Publisher scorePub;
@@ -180,6 +181,9 @@ namespace gazebo
 
     /// \brief A mutex.
     private: std::mutex mutex;
+
+    /// Log file output stream.
+    private: std::ofstream logStream;
   };
 }
 #endif

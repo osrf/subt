@@ -14,7 +14,7 @@ pipelines:
           - echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu bionic main" > /etc/apt/sources.list.d/ros-latest.list
           - echo "deb [trusted=yes] http://packages.osrfoundation.org/gazebo/ubuntu-stable bionic main" > /etc/apt/sources.list.d/gazebo-stable.list
           - apt-get update
-          - apt-get -y install mercurial cmake pkg-config cppcheck build-essential lcov curl python git gazebo9 libgazebo9-dev ros-melodic-gazebo-dev ros-melodic-gazebo-plugins ros-melodic-gazebo-ros ros-melodic-gazebo-ros-pkgs ros-melodic-xacro
+          - apt-get -y install mercurial cmake pkg-config cppcheck build-essential lcov curl python git gazebo9 libignition-common-dev libgazebo9-dev ros-melodic-gazebo-dev ros-melodic-gazebo-plugins ros-melodic-gazebo-ros ros-melodic-gazebo-ros-pkgs ros-melodic-xacro
           # SubT
           - mkdir -p /tmp/subt_ws/src
           - ln -s `pwd` /tmp/subt_ws/src

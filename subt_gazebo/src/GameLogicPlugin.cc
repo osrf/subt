@@ -22,10 +22,13 @@
 #include <gazebo/common/Assert.hh>
 #include <gazebo/common/Console.hh>
 #include <gazebo/common/Events.hh>
+#include <gazebo/physics/World.hh>
 #include <ignition/math/Pose3.hh>
+#include <ignition/math/Vector3.hh>
 
 #include "subt_gazebo/CommonTypes.hh"
 #include "subt_gazebo/GameLogicPlugin.hh"
+#include "subt_gazebo/protobuf/artifact.pb.h"
 
 using namespace gazebo;
 using namespace subt;
@@ -35,6 +38,44 @@ GZ_REGISTER_WORLD_PLUGIN(GameLogicPlugin)
 /////////////////////////////////////////////////
 void GameLogicPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
 {
+  // Default log path is /dev/null.
+  std::string logPath = "/dev/null";
+
+  // Check if the game logic plugin has a <logging> element.
+  // The <logging> element can contain a <filename_prefix> child element.
+  // The <filename_prefix> is used to specify the log filename prefix. For
+  // example:
+  // <logging>
+  //   <filename_prefix>subt_tunnel_qual</filename_prefix>
+  // </logging>
+  if (_sdf->HasElement("logging"))
+  {
+    sdf::ElementPtr loggingElem = _sdf->GetElement("logging");
+
+    // Get the log filename prefix.
+    std::string filenamePrefix = loggingElem->Get<std::string>(
+        "filename_prefix", "subt").first;
+
+    // Make sure that we can access the HOME environment variable.
+    char *homePath = getenv("HOME");
+    if (!homePath)
+    {
+      gzerr << "Unable to get HOME environment variable. Report this error to "
+        << "https://bitbucket.org/osrf/subt/issues/new. "
+        << "SubT logging will be disabled.\n";
+    }
+    else
+    {
+      // Construct the final log filename.
+      logPath = homePath;
+      logPath += "/" + filenamePrefix + "_" +
+        common::Time::GetWallTimeAsISOString() + ".log";
+    }
+  }
+
+  // Open the log file.
+  this->logStream.open(logPath.c_str(), std::ios::out);
+
   // Make sure the ROS node for Gazebo has already been initialized
   if (!ros::isInitialized())
   {
@@ -54,10 +95,14 @@ void GameLogicPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
   // Initialize the ROS node.
   this->rosnode.reset(new ros::NodeHandle("subt"));
 
-  // Advertise the service to call when an artifact is recognized.
-  this->artifactSrv =
-    this->rosnode->advertiseService("artifacts/new",
-    &GameLogicPlugin::OnNewArtifact, this);
+  // Advertise the service to receive artifact reports.
+  // Note that we're setting the scope to this service to SCOPE_T, so only
+  // nodes within the same process will be able to reach this plugin.
+  // The reason for this is to avoid the teams to use this service directly.
+  ignition::transport::AdvertiseServiceOptions opts;
+  opts.SetScope(ignition::transport::Scope_t::PROCESS);
+  this->node.Advertise(kNewArtifactSrv,
+    &GameLogicPlugin::OnNewArtifact, this, opts);
 
   this->scorePub = this->rosnode->advertise<std_msgs::Int32>("score", 1000);
 
@@ -81,6 +126,7 @@ void GameLogicPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
     "/subt/finish", &GameLogicPlugin::OnFinishCall, this);
 
   gzmsg << "Starting SubT" << std::endl;
+  this->Log() << "starting" << std::endl;
 }
 
 /////////////////////////////////////////////////
@@ -94,6 +140,8 @@ void GameLogicPlugin::ParseArtifacts(sdf::ElementPtr _sdf)
     {
       gzerr << "[GameLogicPlugin]: Parameter <name> not found. Ignoring this "
             << "artifact" << std::endl;
+      this->Log() << "error Parameter <name> not found. Ignoring this artifact"
+        << std::endl;
       artifactElem = _sdf->GetNextElement("artifact");
       continue;
     }
@@ -104,6 +152,9 @@ void GameLogicPlugin::ParseArtifacts(sdf::ElementPtr _sdf)
     {
       gzerr << "[GameLogicPlugin]: Parameter <type> not found. Ignoring this "
             << "artifact" << std::endl;
+      this->Log() << "error Parameter <type> not found. Ignoring this artifact"
+        << std::endl;
+
       artifactElem = _sdf->GetNextElement("artifact");
       continue;
     }
@@ -113,6 +164,8 @@ void GameLogicPlugin::ParseArtifacts(sdf::ElementPtr _sdf)
     if (!modelPtr)
     {
        gzerr << "[GameLogicPlugin]: Unable to find model with name ["
+             << modelName << "]. Ignoring artifact" << std::endl;
+      this->Log() << "error Unable to find model with name ["
              << modelName << "]. Ignoring artifact" << std::endl;
        artifactElem = _sdf->GetNextElement("artifact");
        continue;
@@ -124,6 +177,8 @@ void GameLogicPlugin::ParseArtifacts(sdf::ElementPtr _sdf)
     if (!this->ArtifactFromString(modelTypeStr, modelType))
     {
       gzerr << "[GameLogicPlugin]: Unknown artifact type ["
+             << modelTypeStr << "]. Ignoring artifact" << std::endl;
+      this->Log() << "error Unknown artifact type ["
              << modelTypeStr << "]. Ignoring artifact" << std::endl;
       artifactElem = _sdf->GetNextElement("artifact");
       continue;
@@ -137,6 +192,8 @@ void GameLogicPlugin::ParseArtifacts(sdf::ElementPtr _sdf)
       {
         gzerr << "[GameLogicPlugin]: Repeated model with name ["
                << modelName << "]. Ignoring artifact" << std::endl;
+        this->Log() << "error Repeated model with name ["
+               << modelName << "]. Ignoring artifact" << std::endl;
         artifactElem = _sdf->GetNextElement("artifact");
         continue;
       }
@@ -148,36 +205,41 @@ void GameLogicPlugin::ParseArtifacts(sdf::ElementPtr _sdf)
 }
 
 /////////////////////////////////////////////////
-bool GameLogicPlugin::OnNewArtifact(subt_msgs::Artifact::Request &_req,
-  subt_msgs::Artifact::Response &/*_res*/)
+void GameLogicPlugin::OnNewArtifact(const subt::msgs::Artifact &_req)
 {
-  gzmsg << "New artifact reported." << std::endl;
+  this->Log() << "new_artifact_reported" << std::endl;
 
   ArtifactType artifactType;
-  if (!this->ArtifactFromInt(_req.type, artifactType))
+  if (!this->ArtifactFromInt(_req.type(), artifactType))
   {
     gzerr << "Unknown artifact code. The number should be between 0 and "
           << this->kArtifactTypes.size() - 1 << " but we received "
-          << _req.type << std::endl;
-    return false;
+          << _req.type() << std::endl;
+
+    this->Log() << "error Unknown artifact code. The number should be between "
+      << "0 and " << this->kArtifactTypes.size() - 1
+      << " but we received " << _req.type() << std::endl;
+    return;
   }
 
   {
     std::lock_guard<std::mutex> lock(this->mutex);
-    this->totalScore += this->ScoreArtifact(artifactType, _req.pose);
+    this->totalScore += this->ScoreArtifact(artifactType, _req.pose());
     gzmsg << "Total score: " << this->totalScore << std::endl << std::endl;
+    this->Log() << "new_total_score "
+      << this->totalScore << std::endl;
   }
-
-  return true;
 }
 
+/////////////////////////////////////////////////
 double GameLogicPlugin::ScoreArtifact(const ArtifactType &_type,
-  const geometry_msgs::PoseStamped &_pose)
+  const ignition::msgs::Pose &_pose)
 {
   // Sanity check: Make sure that we have crossed the starting gate.
   if (!this->started)
   {
     gzmsg << "  The task hasn't started yet" << std::endl;
+    this->Log() << "task_not_started" << std::endl;
     return 0.0;
   }
 
@@ -185,6 +247,7 @@ double GameLogicPlugin::ScoreArtifact(const ArtifactType &_type,
   if (this->artifacts.find(_type) == this->artifacts.end())
   {
     gzmsg << "  No artifacts remaining" << std::endl;
+    this->Log() << "no_remaining_artifacts_of_specified_type" << std::endl;
     return 0.0;
   }
 
@@ -193,7 +256,7 @@ double GameLogicPlugin::ScoreArtifact(const ArtifactType &_type,
   // From the list of potential artifacts, find out which one is
   // closer (Euclidean distance) to the located by this request.
   ignition::math::Vector3d observedObjectPose(
-    _pose.pose.position.x, _pose.pose.position.y, _pose.pose.position.z);
+    _pose.position().x(), _pose.position().y(), _pose.position().z());
   std::tuple<std::string, ignition::math::Vector3d, double> minDistance =
     {"", ignition::math::Vector3d(), std::numeric_limits<double>::infinity()};
   for (auto const object : potentialArtifacts)
@@ -218,21 +281,25 @@ double GameLogicPlugin::ScoreArtifact(const ArtifactType &_type,
   if (distance < 0.5)
   {
     gzmsg << "  [Distance bonus]: x3" << std::endl;
+    this->Log() << "distance_bonus_x3" << std::endl;
     score *= 3;
   }
   else if (distance < 2.0)
   {
     gzmsg << "  [Distance bonus]: x2" << std::endl;
+    this->Log() << "distance_bonus_x2" << std::endl;
     score *= 2;
   }
   else if (distance < 4.0)
   {
     gzmsg << "  [Distance bonus]: x1" << std::endl;
+    this->Log() << "distance_bonus_x1" << std::endl;
     score *= 1;
   }
   else
   {
     gzmsg << "  [Distance bonus]: -1" << std::endl;
+    this->Log() << "distance_bonus_-1" << std::endl;
     score += -1;
   }
 
@@ -243,20 +310,24 @@ double GameLogicPlugin::ScoreArtifact(const ArtifactType &_type,
   if (elapsedSecs < 60 * 20)
   {
     gzmsg << "  [Time bonus]: x3" << std::endl;
+    this->Log() << "time_bonus_x3" << std::endl;
     score *= 3.0;
   }
   else if (elapsedSecs < 60 * 40)
   {
     gzmsg << "  [Time bonus]: x2" << std::endl;
+    this->Log() << "time_bonus_x2" << std::endl;
     score *= 2.0;
   }
   else
   {
     gzmsg << "  [Time bonus]: x1" << std::endl;
+    this->Log() << "time_bonus_x1" << std::endl;
     score *= 1.0;
   }
 
   gzmsg << "  [Total]: " << score << std::endl;
+  this->Log() << "modified_score " << score << std::endl;
 
   // Remove this artifact to avoid getting score from the same artifact
   // multiple times.
@@ -302,7 +373,7 @@ bool GameLogicPlugin::ArtifactFromString(const std::string &_name,
 }
 
 /////////////////////////////////////////////////
-bool GameLogicPlugin::ArtifactFromInt(const uint8_t &_typeInt,
+bool GameLogicPlugin::ArtifactFromInt(const uint32_t &_typeInt,
   ArtifactType &_type)
 {
   if (_typeInt > this->kArtifactTypes.size())
@@ -326,6 +397,7 @@ void GameLogicPlugin::OnStartCollision(ConstIntPtr &/*_msg*/)
   this->started = true;
   this->startTime = std::chrono::steady_clock::now();
   gzmsg << "Scoring has Started" << std::endl;
+  this->Log() << "scoring_started" << std::endl;
 }
 
 /////////////////////////////////////////////////
@@ -343,6 +415,19 @@ bool GameLogicPlugin::OnFinishCall(std_srvs::SetBool::Request &_req,
           << std::chrono::duration_cast<std::chrono::seconds>(elapsed).count()
           << " seconds" << std::endl;
     _res.success = true;
+    this->Log() << "finished_elapsed_time "
+      << std::chrono::duration_cast<std::chrono::seconds>(elapsed).count()
+      << " s." << std::endl;
+    this->Log() << "finished_score " << this->totalScore << std::endl;
+    this->logStream.flush();
   }
   return true;
+}
+
+/////////////////////////////////////////////////
+std::ofstream &GameLogicPlugin::Log()
+{
+  this->logStream << this->world->SimTime().sec
+    << " " << this->world->SimTime().nsec << " ";
+  return this->logStream;
 }

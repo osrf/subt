@@ -18,22 +18,17 @@
 syntax = "proto3";
 package subt.msgs;
 
+import "ignition/msgs/pose.proto";
+
 /// \ingroup subt_msgs
-/// \interface Datagram
-/// \brief A message containing some payload to communicate among one or
-/// multiple teammates.
+/// \interface Artifact
+/// \brief A message containing some artifact location.
 
-message Datagram
+message Artifact
 {
-  /// \brief Address of the sender.
-  string src_address = 1;
+  /// \brief Type.
+  uint32 type = 1;
 
-  /// \brief Address of the destination.
-  string dst_address = 2;
-
-  /// \brief Destination port.
-  uint32 dst_port    = 3;
-
-  /// \brief Payload.
-  bytes data         = 4;
+  /// \brief Pose.
+  ignition.msgs.Pose pose = 2;
 }

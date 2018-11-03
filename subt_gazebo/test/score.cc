@@ -17,14 +17,15 @@
 
 #include <gtest/gtest.h>
 #include <ros/ros.h>
-#include <geometry_msgs/PoseStamped.h>
 #include <std_msgs/Int32.h>
 #include <std_msgs/UInt8.h>
 #include <chrono>
+#include <memory>
 #include <gazebo/gazebo.hh>
 
 #include "subt_gazebo/CommonTypes.hh"
-#include "subt_msgs/Artifact.h"
+#include "subt_gazebo/CommsClient.hh"
+#include "subt_gazebo/protobuf/artifact.pb.h"
 #include "test/test_config.h"
 #include "TestUtils.hh"
 
@@ -40,6 +41,8 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     // Wait until Gazebo is ready.
     using namespace std::chrono_literals;
     EXPECT_TRUE(this->WaitForGazebo(120s));
+
+    this->client.reset(new subt::CommsClient("X2"));
   }
 
   /// \brief Reset the member variables used for checking test expectations.
@@ -55,37 +58,35 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     ASSERT_TRUE(this->WaitUntilScoreIs(0));
 
     // Report an artifact with high accuracy (x3): +9 points.
-    geometry_msgs::PoseStamped pose;
-    pose.pose.position.x = 140.0;
-    pose.pose.position.y = 35.0;
-    pose.pose.position.z = -20.0;
-    unsigned char type =
-      static_cast<unsigned char>(subt_msgs::ArtifactRequest::TYPE_BACKPACK);
+    ignition::msgs::Pose pose;
+    pose.mutable_position()->set_x(140.0);
+    pose.mutable_position()->set_y(35.0);
+    pose.mutable_position()->set_z(-20.0);
+    uint32_t type = static_cast<uint32_t>(subt::ArtifactType::TYPE_BACKPACK);
     this->ReportArtifact(type, pose);
     ASSERT_TRUE(this->WaitUntilScoreIs(9));
 
     // Report an artifact with medium accuracy (x2): +6 points.
-    pose.pose.position.x = 241.0;
-    pose.pose.position.y = 25.0;
-    pose.pose.position.z = -35.0;
-    type = static_cast<unsigned char>(subt_msgs::ArtifactRequest::TYPE_TOOLBOX);
+    pose.mutable_position()->set_x(241.0);
+    pose.mutable_position()->set_y(25.0);
+    pose.mutable_position()->set_z(-35.0);
+    type = static_cast<uint32_t>(subt::ArtifactType::TYPE_TOOLBOX);
     this->ReportArtifact(type, pose);
     ASSERT_TRUE(this->WaitUntilScoreIs(15));
 
     // Report an artifact with low accuracy (x1): +3 points.
-    pose.pose.position.x = 133.0;
-    pose.pose.position.y = 2.2;
-    pose.pose.position.z = -20.0;
-    type =
-      static_cast<unsigned char>(subt_msgs::ArtifactRequest::TYPE_EXTINGUISHER);
+    pose.mutable_position()->set_x(133.0);
+    pose.mutable_position()->set_y(2.2);
+    pose.mutable_position()->set_z(-20.0);
+    type = static_cast<uint32_t>(subt::ArtifactType::TYPE_EXTINGUISHER);
     this->ReportArtifact(type, pose);
     ASSERT_TRUE(this->WaitUntilScoreIs(18));
 
     // Report an artifact with bad accuracy (-1): 0 points.
-    pose.pose.position.x = 127.5;
-    pose.pose.position.y = -65.0;
-    pose.pose.position.z = -30.0;
-    type = static_cast<unsigned char>(subt_msgs::ArtifactRequest::TYPE_VALVE);
+    pose.mutable_position()->set_x(127.5);
+    pose.mutable_position()->set_y(-65.0);
+    pose.mutable_position()->set_z(-30.0);
+    type = static_cast<uint32_t>(subt::ArtifactType::TYPE_VALVE);
     this->ReportArtifact(type, pose);
     ASSERT_TRUE(this->WaitUntilScoreIs(18));
   }
@@ -102,8 +103,6 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     this->score = 0;
     this->scoreSub = this->nodeHandle.subscribe(
       "/subt/score", 100, &ScoreTest::OnScore, this);
-    this->client =
-      this->nodeHandle.serviceClient<subt_msgs::Artifact>("subt/artifacts/new");
   }
 
   /// \brief Wait until the score reaches a given target score.
@@ -127,13 +126,13 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
   /// \brief Report a new artifact.
   /// \param[in] _type The artifact type.
   /// \param[in] _pose The artifact pose.
-  private: void ReportArtifact(const unsigned char _type,
-                               const geometry_msgs::PoseStamped &_pose)
+  private: void ReportArtifact(const uint32_t _type,
+                               const ignition::msgs::Pose &_pose)
   {
-    subt_msgs::Artifact srv;
-    srv.request.type = _type;
-    srv.request.pose = _pose;
-    this->client.call(srv);
+    subt::msgs::Artifact artifact;
+    artifact.set_type(_type);
+    artifact.mutable_pose()->CopyFrom(_pose);
+    this->client->SendToBaseStation(artifact);
   }
 
   /// \brief Whether a unicast/broadcast message has been received or not.
@@ -145,8 +144,8 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
   /// \brief The ROS topic subscriber to receive score updates.
   protected: ros::Subscriber scoreSub;
 
-  /// \brief Needed for requesting ROS service calls.
-  protected: ros::ServiceClient client;
+  /// \brief Communication client.
+  protected: std::unique_ptr<subt::CommsClient> client;
 };
 
 /////////////////////////////////////////////////
