@@ -373,8 +373,26 @@
 
     <include>
       <name>tile_0</name>
-      <uri>model://tunnel_tile_blocker</uri>
-      <pose>240.000000 231.000000 -15.000000 0 0 0.000000</pose>
+      <uri>model://tunnel_tile_2</uri>
+      <pose>240.000000 240.000000 -15.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_1</name>
+      <uri>model://tunnel_tile_5</uri>
+      <pose>260.000000 240.000000 -15.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_2</name>
+      <uri>model://tunnel_tile_5</uri>
+      <pose>280.000000 240.000000 -15.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_3</name>
+      <uri>model://tunnel_tile_2</uri>
+      <pose>300.000000 240.000000 -15.000000 0 0 4.712389</pose>
     </include>
 
     <include>
@@ -384,13 +402,13 @@
     </include>
 
     <include>
-      <name>tile_1</name>
+      <name>tile_4</name>
       <uri>model://tunnel_tile_blocker</uri>
       <pose>160.000000 211.000000 -15.000000 0 0 0.000000</pose>
     </include>
 
     <include>
-      <name>tile_2</name>
+      <name>tile_5</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>240.000000 220.000000 -15.000000 0 0 0.000000</pose>
     </include>
@@ -402,67 +420,79 @@
     </include>
 
     <include>
-      <name>tile_3</name>
+      <name>tile_6</name>
+      <uri>model://tunnel_tile_5</uri>
+      <pose>300.000000 220.000000 -15.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_7</name>
       <uri>model://tunnel_tile_blocker</uri>
       <pose>69.000000 200.000000 -15.000000 0 0 0.000000</pose>
     </include>
 
     <include>
-      <name>tile_4</name>
+      <name>tile_8</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>80.000000 200.000000 -15.000000 0 0 1.570796</pose>
     </include>
 
     <include>
-      <name>tile_5</name>
+      <name>tile_9</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>100.000000 200.000000 -15.000000 0 0 1.570796</pose>
     </include>
 
     <include>
-      <name>tile_6</name>
+      <name>tile_10</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>120.000000 200.000000 -15.000000 0 0 1.570796</pose>
     </include>
 
     <include>
-      <name>tile_7</name>
+      <name>tile_11</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>140.000000 200.000000 -15.000000 0 0 1.570796</pose>
     </include>
 
     <include>
-      <name>tile_8</name>
+      <name>tile_12</name>
       <uri>model://tunnel_tile_1</uri>
       <pose>160.000000 200.000000 -15.000000 0 0 0.000000</pose>
     </include>
 
     <include>
-      <name>tile_9</name>
+      <name>tile_13</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>180.000000 200.000000 -15.000000 0 0 1.570796</pose>
     </include>
 
     <include>
-      <name>tile_10</name>
+      <name>tile_14</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>200.000000 200.000000 -15.000000 0 0 1.570796</pose>
     </include>
 
     <include>
-      <name>tile_11</name>
+      <name>tile_15</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>220.000000 200.000000 -15.000000 0 0 1.570796</pose>
     </include>
 
     <include>
-      <name>tile_12</name>
+      <name>tile_16</name>
       <uri>model://tunnel_tile_2</uri>
       <pose>240.000000 200.000000 -15.000000 0 0 3.141593</pose>
     </include>
 
     <include>
-      <name>tile_13</name>
+      <name>tile_17</name>
+      <uri>model://tunnel_tile_5</uri>
+      <pose>300.000000 200.000000 -15.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_18</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>160.000000 180.000000 -15.000000 0 0 0.000000</pose>
     </include>
@@ -474,25 +504,85 @@
     </include>
 
     <include>
-      <name>tile_14</name>
+      <name>tile_19</name>
+      <uri>model://tunnel_tile_2</uri>
+      <pose>260.000000 180.000000 -15.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_20</name>
+      <uri>model://tunnel_tile_5</uri>
+      <pose>280.000000 180.000000 -15.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_21</name>
+      <uri>model://tunnel_tile_1</uri>
+      <pose>300.000000 180.000000 -15.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_22</name>
+      <uri>model://tunnel_tile_5</uri>
+      <pose>320.000000 180.000000 -15.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_23</name>
+      <uri>model://tunnel_tile_2</uri>
+      <pose>340.000000 180.000000 -15.000000 0 0 4.712389</pose>
+    </include>
+
+    <include>
+      <name>tile_24</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>160.000000 160.000000 -15.000000 0 0 0.000000</pose>
     </include>
 
     <include>
-      <name>tile_15</name>
+      <name>phone_1</name>
+      <uri>model://Phone</uri>
+      <pose>240.000000 160.000000 -15.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_25</name>
+      <uri>model://tunnel_tile_5</uri>
+      <pose>260.000000 160.000000 -15.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_26</name>
+      <uri>model://tunnel_tile_blocker</uri>
+      <pose>300.000000 160.000000 -15.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_27</name>
+      <uri>model://tunnel_tile_5</uri>
+      <pose>340.000000 160.000000 -15.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>toolbox_1</name>
+      <uri>model://Toolbox</uri>
+      <pose>360.000000 160.000000 -15.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_28</name>
       <uri>model://tunnel_tile_blocker</uri>
       <pose>60.000000 131.000000 -15.000000 0 0 0.000000</pose>
     </include>
 
     <include>
-      <name>tile_16</name>
+      <name>tile_29</name>
       <uri>model://tunnel_tile_blocker</uri>
       <pose>80.000000 131.000000 -15.000000 0 0 0.000000</pose>
     </include>
 
     <include>
-      <name>tile_17</name>
+      <name>tile_30</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>160.000000 140.000000 -15.000000 0 0 0.000000</pose>
     </include>
@@ -504,73 +594,79 @@
     </include>
 
     <include>
-      <name>phone_1</name>
-      <uri>model://Phone</uri>
-      <pose>62.400000 126.750000 -14.996000 1.570796 0 0.000000</pose>
+      <name>tile_31</name>
+      <uri>model://tunnel_tile_blocker</uri>
+      <pose>260.000000 140.000000 -15.000000 0 0 0.000000</pose>
     </include>
 
     <include>
-      <name>tile_18</name>
+      <name>tile_32</name>
+      <uri>model://tunnel_tile_blocker</uri>
+      <pose>340.000000 140.000000 -15.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_33</name>
       <uri>model://tunnel_tile_2</uri>
       <pose>60.000000 120.000000 -15.000000 0 0 1.570796</pose>
     </include>
 
     <include>
-      <name>tile_19</name>
+      <name>tile_34</name>
       <uri>model://tunnel_tile_1</uri>
       <pose>80.000000 120.000000 -15.000000 0 0 0.000000</pose>
     </include>
 
     <include>
-      <name>tile_20</name>
+      <name>tile_35</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>100.000000 120.000000 -15.000000 0 0 1.570796</pose>
     </include>
 
     <include>
-      <name>tile_21</name>
+      <name>tile_36</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>120.000000 120.000000 -15.000000 0 0 1.570796</pose>
     </include>
 
     <include>
-      <name>tile_22</name>
+      <name>tile_37</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>140.000000 120.000000 -15.000000 0 0 1.570796</pose>
     </include>
 
     <include>
-      <name>tile_23</name>
+      <name>tile_38</name>
       <uri>model://tunnel_tile_2</uri>
       <pose>160.000000 120.000000 -15.000000 0 0 3.141593</pose>
     </include>
 
     <include>
-      <name>tile_24</name>
+      <name>tile_39</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>80.000000 100.000000 -15.000000 0 0 0.000000</pose>
     </include>
 
     <include>
-      <name>tile_25</name>
+      <name>tile_40</name>
       <uri>model://tunnel_tile_2</uri>
       <pose>200.000000 100.000000 -15.000000 0 0 0.000000</pose>
     </include>
 
     <include>
-      <name>tile_26</name>
+      <name>tile_41</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>220.000000 100.000000 -15.000000 0 0 1.570796</pose>
     </include>
 
     <include>
-      <name>tile_27</name>
+      <name>tile_42</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>240.000000 100.000000 -15.000000 0 0 1.570796</pose>
     </include>
 
     <include>
-      <name>tile_28</name>
+      <name>tile_43</name>
       <uri>model://tunnel_tile_2</uri>
       <pose>260.000000 100.000000 -15.000000 0 0 4.712389</pose>
     </include>
@@ -582,55 +678,43 @@
     </include>
 
     <include>
-      <name>tile_29</name>
+      <name>tile_44</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>80.000000 80.000000 -15.000000 0 0 0.000000</pose>
     </include>
 
     <include>
-      <name>toolbox_1</name>
-      <uri>model://Toolbox</uri>
-      <pose>80.000000 80.000000 -15.000000 0 0 0.000000</pose>
-    </include>
-
-    <include>
-      <name>tile_30</name>
+      <name>tile_45</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>200.000000 80.000000 -15.000000 0 0 0.000000</pose>
     </include>
 
     <include>
-      <name>tile_31</name>
+      <name>tile_46</name>
       <uri>model://tunnel_tile_2</uri>
       <pose>260.000000 80.000000 -15.000000 0 0 1.570796</pose>
     </include>
 
     <include>
-      <name>tile_32</name>
+      <name>tile_47</name>
       <uri>model://tunnel_tile_2</uri>
       <pose>280.000000 80.000000 -15.000000 0 0 4.712389</pose>
     </include>
 
     <include>
-      <name>tile_33</name>
+      <name>tile_48</name>
       <uri>model://tunnel_tile_6</uri>
       <pose>80.000000 60.000000 -15.000000 0 0 3.141593</pose>
     </include>
 
     <include>
-      <name>electrical_box_1</name>
-      <uri>model://Electrical Box</uri>
-      <pose>202.000000 60.000000 -15.000000 0 0 0.000000</pose>
-    </include>
-
-    <include>
-      <name>tile_34</name>
+      <name>tile_49</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>200.000000 60.000000 -15.000000 0 0 0.000000</pose>
     </include>
 
     <include>
-      <name>tile_35</name>
+      <name>tile_50</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>280.000000 60.000000 -15.000000 0 0 0.000000</pose>
     </include>
@@ -642,37 +726,31 @@
     </include>
 
     <include>
-      <name>tile_36</name>
+      <name>tile_51</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>80.000000 40.000000 -10.000000 0 0 0.000000</pose>
     </include>
 
     <include>
-      <name>tile_37</name>
+      <name>tile_52</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>200.000000 40.000000 -15.000000 0 0 0.000000</pose>
     </include>
 
     <include>
-      <name>tile_38</name>
+      <name>tile_53</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>280.000000 40.000000 -15.000000 0 0 0.000000</pose>
     </include>
 
     <include>
-      <name>tile_39</name>
+      <name>tile_54</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>80.000000 20.000000 -10.000000 0 0 0.000000</pose>
     </include>
 
     <include>
-      <name>backpack_2</name>
-      <uri>model://Backpack</uri>
-      <pose>140.000000 -2.000000 -10.000000 0 0 0.000000</pose>
-    </include>
-
-    <include>
-      <name>tile_40</name>
+      <name>tile_55</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>200.000000 20.000000 -15.000000 0 0 0.000000</pose>
     </include>
@@ -684,151 +762,247 @@
     </include>
 
     <include>
-      <name>tile_41</name>
+      <name>tile_56</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>280.000000 20.000000 -15.000000 0 0 0.000000</pose>
     </include>
 
     <include>
-      <name>tile_42</name>
-      <uri>model://tunnel_tile_5</uri>
-      <pose>20.000000 0.000000 0.000000 0 0 1.570796</pose>
-    </include>
-
-    <include>
-      <name>tile_43</name>
-      <uri>model://tunnel_tile_6</uri>
-      <pose>40.000000 0.000000 -5.000000 0 0 1.570796</pose>
-    </include>
-
-    <include>
-      <name>tile_44</name>
-      <uri>model://tunnel_tile_6</uri>
-      <pose>60.000000 0.000000 -10.000000 0 0 1.570796</pose>
-    </include>
-
-    <include>
-      <name>tile_45</name>
-      <uri>model://tunnel_tile_1</uri>
-      <pose>80.000000 0.000000 -10.000000 0 0 0.000000</pose>
-    </include>
-
-    <include>
-      <name>tile_46</name>
-      <uri>model://tunnel_tile_5</uri>
-      <pose>100.000000 0.000000 -10.000000 0 0 1.570796</pose>
-    </include>
-
-    <include>
-      <name>tile_47</name>
-      <uri>model://tunnel_tile_5</uri>
-      <pose>120.000000 0.000000 -10.000000 0 0 1.570796</pose>
-    </include>
-
-    <include>
-      <name>tile_48</name>
-      <uri>model://tunnel_tile_5</uri>
-      <pose>140.000000 0.000000 -10.000000 0 0 1.570796</pose>
-    </include>
-
-    <include>
-      <name>tile_49</name>
-      <uri>model://tunnel_tile_6</uri>
-      <pose>160.000000 0.000000 -15.000000 0 0 1.570796</pose>
-    </include>
-
-    <include>
-      <name>tile_50</name>
-      <uri>model://tunnel_tile_5</uri>
-      <pose>180.000000 0.000000 -15.000000 0 0 1.570796</pose>
-    </include>
-
-    <include>
-      <name>tile_51</name>
-      <uri>model://tunnel_tile_1</uri>
-      <pose>200.000000 0.000000 -15.000000 0 0 0.000000</pose>
-    </include>
-
-    <include>
-      <name>tile_52</name>
-      <uri>model://tunnel_tile_blocker</uri>
-      <pose>211.000000 0.000000 -15.000000 0 0 0.000000</pose>
-    </include>
-
-    <include>
-      <name>tile_53</name>
-      <uri>model://tunnel_tile_5</uri>
-      <pose>280.000000 0.000000 -15.000000 0 0 0.000000</pose>
-    </include>
-
-    <include>
-      <name>tile_54</name>
-      <uri>model://tunnel_tile_7</uri>
-      <pose>80.000000 -20.000000 -10.000000 0 0 3.141593</pose>
-    </include>
-
-    <include>
-      <name>tile_55</name>
-      <uri>model://tunnel_tile_5</uri>
-      <pose>200.000000 -20.000000 -15.000000 0 0 0.000000</pose>
-    </include>
-
-    <include>
-      <name>tile_56</name>
-      <uri>model://tunnel_tile_5</uri>
-      <pose>280.000000 -20.000000 -15.000000 0 0 0.000000</pose>
-    </include>
-
-    <include>
       <name>tile_57</name>
-      <uri>model://tunnel_tile_5</uri>
-      <pose>80.000000 -40.000000 -5.000000 0 0 0.000000</pose>
+      <uri>model://tunnel_tile_2</uri>
+      <pose>320.000000 20.000000 -20.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_58</name>
       <uri>model://tunnel_tile_5</uri>
-      <pose>200.000000 -40.000000 -15.000000 0 0 0.000000</pose>
+      <pose>340.000000 20.000000 -20.000000 0 0 1.570796</pose>
     </include>
 
     <include>
       <name>tile_59</name>
-      <uri>model://tunnel_tile_5</uri>
-      <pose>280.000000 -40.000000 -15.000000 0 0 0.000000</pose>
+      <uri>model://tunnel_tile_2</uri>
+      <pose>360.000000 20.000000 -20.000000 0 0 4.712389</pose>
+    </include>
+
+    <include>
+      <name>electrical_box_1</name>
+      <uri>model://Electrical Box</uri>
+      <pose>400.000000 20.000000 -20.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_60</name>
       <uri>model://tunnel_tile_5</uri>
-      <pose>80.000000 -60.000000 -5.000000 0 0 0.000000</pose>
+      <pose>20.000000 0.000000 0.000000 0 0 1.570796</pose>
     </include>
 
     <include>
       <name>tile_61</name>
-      <uri>model://tunnel_tile_2</uri>
-      <pose>200.000000 -60.000000 -15.000000 0 0 1.570796</pose>
+      <uri>model://tunnel_tile_6</uri>
+      <pose>40.000000 0.000000 -5.000000 0 0 1.570796</pose>
     </include>
 
     <include>
       <name>tile_62</name>
-      <uri>model://tunnel_tile_5</uri>
-      <pose>220.000000 -60.000000 -15.000000 0 0 1.570796</pose>
+      <uri>model://tunnel_tile_6</uri>
+      <pose>60.000000 0.000000 -10.000000 0 0 1.570796</pose>
     </include>
 
     <include>
       <name>tile_63</name>
-      <uri>model://tunnel_tile_5</uri>
-      <pose>240.000000 -60.000000 -15.000000 0 0 1.570796</pose>
+      <uri>model://tunnel_tile_1</uri>
+      <pose>80.000000 0.000000 -10.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_64</name>
       <uri>model://tunnel_tile_5</uri>
-      <pose>260.000000 -60.000000 -15.000000 0 0 1.570796</pose>
+      <pose>100.000000 0.000000 -10.000000 0 0 1.570796</pose>
     </include>
 
     <include>
       <name>tile_65</name>
+      <uri>model://tunnel_tile_5</uri>
+      <pose>120.000000 0.000000 -10.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_66</name>
+      <uri>model://tunnel_tile_5</uri>
+      <pose>140.000000 0.000000 -10.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_67</name>
+      <uri>model://tunnel_tile_6</uri>
+      <pose>160.000000 0.000000 -15.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_68</name>
+      <uri>model://tunnel_tile_5</uri>
+      <pose>180.000000 0.000000 -15.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_69</name>
+      <uri>model://tunnel_tile_1</uri>
+      <pose>200.000000 0.000000 -15.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_70</name>
+      <uri>model://tunnel_tile_blocker</uri>
+      <pose>211.000000 0.000000 -15.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_71</name>
+      <uri>model://tunnel_tile_blocker</uri>
+      <pose>260.000000 0.000000 -15.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_72</name>
+      <uri>model://tunnel_tile_1</uri>
+      <pose>280.000000 0.000000 -15.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_73</name>
+      <uri>model://tunnel_tile_6</uri>
+      <pose>300.000000 0.000000 -20.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_74</name>
+      <uri>model://tunnel_tile_1</uri>
+      <pose>320.000000 0.000000 -20.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_75</name>
+      <uri>model://tunnel_tile_5</uri>
+      <pose>340.000000 0.000000 -20.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_76</name>
+      <uri>model://tunnel_tile_1</uri>
+      <pose>360.000000 0.000000 -20.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_77</name>
+      <uri>model://tunnel_tile_5</uri>
+      <pose>380.000000 0.000000 -20.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_78</name>
+      <uri>model://tunnel_tile_5</uri>
+      <pose>400.000000 0.000000 -20.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_79</name>
+      <uri>model://tunnel_tile_blocker</uri>
+      <pose>420.000000 0.000000 -20.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_80</name>
+      <uri>model://tunnel_tile_7</uri>
+      <pose>80.000000 -20.000000 -10.000000 0 0 3.141593</pose>
+    </include>
+
+    <include>
+      <name>tile_81</name>
+      <uri>model://tunnel_tile_5</uri>
+      <pose>200.000000 -20.000000 -15.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_82</name>
+      <uri>model://tunnel_tile_5</uri>
+      <pose>280.000000 -20.000000 -15.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_83</name>
+      <uri>model://tunnel_tile_2</uri>
+      <pose>320.000000 -20.000000 -20.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_84</name>
+      <uri>model://tunnel_tile_5</uri>
+      <pose>340.000000 -20.000000 -20.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_85</name>
+      <uri>model://tunnel_tile_2</uri>
+      <pose>360.000000 -20.000000 -20.000000 0 0 3.141593</pose>
+    </include>
+
+    <include>
+      <name>tile_86</name>
+      <uri>model://tunnel_tile_5</uri>
+      <pose>80.000000 -40.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_87</name>
+      <uri>model://tunnel_tile_5</uri>
+      <pose>200.000000 -40.000000 -15.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_88</name>
+      <uri>model://tunnel_tile_5</uri>
+      <pose>280.000000 -40.000000 -15.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>backpack_2</name>
+      <uri>model://Backpack</uri>
+      <pose>340.000000 -40.000000 -20.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_89</name>
+      <uri>model://tunnel_tile_5</uri>
+      <pose>80.000000 -60.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_90</name>
+      <uri>model://tunnel_tile_2</uri>
+      <pose>200.000000 -60.000000 -15.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_91</name>
+      <uri>model://tunnel_tile_5</uri>
+      <pose>220.000000 -60.000000 -15.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_92</name>
+      <uri>model://tunnel_tile_5</uri>
+      <pose>240.000000 -60.000000 -15.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_93</name>
+      <uri>model://tunnel_tile_5</uri>
+      <pose>260.000000 -60.000000 -15.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_94</name>
       <uri>model://tunnel_tile_2</uri>
       <pose>280.000000 -60.000000 -15.000000 0 0 3.141593</pose>
     </include>
@@ -840,19 +1014,19 @@
     </include>
 
     <include>
-      <name>tile_66</name>
+      <name>tile_95</name>
       <uri>model://tunnel_tile_2</uri>
       <pose>80.000000 -80.000000 -5.000000 0 0 1.570796</pose>
     </include>
 
     <include>
-      <name>tile_67</name>
+      <name>tile_96</name>
       <uri>model://tunnel_tile_7</uri>
       <pose>100.000000 -80.000000 -10.000000 0 0 1.570796</pose>
     </include>
 
     <include>
-      <name>tile_68</name>
+      <name>tile_97</name>
       <uri>model://tunnel_tile_2</uri>
       <pose>120.000000 -80.000000 -10.000000 0 0 4.712389</pose>
     </include>
@@ -870,19 +1044,19 @@
     </include>
 
     <include>
-      <name>tile_69</name>
+      <name>tile_98</name>
       <uri>model://tunnel_tile_2</uri>
       <pose>120.000000 -100.000000 -10.000000 0 0 1.570796</pose>
     </include>
 
     <include>
-      <name>tile_70</name>
+      <name>tile_99</name>
       <uri>model://tunnel_tile_2</uri>
       <pose>140.000000 -100.000000 -10.000000 0 0 4.712389</pose>
     </include>
 
     <include>
-      <name>tile_71</name>
+      <name>tile_100</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>140.000000 -120.000000 -10.000000 0 0 0.000000</pose>
     </include>
@@ -894,67 +1068,67 @@
     </include>
 
     <include>
-      <name>tile_72</name>
+      <name>tile_101</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>140.000000 -140.000000 -10.000000 0 0 0.000000</pose>
     </include>
 
     <include>
-      <name>tile_73</name>
+      <name>tile_102</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>140.000000 -160.000000 -10.000000 0 0 0.000000</pose>
     </include>
 
     <include>
-      <name>tile_74</name>
+      <name>tile_103</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>140.000000 -180.000000 -10.000000 0 0 0.000000</pose>
     </include>
 
     <include>
-      <name>tile_75</name>
+      <name>tile_104</name>
       <uri>model://tunnel_tile_2</uri>
       <pose>140.000000 -200.000000 -10.000000 0 0 1.570796</pose>
     </include>
 
     <include>
-      <name>tile_76</name>
+      <name>tile_105</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>160.000000 -200.000000 -10.000000 0 0 1.570796</pose>
     </include>
 
     <include>
-      <name>tile_77</name>
+      <name>tile_106</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>180.000000 -200.000000 -10.000000 0 0 1.570796</pose>
     </include>
 
     <include>
-      <name>tile_78</name>
+      <name>tile_107</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>200.000000 -200.000000 -10.000000 0 0 1.570796</pose>
     </include>
 
     <include>
-      <name>tile_79</name>
+      <name>tile_108</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>220.000000 -200.000000 -10.000000 0 0 1.570796</pose>
     </include>
 
     <include>
-      <name>tile_80</name>
+      <name>tile_109</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>240.000000 -200.000000 -10.000000 0 0 1.570796</pose>
     </include>
 
     <include>
-      <name>tile_81</name>
+      <name>tile_110</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>260.000000 -200.000000 -10.000000 0 0 1.570796</pose>
     </include>
 
     <include>
-      <name>tile_82</name>
+      <name>tile_111</name>
       <uri>model://tunnel_tile_2</uri>
       <pose>280.000000 -200.000000 -10.000000 0 0 4.712389</pose>
     </include>
@@ -966,7 +1140,7 @@
     </include>
 
     <include>
-      <name>tile_83</name>
+      <name>tile_112</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>280.000000 -220.000000 -10.000000 0 0 0.000000</pose>
     </include>
@@ -978,13 +1152,13 @@
     </include>
 
     <include>
-      <name>tile_84</name>
+      <name>tile_113</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>280.000000 -240.000000 -10.000000 0 0 0.000000</pose>
     </include>
 
     <include>
-      <name>tile_85</name>
+      <name>tile_114</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>280.000000 -260.000000 -10.000000 0 0 0.000000</pose>
     </include>
@@ -996,13 +1170,13 @@
     </include>
 
     <include>
-      <name>tile_86</name>
+      <name>tile_115</name>
       <uri>model://tunnel_tile_5</uri>
       <pose>280.000000 -280.000000 -10.000000 0 0 0.000000</pose>
     </include>
 
     <include>
-      <name>tile_87</name>
+      <name>tile_116</name>
       <uri>model://tunnel_tile_blocker</uri>
       <pose>280.000000 -291.000000 -10.000000 0 0 0.000000</pose>
     </include>
@@ -1032,36 +1206,36 @@
         <type>TYPE_BACKPACK</type>
       </artifact>
       <artifact>
-        <name>extinguisher_1</name>
-        <type>TYPE_EXTINGUISHER</type>
-      </artifact>
-      <artifact>
         <name>phone_1</name>
         <type>TYPE_PHONE</type>
-      </artifact>
-      <artifact>
-        <name>radio_2</name>
-        <type>TYPE_RADIO</type>
       </artifact>
       <artifact>
         <name>toolbox_1</name>
         <type>TYPE_TOOLBOX</type>
       </artifact>
       <artifact>
-        <name>electrical_box_1</name>
-        <type>TYPE_ELECTRICAL_BOX</type>
+        <name>extinguisher_1</name>
+        <type>TYPE_EXTINGUISHER</type>
+      </artifact>
+      <artifact>
+        <name>radio_2</name>
+        <type>TYPE_RADIO</type>
       </artifact>
       <artifact>
         <name>toolbox_2</name>
         <type>TYPE_TOOLBOX</type>
       </artifact>
       <artifact>
-        <name>backpack_2</name>
-        <type>TYPE_BACKPACK</type>
-      </artifact>
-      <artifact>
         <name>phone_2</name>
         <type>TYPE_PHONE</type>
+      </artifact>
+      <artifact>
+        <name>electrical_box_1</name>
+        <type>TYPE_ELECTRICAL_BOX</type>
+      </artifact>
+      <artifact>
+        <name>backpack_2</name>
+        <type>TYPE_BACKPACK</type>
       </artifact>
       <artifact>
         <name>duct_2</name>
