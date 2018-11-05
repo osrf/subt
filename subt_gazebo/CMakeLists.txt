@@ -104,15 +104,17 @@ add_library(${comms_broker_plugin_name}
   src/CommsBrokerPlugin.cc
   src/CommsModel.cc
   src/SimpleDOTParser.cc
+  src/VisibilityTable.cc
 )
 target_include_directories(${comms_broker_plugin_name}
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 target_link_libraries(${comms_broker_plugin_name}
   PUBLIC
   ${catkin_LIBRARIES}
-  ${protobuf_lib_name}
+  ${GAZEBO_LIBRARIES}
   ignition-math4::ignition-math4
   ${ignition-transport4_LIBRARIES}
+  ${protobuf_lib_name}
 )
 add_dependencies(${comms_broker_plugin_name}
   protobuf_compilation
@@ -190,16 +192,6 @@ install(TARGETS ${light_visual_plugin_name}
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
 
-# Create the generate_visibility_table executable
-set(generate_visibility_table_name generate_visibility_table)
-add_executable(${generate_visibility_table_name}
-  tools/${generate_visibility_table_name}.cc
-)
-target_link_libraries(${generate_visibility_table_name}
-  ${comms_broker_plugin_name}
-  ${GAZEBO_LIBRARIES}
-)
-
 ###########
 ## Tests ##
 ###########
@@ -221,7 +213,17 @@ add_dependencies(test_score
   ${game_logic_plugin_name}
 )
 
-catkin_add_gtest(simpleDOTParser test/simpleDOTParser.cc src/SimpleDOTParser.cc)
+catkin_add_gtest(simpleDOTParser test/simpleDOTParser.cc)
+target_link_libraries(simpleDOTParser
+  ${comms_broker_plugin_name}
+)
+
+catkin_add_gtest(visibilityTable test/visibilityTable.cc)
+target_include_directories(visibilityTable
+  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
+target_link_libraries(visibilityTable
+  ${comms_broker_plugin_name}
+)
 
 #############
 ## Install ##
