@@ -26,6 +26,7 @@ file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include)
 
 find_package(gazebo REQUIRED)
 find_package(ignition-common1 REQUIRED)
+find_package(ignition-math4 REQUIRED)
 find_package(ignition-msgs1 REQUIRED)
 find_package(ignition-transport4 REQUIRED)
 
@@ -102,12 +103,14 @@ add_library(${comms_broker_plugin_name}
   src/Broker.cc
   src/CommsBrokerPlugin.cc
   src/CommsModel.cc
+  src/SimpleDOTParser.cc
 )
 target_include_directories(${comms_broker_plugin_name}
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 target_link_libraries(${comms_broker_plugin_name}
   ${catkin_LIBRARIES}
   ${protobuf_lib_name}
+  ignition-math4::ignition-math4
   ${ignition-transport4_LIBRARIES}
 )
 add_dependencies(${comms_broker_plugin_name}
@@ -207,6 +210,8 @@ target_link_libraries(test_score
 add_dependencies(test_score
   ${game_logic_plugin_name}
 )
+
+catkin_add_gtest(simpleDOTParser test/simpleDOTParser.cc src/SimpleDOTParser.cc)
 
 #############
 ## Install ##

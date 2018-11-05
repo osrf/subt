@@ -65,6 +65,7 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu 
     gazebo9 \
     libgazebo9-dev \
     libignition-common-dev \
+    libignition-math4-dev \
     python-catkin-tools \
     python-rosinstall \
     ros-melodic-desktop-full \

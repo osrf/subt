@@ -22,12 +22,19 @@
 #include <string>
 #include <gazebo/common/Time.hh>
 #include <gazebo/physics/PhysicsTypes.hh>
+#include <ignition/math/graph/Graph.hh>
 
 namespace subt
 {
   /// \def Neighbors_M
   /// \brief Map of neighbors
   using Neighbors_M = std::map<std::string, double>;
+
+  /// \def VisibilityGraph
+  /// \brief An undirected graph to represent communication visibility between
+  /// different areas of the world.
+  using VisibilityGraph =
+    ignition::math::graph::UndirectedGraph<std::string, uint8_t>;
 
   /// \brief Class used to store information about a member of the team.
   class TeamMember
