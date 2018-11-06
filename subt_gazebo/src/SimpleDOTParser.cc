@@ -27,7 +27,7 @@
 using namespace subt;
 
 //////////////////////////////////////////////////
-bool SimpleDOTParser::Parse(std::istream &_in, VisibilityGraph &_g) const
+bool SimpleDOTParser::Parse(std::istream &_in)
 {
   // This map stores the association between the node title and the vertex Id.
   std::map<std::string, ignition::math::graph::VertexId> verticesLUT;
@@ -103,7 +103,7 @@ bool SimpleDOTParser::Parse(std::istream &_in, VisibilityGraph &_g) const
         if (key == "label")
           weight = std::stod(value);
 
-        _g.AddEdge({vId1, vId2}, 0u, weight);
+        this->graph.AddEdge({vId1, vId2}, 0u, weight);
       }
       catch (const std::exception &_e)
       {
@@ -116,7 +116,7 @@ bool SimpleDOTParser::Parse(std::istream &_in, VisibilityGraph &_g) const
     // Vertices.
     if (edge.size() == 1 && lineread != "}")
     {
-      auto newVertex = _g.AddVertex(lineread, value);
+      auto newVertex = this->graph.AddVertex(lineread, value);
       verticesLUT[lineread] = newVertex.Id();
     }
   }
@@ -132,7 +132,13 @@ bool SimpleDOTParser::Parse(std::istream &_in, VisibilityGraph &_g) const
 }
 
 //////////////////////////////////////////////////
-void SimpleDOTParser::TrimWhitespaces(std::string &_str) const
+const VisibilityGraph &SimpleDOTParser::Graph() const
+{
+  return this->graph;
+}
+
+//////////////////////////////////////////////////
+void SimpleDOTParser::TrimWhitespaces(std::string &_str)
 {
   // Remove comments.
   auto commentStart = _str.find("/*");
@@ -140,7 +146,14 @@ void SimpleDOTParser::TrimWhitespaces(std::string &_str) const
   {
     auto commentEnd = _str.rfind("*/");
     if (commentEnd != std::string::npos)
+    {
+      // Try to find a hidden attribute inside the comment.
+      std::string content = _str.substr(commentStart + 2u,
+        commentEnd - commentStart - 2u);
+      this->ParseHiddenAttribute(content);
+
       _str.erase(commentStart, commentEnd - commentStart + 2);
+    }
   }
 
   // Remove consecutive whitespaces leaving only one.
@@ -188,7 +201,6 @@ std::vector<std::string> SimpleDOTParser::Split(const std::string &_str,
 
 //////////////////////////////////////////////////
 void SimpleDOTParser::NextRealLine(std::istream &_input, std::string &_line)
-  const
 {
   while (std::getline(_input, _line))
   {
@@ -246,4 +258,54 @@ bool SimpleDOTParser::ParseAttribute(std::string &_str, std::string &_key,
   _str.erase(attrStart, attrEnd - attrStart + 1);
 
   return true;
+}
+
+//////////////////////////////////////////////////
+bool SimpleDOTParser::ParseDouble(const std::string &_input,
+  const std::string &_delimiter, double &_value)
+{
+  std::string input = _input;
+  this->TrimWhitespaces(input);
+
+  auto start = input.find(_delimiter + " ");
+  if (start != 0)
+    return false;
+
+  input.erase(0, _delimiter.size() + 1);
+
+  std::string::size_type sz;
+  try
+  {
+    _value = std::stod(input, &sz);
+  }
+  catch(...)
+  {
+    return false;
+  }
+
+  return true;
+}
+
+//////////////////////////////////////////////////
+bool SimpleDOTParser::ParseHiddenAttribute(const std::string &_input)
+{
+  const std::string kDelimiter = "<ATTRIBUTE>";
+  std::string input = _input;
+  this->TrimWhitespaces(input);
+
+  auto start = input.find(kDelimiter + " ");
+  if (start != 0)
+    return false;
+
+  input.erase(0, _delimiter.size() + 1);
+
+  auto tokens = this->Split(input, " ");
+  if (tokens.size() != 2)
+  {
+    std::cerr << "Parsing error: Unable to parse hidden parameter ["
+              << _input << "]" << std::endl;
+    return false;
+  }
+
+  this->hiddenAttributes[tokens.at(0)] = tokens.at(1);
 }

@@ -34,9 +34,10 @@ VisibilityTable::VisibilityTable(const std::string &_graphFilename)
 };
 
 //////////////////////////////////////////////////
-const VisibilityInfo &VisibilityTable::Visibility() const
+double VisibilityTable::Cost(const ignition::math::Vector3d &/*_from*/,
+  const ignition::math::Vector3d &/*_to*/) const
 {
-  return this->visibilityInfo;
+  return 0.0;
 }
 
 //////////////////////////////////////////////////
@@ -51,7 +52,13 @@ bool VisibilityTable::PopulateVisibilityGraph(const std::string &_graphFilename)
 
   std::istream is(&fb);
   SimpleDOTParser dotParser;
-  return dotParser.Parse(is, this->visibilityGraph);
+  bool result = dotParser.Parse(is);
+
+  this->visibilityGraph = dotParser.Graph();
+  // this->range = dotParser.Range();
+  // this->stepSize = dotParser.StepSize();
+
+  return result;
 }
 
 //////////////////////////////////////////////////

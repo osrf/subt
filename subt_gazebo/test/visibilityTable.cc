@@ -29,13 +29,11 @@ TEST(VisibilityTableTest, Visibility)
     SUBT_GAZEBO_PROJECT_SOURCE_PATH, "worlds", "tunnel_practice_1.dot");
 
   VisibilityTable visibilityTable(filePath);
-  VisibilityInfo info = visibilityTable.Visibility();
 
-  // Check the number of entries
-  ASSERT_EQ(48u * 48u, info.size());
-
-  EXPECT_DOUBLE_EQ(6.0 , info[std::make_pair(0, 4)]);
-  EXPECT_DOUBLE_EQ(6.0 , info[std::make_pair(4, 0)]);
+  EXPECT_DOUBLE_EQ(6.0, visibilityTable.Cost(
+    ignition::math::Vector3d(0, 0, 0), ignition::math::Vector3d(0, 4, 0)));
+  EXPECT_DOUBLE_EQ(6.0, visibilityTable.Cost(
+    ignition::math::Vector3d(0, 4, 0), ignition::math::Vector3d(0, 0, 0)));
 }
 
 /////////////////////////////////////////////////

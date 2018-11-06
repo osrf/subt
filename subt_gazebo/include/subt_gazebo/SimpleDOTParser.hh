@@ -16,8 +16,10 @@
 */
 
 #include <istream>
+#include <map>
 #include <string>
 #include <vector>
+#include <ignition/math/Vector3.hh>
 
 #include "subt_gazebo/CommonTypes.hh"
 
@@ -39,16 +41,17 @@ namespace subt
   {
     /// \brief Parse an input stream and populate a visibiliy graph.
     /// \param[in] _in The input stream.
-    /// \param[out] _g The visibility graph.
     /// \return True when the graph was successfully populated or false
     /// otherwise.
-    public: bool Parse(std::istream &_in,
-                       VisibilityGraph &_g) const;
+    public: bool Parse(std::istream &_in);
+
+    /// \brief Get the visibility graph.
+    public: const VisibilityGraph &Graph() const;
 
     /// \brief Remove comments, consecutive whitespaces, leading and trailing
     /// whitespaces and remove the trailing semicolon (if any).
     /// \param[in, out] _str The string to be parsed and converted.
-    private: void TrimWhitespaces(std::string &_str) const;
+    private: void TrimWhitespaces(std::string &_str);
 
     /// \brief Split the input string using a delimiter.
     /// \param[in] _str The input string.
@@ -64,7 +67,7 @@ namespace subt
     /// \param[in] _input The input stream.
     /// \param[out] _line The next real line.
     private: void NextRealLine(std::istream &_input,
-                               std::string &_line) const;
+                               std::string &_line);
 
     /// \brief Parse DOT attributes from an input string.
     /// \param[in, out] _str The input string. Note that the attributes are
@@ -76,6 +79,28 @@ namespace subt
     private: bool ParseAttribute(std::string &_str,
                                  std::string &_key,
                                  std::string &_value) const;
+
+    /// \brief ToDo.
+    private: bool ParseHiddenAttribute(const std::string &_input) const;
+
+    /// \brief \brief Checks if a string matches the following expression:
+    /// "<DELIMITER> <DOUBLE>".
+    /// <DELIMITER> is a string such as "range".
+    /// <DOUBLE> is double value.
+    /// \param[in] _input Input string.
+    /// \param[in] _delimiter The <DELIMITER>.
+    /// \param[out] _value The parsed <DOUBLE>.
+    /// \return True if the input string matched the expression or false
+    /// otherwise.
+    private: bool ParseDouble(const std::string &_input,
+                              const std::string &_delimiter,
+                              double &_value);
+
+    /// \brief The visibility graph.
+    private: VisibilityGraph graph;
+
+    /// \brief Hidden attributes. They start with <ATTRIBUTE>
+    private: std::map<std::string, std::string> hiddenAttributes;
   };
 }  // namespace
 #endif

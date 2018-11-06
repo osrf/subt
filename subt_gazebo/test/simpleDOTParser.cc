@@ -24,10 +24,10 @@ using namespace subt;
 /////////////////////////////////////////////////
 TEST(SimpleDOTParserTest, StreamExtraction)
 {
-  SimpleDOTParser dotParser;
-  VisibilityGraph graph;
   std::istringstream input(
     "/* Comments should be ignored */ \n"
+    "/* range 100.0 */ \n"
+    "/* step_size 10.0 */ \n"
     "\n"
     "graph {\n"
     "  0 [label=\"type_0\"] ;\n"
@@ -39,9 +39,21 @@ TEST(SimpleDOTParserTest, StreamExtraction)
     "  2 -- 0 [label= 1 ];\n"
     "}");
 
-  ASSERT_TRUE(dotParser.Parse(input, graph));
+  SimpleDOTParser dotParser;
+  ASSERT_TRUE(dotParser.Parse(input));
+
+  VisibilityGraph graph = dotParser.Graph();
   EXPECT_EQ(4u, graph.Vertices().size());
   EXPECT_EQ(3u, graph.Edges().size());
+
+  ignition::math::Vector3d paramsX = dotParser.ParamsX();
+  EXPECT_EQ(ignition::math::Vector3d(0, 0, 0), paramsX);
+
+  ignition::math::Vector3d paramsY = dotParser.ParamsY();
+  EXPECT_EQ(ignition::math::Vector3d(0, 0, 0), paramsY);
+
+  ignition::math::Vector3d paramsZ = dotParser.ParamsZ();
+  EXPECT_EQ(ignition::math::Vector3d(0, 0, 0), paramsZ);
 }
 
 /////////////////////////////////////////////////

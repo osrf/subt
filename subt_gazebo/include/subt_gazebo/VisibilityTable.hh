@@ -16,6 +16,7 @@
 */
 
 #include <string>
+#include <ignition/math/Vector3.hh>
 #include "subt_gazebo/CommonTypes.hh"
 
 #ifndef SUBT_GAZEBO_VISIBILITYTABLE_HH_
@@ -32,9 +33,12 @@ namespace subt
     /// \param[in] _graphFilename The path to the file containing the graph.
     public: explicit VisibilityTable(const std::string &_graphFilename);
 
-    /// \brief Get the visibility information.
-    /// \return Visibility information.
-    public: const VisibilityInfo &Visibility() const;
+    /// \brief Get the visibility cost.
+    /// \param[in] _from A 3D position.
+    /// \param[in] _to A 3D position.
+    /// \return The visibility cost from one point to the other.
+    public: double Cost(const ignition::math::Vector3d &_from,
+                        const ignition::math::Vector3d &_to) const;
 
     /// \brief Populate a graph from a file in DOT format.
     /// \param[in] _graphFilename The path to the file containing the graph.
@@ -49,6 +53,12 @@ namespace subt
 
     /// \brief The connectivity information in a map format than can be queried.
     private: VisibilityInfo visibilityInfo;
+
+    /// \brief The range attribute.
+    private: double range;
+
+    /// \brief The step size attribute.
+    private: double stepSize;
   };
 }
 
