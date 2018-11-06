@@ -86,6 +86,7 @@ install(TARGETS ${joint_motion_timer_plugin_name}
 set(motion_timer_detach_plugin_name MotionTimerDetachPlugin)
 add_library(${motion_timer_detach_plugin_name} src/MotionTimerDetachPlugin.cc)
 target_link_libraries(${motion_timer_detach_plugin_name}
+  ${joint_motion_timer_plugin_name}
   ${catkin_LIBRARIES}
 )
 install(TARGETS ${motion_timer_detach_plugin_name}
@@ -97,6 +98,7 @@ install(TARGETS ${motion_timer_detach_plugin_name}
 set(motion_timer_lock_plugin_name MotionTimerLockPlugin)
 add_library(${motion_timer_lock_plugin_name} src/MotionTimerLockPlugin.cc)
 target_link_libraries(${motion_timer_lock_plugin_name}
+  ${joint_motion_timer_plugin_name}
   ${catkin_LIBRARIES}
 )
 install(TARGETS ${motion_timer_lock_plugin_name}
