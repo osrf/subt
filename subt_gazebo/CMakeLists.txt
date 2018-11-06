@@ -93,6 +93,17 @@ install(TARGETS ${motion_timer_detach_plugin_name}
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
 
+# Create the libMotionTimerLockPlugin.so library.
+set(motion_timer_lock_plugin_name MotionTimerLockPlugin)
+add_library(${motion_timer_lock_plugin_name} src/MotionTimerLockPlugin.cc)
+target_link_libraries(${motion_timer_lock_plugin_name}
+  ${catkin_LIBRARIES}
+)
+install(TARGETS ${motion_timer_lock_plugin_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+
 # Create the libGameLogicPlugin.so library.
 set(game_logic_plugin_name GameLogicPlugin)
 add_library(${game_logic_plugin_name} src/GameLogicPlugin.cc)
