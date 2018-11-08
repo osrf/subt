@@ -34,10 +34,48 @@ VisibilityTable::VisibilityTable(const std::string &_graphFilename)
 };
 
 //////////////////////////////////////////////////
-double VisibilityTable::Cost(const ignition::math::Vector3d &/*_from*/,
-  const ignition::math::Vector3d &/*_to*/) const
+double VisibilityTable::Cost(const ignition::math::Vector3d &_from,
+  const ignition::math::Vector3d &_to) const
 {
-  return 0.0;
+  uint64_t from = this->Index(_from);
+  uint64_t to = this->Index(_to);
+
+  auto key = std::make_pair(from, to);
+  if (this->visibilityInfo.find(key) == this->visibilityInfo.end())
+  {
+    std::cerr << "VisibilityTable::Cost error: Unable to find (" << from
+              << "," << to << ") index from [" << _from << "] and ["
+              << _to << "]" << std::endl;
+    return -1;
+  }
+
+  return this->visibilityInfo.at(std::make_pair(from, to));
+}
+
+//////////////////////////////////////////////////
+uint64_t VisibilityTable::Index(const ignition::math::Vector3d &_position) const
+{
+  // range_x = max_x - min_x
+  const double rangeX = this->attributesX[1] - this->attributesX[0];
+  const uint64_t rowSize = rangeX / this->attributesX[2];
+
+  // range_y = max_y - min_y
+  const double rangeY = this->attributesY[1] - this->attributesY[0];
+  const uint64_t colSize = rangeY / this->attributesY[2];
+
+  // range_z = max_z - min_z
+  const uint64_t levelSize = colSize * rowSize;
+
+  // offset_x = (x - min_x) / step_x
+  auto offsetX = (_position.X() - this->attributesX[0]) / this->attributesX[2];
+
+  // offset_y = (y - min_y) / step_y
+  auto offsetY = (_position.Y() - this->attributesY[0]) / this->attributesY[2];
+
+  // offset_z = (z - min_z) / step_z
+  auto offsetZ = (_position.Z() - this->attributesZ[0]) / this->attributesZ[2];
+
+  return offsetZ * levelSize + offsetY * rowSize + offsetX;
 }
 
 //////////////////////////////////////////////////
@@ -52,13 +90,71 @@ bool VisibilityTable::PopulateVisibilityGraph(const std::string &_graphFilename)
 
   std::istream is(&fb);
   SimpleDOTParser dotParser;
-  bool result = dotParser.Parse(is);
+  if (!dotParser.Parse(is))
+    return false;
 
   this->visibilityGraph = dotParser.Graph();
-  // this->range = dotParser.Range();
-  // this->stepSize = dotParser.StepSize();
 
-  return result;
+  return this->PopulateAttributes(dotParser);
+}
+
+//////////////////////////////////////////////////
+bool VisibilityTable::PopulateAttributes(const SimpleDOTParser &_parser)
+{
+  // Sanity check: Make sure that all required attributes are found.
+  auto hiddenAttributes = _parser.HiddenAttributes();
+  const auto kRequiredAttributes = {
+    "min_x", "max_x", "step_x",
+    "min_y", "max_y", "step_y",
+    "min_z", "max_z", "step_z"
+  };
+  for (auto const attr : kRequiredAttributes)
+  {
+    if (hiddenAttributes.find(attr) == hiddenAttributes.end())
+    {
+      std::cerr << "Visibility table error: Attribute [" << attr << "] not "
+                << "found" << std::endl;
+      return false;
+    }
+  }
+
+  std::array<std::string, 3> coords = {"x", "y", "z"};
+  std::map<std::string, std::array<double, 3>> attributes;
+
+  for (auto coord : coords)
+  {
+    std::array<std::string, 3> attributesStr =
+      {
+        hiddenAttributes["min_"  + coord],
+        hiddenAttributes["max_"  + coord],
+        hiddenAttributes["step_" + coord]
+      };
+
+    std::array<double, 3> attributesDouble;
+    for (auto i = 0; i < 3; ++i)
+    {
+      std::string::size_type sz;
+      try
+      {
+        attributesDouble[i] = std::stod(attributesStr[i], &sz);
+      }
+      catch(...)
+      {
+        std::cerr << "Visibility table error: Error parsing ["
+                  << attributesStr[i] << "] attribute value as a double"
+                  << std::endl;
+        return false;
+      }
+    }
+
+    attributes[coord] = attributesDouble;
+  }
+
+  this->attributesX = attributes["x"];
+  this->attributesY = attributes["y"];
+  this->attributesZ = attributes["z"];
+
+  return true;
 }
 
 //////////////////////////////////////////////////

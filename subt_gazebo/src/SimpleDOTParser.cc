@@ -18,9 +18,6 @@
 #include <algorithm>
 #include <cstring>
 #include <iostream>
-#include <map>
-#include <string>
-#include <vector>
 
 #include "subt_gazebo/SimpleDOTParser.hh"
 
@@ -128,6 +125,16 @@ bool SimpleDOTParser::Parse(std::istream &_in)
     return false;
   }
 
+  if (!this->hiddenAttributes.empty())
+  {
+    std::cout << "Attributes:" << std::endl;
+    for (auto const &attr : this->hiddenAttributes)
+    {
+      std::cout << "[" << attr.first << "]: [" << attr.second << "]"
+                << std::endl;
+    }
+  }
+
   return true;
 }
 
@@ -135,6 +142,13 @@ bool SimpleDOTParser::Parse(std::istream &_in)
 const VisibilityGraph &SimpleDOTParser::Graph() const
 {
   return this->graph;
+}
+
+//////////////////////////////////////////////////
+const std::map<std::string, std::string> &SimpleDOTParser::HiddenAttributes()
+  const
+{
+  return this->hiddenAttributes;
 }
 
 //////////////////////////////////////////////////
@@ -261,32 +275,6 @@ bool SimpleDOTParser::ParseAttribute(std::string &_str, std::string &_key,
 }
 
 //////////////////////////////////////////////////
-bool SimpleDOTParser::ParseDouble(const std::string &_input,
-  const std::string &_delimiter, double &_value)
-{
-  std::string input = _input;
-  this->TrimWhitespaces(input);
-
-  auto start = input.find(_delimiter + " ");
-  if (start != 0)
-    return false;
-
-  input.erase(0, _delimiter.size() + 1);
-
-  std::string::size_type sz;
-  try
-  {
-    _value = std::stod(input, &sz);
-  }
-  catch(...)
-  {
-    return false;
-  }
-
-  return true;
-}
-
-//////////////////////////////////////////////////
 bool SimpleDOTParser::ParseHiddenAttribute(const std::string &_input)
 {
   const std::string kDelimiter = "<ATTRIBUTE>";
@@ -297,7 +285,7 @@ bool SimpleDOTParser::ParseHiddenAttribute(const std::string &_input)
   if (start != 0)
     return false;
 
-  input.erase(0, _delimiter.size() + 1);
+  input.erase(0, kDelimiter.size() + 1);
 
   auto tokens = this->Split(input, " ");
   if (tokens.size() != 2)
@@ -308,4 +296,6 @@ bool SimpleDOTParser::ParseHiddenAttribute(const std::string &_input)
   }
 
   this->hiddenAttributes[tokens.at(0)] = tokens.at(1);
+
+  return true;
 }

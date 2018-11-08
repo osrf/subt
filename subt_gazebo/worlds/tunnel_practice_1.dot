@@ -1,9 +1,16 @@
 
 /* Visibility graph for tunnel_practice_1.world */
 
-/* SubT tunnel parameters */
-/* range: 2000.0 */
-/* step_size: 20.0 */
+/* SubT tunnel parameters   */
+/* <ATTRIBUTE> min_x 0.0    */
+/* <ATTRIBUTE> max_x 300.0  */
+/* <ATTRIBUTE> step_x 20.0  */
+/* <ATTRIBUTE> min_y -100.0 */
+/* <ATTRIBUTE> max_y 100.0  */
+/* <ATTRIBUTE> step_y 20.0  */
+/* <ATTRIBUTE> min_z -40.0  */
+/* <ATTRIBUTE> max_z  0     */
+/* <ATTRIBUTE> step_z 5.0   */
 
 graph {
   01  [label=tunnel_tile_6];
