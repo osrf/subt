@@ -30,10 +30,10 @@ TEST(VisibilityTableTest, Visibility)
 
   VisibilityTable visibilityTable(filePath);
 
-  EXPECT_DOUBLE_EQ(6.0, visibilityTable.Cost(
-    ignition::math::Vector3d(0, 0, 0), ignition::math::Vector3d(0, 4, 0)));
-  EXPECT_DOUBLE_EQ(6.0, visibilityTable.Cost(
-    ignition::math::Vector3d(0, 4, 0), ignition::math::Vector3d(0, 0, 0)));
+  EXPECT_DOUBLE_EQ(3.0, visibilityTable.Cost(
+    ignition::math::Vector3d(20, 0, -5), ignition::math::Vector3d(80, 0, -20)));
+  EXPECT_DOUBLE_EQ(3.0, visibilityTable.Cost(
+    ignition::math::Vector3d(80, 0, -20), ignition::math::Vector3d(20, 0, -5)));
 }
 
 /////////////////////////////////////////////////

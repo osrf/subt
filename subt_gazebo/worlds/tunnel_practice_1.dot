@@ -2,123 +2,180 @@
 /* Visibility graph for tunnel_practice_1.world */
 
 /* SubT tunnel parameters   */
-/* <ATTRIBUTE> min_x 0.0    */
+/* <ATTRIBUTE> min_x -20.0  */
 /* <ATTRIBUTE> max_x 300.0  */
 /* <ATTRIBUTE> step_x 20.0  */
-/* <ATTRIBUTE> min_y -100.0 */
-/* <ATTRIBUTE> max_y 100.0  */
+/* <ATTRIBUTE> min_y -120.0 */
+/* <ATTRIBUTE> max_y 120.0  */
 /* <ATTRIBUTE> step_y 20.0  */
 /* <ATTRIBUTE> min_z -40.0  */
 /* <ATTRIBUTE> max_z  0     */
-/* <ATTRIBUTE> step_z 5.0   */
+/* <ATTRIBUTE> step_z 2.5   */
 
 graph {
-  01  [label=tunnel_tile_6];
-  02  [label=tunnel_tile_6];
-  03  [label=tunnel_tile_6];
-  04  [label=tunnel_tile_6];
-  05  [label=tunnel_tile_1];
-  06  [label=tunnel_tile_5];
-  07  [label=tunnel_tile_5];
-  08  [label=tunnel_tile_5];
-  09  [label=tunnel_tile_2];
-  10  [label=tunnel_tile_5];
-  11  [label=tunnel_tile_2];
-  12  [label=tunnel_tile_5];
-  13  [label=tunnel_tile_1];
-  14  [label=tunnel_tile_5];
-  "15a" [label=tunnel_tile_4];
-  "15b" [label=tunnel_tile_4];
-  16  [label=tunnel_tile_2];
-  17  [label=tunnel_tile_5];
-  18  [label=tunnel_tile_2];
-  19  [label=tunnel_tile_2];
-  20  [label=tunnel_tile_5];
-  21  [label=tunnel_tile_5];
-  22  [label=tunnel_tile_2];
-  23  [label=tunnel_tile_2];
-  24  [label=tunnel_tile_2];
-  25  [label=tunnel_tile_6];
-  26  [label=tunnel_tile_7];
-  27  [label=tunnel_tile_2];
-  28  [label=tunnel_tile_1];
-  29  [label=tunnel_tile_5];
-  30  [label=tunnel_tile_5];
-  31  [label=tunnel_tile_5];
-  32  [label=tunnel_tile_2];
-  33  [label=tunnel_tile_2];
-  34  [label=tunnel_tile_2];
-  35  [label=tunnel_tile_2];
-  36  [label=tunnel_tile_7];
-  37  [label=tunnel_tile_2];
-  38  [label=tunnel_tile_5];
-  39  [label=tunnel_tile_5];
-  40  [label=tunnel_tile_2];
-  41  [label=tunnel_tile_5];
-  42  [label=tunnel_tile_2];
-  43  [label=tunnel_tile_6];
-  44  [label=tunnel_tile_7];
-  45  [label=tunnel_tile_2];
-  46  [label=tunnel_tile_5];
-  47  [label=tunnel_tile_5];
-  01  -- 02 [label=1];
-  02  -- 03 [label=1];
-  03  -- 04 [label=1];
-  04  -- 05 [label=3];
+  /* Vertices */
+
+  /* (20,0,-5) */
+  2786  [label=tunnel_tile_6];
+  /* (40,0,-10) */
+  2403  [label=tunnel_tile_6];
+  /* (60,0,-15) */
+  2020  [label=tunnel_tile_6];
+  /* (80,0,-20) */
+  1637  [label=tunnel_tile_6];
+  /* (100,0,-20) */
+  1638  [label=tunnel_tile_1];
+  /* (120,0,-20) */
+  1639  [label=tunnel_tile_5];
+  /* (140,0,-20) */
+  1640  [label=tunnel_tile_5];
+  /* (160,0,-20) */
+  1641  [label=tunnel_tile_5];
+  /* (180,0,-20) */
+  2642  [label=tunnel_tile_2];
+  /* (180,20,-20) */
+  1658  [label=tunnel_tile_5];
+  /* (180,40,-20) */
+  1674  [label=tunnel_tile_2];
+  /* (160,40,-20) */
+  1673  [label=tunnel_tile_5];
+  /* (140,40,-20) */
+  1672  [label=tunnel_tile_1];
+  /* (120,40,-20) */
+  1671  [label=tunnel_tile_5];
+
+  /* (100,40,-20) */
+  1670 [label=tunnel_tile_4];
+
+  /* (80,40,-20) */
+  1670  [label=tunnel_tile_2];
+  /* (80,60,-20) */
+  1685  [label=tunnel_tile_5];
+  /* (80,80,-20) */
+  1701  [label=tunnel_tile_2];
+  /* (100,80,-20) */
+  1702  [label=tunnel_tile_2];
+  /* (100,60,-20) */
+  1686  [label=tunnel_tile_5];
+  /* (100,20,-20) */
+  1654  [label=tunnel_tile_5];
+  /* (140,60,-20) */
+  1688  [label=tunnel_tile_2];
+  /* (100,-20,-20) */
+  1622  [label=tunnel_tile_2];
+  /* (120,-20,-20) */
+  1623  [label=tunnel_tile_2];
+  /* (120,-40,-25) */
+  1223  [label=tunnel_tile_6];
+  /* (120,-60,-30) */
+  823   [label=tunnel_tile_7];
+  /* (120,-80,-30) */
+  807   [label=tunnel_tile_2];
+  /* (140,-80,-30) */
+  808   [label=tunnel_tile_1];
+  /* (140,-60,-30) */
+  808   [label=tunnel_tile_5];
+  /* (140,-40,-30) */
+  840   [label=tunnel_tile_5];
+  /* (140,-20,-30) */
+  856   [label=tunnel_tile_5];
+  /* (140,0,-30) */
+  872   [label=tunnel_tile_2];
+  /* (160,0,-30) */
+  873   [label=tunnel_tile_2];
+  /* (180,0,-30) */
+  874   [label=tunnel_tile_2];
+  /* (200,0,-30) */
+  875   [label=tunnel_tile_2];
+  /* (220,0,-35) */
+  492   [label=tunnel_tile_7];
+  /* (240,0,-35) */
+  493   [label=tunnel_tile_2];
+  /* (240,20,-35) */
+  509   [label=tunnel_tile_5];
+  /* (160,-80,-30) */
+  809   [label=tunnel_tile_5];
+  /* (180,-80,-30) */
+  810   [label=tunnel_tile_2];
+  /* (180,-60,-30) */
+  826   [label=tunnel_tile_5];
+  /* (180,-40,-30) */
+  842   [label=tunnel_tile_2];
+  /* (200,-40,-35) */
+  459   [label=tunnel_tile_6];
+  /* (220,-40,-40) */
+  76    [label=tunnel_tile_7];
+  /* (240,-40,-40) */
+  77    [label=tunnel_tile_2];
+  /* (240,-60,-40) */
+  61    [label=tunnel_tile_5];
+  /* (240,-80,-40) */
+  45    [label=tunnel_tile_5];
+  /* (-8,0,0) */
+  3168  [label=base_station];
+
+  /* Edges */
+
+  /* Base station */
+  3168 -- 2786 [label=1]
+  2786 -- 2403 [label=1];
+  2403 -- 2020 [label=1];
+  2020 -- 1637 [label=1];
+  1637 -- 1638 [label=3];
   
   /* Intersection */
-  05  -- 06  [label=3];
-  05  -- 21  [label=3];
-  05  -- 23  [label=6];
+  1638 -- 1639 [label=3];
+  1638 -- 1654 [label=3];
+  1638 -- 1622 [label=6];
     
-  06  -- 07  [label=1];
-  07  -- 08  [label=1];
-  08  -- 09  [label=3];
-  09  -- 10  [label=3];
-  10  -- 11  [label=3];
-  11  -- 12  [label=3];
-  12  -- 13  [label=3];
+  1639 -- 1640 [label=1];
+  1640 -- 1641 [label=1];
+  1641 -- 2642 [label=3];
+  2642 -- 1658 [label=3];
+  1658 -- 1674 [label=3];
+  1674 -- 1673 [label=3];
+  1673 -- 1672 [label=3];
 
   /* Intersection */
-  13  -- 14  [label=3];
-  13  -- 22  [label=6];
-  14  -- "15a" [label=1];
+  1672 -- 1671  [label=3];
+  1672 -- 1688  [label=6];
+  1671 -- 1670 [label=1];
 
   /* Intersection */
-  "15a" -- 16  [label=3];
-  "15b" -- 20  [label=1];
-  "15b" -- 21  [label=1];
+  1670 -- 1670 [label=3];
+  1670 -- 1686 [label=1];
+  1670 -- 1654 [label=1];
  
-  16  -- 17  [label=3];
-  17  -- 18  [label=3];
-  18  -- 19  [label=6];
-  19  -- 20  [label=3];
-  23  -- 24  [label=6];
-  24  -- 25  [label=3];
-  25  -- 26  [label=3];
-  26  -- 27  [label=6];
-  27  -- 28  [label=6];
+  1670  -- 1685  [label=3];
+  1685  -- 1701  [label=3];
+  1701  -- 1702  [label=6];
+  1702  -- 1686  [label=3];
+  1622  -- 1623  [label=6];
+  1623  -- 1223  [label=3];
+  1223  -- 823   [label=3];
+  823   -- 807   [label=6];
+  807   -- 808   [label=6];
 
   /* Intersection */
-  28  -- 29  [label=3];
-  28  -- 39  [label=3];
+  808  -- 808  [label=3];
+  808  -- 809  [label=3];
  
-  29  -- 30  [label=1];
-  30  -- 31  [label=1];
-  31  -- 32  [label=3];
-  32  -- 33  [label=3];
-  33  -- 34  [label=1];
-  34  -- 35  [label=1];
-  35  -- 36  [label=3];
-  36  -- 37  [label=6];
-  37  -- 38  [label=3];
+  808  -- 840  [label=1];
+  840  -- 856  [label=1];
+  856  -- 872  [label=3];
+  872  -- 873  [label=3];
+  873  -- 874  [label=1];
+  874  -- 875  [label=1];
+  875  -- 492  [label=3];
+  492  -- 493  [label=6];
+  493  -- 509  [label=3];
  
-  39  -- 40  [label=3];
-  40  -- 41  [label=3];
-  41  -- 42  [label=3];
-  42  -- 43  [label=3];
-  43  -- 44  [label=3];
-  44  -- 45  [label=6];
-  45  -- 46  [label=3];
-  46  -- 47  [label=1];
+  809  -- 810  [label=3];
+  810  -- 826  [label=3];
+  826  -- 842  [label=3];
+  842  -- 459  [label=3];
+  459  -- 76   [label=3];
+  76   -- 77   [label=6];
+  77   -- 61   [label=3];
+  61   -- 45   [label=1];
 }

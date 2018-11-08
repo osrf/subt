@@ -113,7 +113,22 @@ bool SimpleDOTParser::Parse(std::istream &_in)
     // Vertices.
     if (edge.size() == 1 && lineread != "}")
     {
-      auto newVertex = this->graph.AddVertex(lineread, value);
+      // We use the vertex name as VertexId.
+      ignition::math::graph::VertexId id;
+
+      try
+      {
+        std::string::size_type sz = 0;
+        id =  std::stoull(lineread, &sz);
+      }
+      catch(std::exception &_e)
+      {
+        std::cerr << "Parsing error: Unable to convert [" << lineread << "]"
+                  << "to VertexId" << std::endl;
+        return false;
+      }
+
+      auto newVertex = this->graph.AddVertex(lineread, value, id);
       verticesLUT[lineread] = newVertex.Id();
     }
   }
@@ -123,16 +138,6 @@ bool SimpleDOTParser::Parse(std::istream &_in)
   {
     std::cerr << "Parsing error: Missing '}'" << std::endl;
     return false;
-  }
-
-  if (!this->hiddenAttributes.empty())
-  {
-    std::cout << "Attributes:" << std::endl;
-    for (auto const &attr : this->hiddenAttributes)
-    {
-      std::cout << "[" << attr.first << "]: [" << attr.second << "]"
-                << std::endl;
-    }
   }
 
   return true;

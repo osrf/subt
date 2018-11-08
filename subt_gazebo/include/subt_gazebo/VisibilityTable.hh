@@ -72,6 +72,12 @@ namespace subt
 
     /// \brief The Z attributes [min, max, step].
     private: std::array<double, 3> attributesZ;
+
+    /// \brief The number of tile world per row.
+    private: uint64_t rowSize;
+
+    /// \brief The number of tile worlds per Z level.
+    private: uint64_t levelSize;
   };
 }
 

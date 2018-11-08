@@ -49,23 +49,12 @@ double VisibilityTable::Cost(const ignition::math::Vector3d &_from,
     return -1;
   }
 
-  return this->visibilityInfo.at(std::make_pair(from, to));
+  return this->visibilityInfo.at(key);
 }
 
 //////////////////////////////////////////////////
 uint64_t VisibilityTable::Index(const ignition::math::Vector3d &_position) const
 {
-  // range_x = max_x - min_x
-  const double rangeX = this->attributesX[1] - this->attributesX[0];
-  const uint64_t rowSize = rangeX / this->attributesX[2];
-
-  // range_y = max_y - min_y
-  const double rangeY = this->attributesY[1] - this->attributesY[0];
-  const uint64_t colSize = rangeY / this->attributesY[2];
-
-  // range_z = max_z - min_z
-  const uint64_t levelSize = colSize * rowSize;
-
   // offset_x = (x - min_x) / step_x
   auto offsetX = (_position.X() - this->attributesX[0]) / this->attributesX[2];
 
@@ -75,7 +64,7 @@ uint64_t VisibilityTable::Index(const ignition::math::Vector3d &_position) const
   // offset_z = (z - min_z) / step_z
   auto offsetZ = (_position.Z() - this->attributesZ[0]) / this->attributesZ[2];
 
-  return offsetZ * levelSize + offsetY * rowSize + offsetX;
+  return offsetZ * this->levelSize + offsetY * this->rowSize + offsetX;
 }
 
 //////////////////////////////////////////////////
@@ -153,6 +142,16 @@ bool VisibilityTable::PopulateAttributes(const SimpleDOTParser &_parser)
   this->attributesX = attributes["x"];
   this->attributesY = attributes["y"];
   this->attributesZ = attributes["z"];
+
+  // range_x = max_x - min_x
+  auto rangeX = this->attributesX[1] - this->attributesX[0];
+  this->rowSize = rangeX / this->attributesX[2];
+
+  // range_y = max_y - min_y
+  auto rangeY = this->attributesY[1] - this->attributesY[0];
+  uint64_t colSize = rangeY / this->attributesY[2];
+
+  this->levelSize = colSize * rowSize;
 
   return true;
 }
