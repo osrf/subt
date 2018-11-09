@@ -43,9 +43,9 @@ double VisibilityTable::Cost(const ignition::math::Vector3d &_from,
   auto key = std::make_pair(from, to);
   if (this->visibilityInfo.find(key) == this->visibilityInfo.end())
   {
-    std::cerr << "VisibilityTable::Cost error: Unable to find (" << from
-              << "," << to << ") index from [" << _from << "] and ["
-              << _to << "]" << std::endl;
+    // std::cerr << "VisibilityTable::Cost error: Unable to find (" << from
+    //           << "," << to << ") index from [" << _from << "] and ["
+    //           << _to << "]" << std::endl;
     return -1;
   }
 

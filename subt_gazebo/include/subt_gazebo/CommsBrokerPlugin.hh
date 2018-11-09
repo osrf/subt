@@ -43,6 +43,9 @@ namespace gazebo
     /// \brief Callback for World Update events.
     private: void OnUpdate();
 
+    /// \brief ToDo.
+    private: void UpdateVisibilityVisual();
+
     /// \brief World pointer.
     private: physics::WorldPtr world;
 

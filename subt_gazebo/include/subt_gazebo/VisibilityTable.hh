@@ -56,7 +56,7 @@ namespace subt
     /// \brief Generate an index from a 3D coordinate.
     /// \param[in] _position 3D coordinate.
     /// \return The index.
-    private: uint64_t Index(const ignition::math::Vector3d &_position) const;
+    public: uint64_t Index(const ignition::math::Vector3d &_position) const;
 
     /// \brief The graph modeling the connectivity.
     private: VisibilityGraph visibilityGraph;
