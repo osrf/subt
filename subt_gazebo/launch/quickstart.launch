@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="scenario" default="tunnel_practice_1"/>
+  <arg name="scenario" default="tunnel_mini"/>
   <arg name="extra_gazebo_args" default=""/>
 
   <include file="$(find gazebo_ros)/launch/empty_world.launch">

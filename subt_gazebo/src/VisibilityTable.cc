@@ -56,13 +56,19 @@ double VisibilityTable::Cost(const ignition::math::Vector3d &_from,
 uint64_t VisibilityTable::Index(const ignition::math::Vector3d &_position) const
 {
   // offset_x = (x - min_x) / step_x
-  auto offsetX = (_position.X() - this->attributesX[0]) / this->attributesX[2];
+  uint64_t offsetX = (_position.X() - this->attributesX[0]) / this->attributesX[2];
+
+  //std::cout << "OffsetX: " << offsetX << std::endl;
 
   // offset_y = (y - min_y) / step_y
-  auto offsetY = (_position.Y() - this->attributesY[0]) / this->attributesY[2];
+  uint64_t offsetY = (_position.Y() - this->attributesY[0]) / this->attributesY[2];
+
+  //std::cout << "OffsetY: " << offsetY << std::endl;
 
   // offset_z = (z - min_z) / step_z
-  auto offsetZ = (_position.Z() - this->attributesZ[0]) / this->attributesZ[2];
+  uint64_t offsetZ = (_position.Z() - this->attributesZ[0]) / this->attributesZ[2];
+
+  //std::cout << "OffsetZ: " << offsetZ << std::endl;
 
   return offsetZ * this->levelSize + offsetY * this->rowSize + offsetX;
 }
@@ -152,6 +158,28 @@ bool VisibilityTable::PopulateAttributes(const SimpleDOTParser &_parser)
   uint64_t colSize = rangeY / this->attributesY[2];
 
   this->levelSize = colSize * rowSize;
+
+  std::cout << "AttributesX: ";
+  for (auto c : this->attributesX)
+    std::cout << c << " ";
+  std::cout << std::endl;
+
+  std::cout << "AttributesY: ";
+  for (auto c : this->attributesY)
+    std::cout << c << " ";
+  std::cout << std::endl;
+
+  std::cout << "AttributesZ: ";
+  for (auto c : this->attributesZ)
+    std::cout << c << " ";
+  std::cout << std::endl;
+
+  std::cout << "RangeX:" << rangeX << std::endl;
+  std::cout << "RangeY:" << rangeY << std::endl;
+
+  std::cout << "rowsize: " << this->rowSize << std::endl;
+  std::cout << "colsize: " << colSize << std::endl;
+  std::cout << "levelSize: " << this->levelSize << std::endl;
 
   return true;
 }

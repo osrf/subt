@@ -10,9 +10,9 @@
   <!-- Spawn X1 -->
   <include file="$(find x1_gazebo)/launch/spawn_x1.launch">
     <arg name="robot_namespace" value="$(arg x1_name)"/>
-    <arg name="x" value="2"/>
+    <arg name="x" value="125"/>
     <arg name="y" value="1"/>
-    <arg name="z" value="0.1"/>
+    <arg name="z" value="-19"/>
     <arg name="yaw" value="3.14159"/>
   </include>
 
