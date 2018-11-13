@@ -31,7 +31,7 @@
 
   <gazebo>
     <plugin name="joint_motion_timer" filename="libMotionTimerLockPlugin.so">
-      <lock_time_limit>900</lock_time_limit>
+      <lock_time_limit>1200</lock_time_limit>
       <joint>front_left_wheel</joint>
       <joint>front_right_wheel</joint>
       <joint>rear_left_wheel</joint>

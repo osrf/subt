@@ -291,7 +291,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 
   <gazebo>
     <plugin name="joint_motion_timer" filename="libMotionTimerLockPlugin.so">
-      <lock_time_limit>900</lock_time_limit>
+      <lock_time_limit>1200</lock_time_limit>
       <all_joints/>
       <robotNamespace>${namespace}/</robotNamespace>
     </plugin>
