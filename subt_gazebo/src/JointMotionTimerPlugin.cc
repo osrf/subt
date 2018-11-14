@@ -74,6 +74,11 @@ JointMotionTimerPlugin::JointMotionTimerPlugin()
 }
 
 /////////////////////////////////////////////////
+JointMotionTimerPlugin::~JointMotionTimerPlugin()
+{
+}
+
+/////////////////////////////////////////////////
 void JointMotionTimerPlugin::Load(gazebo::physics::ModelPtr _parent,
                                   sdf::ElementPtr _sdf)
 {
@@ -161,21 +166,38 @@ void JointMotionTimerPlugin::Load(gazebo::physics::ModelPtr _parent,
 }
 
 /////////////////////////////////////////////////
-void JointMotionTimerPlugin::OnUpdate()
+ignition::common::Time JointMotionTimerPlugin::ElapsedTime() const
 {
-  ignition::common::Time dt(this->dataPtr->engine->GetMaxStepSize());
+  return this->dataPtr->elapsedTime;
+}
 
-  bool motionDetected = false;
+/////////////////////////////////////////////////
+std::vector<gazebo::physics::JointPtr> JointMotionTimerPlugin::Joints() const
+{
+  std::vector<gazebo::physics::JointPtr> joints;
   for (const auto &weakJoint : this->dataPtr->joints)
   {
     gazebo::physics::JointPtr joint = weakJoint.lock();
     if (joint)
     {
-      if (std::abs(joint->GetVelocity(0)) > this->dataPtr->velocityThreshold)
-      {
-        motionDetected = true;
-        break;
-      }
+      joints.push_back(joint);
+    }
+  }
+  return joints;
+}
+
+/////////////////////////////////////////////////
+void JointMotionTimerPlugin::OnUpdate()
+{
+  ignition::common::Time dt(this->dataPtr->engine->GetMaxStepSize());
+
+  bool motionDetected = false;
+  for (const auto &joint : this->Joints())
+  {
+    if (std::abs(joint->GetVelocity(0)) > this->dataPtr->velocityThreshold)
+    {
+      motionDetected = true;
+      break;
     }
   }
 

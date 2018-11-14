@@ -26,6 +26,7 @@ file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include)
 
 find_package(gazebo REQUIRED)
 find_package(ignition-common1 REQUIRED)
+find_package(ignition-math4 REQUIRED)
 find_package(ignition-msgs1 REQUIRED)
 find_package(ignition-transport4 REQUIRED)
 
@@ -82,6 +83,30 @@ install(TARGETS ${joint_motion_timer_plugin_name}
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
 
+# Create the libMotionTimerDetachPlugin.so library.
+set(motion_timer_detach_plugin_name MotionTimerDetachPlugin)
+add_library(${motion_timer_detach_plugin_name} src/MotionTimerDetachPlugin.cc)
+target_link_libraries(${motion_timer_detach_plugin_name}
+  ${joint_motion_timer_plugin_name}
+  ${catkin_LIBRARIES}
+)
+install(TARGETS ${motion_timer_detach_plugin_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+
+# Create the libMotionTimerLockPlugin.so library.
+set(motion_timer_lock_plugin_name MotionTimerLockPlugin)
+add_library(${motion_timer_lock_plugin_name} src/MotionTimerLockPlugin.cc)
+target_link_libraries(${motion_timer_lock_plugin_name}
+  ${joint_motion_timer_plugin_name}
+  ${catkin_LIBRARIES}
+)
+install(TARGETS ${motion_timer_lock_plugin_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+
 # Create the libGameLogicPlugin.so library.
 set(game_logic_plugin_name GameLogicPlugin)
 add_library(${game_logic_plugin_name} src/GameLogicPlugin.cc)
@@ -102,12 +127,14 @@ add_library(${comms_broker_plugin_name}
   src/Broker.cc
   src/CommsBrokerPlugin.cc
   src/CommsModel.cc
+  src/SimpleDOTParser.cc
 )
 target_include_directories(${comms_broker_plugin_name}
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 target_link_libraries(${comms_broker_plugin_name}
   ${catkin_LIBRARIES}
   ${protobuf_lib_name}
+  ignition-math4::ignition-math4
   ${ignition-transport4_LIBRARIES}
 )
 add_dependencies(${comms_broker_plugin_name}
@@ -207,6 +234,8 @@ target_link_libraries(test_score
 add_dependencies(test_score
   ${game_logic_plugin_name}
 )
+
+catkin_add_gtest(simpleDOTParser test/simpleDOTParser.cc src/SimpleDOTParser.cc)
 
 #############
 ## Install ##
