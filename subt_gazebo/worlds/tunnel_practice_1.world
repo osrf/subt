@@ -133,26 +133,12 @@
     </model>
 
     <!-- Fiducial marking the origin for artifacts reports -->
-    <model name='artifact_origin'>
+    <include>
+      <name>artifact_origin</name>
       <pose>2 4 0.5 0 0 0</pose>
-      <link name='link'>
-        <collision name='collision'>
-          <geometry>
-            <box>
-              <size>1 1 1</size>
-            </box>
-          </geometry>
-        </collision>
-        <visual name='visual'>
-          <geometry>
-            <box>
-              <size>1 1 1</size>
-            </box>
-          </geometry>
-        </visual>
-      </link>
-    </model>
-
+      <uri>model://fiducial</uri>
+    </include>
+    
     <!-- Artifacts -->
 
     <include>
