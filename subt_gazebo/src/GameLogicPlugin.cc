@@ -89,6 +89,15 @@ void GameLogicPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
   GZ_ASSERT(_world, "GameLogicPlugin world pointer is NULL");
   this->world = _world;
 
+  // We save the pose of the fiducial in the staging area for scoring.
+  auto artifactOriginModel = this->world->ModelByName("artifact_origin");
+  if (!artifactOriginModel)
+  {
+    gzerr << "Unable to find [artifact_origin] model" << std::endl;
+    return;
+  }
+  this->artifactOriginPose = artifactOriginModel->WorldPose();
+
   // Parse the artifacts.
   this->ParseArtifacts(_sdf);
 
@@ -251,12 +260,16 @@ double GameLogicPlugin::ScoreArtifact(const ArtifactType &_type,
     return 0.0;
   }
 
+  // The teams are reporting the artifact poses relative to the fiducial located
+  //in the staging area. Now, we convert the reported pose to world coordinates.
+  ignition::math::Pose3d artifactPose = ignition::msgs::Convert(_pose);
+  ignition::math::Pose3d pose = artifactPose - this->artifactOriginPose;
+
   auto &potentialArtifacts = this->artifacts[_type];
 
   // From the list of potential artifacts, find out which one is
   // closer (Euclidean distance) to the located by this request.
-  ignition::math::Vector3d observedObjectPose(
-    _pose.position().x(), _pose.position().y(), _pose.position().z());
+  ignition::math::Vector3d observedObjectPose = pose.Pos();
   std::tuple<std::string, ignition::math::Vector3d, double> minDistance =
     {"", ignition::math::Vector3d(), std::numeric_limits<double>::infinity()};
   for (auto const object : potentialArtifacts)

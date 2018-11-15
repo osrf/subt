@@ -132,6 +132,27 @@
       </plugin>
     </model>
 
+    <!-- Fiducial marking the origin for artifacts reports -->
+    <model name='artifact_origin'>
+      <pose>2 4 0 0 0 0</pose>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>1 1 1</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>1 1 1</size>
+            </box>
+          </geometry>
+        </visual>
+      </link>
+    </model>
+
     <!-- Artifacts -->
 
     <include>
@@ -1365,7 +1386,7 @@
       <plugin name="base_station_plugin" filename="libBaseStationPlugin.so">
       </plugin>
     </include>
-    
+
 
     <!-- The SubT comms broker plugin -->
     <plugin name="comms_broker_plugin" filename="libCommsBrokerPlugin.so">

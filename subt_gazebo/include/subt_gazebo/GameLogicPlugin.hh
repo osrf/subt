@@ -31,6 +31,7 @@
 #include <gazebo/common/Plugin.hh>
 #include <gazebo/physics/physics.hh>
 #include <gazebo/transport/Node.hh>
+#include <ignition/math/Pose3.hh>
 #include <sdf/sdf.hh>
 
 #include "subt_gazebo/CommonTypes.hh"
@@ -182,8 +183,11 @@ namespace gazebo
     /// \brief A mutex.
     private: std::mutex mutex;
 
-    /// Log file output stream.
+    /// \brief Log file output stream.
     private: std::ofstream logStream;
+
+    /// \brief The pose of the object marking the origin of the artifacts.
+    private: ignition::math::Pose3d artifactOriginPose;
   };
 }
 #endif

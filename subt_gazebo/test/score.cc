@@ -59,33 +59,33 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
 
     // Report an artifact with high accuracy (x3): +9 points.
     ignition::msgs::Pose pose;
-    pose.mutable_position()->set_x(140.0);
-    pose.mutable_position()->set_y(35.0);
-    pose.mutable_position()->set_z(-20.0);
+    pose.mutable_position()->set_x(142.0);
+    pose.mutable_position()->set_y(39.0);
+    pose.mutable_position()->set_z(-19.5);
     uint32_t type = static_cast<uint32_t>(subt::ArtifactType::TYPE_BACKPACK);
     this->ReportArtifact(type, pose);
     ASSERT_TRUE(this->WaitUntilScoreIs(9));
 
     // Report an artifact with medium accuracy (x2): +6 points.
-    pose.mutable_position()->set_x(241.0);
-    pose.mutable_position()->set_y(25.0);
-    pose.mutable_position()->set_z(-35.0);
+    pose.mutable_position()->set_x(243.0);
+    pose.mutable_position()->set_y(29.0);
+    pose.mutable_position()->set_z(-34.5);
     type = static_cast<uint32_t>(subt::ArtifactType::TYPE_TOOLBOX);
     this->ReportArtifact(type, pose);
     ASSERT_TRUE(this->WaitUntilScoreIs(15));
 
     // Report an artifact with low accuracy (x1): +3 points.
-    pose.mutable_position()->set_x(133.0);
-    pose.mutable_position()->set_y(2.2);
-    pose.mutable_position()->set_z(-20.0);
+    pose.mutable_position()->set_x(135.0);
+    pose.mutable_position()->set_y(6.2);
+    pose.mutable_position()->set_z(-19.5);
     type = static_cast<uint32_t>(subt::ArtifactType::TYPE_EXTINGUISHER);
     this->ReportArtifact(type, pose);
     ASSERT_TRUE(this->WaitUntilScoreIs(18));
 
     // Report an artifact with bad accuracy (-1): 0 points.
-    pose.mutable_position()->set_x(127.5);
-    pose.mutable_position()->set_y(-65.0);
-    pose.mutable_position()->set_z(-30.0);
+    pose.mutable_position()->set_x(129.5);
+    pose.mutable_position()->set_y(-61.0);
+    pose.mutable_position()->set_z(-29.5);
     type = static_cast<uint32_t>(subt::ArtifactType::TYPE_VALVE);
     this->ReportArtifact(type, pose);
     ASSERT_TRUE(this->WaitUntilScoreIs(18));
