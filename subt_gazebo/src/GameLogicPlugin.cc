@@ -261,7 +261,7 @@ double GameLogicPlugin::ScoreArtifact(const ArtifactType &_type,
   }
 
   // The teams are reporting the artifact poses relative to the fiducial located
-  //in the staging area. Now, we convert the reported pose to world coordinates.
+  // in the staging area. Now, we convert the reported pose to world coordinates
   ignition::math::Pose3d artifactPose = ignition::msgs::Convert(_pose);
   ignition::math::Pose3d pose = artifactPose - this->artifactOriginPose;
 
