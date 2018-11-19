@@ -17,35 +17,35 @@ graph {
 
   /* Base station */
   /* (-8,0,0) */
-  16 [label="16 base_station"];
+  1 [label="1::base_station::BaseStation"];
   
   /* (20,0,-5) */
-  9 [label="9 tunnel_tile_6"];
+  2 [label="2::tunnel_tile_6::tile_1"];
   /* ((40,0,-10) */
-  10 [label="10 tunnel_tile_6"];
+  3 [label="3::tunnel_tile_6::tile_2"];
   /* (60,0,-15) */
-  3 [label="3 tunnel_tile_6"];
+  4 [label="4::tunnel_tile_6::tile_3"];
   /* (80,0,-20) */
-  4 [label="4 tunnel_tile_6"];
+  5 [label="5::tunnel_tile_6::tile_4"];
   /* (100,0,-20) */
-  5 [label="5 tunnel_tile_1"];
+  6 [label="6::tunnel_tile_1::tile_5"];
   /* (120,0,-20) */
-  6 [label="6 tunnel_tile_5"];
+  7 [label="7::tunnel_tile_5::tile_6"];
   /* (140,0,-20) */
-  7 [label="7 tunnel_tile_5"];
+  8 [label="8::tunnel_tile_5::tile_7"];
  
   /* Edges */
 
   /* Base station */
-  16 -- 9  [label=1]
+  1 -- 2  [label=1]
 
-  9  -- 10 [label=1];
-  10 -- 3  [label=1];
-  3  -- 4  [label=1];
-  4  -- 5  [label=3];
+  2 -- 3  [label=1];
+  3 -- 4  [label=1];
+  4 -- 5  [label=1];
+  5 -- 6  [label=3];
   
   /* Intersection */
-  5  -- 6  [label=3];
+  6 -- 7  [label=3];
      
-  6  -- 7  [label=1];
+  7 -- 8  [label=1];
 }

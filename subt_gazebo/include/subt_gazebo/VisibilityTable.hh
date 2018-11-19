@@ -15,11 +15,12 @@
  *
 */
 
-#include <array>
 #include <string>
+#include <utility>
+#include <vector>
+#include <gazebo/physics/Model.hh>
 #include <ignition/math/Vector3.hh>
 #include "subt_gazebo/CommonTypes.hh"
-#include "subt_gazebo/SimpleDOTParser.hh"
 
 #ifndef SUBT_GAZEBO_VISIBILITYTABLE_HH_
 #define SUBT_GAZEBO_VISIBILITYTABLE_HH_
@@ -47,15 +48,13 @@ namespace subt
     /// \return True if the graph was successfully generated or false otherwise.
     private: bool PopulateVisibilityGraph(const std::string &_graphFilename);
 
-    /// \brief ToDo.
-    private: bool PopulateAttributes(const SimpleDOTParser &_parser);
-
     /// \brief Populate the visibility information in memory.
     private: void PopulateVisibilityInfo();
 
-    /// \brief Generate an index from a 3D coordinate.
+    /// \brief Get the vertex Id associated to a position. The vertex Id
+    /// represents the world section containing the position.
     /// \param[in] _position 3D coordinate.
-    /// \return The index.
+    /// \return The vertex Id.
     public: uint64_t Index(const ignition::math::Vector3d &_position) const;
 
     /// \brief The graph modeling the connectivity.
@@ -64,20 +63,10 @@ namespace subt
     /// \brief The connectivity information in a map format than can be queried.
     private: VisibilityInfo visibilityInfo;
 
-    /// \brief The X attributes [min, max, step].
-    private: std::array<double, 3> attributesX;
-
-    /// \brief The Y attributes [min, max, step].
-    private: std::array<double, 3> attributesY;
-
-    /// \brief The Z attributes [min, max, step].
-    private: std::array<double, 3> attributesZ;
-
-    /// \brief The number of tile world per row.
-    private: uint64_t rowSize;
-
-    /// \brief The number of tile worlds per Z level.
-    private: uint64_t levelSize;
+    /// \brief All model segments used to create the environment. Each of these
+    /// segments is associated with a vertex in a graph.
+    private: std::vector<
+               std::pair<gazebo::physics::ModelPtr, uint64_t>> worldSegments;
   };
 }
 

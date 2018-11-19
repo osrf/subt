@@ -18,6 +18,7 @@
 #include <algorithm>
 #include <cstring>
 #include <iostream>
+#include <ignition/common/Util.hh>
 
 #include "subt_gazebo/SimpleDOTParser.hh"
 
@@ -61,7 +62,7 @@ bool SimpleDOTParser::Parse(std::istream &_in)
     this->TrimWhitespaces(lineread);
 
     // Edges.
-    auto edge = this->Split(lineread, "--");
+    auto edge = ignition::common::split(lineread, "--");
     if (edge.size() > 2u)
     {
       std::cerr << "Parsing error: Only edges with two vertices are supported"
@@ -127,6 +128,9 @@ bool SimpleDOTParser::Parse(std::istream &_in)
                   << "to VertexId" << std::endl;
         return false;
       }
+
+      std::cerr << "Adding vertex with name [" << lineread << "], value ["
+                << value << "] and id [" << id << "]" << std::endl;
 
       auto newVertex = this->graph.AddVertex(lineread, value, id);
       verticesLUT[lineread] = newVertex.Id();
@@ -199,26 +203,6 @@ void SimpleDOTParser::TrimWhitespaces(std::string &_str)
 }
 
 //////////////////////////////////////////////////
-std::vector<std::string> SimpleDOTParser::Split(const std::string &_str,
-  const std::string &_delim) const
-{
-  std::vector<std::string> tokens;
-  char *saveptr;
-  char *str = strdup(_str.c_str());
-
-  auto token = strtok_r(str, _delim.c_str(), &saveptr);
-
-  while (token)
-  {
-    tokens.push_back(token);
-    token = strtok_r(nullptr, _delim.c_str(), &saveptr);
-  }
-
-  free(str);
-  return tokens;
-}
-
-//////////////////////////////////////////////////
 void SimpleDOTParser::NextRealLine(std::istream &_input, std::string &_line)
 {
   while (std::getline(_input, _line))
@@ -252,7 +236,7 @@ bool SimpleDOTParser::ParseAttribute(std::string &_str, std::string &_key,
   str.erase(attrEnd, str.size() - attrEnd);
   str.erase(0, attrStart + 1);
 
-  auto aPair = this->Split(str, "=");
+  auto aPair = ignition::common::split(str, "=");
   if (aPair.size() != 2u)
   {
     std::cerr << "Parsing error: Unable to find a single \"=\".\n"
@@ -292,7 +276,7 @@ bool SimpleDOTParser::ParseHiddenAttribute(const std::string &_input)
 
   input.erase(0, kDelimiter.size() + 1);
 
-  auto tokens = this->Split(input, " ");
+  auto tokens = ignition::common::split(input, " ");
   if (tokens.size() != 2)
   {
     std::cerr << "Parsing error: Unable to parse hidden parameter ["

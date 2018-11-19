@@ -218,13 +218,6 @@ target_link_libraries(simpleDOTParser
   ${comms_broker_plugin_name}
 )
 
-catkin_add_gtest(visibilityTable test/visibilityTable.cc)
-target_include_directories(visibilityTable
-  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
-target_link_libraries(visibilityTable
-  ${comms_broker_plugin_name}
-)
-
 #############
 ## Install ##
 #############

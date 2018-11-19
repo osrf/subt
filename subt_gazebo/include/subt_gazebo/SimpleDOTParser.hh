@@ -59,14 +59,6 @@ namespace subt
     /// \param[in, out] _str The string to be parsed and converted.
     private: void TrimWhitespaces(std::string &_str);
 
-    /// \brief Split the input string using a delimiter.
-    /// \param[in] _str The input string.
-    /// \param[in] _delim The delimiter.
-    /// \return A vector containing the different substrings. If the delimiter
-    /// is not found, the result will contain the input string.
-    private: std::vector<std::string> Split(const std::string &_str,
-                                            const std::string &_delim) const;
-
     /// \brief Given an input stream, gets the next real line to be parsed.
     /// A real line is considered when there's something to be parsed.
     /// E.g.: An empy new line is not a real line.
