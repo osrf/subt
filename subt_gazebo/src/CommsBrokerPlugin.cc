@@ -74,7 +74,7 @@ void CommsBrokerPlugin::OnUpdate()
     this->lastROSParameterCheckTime = now;
 
     // caguero testing
-    // this->UpdateVisibilityVisual();
+    this->UpdateVisibilityVisual();
   }
 
   // We need to lock the broker mutex from the outside because "commsModel"

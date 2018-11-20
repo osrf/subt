@@ -4,13 +4,9 @@
 graph {
   /* ==== Vertices ==== */
 
-  /* Base station */
-  /* (-8,0,0) */
-  0 [label="0::base_station::BaseStation"];
-
-  /* Staging area */
-  /* (-1.181716 0 -0.002) */
-  1 [label="1::base_station::StagingArea"];
+  /* Base station / Staging area*/
+  /* (0,0,0) */
+  1 [label="1::base_station::BaseStation"];
   
   /* (20,0,-5) */
   2 [label="2::tunnel_tile_6::tile_1"];
@@ -112,7 +108,6 @@ graph {
   /* ==== Edges ==== */
 
   /* Base station */
-  0 -- 1    [label=0]
   1 -- 2    [label=1]
 
   2 -- 3    [label=1];
