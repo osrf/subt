@@ -44,6 +44,13 @@ void CommsBrokerPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
   this->updateConnection = event::Events::ConnectWorldUpdateBegin(
       std::bind(&CommsBrokerPlugin::OnUpdate, this));
 
+  // Create visibility table.
+  std::string worldName = gazebo::physics::get_world()->Name();
+  std::string filePath = ignition::common::joinPaths(
+    SUBT_GAZEBO_PROJECT_SOURCE_PATH, "worlds", worldName + ".dot");
+  std::cout << "File path: [" << filePath << "]" << std::endl;
+  this->visibility.reset(new subt::VisibilityTable(filePath));
+
   ignmsg << "Starting SubT comms broker" << std::endl;
 }
 
@@ -114,12 +121,13 @@ void CommsBrokerPlugin::UpdateVisibilityVisual()
   ignition::msgs::Set(markerMsg.mutable_scale(),
                     ignition::math::Vector3d(0.5, 0.5, 0.5));
 
-  std::string worldName = gazebo::physics::get_world()->Name();
-  std::string filePath = ignition::common::joinPaths(
-    SUBT_GAZEBO_PROJECT_SOURCE_PATH, "worlds", worldName + ".dot");
-  std::cout << "File path: [" << filePath << "]" << std::endl;
+  // std::string worldName = gazebo::physics::get_world()->Name();
+  // std::string filePath = ignition::common::joinPaths(
+  //   SUBT_GAZEBO_PROJECT_SOURCE_PATH, "worlds", worldName + ".dot");
+  // std::cout << "File path: [" << filePath << "]" << std::endl;
 
-  subt::VisibilityTable visibilityTable(filePath);
+  // subt::VisibilityTable visibilityTable(filePath);
+
   // auto cost = visibilityTable.Cost(
   //   ignition::math::Vector3d(20, 0, -2.5), ignition::math::Vector3d(80, 0, -17.5));
   // std::cout << "Cost: " << cost << std::endl;
@@ -131,7 +139,7 @@ void CommsBrokerPlugin::UpdateVisibilityVisual()
     std::cout << "X1 model found" << std::endl;
     from = model->WorldPose().Pos();
     std::cout << "Pos: " << from << std::endl;
-    std::cout << "Index: " << visibilityTable.Index(from) << std::endl;
+   // std::cout << "Index: " << visibilityTable.Index(from) << std::endl;
   }
   else
     std::cout << "X1 not found" << std::endl;
@@ -146,7 +154,7 @@ void CommsBrokerPlugin::UpdateVisibilityVisual()
   // }
 
   // uint64_t index = 0;
-  // auto cost = visibilityTable.Cost(from, ignition::math::Vector3d(80, 80, -20));
+  // auto cost = this->visibility->Cost(from, ignition::math::Vector3d(80, 80, -20));
   // std::cout << "Cost: " << cost << std::endl;
   // if (cost >= 0 && cost <= 20)
   // {
@@ -160,7 +168,7 @@ void CommsBrokerPlugin::UpdateVisibilityVisual()
     for (auto y = -20; y <= 20; y += 1)
       for (auto x = 10; x <= 150; x += 1)
       {
-        auto cost = visibilityTable.Cost(from,
+        auto cost = this->visibility->Cost(from,
                                          ignition::math::Vector3d(x, y, z));
         if (cost >= 0 && cost <= 10)
         {

@@ -24,6 +24,7 @@
 #include <sdf/sdf.hh>
 #include "subt_gazebo/Broker.hh"
 #include "subt_gazebo/CommsModel.hh"
+#include "subt_gazebo/VisibilityTable.hh"
 
 namespace gazebo
 {
@@ -63,6 +64,8 @@ namespace gazebo
 
     /// \brief Last time the plugin checked the ROS parameter server.
     private: gazebo::common::Time lastROSParameterCheckTime;
+
+    private: std::unique_ptr<subt::VisibilityTable> visibility;
   };
 }
 #endif

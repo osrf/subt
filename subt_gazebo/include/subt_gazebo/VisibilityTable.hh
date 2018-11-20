@@ -15,6 +15,7 @@
  *
 */
 
+#include <map>
 #include <string>
 #include <utility>
 #include <vector>
@@ -34,7 +35,7 @@ namespace subt
     /// \brief Class constructor. Create the visibility table from a graph in
     /// DOT format.
     /// \param[in] _graphFilename The path to the file containing the graph.
-    public: explicit VisibilityTable(const std::string &_graphFilename);
+    public: explicit VisibilityTable(const std::string &_worldName);
 
     /// \brief Get the visibility cost.
     /// \param[in] _from A 3D position.
@@ -55,7 +56,16 @@ namespace subt
     /// represents the world section containing the position.
     /// \param[in] _position 3D coordinate.
     /// \return The vertex Id.
-    public: uint64_t Index(const ignition::math::Vector3d &_position) const;
+    private: uint64_t Index(const ignition::math::Vector3d &_position) const;
+
+    /// \brief Create a look-up-table that samples the entire world. For each
+    /// sample, it stores the vertex Id associated to that 3D point in the
+    /// world. If there is no vertex associated to that point, nothing is
+    /// stored in the LUT.
+    private: void CreateVertexIdsLUT();
+
+    /// \brief ToDo.
+    private: void Generate();
 
     /// \brief The graph modeling the connectivity.
     private: VisibilityGraph visibilityGraph;
@@ -67,6 +77,13 @@ namespace subt
     /// segments is associated with a vertex in a graph.
     private: std::vector<
                std::pair<gazebo::physics::ModelPtr, uint64_t>> worldSegments;
+
+    /// \brief ToDo.
+    private: std::map<std::tuple<uint32_t, uint32_t, uint32_t>,
+                      uint64_t> vertices;
+
+    /// \brief The name of the world.
+    private: std::string worldName;
   };
 }
 

@@ -30,12 +30,24 @@
 using namespace subt;
 
 //////////////////////////////////////////////////
-VisibilityTable::VisibilityTable(const std::string &_graphFilename)
+VisibilityTable::VisibilityTable(const std::string &_worldName)
 {
+  this->worldName = _worldName();
+  // std::string filePath = ignition::common::joinPaths(
+  //   SUBT_GAZEBO_PROJECT_SOURCE_PATH, "worlds", worldName + ".dot");
+  // std::cout << "File path: [" << filePath << "]" << std::endl;
+
+
+  std::cout << "Populating graph" << std::endl;
   if (!this->PopulateVisibilityGraph(_graphFilename))
     return;
 
+  std::cout << "Populating visibilityInfo" << std::endl;
   this->PopulateVisibilityInfo();
+
+  std::cout << "Creating LUT" << std::endl;
+  this->CreateVertexIdsLUT();
+  std::cout << "LUT created" << std::endl;
 };
 
 //////////////////////////////////////////////////
@@ -43,10 +55,29 @@ double VisibilityTable::Cost(const ignition::math::Vector3d &_from,
   const ignition::math::Vector3d &_to) const
 {
   // std::cout << "Cost from [" << _from << "] to [" << _to << "]" << std::endl;
-  uint64_t from = this->Index(_from);
-  uint64_t to = this->Index(_to);
+
+  uint32_t x = std::round(_from.X());
+  uint32_t y = std::round(_from.Y());
+  uint32_t z = std::round(_from.Z());
+  auto sampleFrom = std::make_tuple(x, y, z);
+
+  x = std::round(_to.X());
+  y = std::round(_to.Y());
+  z = std::round(_to.Z());
+  auto sampleTo = std::make_tuple(x, y, z);
+
+  uint64_t from = std::numeric_limits<uint64_t>::max();
+  if (this->vertices.find(sampleFrom) != this->vertices.end())
+    from = this->vertices.at(sampleFrom);
+
+  uint64_t to = std::numeric_limits<uint64_t>::max();
+  if (this->vertices.find(sampleTo) != this->vertices.end())
+    to = this->vertices.at(sampleTo);
+  
   // std::cout << "Vertex from: " << from << std::endl;
+  // std::cout << "Vertex from (Index): " << this->Index(_from) << std::endl;
   // std::cout << "Vertex to: " << to << std::endl;
+  // std::cout << "Vertex to (Index): " << this->Index(_to) << std::endl;
 
   auto key = std::make_pair(from, to);
   if (this->visibilityInfo.find(key) == this->visibilityInfo.end())
@@ -77,6 +108,22 @@ uint64_t VisibilityTable::Index(const ignition::math::Vector3d &_position) const
   }
 
   return std::numeric_limits<uint64_t>::max();
+}
+
+//////////////////////////////////////////////////
+void VisibilityTable::CreateVertexIdsLUT()
+{
+  for (auto z = -30; z <= 20; z += 1)
+  {
+    for (auto y = -100; y <= 100; y += 1)
+      for (auto x = -20; x <= 500; x += 1)
+      {
+        ignition::math::Vector3d position(x, y, z);
+        auto index = this->Index(position);
+        if (index != std::numeric_limits<uint64_t>::max())
+          this->vertices[std::make_tuple(x, y, z)] = index;
+      }
+  }
 }
 
 //////////////////////////////////////////////////
@@ -141,4 +188,10 @@ void VisibilityTable::PopulateVisibilityInfo()
       this->visibilityInfo[std::make_pair(id1, id2)] = cost;
     }
   }
+}
+
+//////////////////////////////////////////////////
+void VisibilityTable::Generate()
+{
+
 }

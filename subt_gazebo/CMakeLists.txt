@@ -192,6 +192,21 @@ install(TARGETS ${light_visual_plugin_name}
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
 
+
+# Create the libVisibilityPlugin.so library.
+set(visibility_plugin_name VisibilityPlugin)
+add_library(${visibility_plugin_name} src/VisibilityPlugin.cc)
+target_include_directories(${visibility_plugin_name}
+  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
+target_link_libraries(${visibility_plugin_name}
+  ${catkin_LIBRARIES}
+  ${protobuf_lib_name}
+)
+install(TARGETS ${visibility_plugin_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+
 ###########
 ## Tests ##
 ###########
