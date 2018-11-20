@@ -1,13 +1,6 @@
 <?xml version="1.0" ?>
-<!--
-  Generated from tile.world.erb
-  Seed: 783305
-  Type: tunnel
-  N_x: 20
-  N_y: 5
--->
 <sdf version="1.6">
-  <world name="default">
+  <world name="tunnel_qual">
 
     <gui fullscreen='0'>
       <camera name='user_camera'>
@@ -22,117 +15,17 @@
       <origin_visual>false</origin_visual>
     </scene>
 
-    <!-- TODO(chapulina): Entrance placeholder -->
-    <model name="staging">
-      <pose>-1.181716 0 -0.002 0 0 0</pose>
-     <static>true</static>
-     <link name="link">
-       <pose>0 0 -0.5 0 0 0</pose>
-       <visual name="visual">
-         <geometry>
-           <box>
-             <size>25 25 1</size>
-           </box>
-         </geometry>
-         <material>
-           <script>
-             <uri>file://media/materials/scripts/gazebo.material</uri>
-             <name>Gazebo/Residential</name>
-           </script>
-         </material>
-       </visual>
-       <collision name="collision">
-         <geometry>
-           <box>
-             <size>25 20 1</size>
-           </box>
-         </geometry>
-       </collision>
-     </link>
-    </model>
+    <!-- The base station / staging area -->
+    <!-- Important: Do not rename this model! -->
+    <include>
+      <static>true</static>
+      <name>BaseStation</name>
+      <pose>0 0 0 0 0 0</pose>
+      <uri>model://tunnel_staging_area</uri>
+    </include>
 
-    
-    <model name="tunnel_entrance">
-      <pose>
-        10
-        0
-        -0.001
-        0
-        0
-        -1.5707963267948966
-      </pose>
-      <static>true</static>
-      <link name="link">
-        <collision name="collision">
-          <geometry>
-            <mesh>
-              <scale>
-                0.008
-                0.008 0.008
-              </scale>
-              <uri>model://tunnel_entrance/meshes/Entrance.obj</uri>
-            </mesh>
-          </geometry>
-        </collision>
-        <visual name="visual">
-          <geometry>
-            <mesh>
-              <scale>
-                0.008
-                0.008 0.008
-              </scale>
-              <uri>model://tunnel_entrance/meshes/Entrance.obj</uri>
-            </mesh>
-          </geometry>
-        </visual>
-      </link>
-    </model>
-    <!-- Start Area where an object enters to initiate the game. -->
-    <model name="start_area">
-      <static>true</static>
-      <pose>
-        10
-        0
-        1.5
-        0
-        0
-        0
-      </pose>
-      <link name="link">
-        <collision name="collision">
-          <geometry>
-            <box>
-              <size>
-                1.0
-                5.0
-                3.0
-              </size>
-            </box>
-          </geometry>
-          <surface>
-            <contact>
-              <collide_without_contact>1</collide_without_contact>
-            </contact>
-          </surface>
-        </collision>
-        <sensor name="start_area_sensor" type="contact">
-          <contact>
-            <collision>collision</collision>
-          </contact>
-        </sensor>
-      </link>
-      <plugin name="touch_start_area" filename="libTouchPlugin.so">
-        <sensor>start_area_sensor</sensor>
-        <!-- empty target name lets the plugin detects everything -->
-        <target></target>
-        <time>0.001</time>
-        <namespace>subt/start</namespace>
-        <enabled>true</enabled>
-      </plugin>
-    </model>
 
     <!-- Artifacts -->
-
     <include>
       <name>backpack_1</name>
       <pose>140 35 -20 0 0 0</pose>

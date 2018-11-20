@@ -1,19 +1,8 @@
 
-/* Visibility graph for tunnel_practice_1.world */
-
-/* SubT tunnel parameters   */
-/* <ATTRIBUTE> min_x -10.0  */
-/* <ATTRIBUTE> max_x 150.0  */
-/* <ATTRIBUTE> step_x 20.0  */
-/* <ATTRIBUTE> min_y -10.0 */
-/* <ATTRIBUTE> max_y 10.0  */
-/* <ATTRIBUTE> step_y 20.0  */
-/* <ATTRIBUTE> min_z -22.5  */
-/* <ATTRIBUTE> max_z  2.5   */
-/* <ATTRIBUTE> step_z 10     */
+/* Visibility graph for tunnel_mini.world */
 
 graph {
-  /* Vertices */
+  /* ==== Vertices ==== */
 
   /* Base station */
   /* (-8,0,0) */
@@ -34,7 +23,7 @@ graph {
   /* (140,0,-20) */
   8 [label="8::tunnel_tile_5::tile_7"];
  
-  /* Edges */
+  /* ==== Edges ==== */
 
   /* Base station */
   1 -- 2  [label=1]

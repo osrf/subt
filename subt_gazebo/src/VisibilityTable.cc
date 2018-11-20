@@ -42,11 +42,11 @@ VisibilityTable::VisibilityTable(const std::string &_graphFilename)
 double VisibilityTable::Cost(const ignition::math::Vector3d &_from,
   const ignition::math::Vector3d &_to) const
 {
-  std::cout << "Cost from [" << _from << "] to [" << _to << "]" << std::endl;
+  // std::cout << "Cost from [" << _from << "] to [" << _to << "]" << std::endl;
   uint64_t from = this->Index(_from);
   uint64_t to = this->Index(_to);
-  std::cout << "Vertex from: " << from << std::endl;
-  std::cout << "Vertex to: " << to << std::endl;
+  // std::cout << "Vertex from: " << from << std::endl;
+  // std::cout << "Vertex to: " << to << std::endl;
 
   auto key = std::make_pair(from, to);
   if (this->visibilityInfo.find(key) == this->visibilityInfo.end())
@@ -70,8 +70,8 @@ uint64_t VisibilityTable::Index(const ignition::math::Vector3d &_position) const
     auto boundingBox = model->BoundingBox();
     if (boundingBox.Contains(_position))
     {
-      std::cout << "Segment found inside bounding box " << boundingBox << std::endl;
-      std::cout << "Model: " << modelPose.Pos() << std::endl;
+      //std::cout << "Segment found inside bounding box " << boundingBox << std::endl;
+      //std::cout << "Model: " << modelPose.Pos() << std::endl;
       return segment.second;
     }
   }

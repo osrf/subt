@@ -1,184 +1,178 @@
 
 /* Visibility graph for tunnel_practice_1.world */
 
-/* SubT tunnel parameters   */
-/* <ATTRIBUTE> min_x -10.0  */
-/* <ATTRIBUTE> max_x 290.0  */
-/* <ATTRIBUTE> step_x 20.0  */
-/* <ATTRIBUTE> min_y -130.0 */
-/* <ATTRIBUTE> max_y 130.0  */
-/* <ATTRIBUTE> step_y 20.0  */
-/* <ATTRIBUTE> min_z -42.5  */
-/* <ATTRIBUTE> max_z  2.5   */
-/* <ATTRIBUTE> step_z 5     */
-
 graph {
-  /* Vertices */
+  /* ==== Vertices ==== */
 
   /* Base station */
   /* (-8,0,0) */
-  1650 [label="1650 base_station"];
+  0 [label="0::base_station::BaseStation"];
+
+  /* Staging area */
+  /* (-1.181716 0 -0.002) */
+  1 [label="1::base_station::StagingArea"];
   
   /* (20,0,-5) */
-  1651 [label="1651 tunnel_tile_6"];
+  2 [label="2::tunnel_tile_6::tile_1"];
   /* ((40,0,-10) */
-  1457 [label="1457 tunnel_tile_6"];
+  3 [label="3::tunnel_tile_6::tile_2"];
   /* (60,0,-15) */
-  1263 [label="1263 tunnel_tile_6"];
+  4 [label="4::tunnel_tile_6::tile_3"];
   /* (80,0,-20) */
-  1069 [label="1069 tunnel_tile_6"];
+  5 [label="5::tunnel_tile_6::tile_4"];
   /* (100,0,-20) */
-  1070 [label="1070 tunnel_tile_1"];
+  6 [label="6::tunnel_tile_1::tile_5"];
   /* (120,0,-20) */
-  1071 [label="1071 tunnel_tile_5"];
+  7 [label="7::tunnel_tile_5::tile_6"];
   /* (140,0,-20) */
-  1072 [label="1072 tunnel_tile_5"];
+  8 [label="8::tunnel_tile_5::tile_7"];
   /* (160,0,-20) */
-  1073 [label="1073 tunnel_tile_5"];
+  9 [label="9::tunnel_tile_5::tile_8"];
   /* (180,0,-20) */
-  1074 [label="1074 tunnel_tile_2"];
+  10 [label="10::tunnel_tile_2::tile_9"];
   /* (180,20,-20) */
-  1089 [label="1089 tunnel_tile_5"];
+  11 [label="11::tunnel_tile_5::tile_10"];
   /* (180,40,-20) */
-  1104 [label="1104 tunnel_tile_2"];
+  12 [label="12::tunnel_tile_2::tile_11"];
   /* (160,40,-20) */
-  1103 [label="1103 tunnel_tile_5"];
+  13 [label="13::tunnel_tile_5::tile_12"];
   /* (140,40,-20) */
-  1102 [label="1102 tunnel_tile_1"];
+  14 [label="14::tunnel_tile_1::tile_13"];
   /* ((120,40,-20) */
-  1101 [label="1101 tunnel_tile_5"];
+  15 [label="15::tunnel_tile_5::tile_14"];
   
   /* (100,40,-20) */
-  1100 [label="1100 tunnel_tile_4"];
+  16 [label="16::tunnel_tile_4::tile_15"];
   
   /* (80,40,-20) */
-  1099 [label="1099 tunnel_tile_2"];
+  17 [label="17::tunnel_tile_2::tile_16"];
   /* (80,60,-20) */
-  1114 [label="1114 tunnel_tile_5"];
+  18 [label="18::tunnel_tile_5::tile_17"];
   /* (80,80,-20) */
-  1129 [label="1129 tunnel_tile_2"];
+  19 [label="19::tunnel_tile_2::tile_18"];
   /* (100,80,-20) */
-  1130 [label="1130 tunnel_tile_2"];
+  20 [label="20::tunnel_tile_2::tile_19"];
   /* (100,60,-20) */
-  1115 [label="1115 tunnel_tile_5"];
+  21 [label="21::tunnel_tile_5::tile_20"];
   /* (100,20,-20) */
-  1085 [label="1085 tunnel_tile_5"];
+  22 [label="22::tunnel_tile_5::tile_21"];
   /* (140,60,-20) */
-  1117 [label="1117 tunnel_tile_2"];
+  23 [label="23::tunnel_tile_2::tile_22"];
   /* (100,-20,-20) */
-  1055 [label="1055 tunnel_tile_2"];
+  24 [label="24::tunnel_tile_2::tile_23"];
   /* (120,-20,-20) */
-  1056 [label="1056 tunnel_tile_2"];
+  25 [label="25::tunnel_tile_2::tile_24"];
   /* (120,-40,-25) */
-  846 [label="846 tunnel_tile_6"];
+  26 [label="26::tunnel_tile_6::tile_25"];
   /* (120,-60,-30) */
-  636 [label="636 tunnel_tile_7"];
+  27 [label="27::tunnel_tile_7::tile_26"];
   /* (120,-80,-30) */
-  621 [label="621 tunnel_tile_2"];
+  28 [label="28::tunnel_tile_2::tile_27"];
   /* (140,-80,-30) */
-  622 [label="622 tunnel_tile_1"];
+  29 [label="29::tunnel_tile_1::tile_28"];
   /* (140,-60,-30) */
-  637 [label="637 tunnel_tile_5"];
+  30 [label="30::tunnel_tile_5::tile_29"];
   /* (140,-40,-30) */
-  652 [label="652 tunnel_tile_5"];
+  31 [label="31::tunnel_tile_5::tile_30"];
   /* (140,-20,-30) */
-  667 [label="667 tunnel_tile_5"];
+  32 [label="32::tunnel_tile_5::tile_31"];
   /* (140,0,-30) */
-  682 [label="682 tunnel_tile_2"];
+  33 [label="33::tunnel_tile_2::tile_32"];
   /* (160,0,-30) */
-  683 [label="683 tunnel_tile_2"];
+  34 [label="34::tunnel_tile_2::tile_33"];
   /* (180,0,-30) */
-  684 [label="684 tunnel_tile_2"];
+  35[label="35::tunnel_tile_2::tile_34"];
   /* (200,0,-30) */
-  685 [label="685 tunnel_tile_2"];
+  36 [label="36::tunnel_tile_2::tile_35"];
   /* (220,0,-35) */
-  491 [label="491 tunnel_tile_7"];
+  37 [label="37::tunnel_tile_7::tile_36"];
   /* (240,0,-35) */
-  492 [label="492 tunnel_tile_2"];
+  38 [label="38::tunnel_tile_2::tile_37"];
   /* (240,20,-35) */
-  507 [label="507 tunnel_tile_5"];
+  39 [label="39::tunnel_tile_5::tile_38"];
   /* (160,-80,-30) */
-  638 [label="638 tunnel_tile_5"];
+  40 [label="40::tunnel_tile_5::tile_39"];
   /* (180,-80,-30) */
-  639 [label="639 tunnel_tile_2"];
+  41 [label="41::tunnel_tile_2::tile_40"];
   /* (180,-60,-30) */
-  654 [label="654 tunnel_tile_5"];
+  42 [label="42::tunnel_tile_5::tile_41"];
   /* (180,-40,-30) */
-  669 [label="669 tunnel_tile_2"];
+  43 [label="43::tunnel_tile_2::tile_42"];
   /* (200,-40,-35) */
-  475 [label="475 tunnel_tile_6"];
+  44 [label="44:tunnel_tile_6::tile_43"];
   /* (220,-40,-40) */
-  281 [label="281 tunnel_tile_7"];
+  45 [label="45::tunnel_tile_7::tile_44"];
   /* (240,-40,-40) */
-  282 [label="282 tunnel_tile_2"];
+  46 [label="46::tunnel_tile_2::tile_45"];
   /* (240,-60,-40) */
-  267 [label="267 tunnel_tile_5"];
+  47 [label="47::tunnel_tile_5::tile_46"];
   /* (240,-80,-40) */
-  252 [label="252 tunnel_tile_5"];
+  48 [label="48::tunnel_tile_5::tile_47"];
 
-  /* Edges */
+  /* ==== Edges ==== */
 
   /* Base station */
-  1650 -- 1651 [label=1]
+  0 -- 1    [label=0]
+  1 -- 2    [label=1]
 
-  1651 -- 1457 [label=1];
-  1457 -- 1263 [label=1];
-  1263 -- 1069  [label=1];
-  1069  -- 1070  [label=3];
+  2 -- 3    [label=1];
+  3 -- 4    [label=1];
+  4 -- 5    [label=1];
+  5 -- 6    [label=3];
   
   /* Intersection */
-  1070 -- 1071  [label=3];
-  1070 -- 1085  [label=3];
-  1070 -- 1055  [label=6];
+  6 -- 7    [label=3];
+  6 -- 22   [label=3];
+  6 -- 24   [label=6];
      
-  1071 -- 1072  [label=1];
-  1072 -- 1073  [label=1];
-  1073 -- 1074  [label=3];
-  1074 -- 1089  [label=3];
-  1089 -- 1104  [label=3];
-  1104 -- 1103  [label=3];
-  1103 -- 1102  [label=3];
+  7  -- 8   [label=1];
+  8  -- 9   [label=1];
+  9  -- 10  [label=3];
+  10 -- 11  [label=3];
+  11 -- 12  [label=3];
+  12 -- 13  [label=3];
+  13 -- 14  [label=3];
 
   /* Intersection */
-  1102 -- 1101  [label=3];
-  1102 -- 1117  [label=6];
-  1101 -- 1100  [label=1];
+  14 -- 15  [label=3];
+  14 -- 23  [label=6];
+  15 -- 16  [label=1];
 
   /* Intersection */
-  1100  -- 1099  [label=3];
-  1100  -- 1115  [label=1];
-  1100  -- 1085  [label=1];
+  16 -- 17  [label=3];
+  16 -- 21  [label=1];
+  16 -- 22  [label=1];
  
-  1099  -- 1114  [label=3];
-  1114  -- 1129  [label=3];
-  1129  -- 1130  [label=6];
-  1130  -- 1115  [label=3];
-  1055  -- 1056  [label=6];
-  1056  -- 846  [label=3];
-  846  -- 636  [label=3];
-  636  -- 621  [label=6];
-  621  -- 622  [label=6];
+  17 -- 18  [label=3];
+  18 -- 19  [label=3];
+  19 -- 20  [label=6];
+  20 -- 21  [label=3];
+  24 -- 25  [label=6];
+  25 -- 26  [label=3];
+  26 -- 27  [label=3];
+  27 -- 28  [label=6];
+  28 -- 29  [label=6];
 
   /* Intersection */
-  622  -- 637  [label=3];
-  622  -- 638  [label=3];
+  29 -- 30  [label=3];
+  29 -- 40  [label=3];
  
-  637  -- 652  [label=1];
-  652  -- 667  [label=1];
-  667  -- 682  [label=3];
-  682  -- 683  [label=3];
-  683  -- 684  [label=1];
-  684  -- 685  [label=1];
-  685  -- 491  [label=3];
-  491  -- 492  [label=6];
-  492  -- 507  [label=3];
+  30 -- 31  [label=1];
+  31 -- 32  [label=1];
+  32 -- 33  [label=3];
+  33 -- 34  [label=3];
+  34 -- 35  [label=1];
+  35 -- 36  [label=1];
+  36 -- 37  [label=3];
+  37 -- 38  [label=6];
+  38 -- 39  [label=3];
  
-  638  -- 639  [label=3];
-  639  -- 654  [label=3];
-  654  -- 669  [label=3];
-  669  -- 475  [label=3];
-  475  -- 281   [label=3];
-  281   -- 282   [label=6];
-  282   -- 267   [label=3];
-  267   -- 252   [label=1];
+  40 -- 41  [label=3];
+  41 -- 42  [label=3];
+  42 -- 43  [label=3];
+  43 -- 44  [label=3];
+  44 -- 45  [label=3];
+  45 -- 46  [label=6];
+  46 -- 47  [label=3];
+  47 -- 48  [label=1];
 }

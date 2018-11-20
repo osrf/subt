@@ -55,7 +55,7 @@ void CommsBrokerPlugin::OnUpdate()
   auto dt = (now - this->lastROSParameterCheckTime).Double();
 
   // It's time to query the ROS parameter server. We do it every second.
-  if (dt >= 2.0 )
+  if (dt >= 5.0 )
   {
     bool value = false;
     ros::param::get("/subt/comms/simple_mode", value);
@@ -73,8 +73,8 @@ void CommsBrokerPlugin::OnUpdate()
     this->commsModel->SetSimpleMode(value);
     this->lastROSParameterCheckTime = now;
 
-    // // caguero testing
-    this->UpdateVisibilityVisual();
+    // caguero testing
+    // this->UpdateVisibilityVisual();
   }
 
   // We need to lock the broker mutex from the outside because "commsModel"
@@ -114,8 +114,10 @@ void CommsBrokerPlugin::UpdateVisibilityVisual()
   ignition::msgs::Set(markerMsg.mutable_scale(),
                     ignition::math::Vector3d(0.5, 0.5, 0.5));
 
+  std::string worldName = gazebo::physics::get_world()->Name();
   std::string filePath = ignition::common::joinPaths(
-    SUBT_GAZEBO_PROJECT_SOURCE_PATH, "worlds", "tunnel_mini.dot");
+    SUBT_GAZEBO_PROJECT_SOURCE_PATH, "worlds", worldName + ".dot");
+  std::cout << "File path: [" << filePath << "]" << std::endl;
 
   subt::VisibilityTable visibilityTable(filePath);
   // auto cost = visibilityTable.Cost(
@@ -134,37 +136,38 @@ void CommsBrokerPlugin::UpdateVisibilityVisual()
   else
     std::cout << "X1 not found" << std::endl;
 
-  model = gazebo::physics::get_world()->ModelByName("tile_6");
-  if (model)
-  {
-    std::cout << "tile_6 model found" << std::endl;
-    from = model->WorldPose().Pos();
-    std::cout << "Pos: " << from << std::endl;
-    std::cout << "Bounding box: " << model->BoundingBox() << std::endl;
-  }
+  // model = gazebo::physics::get_world()->ModelByName("tile_6");
+  // if (model)
+  // {
+  //   std::cout << "tile_6 model found" << std::endl;
+  //   from = model->WorldPose().Pos();
+  //   std::cout << "Pos: " << from << std::endl;
+  //   std::cout << "Bounding box: " << model->BoundingBox() << std::endl;
+  // }
 
   // uint64_t index = 0;
-  // auto cost = visibilityTable.Cost(from, ignition::math::Vector3d(130, 0, 0));
+  // auto cost = visibilityTable.Cost(from, ignition::math::Vector3d(80, 80, -20));
+  // std::cout << "Cost: " << cost << std::endl;
   // if (cost >= 0 && cost <= 20)
   // {
   //   markerMsg.set_id(index++);
   //   ignition::msgs::Set(markerMsg.mutable_pose(),
-  //                       ignition::math::Pose3d(130, 0, 0, 0, 0, 0));
+  //                       ignition::math::Pose3d(80, 80, -20, 0, 0, 0));
   //   node.Request("/marker", markerMsg);
   // }
-  // uint64_t index = 0;
-  // for (auto z = -20; z <= 0; z += 1)
-  //   for (auto y = 0; y <= 0; y += 1)
-  //     for (auto x = 10; x <= 140; x += 1)
-  //     {
-  //       auto cost = visibilityTable.Cost(from,
-  //                                        ignition::math::Vector3d(x, y, z));
-  //       if (cost >= 0 && cost <= 20)
-  //       {
-  //         markerMsg.set_id(index++);
-  //         ignition::msgs::Set(markerMsg.mutable_pose(),
-  //                             ignition::math::Pose3d(x, y, z, 0, 0, 0));
-  //         node.Request("/marker", markerMsg);
-  //       }
-  //     }
+  uint64_t index = 0;
+  for (auto z = -20; z <= 20; z += 1)
+    for (auto y = -20; y <= 20; y += 1)
+      for (auto x = 10; x <= 150; x += 1)
+      {
+        auto cost = visibilityTable.Cost(from,
+                                         ignition::math::Vector3d(x, y, z));
+        if (cost >= 0 && cost <= 10)
+        {
+          markerMsg.set_id(index++);
+          ignition::msgs::Set(markerMsg.mutable_pose(),
+                              ignition::math::Pose3d(x, y, z, 0, 0, 0));
+          node.Request("/marker", markerMsg);
+        }
+      }
 }
