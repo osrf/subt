@@ -129,8 +129,8 @@ bool SimpleDOTParser::Parse(std::istream &_in)
         return false;
       }
 
-      std::cerr << "Adding vertex with name [" << lineread << "], value ["
-                << value << "] and id [" << id << "]" << std::endl;
+      // std::cerr << "Adding vertex with name [" << lineread << "], value ["
+      //           << value << "] and id [" << id << "]" << std::endl;
 
       auto newVertex = this->graph.AddVertex(lineread, value, id);
       verticesLUT[lineread] = newVertex.Id();

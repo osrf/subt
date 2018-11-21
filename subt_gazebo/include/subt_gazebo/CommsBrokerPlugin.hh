@@ -65,7 +65,7 @@ namespace gazebo
     /// \brief Last time the plugin checked the ROS parameter server.
     private: gazebo::common::Time lastROSParameterCheckTime;
 
-    private: std::unique_ptr<subt::VisibilityTable> visibility;
+    private: subt::VisibilityTable visibility;
   };
 }
 #endif

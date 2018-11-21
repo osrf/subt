@@ -15,9 +15,11 @@
  *
 */
 
+#include <ros/ros.h>
 #include <fstream>
 #include <iostream>
 #include <utility>
+#include <gazebo/common/SystemPaths.hh>
 #include <gazebo/physics/Model.hh>
 #include <gazebo/physics/PhysicsIface.hh>
 #include <gazebo/physics/World.hh>
@@ -30,25 +32,69 @@
 using namespace subt;
 
 //////////////////////////////////////////////////
-VisibilityTable::VisibilityTable(const std::string &_worldName)
+VisibilityTable::VisibilityTable()
 {
-  this->worldName = _worldName();
-  // std::string filePath = ignition::common::joinPaths(
-  //   SUBT_GAZEBO_PROJECT_SOURCE_PATH, "worlds", worldName + ".dot");
-  // std::cout << "File path: [" << filePath << "]" << std::endl;
+  this->worldName = gazebo::physics::get_world()->Name();
 
-
-  std::cout << "Populating graph" << std::endl;
-  if (!this->PopulateVisibilityGraph(_graphFilename))
+  std::string worldsDirectory;
+  if (!ros::param::get("/subt/gazebo_worlds_dir", worldsDirectory))
+  {
+    std::cerr << "[VisibilityTable] Unable to find ROS parameter "
+              << "[/subt/gazebo_worlds_dir]" << std::endl;
     return;
+  }
 
-  std::cout << "Populating visibilityInfo" << std::endl;
+  this->worldPath = ignition::common::joinPaths(
+    worldsDirectory, this->worldName + ".world");
+
+  this->graphPath = ignition::common::joinPaths(
+    worldsDirectory, this->worldName + ".dot");
+
+  this->lutPath = ignition::common::joinPaths(
+    worldsDirectory, this->worldName + ".dat");
+
+  // Parse the .dot file and populate the world graph.
+  std::cout << "Populate graph" << std::endl;
+  if (!this->PopulateVisibilityGraph(graphPath))
+    return;
+};
+
+//////////////////////////////////////////////////
+bool VisibilityTable::Load()
+{
+  std::ifstream in;
+  in.open(this->lutPath);
+  // {
+  //   std::cerr << "Unable to read [" << _path << "] file" << std::endl;
+  //   return false;
+  // }
+
+  uint64_t numEntries;
+
+  // First, load the number of entries.
+  in.read(reinterpret_cast<char*>(&numEntries), sizeof(numEntries));
+
+  std::cerr << "Num entries: " << numEntries << std::endl;
+
+  // Now save all entries.
+  for (auto i = 0u; i < numEntries; ++i)
+  {
+    uint32_t x;
+    uint32_t y;
+    uint32_t z;
+    uint64_t vertexId;
+
+    in.read(reinterpret_cast<char*>(&x), sizeof(x));
+    in.read(reinterpret_cast<char*>(&y), sizeof(y));
+    in.read(reinterpret_cast<char*>(&z), sizeof(z));
+    in.read(reinterpret_cast<char*>(&vertexId), sizeof(vertexId));
+    this->vertices[std::make_tuple(x, y, z)] = vertexId;
+  }
+
   this->PopulateVisibilityInfo();
 
-  std::cout << "Creating LUT" << std::endl;
-  this->CreateVertexIdsLUT();
-  std::cout << "LUT created" << std::endl;
-};
+  return true;
+}
 
 //////////////////////////////////////////////////
 double VisibilityTable::Cost(const ignition::math::Vector3d &_from,
@@ -94,41 +140,32 @@ double VisibilityTable::Cost(const ignition::math::Vector3d &_from,
 //////////////////////////////////////////////////
 uint64_t VisibilityTable::Index(const ignition::math::Vector3d &_position) const
 {
+  // std::cout << "Index at [" << _position << "]" << std::endl;
   for (auto const segment : this->worldSegments)
   {
-    auto model = segment.first;
-    auto modelPose = model->WorldPose();
-    auto boundingBox = model->BoundingBox();
-    if (boundingBox.Contains(_position))
+    const ignition::math::Box &box = segment.first;
+
+    // std::cout << "Comparing with [" << model->GetName() << "]" << std::endl;
+    // std::cout << "  At pose [" << modelPose << "]" << std::endl;
+    // std::cout << "  Bounding box [" << boundingBox << "]" << std::endl;
+
+    if (box.Contains(_position))
     {
-      //std::cout << "Segment found inside bounding box " << boundingBox << std::endl;
-      //std::cout << "Model: " << modelPose.Pos() << std::endl;
+      // std::cout << "Segment found inside bounding box " << boundingBox << std::endl;
+      // std::cout << "Model: " << modelPose.Pos() << std::endl;
       return segment.second;
     }
   }
+
+  // std::cout << "Not found" << std::endl;
 
   return std::numeric_limits<uint64_t>::max();
 }
 
 //////////////////////////////////////////////////
-void VisibilityTable::CreateVertexIdsLUT()
-{
-  for (auto z = -30; z <= 20; z += 1)
-  {
-    for (auto y = -100; y <= 100; y += 1)
-      for (auto x = -20; x <= 500; x += 1)
-      {
-        ignition::math::Vector3d position(x, y, z);
-        auto index = this->Index(position);
-        if (index != std::numeric_limits<uint64_t>::max())
-          this->vertices[std::make_tuple(x, y, z)] = index;
-      }
-  }
-}
-
-//////////////////////////////////////////////////
 bool VisibilityTable::PopulateVisibilityGraph(const std::string &_graphFilename)
 {
+  std::cout << "Loading graph [" << _graphFilename << "]" << std::endl;
   std::filebuf fb;
   if (!fb.open(_graphFilename, std::ios::in))
   {
@@ -155,6 +192,50 @@ void VisibilityTable::PopulateVisibilityInfo()
   // Get the cost between all vertex pairs.
   for (const auto from : vertexIds)
   {
+    // std::string data = from.second.get().Data();
+    // // Remove the quotes.
+    // data.erase(0, 1);
+    // data.pop_back();
+
+    // auto fields = ignition::common::split(data, "::");
+    // if (fields.size() != 3u)
+    // {
+    //   std::cerr << "Incorrect format. Expecting <ID::type::name> and found ["
+    //             << data << "]. Ignoring vertex" << std::endl;
+    //   continue;
+    // }
+    // std::string modelName = fields.at(2);
+    // auto model = gazebo::physics::get_world()->ModelByName(modelName);
+    // if (!model)
+    // {
+    //   std::cerr << "Unable to find model [" << modelName << "]. "
+    //             << "Ignoring vertex" << std::endl;
+    //   continue;
+    // }
+    
+    // // Add the bounding box and Id pair to the list.
+    // this->worldSegments.push_back(std::make_pair(model, from.first));
+  
+    auto id1 = from.first;
+    auto result = ignition::math::graph::Dijkstra(this->visibilityGraph, id1);
+    for (const auto to : result)
+    {
+      auto id2 = to.first;
+      double cost = to.second.first;
+      this->visibilityInfo[std::make_pair(id1, id2)] = cost;
+    }
+  }
+}
+
+//////////////////////////////////////////////////
+void VisibilityTable::CreateWorldSegments()
+{
+  // Get the list of vertices Id.
+  auto vertexIds = this->visibilityGraph.Vertices();
+  std::cout << "Num vertices: " << vertexIds.size() << std::endl;
+
+  for (const auto from : vertexIds)
+  {
     std::string data = from.second.get().Data();
     // Remove the quotes.
     data.erase(0, 1);
@@ -175,23 +256,89 @@ void VisibilityTable::PopulateVisibilityInfo()
                 << "Ignoring vertex" << std::endl;
       continue;
     }
+
+    // std::cout << "Bounding Box: " << model->BoundingBox() << std::endl;
     
     // Add the bounding box and Id pair to the list.
-    this->worldSegments.push_back(std::make_pair(model, from.first));
-  
-    auto id1 = from.first;
-    auto result = ignition::math::graph::Dijkstra(this->visibilityGraph, id1);
-    for (const auto to : result)
+    this->worldSegments.push_back(
+      std::make_pair(model->BoundingBox(), from.first));
+  }
+
+  std::cout << "Num world segments: " << this->worldSegments.size() << std::endl;
+}
+
+//////////////////////////////////////////////////
+void VisibilityTable::BuildLUT()
+{
+  auto zrange = this->kMaxZ - this->kMinZ;
+  int counter = 0;
+  for (auto z = this->kMinZ; z <= this->kMaxZ; ++z)
+  {
+    for (auto y = this->kMinY; y <= this->kMaxY; ++y)
     {
-      auto id2 = to.first;
-      double cost = to.second.first;
-      this->visibilityInfo[std::make_pair(id1, id2)] = cost;
+      for (auto x = this->kMinX; x <= this->kMaxX; ++x)
+      {
+        ignition::math::Vector3d position(x, y, z);
+        auto index = this->Index(position);
+        if (index != std::numeric_limits<uint64_t>::max())
+        {
+          // std::cout << "Adding [" << x << "," << y << "," << z << "]="
+          //           << index << std::endl;
+          this->vertices[std::make_tuple(x, y, z)] = index;
+        }
+      }
     }
+
+    ++counter;
+    std::cout << 100 / zrange * counter << " %\r";
+    std::cout.flush();
+  }
+  std::cout << std::endl;
+}
+
+//////////////////////////////////////////////////
+void VisibilityTable::WriteOutputFile()
+{
+  std::cout << "Writing LUT [" << this->lutPath << "]" << std::endl;
+  std::fstream out(this->lutPath, std::ios::out | std::ios::binary);
+  if (!out)
+  {
+    std::cerr << "Unable to create [" << this->lutPath << "] file" << std::endl;
+    return;
+  }
+
+  uint64_t numEntries = this->vertices.size();
+  std::cout << "Num entries: " << numEntries << std::endl;
+
+  // First, save the number of entries.
+  out.write(reinterpret_cast<const char*>(&numEntries), sizeof(numEntries));
+
+  if (numEntries == 0)
+    return;
+
+  // Now save all entries.
+  for (const auto entry : this->vertices)
+  {
+    uint32_t x = std::get<0>(entry.first);
+    uint32_t y = std::get<1>(entry.first);
+    uint32_t z = std::get<2>(entry.first);
+    uint64_t vertexId = entry.second;
+    out.write(reinterpret_cast<const char*>(&x), sizeof(x));
+    out.write(reinterpret_cast<const char*>(&y), sizeof(y));
+    out.write(reinterpret_cast<const char*>(&z), sizeof(z));
+    out.write(reinterpret_cast<const char*>(&vertexId), sizeof(vertexId));
   }
 }
 
 //////////////////////////////////////////////////
 void VisibilityTable::Generate()
 {
+  std::cout << "Creating world segments" << std::endl;
+  this->CreateWorldSegments();
 
+  std::cout << "Building LUT" << std::endl;
+  this->BuildLUT();
+
+  std::cout << "Writing file" << std::endl;
+  this->WriteOutputFile();
 }

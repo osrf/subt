@@ -15,6 +15,9 @@
  *
 */
 
+#ifndef SUBT_GAZEBO_TESTUTILS_HH_
+#define SUBT_GAZEBO_TESTUTILS_HH_
+
 #include <gazebo_msgs/LinkStates.h>
 #include <ros/ros.h>
 #include <chrono>
@@ -71,3 +74,5 @@ namespace subt
     private: ros::Subscriber subscriber;
   };
 }
+
+#endif

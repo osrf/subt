@@ -22,13 +22,22 @@
 
 namespace gazebo
 {
-  /// \brief This plugin generates a visibility lookup table with the
+  /// \brief This plugin generates a vertex lookup table with the
   /// following contents:
   ///
-  /// int max_y_value
-  /// int step_size
-  /// int row_size
-  /// uint64_t keys
+  /// uint32_t min_x
+  /// uint32_t max_x
+  /// uint32_t min_y
+  /// uint32_t max_y
+  /// uint32_t min_z
+  /// uint32_t max_z
+  /// uint64_t num_entries
+  /// ...
+  /// uint32_t sample_x
+  /// uint32_t sample_y
+  /// uint32_t sample_z
+  /// uint64_t vertex_id
+  /// ...
   ///
   /// Data is stored in binary, and keys is a list of unique uint64_t values
   /// that represent two coordinates that *do not* have visiblity. It is
@@ -58,10 +67,10 @@ namespace gazebo
     private: void Init();
 
     /// \brief World created callback
-    private: void OnWorldCreated();
+    private: void OnUpdate();
 
     /// \brief The world created connection.
-    private: event::ConnectionPtr worldCreatedConn;
+    private: event::ConnectionPtr worldUpdateConn;
   };
 }
 #endif

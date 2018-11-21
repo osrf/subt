@@ -44,12 +44,7 @@ void CommsBrokerPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
   this->updateConnection = event::Events::ConnectWorldUpdateBegin(
       std::bind(&CommsBrokerPlugin::OnUpdate, this));
 
-  // Create visibility table.
-  std::string worldName = gazebo::physics::get_world()->Name();
-  std::string filePath = ignition::common::joinPaths(
-    SUBT_GAZEBO_PROJECT_SOURCE_PATH, "worlds", worldName + ".dot");
-  std::cout << "File path: [" << filePath << "]" << std::endl;
-  this->visibility.reset(new subt::VisibilityTable(filePath));
+  this->visibility.Load();
 
   ignmsg << "Starting SubT comms broker" << std::endl;
 }
@@ -164,11 +159,11 @@ void CommsBrokerPlugin::UpdateVisibilityVisual()
   //   node.Request("/marker", markerMsg);
   // }
   uint64_t index = 0;
-  for (auto z = -20; z <= 20; z += 1)
-    for (auto y = -20; y <= 20; y += 1)
-      for (auto x = 10; x <= 150; x += 1)
+  for (auto z = -40; z <= 20; z += 1)
+    for (auto y = -120; y <= 120; y += 1)
+      for (auto x = 10; x <= 250; x += 1)
       {
-        auto cost = this->visibility->Cost(from,
+        auto cost = this->visibility.Cost(from,
                                          ignition::math::Vector3d(x, y, z));
         if (cost >= 0 && cost <= 10)
         {

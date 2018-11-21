@@ -14,8 +14,6 @@
  * limitations under the License.
  *
 */
-#include <fstream>
-#include <sys/stat.h>
 
 #include "gazebo/gazebo_config.h"
 #include "gazebo/physics/physics.hh"
@@ -40,15 +38,22 @@ void VisibilityPlugin::Load(int /*_argc*/, char ** /*_argv*/)
 /////////////////////////////////////////////
 void VisibilityPlugin::Init()
 {
-  this->worldCreatedConn = event::Events::ConnectWorldCreated(
-        boost::bind(&VisibilityPlugin::OnWorldCreated, this));
+  this->worldUpdateConn = event::Events::ConnectWorldUpdateBegin(
+      boost::bind(&VisibilityPlugin::OnUpdate, this));
 }
 
 /////////////////////////////////////////////
-void VisibilityPlugin::OnWorldCreated()
+void VisibilityPlugin::OnUpdate()
 {
-  std::string worldName = gazebo::physics::get_world()->Name();
-  // subt::VisibilityTable visibilityTable(filePath);
-  subt::VisibilityTable table(worldName);
-  //table.Generate();
+  // Hack: When using ConnectWorldCreated, the bounding box of the models are
+  // not set properly. Instead, we use ConnectWorldUpdateBegin just once.
+  if (gazebo::physics::get_world()->SimTime() > gazebo::common::Time(1))
+  {
+    subt::VisibilityTable table;
+    table.Generate();
+    this->worldUpdateConn.reset();
+
+    gzmsg << "Visibility LUT generated. Press [CTRL + C] to terminate."
+          << std::endl;
+  }
 }

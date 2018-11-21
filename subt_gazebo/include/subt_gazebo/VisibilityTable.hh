@@ -15,16 +15,17 @@
  *
 */
 
+#ifndef SUBT_GAZEBO_VISIBILITYTABLE_HH_
+#define SUBT_GAZEBO_VISIBILITYTABLE_HH_
+
 #include <map>
 #include <string>
 #include <utility>
 #include <vector>
 #include <gazebo/physics/Model.hh>
+#include <ignition/math/Box.hh>
 #include <ignition/math/Vector3.hh>
 #include "subt_gazebo/CommonTypes.hh"
-
-#ifndef SUBT_GAZEBO_VISIBILITYTABLE_HH_
-#define SUBT_GAZEBO_VISIBILITYTABLE_HH_
 
 namespace subt
 {
@@ -34,8 +35,10 @@ namespace subt
   {
     /// \brief Class constructor. Create the visibility table from a graph in
     /// DOT format.
-    /// \param[in] _graphFilename The path to the file containing the graph.
-    public: explicit VisibilityTable(const std::string &_worldName);
+    public: explicit VisibilityTable();
+
+    /// \brief ToDo.
+    public: bool Load();
 
     /// \brief Get the visibility cost.
     /// \param[in] _from A 3D position.
@@ -43,6 +46,12 @@ namespace subt
     /// \return The visibility cost from one point to the other.
     public: double Cost(const ignition::math::Vector3d &_from,
                         const ignition::math::Vector3d &_to) const;
+
+    /// \brief Generate a binary .dat file containing a list of sample points
+    /// that are within the explorable areas of the world. Each sample point
+    /// contained in the file also has the vertex Id of the connectivity graph
+    /// associated to that point.
+    public: void Generate();
 
     /// \brief Populate a graph from a file in DOT format.
     /// \param[in] _graphFilename The path to the file containing the graph.
@@ -58,14 +67,39 @@ namespace subt
     /// \return The vertex Id.
     private: uint64_t Index(const ignition::math::Vector3d &_position) const;
 
-    /// \brief Create a look-up-table that samples the entire world. For each
-    /// sample, it stores the vertex Id associated to that 3D point in the
-    /// world. If there is no vertex associated to that point, nothing is
-    /// stored in the LUT.
-    private: void CreateVertexIdsLUT();
-
     /// \brief ToDo.
-    private: void Generate();
+    private: void CreateWorldSegments();
+
+    
+    /// \brief Create the visibility table in memory.
+    /// \param[in] _g The input visibility graph.
+    /// \param[out] _visibility The output table.
+    private: void BuildLUT();
+
+    /// \brief Generate the visibility LUT in disk.
+    /// \param[in] _outFilename The path to the output file.
+    /// \param[in] _g The visibility graph.
+    /// \param[in] _visibility The table containing all the visibility info.
+    /// \return True when the file was succesfully generated or false otherwise.
+    private: void WriteOutputFile();
+    
+    /// \brief Min X to sample.
+    private: const int32_t kMinX = -20;
+
+    /// \brief Max X to sample.
+    private: const int32_t kMaxX = 500;
+
+    /// \brief Min Y to sample.
+    private: const int32_t kMinY = -150;
+
+    /// \brief Max Y to sample.
+    private: const int32_t kMaxY = 150;
+
+    /// \brief Min Z to sample.
+    private: const int32_t kMinZ = -50;
+
+    /// \brief Max Z to sample.
+    private: const int32_t kMaxZ = 20;
 
     /// \brief The graph modeling the connectivity.
     private: VisibilityGraph visibilityGraph;
@@ -75,15 +109,24 @@ namespace subt
 
     /// \brief All model segments used to create the environment. Each of these
     /// segments is associated with a vertex in a graph.
+    /// Mapping between a model and a vertex Id.
     private: std::vector<
-               std::pair<gazebo::physics::ModelPtr, uint64_t>> worldSegments;
+               std::pair<ignition::math::Box, uint64_t>> worldSegments;
 
     /// \brief ToDo.
     private: std::map<std::tuple<uint32_t, uint32_t, uint32_t>,
                       uint64_t> vertices;
 
-    /// \brief The name of the world.
     private: std::string worldName;
+
+    private: std::string worldsDirectory;
+
+    /// \brief The name of the world.
+    private: std::string worldPath;
+
+    private: std::string graphPath;
+
+    private: std::string lutPath;
   };
 }
 
