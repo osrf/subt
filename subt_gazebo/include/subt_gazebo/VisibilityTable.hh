@@ -37,7 +37,13 @@ namespace subt
     /// DOT format.
     public: explicit VisibilityTable();
 
-    /// \brief ToDo.
+    /// \brief Load a look up table from a file. It will try to load a file
+    /// located in the same directory as the world file, with the same world
+    /// name but with extension .dat.
+    /// E.g.: A world named 'tunnel_practice_1.world' will try to load
+    /// 'tunnel_practice_1.dat'.
+    /// \return True if the visibility look-up-table was loaded or false
+    /// otherwise.
     public: bool Load();
 
     /// \brief Get the visibility cost.
@@ -70,7 +76,7 @@ namespace subt
     /// \brief ToDo.
     private: void CreateWorldSegments();
 
-    
+
     /// \brief Create the visibility table in memory.
     /// \param[in] _g The input visibility graph.
     /// \param[out] _visibility The output table.
@@ -82,7 +88,7 @@ namespace subt
     /// \param[in] _visibility The table containing all the visibility info.
     /// \return True when the file was succesfully generated or false otherwise.
     private: void WriteOutputFile();
-    
+
     /// \brief Min X to sample.
     private: const int32_t kMinX = -20;
 

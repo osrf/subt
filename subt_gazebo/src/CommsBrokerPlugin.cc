@@ -44,7 +44,8 @@ void CommsBrokerPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
   this->updateConnection = event::Events::ConnectWorldUpdateBegin(
       std::bind(&CommsBrokerPlugin::OnUpdate, this));
 
-  this->visibility.Load();
+  if (!this->visibility.Load())
+    return;
 
   ignmsg << "Starting SubT comms broker" << std::endl;
 }
