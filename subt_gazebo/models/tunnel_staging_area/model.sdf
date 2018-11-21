@@ -3,13 +3,34 @@
   <model name="staging_area">
     <static>true</static>
 
+    <!-- This link is to extrude the bounding box to cover approximately
+         an area of 20x20x20 meters -->
+    <link name="link_top">
+      <collision name="collision1">
+        <pose>-10 -10 20 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.1 0.1 0.1</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="collision2">
+        <pose>10 10 20 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.1 0.1 0.1</size>
+          </box>
+        </geometry>
+      </collision>
+    </link>
+
     <!-- The flat area where the robots starts -->
     <model name="staging">
       <pose>-1.181716 0 -0.002 0 0 0</pose>
       <static>true</static>
       <link name="link">
         <pose>0 0 -0.5 0 0 0</pose>
-        <visual name="visual_ground">
+        <visual name="visual">
           <geometry>
             <box>
               <size>25 25 1</size>
@@ -22,23 +43,7 @@
             </script>
           </material>
         </visual>
-        <visual name="visual_top">
-          <pose>0 0 20 0 0 0</pose>
-          <geometry>
-            <box>
-              <size>25 20 1</size>
-            </box>
-          </geometry>
-        </visual>
-        <collision name="collision_ground">
-          <geometry>
-            <box>
-              <size>25 20 1</size>
-            </box>
-          </geometry>
-        </collision>
-        <collision name="collision_top">
-          <pose>0 0 20 0 0 0</pose>
+        <collision name="collision">
           <geometry>
             <box>
               <size>25 20 1</size>
