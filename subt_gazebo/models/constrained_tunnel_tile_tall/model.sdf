@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="constrained_tunnel_tile_tall">
+    <static>true</static>
+    <link name="link">
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://constrained_tunnel_tile_tall/meshes/Constrained_Tall.DAE</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name="collision_ground">
+        <geometry>
+          <box>
+            <size>5 20 0.001</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://constrained_tunnel_tile_tall/meshes/Constrained_Tall.DAE</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>
