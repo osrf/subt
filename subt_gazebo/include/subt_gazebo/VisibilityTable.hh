@@ -33,6 +33,24 @@ namespace subt
   /// world expressed as a graph.
   class VisibilityTable
   {
+    /// \brief Min X to sample.
+    public: static const int32_t kMinX = -20;
+
+    /// \brief Max X to sample.
+    public: static const int32_t kMaxX = 500;
+
+    /// \brief Min Y to sample.
+    public: static const int32_t kMinY = -150;
+
+    /// \brief Max Y to sample.
+    public: static const int32_t kMaxY = 150;
+
+    /// \brief Min Z to sample.
+    public: static const int32_t kMinZ = -50;
+
+    /// \brief Max Z to sample.
+    public: static const int32_t kMaxZ = 20;
+
     /// \brief Class constructor. Create the visibility table from a graph in
     /// DOT format.
     public: explicit VisibilityTable();
@@ -69,7 +87,7 @@ namespace subt
 
     /// \brief Get the vertex Id associated to a position. The vertex Id
     /// represents the world section containing the position.
-    /// \param[in] _position 3D coordinate.
+    /// \param[in] _position 3D cpublico staticordinate.
     /// \return The vertex Id.
     private: uint64_t Index(const ignition::math::Vector3d &_position) const;
 
@@ -89,24 +107,6 @@ namespace subt
     /// \return True when the file was succesfully generated or false otherwise.
     private: void WriteOutputFile();
 
-    /// \brief Min X to sample.
-    private: const int32_t kMinX = -20;
-
-    /// \brief Max X to sample.
-    private: const int32_t kMaxX = 500;
-
-    /// \brief Min Y to sample.
-    private: const int32_t kMinY = -150;
-
-    /// \brief Max Y to sample.
-    private: const int32_t kMaxY = 150;
-
-    /// \brief Min Z to sample.
-    private: const int32_t kMinZ = -50;
-
-    /// \brief Max Z to sample.
-    private: const int32_t kMaxZ = 20;
-
     /// \brief The graph modeling the connectivity.
     private: VisibilityGraph visibilityGraph;
 
@@ -119,19 +119,17 @@ namespace subt
     private: std::vector<
                std::pair<ignition::math::Box, uint64_t>> worldSegments;
 
-    /// \brief ToDo.
+    /// \brief A map that stores 3D points an the vertex id in which are located
     private: std::map<std::tuple<uint32_t, uint32_t, uint32_t>,
                       uint64_t> vertices;
 
-    private: std::string worldName;
-
-    private: std::string worldsDirectory;
-
-    /// \brief The name of the world.
+    /// \brief The path where the Gazebo world is located.
     private: std::string worldPath;
 
+    /// \brief The path where the .dot graph is located.
     private: std::string graphPath;
 
+    /// \brief The path where the visibility LUT is located.
     private: std::string lutPath;
   };
 }

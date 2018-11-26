@@ -33,7 +33,6 @@ using namespace subt;
 
 //////////////////////////////////////////////////
 VisibilityTable::VisibilityTable()
-  : worldName(gazebo::physics::get_world()->Name())
 {
   std::string worldsDirectory;
   if (!ros::param::get("/subt/gazebo_worlds_dir", worldsDirectory))
@@ -43,14 +42,16 @@ VisibilityTable::VisibilityTable()
     return;
   }
 
+  std::string worldName = gazebo::physics::get_world()->Name();
+
   this->worldPath = ignition::common::joinPaths(
-    worldsDirectory, this->worldName + ".world");
+    worldsDirectory, worldName + ".world");
 
   this->graphPath = ignition::common::joinPaths(
-    worldsDirectory, this->worldName + ".dot");
+    worldsDirectory, worldName + ".dot");
 
   this->lutPath = ignition::common::joinPaths(
-    worldsDirectory, this->worldName + ".dat");
+    worldsDirectory, worldName + ".dat");
 
   // Parse the .dot file and populate the world graph.
   if (!this->PopulateVisibilityGraph(graphPath))
@@ -233,7 +234,7 @@ void VisibilityTable::BuildLUT()
     }
 
     // Display the percentage.
-    std::cout << std::fixed << std::setprecision(0) 
+    std::cout << std::fixed << std::setprecision(0)
               << std::min(100.0, 100.0 * ++counter / zrange) << " %\r";
     std::cout.flush();
   }

@@ -28,8 +28,11 @@
 #include <gazebo/common/Time.hh>
 #include <gazebo/physics/PhysicsTypes.hh>
 #include <ignition/math.hh>
+#include <ignition/msgs.hh>
+#include <ignition/transport/Node.hh>
 #include <sdf/sdf.hh>
 #include "subt_gazebo/CommonTypes.hh"
+#include "subt_gazebo/VisibilityTable.hh"
 
 namespace subt
 {
@@ -98,6 +101,15 @@ namespace subt
     /// \param[in] _address Address of the robot to be updated.
     private: void UpdateNeighborList(const std::string &_address);
 
+    /// \brief Visualize the connectivity from a robot.
+    /// \param[in] _req The name of a model. The connectivity is visualized
+    /// relative to this robot.
+    /// \param[out] _rep True when the visibility was correctly visualized or
+    /// false otherwise.
+    /// \return True if the service was executed.
+    private: bool VisualizeVisibility(const ignition::msgs::StringMsg &_req,
+                                      ignition::msgs::Boolean &_rep);
+
     /// \brief Visibility between vehicles. The key is a pair with the
     /// addresses of the vehicles involved. The value is a vector of strings
     /// that stores the entity names of the first and last obstacles between the
@@ -150,6 +162,11 @@ namespace subt
     /// Ethernet 28 (bytes).
     private: uint16_t udpOverhead = 56;
 
+    /// \brief Maximum cost between two sections of the world to communicate.
+    /// This is the cost of the associated graph connecting all the tunnels of
+    /// the world.
+    private: double commsCostMax = 10.0;
+
     /// \brief Pointer to the team.
     private: TeamMembershipPtr team;
 
@@ -165,6 +182,12 @@ namespace subt
     /// When simple mode is enabled, all messages will be delivered to the
     /// destinations.
     private: bool simpleMode = false;
+
+    /// \brief Visibility table.
+    private: subt::VisibilityTable visibilityTable;
+
+    /// \brief An ignition transport node.
+    private: ignition::transport::Node node;
   };
 }  // namespace
 #endif

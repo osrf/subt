@@ -125,6 +125,9 @@ namespace subt
   /// \brief Internal service used to report new artifacts.
   const std::string kNewArtifactSrv = "/subt/artifacts/new";
 
+  /// \brief Service used to visualize network connectivity.
+  const std::string kVisualizeCommsModelSrv = "/subt/comms_model/visualize";
+
   /// \brief Default port.
   const uint32_t kDefaultPort = 4100u;
 

@@ -22,8 +22,8 @@
 #include <gazebo/common/Events.hh>
 #include <ignition/common/Console.hh>
 
+#include "subt_gazebo/CommonTypes.hh"
 #include "subt_gazebo/CommsBrokerPlugin.hh"
-#include "subt_gazebo/VisibilityTable.hh"
 #include "test/test_config.h"
 
 using namespace gazebo;
@@ -44,9 +44,6 @@ void CommsBrokerPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
   this->updateConnection = event::Events::ConnectWorldUpdateBegin(
       std::bind(&CommsBrokerPlugin::OnUpdate, this));
 
-  if (!this->visibility.Load())
-    return;
-
   ignmsg << "Starting SubT comms broker" << std::endl;
 }
 
@@ -58,7 +55,7 @@ void CommsBrokerPlugin::OnUpdate()
   auto dt = (now - this->lastROSParameterCheckTime).Double();
 
   // It's time to query the ROS parameter server. We do it every second.
-  if (dt >= 5.0 )
+  if (dt >= 1.0 )
   {
     bool value = false;
     ros::param::get("/subt/comms/simple_mode", value);
@@ -75,9 +72,6 @@ void CommsBrokerPlugin::OnUpdate()
 
     this->commsModel->SetSimpleMode(value);
     this->lastROSParameterCheckTime = now;
-
-    // caguero testing
-    this->UpdateVisibilityVisual();
   }
 
   // We need to lock the broker mutex from the outside because "commsModel"
@@ -99,79 +93,4 @@ void CommsBrokerPlugin::OnUpdate()
 void CommsBrokerPlugin::Reset()
 {
   this->broker.Reset();
-}
-
-/////////////////////////////////////////////////
-void CommsBrokerPlugin::UpdateVisibilityVisual()
-{
-  ignition::transport::Node node;
-  ignition::msgs::Marker markerMsg;
-  markerMsg.set_ns("default");
-  markerMsg.set_action(ignition::msgs::Marker::ADD_MODIFY);
-  markerMsg.set_type(ignition::msgs::Marker::BOX);
-  markerMsg.mutable_lifetime()->set_sec(2.0);
-  markerMsg.mutable_lifetime()->set_nsec(0.0);
-
-  ignition::msgs::Material *matMsg = markerMsg.mutable_material();
-  matMsg->mutable_script()->set_name("Gazebo/Green");
-  ignition::msgs::Set(markerMsg.mutable_scale(),
-                    ignition::math::Vector3d(0.5, 0.5, 0.5));
-
-  // std::string worldName = gazebo::physics::get_world()->Name();
-  // std::string filePath = ignition::common::joinPaths(
-  //   SUBT_GAZEBO_PROJECT_SOURCE_PATH, "worlds", worldName + ".dot");
-  // std::cout << "File path: [" << filePath << "]" << std::endl;
-
-  // subt::VisibilityTable visibilityTable(filePath);
-
-  // auto cost = visibilityTable.Cost(
-  //   ignition::math::Vector3d(20, 0, -2.5), ignition::math::Vector3d(80, 0, -17.5));
-  // std::cout << "Cost: " << cost << std::endl;
- 
-  ignition::math::Vector3d from(20, 0, -5);
-  auto model = gazebo::physics::get_world()->ModelByName("X1");
-  if (model)
-  {
-    std::cout << "X1 model found" << std::endl;
-    from = model->WorldPose().Pos();
-    std::cout << "Pos: " << from << std::endl;
-   // std::cout << "Index: " << visibilityTable.Index(from) << std::endl;
-  }
-  else
-    std::cout << "X1 not found" << std::endl;
-
-  // model = gazebo::physics::get_world()->ModelByName("tile_6");
-  // if (model)
-  // {
-  //   std::cout << "tile_6 model found" << std::endl;
-  //   from = model->WorldPose().Pos();
-  //   std::cout << "Pos: " << from << std::endl;
-  //   std::cout << "Bounding box: " << model->BoundingBox() << std::endl;
-  // }
-
-  // uint64_t index = 0;
-  // auto cost = this->visibility->Cost(from, ignition::math::Vector3d(80, 80, -20));
-  // std::cout << "Cost: " << cost << std::endl;
-  // if (cost >= 0 && cost <= 20)
-  // {
-  //   markerMsg.set_id(index++);
-  //   ignition::msgs::Set(markerMsg.mutable_pose(),
-  //                       ignition::math::Pose3d(80, 80, -20, 0, 0, 0));
-  //   node.Request("/marker", markerMsg);
-  // }
-  uint64_t index = 0;
-  for (auto z = -40; z <= 20; z += 1)
-    for (auto y = -120; y <= 120; y += 1)
-      for (auto x = 10; x <= 250; x += 1)
-      {
-        auto cost = this->visibility.Cost(from,
-                                         ignition::math::Vector3d(x, y, z));
-        if (cost >= 0 && cost <= 10)
-        {
-          markerMsg.set_id(index++);
-          ignition::msgs::Set(markerMsg.mutable_pose(),
-                              ignition::math::Pose3d(x, y, z, 0, 0, 0));
-          node.Request("/marker", markerMsg);
-        }
-      }
 }

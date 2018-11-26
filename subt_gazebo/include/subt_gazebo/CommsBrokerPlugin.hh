@@ -24,7 +24,6 @@
 #include <sdf/sdf.hh>
 #include "subt_gazebo/Broker.hh"
 #include "subt_gazebo/CommsModel.hh"
-#include "subt_gazebo/VisibilityTable.hh"
 
 namespace gazebo
 {
@@ -44,9 +43,6 @@ namespace gazebo
     /// \brief Callback for World Update events.
     private: void OnUpdate();
 
-    /// \brief ToDo.
-    private: void UpdateVisibilityVisual();
-
     /// \brief World pointer.
     private: physics::WorldPtr world;
 
@@ -64,8 +60,6 @@ namespace gazebo
 
     /// \brief Last time the plugin checked the ROS parameter server.
     private: gazebo::common::Time lastROSParameterCheckTime;
-
-    private: subt::VisibilityTable visibility;
   };
 }
 #endif
