@@ -57,6 +57,7 @@ def print_tsv_model_includes(args):
 def parse_args(argv):
     parser = argparse.ArgumentParser('Generate tiled world file from tsv.')
     parser.add_argument('file_name', help='name of tsv file to read')
+    parser.add_argument('--world-name', dest='world_name', type=str, default='default', help='world name')
     parser.add_argument('--x0', dest='x0', type=float, default=0, help='origin X coordinate')
     parser.add_argument('--y0', dest='y0', type=float, default=0, help='origin Y coordinate')
     parser.add_argument('--z0', dest='z0', type=float, default=0, help='origin Z coordinate')
@@ -71,14 +72,13 @@ def parse_args(argv):
 
 def check_main():
     args = parse_args(sys.argv)
-    print("""
-<?xml version="1.0" ?>
+    print("""<?xml version="1.0" ?>
 <!--
   Generated with the tile_tsv.py script:
     %s
 -->
 <sdf version="1.6">
-  <world name="default">
+  <world name="%s">
 
     <gui fullscreen='0'>
       <camera name='user_camera'>
@@ -443,7 +443,7 @@ def check_main():
       <uri>model://jersey_barrier</uri>
     </include>
 """ %
-  (' '.join(sys.argv).replace('--', '-\-')))
+  (' '.join(sys.argv).replace('--', '-\-'), args.world_name))
     print_tsv_model_includes(args)
     global plugin_artifacts
     print("""
