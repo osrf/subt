@@ -16,7 +16,6 @@
 */
 
 #include <istream>
-#include <map>
 #include <string>
 #include <vector>
 
@@ -47,13 +46,6 @@ namespace subt
     /// \brief Get the visibility graph.
     public: const VisibilityGraph &Graph() const;
 
-    /// \brief Get all attributes hidden inside a comment.
-    /// A hidden attribute starts with <ATTRIBUTE>, followed by the name of the
-    /// attribute and its value. E.g.:
-    ///
-    /// /* <ATTRIBUTE> min_x -500.0 */
-    public: const std::map<std::string, std::string> &HiddenAttributes() const;
-
     /// \brief Remove comments, consecutive whitespaces, leading and trailing
     /// whitespaces and remove the trailing semicolon (if any).
     /// \param[in, out] _str The string to be parsed and converted.
@@ -78,17 +70,8 @@ namespace subt
                                  std::string &_key,
                                  std::string &_value) const;
 
-    /// \brief Parse a hidden attribute from the input string.
-    /// \param[in] _input The input string.
-    /// \return True when a hidden attribute was found and parsed or false
-    /// otherwise.
-    private: bool ParseHiddenAttribute(const std::string &_input);
-
     /// \brief The visibility graph.
     private: VisibilityGraph graph;
-
-    /// \brief Hidden attributes. They start with <ATTRIBUTE>
-    private: std::map<std::string, std::string> hiddenAttributes;
   };
 }  // namespace
 #endif

@@ -154,13 +154,6 @@ const VisibilityGraph &SimpleDOTParser::Graph() const
 }
 
 //////////////////////////////////////////////////
-const std::map<std::string, std::string> &SimpleDOTParser::HiddenAttributes()
-  const
-{
-  return this->hiddenAttributes;
-}
-
-//////////////////////////////////////////////////
 void SimpleDOTParser::TrimWhitespaces(std::string &_str)
 {
   // Remove comments.
@@ -169,14 +162,7 @@ void SimpleDOTParser::TrimWhitespaces(std::string &_str)
   {
     auto commentEnd = _str.rfind("*/");
     if (commentEnd != std::string::npos)
-    {
-      // Try to find a hidden attribute inside the comment.
-      std::string content = _str.substr(commentStart + 2u,
-        commentEnd - commentStart - 2u);
-      this->ParseHiddenAttribute(content);
-
       _str.erase(commentStart, commentEnd - commentStart + 2);
-    }
   }
 
   // Remove consecutive whitespaces leaving only one.
@@ -259,32 +245,6 @@ bool SimpleDOTParser::ParseAttribute(std::string &_str, std::string &_key,
 
   // Erase the attribute.
   _str.erase(attrStart, attrEnd - attrStart + 1);
-
-  return true;
-}
-
-//////////////////////////////////////////////////
-bool SimpleDOTParser::ParseHiddenAttribute(const std::string &_input)
-{
-  const std::string kDelimiter = "<ATTRIBUTE>";
-  std::string input = _input;
-  this->TrimWhitespaces(input);
-
-  auto start = input.find(kDelimiter + " ");
-  if (start != 0)
-    return false;
-
-  input.erase(0, kDelimiter.size() + 1);
-
-  auto tokens = ignition::common::split(input, " ");
-  if (tokens.size() != 2)
-  {
-    std::cerr << "Parsing error: Unable to parse hidden parameter ["
-              << _input << "]" << std::endl;
-    return false;
-  }
-
-  this->hiddenAttributes[tokens.at(0)] = tokens.at(1);
 
   return true;
 }

@@ -26,15 +26,6 @@ TEST(SimpleDOTParserTest, StreamExtraction)
 {
   std::istringstream input(
     "/* Comments should be ignored */ \n"
-    "/* <ATTRIBUTE> min_x -500.0 */ \n"
-    "/* <ATTRIBUTE> max_x 500.0  */ \n"
-    "/* <ATTRIBUTE> step_x 20.0  */ \n"
-    "/* <ATTRIBUTE> min_y -500.0 */ \n"
-    "/* <ATTRIBUTE> max_y 500.0  */ \n"
-    "/* <ATTRIBUTE> step_y 20.0  */ \n"
-    "/* <ATTRIBUTE> min_z -50.0  */ \n"
-    "/* <ATTRIBUTE> max_z  0     */ \n"
-    "/* <ATTRIBUTE> step_z 5.0   */ \n"
     "\n"
     "graph {\n"
     "  0 [label=\"type_0\"] ;\n"
@@ -52,11 +43,6 @@ TEST(SimpleDOTParserTest, StreamExtraction)
   VisibilityGraph graph = dotParser.Graph();
   EXPECT_EQ(4u, graph.Vertices().size());
   EXPECT_EQ(3u, graph.Edges().size());
-
-  auto hiddenAttributes = dotParser.HiddenAttributes();
-  EXPECT_EQ(9u, hiddenAttributes.size());
-  ASSERT_NE(hiddenAttributes.end(), hiddenAttributes.find("min_x"));
-  EXPECT_EQ("-500.0", hiddenAttributes["min_x"]);
 }
 
 /////////////////////////////////////////////////
