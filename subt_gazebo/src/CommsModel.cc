@@ -272,9 +272,16 @@ void CommsModel::UpdateVisibility()
     auto poseA = (*team)[addressA]->model->WorldPose();
     auto poseB = (*team)[addressB]->model->WorldPose();
 
+    // Using distance.
+    // this->visibility[keyA] =
+    //   this->simpleMode ||
+    //   poseA.Pos().Distance(poseB.Pos()) <= this->commsDistanceMax;
+
+    // Using graph and cost between the sections.
     this->visibility[keyA] =
       this->simpleMode ||
-      poseA.Pos().Distance(poseB.Pos()) <= this->commsDistanceMax;
+      this->visibilityTable.Cost(poseA.Pos(), poseB.Pos()) <=
+        this->commsCostMax;
 
     // Update the symmetric case.
     this->visibility[keyB] = this->visibility[keyA];

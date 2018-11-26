@@ -121,7 +121,7 @@ double VisibilityTable::Cost(const ignition::math::Vector3d &_from,
   auto key = std::make_pair(from, to);
   auto itVisibility = this->visibilityInfo.find(key);
   if (itVisibility == this->visibilityInfo.end())
-    return -1;
+    return std::numeric_limits<double>::max();
 
   // The cost.
   return itVisibility->second;
