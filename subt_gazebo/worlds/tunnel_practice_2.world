@@ -516,25 +516,25 @@
 
     <include>
       <uri>model://tunnel_tile_5</uri>
-      <name>tile__200_2</name>
+      <name>tile_200_2</name>
       <pose>200 -60 -10 0 0 1.5708</pose>
     </include>
 
     <include>
       <uri>model://tunnel_tile_5</uri>
-      <name>tile__200_3</name>
+      <name>tile_200_3</name>
       <pose>200 -120 -10 0 0 1.5708</pose>
     </include>
 
     <include>
       <uri>model://tunnel_tile_2</uri>
-      <name>tile__200_4</name>
+      <name>tile_200_4</name>
       <pose>200 -160 -10 0 0 -1.5708</pose>
     </include>
 
     <include>
       <uri>model://tunnel_tile_2</uri>
-      <name>tile__200_5</name>
+      <name>tile_200_5</name>
       <pose>200 -180 -10 0 0 1.5708</pose>
     </include>
 
@@ -980,7 +980,7 @@
       <pose>260 -150 -10 0 0 0</pose>
     </include>
 
-    
+
     <!-- The SubT challenge logic plugin -->
     <plugin name="game_logic_plugin" filename="libGameLogicPlugin.so">
       <!-- The collection of artifacts to locate -->
