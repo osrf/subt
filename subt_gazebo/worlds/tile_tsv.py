@@ -29,12 +29,12 @@ def model_include_string(tileNamePrefix, modelType,
         <name>%s</name>
         <type>TYPE_%s</type>
       </artifact>""" % (modelName, model_type.upper())
-    return """
-    <include>
+    return """    <include>
       <name>%s</name>
       <uri>model://%s</uri>
       <pose>%f %f %f 0 0 %f</pose>
-    </include>""" % (modelName, modelType,
+    </include>
+""" % (modelName, modelType,
                      float(pose_x), float(pose_y), float(pose_z),
                      float(pose_yaw))
 
@@ -93,370 +93,26 @@ def check_main():
       <origin_visual>false</origin_visual>
     </scene>
 
-    <!-- TODO(chapulina): Entrance placeholder -->
-    <model name="staging">
-      <pose>-1.181716 0 -0.002 0 0 0</pose>
-     <static>true</static>
-     <link name="link">
-       <pose>0 0 -0.5 0 0 0</pose>
-       <visual name="visual">
-         <geometry>
-           <box>
-             <size>25 25 1</size>
-           </box>
-         </geometry>
-         <material>
-           <script>
-             <uri>file://media/materials/scripts/gazebo.material</uri>
-             <name>Gazebo/Residential</name>
-           </script>
-         </material>
-       </visual>
-       <collision name="collision">
-         <geometry>
-           <box>
-             <size>25 20 1</size>
-           </box>
-         </geometry>
-       </collision>
-     </link>
-    </model>
-
-    <model name="tunnel_entrance">
-      <pose>
-        10
-        0
-        -0.001
-        0
-        0
-        -1.5707963267948966
-      </pose>
+    <!-- The base station / staging area -->
+    <!-- Important: Do not rename this model! -->
+    <include>
       <static>true</static>
-      <link name="link">
-        <collision name="collision">
-          <geometry>
-            <mesh>
-              <scale>
-                0.008
-                0.008 0.008
-              </scale>
-              <uri>model://tunnel_entrance/meshes/Entrance.obj</uri>
-            </mesh>
-          </geometry>
-        </collision>
-        <visual name="visual">
-          <geometry>
-            <mesh>
-              <scale>
-                0.008
-                0.008 0.008
-              </scale>
-              <uri>model://tunnel_entrance/meshes/Entrance.obj</uri>
-            </mesh>
-          </geometry>
-        </visual>
-      </link>
-    </model>
-    <!-- Start Area where an object enters to initiate the game. -->
-    <model name="start_area">
-      <static>true</static>
-      <pose>
-        10
-        0
-        1.5
-        0
-        0
-        0
-      </pose>
-      <link name="link">
-        <collision name="collision">
-          <geometry>
-            <box>
-              <size>
-                1.0
-                5.0
-                3.0
-              </size>
-            </box>
-          </geometry>
-          <surface>
-            <contact>
-              <collide_without_contact>1</collide_without_contact>
-            </contact>
-          </surface>
-        </collision>
-        <sensor name="start_area_sensor" type="contact">
-          <contact>
-            <collision>collision</collision>
-          </contact>
-        </sensor>
-      </link>
-      <plugin name="touch_start_area" filename="libTouchPlugin.so">
-        <sensor>start_area_sensor</sensor>
-        <!-- empty target name lets the plugin detects everything -->
-        <target></target>
-        <time>0.001</time>
-        <namespace>subt/start</namespace>
-        <enabled>true</enabled>
-      </plugin>
-    </model>
+      <name>BaseStation</name>
+      <pose>0 0 0 0 0 0</pose>
+      <uri>model://tunnel_staging_area</uri>
+    </include>
 
-    <light name='user_spot_light_0' type='spot'>
-      <pose>12 0 15 0 0.65 0</pose>
-      <diffuse>1 1 1 1</diffuse>
-      <specular>0.1 0.1 0.1 1</specular>
-      <direction>0 0 -1</direction>
-      <attenuation>
-        <range>30</range>
-        <constant>0.001</constant>
-        <linear>0.01</linear>
-        <quadratic>0.000</quadratic>
-      </attenuation>
-      <cast_shadows>1</cast_shadows>
-      <spot>
-        <inner_angle>0.0</inner_angle>
-        <outer_angle>1.5</outer_angle>
-        <falloff>0.01</falloff>
-      </spot>
-    </light>
 
-    <include>
-      <name>barrier_0_-1</name>
-      <pose>
-        8.0
-        -11
-        0
-        0
-        0
-        0
-      </pose>
-      <uri>model://jersey_barrier</uri>
-    </include>
-  
-    <include>
-      <name>barrier_0_1</name>
-      <pose>
-        8.0
-        11
-        0
-        0
-        0
-        0
-      </pose>
-      <uri>model://jersey_barrier</uri>
-    </include>
-  
-    <include>
-      <name>barrier_1_-1</name>
-      <pose>
-        3.7
-        -11
-        0
-        0
-        0
-        0
-      </pose>
-      <uri>model://jersey_barrier</uri>
-    </include>
-  
-    <include>
-      <name>barrier_1_1</name>
-      <pose>
-        3.7
-        11
-        0
-        0
-        0
-        0
-      </pose>
-      <uri>model://jersey_barrier</uri>
-    </include>
-  
-    <include>
-      <name>barrier_2_-1</name>
-      <pose>
-        -0.5999999999999996
-        -11
-        0
-        0
-        0
-        0
-      </pose>
-      <uri>model://jersey_barrier</uri>
-    </include>
-  
-    <include>
-      <name>barrier_2_1</name>
-      <pose>
-        -0.5999999999999996
-        11
-        0
-        0
-        0
-        0
-      </pose>
-      <uri>model://jersey_barrier</uri>
-    </include>
-  
-    <include>
-      <name>barrier_3_-1</name>
-      <pose>
-        -4.899999999999999
-        -11
-        0
-        0
-        0
-        0
-      </pose>
-      <uri>model://jersey_barrier</uri>
-    </include>
-  
-    <include>
-      <name>barrier_3_1</name>
-      <pose>
-        -4.899999999999999
-        11
-        0
-        0
-        0
-        0
-      </pose>
-      <uri>model://jersey_barrier</uri>
-    </include>
-  
-    <include>
-      <name>barrier_4_-1</name>
-      <pose>
-        -9.2
-        -11
-        0
-        0
-        0
-        0
-      </pose>
-      <uri>model://jersey_barrier</uri>
-    </include>
-  
-    <include>
-      <name>barrier_4_1</name>
-      <pose>
-        -9.2
-        11
-        0
-        0
-        0
-        0
-      </pose>
-      <uri>model://jersey_barrier</uri>
-    </include>
-  
-
-  
-    <include>
-      <name>barrier_-9.5_-2</name>
-      <pose>
-        10.5
-        -8.6
-        0
-        0
-        0
-        1.5707963267948966
-      </pose>
-      <uri>model://jersey_barrier</uri>
-    </include>
-  
-    <include>
-      <name>barrier_-9.5_2</name>
-      <pose>
-        10.5
-        8.6
-        0
-        0
-        0
-        1.5707963267948966
-      </pose>
-      <uri>model://jersey_barrier</uri>
-    </include>
-  
-    <include>
-      <name>barrier_-32_-2</name>
-      <pose>
-        -12
-        -8.6
-        0
-        0
-        0
-        1.5707963267948966
-      </pose>
-      <uri>model://jersey_barrier</uri>
-    </include>
-  
-    <include>
-      <name>barrier_-32_-1</name>
-      <pose>
-        -12
-        -4.3
-        0
-        0
-        0
-        1.5707963267948966
-      </pose>
-      <uri>model://jersey_barrier</uri>
-    </include>
-  
-    <include>
-      <name>barrier_-32_0</name>
-      <pose>
-        -12
-        0.0
-        0
-        0
-        0
-        1.5707963267948966
-      </pose>
-      <uri>model://jersey_barrier</uri>
-    </include>
-  
-    <include>
-      <name>barrier_-32_1</name>
-      <pose>
-        -12
-        4.3
-        0
-        0
-        0
-        1.5707963267948966
-      </pose>
-      <uri>model://jersey_barrier</uri>
-    </include>
-  
-    <include>
-      <name>barrier_-32_2</name>
-      <pose>
-        -12
-        8.6
-        0
-        0
-        0
-        1.5707963267948966
-      </pose>
-      <uri>model://jersey_barrier</uri>
-    </include>
-""" %
+    <!-- Tunnel tiles and artifacts -->""" %
   (' '.join(sys.argv).replace('--', '-\-'), args.world_name))
     print_tsv_model_includes(args)
     global plugin_artifacts
     print("""
-    <!-- Base station -->
-    <include>
-      <uri>model://base_station</uri>
-      <pose>-8 0 0 0 0 -1.5708</pose>
-      <plugin name="base_station_plugin" filename="libBaseStationPlugin.so">
-      </plugin>
-    </include>
-
     <!-- The SubT challenge logic plugin -->
     <plugin name="game_logic_plugin" filename="libGameLogicPlugin.so">
+      <logging>
+        <filename_prefix>subt_%s</filename_prefix>
+      </logging>
       <!-- The collection of artifacts to locate -->
 %s
     </plugin>
@@ -520,7 +176,7 @@ def check_main():
 
   </world>
 </sdf>""" %
-(plugin_artifacts, args.wind_x, args.wind_y, args.wind_z))
+(args.world_name, plugin_artifacts, args.wind_x, args.wind_y, args.wind_z))
         
 if __name__ == '__main__':
     check_main()
