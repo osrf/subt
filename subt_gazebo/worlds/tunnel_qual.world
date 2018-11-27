@@ -1,4 +1,8 @@
 <?xml version="1.0" ?>
+<!--
+  Generated with the tile_tsv.py script:
+    tile_tsv.py tunnel_qual.tsv -\-world-name tunnel_qual -\-x0 20 -\-y0 240 -\-z0 -10
+-->
 <sdf version="1.6">
   <world name="tunnel_qual">
 
@@ -49,14 +53,6 @@
       <uri>model://tunnel_tile_2</uri>
       <pose>300.000000 240.000000 -15.000000 0 0 4.712389</pose>
     </include>
-
-    <!--
-    <include>
-      <name>duct_1</name>
-      <uri>model://Duct</uri>
-      <pose>100.000000 200.000000 -12.223000 1.570796 -1.570796 0.000000</pose>
-    </include>
-    -->
 
     <include>
       <name>tile_4</name>
@@ -664,14 +660,6 @@
       <pose>280.000000 -60.000000 -15.000000 0 0 3.141593</pose>
     </include>
 
-    <!--
-    <include>
-      <name>duct_2</name>
-      <uri>model://Duct</uri>
-      <pose>93.200000 -80.000000 -2.223000 1.570796 -1.570796 0.000000</pose>
-    </include>
-    -->
-
     <include>
       <name>tile_95</name>
       <uri>model://tunnel_tile_2</uri>
@@ -866,12 +854,6 @@
       </logging>
       <!-- The collection of artifacts to locate -->
 
-      <!--
-      <artifact>
-        <name>duct_1</name>
-        <type>TYPE_DUCT</type>
-      </artifact>
-      -->
       <artifact>
         <name>radio_1</name>
         <type>TYPE_RADIO</type>
@@ -912,12 +894,6 @@
         <name>backpack_2</name>
         <type>TYPE_BACKPACK</type>
       </artifact>
-      <!--
-      <artifact>
-        <name>duct_2</name>
-        <type>TYPE_DUCT</type>
-      </artifact>
-      -->
       <artifact>
         <name>phone_3</name>
         <type>TYPE_PHONE</type>
