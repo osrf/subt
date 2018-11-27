@@ -1,14 +1,6 @@
-
 <?xml version="1.0" ?>
-<!--
-  Generated from tile.world.erb
-  Seed: 783305
-  Type: tunnel
-  N_x: 20
-  N_y: 5
--->
 <sdf version="1.6">
-  <world name="default">
+  <world name="tunnel_practice_2">
 
     <gui fullscreen='0'>
       <camera name='user_camera'>
@@ -23,117 +15,36 @@
       <origin_visual>false</origin_visual>
     </scene>
 
-    <!-- TODO(chapulina): Entrance placeholder -->
-    <model name="staging">
-      <pose>-1.181716 0 -0.002 0 0 0</pose>
-     <static>true</static>
-     <link name="link">
-       <pose>0 0 -0.5 0 0 0</pose>
-       <visual name="visual">
-         <geometry>
-           <box>
-             <size>25 25 1</size>
-           </box>
-         </geometry>
-         <material>
-           <script>
-             <uri>file://media/materials/scripts/gazebo.material</uri>
-             <name>Gazebo/Residential</name>
-           </script>
-         </material>
-       </visual>
-       <collision name="collision">
-         <geometry>
-           <box>
-             <size>25 20 1</size>
-           </box>
-         </geometry>
-       </collision>
-     </link>
-    </model>
+    <light name='user_spot_light_0' type='spot'>
+      <pose>12 0 15 0 0.65 0</pose>
+      <diffuse>1 1 1 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <direction>0 0 -1</direction>
+      <attenuation>
+        <range>30</range>
+        <constant>0.001</constant>
+        <linear>0.01</linear>
+        <quadratic>0.000</quadratic>
+      </attenuation>
+      <cast_shadows>1</cast_shadows>
+      <spot>
+        <inner_angle>0.0</inner_angle>
+        <outer_angle>1.5</outer_angle>
+        <falloff>0.01</falloff>
+      </spot>
+    </light>
 
-    
-    <model name="tunnel_entrance">
-      <pose>
-        10
-        0
-        -0.001
-        0
-        0
-        -1.5707963267948966
-      </pose>
+    <!-- The base station / staging area -->
+    <!-- Important: Do not rename this model! -->
+    <include>
       <static>true</static>
-      <link name="link">
-        <collision name="collision">
-          <geometry>
-            <mesh>
-              <scale>
-                0.008
-                0.008 0.008
-              </scale>
-              <uri>model://tunnel_entrance/meshes/Entrance.obj</uri>
-            </mesh>
-          </geometry>
-        </collision>
-        <visual name="visual">
-          <geometry>
-            <mesh>
-              <scale>
-                0.008
-                0.008 0.008
-              </scale>
-              <uri>model://tunnel_entrance/meshes/Entrance.obj</uri>
-            </mesh>
-          </geometry>
-        </visual>
-      </link>
-    </model>
-    <!-- Start Area where an object enters to initiate the game. -->
-    <model name="start_area">
-      <static>true</static>
-      <pose>
-        10
-        0
-        1.5
-        0
-        0
-        0
-      </pose>
-      <link name="link">
-        <collision name="collision">
-          <geometry>
-            <box>
-              <size>
-                1.0
-                5.0
-                3.0
-              </size>
-            </box>
-          </geometry>
-          <surface>
-            <contact>
-              <collide_without_contact>1</collide_without_contact>
-            </contact>
-          </surface>
-        </collision>
-        <sensor name="start_area_sensor" type="contact">
-          <contact>
-            <collision>collision</collision>
-          </contact>
-        </sensor>
-      </link>
-      <plugin name="touch_start_area" filename="libTouchPlugin.so">
-        <sensor>start_area_sensor</sensor>
-        <!-- empty target name lets the plugin detects everything -->
-        <target></target>
-        <time>0.001</time>
-        <namespace>subt/start</namespace>
-        <enabled>true</enabled>
-      </plugin>
-    </model>
+      <name>BaseStation</name>
+      <pose>0 0 0 0 0 0</pose>
+      <uri>model://tunnel_staging_area</uri>
+    </include>
+
 
     <!-- Artifacts -->
-
     <include>
       <name>backpack_1</name>
       <pose>38 33 0 0 0 0</pose>
@@ -195,297 +106,7 @@
     </include>
 
 
-    <!-- The SubT challenge logic plugin -->
-    <plugin name="game_logic_plugin" filename="libGameLogicPlugin.so">
-      <!-- The collection of artifacts to locate -->
-      <artifact>
-        <name>backpack_1</name>
-        <type>TYPE_BACKPACK</type>
-      </artifact>
-      <artifact>
-        <name>toolbox_1</name>
-        <type>TYPE_TOOLBOX</type>
-      </artifact>
-      <artifact>
-        <name>extinguisher_1</name>
-        <type>TYPE_EXTINGUISHER</type>
-      </artifact>
-      <artifact>
-        <name>valve_1</name>
-        <type>TYPE_VALVE</type>
-      </artifact>
-      <artifact>
-        <name>radio_1</name>
-        <type>TYPE_RADIO</type>
-      </artifact>
-      <artifact>
-        <name>duct_1</name>
-        <type>TYPE_DUCT</type>
-      </artifact>
-      <artifact>
-        <name>electrical_box_1</name>
-        <type>TYPE_ELECTRICAL_BOX</type>
-      </artifact>
-      <artifact>
-        <name>phone_1</name>
-        <type>TYPE_PHONE</type>
-      </artifact>
-      <artifact>
-        <name>backpack_2</name>
-        <type>TYPE_BACKPACK</type>
-      </artifact>
-      <artifact>
-        <name>radio_2</name>
-        <type>TYPE_RADIO</type>
-      </artifact>
-    </plugin>
-
-    <light name='user_spot_light_0' type='spot'>
-      <pose>12 0 15 0 0.65 0</pose>
-      <diffuse>1 1 1 1</diffuse>
-      <specular>0.1 0.1 0.1 1</specular>
-      <direction>0 0 -1</direction>
-      <attenuation>
-        <range>30</range>
-        <constant>0.001</constant>
-        <linear>0.01</linear>
-        <quadratic>0.000</quadratic>
-      </attenuation>
-      <cast_shadows>1</cast_shadows>
-      <spot>
-        <inner_angle>0.0</inner_angle>
-        <outer_angle>1.5</outer_angle>
-        <falloff>0.01</falloff>
-      </spot>
-    </light>
-
-  
-    <include>
-      <name>barrier_0_-1</name>
-      <pose>
-        8.0
-        -11
-        0
-        0
-        0
-        0
-      </pose>
-      <uri>model://jersey_barrier</uri>
-    </include>
-  
-    <include>
-      <name>barrier_0_1</name>
-      <pose>
-        8.0
-        11
-        0
-        0
-        0
-        0
-      </pose>
-      <uri>model://jersey_barrier</uri>
-    </include>
-  
-    <include>
-      <name>barrier_1_-1</name>
-      <pose>
-        3.7
-        -11
-        0
-        0
-        0
-        0
-      </pose>
-      <uri>model://jersey_barrier</uri>
-    </include>
-  
-    <include>
-      <name>barrier_1_1</name>
-      <pose>
-        3.7
-        11
-        0
-        0
-        0
-        0
-      </pose>
-      <uri>model://jersey_barrier</uri>
-    </include>
-  
-    <include>
-      <name>barrier_2_-1</name>
-      <pose>
-        -0.5999999999999996
-        -11
-        0
-        0
-        0
-        0
-      </pose>
-      <uri>model://jersey_barrier</uri>
-    </include>
-  
-    <include>
-      <name>barrier_2_1</name>
-      <pose>
-        -0.5999999999999996
-        11
-        0
-        0
-        0
-        0
-      </pose>
-      <uri>model://jersey_barrier</uri>
-    </include>
-  
-    <include>
-      <name>barrier_3_-1</name>
-      <pose>
-        -4.899999999999999
-        -11
-        0
-        0
-        0
-        0
-      </pose>
-      <uri>model://jersey_barrier</uri>
-    </include>
-  
-    <include>
-      <name>barrier_3_1</name>
-      <pose>
-        -4.899999999999999
-        11
-        0
-        0
-        0
-        0
-      </pose>
-      <uri>model://jersey_barrier</uri>
-    </include>
-  
-    <include>
-      <name>barrier_4_-1</name>
-      <pose>
-        -9.2
-        -11
-        0
-        0
-        0
-        0
-      </pose>
-      <uri>model://jersey_barrier</uri>
-    </include>
-  
-    <include>
-      <name>barrier_4_1</name>
-      <pose>
-        -9.2
-        11
-        0
-        0
-        0
-        0
-      </pose>
-      <uri>model://jersey_barrier</uri>
-    </include>
-  
-
-  
-    <include>
-      <name>barrier_-9.5_-2</name>
-      <pose>
-        10.5
-        -8.6
-        0
-        0
-        0
-        1.5707963267948966
-      </pose>
-      <uri>model://jersey_barrier</uri>
-    </include>
-  
-    <include>
-      <name>barrier_-9.5_2</name>
-      <pose>
-        10.5
-        8.6
-        0
-        0
-        0
-        1.5707963267948966
-      </pose>
-      <uri>model://jersey_barrier</uri>
-    </include>
-  
-    <include>
-      <name>barrier_-32_-2</name>
-      <pose>
-        -12
-        -8.6
-        0
-        0
-        0
-        1.5707963267948966
-      </pose>
-      <uri>model://jersey_barrier</uri>
-    </include>
-  
-    <include>
-      <name>barrier_-32_-1</name>
-      <pose>
-        -12
-        -4.3
-        0
-        0
-        0
-        1.5707963267948966
-      </pose>
-      <uri>model://jersey_barrier</uri>
-    </include>
-  
-    <include>
-      <name>barrier_-32_0</name>
-      <pose>
-        -12
-        0.0
-        0
-        0
-        0
-        1.5707963267948966
-      </pose>
-      <uri>model://jersey_barrier</uri>
-    </include>
-  
-    <include>
-      <name>barrier_-32_1</name>
-      <pose>
-        -12
-        4.3
-        0
-        0
-        0
-        1.5707963267948966
-      </pose>
-      <uri>model://jersey_barrier</uri>
-    </include>
-  
-    <include>
-      <name>barrier_-32_2</name>
-      <pose>
-        -12
-        8.6
-        0
-        0
-        0
-        1.5707963267948966
-      </pose>
-      <uri>model://jersey_barrier</uri>
-    </include>
-  
-
-
-    <!-- Grid tiles -->
+    <!-- Tunnel tiles -->
 
     <!-- x = 20 -->
     <include>
@@ -1327,6 +948,7 @@
       <pose>360 -20 -10 0 0 3.14159</pose>
     </include>
 
+
     <!-- Cap blockers -->
     <include>
       <uri>model://tunnel_tile_blocker</uri>
@@ -1358,14 +980,51 @@
       <pose>260 -150 -10 0 0 0</pose>
     </include>
 
-    <!-- Base station -->
-    <include>
-      <uri>model://base_station</uri>
-      <pose>-8 0 0 0 0 -1.5708</pose>
-      <plugin name="base_station_plugin" filename="libBaseStationPlugin.so">
-      </plugin>
-    </include>
     
+    <!-- The SubT challenge logic plugin -->
+    <plugin name="game_logic_plugin" filename="libGameLogicPlugin.so">
+      <!-- The collection of artifacts to locate -->
+      <artifact>
+        <name>backpack_1</name>
+        <type>TYPE_BACKPACK</type>
+      </artifact>
+      <artifact>
+        <name>toolbox_1</name>
+        <type>TYPE_TOOLBOX</type>
+      </artifact>
+      <artifact>
+        <name>extinguisher_1</name>
+        <type>TYPE_EXTINGUISHER</type>
+      </artifact>
+      <artifact>
+        <name>valve_1</name>
+        <type>TYPE_VALVE</type>
+      </artifact>
+      <artifact>
+        <name>radio_1</name>
+        <type>TYPE_RADIO</type>
+      </artifact>
+      <artifact>
+        <name>duct_1</name>
+        <type>TYPE_DUCT</type>
+      </artifact>
+      <artifact>
+        <name>electrical_box_1</name>
+        <type>TYPE_ELECTRICAL_BOX</type>
+      </artifact>
+      <artifact>
+        <name>phone_1</name>
+        <type>TYPE_PHONE</type>
+      </artifact>
+      <artifact>
+        <name>backpack_2</name>
+        <type>TYPE_BACKPACK</type>
+      </artifact>
+      <artifact>
+        <name>radio_2</name>
+        <type>TYPE_RADIO</type>
+      </artifact>
+    </plugin>
 
     <!-- The SubT comms broker plugin -->
     <plugin name="comms_broker_plugin" filename="libCommsBrokerPlugin.so">
