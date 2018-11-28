@@ -96,7 +96,6 @@ namespace subt
     /// Id from the visibility graph.
     private: void CreateWorldSegments();
 
-
     /// \brief Create the visibility table in memory.
     private: void BuildLUT();
 
