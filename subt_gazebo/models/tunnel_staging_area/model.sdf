@@ -1,0 +1,225 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="staging_area">
+    <static>true</static>
+
+    <!-- This link is to extrude the bounding box to cover approximately
+         an area of 20x20x20 meters -->
+    <link name="link_top">
+      <collision name="collision1">
+        <pose>-10 -10 20 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.1 0.1 0.1</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="collision2">
+        <pose>10 10 20 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.1 0.1 0.1</size>
+          </box>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- The flat area where the robots starts -->
+    <model name="staging">
+      <pose>-1.181716 0 -0.002 0 0 0</pose>
+      <static>true</static>
+      <link name="link">
+        <pose>0 0 -0.5 0 0 0</pose>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>25 25 1</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Residential</name>
+            </script>
+          </material>
+        </visual>
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>25 20 1</size>
+            </box>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+
+    <!-- Entry to the tunnel -->
+    <model name="tunnel_entrance">
+      <pose>10 0 -0.001 0 0 -1.5707963267948966</pose>
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <mesh>
+              <scale>0.008 0.008 0.008</scale>
+              <uri>model://tunnel_entrance/meshes/Entrance.obj</uri>
+            </mesh>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <mesh>
+              <scale>0.008 0.008 0.008</scale>
+              <uri>model://tunnel_entrance/meshes/Entrance.obj</uri>
+            </mesh>
+          </geometry>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Start Area where an object enters to initiate the game. -->
+    <model name="start_area">
+      <static>true</static>
+      <pose>10 0 1.5 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>1.0 5.0 3.0</size>
+            </box>
+          </geometry>
+          <surface>
+            <contact>
+              <collide_without_contact>1</collide_without_contact>
+            </contact>
+          </surface>
+        </collision>
+        <sensor name="start_area_sensor" type="contact">
+          <contact>
+            <collision>collision</collision>
+          </contact>
+        </sensor>
+      </link>
+      <plugin name="touch_start_area" filename="libTouchPlugin.so">
+        <sensor>start_area_sensor</sensor>
+        <!-- empty target name lets the plugin detects everything -->
+        <target></target>
+        <time>0.001</time>
+        <namespace>subt/start</namespace>
+        <enabled>true</enabled>
+      </plugin>
+    </model>
+
+    <!-- Base station -->
+    <include>
+      <uri>model://base_station</uri>
+      <pose>-8 0 0 0 0 -1.5708</pose>
+      <plugin name="base_station_plugin" filename="libBaseStationPlugin.so">
+      </plugin>
+    </include>
+
+    <!-- Barriers -->
+    <include>
+      <name>barrier_0_-1</name>
+      <pose>8.0 -11 0 0 0 0</pose>
+      <uri>model://jersey_barrier</uri>
+    </include>
+  
+    <include>
+      <name>barrier_0_1</name>
+      <pose>8.0 11 0 0 0 0 </pose>
+      <uri>model://jersey_barrier</uri>
+    </include>
+  
+    <include>
+      <name>barrier_1_-1</name>
+      <pose>3.7 -11 0 0 0 0</pose>
+      <uri>model://jersey_barrier</uri>
+    </include>
+  
+    <include>
+      <name>barrier_1_1</name>
+      <pose>3.7 11 0 0 0 0</pose>
+      <uri>model://jersey_barrier</uri>
+    </include>
+  
+    <include>
+      <name>barrier_2_-1</name>
+      <pose>-0.5999999999999996 -11 0 0 0 0</pose>
+      <uri>model://jersey_barrier</uri>
+    </include>
+  
+    <include>
+      <name>barrier_2_1</name>
+      <pose>-0.5999999999999996 11 0 0 0 0</pose>
+      <uri>model://jersey_barrier</uri>
+    </include>
+  
+    <include>
+      <name>barrier_3_-1</name>
+      <pose>-4.899999999999999 -11 0 0 0 0</pose>
+      <uri>model://jersey_barrier</uri>
+    </include>
+  
+    <include>
+      <name>barrier_3_1</name>
+      <pose>-4.899999999999999 11 0 0 0 0</pose>
+      <uri>model://jersey_barrier</uri>
+    </include>
+  
+    <include>
+      <name>barrier_4_-1</name>
+      <pose>-9.2 -11 0 0 0 0</pose>
+      <uri>model://jersey_barrier</uri>
+    </include>
+  
+    <include>
+      <name>barrier_4_1</name>
+      <pose>-9.2 11 0 0 0 0</pose>
+      <uri>model://jersey_barrier</uri>
+    </include>
+  
+    <include>
+      <name>barrier_-9.5_-2</name>
+      <pose>10.5 -8.6 0 0 0 1.5707963267948966</pose>
+      <uri>model://jersey_barrier</uri>
+    </include>
+  
+    <include>
+      <name>barrier_-9.5_2</name>
+      <pose>10.5 8.6 0 0 0 1.5707963267948966</pose>
+      <uri>model://jersey_barrier</uri>
+    </include>
+  
+    <include>
+      <name>barrier_-32_-2</name>
+      <pose>-12 -8.6 0 0 0 1.5707963267948966</pose>
+      <uri>model://jersey_barrier</uri>
+    </include>
+  
+    <include>
+      <name>barrier_-32_-1</name>
+      <pose>-12 -4.3 0 0 0 1.5707963267948966</pose>
+      <uri>model://jersey_barrier</uri>
+    </include>
+  
+    <include>
+      <name>barrier_-32_0</name>
+      <pose>-12 0.0 0 0 0 1.5707963267948966</pose>
+      <uri>model://jersey_barrier</uri>
+    </include>
+  
+    <include>
+      <name>barrier_-32_1</name>
+      <pose>-12 4.3 0 0 0 1.5707963267948966</pose>
+      <uri>model://jersey_barrier</uri>
+    </include>
+  
+    <include>
+      <name>barrier_-32_2</name>
+      <pose>-12 8.6 0 0 0 1.5707963267948966</pose>
+      <uri>model://jersey_barrier</uri>
+    </include>
+
+  </model>
+</sdf>
