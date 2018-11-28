@@ -91,20 +91,16 @@ namespace subt
     /// \return The vertex Id.
     private: uint64_t Index(const ignition::math::Vector3d &_position) const;
 
-    /// \brief ToDo.
+    /// \brief Populate a vector, where each element is a pair with the
+    /// bounding box of a model segment of the world and its associated vertex
+    /// Id from the visibility graph.
     private: void CreateWorldSegments();
 
 
     /// \brief Create the visibility table in memory.
-    /// \param[in] _g The input visibility graph.
-    /// \param[out] _visibility The output table.
     private: void BuildLUT();
 
     /// \brief Generate the visibility LUT in disk.
-    /// \param[in] _outFilename The path to the output file.
-    /// \param[in] _g The visibility graph.
-    /// \param[in] _visibility The table containing all the visibility info.
-    /// \return True when the file was succesfully generated or false otherwise.
     private: void WriteOutputFile();
 
     /// \brief The graph modeling the connectivity.
@@ -115,7 +111,7 @@ namespace subt
 
     /// \brief All model segments used to create the environment. Each of these
     /// segments is associated with a vertex in a graph.
-    /// Mapping between a model and a vertex Id.
+    /// Mapping between a model's bouding box and a vertex Id.
     private: std::vector<
                std::pair<ignition::math::Box, uint64_t>> worldSegments;
 
