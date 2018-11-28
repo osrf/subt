@@ -120,8 +120,7 @@ namespace subt
                std::pair<ignition::math::Box, uint64_t>> worldSegments;
 
     /// \brief A map that stores 3D points an the vertex id in which are located
-    private: std::map<std::tuple<uint32_t, uint32_t, uint32_t>,
-                      uint64_t> vertices;
+    private: std::map<std::tuple<int32_t, int32_t, int32_t>, uint64_t> vertices;
 
     /// \brief The path where the Gazebo world is located.
     private: std::string worldPath;

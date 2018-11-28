@@ -77,9 +77,9 @@ bool VisibilityTable::Load()
   // Now save all entries.
   for (auto i = 0u; i < numEntries; ++i)
   {
-    uint32_t x;
-    uint32_t y;
-    uint32_t z;
+    int32_t x;
+    int32_t y;
+    int32_t z;
     uint64_t vertexId;
 
     in.read(reinterpret_cast<char*>(&x), sizeof(x));
@@ -98,9 +98,9 @@ bool VisibilityTable::Load()
 double VisibilityTable::Cost(const ignition::math::Vector3d &_from,
   const ignition::math::Vector3d &_to) const
 {
-  uint32_t x = std::round(_from.X());
-  uint32_t y = std::round(_from.Y());
-  uint32_t z = std::round(_from.Z());
+  int32_t x = std::round(_from.X());
+  int32_t y = std::round(_from.Y());
+  int32_t z = std::round(_from.Z());
   auto sampleFrom = std::make_tuple(x, y, z);
 
   x = std::round(_to.X());
@@ -259,9 +259,9 @@ void VisibilityTable::WriteOutputFile()
   // Now save all entries.
   for (const auto entry : this->vertices)
   {
-    uint32_t x = std::get<0>(entry.first);
-    uint32_t y = std::get<1>(entry.first);
-    uint32_t z = std::get<2>(entry.first);
+    int32_t x = std::get<0>(entry.first);
+    int32_t y = std::get<1>(entry.first);
+    int32_t z = std::get<2>(entry.first);
     uint64_t vertexId = entry.second;
     out.write(reinterpret_cast<const char*>(&x), sizeof(x));
     out.write(reinterpret_cast<const char*>(&y), sizeof(y));

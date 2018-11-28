@@ -25,34 +25,24 @@ namespace gazebo
   /// \brief This plugin generates a vertex lookup table with the
   /// following contents:
   ///
-  /// uint32_t min_x
-  /// uint32_t max_x
-  /// uint32_t min_y
-  /// uint32_t max_y
-  /// uint32_t min_z
-  /// uint32_t max_z
   /// uint64_t num_entries
   /// ...
-  /// uint32_t sample_x
-  /// uint32_t sample_y
-  /// uint32_t sample_z
+  /// int32_t sample_x
+  /// int32_t sample_y
+  /// int32_t sample_z
   /// uint64_t vertex_id
   /// ...
   ///
-  /// Data is stored in binary, and keys is a list of unique uint64_t values
-  /// that represent two coordinates that *do not* have visiblity. It is
-  /// assumed that any two coordiantes separated by more than 250m are not
-  /// visible.
-  ///
-  /// Keys are generated using a combination of an Index and Pair function.
-  ///
-  /// We assume a terrain, without any other objects, is used to generate
-  /// the visibility lookup table.
+  /// Data is stored in binary, and keys is a list of three int32_t values
+  /// that represent a 3D coordinate contained within the scenario. The next
+  /// uint64_t value is the vertex Id of the graph that contains the given
+  /// 3D point.
   ///
   /// Example usage:
-  ///   gzserver -s libVisibilityPlugin.so --iters 1 worlds/swarm_vis.world
+  ///   roslaunch subt_gazebo visibility.launch scenario:=tunnel_practice_1
   ///
-  /// The visibility table will be located at /tmp/visibility.dat
+  /// The visibility table (<WORLD_NAME>.dat) will be located in the same
+  /// directory where the world file was located.
   class GAZEBO_VISIBLE VisibilityPlugin : public SystemPlugin
   {
     /// \brief Destructor
