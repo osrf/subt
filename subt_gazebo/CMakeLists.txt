@@ -19,6 +19,7 @@ find_package(catkin REQUIRED
     geometry_msgs
     std_msgs
     std_srvs
+    subt_msgs
     message_generation
 )
 

@@ -19,6 +19,7 @@
 #include <ros/ros.h>
 #include <std_msgs/Int32.h>
 #include <std_msgs/UInt8.h>
+#include <subt_msgs/PoseFromArtifact.h>
 #include <chrono>
 #include <memory>
 #include <gazebo/gazebo.hh>
@@ -56,6 +57,23 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
   {
     // Make sure that we start receiving score updates.
     ASSERT_TRUE(this->WaitUntilScoreIs(0));
+
+    // Check the service for reporting a robot position relative to the origin
+    // artifact.
+    ros::ServiceClient client =
+      this->nodeHandle.serviceClient<subt_msgs::PoseFromArtifact>(
+        "/subt/pose_from_artifact_origin");
+
+    subt_msgs::PoseFromArtifact srv;
+    srv.request.robot_name.data = "X1";
+    EXPECT_TRUE(client.call(srv));
+    EXPECT_NEAR(7.1, srv.response.pose.pose.position.x, 0.1);
+    EXPECT_NEAR(-4, srv.response.pose.pose.position.y, 0.1);
+    EXPECT_NEAR(-0.3687, srv.response.pose.pose.position.z, 0.1);
+    EXPECT_NEAR(0, srv.response.pose.pose.orientation.x, 0.1);
+    EXPECT_NEAR(0, srv.response.pose.pose.orientation.y, 0.1);
+    EXPECT_NEAR(1, srv.response.pose.pose.orientation.z, 0.1);
+    EXPECT_NEAR(0, srv.response.pose.pose.orientation.w, 0.1);
 
     // Report an artifact with high accuracy (x3): +9 points.
     ignition::msgs::Pose pose;
