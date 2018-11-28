@@ -471,6 +471,14 @@ bool GameLogicPlugin::OnPoseFromArtifact(
     return false;
   }
 
+  if (!baseStationPtr->BoundingBox().Contains(modelPtr->WorldPose().Pos()))
+  {
+    gzerr << "[GameLogicPlugin]: Robot [" << robotName << "] is not in the "
+          << "staging area. Ignoring PoseFromArtifact request" << std::endl;
+    _res.success = false;
+    return false;
+  }
+
   // Header.
   _res.pose.header.stamp = ros::Time(
     this->world->SimTime().sec, this->world->SimTime().nsec);
@@ -487,9 +495,8 @@ bool GameLogicPlugin::OnPoseFromArtifact(
   _res.pose.pose.orientation.z = relPose.Rot().Z();
   _res.pose.pose.orientation.w = relPose.Rot().W();
 
-  _res.success =
-    (baseStationPtr->BoundingBox().Contains(modelPtr->WorldPose().Pos()));
-  return _res.success;
+  _res.success = true;
+  return true;
 }
 
 /////////////////////////////////////////////////

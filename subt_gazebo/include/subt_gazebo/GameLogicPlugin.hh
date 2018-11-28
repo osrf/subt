@@ -94,8 +94,7 @@ namespace gazebo
                                std_srvs::SetBool::Response &_res);
 
     /// \brief ROS service callback triggered when the service is called.
-    /// \param[in]  _req The message containing a flag telling if the game is to
-    /// be finished.
+    /// \param[in]  _req The message containing the robot name.
     /// \param[out] _res The response message.
     private: bool OnPoseFromArtifact(subt_msgs::PoseFromArtifact::Request &_req,
                                    subt_msgs::PoseFromArtifact::Response &_res);
