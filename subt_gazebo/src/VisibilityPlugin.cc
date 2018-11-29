@@ -14,7 +14,7 @@
  * limitations under the License.
  *
 */
-
+#include <csignal>
 #include "gazebo/gazebo_config.h"
 #include "gazebo/physics/physics.hh"
 #include "subt_gazebo/VisibilityTable.hh"
@@ -53,7 +53,7 @@ void VisibilityPlugin::OnUpdate()
     table.Generate();
     this->worldUpdateConn.reset();
 
-    gzmsg << "Visibility LUT generated. Press [CTRL + C] to terminate."
-          << std::endl;
+    // Send SIGINT to terminate Gazebo.
+    raise(SIGINT);
   }
 }

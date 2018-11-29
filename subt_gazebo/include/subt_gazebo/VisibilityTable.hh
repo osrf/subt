@@ -40,10 +40,10 @@ namespace subt
     public: static const int32_t kMaxX = 500;
 
     /// \brief Min Y to sample.
-    public: static const int32_t kMinY = -200;
+    public: static const int32_t kMinY = -300;
 
     /// \brief Max Y to sample.
-    public: static const int32_t kMaxY = 200;
+    public: static const int32_t kMaxY = 300;
 
     /// \brief Min Z to sample.
     public: static const int32_t kMinZ = -50;
