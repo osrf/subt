@@ -462,7 +462,7 @@ bool CommsModel::VisualizeVisibility(const ignition::msgs::StringMsg &_req,
     ignition::math::Vector3d to = ignition::math::Vector3d(
       std::get<0>(toTuple), std::get<1>(toTuple), std::get<2>(toTuple));
     double cost = this->visibilityTable.Cost(from, to);
-    if (cost >= 0 && cost <= this->commsCostMax)
+    if (cost <= this->commsCostMax)
     {
       markerMsg.set_id(index++);
       ignition::msgs::Set(markerMsg.mutable_pose(),

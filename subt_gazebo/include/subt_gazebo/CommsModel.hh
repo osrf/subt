@@ -165,7 +165,7 @@ namespace subt
     /// \brief Maximum cost between two sections of the world to communicate.
     /// This is the cost of the associated graph connecting all the tunnels of
     /// the world.
-    private: double commsCostMax = 10.0;
+    private: double commsCostMax = 15.0;
 
     /// \brief Pointer to the team.
     private: TeamMembershipPtr team;
