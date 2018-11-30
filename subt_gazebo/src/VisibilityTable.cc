@@ -128,6 +128,24 @@ double VisibilityTable::Cost(const ignition::math::Vector3d &_from,
 }
 
 //////////////////////////////////////////////////
+void VisibilityTable::Generate()
+{
+  this->CreateWorldSegments();
+
+  std::cout << "Building LUT" << std::endl;
+  this->BuildLUT();
+
+  this->WriteOutputFile();
+}
+
+//////////////////////////////////////////////////
+const std::map<std::tuple<int32_t, int32_t, int32_t>, uint64_t>
+  &VisibilityTable::Vertices() const
+{
+  return this->vertices;
+}
+
+//////////////////////////////////////////////////
 uint64_t VisibilityTable::Index(const ignition::math::Vector3d &_position) const
 {
   for (auto const segment : this->worldSegments)
@@ -268,15 +286,4 @@ void VisibilityTable::WriteOutputFile()
     out.write(reinterpret_cast<const char*>(&z), sizeof(z));
     out.write(reinterpret_cast<const char*>(&vertexId), sizeof(vertexId));
   }
-}
-
-//////////////////////////////////////////////////
-void VisibilityTable::Generate()
-{
-  this->CreateWorldSegments();
-
-  std::cout << "Building LUT" << std::endl;
-  this->BuildLUT();
-
-  this->WriteOutputFile();
 }

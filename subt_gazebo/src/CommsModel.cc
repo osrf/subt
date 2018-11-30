@@ -437,13 +437,13 @@ bool CommsModel::VisualizeVisibility(const ignition::msgs::StringMsg &_req,
   markerMsg.set_ns("default");
   markerMsg.set_action(ignition::msgs::Marker::ADD_MODIFY);
   markerMsg.set_type(ignition::msgs::Marker::BOX);
-  markerMsg.mutable_lifetime()->set_sec(2.0);
+  markerMsg.mutable_lifetime()->set_sec(4.0);
   markerMsg.mutable_lifetime()->set_nsec(0.0);
 
   ignition::msgs::Material *matMsg = markerMsg.mutable_material();
   matMsg->mutable_script()->set_name("Gazebo/Green");
   ignition::msgs::Set(markerMsg.mutable_scale(),
-                    ignition::math::Vector3d(0.5, 0.5, 0.5));
+                      ignition::math::Vector3d(0.5, 0.5, 0.5));
 
   std::string modelName = _req.data();
   auto model = this->world->ModelByName(modelName);
@@ -456,20 +456,20 @@ bool CommsModel::VisualizeVisibility(const ignition::msgs::StringMsg &_req,
   ignition::math::Vector3d from = model->WorldPose().Pos();
 
   uint64_t index = 0;
-  for (auto z = VisibilityTable::kMinZ; z <= VisibilityTable::kMaxZ; ++z)
-    for (auto y = VisibilityTable::kMinY; y <= VisibilityTable::kMaxY; ++y)
-      for (auto x = VisibilityTable::kMinX; x <= VisibilityTable::kMaxX; ++x)
-      {
-        ignition::math::Vector3d to = ignition::math::Vector3d(x, y, z);
-        double cost = this->visibilityTable.Cost(from, to);
-        if (cost >= 0 && cost <= 10)
-        {
-          markerMsg.set_id(index++);
-          ignition::msgs::Set(markerMsg.mutable_pose(),
-                              ignition::math::Pose3d(x, y, z, 0, 0, 0));
-          this->node.Request("/marker", markerMsg);
-        }
-      }
+  for (auto const &entry : this->visibilityTable.Vertices())
+  {
+    const auto &toTuple = entry.first;
+    ignition::math::Vector3d to = ignition::math::Vector3d(
+      std::get<0>(toTuple), std::get<1>(toTuple), std::get<2>(toTuple));
+    double cost = this->visibilityTable.Cost(from, to);
+    if (cost >= 0 && cost <= this->commsCostMax)
+    {
+      markerMsg.set_id(index++);
+      ignition::msgs::Set(markerMsg.mutable_pose(),
+                   ignition::math::Pose3d(to.X(), to.Y(), to.Z(), 0, 0, 0));
+      this->node.Request("/marker", markerMsg);
+    }
+  }
 
   _rep.set_data(true);
   return true;

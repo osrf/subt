@@ -77,6 +77,9 @@ namespace subt
     /// associated to that point.
     public: void Generate();
 
+    public: const std::map<std::tuple<int32_t, int32_t, int32_t>, uint64_t>
+      &Vertices() const;
+
     /// \brief Populate a graph from a file in DOT format.
     /// \param[in] _graphFilename The path to the file containing the graph.
     /// \return True if the graph was successfully generated or false otherwise.
