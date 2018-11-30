@@ -67,43 +67,67 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     subt_msgs::PoseFromArtifact srv;
     srv.request.robot_name.data = "X1";
     EXPECT_TRUE(client.call(srv));
-    EXPECT_NEAR(7.1, srv.response.pose.pose.position.x, 0.1);
-    EXPECT_NEAR(-4, srv.response.pose.pose.position.y, 0.1);
-    EXPECT_NEAR(-0.3687, srv.response.pose.pose.position.z, 0.1);
-    EXPECT_NEAR(0, srv.response.pose.pose.orientation.x, 0.1);
-    EXPECT_NEAR(0, srv.response.pose.pose.orientation.y, 0.1);
-    EXPECT_NEAR(1, srv.response.pose.pose.orientation.z, 0.1);
-    EXPECT_NEAR(0, srv.response.pose.pose.orientation.w, 0.1);
+    geometry_msgs::Pose origin = srv.response.pose.pose;
+
+    EXPECT_NEAR(7.1,     origin.position.x,    0.1);
+    EXPECT_NEAR(-4,      origin.position.y,    0.1);
+    EXPECT_NEAR(-0.3687, origin.position.z,    0.1);
+    EXPECT_NEAR(0,       origin.orientation.x, 0.1);
+    EXPECT_NEAR(0,       origin.orientation.y, 0.1);
+    EXPECT_NEAR(1,       origin.orientation.z, 0.1);
+    EXPECT_NEAR(0,       origin.orientation.w, 0.1);
+
+    ignition::math::Pose3d robotPose(9.1, 0, 0.1, 0, 0, 3.14159);
 
     // Report an artifact with high accuracy (x3): +9 points.
+    ignition::math::Pose3d artifact1Pose(140, 35, -20, 0, 0, 0);
+    double err = 0.0;
     ignition::msgs::Pose pose;
-    pose.mutable_position()->set_x(138.0);
-    pose.mutable_position()->set_y(31.0);
-    pose.mutable_position()->set_z(-20.5);
+    pose.mutable_position()->set_x(
+      artifact1Pose.Pos().X() - robotPose.Pos().X() + origin.position.x + err);
+    pose.mutable_position()->set_y(
+      artifact1Pose.Pos().Y() - robotPose.Pos().Y() + origin.position.y);
+    pose.mutable_position()->set_z(
+      artifact1Pose.Pos().Z() - robotPose.Pos().Z() + origin.position.z);
     uint32_t type = static_cast<uint32_t>(subt::ArtifactType::TYPE_BACKPACK);
     this->ReportArtifact(type, pose);
     ASSERT_TRUE(this->WaitUntilScoreIs(9));
 
     // Report an artifact with medium accuracy (x2): +6 points.
-    pose.mutable_position()->set_x(239.0);
-    pose.mutable_position()->set_y(21.0);
-    pose.mutable_position()->set_z(-35.5);
+    ignition::math::Pose3d artifact2Pose(240, 25, -35, 0, 0, 0);
+    err = 1.0;
+    pose.mutable_position()->set_x(
+      artifact2Pose.Pos().X() - robotPose.Pos().X() + origin.position.x + err);
+    pose.mutable_position()->set_y(
+      artifact2Pose.Pos().Y() - robotPose.Pos().Y() + origin.position.y);
+    pose.mutable_position()->set_z(
+      artifact2Pose.Pos().Z() - robotPose.Pos().Z() + origin.position.z);
     type = static_cast<uint32_t>(subt::ArtifactType::TYPE_TOOLBOX);
     this->ReportArtifact(type, pose);
     ASSERT_TRUE(this->WaitUntilScoreIs(15));
 
     // Report an artifact with low accuracy (x1): +3 points.
-    pose.mutable_position()->set_x(131.0);
-    pose.mutable_position()->set_y(-2.2);
-    pose.mutable_position()->set_z(-20.5);
+    ignition::math::Pose3d artifact3Pose(130, 2.2, -20, 0, 0, 0);
+    err = 3.0;
+    pose.mutable_position()->set_x(
+      artifact3Pose.Pos().X() - robotPose.Pos().X() + origin.position.x + err);
+    pose.mutable_position()->set_y(
+      artifact3Pose.Pos().Y() - robotPose.Pos().Y() + origin.position.y);
+    pose.mutable_position()->set_z(
+      artifact3Pose.Pos().Z() - robotPose.Pos().Z() + origin.position.z);
     type = static_cast<uint32_t>(subt::ArtifactType::TYPE_EXTINGUISHER);
     this->ReportArtifact(type, pose);
     ASSERT_TRUE(this->WaitUntilScoreIs(18));
 
     // Report an artifact with bad accuracy (-1): 0 points.
-    pose.mutable_position()->set_x(125.5);
-    pose.mutable_position()->set_y(-69.0);
-    pose.mutable_position()->set_z(-30.5);
+    ignition::math::Pose3d artifact4Pose(122.5, -65, -30, 0, 0, -1.5708);
+    err = 5.0;
+    pose.mutable_position()->set_x(
+      artifact4Pose.Pos().X() - robotPose.Pos().X() + origin.position.x + err);
+    pose.mutable_position()->set_y(
+      artifact4Pose.Pos().Y() - robotPose.Pos().Y() + origin.position.y);
+    pose.mutable_position()->set_z(
+      artifact4Pose.Pos().Z() - robotPose.Pos().Z() + origin.position.z);
     type = static_cast<uint32_t>(subt::ArtifactType::TYPE_VALVE);
     this->ReportArtifact(type, pose);
     ASSERT_TRUE(this->WaitUntilScoreIs(18));
