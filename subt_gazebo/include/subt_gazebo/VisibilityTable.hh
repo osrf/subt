@@ -77,6 +77,9 @@ namespace subt
     /// associated to that point.
     public: void Generate();
 
+    /// \brief Get the collection of sampled 3D points and their associated
+    /// vertex id.
+    /// \return the collection.
     public: const std::map<std::tuple<int32_t, int32_t, int32_t>, uint64_t>
       &Vertices() const;
 
