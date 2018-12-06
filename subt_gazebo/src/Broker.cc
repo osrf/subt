@@ -46,7 +46,7 @@ Broker::Broker()
   if (!this->node.Advertise(kAddrUnregistrationSrv,
         &Broker::OnAddrUnregistration, this))
   {
-    std::cerr << "Error unadvertising srv [" << kAddrUnregistrationSrv << "]"
+    std::cerr << "Error advertising srv [" << kAddrUnregistrationSrv << "]"
               << std::endl;
     return;
   }
