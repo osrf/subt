@@ -134,6 +134,12 @@ void GameLogicPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
   this->finishService = n.advertiseService(
     "/subt/finish", &GameLogicPlugin::OnFinishCall, this);
 
+  // ROS service to request the robot pose relative to the origin artifact.
+  // Note that this service is only available for robots in the staging area.
+  this->poseFromArtifactService = n.advertiseService(
+    "/subt/pose_from_artifact_origin",
+    &GameLogicPlugin::OnPoseFromArtifact, this);
+
   gzmsg << "Starting SubT" << std::endl;
   this->Log() << "starting" << std::endl;
 }
@@ -434,6 +440,62 @@ bool GameLogicPlugin::OnFinishCall(std_srvs::SetBool::Request &_req,
     this->Log() << "finished_score " << this->totalScore << std::endl;
     this->logStream.flush();
   }
+  return true;
+}
+
+/////////////////////////////////////////////////
+bool GameLogicPlugin::OnPoseFromArtifact(
+  subt_msgs::PoseFromArtifact::Request &_req,
+  subt_msgs::PoseFromArtifact::Response &_res)
+{
+  std::string robotName = _req.robot_name.data;
+
+  // Sanity check: Make sure that the robot exists.
+  physics::ModelPtr modelPtr = this->world->ModelByName(robotName);
+  if (!modelPtr)
+  {
+    gzerr << "[GameLogicPlugin]: Unable to find model with name ["
+          << robotName << "]. Ignoring PoseFromArtifact request" << std::endl;
+    _res.success = false;
+    return false;
+  }
+
+  // Sanity check: Make sure that the robot is in the stagging area, as this
+  // service is only available in that zone.
+  physics::ModelPtr baseStationPtr = this->world->ModelByName("BaseStation");
+  if (!baseStationPtr)
+  {
+    gzerr << "[GameLogicPlugin]: Unable to find the staging area [BaseStation]."
+          << "Ignoring PoseFromArtifact request" << std::endl;
+    _res.success = false;
+    return false;
+  }
+
+  if (!baseStationPtr->BoundingBox().Contains(modelPtr->WorldPose().Pos()))
+  {
+    gzerr << "[GameLogicPlugin]: Robot [" << robotName << "] is not in the "
+          << "staging area. Ignoring PoseFromArtifact request" << std::endl;
+    _res.success = false;
+    return false;
+  }
+
+  // Header.
+  _res.pose.header.stamp = ros::Time(
+    this->world->SimTime().sec, this->world->SimTime().nsec);
+  _res.pose.header.frame_id = "BaseStation";
+
+  // Pose.
+  ignition::math::Pose3d relPose =
+    modelPtr->WorldPose() - this->artifactOriginPose;
+  _res.pose.pose.position.x = relPose.Pos().X();
+  _res.pose.pose.position.y = relPose.Pos().Y();
+  _res.pose.pose.position.z = relPose.Pos().Z();
+  _res.pose.pose.orientation.x = relPose.Rot().X();
+  _res.pose.pose.orientation.y = relPose.Rot().Y();
+  _res.pose.pose.orientation.z = relPose.Rot().Z();
+  _res.pose.pose.orientation.w = relPose.Rot().W();
+
+  _res.success = true;
   return true;
 }
 

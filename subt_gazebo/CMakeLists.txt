@@ -19,6 +19,7 @@ find_package(catkin REQUIRED
     geometry_msgs
     std_msgs
     std_srvs
+    subt_msgs
     message_generation
 )
 
@@ -110,6 +111,7 @@ install(TARGETS ${motion_timer_lock_plugin_name}
 # Create the libGameLogicPlugin.so library.
 set(game_logic_plugin_name GameLogicPlugin)
 add_library(${game_logic_plugin_name} src/GameLogicPlugin.cc)
+add_dependencies(${game_logic_plugin_name} subt_msgs_generate_messages_cpp)
 target_include_directories(${game_logic_plugin_name}
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 target_link_libraries(${game_logic_plugin_name}
