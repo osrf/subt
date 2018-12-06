@@ -42,6 +42,15 @@ Broker::Broker()
     return;
   }
 
+  // Advertise the service for unregistering addresses.
+  if (!this->node.Advertise(kAddrUnregistrationSrv,
+        &Broker::OnAddrUnregistration, this))
+  {
+    std::cerr << "Error unadvertising srv [" << kAddrUnregistrationSrv << "]"
+              << std::endl;
+    return;
+  }
+
   // Advertise the service for registering end points.
   if (!this->node.Advertise(kEndPointRegistrationSrv,
         &Broker::OnEndPointRegistration, this))
@@ -266,6 +275,7 @@ bool Broker::Register(const std::string &_id)
 //////////////////////////////////////////////////
 bool Broker::Unregister(const std::string &_id)
 {
+  std::cerr << "Unregustering [" << _id << "]" << std::endl;
   // Sanity check: Make sure that the ID exists.
   if (this->team->find(_id) == this->team->end())
   {
@@ -304,6 +314,23 @@ bool Broker::OnAddrRegistration(const ignition::msgs::StringMsg &_req,
   {
     std::lock_guard<std::mutex> lk(this->mutex);
     result = this->Register(address);
+  }
+
+  _rep.set_data(result);
+
+  return result;
+}
+
+/////////////////////////////////////////////////
+bool Broker::OnAddrUnregistration(const ignition::msgs::StringMsg &_req,
+    ignition::msgs::Boolean &_rep)
+{
+  std::string address = _req.data();
+  bool result;
+
+  {
+    std::lock_guard<std::mutex> lk(this->mutex);
+    result = this->Unregister(address);
   }
 
   _rep.set_data(result);
