@@ -275,7 +275,6 @@ bool Broker::Register(const std::string &_id)
 //////////////////////////////////////////////////
 bool Broker::Unregister(const std::string &_id)
 {
-  std::cerr << "Unregustering [" << _id << "]" << std::endl;
   // Sanity check: Make sure that the ID exists.
   if (this->team->find(_id) == this->team->end())
   {
