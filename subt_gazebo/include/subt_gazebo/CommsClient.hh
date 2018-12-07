@@ -72,12 +72,10 @@ namespace subt
     ///    this->Bind(&MyClass::OnDataReceived, this, "192.168.1.3");
     /// * Example usage (Bind on the multicast group and custom port.):
     ///    this->Bind(&MyClass::OnDataReceived, this, this->kMulticast, 5123);
-    public: template<typename C>
-    bool Bind(void(C::*_cb)(const std::string &_srcAddress,
-                            const std::string &_dstAddress,
-                            const uint32_t _dstPort,
-                            const std::string &_data),
-              C *_obj,
+    bool Bind(std::function<void(const std::string &_srcAddress,
+                                 const std::string &_dstAddress,
+                                 const uint32_t _dstPort,
+                                 const std::string &_data)> _cb,
               const std::string &_address = "",
               const int _port = kDefaultPort)
     {
@@ -164,7 +162,7 @@ namespace subt
         {
           if (endpoint != bcastEndpoint || bcastAdvertiseNeeded)
           {
-            this->callbacks[endpoint] = std::bind(_cb, _obj,
+            this->callbacks[endpoint] = std::bind(_cb,
               std::placeholders::_1, std::placeholders::_2,
               std::placeholders::_3, std::placeholders::_4);
           }
@@ -172,6 +170,21 @@ namespace subt
       }
 
       return true;
+    }
+
+   public: template<typename C>
+   bool Bind(void(C::*_cb)(const std::string &_srcAddress,
+                           const std::string &_dstAddress,
+                           const uint32_t _dstPort,
+                           const std::string &_data),
+             C *_obj,
+             const std::string &_address = "",
+             const int _port = kDefaultPort)
+    {
+      return this->Bind(std::bind(_cb, _obj,
+                                     std::placeholders::_1, std::placeholders::_2,
+                                     std::placeholders::_3, std::placeholders::_4),
+                           _address, _port);
     }
 
     /// \brief Send some data to other/s member/s of the team.
