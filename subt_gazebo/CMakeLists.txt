@@ -55,7 +55,8 @@ catkin_package(
     message_runtime
     std_srvs
   INCLUDE_DIRS
-    include
+  include
+  ${CATKIN_DEVEL_PREFIX}/include
   LIBRARIES
     CommsClient
   CFG_EXTRAS
