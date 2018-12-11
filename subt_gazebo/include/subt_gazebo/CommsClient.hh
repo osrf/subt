@@ -44,6 +44,9 @@ namespace subt
     public: explicit CommsClient(const std::string &_localAddress,
                                  const bool _isPrivate = false);
 
+    /// \brief Destructor.
+    public: virtual ~CommsClient();
+
     /// \brief Get your local address.
     /// \return The local address.
     public: std::string Host() const;
@@ -207,6 +210,11 @@ namespace subt
     /// to the broker to validate and register the address.
     /// \return True when the address is valid or false otherwise.
     private: bool Register();
+
+    /// \brief Unregister the current address. This will make a synchronous call
+    /// to the broker to unregister the address.
+    /// \return True when the unregistration succeed or false otherwise.
+    private: bool Unregister();
 
     /// \brief Function called each time a new datagram message is received.
     /// \param[in] _msg The incoming message.
