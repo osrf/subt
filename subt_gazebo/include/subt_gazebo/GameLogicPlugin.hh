@@ -20,6 +20,7 @@
 #include <ros/ros.h>
 #include <std_srvs/SetBool.h>
 #include <std_srvs/Trigger.h>
+#include <subt_msgs/PoseFromArtifact.h>
 #include <array>
 #include <chrono>
 #include <map>
@@ -31,6 +32,7 @@
 #include <gazebo/common/Plugin.hh>
 #include <gazebo/physics/physics.hh>
 #include <gazebo/transport/Node.hh>
+#include <ignition/math/Pose3.hh>
 #include <sdf/sdf.hh>
 
 #include "subt_gazebo/CommonTypes.hh"
@@ -91,6 +93,12 @@ namespace gazebo
     private: bool OnFinishCall(std_srvs::SetBool::Request &_req,
                                std_srvs::SetBool::Response &_res);
 
+    /// \brief ROS service callback triggered when the service is called.
+    /// \param[in]  _req The message containing the robot name.
+    /// \param[out] _res The response message.
+    private: bool OnPoseFromArtifact(subt_msgs::PoseFromArtifact::Request &_req,
+                                   subt_msgs::PoseFromArtifact::Response &_res);
+
     /// \brief Parse all the artifacts.
     /// \param[in] _sdf The SDF element containing the artifacts.
     private: void ParseArtifacts(sdf::ElementPtr _sdf);
@@ -145,6 +153,10 @@ namespace gazebo
     /// \brief ROS service server to receive a call to finish the game.
     private: ros::ServiceServer finishService;
 
+    /// \brief ROS service server to receive the location of a robot relative to
+    /// the origin artifact.
+    private: ros::ServiceServer poseFromArtifactService;
+
     /// \brief Gazebo Transport Subscriber to check the collision.
     private: gazebo::transport::SubscriberPtr startCollisionSub;
 
@@ -182,8 +194,11 @@ namespace gazebo
     /// \brief A mutex.
     private: std::mutex mutex;
 
-    /// Log file output stream.
+    /// \brief Log file output stream.
     private: std::ofstream logStream;
+
+    /// \brief The pose of the object marking the origin of the artifacts.
+    private: ignition::math::Pose3d artifactOriginPose;
   };
 }
 #endif

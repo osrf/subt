@@ -103,6 +103,9 @@ namespace subt
   /// \brief Service used to validate an address.
   const std::string kAddrRegistrationSrv = "address/register";
 
+  /// \brief Service used to invalidate an address.
+  const std::string kAddrUnregistrationSrv = "address/unregister";
+
   /// \brief Service used to register an end point.
   const std::string kEndPointRegistrationSrv = "end_point/register";
 

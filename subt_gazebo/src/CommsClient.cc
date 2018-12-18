@@ -76,6 +76,12 @@ CommsClient::CommsClient(const std::string &_localAddress,
 }
 
 //////////////////////////////////////////////////
+CommsClient::~CommsClient()
+{
+  this->Unregister();
+}
+
+//////////////////////////////////////////////////
 std::string CommsClient::Host() const
 {
   return this->localAddress;
@@ -142,6 +148,22 @@ bool CommsClient::Register()
 
   bool executed = this->node.Request(
     kAddrRegistrationSrv, req, timeout, rep, result);
+
+  return executed && result;
+}
+
+//////////////////////////////////////////////////
+bool CommsClient::Unregister()
+{
+  ignition::msgs::StringMsg req;
+  req.set_data(this->localAddress);
+
+  ignition::msgs::Boolean rep;
+  bool result;
+  const unsigned int timeout = 3000u;
+
+  bool executed = this->node.Request(
+    kAddrUnregistrationSrv, req, timeout, rep, result);
 
   return executed && result;
 }

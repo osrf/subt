@@ -102,6 +102,13 @@ def check_main():
       <uri>model://tunnel_staging_area</uri>
     </include>
 
+    <!-- Fiducial marking the origin for artifacts reports -->
+    <include>
+      <name>artifact_origin</name>
+      <pose>2 4 0.5 0 0 0</pose>
+      <uri>model://fiducial</uri>
+    </include>
+
 
     <!-- Tunnel tiles and artifacts -->""" %
   (' '.join(sys.argv).replace('--', '-\-'), args.world_name))

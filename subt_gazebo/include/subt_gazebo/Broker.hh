@@ -106,6 +106,13 @@ namespace subt
     private: bool OnAddrRegistration(const ignition::msgs::StringMsg &_req,
                                      ignition::msgs::Boolean &_rep);
 
+    /// \brief Callback executed when a new unregistration request is received.
+    /// \param[in] _req The address contained in the request.
+    /// \param[out] _rep The result of the service. True when the unregistration
+    /// went OK or false otherwise (e.g.: the address wasn't registered).
+    private: bool OnAddrUnregistration(const ignition::msgs::StringMsg &_req,
+                                       ignition::msgs::Boolean &_rep);
+
     /// \brief Callback executed when a new registration request is received.
     /// \param[in] _req The end point contained in the request. The first
     /// string is the client address and the second string is the end point.
