@@ -1,0 +1,80 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="rough_tunnel_tile_vertical_shaft">
+    <static>true</static>
+    <link name="link">
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://rough_tunnel_tile_vertical_shaft/meshes/VerticalShaft_Collider.DAE</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name="collision_ground_1">
+        <pose>0 6.14028 5 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>6.19538 7.71943 0.001</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="collision_ground_2">
+        <pose>0 2.28057 2.5 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>6.19538 0.001 5</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="collision_ground_3">
+        <pose>0 -3.8572 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>6.19538 12.2806 0.001</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="collision_ground_4">
+        <pose>0 -2.42079 6.38525 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>6.19538 0.001 5.69769</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="collision_ground_5">
+        <pose>-2.83306 0.079873 4.58439 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 5.1333 9.16878</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="collision_ground_6">
+        <pose>2.83306 0.079873 4.58439 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 5.1333 9.16878</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="collision_ground_7">
+        <pose>0 0.079873 8.72854 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>6.95991 5.1333 0.001</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://rough_tunnel_tile_vertical_shaft/meshes/VerticalShaft.DAE</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>

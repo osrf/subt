@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="rough_tunnel_tile_90deg_turn">
+    <static>true</static>
+    <link name="link">
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://rough_tunnel_tile_90deg_turn/meshes/90DegOne_Collider.DAE</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name="collision_ground">
+        <pose>3.5 -3.5 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>13 13 0.001</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://rough_tunnel_tile_90deg_turn/meshes/90DegOne.DAE</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>
