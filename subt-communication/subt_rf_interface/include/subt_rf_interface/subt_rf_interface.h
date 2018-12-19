@@ -5,7 +5,7 @@
 namespace subt
 {
 
-namespace rf_model
+namespace rf_interface
 {
 
 struct radio_state
@@ -29,10 +29,12 @@ struct rf_power
   operator double() { return mean; }
 };
 
-rf_power distance_based_received_power(const double& tx_power,
-                                       const radio_state& tx_state,
-                                       const radio_state& rx_state,
-                                       const rf_configuration& config);
+
+typedef std::function<rf_power(const double&, // tx_power
+                               const radio_state&, // tx_state
+                               const radio_state&  //rx_state
+                               )> pathloss_function;
+
 
 }
 }

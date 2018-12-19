@@ -1,8 +1,11 @@
-#include <subt_rf_model/subt_rf_model.h>
+#include <subt_rf_interface/subt_rf_model.h>
 
 namespace subt
 {
-namespace rf_model
+namespace rf_interface
+{
+
+namespace range_model
 {
 
 double distance(const geometry_msgs::Point& a,
@@ -35,5 +38,6 @@ rf_power distance_based_received_power(const double& tx_power,
   return {tx_power, 0.0};
 }
 
+}
 }
 }

@@ -1,10 +1,12 @@
 #include <string>
 #include <gtest/gtest.h>
 
-#include <subt_rf_model/subt_rf_model.h>
+#include <subt_rf_interface/subt_rf_interface.h>
+#include <subt_rf_interface/subt_rf_model.h>
 
 using namespace subt;
-using namespace subt::rf_model;
+using namespace subt::rf_interface;
+using namespace subt::rf_interface::range_model;
 
 TEST(range_based, co_located)
 {

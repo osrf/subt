@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(subt_rf_model)
+project(subt_rf_interface)
 
 set(PKG_DEPENDS
   roscpp
@@ -37,14 +37,15 @@ catkin_package(
   INCLUDE_DIRS include
   CATKIN_DEPENDS ${RUN_DEPENDS}
   DEPENDS
+  LIBRARIES subt_rf_range_model
   )
 
-add_library(${PROJECT_NAME} src/subt_rf_model.cpp)
-target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES})
+add_library(subt_rf_range_model src/subt_rf_model.cpp)
+target_link_libraries(subt_rf_range_model ${catkin_LIBRARIES})
 
 if(CATKIN_ENABLE_TESTING)
   catkin_add_gtest(unit_test test/unit_test.cpp)
   target_link_libraries(unit_test
-    ${PROJECT_NAME}
+    subt_rf_range_model
     ${GTEST_LIBRARIES})
 endif()
