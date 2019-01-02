@@ -57,7 +57,6 @@ namespace subt
     /// In the callback, "_srcAddress" contains the address of the sender of
     /// the message. "_dstAddress" contains the destination address. "_dstPort"
     /// contains the destination port. "_data" contains the payload.
-    /// \param[in] _obj Instance containing the member function callback.
     /// \param[in] _address Local address or "kMulticast". If you specify your
     /// local address, you will receive all the messages sent where the
     /// destination is <YOUR_LOCAL_ADDRESS, port> or <"kBroadcast", port>. On
@@ -69,14 +68,14 @@ namespace subt
     /// \return True when success or false otherwise.
     ///
     /// * Example usage (bind on the local address and default port):
-    ///    this->Bind(&MyClass::OnDataReceived, this, "192.168.1.3");
+    ///    this->Bind(&OnDataReceived, "192.168.1.3");
     /// * Example usage (Bind on the multicast group and custom port.):
-    ///    this->Bind(&MyClass::OnDataReceived, this, this->kMulticast, 5123);
-    bool Bind(std::function<void(const std::string &_srcAddress,
-                                 const std::string &_dstAddress,
-                                 const uint32_t _dstPort,
-                                 const std::string &_data)> _cb,
-              const std::string &_address = "",
+    ///    this->Bind(&OnDataReceived, this->kMulticast, 5123);
+    public: bool Bind(std::function<void(const std::string &_srcAddress,
+                                         const std::string &_dstAddress,
+                                         const uint32_t _dstPort,
+                                         const std::string &_data)> _cb,
+                      const std::string &_address = "",
               const int _port = kDefaultPort)
     {
       // Sanity check: Make sure that the communications are enabled.
@@ -172,19 +171,45 @@ namespace subt
       return true;
     }
 
-   public: template<typename C>
-   bool Bind(void(C::*_cb)(const std::string &_srcAddress,
-                           const std::string &_dstAddress,
-                           const uint32_t _dstPort,
-                           const std::string &_data),
-             C *_obj,
-             const std::string &_address = "",
-             const int _port = kDefaultPort)
+    /// \brief This method can bind a local address and a port to a
+    /// virtual socket. This is a required step if your agent needs to
+    /// receive messages.
+    ///
+    /// \param[in] _cb Callback function to be executed when a new message is
+    /// received associated to the specified <_address, port>.
+    /// In the callback, "_srcAddress" contains the address of the sender of
+    /// the message. "_dstAddress" contains the destination address. "_dstPort"
+    /// contains the destination port. "_data" contains the payload.
+    /// \param[in] _obj Instance containing the member function callback.
+    /// \param[in] _address Local address or "kMulticast". If you specify your
+    /// local address, you will receive all the messages sent where the
+    /// destination is <YOUR_LOCAL_ADDRESS, port> or <"kBroadcast", port>. On
+    /// the other hand, if you specify "kMulticast" as the _address parameter,
+    /// you will be subscribed to the multicast group <"kMulticast, port>".
+    /// You will receive all the messages sent from any node to this multicast
+    /// group.
+    /// \param[in] _port Port used to receive messages.
+    /// \return True when success or false otherwise.
+    ///
+    /// * Example usage (bind on the local address and default port):
+    ///    this->Bind(&MyClass::OnDataReceived, this, "192.168.1.3");
+    /// * Example usage (Bind on the multicast group and custom port.):
+    ///    this->Bind(&MyClass::OnDataReceived, this, this->kMulticast, 5123);
+    public: template<typename C>
+    bool Bind(void(C::*_cb)(const std::string &_srcAddress,
+                            const std::string &_dstAddress,
+                            const uint32_t _dstPort,
+                            const std::string &_data),
+              C *_obj,
+              const std::string &_address = "",
+              const int _port = kDefaultPort)
     {
       return this->Bind(std::bind(_cb, _obj,
-                                     std::placeholders::_1, std::placeholders::_2,
-                                     std::placeholders::_3, std::placeholders::_4),
-                           _address, _port);
+                                  std::placeholders::_1,
+                                  std::placeholders::_2,
+                                  std::placeholders::_3,
+                                  std::placeholders::_4),
+                        _address, _port);
     }
 
     /// \brief Send some data to other/s member/s of the team.
