@@ -39,24 +39,17 @@ namespace subt
   {
     /// \brief Parse an input stream and populate a visibiliy graph.
     /// \param[in] _in The input stream.
-    /// \param[out] _g The visibility graph.
     /// \return True when the graph was successfully populated or false
     /// otherwise.
-    public: bool Parse(std::istream &_in,
-                       VisibilityGraph &_g) const;
+    public: bool Parse(std::istream &_in);
+
+    /// \brief Get the visibility graph.
+    public: const VisibilityGraph &Graph() const;
 
     /// \brief Remove comments, consecutive whitespaces, leading and trailing
     /// whitespaces and remove the trailing semicolon (if any).
     /// \param[in, out] _str The string to be parsed and converted.
-    private: void TrimWhitespaces(std::string &_str) const;
-
-    /// \brief Split the input string using a delimiter.
-    /// \param[in] _str The input string.
-    /// \param[in] _delim The delimiter.
-    /// \return A vector containing the different substrings. If the delimiter
-    /// is not found, the result will contain the input string.
-    private: std::vector<std::string> Split(const std::string &_str,
-                                            const std::string &_delim) const;
+    private: void TrimWhitespaces(std::string &_str);
 
     /// \brief Given an input stream, gets the next real line to be parsed.
     /// A real line is considered when there's something to be parsed.
@@ -64,7 +57,7 @@ namespace subt
     /// \param[in] _input The input stream.
     /// \param[out] _line The next real line.
     private: void NextRealLine(std::istream &_input,
-                               std::string &_line) const;
+                               std::string &_line);
 
     /// \brief Parse DOT attributes from an input string.
     /// \param[in, out] _str The input string. Note that the attributes are
@@ -76,6 +69,9 @@ namespace subt
     private: bool ParseAttribute(std::string &_str,
                                  std::string &_key,
                                  std::string &_value) const;
+
+    /// \brief The visibility graph.
+    private: VisibilityGraph graph;
   };
 }  // namespace
 #endif

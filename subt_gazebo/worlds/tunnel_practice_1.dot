@@ -1,0 +1,173 @@
+
+/* Visibility graph for tunnel_practice_1.world */
+
+graph {
+  /* ==== Vertices ==== */
+
+  /* Base station / Staging area*/
+  /* (0,0,0) */
+  1 [label="1::base_station::BaseStation"];
+  
+  /* (20,0,-5) */
+  2 [label="2::tunnel_tile_6::tile_1"];
+  /* ((40,0,-10) */
+  3 [label="3::tunnel_tile_6::tile_2"];
+  /* (60,0,-15) */
+  4 [label="4::tunnel_tile_6::tile_3"];
+  /* (80,0,-20) */
+  5 [label="5::tunnel_tile_6::tile_4"];
+  /* (100,0,-20) */
+  6 [label="6::tunnel_tile_1::tile_5"];
+  /* (120,0,-20) */
+  7 [label="7::tunnel_tile_5::tile_6"];
+  /* (140,0,-20) */
+  8 [label="8::tunnel_tile_5::tile_7"];
+  /* (160,0,-20) */
+  9 [label="9::tunnel_tile_5::tile_8"];
+  /* (180,0,-20) */
+  10 [label="10::tunnel_tile_2::tile_9"];
+  /* (180,20,-20) */
+  11 [label="11::tunnel_tile_5::tile_10"];
+  /* (180,40,-20) */
+  12 [label="12::tunnel_tile_2::tile_11"];
+  /* (160,40,-20) */
+  13 [label="13::tunnel_tile_5::tile_12"];
+  /* (140,40,-20) */
+  14 [label="14::tunnel_tile_1::tile_13"];
+  /* ((120,40,-20) */
+  15 [label="15::tunnel_tile_5::tile_14"];
+  
+  /* (100,40,-20) */
+  16 [label="16::tunnel_tile_4::tile_15"];
+  
+  /* (80,40,-20) */
+  17 [label="17::tunnel_tile_2::tile_16"];
+  /* (80,60,-20) */
+  18 [label="18::tunnel_tile_5::tile_17"];
+  /* (80,80,-20) */
+  19 [label="19::tunnel_tile_2::tile_18"];
+  /* (100,80,-20) */
+  20 [label="20::tunnel_tile_2::tile_19"];
+  /* (100,60,-20) */
+  21 [label="21::tunnel_tile_5::tile_20"];
+  /* (100,20,-20) */
+  22 [label="22::tunnel_tile_5::tile_21"];
+  /* (140,60,-20) */
+  23 [label="23::tunnel_tile_2::tile_22"];
+  /* (100,-20,-20) */
+  24 [label="24::tunnel_tile_2::tile_23"];
+  /* (120,-20,-20) */
+  25 [label="25::tunnel_tile_2::tile_24"];
+  /* (120,-40,-25) */
+  26 [label="26::tunnel_tile_6::tile_25"];
+  /* (120,-60,-30) */
+  27 [label="27::tunnel_tile_7::tile_26"];
+  /* (120,-80,-30) */
+  28 [label="28::tunnel_tile_2::tile_27"];
+  /* (140,-80,-30) */
+  29 [label="29::tunnel_tile_1::tile_28"];
+  /* (140,-60,-30) */
+  30 [label="30::tunnel_tile_5::tile_29"];
+  /* (140,-40,-30) */
+  31 [label="31::tunnel_tile_5::tile_30"];
+  /* (140,-20,-30) */
+  32 [label="32::tunnel_tile_5::tile_31"];
+  /* (140,0,-30) */
+  33 [label="33::tunnel_tile_2::tile_32"];
+  /* (160,0,-30) */
+  34 [label="34::tunnel_tile_2::tile_33"];
+  /* (180,0,-30) */
+  35[label="35::tunnel_tile_2::tile_34"];
+  /* (200,0,-30) */
+  36 [label="36::tunnel_tile_2::tile_35"];
+  /* (220,0,-35) */
+  37 [label="37::tunnel_tile_7::tile_36"];
+  /* (240,0,-35) */
+  38 [label="38::tunnel_tile_2::tile_37"];
+  /* (240,20,-35) */
+  39 [label="39::tunnel_tile_5::tile_38"];
+  /* (160,-80,-30) */
+  40 [label="40::tunnel_tile_5::tile_39"];
+  /* (180,-80,-30) */
+  41 [label="41::tunnel_tile_2::tile_40"];
+  /* (180,-60,-30) */
+  42 [label="42::tunnel_tile_5::tile_41"];
+  /* (180,-40,-30) */
+  43 [label="43::tunnel_tile_2::tile_42"];
+  /* (200,-40,-35) */
+  44 [label="44:tunnel_tile_6::tile_43"];
+  /* (220,-40,-40) */
+  45 [label="45::tunnel_tile_7::tile_44"];
+  /* (240,-40,-40) */
+  46 [label="46::tunnel_tile_2::tile_45"];
+  /* (240,-60,-40) */
+  47 [label="47::tunnel_tile_5::tile_46"];
+  /* (240,-80,-40) */
+  48 [label="48::tunnel_tile_5::tile_47"];
+
+  /* ==== Edges ==== */
+
+  /* Base station */
+  1 -- 2    [label=1]
+
+  2 -- 3    [label=1];
+  3 -- 4    [label=1];
+  4 -- 5    [label=1];
+  5 -- 6    [label=3];
+  
+  /* Intersection */
+  6 -- 7    [label=3];
+  6 -- 22   [label=3];
+  6 -- 24   [label=6];
+     
+  7  -- 8   [label=1];
+  8  -- 9   [label=1];
+  9  -- 10  [label=3];
+  10 -- 11  [label=3];
+  11 -- 12  [label=3];
+  12 -- 13  [label=3];
+  13 -- 14  [label=3];
+
+  /* Intersection */
+  14 -- 15  [label=3];
+  14 -- 23  [label=6];
+  15 -- 16  [label=1];
+
+  /* Intersection */
+  16 -- 17  [label=3];
+  16 -- 21  [label=1];
+  16 -- 22  [label=1];
+ 
+  17 -- 18  [label=3];
+  18 -- 19  [label=3];
+  19 -- 20  [label=6];
+  20 -- 21  [label=3];
+  24 -- 25  [label=6];
+  25 -- 26  [label=3];
+  26 -- 27  [label=3];
+  27 -- 28  [label=6];
+  28 -- 29  [label=6];
+
+  /* Intersection */
+  29 -- 30  [label=3];
+  29 -- 40  [label=3];
+ 
+  30 -- 31  [label=1];
+  31 -- 32  [label=1];
+  32 -- 33  [label=3];
+  33 -- 34  [label=3];
+  34 -- 35  [label=1];
+  35 -- 36  [label=1];
+  36 -- 37  [label=3];
+  37 -- 38  [label=6];
+  38 -- 39  [label=3];
+ 
+  40 -- 41  [label=3];
+  41 -- 42  [label=3];
+  42 -- 43  [label=3];
+  43 -- 44  [label=3];
+  44 -- 45  [label=3];
+  45 -- 46  [label=6];
+  46 -- 47  [label=3];
+  47 -- 48  [label=1];
+}

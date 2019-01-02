@@ -20,6 +20,7 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <utility>
 #include <gazebo/common/Time.hh>
 #include <gazebo/physics/PhysicsTypes.hh>
 #include <ignition/math/graph/Graph.hh>
@@ -35,6 +36,14 @@ namespace subt
   /// different areas of the world.
   using VisibilityGraph =
     ignition::math::graph::UndirectedGraph<std::string, uint8_t>;
+
+  // This is the lookup table where we store the visibility cost from any pair
+  // of vertices. The key is a pair containing the IDs of the two vertices.
+  // The value is the visibility cost between the two vertices.
+  using VisibilityInfo =
+    std::map<std::pair<ignition::math::graph::VertexId,
+                       ignition::math::graph::VertexId>,
+             double>;
 
   /// \brief Class used to store information about a member of the team.
   class TeamMember
@@ -118,6 +127,9 @@ namespace subt
 
   /// \brief Internal service used to report new artifacts.
   const std::string kNewArtifactSrv = "/subt/artifacts/new";
+
+  /// \brief Service used to visualize network connectivity.
+  const std::string kVisualizeCommsModelSrv = "/subt/comms_model/visualize";
 
   /// \brief Default port.
   const uint32_t kDefaultPort = 4100u;

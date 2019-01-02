@@ -24,8 +24,6 @@ using namespace subt;
 /////////////////////////////////////////////////
 TEST(SimpleDOTParserTest, StreamExtraction)
 {
-  SimpleDOTParser dotParser;
-  VisibilityGraph graph;
   std::istringstream input(
     "/* Comments should be ignored */ \n"
     "\n"
@@ -39,7 +37,10 @@ TEST(SimpleDOTParserTest, StreamExtraction)
     "  2 -- 0 [label= 1 ];\n"
     "}");
 
-  ASSERT_TRUE(dotParser.Parse(input, graph));
+  SimpleDOTParser dotParser;
+  ASSERT_TRUE(dotParser.Parse(input));
+
+  VisibilityGraph graph = dotParser.Graph();
   EXPECT_EQ(4u, graph.Vertices().size());
   EXPECT_EQ(3u, graph.Edges().size());
 }
