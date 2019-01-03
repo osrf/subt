@@ -39,6 +39,10 @@ namespace subt
 namespace communication_broker
 {
 
+typedef
+std::function<std::tuple<bool, geometry_msgs::PoseStamped>(const std::string& name)>
+pose_update_function;
+
   /// \brief Stores information about a client broker.
   struct BrokerClientInfo
   {
@@ -114,6 +118,10 @@ namespace communication_broker
     public: void SetCommunicationFunction(
         communication_model::communication_function f);
 
+    /// \brief Set the function to be used for updating pose
+    /// \param[in] f Function that finds pose based on name
+    public: void SetPoseUpdateFunction(pose_update_function f);
+
     /// \brief Callback executed when a new registration request is received.
     /// \param[in] _req The address contained in the request.
     /// \param[out] _rep The result of the service. True when the registration
@@ -171,6 +179,9 @@ namespace communication_broker
    private:
     /// \brief Default radio configuration
     subt::communication_model::radio_configuration default_radio_configuration;
+
+    /// \brief Pose update function
+   private: pose_update_function pose_update_f;
   };
 
 }

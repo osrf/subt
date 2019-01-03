@@ -133,8 +133,23 @@ void Broker::DispatchMessages()
     return;
   }
 
-  // TODO: Update/populate state information of each TeamMember
-  std::cerr << "TODO: populate state information in DispatchMessages, " << __FILE__ << ":" << __LINE__ << std::endl;
+  if(!pose_update_f) {
+    std::cerr << "[Broker::DispatchMessages()]: Missing function for updating pose" << std::endl;
+    return;
+  }
+
+  // Update state for all members in team (only do this for members
+  // which touch messages in the queue?)
+  for(auto t : *(this->team)) {
+    bool ret;
+    std::tie(ret, t.second->rf_state.pose) = pose_update_f(t.second->name);
+
+    if(!ret) {
+      std::cerr << "Problem getting state for " << t.second->name
+                << ", skipping DispatchMessages()" << std::endl;
+      return;
+    }
+  }
   
   // Shuffle the messages.
   // std::shuffle(this->incomingMsgs.begin(), this->incomingMsgs.end(),
@@ -207,6 +222,7 @@ void Broker::DispatchMessages()
 bool Broker::Bind(const std::string &_clientAddress,
                   const std::string &_endpoint)
 {
+  std::lock_guard<std::mutex> lk(this->mutex);
   // Make sure that the same client didn't bind the same end point before.
   if (this->endpoints.find(_endpoint) != this->endpoints.end())
   {
@@ -235,6 +251,7 @@ bool Broker::Bind(const std::string &_clientAddress,
 //////////////////////////////////////////////////
 bool Broker::Register(const std::string &_id)
 {
+  std::lock_guard<std::mutex> lk(this->mutex);
   auto kvp = this->team->find(_id);
   if (kvp != this->team->end())
   {
@@ -260,6 +277,7 @@ bool Broker::Register(const std::string &_id)
 //////////////////////////////////////////////////
 bool Broker::Unregister(const std::string &_id)
 {
+  std::lock_guard<std::mutex> lk(this->mutex);
   // Sanity check: Make sure that the ID exists.
   if (this->team->find(_id) == this->team->end())
   {
@@ -295,10 +313,7 @@ bool Broker::OnAddrRegistration(const ignition::msgs::StringMsg &_req,
   std::string address = _req.data();
   bool result;
 
-  {
-    std::lock_guard<std::mutex> lk(this->mutex);
-    result = this->Register(address);
-  }
+  result = this->Register(address);
 
   _rep.set_data(result);
 
@@ -312,10 +327,7 @@ bool Broker::OnAddrUnregistration(const ignition::msgs::StringMsg &_req,
   std::string address = _req.data();
   bool result;
 
-  {
-    std::lock_guard<std::mutex> lk(this->mutex);
-    result = this->Unregister(address);
-  }
+  result = this->Unregister(address);
 
   _rep.set_data(result);
 
@@ -337,10 +349,7 @@ bool Broker::OnEndPointRegistration(const ignition::msgs::StringMsg_V &_req,
   std::string clientAddress = _req.data(0);
   std::string endpoint = _req.data(1);
 
-  {
-    std::lock_guard<std::mutex> lk(this->mutex);
-    result = this->Bind(clientAddress, endpoint);
-  }
+  result = this->Bind(clientAddress, endpoint);
 
   _rep.set_data(result);
 
@@ -360,9 +369,13 @@ void Broker::OnMessage(const subt::msgs::Datagram &_req)
 void Broker::SetRadioConfiguration(const std::string& address,
                                    communication_model::radio_configuration config)
 {
+  std::unique_lock<std::mutex> lk(this->mutex);
   auto node = this->team->find(address);
   if(node == this->team->end()) {
+
+    lk.unlock();
     this->Register(address);
+    lk.lock();
 
     node = this->team->find(address);
     if(node == this->team->end()) {
@@ -377,6 +390,7 @@ void Broker::SetRadioConfiguration(const std::string& address,
 
 void Broker::SetDefaultRadioConfiguration(communication_model::radio_configuration config)
 {
+  std::lock_guard<std::mutex> lk(this->mutex);
   this->default_radio_configuration = config;
 }
 
@@ -384,7 +398,14 @@ void Broker::SetDefaultRadioConfiguration(communication_model::radio_configurati
 void Broker::SetCommunicationFunction(
     communication_model::communication_function f)
 {
+  std::lock_guard<std::mutex> lk(this->mutex);
   communication_function = f;
+}
+
+void Broker::SetPoseUpdateFunction(pose_update_function f)
+{
+  std::lock_guard<std::mutex> lk(this->mutex);
+  pose_update_f = f;
 }
 
 }

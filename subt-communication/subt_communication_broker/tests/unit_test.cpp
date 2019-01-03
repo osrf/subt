@@ -47,6 +47,28 @@ TEST(broker, communicate)
   // Set communication function to use
   broker.SetCommunicationFunction(&subt::communication_model::attempt_send);
 
+  auto pose_update_func = [](const std::string& name) {
+    geometry_msgs::PoseStamped p;
+    p.header.frame_id = "world";
+      
+    if(name == "1") {
+      p.pose.position.x = 0;
+      return std::make_tuple(true, p);
+    }
+
+    if(name == "2") {
+      static double x = 0;
+      p.pose.position.x = x;
+      x += 1.0;
+      std::cout << "Moving (2) to x=" << x << std::endl;
+      return std::make_tuple(true, p);
+    }
+
+    return std::make_tuple(false, geometry_msgs::PoseStamped());
+  };
+
+  broker.SetPoseUpdateFunction(pose_update_func);
+
   CommsClient c1("1");
   CommsClient c2("2");
 
@@ -54,13 +76,18 @@ TEST(broker, communicate)
                    const std::string& dst,
                    const uint32_t port,
                    const std::string& data) {
-    std::cout << "Received " << data.size() << " bytes from " << src << std::endl;
+    std::cout << "Received " << data.size() << "(" << data << ") bytes from " << src << std::endl;
   };
 
   c2.Bind(c2_cb);
-  c1.SendTo("Hello c2", "2");
 
-  broker.DispatchMessages();
+  for(unsigned int i=0; i < 15; ++i) {
+    std::ostringstream oss;
+    oss << "Hello c2, " << i;
+    c1.SendTo(oss.str(), "2");
+    broker.DispatchMessages();
+  }
+  
   
   // geometry_msgs::PoseStamped a, b;
   // a.header.frame_id = "world";
