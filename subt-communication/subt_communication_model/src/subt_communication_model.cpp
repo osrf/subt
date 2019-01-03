@@ -8,7 +8,7 @@ namespace subt
 namespace communication_model
 {
 
-inline double dbmToPow(double x) { return 0.001 * pow(10, x / 10.); }
+inline double dbmToPow(double x) { return 0.001 * pow(10., x / 10.); }
 inline double QPSKPowerToBER(double P, double N) { return erfc(sqrt(P / N)); }
 
 bool packetSuccess(double ber, uint64_t size)
@@ -45,10 +45,10 @@ bool attempt_send(const radio_configuration& radio,
   }
 
   ROS_DEBUG_STREAM("TX power (dBm): " << radio.default_tx_power << "\n" <<
-                  "RX power (dBm): " << rx_power << "\n" <<
-                  "BER: " << ber << "\n" <<
-                  "# Bytes: " << num_bytes << "\n" <<
-                  "PER: " << pow(ber, (double)num_bytes));
+                   "RX power (dBm): " << rx_power << "\n" <<
+                   "BER: " << ber << "\n" <<
+                   "# Bytes: " << num_bytes << "\n" <<
+                   "PER: " << pow(ber, (double)num_bytes));
 
   return packetSuccess(ber, num_bytes);
 }
