@@ -26,13 +26,13 @@
 #include <vector>
 #include <ignition/transport/Node.hh>
 
-#include "subt_gazebo/CommonTypes.hh"
-#include "subt_gazebo/protobuf/artifact.pb.h"
-#include "subt_gazebo/protobuf/datagram.pb.h"
-#include "subt_gazebo/protobuf/neighbor_m.pb.h"
+#include <subt_communication_broker/common_types.h>
+#include <subt_communication_broker/protobuf/datagram.pb.h>
+#include <subt_communication_broker/protobuf/neighbor_m.pb.h>
 
 namespace subt
 {
+
   /// \brief ToDo.
   class CommsClient
   {
@@ -79,7 +79,7 @@ namespace subt
                                          const uint32_t _dstPort,
                                          const std::string &_data)> _cb,
                       const std::string &_address = "",
-              const int _port = kDefaultPort)
+                      const int _port = communication_broker::kDefaultPort)
     {
       // Sanity check: Make sure that the communications are enabled.
       if (!this->enabled)
@@ -91,7 +91,7 @@ namespace subt
         address = this->Host();
 
       // Sanity check: Make sure that you use your local address or multicast.
-      if ((address != kMulticast) && (address != this->Host()))
+      if ((address != communication_broker::kMulticast) && (address != this->Host()))
       {
         std::cerr << "[" << this->Host() << "] Bind() error: Address ["
                   << address << "] is not your local address" << std::endl;
@@ -100,7 +100,7 @@ namespace subt
 
       // Mapping the "unicast socket" to a topic name.
       const auto unicastEndPoint = address + ":" + std::to_string(_port);
-      const auto bcastEndpoint = kBroadcast + ":" + std::to_string(_port);
+      const auto bcastEndpoint = communication_broker::kBroadcast + ":" + std::to_string(_port);
       bool bcastAdvertiseNeeded;
 
       {
@@ -132,7 +132,7 @@ namespace subt
           ignition::msgs::Boolean rep;
           bool result;
           bool executed = this->node.Request(
-            kEndPointRegistrationSrv, req, timeout, rep, result);
+              communication_broker::kEndPointRegistrationSrv, req, timeout, rep, result);
 
           if (!executed)
           {
@@ -205,7 +205,7 @@ namespace subt
                             const std::string &_data),
               C *_obj,
               const std::string &_address = "",
-              const int _port = kDefaultPort)
+              const int _port = communication_broker::kDefaultPort)
     {
       return this->Bind(std::bind(_cb, _obj,
                                   std::placeholders::_1,
@@ -228,7 +228,7 @@ namespace subt
     /// bigger than 1500 bytes).
     public: bool SendTo(const std::string &_data,
                         const std::string &_dstAddress,
-                        const uint32_t _port = kDefaultPort);
+                        const uint32_t _port = communication_broker::kDefaultPort);
 
     /// \brief Send some data to the base station.
     ///
@@ -237,7 +237,7 @@ namespace subt
     /// bigger than 1500 bytes).
     /// Note that this function is subject to the same communication
     /// restrictions than SendTo().
-    public: bool SendToBaseStation(const subt::msgs::Artifact &_artifact);
+    //public: bool SendToBaseStation(const subt::msgs::Artifact &_artifact);
 
     /// \brief Get the list of local neighbors.
     ///

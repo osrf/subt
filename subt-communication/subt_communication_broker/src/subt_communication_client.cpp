@@ -19,12 +19,10 @@
 #include <iostream>
 #include <string>
 
-#include "subt_gazebo/protobuf/datagram.pb.h"
-#include "subt_gazebo/protobuf/neighbor_m.pb.h"
-#include "subt_gazebo/CommonTypes.hh"
-#include "subt_gazebo/CommsClient.hh"
+#include <subt_communication_broker/subt_communication_client.h>
 
 using namespace subt;
+using namespace subt::communication_broker;
 
 //////////////////////////////////////////////////
 CommsClient::CommsClient(const std::string &_localAddress,
@@ -114,20 +112,20 @@ bool CommsClient::SendTo(const std::string &_data,
 }
 
 //////////////////////////////////////////////////
-bool CommsClient::SendToBaseStation(const subt::msgs::Artifact &_artifact)
-{
-  // Serialize the artifact.
-  std::string serializedData;
-  if (!_artifact.SerializeToString(&serializedData))
-  {
-    std::cerr << "CommsClient::SendToBaseStation(): Error serializing message\n"
-              << _artifact.DebugString() << std::endl;
-    return false;
-  }
+// bool CommsClient::SendToBaseStation(const subt::msgs::Artifact &_artifact)
+// {
+//   // Serialize the artifact.
+//   std::string serializedData;
+//   if (!_artifact.SerializeToString(&serializedData))
+//   {
+//     std::cerr << "CommsClient::SendToBaseStation(): Error serializing message\n"
+//               << _artifact.DebugString() << std::endl;
+//     return false;
+//   }
 
-  // Send data to the base station.
-  return this->SendTo(serializedData, kBaseStationName);
-}
+//   // Send data to the base station.
+//   return this->SendTo(serializedData, kBaseStationName);
+// }
 
 //////////////////////////////////////////////////
 std::vector<std::string> CommsClient::Neighbors() const
