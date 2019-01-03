@@ -41,7 +41,7 @@ set(project_libs
 #######################################
 
 catkin_package(
-  INCLUDE_DIRS include
+  INCLUDE_DIRS include ${CATKIN_DEVEL_PREFIX}/include
   CATKIN_DEPENDS ${RUN_DEPENDS}
   LIBRARIES subt_communication_broker subt_communication_client
   CFG_EXTRAS

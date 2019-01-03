@@ -21,6 +21,9 @@ find_package(catkin REQUIRED
     std_srvs
     subt_msgs
     message_generation
+    subt_rf_interface
+    subt_communication_model
+    subt_communication_broker
 )
 
 file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include)
@@ -43,6 +46,7 @@ find_package(ignition-transport4 REQUIRED)
 
 include_directories(
   include
+  ${CATKIN_DEVEL_PREFIX}/include
   ${GAZEBO_INCLUDE_DIRS}
   ${catkin_INCLUDE_DIRS}
 )
@@ -55,6 +59,9 @@ catkin_package(
   CATKIN_DEPENDS
     message_runtime
     std_srvs
+    subt_rf_interface
+    subt_communication_model
+    subt_communication_broker
   INCLUDE_DIRS
   include
   ${CATKIN_DEVEL_PREFIX}/include
@@ -127,11 +134,11 @@ install(TARGETS ${game_logic_plugin_name}
 # Create the libCommsBrokerPlugin.so library.
 set(comms_broker_plugin_name CommsBrokerPlugin)
 add_library(${comms_broker_plugin_name}
-  src/Broker.cc
+#  src/Broker.cc
   src/CommsBrokerPlugin.cc
-  src/CommsModel.cc
-  src/SimpleDOTParser.cc
-  src/VisibilityTable.cc
+#  src/CommsModel.cc
+#  src/SimpleDOTParser.cc
+#  src/VisibilityTable.cc
 )
 target_include_directories(${comms_broker_plugin_name}
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
@@ -141,7 +148,6 @@ target_link_libraries(${comms_broker_plugin_name}
   ${GAZEBO_LIBRARIES}
   ignition-math4::ignition-math4
   ${ignition-transport4_LIBRARIES}
-  ${protobuf_lib_name}
 )
 add_dependencies(${comms_broker_plugin_name}
   protobuf_compilation
@@ -153,48 +159,48 @@ install(TARGETS ${comms_broker_plugin_name}
   RUNTIME DESTINATION bin)
 
 # Create the libCommsClient.so library.
-set(comms_client_name CommsClient)
-add_library(${comms_client_name} src/CommsClient.cc)
-target_include_directories(${comms_client_name}
-  PUBLIC ${CATKIN_DEVEL_PREFIX}/include)
-target_link_libraries(${comms_client_name}
-  ${catkin_LIBRARIES}
-  ${protobuf_lib_name}
-  ignition-transport4::ignition-transport4
-  protobuf::libprotobuf
-)
-add_dependencies(${comms_client_name} protobuf_compilation)
-install(TARGETS ${comms_client_name}
-  ARCHIVE DESTINATION lib
-  LIBRARY DESTINATION lib
-  RUNTIME DESTINATION bin)
-install(
-  FILES
-    include/${PROJECT_NAME}/CommonTypes.hh
-    include/${PROJECT_NAME}/CommsClient.hh
-  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-)
-install(
-  FILES
-    ${PROTO_HEADERS}
-  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}/protobuf
-)
+# set(comms_client_name CommsClient)
+# add_library(${comms_client_name} src/CommsClient.cc)
+# target_include_directories(${comms_client_name}
+#   PUBLIC ${CATKIN_DEVEL_PREFIX}/include)
+# target_link_libraries(${comms_client_name}
+#   ${catkin_LIBRARIES}
+#   ${protobuf_lib_name}
+#   ignition-transport4::ignition-transport4
+#   protobuf::libprotobuf
+# )
+# add_dependencies(${comms_client_name} protobuf_compilation)
+# install(TARGETS ${comms_client_name}
+#   ARCHIVE DESTINATION lib
+#   LIBRARY DESTINATION lib
+#   RUNTIME DESTINATION bin)
+# install(
+#   FILES
+#     include/${PROJECT_NAME}/CommonTypes.hh
+#     include/${PROJECT_NAME}/CommsClient.hh
+#   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+# )
+# install(
+#   FILES
+#     ${PROTO_HEADERS}
+#   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}/protobuf
+# )
 
 # Create the libBaseStationPlugin.so library.
-set(base_station_plugin_name BaseStationPlugin)
-add_library(${base_station_plugin_name} src/BaseStationPlugin.cc)
-target_include_directories(${base_station_plugin_name}
-  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
-target_link_libraries(${base_station_plugin_name}
-  ${catkin_LIBRARIES}
-  ${comms_client_name}
-  ignition-common1::ignition-common1
-  ${protobuf_lib_name}
-)
-install(TARGETS ${base_station_plugin_name}
-  ARCHIVE DESTINATION lib
-  LIBRARY DESTINATION lib
-  RUNTIME DESTINATION bin)
+# set(base_station_plugin_name BaseStationPlugin)
+# add_library(${base_station_plugin_name} src/BaseStationPlugin.cc)
+# target_include_directories(${base_station_plugin_name}
+#   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
+# target_link_libraries(${base_station_plugin_name}
+#   ${catkin_LIBRARIES}
+#   ${comms_client_name}
+#   ignition-common1::ignition-common1
+#   ${protobuf_lib_name}
+# )
+# install(TARGETS ${base_station_plugin_name}
+#   ARCHIVE DESTINATION lib
+#   LIBRARY DESTINATION lib
+#   RUNTIME DESTINATION bin)
 
 # Create the libRosFlashLightPlugin.so library.
 set(ros_flashlight_plugin_name RosFlashLightPlugin)
@@ -255,10 +261,10 @@ add_dependencies(test_score
   ${game_logic_plugin_name}
 )
 
-catkin_add_gtest(simpleDOTParser test/simpleDOTParser.cc)
-target_link_libraries(simpleDOTParser
-  ${comms_broker_plugin_name}
-)
+# catkin_add_gtest(simpleDOTParser test/simpleDOTParser.cc)
+# target_link_libraries(simpleDOTParser
+#   ${comms_broker_plugin_name}
+# )
 
 #############
 ## Install ##

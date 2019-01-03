@@ -22,8 +22,11 @@
 #include <gazebo/common/Plugin.hh>
 #include <gazebo/physics/physics.hh>
 #include <sdf/sdf.hh>
-#include "subt_gazebo/Broker.hh"
-#include "subt_gazebo/CommsModel.hh"
+
+#include <subt_rf_interface/subt_rf_interface.h>
+#include <subt_rf_interface/subt_rf_model.h>
+#include <subt_communication_model/subt_communication_model.h>
+#include <subt_communication_broker/subt_communication_broker.h>
 
 namespace gazebo
 {
@@ -49,14 +52,8 @@ namespace gazebo
     /// \brief Connection to World Update events.
     private: event::ConnectionPtr updateConnection;
 
-    /// \brief Comms model that we're using.
-    private: std::unique_ptr<subt::CommsModel> commsModel;
-
     /// \brief Broker instance.
-    private: subt::Broker broker;
-
-    /// \brief Maximum data rate allowed per simulation cycle (bits).
-    private: uint32_t maxDataRatePerCycle;
+    private: subt::communication_broker::Broker broker;
 
     /// \brief Last time the plugin checked the ROS parameter server.
     private: gazebo::common::Time lastROSParameterCheckTime;
