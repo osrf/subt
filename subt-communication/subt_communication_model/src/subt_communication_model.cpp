@@ -20,7 +20,7 @@ bool packetSuccess(double ber, uint64_t size)
 }
 
 
-bool attempt_send(const channel_configuration& channel,
+bool attempt_send(const radio_configuration& radio,
                   const rf_interface::radio_state& tx_state,
                   const rf_interface::radio_state& rx_state,
                   const uint64_t& num_bytes)
@@ -29,22 +29,22 @@ bool attempt_send(const channel_configuration& channel,
 
   // Get the received power based on TX power and position of each
   // node
-  auto rx_power = channel.pathloss_f(channel.default_tx_power,
-                                     tx_state,
-                                     rx_state);
+  auto rx_power = radio.pathloss_f(radio.default_tx_power,
+                                   tx_state,
+                                   rx_state);
 
   // Based on rx_power, noise value, and modulation, compute the bit
   // error rate (BER)
   double ber = 0.0;
-  if(channel.modulation == "QPSK") {
+  if(radio.modulation == "QPSK") {
     ber = QPSKPowerToBER( dbmToPow(rx_power),
-                          dbmToPow(channel.noise_floor) );
+                          dbmToPow(radio.noise_floor) );
   }
   else {
     ROS_WARN("Using unsupported modulation scheme!");
   }
 
-  ROS_INFO_STREAM("TX power (dBm): " << channel.default_tx_power << "\n" <<
+  ROS_DEBUG_STREAM("TX power (dBm): " << radio.default_tx_power << "\n" <<
                   "RX power (dBm): " << rx_power << "\n" <<
                   "BER: " << ber << "\n" <<
                   "# Bytes: " << num_bytes << "\n" <<

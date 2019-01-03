@@ -23,18 +23,18 @@ TEST(range_based, co_located)
                            rf_config);
 
   
-  struct channel_configuration channel;
-  channel.capacity = 54000000;
-  channel.default_tx_power = 27;
-  channel.modulation = "QPSK";
-  channel.noise_floor = -90;
-  channel.pathloss_f = rf_func;
+  struct radio_configuration radio;
+  radio.capacity = 54000000;
+  radio.default_tx_power = 27;
+  radio.modulation = "QPSK";
+  radio.noise_floor = -90;
+  radio.pathloss_f = rf_func;
 
   geometry_msgs::PoseStamped a, b;
   a.header.frame_id = "world";
   b = a;
 
-  ASSERT_TRUE(attempt_send(channel,
+  ASSERT_TRUE(attempt_send(radio,
                            {a, 0},  // TX state
                            {b, 1},  // RX state
                            1000)    // 1Kb packet

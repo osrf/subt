@@ -38,6 +38,7 @@ catkin_package(
   INCLUDE_DIRS include
   CATKIN_DEPENDS ${RUN_DEPENDS}
   DEPENDS
+  LIBRARIES ${PROJECT_NAME}
   )
 
 add_library(${PROJECT_NAME} src/subt_communication_model.cpp)

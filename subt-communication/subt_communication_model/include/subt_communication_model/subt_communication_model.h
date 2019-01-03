@@ -7,7 +7,7 @@ namespace subt
 namespace communication_model
 {
 
-struct channel_configuration
+struct radio_configuration
 {
   double capacity;         // Bits-per-second
   double default_tx_power; // dBm
@@ -15,7 +15,7 @@ struct channel_configuration
   double noise_floor;      // dBm
   rf_interface::pathloss_function pathloss_f; // Function for computing pathloss
 
-  channel_configuration() :
+  radio_configuration() :
       capacity(54000000),   // 54Mbps
       default_tx_power(27), // 27dBm or 500mW
       modulation("QPSK"),   // Quadrature Phase Shift Keyring
@@ -23,11 +23,18 @@ struct channel_configuration
   {}
 };
 
-bool attempt_send(const channel_configuration& channel,
+bool attempt_send(const radio_configuration& radio,
                   const rf_interface::radio_state& tx_state,
                   const rf_interface::radio_state& rx_state,
                   const uint64_t& num_bytes
                   );
+
+typedef std::function<bool(const radio_configuration&,
+                           const rf_interface::radio_state&,
+                           const rf_interface::radio_state&,
+                           const uint64_t&)> communication_function;
+
 }
+
 
 }
