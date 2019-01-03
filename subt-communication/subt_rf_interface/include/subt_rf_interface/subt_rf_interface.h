@@ -11,9 +11,7 @@ namespace rf_interface
 struct radio_state
 {
   geometry_msgs::PoseStamped pose; // Location
-  uint64_t id;              // Unique radio ID
   double antenna_gain;      // Isotropic antenna gain
-
 };
 
 struct rf_configuration
