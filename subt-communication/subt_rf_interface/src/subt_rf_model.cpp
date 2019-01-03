@@ -1,4 +1,5 @@
 #include <subt_rf_interface/subt_rf_model.h>
+#include <limits>
 
 namespace subt
 {
@@ -32,7 +33,7 @@ rf_power distance_based_received_power(const double& tx_power,
 
   if(config.max_range > 0.0 &&
      range > config.max_range) {
-    return {0.0, 0.0};
+    return {-std::numeric_limits<double>::infinity(), 0.0};
   }
 
   return {tx_power, 0.0};
