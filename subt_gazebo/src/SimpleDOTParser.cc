@@ -18,16 +18,14 @@
 #include <algorithm>
 #include <cstring>
 #include <iostream>
-#include <map>
-#include <string>
-#include <vector>
+#include <ignition/common/Util.hh>
 
 #include "subt_gazebo/SimpleDOTParser.hh"
 
 using namespace subt;
 
 //////////////////////////////////////////////////
-bool SimpleDOTParser::Parse(std::istream &_in, VisibilityGraph &_g) const
+bool SimpleDOTParser::Parse(std::istream &_in)
 {
   // This map stores the association between the node title and the vertex Id.
   std::map<std::string, ignition::math::graph::VertexId> verticesLUT;
@@ -64,7 +62,7 @@ bool SimpleDOTParser::Parse(std::istream &_in, VisibilityGraph &_g) const
     this->TrimWhitespaces(lineread);
 
     // Edges.
-    auto edge = this->Split(lineread, "--");
+    auto edge = ignition::common::split(lineread, "--");
     if (edge.size() > 2u)
     {
       std::cerr << "Parsing error: Only edges with two vertices are supported"
@@ -103,7 +101,7 @@ bool SimpleDOTParser::Parse(std::istream &_in, VisibilityGraph &_g) const
         if (key == "label")
           weight = std::stod(value);
 
-        _g.AddEdge({vId1, vId2}, 0u, weight);
+        this->graph.AddEdge({vId1, vId2}, 0u, weight);
       }
       catch (const std::exception &_e)
       {
@@ -116,7 +114,25 @@ bool SimpleDOTParser::Parse(std::istream &_in, VisibilityGraph &_g) const
     // Vertices.
     if (edge.size() == 1 && lineread != "}")
     {
-      auto newVertex = _g.AddVertex(lineread, value);
+      // We use the vertex name as VertexId.
+      ignition::math::graph::VertexId id;
+
+      try
+      {
+        std::string::size_type sz = 0;
+        id =  std::stoull(lineread, &sz);
+      }
+      catch(std::exception &_e)
+      {
+        std::cerr << "Parsing error: Unable to convert [" << lineread << "]"
+                  << "to VertexId" << std::endl;
+        return false;
+      }
+
+      // std::cerr << "Adding vertex with name [" << lineread << "], value ["
+      //           << value << "] and id [" << id << "]" << std::endl;
+
+      auto newVertex = this->graph.AddVertex(lineread, value, id);
       verticesLUT[lineread] = newVertex.Id();
     }
   }
@@ -132,7 +148,13 @@ bool SimpleDOTParser::Parse(std::istream &_in, VisibilityGraph &_g) const
 }
 
 //////////////////////////////////////////////////
-void SimpleDOTParser::TrimWhitespaces(std::string &_str) const
+const VisibilityGraph &SimpleDOTParser::Graph() const
+{
+  return this->graph;
+}
+
+//////////////////////////////////////////////////
+void SimpleDOTParser::TrimWhitespaces(std::string &_str)
 {
   // Remove comments.
   auto commentStart = _str.find("/*");
@@ -167,28 +189,7 @@ void SimpleDOTParser::TrimWhitespaces(std::string &_str) const
 }
 
 //////////////////////////////////////////////////
-std::vector<std::string> SimpleDOTParser::Split(const std::string &_str,
-  const std::string &_delim) const
-{
-  std::vector<std::string> tokens;
-  char *saveptr;
-  char *str = strdup(_str.c_str());
-
-  auto token = strtok_r(str, _delim.c_str(), &saveptr);
-
-  while (token)
-  {
-    tokens.push_back(token);
-    token = strtok_r(nullptr, _delim.c_str(), &saveptr);
-  }
-
-  free(str);
-  return tokens;
-}
-
-//////////////////////////////////////////////////
 void SimpleDOTParser::NextRealLine(std::istream &_input, std::string &_line)
-  const
 {
   while (std::getline(_input, _line))
   {
@@ -221,7 +222,7 @@ bool SimpleDOTParser::ParseAttribute(std::string &_str, std::string &_key,
   str.erase(attrEnd, str.size() - attrEnd);
   str.erase(0, attrStart + 1);
 
-  auto aPair = this->Split(str, "=");
+  auto aPair = ignition::common::split(str, "=");
   if (aPair.size() != 2u)
   {
     std::cerr << "Parsing error: Unable to find a single \"=\".\n"

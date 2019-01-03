@@ -26,6 +26,7 @@
 #include <gazebo/physics/PhysicsEngine.hh>
 #include <gazebo/physics/RayShape.hh>
 #include <gazebo/physics/World.hh>
+#include <ignition/common.hh>
 #include <ignition/math.hh>
 #include <sdf/sdf.hh>
 #include "subt_gazebo/CommsModel.hh"
@@ -42,6 +43,15 @@ CommsModel::CommsModel(TeamMembershipPtr _team,
   GZ_ASSERT(_sdf,   "CommsModel() error: _sdf pointer is NULL");
 
   this->LoadParameters(_sdf);
+
+  if (!this->visibilityTable.Load())
+    return;
+
+  // Debug service only available in the Gazebo host.
+  ignition::transport::AdvertiseServiceOptions opts;
+  opts.SetScope(ignition::transport::Scope_t::HOST);
+  this->node.Advertise(kVisualizeCommsModelSrv,
+    &CommsModel::VisualizeVisibility, this, opts);
 }
 
 //////////////////////////////////////////////////
@@ -145,6 +155,12 @@ void CommsModel::LoadParameters(sdf::ElementPtr _sdf)
     {
       this->commsDataRateMax =
         commsModelElem->Get<double>("comms_data_rate_max");
+    }
+
+    if (commsModelElem->HasElement("comms_cost_max"))
+    {
+      this->commsCostMax =
+        commsModelElem->Get<double>("comms_cost_max");
     }
   }
 }
@@ -256,9 +272,16 @@ void CommsModel::UpdateVisibility()
     auto poseA = (*team)[addressA]->model->WorldPose();
     auto poseB = (*team)[addressB]->model->WorldPose();
 
+    // Using distance.
+    // this->visibility[keyA] =
+    //   this->simpleMode ||
+    //   poseA.Pos().Distance(poseB.Pos()) <= this->commsDistanceMax;
+
+    // Using graph and cost between the sections.
     this->visibility[keyA] =
       this->simpleMode ||
-      poseA.Pos().Distance(poseB.Pos()) <= this->commsDistanceMax;
+      this->visibilityTable.Cost(poseA.Pos(), poseB.Pos()) <=
+        this->commsCostMax;
 
     // Update the symmetric case.
     this->visibility[keyB] = this->visibility[keyA];
@@ -402,4 +425,52 @@ void CommsModel::UpdateVisibilityPairs()
       this->visibilityPairs.push_back(aPair);
     }
   }
+}
+
+/////////////////////////////////////////////////
+bool CommsModel::VisualizeVisibility(const ignition::msgs::StringMsg &_req,
+  ignition::msgs::Boolean &_rep)
+{
+  _rep.set_data(false);
+
+  ignition::msgs::Marker markerMsg;
+  markerMsg.set_ns("default");
+  markerMsg.set_action(ignition::msgs::Marker::ADD_MODIFY);
+  markerMsg.set_type(ignition::msgs::Marker::BOX);
+  markerMsg.mutable_lifetime()->set_sec(4.0);
+  markerMsg.mutable_lifetime()->set_nsec(0.0);
+
+  ignition::msgs::Material *matMsg = markerMsg.mutable_material();
+  matMsg->mutable_script()->set_name("Gazebo/Green");
+  ignition::msgs::Set(markerMsg.mutable_scale(),
+                      ignition::math::Vector3d(0.5, 0.5, 0.5));
+
+  std::string modelName = _req.data();
+  auto model = this->world->ModelByName(modelName);
+  if (!model)
+  {
+    ignerr << "[" << modelName << "] model not found" << std::endl;
+    return true;
+  }
+
+  ignition::math::Vector3d from = model->WorldPose().Pos();
+
+  uint64_t index = 0;
+  for (auto const &entry : this->visibilityTable.Vertices())
+  {
+    const auto &toTuple = entry.first;
+    ignition::math::Vector3d to = ignition::math::Vector3d(
+      std::get<0>(toTuple), std::get<1>(toTuple), std::get<2>(toTuple));
+    double cost = this->visibilityTable.Cost(from, to);
+    if (cost <= this->commsCostMax)
+    {
+      markerMsg.set_id(index++);
+      ignition::msgs::Set(markerMsg.mutable_pose(),
+                   ignition::math::Pose3d(to.X(), to.Y(), to.Z(), 0, 0, 0));
+      this->node.Request("/marker", markerMsg);
+    }
+  }
+
+  _rep.set_data(true);
+  return true;
 }

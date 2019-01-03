@@ -22,7 +22,9 @@
 #include <gazebo/common/Events.hh>
 #include <ignition/common/Console.hh>
 
+#include "subt_gazebo/CommonTypes.hh"
 #include "subt_gazebo/CommsBrokerPlugin.hh"
+#include "test/test_config.h"
 
 using namespace gazebo;
 

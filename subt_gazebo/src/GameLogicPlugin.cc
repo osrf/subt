@@ -156,7 +156,7 @@ void GameLogicPlugin::ParseArtifacts(sdf::ElementPtr _sdf)
       gzerr << "[GameLogicPlugin]: Parameter <name> not found. Ignoring this "
             << "artifact" << std::endl;
       this->Log() << "error Parameter <name> not found. Ignoring this artifact"
-        << std::endl;
+                  << std::endl;
       artifactElem = _sdf->GetNextElement("artifact");
       continue;
     }
@@ -168,7 +168,7 @@ void GameLogicPlugin::ParseArtifacts(sdf::ElementPtr _sdf)
       gzerr << "[GameLogicPlugin]: Parameter <type> not found. Ignoring this "
             << "artifact" << std::endl;
       this->Log() << "error Parameter <type> not found. Ignoring this artifact"
-        << std::endl;
+                  << std::endl;
 
       artifactElem = _sdf->GetNextElement("artifact");
       continue;
@@ -181,7 +181,7 @@ void GameLogicPlugin::ParseArtifacts(sdf::ElementPtr _sdf)
        gzerr << "[GameLogicPlugin]: Unable to find model with name ["
              << modelName << "]. Ignoring artifact" << std::endl;
       this->Log() << "error Unable to find model with name ["
-             << modelName << "]. Ignoring artifact" << std::endl;
+                  << modelName << "]. Ignoring artifact" << std::endl;
        artifactElem = _sdf->GetNextElement("artifact");
        continue;
     }
@@ -192,9 +192,9 @@ void GameLogicPlugin::ParseArtifacts(sdf::ElementPtr _sdf)
     if (!this->ArtifactFromString(modelTypeStr, modelType))
     {
       gzerr << "[GameLogicPlugin]: Unknown artifact type ["
-             << modelTypeStr << "]. Ignoring artifact" << std::endl;
+            << modelTypeStr << "]. Ignoring artifact" << std::endl;
       this->Log() << "error Unknown artifact type ["
-             << modelTypeStr << "]. Ignoring artifact" << std::endl;
+                  << modelTypeStr << "]. Ignoring artifact" << std::endl;
       artifactElem = _sdf->GetNextElement("artifact");
       continue;
     }
@@ -206,9 +206,9 @@ void GameLogicPlugin::ParseArtifacts(sdf::ElementPtr _sdf)
       if (modelNames.find(modelName) != modelNames.end())
       {
         gzerr << "[GameLogicPlugin]: Repeated model with name ["
-               << modelName << "]. Ignoring artifact" << std::endl;
+              << modelName << "]. Ignoring artifact" << std::endl;
         this->Log() << "error Repeated model with name ["
-               << modelName << "]. Ignoring artifact" << std::endl;
+                    << modelName << "]. Ignoring artifact" << std::endl;
         artifactElem = _sdf->GetNextElement("artifact");
         continue;
       }
@@ -232,8 +232,8 @@ void GameLogicPlugin::OnNewArtifact(const subt::msgs::Artifact &_req)
           << _req.type() << std::endl;
 
     this->Log() << "error Unknown artifact code. The number should be between "
-      << "0 and " << this->kArtifactTypes.size() - 1
-      << " but we received " << _req.type() << std::endl;
+                << "0 and " << this->kArtifactTypes.size() - 1
+                << " but we received " << _req.type() << std::endl;
     return;
   }
 
@@ -241,8 +241,7 @@ void GameLogicPlugin::OnNewArtifact(const subt::msgs::Artifact &_req)
     std::lock_guard<std::mutex> lock(this->mutex);
     this->totalScore += this->ScoreArtifact(artifactType, _req.pose());
     gzmsg << "Total score: " << this->totalScore << std::endl << std::endl;
-    this->Log() << "new_total_score "
-      << this->totalScore << std::endl;
+    this->Log() << "new_total_score " << this->totalScore << std::endl;
   }
 }
 
@@ -503,6 +502,6 @@ bool GameLogicPlugin::OnPoseFromArtifact(
 std::ofstream &GameLogicPlugin::Log()
 {
   this->logStream << this->world->SimTime().sec
-    << " " << this->world->SimTime().nsec << " ";
+                  << " " << this->world->SimTime().nsec << " ";
   return this->logStream;
 }

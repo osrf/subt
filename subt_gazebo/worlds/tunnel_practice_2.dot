@@ -1,0 +1,361 @@
+
+/* Visibility graph for tunnel_practice_2.world */
+
+graph {
+  /* ==== Vertices ==== */
+
+  /* Base station / Staging area*/
+  1  [label="1::base_station::BaseStation"];
+
+  /* x = 20 */
+  2  [label="2::tunnel_tile_5::tile_20_1"];
+  3  [label="3::tunnel_tile_2::tile_20_2"];
+  4  [label="4::tunnel_tile_2::tile_20_3"];
+
+  /* x = 40 */
+  5  [label="5::tunnel_tile_2::tile_40_1"];
+  6  [label="6::tunnel_tile_5::tile_40_2"];
+  7  [label="7::tunnel_tile_1::tile_40_3"];
+  8  [label="8::tunnel_tile_2::tile_40_4"];
+  9  [label="9::tunnel_tile_5::tile_40_5"];
+
+  /* x = 60 */
+  10  [label="10::tunnel_tile_2::tile_60_1"];
+  11  [label="11::tunnel_tile_2::tile_60_2"];
+  12  [label="12::tunnel_tile_2::tile_60_3"];
+  13  [label="13::tunnel_tile_5::tile_60_4"];
+  14  [label="14::tunnel_tile_1::tile_60_5"];
+  15  [label="15::tunnel_tile_2::tile_60_6"];
+  16  [label="16::tunnel_tile_2::tile_60_7"];
+  17  [label="17::tunnel_tile_5::tile_60_8"];
+  18  [label="18::tunnel_tile_2::tile_60_9"];
+
+  /* x = 80 */
+  19  [label="19::tunnel_tile_5::tile_80_1"];
+  20  [label="20::tunnel_tile_2::tile_80_2"];
+  21  [label="21::tunnel_tile_2::tile_80_3"];
+  22  [label="22::tunnel_tile_2::tile_80_4"];
+  23  [label="23::tunnel_tile_1::tile_80_5"];
+  24  [label="24::tunnel_tile_5::tile_80_6"];
+  25  [label="25::tunnel_tile_1::tile_80_7"];
+  26  [label="26::tunnel_tile_2::tile_80_8"];
+  27  [label="27::tunnel_tile_5::tile_80_9"];
+
+  /* x = 100 */
+  28  [label="28::tunnel_tile_6::tile_100_1"];
+  29  [label="29::tunnel_tile_6::tile_100_2"];
+  30  [label="30::tunnel_tile_6::tile_100_3"];
+  31  [label="31::tunnel_tile_6::tile_100_4"];
+  32  [label="32::tunnel_tile_6::tile_100_5"];
+  33  [label="33::tunnel_tile_7::tile_100_6"];
+
+  /* x = 120 */
+  34  [label="34::tunnel_tile_5::tile_120_1"];
+  35  [label="35::tunnel_tile_5::tile_120_2"];
+  36  [label="36::tunnel_tile_2::tile_120_3"];
+  37  [label="37::tunnel_tile_5::tile_120_4"];
+  38  [label="38::tunnel_tile_5::tile_120_5"];
+  39  [label="39::tunnel_tile_5::tile_120_6"];
+  40  [label="40::tunnel_tile_1::tile_120_7"];
+  41  [label="41::tunnel_tile_2::tile_120_8"];
+  42  [label="42::tunnel_tile_5::tile_120_9"];
+  43  [label="43::tunnel_tile_5::tile_120_10"];
+
+  /* x = 140 */
+  44  [label="44::tunnel_tile_2::tile_140_1"];
+  45  [label="45::tunnel_tile_1::tile_140_2"];
+  46  [label="46::tunnel_tile_2::tile_140_3"];
+  47  [label="47::tunnel_tile_5::tile_140_4"];
+  48  [label="48::tunnel_tile_5::tile_140_5"];
+  49  [label="49::tunnel_tile_5::tile_140_6"];
+  50  [label="50::tunnel_tile_2::tile_140_7"];
+  51  [label="51::tunnel_tile_2::tile_140_8"];
+
+  /* x = 160 */
+  52  [label="52::tunnel_tile_7::tile_160_1"];
+  53  [label="53::tunnel_tile_6::tile_160_2"];
+  54  [label="54::tunnel_tile_6::tile_160_3"];
+  55  [label="55::tunnel_tile_6::tile_160_4"];
+  56  [label="56::tunnel_tile_6::tile_160_5"];
+  57  [label="57::tunnel_tile_6::tile_160_6"];
+
+  /* x = 180 */
+  58  [label="58::tunnel_tile_5::tile_180_1"];
+  59  [label="59::tunnel_tile_2::tile_180_2"];
+  60  [label="60::tunnel_tile_5::tile_180_3"];
+  61  [label="61::tunnel_tile_5::tile_180_4"];
+  62  [label="62::tunnel_tile_5::tile_180_5"];
+  63  [label="63::tunnel_tile_4::tile_180_6"];
+  64  [label="64::tunnel_tile_5::tile_180_7"];
+  65  [label="65::tunnel_tile_5::tile_180_8"];
+  66  [label="66::tunnel_tile_5::tile_180_9"];
+
+  /* x = 200 */
+  67  [label="67::tunnel_tile_5::tile_200_1"];
+  68  [label="68::tunnel_tile_5::tile_200_2"];
+  69  [label="69::tunnel_tile_5::tile_200_3"];
+  70  [label="70::tunnel_tile_2::tile_200_4"];
+  71  [label="71::tunnel_tile_2::tile_200_5"];
+
+  /* x = 220 */
+  72  [label="72::tunnel_tile_2::tile_220_1"];
+  73  [label="73::tunnel_tile_5::tile_220_2"];
+  74  [label="74::tunnel_tile_5::tile_220_3"];
+  75  [label="75::tunnel_tile_2::tile_220_4"];
+  76  [label="76::tunnel_tile_2::tile_220_5"];
+  77  [label="77::tunnel_tile_2::tile_220_6"];
+  78  [label="78::tunnel_tile_2::tile_220_7"];
+  79  [label="79::tunnel_tile_5::tile_220_8"];
+  80  [label="80::tunnel_tile_2::tile_220_9"];
+  81  [label="81::tunnel_tile_5::tile_220_10"];
+
+  /* x = 240 */
+  82  [label="82::tunnel_tile_5::tile_240_1"];
+  83  [label="83::tunnel_tile_2::tile_240_2"];
+  84  [label="84::tunnel_tile_5::tile_240_3"];
+  85  [label="85::tunnel_tile_5::tile_240_4"];
+  86  [label="86::tunnel_tile_5::tile_240_5"];
+  87  [label="87::tunnel_tile_2::tile_240_6"];
+  88  [label="88::tunnel_tile_2::tile_240_7"];
+  89  [label="89::tunnel_tile_5::tile_240_8"];
+  90  [label="90::tunnel_tile_5::tile_240_9"];
+
+  /* x = 260 */
+  91  [label="91::tunnel_tile_5::tile_260_1"];
+  92  [label="92::tunnel_tile_2::tile_260_2"];
+  93  [label="93::tunnel_tile_2::tile_260_3"];
+  94  [label="94::tunnel_tile_2::tile_260_4"];
+  95  [label="95::tunnel_tile_5::tile_260_5"];
+  96  [label="96::tunnel_tile_5::tile_260_6"];
+  97  [label="97::tunnel_tile_5::tile_260_7"];
+  98  [label="98::tunnel_tile_5::tile_260_8"];
+
+  /* x = 280 */
+  99  [label="99::tunnel_tile_2::tile_280_1"];
+  100 [label="100::tunnel_tile_5::tile_280_2"];
+  101 [label="101::tunnel_tile_5::tile_280_3"];
+  102 [label="102::tunnel_tile_1::tile_280_4"];
+  103 [label="103::tunnel_tile_5::tile_280_5"];
+  104 [label="104::tunnel_tile_5::tile_280_6"];
+  105 [label="105::tunnel_tile_5::tile_280_7"];
+  106 [label="106::tunnel_tile_2::tile_280_8"];
+  107 [label="107::tunnel_tile_2::tile_280_9"];
+  108 [label="108::tunnel_tile_2::tile_280_10"];
+  109 [label="109::tunnel_tile_5::tile_280_11"];
+
+  /* x = 300 */
+  110 [label="110::tunnel_tile_5::tile_300_1"];
+  111 [label="111::tunnel_tile_2::tile_300_2"];
+  112 [label="112::tunnel_tile_1::tile_300_3"];
+  113 [label="113::tunnel_tile_5::tile_300_4"];
+  114 [label="114::tunnel_tile_5::tile_300_5"];
+  115 [label="115::tunnel_tile_2::tile_300_6"];
+  116 [label="116::tunnel_tile_5::tile_300_7"];
+  117 [label="117::tunnel_tile_5::tile_300_8"];
+
+  /* x = 320 */
+  118 [label="118::tunnel_tile_2::tile_320_1"];
+  119 [label="119::tunnel_tile_5::tile_320_2"];
+  120 [label="120::tunnel_tile_2::tile_320_3"];
+  121 [label="121::tunnel_tile_5::tile_320_4"];
+  122 [label="122::tunnel_tile_5::tile_320_5"];
+  123 [label="123::tunnel_tile_2::tile_320_6"];
+  124 [label="124::tunnel_tile_5::tile_320_7"];
+  125 [label="125::tunnel_tile_2::tile_320_8"];
+  126 [label="126::tunnel_tile_5::tile_320_9"];
+
+  /* x = 340 */
+  127 [label="127::tunnel_tile_5::tile_340_1"];
+  128 [label="128::tunnel_tile_5::tile_340_2"];
+  129 [label="129::tunnel_tile_2::tile_340_3"];
+  130 [label="130::tunnel_tile_5::tile_340_4"];
+  131 [label="131::tunnel_tile_5::tile_340_5"];
+  132 [label="132::tunnel_tile_5::tile_340_6"];
+  133 [label="133::tunnel_tile_5::tile_340_7"];
+  134 [label="134::tunnel_tile_5::tile_340_8"];
+  135 [label="135::tunnel_tile_5::tile_340_9"];
+  136 [label="136::tunnel_tile_2::tile_340_10"];
+
+  /* x = 360 */
+  137 [label="137::tunnel_tile_2::tile_360_1"];
+  138 [label="138::tunnel_tile_2::tile_360_2"];
+
+
+  /* ==== Edges ==== */
+
+  /* Base station */
+  1 -- 2    [label=1];
+
+  /* x = 20 */
+  2 -- 7    [label=3];
+  3 -- 4    [label=6];
+  3 -- 8    [label=6];
+  4 -- 9    [label=3];
+
+  /* x = 40 */
+  5 -- 6    [label=3];
+  6 -- 7    [label=3];
+  7 -- 8    [label=6];
+  5 -- 11   [label=6];
+  7 -- 12   [label=6];
+  9 -- 14   [label=3];
+
+  /* x = 60 */
+  10 -- 11  [label=6];
+  12 -- 13  [label=3];
+  13 -- 14  [label=3];
+  14 -- 15  [label=6];
+  10 -- 19  [label=3];
+  14 -- 22  [label=6];
+  15 -- 23  [label=4];
+
+  /* x = 80 */
+  20 -- 21  [label=6];
+  22 -- 23  [label=6];
+  23 -- 24  [label=3];
+  24 -- 25  [label=3];
+  25 -- 26  [label=6];
+  19 -- 28  [label=1];
+  20 -- 29  [label=3];
+  21 -- 30  [label=3];
+  23 -- 31  [label=3];
+  26 -- 32  [label=3];
+  27 -- 33  [label=1];
+
+  /* x = 100 */
+  28 -- 34  [label=1];
+  29 -- 35  [label=1];
+  30 -- 36  [label=3];
+  31 -- 40  [label=3];
+  32 -- 42  [label=1];
+  33 -- 32  [label=1];
+
+  /* x = 120 */
+  36 -- 37  [label=3];
+  37 -- 38  [label=1];
+  38 -- 39  [label=1];
+  39 -- 40  [label=3];
+  40 -- 41  [label=6];
+  34 -- 44  [label=3];
+  35 -- 45  [label=3];
+  40 -- 47  [label=3];
+  41 -- 48  [label=3];
+  42 -- 49  [label=1];
+  43 -- 50  [label=3];
+
+  /* x = 140 */
+  44 -- 45  [label=6];
+  45 -- 46  [label=6];
+  50 -- 51  [label=6];
+  45 -- 52  [label=3];
+  46 -- 53  [label=3];
+  47 -- 54  [label=1];
+  48 -- 55  [label=1];
+  49 -- 56  [label=1];
+  51 -- 57  [label=3];
+
+  /* x = 160 */
+  52 -- 58  [label=1];
+  53 -- 59  [label=3];
+  54 -- 63  [label=3];
+  55 -- 64  [label=1];
+  56 -- 65  [label=1];
+  57 -- 66  [label=1];
+
+  /* x = 180 */
+  59 -- 60  [label=3];
+  60 -- 61  [label=1];
+  61 -- 62  [label=1];
+  62 -- 63  [label=3];
+  58 -- 67  [label=1];
+  63 -- 68  [label=3];
+
+  /* x = 200 */
+  70 -- 71  [label=6];
+  67 -- 75  [label=3];
+  68 -- 76  [label=3];
+  69 -- 78  [label=3];
+  71 -- 81  [label=3];
+
+  /* x = 220 */
+  72 -- 73  [label=3];
+  73 -- 74  [label=1];
+  74 -- 75  [label=3];
+  76 -- 77  [label=6];
+  78 -- 79  [label=3];
+  79 -- 80  [label=3];
+  72 -- 82  [label=3];
+  77 -- 87  [label=6];
+  80 -- 89  [label=3];
+  81 -- 90  [label=1];
+
+  /* x = 240 */
+  83 -- 84  [label=3];
+  84 -- 85  [label=1];
+  85 -- 86  [label=1];
+  87 -- 88  [label=6];
+  82 -- 91  [label=1];
+  83 -- 92  [label=6];
+  88 -- 94  [label=6];
+  89 -- 97  [label=1];
+  90 -- 98  [label=1];
+
+  /* x = 260 */
+  92 -- 93  [label=6];
+  94 -- 95  [label=3];
+  95 -- 96  [label=1];
+  91 -- 99  [label=3];
+  93 -- 102 [label=6];
+  97 -- 108 [label=3];
+  98 -- 109 [label=1];
+
+  /* x = 280 */
+  99 -- 100 [label=3];
+  100-- 101 [label=1];
+  101-- 102 [label=3];
+  102-- 103 [label=3];
+  103-- 104 [label=1];
+  104-- 105 [label=1];
+  105-- 106 [label=3];
+  107-- 108 [label=6];
+  102-- 110 [label=3];
+  106-- 112 [label=6];
+  107-- 116 [label=3];
+  109-- 117 [label=3];
+
+  /* x = 300 */
+  111-- 112 [label=6];
+  112-- 113 [label=3];
+  113-- 114 [label=1];
+  114-- 115 [label=3];
+  110-- 118 [label=3];
+  111-- 121 [label=3];
+  112-- 122 [label=3];
+  115-- 123 [label=6];
+  116-- 125 [label=3];
+  117-- 126 [label=1];
+
+  /* x = 320 */
+  118-- 119 [label=3];
+  119-- 120 [label=3];
+  123-- 124 [label=3];
+  124-- 125 [label=3];
+  120-- 127 [label=3];
+  121-- 128 [label=1];
+  122-- 129 [label=3];
+  126-- 136 [label=3];
+
+  /* x = 340 */
+  129-- 130 [label=3];
+  130-- 131 [label=1];
+  131-- 132 [label=1];
+  132-- 133 [label=1];
+  133-- 134 [label=1];
+  134-- 135 [label=1];
+  135-- 136 [label=3];
+  127-- 137 [label=3];
+  128-- 138 [label=3];
+
+  /* x = 360 */
+  137-- 138 [label=6];
+}

@@ -2,6 +2,8 @@
 <launch>
   <arg name="scenario" default="tunnel_practice_1"/>
 
+  <param name="subt/gazebo_worlds_dir" value="$(find subt_gazebo)/worlds/" />
+
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="world_name"
          value="$(find subt_gazebo)/worlds/$(arg scenario).world" />
