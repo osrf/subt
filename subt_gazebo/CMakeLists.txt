@@ -187,20 +187,20 @@ install(TARGETS ${comms_broker_plugin_name}
 # )
 
 # Create the libBaseStationPlugin.so library.
-# set(base_station_plugin_name BaseStationPlugin)
-# add_library(${base_station_plugin_name} src/BaseStationPlugin.cc)
-# target_include_directories(${base_station_plugin_name}
-#   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
-# target_link_libraries(${base_station_plugin_name}
-#   ${catkin_LIBRARIES}
-#   ${comms_client_name}
-#   ignition-common1::ignition-common1
-#   ${protobuf_lib_name}
-# )
-# install(TARGETS ${base_station_plugin_name}
-#   ARCHIVE DESTINATION lib
-#   LIBRARY DESTINATION lib
-#   RUNTIME DESTINATION bin)
+set(base_station_plugin_name BaseStationPlugin)
+add_library(${base_station_plugin_name} src/BaseStationPlugin.cc)
+target_include_directories(${base_station_plugin_name}
+  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
+target_link_libraries(${base_station_plugin_name}
+  ${catkin_LIBRARIES}
+  ${comms_client_name}
+  ignition-common1::ignition-common1
+  ${protobuf_lib_name}
+)
+install(TARGETS ${base_station_plugin_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
 
 # Create the libRosFlashLightPlugin.so library.
 set(ros_flashlight_plugin_name RosFlashLightPlugin)

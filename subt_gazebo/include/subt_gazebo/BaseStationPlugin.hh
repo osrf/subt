@@ -24,7 +24,8 @@
 #include <gazebo/physics/Model.hh>
 #include <ignition/transport/Node.hh>
 #include <sdf/Element.hh>
-#include "subt_gazebo/CommsClient.hh"
+
+#include <subt_communication_broker/subt_communication_client.h>
 
 namespace subt
 {
