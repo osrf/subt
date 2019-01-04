@@ -125,7 +125,10 @@ void Broker::NotifyNeighbors()
 void Broker::DispatchMessages()
 {
   std::lock_guard<std::mutex> lk(this->mutex);
-  
+
+  if(this->incomingMsgs.empty())
+    return;
+
   // Cannot dispatch messages if we don't have function handles for
   // pathloss and communication
   if(!communication_function) {
@@ -172,7 +175,7 @@ void Broker::DispatchMessages()
     }
 
     // Get the list of neighbors of the sender.
-    const Neighbors_M &neighbors = (*this->team)[msg.src_address()]->neighbors;
+    // const Neighbors_M &neighbors = (*this->team)[msg.src_address()]->neighbors;
 
     std::string dstEndPoint =
         msg.dst_address() + ":" + std::to_string(msg.dst_port());
@@ -182,6 +185,10 @@ void Broker::DispatchMessages()
       // Shuffle the clients bound to this endpoint.
       std::vector<BrokerClientInfo> clientsV = this->endpoints.at(dstEndPoint);
       // std::shuffle(clientsV.begin(), clientsV.end(), this->rndEngine);
+
+      if(clientsV.empty()) {
+        std::cerr << "[Broker::DispatchMessages()]: No clients for endpoint " << dstEndPoint << std::endl;
+      }
 
       for (const BrokerClientInfo &client : clientsV)
       {
@@ -214,6 +221,9 @@ void Broker::DispatchMessages()
         }
 
       }
+    }
+    else {
+      std::cerr << "[Broker::DispatchMessages()]: Could not find endpoint " << dstEndPoint << std::endl;
     }
   }
 }

@@ -41,8 +41,8 @@ namespace subt
     /// Important: This address must be equal to a Gazebo model name.
     /// \param[in] _isPrivate If true, only nodes within the same process will
     /// be able to communicate with this client.
-    public: explicit CommsClient(const std::string &_localAddress,
-                                 const bool _isPrivate = false);
+    public: CommsClient(const std::string &_localAddress,
+                        const bool _isPrivate = false);
 
     /// \brief Destructor.
     public: virtual ~CommsClient();
@@ -79,101 +79,8 @@ namespace subt
                                          const uint32_t _dstPort,
                                          const std::string &_data)> _cb,
                       const std::string &_address = "",
-                      const int _port = communication_broker::kDefaultPort)
-    {
-      // Sanity check: Make sure that the communications are enabled.
-      if (!this->enabled)
-        return false;
-
-      // Use current address if _address is not provided.
-      std::string address = _address;
-      if (address.empty())
-        address = this->Host();
-
-      // Sanity check: Make sure that you use your local address or multicast.
-      if ((address != communication_broker::kMulticast) && (address != this->Host()))
-      {
-        std::cerr << "[" << this->Host() << "] Bind() error: Address ["
-                  << address << "] is not your local address" << std::endl;
-        return false;
-      }
-
-      // Mapping the "unicast socket" to a topic name.
-      const auto unicastEndPoint = address + ":" + std::to_string(_port);
-      const auto bcastEndpoint = communication_broker::kBroadcast + ":" + std::to_string(_port);
-      bool bcastAdvertiseNeeded;
-
-      {
-        std::lock_guard<std::mutex> lock(this->mutex);
-
-        // Sanity check: Make sure that this address is not already used.
-        if (this->callbacks.find(unicastEndPoint) != this->callbacks.end())
-        {
-          std::cerr << "[" << this->Host() << "] Bind() error: Address ["
-                    << address << "] already used" << std::endl;
-          return false;
-        }
-
-        bcastAdvertiseNeeded =
-          this->callbacks.find(bcastEndpoint) == this->callbacks.end();
-      }
-
-      // Register the endpoints in the broker.
-      // Note that the broadcast endpoint will only be registered once.
-      for (std::string endpoint : {unicastEndPoint, bcastEndpoint})
-      {
-        if (endpoint != bcastEndpoint || bcastAdvertiseNeeded)
-        {
-          ignition::msgs::StringMsg_V req;
-          req.add_data(address);
-          req.add_data(endpoint);
-
-          const unsigned int timeout = 3000u;
-          ignition::msgs::Boolean rep;
-          bool result;
-          bool executed = this->node.Request(
-              communication_broker::kEndPointRegistrationSrv, req, timeout, rep, result);
-
-          if (!executed)
-          {
-            std::cerr << "[CommsClient] Endpoint registration srv not available"
-                      << std::endl;
-            return false;
-          }
-
-          if (!result)
-          {
-            std::cerr << "[CommsClient] Invalid data. Did you send the address "
-                      << "followed by the endpoint?" << std::endl;
-            return false;
-          }
-        }
-      }
-
-      // Advertise a oneway service for receiving message requests.
-      ignition::transport::AdvertiseServiceOptions opts;
-      if (this->isPrivate)
-        opts.SetScope(ignition::transport::Scope_t::PROCESS);
-      if (!this->node.Advertise(address, &CommsClient::OnMessage, this, opts))
-        return false;
-
-      // Register the callbacks.
-      {
-        std::lock_guard<std::mutex> lock(this->mutex);
-        for (std::string endpoint : {unicastEndPoint, bcastEndpoint})
-        {
-          if (endpoint != bcastEndpoint || bcastAdvertiseNeeded)
-          {
-            this->callbacks[endpoint] = std::bind(_cb,
-              std::placeholders::_1, std::placeholders::_2,
-              std::placeholders::_3, std::placeholders::_4);
-          }
-        }
-      }
-
-      return true;
-    }
-
+                      const int _port = communication_broker::kDefaultPort);
+    
     /// \brief This method can bind a local address and a port to a
     /// virtual socket. This is a required step if your agent needs to
     /// receive messages.
