@@ -20,7 +20,7 @@
 #include <iostream>
 #include <ignition/common/Util.hh>
 
-#include "subt_gazebo/SimpleDOTParser.hh"
+#include <subt_gazebo_los_model/SimpleDOTParser.hh>
 
 using namespace subt;
 

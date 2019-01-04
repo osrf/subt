@@ -31,20 +31,6 @@ namespace subt
   /// \brief Map of neighbors
   using Neighbors_M = std::map<std::string, double>;
 
-  /// \def VisibilityGraph
-  /// \brief An undirected graph to represent communication visibility between
-  /// different areas of the world.
-  using VisibilityGraph =
-    ignition::math::graph::UndirectedGraph<std::string, uint8_t>;
-
-  // This is the lookup table where we store the visibility cost from any pair
-  // of vertices. The key is a pair containing the IDs of the two vertices.
-  // The value is the visibility cost between the two vertices.
-  using VisibilityInfo =
-    std::map<std::pair<ignition::math::graph::VertexId,
-                       ignition::math::graph::VertexId>,
-             double>;
-
   /// \brief All the supported artifact types.
   enum class ArtifactType : uint32_t
   {

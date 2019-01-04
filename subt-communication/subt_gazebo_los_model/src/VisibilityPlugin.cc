@@ -17,8 +17,8 @@
 #include <csignal>
 #include "gazebo/gazebo_config.h"
 #include "gazebo/physics/physics.hh"
-#include "subt_gazebo/VisibilityTable.hh"
-#include "subt_gazebo/VisibilityPlugin.hh"
+#include <subt_gazebo_los_model/VisibilityTable.hh>
+#include <subt_gazebo_los_model/VisibilityPlugin.hh>
 
 using namespace gazebo;
 

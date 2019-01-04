@@ -25,7 +25,7 @@
 #include <gazebo/physics/Model.hh>
 #include <ignition/math/Box.hh>
 #include <ignition/math/Vector3.hh>
-#include "subt_gazebo/CommonTypes.hh"
+#include <subt_gazebo_los_model/VisibilityTypes.hh>
 
 namespace subt
 {

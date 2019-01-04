@@ -26,8 +26,8 @@
 #include <ignition/math/graph/GraphAlgorithms.hh>
 #include <ignition/common/Util.hh>
 
-#include "subt_gazebo/SimpleDOTParser.hh"
-#include "subt_gazebo/VisibilityTable.hh"
+#include <subt_gazebo_los_model/SimpleDOTParser.hh>
+#include <subt_gazebo_los_model/VisibilityTable.hh>
 
 using namespace subt;
 

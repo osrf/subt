@@ -19,7 +19,7 @@
 #include <string>
 #include <vector>
 
-#include "subt_gazebo/CommonTypes.hh"
+#include <subt_gazebo_los_model/VisibilityTypes.hh>
 
 #ifndef SUBT_GAZEBO_SIMPLEDOTPARSER_HH_
 #define SUBT_GAZEBO_SIMPLEDOTPARSER_HH_
