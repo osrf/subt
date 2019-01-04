@@ -25,7 +25,7 @@
   <xacro:include filename="$(find x4_description)/urdf/x4.xacro" />
 
   <!-- Instantiate a controller. -->
-  <xacro:controller_plugin_macro namespace="${namespace}" imu_sub_topic="imu" />
+  <xacro:controller_plugin_macro namespace="${namespace}" imu_sub_topic="imu/data" />
 
   <gazebo>
     <enable_wind>true</enable_wind>
