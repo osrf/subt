@@ -41,11 +41,11 @@ set(project_libs
 #######################################
 
 catkin_package(
-  INCLUDE_DIRS include ${CATKIN_DEVEL_PREFIX}/include
+  INCLUDE_DIRS include
   CATKIN_DEPENDS ${RUN_DEPENDS}
   LIBRARIES subt_communication_broker subt_communication_client
   CFG_EXTRAS
-    ${PROJECT_NAME}-extras.cmake  
+    ${PROJECT_NAME}-extras.cmake
     )
 
 set(protobuf_lib_name SubtCommsProtobuf)
