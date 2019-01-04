@@ -15,6 +15,7 @@ find_package(catkin REQUIRED
   COMPONENTS
     message_generation
     subt_gazebo
+    subt_communication_broker
     roscpp
 )
 

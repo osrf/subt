@@ -26,7 +26,7 @@
 #include <string>
 #include <vector>
 
-#include <subt_gazebo/CommsClient.hh>
+#include <subt_communication_broker/subt_communication_client.h>
 #include <subt_gazebo/protobuf/artifact.pb.h>
 
 /// \brief. Example control class, running as a ROS node to control a robot.
@@ -110,7 +110,7 @@ Controller::Controller(const std::string &_name,
                        const std::string &_address):
   name(_name)
 {
-  this->client.reset(new subt::CommsClient(_address));
+  this->client = std::make_unique<subt::CommsClient>(_address, false);
 
   this->teleopSelectSub
     = this->n.subscribe<std_msgs::Bool>(
