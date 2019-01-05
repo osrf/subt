@@ -17,8 +17,35 @@
             <uri>model://Radio/meshes/Radio.dae</uri>
           </mesh>
         </geometry>
+        <plugin name='light_source_visualize' filename='libLightVisualPlugin.so'>
+          <light>
+            <id>light_source</id>
+            <visualize>false</visualize>
+          </light>
+        </plugin>
       </visual>
+      <light name='light_source' type='point'>
+        <pose>0.0137 -0.02 0.109 0 0 0</pose>
+        <attenuation>
+          <range>2.0</range>
+          <constant>0.3</constant>
+          <linear>0.10</linear>
+          <quadratic>0.2</quadratic>
+        </attenuation>
+        <diffuse>1 0 0 1</diffuse>
+        <specular>1 0 0 1</specular>
+      </light>
     </link>
+
+    <plugin name='light_control' filename='libRosFlashLightPlugin.so'>
+      <service_name>enable</service_name>
+      <light>
+        <id>link/light_source</id>
+        <duration>1.0</duration>
+        <interval>3.0</interval>
+        <color>1 0 0</color>
+      </light>
+    </plugin>
+
   </model>
 </sdf>
-    
