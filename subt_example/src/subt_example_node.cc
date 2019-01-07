@@ -26,8 +26,11 @@
 #include <string>
 #include <vector>
 
+#include <subt_communication_broker/common_types.h>
 #include <subt_communication_broker/subt_communication_client.h>
 #include <subt_gazebo/protobuf/artifact.pb.h>
+
+#include <subt_example/CreatePeer.h>
 
 /// \brief. Example control class, running as a ROS node to control a robot.
 class Controller
@@ -103,6 +106,17 @@ class Controller
 
   /// \brief Communication client.
   private: std::unique_ptr<subt::CommsClient> client;
+
+  private: ros::ServiceServer createPeerSrv;
+
+  using CommsClientCallbackType = std::function<void(const std::string &_srcAddress,
+                                                     const std::string &_dstAddress,
+                                                     const uint32_t _dstPort,
+                                                     const std::string &_data)>;
+ private:
+  // indexed by remote name, store port and Callback function
+  std::map<std::string,
+           std::pair<ros::Subscriber, ros::Publisher>> peer_connections;
 };
 
 /////////////////////////////////////////////////
@@ -169,6 +183,42 @@ Controller::Controller(const std::string &_name,
     this->commLedSrvList.push_back(
       this->n.serviceClient<std_srvs::SetBool>(serviceName));
   }
+
+  // Create service client to create peer-to-peer communication
+  // channels (mostly for testing)
+  ros::NodeHandle pnh("~");
+
+  createPeerSrv =
+      pnh.advertiseService<
+        subt_example::CreatePeer::Request,
+    subt_example::CreatePeer::Response
+    >("create_peer",
+      [this](auto& req,
+             auto& /*res*/)
+      {
+        std::string remote = req.remote;
+
+        if(this->peer_connections.find(remote) != this->peer_connections.end()) {
+          ROS_WARN_STREAM(this->name << " is already connected to " << remote);
+          return true;
+        }
+
+        ros::NodeHandle pnh("~");
+        ros::Subscriber sub =
+        pnh.subscribe<std_msgs::String>(remote + "/send", 100,
+                                        [this, remote](const std_msgs::StringConstPtr& msg)
+  {
+    this->client->SendTo(msg->data, remote);
+  });
+
+        ros::Publisher pub = pnh.advertise<std_msgs::String>(remote + "/recv", 100);
+
+        this->peer_connections.insert(std::make_pair(remote,
+                                                     std::make_pair(sub, pub)));
+
+        return true;
+      });
+
 }
 
 /////////////////////////////////////////////////
@@ -214,13 +264,20 @@ void Controller::TeleopCommCallback(const std_msgs::String::ConstPtr &_dest)
 }
 
 /////////////////////////////////////////////////
-void Controller::CommClientCallback(const std::string &/*_srcAddress*/,
+void Controller::CommClientCallback(const std::string &_srcAddress,
                                     const std::string &/*_dstAddress*/,
                                     const uint32_t /*_dstPort*/,
-                                    const std::string &/*_data*/)
+                                    const std::string &_data)
 {
   ROS_INFO("CommClientCallback");
   this->FlashCommIndicator();
+
+  auto peer = this->peer_connections.find(_srcAddress);
+  if(peer != this->peer_connections.end()) {
+    std_msgs::String msg;
+    msg.data = _data;
+    peer->second.second.publish(msg);
+  }
 }
 
 /////////////////////////////////////////////////

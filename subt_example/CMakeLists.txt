@@ -21,15 +21,22 @@ find_package(catkin REQUIRED
 
 find_package(gazebo REQUIRED)
 
-catkin_package(
-  CATKIN_DEPENDS message_runtime
-)
-
 ########################
 ## Message generation ##
 ########################
 
 # Add here SubT ROS messages.
+add_service_files(DIRECTORY srv
+  FILES   CreatePeer.srv
+  )
+generate_messages( )
+
+
+
+catkin_package(
+  CATKIN_DEPENDS message_runtime
+)
+
 
 ###########
 ## Build ##
