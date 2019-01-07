@@ -23,6 +23,18 @@ struct radio_configuration
   {}
 };
 
+
+std::ostream& operator<<(std::ostream& oss, const radio_configuration& config)
+{
+  oss << "Radio Configuration" << std::endl
+      << "-- capacity: " << config.capacity << std::endl
+      << "-- default_tx_power: " << config.default_tx_power << std::endl
+      << "-- noise_floor: " << config.noise_floor << std::endl
+      << "-- modulation: " << config.modulation << std::endl;
+
+  return oss;
+}
+
 bool attempt_send(const radio_configuration& radio,
                   const rf_interface::radio_state& tx_state,
                   const rf_interface::radio_state& rx_state,
