@@ -14,12 +14,6 @@ struct radio_state
   double antenna_gain;      // Isotropic antenna gain
 };
 
-struct rf_configuration
-{
-  double max_range;
-  rf_configuration() : max_range(10.0) { }
-};
-
 struct rf_power
 {
   double mean;
