@@ -43,25 +43,64 @@ void CommsBrokerPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
 
   // Build RF Function
   struct rf_configuration rf_config;
-  rf_config.max_range = 10.0;
-  auto rf_func = std::bind(&distance_based_received_power,
+  // Build radio configuration (which includes RF pathloss function)
+  struct radio_configuration radio;
+
+  if(_sdf->HasElement("comms_model")) {
+    auto const &commsModelElem = _sdf->GetElement("comms_model");
+
+    if(commsModelElem->HasElement("rf_config")) {
+      auto const &rfConfigElem = commsModelElem->GetElement("rf_config");
+
+      if(rfConfigElem->HasElement("max_range")) {
+        rf_config.max_range = rfConfigElem->Get<double>("max_range");
+      }
+      if(rfConfigElem->HasElement("fading_exponent")) {
+        rf_config.fading_exponent = rfConfigElem->Get<double>("fading_exponent");
+      }
+      if(rfConfigElem->HasElement("L0")) {
+        rf_config.L0 = rfConfigElem->Get<double>("L0");
+      }
+      if(rfConfigElem->HasElement("sigma")) {
+        rf_config.sigma = rfConfigElem->Get<double>("sigma");
+      }
+
+      ROS_INFO_STREAM("Loading rf_config from SDF: \n" << rf_config);
+    }
+
+    if(commsModelElem->HasElement("radio_config")) {
+      auto const &radioConfigElem = commsModelElem->GetElement("radio_config");
+
+      if(radioConfigElem->HasElement("capacity")) {
+        radio.capacity = radioConfigElem->Get<double>("capacity");
+      }
+      if(radioConfigElem->HasElement("tx_power")) {
+        radio.default_tx_power = radioConfigElem->Get<double>("tx_power");
+      }
+      if(radioConfigElem->HasElement("modulation")) {
+        radio.modulation = radioConfigElem->Get<std::string>("modulation");
+      }
+      if(radioConfigElem->HasElement("noise_floor")) {
+        radio.noise_floor = radioConfigElem->Get<double>("noise_floor");
+      }
+
+      ROS_INFO_STREAM("Loading radio_config from SDF: \n" << radio);
+    }
+    
+  }
+
+  // Build RF propagation function and put in the default radio
+  // configuration
+  auto rf_func = std::bind(&log_normal_received_power,
                            std::placeholders::_1,
                            std::placeholders::_2,
                            std::placeholders::_3,
                            rf_config);
-
-  // Build radio configuration (which includes RF pathloss function)
-  struct radio_configuration radio;
-  radio.capacity = 54000000;
-  radio.default_tx_power = 27;
-  radio.modulation = "QPSK";
-  radio.noise_floor = -90;
   radio.pathloss_f = rf_func;
-
-  // Instatiate two radios with this configuration
   broker.SetDefaultRadioConfiguration(radio);
 
-  // Set communication function to use
+  // Set communication function (i.e., the attempt_send function) to
+  // use for the broker
   broker.SetCommunicationFunction(&subt::communication_model::attempt_send);
 
   // Build function to get pose from gazebo
@@ -110,10 +149,10 @@ void CommsBrokerPlugin::OnUpdate()
     {
       igndbg << "Enabling simple mode comms" << std::endl;
       
-      auto f = [](const radio_configuration& radio,
-                  const rf_interface::radio_state& tx_state,
-                  const rf_interface::radio_state& rx_state,
-                  const uint64_t& num_bytes
+      auto f = [](const radio_configuration&,
+                  const rf_interface::radio_state&,
+                  const rf_interface::radio_state&,
+                  const uint64_t&
                   ) { return true; };
       
       broker.SetCommunicationFunction(f);
