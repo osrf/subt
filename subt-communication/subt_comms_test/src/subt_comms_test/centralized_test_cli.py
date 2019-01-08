@@ -41,24 +41,7 @@ if __name__ == '__main__':
 
     rospy.init_node('CentralizedTester', anonymous=True)
 
-    burst_size = 1024
-
-    stdscr = curses.initscr()
-    curses.noecho()
-    curses.cbreak()
-    curses.start_color()
-    curses.curs_set(0)
-    stdscr.keypad(1)
-    stdscr.nodelay(1)
-    #curses.halfdelay(3)
-
-    curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_RED)
-    curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_CYAN)
-
-    for x in testers:
-        x.start()
-
-    done = False
+    burst_size = 1024*1024
 
     col1 = 0  # Source
     col2 = 8 # Dest
@@ -69,18 +52,6 @@ if __name__ == '__main__':
     col7 = 60 # tx bitrate
     col8 = 70 # rx bitrate
     col9 = 80 # Latency
-
-    stdscr.addstr(0,0,'XBee Test Client')
-    stdscr.addstr(1,0,'-'*(col8+11))
-    stdscr.addstr(2,col1,'Src')
-    stdscr.addstr(2,col2,'Dest')
-    stdscr.addstr(2,col3,'%')
-    stdscr.addstr(2,col4,'Sending')
-    stdscr.addstr(2,col5,'Send Rate')
-    stdscr.addstr(2,col6,'Payload')
-    stdscr.addstr(2,col7,'Tx (kbps)')
-    stdscr.addstr(2,col8,'Rx (kbps)')
-    stdscr.addstr(2,col9,'Latency')
 
     help_row = 2 + len(testers) + 3
 
@@ -97,6 +68,38 @@ if __name__ == '__main__':
       B              Send burst of data
       }/{            Increase/decrease burst size
     """
+    
+
+    stdscr_orig = curses.initscr()
+    stdscr = curses.newpad(help_row + 15, col9 + 15)
+    curses.noecho()
+    curses.cbreak()
+    curses.start_color()
+    curses.curs_set(0)
+    stdscr.keypad(1)
+    stdscr.nodelay(1)
+    #curses.halfdelay(3)
+
+    curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_RED)
+    curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_CYAN)
+
+    for x in testers:
+        x.start()
+
+    done = False
+
+    stdscr.addstr(0,0,'XBee Test Client')
+    stdscr.addstr(1,0,'-'*(col8+11))
+    stdscr.addstr(2,col1,'Src')
+    stdscr.addstr(2,col2,'Dest')
+    stdscr.addstr(2,col3,'%')
+    stdscr.addstr(2,col4,'Sending')
+    stdscr.addstr(2,col5,'Send Rate')
+    stdscr.addstr(2,col6,'Payload')
+    stdscr.addstr(2,col7,'Tx (kbps)')
+    stdscr.addstr(2,col8,'Rx (kbps)')
+    stdscr.addstr(2,col9,'Latency')
+
     stdscr.addstr(help_row-2,0,'-'*(col8+11))
     stdscr.addstr(help_row-1, 0, 'Burst size (bytes): {}'.format(burst_size))
     stdscr.addstr(help_row, 8, help_string)
@@ -135,6 +138,9 @@ if __name__ == '__main__':
             idx = idx + 1
 
         # stdscr.refresh()
+
+        height, width = stdscr_orig.getmaxyx()
+        stdscr.refresh(0, 0, 0, 0, height-1, width-1)
 
         # Key-event handling
         c = stdscr.getch()
