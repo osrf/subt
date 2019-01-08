@@ -104,7 +104,7 @@ class CentralizedTester:
         if len(queue) == 0:
             return 0.0
 
-        window = 10
+        window = 20
         data = queue[-window:]
         dt = 0.0
         try:
@@ -118,7 +118,7 @@ class CentralizedTester:
 
         total_data = 0
         for d in data:
-            total_data += len(d[1].data)
+            total_data += len(d[1].data)*8
 
         return total_data/dt
 

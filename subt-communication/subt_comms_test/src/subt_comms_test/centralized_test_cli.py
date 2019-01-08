@@ -36,6 +36,8 @@ if __name__ == '__main__':
     testers.append(CentralizedTesterRun(5, -1, 'X1', 'X2'))
     testers.append(CentralizedTesterRun(5, -1, 'X1', 'X3'))
     testers.append(CentralizedTesterRun(5, -1, 'X1', 'X4'))
+    testers.append(CentralizedTesterRun(5, -1, 'X3', 'X2'))
+    testers.append(CentralizedTesterRun(5, -1, 'X4', 'X2'))        
 
     rr = RoundRobinSched(0.5, testers)
 
@@ -132,8 +134,8 @@ if __name__ == '__main__':
             stdscr.addstr(idx, col5, '{:2.2f} Hz'.format(x.test.send_rate), color_selection)
             stdscr.addstr(idx, col6, '{}'.format(x.test.payload_size), color_selection)
             # stdscr.addstr(idx, col7, '{:2.2f}'.format(x.test.send_rate * float(x.test.payload_size) / 1024.0), color_selection)
-            stdscr.addstr(idx, col7, '{:2.2f}'.format(x.test.GetTXRate() / 1024.0), color_selection)
-            stdscr.addstr(idx, col8, '{:2.2f}'.format(x.test.GetRXRate() / 1024.0), color_selection)
+            stdscr.addstr(idx, col7, '{:2.2f}'.format(x.test.GetTXRate() / 1000.0), color_selection)
+            stdscr.addstr(idx, col8, '{:2.2f}'.format(x.test.GetRXRate() / 1000.0), color_selection)
             stdscr.addstr(idx, col9, '{:2.2f}'.format(x.test.GetLatency() * 1000.0), color_selection)
             idx = idx + 1
 
