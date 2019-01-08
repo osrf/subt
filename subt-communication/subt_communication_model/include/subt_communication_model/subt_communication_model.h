@@ -36,14 +36,14 @@ std::ostream& operator<<(std::ostream& oss, const radio_configuration& config)
 }
 
 bool attempt_send(const radio_configuration& radio,
-                  const rf_interface::radio_state& tx_state,
-                  const rf_interface::radio_state& rx_state,
+                  rf_interface::radio_state& tx_state,
+                  rf_interface::radio_state& rx_state,
                   const uint64_t& num_bytes
                   );
 
 typedef std::function<bool(const radio_configuration&,
-                           const rf_interface::radio_state&,
-                           const rf_interface::radio_state&,
+                           rf_interface::radio_state&,
+                           rf_interface::radio_state&,
                            const uint64_t&)> communication_function;
 
 }

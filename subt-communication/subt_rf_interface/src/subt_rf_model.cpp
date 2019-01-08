@@ -19,8 +19,8 @@ double distance(const geometry_msgs::Point& a,
 }
 
 rf_power distance_based_received_power(const double& tx_power,
-                                       const radio_state& tx_state,
-                                       const radio_state& rx_state,
+                                       radio_state& tx_state,
+                                       radio_state& rx_state,
                                        const rf_configuration& config)
 {
   // Ensure that TX and RX poses are in same frame. We don't want to
@@ -40,8 +40,8 @@ rf_power distance_based_received_power(const double& tx_power,
 }
 
 rf_power log_normal_received_power(const double& tx_power,
-                                   const radio_state& tx_state,
-                                   const radio_state& rx_state,
+                                   radio_state& tx_state,
+                                   radio_state& rx_state,
                                    const rf_configuration& config)
 {
   // Ensure that TX and RX poses are in same frame. We don't want to

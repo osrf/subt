@@ -19,12 +19,39 @@ bool packetSuccess(double ber, uint64_t size)
 
 
 bool attempt_send(const radio_configuration& radio,
-                  const rf_interface::radio_state& tx_state,
-                  const rf_interface::radio_state& rx_state,
+                  rf_interface::radio_state& tx_state,
+                  rf_interface::radio_state& rx_state,
                   const uint64_t& num_bytes)
 {
   // Do capacity checks here
+  static ros::Duration epoch_duration = ros::Duration(1.0);
 
+  ros::Time now = tx_state.pose.header.stamp;
+
+  // Maintain running window of bytes sent over the last epoch, e.g.,
+  // 1s
+  while(!tx_state.bytes_sent.empty() && tx_state.bytes_sent.front().first < now - epoch_duration) {
+    tx_state.bytes_sent_this_epoch -= tx_state.bytes_sent.front().second;
+    tx_state.bytes_sent.pop_front();
+  }
+  
+  //ROS_INFO("bytes sent: %lu + %lu = %lu", tx_state.bytes_sent_this_epoch, num_bytes, tx_state.bytes_sent_this_epoch + num_bytes);
+
+  // Compute prospective accumulated bits along with time window
+  // (including this packet)
+  double bits_sent = (tx_state.bytes_sent_this_epoch + num_bytes)*8;
+
+  // Check current epoch bitrate vs capacity and fail to send
+  // accordingly
+  if(bits_sent > radio.capacity*epoch_duration.toSec()) {
+    //ROS_WARN("Bitrate limited: %f bits sent (limit: %2.2f)", bits_sent, radio.capacity * epoch_duration.toSec());
+    return false;
+  }
+
+  // Record these bytes
+  tx_state.bytes_sent.push_back(std::make_pair(now, num_bytes));
+  tx_state.bytes_sent_this_epoch += num_bytes;
+  
   // Get the received power based on TX power and position of each
   // node
   auto rx_power_dist = radio.pathloss_f(radio.default_tx_power,
@@ -53,11 +80,11 @@ bool attempt_send(const radio_configuration& radio,
 
   double packet_drop_prob = 1.0 - exp(num_bytes*log(1-ber));
 
-  ROS_DEBUG_STREAM("TX power (dBm): " << radio.default_tx_power << "\n" <<
-                   "RX power (dBm): " << rx_power << "\n" <<
-                   "BER: " << ber << "\n" <<
-                   "# Bytes: " << num_bytes << "\n" <<
-                   "PER: " << packet_drop_prob);
+  // ROS_DEBUG_STREAM("TX power (dBm): " << radio.default_tx_power << "\n" <<
+  //                  "RX power (dBm): " << rx_power << "\n" <<
+  //                  "BER: " << ber << "\n" <<
+  //                  "# Bytes: " << num_bytes << "\n" <<
+  //                  "PER: " << packet_drop_prob);
 
   double rand_draw = (rand() % 1000) / 1000.0;
   return rand_draw > packet_drop_prob;  
