@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
-*/
+ */
 
 #include <geometry_msgs/Twist.h>
 #include <ros/ros.h>
@@ -25,6 +25,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <mutex>
 
 #include <subt_communication_broker/common_types.h>
 #include <subt_communication_broker/subt_communication_client.h>
@@ -40,74 +41,71 @@ class Controller
   /// "/Jackal/cmd_vel" if _name is specified as "Jackal".
   /// \param[in] _name Name of the robot.
   /// \param[in] _address The address for the network
-  public: Controller(const std::string &_name,
-                     const std::string &_address);
+ public: Controller(const std::string &_name,
+                    const std::string &_address);
 
   /// \brief Callback function for selection command.
   /// \param[in] _select True if the robot is selected. False if unselected.
-  public: void TeleopSelectCallback(const std_msgs::Bool::ConstPtr &_select);
+ public: void TeleopSelectCallback(const std_msgs::Bool::ConstPtr &_select);
 
   /// \brief Callback function for velocity command.
   /// \param[in] _vel Velocity to apply the robot.
-  public: void TeleopVelCallback(const geometry_msgs::Twist::ConstPtr &_vel);
+ public: void TeleopVelCallback(const geometry_msgs::Twist::ConstPtr &_vel);
 
   /// \brief Callback function for light command.
   /// \param[in] _switch True if the flashlights are to be on. False if to be
   ///                    off.
-  public: void TeleopLightCallback(const std_msgs::Bool::ConstPtr &_switch);
+ public: void TeleopLightCallback(const std_msgs::Bool::ConstPtr &_switch);
 
   /// \brief Callback function for communication command.
   /// \param[in] _dest The destination address to which the robot sends its
   ///                  packet through the network.
-  public: void TeleopCommCallback(const std_msgs::String::ConstPtr &_dest);
+ public: void TeleopCommCallback(const std_msgs::String::ConstPtr &_dest);
 
   /// \brief Callback function for message from other comm clients.
   /// \param[in] _srcAddress The address of the robot who sent the packet.
   /// \param[in] _dstAddress The address of the robot who received the packet.
   /// \param[in] _dstPort The destination port.
   /// \param[in] _data The contents the packet holds.
-  public: void CommClientCallback(const std::string &_srcAddress,
-                                  const std::string &_dstAddress,
-                                  const uint32_t _dstPort,
-                                  const std::string &_data);
-
-  /// \brief Helper function to flash the communication indicator.
-  private: void FlashCommIndicator();
+ public: void CommClientCallback(const std::string &_srcAddress,
+                                 const std::string &_dstAddress,
+                                 const uint32_t _dstPort,
+                                 const std::string &_data);
 
   /// \brief Name of the robot.
-  private: std::string name;
+ private: std::string name;
 
   /// \brief ROS node handler.
-  private: ros::NodeHandle n;
+ private: ros::NodeHandle n;
 
   /// \brief subscriber for selection command from teleop.
-  private: ros::Subscriber teleopSelectSub;
+ private: ros::Subscriber teleopSelectSub;
 
   /// \brief subscriber for velocity command from teleop.
-  private: ros::Subscriber teleopVelSub;
+ private: ros::Subscriber teleopVelSub;
 
   /// \brief subscriber for light command from teleop.
-  private: ros::Subscriber teleopLightSub;
+ private: ros::Subscriber teleopLightSub;
 
   /// \brief subscriber for communication command from teleop.
-  private: ros::Subscriber teleopCommSub;
+ private: ros::Subscriber teleopCommSub;
 
   /// \brief publisher to send cmd_vel
-  private: ros::Publisher velPub;
+ private: ros::Publisher velPub;
 
   /// \brief List of service clients to control flashlight(s).
-  private: std::vector<ros::ServiceClient> flashlightSrvList;
+ private: std::vector<ros::ServiceClient> flashlightSrvList;
 
   /// \brief List of service clients to control selection LED(s).
-  private: std::vector<ros::ServiceClient> selectLedSrvList;
+ private: std::vector<ros::ServiceClient> selectLedSrvList;
 
   /// \brief List of service clients to control communciation LED(s).
-  private: std::vector<ros::ServiceClient> commLedSrvList;
+ private: std::vector<ros::ServiceClient> commLedSrvList;
 
   /// \brief Communication client.
-  private: std::unique_ptr<subt::CommsClient> client;
+ private: std::unique_ptr<subt::CommsClient> client;
 
-  private: ros::ServiceServer createPeerSrv;
+ private: ros::ServiceServer createPeerSrv;
 
   using CommsClientCallbackType = std::function<void(const std::string &_srcAddress,
                                                      const std::string &_dstAddress,
@@ -117,42 +115,46 @@ class Controller
   // indexed by remote name, store port and Callback function
   std::map<std::string,
            std::pair<ros::Subscriber, ros::Publisher>> peer_connections;
+
+  void SetCommsActive(double timeout=1.0);
+  std::mutex comms_led_mutex;
+  ros::Timer active_comms_timer;
 };
 
 /////////////////////////////////////////////////
 Controller::Controller(const std::string &_name,
                        const std::string &_address):
-  name(_name)
+    name(_name)
 {
   this->client = std::make_unique<subt::CommsClient>(_address, false);
 
   this->teleopSelectSub
-    = this->n.subscribe<std_msgs::Bool>(
-      _name + "/select", 1, &Controller::TeleopSelectCallback, this);
+      = this->n.subscribe<std_msgs::Bool>(
+          _name + "/select", 1, &Controller::TeleopSelectCallback, this);
   this->teleopVelSub
-    = this->n.subscribe<geometry_msgs::Twist>(
-      _name + "/cmd_vel_relay", 1, &Controller::TeleopVelCallback, this);
+      = this->n.subscribe<geometry_msgs::Twist>(
+          _name + "/cmd_vel_relay", 1, &Controller::TeleopVelCallback, this);
   this->teleopLightSub
-    = this->n.subscribe<std_msgs::Bool>(
-      _name + "/light", 1, &Controller::TeleopLightCallback, this);
+      = this->n.subscribe<std_msgs::Bool>(
+          _name + "/light", 1, &Controller::TeleopLightCallback, this);
   this->teleopCommSub
-    = this->n.subscribe<std_msgs::String>(
-      _name + "/comm", 1, &Controller::TeleopCommCallback, this);
+      = this->n.subscribe<std_msgs::String>(
+          _name + "/comm", 1, &Controller::TeleopCommCallback, this);
 
   this->client->Bind(&Controller::CommClientCallback, this);
 
   this->velPub
-    = this->n.advertise<geometry_msgs::Twist>(_name + "/cmd_vel", 1);
+      = this->n.advertise<geometry_msgs::Twist>(_name + "/cmd_vel", 1);
 
   std::vector<std::string> flashlightSrvSuffixList;
   this->n.getParam(
-    "flashlight_service_suffixes", flashlightSrvSuffixList);
+      "flashlight_service_suffixes", flashlightSrvSuffixList);
   std::vector<std::string> selectLedSrvSuffixList;
   this->n.getParam(
-    "select_led_service_suffixes", selectLedSrvSuffixList);
+      "select_led_service_suffixes", selectLedSrvSuffixList);
   std::vector<std::string> commLedSrvSuffixList;
   this->n.getParam(
-    "comm_led_service_suffixes", commLedSrvSuffixList);
+      "comm_led_service_suffixes", commLedSrvSuffixList);
 
   // Create service clients to control flashlights, and associate them
   // to the corresponding service names.
@@ -161,7 +163,7 @@ Controller::Controller(const std::string &_name,
     // Note: a service name is formatted like, "/<robot name><suffix>"
     std::string serviceName = "/" + this->name + suffix;
     this->flashlightSrvList.push_back(
-      this->n.serviceClient<std_srvs::SetBool>(serviceName));
+        this->n.serviceClient<std_srvs::SetBool>(serviceName));
   }
 
   // Create service clients to control flashlights, and associate them
@@ -171,7 +173,7 @@ Controller::Controller(const std::string &_name,
     // Note: a service name is formatted like, "/<robot name><suffix>"
     std::string serviceName = "/" + this->name + suffix;
     this->selectLedSrvList.push_back(
-      this->n.serviceClient<std_srvs::SetBool>(serviceName));
+        this->n.serviceClient<std_srvs::SetBool>(serviceName));
   }
 
   // Create service clients to control flashlights, and associate them
@@ -181,7 +183,7 @@ Controller::Controller(const std::string &_name,
     // Note: a service name is formatted like, "/<robot name><suffix>"
     std::string serviceName = "/" + this->name + suffix;
     this->commLedSrvList.push_back(
-      this->n.serviceClient<std_srvs::SetBool>(serviceName));
+        this->n.serviceClient<std_srvs::SetBool>(serviceName));
   }
 
   // Create service client to create peer-to-peer communication
@@ -209,6 +211,7 @@ Controller::Controller(const std::string &_name,
                                         [this, remote](const std_msgs::StringConstPtr& msg)
   {
     this->client->SendTo(msg->data, remote);
+    this->SetCommsActive();
   });
 
         ros::Publisher pub = pnh.advertise<std_msgs::String>(remote + "/recv", 100);
@@ -260,7 +263,8 @@ void Controller::TeleopCommCallback(const std_msgs::String::ConstPtr &_dest)
 {
   ROS_INFO("TeleopCommCallback");
   this->client->SendTo("_data_", _dest->data);
-  this->FlashCommIndicator();
+  //this->FlashCommIndicator();
+  this->SetCommsActive();
 }
 
 /////////////////////////////////////////////////
@@ -270,7 +274,8 @@ void Controller::CommClientCallback(const std::string &_srcAddress,
                                     const std::string &_data)
 {
   ROS_INFO("CommClientCallback");
-  this->FlashCommIndicator();
+  //this->FlashCommIndicator();
+  this->SetCommsActive();
 
   auto peer = this->peer_connections.find(_srcAddress);
   if(peer != this->peer_connections.end()) {
@@ -280,22 +285,39 @@ void Controller::CommClientCallback(const std::string &_srcAddress,
   }
 }
 
-/////////////////////////////////////////////////
-void Controller::FlashCommIndicator()
+void Controller::SetCommsActive(double timeout)
 {
-  std_srvs::SetBool srv;
-  srv.request.data = true;
-  for (auto service : this->commLedSrvList)
+  std::lock_guard<std::mutex> l(comms_led_mutex);
+  
+  ros::NodeHandle nh;
+  
+  // Turn comms led on (they will blink automatically)
   {
-    service.call(srv);
+    std_srvs::SetBool led_srv;
+    led_srv.request.data = true;
+    for (auto service : this->commLedSrvList)
+    {
+      service.call(led_srv);
+    }
   }
-
-  ros::Duration(0.1).sleep();
-
-  srv.request.data = false;
-  for (auto service : this->commLedSrvList)
-  {
-    service.call(srv);
+  
+  if(!active_comms_timer) {
+    active_comms_timer =
+        nh.createTimer(ros::Duration(timeout),
+                       [this](const ros::TimerEvent&)
+                       {
+                         // Turn comms LEDs off
+                         std::lock_guard<std::mutex> l(comms_led_mutex);
+                         std_srvs::SetBool led_srv;
+                         led_srv.request.data = false;
+                         for (auto service : this->commLedSrvList)
+                         {
+                           service.call(led_srv);
+                         }
+                       }, true, true);
+  }
+  else {
+    active_comms_timer.setPeriod(ros::Duration(timeout), true);
   }
 }
 
