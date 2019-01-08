@@ -273,7 +273,7 @@ void Controller::CommClientCallback(const std::string &_srcAddress,
                                     const uint32_t /*_dstPort*/,
                                     const std::string &_data)
 {
-  ROS_INFO("CommClientCallback");
+  // ROS_INFO("CommClientCallback");
   //this->FlashCommIndicator();
   this->SetCommsActive();
 
