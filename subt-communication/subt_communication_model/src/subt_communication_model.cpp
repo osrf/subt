@@ -87,7 +87,37 @@ bool attempt_send(const radio_configuration& radio,
   //                  "PER: " << packet_drop_prob);
 
   double rand_draw = (rand() % 1000) / 1000.0;
-  return rand_draw > packet_drop_prob;  
+
+  bool packet_received = rand_draw > packet_drop_prob;
+
+  if(!packet_received)
+    return packet_received;
+
+  // Maintain running window of bytes received over the last epoch, e.g.,
+  // 1s
+  while(!rx_state.bytes_received.empty() && rx_state.bytes_received.front().first < now - epoch_duration) {
+    rx_state.bytes_received_this_epoch -= rx_state.bytes_received.front().second;
+    rx_state.bytes_received.pop_front();
+  }
+  
+  //ROS_INFO("bytes received: %lu + %lu = %lu", rx_state.bytes_received_this_epoch, num_bytes, rx_state.bytes_received_this_epoch + num_bytes);
+
+  // Compute prospective accumulated bits along with time window
+  // (including this packet)
+  double bits_received = (rx_state.bytes_received_this_epoch + num_bytes)*8;
+
+  // Check current epoch bitrate vs capacity and fail to send
+  // accordingly
+  if(bits_received > radio.capacity*epoch_duration.toSec()) {
+    //ROS_WARN("Bitrate limited: %f bits received (limit: %2.2f)", bits_received, radio.capacity * epoch_duration.toSec());
+    return false;
+  }
+
+  // Record these bytes
+  rx_state.bytes_received.push_back(std::make_pair(now, num_bytes));
+  rx_state.bytes_received_this_epoch += num_bytes;
+
+  return true;
 }
 
 }
