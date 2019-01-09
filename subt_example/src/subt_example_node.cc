@@ -240,7 +240,7 @@ void Controller::TeleopSelectCallback(const std_msgs::Bool::ConstPtr &_select)
 /////////////////////////////////////////////////
 void Controller::TeleopVelCallback(const geometry_msgs::Twist::ConstPtr &_vel)
 {
-  ROS_INFO("TeleopVelCallback");
+  // ROS_INFO("TeleopVelCallback");
 
   this->velPub.publish(*_vel);
 }
