@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="scenario" default="tunnel_practice_1"/>
+  <arg name="extra_gazebo_args" default="-s libVisibilityPlugin.so"/>
+
+  <param name="subt/gazebo_worlds_dir" value="$(find subt_gazebo)/worlds/" />
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name"
+         value="$(find subt_gazebo)/worlds/$(arg scenario).world" />
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="false"/>
+    <arg name="headless" value="true"/>
+    <arg name="debug" value="false"/>
+    <arg name="extra_gazebo_args" value="$(arg extra_gazebo_args) --verbose"/>
+  </include>
+</launch>

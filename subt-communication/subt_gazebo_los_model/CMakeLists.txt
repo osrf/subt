@@ -51,7 +51,9 @@ catkin_package(
 # Create the libVisibilityPlugin.so library.
 set(visibility_plugin_name VisibilityPlugin)
 add_library(${visibility_plugin_name}
-  src/VisibilityPlugin.cc)
+  src/VisibilityPlugin.cc
+  src/VisibilityTable.cc
+  src/SimpleDOTParser.cc)
 target_link_libraries(${visibility_plugin_name}
   ${catkin_LIBRARIES}
 )
@@ -70,7 +72,19 @@ target_link_libraries(subt_gazebo_los_model
   ignition-math4::ignition-math4
   )
 
+install(TARGETS subt_gazebo_los_model
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+
 # catkin_add_gtest(simpleDOTParser test/simpleDOTParser.cc)
 # target_link_libraries(simpleDOTParser
 #   ${comms_broker_plugin_name}
 # )
+
+
+install(DIRECTORY launch
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+  )
+
+
