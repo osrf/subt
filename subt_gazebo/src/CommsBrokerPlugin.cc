@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
-*/
+ */
 
 #include <ros/ros.h>
 #include <functional>
@@ -43,30 +43,46 @@ void CommsBrokerPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
   this->world = _world;
 
   // Build RF Function
-  struct rf_configuration rf_config;
+  struct range_model::rf_configuration range_config;
+  struct visibility_model::rf_configuration visibility_config;
   // Build radio configuration (which includes RF pathloss function)
   struct radio_configuration radio;
 
+
   if(_sdf->HasElement("comms_model")) {
     auto const &commsModelElem = _sdf->GetElement("comms_model");
+    
+    if(commsModelElem->HasElement("visibility_config")) {
+      auto const &rfConfigElem = commsModelElem->GetElement("visibility_config");
+      
+      if(rfConfigElem->HasElement("visibility_cost_to_fading_exponent")) {
+        visibility_config.visibility_cost_to_fading_exponent =
+            rfConfigElem->Get<double>("visibility_cost_to_fading_exponent");
+      }
+      if(rfConfigElem->HasElement("comms_cost_max")) {
+        visibility_config.comms_cost_max = rfConfigElem->Get<double>("comms_cost_max");
+      }
 
-    if(commsModelElem->HasElement("rf_config")) {
-      auto const &rfConfigElem = commsModelElem->GetElement("rf_config");
+      ROS_INFO_STREAM("Loading visibility_config from SDF: \n" << visibility_config);
+    }
+    
+    if(commsModelElem->HasElement("range_config")) {
+      auto const &rfConfigElem = commsModelElem->GetElement("range_config");
 
       if(rfConfigElem->HasElement("max_range")) {
-        rf_config.max_range = rfConfigElem->Get<double>("max_range");
+        range_config.max_range = rfConfigElem->Get<double>("max_range");
       }
       if(rfConfigElem->HasElement("fading_exponent")) {
-        rf_config.fading_exponent = rfConfigElem->Get<double>("fading_exponent");
+        range_config.fading_exponent = rfConfigElem->Get<double>("fading_exponent");
       }
       if(rfConfigElem->HasElement("L0")) {
-        rf_config.L0 = rfConfigElem->Get<double>("L0");
+        range_config.L0 = rfConfigElem->Get<double>("L0");
       }
       if(rfConfigElem->HasElement("sigma")) {
-        rf_config.sigma = rfConfigElem->Get<double>("sigma");
+        range_config.sigma = rfConfigElem->Get<double>("sigma");
       }
 
-      ROS_INFO_STREAM("Loading rf_config from SDF: \n" << rf_config);
+      ROS_INFO_STREAM("Loading range_config from SDF: \n" << range_config);
     }
 
     if(commsModelElem->HasElement("radio_config")) {
@@ -90,16 +106,48 @@ void CommsBrokerPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
     
   }
 
-  this->visibilityModel = std::make_unique<VisibilityModel>();
+  // TODO: Maybe only try to instantiate if visibility type is selected
+  this->visibilityModel = std::make_unique<VisibilityModel>(visibility_config,
+                                                            range_config);
 
-  // Build RF propagation function and put in the default radio
-  // configuration
-  auto rf_func = std::bind(&log_normal_received_power,
-                           std::placeholders::_1,
-                           std::placeholders::_2,
-                           std::placeholders::_3,
-                           rf_config);
-  radio.pathloss_f = rf_func;
+  // Build RF propagation function options
+  std::map<std::string, pathloss_function> pathloss_functions;
+
+  pathloss_functions["log_normal_range"] =
+      std::bind(&log_normal_received_power,
+                std::placeholders::_1,
+                std::placeholders::_2,
+                std::placeholders::_3,
+                range_config);
+
+  pathloss_functions["visibility_range"] =
+      std::bind(&VisibilityModel::compute_received_power,
+                this->visibilityModel.get(),
+                std::placeholders::_1,
+                std::placeholders::_2,
+                std::placeholders::_3);
+
+  // Default comms model type is log_normal_range (will always work)
+  std::string comms_model_type = "log_normal_range";
+  if(_sdf->HasElement("comms_model")) {
+    auto const &commsModelElem = _sdf->GetElement("comms_model");
+    
+    if(commsModelElem->HasElement("comms_model_type")) {
+      std::string comms_model_type_tmp =
+          commsModelElem->Get<std::string>("comms_model_type");
+      
+      // Only allow the specified comms_model_type if it is in our map
+      // of available functions
+      if(pathloss_functions.find(comms_model_type_tmp) != pathloss_functions.end()) {
+        ROS_WARN("Comms model type: %s is not available, falling back to %s",
+                 comms_model_type_tmp.c_str(),
+                 comms_model_type.c_str());
+        comms_model_type = comms_model_type_tmp;
+      }
+    }
+  }
+  
+  radio.pathloss_f = pathloss_functions[comms_model_type];
   broker.SetDefaultRadioConfiguration(radio);
 
   // Set communication function (i.e., the attempt_send function) to

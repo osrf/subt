@@ -34,6 +34,9 @@ std::ostream& operator<<(std::ostream& oss, const rf_configuration& config)
   return oss;
 }
 
+double distance(const geometry_msgs::Point& a,
+                const geometry_msgs::Point& b);
+
 rf_power distance_based_received_power(const double& tx_power,
                                        radio_state& tx_state,
                                        radio_state& rx_state,
