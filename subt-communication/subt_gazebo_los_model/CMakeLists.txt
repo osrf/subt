@@ -63,6 +63,7 @@ install(TARGETS ${visibility_plugin_name}
   RUNTIME DESTINATION bin)
 
 add_library(subt_gazebo_los_model
+  src/visibility_rf_model.cpp
   src/SimpleDOTParser.cc
   src/VisibilityTable.cc)
 target_link_libraries(subt_gazebo_los_model

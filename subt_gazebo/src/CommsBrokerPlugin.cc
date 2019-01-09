@@ -30,6 +30,7 @@ using namespace subt::communication_model;
 using namespace subt::rf_interface;
 using namespace subt::rf_interface::range_model;
 using namespace subt::communication_broker;
+using namespace subt::rf_interface::visibility_model;
 
 GZ_REGISTER_WORLD_PLUGIN(CommsBrokerPlugin)
 
@@ -88,6 +89,8 @@ void CommsBrokerPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
     }
     
   }
+
+  this->visibilityModel = std::make_unique<VisibilityModel>();
 
   // Build RF propagation function and put in the default radio
   // configuration
