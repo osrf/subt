@@ -28,17 +28,16 @@
         <pose>0.0137 -0.02 0.109 0 0 0</pose>
         <attenuation>
           <range>2.0</range>
-          <constant>0.3</constant>
+          <constant>0.2</constant>
           <linear>0.10</linear>
-          <quadratic>0.2</quadratic>
+          <quadratic>0.1</quadratic>
         </attenuation>
         <diffuse>1 0 0 1</diffuse>
         <specular>1 0 0 1</specular>
       </light>
     </link>
 
-    <plugin name='light_control' filename='libRosFlashLightPlugin.so'>
-      <service_name>enable</service_name>
+    <plugin name='light_control' filename='libFlashLightPlugin.so'>
       <light>
         <id>link/light_source</id>
         <duration>1.0</duration>
