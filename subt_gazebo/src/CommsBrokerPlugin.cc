@@ -138,12 +138,18 @@ void CommsBrokerPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
       
       // Only allow the specified comms_model_type if it is in our map
       // of available functions
-      if(pathloss_functions.find(comms_model_type_tmp) != pathloss_functions.end()) {
-        ROS_WARN("Comms model type: %s is not available, falling back to %s",
+      if(pathloss_functions.find(comms_model_type_tmp) == pathloss_functions.end()) {
+        ROS_WARN("comms_model_type: %s is not available, falling back to %s",
                  comms_model_type_tmp.c_str(),
                  comms_model_type.c_str());
-        comms_model_type = comms_model_type_tmp;
       }
+      else {
+        comms_model_type = comms_model_type_tmp;
+        ROS_INFO("Using comms_model_type: %s", comms_model_type.c_str());
+      }
+    }
+    else {
+      ROS_WARN("comms_model_type not specified, using: %s", comms_model_type.c_str());
     }
   }
   

@@ -429,12 +429,19 @@
     <plugin name="comms_broker_plugin" filename="libCommsBrokerPlugin.so">
       <comms_model>
 
-        <rf_config>
-          <max_range>50.0</max_range>
+        <comms_model_type>visibility_range</comms_model_type>
+
+        <range_config>
+          <max_range>500.0</max_range>
           <fading_exponent>2.5</fading_exponent>
           <L0>40</L0>
           <sigma>10.0</sigma>
-        </rf_config>
+        </range_config>
+
+        <visibility_config>
+          <visibility_cost_to_fading_exponent>0.2</visibility_cost_to_fading_exponent>
+          <comms_cost_max>15</comms_cost_max>
+        </visibility_config>
 
         <radio_config>
           <capacity>1000000</capacity>
