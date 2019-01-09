@@ -41,6 +41,8 @@ bool VisibilityModel::VisualizeVisibility(const ignition::msgs::StringMsg &_req,
 {
   _rep.set_data(false);
 
+  std::map<int, ignition::msgs::Marker> per_cost_markers;
+
   ignition::msgs::Marker markerMsg;
   markerMsg.set_ns("default");
   markerMsg.set_action(ignition::msgs::Marker::ADD_MODIFY);
@@ -48,14 +50,32 @@ bool VisibilityModel::VisualizeVisibility(const ignition::msgs::StringMsg &_req,
   markerMsg.clear_point();
   markerMsg.mutable_lifetime()->set_sec(0.0);
   markerMsg.mutable_lifetime()->set_nsec(0.0);
-  
-  ignition::msgs::Material *matMsg = markerMsg.mutable_material();
-  matMsg->mutable_script()->set_name("Gazebo/GreenGlow");
-  ignition::msgs::Set(markerMsg.mutable_scale(),
-                      ignition::math::Vector3d(1.0, 1.0, 1.0));
 
   ignition::msgs::Set(markerMsg.mutable_pose(),
-                    ignition::math::Pose3d(0, 0, 0, 0, 0, 0));
+                      ignition::math::Pose3d(0, 0, 0, 0, 0, 0));
+
+  // Available colors
+  //
+  // RedGlow, YellowGlow, GreenGlow, TurquoiseGlow, BlueGlow
+  // High (good)                                    Low (bad)
+
+  std::map<int, std::string> index_to_color;
+  index_to_color[0] = "Gazebo/RedGlow";
+  index_to_color[1] = "Gazebo/YellowGlow";
+  index_to_color[2] = "Gazebo/GreenGlow";
+  index_to_color[3] = "Gazebo/TurquoiseGlow";
+  index_to_color[4] = "Gazebo/BlueGlow";
+
+  for(int i=0; i < 5; ++i) {
+    markerMsg.set_id(i);
+    
+    ignition::msgs::Material *matMsg = markerMsg.mutable_material();
+    matMsg->mutable_script()->set_name(index_to_color[i]);
+    ignition::msgs::Set(markerMsg.mutable_scale(),
+                        ignition::math::Vector3d(1.0, 1.0, 1.0));
+
+    per_cost_markers.insert(std::make_pair(i, markerMsg));
+  }
   
   std::string modelName = _req.data();
   auto model = this->world->ModelByName(modelName);
@@ -66,7 +86,7 @@ bool VisibilityModel::VisualizeVisibility(const ignition::msgs::StringMsg &_req,
   }
 
   ignition::math::Vector3d from = model->WorldPose().Pos();
-  markerMsg.set_id(0);
+  
 
   uint64_t index = 0;
   for (auto const &entry : this->visibilityTable.Vertices())
@@ -77,16 +97,28 @@ bool VisibilityModel::VisualizeVisibility(const ignition::msgs::StringMsg &_req,
     double cost = this->visibilityTable.Cost(from, to);
     if (cost <= this->commsCostMax)
     {
+      auto m = per_cost_markers.find((int)( ((commsCostMax+1.0)/5.0)*cost/10.0) );
+      if(m == per_cost_markers.end()) {
+        ROS_WARN("Have not pre-allocated a marker for cost: %f (%d)",
+                 cost,
+                 (int)( ((commsCostMax+1.0)/5.0)*cost/10.0) );
+        continue;
+        //per_cost_markers.insert(std::make_pair(round(cost), ignition::msgs::Marker()));
+      }
+
       // markerMsg.set_id(index++);
       // ignition::msgs::Set(markerMsg.mutable_pose(),
       //              ignition::math::Pose3d(to.X(), to.Y(), to.Z(), 0, 0, 0));
-      ignition::msgs::Set(markerMsg.add_point(),
+      ignition::msgs::Set(m->second.add_point(),
                           ignition::math::Vector3d(to.X(), to.Y(), to.Z()));
     }
   }
 
-  this->node.Request("/marker", markerMsg);
-  
+  this->node.Request("/marker", per_cost_markers[0]);
+  this->node.Request("/marker", per_cost_markers[1]);
+  this->node.Request("/marker", per_cost_markers[2]);
+  this->node.Request("/marker", per_cost_markers[3]);
+  this->node.Request("/marker", per_cost_markers[4]);
 
   _rep.set_data(true);
   return true;
