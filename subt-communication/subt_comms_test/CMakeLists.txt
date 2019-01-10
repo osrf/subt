@@ -42,3 +42,5 @@ add_executable(subt_comms_test src/subt_comms_test.cpp)
 target_link_libraries(subt_comms_test
   ${catkin_LIBRARIES}
   ${GAZEBO_LIBRARIES})
+
+catkin_python_setup()

@@ -28,17 +28,8 @@ class RoundRobinSched (threading.Thread):
                 rospy.rostime.sleep(self.dwell_time)
                 x.test.send = False
                 rospy.rostime.sleep(self.dwell_time)
-if __name__ == '__main__':
 
-    testers = []
-    # syntax of XBeeTesterRun is:
-    # (frequency, ?, send agent name, , source id, destination id)
-    testers.append(CentralizedTesterRun(5, -1, 'X1', 'X2'))
-    testers.append(CentralizedTesterRun(5, -1, 'X1', 'X3'))
-    testers.append(CentralizedTesterRun(5, -1, 'X1', 'X4'))
-    testers.append(CentralizedTesterRun(5, -1, 'X3', 'X2'))
-    testers.append(CentralizedTesterRun(5, -1, 'X4', 'X2'))        
-
+def run_curses(testers):
     rr = RoundRobinSched(0.5, testers)
 
     rospy.init_node('CentralizedTester', anonymous=True)
@@ -219,3 +210,17 @@ if __name__ == '__main__':
 
     curses.nocbreak(); stdscr.keypad(0); curses.echo()
     curses.endwin()
+    
+                
+if __name__ == '__main__':
+
+    testers = []
+    # syntax of XBeeTesterRun is:
+    # (frequency, ?, send agent name, , source id, destination id)
+    testers.append(CentralizedTesterRun(5, -1, 'X1', 'X2'))
+    testers.append(CentralizedTesterRun(5, -1, 'X1', 'X3'))
+    testers.append(CentralizedTesterRun(5, -1, 'X1', 'X4'))
+    testers.append(CentralizedTesterRun(5, -1, 'X3', 'X2'))
+    testers.append(CentralizedTesterRun(5, -1, 'X4', 'X2'))        
+
+    run_curses(testers)
