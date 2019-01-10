@@ -162,7 +162,6 @@ target_include_directories(${base_station_plugin_name}
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 target_link_libraries(${base_station_plugin_name}
   ${catkin_LIBRARIES}
-  ${comms_client_name}
   ignition-common1::ignition-common1
   ${protobuf_lib_name}
 )
@@ -207,7 +206,6 @@ add_rostest_gtest(test_score test/score.test test/score.cc)
 target_include_directories(test_score
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 target_link_libraries(test_score
-  ${comms_client_name}
   ${catkin_LIBRARIES}
   ${GAZEBO_LIBRARIES}
 )

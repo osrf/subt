@@ -51,9 +51,6 @@ namespace subt
   /// \brief Internal service used to report new artifacts.
   const std::string kNewArtifactSrv = "/subt/artifacts/new";
 
-  /// \brief Service used to visualize network connectivity.
-  const std::string kVisualizeCommsModelSrv = "/subt/comms_model/visualize";
-
   /// \brief Scoped name of collision which detects an entering object in the
   /// start area to initiate the game.
   const std::string kStartCollisionName  = "start_area::link::collision";
