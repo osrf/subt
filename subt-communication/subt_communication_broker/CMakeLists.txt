@@ -84,8 +84,8 @@ install(DIRECTORY include/${PROJECT_NAME}/
 
 
 if(CATKIN_ENABLE_TESTING)
-  catkin_add_gtest(unit_test tests/unit_test.cpp)
-  target_link_libraries(unit_test
+  catkin_add_gtest(${PROJECT_NAME}_unit_test tests/unit_test.cpp)
+  target_link_libraries(${PROJECT_NAME}_unit_test
     subt_communication_broker
     subt_communication_client
     ${project_libs}

@@ -45,8 +45,8 @@ add_library(${PROJECT_NAME} src/subt_communication_model.cpp)
 target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES})
 
 if(CATKIN_ENABLE_TESTING)
-  catkin_add_gtest(unit_test tests/unit_test.cpp)
-  target_link_libraries(unit_test
+  catkin_add_gtest(${PROJECT_NAME}_unit_test tests/unit_test.cpp)
+  target_link_libraries(${PROJECT_NAME}_unit_test
     ${PROJECT_NAME}
     ${catkin_LIBRARIES}
     ${GTEST_LIBRARIES})

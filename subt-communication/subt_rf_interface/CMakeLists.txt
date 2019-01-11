@@ -44,8 +44,8 @@ add_library(subt_rf_range_model src/subt_rf_model.cpp)
 target_link_libraries(subt_rf_range_model ${catkin_LIBRARIES})
 
 if(CATKIN_ENABLE_TESTING)
-  catkin_add_gtest(unit_test test/unit_test.cpp)
-  target_link_libraries(unit_test
+  catkin_add_gtest(${PROJECT_NAME}_unit_test test/unit_test.cpp)
+  target_link_libraries(${PROJECT_NAME}_unit_test
     subt_rf_range_model
     ${GTEST_LIBRARIES})
 endif()
