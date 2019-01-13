@@ -48,8 +48,12 @@ TEST(broker, communicate)
   broker.SetCommunicationFunction(&subt::communication_model::attempt_send);
 
   auto pose_update_func = [](const std::string& name) {
+    static ros::Time now;
     geometry_msgs::PoseStamped p;
     p.header.frame_id = "world";
+    p.header.stamp = now;
+
+    now += ros::Duration(1.0);
       
     if(name == "1") {
       p.pose.position.x = 0;

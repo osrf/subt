@@ -44,7 +44,7 @@ bool attempt_send(const radio_configuration& radio,
   // Check current epoch bitrate vs capacity and fail to send
   // accordingly
   if(bits_sent > radio.capacity*epoch_duration.toSec()) {
-    //ROS_WARN("Bitrate limited: %f bits sent (limit: %2.2f)", bits_sent, radio.capacity * epoch_duration.toSec());
+    // ROS_WARN("Bitrate limited: %f bits sent (limit: %2.2f)", bits_sent, radio.capacity * epoch_duration.toSec());
     return false;
   }
 
@@ -80,12 +80,12 @@ bool attempt_send(const radio_configuration& radio,
 
   double packet_drop_prob = 1.0 - exp(num_bytes*log(1-ber));
 
-  // ROS_DEBUG_STREAM("TX power (dBm): " << radio.default_tx_power << "\n" <<
-  //                  "RX power (dBm): " << rx_power << "\n" <<
-  //                  "BER: " << ber << "\n" <<
-  //                  "# Bytes: " << num_bytes << "\n" <<
-  //                  "PER: " << packet_drop_prob);
-
+  // ROS_INFO_STREAM("TX power (dBm): " << radio.default_tx_power << "\n" <<
+  //                 "RX power (dBm): " << rx_power << "\n" <<
+  //                 "BER: " << ber << "\n" <<
+  //                 "# Bytes: " << num_bytes << "\n" <<
+  //                 "PER: " << packet_drop_prob);
+  
   double rand_draw = (rand() % 1000) / 1000.0;
 
   bool packet_received = rand_draw > packet_drop_prob;
@@ -109,7 +109,7 @@ bool attempt_send(const radio_configuration& radio,
   // Check current epoch bitrate vs capacity and fail to send
   // accordingly
   if(bits_received > radio.capacity*epoch_duration.toSec()) {
-    //ROS_WARN("Bitrate limited: %f bits received (limit: %2.2f)", bits_received, radio.capacity * epoch_duration.toSec());
+    // ROS_WARN("Bitrate limited: %f bits received (limit: %2.2f)", bits_received, radio.capacity * epoch_duration.toSec());
     return false;
   }
 

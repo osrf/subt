@@ -4,6 +4,8 @@
 #include <subt_rf_interface/subt_rf_interface.h>
 #include <subt_rf_interface/subt_rf_model.h>
 
+#include <limits>
+
 using namespace subt;
 using namespace subt::rf_interface;
 using namespace subt::rf_interface::range_model;
@@ -12,15 +14,14 @@ TEST(range_based, co_located)
 {
   struct rf_configuration config;
 
-  geometry_msgs::PoseStamped a, b;
-  a.header.frame_id = "world";
+  rf_interface::radio_state tx, rx;
+  tx.pose.header.frame_id = "world";
+  rx.pose.header.frame_id = "world";
 
-  b = a;
   double tx_power = 10.0;
   ASSERT_DOUBLE_EQ(
       distance_based_received_power(tx_power,
-                                    {a, 0},
-                                    {b, 1}, config), tx_power);
+                                    tx, rx, config), tx_power);
 }
 
 TEST(range_based, under_range)
@@ -28,18 +29,17 @@ TEST(range_based, under_range)
   struct rf_configuration config;
   config.max_range = 1.0;
 
-  geometry_msgs::PoseStamped a, b;
-  a.header.frame_id = "world";
-  b.header.frame_id = "world";
-
+  rf_interface::radio_state tx, rx;
+  tx.pose.header.frame_id = "world";
+  rx.pose.header.frame_id = "world";
+  
   double tx_power = 10.0;
 
   // Test within range, no path loss
-  b.pose.position.x = 0.5;
+  rx.pose.pose.position.x = 0.5;
   ASSERT_DOUBLE_EQ(
       distance_based_received_power(tx_power,
-                                    {a, 0},
-                                    {b, 1}, config), tx_power);
+                                    tx, rx, config), tx_power);
 }
 
 TEST(range_based, over_range)
@@ -47,18 +47,18 @@ TEST(range_based, over_range)
   struct rf_configuration config;
   config.max_range = 1.0;
 
-  geometry_msgs::PoseStamped a, b;
-  a.header.frame_id = "world";
-  b.header.frame_id = "world";
+  rf_interface::radio_state tx, rx;
+  tx.pose.header.frame_id = "world";
+  rx.pose.header.frame_id = "world";
 
   double tx_power = 10.0;
 
   // Test outside range, full loss
-  b.pose.position.x = 2.0;
+  rx.pose.pose.position.x = 2.0;
   ASSERT_DOUBLE_EQ(
       distance_based_received_power(tx_power,
-                                    {a, 0},
-                                    {b, 1}, config), 0.0);  
+                                    tx, rx, config),
+      -std::numeric_limits<double>::infinity());
 }
 
 int main(int argc, char **argv)

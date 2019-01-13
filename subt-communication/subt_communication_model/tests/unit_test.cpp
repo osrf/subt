@@ -34,9 +34,13 @@ TEST(range_based, co_located)
   a.header.frame_id = "world";
   b = a;
 
+  rf_interface::radio_state tx, rx;
+  tx.pose = a;
+  rx.pose = b;
+
   ASSERT_TRUE(attempt_send(radio,
-                           {a, 0},  // TX state
-                           {b, 1},  // RX state
+                           tx,  // TX state
+                           rx,  // RX state
                            1000)    // 1Kb packet
               );
 }

@@ -12,9 +12,9 @@ struct radio_state
 {
   geometry_msgs::PoseStamped pose; // Location
   std::list<std::pair<ros::Time, uint64_t>> bytes_sent;
-  uint64_t bytes_sent_this_epoch;
+  uint64_t bytes_sent_this_epoch = 0;
   std::list<std::pair<ros::Time, uint64_t>> bytes_received;
-  uint64_t bytes_received_this_epoch;  
+  uint64_t bytes_received_this_epoch = 0;  
   double antenna_gain;      // Isotropic antenna gain
 };
 
