@@ -206,6 +206,7 @@ add_rostest_gtest(test_score test/score.test test/score.cc)
 target_include_directories(test_score
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 target_link_libraries(test_score
+  ${protobuf_lib_name}
   ${catkin_LIBRARIES}
   ${GAZEBO_LIBRARIES}
 )
