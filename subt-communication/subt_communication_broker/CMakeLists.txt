@@ -53,7 +53,7 @@ add_subdirectory(src/protobuf)
 set_source_files_properties(${PROTO_SOURCES} ${PROTO_HEADERS}
                             PROPERTIES GENERATED TRUE)
 add_library(${protobuf_lib_name} STATIC ${PROTO_SOURCES})
-add_dependencies(${protobuf_lib_name} protobuf_compilation)
+add_dependencies(${protobuf_lib_name} ${PROJECT_NAME}_protobuf_compilation)
 set_target_properties(${protobuf_lib_name}
   PROPERTIES POSITION_INDEPENDENT_CODE ON COMPILE_FLAGS "-Wno-unused-parameter")
 
