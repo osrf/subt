@@ -7,6 +7,7 @@ Panels:
         - /Global Options1
         - /Status1
         - /RobotModel1
+        - /Image1
       Splitter Ratio: 0.5
     Tree Height: 361
   - Class: rviz/Selection
@@ -27,7 +28,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: PointCloud2
+    SyncSource: Image
 Preferences:
   PromptSaveOnExit: true
 Visualization Manager:
@@ -76,6 +77,35 @@ Visualization Manager:
           Show Trail: false
           Value: true
         X1/center_right_headlight_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        X1/front_camera:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        X1/front_camera_beam:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        X1/front_camera_mount:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        X1/front_camera_optical:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        X1/front_laser:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        X1/front_laser_mount:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -170,35 +200,6 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        front_camera:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        front_camera_beam:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        front_camera_mount:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        front_camera_optical:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        front_laser:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        front_laser_mount:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
       Name: RobotModel
       Robot Description: /X1/robot_description
       TF Prefix: ""
@@ -237,7 +238,7 @@ Visualization Manager:
       Value: true
     - Class: rviz/Image
       Enabled: true
-      Image Topic: /X1/front/image_raw
+      Image Topic: /X1/camera_front/image_raw
       Max Value: 1
       Median window: 5
       Min Value: 0
@@ -310,5 +311,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1200
-  X: 59
-  Y: 32
+  X: 67
+  Y: 27
