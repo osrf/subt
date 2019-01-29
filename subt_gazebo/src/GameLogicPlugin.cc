@@ -270,7 +270,8 @@ double GameLogicPlugin::ScoreArtifact(const ArtifactType &_type,
   ignition::math::Pose3d artifactPose = ignition::msgs::Convert(_pose);
   ignition::math::Pose3d pose = artifactPose + this->artifactOriginPose;
 
-  auto &potentialArtifacts = this->artifacts[_type];
+  std::map<std::string, physics::ModelPtr> &potentialArtifacts =
+    this->artifacts[_type];
 
   // From the list of potential artifacts, find out which one is
   // closer (Euclidean distance) to the located by this request.
@@ -295,16 +296,19 @@ double GameLogicPlugin::ScoreArtifact(const ArtifactType &_type,
 
   // A score of 1 if the accuracy is less than or equal to 5 meters.
   if (std::get<2>(minDistance) <= 5)
+  {
     score = 1.0;
+
+    // Remove this artifact to avoid getting score from the same artifact
+    // multiple times.
+    potentialArtifacts.erase(std::get<0>(minDistance));
+    if (potentialArtifacts.empty())
+      this->artifacts.erase(_type);
+  }
 
   gzmsg << "  [Total]: " << score << std::endl;
   this->Log() << "modified_score " << score << std::endl;
 
-  // Remove this artifact to avoid getting score from the same artifact
-  // multiple times.
-  potentialArtifacts.erase(std::get<0>(minDistance));
-  if (potentialArtifacts.empty())
-    this->artifacts.erase(_type);
 
   return score;
 }
