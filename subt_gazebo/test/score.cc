@@ -108,7 +108,7 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
 
     // Report an artifact with low accuracy (x1): +1 point.
     ignition::math::Pose3d artifact3Pose(130, 2.2, -20, 0, 0, 0);
-    err = 5.0;
+    err = 4.99;
     pose.mutable_position()->set_x(
       artifact3Pose.Pos().X() - robotPose.Pos().X() + origin.position.x + err);
     pose.mutable_position()->set_y(
@@ -200,7 +200,7 @@ TEST_F(ScoreTest, ScoreAfterStart)
 int main(int argc, char **argv)
 {
   ::testing::InitGoogleTest(&argc, argv);
-  ros::init(argc, argv, "comms_test");
+  ros::init(argc, argv, "score_test");
 
   return RUN_ALL_TESTS();
 }
