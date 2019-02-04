@@ -17,18 +17,19 @@
 #ifndef SUBT_GAZEBO_COMMSBROKERPLUGIN_HH_
 #define SUBT_GAZEBO_COMMSBROKERPLUGIN_HH_
 
+#include <subt_rf_interface/subt_rf_interface.h>
+#include <subt_rf_interface/subt_rf_model.h>
+#include <subt_communication_model/subt_communication_model.h>
+#include <subt_communication_broker/subt_communication_broker.h>
+#include <subt_gazebo_los_model/visibility_rf_model.h>
+
 #include <cstdint>
+
 #include <gazebo/common/Event.hh>
 #include <gazebo/common/Plugin.hh>
 #include <gazebo/physics/physics.hh>
 #include <sdf/sdf.hh>
 
-#include <subt_rf_interface/subt_rf_interface.h>
-#include <subt_rf_interface/subt_rf_model.h>
-#include <subt_communication_model/subt_communication_model.h>
-#include <subt_communication_broker/subt_communication_broker.h>
-
-#include <subt_gazebo_los_model/visibility_rf_model.h>
 
 namespace gazebo
 {
@@ -60,7 +61,9 @@ namespace gazebo
     /// \brief Last time the plugin checked the ROS parameter server.
     private: gazebo::common::Time lastROSParameterCheckTime;
 
-   private: std::unique_ptr<subt::rf_interface::visibility_model::VisibilityModel> visibilityModel;
+    private:
+      std::unique_ptr<subt::rf_interface::visibility_model::VisibilityModel>
+      visibilityModel;
   };
 }
 #endif

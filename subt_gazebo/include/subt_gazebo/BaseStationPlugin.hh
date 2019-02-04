@@ -18,6 +18,8 @@
 #ifndef SUBT_GAZEBO_BASESTATIONPLUGIN_HH_
 #define SUBT_GAZEBO_BASESTATIONPLUGIN_HH_
 
+#include <subt_communication_broker/subt_communication_client.h>
+
 #include <memory>
 #include <string>
 #include <gazebo/common/Plugin.hh>
@@ -25,7 +27,6 @@
 #include <ignition/transport/Node.hh>
 #include <sdf/Element.hh>
 
-#include <subt_communication_broker/subt_communication_client.h>
 
 namespace subt
 {

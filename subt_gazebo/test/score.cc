@@ -178,19 +178,21 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     // Serialize the artifact.
     std::string serializedData;
     if (!artifact.SerializeToString(&serializedData)) {
-      std::cerr << "CommsClient::SendToBaseStation(): Error serializing message\n"
-                << artifact.DebugString() << std::endl;
+      std::cerr
+          << "CommsClient::SendToBaseStation(): Error serializing message\n"
+          << artifact.DebugString() << std::endl;
       ASSERT_TRUE(false);
     }
 
     //   // Send data to the base station.
-    //   return this->SendTo(serializedData, kBaseStationName);    
+    //   return this->SendTo(serializedData, kBaseStationName);
 
     this->client->SendTo(serializedData, subt::kBaseStationName);
-    //this->client->SendToBaseStation(artifact);
+    // this->client->SendToBaseStation(artifact);
   }
 
-  /// \brief Whether a unicast/broadcast message has been received or not.
+  /// \brief Whether a unicast/broadcast message has been received or
+  /// not.
   protected: int32_t score;
 
   /// \brief The ROS node comms handler.

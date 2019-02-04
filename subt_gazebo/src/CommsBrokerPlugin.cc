@@ -16,13 +16,14 @@
  */
 
 #include <ros/ros.h>
-#include <functional>
-#include <mutex>
+
+#include <subt_gazebo/CommsBrokerPlugin.hh>
 #include <gazebo/common/Assert.hh>
 #include <gazebo/common/Events.hh>
 #include <ignition/common/Console.hh>
 
-#include <subt_gazebo/CommsBrokerPlugin.hh>
+#include <functional>
+#include <mutex>
 
 using namespace gazebo;
 using namespace subt;
@@ -49,61 +50,64 @@ void CommsBrokerPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
   struct radio_configuration radio;
 
 
-  if(_sdf->HasElement("comms_model")) {
+  if (_sdf->HasElement("comms_model")) {
     auto const &commsModelElem = _sdf->GetElement("comms_model");
-    
-    if(commsModelElem->HasElement("visibility_config")) {
-      auto const &rfConfigElem = commsModelElem->GetElement("visibility_config");
-      
-      if(rfConfigElem->HasElement("visibility_cost_to_fading_exponent")) {
+
+    if (commsModelElem->HasElement("visibility_config")) {
+      auto const &rfConfigElem =
+          commsModelElem->GetElement("visibility_config");
+
+      if (rfConfigElem->HasElement("visibility_cost_to_fading_exponent")) {
         visibility_config.visibility_cost_to_fading_exponent =
             rfConfigElem->Get<double>("visibility_cost_to_fading_exponent");
       }
-      if(rfConfigElem->HasElement("comms_cost_max")) {
-        visibility_config.comms_cost_max = rfConfigElem->Get<double>("comms_cost_max");
+      if (rfConfigElem->HasElement("comms_cost_max")) {
+        visibility_config.comms_cost_max =
+            rfConfigElem->Get<double>("comms_cost_max");
       }
 
-      ROS_INFO_STREAM("Loading visibility_config from SDF: \n" << visibility_config);
+      ROS_INFO_STREAM("Loading visibility_config from SDF: \n" <<
+                      visibility_config);
     }
-    
-    if(commsModelElem->HasElement("range_config")) {
+
+    if (commsModelElem->HasElement("range_config")) {
       auto const &rfConfigElem = commsModelElem->GetElement("range_config");
 
-      if(rfConfigElem->HasElement("max_range")) {
+      if (rfConfigElem->HasElement("max_range")) {
         range_config.max_range = rfConfigElem->Get<double>("max_range");
       }
-      if(rfConfigElem->HasElement("fading_exponent")) {
-        range_config.fading_exponent = rfConfigElem->Get<double>("fading_exponent");
+      if (rfConfigElem->HasElement("fading_exponent")) {
+        range_config.fading_exponent =
+            rfConfigElem->Get<double>("fading_exponent");
       }
-      if(rfConfigElem->HasElement("L0")) {
+      if (rfConfigElem->HasElement("L0")) {
         range_config.L0 = rfConfigElem->Get<double>("L0");
       }
-      if(rfConfigElem->HasElement("sigma")) {
+      if (rfConfigElem->HasElement("sigma")) {
         range_config.sigma = rfConfigElem->Get<double>("sigma");
       }
 
       ROS_INFO_STREAM("Loading range_config from SDF: \n" << range_config);
     }
 
-    if(commsModelElem->HasElement("radio_config")) {
+    if (commsModelElem->HasElement("radio_config")) {
       auto const &radioConfigElem = commsModelElem->GetElement("radio_config");
 
-      if(radioConfigElem->HasElement("capacity")) {
+      if (radioConfigElem->HasElement("capacity")) {
         radio.capacity = radioConfigElem->Get<double>("capacity");
       }
-      if(radioConfigElem->HasElement("tx_power")) {
+      if (radioConfigElem->HasElement("tx_power")) {
         radio.default_tx_power = radioConfigElem->Get<double>("tx_power");
       }
-      if(radioConfigElem->HasElement("modulation")) {
+      if (radioConfigElem->HasElement("modulation")) {
         radio.modulation = radioConfigElem->Get<std::string>("modulation");
       }
-      if(radioConfigElem->HasElement("noise_floor")) {
+      if (radioConfigElem->HasElement("noise_floor")) {
         radio.noise_floor = radioConfigElem->Get<double>("noise_floor");
       }
 
       ROS_INFO_STREAM("Loading radio_config from SDF: \n" << radio);
     }
-    
   }
 
   // TODO: Maybe only try to instantiate if visibility type is selected
@@ -129,30 +133,34 @@ void CommsBrokerPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
 
   // Default comms model type is log_normal_range (will always work)
   std::string comms_model_type = "log_normal_range";
-  if(_sdf->HasElement("comms_model")) {
+  if (_sdf->HasElement("comms_model")) {
     auto const &commsModelElem = _sdf->GetElement("comms_model");
-    
-    if(commsModelElem->HasElement("comms_model_type")) {
+
+    if (commsModelElem->HasElement("comms_model_type")) {
       std::string comms_model_type_tmp =
           commsModelElem->Get<std::string>("comms_model_type");
-      
+
       // Only allow the specified comms_model_type if it is in our map
       // of available functions
-      if(pathloss_functions.find(comms_model_type_tmp) == pathloss_functions.end()) {
+      if (pathloss_functions.find(comms_model_type_tmp) ==
+         pathloss_functions.end()) {
         ROS_WARN("comms_model_type: %s is not available, falling back to %s",
                  comms_model_type_tmp.c_str(),
                  comms_model_type.c_str());
       }
-      else {
+      else
+      {
         comms_model_type = comms_model_type_tmp;
         ROS_INFO("Using comms_model_type: %s", comms_model_type.c_str());
       }
     }
-    else {
-      ROS_WARN("comms_model_type not specified, using: %s", comms_model_type.c_str());
+    else
+    {
+      ROS_WARN("comms_model_type not specified, using: %s",
+               comms_model_type.c_str());
     }
   }
-  
+
   radio.pathloss_f = pathloss_functions[comms_model_type];
   broker.SetDefaultRadioConfiguration(radio);
 
@@ -205,18 +213,18 @@ void CommsBrokerPlugin::OnUpdate()
     if (value)
     {
       igndbg << "Enabling simple mode comms" << std::endl;
-      
+
       auto f = [](const radio_configuration&,
                   const rf_interface::radio_state&,
                   const rf_interface::radio_state&,
                   const uint64_t&
                   ) { return true; };
-      
+
       broker.SetCommunicationFunction(f);
     }
-    else 
+    else
     {
-      igndbg << "Disabling simple mode comms" << std::endl;      
+      igndbg << "Disabling simple mode comms" << std::endl;
       broker.SetCommunicationFunction(&subt::communication_model::attempt_send);
     }
 
@@ -229,7 +237,8 @@ void CommsBrokerPlugin::OnUpdate()
 
   // Dispatch all the incoming messages, deciding whether the destination gets
   // the message according to the communication model.
-  // this->broker.DispatchMessages(maxDataRate, this->commsModel->UdpOverhead());
+  // this->broker.DispatchMessages(maxDataRate,
+  // this->commsModel->UdpOverhead());
   this->broker.DispatchMessages();
 }
 

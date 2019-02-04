@@ -15,17 +15,15 @@
  *
 */
 
-#include <ignition/common/Console.hh>
-
 // Communication client
 #include <subt_communication_broker/subt_communication_client.h>
+#include <subt_gazebo/protobuf/artifact.pb.h>
+
+#include <ignition/common/Console.hh>
 
 // For artifact message, service name, etc
-#include <subt_gazebo/CommonTypes.hh> 
-
-#include <subt_gazebo/protobuf/artifact.pb.h>
+#include <subt_gazebo/CommonTypes.hh>
 #include <subt_gazebo/BaseStationPlugin.hh>
-
 
 using namespace subt;
 
