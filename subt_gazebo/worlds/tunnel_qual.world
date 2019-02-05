@@ -930,16 +930,26 @@
     <!-- The SubT comms broker plugin -->
     <plugin name="comms_broker_plugin" filename="libCommsBrokerPlugin.so">
       <comms_model>
-        <neighbor_distance_min>0.0</neighbor_distance_min>
-        <neighbor_distance_max>100.0</neighbor_distance_max>
-        <comms_distance_min>0.0</comms_distance_min>
-        <comms_distance_max>100.0</comms_distance_max>
-        <comms_drop_probability_min>0.0</comms_drop_probability_min>
-        <comms_drop_probability_max>0.0</comms_drop_probability_max>
-        <comms_outage_probability>0.0</comms_outage_probability>
-        <comms_outage_duration_min>0.0</comms_outage_duration_min>
-        <comms_outage_duration_max>10.0</comms_outage_duration_max>
-        <comms_cost_max>100</comms_cost_max>
+        <comms_model_type>visibility_range</comms_model_type>
+
+        <range_config>
+          <max_range>500.0</max_range>
+          <fading_exponent>2.5</fading_exponent>
+          <L0>40</L0>
+          <sigma>10.0</sigma>
+        </range_config>
+
+        <visibility_config>
+          <visibility_cost_to_fading_exponent>0.2</visibility_cost_to_fading_exponent>
+          <comms_cost_max>15</comms_cost_max>
+        </visibility_config>
+
+        <radio_config>
+          <capacity>1000000</capacity>
+          <tx_power>20</tx_power>
+          <noise_floor>-90</noise_floor>
+          <modulation>QPSK</modulation>
+        </radio_config>
       </comms_model>
     </plugin>
 
