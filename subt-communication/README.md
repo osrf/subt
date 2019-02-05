@@ -61,9 +61,9 @@ typedef std::function<rf_power(const double&, // tx_power
 
 Current implementations of the RF model include:
 
-- [distance_based_recieved_power](subt_rf_interface/include/subt_rf_interface/subt_rf_interface.h#lines-40).
-Binary recieved power based on maximum range.
-- [log_normal_recieved_power](subt_rf_interface/include/subt_rf_interface/subt_rf_interface.h#lines-45).
+- [distance_based_received_power](subt_rf_interface/include/subt_rf_interface/subt_rf_interface.h#lines-40).
+Binary received power based on maximum range.
+- [log_normal_received_power](subt_rf_interface/include/subt_rf_interface/subt_rf_interface.h#lines-45).
 Log-normal fading based on range.
 - [VisibilityModel](subt_gazebo_los_model/include/subt_gazebo_los_model/visibility_rf_model.h#lines52)
 Log-normal fading based on range with exponent set by visibility heuristic.
