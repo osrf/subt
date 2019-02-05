@@ -9,15 +9,13 @@ namespace subt
 namespace communication_model
 {
 
+/////////////////////////////////////////////
 inline double dbmToPow(double x) { return 0.001 * pow(10., x / 10.); }
+
+/////////////////////////////////////////////
 inline double QPSKPowerToBER(double P, double N) { return erfc(sqrt(P / N)); }
 
-bool packetSuccess(double ber, uint64_t size)
-{
-
-}
-
-
+/////////////////////////////////////////////
 bool attempt_send(const radio_configuration& radio,
                   rf_interface::radio_state& tx_state,
                   rf_interface::radio_state& rx_state,

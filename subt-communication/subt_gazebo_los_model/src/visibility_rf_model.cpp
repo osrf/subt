@@ -12,6 +12,7 @@ namespace rf_interface
 namespace visibility_model
 {
 
+/////////////////////////////////////////////
 VisibilityModel::VisibilityModel(
     visibility_model::rf_configuration _visibility_config,
     range_model::rf_configuration _range_config)
@@ -31,6 +32,7 @@ VisibilityModel::VisibilityModel(
                        &VisibilityModel::VisualizeVisibility, this, opts);
 }
 
+/////////////////////////////////////////////
 rf_power VisibilityModel::compute_received_power(const double& tx_power,
                                                  radio_state& tx_state,
                                                  radio_state& rx_state)
@@ -69,6 +71,7 @@ rf_power VisibilityModel::compute_received_power(const double& tx_power,
   return std::move(rx);
 }
 
+/////////////////////////////////////////////
 bool VisibilityModel::VisualizeVisibility(const ignition::msgs::StringMsg &_req,
                                           ignition::msgs::Boolean &_rep)
 {

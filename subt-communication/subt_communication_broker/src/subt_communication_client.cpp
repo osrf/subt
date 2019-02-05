@@ -86,7 +86,7 @@ std::string CommsClient::Host() const
   return this->localAddress;
 }
 
-
+//////////////////////////////////////////////////
 bool CommsClient::Bind(std::function<void(const std::string &_srcAddress,
                                           const std::string &_dstAddress,
                                           const uint32_t _dstPort,

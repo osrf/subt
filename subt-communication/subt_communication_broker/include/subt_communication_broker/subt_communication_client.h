@@ -148,7 +148,8 @@ namespace subt
 
     /// \brief Get the list of local neighbors.
     ///
-    /// \return A vector of addresses from your local neighbors.
+    /// \return A vector of addresses and signal strength from your
+    /// local neighbors.
     public: std::vector<std::string> Neighbors() const;
 
     /// \brief Register the current address. This will make a synchronous call

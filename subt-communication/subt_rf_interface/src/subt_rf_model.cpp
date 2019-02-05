@@ -9,6 +9,7 @@ namespace rf_interface
 namespace range_model
 {
 
+/////////////////////////////////////////////
 double distance(const geometry_msgs::Point& a,
                 const geometry_msgs::Point& b)
 
@@ -18,6 +19,7 @@ double distance(const geometry_msgs::Point& a,
                (a.z - b.z)*(a.z - b.z) );
 }
 
+/////////////////////////////////////////////
 rf_power distance_based_received_power(const double& tx_power,
                                        radio_state& tx_state,
                                        radio_state& rx_state,
@@ -39,6 +41,7 @@ rf_power distance_based_received_power(const double& tx_power,
   return {tx_power, 0.0};
 }
 
+/////////////////////////////////////////////
 rf_power log_normal_received_power(const double& tx_power,
                                    radio_state& tx_state,
                                    radio_state& rx_state,

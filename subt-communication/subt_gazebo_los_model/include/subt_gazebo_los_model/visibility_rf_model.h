@@ -20,18 +20,26 @@ namespace rf_interface
 namespace visibility_model
 {
 
+/// \struct rf_configuration
+/// \brief RF configuration for LOS model
 struct rf_configuration
 {
-  //! Fraction to increase fading exponent for each unit of visibility
-  //! cost.
-  double visibility_cost_to_fading_exponent;
-  double comms_cost_max;
+  double visibility_cost_to_fading_exponent; ///< Fraction to increase
+                                             ///fading exponent for
+                                             ///each unit of
+                                             ///visibility cost.
+  double comms_cost_max; ///< Maximum comms cost to consider (saturate
+                         ///here)
   rf_configuration() :
       visibility_cost_to_fading_exponent(0.2),
       comms_cost_max(15.0)
   { }
 };
 
+/// Output stream operator.
+///
+/// @param oss Stream
+/// @param config RF Configuration to output
 std::ostream& operator<<(std::ostream& oss, const rf_configuration& config)
 {
   oss << "RF Configuration (visibility-based)" << std::endl
@@ -43,16 +51,30 @@ std::ostream& operator<<(std::ostream& oss, const rf_configuration& config)
   return oss;
 }
 
+/// \class VisibilityModel
+/// \brief Maintain state of the visibility model.
+///
+/// The visibility model loads a pre-computed lookup table to
+/// determine the heuristic "cost" to communicate between SUBT
+/// environment tiles. This heuristic cost is used to adjust a fading
+/// exponent for a typical log-normal fading pathloss model.
 class VisibilityModel
 {
  public:
   VisibilityModel(visibility_model::rf_configuration _visibility_config,
                   range_model::rf_configuration _range_config);
 
+  /// Compute received power function that will be given to
+  /// communcation model.
+  ///
+  /// @param tx_power Transmit power (dBm)
+  /// @param tx_state Transmitter state
+  /// @param rx_state Receiver state
   rf_power compute_received_power(const double& tx_power,
                                   radio_state& tx_state,
                                   radio_state& rx_state);
 
+  /// Function to visualize visibility cost in Gazebo.
   bool VisualizeVisibility(const ignition::msgs::StringMsg &_req,
                            ignition::msgs::Boolean &_rep);
 

@@ -398,13 +398,14 @@ void Broker::SetRadioConfiguration(const std::string& address,
   
 }
 
+//////////////////////////////////////////////////
 void Broker::SetDefaultRadioConfiguration(communication_model::radio_configuration config)
 {
   std::lock_guard<std::mutex> lk(this->mutex);
   this->default_radio_configuration = config;
 }
 
-
+//////////////////////////////////////////////////
 void Broker::SetCommunicationFunction(
     communication_model::communication_function f)
 {
@@ -412,6 +413,7 @@ void Broker::SetCommunicationFunction(
   communication_function = f;
 }
 
+//////////////////////////////////////////////////
 void Broker::SetPoseUpdateFunction(pose_update_function f)
 {
   std::lock_guard<std::mutex> lk(this->mutex);
