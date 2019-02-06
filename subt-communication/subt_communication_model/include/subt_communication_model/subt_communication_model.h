@@ -56,7 +56,7 @@ std::ostream& operator<<(std::ostream& oss, const radio_configuration& config)
 /// @param tx_state Current state of the transmitter (pose)
 /// @param rx_state Current state of the receiver (pose)
 /// @param num_bytes Size of the packet
-@return
+/// @return bool reporting if the packet should be delivered
 bool attempt_send(const radio_configuration& radio,
                   rf_interface::radio_state& tx_state,
                   rf_interface::radio_state& rx_state,
