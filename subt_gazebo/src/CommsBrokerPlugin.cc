@@ -192,6 +192,8 @@ void CommsBrokerPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
   };
   broker.SetPoseUpdateFunction(update_pose_func);
 
+  broker.Start();
+
   this->updateConnection = event::Events::ConnectWorldUpdateBegin(
       std::bind(&CommsBrokerPlugin::OnUpdate, this));
 

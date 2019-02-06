@@ -37,6 +37,12 @@ Broker::Broker()
     : team(std::make_shared<TeamMembership_M>())// ,
       // rndEngine(std::default_random_engine(ignition::math::Rand::Seed()))
 {
+
+}
+
+//////////////////////////////////////////////////
+void Broker::Start()
+{
   // Advertise the service for registering addresses.
   if (!this->node.Advertise(kAddrRegistrationSrv,
                             &Broker::OnAddrRegistration, this))

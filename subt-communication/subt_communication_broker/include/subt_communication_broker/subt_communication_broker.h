@@ -65,6 +65,13 @@ pose_update_function;
     /// \brief Destructor.
     public: virtual ~Broker() = default;
 
+    /// \brief Start handling services
+    ///
+    /// This function allows us to wait to advertise capabilities to
+    /// clients until the broker has been entirely initialized. I.e.,
+    /// after SetDefaultRadioConfiguration() has been called.
+    public: void Start();
+
     /// \brief Handle reset.
     public: void Reset();
 
