@@ -3,7 +3,7 @@
 from subt_comms_test import CentralizedTesterRun, run_curses
 
 testers = []
-# syntax of XBeeTesterRun is:
+# syntax of CentralizedTesterRun is:
 # (frequency, ?, send agent name, , source id, destination id)
 testers.append(CentralizedTesterRun(5, -1, 'X1', 'X2'))
 testers.append(CentralizedTesterRun(5, -1, 'X1', 'X3'))

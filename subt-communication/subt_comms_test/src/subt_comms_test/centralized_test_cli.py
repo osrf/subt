@@ -81,7 +81,7 @@ def run_curses(testers):
 
     done = False
 
-    stdscr.addstr(0,0,'XBee Test Client')
+    stdscr.addstr(0,0,'Comms Test Client')
     stdscr.addstr(1,0,'-'*(col8+11))
     stdscr.addstr(2,col1,'Src')
     stdscr.addstr(2,col2,'Dest')
@@ -215,7 +215,7 @@ def run_curses(testers):
 if __name__ == '__main__':
 
     testers = []
-    # syntax of XBeeTesterRun is:
+    # syntax of CentralizedTesterRun is:
     # (frequency, ?, send agent name, , source id, destination id)
     testers.append(CentralizedTesterRun(5, -1, 'X1', 'X2'))
     testers.append(CentralizedTesterRun(5, -1, 'X1', 'X3'))
