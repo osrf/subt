@@ -37,14 +37,14 @@ def run_curses(testers):
     burst_size = 1024*1024
 
     col1 = 0  # Source
-    col2 = 8 # Dest
-    col3 = 16 # Percentage
-    col4 = 30 # Sending
-    col5 = 38 # Send rate
-    col6 = 50 # Payload size
-    col7 = 60 # tx bitrate
-    col8 = 70 # rx bitrate
-    col9 = 80 # Latency
+    col2 = 4 # Dest
+    col3 = 10 # Percentage
+    col4 = 31 # Sending
+    col5 = 35 # Send rate
+    col6 = 46 # Payload size
+    col7 = 53 # tx bitrate
+    col8 = 64 # rx bitrate
+    col9 = 75 # Latency
 
     help_row = 2 + len(testers) + 3
 
@@ -85,13 +85,13 @@ def run_curses(testers):
     stdscr.addstr(1,0,'-'*(col8+11))
     stdscr.addstr(2,col1,'Src')
     stdscr.addstr(2,col2,'Dest')
-    stdscr.addstr(2,col3,'%')
-    stdscr.addstr(2,col4,'Sending')
-    stdscr.addstr(2,col5,'Send Rate')
-    stdscr.addstr(2,col6,'Payload')
+    stdscr.addstr(2,col3,'% Recv')
+    stdscr.addstr(2,col4,'Enb')
+    stdscr.addstr(2,col5,'Rate (Hz)')
+    stdscr.addstr(2,col6,'Bytes')
     stdscr.addstr(2,col7,'Tx (kbps)')
     stdscr.addstr(2,col8,'Rx (kbps)')
-    stdscr.addstr(2,col9,'Latency')
+    stdscr.addstr(2,col9,'Latency (ms)')
 
     stdscr.addstr(help_row-2,0,'-'*(col8+11))
     stdscr.addstr(help_row-1, 0, 'Burst size (bytes): {}'.format(burst_size))
@@ -111,7 +111,7 @@ def run_curses(testers):
             else:
                 color_selection = curses.color_pair(0)
 
-            stdscr.addstr(idx,0,' '*(col8+11), color_selection)
+            stdscr.addstr(idx,0,' '*(col9+11), color_selection)
 
             stats = x.test.GetStatistics()
             stdscr.addstr(idx,col1,'{}'.format(x.test.name1), color_selection)
@@ -122,7 +122,7 @@ def run_curses(testers):
                 stdscr.addstr(idx, col4, 'On', color_selection)
             else:
                 stdscr.addstr(idx, col4, 'Off', color_selection)
-            stdscr.addstr(idx, col5, '{:2.2f} Hz'.format(x.test.send_rate), color_selection)
+            stdscr.addstr(idx, col5, '{:2.2f}'.format(x.test.send_rate), color_selection)
             stdscr.addstr(idx, col6, '{}'.format(x.test.payload_size), color_selection)
             # stdscr.addstr(idx, col7, '{:2.2f}'.format(x.test.send_rate * float(x.test.payload_size) / 1024.0), color_selection)
             stdscr.addstr(idx, col7, '{:2.2f}'.format(x.test.GetTXRate() / 1000.0), color_selection)
