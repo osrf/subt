@@ -10,28 +10,12 @@ namespace range_model
 {
 
 /////////////////////////////////////////////
-double distance(const geometry_msgs::Point& a,
-                const geometry_msgs::Point& b)
-
-{
-  return sqrt( (a.x - b.x)*(a.x - b.x) +
-               (a.y - b.y)*(a.y - b.y) +
-               (a.z - b.z)*(a.z - b.z) );
-}
-
-/////////////////////////////////////////////
 rf_power distance_based_received_power(const double& tx_power,
                                        radio_state& tx_state,
                                        radio_state& rx_state,
                                        const rf_configuration& config)
 {
-  // Ensure that TX and RX poses are in same frame. We don't want to
-  // do TF transformations here since this function may be called
-  // rapidly.
-  assert(tx_state.pose.header.frame_id == rx_state.pose.header.frame_id);
-
-  double range = distance(tx_state.pose.pose.position,
-                          rx_state.pose.pose.position);
+  double range = tx_state.pose.Pos().Distance(rx_state.pose.Pos());
 
   if(config.max_range > 0.0 &&
      range > config.max_range) {
@@ -47,13 +31,7 @@ rf_power log_normal_received_power(const double& tx_power,
                                    radio_state& rx_state,
                                    const rf_configuration& config)
 {
-  // Ensure that TX and RX poses are in same frame. We don't want to
-  // do TF transformations here since this function may be called
-  // rapidly.
-  assert(tx_state.pose.header.frame_id == rx_state.pose.header.frame_id);
-
-  double range = distance(tx_state.pose.pose.position,
-                          rx_state.pose.pose.position);
+  double range = tx_state.pose.Pos().Distance(rx_state.pose.Pos());
 
   if(config.max_range > 0.0 &&
      range > config.max_range) {

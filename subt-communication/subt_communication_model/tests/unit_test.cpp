@@ -30,13 +30,7 @@ TEST(range_based, co_located)
   radio.noise_floor = -90;
   radio.pathloss_f = rf_func;
 
-  geometry_msgs::PoseStamped a, b;
-  a.header.frame_id = "world";
-  b = a;
-
   rf_interface::radio_state tx, rx;
-  tx.pose = a;
-  rx.pose = b;
 
   ASSERT_TRUE(attempt_send(radio,
                            tx,  // TX state

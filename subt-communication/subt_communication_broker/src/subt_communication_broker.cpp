@@ -34,8 +34,7 @@ namespace communication_broker
 
 //////////////////////////////////////////////////
 Broker::Broker()
-    : team(std::make_shared<TeamMembership_M>())// ,
-      // rndEngine(std::default_random_engine(ignition::math::Rand::Seed()))
+    : team(std::make_shared<TeamMembership_M>())
 {
 
 }
@@ -151,7 +150,9 @@ void Broker::DispatchMessages()
   // which touch messages in the queue?)
   for(auto t : *(this->team)) {
     bool ret;
-    std::tie(ret, t.second->rf_state.pose) = pose_update_f(t.second->name);
+    std::tie(ret,
+             t.second->rf_state.pose,
+             t.second->rf_state.update_stamp) = pose_update_f(t.second->name);
 
     if(!ret) {
       std::cerr << "Problem getting state for " << t.second->name
@@ -160,10 +161,6 @@ void Broker::DispatchMessages()
     }
   }
   
-  // Shuffle the messages.
-  // std::shuffle(this->incomingMsgs.begin(), this->incomingMsgs.end(),
-  //     this->rndEngine);
-
   while (!this->incomingMsgs.empty())
   {
     // Get the next message to dispatch.
@@ -188,9 +185,7 @@ void Broker::DispatchMessages()
 
     if (this->endpoints.find(dstEndPoint) != this->endpoints.end())
     {
-      // Shuffle the clients bound to this endpoint.
       std::vector<BrokerClientInfo> clientsV = this->endpoints.at(dstEndPoint);
-      // std::shuffle(clientsV.begin(), clientsV.end(), this->rndEngine);
 
       if(clientsV.empty()) {
         std::cerr << "[Broker::DispatchMessages()]: No clients for endpoint " << dstEndPoint << std::endl;

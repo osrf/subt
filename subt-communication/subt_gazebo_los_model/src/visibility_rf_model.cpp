@@ -40,13 +40,8 @@ rf_power VisibilityModel::compute_received_power(const double& tx_power,
   // Use this->visibilityTable.Cost(tx_state, rx_state) to compute
   // pathloss and thus, received power
   double visibility_cost =
-      this->visibilityTable.Cost(
-          ignition::math::Vector3d(tx_state.pose.pose.position.x,
-                                   tx_state.pose.pose.position.y,
-                                   tx_state.pose.pose.position.z),
-          ignition::math::Vector3d(rx_state.pose.pose.position.x,
-                                   rx_state.pose.pose.position.y,
-                                   rx_state.pose.pose.position.z));
+      this->visibilityTable.Cost(tx_state.pose.Pos(),
+                                 rx_state.pose.Pos());
 
   range_model::rf_configuration local_config = default_range_config;
 
@@ -54,8 +49,7 @@ rf_power VisibilityModel::compute_received_power(const double& tx_power,
   local_config.fading_exponent +=
       visibility_config.visibility_cost_to_fading_exponent*visibility_cost;
 
-  double range = range_model::distance(tx_state.pose.pose.position,
-                                       rx_state.pose.pose.position);
+  double range = tx_state.pose.Pos().Distance(rx_state.pose.Pos());
 
   rf_power rx = range_model::log_normal_received_power(tx_power,
                                                        tx_state,

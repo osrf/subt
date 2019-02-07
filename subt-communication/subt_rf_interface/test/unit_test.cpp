@@ -15,8 +15,6 @@ TEST(range_based, co_located)
   struct rf_configuration config;
 
   rf_interface::radio_state tx, rx;
-  tx.pose.header.frame_id = "world";
-  rx.pose.header.frame_id = "world";
 
   double tx_power = 10.0;
   ASSERT_DOUBLE_EQ(
@@ -30,13 +28,11 @@ TEST(range_based, under_range)
   config.max_range = 1.0;
 
   rf_interface::radio_state tx, rx;
-  tx.pose.header.frame_id = "world";
-  rx.pose.header.frame_id = "world";
   
   double tx_power = 10.0;
 
   // Test within range, no path loss
-  rx.pose.pose.position.x = 0.5;
+  rx.pose.Set(0.5, 0, 0, 0, 0, 0);
   ASSERT_DOUBLE_EQ(
       distance_based_received_power(tx_power,
                                     tx, rx, config), tx_power);
@@ -48,13 +44,11 @@ TEST(range_based, over_range)
   config.max_range = 1.0;
 
   rf_interface::radio_state tx, rx;
-  tx.pose.header.frame_id = "world";
-  rx.pose.header.frame_id = "world";
 
   double tx_power = 10.0;
 
   // Test outside range, full loss
-  rx.pose.pose.position.x = 2.0;
+  rx.pose.Set(2.0, 0, 0, 0, 0, 0);
   ASSERT_DOUBLE_EQ(
       distance_based_received_power(tx_power,
                                     tx, rx, config),

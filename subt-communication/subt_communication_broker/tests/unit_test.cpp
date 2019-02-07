@@ -49,29 +49,23 @@ TEST(broker, communicate)
 
   auto pose_update_func = [](const std::string& name) {
     static ros::Time now;
-    geometry_msgs::PoseStamped p;
-    p.header.frame_id = "world";
-    p.header.stamp = now;
-
     now += ros::Duration(1.0);
-      
     if(name == "1") {
-      p.pose.position.x = 0;
-      return std::make_tuple(true, p);
+      return std::make_tuple(true, ignition::math::Pose3<double>(0, 0, 0, 0, 0, 0), now);
     }
 
     if(name == "2") {
       static double x = 0;
-      p.pose.position.x = x;
       x += 1.0;
       std::cout << "Moving (2) to x=" << x << std::endl;
-      return std::make_tuple(true, p);
+      return std::make_tuple(true, ignition::math::Pose3<double>(x, 0, 0, 0, 0, 0), now);
     }
 
-    return std::make_tuple(false, geometry_msgs::PoseStamped());
+    return std::make_tuple(false, ignition::math::Pose3<double>(), ros::Time());
   };
 
   broker.SetPoseUpdateFunction(pose_update_func);
+  broker.Start();
 
   CommsClient c1("1");
   CommsClient c2("2");
@@ -91,7 +85,6 @@ TEST(broker, communicate)
     c1.SendTo(oss.str(), "2");
     broker.DispatchMessages();
   }
-  
   
   // geometry_msgs::PoseStamped a, b;
   // a.header.frame_id = "world";

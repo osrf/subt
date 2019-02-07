@@ -41,12 +41,6 @@ std::ostream& operator<<(std::ostream& oss, const rf_configuration& config)
   return oss;
 }
 
-/// Compute distance between two points.
-/// @param a Point a
-/// @param b Point b
-double distance(const geometry_msgs::Point& a,
-                const geometry_msgs::Point& b);
-
 /// Compute received power based on distance.
 ///
 /// Compute the pathloss based on distance between two nodes and

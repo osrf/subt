@@ -173,22 +173,13 @@ void CommsBrokerPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
     auto const &model = _world->ModelByName(name);
 
     if (!model)
-      return std::make_tuple(false, geometry_msgs::PoseStamped());
+      return std::make_tuple(false,
+                             ignition::math::Pose3<double>(),
+                             ros::Time());
 
-    auto gazebo_pose = model->WorldPose();
-
-    geometry_msgs::PoseStamped p;
-    p.header.stamp = ros::Time(_world->SimTime().Double());
-    p.header.frame_id = "gazebo";
-    p.pose.position.x = gazebo_pose.Pos().X();
-    p.pose.position.y = gazebo_pose.Pos().Y();
-    p.pose.position.z = gazebo_pose.Pos().Z();
-    p.pose.orientation.x = gazebo_pose.Rot().X();
-    p.pose.orientation.y = gazebo_pose.Rot().Y();
-    p.pose.orientation.z = gazebo_pose.Rot().Z();
-    p.pose.orientation.w = gazebo_pose.Rot().W();
-
-    return std::make_tuple(true, std::move(p));
+    return std::make_tuple(true,
+                           model->WorldPose(),
+                           ros::Time(_world->SimTime().Double()));
   };
   broker.SetPoseUpdateFunction(update_pose_func);
 

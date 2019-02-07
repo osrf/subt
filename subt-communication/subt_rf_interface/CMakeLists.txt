@@ -17,10 +17,12 @@ set(RUN_DEPENDS
 #######################################
 
 find_package(catkin REQUIRED ${BUILD_DEPENDS})
+find_package(ignition-math4 REQUIRED)
 
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
+  ${ignition-math4_INCLUDE_DIRS}
   )
 
 # Set this project to use C++11
@@ -34,19 +36,21 @@ endif (APPLE)
 #######################################
 
 catkin_package(
-  INCLUDE_DIRS include
+  INCLUDE_DIRS include ${ignition-math4_INCLUDE_DIRS}
   CATKIN_DEPENDS ${RUN_DEPENDS}
   DEPENDS
-  LIBRARIES subt_rf_range_model
+  LIBRARIES subt_rf_range_model ${ignition-math4_LIBRARIES}
   )
 
 add_library(subt_rf_range_model src/subt_rf_model.cpp)
-target_link_libraries(subt_rf_range_model ${catkin_LIBRARIES})
+target_link_libraries(subt_rf_range_model ${catkin_LIBRARIES}
+  ${ignition-math4_LIBRARIES})
 
 if(CATKIN_ENABLE_TESTING)
   catkin_add_gtest(${PROJECT_NAME}_unit_test test/unit_test.cpp)
   target_link_libraries(${PROJECT_NAME}_unit_test
     subt_rf_range_model
+    ${ignition-math4_LIBRARIES}
     ${GTEST_LIBRARIES})
 endif()
 

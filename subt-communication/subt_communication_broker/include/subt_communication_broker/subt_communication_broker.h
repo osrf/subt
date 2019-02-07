@@ -40,7 +40,7 @@ namespace communication_broker
 {
 
 typedef
-std::function<std::tuple<bool, geometry_msgs::PoseStamped>(const std::string& name)>
+std::function<std::tuple<bool, ignition::math::Pose3<double>, ros::Time>(const std::string& name)>
 pose_update_function;
 
   /// \brief Stores information about a client broker.
@@ -172,9 +172,6 @@ pose_update_function;
 
     /// \brief The publisher for notifying neighbor updates.
     private: ignition::transport::Node::Publisher neighborPub;
-
-    /// \brief Random engine used to shuffle the messages.
-    // private: std::default_random_engine rndEngine;
 
     /// \brief Protect data from races.
     private: std::mutex mutex;

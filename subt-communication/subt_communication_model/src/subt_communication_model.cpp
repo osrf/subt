@@ -24,7 +24,7 @@ bool attempt_send(const radio_configuration& radio,
   // Do capacity checks here
   static ros::Duration epoch_duration = ros::Duration(1.0);
 
-  ros::Time now = tx_state.pose.header.stamp;
+  ros::Time now = tx_state.update_stamp;
 
   // Maintain running window of bytes sent over the last epoch, e.g.,
   // 1s

@@ -1,6 +1,7 @@
 #pragma once
 
-#include <geometry_msgs/PoseStamped.h>
+#include <ros/ros.h>
+#include <ignition/math/Pose3.hh>
 
 namespace subt
 {
@@ -15,7 +16,8 @@ namespace rf_interface
 /// necessary to implement bitrate limits.
 struct radio_state
 {
-  geometry_msgs::PoseStamped pose;  ///< Pose of the radio
+  ros::Time update_stamp;      ///< Timestamp of last update
+  ignition::math::Pose3<double> pose;  ///< Pose of the radio
   std::list<std::pair<ros::Time, uint64_t>> bytes_sent; ///< Recent
                                                         ///sent packet
                                                         ///history
