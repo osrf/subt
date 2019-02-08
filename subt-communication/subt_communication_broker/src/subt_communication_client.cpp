@@ -219,22 +219,6 @@ bool CommsClient::SendTo(const std::string &_data,
 }
 
 //////////////////////////////////////////////////
-// bool CommsClient::SendToBaseStation(const subt::msgs::Artifact &_artifact)
-// {
-//   // Serialize the artifact.
-//   std::string serializedData;
-//   if (!_artifact.SerializeToString(&serializedData))
-//   {
-//     std::cerr << "CommsClient::SendToBaseStation(): Error serializing message\n"
-//               << _artifact.DebugString() << std::endl;
-//     return false;
-//   }
-
-//   // Send data to the base station.
-//   return this->SendTo(serializedData, kBaseStationName);
-// }
-
-//////////////////////////////////////////////////
 std::vector<std::string> CommsClient::Neighbors() const
 {
   std::lock_guard<std::mutex> lock(this->mutex);

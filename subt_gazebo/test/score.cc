@@ -179,16 +179,12 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     std::string serializedData;
     if (!artifact.SerializeToString(&serializedData)) {
       std::cerr
-          << "CommsClient::SendToBaseStation(): Error serializing message\n"
+          << "ReportArtifact(): Error serializing message\n"
           << artifact.DebugString() << std::endl;
       ASSERT_TRUE(false);
     }
 
-    //   // Send data to the base station.
-    //   return this->SendTo(serializedData, kBaseStationName);
-
     this->client->SendTo(serializedData, subt::kBaseStationName);
-    // this->client->SendToBaseStation(artifact);
   }
 
   /// \brief Whether a unicast/broadcast message has been received or

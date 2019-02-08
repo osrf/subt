@@ -160,7 +160,7 @@ void Broker::DispatchMessages()
       return;
     }
   }
-  
+
   while (!this->incomingMsgs.empty())
   {
     // Get the next message to dispatch.
@@ -176,9 +176,6 @@ void Broker::DispatchMessages()
                 << " team" << std::endl;
       continue;
     }
-
-    // Get the list of neighbors of the sender.
-    // const Neighbors_M &neighbors = (*this->team)[msg.src_address()]->neighbors;
 
     std::string dstEndPoint =
         msg.dst_address() + ":" + std::to_string(msg.dst_port());
@@ -200,19 +197,19 @@ void Broker::DispatchMessages()
                     << " team" << std::endl;
           continue;
         }
-        
+
         // Query communication_model if this packet is successful,
         // forward if so
         if(!tx_node->second->radio.pathloss_f) {
           std::cerr << "No pathloss function defined for " << msg.src_address() << std::endl;
           continue;
         }
-        
+
         if(communication_function(tx_node->second->radio,
                                   tx_node->second->rf_state,
                                   rx_node->second->rf_state,
                                   msg.data().size())) {
-          
+
           if (!this->node.Request(client.address, msg))
           {
             std::cerr << "[CommsBrokerPlugin::DispatchMessages()]: Error "
@@ -396,7 +393,7 @@ void Broker::SetRadioConfiguration(const std::string& address,
   }
 
   node->second->radio = config;
-  
+
 }
 
 //////////////////////////////////////////////////

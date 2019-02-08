@@ -221,7 +221,6 @@ void CommsBrokerPlugin::OnUpdate()
       broker.SetCommunicationFunction(&subt::communication_model::attempt_send);
     }
 
-    // this->commsModel->SetSimpleMode(value);
     this->lastROSParameterCheckTime = now;
   }
 
@@ -230,8 +229,6 @@ void CommsBrokerPlugin::OnUpdate()
 
   // Dispatch all the incoming messages, deciding whether the destination gets
   // the message according to the communication model.
-  // this->broker.DispatchMessages(maxDataRate,
-  // this->commsModel->UdpOverhead());
   this->broker.DispatchMessages();
 }
 
