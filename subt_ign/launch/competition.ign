@@ -7,14 +7,6 @@
     <name>ROS_MASTER_URI</name>
     <value>http://localhost:11311</value>
   </env>
-  <env>
-    <name>IGN_LAUNCH_PLUGIN_PATH</name>
-    <value>@CMAKE_INSTALL_PREFIX@/@CATKIN_PACKAGE_LIB_DESTINATION@</value>
-  </env>
-  <env>
-    <name>IGN_GAZEBO_RESOURCE_PATH</name>
-    <value>@CMAKE_INSTALL_PREFIX@/@CATKIN_PACKAGE_SHARE_DESTINATION@/worlds</value>
-  </env>
 
   <!-- Start ROS first. This is a bit hacky for now. -->
   <!-- Make sure to source /opt/ros/melodic/setup.bash -->

@@ -75,6 +75,8 @@ target_link_libraries(${protobuf_lib_name}
   ignition-msgs3::ignition-msgs3
 )
 
+catkin_add_env_hooks(ign SHELLS bash
+  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/env-hooks)
 
 # Create the libGameLogicPlugin.so library.
 set(game_logic_plugin_name GameLogicPluginIgn)
@@ -277,10 +279,8 @@ install(TARGETS ${game_logic_plugin_name}
 install(FILES cmake/${PROJECT_NAME}-extras.cmake
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/cmake)
 
-# Configure and install all the launch files
-configure_file (launch/competition.ign.in
-  ${CMAKE_CURRENT_BINARY_DIR}/launch/competition.ign)
-install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/launch/
+# Install all the launch files
+install(DIRECTORY launch/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch)
 
 # # Install all the model files
