@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <launch>
   <arg name="robot_namespace" default="" />
   <!-- Generate the tf_prefix from the namespace -->
@@ -11,10 +12,6 @@
 
   <node name="controller_spawner" pkg="controller_manager" type="spawner"
         args="x2_joint_publisher x2_velocity_controller" />
-
-  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization">
-    <rosparam command="load" file="$(find x2_control)/config/robot_localization.yaml" />
-  </node>
 
   <node pkg="twist_mux" type="twist_mux" name="twist_mux">
     <rosparam command="load" file="$(find x2_control)/config/twist_mux.yaml" />

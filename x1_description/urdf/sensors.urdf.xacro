@@ -91,7 +91,7 @@
       <child link="${namespace}/front_camera_mount" />
     </joint>
 
-    <pointgrey_flea3 frame="${namespace}/front_camera" name="front"
+    <pointgrey_flea3 frame="${namespace}/front_camera" name="camera_front"
       camera_x="0.0754" camera_y="0.029" camera_z="0.029"
       camera_mass="0.085" hfov="1.0471975512" fps="20" width="320" height="240"
       near="0.01" />
@@ -111,7 +111,7 @@
       <child link="${namespace}/front_camera_mount" />
     </joint>
 
-    <pointgrey_flea3 frame="${namespace}/front_camera" name="front"
+    <pointgrey_flea3 frame="${namespace}/front_camera" name="camera_front"
       camera_x="0.0754" camera_y="0.029" camera_z="0.029"
       camera_mass="0.085" hfov="1.0471975512" fps="20" width="1280" height="960"
       near="0.01" />
