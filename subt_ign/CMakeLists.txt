@@ -29,6 +29,7 @@ find_package(ignition-msgs3 REQUIRED)
 find_package(ignition-transport6 REQUIRED)
 find_package(ignition-plugin1 REQUIRED COMPONENTS loader register)
 find_package(ignition-tools-launch REQUIRED)
+find_package(sdformat8 REQUIRED)
 
 ########################
 ## Message generation ##
@@ -66,14 +67,18 @@ set(protobuf_lib_name SubtProtobufIgn)
 add_subdirectory(src/protobuf)
 set_source_files_properties(${PROTO_SOURCES} ${PROTO_HEADERS}
                             PROPERTIES GENERATED TRUE)
-add_library(${protobuf_lib_name} STATIC ${PROTO_SOURCES})
+add_library(${protobuf_lib_name} SHARED ${PROTO_SOURCES})
 add_dependencies(${protobuf_lib_name} protobuf_compilation_ign)
 set_target_properties(${protobuf_lib_name}
-  PROPERTIES POSITION_INDEPENDENT_CODE ON COMPILE_FLAGS "-Wno-unused-parameter" )
+  PROPERTIES COMPILE_FLAGS "-Wno-unused-parameter" )
 target_link_libraries(${protobuf_lib_name}
   PRIVATE
   ignition-msgs3::ignition-msgs3
 )
+install(TARGETS ${protobuf_lib_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
 
 catkin_add_env_hooks(ign SHELLS bash
   DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/env-hooks)
@@ -191,23 +196,26 @@ install(TARGETS ${game_logic_plugin_name}
 #     ${PROTO_HEADERS}
 #   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}/protobuf
 # )
-# 
-# # Create the libBaseStationPlugin.so library.
-# set(base_station_plugin_name BaseStationPlugin)
-# add_library(${base_station_plugin_name} src/BaseStationPlugin.cc)
-# target_include_directories(${base_station_plugin_name}
-#   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
-# target_link_libraries(${base_station_plugin_name}
-#   ${catkin_LIBRARIES}
-#   ${comms_client_name}
-#   ignition-common1::ignition-common1
-#   ${protobuf_lib_name}
-# )
-# install(TARGETS ${base_station_plugin_name}
-#   ARCHIVE DESTINATION lib
-#   LIBRARY DESTINATION lib
-#   RUNTIME DESTINATION bin)
-# 
+ 
+# Create the libBaseStationPlugin.so library.
+set(base_station_plugin_name BaseStationPluginIgn)
+add_library(${base_station_plugin_name} src/BaseStationPlugin.cc)
+target_include_directories(${base_station_plugin_name}
+   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
+ target_link_libraries(${base_station_plugin_name}
+   ignition-common3::ignition-common3
+   ignition-plugin1::loader
+   ignition-tools::ignition-tools-launch
+   ignition-transport6::ignition-transport6
+   sdformat8::sdformat8
+   ${catkin_LIBRARIES}
+   ${protobuf_lib_name}
+ )
+ install(TARGETS ${base_station_plugin_name}
+   ARCHIVE DESTINATION lib
+   LIBRARY DESTINATION lib
+   RUNTIME DESTINATION bin)
+ 
 # # Create the libRosFlashLightPlugin.so library.
 # set(ros_flashlight_plugin_name RosFlashLightPlugin)
 # add_library(${ros_flashlight_plugin_name} src/RosFlashLightPlugin.cc)
