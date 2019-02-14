@@ -76,29 +76,29 @@ target_link_libraries(${protobuf_lib_name}
 )
 
 
-## Create the libGameLogicPlugin.so library.
-#set(game_logic_plugin_name GameLogicPluginIgn)
-#add_library(${game_logic_plugin_name} src/GameLogicPluginIgn.cc)
-## add_dependencies(${game_logic_plugin_name} subt_msgs_generate_messages_cpp)
-#target_include_directories(${game_logic_plugin_name}
-#  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
-#target_link_libraries(${game_logic_plugin_name}
-#  PRIVATE
-#    ignition-common3::ignition-common3
-#    ignition-tools::ignition-tools-launch
-#    ignition-math6::ignition-math6
-#    ignition-msgs3::ignition-msgs3
-#    ignition-plugin1::loader
-#    ignition-transport6::ignition-transport6
-#    ${catkin_LIBRARIES}
-#    ${protobuf_lib_name}
-#)
-#install(TARGETS ${game_logic_plugin_name}
-#  ARCHIVE DESTINATION lib
-#  LIBRARY DESTINATION lib
-#  RUNTIME DESTINATION bin)
-#
-#
+# Create the libGameLogicPlugin.so library.
+set(game_logic_plugin_name GameLogicPluginIgn)
+add_library(${game_logic_plugin_name} src/GameLogicPlugin.cc)
+# add_dependencies(${game_logic_plugin_name} subt_msgs_generate_messages_cpp)
+target_include_directories(${game_logic_plugin_name}
+  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
+target_link_libraries(${game_logic_plugin_name}
+  PRIVATE
+    ignition-common3::ignition-common3
+    ignition-tools::ignition-tools-launch
+    ignition-math6::ignition-math6
+    ignition-msgs3::ignition-msgs3
+    ignition-plugin1::loader
+    ignition-transport6::ignition-transport6
+    ${catkin_LIBRARIES}
+    ${protobuf_lib_name}
+)
+install(TARGETS ${game_logic_plugin_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+
+
 # # Create the libJointMotionTimerPlugin.so library.
 # set(joint_motion_timer_plugin_name JointMotionTimerPlugin)
 # add_library(${joint_motion_timer_plugin_name} src/JointMotionTimerPlugin.cc)
@@ -277,17 +277,19 @@ target_link_libraries(${protobuf_lib_name}
 install(FILES cmake/${PROJECT_NAME}-extras.cmake
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/cmake)
 
-# Install all the launch files
-# install(DIRECTORY launh/
-#   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch)
+# Configure and install all the launch files
+configure_file (launch/competition.ign.in
+  ${CMAKE_CURRENT_BINARY_DIR}/launch/competition.ign)
+install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/launch/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch)
 
 # # Install all the model files
 # install(DIRECTORY models/
 #   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/models)
 # 
 # Install all the world files
-# install(DIRECTORY worlds/
-#   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/worlds)
+install(DIRECTORY worlds/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/worlds)
 # 
 # install(PROGRAMS
 #   scripts/world_generator
