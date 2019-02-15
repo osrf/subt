@@ -18,6 +18,7 @@
           filename="libignition-plugins-gazebo0.so">
     <run_on_start>true</run_on_start>
     <verbosity>2</verbosity>
+    <levels>true</levels>
     <world_file><%= worldName %>.sdf</world_file>
 
     <plugin entity_name="<%= worldName %>"
@@ -36,9 +37,11 @@
             filename="libignition-gazebo-systems.so"
             name="ignition::gazebo::systems::v0::DiffDrive">
       <left_joint>front_left_wheel_joint</left_joint>
+      <left_joint>rear_left_wheel_joint</left_joint>
       <right_joint>front_right_wheel_joint</right_joint>
-      <wheel_separation>1.25</wheel_separation>
-      <wheel_radius>0.3</wheel_radius>
+      <right_joint>rear_right_wheel_joint</right_joint>
+      <wheel_separation>0.5708</wheel_separation>
+      <wheel_radius>0.1651</wheel_radius>
     </plugin>
 
     <!-- The SubT challenge base station plugin -->
@@ -47,6 +50,7 @@
             name="subt::BaseStationPlugin"
             filename="libBaseStationPluginIgn.so">
     </plugin>
+
   </plugin>
 
   <executable_wrapper>
