@@ -40,6 +40,13 @@
       <wheel_separation>1.25</wheel_separation>
       <wheel_radius>0.3</wheel_radius>
     </plugin>
+
+    <!-- The SubT challenge base station plugin -->
+    <plugin entity_name="base_station"
+            entity_type="model"
+            name="subt::BaseStationPlugin"
+            filename="libBaseStationPluginIgn.so">
+    </plugin>
   </plugin>
 
   <executable_wrapper>
@@ -128,10 +135,6 @@
           filename="libignition-plugins-joytotwist0.so">
     <input_topic>/joy</input_topic>
     <output_topic>/model/x1/cmd_vel</output_topic>
-  </plugin>
-
-  <!-- The SubT challenge base station plugin -->
-  <plugin name="subt::BaseStationPlugin" filename="libBaseStationPluginIgn.so">
   </plugin>
 
   <!-- The SubT challenge logic plugin -->
