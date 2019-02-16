@@ -8,6 +8,26 @@
       <origin_visual>false</origin_visual>
     </scene>
 
+    <light name='user_spot_light_0' type='spot'>
+      <pose>12 0 15 0 0.65 0</pose>
+      <diffuse>1 1 1 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <direction>0 0 -1</direction>
+      <attenuation>
+        <range>30</range>
+        <constant>0.001</constant>
+        <linear>0.01</linear>
+        <quadratic>0.000</quadratic>
+      </attenuation>
+      <cast_shadows>1</cast_shadows>
+      <spot>
+        <inner_angle>0.0</inner_angle>
+        <outer_angle>1.5</outer_angle>
+        <falloff>0.01</falloff>
+      </spot>
+    </light>
+
+
     <!-- The staging area -->
     <include>
       <static>true</static>
@@ -890,7 +910,17 @@
       <pose>0 0 .2 0 0 0</pose>
     </include>
 
+    <include>
+      <name>x2</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X2</uri>
+      <pose>0 2 0.063494 0 0 0</pose>
+    </include>
+
     <plugin name="ignition::gazebo" filename="dummy">
+      <performer name="perf_x2">
+        <ref>x2</ref>
+        <geometry><box><size>2 2 2</size></box></geometry>
+      </performer>
 
       <performer name="perf_x1">
         <ref>x1</ref>

@@ -44,13 +44,24 @@
       <wheel_radius>0.1651</wheel_radius>
     </plugin>
 
+    <plugin entity_name="x2"
+            entity_type="model"
+            filename="libignition-gazebo-systems.so"
+            name="ignition::gazebo::systems::v0::DiffDrive">
+      <left_joint>front_left_wheel_joint</left_joint>
+      <left_joint>rear_left_wheel_joint</left_joint>
+      <right_joint>front_right_wheel_joint</right_joint>
+      <right_joint>rear_right_wheel_joint</right_joint>
+      <wheel_separation>0.37559</wheel_separation>
+      <wheel_radius>0.098</wheel_radius>
+    </plugin>
+
     <!-- The SubT challenge base station plugin -->
     <plugin entity_name="base_station"
             entity_type="model"
             name="subt::BaseStationPlugin"
             filename="libBaseStationPluginIgn.so">
     </plugin>
-
   </plugin>
 
   <executable_wrapper>
@@ -139,6 +150,14 @@
           filename="libignition-plugins-joytotwist0.so">
     <input_topic>/joy</input_topic>
     <output_topic>/model/x1/cmd_vel</output_topic>
+  </plugin>
+
+  <!-- Load a plugin that transforms a joystick message to a
+       twist message -->
+  <plugin name="ignition::plugins::JoyToTwist"
+          filename="libignition-plugins-joytotwist0.so">
+    <input_topic>/joy</input_topic>
+    <output_topic>/model/x2/cmd_vel</output_topic>
   </plugin>
 
   <!-- The SubT challenge logic plugin -->
