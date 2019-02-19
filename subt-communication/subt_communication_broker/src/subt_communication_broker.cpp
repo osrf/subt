@@ -13,29 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
-*/
+ */
 
 #include <algorithm>
 #include <memory>
 #include <iostream>
-#include <gazebo/physics/PhysicsIface.hh>
-#include <gazebo/physics/World.hh>
 #include <ignition/math/Rand.hh>
-#include "subt_gazebo/protobuf/datagram.pb.h"
-#include "subt_gazebo/protobuf/neighbor_m.pb.h"
-#include "subt_gazebo/Broker.hh"
-#include "subt_gazebo/CommonTypes.hh"
 
-using namespace subt;
+#include <subt_communication_broker/subt_communication_broker.h>
+#include <subt_communication_broker/protobuf/datagram.pb.h>
+#include <subt_communication_broker/protobuf/neighbor_m.pb.h>
+
+#include <subt_communication_broker/common_types.h>
+
+namespace subt
+{
+
+namespace communication_broker
+{
 
 //////////////////////////////////////////////////
 Broker::Broker()
-  : team(std::make_shared<TeamMembership_M>()),
-    rndEngine(std::default_random_engine(ignition::math::Rand::Seed()))
+    : team(std::make_shared<TeamMembership_M>())
+{
+
+}
+
+//////////////////////////////////////////////////
+void Broker::Start()
 {
   // Advertise the service for registering addresses.
   if (!this->node.Advertise(kAddrRegistrationSrv,
-        &Broker::OnAddrRegistration, this))
+                            &Broker::OnAddrRegistration, this))
   {
     std::cerr << "Error advertising srv [" << kAddrRegistrationSrv << "]"
               << std::endl;
@@ -44,7 +53,7 @@ Broker::Broker()
 
   // Advertise the service for unregistering addresses.
   if (!this->node.Advertise(kAddrUnregistrationSrv,
-        &Broker::OnAddrUnregistration, this))
+                            &Broker::OnAddrUnregistration, this))
   {
     std::cerr << "Error advertising srv [" << kAddrUnregistrationSrv << "]"
               << std::endl;
@@ -53,7 +62,7 @@ Broker::Broker()
 
   // Advertise the service for registering end points.
   if (!this->node.Advertise(kEndPointRegistrationSrv,
-        &Broker::OnEndPointRegistration, this))
+                            &Broker::OnEndPointRegistration, this))
   {
     std::cerr << "Error advertising srv [" << kEndPointRegistrationSrv << "]"
               << std::endl;
@@ -69,7 +78,7 @@ Broker::Broker()
 
   // Advertise a topic for notifying neighbor updates.
   this->neighborPub =
-    this->node.Advertise<subt::msgs::Neighbor_M>(kNeighborsTopic);
+      this->node.Advertise<subt::msgs::Neighbor_M>(kNeighborsTopic);
   if (!this->neighborPub)
   {
     std::cerr << "Error advertising topic [" << kNeighborsTopic << "]"
@@ -87,7 +96,7 @@ void Broker::Reset()
 }
 
 //////////////////////////////////////////////////
-subt::TeamMembershipPtr Broker::Team()
+TeamMembershipPtr Broker::Team()
 {
   return this->team;
 }
@@ -118,16 +127,39 @@ void Broker::NotifyNeighbors()
 }
 
 //////////////////////////////////////////////////
-void Broker::DispatchMessages(const uint32_t _maxDataRatePerCycle,
-    const uint16_t _udpOverhead)
+void Broker::DispatchMessages()
 {
-  // Shuffle the messages.
-  std::shuffle(this->incomingMsgs.begin(), this->incomingMsgs.end(),
-      this->rndEngine);
+  std::lock_guard<std::mutex> lk(this->mutex);
 
-  // Clear the data rate usage for each robot.
-  for (const auto &member : (*this->team))
-    member.second->dataRateUsage = 0;
+  if(this->incomingMsgs.empty())
+    return;
+
+  // Cannot dispatch messages if we don't have function handles for
+  // pathloss and communication
+  if(!communication_function) {
+    std::cerr << "[Broker::DispatchMessages()] Missing function handle for communication" << std::endl;
+    return;
+  }
+
+  if(!pose_update_f) {
+    std::cerr << "[Broker::DispatchMessages()]: Missing function for updating pose" << std::endl;
+    return;
+  }
+
+  // Update state for all members in team (only do this for members
+  // which touch messages in the queue?)
+  for(auto t : *(this->team)) {
+    bool ret;
+    std::tie(ret,
+             t.second->rf_state.pose,
+             t.second->rf_state.update_stamp) = pose_update_f(t.second->name);
+
+    if(!ret) {
+      std::cerr << "Problem getting state for " << t.second->name
+                << ", skipping DispatchMessages()" << std::endl;
+      return;
+    }
+  }
 
   while (!this->incomingMsgs.empty())
   {
@@ -136,7 +168,8 @@ void Broker::DispatchMessages(const uint32_t _maxDataRatePerCycle,
     this->incomingMsgs.pop_front();
 
     // Sanity check: Make sure that the sender is a member of the team.
-    if (this->team->find(msg.src_address()) == this->team->end())
+    auto tx_node = this->team->find(msg.src_address());
+    if (tx_node == this->team->end())
     {
       std::cerr << "Broker::DispatchMessages(): Discarding message. Robot ["
                 << msg.src_address() << "] is not registered as a member of the"
@@ -144,53 +177,39 @@ void Broker::DispatchMessages(const uint32_t _maxDataRatePerCycle,
       continue;
     }
 
-    // Get the list of neighbors of the sender.
-    const Neighbors_M &neighbors = (*this->team)[msg.src_address()]->neighbors;
-
-    // Update the data rate usage.
-    auto dataSize = (msg.data().size() + _udpOverhead) * 8;
-    (*this->team)[msg.src_address()]->dataRateUsage += dataSize;
-    for (const auto &neighbor : neighbors)
-    {
-      // We account the overhead caused by the UDP/IP/Ethernet headers + the
-      // payload. We convert the total amount of bytes to bits.
-      (*this->team)[neighbor.first]->dataRateUsage += dataSize;
-    }
-
     std::string dstEndPoint =
-      msg.dst_address() + ":" + std::to_string(msg.dst_port());
+        msg.dst_address() + ":" + std::to_string(msg.dst_port());
+
     if (this->endpoints.find(dstEndPoint) != this->endpoints.end())
     {
-      // Shuffle the clients bound to this endpoint.
       std::vector<BrokerClientInfo> clientsV = this->endpoints.at(dstEndPoint);
-      std::shuffle(clientsV.begin(), clientsV.end(), this->rndEngine);
+
+      if(clientsV.empty()) {
+        std::cerr << "[Broker::DispatchMessages()]: No clients for endpoint " << dstEndPoint << std::endl;
+      }
 
       for (const BrokerClientInfo &client : clientsV)
       {
-        // Make sure that we're sending the message to a valid neighbor.
-        if (neighbors.find(client.address) == neighbors.end())
-          continue;
-
-        // Check if the maximum data rate has been reached in the destination.
-        if ((*team)[client.address]->dataRateUsage > _maxDataRatePerCycle)
-        {
-          // Debug output
-          // gzdbg << "Dropping message (max data rate) from "
-          //       << msg.src_address() << " to " << client.address
-          //       << " (addressed to " << msg.dst_address()
-          //       << ")" << std::endl;
+        auto rx_node = this->team->find(client.address);
+        if(rx_node == this->team->end()) {
+          std::cerr << "Broker::DispatchMessages(): Skipping send attempt. Robot ["
+                    << client.address << "] is not registered as a member of the"
+                    << " team" << std::endl;
           continue;
         }
 
-        // Decide whether this neighbor gets this message, according to the
-        // probability of communication between them right now.
-        const double &neighborProb = neighbors.at(client.address);
-        if (ignition::math::Rand::DblUniform(0.0, 1.0) < neighborProb)
-        {
-          // Debug output
-          // std::cout << "Sending message from " << msg.src_address() << " to "
-          //           << client.address << " (addressed to "
-          //           << msg.dst_address() << ")" << std::endl;
+        // Query communication_model if this packet is successful,
+        // forward if so
+        if(!tx_node->second->radio.pathloss_f) {
+          std::cerr << "No pathloss function defined for " << msg.src_address() << std::endl;
+          continue;
+        }
+
+        if(communication_function(tx_node->second->radio,
+                                  tx_node->second->rf_state,
+                                  rx_node->second->rf_state,
+                                  msg.data().size())) {
+
           if (!this->node.Request(client.address, msg))
           {
             std::cerr << "[CommsBrokerPlugin::DispatchMessages()]: Error "
@@ -198,28 +217,20 @@ void Broker::DispatchMessages(const uint32_t _maxDataRatePerCycle,
                       << std::endl;
           }
         }
-        // else
-        // {
-        //   // Debug output.
-        //   gzdbg << "Dropping message from " << msg.src_address() << " to "
-        //         << client.address << " (addressed to " << msg.dst_address()
-        //         << ")" << std::endl;
-        // }
+
       }
+    }
+    else {
+      std::cerr << "[Broker::DispatchMessages()]: Could not find endpoint " << dstEndPoint << std::endl;
     }
   }
 }
 
-/////////////////////////////////////////////////
-std::mutex &Broker::Mutex()
-{
-  return this->mutex;
-}
-
 //////////////////////////////////////////////////
 bool Broker::Bind(const std::string &_clientAddress,
-  const std::string &_endpoint)
+                  const std::string &_endpoint)
 {
+  std::lock_guard<std::mutex> lk(this->mutex);
   // Make sure that the same client didn't bind the same end point before.
   if (this->endpoints.find(_endpoint) != this->endpoints.end())
   {
@@ -248,26 +259,25 @@ bool Broker::Bind(const std::string &_clientAddress,
 //////////////////////////////////////////////////
 bool Broker::Register(const std::string &_id)
 {
-  if (this->team->find(_id) != this->team->end())
+  std::lock_guard<std::mutex> lk(this->mutex);
+  auto kvp = this->team->find(_id);
+  if (kvp != this->team->end())
   {
-    std::cerr << "Logger::Register() error: ID [" << _id << "] already exists"
+    std::cerr << "Broker::Register() warning: ID [" << _id << "] already exists"
               << std::endl;
-    return false;
   }
+  else {
+    auto newMember = std::make_shared<TeamMember>();
 
-  auto const &model = gazebo::physics::get_world()->ModelByName(_id);
-  if (!model)
-    return false;
+    // Name and address are the same in SubT.
+    newMember->address = _id;
+    newMember->name = _id;
 
-  auto newMember = std::make_shared<TeamMember>();
+    newMember->radio = default_radio_configuration;
+    (*this->team)[_id] = newMember;
 
-  // Name and address are the same in SubT.
-  newMember->address = _id;
-  newMember->name = _id;
-  newMember->model = model;
-  (*this->team)[_id] = newMember;
-
-  std::cout << "New client registered [" << _id << "]" <<  std::endl;
+    std::cout << "New client registered [" << _id << "]" <<  std::endl;
+  }
 
   return true;
 }
@@ -275,6 +285,7 @@ bool Broker::Register(const std::string &_id)
 //////////////////////////////////////////////////
 bool Broker::Unregister(const std::string &_id)
 {
+  std::lock_guard<std::mutex> lk(this->mutex);
   // Sanity check: Make sure that the ID exists.
   if (this->team->find(_id) == this->team->end())
   {
@@ -305,15 +316,12 @@ bool Broker::Unregister(const std::string &_id)
 
 /////////////////////////////////////////////////
 bool Broker::OnAddrRegistration(const ignition::msgs::StringMsg &_req,
-    ignition::msgs::Boolean &_rep)
+                                ignition::msgs::Boolean &_rep)
 {
   std::string address = _req.data();
   bool result;
 
-  {
-    std::lock_guard<std::mutex> lk(this->mutex);
-    result = this->Register(address);
-  }
+  result = this->Register(address);
 
   _rep.set_data(result);
 
@@ -322,15 +330,12 @@ bool Broker::OnAddrRegistration(const ignition::msgs::StringMsg &_req,
 
 /////////////////////////////////////////////////
 bool Broker::OnAddrUnregistration(const ignition::msgs::StringMsg &_req,
-    ignition::msgs::Boolean &_rep)
+                                  ignition::msgs::Boolean &_rep)
 {
   std::string address = _req.data();
   bool result;
 
-  {
-    std::lock_guard<std::mutex> lk(this->mutex);
-    result = this->Unregister(address);
-  }
+  result = this->Unregister(address);
 
   _rep.set_data(result);
 
@@ -339,7 +344,7 @@ bool Broker::OnAddrUnregistration(const ignition::msgs::StringMsg &_req,
 
 /////////////////////////////////////////////////
 bool Broker::OnEndPointRegistration(const ignition::msgs::StringMsg_V &_req,
-    ignition::msgs::Boolean &_rep)
+                                    ignition::msgs::Boolean &_rep)
 {
   if (_req.data().size() != 2)
   {
@@ -352,10 +357,7 @@ bool Broker::OnEndPointRegistration(const ignition::msgs::StringMsg_V &_req,
   std::string clientAddress = _req.data(0);
   std::string endpoint = _req.data(1);
 
-  {
-    std::lock_guard<std::mutex> lk(this->mutex);
-    result = this->Bind(clientAddress, endpoint);
-  }
+  result = this->Bind(clientAddress, endpoint);
 
   _rep.set_data(result);
 
@@ -370,4 +372,51 @@ void Broker::OnMessage(const subt::msgs::Datagram &_req)
 
   // Save the message.
   this->incomingMsgs.push_back(_req);
+}
+
+void Broker::SetRadioConfiguration(const std::string& address,
+                                   communication_model::radio_configuration config)
+{
+  std::unique_lock<std::mutex> lk(this->mutex);
+  auto node = this->team->find(address);
+  if(node == this->team->end()) {
+
+    lk.unlock();
+    this->Register(address);
+    lk.lock();
+
+    node = this->team->find(address);
+    if(node == this->team->end()) {
+      std::cerr << "Cannot set radio configuration for " << address << std::endl;
+      return;
+    }
+  }
+
+  node->second->radio = config;
+
+}
+
+//////////////////////////////////////////////////
+void Broker::SetDefaultRadioConfiguration(communication_model::radio_configuration config)
+{
+  std::lock_guard<std::mutex> lk(this->mutex);
+  this->default_radio_configuration = config;
+}
+
+//////////////////////////////////////////////////
+void Broker::SetCommunicationFunction(
+    communication_model::communication_function f)
+{
+  std::lock_guard<std::mutex> lk(this->mutex);
+  communication_function = f;
+}
+
+//////////////////////////////////////////////////
+void Broker::SetPoseUpdateFunction(pose_update_function f)
+{
+  std::lock_guard<std::mutex> lk(this->mutex);
+  pose_update_f = f;
+}
+
+}
 }

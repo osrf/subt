@@ -19,12 +19,10 @@
 #include <iostream>
 #include <string>
 
-#include "subt_gazebo/protobuf/datagram.pb.h"
-#include "subt_gazebo/protobuf/neighbor_m.pb.h"
-#include "subt_gazebo/CommonTypes.hh"
-#include "subt_gazebo/CommsClient.hh"
+#include <subt_communication_broker/subt_communication_client.h>
 
 using namespace subt;
+using namespace subt::communication_broker;
 
 //////////////////////////////////////////////////
 CommsClient::CommsClient(const std::string &_localAddress,
@@ -52,6 +50,7 @@ CommsClient::CommsClient(const std::string &_localAddress,
   while (!this->enabled && std::chrono::duration_cast<
                     std::chrono::milliseconds>(elapsed).count() <= kMaxWaitTime)
   {
+    std::cerr << "[CommsClient] Retrying regster.." << std::endl;
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
     this->enabled = this->Register();
     elapsed = std::chrono::steady_clock::now() - kStart;
@@ -88,6 +87,112 @@ std::string CommsClient::Host() const
 }
 
 //////////////////////////////////////////////////
+bool CommsClient::Bind(std::function<void(const std::string &_srcAddress,
+                                          const std::string &_dstAddress,
+                                          const uint32_t _dstPort,
+                                          const std::string &_data)> _cb,
+                       const std::string &_address,
+                       const int _port)
+{
+  // Sanity check: Make sure that the communications are enabled.
+  if (!this->enabled) {
+    std::cerr << "[" << this->Host() << "] Bind() error: Trying to bind before communications are enabled!" << std::endl;
+    return false;
+  }
+
+  // Use current address if _address is not provided.
+  std::string address = _address;
+  if (address.empty())
+    address = this->Host();
+
+  // Sanity check: Make sure that you use your local address or multicast.
+  if ((address != communication_broker::kMulticast) && (address != this->Host()))
+  {
+    std::cerr << "[" << this->Host() << "] Bind() error: Address ["
+              << address << "] is not your local address" << std::endl;
+    return false;
+  }
+
+  // Mapping the "unicast socket" to a topic name.
+  const auto unicastEndPoint = address + ":" + std::to_string(_port);
+  const auto bcastEndpoint = communication_broker::kBroadcast + ":" + std::to_string(_port);
+  bool bcastAdvertiseNeeded;
+
+  {
+    std::lock_guard<std::mutex> lock(this->mutex);
+
+    // Sanity check: Make sure that this address is not already used.
+    if (this->callbacks.find(unicastEndPoint) != this->callbacks.end())
+    {
+      std::cerr << "[" << this->Host() << "] Bind() error: Address ["
+                << address << "] already used" << std::endl;
+      return false;
+    }
+
+    bcastAdvertiseNeeded =
+        this->callbacks.find(bcastEndpoint) == this->callbacks.end();
+  }
+
+  // Register the endpoints in the broker.
+  // Note that the broadcast endpoint will only be registered once.
+  for (std::string endpoint : {unicastEndPoint, bcastEndpoint})
+  {
+    if (endpoint != bcastEndpoint || bcastAdvertiseNeeded)
+    {
+      ignition::msgs::StringMsg_V req;
+      req.add_data(address);
+      req.add_data(endpoint);
+
+      const unsigned int timeout = 3000u;
+      ignition::msgs::Boolean rep;
+      bool result;
+      bool executed = this->node.Request(
+          communication_broker::kEndPointRegistrationSrv, req, timeout, rep, result);
+
+      if (!executed)
+      {
+        std::cerr << "[CommsClient] Endpoint registration srv not available"
+                  << std::endl;
+        return false;
+      }
+
+      if (!result)
+      {
+        std::cerr << "[CommsClient] Invalid data. Did you send the address "
+                  << "followed by the endpoint?" << std::endl;
+        return false;
+      }
+    }
+  }
+
+  // Advertise a oneway service for receiving message requests.
+  ignition::transport::AdvertiseServiceOptions opts;
+  if (this->isPrivate)
+    opts.SetScope(ignition::transport::Scope_t::PROCESS);
+  if (!this->node.Advertise(address, &CommsClient::OnMessage, this, opts)) {
+    std::cerr << "[" << this->Host() << "] Bind Error: could not advertise " << address << std::endl;
+    return false;
+  }
+
+  // Register the callbacks.
+  {
+    std::lock_guard<std::mutex> lock(this->mutex);
+    for (std::string endpoint : {unicastEndPoint, bcastEndpoint})
+    {
+      if (endpoint != bcastEndpoint || bcastAdvertiseNeeded)
+      {
+        this->callbacks[endpoint] = std::bind(_cb,
+                                              std::placeholders::_1, std::placeholders::_2,
+                                              std::placeholders::_3, std::placeholders::_4);
+      }
+    }
+  }
+
+  return true;
+}
+
+
+//////////////////////////////////////////////////
 bool CommsClient::SendTo(const std::string &_data,
     const std::string &_dstAddress, const uint32_t _port)
 {
@@ -114,22 +219,6 @@ bool CommsClient::SendTo(const std::string &_data,
 }
 
 //////////////////////////////////////////////////
-bool CommsClient::SendToBaseStation(const subt::msgs::Artifact &_artifact)
-{
-  // Serialize the artifact.
-  std::string serializedData;
-  if (!_artifact.SerializeToString(&serializedData))
-  {
-    std::cerr << "CommsClient::SendToBaseStation(): Error serializing message\n"
-              << _artifact.DebugString() << std::endl;
-    return false;
-  }
-
-  // Send data to the base station.
-  return this->SendTo(serializedData, kBaseStationName);
-}
-
-//////////////////////////////////////////////////
 std::vector<std::string> CommsClient::Neighbors() const
 {
   std::lock_guard<std::mutex> lock(this->mutex);
@@ -148,6 +237,12 @@ bool CommsClient::Register()
 
   bool executed = this->node.Request(
     kAddrRegistrationSrv, req, timeout, rep, result);
+
+  if(!executed) {
+    std::cerr << "[" << this->localAddress
+              << "] CommsClient::Register: Problem registering with broker"
+              << std::endl;
+  }
 
   return executed && result;
 }
