@@ -25,7 +25,7 @@
 #include <gazebo/gazebo.hh>
 
 #include "subt_gazebo/CommonTypes.hh"
-#include "subt_gazebo/CommsClient.hh"
+#include "subt_communication_broker/subt_communication_client.h"
 #include "subt_gazebo/protobuf/artifact.pb.h"
 #include "test/test_config.h"
 #include "TestUtils.hh"
@@ -174,10 +174,21 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     subt::msgs::Artifact artifact;
     artifact.set_type(_type);
     artifact.mutable_pose()->CopyFrom(_pose);
-    this->client->SendToBaseStation(artifact);
+
+    // Serialize the artifact.
+    std::string serializedData;
+    if (!artifact.SerializeToString(&serializedData)) {
+      std::cerr
+          << "ReportArtifact(): Error serializing message\n"
+          << artifact.DebugString() << std::endl;
+      ASSERT_TRUE(false);
+    }
+
+    this->client->SendTo(serializedData, subt::kBaseStationName);
   }
 
-  /// \brief Whether a unicast/broadcast message has been received or not.
+  /// \brief Whether a unicast/broadcast message has been received or
+  /// not.
   protected: int32_t score;
 
   /// \brief The ROS node comms handler.

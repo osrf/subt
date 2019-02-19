@@ -10,8 +10,8 @@ include(${PROJECT_SOURCE_DIR}/cmake/Protobuf.cmake)
 
 set(PROTO_MESSAGES
   artifact.proto
-  datagram.proto
-  neighbor_m.proto
+  # datagram.proto
+  # neighbor_m.proto
 )
 
 protobuf_generate_cpp_with_descriptor(
