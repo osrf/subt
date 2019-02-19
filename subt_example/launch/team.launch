@@ -75,10 +75,10 @@
   </group>
 
   <!-- Competitor's control nodes -->
-  <node name="$(arg x1_name)_control" pkg="subt_example" type="subt_example_node" args="$(arg x1_name) $(arg x1_name)" />
-  <node name="$(arg x2_name)_control" pkg="subt_example" type="subt_example_node" args="$(arg x2_name) $(arg x2_name)" />
-  <node name="$(arg x3_name)_control" pkg="subt_example" type="subt_example_node" args="$(arg x3_name) $(arg x3_name)" />
-  <node name="$(arg x4_name)_control" pkg="subt_example" type="subt_example_node" args="$(arg x4_name) $(arg x4_name)" />
+  <node name="$(arg x1_name)_control" pkg="subt_example" type="subt_example_node" output="screen" args="$(arg x1_name) $(arg x1_name)" />
+  <node name="$(arg x2_name)_control" pkg="subt_example" type="subt_example_node" output="screen" args="$(arg x2_name) $(arg x2_name)" />
+  <node name="$(arg x3_name)_control" pkg="subt_example" type="subt_example_node" output="screen" args="$(arg x3_name) $(arg x3_name)" />
+  <node name="$(arg x4_name)_control" pkg="subt_example" type="subt_example_node" output="screen" args="$(arg x4_name) $(arg x4_name)" />
 
   <!-- Teleop node -->
   <arg name="joy_dev" default="/dev/input/js0" />

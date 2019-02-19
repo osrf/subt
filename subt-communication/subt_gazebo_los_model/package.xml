@@ -1,0 +1,23 @@
+<package format="2">
+  <name>subt_gazebo_los_model</name>
+  <version>0.1.0</version>
+  <description>
+    Line-of-sight RF pathloss model for Gazebo
+  </description>
+  <license>Apache 2.0</license>
+  <maintainer email="caguero@openrobotics.org">Carlos Agüero</maintainer>
+  <author email="caguero@openrobotics.org">Carlos Agüero</author>
+  <author email="jonathan.r.fink3.civ@mail.mil">Jon Fink</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>roscpp</depend>
+  <depend>geometry_msgs</depend>
+  <depend>subt_rf_interface</depend>
+  <depend>gazebo</depend>
+  <depend>gazebo_ros</depend>
+  <depend>gazebo_plugins</depend>
+
+
+
+</package>

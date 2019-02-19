@@ -270,7 +270,8 @@ double GameLogicPlugin::ScoreArtifact(const ArtifactType &_type,
   ignition::math::Pose3d artifactPose = ignition::msgs::Convert(_pose);
   ignition::math::Pose3d pose = artifactPose + this->artifactOriginPose;
 
-  auto &potentialArtifacts = this->artifacts[_type];
+  std::map<std::string, physics::ModelPtr> &potentialArtifacts =
+    this->artifacts[_type];
 
   // From the list of potential artifacts, find out which one is
   // closer (Euclidean distance) to the located by this request.
@@ -291,67 +292,23 @@ double GameLogicPlugin::ScoreArtifact(const ArtifactType &_type,
     }
   }
 
-  const double kBaseValue = 1.0;
-  double score = kBaseValue;
+  double score = 0.0;
 
-  // Calculate the score based on accuracy in the location.
-  double distance = std::get<2>(minDistance);
-  if (distance < 0.5)
+  // A score of 1 if the accuracy is less than or equal to 5 meters.
+  if (std::get<2>(minDistance) <= 5)
   {
-    gzmsg << "  [Distance bonus]: x3" << std::endl;
-    this->Log() << "distance_bonus_x3" << std::endl;
-    score *= 3;
-  }
-  else if (distance < 2.0)
-  {
-    gzmsg << "  [Distance bonus]: x2" << std::endl;
-    this->Log() << "distance_bonus_x2" << std::endl;
-    score *= 2;
-  }
-  else if (distance < 4.0)
-  {
-    gzmsg << "  [Distance bonus]: x1" << std::endl;
-    this->Log() << "distance_bonus_x1" << std::endl;
-    score *= 1;
-  }
-  else
-  {
-    gzmsg << "  [Distance bonus]: -1" << std::endl;
-    this->Log() << "distance_bonus_-1" << std::endl;
-    score += -1;
-  }
+    score = 1.0;
 
-  // Apply factors based on the time since the start of the run.
-  auto now = std::chrono::steady_clock::now();
-  auto elapsedSecs = std::chrono::duration_cast<std::chrono::seconds>(
-    now - this->startTime).count();
-  if (elapsedSecs < 60 * 20)
-  {
-    gzmsg << "  [Time bonus]: x3" << std::endl;
-    this->Log() << "time_bonus_x3" << std::endl;
-    score *= 3.0;
-  }
-  else if (elapsedSecs < 60 * 40)
-  {
-    gzmsg << "  [Time bonus]: x2" << std::endl;
-    this->Log() << "time_bonus_x2" << std::endl;
-    score *= 2.0;
-  }
-  else
-  {
-    gzmsg << "  [Time bonus]: x1" << std::endl;
-    this->Log() << "time_bonus_x1" << std::endl;
-    score *= 1.0;
+    // Remove this artifact to avoid getting score from the same artifact
+    // multiple times.
+    potentialArtifacts.erase(std::get<0>(minDistance));
+    if (potentialArtifacts.empty())
+      this->artifacts.erase(_type);
   }
 
   gzmsg << "  [Total]: " << score << std::endl;
   this->Log() << "modified_score " << score << std::endl;
 
-  // Remove this artifact to avoid getting score from the same artifact
-  // multiple times.
-  potentialArtifacts.erase(std::get<0>(minDistance));
-  if (potentialArtifacts.empty())
-    this->artifacts.erase(_type);
 
   return score;
 }
