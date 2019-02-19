@@ -28,7 +28,7 @@ find_package(ignition-math6 REQUIRED)
 find_package(ignition-msgs3 REQUIRED)
 find_package(ignition-transport6 REQUIRED)
 find_package(ignition-plugin1 REQUIRED COMPONENTS loader register)
-find_package(ignition-tools-launch REQUIRED)
+# find_package(ignition-tools-launch REQUIRED)
 
 ########################
 ## Message generation ##
