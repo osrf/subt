@@ -37,8 +37,8 @@ namespace gazebo
   ///
   /// The plugin accepts the following parameters in SDF. All parameters have
   /// reasonable defaults.
-  /// 
-  /// <comms_model>         Configuration block for communication system    
+  ///
+  /// <comms_model>         Configuration block for communication system
   ///   <comms_model_type>  Choose the pathloss model
   ///                       (options: log_normal_range, visibility_range)
   ///   <range_config>      Configuration block for range-based models
