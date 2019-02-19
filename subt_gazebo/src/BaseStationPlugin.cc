@@ -15,12 +15,15 @@
  *
 */
 
+// Communication client
+#include <subt_communication_broker/subt_communication_client.h>
+#include <subt_gazebo/protobuf/artifact.pb.h>
+
 #include <ignition/common/Console.hh>
 
-#include "subt_gazebo/BaseStationPlugin.hh"
-#include "subt_gazebo/CommsClient.hh"
-#include "subt_gazebo/CommonTypes.hh"
-#include "subt_gazebo/protobuf/artifact.pb.h"
+// For artifact message, service name, etc
+#include <subt_gazebo/CommonTypes.hh>
+#include <subt_gazebo/BaseStationPlugin.hh>
 
 using namespace subt;
 
@@ -41,7 +44,7 @@ void BaseStationPlugin::Load(gazebo::physics::ModelPtr _parent,
 
   // We pass true to flag this client as private. The goal is to restrict the
   // ignition transport communication to only other nodes running within the
-  // same process (e.g.: the GameLogicPlugin).
+  // same process (e.g.: the GameLogicPlugin and CommsBroker).
   this->client.reset(new subt::CommsClient(_parent->GetName(), true));
   this->client->Bind(&BaseStationPlugin::OnArtifact, this);
 }
