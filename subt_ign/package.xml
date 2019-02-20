@@ -1,0 +1,18 @@
+<package format="2">
+  <name>subt_ign</name>
+  <version>0.1.0</version>
+  <description>The ROS package for the DARPA SubT challenge.</description>
+  <license>Apache 2.0</license>
+  <maintainer email="caguero@openrobotics.org">Carlos Agüero</maintainer>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>roscpp</depend>
+  <depend>geometry_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>std_msgs</depend>
+  <depend>std_srvs</depend>
+  <depend>subt_msgs</depend>
+
+  <exec_depend>message_runtime</exec_depend>
+</package>
