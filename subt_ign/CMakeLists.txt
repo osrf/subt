@@ -141,34 +141,28 @@ install(TARGETS ${game_logic_plugin_name}
 #   LIBRARY DESTINATION lib
 #   RUNTIME DESTINATION bin)
 
-# # Create the libCommsBrokerPlugin.so library.
-# set(comms_broker_plugin_name CommsBrokerPlugin)
-# add_library(${comms_broker_plugin_name}
-#   src/Broker.cc
-#   src/CommsBrokerPlugin.cc
-#   src/CommsModel.cc
-#   src/SimpleDOTParser.cc
-#   src/VisibilityTable.cc
-# )
-# target_include_directories(${comms_broker_plugin_name}
-#   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
-# target_link_libraries(${comms_broker_plugin_name}
-#   PUBLIC
-#   ${catkin_LIBRARIES}
-#   ${GAZEBO_LIBRARIES}
-#   ignition-math4::ignition-math4
-#   ${ignition-transport4_LIBRARIES}
-#   ${protobuf_lib_name}
-# )
-# add_dependencies(${comms_broker_plugin_name}
-#   protobuf_compilation
-#   ${${PROJECT_NAME}_EXPORTED_TARGETS}
-# )
-# install(TARGETS ${comms_broker_plugin_name}
-#   ARCHIVE DESTINATION lib
-#   LIBRARY DESTINATION lib
-#   RUNTIME DESTINATION bin)
-# 
+# Create the libCommsBrokerPlugin.so library.
+set(comms_broker_plugin_name CommsBrokerPluginIgn)
+add_library(${comms_broker_plugin_name}
+  src/CommsBrokerPlugin.cc
+)
+target_include_directories(${comms_broker_plugin_name}
+  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
+target_link_libraries(${comms_broker_plugin_name}
+  PUBLIC
+  ${catkin_LIBRARIES}
+  ignition-common3::ignition-common3
+  ignition-math6::ignition-math6
+  ignition-msgs3::ignition-msgs3
+  ignition-plugin1::loader
+  ignition-transport6::ignition-transport6
+  ${protobuf_lib_name}
+)
+install(TARGETS ${comms_broker_plugin_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+
 # # Create the libCommsClient.so library.
 # set(comms_client_name CommsClient)
 # add_library(${comms_client_name} src/CommsClient.cc)
