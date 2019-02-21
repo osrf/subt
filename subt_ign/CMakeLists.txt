@@ -19,6 +19,9 @@ find_package(catkin REQUIRED
     std_srvs
     subt_msgs
     message_generation
+    subt_communication_broker
+    subt_communication_model
+    subt_rf_interface
 )
 
 file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include)
@@ -53,6 +56,9 @@ catkin_package(
   CATKIN_DEPENDS
     message_runtime
     std_srvs
+    subt_communication_broker
+    subt_communication_model
+    subt_rf_interface
   INCLUDE_DIRS
   include
   ${CATKIN_DEVEL_PREFIX}/include
@@ -150,47 +156,21 @@ target_include_directories(${comms_broker_plugin_name}
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 target_link_libraries(${comms_broker_plugin_name}
   PUBLIC
-  ${catkin_LIBRARIES}
   ignition-common3::ignition-common3
   ignition-math6::ignition-math6
   ignition-msgs3::ignition-msgs3
   ignition-plugin1::loader
+  ignition-tools::ignition-tools-launch
   ignition-transport6::ignition-transport6
+  sdformat8::sdformat8
   ${protobuf_lib_name}
+  ${catkin_LIBRARIES}
 )
 install(TARGETS ${comms_broker_plugin_name}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
 
-# # Create the libCommsClient.so library.
-# set(comms_client_name CommsClient)
-# add_library(${comms_client_name} src/CommsClient.cc)
-# target_include_directories(${comms_client_name}
-#   PUBLIC ${CATKIN_DEVEL_PREFIX}/include)
-# target_link_libraries(${comms_client_name}
-#   ${catkin_LIBRARIES}
-#   ${protobuf_lib_name}
-#   ignition-transport4::ignition-transport4
-#   protobuf::libprotobuf
-# )
-# add_dependencies(${comms_client_name} protobuf_compilation)
-# install(TARGETS ${comms_client_name}
-#   ARCHIVE DESTINATION lib
-#   LIBRARY DESTINATION lib
-#   RUNTIME DESTINATION bin)
-# install(
-#   FILES
-#     include/${PROJECT_NAME}/CommonTypes.hh
-#     include/${PROJECT_NAME}/CommsClient.hh
-#   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-# )
-# install(
-#   FILES
-#     ${PROTO_HEADERS}
-#   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}/protobuf
-# )
- 
 # Create the libBaseStationPlugin.so library.
 set(base_station_plugin_name BaseStationPluginIgn)
 add_library(${base_station_plugin_name} src/BaseStationPlugin.cc)
@@ -232,22 +212,25 @@ target_include_directories(${base_station_plugin_name}
 #   ARCHIVE DESTINATION lib
 #   LIBRARY DESTINATION lib
 #   RUNTIME DESTINATION bin)
-# 
-# 
-# # Create the libVisibilityPlugin.so library.
-# set(visibility_plugin_name VisibilityPlugin)
-# add_library(${visibility_plugin_name} src/VisibilityPlugin.cc)
-# target_include_directories(${visibility_plugin_name}
-#   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
-# target_link_libraries(${visibility_plugin_name}
-#   ${catkin_LIBRARIES}
-#   ${comms_broker_plugin_name}
-# )
-# install(TARGETS ${visibility_plugin_name}
-#   ARCHIVE DESTINATION lib
-#   LIBRARY DESTINATION lib
-#   RUNTIME DESTINATION bin)
-# 
+ 
+# Create the libVisibilityPlugin.so library.
+set(visibility_plugin_name VisibilityPluginIgn)
+add_library(${visibility_plugin_name}
+  src/VisibilityPlugin.cc
+  src/VisibilityTable.cc
+  src/SimpleDOTParser.cc)
+target_link_libraries(${visibility_plugin_name}
+  ignition-common3::ignition-common3
+  ignition-math6::ignition-math6
+  ignition-plugin1::loader
+  ignition-tools::ignition-tools-launch
+  ${catkin_LIBRARIES}
+)
+install(TARGETS ${visibility_plugin_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+ 
 # ###########
 # ## Tests ##
 # ###########

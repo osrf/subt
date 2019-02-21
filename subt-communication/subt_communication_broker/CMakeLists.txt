@@ -17,7 +17,6 @@ set(RUN_DEPENDS
 
 find_package(catkin REQUIRED ${BUILD_DEPENDS})
 
-find_package(ignition-common1 REQUIRED)
 find_package(ignition-msgs1 REQUIRED)
 find_package(ignition-transport4 REQUIRED)
 
@@ -27,14 +26,12 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
   ${ignition-transport4_INCLUDE_DIRS}
   ${ignition-msgs1_INCLUDE_DIRS}
-  ${ignition-common1_INCLUDE_DIRS}
   )
 
 set(project_libs
   ${catkin_LIBRARIES}
   ${ignition-transport4_LIBRARIES}
-  ${ignition-msgs1_LIBRARIES}
-  ${ignition-common1_LIBRARIES})
+  ${ignition-msgs1_LIBRARIES})
 
 #######################################
 ## Declare Catkin package and installation

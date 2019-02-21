@@ -22,7 +22,6 @@ set(RUN_DEPENDS
 find_package(catkin REQUIRED ${BUILD_DEPENDS})
 
 find_package(gazebo REQUIRED)
-find_package(ignition-common1 REQUIRED)
 find_package(ignition-math4 REQUIRED)
 
 include_directories(
