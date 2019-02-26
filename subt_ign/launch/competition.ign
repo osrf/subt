@@ -14,8 +14,8 @@
     <command>roscore</command>
   </executable>
 
-  <plugin name="ignition::plugins::GazeboServer"
-          filename="libignition-plugins-gazebo0.so">
+  <plugin name="ignition::launch::GazeboServer"
+          filename="libignition-launch-gazebo0.so">
     <run_on_start>true</run_on_start>
     <verbosity>2</verbosity>
     <levels>true</levels>
@@ -65,8 +65,8 @@
   </plugin>
 
   <executable_wrapper>
-    <plugin name="ignition::plugins::GazeboGui"
-          filename="libignition-plugins-gazebogui0.so">
+    <plugin name="ignition::launch::GazeboGui"
+          filename="libignition-launch-gazebogui0.so">
       <plugin filename="Scene3D" name="3D View">
         <ignition-gui>
           <title>3D View</title>
@@ -74,7 +74,7 @@
           <property type="string" key="state">docked</property>
         </ignition-gui>
 
-        <engine>ogre2</engine>
+        <engine>ogre</engine>
         <scene>scene</scene>
         <ambient_light>0.2 0.2 0.1</ambient_light>
         <background>0.34 0.39 0.43 1.0</background>
@@ -135,8 +135,8 @@
 
   <!-- Load a joystick plugin that will read from a device and output to a 
        topic -->
-  <plugin name="ignition::plugins::Joystick"
-          filename="libignition-plugins-joystick0.so">
+  <plugin name="ignition::launch::Joystick"
+          filename="libignition-launch-joystick0.so">
     <device>/dev/input/js0</device>
     <sticky_buttons>false</sticky_buttons>
     <dead_zone>0.05</dead_zone>
@@ -146,16 +146,16 @@
 
   <!-- Load a plugin that transforms a joystick message to a
        twist message -->
-  <plugin name="ignition::plugins::JoyToTwist"
-          filename="libignition-plugins-joytotwist0.so">
+  <plugin name="ignition::launch::JoyToTwist"
+          filename="libignition-launch-joytotwist0.so">
     <input_topic>/joy</input_topic>
     <output_topic>/model/x1/cmd_vel</output_topic>
   </plugin>
 
   <!-- Load a plugin that transforms a joystick message to a
        twist message -->
-  <plugin name="ignition::plugins::JoyToTwist"
-          filename="libignition-plugins-joytotwist0.so">
+  <plugin name="ignition::launch::JoyToTwist"
+          filename="libignition-launch-joytotwist0.so">
     <input_topic>/joy</input_topic>
     <output_topic>/model/x2/cmd_vel</output_topic>
   </plugin>

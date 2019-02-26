@@ -28,7 +28,7 @@ find_package(ignition-math6 REQUIRED)
 find_package(ignition-msgs3 REQUIRED)
 find_package(ignition-transport6 REQUIRED)
 find_package(ignition-plugin1 REQUIRED COMPONENTS loader register)
-find_package(ignition-tools-launch REQUIRED)
+find_package(ignition-launch REQUIRED)
 find_package(sdformat8 REQUIRED)
 
 ########################
@@ -92,7 +92,7 @@ target_include_directories(${game_logic_plugin_name}
 target_link_libraries(${game_logic_plugin_name}
   PRIVATE
     ignition-common3::ignition-common3
-    ignition-tools::ignition-tools-launch
+    ignition-launch::ignition-launch
     ignition-math6::ignition-math6
     ignition-msgs3::ignition-msgs3
     ignition-plugin1::loader
@@ -205,7 +205,7 @@ target_include_directories(${base_station_plugin_name}
  target_link_libraries(${base_station_plugin_name}
    ignition-common3::ignition-common3
    ignition-plugin1::loader
-   ignition-tools::ignition-tools-launch
+   ignition-launch::ignition-launch
    ignition-transport6::ignition-transport6
    sdformat8::sdformat8
    ${catkin_LIBRARIES}
