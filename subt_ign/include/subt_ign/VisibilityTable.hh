@@ -60,7 +60,8 @@ namespace subt
     /// 'tunnel_practice_1.dat'.
     /// \return True if the visibility look-up-table was loaded or false
     /// otherwise.
-    public: bool Load(const std::string &_worldName);
+    public: bool Load(const std::string &_worldName,
+                      const std::string &_worldDirectory);
 
     /// \brief Get the visibility cost.
     /// \param[in] _from A 3D position.
@@ -129,6 +130,9 @@ namespace subt
 
     /// \brief The path where the visibility LUT is located.
     private: std::string lutPath;
+
+    /// \brief The world name.
+    private: std::string worldName;
   };
 }
 

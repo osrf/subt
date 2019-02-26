@@ -25,14 +25,13 @@ using namespace visibilityModel;
 /////////////////////////////////////////////
 VisibilityModel::VisibilityModel(
     visibilityModel::RfConfiguration _visibilityConfig,
-    range_model::rf_configuration _rangeConfig)
+    range_model::rf_configuration _rangeConfig,
+    const std::string &_worldName,
+    const std::string &_worldDir)
     : visibilityConfig(_visibilityConfig),
       defaultRangeConfig(_rangeConfig)
 {
-  /// \todo(nkoenig) Get the world name
-  std::string worldName;
-
-  if (!this->visibilityTable.Load(worldName))
+  if (!this->visibilityTable.Load(_worldName, _worldDir))
   {
     ignerr << "Unable to load visibility table data files\n";
   }

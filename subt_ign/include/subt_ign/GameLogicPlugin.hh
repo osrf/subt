@@ -23,14 +23,14 @@
 #include <string>
 
 #include <ignition/plugin/Register.hh>
-#include <ignition/tools/launch/Plugin.hh>
+#include <ignition/launch/Plugin.hh>
 
 namespace subt
 {
   class GameLogicPluginPrivate;
 
   /// \brief A plugin that takes care of all the SubT challenge logic.
-  class GameLogicPlugin : public ignition::tools::launch::Plugin
+  class GameLogicPlugin : public ignition::launch::Plugin
   {
     /// \brief Constructor
     public: GameLogicPlugin();
@@ -52,5 +52,5 @@ namespace subt
 }
 
 // Register the plugin
-IGNITION_ADD_PLUGIN(subt::GameLogicPlugin, ignition::tools::launch::Plugin)
+IGNITION_ADD_PLUGIN(subt::GameLogicPlugin, ignition::launch::Plugin)
 #endif

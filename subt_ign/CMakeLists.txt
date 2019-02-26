@@ -31,7 +31,7 @@ find_package(ignition-math6 REQUIRED)
 find_package(ignition-msgs3 REQUIRED)
 find_package(ignition-transport6 REQUIRED)
 find_package(ignition-plugin1 REQUIRED COMPONENTS loader register)
-find_package(ignition-tools-launch REQUIRED)
+find_package(ignition-launch REQUIRED)
 find_package(sdformat8 REQUIRED)
 
 ########################
@@ -98,7 +98,7 @@ target_include_directories(${game_logic_plugin_name}
 target_link_libraries(${game_logic_plugin_name}
   PRIVATE
     ignition-common3::ignition-common3
-    ignition-tools::ignition-tools-launch
+    ignition-launch::ignition-launch
     ignition-math6::ignition-math6
     ignition-msgs3::ignition-msgs3
     ignition-plugin1::loader
@@ -151,6 +151,8 @@ install(TARGETS ${game_logic_plugin_name}
 set(comms_broker_plugin_name CommsBrokerPluginIgn)
 add_library(${comms_broker_plugin_name}
   src/CommsBrokerPlugin.cc
+  src/VisibilityTable.cc
+  src/SimpleDOTParser.cc
 )
 target_include_directories(${comms_broker_plugin_name}
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
@@ -160,7 +162,7 @@ target_link_libraries(${comms_broker_plugin_name}
   ignition-math6::ignition-math6
   ignition-msgs3::ignition-msgs3
   ignition-plugin1::loader
-  ignition-tools::ignition-tools-launch
+  ignition-launch::ignition-launch
   ignition-transport6::ignition-transport6
   sdformat8::sdformat8
   ${protobuf_lib_name}
@@ -179,7 +181,7 @@ target_include_directories(${base_station_plugin_name}
  target_link_libraries(${base_station_plugin_name}
    ignition-common3::ignition-common3
    ignition-plugin1::loader
-   ignition-tools::ignition-tools-launch
+   ignition-launch::ignition-launch
    ignition-transport6::ignition-transport6
    sdformat8::sdformat8
    ${catkin_LIBRARIES}
@@ -213,24 +215,25 @@ target_include_directories(${base_station_plugin_name}
 #   LIBRARY DESTINATION lib
 #   RUNTIME DESTINATION bin)
  
-# Create the libVisibilityPlugin.so library.
-set(visibility_plugin_name VisibilityPluginIgn)
-add_library(${visibility_plugin_name}
-  src/VisibilityPlugin.cc
-  src/VisibilityTable.cc
-  src/SimpleDOTParser.cc)
-target_link_libraries(${visibility_plugin_name}
-  ignition-common3::ignition-common3
-  ignition-math6::ignition-math6
-  ignition-plugin1::loader
-  ignition-tools::ignition-tools-launch
-  ${catkin_LIBRARIES}
-)
-install(TARGETS ${visibility_plugin_name}
-  ARCHIVE DESTINATION lib
-  LIBRARY DESTINATION lib
-  RUNTIME DESTINATION bin)
- 
+# # Create the libVisibilityPlugin.so library.
+# set(visibility_plugin_name VisibilityPluginIgn)
+# add_library(${visibility_plugin_name}
+#   src/VisibilityPlugin.cc
+#   src/VisibilityTable.cc
+#   src/SimpleDOTParser.cc)
+# target_link_libraries(${visibility_plugin_name}
+#   ignition-msgs3::ignition-msgs3
+#   ignition-common3::ignition-common3
+#   ignition-math6::ignition-math6
+#   ignition-plugin1::loader
+#   ignition-launch::ignition-launch
+#   ${catkin_LIBRARIES}
+# )
+# install(TARGETS ${visibility_plugin_name}
+#   ARCHIVE DESTINATION lib
+#   LIBRARY DESTINATION lib
+#   RUNTIME DESTINATION bin)
+#  
 # ###########
 # ## Tests ##
 # ###########

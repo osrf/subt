@@ -14,6 +14,7 @@
  * limitations under the License.
  *
 */
+#include <ignition/common/Console.hh>
 #include <subt_ign/VisibilityTable.hh>
 #include <subt_ign/VisibilityPlugin.hh>
 
@@ -21,7 +22,6 @@ using namespace subt;
 
 class subt::VisibilityPluginPrivate
 {
-  public: void OnUpdate();
 };
 
 /////////////////////////////////////////////
@@ -30,22 +30,30 @@ VisibilityPlugin::~VisibilityPlugin()
 }
 
 /////////////////////////////////////////////
-void VisibilityPlugin::Load(const tinyxml2::XMLElement * /*_elem*/)
+void VisibilityPlugin::Load(const tinyxml2::XMLElement *_elem)
 {
-}
+  std::cout << "HERE\n";
+  subt::VisibilityTable table;
+  std::string worldName;
+  std::string worldDir;
 
-/////////////////////////////////////////////
-void VisibilityPluginPrivate::OnUpdate()
-{
-  // Hack: When using ConnectWorldCreated, the bounding box of the models are
-  // not set properly. Instead, we use ConnectWorldUpdateBegin just once.
-  /* \todo(nkoenig) if (gazebo::physics::get_world()->SimTime() > gazebo::common::Time(1))
+  const tinyxml2::XMLElement *elem = _elem->FirstChildElement("world_name");
+
+  if (elem)
+    worldName = elem->GetText();
+  else
+    ignerr << "VisibilityPlugin is missing the <world_name> element.\n";
+
+  elem = _elem->FirstChildElement("world_dir");
+  if (elem)
+    worldDir = elem->GetText();
+  else
+    ignerr << "VisibilityPlugin is missing the <world_dir> element.\n";
+
+  if (!worldName.empty() && !worldDir.empty())
   {
-    subt::VisibilityTable table;
+    std::cout << "WORLD Name[" << worldName << "] World Dir[" << worldDir << "]\n";
+    table.Load(worldName, worldDir);
     table.Generate();
-    this->worldUpdateConn.reset();
-
-    // Send SIGINT to terminate Gazebo.
-    raise(SIGINT);
-  }*/
+  }
 }

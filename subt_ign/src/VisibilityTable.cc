@@ -15,42 +15,40 @@
  *
 */
 
-#include <ros/ros.h>
 #include <fstream>
+#include <iomanip>
 #include <iostream>
 #include <utility>
 #include <ignition/math/graph/GraphAlgorithms.hh>
+#include <ignition/common/Console.hh>
 #include <ignition/common/Util.hh>
+#include <ignition/transport/Node.hh>
+#include <ignition/msgs.hh>
 
 #include <subt_ign/SimpleDOTParser.hh>
 #include <subt_ign/VisibilityTable.hh>
 
+using namespace ignition;
 using namespace subt;
 
 //////////////////////////////////////////////////
 VisibilityTable::VisibilityTable()
 {
-  std::string worldsDirectory;
-  if (!ros::param::get("/subt/gazebo_worlds_dir", worldsDirectory))
-  {
-    std::cerr << "[VisibilityTable] Unable to find ROS parameter "
-              << "[/subt/gazebo_worlds_dir]" << std::endl;
-    return;
-  }
 };
 
 //////////////////////////////////////////////////
-bool VisibilityTable::Load(const std::string &_worldName)
+bool VisibilityTable::Load(const std::string &_worldName,
+                           const std::string &_worldsDirectory)
 {
   this->worldName = _worldName;
   this->worldPath = ignition::common::joinPaths(
-    worldsDirectory, _worldName + ".world");
+    _worldsDirectory, _worldName + ".world");
 
   this->graphPath = ignition::common::joinPaths(
-    worldsDirectory, _worldName + ".dot");
+    _worldsDirectory, _worldName + ".dot");
 
   this->lutPath = ignition::common::joinPaths(
-    worldsDirectory, _worldName + ".dat");
+    _worldsDirectory, _worldName + ".dat");
 
   // Parse the .dot file and populate the world graph.
   if (!this->PopulateVisibilityGraph(graphPath))
@@ -225,11 +223,12 @@ void VisibilityTable::CreateWorldSegments()
     ignition::msgs::Model rep;
     ignition::msgs::StringMsg req;
     bool result;
-    unsigned int timeout 5000;
+    unsigned int timeout = 5000;
     req.set_data(modelName);
-    bool executed = node->Request(modelInfoTopic, req, timeout, rep, result);
+    bool executed = node.Request(modelInfoTopic, req, timeout, rep, result);
     if (executed && result)
     {
+      // \todo(nkoenig) Remove cout, and verify that this works.
       std::cout << "Got Model Info[" << rep.DebugString() << "]\n";
       this->worldSegments.push_back(
           std::make_pair(msgs::Convert(rep.bounding_box()), from.first));

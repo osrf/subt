@@ -30,7 +30,7 @@
 #include <ignition/math/Pose3.hh>
 #include <ignition/msgs.hh>
 #include <ignition/plugin/Register.hh>
-#include <ignition/tools/launch/Plugin.hh>
+#include <ignition/launch/Plugin.hh>
 #include <sdf/sdf.hh>
 
 namespace subt
@@ -61,7 +61,7 @@ namespace subt
   ///     <modulation>      Modulation scheme (must by QPSK), used to compute
   ///                       relationship between signal-to-noise ratio (SNR)
   ///                       and bit-error-rate (BER).
-  class CommsBrokerPlugin : public ignition::tools::launch::Plugin
+  class CommsBrokerPlugin : public ignition::launch::Plugin
   {
     /// \brief Class constructor.
     public: CommsBrokerPlugin() = default;
@@ -91,5 +91,5 @@ namespace subt
 }
 
 // Register the plugin
-IGNITION_ADD_PLUGIN(subt::CommsBrokerPlugin, ignition::tools::launch::Plugin)
+IGNITION_ADD_PLUGIN(subt::CommsBrokerPlugin, ignition::launch::Plugin)
 #endif

@@ -117,9 +117,52 @@ void CommsBrokerPlugin::Load(const tinyxml2::XMLElement *_elem)
     }
   }
 
+  std::string worldName = "default";
+  std::string worldDir;
+  bool generateTable = false;
+
+  const tinyxml2::XMLElement *elem = _elem->FirstChildElement("world_name");
+  if (elem)
+  {
+    worldName = elem->GetText();
+  }
+  else
+  {
+    ignerr << "Missing <world_name>, the GameLogicPlugin will assume a "
+      << " world name of 'default'. This could lead to incorrect scoring\n";
+  }
+
+  elem = _elem->FirstChildElement("world_dir");
+  if (elem)
+    worldDir = elem->GetText();
+  else
+    ignerr << "Missing the <world_dir> element.\n";
+
+  elem = _elem->FirstChildElement("generate_table");
+  if (elem)
+  {
+    std::string boolStr = elem->GetText();
+    generateTable = common::lowercase(boolStr) == "true" || boolStr == "1";
+  }
+
+  if (generateTable)
+  {
+    if (!worldName.empty() && !worldDir.empty())
+    {
+      subt::VisibilityTable table;
+      table.Load(worldName, worldDir);
+      table.Generate();
+    }
+    else
+    {
+      ignerr << "Unable to generate visibility table because world_name or "
+        << "world_dir elements are missing.\n";
+    }
+  }
+
   // TODO: Maybe only try to instantiate if visibility type is selected
   this->visibilityModel = std::make_unique<VisibilityModel>(
-      visibilityConfig, rangeConfig);
+      visibilityConfig, rangeConfig, worldName, worldDir);
 
   // Build RF propagation function options
   std::map<std::string, pathloss_function> pathlossFunctions;
@@ -195,19 +238,6 @@ void CommsBrokerPlugin::Load(const tinyxml2::XMLElement *_elem)
                            ros::Time(simTime.Double()));
   };
   broker.SetPoseUpdateFunction(updatePoseFunc);
-
-  const tinyxml2::XMLElement *worldNameElem =
-    _elem->FirstChildElement("world_name");
-  std::string worldName = "default";
-  if (worldNameElem)
-  {
-    worldName = worldNameElem->GetText();
-  }
-  else
-  {
-    ignerr << "Missing <world_name>, the GameLogicPlugin will assume a "
-      << " world name of 'default'. This could lead to incorrect scoring\n";
-  }
 
   // Subscribe to pose messages.
   this->node.Subscribe("/world/" + worldName + "/pose/info",
