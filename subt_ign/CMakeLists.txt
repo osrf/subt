@@ -28,7 +28,7 @@ find_package(ignition-math6 REQUIRED)
 find_package(ignition-msgs3 REQUIRED)
 find_package(ignition-transport6 REQUIRED)
 find_package(ignition-plugin1 REQUIRED COMPONENTS loader register)
-find_package(ignition-launch REQUIRED)
+find_package(ignition-launch0 REQUIRED)
 
 ########################
 ## Message generation ##
@@ -87,7 +87,7 @@ target_include_directories(${game_logic_plugin_name}
 target_link_libraries(${game_logic_plugin_name}
   PRIVATE
     ignition-common3::ignition-common3
-    ignition-launch::ignition-launch
+    ignition-launch0::ignition-launch0
     ignition-math6::ignition-math6
     ignition-msgs3::ignition-msgs3
     ignition-plugin1::loader
