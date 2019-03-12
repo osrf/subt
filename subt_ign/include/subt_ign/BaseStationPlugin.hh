@@ -23,13 +23,13 @@
 #include <sdf/Element.hh>
 
 #include <ignition/plugin/Register.hh>
-#include <ignition/tools/launch/Plugin.hh>
+#include <ignition/launch/Plugin.hh>
 #include <ignition/transport/Node.hh>
 
 namespace subt
 {
   /// \brief A plugin to receive artifact reports from the teams.
-  class BaseStationPlugin : public ignition::tools::launch::Plugin
+  class BaseStationPlugin : public ignition::launch::Plugin
   {
     /// \brief Constructor
     public: BaseStationPlugin();
@@ -53,5 +53,5 @@ namespace subt
 }
 
 // Register the plugin
-IGNITION_ADD_PLUGIN(subt::BaseStationPlugin, ignition::tools::launch::Plugin)
+IGNITION_ADD_PLUGIN(subt::BaseStationPlugin, ignition::launch::Plugin)
 #endif

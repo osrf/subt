@@ -28,7 +28,7 @@ find_package(ignition-math6 REQUIRED)
 find_package(ignition-msgs3 REQUIRED)
 find_package(ignition-transport6 REQUIRED)
 find_package(ignition-plugin1 REQUIRED COMPONENTS loader register)
-find_package(ignition-tools-launch REQUIRED)
+find_package(ignition-launch0 REQUIRED)
 find_package(sdformat8 REQUIRED)
 
 ########################
@@ -67,18 +67,14 @@ set(protobuf_lib_name SubtProtobufIgn)
 add_subdirectory(src/protobuf)
 set_source_files_properties(${PROTO_SOURCES} ${PROTO_HEADERS}
                             PROPERTIES GENERATED TRUE)
-add_library(${protobuf_lib_name} SHARED ${PROTO_SOURCES})
+add_library(${protobuf_lib_name} STATIC ${PROTO_SOURCES})
 add_dependencies(${protobuf_lib_name} protobuf_compilation_ign)
 set_target_properties(${protobuf_lib_name}
-  PROPERTIES COMPILE_FLAGS "-Wno-unused-parameter" )
+  PROPERTIES POSITION_INDEPENDENT_CODE ON COMPILE_FLAGS "-Wno-unused-parameter" )
 target_link_libraries(${protobuf_lib_name}
   PRIVATE
   ignition-msgs3::ignition-msgs3
 )
-install(TARGETS ${protobuf_lib_name}
-  ARCHIVE DESTINATION lib
-  LIBRARY DESTINATION lib
-  RUNTIME DESTINATION bin)
 
 catkin_add_env_hooks(ign SHELLS bash
   DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/env-hooks)
@@ -92,7 +88,7 @@ target_include_directories(${game_logic_plugin_name}
 target_link_libraries(${game_logic_plugin_name}
   PRIVATE
     ignition-common3::ignition-common3
-    ignition-tools::ignition-tools-launch
+    ignition-launch0::ignition-launch0
     ignition-math6::ignition-math6
     ignition-msgs3::ignition-msgs3
     ignition-plugin1::loader
@@ -205,7 +201,7 @@ target_include_directories(${base_station_plugin_name}
  target_link_libraries(${base_station_plugin_name}
    ignition-common3::ignition-common3
    ignition-plugin1::loader
-   ignition-tools::ignition-tools-launch
+   ignition-launch0::ignition-launch0
    ignition-transport6::ignition-transport6
    sdformat8::sdformat8
    ${catkin_LIBRARIES}
