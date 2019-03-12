@@ -19,6 +19,8 @@ find_package(catkin REQUIRED
     std_srvs
     subt_msgs
     message_generation
+    subt_communication_model
+    subt_communication_broker
 )
 
 file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include)
@@ -53,6 +55,8 @@ catkin_package(
   CATKIN_DEPENDS
     message_runtime
     std_srvs
+    subt_communication_model
+    subt_communication_broker
   INCLUDE_DIRS
   include
   ${CATKIN_DEVEL_PREFIX}/include
