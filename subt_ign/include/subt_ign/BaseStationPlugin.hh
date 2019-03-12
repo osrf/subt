@@ -49,6 +49,9 @@ namespace subt
 
     /// \brief An ignition transport node.
     private: ignition::transport::Node node;
+
+    /// \brief SubT communication client.
+    private: std::unique_ptr<subt::CommsClient> client;
   };
 }
 
