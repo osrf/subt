@@ -15,33 +15,36 @@
   </executable>
 
   <plugin name="ignition::launch::GazeboServer"
-          filename="libignition-launch-gazebo0.so">
-    <run_on_start>true</run_on_start>
-    <verbosity>2</verbosity>
-    <levels>true</levels>
+          filename="libignition-launch0-gazebo.so">
     <world_file><%= worldName %>.sdf</world_file>
+    <run>true</run>
+    <levels>false</levels>
 
     <plugin entity_name="<%= worldName %>"
             entity_type="world"
-            filename="libignition-gazebo-physics-system.so"
-            name="ignition::gazebo::systems::v0::Physics">
+            filename="libignition-gazebo1-physics-system.so"
+            name="ignition::gazebo::systems::Physics">
     </plugin>
     <plugin entity_name="<%= worldName %>"
             entity_type="world"
-            filename="libignition-gazebo-systems.so"
-            name="ignition::gazebo::systems::v0::SceneBroadcaster">
+            filename="libignition-gazebo1-user-commands-system.so"
+            name="ignition::gazebo::systems::UserCommands">
     </plugin>
-
+    <plugin entity_name="<%= worldName %>"
+            entity_type="world"
+            filename="libignition-gazebo1-scene-broadcaster-system.so"
+            name="ignition::gazebo::systems::SceneBroadcaster">
+    </plugin>
     <plugin entity_name="x1"
             entity_type="model"
-            filename="libignition-gazebo-systems.so"
-            name="ignition::gazebo::systems::v0::DiffDrive">
+            filename="libignition-gazebo1-diff-drive-system.so"
+            name="ignition::gazebo::systems::DiffDrive">
       <left_joint>front_left_wheel_joint</left_joint>
       <left_joint>rear_left_wheel_joint</left_joint>
       <right_joint>front_right_wheel_joint</right_joint>
       <right_joint>rear_right_wheel_joint</right_joint>
-      <wheel_separation>0.5708</wheel_separation>
-      <wheel_radius>0.1651</wheel_radius>
+      <wheel_separation>0.37559</wheel_separation>
+      <wheel_radius>0.098</wheel_radius>
     </plugin>
 
     <plugin entity_name="x2"
@@ -66,7 +69,7 @@
 
   <executable_wrapper>
     <plugin name="ignition::launch::GazeboGui"
-          filename="libignition-launch-gazebogui0.so">
+          filename="libignition-launch0-gazebogui.so">
       <plugin filename="Scene3D" name="3D View">
         <ignition-gui>
           <title>3D View</title>
@@ -74,10 +77,10 @@
           <property type="string" key="state">docked</property>
         </ignition-gui>
 
-        <engine>ogre</engine>
+        <engine>ogre2</engine>
         <scene>scene</scene>
         <ambient_light>0.2 0.2 0.1</ambient_light>
-        <background>0.34 0.39 0.43 1.0</background>
+        <background_color>0.8 0.8 0.8</background_color>
         <camera_pose>-6.3 -4.2 3.6 0 0.268 0.304</camera_pose>
         <service>/world/<%= worldName %>/scene/info</service>
         <pose_topic>/world/<%= worldName %>/pose/info</pose_topic>

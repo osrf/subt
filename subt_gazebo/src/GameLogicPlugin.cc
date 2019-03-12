@@ -126,13 +126,13 @@ void GameLogicPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
   this->gzNode = gazebo::transport::NodePtr(new gazebo::transport::Node());
   this->gzNode->Init();
 
-  this->startCollisionSub = this->gzNode->Subscribe("/subt/start/touched",
-    &GameLogicPlugin::OnStartCollision, this);
-
   // ROS service to receive a command to finish the game.
   ros::NodeHandle n;
   this->finishService = n.advertiseService(
     "/subt/finish", &GameLogicPlugin::OnFinishCall, this);
+
+  this->startService = n.advertiseService(
+    "/subt/start", &GameLogicPlugin::OnStartCall, this);
 
   // ROS service to request the robot pose relative to the origin artifact.
   // Note that this service is only available for robots in the staging area.
@@ -364,15 +364,21 @@ void GameLogicPlugin::OnUpdate()
 }
 
 /////////////////////////////////////////////////
-void GameLogicPlugin::OnStartCollision(ConstIntPtr &/*_msg*/)
+bool GameLogicPlugin::OnStartCall(std_srvs::SetBool::Request &_req,
+  std_srvs::SetBool::Response &_res)
 {
-  if (this->started)
-    return;
+  if (_req.data && !this->started && !this->finished)
+  {
+    _res.success = true;
+    this->started = true;
+    this->startTime = std::chrono::steady_clock::now();
+    gzmsg << "Scoring has Started" << std::endl;
+    this->Log() << "scoring_started" << std::endl;
+  }
+  else
+    _res.success = false;
 
-  this->started = true;
-  this->startTime = std::chrono::steady_clock::now();
-  gzmsg << "Scoring has Started" << std::endl;
-  this->Log() << "scoring_started" << std::endl;
+  return true;
 }
 
 /////////////////////////////////////////////////
