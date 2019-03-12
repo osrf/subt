@@ -194,6 +194,9 @@ class subt::GameLogicPluginPrivate
   /// \brief ROS service server to receive the location of a robot relative to
   /// the origin artifact.
   public: ros::ServiceServer poseFromArtifactServiceRos;
+
+  /// \brief A ROS asynchronous spinner.
+  public: std::unique_ptr<ros::AsyncSpinner> spinner;
 };
 
 //////////////////////////////////////////////////
@@ -287,6 +290,9 @@ void GameLogicPlugin::Load(const tinyxml2::XMLElement *_elem)
 
   this->dataPtr->publishThread.reset(new std::thread(
         &GameLogicPluginPrivate::PublishScore, this->dataPtr.get()));
+
+  this->dataPtr->spinner.reset(new ros::AsyncSpinner(1));
+  this->dataPtr->spinner->start();
 
   ignmsg << "Starting SubT" << std::endl;
 }
@@ -694,4 +700,12 @@ bool GameLogicPluginPrivate::OnPoseFromArtifactRos(
   _res.pose.header.frame_id = "BaseStation";
 
   return _res.success;
+}
+
+/////////////////////////////////////////////////
+std::ofstream &GameLogicPluginPrivate::Log()
+{
+  this->logStream << this->simTime.sec()
+                  << " " << this->simTime.nsec() << " ";
+  return this->logStream;
 }
