@@ -28,7 +28,7 @@ find_package(ignition-math6 REQUIRED)
 find_package(ignition-msgs3 REQUIRED)
 find_package(ignition-transport6 REQUIRED)
 find_package(ignition-plugin1 REQUIRED COMPONENTS loader register)
-# find_package(ignition-tools-launch REQUIRED)
+find_package(ignition-launch0 REQUIRED)
 
 ########################
 ## Message generation ##
@@ -75,30 +75,32 @@ target_link_libraries(${protobuf_lib_name}
   ignition-msgs3::ignition-msgs3
 )
 
+catkin_add_env_hooks(ign SHELLS bash
+  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/env-hooks)
 
-## Create the libGameLogicPlugin.so library.
-#set(game_logic_plugin_name GameLogicPluginIgn)
-#add_library(${game_logic_plugin_name} src/GameLogicPluginIgn.cc)
-## add_dependencies(${game_logic_plugin_name} subt_msgs_generate_messages_cpp)
-#target_include_directories(${game_logic_plugin_name}
-#  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
-#target_link_libraries(${game_logic_plugin_name}
-#  PRIVATE
-#    ignition-common3::ignition-common3
-#    ignition-tools::ignition-tools-launch
-#    ignition-math6::ignition-math6
-#    ignition-msgs3::ignition-msgs3
-#    ignition-plugin1::loader
-#    ignition-transport6::ignition-transport6
-#    ${catkin_LIBRARIES}
-#    ${protobuf_lib_name}
-#)
-#install(TARGETS ${game_logic_plugin_name}
-#  ARCHIVE DESTINATION lib
-#  LIBRARY DESTINATION lib
-#  RUNTIME DESTINATION bin)
-#
-#
+# Create the libGameLogicPlugin.so library.
+set(game_logic_plugin_name GameLogicPluginIgn)
+add_library(${game_logic_plugin_name} src/GameLogicPlugin.cc)
+# add_dependencies(${game_logic_plugin_name} subt_msgs_generate_messages_cpp)
+target_include_directories(${game_logic_plugin_name}
+  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
+target_link_libraries(${game_logic_plugin_name}
+  PRIVATE
+    ignition-common3::ignition-common3
+    ignition-launch0::ignition-launch0
+    ignition-math6::ignition-math6
+    ignition-msgs3::ignition-msgs3
+    ignition-plugin1::loader
+    ignition-transport6::ignition-transport6
+    ${catkin_LIBRARIES}
+    ${protobuf_lib_name}
+)
+install(TARGETS ${game_logic_plugin_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+
+
 # # Create the libJointMotionTimerPlugin.so library.
 # set(joint_motion_timer_plugin_name JointMotionTimerPlugin)
 # add_library(${joint_motion_timer_plugin_name} src/JointMotionTimerPlugin.cc)
@@ -278,16 +280,16 @@ install(FILES cmake/${PROJECT_NAME}-extras.cmake
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/cmake)
 
 # Install all the launch files
-# install(DIRECTORY launh/
-#   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch)
+install(DIRECTORY launch/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch)
 
 # # Install all the model files
 # install(DIRECTORY models/
 #   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/models)
 # 
 # Install all the world files
-# install(DIRECTORY worlds/
-#   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/worlds)
+install(DIRECTORY worlds/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/worlds)
 # 
 # install(PROGRAMS
 #   scripts/world_generator

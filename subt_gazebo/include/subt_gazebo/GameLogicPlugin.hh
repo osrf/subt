@@ -81,10 +81,12 @@ namespace gazebo
     /// \brief Callback for World Update events.
     private: void OnUpdate();
 
-    /// \brief Callback triggered when a pair of links collide. It starts the
-    /// timer if a specified start area is collided by some object.
-    /// \param[in] _msg The message containing a list of collision information.
-    private: void OnStartCollision(ConstIntPtr &_msg);
+    /// \brief ROS service callback triggered when the service is called.
+    /// \param[in]  _req The message containing a flag telling if the game
+    /// is to start.
+    /// \param[out] _res The response message.
+    private: bool OnStartCall(std_srvs::SetBool::Request &_req,
+                              std_srvs::SetBool::Response &_res);
 
     /// \brief ROS service callback triggered when the service is called.
     /// \param[in]  _req The message containing a flag telling if the game is to
@@ -153,12 +155,12 @@ namespace gazebo
     /// \brief ROS service server to receive a call to finish the game.
     private: ros::ServiceServer finishService;
 
+    /// \brief ROS service server to receive a call to start the game.
+    private: ros::ServiceServer startService;
+
     /// \brief ROS service server to receive the location of a robot relative to
     /// the origin artifact.
     private: ros::ServiceServer poseFromArtifactService;
-
-    /// \brief Gazebo Transport Subscriber to check the collision.
-    private: gazebo::transport::SubscriberPtr startCollisionSub;
 
     /// \brief Whether the task has started.
     private: bool started = false;
