@@ -64,9 +64,7 @@ limitations under the License.
 
     <gazebo reference="${name}">
       <turnGravityOff>false</turnGravityOff>
-      <always_on>true</always_on>
       <sensor type="gpu_ray" name="${name}">
-        <visualize>true</visualize>
         <update_rate>${update_rate}</update_rate>
         <ray>
           <scan>
