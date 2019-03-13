@@ -18,7 +18,7 @@
           filename="libignition-launch0-gazebo.so">
     <world_file><%= worldName %>.sdf</world_file>
     <run>true</run>
-    <levels>false</levels>
+    <levels>true</levels>
 
     <plugin entity_name="<%= worldName %>"
             entity_type="world"
@@ -49,8 +49,8 @@
 
     <plugin entity_name="x2"
             entity_type="model"
-            filename="libignition-gazebo-systems.so"
-            name="ignition::gazebo::systems::v0::DiffDrive">
+            filename="libignition-gazebo1-diff-drive-system.so"
+            name="ignition::gazebo::systems::DiffDrive">
       <left_joint>front_left_wheel_joint</left_joint>
       <left_joint>rear_left_wheel_joint</left_joint>
       <right_joint>front_right_wheel_joint</right_joint>
@@ -139,7 +139,7 @@
   <!-- Load a joystick plugin that will read from a device and output to a 
        topic -->
   <plugin name="ignition::launch::Joystick"
-          filename="libignition-launch-joystick0.so">
+          filename="libignition-launch0-joystick.so">
     <device>/dev/input/js0</device>
     <sticky_buttons>false</sticky_buttons>
     <dead_zone>0.05</dead_zone>
@@ -150,7 +150,7 @@
   <!-- Load a plugin that transforms a joystick message to a
        twist message -->
   <plugin name="ignition::launch::JoyToTwist"
-          filename="libignition-launch-joytotwist0.so">
+          filename="libignition-launch0-joytotwist.so">
     <input_topic>/joy</input_topic>
     <output_topic>/model/x1/cmd_vel</output_topic>
   </plugin>
@@ -158,7 +158,7 @@
   <!-- Load a plugin that transforms a joystick message to a
        twist message -->
   <plugin name="ignition::launch::JoyToTwist"
-          filename="libignition-launch-joytotwist0.so">
+          filename="libignition-launch0-joytotwist.so">
     <input_topic>/joy</input_topic>
     <output_topic>/model/x2/cmd_vel</output_topic>
   </plugin>
