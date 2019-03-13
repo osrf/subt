@@ -31,9 +31,9 @@ BaseStationPlugin::BaseStationPlugin()
 }
 
 //////////////////////////////////////////////////
-void BaseStationPlugin::Load(const tinyxml2::XMLElement *_elem)
+void BaseStationPlugin::Load(const tinyxml2::XMLElement *)
 {
-  this->client.reset(new subt::CommsClient("base_station", true));
+  this->client.reset(new subt::CommsClientIgn("base_station", true));
   this->client->Bind(&BaseStationPlugin::OnArtifact, this);
 }
 
