@@ -19,6 +19,9 @@ find_package(catkin REQUIRED
     std_srvs
     subt_msgs
     message_generation
+    subt_rf_interface
+    subt_communication_model
+    subt_communication_broker_ign
 )
 
 file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include)
@@ -29,6 +32,7 @@ find_package(ignition-msgs3 REQUIRED)
 find_package(ignition-transport6 REQUIRED)
 find_package(ignition-plugin1 REQUIRED COMPONENTS loader register)
 find_package(ignition-launch0 REQUIRED)
+find_package(sdformat8 REQUIRED)
 
 ########################
 ## Message generation ##
@@ -52,6 +56,9 @@ catkin_package(
   CATKIN_DEPENDS
     message_runtime
     std_srvs
+    subt_rf_interface
+    subt_communication_model
+    subt_communication_broker_ign
   INCLUDE_DIRS
   include
   ${CATKIN_DEVEL_PREFIX}/include
@@ -191,23 +198,26 @@ install(TARGETS ${game_logic_plugin_name}
 #     ${PROTO_HEADERS}
 #   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}/protobuf
 # )
-# 
-# # Create the libBaseStationPlugin.so library.
-# set(base_station_plugin_name BaseStationPlugin)
-# add_library(${base_station_plugin_name} src/BaseStationPlugin.cc)
-# target_include_directories(${base_station_plugin_name}
-#   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
-# target_link_libraries(${base_station_plugin_name}
-#   ${catkin_LIBRARIES}
-#   ${comms_client_name}
-#   ignition-common1::ignition-common1
-#   ${protobuf_lib_name}
-# )
-# install(TARGETS ${base_station_plugin_name}
-#   ARCHIVE DESTINATION lib
-#   LIBRARY DESTINATION lib
-#   RUNTIME DESTINATION bin)
-# 
+ 
+# Create the libBaseStationPlugin.so library.
+set(base_station_plugin_name BaseStationPluginIgn)
+add_library(${base_station_plugin_name} src/BaseStationPlugin.cc)
+target_include_directories(${base_station_plugin_name}
+   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
+ target_link_libraries(${base_station_plugin_name}
+   ignition-common3::ignition-common3
+   ignition-plugin1::loader
+   ignition-launch0::ignition-launch0
+   ignition-transport6::ignition-transport6
+   sdformat8::sdformat8
+   ${catkin_LIBRARIES}
+   ${protobuf_lib_name}
+ )
+ install(TARGETS ${base_station_plugin_name}
+   ARCHIVE DESTINATION lib
+   LIBRARY DESTINATION lib
+   RUNTIME DESTINATION bin)
+ 
 # # Create the libRosFlashLightPlugin.so library.
 # set(ros_flashlight_plugin_name RosFlashLightPlugin)
 # add_library(${ros_flashlight_plugin_name} src/RosFlashLightPlugin.cc)

@@ -63,6 +63,12 @@
       <wheel_radius>0.098</wheel_radius>
     </plugin>
 
+    <!-- The SubT challenge base station plugin -->
+    <plugin entity_name="base_station"
+            entity_type="model"
+            name="subt::BaseStationPlugin"
+            filename="libBaseStationPluginIgn.so">
+    </plugin>
   </plugin>
 
   <executable_wrapper>

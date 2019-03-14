@@ -13,12 +13,20 @@
       <origin_visual>false</origin_visual>
     </scene>
 
-    <!-- The base station / staging area -->
+    <!-- The staging area -->
     <include>
       <static>true</static>
-      <name>BaseStation</name>
+      <name>staging_area</name>
       <pose>0 0 0 0 0 0</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/subt_tunnel_staging_area</uri>
+    </include>
+
+    <!-- The base station -->
+    <include>
+      <static>true</static>
+      <name>base_station</name>
+      <pose>-8 0 0 0 0 -1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Base Station</uri>
     </include>
 
     <!-- Fiducial marking the origin for artifacts reports -->

@@ -25,7 +25,6 @@ find_package(catkin REQUIRED
     subt_communication_model
     subt_communication_broker
     subt_gazebo_los_model
-
 )
 
 file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include)
