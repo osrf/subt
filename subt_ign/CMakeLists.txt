@@ -19,9 +19,9 @@ find_package(catkin REQUIRED
     std_srvs
     subt_msgs
     message_generation
-    subt_communication_broker
-    subt_communication_model
     subt_rf_interface
+    subt_communication_model
+    subt_communication_broker_ign
 )
 
 file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include)
@@ -31,7 +31,7 @@ find_package(ignition-math6 REQUIRED)
 find_package(ignition-msgs3 REQUIRED)
 find_package(ignition-transport6 REQUIRED)
 find_package(ignition-plugin1 REQUIRED COMPONENTS loader register)
-find_package(ignition-launch REQUIRED)
+find_package(ignition-launch0 REQUIRED)
 find_package(sdformat8 REQUIRED)
 
 ########################
@@ -56,9 +56,9 @@ catkin_package(
   CATKIN_DEPENDS
     message_runtime
     std_srvs
-    subt_communication_broker
-    subt_communication_model
     subt_rf_interface
+    subt_communication_model
+    subt_communication_broker_ign
   INCLUDE_DIRS
   include
   ${CATKIN_DEVEL_PREFIX}/include
@@ -73,18 +73,14 @@ set(protobuf_lib_name SubtProtobufIgn)
 add_subdirectory(src/protobuf)
 set_source_files_properties(${PROTO_SOURCES} ${PROTO_HEADERS}
                             PROPERTIES GENERATED TRUE)
-add_library(${protobuf_lib_name} SHARED ${PROTO_SOURCES})
+add_library(${protobuf_lib_name} STATIC ${PROTO_SOURCES})
 add_dependencies(${protobuf_lib_name} protobuf_compilation_ign)
 set_target_properties(${protobuf_lib_name}
-  PROPERTIES COMPILE_FLAGS "-Wno-unused-parameter" )
+  PROPERTIES POSITION_INDEPENDENT_CODE ON COMPILE_FLAGS "-Wno-unused-parameter" )
 target_link_libraries(${protobuf_lib_name}
   PRIVATE
   ignition-msgs3::ignition-msgs3
 )
-install(TARGETS ${protobuf_lib_name}
-  ARCHIVE DESTINATION lib
-  LIBRARY DESTINATION lib
-  RUNTIME DESTINATION bin)
 
 catkin_add_env_hooks(ign SHELLS bash
   DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/env-hooks)
@@ -98,7 +94,7 @@ target_include_directories(${game_logic_plugin_name}
 target_link_libraries(${game_logic_plugin_name}
   PRIVATE
     ignition-common3::ignition-common3
-    ignition-launch::ignition-launch
+    ignition-launch0::ignition-launch0
     ignition-math6::ignition-math6
     ignition-msgs3::ignition-msgs3
     ignition-plugin1::loader
@@ -181,7 +177,7 @@ target_include_directories(${base_station_plugin_name}
  target_link_libraries(${base_station_plugin_name}
    ignition-common3::ignition-common3
    ignition-plugin1::loader
-   ignition-launch::ignition-launch
+   ignition-launch0::ignition-launch0
    ignition-transport6::ignition-transport6
    sdformat8::sdformat8
    ${catkin_LIBRARIES}
@@ -214,26 +210,22 @@ target_include_directories(${base_station_plugin_name}
 #   ARCHIVE DESTINATION lib
 #   LIBRARY DESTINATION lib
 #   RUNTIME DESTINATION bin)
- 
+# 
+# 
 # # Create the libVisibilityPlugin.so library.
-# set(visibility_plugin_name VisibilityPluginIgn)
-# add_library(${visibility_plugin_name}
-#   src/VisibilityPlugin.cc
-#   src/VisibilityTable.cc
-#   src/SimpleDOTParser.cc)
+# set(visibility_plugin_name VisibilityPlugin)
+# add_library(${visibility_plugin_name} src/VisibilityPlugin.cc)
+# target_include_directories(${visibility_plugin_name}
+#   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 # target_link_libraries(${visibility_plugin_name}
-#   ignition-msgs3::ignition-msgs3
-#   ignition-common3::ignition-common3
-#   ignition-math6::ignition-math6
-#   ignition-plugin1::loader
-#   ignition-launch::ignition-launch
 #   ${catkin_LIBRARIES}
+#   ${comms_broker_plugin_name}
 # )
 # install(TARGETS ${visibility_plugin_name}
 #   ARCHIVE DESTINATION lib
 #   LIBRARY DESTINATION lib
 #   RUNTIME DESTINATION bin)
-#  
+# 
 # ###########
 # ## Tests ##
 # ###########

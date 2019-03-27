@@ -33,7 +33,8 @@ BaseStationPlugin::BaseStationPlugin()
 //////////////////////////////////////////////////
 void BaseStationPlugin::Load(const tinyxml2::XMLElement *)
 {
-  // \todo(nkoenig) Waiting on the comms refactor PR.
+  this->client.reset(new subt::CommsClientIgn("base_station", true));
+  this->client->Bind(&BaseStationPlugin::OnArtifact, this);
 }
 
 //////////////////////////////////////////////////

@@ -120,6 +120,13 @@ class subt::GameLogicPluginPrivate
     ignition::math::Pose3d &_result);
 
   /// \brief ROS service callback triggered when the service is called.
+  /// \param[in]  _req The message containing a flag telling if the game
+  /// is to start.
+  /// \param[out] _res The response message.
+  private: bool OnStartCall(std_srvs::SetBool::Request &_req,
+                            std_srvs::SetBool::Response &_res);
+
+  /// \brief ROS service callback triggered when the service is called.
   /// \param[in]  _req The message containing a flag telling if the game is to
   /// be finished.
   /// \param[out] _res The response message.
@@ -136,8 +143,10 @@ class subt::GameLogicPluginPrivate
   /// \brief Ignition Transport node.
   public: transport::Node node;
 
+  /// \brief Current simulation time.
   public: ignition::msgs::Time simTime;
 
+  /// \brief Thread on which scores are published
   public: std::unique_ptr<std::thread> publishThread = nullptr;
 
   /// \brief Whether the task has started.
@@ -176,15 +185,18 @@ class subt::GameLogicPluginPrivate
   /// \brief The ROS node handler used for communications.
   public: std::unique_ptr<ros::NodeHandle> rosnode;
 
-  /// \brief ROS service server to receive a call to finish the game.
+  /// \brief ROS service to receive a call to finish the game.
   public: ros::ServiceServer finishServiceRos;
+
+  /// \brief ROS service to receive a call to start the game.
+  public: ros::ServiceServer startServiceRos;
 
   /// \brief ROS service server to receive the location of a robot relative to
   /// the origin artifact.
   public: ros::ServiceServer poseFromArtifactServiceRos;
 
-  /// \brief Gazebo Transport Subscriber to check the collision.
-  // public: gazebo::transport::SubscriberPtr startCollisionSub;
+  /// \brief A ROS asynchronous spinner.
+  public: std::unique_ptr<ros::AsyncSpinner> spinner;
 };
 
 //////////////////////////////////////////////////
@@ -278,6 +290,9 @@ void GameLogicPlugin::Load(const tinyxml2::XMLElement *_elem)
 
   this->dataPtr->publishThread.reset(new std::thread(
         &GameLogicPluginPrivate::PublishScore, this->dataPtr.get()));
+
+  this->dataPtr->spinner.reset(new ros::AsyncSpinner(1));
+  this->dataPtr->spinner->start();
 
   ignmsg << "Starting SubT" << std::endl;
 }
@@ -549,6 +564,9 @@ void GameLogicPluginPrivate::SetupRos()
   this->finishServiceRos = n.advertiseService(
       "/subt/finish", &GameLogicPluginPrivate::OnFinishCall, this);
 
+  this->startServiceRos = n.advertiseService(
+      "/subt/start", &GameLogicPluginPrivate::OnStartCall, this);
+
   // ROS service to request the robot pose relative to the origin artifact.
   // Note that this service is only available for robots in the staging area.
   this->poseFromArtifactServiceRos = n.advertiseService(
@@ -560,7 +578,7 @@ void GameLogicPluginPrivate::SetupRos()
 bool GameLogicPluginPrivate::OnFinishCall(std_srvs::SetBool::Request &_req,
   std_srvs::SetBool::Response &_res)
 {
-  if (started && _req.data && !this->finished)
+  if (this->started && _req.data && !this->finished)
   {
     this->Finish();
     _res.success = true;
@@ -570,6 +588,25 @@ bool GameLogicPluginPrivate::OnFinishCall(std_srvs::SetBool::Request &_req,
 
   return true;
 }
+
+/////////////////////////////////////////////////
+bool GameLogicPluginPrivate::OnStartCall(std_srvs::SetBool::Request &_req,
+  std_srvs::SetBool::Response &_res)
+{
+  if (_req.data && !this->started && !this->finished)
+  {
+    _res.success = true;
+    this->started = true;
+    this->startTime = std::chrono::steady_clock::now();
+    ignmsg << "Scoring has Started" << std::endl;
+    this->Log() << "scoring_started" << std::endl;
+  }
+  else
+    _res.success = false;
+
+  return true;
+}
+
 
 /////////////////////////////////////////////////
 void GameLogicPluginPrivate::Finish()
@@ -663,4 +700,12 @@ bool GameLogicPluginPrivate::OnPoseFromArtifactRos(
   _res.pose.header.frame_id = "BaseStation";
 
   return _res.success;
+}
+
+/////////////////////////////////////////////////
+std::ofstream &GameLogicPluginPrivate::Log()
+{
+  this->logStream << this->simTime.sec()
+                  << " " << this->simTime.nsec() << " ";
+  return this->logStream;
 }
