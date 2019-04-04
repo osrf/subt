@@ -15,7 +15,8 @@
  *
 */
 
-#pragma once
+#ifndef SUBT_GAZEBO_LOS_MODEL__VISIBILITY_RF_MODEL_H_
+#define SUBT_GAZEBO_LOS_MODEL__VISIBILITY_RF_MODEL_H_
 
 #include <ignition/common.hh>
 #include <ignition/math.hh>
@@ -109,3 +110,5 @@ class VisibilityModel
 }
 }
 }
+#endif
+

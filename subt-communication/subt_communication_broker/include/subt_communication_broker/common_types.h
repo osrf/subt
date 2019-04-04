@@ -14,7 +14,8 @@
  * limitations under the License.
  *
  */
-#pragma once
+#ifndef SUBT_COMMUNICATION_BROKER__COMMON_TYPES_H_
+#define SUBT_COMMUNICATION_BROKER__COMMON_TYPES_H_
 
 #include <map>
 #include <memory>
@@ -97,3 +98,5 @@ const uint32_t kDefaultPort = 4100u;
 
 }
 }
+#endif
+

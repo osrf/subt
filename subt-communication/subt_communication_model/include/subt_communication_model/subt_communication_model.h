@@ -15,7 +15,8 @@
  *
 */
 
-#pragma once
+#ifndef SUBT_COMMUNICATION_MODEL__SUBT_COMMUNICATION_MODEL_H_
+#define SUBT_COMMUNICATION_MODEL__SUBT_COMMUNICATION_MODEL_H_
 
 #include <subt_rf_interface/subt_rf_interface.h>
 
@@ -90,3 +91,5 @@ typedef std::function<bool(const radio_configuration&,
 
 
 }
+#endif
+
