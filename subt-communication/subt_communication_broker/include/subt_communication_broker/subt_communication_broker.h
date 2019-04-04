@@ -17,7 +17,8 @@
 
 /// \file subt_communication_broker.h
 /// \brief Broker for handling message delivery among robots.
-#pragma once
+#ifndef SUBT_COMMUNICATION_BROKER__SUBT_COMMUNICATION_BROKER_H_
+#define SUBT_COMMUNICATION_BROKER__SUBT_COMMUNICATION_BROKER_H_
 
 #include <deque>
 #include <map>
@@ -190,3 +191,5 @@ pose_update_function;
 
 }
 }
+#endif
+
