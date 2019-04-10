@@ -39,7 +39,7 @@ namespace subt
     public: ~GameLogicPlugin();
 
     // Documentation inherited
-    public: virtual void Load(const tinyxml2::XMLElement *_elem) override final;
+    public: virtual bool Load(const tinyxml2::XMLElement *_elem) override final;
 
     /// \brief Callback triggered when a pair of links collide. It starts the
     /// timer if a specified start area is collided by some object.

@@ -28,8 +28,8 @@ file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include)
 
 find_package(ignition-common3 REQUIRED)
 find_package(ignition-math6 REQUIRED)
-find_package(ignition-msgs3 REQUIRED)
-find_package(ignition-transport6 REQUIRED)
+find_package(ignition-msgs4 REQUIRED)
+find_package(ignition-transport7 REQUIRED)
 find_package(ignition-plugin1 REQUIRED COMPONENTS loader register)
 find_package(ignition-launch0 REQUIRED)
 find_package(sdformat8 REQUIRED)
@@ -79,7 +79,7 @@ set_target_properties(${protobuf_lib_name}
   PROPERTIES POSITION_INDEPENDENT_CODE ON COMPILE_FLAGS "-Wno-unused-parameter" )
 target_link_libraries(${protobuf_lib_name}
   PRIVATE
-  ignition-msgs3::ignition-msgs3
+  ignition-msgs4::ignition-msgs4
 )
 
 catkin_add_env_hooks(ign SHELLS bash
@@ -96,9 +96,9 @@ target_link_libraries(${game_logic_plugin_name}
     ignition-common3::ignition-common3
     ignition-launch0::ignition-launch0
     ignition-math6::ignition-math6
-    ignition-msgs3::ignition-msgs3
+    ignition-msgs4::ignition-msgs4
     ignition-plugin1::loader
-    ignition-transport6::ignition-transport6
+    ignition-transport7::ignition-transport7
     ${catkin_LIBRARIES}
     ${protobuf_lib_name}
 )
@@ -208,7 +208,7 @@ target_include_directories(${base_station_plugin_name}
    ignition-common3::ignition-common3
    ignition-plugin1::loader
    ignition-launch0::ignition-launch0
-   ignition-transport6::ignition-transport6
+   ignition-transport7::ignition-transport7
    sdformat8::sdformat8
    ${catkin_LIBRARIES}
    ${protobuf_lib_name}
