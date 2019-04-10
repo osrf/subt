@@ -1004,15 +1004,6 @@
         <geometry><box><size>2 2 2</size></box></geometry>
       </performer>
 
-      <!--
-      <level name="level0">
-        <ref>staging_area</ref>
-        <ref>base_station</ref>
-        <pose>0 0 0 0 0 0</pose>
-        <geometry><box><size>80 80 100</size></box></geometry>
-        <buffer>10</buffer>
-      </level>
--->
       <level name="level1">
         <ref>tile_0</ref>
         <ref>tile_1</ref>
@@ -1159,10 +1150,6 @@
       </level>
 
       <level name="level7">
-        <!--
-        <ref>staging_area</ref>
-        <ref>base_station</ref>
--->
         <ref>phone_2</ref>
         <ref>tile_60</ref>
         <ref>tile_61</ref>
