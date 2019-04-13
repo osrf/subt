@@ -27,7 +27,7 @@
 
 using namespace ignition;
 using namespace subt;
-using namespace subt::communication_broker;
+using namespace subt::communication_broker_ign;
 using namespace subt::communication_model;
 using namespace subt::rf_interface;
 using namespace subt::rf_interface::range_model;
@@ -65,7 +65,7 @@ void CommsBrokerPlugin::Load(const tinyxml2::XMLElement *_elem)
         visibilityConfig.commsCostMax = std::stod(elem->GetText());
 
       igndbg << "Loading visibility_config from SDF: \n" << visibilityConfig
-         << std::endl;
+        << std::endl;
     }
 
     rfConfigElem = commsModelElem->FirstChildElement("range_config");

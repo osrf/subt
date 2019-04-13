@@ -15,6 +15,7 @@
  *
 */
 
+#include <ignition/common/Console.hh>
 #include <subt_ign/VisibilityRfModel.hh>
 #include <subt_rf_interface/subt_rf_model.h>
 
@@ -43,7 +44,7 @@ VisibilityModel::VisibilityModel(
         &VisibilityModel::VisualizeVisibility, this, opts);
 
     // Subscribe to pose messages.
-    this->node.Subscribe("/world/" + worldName + "/pose/info",
+    this->node.Subscribe("/world/" + _worldName + "/pose/info",
         &VisibilityModel::OnPose, this);
   }
 }
@@ -62,7 +63,7 @@ rf_power VisibilityModel::ComputeReceivedPower(const double &_txPower,
 
   // Augment fading exponent based on visibility cost
   localConfig.fading_exponent +=
-  this->visibilityConfig.visibility_cost_to_fading_exponent * visibilityCost;
+  this->visibilityConfig.visibilityCostToFadingExponent * visibilityCost;
 
   double range = _txState.pose.Pos().Distance(_rxState.pose.Pos());
 
@@ -71,7 +72,7 @@ rf_power VisibilityModel::ComputeReceivedPower(const double &_txPower,
                                                        _rxState,
                                                        localConfig);
   igndbg << "Range: " << range << ", Exp: " << localConfig.fading_exponent
-    << ", TX: " << txPower << ", RX: " << rx.mean << std::endl;
+    << ", TX: " << _txPower << ", RX: " << rx.mean << std::endl;
 
   return std::move(rx);
 }
@@ -135,17 +136,17 @@ bool VisibilityModel::VisualizeVisibility(const ignition::msgs::StringMsg &_req,
     ignition::math::Vector3d to = ignition::math::Vector3d(
       std::get<0>(toTuple), std::get<1>(toTuple), std::get<2>(toTuple));
     double cost = this->visibilityTable.Cost(from, to);
-    if (cost <= this->visibilityConfig.comms_cost_max)
+    if (cost <= this->visibilityConfig.commsCostMax)
     {
       auto m = perCostMarkers.find((int)
-          (((this->visibilityConfig.comms_cost_max+1.0)/5.0) *
+          (((this->visibilityConfig.commsCostMax+1.0)/5.0) *
            cost/10.0) );
 
       if (m == perCostMarkers.end())
       {
         ignwarn << "Have not pre-allocated a marker for cost: " << cost
           << " ("
-          << (((this->visibilityConfig.comms_cost_max+1.0)/5.0)*cost/10.0)
+          << (((this->visibilityConfig.commsCostMax+1.0)/5.0)*cost/10.0)
           << ")\n";
         continue;
       }

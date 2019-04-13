@@ -59,22 +59,6 @@
       <wheel_radius>0.098</wheel_radius>
     </plugin>
 
-    <!-- The SubT challenge base station plugin -->
-    <plugin entity_name="base_station"
-            entity_type="model"
-            name="subt::BaseStationPlugin"
-            filename="libBaseStationPluginIgn.so">
-    </plugin>
-    <!-- The SubT challenge comms broker plugin -->
-    <plugin entity_name="<%= worldName %>"
-            entity_type="world"
-            name="subt::CommsBrokerPlugin"
-            filename="libCommsBrokerPluginIgn.so">
-      <generate_table>true</generate_table>
-      <world_name><%= worldName %></world_name>
-      <world_dir>MYDIR</world_dir>
-    </plugin>
-
   </plugin>
 
   <executable_wrapper>
@@ -171,6 +155,23 @@
           filename="libignition-launch0-joytotwist.so">
     <input_topic>/joy</input_topic>
     <output_topic>/model/x2/cmd_vel</output_topic>
+  </plugin>
+
+  <!-- The SubT challenge comms broker plugin -->
+  <plugin entity_name="<%= worldName %>"
+          entity_type="world"
+          name="subt::CommsBrokerPlugin"
+          filename="libCommsBrokerPluginIgn.so">
+    <generate_table>true</generate_table>
+    <world_name><%= worldName %></world_name>
+    <world_dir>MYDIR</world_dir>
+  </plugin>
+
+  <!-- The SubT challenge base station plugin -->
+  <plugin entity_name="base_station"
+          entity_type="model"
+          name="subt::BaseStationPlugin"
+          filename="libBaseStationPluginIgn.so">
   </plugin>
 
   <!-- The SubT challenge logic plugin -->

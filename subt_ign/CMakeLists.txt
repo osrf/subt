@@ -147,6 +147,7 @@ install(TARGETS ${game_logic_plugin_name}
 set(comms_broker_plugin_name CommsBrokerPluginIgn)
 add_library(${comms_broker_plugin_name}
   src/CommsBrokerPlugin.cc
+  #src/VisibilityRfModel.cc
   src/VisibilityTable.cc
   src/SimpleDOTParser.cc
 )
@@ -158,7 +159,7 @@ target_link_libraries(${comms_broker_plugin_name}
   ignition-math6::ignition-math6
   ignition-msgs3::ignition-msgs3
   ignition-plugin1::loader
-  ignition-launch::ignition-launch
+  ignition-launch0::ignition-launch0
   ignition-transport6::ignition-transport6
   sdformat8::sdformat8
   ${protobuf_lib_name}
