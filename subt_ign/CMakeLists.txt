@@ -147,7 +147,7 @@ install(TARGETS ${game_logic_plugin_name}
 set(comms_broker_plugin_name CommsBrokerPluginIgn)
 add_library(${comms_broker_plugin_name}
   src/CommsBrokerPlugin.cc
-  #src/VisibilityRfModel.cc
+  src/VisibilityRfModel.cc
   src/VisibilityTable.cc
   src/SimpleDOTParser.cc
 )

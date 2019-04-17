@@ -40,23 +40,23 @@ namespace subt
 
         /// \brief  Maximum comms cost to consider (saturate here)
         public: double commsCostMax = 15.0;
+
+        /// Output stream operator.
+        ///
+        /// @param oss Stream
+        /// @param config RF Configuration to output
+        friend std::ostream& operator<<(std::ostream &_oss,
+                                        const RfConfiguration &_config)
+        {
+          _oss << "RF Configuration (visibility-based)" << std::endl
+              << "-- visibilityCostToFadingExponent: "
+              << _config.visibilityCostToFadingExponent << std::endl
+              << "-- commsCostMax: "
+              << _config.commsCostMax << std::endl;
+
+          return _oss;
+        }
       };
-
-      /// Output stream operator.
-      ///
-      /// @param oss Stream
-      /// @param config RF Configuration to output
-      std::ostream& operator<<(std::ostream &_oss,
-                               const RfConfiguration &_config)
-      {
-        _oss << "RF Configuration (visibility-based)" << std::endl
-            << "-- visibilityCostToFadingExponent: "
-            << _config.visibilityCostToFadingExponent << std::endl
-            << "-- commsCostMax: "
-            << _config.commsCostMax << std::endl;
-
-        return _oss;
-      }
 
       /// \class VisibilityModel
       /// \brief Maintain state of the visibility model.
