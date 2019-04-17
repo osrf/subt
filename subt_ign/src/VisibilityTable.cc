@@ -236,7 +236,7 @@ void VisibilityTable::CreateWorldSegments()
     else
     {
       ignerr << "Unable to find model [" << modelName << "]. "
-                << "Ignoring vertex" << std::endl;
+             << "Ignoring vertex" << std::endl;
       continue;
     }
   }
