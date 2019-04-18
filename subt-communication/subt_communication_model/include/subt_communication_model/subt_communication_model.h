@@ -27,7 +27,7 @@ namespace communication_model
 
 /// \struct radio_configuration
 /// \brief Radio configuration parameters.
-/// 
+///
 /// In addition to static parameters such as channel capacity and
 /// default transmit power, this structure holds a function which can
 /// be called to compute the pathloss between two antenna poses.
@@ -51,7 +51,8 @@ struct radio_configuration
 /// Output stream operator.
 /// @param oss Stream
 /// @param config configuration to output
-std::ostream& operator<<(std::ostream& oss, const radio_configuration& config)
+inline std::ostream& operator<<(std::ostream& oss,
+                                const radio_configuration& config)
 {
   oss << "Radio Configuration" << std::endl
       << "-- capacity: " << config.capacity << std::endl
