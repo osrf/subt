@@ -14,6 +14,11 @@
     <command>roscore</command>
   </executable>
 
+  <!-- Megahack! -->
+  <executable name='ros_parameter_server'>
+    <command>rosparam set subt/gazebo_worlds_dir foo</command>
+  </executable>
+
   <plugin name="ignition::launch::GazeboServer"
           filename="libignition-launch0-gazebo.so">
     <world_file><%= worldName %>.sdf</world_file>
