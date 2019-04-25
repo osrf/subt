@@ -107,7 +107,7 @@ void CommsBrokerPlugin::Load(const tinyxml2::XMLElement *_elem)
 
       elem = radioConfigElem->FirstChildElement("modulation");
       if (elem)
-        radio.modulation = std::stod(elem->GetText());
+        radio.modulation = elem->GetText();
 
       elem = radioConfigElem->FirstChildElement("noise_floor");
       if (elem)
@@ -118,7 +118,6 @@ void CommsBrokerPlugin::Load(const tinyxml2::XMLElement *_elem)
   }
 
   std::string worldName = "default";
-  std::string worldDir;
   bool generateTable = false;
 
   const tinyxml2::XMLElement *elem = _elem->FirstChildElement("world_name");
@@ -132,37 +131,41 @@ void CommsBrokerPlugin::Load(const tinyxml2::XMLElement *_elem)
       << " world name of 'default'. This could lead to incorrect scoring\n";
   }
 
-  elem = _elem->FirstChildElement("world_dir");
-  if (elem)
-    worldDir = elem->GetText();
-  else
-    ignerr << "Missing the <world_dir> element.\n";
+  // Todo: Enable when visibility_range works.
 
-  elem = _elem->FirstChildElement("generate_table");
-  if (elem)
-  {
-    std::string boolStr = elem->GetText();
-    generateTable = common::lowercase(boolStr) == "true" || boolStr == "1";
-  }
+  // std::string worldDir;
+  // if (!ros::param::get("/subt/gazebo_worlds_dir", worldDir))
+  // {
+  //   std::cerr << "[CommsBrokerPlugin] Unable to find ROS parameter "
+  //             << "[/subt/gazebo_worlds_dir]" << std::endl;
+  //   return;
+  // }
 
-  if (generateTable)
-  {
-    if (!worldName.empty() && !worldDir.empty())
-    {
-      subt::VisibilityTable table;
-      table.Load(worldName, worldDir);
-      table.Generate();
-    }
-    else
-    {
-      ignerr << "Unable to generate visibility table because world_name or "
-        << "world_dir elements are missing.\n";
-    }
-  }
+  // elem = _elem->FirstChildElement("generate_table");
+  // if (elem)
+  // {
+  //   std::string boolStr = elem->GetText();
+  //   generateTable = common::lowercase(boolStr) == "true" || boolStr == "1";
+  // }
+
+  // if (generateTable)
+  // {
+  //   if (!worldName.empty() && !worldDir.empty())
+  //   {
+  //     subt::VisibilityTable table;
+  //     table.Load(worldName, worldDir);
+  //     table.Generate();
+  //   }
+  //   else
+  //   {
+  //     ignerr << "Unable to generate visibility table because world_name or "
+  //       << "world_dir elements are missing.\n";
+  //   }
+  // }
 
   // TODO: Maybe only try to instantiate if visibility type is selected
-  this->visibilityModel = std::make_unique<VisibilityModel>(
-      visibilityConfig, rangeConfig, worldName, worldDir);
+  // this->visibilityModel = std::make_unique<VisibilityModel>(
+  //     visibilityConfig, rangeConfig, worldName, worldDir);
 
   // Build RF propagation function options
   std::map<std::string, pathloss_function> pathlossFunctions;

@@ -14,11 +14,6 @@
     <command>roscore</command>
   </executable>
 
-  <!-- Megahack! -->
-  <executable name='ros_parameter_server'>
-    <command>rosparam set subt/gazebo_worlds_dir foo</command>
-  </executable>
-
   <plugin name="ignition::launch::GazeboServer"
           filename="libignition-launch0-gazebo.so">
     <world_file><%= worldName %>.sdf</world_file>
@@ -170,6 +165,28 @@
     <generate_table>true</generate_table>
     <world_name><%= worldName %></world_name>
     <world_dir>/home/developer/subt_ws/install/share/subt_ign/worlds</world_dir>
+    <comms_model>
+      <comms_model_type>log_normal_range</comms_model_type>
+
+      <range_config>
+        <max_range>500.0</max_range>
+        <fading_exponent>2.5</fading_exponent>
+        <L0>40</L0>
+        <sigma>10.0</sigma>
+      </range_config>
+
+      <visibility_config>
+        <visibility_cost_to_fading_exponent>0.2</visibility_cost_to_fading_exponent>
+        <comms_cost_max>15</comms_cost_max>
+      </visibility_config>
+
+      <radio_config>
+        <capacity>1000000</capacity>
+        <tx_power>20</tx_power>
+        <noise_floor>-90</noise_floor>
+        <modulation>QPSK</modulation>
+      </radio_config>
+    </comms_model>
   </plugin>
 
   <!-- The SubT challenge base station plugin -->
