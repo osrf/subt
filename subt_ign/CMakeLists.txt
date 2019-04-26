@@ -62,8 +62,9 @@ catkin_package(
   INCLUDE_DIRS
   include
   ${CATKIN_DEVEL_PREFIX}/include
-  # LIBRARIES
+  LIBRARIES
   # CommsClient
+    SubtProtobufIgn
   CFG_EXTRAS
     ${PROJECT_NAME}-extras.cmake
 )
@@ -73,7 +74,7 @@ set(protobuf_lib_name SubtProtobufIgn)
 add_subdirectory(src/protobuf)
 set_source_files_properties(${PROTO_SOURCES} ${PROTO_HEADERS}
                             PROPERTIES GENERATED TRUE)
-add_library(${protobuf_lib_name} STATIC ${PROTO_SOURCES})
+add_library(${protobuf_lib_name} SHARED ${PROTO_SOURCES})
 add_dependencies(${protobuf_lib_name} protobuf_compilation_ign)
 set_target_properties(${protobuf_lib_name}
   PROPERTIES POSITION_INDEPENDENT_CODE ON COMPILE_FLAGS "-Wno-unused-parameter" )
@@ -81,6 +82,10 @@ target_link_libraries(${protobuf_lib_name}
   PRIVATE
   ignition-msgs3::ignition-msgs3
 )
+install(TARGETS ${protobuf_lib_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
 
 catkin_add_env_hooks(ign SHELLS bash
   DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/env-hooks)

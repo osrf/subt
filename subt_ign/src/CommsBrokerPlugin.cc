@@ -267,32 +267,36 @@ void CommsBrokerPlugin::OnPose(const ignition::msgs::Pose_V &_msg)
 
   double dt = (this->simTime - this->lastROSParameterCheckTime).Double();
 
-  // It's time to query the ROS parameter server. We do it every second.
-  if (dt >= 1.0 )
-  {
-    bool value = false;
-    ros::param::get("/subt/comms/simple_mode", value);
+  // Todo: Remove this line and enable the block below when ROS parameter
+  // server is working.
+  broker.SetCommunicationFunction(&subt::communication_model::attempt_send);
 
-    if (value)
-    {
-      igndbg << "Enabling simple mode comms" << std::endl;
+  // // It's time to query the ROS parameter server. We do it every second.
+  // if (dt >= 1.0 )
+  // {
+  //   bool value = false;
+  //   ros::param::get("/subt/comms/simple_mode", value);
 
-      auto f = [](const radio_configuration&,
-                  const rf_interface::radio_state&,
-                  const rf_interface::radio_state&,
-                  const uint64_t&
-                  ) { return true; };
+  //   if (value)
+  //   {
+  //     igndbg << "Enabling simple mode comms" << std::endl;
 
-      broker.SetCommunicationFunction(f);
-    }
-    else
-    {
-      igndbg << "Disabling simple mode comms" << std::endl;
-      broker.SetCommunicationFunction(&subt::communication_model::attempt_send);
-    }
+  //     auto f = [](const radio_configuration&,
+  //                 const rf_interface::radio_state&,
+  //                 const rf_interface::radio_state&,
+  //                 const uint64_t&
+  //                 ) { return true; };
 
-    this->lastROSParameterCheckTime = this->simTime;
-  }
+  //     broker.SetCommunicationFunction(f);
+  //   }
+  //   else
+  //   {
+  //     igndbg << "Disabling simple mode comms" << std::endl;
+  //     broker.SetCommunicationFunction(&subt::communication_model::attempt_send);
+  //   }
+
+  //   this->lastROSParameterCheckTime = this->simTime;
+  // }
 
   // Send a message to each team member with its updated neighbors list.
   this->broker.NotifyNeighbors();
