@@ -193,6 +193,25 @@ target_include_directories(${base_station_plugin_name}
    ARCHIVE DESTINATION lib
    LIBRARY DESTINATION lib
    RUNTIME DESTINATION bin)
+
+# Create the libControllerPlugin.so library.
+set(controller_plugin_name ControllerPluginIgn)
+add_library(${controller_plugin_name} src/ControllerPlugin.cc)
+target_include_directories(${controller_plugin_name}
+   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
+ target_link_libraries(${controller_plugin_name}
+   ignition-common3::ignition-common3
+   ignition-plugin1::loader
+   ignition-launch0::ignition-launch0
+   ignition-transport6::ignition-transport6
+   sdformat8::sdformat8
+   ${catkin_LIBRARIES}
+   ${protobuf_lib_name}
+ )
+ install(TARGETS ${controller_plugin_name}
+   ARCHIVE DESTINATION lib
+   LIBRARY DESTINATION lib
+   RUNTIME DESTINATION bin)
  
 # # Create the libRosFlashLightPlugin.so library.
 # set(ros_flashlight_plugin_name RosFlashLightPlugin)

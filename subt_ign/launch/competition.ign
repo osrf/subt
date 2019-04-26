@@ -169,7 +169,7 @@
       <comms_model_type>log_normal_range</comms_model_type>
 
       <range_config>
-        <max_range>500.0</max_range>
+        <max_range>20.0</max_range>
         <fading_exponent>2.5</fading_exponent>
         <L0>40</L0>
         <sigma>10.0</sigma>
@@ -194,6 +194,22 @@
           entity_type="model"
           name="subt::BaseStationPlugin"
           filename="libBaseStationPluginIgn.so">
+  </plugin>
+
+  <!-- Testing comms in X1 -->
+  <plugin entity_name="X1"
+          entity_type="model"
+          name="subt::ControllerPlugin"
+          filename="libControllerPluginIgn.so">
+    <name>X1</name>
+  </plugin>
+
+  <!-- Testing comms in X2 -->
+  <plugin entity_name="X2"
+          entity_type="model"
+          name="subt::ControllerPlugin"
+          filename="libControllerPluginIgn.so">
+    <name>X2</name>
   </plugin>
 
   <!-- The SubT challenge logic plugin -->

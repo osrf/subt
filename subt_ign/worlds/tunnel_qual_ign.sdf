@@ -890,25 +890,25 @@
     </include>
 
     <include>
-      <name>x1</name>
+      <name>X1</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X1/7</uri>
       <pose>0 0 .2 0 0 0</pose>
     </include>
 
     <include>
-      <name>x2</name>
+      <name>X2</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X2</uri>
       <pose>0 2 0.063494 0 0 0</pose>
     </include>
 
     <plugin name="ignition::gazebo" filename="dummy">
       <performer name="perf_x2">
-        <ref>x2</ref>
+        <ref>X2</ref>
         <geometry><box><size>2 2 2</size></box></geometry>
       </performer>
 
       <performer name="perf_x1">
-        <ref>x1</ref>
+        <ref>X1</ref>
         <geometry><box><size>2 2 2</size></box></geometry>
       </performer>
 
