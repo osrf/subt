@@ -197,20 +197,20 @@
   </plugin>
 
   <!-- Testing comms in X1 -->
-  <plugin entity_name="X1"
+  <!-- <plugin entity_name="X1"
           entity_type="model"
           name="subt::ControllerPlugin"
           filename="libControllerPluginIgn.so">
     <name>X1</name>
-  </plugin>
+  </plugin> -->
 
   <!-- Testing comms in X2 -->
-  <plugin entity_name="X2"
+  <!-- <plugin entity_name="X2"
           entity_type="model"
           name="subt::ControllerPlugin"
           filename="libControllerPluginIgn.so">
     <name>X2</name>
-  </plugin>
+  </plugin> -->
 
   <!-- The SubT challenge logic plugin -->
   <plugin name="subt::GameLogicPlugin" filename="libGameLogicPluginIgn.so">
