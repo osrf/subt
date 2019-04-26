@@ -49,10 +49,10 @@ namespace subt
                                         const RfConfiguration &_config)
         {
           _oss << "RF Configuration (visibility-based)" << std::endl
-              << "-- visibilityCostToFadingExponent: "
-              << _config.visibilityCostToFadingExponent << std::endl
-              << "-- commsCostMax: "
-              << _config.commsCostMax << std::endl;
+               << "-- visibilityCostToFadingExponent: "
+               << _config.visibilityCostToFadingExponent << std::endl
+               << "-- commsCostMax: "
+               << _config.commsCostMax << std::endl;
 
           return _oss;
         }

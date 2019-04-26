@@ -92,4 +92,3 @@ if(CATKIN_ENABLE_TESTING)
     ${protobuf_lib_name}
     ${GTEST_LIBRARIES})
 endif()
-
