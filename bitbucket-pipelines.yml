@@ -17,7 +17,7 @@ pipelines:
           - apt-get update
           - apt-get -y install mercurial cmake pkg-config cppcheck build-essential lcov curl python git gazebo9 libignition-common-dev libignition-math4-dev libgazebo9-dev ros-melodic-gazebo-dev ros-melodic-gazebo-plugins ros-melodic-gazebo-ros ros-melodic-gazebo-ros-pkgs ros-melodic-xacro
           # Install packages required by subt_ign
-          - apt-get -y install libignition-common3-dev libignition-math6-dev libignition-transport6-dev libignition-msgs3-dev libignition-plugin-dev
+          - apt-get -y install libignition-common3-dev libignition-math6-dev libignition-transport7-dev libignition-msgs4-dev libignition-plugin-dev
           # SubT
           - mkdir -p /tmp/subt_ws/src
           - ln -s `pwd` /tmp/subt_ws/src

@@ -67,7 +67,7 @@ namespace subt
     public: CommsBrokerPlugin() = default;
 
     // Documentation inherited
-    public: virtual void Load(const tinyxml2::XMLElement *_elem) override final;
+    public: virtual bool Load(const tinyxml2::XMLElement *_elem) override final;
 
     /// \brief Callback for World Update events.
     private: void OnPose(const ignition::msgs::Pose_V &_msg);

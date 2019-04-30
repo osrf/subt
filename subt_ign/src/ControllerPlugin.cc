@@ -30,15 +30,15 @@ ControllerPlugin::ControllerPlugin()
 }
 
 //////////////////////////////////////////////////
-void ControllerPlugin::Load(const tinyxml2::XMLElement *_elem)
+bool ControllerPlugin::Load(const tinyxml2::XMLElement *_elem)
 {
   const tinyxml2::XMLElement *elem = _elem->FirstChildElement("name");
   if (!elem)
   {
     ignerr << "[ControllerPlugin] Missing [name] parameter" << std::endl;
-    return;
+    return false;
   }
-  
+
   this->name = elem->GetText();
   this->client.reset(new subt::CommsClientIgn(this->name, true));
   this->client->Bind(&ControllerPlugin::OnMsg, this);
@@ -56,6 +56,8 @@ void ControllerPlugin::Load(const tinyxml2::XMLElement *_elem)
   };
 
   this->timer.Start(1000, sendFunct);
+
+  return true;
 }
 
 //////////////////////////////////////////////////

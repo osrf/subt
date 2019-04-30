@@ -129,7 +129,6 @@ bool VisibilityModel::VisualizeVisibility(const ignition::msgs::StringMsg &_req,
 
   ignition::math::Vector3d from = iter->second.Pos();
 
-  uint64_t index = 0;
   for (auto const &entry : this->visibilityTable.Vertices())
   {
     const auto &toTuple = entry.first;

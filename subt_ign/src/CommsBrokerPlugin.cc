@@ -34,7 +34,7 @@ using namespace subt::rf_interface::range_model;
 using namespace subt::rf_interface::visibilityModel;
 
 /////////////////////////////////////////////////
-void CommsBrokerPlugin::Load(const tinyxml2::XMLElement *_elem)
+bool CommsBrokerPlugin::Load(const tinyxml2::XMLElement *_elem)
 {
   // Build RF Function
   struct range_model::rf_configuration rangeConfig;
@@ -118,7 +118,7 @@ void CommsBrokerPlugin::Load(const tinyxml2::XMLElement *_elem)
   }
 
   std::string worldName = "default";
-  bool generateTable = false;
+  // bool generateTable = false;
 
   const tinyxml2::XMLElement *elem = _elem->FirstChildElement("world_name");
   if (elem)
@@ -249,6 +249,8 @@ void CommsBrokerPlugin::Load(const tinyxml2::XMLElement *_elem)
   broker.Start();
 
   ignmsg << "Starting SubT comms broker" << std::endl;
+
+  return true;
 }
 
 /////////////////////////////////////////////////
@@ -265,7 +267,7 @@ void CommsBrokerPlugin::OnPose(const ignition::msgs::Pose_V &_msg)
   for (int i = 0; i < _msg.pose_size(); ++i)
     this->poses[_msg.pose(i).name()] = ignition::msgs::Convert(_msg.pose(i));
 
-  double dt = (this->simTime - this->lastROSParameterCheckTime).Double();
+  // double dt = (this->simTime - this->lastROSParameterCheckTime).Double();
 
   // Todo: Remove this line and enable the block below when ROS parameter
   // server is working.

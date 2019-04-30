@@ -36,7 +36,7 @@ namespace subt
     public: BaseStationPlugin();
 
     // Documentation inherited
-    public: virtual void Load(const tinyxml2::XMLElement *_elem) override final;
+    public: virtual bool Load(const tinyxml2::XMLElement *_elem) override final;
 
     /// \brief Callback for processing an artifact report.
     /// \param[in] _srcAddress Unused.

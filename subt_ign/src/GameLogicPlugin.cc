@@ -214,7 +214,7 @@ GameLogicPlugin::~GameLogicPlugin()
 }
 
 //////////////////////////////////////////////////
-void GameLogicPlugin::Load(const tinyxml2::XMLElement *_elem)
+bool GameLogicPlugin::Load(const tinyxml2::XMLElement *_elem)
 {
   // Default log path is /dev/null.
   std::string logPath = "/dev/null";
@@ -295,6 +295,8 @@ void GameLogicPlugin::Load(const tinyxml2::XMLElement *_elem)
   this->dataPtr->spinner->start();
 
   ignmsg << "Starting SubT" << std::endl;
+
+  return true;
 }
 
 /////////////////////////////////////////////////
