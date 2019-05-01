@@ -18,19 +18,17 @@
 #include <string>
 #include <gtest/gtest.h>
 
+#include <subt_communication_broker_ign/subt_communication_broker.h>
+#include <subt_communication_broker_ign/subt_communication_client.h>
+#include <subt_communication_model/subt_communication_model.h>
 #include <subt_rf_interface/subt_rf_interface.h>
 #include <subt_rf_interface/subt_rf_model.h>
-
-#include <subt_communication_model/subt_communication_model.h>
-
-#include <subt_communication_broker/subt_communication_broker.h>
-#include <subt_communication_broker/subt_communication_client.h>
 
 using namespace subt;
 using namespace subt::communication_model;
 using namespace subt::rf_interface;
 using namespace subt::rf_interface::range_model;
-using namespace subt::communication_broker;
+using namespace subt::communication_broker_ign;
 
 TEST(broker, instatiate)
 {
@@ -40,7 +38,7 @@ TEST(broker, instatiate)
 TEST(broker, communicate)
 {
   Broker broker;
-  
+
   // Build RF Function
   struct rf_configuration rf_config;
   rf_config.max_range = 10.0;
@@ -84,8 +82,8 @@ TEST(broker, communicate)
   broker.SetPoseUpdateFunction(pose_update_func);
   broker.Start();
 
-  CommsClient c1("1");
-  CommsClient c2("2");
+  CommsClientIgn c1("1");
+  CommsClientIgn c2("2");
 
   auto c2_cb = [=](const std::string& src,
                    const std::string& dst,
@@ -102,7 +100,7 @@ TEST(broker, communicate)
     c1.SendTo(oss.str(), "2");
     broker.DispatchMessages();
   }
-  
+
   // geometry_msgs::PoseStamped a, b;
   // a.header.frame_id = "world";
   // b = a;
