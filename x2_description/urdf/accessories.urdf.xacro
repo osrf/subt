@@ -54,6 +54,24 @@
     </joint>
   </xacro:macro>
 
+
+  <xacro:macro name="velodyne_mid_range_lidar_and_mount">
+    <laser_mount prefix="front"/>
+    <velodyne_lidar 
+      name="${namespace}/front_laser"
+      topic="${namespace}/points"
+      max_range="75"
+      update_rate="15"
+    />
+
+    <joint name="front_laser_mount_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <parent link="${namespace}/front_mount" />
+      <child link="${namespace}/front_laser_mount" />
+    </joint>
+  </xacro:macro>
+
+
   <xacro:macro name="qvga_camera_and_mount">
     <camera_mount prefix="front"
                   tilt="0.2618"/>
@@ -178,6 +196,16 @@
   -->
   <xacro:if value="$(optenv X2_SENSOR_CONFIG_5 0)">
     <two_hd_cameras_and_mount />
+  </xacro:if>
+
+  <!-- Sensor configuration #6
+         * 3d mid range lidar
+         * HD camera
+         * IMU
+  -->
+  <xacro:if value="$(optenv X2_SENSOR_CONFIG_6 0)">
+    <velodyne_mid_range_lidar_and_mount />
+    <hd_camera_and_mount />
   </xacro:if>
 
 </robot>
