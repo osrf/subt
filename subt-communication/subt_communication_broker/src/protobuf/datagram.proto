@@ -34,6 +34,9 @@ message Datagram
   /// \brief Destination port.
   uint32 dst_port    = 3;
 
+  /// \brief Received signal strength (dBm)
+  double rssi        = 4;
+
   /// \brief Payload.
-  bytes data         = 4;
+  bytes data         = 5;
 }

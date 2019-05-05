@@ -75,15 +75,17 @@ inline std::ostream& operator<<(std::ostream& oss,
 /// @param tx_state Current state of the transmitter (pose)
 /// @param rx_state Current state of the receiver (pose)
 /// @param num_bytes Size of the packet
-/// @return bool reporting if the packet should be delivered
-bool attempt_send(const radio_configuration& radio,
-                  rf_interface::radio_state& tx_state,
-                  rf_interface::radio_state& rx_state,
-                  const uint64_t& num_bytes
-                  );
+/// @return std::tuple<bool, double> reporting if the packet should be
+/// delivered and the received signal strength (in dBm)
+std::tuple<bool, double>
+attempt_send(const radio_configuration& radio,
+             rf_interface::radio_state& tx_state,
+             rf_interface::radio_state& rx_state,
+             const uint64_t& num_bytes
+             );
 
 /// Function signature for the communication model.
-typedef std::function<bool(const radio_configuration&,
+typedef std::function<std::tuple<bool, double>(const radio_configuration&,
                            rf_interface::radio_state&,
                            rf_interface::radio_state&,
                            const uint64_t&)> communication_function;
