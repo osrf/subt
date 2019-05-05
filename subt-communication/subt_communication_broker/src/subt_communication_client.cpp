@@ -63,14 +63,6 @@ CommsClient::CommsClient(const std::string &_localAddress,
     return;
   }
 
-  // Subscribe to the topic where neighbor updates are notified.
-  if (!this->node.Subscribe(kNeighborsTopic, &CommsClient::OnNeighbors, this))
-  {
-    std::cerr << "Error subscribing to topic [" << kNeighborsTopic << "]"
-              << std::endl;
-    return;
-  }
-
   this->enabled = true;
 }
 
@@ -219,7 +211,7 @@ bool CommsClient::SendTo(const std::string &_data,
 }
 
 //////////////////////////////////////////////////
-std::vector<std::string> CommsClient::Neighbors() const
+CommsClient::Neighbor_M CommsClient::Neighbors() const
 {
   std::lock_guard<std::mutex> lock(this->mutex);
   return this->neighbors;
@@ -269,6 +261,10 @@ void CommsClient::OnMessage(const msgs::Datagram &_msg)
   auto endPoint = _msg.dst_address() + ":" + std::to_string(_msg.dst_port());
 
   std::lock_guard<std::mutex> lock(this->mutex);
+
+  this->neighbors[_msg.src_address()] =
+      std::make_pair(ros::Time::now(), _msg.rssi());
+  
   for (auto cb : this->callbacks)
   {
     if (cb.first == endPoint && cb.second)
@@ -277,25 +273,4 @@ void CommsClient::OnMessage(const msgs::Datagram &_msg)
                 _msg.dst_port(), _msg.data());
     }
   }
-}
-
-//////////////////////////////////////////////////
-void CommsClient::OnNeighbors(const msgs::Neighbor_M &_neighbors)
-{
-  std::lock_guard<std::mutex> lock(this->mutex);
-
-  this->neighbors.clear();
-
-  if (_neighbors.neighbors().find(this->localAddress) ==
-        _neighbors.neighbors().end())
-  {
-    std::cerr << "[CommsClient::OnNeighborsReceived] My current address ["
-              << this->localAddress << "] is not included in this neighbor "
-              << "update" << std::endl;
-    return;
-  }
-
-  auto currentNeighbors = _neighbors.neighbors().at(this->localAddress);
-  for (int i = 0; i < currentNeighbors.data().size(); ++i)
-    this->neighbors.push_back(currentNeighbors.data(i));
 }

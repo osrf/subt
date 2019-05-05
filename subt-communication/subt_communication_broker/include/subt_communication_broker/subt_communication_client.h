@@ -137,11 +137,14 @@ namespace subt
                         const std::string &_dstAddress,
                         const uint32_t _port = communication_broker::kDefaultPort);
 
+    /// \brief Type for storing neighbor data
+    public: typedef std::map<std::string, std::pair<ros::Time, double>> Neighbor_M;
+
     /// \brief Get the list of local neighbors.
     ///
-    /// \return A vector of addresses and signal strength from your
+    /// \return A map of addresses and signal strength from your
     /// local neighbors.
-    public: std::vector<std::string> Neighbors() const;
+    public: Neighbor_M Neighbors() const;
 
     /// \brief Register the current address. This will make a synchronous call
     /// to the broker to validate and register the address.
@@ -156,14 +159,6 @@ namespace subt
     /// \brief Function called each time a new datagram message is received.
     /// \param[in] _msg The incoming message.
     private: void OnMessage(const msgs::Datagram &_msg);
-
-    /// \brief Callback executed each time that a neighbor update is received.
-    /// The updates are coming from the broker. The broker decides which are
-    /// the robots inside the communication range of each other vehicle and
-    /// notifies these updates.
-    ///
-    /// \param[in] _neighbors The list of neighbors.
-    private: void OnNeighbors(const msgs::Neighbor_M &_neighbors);
 
     /// \def Callback_t
     /// \brief The callback specified by the user when new data is available.
@@ -184,8 +179,11 @@ namespace subt
     /// \brief Maximum transmission payload size (octets) for each message.
     private: static const uint32_t kMtu = 1500;
 
-    /// \brief The current list of neighbors.
-    private: std::vector<std::string> neighbors;
+    /// \brief The current list of neighbors
+    ///
+    /// Accumulates data on neighbors based on received packets,
+    /// stores time of last receive and signal strength
+    private: Neighbor_M neighbors;
 
     /// \brief An Ignition Transport node for communications.
     private: ignition::transport::Node node;
