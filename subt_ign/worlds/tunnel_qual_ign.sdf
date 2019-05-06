@@ -993,36 +993,17 @@
       <pose>280.000000 -240.000000 -10.000000 0 0 3.141593</pose>
     </include>
 
-    <include>
-      <name>x1</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X1 UGV/1</uri>
-      <pose>0 0 .2 0 0 0</pose>
-    </include>
-
-    <include>
-      <name>x2</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X2 UGV/1</uri>
-      <pose>0 2 0.063494 0 0 0</pose>
-    </include>
-
     <plugin name="ignition::gazebo" filename="dummy">
       <performer name="perf_x2">
-        <ref>x2</ref>
+        <ref>X2</ref>
         <geometry><box><size>2 2 2</size></box></geometry>
       </performer>
 
       <performer name="perf_x1">
-        <ref>x1</ref>
+        <ref>X1</ref>
         <geometry><box><size>2 2 2</size></box></geometry>
       </performer>
 
-      <level name="level0">
-        <ref>staging_area</ref>
-        <ref>base_station</ref>
-        <pose>0 0 0 0 0 0</pose>
-        <geometry><box><size>80 80 100</size></box></geometry>
-        <buffer>10</buffer>
-      </level>
       <level name="level1">
         <ref>tile_0</ref>
         <ref>tile_1</ref>
@@ -1169,8 +1150,6 @@
       </level>
 
       <level name="level7">
-        <ref>staging_area</ref>
-        <ref>base_station</ref>
         <ref>phone_2</ref>
         <ref>tile_60</ref>
         <ref>tile_61</ref>

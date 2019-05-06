@@ -10,8 +10,6 @@ include(${PROJECT_SOURCE_DIR}/cmake/Protobuf.cmake)
 
 set(PROTO_MESSAGES
   artifact.proto
-  datagram.proto
-  neighbor_m.proto
 )
 
 protobuf_generate_cpp_with_descriptor(
@@ -19,7 +17,7 @@ protobuf_generate_cpp_with_descriptor(
   PROTO_HEADERS
   PROTO_DESCRIPTORS
   IMPORT_DIRS
-    ${ignition-msgs3_INCLUDE_DIRS}
+    ${ignition-msgs4_INCLUDE_DIRS}
   DESTINATION
     ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_INCLUDE_DESTINATION}/protobuf
   ${PROTO_MESSAGES}

@@ -45,21 +45,21 @@ struct radio_configuration
       modulation("QPSK"),   // Quadrature Phase Shift Keyring
       noise_floor(-90)      // dBm
   {}
+
+  /// Output stream operator.
+  /// @param oss Stream
+  /// @param config configuration to output
+  friend std::ostream& operator<<(std::ostream& oss, const radio_configuration& config)
+  {
+    oss << "Radio Configuration" << std::endl
+        << "-- capacity: " << config.capacity << std::endl
+        << "-- default_tx_power: " << config.default_tx_power << std::endl
+        << "-- noise_floor: " << config.noise_floor << std::endl
+        << "-- modulation: " << config.modulation << std::endl;
+
+    return oss;
+  }
 };
-
-/// Output stream operator.
-/// @param oss Stream
-/// @param config configuration to output
-std::ostream& operator<<(std::ostream& oss, const radio_configuration& config)
-{
-  oss << "Radio Configuration" << std::endl
-      << "-- capacity: " << config.capacity << std::endl
-      << "-- default_tx_power: " << config.default_tx_power << std::endl
-      << "-- noise_floor: " << config.noise_floor << std::endl
-      << "-- modulation: " << config.modulation << std::endl;
-
-  return oss;
-}
 
 /// Attempt communication between two nodes.
 ///

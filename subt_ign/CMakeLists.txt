@@ -28,10 +28,10 @@ file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include)
 
 find_package(ignition-common3 REQUIRED)
 find_package(ignition-math6 REQUIRED)
-find_package(ignition-msgs3 REQUIRED)
-find_package(ignition-transport6 REQUIRED)
+find_package(ignition-msgs4 REQUIRED)
+find_package(ignition-transport7 REQUIRED)
 find_package(ignition-plugin1 REQUIRED COMPONENTS loader register)
-find_package(ignition-launch0 REQUIRED)
+find_package(ignition-launch1 REQUIRED)
 find_package(sdformat8 REQUIRED)
 
 ########################
@@ -62,8 +62,9 @@ catkin_package(
   INCLUDE_DIRS
   include
   ${CATKIN_DEVEL_PREFIX}/include
-  # LIBRARIES
+  LIBRARIES
   # CommsClient
+    SubtProtobufIgn
   CFG_EXTRAS
     ${PROJECT_NAME}-extras.cmake
 )
@@ -73,14 +74,18 @@ set(protobuf_lib_name SubtProtobufIgn)
 add_subdirectory(src/protobuf)
 set_source_files_properties(${PROTO_SOURCES} ${PROTO_HEADERS}
                             PROPERTIES GENERATED TRUE)
-add_library(${protobuf_lib_name} STATIC ${PROTO_SOURCES})
+add_library(${protobuf_lib_name} SHARED ${PROTO_SOURCES})
 add_dependencies(${protobuf_lib_name} protobuf_compilation_ign)
 set_target_properties(${protobuf_lib_name}
   PROPERTIES POSITION_INDEPENDENT_CODE ON COMPILE_FLAGS "-Wno-unused-parameter" )
 target_link_libraries(${protobuf_lib_name}
   PRIVATE
-  ignition-msgs3::ignition-msgs3
+  ignition-msgs4::ignition-msgs4
 )
+install(TARGETS ${protobuf_lib_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
 
 catkin_add_env_hooks(ign SHELLS bash
   DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/env-hooks)
@@ -94,11 +99,11 @@ target_include_directories(${game_logic_plugin_name}
 target_link_libraries(${game_logic_plugin_name}
   PRIVATE
     ignition-common3::ignition-common3
-    ignition-launch0::ignition-launch0
+    ignition-launch1::ignition-launch1
     ignition-math6::ignition-math6
-    ignition-msgs3::ignition-msgs3
+    ignition-msgs4::ignition-msgs4
     ignition-plugin1::loader
-    ignition-transport6::ignition-transport6
+    ignition-transport7::ignition-transport7
     ${catkin_LIBRARIES}
     ${protobuf_lib_name}
 )
@@ -143,62 +148,33 @@ install(TARGETS ${game_logic_plugin_name}
 #   LIBRARY DESTINATION lib
 #   RUNTIME DESTINATION bin)
 
-# # Create the libCommsBrokerPlugin.so library.
-# set(comms_broker_plugin_name CommsBrokerPlugin)
-# add_library(${comms_broker_plugin_name}
-#   src/Broker.cc
-#   src/CommsBrokerPlugin.cc
-#   src/CommsModel.cc
-#   src/SimpleDOTParser.cc
-#   src/VisibilityTable.cc
-# )
-# target_include_directories(${comms_broker_plugin_name}
-#   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
-# target_link_libraries(${comms_broker_plugin_name}
-#   PUBLIC
-#   ${catkin_LIBRARIES}
-#   ${GAZEBO_LIBRARIES}
-#   ignition-math4::ignition-math4
-#   ${ignition-transport4_LIBRARIES}
-#   ${protobuf_lib_name}
-# )
-# add_dependencies(${comms_broker_plugin_name}
-#   protobuf_compilation
-#   ${${PROJECT_NAME}_EXPORTED_TARGETS}
-# )
-# install(TARGETS ${comms_broker_plugin_name}
-#   ARCHIVE DESTINATION lib
-#   LIBRARY DESTINATION lib
-#   RUNTIME DESTINATION bin)
-# 
-# # Create the libCommsClient.so library.
-# set(comms_client_name CommsClient)
-# add_library(${comms_client_name} src/CommsClient.cc)
-# target_include_directories(${comms_client_name}
-#   PUBLIC ${CATKIN_DEVEL_PREFIX}/include)
-# target_link_libraries(${comms_client_name}
-#   ${catkin_LIBRARIES}
-#   ${protobuf_lib_name}
-#   ignition-transport4::ignition-transport4
-#   protobuf::libprotobuf
-# )
-# add_dependencies(${comms_client_name} protobuf_compilation)
-# install(TARGETS ${comms_client_name}
-#   ARCHIVE DESTINATION lib
-#   LIBRARY DESTINATION lib
-#   RUNTIME DESTINATION bin)
-# install(
-#   FILES
-#     include/${PROJECT_NAME}/CommonTypes.hh
-#     include/${PROJECT_NAME}/CommsClient.hh
-#   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-# )
-# install(
-#   FILES
-#     ${PROTO_HEADERS}
-#   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}/protobuf
-# )
- 
+# Create the libCommsBrokerPlugin.so library.
+set(comms_broker_plugin_name CommsBrokerPluginIgn)
+add_library(${comms_broker_plugin_name}
+  src/CommsBrokerPlugin.cc
+  src/VisibilityRfModel.cc
+  src/VisibilityTable.cc
+  src/SimpleDOTParser.cc
+)
+target_include_directories(${comms_broker_plugin_name}
+  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
+target_link_libraries(${comms_broker_plugin_name}
+  PUBLIC
+  ignition-common3::ignition-common3
+  ignition-math6::ignition-math6
+  ignition-msgs4::ignition-msgs4
+  ignition-plugin1::loader
+  ignition-launch1::ignition-launch1
+  ignition-transport7::ignition-transport7
+  sdformat8::sdformat8
+  ${protobuf_lib_name}
+  ${catkin_LIBRARIES}
+)
+install(TARGETS ${comms_broker_plugin_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+
 # Create the libBaseStationPlugin.so library.
 set(base_station_plugin_name BaseStationPluginIgn)
 add_library(${base_station_plugin_name} src/BaseStationPlugin.cc)
@@ -207,13 +183,32 @@ target_include_directories(${base_station_plugin_name}
  target_link_libraries(${base_station_plugin_name}
    ignition-common3::ignition-common3
    ignition-plugin1::loader
-   ignition-launch0::ignition-launch0
-   ignition-transport6::ignition-transport6
+   ignition-launch1::ignition-launch1
+   ignition-transport7::ignition-transport7
    sdformat8::sdformat8
    ${catkin_LIBRARIES}
    ${protobuf_lib_name}
  )
  install(TARGETS ${base_station_plugin_name}
+   ARCHIVE DESTINATION lib
+   LIBRARY DESTINATION lib
+   RUNTIME DESTINATION bin)
+
+# Create the libControllerPlugin.so library.
+set(controller_plugin_name ControllerPluginIgn)
+add_library(${controller_plugin_name} src/ControllerPlugin.cc)
+target_include_directories(${controller_plugin_name}
+   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
+ target_link_libraries(${controller_plugin_name}
+   ignition-common3::ignition-common3
+   ignition-plugin1::loader
+   ignition-launch1::ignition-launch1
+   ignition-transport7::ignition-transport7
+   sdformat8::sdformat8
+   ${catkin_LIBRARIES}
+   ${protobuf_lib_name}
+ )
+ install(TARGETS ${controller_plugin_name}
    ARCHIVE DESTINATION lib
    LIBRARY DESTINATION lib
    RUNTIME DESTINATION bin)

@@ -50,7 +50,7 @@ CommsClientIgn::CommsClientIgn(const std::string &_localAddress,
   while (!this->enabled && std::chrono::duration_cast<
                     std::chrono::milliseconds>(elapsed).count() <= kMaxWaitTime)
   {
-    std::cerr << "[CommsClientIgn] Retrying regster.." << std::endl;
+    std::cerr << "[CommsClientIgn] Retrying register.." << std::endl;
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
     this->enabled = this->Register();
     elapsed = std::chrono::steady_clock::now() - kStart;
