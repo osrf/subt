@@ -146,6 +146,12 @@ namespace subt
     /// local neighbors.
     public: Neighbor_M Neighbors() const;
 
+    /// \brief Broadcast a BEACON packet
+    public: bool SendBeacon();
+
+    /// \brief Start sending beacon packets at the specified interval
+    public: void StartBeaconInterval(ros::Duration period);
+
     /// \brief Register the current address. This will make a synchronous call
     /// to the broker to validate and register the address.
     /// \return True when the address is valid or false otherwise.
@@ -179,6 +185,12 @@ namespace subt
     /// \brief Maximum transmission payload size (octets) for each message.
     private: static const uint32_t kMtu = 1500;
 
+    /// \brief Port for BEACON packets
+    public: static const uint32_t kBeaconPort = 4000u;
+
+    /// \brief Timer for triggering beacon transmits
+    private: ros::Timer beacon_timer;
+
     /// \brief The current list of neighbors
     ///
     /// Accumulates data on neighbors based on received packets,
@@ -195,6 +207,10 @@ namespace subt
     /// \brief True when the broker validated my address. Enabled must be true
     /// for being able to send and receive data.
     private: bool enabled = false;
+
+    /// \brief True when the client has advertised the OnMessage
+    /// function to the broker already.
+    private: bool advertised = false;
 
     /// \brief When true, the Ignition service will only be visible within
     /// this process.
