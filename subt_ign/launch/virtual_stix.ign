@@ -41,6 +41,7 @@
   <executable_wrapper>
     <plugin name="ignition::launch::GazeboGui"
           filename="libignition-launch-gazebogui.so">
+      <world_name><%= worldName %></world_name>
       <plugin filename="Scene3D" name="3D View">
         <ignition-gui>
           <title>3D View</title>
@@ -50,7 +51,7 @@
 
         <engine>ogre2</engine>
         <scene>scene</scene>
-        <ambient_light>0.2 0.2 0.1</ambient_light>
+        <ambient_light>1.0 1.0 1.0</ambient_light>
         <background_color>0.8 0.8 0.8</background_color>
         <camera_pose>-6.3 -4.2 3.6 0 0.268 0.304</camera_pose>
         <service>/world/<%= worldName %>/scene/info</service>
@@ -103,6 +104,17 @@
         <real_time_factor>true</real_time_factor>
         <iterations>true</iterations>
         <topic>/world/<%= worldName %>/stats</topic>
+      </plugin>
+      <!-- Entity tree -->
+      <plugin filename="EntityTree" name="Entity tree">
+        <ignition-gui>
+          <title>Entity tree</title>
+        </ignition-gui>
+      </plugin>
+
+      <!-- Transform Control -->
+      <plugin filename="TransformControl" name="Transform Control">
+        <service>/world/<%= worldName %>/gui/transform_mode</service>
       </plugin>
     </plugin>
   </executable_wrapper>

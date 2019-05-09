@@ -7,7 +7,7 @@
     </physics>
 
     <scene>
-      <ambient>0.2 0.2 0.2 1.0</ambient>
+      <ambient>1.0 1.0 1.0 1.0</ambient>
       <background>0.34 0.39 0.43 1.0</background>
       <grid>false</grid>
       <origin_visual>false</origin_visual>
@@ -145,5 +145,141 @@
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Edgar Mine Virtual STIX/3</uri>
       <pose>278.500000 -6.30000 1.000000 0 0 -1.95</pose>
     </include>
+
+    <!-- The artifacts -->
+    <include>
+      <name>radio_1</name>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Radio
+      </uri>
+      <pose>109.23 -14.53 1.38 0 0 3.1415</pose>
+    </include>
+
+    <include>
+      <name>backpack_1</name>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Backpack
+      </uri>
+      <pose>129.188 30.940 1.4533989 0 0 0</pose>
+    </include>
+    
+    <include>
+      <name>phone_1</name>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Phone
+      </uri>
+      <pose>261.2218 67.67688 1.9079 0 0 0</pose>
+    </include>
+
+    <include>
+      <name>toolbox_1</name>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Toolbox
+      </uri>
+      <pose>69.9468 198.879 -0.5514 0 0 0</pose>
+    </include>
+
+    <!--
+    <include>
+      <name>extinguisher_1</name>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Extinguisher
+      </uri>
+      <pose>0.000000 0.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>radio_2</name>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Radio
+      </uri>
+      <pose>0.000000 0.00000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>toolbox_2</name>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Toolbox
+      </uri>
+      <pose>0.000000 0.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>phone_2</name>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Phone
+      </uri>
+      <pose>0.00000 0.000000 0.000 0.0 0 0.000000</pose>
+    </include>
+    <include>
+      <name>electrical_box_1</name>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Electrical Box
+      </uri>
+      <pose>0.000000 0.000000 0.000000 0 0 0.000000</pose>
+    </include>
+    <include>
+      <name>backpack_2</name>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Backpack
+      </uri>
+      <pose>0.000000 0.000000 0.000000 0 0 0.000000</pose>
+    </include>
+    <include>
+      <name>phone_3</name>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Phone
+      </uri>
+      <pose>0.00000 0.00000 0.000 0.0 0 0.000000</pose>
+    </include>
+    <include>
+      <name>valve_1</name>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Valve
+      </uri>
+      <pose>0.000000 0.000000 0.000000 0 0 0.000000</pose>
+    </include>
+    <include>
+      <name>valve_2</name>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Valve
+      </uri>
+      <pose>0.0000 0.000000 0.000000 0 0 0.000000</pose>
+    </include>
+    <include>
+      <name>electrical_box_2</name>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Electrical Box
+      </uri>
+      <pose>0.000000 0.000000 0.000000 0 0 0.000000</pose>
+    </include>
+    <include>
+      <name>backpack_3</name>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Backpack
+      </uri>
+      <pose>0.000000 0.000000 0.000000 0 0 0.000000</pose>
+    </include>
+    <include>
+      <name>extinguisher_2</name>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Extinguisher
+      </uri>
+      <pose>0.000000 0.000000 0.000000 0 0 0.000000</pose>
+    </include>
+    -->
+
+
+
+
+
+
+
+
+
+
+
+
+
   </world>
 </sdf>
