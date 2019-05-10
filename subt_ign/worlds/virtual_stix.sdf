@@ -160,7 +160,7 @@
       <uri>
         https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Backpack
       </uri>
-      <pose>129.188 30.940 1.4533989 0 0 0</pose>
+      <pose>198.77207946777344 180.96882629394531 3.4107623100280762 0 0 0</pose>
     </include>
     
     <include>
@@ -179,13 +179,12 @@
       <pose>69.9468 198.879 -0.5514 0 0 0</pose>
     </include>
 
-    <!--
     <include>
       <name>extinguisher_1</name>
       <uri>
         https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Extinguisher
       </uri>
-      <pose>0.000000 0.000000 0.000000 0 0 0.000000</pose>
+      <pose>213.91329956054688 335.207275390625 1.8122318983078003 0 0 0</pose>
     </include>
 
     <include>
@@ -193,7 +192,7 @@
       <uri>
         https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Radio
       </uri>
-      <pose>0.000000 0.00000 0.000000 0 0 0.000000</pose>
+      <pose>324.95281982421875 203.528564453125 1.7707866430282593 0 0 0</pose>
     </include>
 
     <include>
@@ -201,7 +200,7 @@
       <uri>
         https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Toolbox
       </uri>
-      <pose>0.000000 0.000000 0.000000 0 0 0.000000</pose>
+      <pose>330.84735107421875 48.170669555664062 1.6322968006134033 0 0 0</pose>
     </include>
 
     <include>
@@ -209,77 +208,70 @@
       <uri>
         https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Phone
       </uri>
-      <pose>0.00000 0.000000 0.000 0.0 0 0.000000</pose>
+      <pose>449.52389526367188 31.301319122314453 2.2312660217285156 0 0 3.1415</pose>
     </include>
+
     <include>
       <name>electrical_box_1</name>
       <uri>
         https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Electrical Box
       </uri>
-      <pose>0.000000 0.000000 0.000000 0 0 0.000000</pose>
+      <pose>528.10687255859375 -21.400039672851562 32.903278350830078 -1.570299 0.000619 -0.894488</pose>
     </include>
+
     <include>
       <name>backpack_2</name>
       <uri>
         https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Backpack
       </uri>
-      <pose>0.000000 0.000000 0.000000 0 0 0.000000</pose>
+      <pose>481.82919311523438 -98.16998291015625 20.649637222290 0 0.342585 -2.449386</pose>
     </include>
-    <include>
-      <name>phone_3</name>
-      <uri>
-        https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Phone
-      </uri>
-      <pose>0.00000 0.00000 0.000 0.0 0 0.000000</pose>
-    </include>
+
     <include>
       <name>valve_1</name>
       <uri>
         https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Valve
       </uri>
-      <pose>0.000000 0.000000 0.000000 0 0 0.000000</pose>
+      <pose>424.64059448242188 -143.08348083496094 5.957301139831543 0 0 -3.121849</pose>
     </include>
-    <include>
+
+   <include>
       <name>valve_2</name>
       <uri>
         https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Valve
       </uri>
-      <pose>0.0000 0.000000 0.000000 0 0 0.000000</pose>
+      <pose>190.36337280273438 -318.14315795898438 4.6685886383056641 0 0 1.952923</pose>
+    </include>
+
+    <include>
+      <name>backpack_3</name>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Backpack
+      </uri>
+      <pose>181.71195983886719 -209.1435546875 3.5392951965332031 0 0 -1.616099 </pose>
     </include>
     <include>
       <name>electrical_box_2</name>
       <uri>
         https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Electrical Box
       </uri>
-      <pose>0.000000 0.000000 0.000000 0 0 0.000000</pose>
+      <pose>222.39996337890625 -265.64178466796875 7.61088752746582 -1.745181 -0.000012 3.141590</pose>
     </include>
+   
     <include>
-      <name>backpack_3</name>
+      <name>phone_3</name>
       <uri>
-        https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Backpack
+        https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Phone
       </uri>
-      <pose>0.000000 0.000000 0.000000 0 0 0.000000</pose>
+      <pose>308.89337158203125 -292.90921020507812 6.5252327919006348 -1.589752 0 0</pose>
     </include>
+
     <include>
       <name>extinguisher_2</name>
       <uri>
         https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Extinguisher
       </uri>
-      <pose>0.000000 0.000000 0.000000 0 0 0.000000</pose>
+      <pose>313.92514038085938 -182.68081665039062 4.324249267578125 0 0 0</pose>
     </include>
-    -->
-
-
-
-
-
-
-
-
-
-
-
-
-
   </world>
 </sdf>
