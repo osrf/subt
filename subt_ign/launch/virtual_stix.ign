@@ -19,6 +19,10 @@
     <world_file><%= worldName %>.sdf</world_file>
     <run>true</run>
     <levels>true</levels>
+    <record>
+      <enabled>true</enabled>
+      <path>/tmp/ign</path>
+    </record>
 
     <plugin entity_name="<%= worldName %>"
             entity_type="world"
@@ -42,7 +46,7 @@
     <plugin name="ignition::launch::GazeboGui"
           filename="libignition-launch-gazebogui.so">
       <world_name><%= worldName %></world_name>
-      <plugin filename="Scene3D" name="3D View">
+      <plugin filename="GzScene3D" name="3D View">
         <ignition-gui>
           <title>3D View</title>
           <property type="bool" key="showTitleBar">false</property>
