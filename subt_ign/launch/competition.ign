@@ -11,17 +11,8 @@
   <!-- Start ROS first. This is a bit hacky for now. -->
   <!-- Make sure to source /opt/ros/melodic/setup.bash -->
   <executable name='ros'>
-    <command>roscore</command>
+    <command>roslaunch subt_ros competition_init.launch worldName:=<%=worldName%></command>
   </executable>
-  <% ['X1', 'X2', 'X3', 'X4'].each do |name| %>
-  <executable name='ros1_ign_bridge_imu_<%=name%>'>
-    <command>rosrun ros1_ign_bridge parameter_bridge /model/<%=name%>/imu/data@sensor_msgs/Imu@ignition.msgs.IMU /model/<%=name%>/pose@geometry_msgs/TransformStamped@ignition.msgs.Pose __name:=ros1_ign_bridge_imu_<%=name%></command>
-  </executable>
-
-  <executable name='pose_pub_<%=name%>'>
-    <command>rosrun subt_ros pose_tf_broadcaster pose:=/model/<%=name%>/pose __name:=pose_pub_<%=name%></command>
-  </executable>
-  <% end %>
 
   <plugin name="ignition::launch::GazeboServer"
           filename="libignition-launch-gazebo.so">

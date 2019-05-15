@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="worldName"/>
+
+  <param name="/use_sim_time" value="true"/>
+
+  <node pkg="ros1_ign_bridge" type="parameter_bridge" name="$(anon ros1_ign_bridge)" args="/world/$(arg worldName)/clock@rosgraph_msgs/Clock@ignition.msgs.Clock">
+    <remap from="/world/$(arg worldName)/clock" to="/clock"/>
+  </node>
+
+  <include file="$(find subt_ros)/launch/vehicle_topics.launch">
+    <arg name="name" value="X1"/>
+  </include>
+  <include file="$(find subt_ros)/launch/vehicle_topics.launch">
+    <arg name="name" value="X2"/>
+  </include>
+  <include file="$(find subt_ros)/launch/vehicle_topics.launch">
+    <arg name="name" value="X3"/>
+  </include>
+  <include file="$(find subt_ros)/launch/vehicle_topics.launch">
+    <arg name="name" value="X4"/>
+  </include>
+
+  <node pkg="tf2_ros" type="static_transform_publisher" name="tf_world_static" args="0 0 0 0 0 0 world $(arg worldName)"/>
+</launch>
