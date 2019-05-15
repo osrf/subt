@@ -65,14 +65,16 @@ namespace subt
   /// \brief All the supported artifact types.
   enum class ArtifactType : uint32_t
   {
-    TYPE_BACKPACK       = 0,
-    TYPE_DUCT           = 1,
-    TYPE_ELECTRICAL_BOX = 2,
-    TYPE_EXTINGUISHER   = 3,
-    TYPE_PHONE          = 4,
-    TYPE_RADIO          = 5,
-    TYPE_TOOLBOX        = 6,
-    TYPE_VALVE          = 7,
+    TYPE_BACKPACK = 0,
+    TYPE_DUCT,
+    TYPE_DRILL,
+    TYPE_ELECTRICAL_BOX,
+    TYPE_EXTINGUISHER,
+    TYPE_PHONE,
+    TYPE_RADIO,
+    TYPE_RESCUE_RANDY,
+    TYPE_TOOLBOX,
+    TYPE_VALVE
   };
 
   /// \def TeamMemberPtr

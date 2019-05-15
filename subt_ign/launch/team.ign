@@ -22,8 +22,8 @@
         </plugin>
 
         <!-- Publish robot state information -->
-        <plugin filename="libignition-gazebo-state-publisher-system.so"
-                name="ignition::gazebo::systems::StatePublisher"></plugin>
+        <plugin filename="libignition-gazebo-joint-state-publisher-system.so"
+                name="ignition::gazebo::systems::JointStatePublisher"></plugin>
       </include>
     </sdf>
   </plugin>
@@ -50,8 +50,8 @@
         </plugin>
 
         <!-- Publish robot state information -->
-        <plugin filename="libignition-gazebo-state-publisher-system.so"
-                name="ignition::gazebo::systems::StatePublisher"></plugin>
+        <plugin filename="libignition-gazebo-joint-state-publisher-system.so"
+                name="ignition::gazebo::systems::JointStatePublisher"></plugin>
       </include>
     </sdf>
   </plugin>
@@ -67,8 +67,8 @@
         <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X3 UAV</uri>
 
         <!-- Publish robot state information -->
-        <plugin filename="libignition-gazebo-state-publisher-system.so"
-                name="ignition::gazebo::systems::StatePublisher"></plugin>
+        <plugin filename="libignition-gazebo-joint-state-publisher-system.so"
+                name="ignition::gazebo::systems::JointStatePublisher"></plugin>
       </include>
     </sdf>
   </plugin>
@@ -84,8 +84,8 @@
         <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X4 UAV</uri>
 
         <!-- Publish robot state information -->
-        <plugin filename="libignition-gazebo-state-publisher-system.so"
-                name="ignition::gazebo::systems::StatePublisher"></plugin>
+        <plugin filename="libignition-gazebo-joint-state-publisher-system.so"
+                name="ignition::gazebo::systems::JointStatePublisher"></plugin>
       </include>
     </sdf>
   </plugin>
