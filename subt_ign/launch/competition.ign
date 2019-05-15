@@ -13,9 +13,9 @@
   <executable name='ros'>
     <command>roscore</command>
   </executable>
-  <% ['x1', 'x2', 'x3', 'x4'].each do |name| %>
+  <% ['X1', 'X2', 'X3', 'X4'].each do |name| %>
   <executable name='ros1_ign_bridge_imu_<%=name%>'>
-    <command>rosrun ros1_ign_bridge parameter_bridge /<%=name%>/imu/data@sensor_msgs/Imu@ignition.msgs.IMU /model/<%=name%>/pose@geometry_msgs/TransformStamped@ignition.msgs.Pose __name:=ros1_ign_bridge_imu_<%=name%></command>
+    <command>rosrun ros1_ign_bridge parameter_bridge /model/<%=name%>/imu/data@sensor_msgs/Imu@ignition.msgs.IMU /model/<%=name%>/pose@geometry_msgs/TransformStamped@ignition.msgs.Pose __name:=ros1_ign_bridge_imu_<%=name%></command>
   </executable>
 
   <executable name='pose_pub_<%=name%>'>

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+  <param name="X1/robot_description" textfile="$(find x1_description)/urdf/x1_from_sdf.urdf"/>
+  <param name="X2/robot_description" textfile="$(find x2_description)/urdf/x2_from_sdf.urdf"/>
+  <param name="X3/robot_description" textfile="$(find x3_description)/urdf/x3_from_sdf.urdf"/>
+  <param name="X4/robot_description" textfile="$(find x4_description)/urdf/x4_from_sdf.urdf"/>
+</launch>
