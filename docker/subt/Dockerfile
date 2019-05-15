@@ -62,13 +62,10 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu 
  && sudo /bin/sh -c 'apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116' \
  && sudo apt-get update \
  && sudo apt-get install -y \
-    gazebo9 \
-    libgazebo9-dev \
-    libignition-common-dev \
-    libignition-math4-dev \
+    ignition-blueprint \
     python-catkin-tools \
     python-rosinstall \
-    ros-melodic-desktop-full \
+    ros-melodic-desktop \
     ros-melodic-joystick-drivers \
     ros-melodic-pointcloud-to-laserscan \
     ros-melodic-robot-localization \
@@ -81,9 +78,8 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu 
 
 RUN rosdep update
 
-# Clone all the gazebo models so that you don't download them every time
+# Clone all the subt models so that you don't download them every time
 # docker is run
-RUN mkdir -p /home/$USERNAME/.gazebo && hg clone https://bitbucket.org/osrf/gazebo_models /home/$USERNAME/.gazebo/models
 
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
@@ -98,7 +94,6 @@ RUN tar xvf subt_robot_examples_latest.tgz
 RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && catkin_make install'
 
 RUN /bin/sh -c 'echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc' \
- && /bin/sh -c 'echo ". /usr/share/gazebo/setup.sh" >> ~/.bashrc' \
  && /bin/sh -c 'echo ". ~/subt_ws/install/setup.sh" >> ~/.bashrc'
 
 # Customize your image here.
