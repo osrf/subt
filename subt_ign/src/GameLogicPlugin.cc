@@ -44,15 +44,17 @@ class subt::GameLogicPluginPrivate
 {
   /// \brief Mapping between enum types and strings.
   public: const std::array<
-      const std::pair<subt::ArtifactType, std::string>, 8> kArtifactTypes
+      const std::pair<subt::ArtifactType, std::string>, 10> kArtifactTypes
       {
         {
           {subt::ArtifactType::TYPE_BACKPACK      , "TYPE_BACKPACK"},
+          {subt::ArtifactType::TYPE_DRILL         , "TYPE_DRILL"},
           {subt::ArtifactType::TYPE_DUCT          , "TYPE_DUCT"},
           {subt::ArtifactType::TYPE_ELECTRICAL_BOX, "TYPE_ELECTRICAL_BOX"},
           {subt::ArtifactType::TYPE_EXTINGUISHER  , "TYPE_EXTINGUISHER"},
           {subt::ArtifactType::TYPE_PHONE         , "TYPE_PHONE"},
           {subt::ArtifactType::TYPE_RADIO         , "TYPE_RADIO"},
+          {subt::ArtifactType::TYPE_RESCUE_RANDY  , "TYPE_RESCUE_RANDY"},
           {subt::ArtifactType::TYPE_TOOLBOX       , "TYPE_TOOLBOX"},
           {subt::ArtifactType::TYPE_VALVE         , "TYPE_VALVE"}
         }

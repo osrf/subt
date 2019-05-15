@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <%
-  worldName = 'tunnel_qual_ign'
+  worldName = 'virtual_stix'
 %>
 <ignition version='1.0'>
   <env>
@@ -11,7 +11,7 @@
   <!-- Start ROS first. This is a bit hacky for now. -->
   <!-- Make sure to source /opt/ros/melodic/setup.bash -->
   <executable name='ros'>
-    <command>roslaunch subt_ros competition_init.launch worldName:=<%=worldName%></command>
+    <command>roscore</command>
   </executable>
 
   <plugin name="ignition::launch::GazeboServer"
@@ -19,6 +19,10 @@
     <world_file><%= worldName %>.sdf</world_file>
     <run>true</run>
     <levels>true</levels>
+    <record>
+      <enabled>true</enabled>
+      <path>/tmp/ign</path>
+    </record>
 
     <plugin entity_name="<%= worldName %>"
             entity_type="world"
@@ -36,16 +40,12 @@
             name="ignition::gazebo::systems::SceneBroadcaster">
     </plugin>
 
-    <plugin entity_name="<%= worldName %>"
-            entity_type="world"
-            filename="libignition-gazebo-imu-system.so"
-            name="ignition::gazebo::systems::Imu">
-    </plugin>
   </plugin>
 
   <executable_wrapper>
     <plugin name="ignition::launch::GazeboGui"
           filename="libignition-launch-gazebogui.so">
+      <world_name><%= worldName %></world_name>
       <plugin filename="GzScene3D" name="3D View">
         <ignition-gui>
           <title>3D View</title>
@@ -55,7 +55,7 @@
 
         <engine>ogre2</engine>
         <scene>scene</scene>
-        <ambient_light>0.2 0.2 0.1</ambient_light>
+        <ambient_light>1.0 1.0 1.0</ambient_light>
         <background_color>0.8 0.8 0.8</background_color>
         <camera_pose>-6.3 -4.2 3.6 0 0.268 0.304</camera_pose>
         <service>/world/<%= worldName %>/scene/info</service>
@@ -109,35 +109,46 @@
         <iterations>true</iterations>
         <topic>/world/<%= worldName %>/stats</topic>
       </plugin>
+      <!-- Entity tree -->
+      <plugin filename="EntityTree" name="Entity tree">
+        <ignition-gui>
+          <title>Entity tree</title>
+        </ignition-gui>
+      </plugin>
+
+      <!-- Transform Control -->
+      <plugin filename="TransformControl" name="Transform Control">
+        <service>/world/<%= worldName %>/gui/transform_mode</service>
+      </plugin>
     </plugin>
   </executable_wrapper>
 
-  <!-- Load a joystick plugin that will read from a device and output to a
+  <!-- Load a joystick plugin that will read from a device and output to a 
        topic -->
-  <!--<plugin name="ignition::launch::Joystick"-->
-  <!--        filename="libignition-launch-joystick.so">-->
-  <!--  <device>/dev/input/js0</device>-->
-  <!--  <sticky_buttons>false</sticky_buttons>-->
-  <!--  <dead_zone>0.05</dead_zone>-->
-  <!--  <rate>60</rate>-->
-  <!--  <accumulation_rate>1000</accumulation_rate>-->
-  <!--</plugin>-->
+  <plugin name="ignition::launch::Joystick"
+          filename="libignition-launch-joystick.so">
+    <device>/dev/input/js0</device>
+    <sticky_buttons>false</sticky_buttons>
+    <dead_zone>0.05</dead_zone>
+    <rate>60</rate>
+    <accumulation_rate>1000</accumulation_rate>
+  </plugin>
 
   <!-- Load a plugin that transforms a joystick message to a
        twist message -->
-  <!--<plugin name="ignition::launch::JoyToTwist"-->
-  <!--        filename="libignition-launch-joytotwist.so">-->
-  <!--  <input_topic>/joy</input_topic>-->
-  <!--  <output_topic>/model/x1/cmd_vel</output_topic>-->
-  <!--</plugin>-->
+  <plugin name="ignition::launch::JoyToTwist"
+          filename="libignition-launch-joytotwist.so">
+    <input_topic>/joy</input_topic>
+    <output_topic>/model/x1/cmd_vel</output_topic>
+  </plugin>
 
   <!-- Load a plugin that transforms a joystick message to a
        twist message -->
-  <!--<plugin name="ignition::launch::JoyToTwist"-->
-  <!--        filename="libignition-launch-joytotwist.so">-->
-  <!--  <input_topic>/joy</input_topic>-->
-  <!--  <output_topic>/model/x2/cmd_vel</output_topic>-->
-  <!--</plugin>-->
+  <plugin name="ignition::launch::JoyToTwist"
+          filename="libignition-launch-joytotwist.so">
+    <input_topic>/joy</input_topic>
+    <output_topic>/model/x2/cmd_vel</output_topic>
+  </plugin>
 
   <!-- The SubT challenge comms broker plugin -->
   <plugin entity_name="<%= worldName %>"
@@ -204,8 +215,8 @@
     </logging>
 
     <artifact>
-      <name>radio_1</name>
-      <type>TYPE_RADIO</type>
+      <name>extinguisher_1</name>
+      <type>TYPE_EXTINGUISHER</type>
     </artifact>
     <artifact>
       <name>backpack_1</name>
@@ -216,31 +227,47 @@
       <type>TYPE_PHONE</type>
     </artifact>
     <artifact>
-      <name>toolbox_1</name>
-      <type>TYPE_TOOLBOX</type>
+      <name>rescue_randy_1</name>
+      <type>TYPE_RESCUE_RANDY</type>
     </artifact>
     <artifact>
-      <name>extinguisher_1</name>
+      <name>extinguisher_2</name>
       <type>TYPE_EXTINGUISHER</type>
     </artifact>
     <artifact>
-      <name>radio_2</name>
-      <type>TYPE_RADIO</type>
+      <name>drill_1</name>
+      <type>TYPE_DRILL</type>
     </artifact>
     <artifact>
-      <name>toolbox_2</name>
-      <type>TYPE_TOOLBOX</type>
+      <name>drill_2</name>
+      <type>TYPE_DRILL</type>
+    </artifact>
+    <artifact>
+      <name>drill_3</name>
+      <type>TYPE_DRILL</type>
+    </artifact>
+    <artifact>
+      <name>drill_4</name>
+      <type>TYPE_DRILL</type>
     </artifact>
     <artifact>
       <name>phone_2</name>
       <type>TYPE_PHONE</type>
     </artifact>
     <artifact>
-      <name>electrical_box_1</name>
-      <type>TYPE_ELECTRICAL_BOX</type>
+      <name>backpack_2</name>
+      <type>TYPE_BACKPACK</type>
     </artifact>
     <artifact>
-      <name>backpack_2</name>
+      <name>rescue_randy_2</name>
+      <type>TYPE_RESCUE_RANDY</type>
+    </artifact>
+    <artifact>
+      <name>rescue_randy_3</name>
+      <type>TYPE_RESCUE_RANDY</type>
+    </artifact>
+    <artifact>
+      <name>backpack_3</name>
       <type>TYPE_BACKPACK</type>
     </artifact>
     <artifact>
@@ -248,23 +275,7 @@
       <type>TYPE_PHONE</type>
     </artifact>
     <artifact>
-      <name>valve_1</name>
-      <type>TYPE_VALVE</type>
-    </artifact>
-    <artifact>
-      <name>valve_2</name>
-      <type>TYPE_VALVE</type>
-    </artifact>
-    <artifact>
-      <name>electrical_box_2</name>
-      <type>TYPE_ELECTRICAL_BOX</type>
-    </artifact>
-    <artifact>
-      <name>backpack_3</name>
-      <type>TYPE_BACKPACK</type>
-    </artifact>
-    <artifact>
-      <name>extinguisher_2</name>
+      <name>extinguisher_3</name>
       <type>TYPE_EXTINGUISHER</type>
     </artifact>
   </plugin>

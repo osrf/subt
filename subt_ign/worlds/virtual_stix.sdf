@@ -1,0 +1,270 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <world name="virtual_stix">
+    <physics name="1ms" type="ode">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+
+    <scene>
+      <ambient>1.0 1.0 1.0 1.0</ambient>
+      <background>0.34 0.39 0.43 1.0</background>
+      <grid>false</grid>
+      <origin_visual>false</origin_visual>
+    </scene>
+
+    <!-- Barriers -->
+    <include>
+      <name>barrier_0_-1</name>
+      <pose>8.0 -11 0 0 0 0</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_0_1</name>
+      <pose>8.0 11 0 0 0 0 </pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_1_-1</name>
+      <pose>3.7 -11 0 0 0 0</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_1_1</name>
+      <pose>3.7 11 0 0 0 0</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_2_-1</name>
+      <pose>-0.5999999999999996 -11 0 0 0 0</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_2_1</name>
+      <pose>-0.5999999999999996 11 0 0 0 0</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_3_-1</name>
+      <pose>-4.899999999999999 -11 0 0 0 0</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_3_1</name>
+      <pose>-4.899999999999999 11 0 0 0 0</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_4_-1</name>
+      <pose>-9.2 -11 0 0 0 0</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_4_1</name>
+      <pose>-9.2 11 0 0 0 0</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_-9.5_-2</name>
+      <pose>10.5 -8.6 0 0 0 1.5707963267948966</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_-9.5_2</name>
+      <pose>10.5 8.6 0 0 0 1.5707963267948966</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_-32_-2</name>
+      <pose>-12 -8.6 0 0 0 1.5707963267948966</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_-32_-1</name>
+      <pose>-12 -4.3 0 0 0 1.5707963267948966</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_-32_0</name>
+      <pose>-12 0.0 0 0 0 1.5707963267948966</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_-32_1</name>
+      <pose>-12 4.3 0 0 0 1.5707963267948966</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_-32_2</name>
+      <pose>-12 8.6 0 0 0 1.5707963267948966</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <!-- The base station -->
+    <include>
+      <static>true</static>
+      <name>base_station</name>
+      <pose>-8 0 0 0 0 -1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Base Station</uri>
+    </include>
+
+    <!-- Fiducial marking the origin for artifacts reports -->
+    <include>
+      <name>artifact_origin</name>
+      <pose>2 4 0.5 0 0 0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Fiducial</uri>
+    </include>
+
+    <!-- The Tunnel -->
+    <include>
+      <name>edgar</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Edgar Mine Virtual STIX/5</uri>
+      <!--<pose>8.500000 -6.30000 1.000000 0 0 -1.95</pose>-->
+      <pose>117 0 0.455351322889328 0 0 -1.923350</pose>
+    </include>
+
+    <!-- The artifacts -->
+    <include>
+      <name>extinguisher_1</name>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Fire Extinguisher
+      </uri>
+      <pose>109.23 -14.53 1.38 0 0 3.1415</pose>
+    </include>
+
+    <include>
+      <name>backpack_1</name>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/openrobotics/models/JanSport Backpack Red
+      </uri>
+      <pose>198.77207946777344 180.96882629394531 3.4228410720825195 0 0 0</pose>
+    </include>
+    
+    <include>
+      <name>phone_1</name>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Samsung J8 Black
+      </uri>
+      <pose>261.22198486328125 67.6769027709961  1.8389328718185425 -1.600465 0 0</pose>
+    </include>
+
+    <include>
+      <name>rescue_randy_1</name>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Rescue Randy Sitting
+      </uri>
+      <pose>69.951454162597656 198.87980651855469 -0.51693785190582275 0.138212 0 1.759210</pose>
+    </include>
+
+    <include>
+      <name>extinguisher_2</name>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Fire Extinguisher
+      </uri>
+      <pose>213.91329956054688 335.207275390625 1.8122318983078003 0 0 0</pose>
+    </include>
+
+    <include>
+      <name>drill_1</name>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Black and Decker Cordless Drill
+      </uri>
+      <pose>324.95281982421875 203.528564453125 1.7707866430282593 0 0 0</pose>
+    </include>
+
+    <include>
+      <name>drill_4</name>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Black and Decker Cordless Drill
+      </uri>
+      <pose>330.84735107421875 48.170669555664062 1.6322968006134033 0 0 0</pose>
+    </include>
+
+    <include>
+      <name>phone_2</name>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Samsung J8 Black
+      </uri>
+      <pose>449.52398681640625 31.301300048828125 2.1602463722229004 0 0 3.1415</pose>
+    </include>
+
+    <include>
+      <name>drill_2</name>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Black and Decker Cordless Drill
+      </uri>
+      <pose>529.4637451171875 -20.309009552001953 30.286531448364258 0.071287 0.000619 -0.894488</pose>
+    </include>
+
+    <include>
+      <name>backpack_2</name>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/openrobotics/models/JanSport Backpack Red
+      </uri>
+      <pose>481.82919311523438 -98.16998291015625 20.649637222290 0 0.342585 -2.449386</pose>
+    </include>
+
+    <include>
+      <name>rescue_randy_2</name>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Rescue Randy Sitting
+      </uri>
+      <pose>424.64071655273438 -143.06990051269531 6.0088891983032227 0.244310 0.129180 -3.089747</pose>
+    </include>
+
+   <include>
+      <name>rescue_randy_3</name>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Rescue Randy Sitting
+      </uri>
+      <pose>192.0780029296875 -317.45401000976562 4.073735237121582 0 0.142267 1.952920</pose>
+    </include>
+
+    <include>
+      <name>backpack_3</name>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/openrobotics/models/JanSport Backpack Red
+      </uri>
+      <pose>181.70771789550781 -209.143798828125 3.5136091709136963  0.179104 0 -1.616100</pose>
+    </include>
+    <include>
+      <name>drill_3</name>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Black and Decker Cordless Drill
+      </uri>
+      <pose>215.87300109863281 -266.43145751953125 4.3131265640258789 -0.105501 -0.000012 3.141590</pose>
+    </include>
+   
+    <include>
+      <name>phone_3</name>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Samsung J8 Black
+      </uri>
+      <pose>308.89337158203125 -292.90921020507812 6.5252327919006348 -1.589752 0 0</pose>
+    </include>
+
+    <include>
+      <name>extinguisher_3</name>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Fire Extinguisher
+      </uri>
+      <pose>313.92514038085938 -182.68081665039062 4.324249267578125 0 0 0</pose>
+    </include>
+  </world>
+</sdf>
