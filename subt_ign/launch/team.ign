@@ -8,7 +8,8 @@
 
     <sdf version='1.6'>
       <include>
-        <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X2 UGV/1</uri>
+        <!--<uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X2 UGV/</uri>-->
+        <uri>https://fuel.ignitionrobotics.org/1.0/azeey/models/X2_test</uri>
 
         <!-- Diff drive -->
         <plugin filename="libignition-gazebo-diff-drive-system.so"
@@ -22,8 +23,17 @@
         </plugin>
 
         <!-- Publish robot state information -->
-        <plugin filename="libignition-gazebo-state-publisher-system.so"
-                name="ignition::gazebo::systems::StatePublisher"></plugin>
+        <!--<plugin filename="libignition-gazebo-joint-state-publisher-system.so"-->
+        <!--        name="ignition::gazebo::systems::JointStatePublisher"></plugin>-->
+
+        <plugin filename="libignition-gazebo-pose-publisher-system.so"
+          name="ignition::gazebo::systems::PosePublisher">
+          <publish_link_pose>true</publish_link_pose>
+          <publish_sensor_pose>true</publish_sensor_pose>
+          <publish_collision_pose>false</publish_collision_pose>
+          <publish_visual_pose>false</publish_visual_pose>
+          <publish_nested_model_pose>false</publish_nested_model_pose>
+        </plugin>
       </include>
     </sdf>
   </plugin>
@@ -36,7 +46,8 @@
 
     <sdf version='1.6'>
       <include>
-        <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X1 UGV</uri>
+        <!--<uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X1 UGV</uri>-->
+        <uri>https://fuel.ignitionrobotics.org/1.0/azeey/models/X1_test</uri>
 
         <!-- Diff drive -->
         <plugin filename="libignition-gazebo-diff-drive-system.so"
@@ -50,8 +61,16 @@
         </plugin>
 
         <!-- Publish robot state information -->
-        <plugin filename="libignition-gazebo-state-publisher-system.so"
-                name="ignition::gazebo::systems::StatePublisher"></plugin>
+        <!--<plugin filename="libignition-gazebo-joint-state-publisher-system.so"-->
+        <!--        name="ignition::gazebo::systems::JointStatePublisher"></plugin>-->
+        <plugin filename="libignition-gazebo-pose-publisher-system.so"
+          name="ignition::gazebo::systems::PosePublisher">
+          <publish_link_pose>true</publish_link_pose>
+          <publish_sensor_pose>true</publish_sensor_pose>
+          <publish_collision_pose>false</publish_collision_pose>
+          <publish_visual_pose>false</publish_visual_pose>
+          <publish_nested_model_pose>false</publish_nested_model_pose>
+        </plugin>
       </include>
     </sdf>
   </plugin>
@@ -64,11 +83,20 @@
 
     <sdf version='1.6'>
       <include>
-        <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X3 UAV</uri>
+        <!--<uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X3 UAV</uri>-->
+        <uri>https://fuel.ignitionrobotics.org/1.0/azeey/models/X3_test</uri>
 
         <!-- Publish robot state information -->
-        <plugin filename="libignition-gazebo-state-publisher-system.so"
-                name="ignition::gazebo::systems::StatePublisher"></plugin>
+        <!--<plugin filename="libignition-gazebo-joint-state-publisher-system.so"-->
+        <!--        name="ignition::gazebo::systems::JointStatePublisher"></plugin>-->
+        <plugin filename="libignition-gazebo-pose-publisher-system.so"
+          name="ignition::gazebo::systems::PosePublisher">
+          <publish_link_pose>true</publish_link_pose>
+          <publish_sensor_pose>true</publish_sensor_pose>
+          <publish_collision_pose>false</publish_collision_pose>
+          <publish_visual_pose>false</publish_visual_pose>
+          <publish_nested_model_pose>false</publish_nested_model_pose>
+        </plugin>
       </include>
     </sdf>
   </plugin>
@@ -81,11 +109,20 @@
 
     <sdf version='1.6'>
       <include>
-        <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X4 UAV</uri>
+        <!--<uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X4 UAV</uri>-->
+        <uri>https://fuel.ignitionrobotics.org/1.0/azeey/models/X4_test</uri>
 
         <!-- Publish robot state information -->
-        <plugin filename="libignition-gazebo-state-publisher-system.so"
-                name="ignition::gazebo::systems::StatePublisher"></plugin>
+        <!--<plugin filename="libignition-gazebo-joint-state-publisher-system.so"-->
+        <!--        name="ignition::gazebo::systems::JointStatePublisher"></plugin>-->
+        <plugin filename="libignition-gazebo-pose-publisher-system.so"
+          name="ignition::gazebo::systems::PosePublisher">
+          <publish_link_pose>true</publish_link_pose>
+          <publish_sensor_pose>true</publish_sensor_pose>
+          <publish_collision_pose>false</publish_collision_pose>
+          <publish_visual_pose>false</publish_visual_pose>
+          <publish_nested_model_pose>false</publish_nested_model_pose>
+        </plugin>
       </include>
     </sdf>
   </plugin>
