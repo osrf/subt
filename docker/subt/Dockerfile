@@ -55,14 +55,10 @@ RUN export DEBIAN_FRONTEND=noninteractive \
  && sudo dpkg-reconfigure --frontend noninteractive tzdata \
  && sudo apt-get clean
 
+# install ROS and required packages
 RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' \
- && sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list' \
- && sudo /bin/sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-prerelease `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-prerelease.list' \
- && sudo /bin/sh -c 'wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -' \
- && sudo /bin/sh -c 'apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116' \
  && sudo apt-get update \
  && sudo apt-get install -y \
-    ignition-blueprint \
     python-catkin-tools \
     python-rosinstall \
     ros-melodic-desktop \
@@ -73,23 +69,41 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu 
     ros-melodic-tf2-sensor-msgs \
     ros-melodic-twist-mux \
     ros-melodic-velodyne-simulator \
+    ros-melodic-rotors-gazebo \
  && sudo rosdep init \
  && sudo apt-get clean
 
 RUN rosdep update
 
+# sdformat8-sdf conflicts with sdformat-sdf installed from gazebo
+# so we need to workaround this using a force overwrite
+# Do this before installing ign-gazebo
+RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list' \
+ && sudo /bin/sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-prerelease `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-prerelease.list' \
+ && sudo /bin/sh -c 'wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -' \
+ && sudo /bin/sh -c 'apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116' \
+ && sudo apt-get update \
+ && sudo apt-get -o Dpkg::Options::="--force-overwrite" install -y \
+    sdformat8-sdf \
+ && sudo apt-get clean
+
+# install ign-blueprint
+RUN sudo apt-get install -y \
+    ignition-blueprint \
+ && sudo apt-get clean
+
+# install the ros to ign bridge
+RUN sudo apt-get install -y \
+    ros1-ign-bridge \
+ && sudo apt-get clean
+
 # Clone all the subt models so that you don't download them every time
 # docker is run
-
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
- && hg clone https://bitbucket.org/osrf/subt
+ && hg clone https://bitbucket.org/osrf/subt -b subt2
 
 WORKDIR /home/$USERNAME/subt_ws
-
-# Download and install rotors package
-RUN wget https://s3.amazonaws.com/osrf-distributions/subt_robot_examples/releases/subt_robot_examples_latest.tgz
-RUN tar xvf subt_robot_examples_latest.tgz
 
 RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && catkin_make install'
 
