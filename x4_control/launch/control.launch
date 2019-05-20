@@ -2,17 +2,17 @@
 <launch>
 
   <arg name="world_name" default="tunnel_qual_ign" />
-  <arg name="x3_name" default="X3" />
-  <arg name="robot_namespace" default="$(arg x3_name)"/>
+  <arg name="x4_name" default="X4" />
+  <arg name="robot_namespace" default="$(arg x4_name)"/>
 
-  <group ns="model/$(arg x3_name)">
+  <group ns="model/$(arg x4_name)">
     <node pkg="robot_localization" type="ukf_localization_node"
           name="robot_localization_ukf_node_odom">
       <param name="frequency" value="1000." />
       <param name="sensor_timeout" value="0.2" />
       <param name="two_d_mode" value="false" />
       <param name="odom_frame" value="$(arg world_name)" />
-      <param name="base_link_frame" value="$(arg world_name)/$(arg x3_name)/base_link/imu_sensor" />
+      <param name="base_link_frame" value="$(arg world_name)/$(arg x4_name)/base_link/imu_sensor" />
       <param name="world_frame" value="$(arg world_name)" />
       <param name="publish_tf" value="false" />
       <param name="imu0" value="imu/data" />
@@ -22,13 +22,13 @@
         true, true, true]</rosparam>
     </node>
     <!-- Spawn a position controller -->
-    <node name="roll_pitch_yawrate_thrust_controller_node_x3" pkg="rotors_control" type="roll_pitch_yawrate_thrust_controller_node" output="screen">
+    <node name="roll_pitch_yawrate_thrust_controller_node_x4" pkg="rotors_control" type="roll_pitch_yawrate_thrust_controller_node" output="screen">
       <rosparam command="load" file="$(find rotors_gazebo)/resource/roll_pitch_yawrate_thrust_controller_iris.yaml" />
       <rosparam command="load" file="$(find rotors_gazebo)/resource/iris.yaml" />
       <remap from="odometry" to="odometry/filtered" />
     </node>
 
-    <node name="cmdvel_transform" pkg="subt_example" type="cmdvel_converter_rpy.py" args="/model/$(arg x3_name)/cmd_vel_relay /model/$(arg x3_name)/command/roll_pitch_yawrate_thrust"/>
+    <node name="cmdvel_transform" pkg="subt_example" type="cmdvel_converter_rpy.py" args="/model/$(arg x4_name)/cmd_vel_relay /model/$(arg x4_name)/command/roll_pitch_yawrate_thrust"/>
 
   </group>
   <group ns="model">

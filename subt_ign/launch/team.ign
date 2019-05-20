@@ -17,12 +17,13 @@
         <!-- Diff drive -->
         <plugin filename="libignition-gazebo-diff-drive-system.so"
                 name="ignition::gazebo::systems::DiffDrive">
-          <left_joint>front_left_wheel_joint</left_joint>
-          <left_joint>rear_left_wheel_joint</left_joint>
-          <right_joint>front_right_wheel_joint</right_joint>
-          <right_joint>rear_right_wheel_joint</right_joint>
+          <left_joint>front_left_wheel</left_joint>
+          <left_joint>rear_left_wheel</left_joint>
+          <right_joint>front_right_wheel</right_joint>
+          <right_joint>rear_right_wheel</right_joint>
           <wheel_separation>0.33559</wheel_separation>
           <wheel_radius>0.098</wheel_radius>
+          <topic>/model/X2/cmd_vel_relay</topic>
         </plugin>
 
         <!-- Publish robot state information -->
@@ -61,6 +62,7 @@
           <right_joint>rear_right_wheel_joint</right_joint>
           <wheel_separation>0.45649</wheel_separation>
           <wheel_radius>0.1651</wheel_radius>
+          <topic>/model/X1/cmd_vel_relay</topic>
         </plugin>
 
         <!-- Publish robot state information -->
@@ -202,7 +204,119 @@
           <publish_visual_pose>false</publish_visual_pose>
           <publish_nested_model_pose>true</publish_nested_model_pose>
         </plugin>
+
+        <!-- <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
+          name="ignition::gazebo::systems::MulticopterMotorModel">
+          <robotNamespace>model/X4</robotNamespace>
+          <jointName>rotor_0_joint</jointName>
+          <linkName>rotor_0</linkName>
+          <turningDirection>ccw</turningDirection>
+          <timeConstantUp>0.0182</timeConstantUp>
+          <timeConstantDown>0.0182</timeConstantDown>
+          <maxRotVelocity>1000.0</maxRotVelocity>
+          <motorConstant>1.269e-05</motorConstant>
+          <momentConstant>0.016754</momentConstant>
+          <commandSubTopic>command/motor_speed</commandSubTopic>
+          <motorNumber>0</motorNumber>
+          <rotorDragCoefficient>2.0673e-04</rotorDragCoefficient>
+          <rollingMomentCoefficient>0</rollingMomentCoefficient>
+          <motorSpeedPubTopic>motor_speed/0</motorSpeedPubTopic>
+          <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        </plugin>
+        <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
+          name="ignition::gazebo::systems::MulticopterMotorModel">
+          <robotNamespace>model/X4</robotNamespace>
+          <jointName>rotor_1_joint</jointName>
+          <linkName>rotor_1</linkName>
+          <turningDirection>cw</turningDirection>
+          <timeConstantUp>0.0182</timeConstantUp>
+          <timeConstantDown>0.0182</timeConstantDown>
+          <maxRotVelocity>1000.0</maxRotVelocity>
+          <motorConstant>1.269e-05</motorConstant>
+          <momentConstant>0.016754</momentConstant>
+          <commandSubTopic>command/motor_speed</commandSubTopic>
+          <motorNumber>1</motorNumber>
+          <rotorDragCoefficient>2.0673e-04</rotorDragCoefficient>
+          <rollingMomentCoefficient>0</rollingMomentCoefficient>
+          <motorSpeedPubTopic>motor_speed/1</motorSpeedPubTopic>
+          <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        </plugin>
+        <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
+          name="ignition::gazebo::systems::MulticopterMotorModel">
+          <robotNamespace>model/X4</robotNamespace>
+          <jointName>rotor_2_joint</jointName>
+          <linkName>rotor_2</linkName>
+          <turningDirection>ccw</turningDirection>
+          <timeConstantUp>0.0182</timeConstantUp>
+          <timeConstantDown>0.0182</timeConstantDown>
+          <maxRotVelocity>1000.0</maxRotVelocity>
+          <motorConstant>1.269e-05</motorConstant>
+          <momentConstant>0.016754</momentConstant>
+          <commandSubTopic>command/motor_speed</commandSubTopic>
+          <motorNumber>2</motorNumber>
+          <rotorDragCoefficient>2.0673e-04</rotorDragCoefficient>
+          <rollingMomentCoefficient>0</rollingMomentCoefficient>
+          <motorSpeedPubTopic>motor_speed/2</motorSpeedPubTopic>
+          <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        </plugin>
+        <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
+          name="ignition::gazebo::systems::MulticopterMotorModel">
+          <robotNamespace>model/X4</robotNamespace>
+          <jointName>rotor_3_joint</jointName>
+          <linkName>rotor_3</linkName>
+          <turningDirection>cw</turningDirection>
+          <timeConstantUp>0.0182</timeConstantUp>
+          <timeConstantDown>0.0182</timeConstantDown>
+          <maxRotVelocity>1000.0</maxRotVelocity>
+          <motorConstant>1.269e-05</motorConstant>
+          <momentConstant>0.016754</momentConstant>
+          <commandSubTopic>command/motor_speed</commandSubTopic>
+          <motorNumber>3</motorNumber>
+          <rotorDragCoefficient>2.0673e-04</rotorDragCoefficient>
+          <rollingMomentCoefficient>0</rollingMomentCoefficient>
+          <motorSpeedPubTopic>motor_speed/3</motorSpeedPubTopic>
+          <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        </plugin>
+        <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
+          name="ignition::gazebo::systems::MulticopterMotorModel">
+          <robotNamespace>model/X4</robotNamespace>
+          <jointName>rotor_4_joint</jointName>
+          <linkName>rotor_4</linkName>
+          <turningDirection>ccw</turningDirection>
+          <timeConstantUp>0.0182</timeConstantUp>
+          <timeConstantDown>0.0182</timeConstantDown>
+          <maxRotVelocity>1000.0</maxRotVelocity>
+          <motorConstant>1.269e-05</motorConstant>
+          <momentConstant>0.016754</momentConstant>
+          <commandSubTopic>command/motor_speed</commandSubTopic>
+          <motorNumber>4</motorNumber>
+          <rotorDragCoefficient>2.0673e-04</rotorDragCoefficient>
+          <rollingMomentCoefficient>0</rollingMomentCoefficient>
+          <motorSpeedPubTopic>motor_speed/4</motorSpeedPubTopic>
+          <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        </plugin>
+        <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
+          name="ignition::gazebo::systems::MulticopterMotorModel">
+          <robotNamespace>model/X4</robotNamespace>
+          <jointName>rotor_5_joint</jointName>
+          <linkName>rotor_5</linkName>
+          <turningDirection>cw</turningDirection>
+          <timeConstantUp>0.0182</timeConstantUp>
+          <timeConstantDown>0.0182</timeConstantDown>
+          <maxRotVelocity>1000.0</maxRotVelocity>
+          <motorConstant>1.269e-05</motorConstant>
+          <momentConstant>0.016754</momentConstant>
+          <commandSubTopic>command/motor_speed</commandSubTopic>
+          <motorNumber>5</motorNumber>
+          <rotorDragCoefficient>2.0673e-04</rotorDragCoefficient>
+          <rollingMomentCoefficient>0</rollingMomentCoefficient>
+          <motorSpeedPubTopic>motor_speed/5</motorSpeedPubTopic>
+          <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        </plugin> -->
       </include>
     </sdf>
   </plugin>
+  <!-- <executable name='X4_controller'>
+    <command>roslaunch x4_control control.launch</command>
+  </executable> -->
 </ignition>
