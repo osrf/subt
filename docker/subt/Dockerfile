@@ -70,7 +70,6 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu 
     ros-melodic-spacenav-node \
     ros-melodic-tf2-sensor-msgs \
     ros-melodic-twist-mux \
-    ros-melodic-velodyne-simulator \
     ros-melodic-rotors-gazebo \
     ros-melodic-rviz-imu-plugin \
  && sudo rosdep init \
