@@ -70,7 +70,9 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu 
     ros-melodic-spacenav-node \
     ros-melodic-tf2-sensor-msgs \
     ros-melodic-twist-mux \
-    ros-melodic-rotors-gazebo \
+# ros-melodic-velodyne-simulator \
+#  ros-melodic-velodyne-gazebo-plugins \
+# ros-melodic-rotors-gazebo \
     ros-melodic-rviz-imu-plugin \
  && sudo rosdep init \
  && sudo apt-get clean
@@ -84,10 +86,10 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.osrfoundation.org/g
  && sudo /bin/sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-prerelease `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-prerelease.list' \
  && sudo /bin/sh -c 'wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -' \
  && sudo /bin/sh -c 'apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116' \
- && sudo apt-get update \
- && sudo apt-get -o Dpkg::Options::="--force-overwrite" install -y \
-    sdformat8-sdf \
- && sudo apt-get clean
+ && sudo apt-get update 
+
+# RUN sudo apt-get -o Dpkg::Options::="--force-overwrite" install -y \
+#     sdformat8-sdf && sudo apt-get clean
 
 # install ign-blueprint
 RUN sudo apt-get install -y \
@@ -106,6 +108,10 @@ RUN mkdir -p subt_ws/src \
  && hg clone https://bitbucket.org/osrf/subt -b multicoptor_demo
 
 WORKDIR /home/$USERNAME/subt_ws
+
+# Install Rotors
+RUN wget https://s3.amazonaws.com/osrf-distributions/subt_robot_examples/releases/subt_robot_examples_latest.tgz
+RUN tar xvf subt_robot_examples_latest.tgz
 
 RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && catkin_make install'
 
