@@ -22,19 +22,13 @@
         true, true, true]</rosparam>
     </node>
     <!-- Spawn a position controller -->
-    <node name="roll_pitch_yawrate_thrust_controller_node_x4" pkg="rotors_control" type="roll_pitch_yawrate_thrust_controller_node" output="screen">
-      <rosparam command="load" file="$(find rotors_gazebo)/resource/roll_pitch_yawrate_thrust_controller_iris.yaml" />
-      <rosparam command="load" file="$(find rotors_gazebo)/resource/iris.yaml" />
+    <node name="roll_pitch_yawrate_thrust_controller_node" pkg="rotors_control" type="roll_pitch_yawrate_thrust_controller_node" output="screen">
+      <rosparam command="load" file="$(find x4_control)/resource/roll_pitch_yawrate_thrust_controller_neo11.yaml" />
+      <rosparam command="load" file="$(find rotors_gazebo)/resource/neo11.yaml" />
       <remap from="odometry" to="odometry/filtered" />
     </node>
 
     <node name="cmdvel_transform" pkg="subt_example" type="cmdvel_converter_rpy.py" args="/model/$(arg x4_name)/cmd_vel_relay /model/$(arg x4_name)/command/roll_pitch_yawrate_thrust"/>
 
-  </group>
-  <group ns="model">
-    <include file="$(find subt_example)/launch/teleop.launch">
-      <arg name="config" default="$(find subt_example)/config/ps3_config.yaml"/>
-      <arg name="robot_config" value="$(find subt_example)/config/robot_config.yaml"/>
-    </include>
   </group>
 </launch>
