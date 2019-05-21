@@ -1,6 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
-<robot name='X2'>
-  <link name='tunnel_qual_ign/X2/base'>
+<robot name="X2" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:arg name="worldName" default=""/>
+  <xacro:property name="robot_namespace" value="$(arg worldName)/X2"/>
+
+  <link name='${robot_namespace}/base'>
     <inertial>
       <origin xyz='0.011999 0.002 0.066996' rpy='0 -0 0'/>
       <mass value='16.524'/>
@@ -50,10 +53,10 @@
     </visual>
   </link>
   <sensor name='imu_sensor' update_rate='1000'>
-    <parent link='tunnel_qual_ign/X2/base'/>
+    <parent link='${robot_namespace}/base'/>
     <origin xyz='0 0 0' rpy='0 -0 0'/>
   </sensor>
-  <link name='tunnel_qual_ign/X2/front_left_wheel'>
+  <link name='${robot_namespace}/front_left_wheel'>
     <inertial>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <mass value='0.477'/>
@@ -72,7 +75,7 @@
       </geometry>
     </visual>
   </link>
-  <link name='tunnel_qual_ign/X2/front_right_wheel'>
+  <link name='${robot_namespace}/front_right_wheel'>
     <inertial>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <mass value='0.477'/>
@@ -91,7 +94,7 @@
       </geometry>
     </visual>
   </link>
-  <link name='tunnel_qual_ign/X2/rear_left_wheel'>
+  <link name='${robot_namespace}/rear_left_wheel'>
     <inertial>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <mass value='0.477'/>
@@ -110,7 +113,7 @@
       </geometry>
     </visual>
   </link>
-  <link name='tunnel_qual_ign/X2/rear_right_wheel'>
+  <link name='${robot_namespace}/rear_right_wheel'>
     <inertial>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <mass value='0.477'/>
@@ -131,29 +134,29 @@
   </link>
   <joint name='front_left_wheel_joint' type='revolute'>
     <origin xyz='0.131 0.187795 0.0345' rpy='0 -0 0'/>
-    <parent link='tunnel_qual_ign/X2/base'/>
-    <child link='tunnel_qual_ign/X2/front_left_wheel'/>
+    <parent link='${robot_namespace}/base'/>
+    <child link='${robot_namespace}/front_left_wheel'/>
     <axis xyz='0 1 0'/>
     <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
   </joint>
   <joint name='rear_left_wheel_joint' type='revolute'>
     <origin xyz='-0.131 0.187795 0.0345' rpy='0 -0 0'/>
-    <parent link='tunnel_qual_ign/X2/base'/>
-    <child link='tunnel_qual_ign/X2/rear_left_wheel'/>
+    <parent link='${robot_namespace}/base'/>
+    <child link='${robot_namespace}/rear_left_wheel'/>
     <axis xyz='0 1 0'/>
     <limit lower='-1.79769e+308' upper='1.79769e+308' effort='-1' velocity='-1'/>
   </joint>
   <joint name='rear_right_wheel_joint' type='revolute'>
     <origin xyz='-0.131 -0.187795 0.0345' rpy='0 -0 0'/>
-    <parent link='tunnel_qual_ign/X2/base'/>
-    <child link='tunnel_qual_ign/X2/rear_right_wheel'/>
+    <parent link='${robot_namespace}/base'/>
+    <child link='${robot_namespace}/rear_right_wheel'/>
     <axis xyz='0 1 0'/>
     <limit lower='-1.79769e+308' upper='1.79769e+308' effort='-1' velocity='-1'/>
   </joint>
   <joint name='front_right_wheel_joint' type='revolute'>
     <origin xyz='0.131 -0.187795 0.0345' rpy='0 -0 0'/>
-    <parent link='tunnel_qual_ign/X2/base'/>
-    <child link='tunnel_qual_ign/X2/front_right_wheel'/>
+    <parent link='${robot_namespace}/base'/>
+    <child link='${robot_namespace}/front_right_wheel'/>
     <axis xyz='0 1 0'/>
     <limit lower='-1.79769e+308' upper='1.79769e+308' effort='-1' velocity='-1'/>
   </joint>

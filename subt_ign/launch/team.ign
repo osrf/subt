@@ -1,8 +1,13 @@
 <?xml version="1.0"?>
+<%
+  worldName = 'tunnel_qual_ign'
+%>
 <ignition version='1.0'>
+
   <executable name='robot_desc'>
-    <command>roslaunch subt_ros descriptions.launch</command>
+    <command>roslaunch subt_ros descriptions.launch worldName:=<%=worldName%></command>
   </executable>
+
   <plugin name="ignition::launch::GazeboFactory"
           filename="libignition-launch-gazebo-factory.so">
     <name>X2</name>
