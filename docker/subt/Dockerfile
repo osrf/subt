@@ -27,6 +27,8 @@ RUN apt-get update \
         sudo \
         vim \
         wget \
+        net-tools \
+        iputils-ping \
  && apt-get clean
 
 # Add a user with the same user_id as the user outside the container
@@ -70,6 +72,7 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu 
     ros-melodic-twist-mux \
     ros-melodic-velodyne-simulator \
     ros-melodic-rotors-gazebo \
+    ros-melodic-rviz-imu-plugin \
  && sudo rosdep init \
  && sudo apt-get clean
 
@@ -101,7 +104,7 @@ RUN sudo apt-get install -y \
 # docker is run
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
- && hg clone https://bitbucket.org/osrf/subt -b subt2
+ && hg clone https://bitbucket.org/osrf/subt -b multicoptor_demo
 
 WORKDIR /home/$USERNAME/subt_ws
 
