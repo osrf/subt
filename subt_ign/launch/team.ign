@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <%
   worldName = 'tunnel_qual_ign'
+  enableGroundTruth = true
 %>
 <ignition version='1.0'>
 
@@ -41,7 +42,7 @@
           <publish_sensor_pose>true</publish_sensor_pose>
           <publish_collision_pose>false</publish_collision_pose>
           <publish_visual_pose>false</publish_visual_pose>
-          <publish_nested_model_pose>true</publish_nested_model_pose>
+          <publish_nested_model_pose><%=enableGroundTruth%></publish_nested_model_pose>
         </plugin>
       </include>
     </sdf>
@@ -79,7 +80,7 @@
           <publish_sensor_pose>true</publish_sensor_pose>
           <publish_collision_pose>false</publish_collision_pose>
           <publish_visual_pose>false</publish_visual_pose>
-          <publish_nested_model_pose>true</publish_nested_model_pose>
+          <publish_nested_model_pose><%=enableGroundTruth%></publish_nested_model_pose>
         </plugin>
       </include>
     </sdf>
@@ -105,7 +106,7 @@
           <publish_sensor_pose>true</publish_sensor_pose>
           <publish_collision_pose>false</publish_collision_pose>
           <publish_visual_pose>false</publish_visual_pose>
-          <publish_nested_model_pose>true</publish_nested_model_pose>
+          <publish_nested_model_pose><%=enableGroundTruth%></publish_nested_model_pose>
         </plugin>
 
         <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
@@ -207,10 +208,10 @@
           <publish_sensor_pose>true</publish_sensor_pose>
           <publish_collision_pose>false</publish_collision_pose>
           <publish_visual_pose>false</publish_visual_pose>
-          <publish_nested_model_pose>true</publish_nested_model_pose>
+          <publish_nested_model_pose><%=enableGroundTruth%></publish_nested_model_pose>
         </plugin>
 
-        <!-- <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
+         <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
           name="ignition::gazebo::systems::MulticopterMotorModel">
           <robotNamespace>model/X4</robotNamespace>
           <jointName>rotor_0_joint</jointName>
@@ -317,11 +318,11 @@
           <rollingMomentCoefficient>0</rollingMomentCoefficient>
           <motorSpeedPubTopic>motor_speed/5</motorSpeedPubTopic>
           <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
-        </plugin> -->
+        </plugin>
       </include>
     </sdf>
   </plugin>
-  <!-- <executable name='X4_controller'>
+   <executable name='X4_controller'>
     <command>roslaunch x4_control control.launch</command>
-  </executable> -->
+  </executable>
 </ignition>
