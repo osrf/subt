@@ -11,7 +11,7 @@
   <gazebo>
     <enable_wind>true</enable_wind>
   </gazebo>
-
+  <!--
   <gazebo>
     <plugin name="${namespace}_joint_motion_timer" filename="libMotionTimerLockPlugin.so">
       <lock_time_limit>1200</lock_time_limit>
@@ -24,6 +24,7 @@
       <updateRate>1000</updateRate>
     </plugin>
   </gazebo>
+-->
 
 </robot>
 
