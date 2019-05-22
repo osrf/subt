@@ -28,7 +28,7 @@
       <remap from="odometry" to="odometry/filtered" />
     </node>
 
-    <node name="cmdvel_transform" pkg="subt_example" type="cmdvel_converter_rpy.py" args="/model/$(arg x4_name)/cmd_vel_relay /model/$(arg x4_name)/command/roll_pitch_yawrate_thrust"/>
+    <node name="cmdvel_transform" pkg="subt_example" type="cmdvel_converter_rpy.py" args="/model/$(arg x4_name)/cmd_vel_relay /model/$(arg x4_name)/command/roll_pitch_yawrate_thrust" respawn="true"/>
 
   </group>
 </launch>

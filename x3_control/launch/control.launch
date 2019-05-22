@@ -22,7 +22,7 @@
         true, true, true]</rosparam>
     </node>
     <!-- Spawn a position controller -->
-    <node name="roll_pitch_yawrate_thrust_controller_node" pkg="rotors_control" type="roll_pitch_yawrate_thrust_controller_node" output="screen">
+    <node name="roll_pitch_yawrate_thrust_controller_node" pkg="rotors_control" type="roll_pitch_yawrate_thrust_controller_node" output="screen" respawn="true">
       <rosparam command="load" file="$(find rotors_gazebo)/resource/roll_pitch_yawrate_thrust_controller_iris.yaml" />
       <rosparam command="load" file="$(find rotors_gazebo)/resource/iris.yaml" />
       <remap from="odometry" to="odometry/filtered" />
