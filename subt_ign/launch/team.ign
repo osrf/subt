@@ -126,6 +126,7 @@
           <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
           <motorSpeedPubTopic>motor_speed/0</motorSpeedPubTopic>
           <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+          <motorType>velocity</motorType>
         </plugin>
         <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
           name="ignition::gazebo::systems::MulticopterMotorModel">
@@ -144,6 +145,7 @@
           <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
           <motorSpeedPubTopic>motor_speed/1</motorSpeedPubTopic>
           <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+          <motorType>velocity</motorType>
         </plugin>
         <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
           name="ignition::gazebo::systems::MulticopterMotorModel">
@@ -162,6 +164,7 @@
           <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
           <motorSpeedPubTopic>motor_speed/2</motorSpeedPubTopic>
           <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+          <motorType>velocity</motorType>
         </plugin>
         <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
           name="ignition::gazebo::systems::MulticopterMotorModel">
@@ -180,6 +183,7 @@
           <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
           <motorSpeedPubTopic>motor_speed/3</motorSpeedPubTopic>
           <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+          <motorType>velocity</motorType>
         </plugin>
       </include>
     </sdf>
@@ -228,6 +232,7 @@
           <rollingMomentCoefficient>0</rollingMomentCoefficient>
           <motorSpeedPubTopic>motor_speed/0</motorSpeedPubTopic>
           <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+          <motorType>velocity</motorType>
         </plugin>
         <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
           name="ignition::gazebo::systems::MulticopterMotorModel">
@@ -246,6 +251,7 @@
           <rollingMomentCoefficient>0</rollingMomentCoefficient>
           <motorSpeedPubTopic>motor_speed/1</motorSpeedPubTopic>
           <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+          <motorType>velocity</motorType>
         </plugin>
         <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
           name="ignition::gazebo::systems::MulticopterMotorModel">
@@ -264,6 +270,7 @@
           <rollingMomentCoefficient>0</rollingMomentCoefficient>
           <motorSpeedPubTopic>motor_speed/2</motorSpeedPubTopic>
           <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+          <motorType>velocity</motorType>
         </plugin>
         <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
           name="ignition::gazebo::systems::MulticopterMotorModel">
@@ -282,6 +289,7 @@
           <rollingMomentCoefficient>0</rollingMomentCoefficient>
           <motorSpeedPubTopic>motor_speed/3</motorSpeedPubTopic>
           <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+          <motorType>velocity</motorType>
         </plugin>
         <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
           name="ignition::gazebo::systems::MulticopterMotorModel">
@@ -300,6 +308,7 @@
           <rollingMomentCoefficient>0</rollingMomentCoefficient>
           <motorSpeedPubTopic>motor_speed/4</motorSpeedPubTopic>
           <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+          <motorType>velocity</motorType>
         </plugin>
         <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
           name="ignition::gazebo::systems::MulticopterMotorModel">
@@ -318,6 +327,7 @@
           <rollingMomentCoefficient>0</rollingMomentCoefficient>
           <motorSpeedPubTopic>motor_speed/5</motorSpeedPubTopic>
           <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+          <motorType>velocity</motorType>
         </plugin>
       </include>
     </sdf>
