@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<ignition version='1.0'>
+  <plugin name="ignition::launch::GazeboFactory"
+          filename="libignition-launch-gazebo-factory.so">
+    <name>X2</name>
+    <allow_renaming>false</allow_renaming>
+    <pose>0 2 0.063494 0 0 0</pose>
+
+    <sdf version='1.6'>
+      <include>
+        <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X2 UGV/1</uri>
+
+        <!-- Diff drive -->
+        <plugin filename="libignition-gazebo-diff-drive-system.so"
+                name="ignition::gazebo::systems::DiffDrive">
+          <left_joint>front_left_wheel_joint</left_joint>
+          <left_joint>rear_left_wheel_joint</left_joint>
+          <right_joint>front_right_wheel_joint</right_joint>
+          <right_joint>rear_right_wheel_joint</right_joint>
+          <wheel_separation>0.33559</wheel_separation>
+          <wheel_radius>0.098</wheel_radius>
+        </plugin>
+
+        <!-- Publish robot state information -->
+        <plugin filename="libignition-gazebo-joint-state-publisher-system.so"
+                name="ignition::gazebo::systems::JointStatePublisher"></plugin>
+      </include>
+    </sdf>
+  </plugin>
+
+  <plugin name="ignition::launch::GazeboFactory"
+          filename="libignition-launch-gazebo-factory.so">
+    <name>X1</name>
+    <allow_renaming>false</allow_renaming>
+    <pose>0 0 .2 0 0 0</pose>
+
+    <sdf version='1.6'>
+      <include>
+        <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X1 UGV</uri>
+
+        <!-- Diff drive -->
+        <plugin filename="libignition-gazebo-diff-drive-system.so"
+                name="ignition::gazebo::systems::DiffDrive">
+          <left_joint>front_left_wheel_joint</left_joint>
+          <left_joint>rear_left_wheel_joint</left_joint>
+          <right_joint>front_right_wheel_joint</right_joint>
+          <right_joint>rear_right_wheel_joint</right_joint>
+          <wheel_separation>0.45649</wheel_separation>
+          <wheel_radius>0.1651</wheel_radius>
+        </plugin>
+
+        <!-- Publish robot state information -->
+        <plugin filename="libignition-gazebo-joint-state-publisher-system.so"
+                name="ignition::gazebo::systems::JointStatePublisher"></plugin>
+      </include>
+    </sdf>
+  </plugin>
+
+  <plugin name="ignition::launch::GazeboFactory"
+          filename="libignition-launch-gazebo-factory.so">
+    <name>X3</name>
+    <allow_renaming>false</allow_renaming>
+    <pose>0 -2 .2 0 0 0</pose>
+
+    <sdf version='1.6'>
+      <include>
+        <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X3 UAV</uri>
+
+        <!-- Publish robot state information -->
+        <plugin filename="libignition-gazebo-joint-state-publisher-system.so"
+                name="ignition::gazebo::systems::JointStatePublisher"></plugin>
+      </include>
+    </sdf>
+  </plugin>
+
+  <plugin name="ignition::launch::GazeboFactory"
+          filename="libignition-launch-gazebo-factory.so">
+    <name>X4</name>
+    <allow_renaming>false</allow_renaming>
+    <pose>0 4 .2 0 0 0</pose>
+
+    <sdf version='1.6'>
+      <include>
+        <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X4 UAV</uri>
+
+        <!-- Publish robot state information -->
+        <plugin filename="libignition-gazebo-joint-state-publisher-system.so"
+                name="ignition::gazebo::systems::JointStatePublisher"></plugin>
+      </include>
+    </sdf>
+  </plugin>
+</ignition>

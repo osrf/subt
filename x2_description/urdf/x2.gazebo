@@ -3,16 +3,18 @@
   <xacro:arg name="robot_namespace" default="/" />
   <xacro:arg name="tfpre" default="" />
 
+  <!--
   <gazebo>
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
       <robotNamespace>$(arg robot_namespace)</robotNamespace>
     </plugin>
   </gazebo>
+-->
 
   <gazebo>
     <enable_wind>false</enable_wind>
   </gazebo>
-
+  <!--
   <gazebo>
     <plugin name="imu_controller" filename="libhector_gazebo_ros_imu.so">
       <robotNamespace>$(arg robot_namespace)</robotNamespace>
@@ -39,6 +41,7 @@
       <robotNamespace>${namespace}/</robotNamespace>
     </plugin>
   </gazebo>
+-->
 
   <gazebo reference="base_link">
     <turnGravityOff>false</turnGravityOff>

@@ -43,21 +43,22 @@ struct rf_configuration
       L0(40),
       sigma(10)
   { }
+
+  /// Output stream operator
+  /// @param oss Stream
+  /// @param config configuration to output
+  friend std::ostream& operator<<(std::ostream& oss,
+                                  const rf_configuration& config)
+  {
+    oss << "RF Configuration (range-based)" << std::endl
+        << "-- max_range: " << config.max_range << std::endl
+        << "-- fading_exponent: " << config.fading_exponent << std::endl
+        << "-- L0: " << config.L0 << std::endl
+        << "-- sigma: " << config.sigma << std::endl;
+
+    return oss;
+  }
 };
-
-/// Output stream operator
-/// @param oss Stream
-/// @param config configuration to output
-std::ostream& operator<<(std::ostream& oss, const rf_configuration& config)
-{
-  oss << "RF Configuration (range-based)" << std::endl
-      << "-- max_range: " << config.max_range << std::endl
-      << "-- fading_exponent: " << config.fading_exponent << std::endl
-      << "-- L0: " << config.L0 << std::endl
-      << "-- sigma: " << config.sigma << std::endl;
-
-  return oss;
-}
 
 /// Compute received power based on distance.
 ///
