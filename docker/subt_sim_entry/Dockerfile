@@ -126,6 +126,9 @@ RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && catkin_make install'
 RUN /bin/sh -c 'echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc' \
  && /bin/sh -c 'echo ". ~/subt_ws/install/setup.sh" >> ~/.bashrc'
 
+# Create a directory required by cloudsim
+RUN mkdir /tmp/ign/logs
+
 # Copy entry point script, and set the entrypoint
 COPY run_sim.bash ./
 ENTRYPOINT ["./run_sim.bash"]
