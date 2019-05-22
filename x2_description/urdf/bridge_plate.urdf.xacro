@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="bridge_plate" params="mount height">
+    <joint name="${mount}_mount_to_${mount}_bridge" type="fixed">
+      <parent link="${mount}_mount"/>
+      <child link="${mount}_bridge"/>
+      <origin xyz="0.0 0.0 ${height}" rpy="0 0 0"/>
+    </joint>
+
+    <link name="${mount}_bridge">
+      <visual>
+        <origin xyz="0 0 0" rpy="1.5707 0.0 1.5707" />
+        <geometry>
+          <mesh filename="package://jackal_description/meshes/bridge-plate.stl"/>
+        </geometry>
+        <material name="dark_grey" />
+      </visual>
+    </link>
+
+    <standoff_box mount="${mount}" height="${height}" />
+  </xacro:macro>
+</robot>
