@@ -34,7 +34,6 @@ fi
 IMG=$(basename $1)
 
 ARGS=("$@")
-WORKSPACES=("${ARGS[@]:1}")
 
 # Make sure processes in the container can connect to the x server
 # Necessary so gazebo can create a context for OpenGL rendering (even headless)
@@ -60,19 +59,6 @@ then
   DOCKER_OPTS="$DOCKER_OPTS -v $VIMRC:/home/developer/.vimrc:ro"
 fi
 
-for WS_DIR in ${WORKSPACES[@]}
-do
-  WS_DIRNAME=$(basename $WS_DIR)
-  if [ ! -d $WS_DIR/src ]
-  then
-    echo "Other! $WS_DIR"
-    DOCKER_OPTS="$DOCKER_OPTS -v $WS_DIR:/home/developer/other/$WS_DIRNAME"
-  else
-    echo "Workspace! $WS_DIR"
-    DOCKER_OPTS="$DOCKER_OPTS -v $WS_DIR:/home/developer/workspaces/$WS_DIRNAME"
-  fi
-done
-
 # Mount extra volumes if needed.
 # E.g.:
 # -v "/opt/sublime_text:/opt/sublime_text" \
@@ -86,10 +72,11 @@ docker run -it \
   -v "/tmp/.X11-unix:/tmp/.X11-unix" \
   -v "/etc/localtime:/etc/localtime:ro" \
   -v "/dev/input:/dev/input" \
-  --privileged \
   --network host \
   --rm \
+  --privileged \
   --runtime=nvidia \
   --security-opt seccomp=unconfined \
   $DOCKER_OPTS \
-  $IMG
+  $IMG \
+  ${@:2}

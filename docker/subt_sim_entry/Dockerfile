@@ -88,9 +88,6 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.osrfoundation.org/g
  && sudo /bin/sh -c 'apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116' \
  && sudo apt-get update 
 
-# RUN sudo apt-get -o Dpkg::Options::="--force-overwrite" install -y \
-#     sdformat8-sdf && sudo apt-get clean
-
 # install ign-blueprint
 RUN sudo apt-get install -y \
     ignition-blueprint \
@@ -107,6 +104,17 @@ RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
  && hg clone https://bitbucket.org/osrf/subt -b multicoptor_demo
 
+# Download virtual stix models
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Edgar Mine Virtual STIX" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Base Station" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Black and Decker Cordless Drill" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Fiducial" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Fire Extinguisher" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/JanSport Backpack Red" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Jersey Barrier" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Rescue Randy Sitting" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Samsung J8 Black" -v 4
+
 WORKDIR /home/$USERNAME/subt_ws
 
 # Install Rotors
@@ -117,6 +125,10 @@ RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && catkin_make install'
 
 RUN /bin/sh -c 'echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc' \
  && /bin/sh -c 'echo ". ~/subt_ws/install/setup.sh" >> ~/.bashrc'
+
+# Copy entry point script, and set the entrypoint
+COPY run_sim.bash ./
+ENTRYPOINT ["./run_sim.bash"]
 
 # Customize your image here.
 # E.g.:
