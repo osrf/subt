@@ -151,12 +151,14 @@
               <specular>1 1 1 1</specular>
               <emissive>0 0 0 1</emissive>
             </material>
+            <!--
             <plugin name='light_source_visualize' filename='libLightVisualPlugin.so'>
               <light>
                 <id>light_source</id>
                 <visualize>false</visualize>
               </light>
             </plugin>
+-->
           </visual>
           <inertial>
             <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -169,6 +171,7 @@
           </inertial>
         </link>
 
+        <!--
         <plugin name='light_control' filename='libRosFlashLightPlugin.so'>
           <service_name>enable</service_name>
           <light>
@@ -179,6 +182,7 @@
             <color>1 1 1</color>
           </light>
         </plugin>
+-->
       </model>
     </gazebo>
 
@@ -247,12 +251,14 @@
               <specular>1 1 1 1</specular>
               <emissive>0 0 0 1</emissive>
             </material>
+            <!--
             <plugin name='light_source_visualize' filename='libLightVisualPlugin.so'>
               <light>
                 <id>light_source</id>
                 <visualize>false</visualize>
               </light>
             </plugin>
+-->
           </visual>
           <inertial>
             <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -264,7 +270,7 @@
             </inertia>
           </inertial>
         </link>
-
+        <!--
         <plugin name='light_control' filename='libRosFlashLightPlugin.so'>
           <service_name>enable</service_name>
           <light>
@@ -276,6 +282,7 @@
             <color>1 1 1</color>
           </light>
         </plugin>
+-->
       </model>
     </gazebo>
 

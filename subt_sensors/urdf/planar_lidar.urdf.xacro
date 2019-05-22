@@ -61,7 +61,7 @@ limitations under the License.
         </geometry>
       </collision>
     </link>
-
+    <!--
     <gazebo reference="${name}">
       <turnGravityOff>false</turnGravityOff>
       <sensor type="gpu_ray" name="${name}">
@@ -93,5 +93,6 @@ limitations under the License.
         </plugin>
       </sensor>
     </gazebo>
+-->
   </xacro:macro>
 </robot>
