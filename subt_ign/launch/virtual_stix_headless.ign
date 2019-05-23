@@ -1,0 +1,149 @@
+<?xml version="1.0"?>
+<%
+  worldName = 'virtual_stix'
+%>
+<ignition version='1.0'>
+  <env>
+    <name>ROS_MASTER_URI</name>
+    <value>http://localhost:11311</value>
+  </env>
+
+  <!-- Start ROS first. This is a bit hacky for now. -->
+  <!-- Make sure to source /opt/ros/melodic/setup.bash -->
+  <executable name='ros'>
+    <command>roscore</command>
+  </executable>
+
+  <plugin name="ignition::launch::GazeboServer"
+          filename="libignition-launch-gazebo.so">
+    <world_file><%= worldName %>.sdf</world_file>
+    <run>true</run>
+    <levels>true</levels>
+    <record>
+      <enabled>true</enabled>
+      <!-- This path is used by cloudsim, please do not change -->
+      <path>/tmp/ign/logs</path>
+    </record>
+
+    <plugin entity_name="<%= worldName %>"
+            entity_type="world"
+            filename="libignition-gazebo-physics-system.so"
+            name="ignition::gazebo::systems::Physics">
+    </plugin>
+  </plugin>
+
+  <!-- The SubT challenge comms broker plugin -->
+  <plugin entity_name="<%= worldName %>"
+          entity_type="world"
+          name="subt::CommsBrokerPlugin"
+          filename="libCommsBrokerPluginIgn.so">
+    <generate_table>true</generate_table>
+    <world_name><%= worldName %></world_name>
+    <world_dir>/home/developer/subt_ws/install/share/subt_ign/worlds</world_dir>
+    <comms_model>
+      <comms_model_type>log_normal_range</comms_model_type>
+
+      <range_config>
+        <max_range>20.0</max_range>
+        <fading_exponent>2.5</fading_exponent>
+        <L0>40</L0>
+        <sigma>10.0</sigma>
+      </range_config>
+
+      <visibility_config>
+        <visibility_cost_to_fading_exponent>0.2</visibility_cost_to_fading_exponent>
+        <comms_cost_max>15</comms_cost_max>
+      </visibility_config>
+
+      <radio_config>
+        <capacity>1000000</capacity>
+        <tx_power>20</tx_power>
+        <noise_floor>-90</noise_floor>
+        <modulation>QPSK</modulation>
+      </radio_config>
+    </comms_model>
+  </plugin>
+
+  <!-- The SubT challenge base station plugin -->
+  <plugin entity_name="base_station"
+          entity_type="model"
+          name="subt::BaseStationPlugin"
+          filename="libBaseStationPluginIgn.so">
+  </plugin>
+
+  <!-- The SubT challenge logic plugin -->
+  <plugin name="subt::GameLogicPlugin" filename="libGameLogicPluginIgn.so">
+    <!-- The collection of artifacts to locate -->
+
+    <world_name><%= worldName %></world_name>
+    <logging>
+      <filename_prefix>subt_tunnel_qual</filename_prefix>
+    </logging>
+
+    <artifact>
+      <name>extinguisher_1</name>
+      <type>TYPE_EXTINGUISHER</type>
+    </artifact>
+    <artifact>
+      <name>backpack_1</name>
+      <type>TYPE_BACKPACK</type>
+    </artifact>
+    <artifact>
+      <name>phone_1</name>
+      <type>TYPE_PHONE</type>
+    </artifact>
+    <artifact>
+      <name>rescue_randy_1</name>
+      <type>TYPE_RESCUE_RANDY</type>
+    </artifact>
+    <artifact>
+      <name>extinguisher_2</name>
+      <type>TYPE_EXTINGUISHER</type>
+    </artifact>
+    <artifact>
+      <name>drill_1</name>
+      <type>TYPE_DRILL</type>
+    </artifact>
+    <artifact>
+      <name>drill_2</name>
+      <type>TYPE_DRILL</type>
+    </artifact>
+    <artifact>
+      <name>drill_3</name>
+      <type>TYPE_DRILL</type>
+    </artifact>
+    <artifact>
+      <name>drill_4</name>
+      <type>TYPE_DRILL</type>
+    </artifact>
+    <artifact>
+      <name>phone_2</name>
+      <type>TYPE_PHONE</type>
+    </artifact>
+    <artifact>
+      <name>backpack_2</name>
+      <type>TYPE_BACKPACK</type>
+    </artifact>
+    <artifact>
+      <name>rescue_randy_2</name>
+      <type>TYPE_RESCUE_RANDY</type>
+    </artifact>
+    <artifact>
+      <name>rescue_randy_3</name>
+      <type>TYPE_RESCUE_RANDY</type>
+    </artifact>
+    <artifact>
+      <name>backpack_3</name>
+      <type>TYPE_BACKPACK</type>
+    </artifact>
+    <artifact>
+      <name>phone_3</name>
+      <type>TYPE_PHONE</type>
+    </artifact>
+    <artifact>
+      <name>extinguisher_3</name>
+      <type>TYPE_EXTINGUISHER</type>
+    </artifact>
+  </plugin>
+
+</ignition>

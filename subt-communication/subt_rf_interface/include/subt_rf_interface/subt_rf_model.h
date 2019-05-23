@@ -15,7 +15,8 @@
  *
 */
 
-#pragma once
+#ifndef SUBT_RF_INTERFACE__SUBT_RF_MODEL_H_
+#define SUBT_RF_INTERFACE__SUBT_RF_MODEL_H_
 
 #include <subt_rf_interface/subt_rf_interface.h>
 
@@ -90,3 +91,5 @@ rf_power log_normal_received_power(const double& tx_power,
 }
 }
 }
+#endif
+

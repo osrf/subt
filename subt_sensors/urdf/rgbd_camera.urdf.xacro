@@ -64,7 +64,7 @@ limitations under the License.
     </joint>
 
     <link name="${name}_frame_optical"/>
-
+    <!--
     <gazebo reference="${name}_link">
       <sensor type="depth" name="${name}">
         <always_on>true</always_on>
@@ -103,5 +103,6 @@ limitations under the License.
         </plugin>
       </sensor>
     </gazebo>
+-->
   </xacro:macro>
 </robot>

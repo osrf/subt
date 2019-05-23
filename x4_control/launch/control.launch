@@ -22,13 +22,13 @@
         true, true, true]</rosparam>
     </node>
     <!-- Spawn a position controller -->
-    <node name="roll_pitch_yawrate_thrust_controller_node" pkg="rotors_control" type="roll_pitch_yawrate_thrust_controller_node" output="screen">
+    <node name="roll_pitch_yawrate_thrust_controller_node" pkg="rotors_control" type="roll_pitch_yawrate_thrust_controller_node" output="screen" respawn="true">
       <rosparam command="load" file="$(find x4_control)/resource/roll_pitch_yawrate_thrust_controller_neo11.yaml" />
       <rosparam command="load" file="$(find rotors_gazebo)/resource/neo11.yaml" />
       <remap from="odometry" to="odometry/filtered" />
     </node>
 
-    <node name="cmdvel_transform" pkg="subt_example" type="cmdvel_converter_rpy.py" args="/model/$(arg x4_name)/cmd_vel_relay /model/$(arg x4_name)/command/roll_pitch_yawrate_thrust"/>
+    <node name="cmdvel_transform" pkg="subt_example" type="cmdvel_converter_rpy.py" args="/model/$(arg x4_name)/cmd_vel_relay /model/$(arg x4_name)/command/roll_pitch_yawrate_thrust" respawn="true"/>
 
   </group>
 </launch>

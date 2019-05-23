@@ -261,22 +261,32 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
     <hd_camera_and_mount />
   </xacro:if>
   
+  <!-- Sensor configuration #5
+         * two HD cameras
+         * IMU
+  -->
+  <xacro:if value="$(optenv X1_SENSOR_CONFIG_5 0)">
+    <two_hd_cameras_and_mount />
+  </xacro:if>
+  
 
+    <!--
   <gazebo>
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
       <robotNamespace>${namespace}/</robotNamespace>
     </plugin>
   </gazebo>
+-->
 
   <gazebo>
-    <enable_wind>true</enable_wind>
+    <enable_wind>false</enable_wind>
   </gazebo>
-
+  <!--
   <gazebo>
     <plugin name="imu_controller" filename="libhector_gazebo_ros_imu.so">
       <robotNamespace>${namespace}/</robotNamespace>
       <updateRate>50.0</updateRate>
-      <!--TODO: The frame id and body name need the namespace-->
+      <!TODO: The frame id and body name need the namespace>
       <frameId>${namespace}/base_link</frameId>
       <bodyName>${namespace}/base_link</bodyName>
       <topicName>imu/data</topicName>
@@ -296,6 +306,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
       <robotNamespace>${namespace}/</robotNamespace>
     </plugin>
   </gazebo>
+-->
 
   <!-- Optional custom includes. -->
   <xacro:include filename="$(arg urdf_extras)" />

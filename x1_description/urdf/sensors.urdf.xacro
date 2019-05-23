@@ -122,4 +122,42 @@
     </joint>
   </xacro:macro>
 
+  <xacro:macro name="two_hd_cameras_and_mount">
+    <camera_mount prefix="front_R"
+                  tilt="0.0"/>
+    <joint name="front_camera_mount_joint_R" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <parent link="${namespace}/top_plate_front_link" />
+      <child link="${namespace}/front_R_camera_mount" />
+    </joint>
+
+    <pointgrey_flea3 frame="${namespace}/front_camera_R" name="camera_front_R"
+      camera_x="0.0754" camera_y="0.029" camera_z="0.029"
+      camera_mass="0.085" hfov="1.0471975512" fps="20" width="1280" height="960"
+      near="0.01" />
+    <joint name="front_camera_bracket_joint_R" type="fixed">
+      <origin xyz="0.020 -0.1 0.0245" rpy="0 0 0" />
+      <parent link="${namespace}/front_R_camera_beam" />
+      <child link="${namespace}/front_camera_R" />
+    </joint>
+
+    <camera_mount prefix="front_L"
+                  tilt="0.0"/>
+    <joint name="front_camera_mount_joint_L" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <parent link="${namespace}/top_plate_front_link" />
+      <child link="${namespace}/front_L_camera_mount" />
+    </joint>
+
+    <pointgrey_flea3 frame="${namespace}/front_camera_L" name="camera_front_L"
+      camera_x="0.0754" camera_y="0.029" camera_z="0.029"
+      camera_mass="0.085" hfov="1.0471975512" fps="20" width="1280" height="960"
+      near="0.01" />
+    <joint name="front_camera_bracket_joint_L" type="fixed">
+      <origin xyz="0.020 0.1 0.0245" rpy="0 0 0" />
+      <parent link="${namespace}/front_L_camera_beam" />
+      <child link="${namespace}/front_camera_L" />
+    </joint>
+  </xacro:macro>
+
 </robot>
