@@ -17,8 +17,7 @@
 
     <sdf version='1.6'>
       <include>
-        <!--<uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X2 UGV/</uri>-->
-        <uri>https://fuel.ignitionrobotics.org/1.0/azeey/models/X2_test</uri>
+        <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X2 Config 1</uri>
 
         <!-- Diff drive -->
         <plugin filename="libignition-gazebo-diff-drive-system.so"
@@ -56,8 +55,7 @@
 
     <sdf version='1.6'>
       <include>
-        <!--<uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X1 UGV</uri>-->
-        <uri>https://fuel.ignitionrobotics.org/1.0/azeey/models/X1_test</uri>
+        <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X1 Config 1</uri>
 
         <!-- Diff drive -->
         <plugin filename="libignition-gazebo-diff-drive-system.so"
@@ -94,8 +92,7 @@
 
     <sdf version='1.6'>
       <include>
-        <!--<uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X3 UAV</uri>-->
-        <uri>https://fuel.ignitionrobotics.org/1.0/azeey/models/X3_test</uri>
+        <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X3 UAV Config 1</uri>
 
         <!-- Publish robot state information -->
         <!--<plugin filename="libignition-gazebo-joint-state-publisher-system.so"-->
@@ -200,8 +197,7 @@
 
     <sdf version='1.6'>
       <include>
-        <!--<uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X4 UAV</uri>-->
-        <uri>https://fuel.ignitionrobotics.org/1.0/azeey/models/X4_test</uri>
+        <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X4 UAV Config 1</uri>
 
         <!-- Publish robot state information -->
         <!--<plugin filename="libignition-gazebo-joint-state-publisher-system.so"-->
