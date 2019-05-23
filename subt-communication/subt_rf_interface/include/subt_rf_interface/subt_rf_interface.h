@@ -15,7 +15,8 @@
  *
 */
 
-#pragma once
+#ifndef SUBT_RF_INTERFACE__SUBT_RF_INTERFACE_H_
+#define SUBT_RF_INTERFACE__SUBT_RF_INTERFACE_H_
 
 #include <ros/ros.h>
 #include <ignition/math/Pose3.hh>
@@ -70,3 +71,5 @@ typedef std::function<rf_power(const double&, // tx_power
 
 }
 }
+#endif
+
