@@ -283,6 +283,9 @@ target_include_directories(${controller_plugin_name}
 ## Install ##
 #############
 
+install(PROGRAMS scripts/subt_docker.bash
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/scripts)
+
 install(FILES cmake/${PROJECT_NAME}-extras.cmake
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/cmake)
 
