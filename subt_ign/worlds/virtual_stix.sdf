@@ -13,6 +13,28 @@
       <origin_visual>false</origin_visual>
     </scene>
 
+   <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.8 0.8 0.8 1</specular>
+      <direction>0.5 0.1 -0.9</direction>
+    </light>
+
+    <model name="tmp_staging_floor">
+      <static>true</static>
+      <link name="link">
+        <pose>0 0 -0.045 0 0 0 0</pose>
+        <collision name="tmp_staging_floor_visual">
+            <geometry>
+              <box>
+                <size>25 25 0.05</size>
+              </box>
+            </geometry>
+        </collision>
+      </link>
+    </model>
+
     <!-- Barriers -->
     <include>
       <name>barrier_0_-1</name>
@@ -265,15 +287,5 @@
       </uri>
       <pose>51.116401672363281 -5.0199999809265137 0.60094296932220459 0 0 0</pose>
     </include>
-
-   <light type="directional" name="sun">
-      <cast_shadows>true</cast_shadows>
-      <pose>0 0 10 0 0 0</pose>
-      <diffuse>0.8 0.8 0.8 1</diffuse>
-      <specular>0.8 0.8 0.8 1</specular>
-      <direction>0.5 0.1 -0.9</direction>
-    </light>
-
-
   </world>
 </sdf>
