@@ -4,6 +4,7 @@
   <arg name="worldName"/>
 
   <param name="/use_sim_time" value="true"/>
+  <param name="/world_name" value="$(arg worldName)"/>
 
   <node pkg="ros1_ign_bridge" type="parameter_bridge" name="$(anon ros1_ign_bridge)" args="/world/$(arg worldName)/clock@rosgraph_msgs/Clock@ignition.msgs.Clock">
     <remap from="/world/$(arg worldName)/clock" to="/clock"/>
