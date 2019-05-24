@@ -1,12 +1,10 @@
 #!/bin/bash
 
-# Log into docker
-
 # Check for the existance of the team name on the command line
-if [ $# -eq 0 ]; then
-  echo "Specify the team name."
-  echo "Usage:"
-  echo "  ./subt_docker.sh <team_name> <docker_image> <local_docker_tag> <upstream_docker_tag>"
+if [ $# -lt 4 ]; then
+  echo "Specify the team name, local docker image, local docker tag, and upstream docker tag."
+  echo "To push a new Docker image:"
+  echo "  ./subt_docker.sh <team_name> <local_docker_image> <local_docker_tag> <upstream_docker_tag>"
   exit
 fi
 
@@ -31,6 +29,11 @@ fi
 # Log into docker
 echo "Logging into docker"
 $(aws ecr get-login --no-include-email --region us-east-1)
+
+if [ $? != 0 ]; then
+  echo "Failed to log into docker. Check your AWS credentials."
+  exit
+fi
 
 # Tag the docker file
 echo "Tagging image $image:$local_tag with $upstream_tag"
