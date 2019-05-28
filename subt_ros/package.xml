@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>subt_ros</name>
+  <version>0.1.0</version>
+  <description>Various ROS nodes for the DARPA SubT challenge.</description>
+  <license>Apache 2.0</license>
+  <maintainer email="caguero@openrobotics.org">Carlos Agüero</maintainer>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roslaunch</build_depend>
+  <depend>geometry_msgs</depend>
+  <depend>roscpp</depend>
+  <depend>tf2</depend>
+  <depend>tf2_ros</depend>
+  <depend>urdf</depend>
+
+  <export>
+  </export>
+</package>

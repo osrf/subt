@@ -89,6 +89,8 @@ install(TARGETS ${protobuf_lib_name}
 
 catkin_add_env_hooks(ign SHELLS bash
   DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/env-hooks)
+catkin_add_env_hooks(ign SHELLS zsh
+  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/env-hooks)
 
 # Create the libGameLogicPlugin.so library.
 set(game_logic_plugin_name GameLogicPluginIgn)

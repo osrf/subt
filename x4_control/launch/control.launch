@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="world_name" default="tunnel_qual_ign" />
+  <arg name="x4_name" default="X4" />
+  <arg name="robot_namespace" default="$(arg x4_name)"/>
+
+  <group ns="model/$(arg x4_name)">
+    <node pkg="robot_localization" type="ukf_localization_node"
+          name="robot_localization_ukf_node_odom">
+      <param name="frequency" value="1000." />
+      <param name="sensor_timeout" value="0.2" />
+      <param name="two_d_mode" value="false" />
+      <param name="odom_frame" value="$(arg world_name)" />
+      <param name="base_link_frame" value="$(arg world_name)/$(arg x4_name)/base_link/imu_sensor" />
+      <param name="world_frame" value="$(arg world_name)" />
+      <param name="publish_tf" value="false" />
+      <param name="imu0" value="imu/data" />
+      <rosparam param="imu0_config">
+        [false, false, false, true, true, true,
+        true, true, true, true, true, true,
+        true, true, true]</rosparam>
+    </node>
+    <!-- Spawn a position controller -->
+    <node name="roll_pitch_yawrate_thrust_controller_node" pkg="rotors_control" type="roll_pitch_yawrate_thrust_controller_node" output="screen" respawn="true">
+      <rosparam command="load" file="$(find x4_control)/resource/roll_pitch_yawrate_thrust_controller_neo11.yaml" />
+      <rosparam command="load" file="$(find rotors_gazebo)/resource/neo11.yaml" />
+      <remap from="odometry" to="odometry/filtered" />
+    </node>
+
+    <node name="cmdvel_transform" pkg="subt_example" type="cmdvel_converter_rpy.py" args="/model/$(arg x4_name)/cmd_vel_relay /model/$(arg x4_name)/command/roll_pitch_yawrate_thrust" respawn="true"/>
+
+  </group>
+</launch>

@@ -11,7 +11,7 @@
   <!-- Start ROS first. This is a bit hacky for now. -->
   <!-- Make sure to source /opt/ros/melodic/setup.bash -->
   <executable name='ros'>
-    <command>roscore</command>
+    <command>roslaunch subt_ros competition_init.launch worldName:=<%=worldName%></command>
   </executable>
 
   <plugin name="ignition::launch::GazeboServer"
@@ -36,11 +36,17 @@
             name="ignition::gazebo::systems::SceneBroadcaster">
     </plugin>
 
+    <plugin entity_name="<%= worldName %>"
+            entity_type="world"
+            filename="libignition-gazebo-imu-system.so"
+            name="ignition::gazebo::systems::Imu">
+    </plugin>
   </plugin>
 
   <executable_wrapper>
     <plugin name="ignition::launch::GazeboGui"
           filename="libignition-launch-gazebogui.so">
+      <world_name><%= worldName %></world_name>
       <plugin filename="GzScene3D" name="3D View">
         <ignition-gui>
           <title>3D View</title>
@@ -107,32 +113,32 @@
     </plugin>
   </executable_wrapper>
 
-  <!-- Load a joystick plugin that will read from a device and output to a 
+  <!-- Load a joystick plugin that will read from a device and output to a
        topic -->
-  <plugin name="ignition::launch::Joystick"
-          filename="libignition-launch-joystick.so">
-    <device>/dev/input/js0</device>
-    <sticky_buttons>false</sticky_buttons>
-    <dead_zone>0.05</dead_zone>
-    <rate>60</rate>
-    <accumulation_rate>1000</accumulation_rate>
-  </plugin>
+  <!--<plugin name="ignition::launch::Joystick"-->
+  <!--        filename="libignition-launch-joystick.so">-->
+  <!--  <device>/dev/input/js0</device>-->
+  <!--  <sticky_buttons>false</sticky_buttons>-->
+  <!--  <dead_zone>0.05</dead_zone>-->
+  <!--  <rate>60</rate>-->
+  <!--  <accumulation_rate>1000</accumulation_rate>-->
+  <!--</plugin>-->
 
   <!-- Load a plugin that transforms a joystick message to a
        twist message -->
-  <plugin name="ignition::launch::JoyToTwist"
-          filename="libignition-launch-joytotwist.so">
-    <input_topic>/joy</input_topic>
-    <output_topic>/model/x1/cmd_vel</output_topic>
-  </plugin>
+  <!--<plugin name="ignition::launch::JoyToTwist"-->
+  <!--        filename="libignition-launch-joytotwist.so">-->
+  <!--  <input_topic>/joy</input_topic>-->
+  <!--  <output_topic>/model/x1/cmd_vel</output_topic>-->
+  <!--</plugin>-->
 
   <!-- Load a plugin that transforms a joystick message to a
        twist message -->
-  <plugin name="ignition::launch::JoyToTwist"
-          filename="libignition-launch-joytotwist.so">
-    <input_topic>/joy</input_topic>
-    <output_topic>/model/x2/cmd_vel</output_topic>
-  </plugin>
+  <!--<plugin name="ignition::launch::JoyToTwist"-->
+  <!--        filename="libignition-launch-joytotwist.so">-->
+  <!--  <input_topic>/joy</input_topic>-->
+  <!--  <output_topic>/model/x2/cmd_vel</output_topic>-->
+  <!--</plugin>-->
 
   <!-- The SubT challenge comms broker plugin -->
   <plugin entity_name="<%= worldName %>"

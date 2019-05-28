@@ -1,0 +1,41 @@
+# PS3 Input mode
+# to check your joy control: sudo jstest /dev/input/js0
+
+axis_linear: 1  # Left thumb stick vertical
+scale_linear: 0.1
+scale_linear_turbo: 1.5
+axis_angular: 0  # Left thumb stick horizontal
+scale_angular: 0.4
+scale_angular_turbo: 0.8
+
+axis_vertical: 4  # Right thumb stick vertical
+scale_vertical: 50
+scale_vertical_turbo: 150
+axis_horizontal: 3  # Right thumb stick horizontal
+scale_horizontal: 0.4
+scale_horizontal_turbo: 1.5
+
+enable_button: 4  # Left button (LB)
+enable_turbo_button: 5  # Right button (RB)
+
+dead_man_switch_left: 10
+dead_man_switch_right: 11
+
+light_on_trigger: 6  # Left trigger (LT)
+light_off_trigger: 7  # Right trigger (RT)
+
+axis_arrow_horizontal: 3
+axis_arrow_vertical: 4
+
+button_map:
+  A: 0
+  B: 1
+  X: 2
+  Y: 3
+  L: 4
+  R: 5
+
+joy_node:
+  dev: /dev/input/js0
+  deadzone: 0.1
+  autorepeat_rate: 20
