@@ -13,6 +13,14 @@
       <origin_visual>false</origin_visual>
     </scene>
 
+   <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.8 0.8 0.8 1</specular>
+      <direction>0.5 0.1 -0.9</direction>
+    </light>
+
     <!-- The staging area -->
     <include>
       <static>true</static>
