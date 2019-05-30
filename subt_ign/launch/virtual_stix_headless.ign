@@ -11,7 +11,7 @@
   <!-- Start ROS first. This is a bit hacky for now. -->
   <!-- Make sure to source /opt/ros/melodic/setup.bash -->
   <executable name='ros'>
-    <command>roscore</command>
+    <command>roslaunch subt_ros competition_init.launch world_name:=<%=worldName%></command>
   </executable>
 
   <plugin name="ignition::launch::GazeboServer"
@@ -29,6 +29,17 @@
             entity_type="world"
             filename="libignition-gazebo-physics-system.so"
             name="ignition::gazebo::systems::Physics">
+    </plugin>
+    <plugin entity_name="<%= worldName %>"
+            entity_type="world"
+            filename="libignition-gazebo-sensors-system.so"
+            name="ignition::gazebo::systems::Sensors">
+            <render_engine>ogre2</render_engine>
+    </plugin>
+    <plugin entity_name="<%= worldName %>"
+            entity_type="world"
+            filename="libignition-gazebo-imu-system.so"
+            name="ignition::gazebo::systems::Imu">
     </plugin>
   </plugin>
 
