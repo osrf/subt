@@ -38,6 +38,12 @@
     </plugin>
     <plugin entity_name="<%= worldName %>"
             entity_type="world"
+            filename="libignition-gazebo-scene-broadcaster-system.so"
+            name="ignition::gazebo::systems::SceneBroadcaster">
+    </plugin>
+
+    <plugin entity_name="<%= worldName %>"
+            entity_type="world"
             filename="libignition-gazebo-imu-system.so"
             name="ignition::gazebo::systems::Imu">
     </plugin>
