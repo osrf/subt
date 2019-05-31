@@ -2,7 +2,11 @@
 <%
   # We assume the world_name parameter is set by competition.ign
   worldName = `rosparam get /world_name`
-  enableGroundTruth = true
+
+  # When 'enableGroundTruth = true' absolute poses of vehicles will be published.
+  # This is useful for debugging purposes, but will not be available during
+  # competition scoring.
+  enableGroundTruth = false
 %>
 <ignition version='1.0'>
 
