@@ -38,6 +38,11 @@
     </plugin>
     <plugin entity_name="<%= worldName %>"
             entity_type="world"
+            filename="libignition-gazebo-user-commands-system.so"
+            name="ignition::gazebo::systems::UserCommands">
+    </plugin>
+    <plugin entity_name="<%= worldName %>"
+            entity_type="world"
             filename="libignition-gazebo-scene-broadcaster-system.so"
             name="ignition::gazebo::systems::SceneBroadcaster">
     </plugin>

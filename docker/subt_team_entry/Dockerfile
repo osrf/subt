@@ -119,18 +119,16 @@ WORKDIR /home/$USERNAME/subt_ws
 
 # Install Rotors
 RUN wget https://s3.amazonaws.com/osrf-distributions/subt_robot_examples/releases/subt_robot_examples_latest.tgz
-RUN tar xvf subt_robot_examples_latest.tgz 
+RUN tar xvf subt_robot_examples_latest.tgz
+
 RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && catkin_make install'
 
 RUN /bin/sh -c 'echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc' \
  && /bin/sh -c 'echo ". ~/subt_ws/install/setup.sh" >> ~/.bashrc'
 
-# Create a directory required by cloudsim
-RUN mkdir -p /tmp/ign
-
-# Copy entry point script, and set the entrypoint
+# Copy entry point script, and set the entrypoint. Automatically run the team.ign script
 COPY run_sim.bash ./
-ENTRYPOINT ["./run_sim.bash"]
+ENTRYPOINT ["./run_sim.bash", "team.ign"]
 
 # Customize your image here.
 # E.g.:
