@@ -53,6 +53,7 @@ bool ControllerPlugin::Load(const tinyxml2::XMLElement *_elem)
 
     std::string data = "hello from " + this->name;
     this->client->SendTo(data, dst);
+    ignmsg << "[" << this->name << "] Msg sent" << std::endl;
   };
 
   this->timer.Start(1000, sendFunct);
