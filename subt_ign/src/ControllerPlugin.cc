@@ -40,7 +40,7 @@ bool ControllerPlugin::Load(const tinyxml2::XMLElement *_elem)
   }
 
   this->name = elem->GetText();
-  this->client.reset(new subt::CommsClientIgn(this->name, true));
+  this->client.reset(new subt::CommsClientIgn(this->name, false));
   this->client->Bind(&ControllerPlugin::OnMsg, this);
 
   ignmsg << this->name << " controller loaded" << std::endl;
