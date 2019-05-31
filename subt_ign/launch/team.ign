@@ -1,12 +1,13 @@
 <?xml version="1.0"?>
 <%
-  worldName = 'tunnel_qual_ign'
+  # We assume the world_name parameter is set by competition.ign
+  worldName = `rosparam get /world_name`
   enableGroundTruth = true
 %>
 <ignition version='1.0'>
 
   <executable name='robot_desc'>
-    <command>roslaunch subt_ros descriptions.launch worldName:=<%=worldName%></command>
+    <command>roslaunch subt_ros descriptions.launch world_name:=<%=worldName%></command>
   </executable>
 
   <plugin name="ignition::launch::GazeboFactory"
@@ -186,7 +187,7 @@
     </sdf>
   </plugin>
   <executable name='X3_controller'>
-    <command>roslaunch x3_control control.launch</command>
+    <command>roslaunch x3_control control.launch world_name:=<%=worldName%></command>
   </executable>
 
   <plugin name="ignition::launch::GazeboFactory"
@@ -329,6 +330,6 @@
     </sdf>
   </plugin>
    <executable name='X4_controller'>
-    <command>roslaunch x4_control control.launch</command>
+    <command>roslaunch x4_control control.launch world_name:=<%=worldName%></command>
   </executable>
 </ignition>
