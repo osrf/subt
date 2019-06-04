@@ -27,12 +27,11 @@ using namespace visibilityModel;
 VisibilityModel::VisibilityModel(
     visibilityModel::RfConfiguration _visibilityConfig,
     range_model::rf_configuration _rangeConfig,
-    const std::string &_worldName,
-    const std::string &_worldDir)
+    const std::string &_worldName)
     : visibilityConfig(_visibilityConfig),
       defaultRangeConfig(_rangeConfig)
 {
-  if (!this->visibilityTable.Load(_worldName, _worldDir))
+  if (!this->visibilityTable.Load(_worldName))
   {
     ignerr << "Unable to load visibility table data files\n";
   }

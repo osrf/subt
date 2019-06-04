@@ -60,8 +60,7 @@ namespace subt
     /// 'tunnel_practice_1.dat'.
     /// \return True if the visibility look-up-table was loaded or false
     /// otherwise.
-    public: bool Load(const std::string &_worldName,
-                      const std::string &_worldDirectory);
+    public: bool Load(const std::string &_worldName);
 
     /// \brief Get the visibility cost.
     /// \param[in] _from A 3D position.

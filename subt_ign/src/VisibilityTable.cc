@@ -25,6 +25,7 @@
 #include <ignition/transport/Node.hh>
 #include <ignition/msgs.hh>
 
+#include <subt_ign/Config.hh>
 #include <subt_ign/SimpleDOTParser.hh>
 #include <subt_ign/VisibilityTable.hh>
 
@@ -37,18 +38,18 @@ VisibilityTable::VisibilityTable()
 };
 
 //////////////////////////////////////////////////
-bool VisibilityTable::Load(const std::string &_worldName,
-                           const std::string &_worldsDirectory)
+bool VisibilityTable::Load(const std::string &_worldName)
 {
+  std::string worldsDirectory = SUBT_INSTALL_WORLD_DIR;
   this->worldName = _worldName;
   this->worldPath = ignition::common::joinPaths(
-    _worldsDirectory, _worldName + ".world");
+    worldsDirectory, _worldName + ".world");
 
   this->graphPath = ignition::common::joinPaths(
-    _worldsDirectory, _worldName + ".dot");
+    worldsDirectory, _worldName + ".dot");
 
   this->lutPath = ignition::common::joinPaths(
-    _worldsDirectory, _worldName + ".dat");
+    worldsDirectory, _worldName + ".dat");
 
   // Parse the .dot file and populate the world graph.
   if (!this->PopulateVisibilityGraph(graphPath))

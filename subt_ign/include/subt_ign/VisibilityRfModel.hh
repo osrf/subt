@@ -71,8 +71,7 @@ namespace subt
         public: VisibilityModel(
                     visibilityModel::RfConfiguration _visibilityConfig,
                     range_model::rf_configuration _rangeConfig,
-                    const std::string &_worldName,
-                    const std::string &_worldDir);
+                    const std::string &_worldName);
 
         /// Compute received power function that will be given to
         /// communcation model.

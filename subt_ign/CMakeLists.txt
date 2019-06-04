@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.5.1)
 project(subt_ign)
 
+configure_file (${PROJECT_SOURCE_DIR}/include/subt_ign/Config.hh.in ${PROJECT_BINARY_DIR}/include/subt_ign/Config.hh)
+
 if(NOT WIN32)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -Wall -Wextra")
 endif()
@@ -47,6 +49,7 @@ find_package(sdformat8 REQUIRED)
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
+  ${PROJECT_BINARY_DIR}/include
 )
 
 link_directories(
