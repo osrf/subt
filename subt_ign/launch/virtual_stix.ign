@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <%
-  worldName = 'virtual_stix'
+  worldName = 'tunnel_qual_ign'
 %>
 <ignition version='1.0'>
   <env>
@@ -139,7 +139,7 @@
     <world_name><%= worldName %></world_name>
     <world_dir>/home/developer/subt_ws/install/share/subt_ign/worlds</world_dir>
     <comms_model>
-      <comms_model_type>log_normal_range</comms_model_type>
+      <comms_model_type>visibility_range</comms_model_type>
 
       <range_config>
         <max_range>500.0</max_range>

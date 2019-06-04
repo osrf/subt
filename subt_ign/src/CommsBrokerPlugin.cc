@@ -133,7 +133,14 @@ bool CommsBrokerPlugin::Load(const tinyxml2::XMLElement *_elem)
 
   // Todo: Enable when visibility_range works.
 
-  // std::string worldDir;
+  std::string worldDir;
+  elem = _elem->FirstChildElement("world_dir");
+  if (elem)
+  {
+    worldDir = elem->GetText();
+  }
+  ignmsg << "World dir: " << worldDir << std::endl;
+
   // if (!ros::param::get("/subt/gazebo_worlds_dir", worldDir))
   // {
   //   std::cerr << "[CommsBrokerPlugin] Unable to find ROS parameter "
@@ -164,8 +171,8 @@ bool CommsBrokerPlugin::Load(const tinyxml2::XMLElement *_elem)
   // }
 
   // TODO: Maybe only try to instantiate if visibility type is selected
-  // this->visibilityModel = std::make_unique<VisibilityModel>(
-  //     visibilityConfig, rangeConfig, worldName, worldDir);
+  this->visibilityModel = std::make_unique<VisibilityModel>(
+    visibilityConfig, rangeConfig, worldName, worldDir);
 
   // Build RF propagation function options
   std::map<std::string, pathloss_function> pathlossFunctions;
