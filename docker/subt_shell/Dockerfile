@@ -114,6 +114,25 @@ RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/mode
 RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Rescue Randy Sitting" -v 4
 RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Samsung J8 Black" -v 4
 
+# Download the robot models
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X1 Config 1" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X1 Config 2" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X1 Config 3" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X1 Config 4" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X2 Config 1" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X2 Config 2" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X2 Config 3" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X2 Config 4" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X3 UAV Config 1" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X3 UAV Config 2" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X3 UAV Config 3" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X3 UAV Config 4" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X4 UAV Config 1" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X4 UAV Config 2" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X4 UAV Config 3" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X4 UAV Config 4" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X4 UAV Config 5" -v 4
+
 WORKDIR /home/$USERNAME/subt_ws
 
 # Install Rotors
