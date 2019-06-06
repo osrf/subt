@@ -19,11 +19,11 @@
 #include <iomanip>
 #include <iostream>
 #include <utility>
-#include <ignition/math/graph/GraphAlgorithms.hh>
 #include <ignition/common/Console.hh>
 #include <ignition/common/Util.hh>
-#include <ignition/transport/Node.hh>
+#include <ignition/math/graph/GraphAlgorithms.hh>
 #include <ignition/msgs.hh>
+#include <ignition/transport/Node.hh>
 
 #include <subt_ign/Config.hh>
 #include <subt_ign/SimpleDOTParser.hh>

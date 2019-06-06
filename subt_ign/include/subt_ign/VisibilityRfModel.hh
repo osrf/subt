@@ -83,6 +83,11 @@ namespace subt
                                               radio_state &_txState,
                                               radio_state &_rxState);
 
+        /// \brief Whether the visibility model has been successfully
+        /// initialized.
+        /// \return True if initialized or false otherwise.
+        public: bool Initialized() const;
+
         /// Function to visualize visibility cost in Gazebo.
         private: bool VisualizeVisibility(const ignition::msgs::StringMsg &_req,
                                           ignition::msgs::Boolean &_rep);
@@ -96,6 +101,7 @@ namespace subt
         private: visibilityModel::RfConfiguration visibilityConfig;
         private: range_model::rf_configuration defaultRangeConfig;
         private: std::map<std::string, ignition::math::Pose3d> poses;
+        private: bool initialized = false;
       };
     }
   }

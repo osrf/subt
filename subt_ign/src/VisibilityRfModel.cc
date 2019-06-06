@@ -34,18 +34,26 @@ VisibilityModel::VisibilityModel(
   if (!this->visibilityTable.Load(_worldName))
   {
     ignerr << "Unable to load visibility table data files\n";
+    return;
   }
-  else
-  {
-    ignition::transport::AdvertiseServiceOptions opts;
-    opts.SetScope(ignition::transport::Scope_t::HOST);
-    this->node.Advertise("/subt/comms_model/visualize",
-        &VisibilityModel::VisualizeVisibility, this, opts);
+  
+  
+  ignition::transport::AdvertiseServiceOptions opts;
+  opts.SetScope(ignition::transport::Scope_t::HOST);
+  this->node.Advertise("/subt/comms_model/visualize",
+      &VisibilityModel::VisualizeVisibility, this, opts);
 
-    // Subscribe to pose messages.
-    this->node.Subscribe("/world/" + _worldName + "/pose/info",
-        &VisibilityModel::OnPose, this);
-  }
+  // Subscribe to pose messages.
+  this->node.Subscribe("/world/" + _worldName + "/pose/info",
+      &VisibilityModel::OnPose, this);
+  
+  this->initialized = true;
+}
+
+/////////////////////////////////////////////
+bool VisibilityModel::Initialized() const
+{
+  return this->initialized;
 }
 
 /////////////////////////////////////////////

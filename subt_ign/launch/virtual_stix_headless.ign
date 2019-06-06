@@ -62,7 +62,7 @@
     <generate_table>true</generate_table>
     <world_name><%= worldName %></world_name>
     <comms_model>
-      <comms_model_type>log_normal_range</comms_model_type>
+      <comms_model_type>visibility_range</comms_model_type>
 
       <range_config>
         <max_range>20.0</max_range>

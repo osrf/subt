@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <%
-  worldName = 'tunnel_qual_ign'
+  worldName = 'virtual_stix'
 %>
 <ignition version='1.0'>
   <env>
@@ -167,22 +167,6 @@
           name="subt::BaseStationPlugin"
           filename="libBaseStationPlugin.so">
   </plugin>
-
-  <!-- Testing comms in X1 -->
-  <!-- <plugin entity_name="X1"
-          entity_type="model"
-          name="subt::ControllerPlugin"
-          filename="libControllerPlugin.so">
-    <name>X1</name>
-  </plugin> -->
-
-  <!-- Testing comms in X2 -->
-  <!-- <plugin entity_name="X2"
-          entity_type="model"
-          name="subt::ControllerPlugin"
-          filename="libControllerPlugin.so">
-    <name>X2</name>
-  </plugin> -->
 
   <!-- The SubT challenge logic plugin -->
   <plugin name="subt::GameLogicPlugin" filename="libGameLogicPlugin.so">
