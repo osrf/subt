@@ -19,13 +19,13 @@
 #include <iostream>
 #include <string>
 
-#include <subt_communication_broker_ign/subt_communication_client.h>
+#include <subt_communication_broker/subt_communication_client.h>
 
 using namespace subt;
-using namespace subt::communication_broker_ign;
+using namespace subt::communication_broker;
 
 //////////////////////////////////////////////////
-CommsClientIgn::CommsClientIgn(const std::string &_localAddress,
+CommsClient::CommsClient(const std::string &_localAddress,
   const bool _isPrivate)
   : localAddress(_localAddress),
     isPrivate(_isPrivate)
@@ -35,7 +35,7 @@ CommsClientIgn::CommsClientIgn(const std::string &_localAddress,
   // Sanity check: Verity that local address is not empty.
   if (_localAddress.empty())
   {
-    std::cerr << "CommsClientIgn::CommsClientIgn() error: Local address shouldn't "
+    std::cerr << "CommsClient::CommsClient() error: Local address shouldn't "
               << "be empty" << std::endl;
     return;
   }
@@ -50,7 +50,7 @@ CommsClientIgn::CommsClientIgn(const std::string &_localAddress,
   while (!this->enabled && std::chrono::duration_cast<
                     std::chrono::milliseconds>(elapsed).count() <= kMaxWaitTime)
   {
-    std::cerr << "[CommsClientIgn] Retrying register.." << std::endl;
+    std::cerr << "[CommsClient] Retrying register.." << std::endl;
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
     this->enabled = this->Register();
     elapsed = std::chrono::steady_clock::now() - kStart;
@@ -58,13 +58,13 @@ CommsClientIgn::CommsClientIgn(const std::string &_localAddress,
 
   if (!this->enabled)
   {
-    std::cerr << "[CommsClientIgn] Validation service not available, invalid "
+    std::cerr << "[CommsClient] Validation service not available, invalid "
               << "address or model not available" << std::endl;
     return;
   }
 
   // Subscribe to the topic where neighbor updates are notified.
-  if (!this->node.Subscribe(kNeighborsTopic, &CommsClientIgn::OnNeighbors, this))
+  if (!this->node.Subscribe(kNeighborsTopic, &CommsClient::OnNeighbors, this))
   {
     std::cerr << "Error subscribing to topic [" << kNeighborsTopic << "]"
               << std::endl;
@@ -75,19 +75,19 @@ CommsClientIgn::CommsClientIgn(const std::string &_localAddress,
 }
 
 //////////////////////////////////////////////////
-CommsClientIgn::~CommsClientIgn()
+CommsClient::~CommsClient()
 {
   this->Unregister();
 }
 
 //////////////////////////////////////////////////
-std::string CommsClientIgn::Host() const
+std::string CommsClient::Host() const
 {
   return this->localAddress;
 }
 
 //////////////////////////////////////////////////
-bool CommsClientIgn::Bind(std::function<void(const std::string &_srcAddress,
+bool CommsClient::Bind(std::function<void(const std::string &_srcAddress,
                                           const std::string &_dstAddress,
                                           const uint32_t _dstPort,
                                           const std::string &_data)> _cb,
@@ -106,7 +106,7 @@ bool CommsClientIgn::Bind(std::function<void(const std::string &_srcAddress,
     address = this->Host();
 
   // Sanity check: Make sure that you use your local address or multicast.
-  if ((address != communication_broker_ign::kMulticast) && (address != this->Host()))
+  if ((address != communication_broker::kMulticast) && (address != this->Host()))
   {
     std::cerr << "[" << this->Host() << "] Bind() error: Address ["
               << address << "] is not your local address" << std::endl;
@@ -115,7 +115,7 @@ bool CommsClientIgn::Bind(std::function<void(const std::string &_srcAddress,
 
   // Mapping the "unicast socket" to a topic name.
   const auto unicastEndPoint = address + ":" + std::to_string(_port);
-  const auto bcastEndpoint = communication_broker_ign::kBroadcast + ":" + std::to_string(_port);
+  const auto bcastEndpoint = communication_broker::kBroadcast + ":" + std::to_string(_port);
   bool bcastAdvertiseNeeded;
 
   {
@@ -147,18 +147,18 @@ bool CommsClientIgn::Bind(std::function<void(const std::string &_srcAddress,
       ignition::msgs::Boolean rep;
       bool result;
       bool executed = this->node.Request(
-          communication_broker_ign::kEndPointRegistrationSrv, req, timeout, rep, result);
+          communication_broker::kEndPointRegistrationSrv, req, timeout, rep, result);
 
       if (!executed)
       {
-        std::cerr << "[CommsClientIgn] Endpoint registration srv not available"
+        std::cerr << "[CommsClient] Endpoint registration srv not available"
                   << std::endl;
         return false;
       }
 
       if (!result)
       {
-        std::cerr << "[CommsClientIgn] Invalid data. Did you send the address "
+        std::cerr << "[CommsClient] Invalid data. Did you send the address "
                   << "followed by the endpoint?" << std::endl;
         return false;
       }
@@ -169,7 +169,7 @@ bool CommsClientIgn::Bind(std::function<void(const std::string &_srcAddress,
   ignition::transport::AdvertiseServiceOptions opts;
   if (this->isPrivate)
     opts.SetScope(ignition::transport::Scope_t::PROCESS);
-  if (!this->node.Advertise(address, &CommsClientIgn::OnMessage, this, opts)) {
+  if (!this->node.Advertise(address, &CommsClient::OnMessage, this, opts)) {
     std::cerr << "[" << this->Host() << "] Bind Error: could not advertise " << address << std::endl;
     return false;
   }
@@ -193,7 +193,7 @@ bool CommsClientIgn::Bind(std::function<void(const std::string &_srcAddress,
 
 
 //////////////////////////////////////////////////
-bool CommsClientIgn::SendTo(const std::string &_data,
+bool CommsClient::SendTo(const std::string &_data,
     const std::string &_dstAddress, const uint32_t _port)
 {
   // Sanity check: Make sure that the communications are enabled.
@@ -203,7 +203,7 @@ bool CommsClientIgn::SendTo(const std::string &_data,
   // Restrict the maximum size of a message.
   if (_data.size() > this->kMtu)
   {
-    std::cerr << "[" << this->Host() << "] CommsClientIgn::SendTo() error: "
+    std::cerr << "[" << this->Host() << "] CommsClient::SendTo() error: "
               << "Payload size (" << _data.size() << ") is greater than the "
               << "maximum allowed (" << this->kMtu << ")" << std::endl;
     return false;
@@ -219,14 +219,14 @@ bool CommsClientIgn::SendTo(const std::string &_data,
 }
 
 //////////////////////////////////////////////////
-std::vector<std::string> CommsClientIgn::Neighbors() const
+std::vector<std::string> CommsClient::Neighbors() const
 {
   std::lock_guard<std::mutex> lock(this->mutex);
   return this->neighbors;
 }
 
 //////////////////////////////////////////////////
-bool CommsClientIgn::Register()
+bool CommsClient::Register()
 {
   ignition::msgs::StringMsg req;
   req.set_data(this->localAddress);
@@ -240,7 +240,7 @@ bool CommsClientIgn::Register()
 
   if(!executed) {
     std::cerr << "[" << this->localAddress
-              << "] CommsClientIgn::Register: Problem registering with broker"
+              << "] CommsClient::Register: Problem registering with broker"
               << std::endl;
   }
 
@@ -248,7 +248,7 @@ bool CommsClientIgn::Register()
 }
 
 //////////////////////////////////////////////////
-bool CommsClientIgn::Unregister()
+bool CommsClient::Unregister()
 {
   ignition::msgs::StringMsg req;
   req.set_data(this->localAddress);
@@ -264,7 +264,7 @@ bool CommsClientIgn::Unregister()
 }
 
 //////////////////////////////////////////////////
-void CommsClientIgn::OnMessage(const msgs::Datagram &_msg)
+void CommsClient::OnMessage(const msgs::Datagram &_msg)
 {
   auto endPoint = _msg.dst_address() + ":" + std::to_string(_msg.dst_port());
 
@@ -280,7 +280,7 @@ void CommsClientIgn::OnMessage(const msgs::Datagram &_msg)
 }
 
 //////////////////////////////////////////////////
-void CommsClientIgn::OnNeighbors(const msgs::Neighbor_M &_neighbors)
+void CommsClient::OnNeighbors(const msgs::Neighbor_M &_neighbors)
 {
   std::lock_guard<std::mutex> lock(this->mutex);
 
@@ -289,7 +289,7 @@ void CommsClientIgn::OnNeighbors(const msgs::Neighbor_M &_neighbors)
   if (_neighbors.neighbors().find(this->localAddress) ==
         _neighbors.neighbors().end())
   {
-    std::cerr << "[CommsClientIgn::OnNeighborsReceived] My current address ["
+    std::cerr << "[CommsClient::OnNeighborsReceived] My current address ["
               << this->localAddress << "] is not included in this neighbor "
               << "update" << std::endl;
     return;

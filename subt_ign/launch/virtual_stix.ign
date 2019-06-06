@@ -134,7 +134,7 @@
   <plugin entity_name="<%= worldName %>"
           entity_type="world"
           name="subt::CommsBrokerPlugin"
-          filename="libCommsBrokerPluginIgn.so">
+          filename="libCommsBrokerPlugin.so">
     <generate_table>true</generate_table>
     <world_name><%= worldName %></world_name>
     <comms_model>
@@ -165,14 +165,14 @@
   <plugin entity_name="base_station"
           entity_type="model"
           name="subt::BaseStationPlugin"
-          filename="libBaseStationPluginIgn.so">
+          filename="libBaseStationPlugin.so">
   </plugin>
 
   <!-- Testing comms in X1 -->
   <!-- <plugin entity_name="X1"
           entity_type="model"
           name="subt::ControllerPlugin"
-          filename="libControllerPluginIgn.so">
+          filename="libControllerPlugin.so">
     <name>X1</name>
   </plugin> -->
 
@@ -180,12 +180,12 @@
   <!-- <plugin entity_name="X2"
           entity_type="model"
           name="subt::ControllerPlugin"
-          filename="libControllerPluginIgn.so">
+          filename="libControllerPlugin.so">
     <name>X2</name>
   </plugin> -->
 
   <!-- The SubT challenge logic plugin -->
-  <plugin name="subt::GameLogicPlugin" filename="libGameLogicPluginIgn.so">
+  <plugin name="subt::GameLogicPlugin" filename="libGameLogicPlugin.so">
     <!-- The collection of artifacts to locate -->
 
     <world_name><%= worldName %></world_name>

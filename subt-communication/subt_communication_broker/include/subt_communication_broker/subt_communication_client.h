@@ -14,8 +14,8 @@
  * limitations under the License.
  *
 */
-#ifndef SUBT_GAZEBO_COMMSCLIENTIGN_HH_
-#define SUBT_GAZEBO_COMMSCLIENTIGN_HH_
+#ifndef SUBT_GAZEBO_COMMSCLIENT_HH_
+#define SUBT_GAZEBO_COMMSCLIENT_HH_
 
 #include <cstdint>
 #include <functional>
@@ -26,26 +26,26 @@
 #include <vector>
 #include <ignition/transport/Node.hh>
 
-#include <subt_communication_broker_ign/common_types.h>
-#include <subt_communication_broker_ign/protobuf/datagram.pb.h>
-#include <subt_communication_broker_ign/protobuf/neighbor_m.pb.h>
+#include <subt_communication_broker/common_types.h>
+#include <subt_communication_broker/protobuf/datagram.pb.h>
+#include <subt_communication_broker/protobuf/neighbor_m.pb.h>
 
 namespace subt
 {
 
   /// \brief ToDo.
-  class CommsClientIgn
+  class CommsClient
   {
     /// \brief Constructor.
     /// \param[in] _localAddress Your local address.
     /// Important: This address must be equal to a Gazebo model name.
     /// \param[in] _isPrivate If true, only nodes within the same process will
     /// be able to communicate with this client.
-    public: CommsClientIgn(const std::string &_localAddress,
+    public: CommsClient(const std::string &_localAddress,
                         const bool _isPrivate = false);
 
     /// \brief Destructor.
-    public: virtual ~CommsClientIgn();
+    public: virtual ~CommsClient();
 
     /// \brief Get your local address.
     /// \return The local address.
@@ -79,7 +79,7 @@ namespace subt
                                          const uint32_t _dstPort,
                                          const std::string &_data)> _cb,
                       const std::string &_address = "",
-                      const int _port = communication_broker_ign::kDefaultPort);
+                      const int _port = communication_broker::kDefaultPort);
 
     /// \brief This method can bind a local address and a port to a
     /// virtual socket. This is a required step if your agent needs to
@@ -112,7 +112,7 @@ namespace subt
                             const std::string &_data),
               C *_obj,
               const std::string &_address = "",
-              const int _port = communication_broker_ign::kDefaultPort)
+              const int _port = communication_broker::kDefaultPort)
     {
       return this->Bind(std::bind(_cb, _obj,
                                   std::placeholders::_1,
@@ -135,7 +135,7 @@ namespace subt
     /// bigger than 1500 bytes).
     public: bool SendTo(const std::string &_data,
                         const std::string &_dstAddress,
-                        const uint32_t _port = communication_broker_ign::kDefaultPort);
+                        const uint32_t _port = communication_broker::kDefaultPort);
 
     /// \brief Get the list of local neighbors.
     ///

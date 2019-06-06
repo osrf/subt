@@ -18,8 +18,8 @@
 #include <string>
 #include <gtest/gtest.h>
 
-#include <subt_communication_broker_ign/subt_communication_broker.h>
-#include <subt_communication_broker_ign/subt_communication_client.h>
+#include <subt_communication_broker/subt_communication_broker.h>
+#include <subt_communication_broker/subt_communication_client.h>
 #include <subt_communication_model/subt_communication_model.h>
 #include <subt_rf_interface/subt_rf_interface.h>
 #include <subt_rf_interface/subt_rf_model.h>
@@ -28,7 +28,7 @@ using namespace subt;
 using namespace subt::communication_model;
 using namespace subt::rf_interface;
 using namespace subt::rf_interface::range_model;
-using namespace subt::communication_broker_ign;
+using namespace subt::communication_broker;
 
 TEST(broker, instatiate)
 {
@@ -82,8 +82,8 @@ TEST(broker, communicate)
   broker.SetPoseUpdateFunction(pose_update_func);
   broker.Start();
 
-  CommsClientIgn c1("1");
-  CommsClientIgn c2("2");
+  CommsClient c1("1");
+  CommsClient c2("2");
 
   auto c2_cb = [=](const std::string& src,
                    const std::string& dst,

@@ -18,16 +18,16 @@
 #include <tinyxml2.h>
 #include <ros/ros.h>
 
-#include <subt_ign/CommsBrokerPlugin.hh>
-#include <ignition/common/Console.hh>
-#include <ignition/common/Util.hh>
-
 #include <functional>
 #include <mutex>
 
+#include <ignition/common/Console.hh>
+#include <ignition/common/Util.hh>
+#include <subt_ign/CommsBrokerPlugin.hh>
+
 using namespace ignition;
 using namespace subt;
-using namespace subt::communication_broker_ign;
+using namespace subt::communication_broker;
 using namespace subt::communication_model;
 using namespace subt::rf_interface;
 using namespace subt::rf_interface::range_model;

@@ -25,7 +25,7 @@
 #include <ignition/plugin/Register.hh>
 #include <ignition/launch/Plugin.hh>
 #include <ignition/transport/Node.hh>
-#include <subt_communication_broker_ign/subt_communication_client.h>
+#include <subt_communication_broker/subt_communication_client.h>
 
 namespace subt
 {
@@ -52,7 +52,7 @@ namespace subt
     private: ignition::transport::Node node;
 
     /// \brief SubT communication client.
-    private: std::unique_ptr<subt::CommsClientIgn> client;
+    private: std::unique_ptr<subt::CommsClient> client;
   };
 }
 

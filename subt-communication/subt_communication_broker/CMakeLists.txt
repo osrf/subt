@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(subt_communication_broker_ign)
+project(subt_communication_broker)
 
 set(PKG_DEPENDS
   roscpp subt_communication_model subt_rf_interface
@@ -43,12 +43,12 @@ set(project_libs
 catkin_package(
   INCLUDE_DIRS include
   CATKIN_DEPENDS ${RUN_DEPENDS}
-  LIBRARIES subt_communication_broker_ign subt_communication_client_ign SubtCommsIgnProtobuf
+  LIBRARIES subt_communication_broker subt_communication_client SubtCommsProtobuf
   CFG_EXTRAS
     ${PROJECT_NAME}-extras.cmake
-    )
+)
 
-set(protobuf_lib_name SubtCommsIgnProtobuf)
+set(protobuf_lib_name SubtCommsProtobuf)
 add_subdirectory(src/protobuf)
 set_source_files_properties(${PROTO_SOURCES} ${PROTO_HEADERS}
                             PROPERTIES GENERATED TRUE)
@@ -63,15 +63,15 @@ install(
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}/protobuf
 )
 
-add_library(subt_communication_broker_ign src/subt_communication_broker.cpp)
-target_link_libraries(subt_communication_broker_ign ${project_libs} ${protobuf_lib_name})
-add_dependencies(subt_communication_broker_ign ${protobuf_lib_name})
+add_library(subt_communication_broker src/subt_communication_broker.cpp)
+target_link_libraries(subt_communication_broker ${project_libs} ${protobuf_lib_name})
+add_dependencies(subt_communication_broker ${protobuf_lib_name})
 
-add_library(subt_communication_client_ign src/subt_communication_client.cpp)
-target_link_libraries(subt_communication_client_ign ${project_libs} ${protobuf_lib_name})
-add_dependencies(subt_communication_client_ign ${protobuf_lib_name})
+add_library(subt_communication_client src/subt_communication_client.cpp)
+target_link_libraries(subt_communication_client ${project_libs} ${protobuf_lib_name})
+add_dependencies(subt_communication_client ${protobuf_lib_name})
 
-install(TARGETS subt_communication_broker_ign subt_communication_client_ign SubtCommsIgnProtobuf
+install(TARGETS subt_communication_broker subt_communication_client SubtCommsProtobuf
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -86,8 +86,8 @@ install(DIRECTORY include/${PROJECT_NAME}/
 if(CATKIN_ENABLE_TESTING)
   catkin_add_gtest(${PROJECT_NAME}_unit_test tests/unit_test.cpp)
   target_link_libraries(${PROJECT_NAME}_unit_test
-    subt_communication_broker_ign
-    subt_communication_client_ign
+    subt_communication_broker
+    subt_communication_client
     ${project_libs}
     ${protobuf_lib_name}
     ${GTEST_LIBRARIES})
