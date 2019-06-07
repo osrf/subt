@@ -634,8 +634,8 @@
   robots.each do |name, config|
     robotType = config[1]
     robotConfigN = config[-1]
-    posX = robotSpawned / spawnColSize * spawnGridSize - spawnColOffset
-    posY = robotSpawned % spawnRowSize * spawnGridSize - spawnRowOffset
+    posX = -(robotSpawned / spawnColSize * spawnGridSize - spawnColOffset)
+    posY = -(robotSpawned % spawnRowSize * spawnGridSize - spawnRowOffset)
     if robotType == "1"
       robotSpawned += 1
 %>
