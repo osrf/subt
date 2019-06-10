@@ -19,6 +19,8 @@
 #include <ros/ros.h>
 #include <std_srvs/SetBool.h>
 #include <std_msgs/Int32.h>
+#include <ignition/msgs/float.pb.h>
+#include <subt_msgs/PoseFromArtifact.h>
 
 #include <chrono>
 #include <map>
@@ -29,10 +31,8 @@
 #include <ignition/common/Util.hh>
 #include <ignition/common/Time.hh>
 #include <ignition/math/Pose3.hh>
-#include <ignition/msgs/float.pb.h>
 #include <ignition/transport/Node.hh>
 
-#include <subt_msgs/PoseFromArtifact.h>
 #include "subt_ign/CommonTypes.hh"
 #include "subt_ign/GameLogicPlugin.hh"
 #include "subt_ign/protobuf/artifact.pb.h"

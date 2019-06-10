@@ -52,7 +52,8 @@ void VisibilityPlugin::Load(const tinyxml2::XMLElement *_elem)
 
   if (!worldName.empty() && !worldDir.empty())
   {
-    std::cout << "WORLD Name[" << worldName << "] World Dir[" << worldDir << "]\n";
+    std::cout << "WORLD Name[" << worldName << "] World Dir[" << worldDir
+              << "]\n";
     table.Load(worldName, worldDir);
     table.Generate();
   }

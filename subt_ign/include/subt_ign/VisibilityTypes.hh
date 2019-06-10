@@ -19,6 +19,7 @@
 
 #include <map>
 #include <string>
+#include <utility>
 #include <ignition/math/graph/Graph.hh>
 
 namespace subt
