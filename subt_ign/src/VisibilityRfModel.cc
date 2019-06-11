@@ -36,8 +36,7 @@ VisibilityModel::VisibilityModel(
     ignerr << "Unable to load visibility table data files\n";
     return;
   }
-  
-  
+
   ignition::transport::AdvertiseServiceOptions opts;
   opts.SetScope(ignition::transport::Scope_t::HOST);
   this->node.Advertise("/subt/comms_model/visualize",
@@ -46,7 +45,7 @@ VisibilityModel::VisibilityModel(
   // Subscribe to pose messages.
   this->node.Subscribe("/world/" + _worldName + "/pose/info",
       &VisibilityModel::OnPose, this);
-  
+
   this->initialized = true;
 }
 
