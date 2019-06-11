@@ -22,6 +22,9 @@
 #include <subt_communication_model/subt_communication_model.h>
 #include <subt_communication_broker/subt_communication_broker.h>
 
+#include <map>
+#include <string>
+
 #include <subt_ign/VisibilityRfModel.hh>
 
 #include <cstdint>

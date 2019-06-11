@@ -18,14 +18,16 @@
 #ifndef SUBT_IGN_CONTROLLER_HH_
 #define SUBT_IGN_CONTROLLER_HH_
 
+#include <subt_communication_broker_ign/subt_communication_client.h>
+
 #include <memory>
 #include <string>
+
 #include <sdf/Element.hh>
 
 #include <ignition/launch/Plugin.hh>
 #include <ignition/plugin/Register.hh>
 #include <ignition/transport/Node.hh>
-#include <subt_communication_broker/subt_communication_client.h>
 
 namespace subt
 {

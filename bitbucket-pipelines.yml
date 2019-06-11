@@ -15,14 +15,12 @@ pipelines:
           - echo "deb [trusted=yes] http://packages.osrfoundation.org/gazebo/ubuntu-stable bionic main" > /etc/apt/sources.list.d/gazebo-stable.list
           - echo "deb [trusted=yes] http://packages.osrfoundation.org/gazebo/ubuntu-prerelease bionic main" > /etc/apt/sources.list.d/gazebo-prerelease.list
           - apt-get update
-          - apt-get -y install mercurial cmake pkg-config cppcheck build-essential lcov curl python git gazebo9 libignition-common-dev libignition-math4-dev libgazebo9-dev ros-melodic-gazebo-dev ros-melodic-gazebo-plugins ros-melodic-gazebo-ros ros-melodic-gazebo-ros-pkgs ros-melodic-xacro
-          # Install packages required by subt_ign
-          - apt-get -y install libignition-common3-dev libignition-math6-dev libignition-transport7-dev libignition-msgs4-dev libignition-plugin-dev
+          - apt-get -y install build-essential cmake libusb-dev lsb-release mercurial pkg-config python ignition-blueprint ros-melodic-desktop ros-melodic-tf2-sensor-msgs ros-melodic-robot-localization ros1-ign-bridge
           # SubT
           - mkdir -p /tmp/subt_ws/src
           - ln -s `pwd` /tmp/subt_ws/src
           # Static checker first.
-          - cd subt_gazebo
+          - cd subt_ign
           - touch /tmp/cpp_check.suppress
           - sh tools/code_check.sh
           - cd /tmp/subt_ws

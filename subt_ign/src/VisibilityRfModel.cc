@@ -15,9 +15,9 @@
  *
 */
 
+#include <subt_rf_interface/subt_rf_model.h>
 #include <ignition/common/Console.hh>
 #include <subt_ign/VisibilityRfModel.hh>
-#include <subt_rf_interface/subt_rf_model.h>
 
 using namespace subt;
 using namespace rf_interface;
@@ -114,7 +114,7 @@ bool VisibilityModel::VisualizeVisibility(const ignition::msgs::StringMsg &_req,
   indexToColor[3] = "Gazebo/TurquoiseGlow";
   indexToColor[4] = "Gazebo/BlueGlow";
 
-  for(int i=0; i < 5; ++i) {
+  for (int i = 0; i < 5; ++i) {
     markerMsg.set_id(i);
 
     ignition::msgs::Material *matMsg = markerMsg.mutable_material();
@@ -144,9 +144,9 @@ bool VisibilityModel::VisualizeVisibility(const ignition::msgs::StringMsg &_req,
     double cost = this->visibilityTable.Cost(from, to);
     if (cost <= this->visibilityConfig.commsCostMax)
     {
-      auto m = perCostMarkers.find((int)
+      auto m = perCostMarkers.find(static_cast<int>(
           (((this->visibilityConfig.commsCostMax+1.0)/5.0) *
-           cost/10.0) );
+           cost/10.0)) );
 
       if (m == perCostMarkers.end())
       {

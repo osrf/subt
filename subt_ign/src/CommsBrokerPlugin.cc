@@ -287,7 +287,8 @@ void CommsBrokerPlugin::OnPose(const ignition::msgs::Pose_V &_msg)
   //   else
   //   {
   //     igndbg << "Disabling simple mode comms" << std::endl;
-  //     broker.SetCommunicationFunction(&subt::communication_model::attempt_send);
+  //     broker.SetCommunicationFunction(
+  //         &subt::communication_model::attempt_send);
   //   }
 
   //   this->lastROSParameterCheckTime = this->simTime;
