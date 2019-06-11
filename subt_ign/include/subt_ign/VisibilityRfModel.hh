@@ -17,13 +17,16 @@
 #ifndef SUBT_IGN_VISIBILITYRFMODEL_HH_
 #define SUBT_IGN_VISIBILITYRFMODEL_HH_
 
+#include <subt_rf_interface/subt_rf_interface.h>
+#include <subt_rf_interface/subt_rf_model.h>
+
+#include <map>
+#include <string>
+
 #include <ignition/msgs.hh>
 #include <ignition/transport/Node.hh>
 
 #include <subt_ign/VisibilityTable.hh>
-#include <subt_rf_interface/subt_rf_interface.h>
-#include <subt_rf_interface/subt_rf_model.h>
-
 namespace subt
 {
   namespace rf_interface
