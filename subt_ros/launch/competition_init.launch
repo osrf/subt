@@ -25,10 +25,8 @@
 
   <node pkg="tf2_ros" type="static_transform_publisher" name="tf_world_static" args="0 0 0 0 0 0 world $(arg world_name)"/>
 
-  <group ns="model">
-    <include file="$(find subt_example)/launch/teleop.launch">
-      <arg name="config" default="$(find subt_example)/config/ps3_config.yaml"/>
-      <arg name="robot_config" value="$(find subt_example)/config/robot_config.yaml"/>
-    </include>
-  </group>
+  <include file="$(find subt_example)/launch/teleop.launch">
+    <arg name="config" default="$(find subt_example)/config/ps3_config.yaml"/>
+    <arg name="robot_config" value="$(find subt_example)/config/robot_config.yaml"/>
+  </include>
 </launch>

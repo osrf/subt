@@ -192,7 +192,7 @@ SubtTeleop::SubtTeleop():
     // it to the corresponding robot's name.
     this->velPubMap[robotName]
       = this->nh.advertise<geometry_msgs::Twist>(
-        robotName + "/cmd_vel_relay", 1, true);
+        robotName + "/cmd_vel", 1, true);
 
     // Create a publisher object to generate a selection command, and associate
     // it to the corresponding robot's name.
