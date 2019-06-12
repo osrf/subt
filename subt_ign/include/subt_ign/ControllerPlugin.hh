@@ -18,7 +18,7 @@
 #ifndef SUBT_IGN_CONTROLLER_HH_
 #define SUBT_IGN_CONTROLLER_HH_
 
-#include <subt_communication_broker_ign/subt_communication_client.h>
+#include <subt_communication_broker/subt_communication_client.h>
 
 #include <memory>
 #include <string>
@@ -111,7 +111,7 @@ namespace subt
                         const std::string &_data);
 
     /// \brief SubT communication client.
-    private: std::unique_ptr<subt::CommsClientIgn> client;
+    private: std::unique_ptr<subt::CommsClient> client;
 
     /// \brief The robot name.
     private: std::string name;

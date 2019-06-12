@@ -27,26 +27,32 @@ using namespace visibilityModel;
 VisibilityModel::VisibilityModel(
     visibilityModel::RfConfiguration _visibilityConfig,
     range_model::rf_configuration _rangeConfig,
-    const std::string &_worldName,
-    const std::string &_worldDir)
+    const std::string &_worldName)
     : visibilityConfig(_visibilityConfig),
       defaultRangeConfig(_rangeConfig)
 {
-  if (!this->visibilityTable.Load(_worldName, _worldDir))
+  if (!this->visibilityTable.Load(_worldName))
   {
     ignerr << "Unable to load visibility table data files\n";
+    return;
   }
-  else
-  {
-    ignition::transport::AdvertiseServiceOptions opts;
-    opts.SetScope(ignition::transport::Scope_t::HOST);
-    this->node.Advertise("/subt/comms_model/visualize",
-        &VisibilityModel::VisualizeVisibility, this, opts);
 
-    // Subscribe to pose messages.
-    this->node.Subscribe("/world/" + _worldName + "/pose/info",
-        &VisibilityModel::OnPose, this);
-  }
+  ignition::transport::AdvertiseServiceOptions opts;
+  opts.SetScope(ignition::transport::Scope_t::HOST);
+  this->node.Advertise("/subt/comms_model/visualize",
+      &VisibilityModel::VisualizeVisibility, this, opts);
+
+  // Subscribe to pose messages.
+  this->node.Subscribe("/world/" + _worldName + "/pose/info",
+      &VisibilityModel::OnPose, this);
+
+  this->initialized = true;
+}
+
+/////////////////////////////////////////////
+bool VisibilityModel::Initialized() const
+{
+  return this->initialized;
 }
 
 /////////////////////////////////////////////

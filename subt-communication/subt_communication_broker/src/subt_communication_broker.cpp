@@ -16,27 +16,24 @@
  */
 
 #include <algorithm>
-#include <memory>
 #include <iostream>
+#include <memory>
 #include <ignition/math/Rand.hh>
 
-#include <subt_communication_broker_ign/subt_communication_broker.h>
-#include <subt_communication_broker_ign/protobuf/datagram.pb.h>
-#include <subt_communication_broker_ign/protobuf/neighbor_m.pb.h>
-
-#include <subt_communication_broker_ign/common_types.h>
+#include <subt_communication_broker/common_types.h>
+#include <subt_communication_broker/protobuf/datagram.pb.h>
+#include <subt_communication_broker/protobuf/neighbor_m.pb.h>
+#include <subt_communication_broker/subt_communication_broker.h>
 
 namespace subt
 {
-
-namespace communication_broker_ign
+namespace communication_broker
 {
 
 //////////////////////////////////////////////////
 Broker::Broker()
     : team(std::make_shared<TeamMembership_M>())
 {
-
 }
 
 //////////////////////////////////////////////////

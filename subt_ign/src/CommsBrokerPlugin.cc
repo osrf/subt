@@ -18,16 +18,16 @@
 #include <tinyxml2.h>
 #include <ros/ros.h>
 
-#include <subt_ign/CommsBrokerPlugin.hh>
-#include <ignition/common/Console.hh>
-#include <ignition/common/Util.hh>
-
 #include <functional>
 #include <mutex>
 
+#include <ignition/common/Console.hh>
+#include <ignition/common/Util.hh>
+#include <subt_ign/CommsBrokerPlugin.hh>
+
 using namespace ignition;
 using namespace subt;
-using namespace subt::communication_broker_ign;
+using namespace subt::communication_broker;
 using namespace subt::communication_model;
 using namespace subt::rf_interface;
 using namespace subt::rf_interface::range_model;
@@ -131,16 +131,6 @@ bool CommsBrokerPlugin::Load(const tinyxml2::XMLElement *_elem)
       << " world name of 'default'. This could lead to incorrect scoring\n";
   }
 
-  // Todo: Enable when visibility_range works.
-
-  // std::string worldDir;
-  // if (!ros::param::get("/subt/gazebo_worlds_dir", worldDir))
-  // {
-  //   std::cerr << "[CommsBrokerPlugin] Unable to find ROS parameter "
-  //             << "[/subt/gazebo_worlds_dir]" << std::endl;
-  //   return;
-  // }
-
   // elem = _elem->FirstChildElement("generate_table");
   // if (elem)
   // {
@@ -163,10 +153,6 @@ bool CommsBrokerPlugin::Load(const tinyxml2::XMLElement *_elem)
   //   }
   // }
 
-  // TODO: Maybe only try to instantiate if visibility type is selected
-  // this->visibilityModel = std::make_unique<VisibilityModel>(
-  //     visibilityConfig, rangeConfig, worldName, worldDir);
-
   // Build RF propagation function options
   std::map<std::string, pathloss_function> pathlossFunctions;
 
@@ -177,12 +163,20 @@ bool CommsBrokerPlugin::Load(const tinyxml2::XMLElement *_elem)
                 std::placeholders::_3,
                 rangeConfig);
 
-  pathlossFunctions["visibility_range"] =
+  // TODO: Maybe only try to instantiate if visibility type is selected
+  this->visibilityModel = std::make_unique<VisibilityModel>(
+    visibilityConfig, rangeConfig, worldName);
+
+  // Only consider the visibility range if all files (.dot and .dat) are found.
+  if (this->visibilityModel->Initialized())
+  {
+    pathlossFunctions["visibility_range"] =
       std::bind(&VisibilityModel::ComputeReceivedPower,
                 this->visibilityModel.get(),
                 std::placeholders::_1,
                 std::placeholders::_2,
                 std::placeholders::_3);
+  }
 
   // Default comms model type is log_normal_range (will always work)
   std::string commsModelType = "log_normal_range";
@@ -200,22 +194,21 @@ bool CommsBrokerPlugin::Load(const tinyxml2::XMLElement *_elem)
       // of available functions
       if (pathlossFunctions.find(commsModelTypeTmp) == pathlossFunctions.end())
       {
-        ignwarn << "comms_model_type: " << commsModelTypeTmp
-          << " is not available, falling back to " << commsModelType
-          << std::endl;
+        ignwarn << "comms_model_type: [" << commsModelTypeTmp
+                << "] is not available" << std::endl;
       }
       else
       {
         commsModelType = commsModelTypeTmp;
-        igndbg << "Using commsModelType: " << commsModelType << std::endl;
       }
     }
     else
     {
-      ignwarn << "comms_model_type not specified, using: "
-        << commsModelType << std::endl;
+      ignwarn << "comms_model_type not specified" << std::endl;
     }
   }
+
+  igndbg << "Using [" << commsModelType << "] comms model" << std::endl;
 
   radio.pathloss_f = pathlossFunctions[commsModelType];
   broker.SetDefaultRadioConfiguration(radio);

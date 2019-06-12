@@ -14,44 +14,7 @@
     <command>roslaunch subt_ros descriptions.launch world_name:=<%=worldName%></command>
   </executable>
 
-  <plugin name="ignition::launch::GazeboFactory"
-          filename="libignition-launch-gazebo-factory.so">
-    <name>X2</name>
-    <allow_renaming>false</allow_renaming>
-    <pose>0 2 0.063494 0 0 0</pose>
-
-    <sdf version='1.6'>
-      <include>
-        <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X2 Config 1</uri>
-
-        <!-- Diff drive -->
-        <plugin filename="libignition-gazebo-diff-drive-system.so"
-                name="ignition::gazebo::systems::DiffDrive">
-          <left_joint>front_left_wheel_joint</left_joint>
-          <left_joint>rear_left_wheel_joint</left_joint>
-          <right_joint>front_right_wheel_joint</right_joint>
-          <right_joint>rear_right_wheel_joint</right_joint>
-          <wheel_separation>0.33559</wheel_separation>
-          <wheel_radius>0.098</wheel_radius>
-          <topic>/model/X2/cmd_vel_relay</topic>
-        </plugin>
-
-        <!-- Publish robot state information -->
-        <!--<plugin filename="libignition-gazebo-joint-state-publisher-system.so"-->
-        <!--        name="ignition::gazebo::systems::JointStatePublisher"></plugin>-->
-
-        <plugin filename="libignition-gazebo-pose-publisher-system.so"
-          name="ignition::gazebo::systems::PosePublisher">
-          <publish_link_pose>true</publish_link_pose>
-          <publish_sensor_pose>true</publish_sensor_pose>
-          <publish_collision_pose>false</publish_collision_pose>
-          <publish_visual_pose>false</publish_visual_pose>
-          <publish_nested_model_pose><%=enableGroundTruth%></publish_nested_model_pose>
-        </plugin>
-      </include>
-    </sdf>
-  </plugin>
-
+  <!-- X1 -->
   <plugin name="ignition::launch::GazeboFactory"
           filename="libignition-launch-gazebo-factory.so">
     <name>X1</name>
@@ -89,6 +52,46 @@
     </sdf>
   </plugin>
 
+  <!-- X2 -->
+  <plugin name="ignition::launch::GazeboFactory"
+          filename="libignition-launch-gazebo-factory.so">
+    <name>X2</name>
+    <allow_renaming>false</allow_renaming>
+    <pose>0 2 0.063494 0 0 0</pose>
+
+    <sdf version='1.6'>
+      <include>
+        <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X2 Config 1</uri>
+
+        <!-- Diff drive -->
+        <plugin filename="libignition-gazebo-diff-drive-system.so"
+                name="ignition::gazebo::systems::DiffDrive">
+          <left_joint>front_left_wheel_joint</left_joint>
+          <left_joint>rear_left_wheel_joint</left_joint>
+          <right_joint>front_right_wheel_joint</right_joint>
+          <right_joint>rear_right_wheel_joint</right_joint>
+          <wheel_separation>0.33559</wheel_separation>
+          <wheel_radius>0.098</wheel_radius>
+          <topic>/model/X2/cmd_vel_relay</topic>
+        </plugin>
+
+        <!-- Publish robot state information -->
+        <!--<plugin filename="libignition-gazebo-joint-state-publisher-system.so"-->
+        <!--        name="ignition::gazebo::systems::JointStatePublisher"></plugin>-->
+
+        <plugin filename="libignition-gazebo-pose-publisher-system.so"
+                name="ignition::gazebo::systems::PosePublisher">
+          <publish_link_pose>true</publish_link_pose>
+          <publish_sensor_pose>true</publish_sensor_pose>
+          <publish_collision_pose>false</publish_collision_pose>
+          <publish_visual_pose>false</publish_visual_pose>
+          <publish_nested_model_pose><%=enableGroundTruth%></publish_nested_model_pose>
+        </plugin>
+      </include>
+    </sdf>
+  </plugin>
+
+  <!-- X3 -->
   <plugin name="ignition::launch::GazeboFactory"
           filename="libignition-launch-gazebo-factory.so">
     <name>X3</name>
@@ -103,7 +106,7 @@
         <!--<plugin filename="libignition-gazebo-joint-state-publisher-system.so"-->
         <!--        name="ignition::gazebo::systems::JointStatePublisher"></plugin>-->
         <plugin filename="libignition-gazebo-pose-publisher-system.so"
-          name="ignition::gazebo::systems::PosePublisher">
+                name="ignition::gazebo::systems::PosePublisher">
           <publish_link_pose>true</publish_link_pose>
           <publish_sensor_pose>true</publish_sensor_pose>
           <publish_collision_pose>false</publish_collision_pose>
@@ -112,7 +115,7 @@
         </plugin>
 
         <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
-          name="ignition::gazebo::systems::MulticopterMotorModel">
+                name="ignition::gazebo::systems::MulticopterMotorModel">
           <robotNamespace>model/X3</robotNamespace>
           <jointName>rotor_0_joint</jointName>
           <linkName>rotor_0</linkName>
@@ -131,7 +134,7 @@
           <motorType>velocity</motorType>
         </plugin>
         <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
-          name="ignition::gazebo::systems::MulticopterMotorModel">
+                name="ignition::gazebo::systems::MulticopterMotorModel">
           <robotNamespace>model/X3</robotNamespace>
           <jointName>rotor_1_joint</jointName>
           <linkName>rotor_1</linkName>
@@ -150,7 +153,7 @@
           <motorType>velocity</motorType>
         </plugin>
         <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
-          name="ignition::gazebo::systems::MulticopterMotorModel">
+                name="ignition::gazebo::systems::MulticopterMotorModel">
           <robotNamespace>model/X3</robotNamespace>
           <jointName>rotor_2_joint</jointName>
           <linkName>rotor_2</linkName>
@@ -169,7 +172,7 @@
           <motorType>velocity</motorType>
         </plugin>
         <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
-          name="ignition::gazebo::systems::MulticopterMotorModel">
+                name="ignition::gazebo::systems::MulticopterMotorModel">
           <robotNamespace>model/X3</robotNamespace>
           <jointName>rotor_3_joint</jointName>
           <linkName>rotor_3</linkName>
@@ -194,6 +197,7 @@
     <command>roslaunch x3_control control.launch world_name:=<%=worldName%></command>
   </executable>
 
+  <!-- X4 -->
   <plugin name="ignition::launch::GazeboFactory"
           filename="libignition-launch-gazebo-factory.so">
     <name>X4</name>
@@ -208,7 +212,7 @@
         <!--<plugin filename="libignition-gazebo-joint-state-publisher-system.so"-->
         <!--        name="ignition::gazebo::systems::JointStatePublisher"></plugin>-->
         <plugin filename="libignition-gazebo-pose-publisher-system.so"
-          name="ignition::gazebo::systems::PosePublisher">
+                name="ignition::gazebo::systems::PosePublisher">
           <publish_link_pose>true</publish_link_pose>
           <publish_sensor_pose>true</publish_sensor_pose>
           <publish_collision_pose>false</publish_collision_pose>
@@ -217,7 +221,7 @@
         </plugin>
 
          <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
-          name="ignition::gazebo::systems::MulticopterMotorModel">
+                 name="ignition::gazebo::systems::MulticopterMotorModel">
           <robotNamespace>model/X4</robotNamespace>
           <jointName>rotor_0_joint</jointName>
           <linkName>rotor_0</linkName>
@@ -236,7 +240,7 @@
           <motorType>velocity</motorType>
         </plugin>
         <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
-          name="ignition::gazebo::systems::MulticopterMotorModel">
+                name="ignition::gazebo::systems::MulticopterMotorModel">
           <robotNamespace>model/X4</robotNamespace>
           <jointName>rotor_1_joint</jointName>
           <linkName>rotor_1</linkName>
@@ -255,7 +259,7 @@
           <motorType>velocity</motorType>
         </plugin>
         <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
-          name="ignition::gazebo::systems::MulticopterMotorModel">
+                name="ignition::gazebo::systems::MulticopterMotorModel">
           <robotNamespace>model/X4</robotNamespace>
           <jointName>rotor_2_joint</jointName>
           <linkName>rotor_2</linkName>
@@ -274,7 +278,7 @@
           <motorType>velocity</motorType>
         </plugin>
         <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
-          name="ignition::gazebo::systems::MulticopterMotorModel">
+                name="ignition::gazebo::systems::MulticopterMotorModel">
           <robotNamespace>model/X4</robotNamespace>
           <jointName>rotor_3_joint</jointName>
           <linkName>rotor_3</linkName>
@@ -293,7 +297,7 @@
           <motorType>velocity</motorType>
         </plugin>
         <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
-          name="ignition::gazebo::systems::MulticopterMotorModel">
+                name="ignition::gazebo::systems::MulticopterMotorModel">
           <robotNamespace>model/X4</robotNamespace>
           <jointName>rotor_4_joint</jointName>
           <linkName>rotor_4</linkName>
@@ -312,7 +316,7 @@
           <motorType>velocity</motorType>
         </plugin>
         <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
-          name="ignition::gazebo::systems::MulticopterMotorModel">
+                name="ignition::gazebo::systems::MulticopterMotorModel">
           <robotNamespace>model/X4</robotNamespace>
           <jointName>rotor_5_joint</jointName>
           <linkName>rotor_5</linkName>
@@ -336,4 +340,21 @@
    <executable name='X4_controller'>
     <command>roslaunch x4_control control.launch world_name:=<%=worldName%></command>
   </executable>
+
+  <!-- Testing comms in X1 -->
+  <!-- <plugin entity_name="X1"
+          entity_type="model"
+          name="subt::ControllerPlugin"
+          filename="libControllerPlugin.so">
+    <name>X1</name>
+  </plugin> -->
+
+  <!-- Testing comms in X2 -->
+  <!-- <plugin entity_name="X2"
+          entity_type="model"
+          name="subt::ControllerPlugin"
+          filename="libControllerPlugin.so">
+    <name>X2</name>
+  </plugin> -->
+
 </ignition>

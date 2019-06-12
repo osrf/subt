@@ -74,8 +74,7 @@ namespace subt
         public: VisibilityModel(
                     visibilityModel::RfConfiguration _visibilityConfig,
                     range_model::rf_configuration _rangeConfig,
-                    const std::string &_worldName,
-                    const std::string &_worldDir);
+                    const std::string &_worldName);
 
         /// Compute received power function that will be given to
         /// communcation model.
@@ -86,6 +85,11 @@ namespace subt
         public: rf_power ComputeReceivedPower(const double &_txPower,
                                               radio_state &_txState,
                                               radio_state &_rxState);
+
+        /// \brief Whether the visibility model has been successfully
+        /// initialized.
+        /// \return True if initialized or false otherwise.
+        public: bool Initialized() const;
 
         /// Function to visualize visibility cost in Gazebo.
         private: bool VisualizeVisibility(const ignition::msgs::StringMsg &_req,
@@ -100,6 +104,7 @@ namespace subt
         private: visibilityModel::RfConfiguration visibilityConfig;
         private: range_model::rf_configuration defaultRangeConfig;
         private: std::map<std::string, ignition::math::Pose3d> poses;
+        private: bool initialized = false;
       };
     }
   }

@@ -26,7 +26,7 @@
 
 namespace subt
 {
-namespace communication_broker_ign
+namespace communication_broker
 {
 
 /// \def Neighbors_M

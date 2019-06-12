@@ -20,7 +20,7 @@
 #include <subt_rf_interface/subt_rf_interface.h>
 #include <subt_rf_interface/subt_rf_model.h>
 #include <subt_communication_model/subt_communication_model.h>
-#include <subt_communication_broker_ign/subt_communication_broker.h>
+#include <subt_communication_broker/subt_communication_broker.h>
 
 #include <map>
 #include <string>
@@ -76,7 +76,7 @@ namespace subt
     private: void OnPose(const ignition::msgs::Pose_V &_msg);
 
     /// \brief Broker instance.
-    private: subt::communication_broker_ign::Broker broker;
+    private: subt::communication_broker::Broker broker;
 
     /// \brief Last time the plugin checked the ROS parameter server.
     private: ignition::common::Time lastROSParameterCheckTime;

@@ -27,16 +27,15 @@
 #include <ignition/msgs.hh>
 #include <ignition/transport/Node.hh>
 
-#include <subt_rf_interface/subt_rf_interface.h>
+#include <subt_communication_broker/common_types.h>
+#include <subt_communication_broker/protobuf/datagram.pb.h>
+#include <subt_communication_broker/protobuf/neighbor_m.pb.h>
 #include <subt_communication_model/subt_communication_model.h>
-#include <subt_communication_broker_ign/common_types.h>
-
-#include <subt_communication_broker_ign/protobuf/datagram.pb.h>
-#include <subt_communication_broker_ign/protobuf/neighbor_m.pb.h>
+#include <subt_rf_interface/subt_rf_interface.h>
 
 namespace subt
 {
-namespace communication_broker_ign
+namespace communication_broker
 {
 
 typedef
