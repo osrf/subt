@@ -7,6 +7,12 @@
   # file should only run control code. 
 %>
 <ignition version='1.0'>
+
+  <!-- Simple example that runs a teleop node -->
+  <executable name='teleop'>
+    <command>roslaunch subt_example teleop.launch</command>
+  </executable>
+
   <!-- Testing comms in X1 -->
   <!-- <plugin entity_name="X1"
           entity_type="model"
