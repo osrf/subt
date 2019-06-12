@@ -43,7 +43,7 @@ bool VisibilityTable::Load(const std::string &_worldName)
   std::string worldsDirectory = SUBT_INSTALL_WORLD_DIR;
   this->worldName = _worldName;
   this->worldPath = ignition::common::joinPaths(
-    worldsDirectory, _worldName + ".world");
+    worldsDirectory, _worldName + ".sdf");
 
   this->graphPath = ignition::common::joinPaths(
     worldsDirectory, _worldName + ".dot");
