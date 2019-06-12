@@ -2,6 +2,7 @@
 <launch>
 
   <arg name="world_name"/>
+  <arg name="vehicle_topics" default="1"/>
 
   <param name="/use_sim_time" value="true"/>
   <param name="/world_name" value="$(arg world_name)"/>
@@ -10,18 +11,20 @@
     <remap from="/world/$(arg world_name)/clock" to="/clock"/>
   </node>
 
-  <include file="$(find subt_ros)/launch/vehicle_topics.launch">
-    <arg name="name" value="X1"/>
-  </include>
-  <include file="$(find subt_ros)/launch/vehicle_topics.launch">
-    <arg name="name" value="X2"/>
-  </include>
-  <include file="$(find subt_ros)/launch/vehicle_topics.launch">
-    <arg name="name" value="X3"/>
-  </include>
-  <include file="$(find subt_ros)/launch/vehicle_topics.launch">
-    <arg name="name" value="X4"/>
-  </include>
+  <group if="$(arg vehicle_topics)">
+    <include file="$(find subt_ros)/launch/vehicle_topics.launch">
+      <arg name="name" value="X1"/>
+    </include>
+    <include file="$(find subt_ros)/launch/vehicle_topics.launch">
+      <arg name="name" value="X2"/>
+    </include>
+    <include file="$(find subt_ros)/launch/vehicle_topics.launch">
+      <arg name="name" value="X3"/>
+    </include>
+    <include file="$(find subt_ros)/launch/vehicle_topics.launch">
+      <arg name="name" value="X4"/>
+    </include>
+  </group>
 
   <node pkg="tf2_ros" type="static_transform_publisher" name="tf_world_static" args="0 0 0 0 0 0 world $(arg world_name)"/>
 
