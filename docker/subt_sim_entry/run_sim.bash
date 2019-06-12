@@ -3,4 +3,4 @@
 . /opt/ros/melodic/setup.bash
 . ~/subt_ws/install/setup.sh
 
-ign launch -v 4 $1
+ign launch -v 4 $@
