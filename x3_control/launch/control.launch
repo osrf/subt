@@ -5,7 +5,7 @@
   <arg name="x3_name" default="X3" />
   <arg name="robot_namespace" default="$(arg x3_name)"/>
 
-  <group ns="model/$(arg x3_name)">
+  <group ns="$(arg x3_name)">
     <node pkg="robot_localization" type="ukf_localization_node"
           name="robot_localization_ukf_node_odom">
       <param name="frequency" value="1000." />
@@ -28,7 +28,7 @@
       <remap from="odometry" to="odometry/filtered" />
     </node>
 
-    <node name="cmdvel_transform" pkg="subt_example" type="cmdvel_converter_rpy.py" args="/model/$(arg x3_name)/cmd_vel_relay /model/$(arg x3_name)/command/roll_pitch_yawrate_thrust"/>
+    <node name="cmdvel_transform" pkg="subt_example" type="cmdvel_converter_rpy.py" args="cmd_vel command/roll_pitch_yawrate_thrust"/>
 
   </group>
 </launch>
