@@ -215,6 +215,8 @@
     "  <name>#{_name}</name>\n"\
     "  <allow_renaming>false</allow_renaming>\n"\
     "  <pose>#{_x} #{_y} .2 0 0 0</pose>\n"\
+    "  <world>#{$worldName}</world>\n"\
+    "  <is_performer>true</is_performer>\n"\
     "  <sdf version='1.6'>\n"\
     "  <include>\n"\
     "    <name>#{_name}</name>\n"\
@@ -256,6 +258,8 @@
     "  <name>#{_name}</name>\n"\
     "  <allow_renaming>false</allow_renaming>\n"\
     "  <pose>#{_x} #{_y} 0.063494 0 0 0</pose>\n"\
+    "  <world>#{$worldName}</world>\n"\
+    "  <is_performer>true</is_performer>\n"\
     "  <sdf version='1.6'>\n"\
     "  <include>\n"\
     "    <name>#{_name}</name>\n"\
@@ -297,6 +301,8 @@
     "  <name>#{_name}</name>\n"\
     "  <allow_renaming>false</allow_renaming>\n"\
     "  <pose>#{_x} #{_y} 0.2 0 0 0</pose>\n"\
+    "  <world>#{$worldName}</world>\n"\
+    "  <is_performer>true</is_performer>\n"\
     "  <sdf version='1.6'>\n"\
     "  <include>\n"\
     "    <name>#{_name}</name>\n"\
@@ -406,6 +412,8 @@
     "  <name>#{_name}</name>\n"\
     "  <allow_renaming>false</allow_renaming>\n"\
     "  <pose>#{_x} #{_y} 0.2 0 0 0</pose>\n"\
+    "  <world>#{$worldName}</world>\n"\
+    "  <is_performer>true</is_performer>\n"\
     "  <sdf version='1.6'>\n"\
     "  <include>\n"\
     "    <name>#{_name}</name>\n"\
