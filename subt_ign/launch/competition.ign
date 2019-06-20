@@ -53,6 +53,7 @@
     <plugin name="ignition::launch::GazeboGui"
           filename="libignition-launch-gazebogui.so">
       <world_name><%= worldName %></world_name>
+      <window_title>SubT Simulator</window_title>
       <plugin filename="GzScene3D" name="3D View">
         <ignition-gui>
           <title>3D View</title>
