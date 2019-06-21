@@ -1,4 +1,17 @@
 <?xml version="1.0"?>
+<!-- Usage: ign launch virtual_stix.ign
+            [robotName1:=<robotName> robotConfig1:=<robotConfig>
+             robotName2:=<robotName> robotConfig2:=<robotConfig>
+             ... ]
+
+    The [robotNameX] command line argument is optional, where X can be 1 to 20
+
+    Example that loads virtual stix with an X2 robot with configuration 3
+
+      ign launch virtual_stix.ign
+          robotName1:=X2_3 robotConfig1:=X2_SENSOR_CONFIG_3
+-->
+
 <%
   # When 'enableGroundTruth = true' absolute poses of vehicles will be published.
   # This is useful for debugging purposes, but will not be available during
@@ -93,7 +106,7 @@
       <comms_model_type>visibility_range</comms_model_type>
 
       <range_config>
-        <max_range>20.0</max_range>
+        <max_range>500.0</max_range>
         <fading_exponent>2.5</fading_exponent>
         <L0>40</L0>
         <sigma>10.0</sigma>
@@ -202,6 +215,8 @@
     "  <name>#{_name}</name>\n"\
     "  <allow_renaming>false</allow_renaming>\n"\
     "  <pose>#{_x} #{_y} .2 0 0 0</pose>\n"\
+    "  <world>#{$worldName}</world>\n"\
+    "  <is_performer>true</is_performer>\n"\
     "  <sdf version='1.6'>\n"\
     "  <include>\n"\
     "    <name>#{_name}</name>\n"\
@@ -229,6 +244,9 @@
     "  </include>\n"\
     "  </sdf>\n"\
     "</plugin>\n"\
+    "<executable name='x1_description'>\n"\
+    "  <command>roslaunch --wait subt_ros x1_description.launch world_name:=#{$worldName}</command>\n"\
+    "</executable>\n"\
     "<executable name='x1_ros_ign_bridge'>\n"\
     "  <command>roslaunch --wait subt_ros vehicle_topics.launch name:=#{_name}</command>\n"\
     "</executable>\n"
@@ -240,6 +258,8 @@
     "  <name>#{_name}</name>\n"\
     "  <allow_renaming>false</allow_renaming>\n"\
     "  <pose>#{_x} #{_y} 0.063494 0 0 0</pose>\n"\
+    "  <world>#{$worldName}</world>\n"\
+    "  <is_performer>true</is_performer>\n"\
     "  <sdf version='1.6'>\n"\
     "  <include>\n"\
     "    <name>#{_name}</name>\n"\
@@ -267,6 +287,9 @@
     "  </include>\n"\
     "  </sdf>\n"\
     "</plugin>\n"\
+    "<executable name='x2_description'>\n"\
+    "  <command>roslaunch --wait subt_ros x2_description.launch world_name:=#{$worldName}</command>\n"\
+    "</executable>\n"\
     "<executable name='x2_ros_ign_bridge'>\n"\
     "  <command>roslaunch --wait subt_ros vehicle_topics.launch name:=#{_name}</command>\n"\
     "</executable>\n"
@@ -278,6 +301,8 @@
     "  <name>#{_name}</name>\n"\
     "  <allow_renaming>false</allow_renaming>\n"\
     "  <pose>#{_x} #{_y} 0.2 0 0 0</pose>\n"\
+    "  <world>#{$worldName}</world>\n"\
+    "  <is_performer>true</is_performer>\n"\
     "  <sdf version='1.6'>\n"\
     "  <include>\n"\
     "    <name>#{_name}</name>\n"\
@@ -370,6 +395,9 @@
     "  </include>\n"\
     "  </sdf>\n"\
     "</plugin>\n"\
+    "<executable name='x3_description'>\n"\
+    "  <command>roslaunch --wait subt_ros x3_description.launch world_name:=#{$worldName}</command>\n"\
+    "</executable>\n"\
     "<executable name='X3_controller'>\n"\
     "  <command>roslaunch --wait x3_control control.launch world_name:=#{$worldName} x3_name:=#{_name}</command>\n"\
     "</executable>\n"\
@@ -384,6 +412,8 @@
     "  <name>#{_name}</name>\n"\
     "  <allow_renaming>false</allow_renaming>\n"\
     "  <pose>#{_x} #{_y} 0.2 0 0 0</pose>\n"\
+    "  <world>#{$worldName}</world>\n"\
+    "  <is_performer>true</is_performer>\n"\
     "  <sdf version='1.6'>\n"\
     "  <include>\n"\
     "    <name>#{_name}</name>\n"\
@@ -516,6 +546,9 @@
     "</plugin>\n"\
     "<executable name='X4_controller'>\n"\
     "  <command>roslaunch --wait x4_control control.launch world_name:=#{$worldName} x4_name:=#{_name}</command>\n"\
+    "</executable>\n"\
+    "<executable name='x4_description'>\n"\
+    "  <command>roslaunch --wait subt_ros x4_description.launch world_name:=#{$worldName}</command>\n"\
     "</executable>\n"\
     "<executable name='x4_ros_ign_bridge'>\n"\
     "  <command>roslaunch --wait subt_ros vehicle_topics.launch name:=#{_name}</command>\n"\

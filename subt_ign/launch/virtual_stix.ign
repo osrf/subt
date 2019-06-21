@@ -292,6 +292,8 @@
     "  <name>#{_name}</name>\n"\
     "  <allow_renaming>false</allow_renaming>\n"\
     "  <pose>#{_x} #{_y} .2 0 0 0</pose>\n"\
+    "  <world>#{$worldName}</world>\n"\
+    "  <is_performer>true</is_performer>\n"\
     "  <sdf version='1.6'>\n"\
     "  <include>\n"\
     "    <name>#{_name}</name>\n"\
@@ -319,6 +321,9 @@
     "  </include>\n"\
     "  </sdf>\n"\
     "</plugin>\n"\
+    "<executable name='x1_description'>\n"\
+    "  <command>roslaunch --wait subt_ros x1_description.launch world_name:=#{$worldName}</command>\n"\
+    "</executable>\n"\
     "<executable name='x1_ros_ign_bridge'>\n"\
     "  <command>roslaunch --wait subt_ros vehicle_topics.launch name:=#{_name}</command>\n"\
     "</executable>\n"
@@ -330,6 +335,8 @@
     "  <name>#{_name}</name>\n"\
     "  <allow_renaming>false</allow_renaming>\n"\
     "  <pose>#{_x} #{_y} 0.063494 0 0 0</pose>\n"\
+    "  <world>#{$worldName}</world>\n"\
+    "  <is_performer>true</is_performer>\n"\
     "  <sdf version='1.6'>\n"\
     "  <include>\n"\
     "    <name>#{_name}</name>\n"\
@@ -357,6 +364,9 @@
     "  </include>\n"\
     "  </sdf>\n"\
     "</plugin>\n"\
+    "<executable name='x2_description'>\n"\
+    "  <command>roslaunch --wait subt_ros x2_description.launch world_name:=#{$worldName}</command>\n"\
+    "</executable>\n"\
     "<executable name='x2_ros_ign_bridge'>\n"\
     "  <command>roslaunch --wait subt_ros vehicle_topics.launch name:=#{_name}</command>\n"\
     "</executable>\n"
@@ -368,6 +378,8 @@
     "  <name>#{_name}</name>\n"\
     "  <allow_renaming>false</allow_renaming>\n"\
     "  <pose>#{_x} #{_y} 0.2 0 0 0</pose>\n"\
+    "  <world>#{$worldName}</world>\n"\
+    "  <is_performer>true</is_performer>\n"\
     "  <sdf version='1.6'>\n"\
     "  <include>\n"\
     "    <name>#{_name}</name>\n"\
@@ -460,6 +472,9 @@
     "  </include>\n"\
     "  </sdf>\n"\
     "</plugin>\n"\
+    "<executable name='x3_description'>\n"\
+    "  <command>roslaunch --wait subt_ros x3_description.launch world_name:=#{$worldName}</command>\n"\
+    "</executable>\n"\
     "<executable name='X3_controller'>\n"\
     "  <command>roslaunch --wait x3_control control.launch world_name:=#{$worldName} x3_name:=#{_name}</command>\n"\
     "</executable>\n"\
@@ -474,6 +489,8 @@
     "  <name>#{_name}</name>\n"\
     "  <allow_renaming>false</allow_renaming>\n"\
     "  <pose>#{_x} #{_y} 0.2 0 0 0</pose>\n"\
+    "  <world>#{$worldName}</world>\n"\
+    "  <is_performer>true</is_performer>\n"\
     "  <sdf version='1.6'>\n"\
     "  <include>\n"\
     "    <name>#{_name}</name>\n"\
@@ -606,6 +623,9 @@
     "</plugin>\n"\
     "<executable name='X4_controller'>\n"\
     "  <command>roslaunch --wait x4_control control.launch world_name:=#{$worldName} x4_name:=#{_name}</command>\n"\
+    "</executable>\n"\
+    "<executable name='x4_description'>\n"\
+    "  <command>roslaunch --wait subt_ros x4_description.launch world_name:=#{$worldName}</command>\n"\
     "</executable>\n"\
     "<executable name='x4_ros_ign_bridge'>\n"\
     "  <command>roslaunch --wait subt_ros vehicle_topics.launch name:=#{_name}</command>\n"\
