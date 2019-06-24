@@ -16,17 +16,10 @@ set(RUN_DEPENDS
 #######################################
 
 find_package(catkin REQUIRED ${BUILD_DEPENDS})
-find_package(gazebo REQUIRED)
 
 include_directories(
   ${catkin_INCLUDE_DIRS}
-  ${GAZEBO_INCLUDE_DIRS}
   )
-
-link_directories(
-  ${GAZEBO_LIBRARY_DIRS}
-)
-
 
 #######################################
 ## Declare Catkin package and installation
