@@ -62,8 +62,8 @@ catkin_package(
     subt_communication_model
     subt_communication_broker
   INCLUDE_DIRS
-  include
-  ${CATKIN_DEVEL_PREFIX}/include
+    include
+    ${CATKIN_DEVEL_PREFIX}/include
   LIBRARIES
     SubtProtobuf
   CFG_EXTRAS
@@ -87,6 +87,9 @@ install(TARGETS ${protobuf_lib_name}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
+install(DIRECTORY ${CATKIN_DEVEL_PREFIX}/include/${PROJECT_NAME}/protobuf/
+  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}/protobuf
+  FILES_MATCHING PATTERN "*.h")
 
 catkin_add_env_hooks(ign SHELLS bash
   DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/env-hooks)
