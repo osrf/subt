@@ -96,6 +96,7 @@ catkin_add_env_hooks(ign SHELLS zsh
 # Create the libGameLogicPlugin.so library.
 set(game_logic_plugin_name GameLogicPlugin)
 add_library(${game_logic_plugin_name} src/GameLogicPlugin.cc)
+add_dependencies(${game_logic_plugin_name} ${catkin_EXPORTED_TARGETS})
 target_include_directories(${game_logic_plugin_name}
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 target_link_libraries(${game_logic_plugin_name}
@@ -178,7 +179,7 @@ target_include_directories(${controller_plugin_name}
    ARCHIVE DESTINATION lib
    LIBRARY DESTINATION lib
    RUNTIME DESTINATION bin)
- 
+
 #############
 ## Install ##
 #############
