@@ -1,7 +1,47 @@
 <?xml version="1.0"?>
+<!-- Usage: ign launch competition.ign
+            [robotName1:=<robotName> robotConfig1:=<robotConfig>
+             robotName2:=<robotName> robotConfig2:=<robotConfig>
+             ... ]
+
+    The [robotNameX] command line argument is optional, where X can be 1 to 20
+
+    Example that loads tunnel qual world with an X2 robot with configuration 3
+
+      ign launch competition.ign
+          robotName1:=X2_3 robotConfig1:=X2_SENSOR_CONFIG_3
+-->
+
 <%
-  worldName = 'tunnel_qual_ign'
+  # When 'enableGroundTruth = true' absolute poses of vehicles will be published.
+  # This is useful for debugging purposes, but will not be available during
+  # competition scoring.
+  $enableGroundTruth = false
+
+  # Check if robotNameX and robotConfigX exists
+  spawnRowSize = 4
+  spawnColSize = 4
+  spawnGridSize = 2
+  maxRobotCount = spawnRowSize * spawnColSize
+  spawnColOffset = spawnColSize * spawnGridSize / 2
+  spawnRowOffset = spawnRowSize * spawnGridSize / 2
+  robots = Hash.new
+  for i in 1..maxRobotCount do
+    if (local_variables.include?(:"robotName#{i}") &&
+        local_variables.include?(:"robotConfig#{i}"))
+      name=eval "robotName#{i}"
+      config=eval "robotConfig#{i}"
+      if name != nil && !name.empty?
+        robots[name] = config
+      end
+    end
+  end
 %>
+
+<%
+  $worldName = 'tunnel_qual_ign'
+%>
+
 <ignition version='1.0'>
   <env>
     <name>ROS_MASTER_URI</name>
@@ -15,38 +55,38 @@
   <!-- Start ROS first. This is a bit hacky for now. -->
   <!-- Make sure to source /opt/ros/melodic/setup.bash -->
   <executable name='ros'>
-    <command>roslaunch subt_ros competition_init.launch world_name:=<%=worldName%></command>
+    <command>roslaunch subt_ros competition_init.launch world_name:=<%=$worldName%> vehicle_topics:=<%=(robots.empty?)?"1":"0"%></command>
   </executable>
 
   <plugin name="ignition::launch::GazeboServer"
           filename="libignition-launch-gazebo.so">
-    <world_file><%= worldName %>.sdf</world_file>
+    <world_file><%= $worldName %>.sdf</world_file>
     <run>true</run>
     <levels>true</levels>
 
-    <plugin entity_name="<%= worldName %>"
+    <plugin entity_name="<%= $worldName %>"
             entity_type="world"
             filename="libignition-gazebo-physics-system.so"
             name="ignition::gazebo::systems::Physics">
     </plugin>
-    <plugin entity_name="<%= worldName %>"
+    <plugin entity_name="<%= $worldName %>"
             entity_type="world"
             filename="libignition-gazebo-sensors-system.so"
             name="ignition::gazebo::systems::Sensors">
             <render_engine>ogre2</render_engine>
     </plugin>
-    <plugin entity_name="<%= worldName %>"
+    <plugin entity_name="<%= $worldName %>"
             entity_type="world"
             filename="libignition-gazebo-user-commands-system.so"
             name="ignition::gazebo::systems::UserCommands">
     </plugin>
-    <plugin entity_name="<%= worldName %>"
+    <plugin entity_name="<%= $worldName %>"
             entity_type="world"
             filename="libignition-gazebo-scene-broadcaster-system.so"
             name="ignition::gazebo::systems::SceneBroadcaster">
     </plugin>
 
-    <plugin entity_name="<%= worldName %>"
+    <plugin entity_name="<%= $worldName %>"
             entity_type="world"
             filename="libignition-gazebo-imu-system.so"
             name="ignition::gazebo::systems::Imu">
@@ -68,7 +108,7 @@
   <executable_wrapper>
     <plugin name="ignition::launch::GazeboGui"
           filename="libignition-launch-gazebogui.so">
-      <world_name><%= worldName %></world_name>
+      <world_name><%= $worldName %></world_name>
       <window_title>SubT Simulator</window_title>
       <plugin filename="GzScene3D" name="3D View">
         <ignition-gui>
@@ -82,10 +122,10 @@
         <ambient_light>0.2 0.2 0.1</ambient_light>
         <background_color>0.8 0.8 0.8</background_color>
         <camera_pose>-6.3 -4.2 3.6 0 0.268 0.304</camera_pose>
-        <service>/world/<%= worldName %>/scene/info</service>
-        <pose_topic>/world/<%= worldName %>/pose/info</pose_topic>
-        <scene_topic>/world/<%= worldName %>/scene/info</scene_topic>
-        <deletion_topic>/world/<%= worldName %>/scene/deletion</deletion_topic>
+        <service>/world/<%= $worldName %>/scene/info</service>
+        <pose_topic>/world/<%= $worldName %>/pose/info</pose_topic>
+        <scene_topic>/world/<%= $worldName %>/scene/info</scene_topic>
+        <deletion_topic>/world/<%= $worldName %>/scene/deletion</deletion_topic>
       </plugin>
       <plugin filename="WorldControl" name="World control">
         <ignition-gui>
@@ -106,8 +146,8 @@
         <play_pause>true</play_pause>
         <step>true</step>
         <start_paused>true</start_paused>
-        <service>/world/<%= worldName %>/control</service>
-        <stats_topic>/world/<%= worldName %>/stats</stats_topic>
+        <service>/world/<%= $worldName %>/control</service>
+        <stats_topic>/world/<%= $worldName %>/stats</stats_topic>
 
       </plugin>
 
@@ -131,7 +171,7 @@
         <real_time>true</real_time>
         <real_time_factor>true</real_time_factor>
         <iterations>true</iterations>
-        <topic>/world/<%= worldName %>/stats</topic>
+        <topic>/world/<%= $worldName %>/stats</topic>
       </plugin>
     </plugin>
   </executable_wrapper>
@@ -164,17 +204,17 @@
   <!--</plugin>-->
 
   <!-- The SubT challenge comms broker plugin -->
-  <plugin entity_name="<%= worldName %>"
+  <plugin entity_name="<%= $worldName %>"
           entity_type="world"
           name="subt::CommsBrokerPlugin"
           filename="libCommsBrokerPlugin.so">
     <generate_table>true</generate_table>
-    <world_name><%= worldName %></world_name>
+    <world_name><%= $worldName %></world_name>
     <comms_model>
       <comms_model_type>visibility_range</comms_model_type>
 
       <range_config>
-        <max_range>20.0</max_range>
+        <max_range>500.0</max_range>
         <fading_exponent>2.5</fading_exponent>
         <L0>40</L0>
         <sigma>10.0</sigma>
@@ -205,7 +245,7 @@
   <plugin name="subt::GameLogicPlugin" filename="libGameLogicPlugin.so">
     <!-- The collection of artifacts to locate -->
 
-    <world_name><%= worldName %></world_name>
+    <world_name><%= $worldName %></world_name>
     <logging>
       <filename_prefix>subt_tunnel_qual</filename_prefix>
     </logging>
@@ -275,5 +315,387 @@
       <type>TYPE_EXTINGUISHER</type>
     </artifact>
   </plugin>
+
+<%
+  def spawnX1(_name, _config, _x, _y)
+    "<plugin name=\"ignition::launch::GazeboFactory\"\n"\
+    "        filename=\"libignition-launch-gazebo-factory.so\">\n"\
+    "  <name>#{_name}</name>\n"\
+    "  <allow_renaming>false</allow_renaming>\n"\
+    "  <pose>#{_x} #{_y} .2 0 0 0</pose>\n"\
+    "  <world>#{$worldName}</world>\n"\
+    "  <is_performer>true</is_performer>\n"\
+    "  <sdf version='1.6'>\n"\
+    "  <include>\n"\
+    "    <name>#{_name}</name>\n"\
+    "    <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X1 Config #{_config}</uri>\n"\
+    "    <!-- Diff drive -->\n"\
+    "    <plugin filename=\"libignition-gazebo-diff-drive-system.so\"\n"\
+    "            name=\"ignition::gazebo::systems::DiffDrive\">\n"\
+    "      <left_joint>front_left_wheel_joint</left_joint>\n"\
+    "      <left_joint>rear_left_wheel_joint</left_joint>\n"\
+    "      <right_joint>front_right_wheel_joint</right_joint>\n"\
+    "      <right_joint>rear_right_wheel_joint</right_joint>\n"\
+    "      <wheel_separation>0.45649</wheel_separation>\n"\
+    "      <wheel_radius>0.1651</wheel_radius>\n"\
+    "      <topic>/model/#{_name}/cmd_vel_relay</topic>\n"\
+    "    </plugin>\n"\
+    "    <!-- Publish robot state information -->\n"\
+    "    <plugin filename=\"libignition-gazebo-pose-publisher-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::PosePublisher\">\n"\
+    "      <publish_link_pose>true</publish_link_pose>\n"\
+    "      <publish_sensor_pose>true</publish_sensor_pose>\n"\
+    "      <publish_collision_pose>false</publish_collision_pose>\n"\
+    "      <publish_visual_pose>false</publish_visual_pose>\n"\
+    "      <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>\n"\
+    "    </plugin>\n"\
+    "  </include>\n"\
+    "  </sdf>\n"\
+    "</plugin>\n"\
+    "<executable name='x1_description'>\n"\
+    "  <command>roslaunch --wait subt_ros x1_description.launch world_name:=#{$worldName}</command>\n"\
+    "</executable>\n"\
+    "<executable name='x1_ros_ign_bridge'>\n"\
+    "  <command>roslaunch --wait subt_ros vehicle_topics.launch name:=#{_name}</command>\n"\
+    "</executable>\n"
+  end
+
+  def spawnX2(_name, _config, _x, _y)
+    "<plugin name=\"ignition::launch::GazeboFactory\"\n"\
+    "        filename=\"libignition-launch-gazebo-factory.so\">\n"\
+    "  <name>#{_name}</name>\n"\
+    "  <allow_renaming>false</allow_renaming>\n"\
+    "  <pose>#{_x} #{_y} 0.063494 0 0 0</pose>\n"\
+    "  <world>#{$worldName}</world>\n"\
+    "  <is_performer>true</is_performer>\n"\
+    "  <sdf version='1.6'>\n"\
+    "  <include>\n"\
+    "    <name>#{_name}</name>\n"\
+    "    <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X2 Config #{_config}</uri>\n"\
+    "    <!-- Diff drive -->\n"\
+    "    <plugin filename=\"libignition-gazebo-diff-drive-system.so\"\n"\
+    "            name=\"ignition::gazebo::systems::DiffDrive\">\n"\
+    "      <left_joint>front_left_wheel_joint</left_joint>\n"\
+    "      <left_joint>rear_left_wheel_joint</left_joint>\n"\
+    "      <right_joint>front_right_wheel_joint</right_joint>\n"\
+    "      <right_joint>rear_right_wheel_joint</right_joint>\n"\
+    "      <wheel_separation>0.33559</wheel_separation>\n"\
+    "      <wheel_radius>0.098</wheel_radius>\n"\
+    "      <topic>/model/#{_name}/cmd_vel_relay</topic>\n"\
+    "    </plugin>\n"\
+    "    <!-- Publish robot state information -->\n"\
+    "    <plugin filename=\"libignition-gazebo-pose-publisher-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::PosePublisher\">\n"\
+    "      <publish_link_pose>true</publish_link_pose>\n"\
+    "      <publish_sensor_pose>true</publish_sensor_pose>\n"\
+    "      <publish_collision_pose>false</publish_collision_pose>\n"\
+    "      <publish_visual_pose>false</publish_visual_pose>\n"\
+    "      <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>\n"\
+    "    </plugin>\n"\
+    "  </include>\n"\
+    "  </sdf>\n"\
+    "</plugin>\n"\
+    "<executable name='x2_description'>\n"\
+    "  <command>roslaunch --wait subt_ros x2_description.launch world_name:=#{$worldName}</command>\n"\
+    "</executable>\n"\
+    "<executable name='x2_ros_ign_bridge'>\n"\
+    "  <command>roslaunch --wait subt_ros vehicle_topics.launch name:=#{_name}</command>\n"\
+    "</executable>\n"
+  end
+
+  def spawnX3(_name, _config, _x, _y)
+    "<plugin name=\"ignition::launch::GazeboFactory\"\n"\
+    "        filename=\"libignition-launch-gazebo-factory.so\">\n"\
+    "  <name>#{_name}</name>\n"\
+    "  <allow_renaming>false</allow_renaming>\n"\
+    "  <pose>#{_x} #{_y} 0.2 0 0 0</pose>\n"\
+    "  <world>#{$worldName}</world>\n"\
+    "  <is_performer>true</is_performer>\n"\
+    "  <sdf version='1.6'>\n"\
+    "  <include>\n"\
+    "    <name>#{_name}</name>\n"\
+    "    <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X3 UAV Config #{_config}</uri>\n"\
+    "    <!-- Publish robot state information -->\n"\
+    "    <plugin filename=\"libignition-gazebo-pose-publisher-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::PosePublisher\">\n"\
+    "      <publish_link_pose>true</publish_link_pose>\n"\
+    "      <publish_sensor_pose>true</publish_sensor_pose>\n"\
+    "      <publish_collision_pose>false</publish_collision_pose>\n"\
+    "      <publish_visual_pose>false</publish_visual_pose>\n"\
+    "      <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>\n"\
+    "    </plugin>\n"\
+    "    <plugin filename=\"libignition-gazebo-multicopter-motor-model-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::MulticopterMotorModel\">\n"\
+    "      <robotNamespace>model/#{_name}</robotNamespace>\n"\
+    "      <jointName>rotor_0_joint</jointName>\n"\
+    "      <linkName>rotor_0</linkName>\n"\
+    "      <turningDirection>ccw</turningDirection>\n"\
+    "      <timeConstantUp>0.0125</timeConstantUp>\n"\
+    "      <timeConstantDown>0.025</timeConstantDown>\n"\
+    "      <maxRotVelocity>800.0</maxRotVelocity>\n"\
+    "      <motorConstant>8.54858e-06</motorConstant>\n"\
+    "      <momentConstant>0.016</momentConstant>\n"\
+    "      <commandSubTopic>command/motor_speed</commandSubTopic>\n"\
+    "      <motorNumber>0</motorNumber>\n"\
+    "      <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>\n"\
+    "      <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>\n"\
+    "      <motorSpeedPubTopic>motor_speed/0</motorSpeedPubTopic>\n"\
+    "      <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>\n"\
+    "      <motorType>velocity</motorType>\n"\
+    "    </plugin>\n"\
+    "    <plugin filename=\"libignition-gazebo-multicopter-motor-model-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::MulticopterMotorModel\">\n"\
+    "      <robotNamespace>model/#{_name}</robotNamespace>\n"\
+    "      <jointName>rotor_1_joint</jointName>\n"\
+    "      <linkName>rotor_1</linkName>\n"\
+    "      <turningDirection>ccw</turningDirection>\n"\
+    "      <timeConstantUp>0.0125</timeConstantUp>\n"\
+    "      <timeConstantDown>0.025</timeConstantDown>\n"\
+    "      <maxRotVelocity>800.0</maxRotVelocity>\n"\
+    "      <motorConstant>8.54858e-06</motorConstant>\n"\
+    "      <momentConstant>0.016</momentConstant>\n"\
+    "      <commandSubTopic>command/motor_speed</commandSubTopic>\n"\
+    "      <motorNumber>1</motorNumber>\n"\
+    "      <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>\n"\
+    "      <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>\n"\
+    "      <motorSpeedPubTopic>motor_speed/1</motorSpeedPubTopic>\n"\
+    "      <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>\n"\
+    "      <motorType>velocity</motorType>\n"\
+    "    </plugin>\n"\
+    "    <plugin filename=\"libignition-gazebo-multicopter-motor-model-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::MulticopterMotorModel\">\n"\
+    "      <robotNamespace>model/#{_name}</robotNamespace>\n"\
+    "      <jointName>rotor_2_joint</jointName>\n"\
+    "      <linkName>rotor_2</linkName>\n"\
+    "      <turningDirection>cw</turningDirection>\n"\
+    "      <timeConstantUp>0.0125</timeConstantUp>\n"\
+    "      <timeConstantDown>0.025</timeConstantDown>\n"\
+    "      <maxRotVelocity>800.0</maxRotVelocity>\n"\
+    "      <motorConstant>8.54858e-06</motorConstant>\n"\
+    "      <momentConstant>0.016</momentConstant>\n"\
+    "      <commandSubTopic>command/motor_speed</commandSubTopic>\n"\
+    "      <motorNumber>2</motorNumber>\n"\
+    "      <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>\n"\
+    "      <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>\n"\
+    "      <motorSpeedPubTopic>motor_speed/2</motorSpeedPubTopic>\n"\
+    "      <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>\n"\
+    "      <motorType>velocity</motorType>\n"\
+    "    </plugin>\n"\
+    "    <plugin filename=\"libignition-gazebo-multicopter-motor-model-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::MulticopterMotorModel\">\n"\
+    "      <robotNamespace>model/#{_name}</robotNamespace>\n"\
+    "      <jointName>rotor_3_joint</jointName>\n"\
+    "      <linkName>rotor_3</linkName>\n"\
+    "      <turningDirection>cw</turningDirection>\n"\
+    "      <timeConstantUp>0.0125</timeConstantUp>\n"\
+    "      <timeConstantDown>0.025</timeConstantDown>\n"\
+    "      <maxRotVelocity>800.0</maxRotVelocity>\n"\
+    "      <motorConstant>8.54858e-06</motorConstant>\n"\
+    "      <momentConstant>0.016</momentConstant>\n"\
+    "      <commandSubTopic>command/motor_speed</commandSubTopic>\n"\
+    "      <motorNumber>3</motorNumber>\n"\
+    "      <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>\n"\
+    "      <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>\n"\
+    "      <motorSpeedPubTopic>motor_speed/3</motorSpeedPubTopic>\n"\
+    "      <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>\n"\
+    "      <motorType>velocity</motorType>\n"\
+    "    </plugin>\n"\
+    "  </include>\n"\
+    "  </sdf>\n"\
+    "</plugin>\n"\
+    "<executable name='x3_description'>\n"\
+    "  <command>roslaunch --wait subt_ros x3_description.launch world_name:=#{$worldName}</command>\n"\
+    "</executable>\n"\
+    "<executable name='X3_controller'>\n"\
+    "  <command>roslaunch --wait x3_control control.launch world_name:=#{$worldName} x3_name:=#{_name}</command>\n"\
+    "</executable>\n"\
+    "<executable name='x3_ros_ign_bridge'>\n"\
+    "  <command>roslaunch --wait subt_ros vehicle_topics.launch name:=#{_name}</command>\n"\
+    "</executable>\n"
+  end
+
+  def spawnX4(_name, _config, _x, _y)
+    "<plugin name=\"ignition::launch::GazeboFactory\"\n"\
+    "        filename=\"libignition-launch-gazebo-factory.so\">\n"\
+    "  <name>#{_name}</name>\n"\
+    "  <allow_renaming>false</allow_renaming>\n"\
+    "  <pose>#{_x} #{_y} 0.2 0 0 0</pose>\n"\
+    "  <world>#{$worldName}</world>\n"\
+    "  <is_performer>true</is_performer>\n"\
+    "  <sdf version='1.6'>\n"\
+    "  <include>\n"\
+    "    <name>#{_name}</name>\n"\
+    "    <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X4 UAV Config #{_config}</uri>\n"\
+    "    <!-- Publish robot state information -->\n"\
+    "    <plugin filename=\"libignition-gazebo-pose-publisher-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::PosePublisher\">\n"\
+    "      <publish_link_pose>true</publish_link_pose>\n"\
+    "      <publish_sensor_pose>true</publish_sensor_pose>\n"\
+    "      <publish_collision_pose>false</publish_collision_pose>\n"\
+    "      <publish_visual_pose>false</publish_visual_pose>\n"\
+    "      <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>\n"\
+    "    </plugin>\n"\
+    "    <plugin filename=\"libignition-gazebo-multicopter-motor-model-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::MulticopterMotorModel\">\n"\
+    "      <robotNamespace>model/#{_name}</robotNamespace>\n"\
+    "      <jointName>rotor_0_joint</jointName>\n"\
+    "      <linkName>rotor_0</linkName>\n"\
+    "      <turningDirection>ccw</turningDirection>\n"\
+    "      <timeConstantUp>0.0182</timeConstantUp>\n"\
+    "      <timeConstantDown>0.0182</timeConstantDown>\n"\
+    "      <maxRotVelocity>1000.0</maxRotVelocity>\n"\
+    "      <motorConstant>1.269e-05</motorConstant>\n"\
+    "      <momentConstant>0.016754</momentConstant>\n"\
+    "      <commandSubTopic>command/motor_speed</commandSubTopic>\n"\
+    "      <motorNumber>0</motorNumber>\n"\
+    "      <rotorDragCoefficient>2.0673e-04</rotorDragCoefficient>\n"\
+    "      <rollingMomentCoefficient>0</rollingMomentCoefficient>\n"\
+    "      <motorSpeedPubTopic>motor_speed/0</motorSpeedPubTopic>\n"\
+    "      <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>\n"\
+    "      <motorType>velocity</motorType>\n"\
+    "    </plugin>\n"\
+    "    <plugin filename=\"libignition-gazebo-multicopter-motor-model-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::MulticopterMotorModel\">\n"\
+    "      <robotNamespace>model/#{_name}</robotNamespace>\n"\
+    "      <jointName>rotor_1_joint</jointName>\n"\
+    "      <linkName>rotor_1</linkName>\n"\
+    "      <turningDirection>cw</turningDirection>\n"\
+    "      <timeConstantUp>0.0182</timeConstantUp>\n"\
+    "      <timeConstantDown>0.0182</timeConstantDown>\n"\
+    "      <maxRotVelocity>1000.0</maxRotVelocity>\n"\
+    "      <motorConstant>1.269e-05</motorConstant>\n"\
+    "      <momentConstant>0.016754</momentConstant>\n"\
+    "      <commandSubTopic>command/motor_speed</commandSubTopic>\n"\
+    "      <motorNumber>1</motorNumber>\n"\
+    "      <rotorDragCoefficient>2.0673e-04</rotorDragCoefficient>\n"\
+    "      <rollingMomentCoefficient>0</rollingMomentCoefficient>\n"\
+    "      <motorSpeedPubTopic>motor_speed/1</motorSpeedPubTopic>\n"\
+    "      <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>\n"\
+    "      <motorType>velocity</motorType>\n"\
+    "    </plugin>\n"\
+    "    <plugin filename=\"libignition-gazebo-multicopter-motor-model-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::MulticopterMotorModel\">\n"\
+    "      <robotNamespace>model/#{_name}</robotNamespace>\n"\
+    "      <jointName>rotor_2_joint</jointName>\n"\
+    "      <linkName>rotor_2</linkName>\n"\
+    "      <turningDirection>ccw</turningDirection>\n"\
+    "      <timeConstantUp>0.0182</timeConstantUp>\n"\
+    "      <timeConstantDown>0.0182</timeConstantDown>\n"\
+    "      <maxRotVelocity>1000.0</maxRotVelocity>\n"\
+    "      <motorConstant>1.269e-05</motorConstant>\n"\
+    "      <momentConstant>0.016754</momentConstant>\n"\
+    "      <commandSubTopic>command/motor_speed</commandSubTopic>\n"\
+    "      <motorNumber>2</motorNumber>\n"\
+    "      <rotorDragCoefficient>2.0673e-04</rotorDragCoefficient>\n"\
+    "      <rollingMomentCoefficient>0</rollingMomentCoefficient>\n"\
+    "      <motorSpeedPubTopic>motor_speed/2</motorSpeedPubTopic>\n"\
+    "      <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>\n"\
+    "      <motorType>velocity</motorType>\n"\
+    "    </plugin>\n"\
+    "    <plugin filename=\"libignition-gazebo-multicopter-motor-model-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::MulticopterMotorModel\">\n"\
+    "      <robotNamespace>model/#{_name}</robotNamespace>\n"\
+    "      <jointName>rotor_3_joint</jointName>\n"\
+    "      <linkName>rotor_3</linkName>\n"\
+    "      <turningDirection>cw</turningDirection>\n"\
+    "      <timeConstantUp>0.0182</timeConstantUp>\n"\
+    "      <timeConstantDown>0.0182</timeConstantDown>\n"\
+    "      <maxRotVelocity>1000.0</maxRotVelocity>\n"\
+    "      <motorConstant>1.269e-05</motorConstant>\n"\
+    "      <momentConstant>0.016754</momentConstant>\n"\
+    "      <commandSubTopic>command/motor_speed</commandSubTopic>\n"\
+    "      <motorNumber>3</motorNumber>\n"\
+    "      <rotorDragCoefficient>2.0673e-04</rotorDragCoefficient>\n"\
+    "      <rollingMomentCoefficient>0</rollingMomentCoefficient>\n"\
+    "      <motorSpeedPubTopic>motor_speed/3</motorSpeedPubTopic>\n"\
+    "      <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>\n"\
+    "      <motorType>velocity</motorType>\n"\
+    "    </plugin>\n"\
+    "    <plugin filename=\"libignition-gazebo-multicopter-motor-model-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::MulticopterMotorModel\">\n"\
+    "      <robotNamespace>model/#{_name}</robotNamespace>\n"\
+    "      <jointName>rotor_4_joint</jointName>\n"\
+    "      <linkName>rotor_4</linkName>\n"\
+    "      <turningDirection>ccw</turningDirection>\n"\
+    "      <timeConstantUp>0.0182</timeConstantUp>\n"\
+    "      <timeConstantDown>0.0182</timeConstantDown>\n"\
+    "      <maxRotVelocity>1000.0</maxRotVelocity>\n"\
+    "      <motorConstant>1.269e-05</motorConstant>\n"\
+    "      <momentConstant>0.016754</momentConstant>\n"\
+    "      <commandSubTopic>command/motor_speed</commandSubTopic>\n"\
+    "      <motorNumber>4</motorNumber>\n"\
+    "      <rotorDragCoefficient>2.0673e-04</rotorDragCoefficient>\n"\
+    "      <rollingMomentCoefficient>0</rollingMomentCoefficient>\n"\
+    "      <motorSpeedPubTopic>motor_speed/4</motorSpeedPubTopic>\n"\
+    "      <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>\n"\
+    "      <motorType>velocity</motorType>\n"\
+    "    </plugin>\n"\
+    "    <plugin filename=\"libignition-gazebo-multicopter-motor-model-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::MulticopterMotorModel\">\n"\
+    "      <robotNamespace>model/#{_name}</robotNamespace>\n"\
+    "      <jointName>rotor_5_joint</jointName>\n"\
+    "      <linkName>rotor_5</linkName>\n"\
+    "      <turningDirection>cw</turningDirection>\n"\
+    "      <timeConstantUp>0.0182</timeConstantUp>\n"\
+    "      <timeConstantDown>0.0182</timeConstantDown>\n"\
+    "      <maxRotVelocity>1000.0</maxRotVelocity>\n"\
+    "      <motorConstant>1.269e-05</motorConstant>\n"\
+    "      <momentConstant>0.016754</momentConstant>\n"\
+    "      <commandSubTopic>command/motor_speed</commandSubTopic>\n"\
+    "      <motorNumber>5</motorNumber>\n"\
+    "      <rotorDragCoefficient>2.0673e-04</rotorDragCoefficient>\n"\
+    "      <rollingMomentCoefficient>0</rollingMomentCoefficient>\n"\
+    "      <motorSpeedPubTopic>motor_speed/5</motorSpeedPubTopic>\n"\
+    "      <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>\n"\
+    "      <motorType>velocity</motorType>\n"\
+    "    </plugin>\n"\
+    "    </include>\n"\
+    "  </sdf>\n"\
+    "</plugin>\n"\
+    "<executable name='X4_controller'>\n"\
+    "  <command>roslaunch --wait x4_control control.launch world_name:=#{$worldName} x4_name:=#{_name}</command>\n"\
+    "</executable>\n"\
+    "<executable name='x4_description'>\n"\
+    "  <command>roslaunch --wait subt_ros x4_description.launch world_name:=#{$worldName}</command>\n"\
+    "</executable>\n"\
+    "<executable name='x4_ros_ign_bridge'>\n"\
+    "  <command>roslaunch --wait subt_ros vehicle_topics.launch name:=#{_name}</command>\n"\
+    "</executable>\n"
+  end
+%>
+
+<%
+  robotSpawned = 0
+  robots.each do |name, config|
+    robotType = config[1]
+    robotConfigN = config[-1]
+    posX = -(robotSpawned / spawnColSize * spawnGridSize - spawnColOffset)
+    posY = -(robotSpawned % spawnRowSize * spawnGridSize - spawnRowOffset)
+    if robotType == "1"
+      robotSpawned += 1
+%>
+<%=   spawnX1(name, robotConfigN, posX, posY) %>
+<%
+    elsif robotType == "2"
+      robotSpawned += 1
+%>
+<%=   spawnX2(name, robotConfigN, posX, posY) %>
+<%
+    elsif robotType == "3"
+      robotSpawned += 1
+%>
+<%=   spawnX3(name, robotConfigN, posX, posY) %>
+<%
+    elsif robotType == "4"
+      robotSpawned += 1
+%>
+<%=   spawnX4(name, robotConfigN, posX, posY) %>
+<%
+    else
+      puts "Unknown robot configuration #{config}"
+    end
+  end
+%>
+
 
 </ignition>
