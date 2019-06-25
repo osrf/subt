@@ -20,7 +20,7 @@
 
   # Check if robotNameX and robotConfigX exists
   spawnRowSize = 4
-  spawnColSize = 4
+  spawnColSize = 5
   spawnGridSize = 2
   maxRobotCount = spawnRowSize * spawnColSize
   spawnColOffset = spawnColSize * spawnGridSize / 2
@@ -657,8 +657,8 @@
   robots.each do |name, config|
     robotType = config[1]
     robotConfigN = config[-1]
-    posX = -(robotSpawned / spawnColSize * spawnGridSize - spawnColOffset)
-    posY = -(robotSpawned % spawnRowSize * spawnGridSize - spawnRowOffset)
+    posX = -(robotSpawned / spawnColSize * spawnGridSize - spawnRowOffset)
+    posY = -(robotSpawned % spawnColSize * spawnGridSize - spawnColOffset)
     if robotType == "1"
       robotSpawned += 1
 %>
