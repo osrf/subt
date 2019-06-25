@@ -7,6 +7,10 @@
     <name>ROS_MASTER_URI</name>
     <value>http://localhost:11311</value>
   </env>
+  <env>
+    <name>IGN_GAZEBO_SYSTEM_PLUGIN_PATH</name>
+    <value>$LD_LIBRARY_PATH</value>
+  </env>
 
   <!-- Start ROS first. This is a bit hacky for now. -->
   <!-- Make sure to source /opt/ros/melodic/setup.bash -->
