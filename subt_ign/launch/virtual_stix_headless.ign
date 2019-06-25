@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- Usage: ign launch virtual_stix.ign
+<!-- Usage: ign launch virtual_stix_headless.ign
             [robotName1:=<robotName> robotConfig1:=<robotConfig>
              robotName2:=<robotName> robotConfig2:=<robotConfig>
              ... ]
@@ -8,7 +8,7 @@
 
     Example that loads virtual stix with an X2 robot with configuration 3
 
-      ign launch virtual_stix.ign
+      ign launch virtual_stix_headless.ign
           robotName1:=X2_3 robotConfig1:=X2_SENSOR_CONFIG_3
 -->
 
