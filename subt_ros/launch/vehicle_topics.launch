@@ -19,7 +19,7 @@
       <remap from="/model/$(arg name)/front/image_raw" to="front/image_raw"/>
     </node>
     <node pkg="ros1_ign_bridge" type="parameter_bridge" name="ros1_ign_bridge_gpu_lidar" args="/model/$(arg name)/front_scan@sensor_msgs/LaserScan@ignition.msgs.LaserScan">
-      <remap from="/model/$(arg name)/front_scan" to="/$(arg name)/front_scan"/>
+      <remap from="/model/$(arg name)/front_scan" to="front_scan"/>
     </node>
     <node pkg="subt_ros" type="pose_tf_broadcaster" name="pose_tf_broadcaster"/>
   </group>
