@@ -1,0 +1,6 @@
+<launch>
+  <arg name="name" default="X1"/>
+
+  <node name="$(arg name)_control" pkg="subt_example" type="subt_example_node" output="screen" args="$(arg name)" />
+
+</launch>

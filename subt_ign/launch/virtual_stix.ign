@@ -96,6 +96,18 @@
             filename="libignition-gazebo-imu-system.so"
             name="ignition::gazebo::systems::Imu">
     </plugin>
+
+    <plugin entity_name="<%= $worldName %>"
+            entity_type="world"
+            filename="libignition-gazebo-magnetometer-system.so"
+            name="ignition::gazebo::systems::Magnetometer">
+    </plugin>
+
+    <plugin entity_name="<%= $worldName %>"
+            entity_type="world"
+            filename="libignition-gazebo-air-pressure-system.so"
+            name="ignition::gazebo::systems::AirPressure">
+    </plugin>
   </plugin>
 
   <executable_wrapper>

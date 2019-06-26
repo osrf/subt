@@ -63,13 +63,12 @@ CommsClient::CommsClient(const std::string &_localAddress,
     return;
   }
 
-  // Subscribe to the topic where neighbor updates are notified.
-  if (!this->node.Subscribe(kNeighborsTopic, &CommsClient::OnNeighbors, this))
-  {
-    std::cerr << "Error subscribing to topic [" << kNeighborsTopic << "]"
-              << std::endl;
-    return;
-  }
+  // Bind to be sure we receive beacon packets
+  auto cb = [] (const std::string&,
+                const std::string&,
+                const uint32_t,
+                const std::string&) {  };
+  this->Bind(cb, "", kBeaconPort);
 
   this->enabled = true;
 }
@@ -165,13 +164,19 @@ bool CommsClient::Bind(std::function<void(const std::string &_srcAddress,
     }
   }
 
-  // Advertise a oneway service for receiving message requests.
-  ignition::transport::AdvertiseServiceOptions opts;
-  if (this->isPrivate)
-    opts.SetScope(ignition::transport::Scope_t::PROCESS);
-  if (!this->node.Advertise(address, &CommsClient::OnMessage, this, opts)) {
-    std::cerr << "[" << this->Host() << "] Bind Error: could not advertise " << address << std::endl;
-    return false;
+  if(!advertised) {
+    // Advertise a oneway service for receiving message requests.
+    ignition::transport::AdvertiseServiceOptions opts;
+    if (this->isPrivate)
+      opts.SetScope(ignition::transport::Scope_t::PROCESS);
+
+
+    if (!this->node.Advertise(address, &CommsClient::OnMessage, this, opts)) {
+      std::cerr << "[" << this->Host() << "] Bind Error: could not advertise " << address << std::endl;
+      return false;
+    }
+
+    advertised = true;
   }
 
   // Register the callbacks.
@@ -181,9 +186,13 @@ bool CommsClient::Bind(std::function<void(const std::string &_srcAddress,
     {
       if (endpoint != bcastEndpoint || bcastAdvertiseNeeded)
       {
+        ROS_INFO("Storing callback for %s", endpoint.c_str());
         this->callbacks[endpoint] = std::bind(_cb,
                                               std::placeholders::_1, std::placeholders::_2,
                                               std::placeholders::_3, std::placeholders::_4);
+      }
+      else {
+        ROS_WARN("Skipping callback register for %s", endpoint.c_str());
       }
     }
   }
@@ -219,10 +228,26 @@ bool CommsClient::SendTo(const std::string &_data,
 }
 
 //////////////////////////////////////////////////
-std::vector<std::string> CommsClient::Neighbors() const
+CommsClient::Neighbor_M CommsClient::Neighbors() const
 {
   std::lock_guard<std::mutex> lock(this->mutex);
   return this->neighbors;
+}
+
+bool CommsClient::SendBeacon()
+{
+  return this->SendTo("hello",
+               subt::communication_broker::kBroadcast,
+               kBeaconPort);
+}
+
+void CommsClient::StartBeaconInterval(ros::Duration period)
+{
+  ros::NodeHandle nh;
+  auto cb = [this](const ros::TimerEvent&) {
+    this->SendBeacon();
+  };
+  beacon_timer = nh.createTimer(period, cb);
 }
 
 //////////////////////////////////////////////////
@@ -269,6 +294,10 @@ void CommsClient::OnMessage(const msgs::Datagram &_msg)
   auto endPoint = _msg.dst_address() + ":" + std::to_string(_msg.dst_port());
 
   std::lock_guard<std::mutex> lock(this->mutex);
+
+  this->neighbors[_msg.src_address()] =
+      std::make_pair(ros::Time::now(), _msg.rssi());
+
   for (auto cb : this->callbacks)
   {
     if (cb.first == endPoint && cb.second)
@@ -277,25 +306,4 @@ void CommsClient::OnMessage(const msgs::Datagram &_msg)
                 _msg.dst_port(), _msg.data());
     }
   }
-}
-
-//////////////////////////////////////////////////
-void CommsClient::OnNeighbors(const msgs::Neighbor_M &_neighbors)
-{
-  std::lock_guard<std::mutex> lock(this->mutex);
-
-  this->neighbors.clear();
-
-  if (_neighbors.neighbors().find(this->localAddress) ==
-        _neighbors.neighbors().end())
-  {
-    std::cerr << "[CommsClient::OnNeighborsReceived] My current address ["
-              << this->localAddress << "] is not included in this neighbor "
-              << "update" << std::endl;
-    return;
-  }
-
-  auto currentNeighbors = _neighbors.neighbors().at(this->localAddress);
-  for (int i = 0; i < currentNeighbors.data().size(); ++i)
-    this->neighbors.push_back(currentNeighbors.data(i));
 }
