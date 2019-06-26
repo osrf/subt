@@ -161,7 +161,7 @@ void Broker::DispatchMessages()
   while (!this->incomingMsgs.empty())
   {
     // Get the next message to dispatch.
-    const subt::msgs::Datagram msg = this->incomingMsgs.front();
+    subt::msgs::Datagram msg = this->incomingMsgs.front();
     this->incomingMsgs.pop_front();
 
     // Sanity check: Make sure that the sender is a member of the team.
@@ -202,10 +202,16 @@ void Broker::DispatchMessages()
           continue;
         }
 
-        if(communication_function(tx_node->second->radio,
-                                  tx_node->second->rf_state,
-                                  rx_node->second->rf_state,
-                                  msg.data().size())) {
+        bool send_packet;
+        double rssi;
+        std::tie(send_packet, rssi) = communication_function(tx_node->second->radio,
+                                                             tx_node->second->rf_state,
+                                                             rx_node->second->rf_state,
+                                                             msg.data().size());
+
+        if(send_packet) {
+
+          msg.set_rssi(rssi);
 
           if (!this->node.Request(client.address, msg))
           {

@@ -22,8 +22,10 @@ The **Communication Client** is a distributed helper class that
   provides an API for registering callbacks when successful
   communications are received.
 
-Implementations of each of these components are provided with the intention that
-functionality is modularized such that alternative instantiations may exist.
+Implementations of each of these components are provided with the
+intention that functionality is modularized such that alternative
+instantiations may exist. High-level documentation is provided below
+and inline documentation is provided in the code for API reference.
 
 ## RF Interface/Model
 
@@ -145,11 +147,46 @@ for handling received communication and an `SendTo` function for
 attempting UDP-like unreliable transport of data. It communicates with
 the centralized **communication broker** via Ignition transport.
 
+The communication client keeps track of recent successfully received
+messages in order to report neighbor state information (a map from
+remote address to time of reception and received signal strength in
+dBm). Additionally, the client class can be configured to periodically
+send a beacon (broadcast) packet to stimulate neighbor reporting.
+
 ## SUBT Comms Test
 
 Curses-based python script for testing SUBT communication system
-performance. Run `rosrun subt_comms_test subt_comms_tester.py` after
-launching `roslaunch subt_gazebo quickstart.launch`. The
-shell-interface provides functionality for verifying inter-agent
+performance. The script is meant to be run in a centralized setting
+(i.e., simulation + each robot's controller on the same ROS master)
+and requires that the `subt_example/subt_example_node` be running to
+provide the `create_peer` service required by the test script.
+
+To execute, for example:
+
+```bash
+# Bring up simulator with two robots
+ign launch -v 4 virtual_stix.ign robotName1:=X1 robotConfig1:=X1_SENSOR_CONFIG_1 robotName2:=X2 robotConfig2:=X1_SENSOR_CONFIG_1
+```
+
+In another terminal
+``` bash
+# Launch X1 example node
+roslaunch subt_example example_robot.launch name:=X1
+```
+
+In yet another terminal
+``` bash
+# Launch X2 example node
+roslaunch subt_example example_robot.launch name:=X2
+```
+
+Finally, run the following in a fourth terminal
+
+``` bash
+rosrun subt_comms_test subt_comms_tester.py
+```
+The `sub_comms_tester.py` script will detect agents running the
+`subt_example_node` and configure appropriately. The shell-interface
+provides functionality for verifying inter-agent
 messages and computing statistics, e.g., dropped packets, tx/rx rates,
-and latency.
+latency, and received signal strength.

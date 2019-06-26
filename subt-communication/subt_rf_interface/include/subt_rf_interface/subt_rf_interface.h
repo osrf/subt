@@ -61,7 +61,6 @@ struct rf_power
   operator double() { return mean; }
 };
 
-
 /// Function signature for computing pathloss.
 typedef std::function<rf_power(const double&, // tx_power
                                radio_state&, // tx_state
