@@ -236,17 +236,9 @@ CommsClient::Neighbor_M CommsClient::Neighbors() const
 
 bool CommsClient::SendBeacon()
 {
-  // Sanity check: Make sure that the communications are enabled.
-  if (!this->enabled)
-    return false;
-
-  msgs::Datagram msg;
-  msg.set_src_address(this->Host());
-  msg.set_dst_address(subt::communication_broker::kBroadcast);
-  msg.set_dst_port(kBeaconPort);
-  msg.set_data("hello");
-
-  return this->node.Request(kBrokerSrv, msg);
+  return this->SendTo("hello",
+               subt::communication_broker::kBroadcast,
+               kBeaconPort);
 }
 
 void CommsClient::StartBeaconInterval(ros::Duration period)
