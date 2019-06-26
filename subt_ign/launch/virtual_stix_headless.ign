@@ -307,7 +307,7 @@
     "  <command>roslaunch --wait subt_ros x2_description.launch world_name:=#{$worldName} name:=#{_name}</command>\n"\
     "</executable>\n"\
     "<executable name='x2_ros_ign_bridge'>\n"\
-    "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name}/command>\n"\
+    "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name}</command>\n"\
     "</executable>\n"
   end
 
@@ -418,7 +418,7 @@
     "  <command>roslaunch --wait x3_control control.launch world_name:=#{$worldName} x3_name:=#{_name}</command>\n"\
     "</executable>\n"\
     "<executable name='x3_ros_ign_bridge'>\n"\
-    "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name}/command>\n"\
+    "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name}</command>\n"\
     "</executable>\n"
   end
 
@@ -567,7 +567,7 @@
     "  <command>roslaunch --wait subt_ros x4_description.launch world_name:=#{$worldName} name:=#{_name}</command>\n"\
     "</executable>\n"\
     "<executable name='x4_ros_ign_bridge'>\n"\
-    "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name}/command>\n"\
+    "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name}</command>\n"\
     "</executable>\n"
   end
 %>

@@ -54,15 +54,15 @@
       pkg="ros1_ign_bridge"
       type="parameter_bridge"
       name="ros1_ign_bridge_magnetometer"
-      args="/model/$(arg name)/magnetic_field@sensor_msgs/MagneticField@ignition.msgs.Magnetometer">
-      <remap from="/model/$(arg name)/magnetic_field" to="magnetic_field"/>
+      args="$(arg sensor_prefix)/magnetometer/magnetometer@sensor_msgs/MagneticField@ignition.msgs.Magnetometer">
+      <remap from="$(arg sensor_prefix)/magnetometer/magnetometer" to="magnetic_field"/>
     </node>
     <node
       pkg="ros1_ign_bridge"
       type="parameter_bridge"
       name="ros1_ign_bridge_fluid_pressure"
-      args="/model/$(arg name)/air_pressure@sensor_msgs/FluidPressure@ignition.msgs.FluidPressure">
-      <remap from="/model/$(arg name)/air_pressure" to="air_pressure"/>
+      args="$(arg sensor_prefix)/air_pressure/air_pressure@sensor_msgs/FluidPressure@ignition.msgs.FluidPressure">
+      <remap from="$(arg sensor_prefix)/air_pressure/air_pressure" to="air_pressure"/>
     </node>
     <node
       pkg="subt_ros"
