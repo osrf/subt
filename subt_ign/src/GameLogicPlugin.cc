@@ -181,6 +181,9 @@ class subt::GameLogicPluginPrivate
   /// \brief Log file output stream.
   public: std::ofstream logStream;
 
+  /// \brief Base station model name.
+  public: std::string baseStationName {"base_station"};
+
   /// \brief The pose of the object marking the origin of the artifacts.
   public: ignition::math::Pose3d artifactOriginPose;
 
@@ -649,14 +652,15 @@ bool GameLogicPluginPrivate::PoseFromArtifactHelper(const std::string &_robot,
 
   // Get an iterator to the base station's pose.
   std::map<std::string, ignition::math::Pose3d>::iterator baseIter =
-    this->poses.find("BaseStation");
+    this->poses.find(this->baseStationName);
 
   // Sanity check: Make sure that the robot is in the stagging area, as this
   // service is only available in that zone.
   if (baseIter == this->poses.end())
   {
-    ignerr << "[GameLogicPlugin]: Unable to find the staging area "
-      << "[BaseStation]. Ignoring PoseFromArtifact request" << std::endl;
+    ignerr << "[GameLogicPlugin]: Unable to find the staging area  ["
+      << this->baseStationName
+      << "]. Ignoring PoseFromArtifact request" << std::endl;
     return false;
   }
 
@@ -701,7 +705,7 @@ bool GameLogicPluginPrivate::OnPoseFromArtifactRos(
   // Header.
   _res.pose.header.stamp = ros::Time(
     this->simTime.sec(), this->simTime.nsec());
-  _res.pose.header.frame_id = "BaseStation";
+  _res.pose.header.frame_id = this->baseStationName;
 
   return _res.success;
 }
