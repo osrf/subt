@@ -668,6 +668,18 @@ bool GameLogicPluginPrivate::PoseFromArtifactHelper(const std::string &_robot,
     return false;
   }
 
+ // Get the artifact origin's pose.
+  std::map<std::string, ignition::math::Pose3d>::iterator originIter =
+    this->poses.find(subt::kArtifactOriginName);
+  if (originIter == this->poses.end())
+  {
+    ignerr << "[GameLogicPlugin]: Unable to find the artifact origin ["
+      << subt::kArtifactOriginName
+      << "]. Ignoring PoseFromArtifact request" << std::endl;
+    return false;
+  }
+  this->artifactOriginPose = originIter->second;
+
   // Pose.
   _result = robotIter->second - this->artifactOriginPose;
   return true;
@@ -702,7 +714,7 @@ bool GameLogicPluginPrivate::OnPoseFromArtifactRos(
   // Header.
   _res.pose.header.stamp = ros::Time(
     this->simTime.sec(), this->simTime.nsec());
-  _res.pose.header.frame_id = subt::kBaseStationName;
+  _res.pose.header.frame_id = subt::kArtifactOriginName;
 
   return _res.success;
 }
