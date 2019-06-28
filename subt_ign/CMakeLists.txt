@@ -183,6 +183,27 @@ target_include_directories(${controller_plugin_name}
    LIBRARY DESTINATION lib
    RUNTIME DESTINATION bin)
 
+###########
+## Tests ##
+###########
+
+configure_file (test/test_config.h.in
+  ${CATKIN_DEVEL_PREFIX}/include/test/test_config.h)
+
+find_package(rostest REQUIRED)
+
+add_rostest_gtest(test_score test/score.test test/score.cc)
+target_include_directories(test_score
+  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
+target_link_libraries(test_score
+  ${protobuf_lib_name}
+  ${catkin_LIBRARIES}
+  ${GAZEBO_LIBRARIES}
+)
+add_dependencies(test_score
+  ${game_logic_plugin_name}
+)
+
 #############
 ## Install ##
 #############
