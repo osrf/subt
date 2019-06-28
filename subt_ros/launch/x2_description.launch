@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <launch>
   <arg name="world_name" doc="Name of gazebo world"/>
-  <param name="X2/robot_description" command="$(find xacro)/xacro '$(find x2_description)/urdf/x2_from_sdf.xacro' world_name:=$(arg world_name)"/>
+  <arg name="name" doc="Name of Vehicle"/>
+  <param name="$(arg name)/robot_description" command="$(find xacro)/xacro '$(find x2_description)/urdf/x2_from_sdf.xacro' name:=$(arg name) world_name:=$(arg world_name)"/>
 </launch>

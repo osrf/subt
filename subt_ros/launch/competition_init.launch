@@ -13,15 +13,19 @@
 
   <group if="$(arg vehicle_topics)">
     <include file="$(find subt_ros)/launch/vehicle_topics.launch">
+      <arg name="world_name" value="$(arg world_name)"/>
       <arg name="name" value="X1"/>
     </include>
     <include file="$(find subt_ros)/launch/vehicle_topics.launch">
+      <arg name="world_name" value="$(arg world_name)"/>
       <arg name="name" value="X2"/>
     </include>
     <include file="$(find subt_ros)/launch/vehicle_topics.launch">
+      <arg name="world_name" value="$(arg world_name)"/>
       <arg name="name" value="X3"/>
     </include>
     <include file="$(find subt_ros)/launch/vehicle_topics.launch">
+      <arg name="world_name" value="$(arg world_name)"/>
       <arg name="name" value="X4"/>
     </include>
   </group>
