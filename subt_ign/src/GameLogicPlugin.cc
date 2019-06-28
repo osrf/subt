@@ -668,7 +668,7 @@ bool GameLogicPluginPrivate::PoseFromArtifactHelper(const std::string &_robot,
     return false;
   }
 
- // Get the artifact origin's pose.
+  // Get the artifact origin's pose.
   std::map<std::string, ignition::math::Pose3d>::iterator originIter =
     this->poses.find(subt::kArtifactOriginName);
   if (originIter == this->poses.end())
