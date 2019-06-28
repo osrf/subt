@@ -117,7 +117,7 @@ namespace subt
 
   /// \brief The name of the base station in Gazebo. This is used as the
   /// address to report artifacts.
-  const std::string kBaseStationName = "BaseStation";
+  const std::string kBaseStationName = "base_station";
 
   /// \brief Internal service used to report new artifacts.
   const std::string kNewArtifactSrv = "/subt/artifacts/new";
