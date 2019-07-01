@@ -102,7 +102,7 @@ RUN sudo apt-get install -y \
 # docker is run
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
- && hg clone https://bitbucket.org/osrf/subt
+ && hg clone https://bitbucket.org/osrf/subt -b tunnel_circuit
 
 # Download virtual stix models
 RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Edgar Mine Virtual STIX" -v 4
