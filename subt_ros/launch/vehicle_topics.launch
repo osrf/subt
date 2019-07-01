@@ -23,6 +23,13 @@
     <node
       pkg="ros1_ign_bridge"
       type="parameter_bridge"
+      name="ros1_ign_bridge_odom"
+      args="/model/$(arg name)/odometry@nav_msgs/Odometry@ignition.msgs.Odometry">
+      <remap from="/model/$(arg name)/odometry" to="odom"/>
+    </node>
+    <node
+      pkg="ros1_ign_bridge"
+      type="parameter_bridge"
       name="ros1_ign_bridge_actuators"
       args="/model/$(arg name)/command/motor_speed@mav_msgs/Actuators@ignition.msgs.Actuators">
       <remap from="/model/$(arg name)/command/motor_speed" to="command/motor_speed"/>
