@@ -275,6 +275,9 @@
 
     <world_name><%= $worldName %></world_name>
     <logging>
+      <!-- Use the <path> element to control where to record the log file. 
+           The HOME path is used by default
+      <path>/tmp</path>-->
       <filename_prefix>subt_tunnel_qual</filename_prefix>
     </logging>
 
