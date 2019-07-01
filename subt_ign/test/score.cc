@@ -68,18 +68,18 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     EXPECT_TRUE(client.call(srv));
     geometry_msgs::Pose origin = srv.response.pose.pose;
 
-    EXPECT_NEAR(7.1,     origin.position.x,    0.1);
-    EXPECT_NEAR(-4,      origin.position.y,    0.1);
+    EXPECT_NEAR(2.0,     origin.position.x,    0.1);
+    EXPECT_NEAR(1.0,     origin.position.y,    0.1);
     EXPECT_NEAR(-0.3687, origin.position.z,    0.1);
     EXPECT_NEAR(0,       origin.orientation.x, 0.1);
     EXPECT_NEAR(0,       origin.orientation.y, 0.1);
-    EXPECT_NEAR(1,       origin.orientation.z, 0.1);
-    EXPECT_NEAR(0,       origin.orientation.w, 0.1);
+    EXPECT_NEAR(0,       origin.orientation.z, 0.1);
+    EXPECT_NEAR(1,       origin.orientation.w, 0.1);
 
-    ignition::math::Pose3d robotPose(9.1, 0, 0.1, 0, 0, 3.14159);
+    ignition::math::Pose3d robotPose(4, 5, 0.131, 0, 0, 0);
 
     // Report an artifact with high accuracy (x3): +1 point.
-    ignition::math::Pose3d artifact1Pose(140, 35, -20, 0, 0, 0);
+    ignition::math::Pose3d artifact1Pose(81.953, 72.097, 1.298, 0, 0, 0);
     double err = 0.0;
     ignition::msgs::Pose pose;
     pose.mutable_position()->set_x(
@@ -93,7 +93,7 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     ASSERT_TRUE(this->WaitUntilScoreIs(1));
 
     // Report an artifact with medium accuracy (x2): +1 point.
-    ignition::math::Pose3d artifact2Pose(240, 25, -35, 0, 0, 0);
+    ignition::math::Pose3d artifact2Pose(103.841, 26.259, 0.751, -1.671, 0, 0);
     err = 1.0;
     pose.mutable_position()->set_x(
       artifact2Pose.Pos().X() - robotPose.Pos().X() + origin.position.x + err);
@@ -101,12 +101,12 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
       artifact2Pose.Pos().Y() - robotPose.Pos().Y() + origin.position.y);
     pose.mutable_position()->set_z(
       artifact2Pose.Pos().Z() - robotPose.Pos().Z() + origin.position.z);
-    type = static_cast<uint32_t>(subt::ArtifactType::TYPE_TOOLBOX);
+    type = static_cast<uint32_t>(subt::ArtifactType::TYPE_PHONE);
     this->ReportArtifact(type, pose);
     ASSERT_TRUE(this->WaitUntilScoreIs(2));
 
     // Report an artifact with low accuracy (x1): +1 point.
-    ignition::math::Pose3d artifact3Pose(130, 2.2, -20, 0, 0, 0);
+    ignition::math::Pose3d artifact3Pose(88.490, 133.324, 0.719, 0, 0, 3.1415);
     err = 4.99;
     pose.mutable_position()->set_x(
       artifact3Pose.Pos().X() - robotPose.Pos().X() + origin.position.x + err);
@@ -119,7 +119,7 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     ASSERT_TRUE(this->WaitUntilScoreIs(3));
 
     // Report an artifact with bad accuracy (-1): 0 points.
-    ignition::math::Pose3d artifact4Pose(122.5, -65, -30, 0, 0, -1.5708);
+    ignition::math::Pose3d artifact4Pose(128.810, 74.807, 0.844, 0, 0, 0);
     err = 5.1;
     pose.mutable_position()->set_x(
       artifact4Pose.Pos().X() - robotPose.Pos().X() + origin.position.x + err);
@@ -127,8 +127,12 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
       artifact4Pose.Pos().Y() - robotPose.Pos().Y() + origin.position.y);
     pose.mutable_position()->set_z(
       artifact4Pose.Pos().Z() - robotPose.Pos().Z() + origin.position.z);
-    type = static_cast<uint32_t>(subt::ArtifactType::TYPE_VALVE);
+    type = static_cast<uint32_t>(subt::ArtifactType::TYPE_DRILL);
     this->ReportArtifact(type, pose);
+    {
+      using namespace std::chrono_literals;
+      std::this_thread::sleep_for(std::chrono::milliseconds(200ms));
+    }
     ASSERT_TRUE(this->WaitUntilScoreIs(3));
   }
 
