@@ -12,7 +12,7 @@
       <param name="sensor_timeout" value="0.2" />
       <param name="two_d_mode" value="false" />
       <param name="odom_frame" value="$(arg world_name)" />
-      <param name="base_link_frame" value="$(arg world_name)/$(arg x4_name)/base_link/imu_sensor" />
+      <param name="base_link_frame" value="$(arg x4_name)/base_link/imu_sensor" />
       <param name="world_frame" value="$(arg world_name)" />
       <param name="publish_tf" value="false" />
       <param name="imu0" value="imu/data" />
