@@ -38,7 +38,9 @@ user_id=$(id -u)
 image_name=$(basename $1)
 image_plus_tag=$image_name:$(date +%Y_%b_%d_%H%M)
 
-docker build --rm -t $image_plus_tag --build-arg user_id=$user_id $DIR/$image_name
+shift
+
+docker build --rm -t $image_plus_tag --build-arg user_id=$user_id "$@" $DIR/$image_name
 docker tag $image_plus_tag $image_name:latest
 
 echo "Built $image_plus_tag and tagged as $image_name:latest"

@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <robot name="X1" xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:arg name="world_name" default=""/>
-  <xacro:property name="robot_namespace" value="$(arg world_name)/X1"/>
+  <xacro:arg name="name" default="X1"/>
+  <xacro:property name="robot_namespace" value="$(arg name)"/>
 
-  <link name='${robot_namespace}/base'>
+  <link name='${robot_namespace}/base_link'>
     <inertial>
       <origin xyz='-0.00065 -0.085 0.062' rpy='0 -0 0'/>
       <mass value='46.034'/>
@@ -125,7 +125,7 @@
     </visual>
   </link>
   <sensor name='imu_sensor' update_rate='1000'>
-    <parent link='${robot_namespace}/base'/>
+    <parent link='${robot_namespace}/base_link'/>
     <origin xyz='0 0 0' rpy='0 -0 0'/>
   </sensor>
   <link name='${robot_namespace}/front_left_wheel'>
@@ -206,28 +206,28 @@
   </link>
   <joint name='front_left_wheel_joint' type='revolute'>
     <origin xyz='0.256 0.2854 0.03282' rpy='0 -0 0'/>
-    <parent link='${robot_namespace}/base'/>
+    <parent link='${robot_namespace}/base_link'/>
     <child link='${robot_namespace}/front_left_wheel'/>
     <axis xyz='0 1 0'/>
     <limit lower='-1.79769e+308' upper='1.79769e+308' effort='-1' velocity='-1'/>
   </joint>
   <joint name='front_right_wheel_joint' type='revolute'>
     <origin xyz='0.256 -0.2854 0.03282' rpy='0 -0 0'/>
-    <parent link='${robot_namespace}/base'/>
+    <parent link='${robot_namespace}/base_link'/>
     <child link='${robot_namespace}/front_right_wheel'/>
     <axis xyz='0 1 0'/>
     <limit lower='-1.79769e+308' upper='1.79769e+308' effort='-1' velocity='-1'/>
   </joint>
   <joint name='rear_left_wheel_joint' type='revolute'>
     <origin xyz='-0.256 0.2854 0.03282' rpy='0 -0 0'/>
-    <parent link='${robot_namespace}/base'/>
+    <parent link='${robot_namespace}/base_link'/>
     <child link='${robot_namespace}/rear_left_wheel'/>
     <axis xyz='0 1 0'/>
     <limit lower='-1.79769e+308' upper='1.79769e+308' effort='-1' velocity='-1'/>
   </joint>
   <joint name='rear_right_wheel_joint' type='revolute'>
     <origin xyz='-0.256 -0.2854 0.03282' rpy='0 -0 0'/>
-    <parent link='${robot_namespace}/base'/>
+    <parent link='${robot_namespace}/base_link'/>
     <child link='${robot_namespace}/rear_right_wheel'/>
     <axis xyz='0 1 0'/>
     <limit lower='-1.79769e+308' upper='1.79769e+308' effort='-1' velocity='-1'/>

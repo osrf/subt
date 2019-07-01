@@ -1,14 +1,17 @@
 <?xml version="1.0"?>
 <launch>
+  <arg name="world_name"/>
   <arg name="name"/>
+  <arg name="link_name" value="base_link"/>
+  <arg name="sensor_prefix" value="/world/$(arg world_name)/model/$(arg name)/link/$(arg link_name)/sensor"/>
   <group ns="$(arg name)">
     <!--Create multipe bridges so that it can run in parallel-->
     <node
       pkg="ros1_ign_bridge"
       type="parameter_bridge"
       name="ros1_ign_bridge_imu"
-      args="/model/$(arg name)/imu/data@sensor_msgs/Imu@ignition.msgs.IMU">
-      <remap from="/model/$(arg name)/imu/data" to="imu/data"/>
+      args="$(arg sensor_prefix)/imu_sensor/imu@sensor_msgs/Imu@ignition.msgs.IMU">
+      <remap from="$(arg sensor_prefix)/imu_sensor/imu" to="imu/data"/>
     </node>
     <node
       pkg="ros1_ign_bridge"
@@ -16,6 +19,13 @@
       name="ros1_ign_bridge_pose"
       args="/model/$(arg name)/pose@geometry_msgs/TransformStamped@ignition.msgs.Pose">
       <remap from="/model/$(arg name)/pose" to="pose"/>
+    </node>
+    <node
+      pkg="ros1_ign_bridge"
+      type="parameter_bridge"
+      name="ros1_ign_bridge_odom"
+      args="/model/$(arg name)/odometry@nav_msgs/Odometry@ignition.msgs.Odometry">
+      <remap from="/model/$(arg name)/odometry" to="odom"/>
     </node>
     <node
       pkg="ros1_ign_bridge"
@@ -35,29 +45,31 @@
       pkg="ros1_ign_bridge"
       type="parameter_bridge"
       name="ros1_ign_bridge_camera"
-      args="/model/$(arg name)/front/image_raw@sensor_msgs/Image@ignition.msgs.Image">
-      <remap from="/model/$(arg name)/front/image_raw" to="front/image_raw"/>
+      args="$(arg sensor_prefix)/camera_front/image@sensor_msgs/Image@ignition.msgs.Image
+            $(arg sensor_prefix)/camera_front/camera_info@sensor_msgs/CameraInfo@ignition.msgs.CameraInfo">
+      <remap from="$(arg sensor_prefix)/camera_front/image" to="front/image_raw"/>
+      <remap from="$(arg sensor_prefix)/camera_front/camera_info" to="front/camera_info"/>
     </node>
     <node
       pkg="ros1_ign_bridge"
       type="parameter_bridge"
       name="ros1_ign_bridge_gpu_lidar"
-      args="/model/$(arg name)/front_scan@sensor_msgs/LaserScan@ignition.msgs.LaserScan">
-      <remap from="/model/$(arg name)/front_scan" to="front_scan"/>
+      args="$(arg sensor_prefix)/front_laser/scan@sensor_msgs/LaserScan@ignition.msgs.LaserScan">
+      <remap from="$(arg sensor_prefix)/front_laser/scan" to="front_scan"/>
     </node>
     <node
       pkg="ros1_ign_bridge"
       type="parameter_bridge"
       name="ros1_ign_bridge_magnetometer"
-      args="/model/$(arg name)/magnetic_field@sensor_msgs/MagneticField@ignition.msgs.Magnetometer">
-      <remap from="/model/$(arg name)/magnetic_field" to="magnetic_field"/>
+      args="$(arg sensor_prefix)/magnetometer/magnetometer@sensor_msgs/MagneticField@ignition.msgs.Magnetometer">
+      <remap from="$(arg sensor_prefix)/magnetometer/magnetometer" to="magnetic_field"/>
     </node>
     <node
       pkg="ros1_ign_bridge"
       type="parameter_bridge"
       name="ros1_ign_bridge_fluid_pressure"
-      args="/model/$(arg name)/air_pressure@sensor_msgs/FluidPressure@ignition.msgs.FluidPressure">
-      <remap from="/model/$(arg name)/air_pressure" to="air_pressure"/>
+      args="$(arg sensor_prefix)/air_pressure/air_pressure@sensor_msgs/FluidPressure@ignition.msgs.FluidPressure">
+      <remap from="$(arg sensor_prefix)/air_pressure/air_pressure" to="air_pressure"/>
     </node>
     <node
       pkg="subt_ros"

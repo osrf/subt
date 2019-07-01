@@ -119,6 +119,10 @@ namespace subt
   /// address to report artifacts.
   const std::string kBaseStationName = "base_station";
 
+  /// \brief The name of the artifact origin in Gazebo. This is used as the
+  /// origin to report artifacts.
+  const std::string kArtifactOriginName = "artifact_origin";
+
   /// \brief Internal service used to report new artifacts.
   const std::string kNewArtifactSrv = "/subt/artifacts/new";
 
