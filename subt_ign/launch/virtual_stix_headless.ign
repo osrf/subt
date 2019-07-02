@@ -272,7 +272,7 @@
     laserScan=0
     stereoCam=0
     if _config == "1" or _config == "2"
-      laserScan=0
+      laserScan=1
     end
     if _config == "5"
       stereoCam=1
