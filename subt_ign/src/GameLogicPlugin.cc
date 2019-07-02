@@ -97,7 +97,8 @@ class subt::GameLogicPluginPrivate
   /// \brief Callback executed to process a new artifact request
   /// sent by a team.
   /// \param[in] _req The service request.
-  public: void OnNewArtifact(const subt::msgs::Artifact &_req);
+  public: bool OnNewArtifact(const subt::msgs::Artifact &_req,
+                             subt::msgs::ArtifactScore &_resp);
 
   /// \brief Parse all the artifacts.
   /// \param[in] _sdf The SDF element containing the artifacts.
@@ -171,6 +172,9 @@ class subt::GameLogicPluginPrivate
                     std::map<std::string, ignition::math::Pose3d>> artifacts;
 
   public: std::map<std::string, ignition::math::Pose3d> poses;
+
+  /// \brief Counter to track unique identifiers.
+  public: uint32_t reportCount = 0;
 
   /// \brief Total score.
   public: double totalScore = 0.0;
@@ -333,12 +337,38 @@ void GameLogicPluginPrivate::OnPose(const ignition::msgs::Pose_V &_msg)
 }
 
 /////////////////////////////////////////////////
-void GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req)
+bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
+                                           subt::msgs::ArtifactScore &_resp)
 {
   this->Log() << "new_artifact_reported" << std::endl;
+  auto realTime = std::chrono::steady_clock::now().time_since_epoch();
+  auto s = std::chrono::duration_cast<std::chrono::seconds>(realTime);
+  auto ns = std::chrono::duration_cast<std::chrono::nanoseconds>(realTime-s);
+
+  _resp.set_report_id(reportCount++);
+  *_resp.mutable_artifact() = _req;
+
+  _resp.mutable_submitted_datetime()->set_sec(s.count());
+  _resp.mutable_submitted_datetime()->set_nsec(ns.count());
+  *_resp.mutable_sim_time() = this->simTime;
+
+  // TODO(anyone) Where does run information come from?
+  _resp.set_run(1);
 
   ArtifactType artifactType;
-  if (!this->ArtifactFromInt(_req.type(), artifactType))
+
+  if (this->started && this->finished) {
+    _resp.set_report_status("scoring finished");
+  }
+  else if (!this->started && !this->finished)
+  {
+    _resp.set_report_status("time limit exceeded");
+  }
+  else if (this->artifacts.size() == 0)
+  {
+    _resp.set_report_status("report limit exceeded");
+  }
+  else if (!this->ArtifactFromInt(_req.type(), artifactType))
   {
     ignerr << "Unknown artifact code. The number should be between 0 and "
           << this->kArtifactTypes.size() - 1 << " but we received "
@@ -347,16 +377,21 @@ void GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req)
     this->Log() << "error Unknown artifact code. The number should be between "
                 << "0 and " << this->kArtifactTypes.size() - 1
                 << " but we received " << _req.type() << std::endl;
-    return;
+    _resp.set_report_status("unknown artifact");
   }
-
+  else
   {
     std::lock_guard<std::mutex> lock(this->mutex);
-    this->totalScore += this->ScoreArtifact(
-        artifactType, _req.pose());
+    auto scoreDiff = this->ScoreArtifact(artifactType, _req.pose());
+    _resp.set_score_change(scoreDiff);
+    _resp.set_report_status("scored");
+    this->totalScore += scoreDiff;
+
     ignmsg << "Total score: " << this->totalScore << std::endl;
     this->Log() << "new_total_score " << this->totalScore << std::endl;
   }
+
+  return true;
 }
 
 /////////////////////////////////////////////////
