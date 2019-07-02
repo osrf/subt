@@ -56,4 +56,14 @@ void BaseStationPlugin::OnArtifact(const std::string &/*_srcAddress*/,
 
   // Report this artifact to the scoring plugin.
   this->node.Request(kNewArtifactSrv, artifact, timeout, rep, result);
+
+  if (result) {
+    std::string data;
+    rep.SerializeToString(&data);
+    this->client->SendTo(data, "kBroadcast");
+
+  } else {
+    ignerr << "Error scoring artifact" << std::endl;
+    return;
+  }
 }
