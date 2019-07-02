@@ -4,6 +4,8 @@
   <arg name="name"/>
   <arg name="link_name" value="base_link"/>
   <arg name="sensor_prefix" value="/world/$(arg world_name)/model/$(arg name)/link/$(arg link_name)/sensor"/>
+  <arg name="stereo_cam" default="0"/>
+  <arg name="laser_scan" default="1"/>
   <group ns="$(arg name)">
     <!--Create multipe bridges so that it can run in parallel-->
     <node
@@ -41,6 +43,22 @@
       args="/model/$(arg name)/cmd_vel_relay@geometry_msgs/Twist@ignition.msgs.Twist">
       <remap from="/model/$(arg name)/cmd_vel_relay" to="cmd_vel"/>
     </node>
+    <group if="$(arg stereo_cam)">
+    <node
+      pkg="ros1_ign_bridge"
+      type="parameter_bridge"
+      name="ros1_ign_bridge_camera"
+      args="$(arg sensor_prefix)/camera_front_right/image@sensor_msgs/Image@ignition.msgs.Image
+            $(arg sensor_prefix)/camera_front_right/camera_info@sensor_msgs/CameraInfo@ignition.msgs.CameraInfo
+            $(arg sensor_prefix)/camera_front_left/image@sensor_msgs/Image@ignition.msgs.Image
+            $(arg sensor_prefix)/camera_front_left/camera_info@sensor_msgs/CameraInfo@ignition.msgs.CameraInfo">
+      <remap from="$(arg sensor_prefix)/camera_front_right/image" to="front/right/image_raw"/>
+      <remap from="$(arg sensor_prefix)/camera_front_right/camera_info" to="front/right/camera_info"/>
+      <remap from="$(arg sensor_prefix)/camera_front_left/image" to="front/left/image_raw"/>
+      <remap from="$(arg sensor_prefix)/camera_front_left/camera_info" to="front/left/camera_info"/>
+    </node>
+    </group>
+    <group unless="$(arg stereo_cam)">
     <node
       pkg="ros1_ign_bridge"
       type="parameter_bridge"
@@ -50,6 +68,8 @@
       <remap from="$(arg sensor_prefix)/camera_front/image" to="front/image_raw"/>
       <remap from="$(arg sensor_prefix)/camera_front/camera_info" to="front/camera_info"/>
     </node>
+    </group>
+    <group if="$(arg laser_scan)">
     <node
       pkg="ros1_ign_bridge"
       type="parameter_bridge"
@@ -57,6 +77,7 @@
       args="$(arg sensor_prefix)/front_laser/scan@sensor_msgs/LaserScan@ignition.msgs.LaserScan">
       <remap from="$(arg sensor_prefix)/front_laser/scan" to="front_scan"/>
     </node>
+    </group>
     <node
       pkg="ros1_ign_bridge"
       type="parameter_bridge"
