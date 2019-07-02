@@ -94,6 +94,7 @@ RUN sudo apt-get install -y \
 
 # install the ros to ign bridge
 RUN sudo apt-get install -y \
+    ros-melodic-ros1-ign-bridge \
     ros1-ign-bridge \
  && sudo apt-get clean
 
