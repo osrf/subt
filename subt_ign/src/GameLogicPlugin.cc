@@ -377,7 +377,7 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
     this->Log() << "error Unknown artifact code. The number should be between "
                 << "0 and " << this->kArtifactTypes.size() - 1
                 << " but we received " << _req.type() << std::endl;
-    _resp.set_report_status("unknown artifact");
+    _resp.set_report_status("scored");
   }
   else
   {

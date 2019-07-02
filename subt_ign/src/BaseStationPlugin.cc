@@ -39,7 +39,7 @@ bool BaseStationPlugin::Load(const tinyxml2::XMLElement *)
 }
 
 //////////////////////////////////////////////////
-void BaseStationPlugin::OnArtifact(const std::string &/*_srcAddress*/,
+void BaseStationPlugin::OnArtifact(const std::string &_srcAddress,
   const std::string &/*_dstAddress*/, const uint32_t /*_dstPort*/,
   const std::string &_data)
 {
@@ -60,7 +60,7 @@ void BaseStationPlugin::OnArtifact(const std::string &/*_srcAddress*/,
   if (result) {
     std::string data;
     rep.SerializeToString(&data);
-    this->client->SendTo(data, "kBroadcast");
+    this->client->SendTo(data, _srcAddress);
 
   } else {
     ignerr << "Error scoring artifact" << std::endl;
