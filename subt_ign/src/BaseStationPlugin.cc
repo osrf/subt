@@ -50,6 +50,10 @@ void BaseStationPlugin::OnArtifact(const std::string &/*_srcAddress*/,
     return;
   }
 
+  subt::msgs::ArtifactScore rep;
+  unsigned int timeout = 1000;
+  bool result;
+
   // Report this artifact to the scoring plugin.
-  this->node.Request(kNewArtifactSrv, artifact);
+  this->node.Request(kNewArtifactSrv, artifact, timeout, rep, result);
 }
