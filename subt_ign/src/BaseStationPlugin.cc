@@ -62,7 +62,8 @@ void BaseStationPlugin::OnArtifact(const std::string &_srcAddress,
     std::string data;
     rep.SerializeToString(&data);
     this->client->SendTo(data, _srcAddress);
-  } else
+  }
+  else
   {
     ignerr << "Error scoring artifact" << std::endl;
     return;
