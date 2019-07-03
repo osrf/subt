@@ -357,7 +357,8 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
 
   ArtifactType artifactType;
 
-  if (this->started && this->finished) {
+  if (this->started && this->finished)
+  {
     _resp.set_report_status("scoring finished");
   }
   else if (!this->started && !this->finished)
