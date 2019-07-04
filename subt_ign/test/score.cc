@@ -26,7 +26,6 @@
 #include "subt_ign/CommonTypes.hh"
 #include "subt_communication_broker/subt_communication_client.h"
 #include "subt_ign/protobuf/artifact.pb.h"
-#include "test/test_config.h"
 #include "TestUtils.hh"
 
 using namespace subt;
