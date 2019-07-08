@@ -46,7 +46,7 @@ bool BaseStationPlugin::Load(const tinyxml2::XMLElement *)
 
   // Spawn a thread to reply outside of the callback.
   this->ackThread = std::thread([this](){
-      while(this->running)
+      while (this->running)
       {
         std::unique_lock<std::mutex> lk(this->mutex);
 
