@@ -42,6 +42,23 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     EXPECT_TRUE(this->WaitForGazebo(120s));
 
     this->client.reset(new subt::CommsClient("X2"));
+    this->client->Bind(&ScoreTest::OnArtifactAck, this);
+  }
+
+  protected: void OnArtifactAck(const std::string &_srcAddress,
+                                const std::string &_dstAddress,
+                                const uint32_t _dstPort,
+                                const std::string &_data)
+  {
+    subt::msgs::ArtifactScore ack;
+    if (!ack.ParseFromString(_data))
+    {
+      std::cerr << "Error parsing artifact score response" << std::endl;
+    }
+    else
+    {
+      std::cerr << "OnArtifactAck: " << ack.report_status() << std::endl;
+    }
   }
 
   /// \brief Reset the member variables used for checking test expectations.
