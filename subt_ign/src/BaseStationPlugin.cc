@@ -70,12 +70,9 @@ bool BaseStationPlugin::Load(const tinyxml2::XMLElement *)
 
 //////////////////////////////////////////////////
 void BaseStationPlugin::OnArtifact(const std::string &_srcAddress,
-  const std::string &_dstAddress, const uint32_t _dstPort,
+  const std::string &/*_dstAddress*/, const uint32_t /*_dstPort*/,
   const std::string &_data)
 {
-  igndbg << "OnArtifact: [" << _srcAddress << "] ["
-    << _dstAddress << ":" << _dstPort << "]" << std::endl;
-
   subt::msgs::Artifact artifact;
   if (!artifact.ParseFromString(_data))
   {
