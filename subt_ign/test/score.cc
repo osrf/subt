@@ -19,9 +19,11 @@
 #include <ros/ros.h>
 #include <std_msgs/Int32.h>
 #include <std_msgs/UInt8.h>
+#include <std_srvs/SetBool.h>
 #include <subt_msgs/PoseFromArtifact.h>
 #include <chrono>
 #include <memory>
+#include <queue>
 
 #include "subt_ign/CommonTypes.hh"
 #include "subt_communication_broker/subt_communication_client.h"
@@ -29,6 +31,7 @@
 #include "TestUtils.hh"
 
 using namespace subt;
+using namespace std::chrono_literals;
 
 /////////////////////////////////////////////////
 /// \brief A fixture class for testing the GameLogic plugin.
@@ -45,9 +48,10 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     this->client->Bind(&ScoreTest::OnArtifactAck, this);
   }
 
-  protected: void OnArtifactAck(const std::string &_srcAddress,
-                                const std::string &_dstAddress,
-                                const uint32_t _dstPort,
+  /// \brief Callback for artifact score acknowledgement
+  protected: void OnArtifactAck(const std::string &/*_srcAddress*/,
+                                const std::string &/*_dstAddress*/,
+                                const uint32_t /*_dstPort*/,
                                 const std::string &_data)
   {
     subt::msgs::ArtifactScore ack;
@@ -57,7 +61,7 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     }
     else
     {
-      std::cerr << "OnArtifactAck: " << ack.report_status() << std::endl;
+      scoreAcks.push(ack);
     }
   }
 
@@ -65,6 +69,25 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
   protected: void Reset()
   {
     this->SetUp();
+  }
+
+  /// \brief Check that artifacts before scoring begins are rejected.
+  protected: void TestScoreBeforeStart()
+  {
+    ignition::msgs::Pose pose;
+    uint32_t type = static_cast<uint32_t>(subt::ArtifactType::TYPE_BACKPACK);
+    this->ReportArtifact(type, pose);
+
+    {
+      ASSERT_TRUE(this->WaitUntilScoreAck());
+      auto ack = this->scoreAcks.front();
+      EXPECT_EQ(ack.report_id(), this->reportCount);
+      EXPECT_EQ(ack.artifact().type(), type);
+      EXPECT_EQ(ack.run(), 1u);
+      EXPECT_EQ(ack.report_status(), "run not started");
+      EXPECT_EQ(ack.score_change(), 0);
+      this->scoreAcks.pop();
+    }
   }
 
   /// \brief Check the score after the competition has started.
@@ -108,6 +131,20 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     this->ReportArtifact(type, pose);
     ASSERT_TRUE(this->WaitUntilScoreIs(1));
 
+    {
+      ASSERT_TRUE(this->WaitUntilScoreAck());
+      auto ack = this->scoreAcks.front();
+      EXPECT_EQ(ack.report_id(), this->reportCount);
+      EXPECT_EQ(ack.artifact().type(), type);
+      EXPECT_EQ(ack.artifact().pose().position().x(), pose.position().x());
+      EXPECT_EQ(ack.artifact().pose().position().y(), pose.position().y());
+      EXPECT_EQ(ack.artifact().pose().position().z(), pose.position().z());
+      EXPECT_EQ(ack.run(), 1u);
+      EXPECT_EQ(ack.report_status(), "scored");
+      EXPECT_EQ(ack.score_change(), 1);
+      this->scoreAcks.pop();
+    }
+
     // Report an artifact with medium accuracy (x2): +1 point.
     ignition::math::Pose3d artifact2Pose(103.841, 26.259, 0.751, -1.671, 0, 0);
     err = 1.0;
@@ -121,6 +158,20 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     this->ReportArtifact(type, pose);
     ASSERT_TRUE(this->WaitUntilScoreIs(2));
 
+    {
+      ASSERT_TRUE(this->WaitUntilScoreAck());
+      auto ack = this->scoreAcks.front();
+      EXPECT_EQ(ack.report_id(), this->reportCount);
+      EXPECT_EQ(ack.artifact().type(), type);
+      EXPECT_EQ(ack.artifact().pose().position().x(), pose.position().x());
+      EXPECT_EQ(ack.artifact().pose().position().y(), pose.position().y());
+      EXPECT_EQ(ack.artifact().pose().position().z(), pose.position().z());
+      EXPECT_EQ(ack.run(), 1u);
+      EXPECT_EQ(ack.report_status(), "scored");
+      EXPECT_EQ(ack.score_change(), 1);
+      this->scoreAcks.pop();
+    }
+
     // Report an artifact with low accuracy (x1): +1 point.
     ignition::math::Pose3d artifact3Pose(88.490, 133.324, 0.719, 0, 0, 3.1415);
     err = 4.99;
@@ -133,6 +184,20 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     type = static_cast<uint32_t>(subt::ArtifactType::TYPE_EXTINGUISHER);
     this->ReportArtifact(type, pose);
     ASSERT_TRUE(this->WaitUntilScoreIs(3));
+
+    {
+      ASSERT_TRUE(this->WaitUntilScoreAck());
+      auto ack = this->scoreAcks.front();
+      EXPECT_EQ(ack.report_id(), this->reportCount);
+      EXPECT_EQ(ack.artifact().type(), type);
+      EXPECT_EQ(ack.artifact().pose().position().x(), pose.position().x());
+      EXPECT_EQ(ack.artifact().pose().position().y(), pose.position().y());
+      EXPECT_EQ(ack.artifact().pose().position().z(), pose.position().z());
+      EXPECT_EQ(ack.run(), 1u);
+      EXPECT_EQ(ack.report_status(), "scored");
+      EXPECT_EQ(ack.score_change(), 1);
+      this->scoreAcks.pop();
+    }
 
     // Report an artifact with bad accuracy (-1): 0 points.
     ignition::math::Pose3d artifact4Pose(128.810, 74.807, 0.844, 0, 0, 0);
@@ -150,6 +215,39 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
       std::this_thread::sleep_for(std::chrono::milliseconds(200ms));
     }
     ASSERT_TRUE(this->WaitUntilScoreIs(3));
+
+    {
+      ASSERT_TRUE(this->WaitUntilScoreAck());
+      auto ack = this->scoreAcks.front();
+      EXPECT_EQ(ack.report_id(), this->reportCount);
+      EXPECT_EQ(ack.artifact().type(), type);
+      EXPECT_EQ(ack.artifact().pose().position().x(), pose.position().x());
+      EXPECT_EQ(ack.artifact().pose().position().y(), pose.position().y());
+      EXPECT_EQ(ack.artifact().pose().position().z(), pose.position().z());
+      EXPECT_EQ(ack.run(), 1u);
+      EXPECT_EQ(ack.report_status(), "scored");
+      EXPECT_EQ(ack.score_change(), 0);
+      this->scoreAcks.pop();
+    }
+  }
+
+  /// \brief Check that artifacts after scoring ends are rejected.
+  protected: void TestScoreAfterFinish()
+  {
+    ignition::msgs::Pose pose;
+    uint32_t type = static_cast<uint32_t>(subt::ArtifactType::TYPE_BACKPACK);
+    this->ReportArtifact(type, pose);
+
+    {
+      ASSERT_TRUE(this->WaitUntilScoreAck());
+      auto ack = this->scoreAcks.front();
+      EXPECT_EQ(ack.report_id(), this->reportCount);
+      EXPECT_EQ(ack.artifact().type(), type);
+      EXPECT_EQ(ack.run(), 1u);
+      EXPECT_EQ(ack.report_status(), "scoring finished");
+      EXPECT_EQ(ack.score_change(), 0);
+      this->scoreAcks.pop();
+    }
   }
 
   /// \brief Callback registered for receiving score updates.
@@ -176,12 +274,22 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     {
       ++retries;
       ros::spinOnce();
-
-      using namespace std::chrono_literals;
-      std::this_thread::sleep_for(std::chrono::milliseconds(200ms));
+      std::this_thread::sleep_for(200ms);
     }
 
     return this->score == _targetScore;
+  }
+
+  private: bool WaitUntilScoreAck() const
+  {
+    unsigned int retries = 0u;
+    while (this->scoreAcks.empty() && retries < 20u)
+    {
+      ++retries;
+      std::this_thread::sleep_for(200ms);
+    }
+
+    return !this->scoreAcks.empty();
   }
 
   /// \brief Report a new artifact.
@@ -204,11 +312,18 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     }
 
     this->client->SendTo(serializedData, subt::kBaseStationName);
+    this->reportCount++;
   }
 
   /// \brief Whether a unicast/broadcast message has been received or
   /// not.
   protected: int32_t score;
+
+  /// \brief Track number of reports submitted.
+  protected: uint32_t reportCount;
+
+  /// \brief Queue of incoming score acknowledgements.
+  protected: std::queue<subt::msgs::ArtifactScore> scoreAcks;
 
   /// \brief The ROS node comms handler.
   protected: ros::NodeHandle nodeHandle;
@@ -221,9 +336,31 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
 };
 
 /////////////////////////////////////////////////
-TEST_F(ScoreTest, ScoreAfterStart)
+TEST_F(ScoreTest, TestScoring)
 {
+  this->TestScoreBeforeStart();
+
+  // Start the scoring
+  ros::ServiceClient clientStart =
+    this->nodeHandle.serviceClient<std_srvs::SetBool>(
+      "/subt/start");
+
+  std_srvs::SetBool srvStart;
+  srvStart.request.data = true;
+  EXPECT_TRUE(clientStart.call(srvStart));
+
   this->TestScoreAfterStart();
+
+  // Finish the scoring
+  ros::ServiceClient clientFinish =
+    this->nodeHandle.serviceClient<std_srvs::SetBool>(
+      "/subt/finish");
+
+  std_srvs::SetBool srvFinish;
+  srvFinish.request.data = true;
+  EXPECT_TRUE(clientFinish.call(srvFinish));
+
+  this->TestScoreAfterFinish();
 }
 
 /////////////////////////////////////////////////
