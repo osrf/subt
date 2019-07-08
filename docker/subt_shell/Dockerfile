@@ -94,14 +94,14 @@ RUN sudo apt-get install -y \
 
 # install the ros to ign bridge
 RUN sudo apt-get install -y \
-    ros1-ign-bridge \
+    ros-melodic-ros1-ign \
  && sudo apt-get clean
 
 # Clone all the subt models so that you don't download them every time
 # docker is run
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
- && hg clone https://bitbucket.org/osrf/subt
+ && hg clone https://bitbucket.org/osrf/subt -b tunnel_circuit
 
 # Download virtual stix models
 RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Edgar Mine Virtual STIX" -v 4
