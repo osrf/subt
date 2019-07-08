@@ -47,6 +47,7 @@ namespace subt
     // \todo(nkoenig) Waiting on contact plugin.
     // private: void OnStartCollision(ConstIntPtr &_msg);
 
+    /// \brief Private data pointer.
     private: std::unique_ptr<GameLogicPluginPrivate> dataPtr;
   };
 }
