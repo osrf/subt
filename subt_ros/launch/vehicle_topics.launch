@@ -69,6 +69,13 @@
       <remap from="$(arg sensor_prefix)/camera_front/camera_info" to="front/camera_info"/>
     </node>
     </group>
+    <node
+      pkg="ros1_ign_bridge"
+      type="parameter_bridge"
+      name="ros1_ign_bridge_depth"
+      args="$(arg sensor_prefix)/camera_front/depth_image@sensor_msgs/Image@ignition.msgs.Image">
+      <remap from="$(arg sensor_prefix)/camera_front/depth_image" to="front/depth"/>
+    </node>
     <group if="$(arg laser_scan)">
     <node
       pkg="ros1_ign_bridge"
