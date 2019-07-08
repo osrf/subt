@@ -174,7 +174,7 @@ class subt::GameLogicPluginPrivate
   public: std::map<std::string, ignition::math::Pose3d> poses;
 
   /// \brief Counter to track unique identifiers.
-  public: uint32_t reportCount = 0;
+  public: uint32_t reportCount = 1u;
 
   /// \brief Total score.
   public: double totalScore = 0.0;
@@ -363,7 +363,7 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
   }
   else if (!this->started && !this->finished)
   {
-    _resp.set_report_status("time limit exceeded");
+    _resp.set_report_status("run not started");
   }
   else if (this->artifacts.size() == 0)
   {
