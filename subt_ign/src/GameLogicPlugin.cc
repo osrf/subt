@@ -392,6 +392,7 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
     this->Log() << "new_total_score " << this->totalScore << std::endl;
   }
 
+  this->Log() << _resp.DebugString() << std::endl;
   return true;
 }
 
