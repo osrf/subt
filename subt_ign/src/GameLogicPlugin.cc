@@ -30,6 +30,7 @@
 #include <ignition/common/Console.hh>
 #include <ignition/common/Util.hh>
 #include <ignition/common/Time.hh>
+#include <ignition/msgs/stringmsg.pb.h>
 #include <ignition/math/Pose3.hh>
 #include <ignition/transport/Node.hh>
 
@@ -203,6 +204,10 @@ class subt::GameLogicPluginPrivate
 
   /// \brief A ROS asynchronous spinner.
   public: std::unique_ptr<ros::AsyncSpinner> spinner;
+
+  /// \brief Ignition transport start publisher. This is needed by cloudsim
+  /// to know when a run has been started.
+  public: transport::Node::Publisher startPub;
 };
 
 //////////////////////////////////////////////////
@@ -305,6 +310,9 @@ bool GameLogicPlugin::Load(const tinyxml2::XMLElement *_elem)
 
   this->dataPtr->node.Advertise("/subt/pose_from_artifact_origin",
       &GameLogicPluginPrivate::OnPoseFromArtifact, this->dataPtr.get());
+
+  this->dataPtr->startPub =
+    this->dataPtr->node.Advertise<ignition::msgs::StringMsg>("/subt/start");
 
   this->dataPtr->publishThread.reset(new std::thread(
         &GameLogicPluginPrivate::PublishScore, this->dataPtr.get()));
@@ -653,6 +661,11 @@ bool GameLogicPluginPrivate::OnStartCall(std_srvs::SetBool::Request &_req,
     this->startTime = std::chrono::steady_clock::now();
     ignmsg << "Scoring has Started" << std::endl;
     this->Log() << "scoring_started" << std::endl;
+
+    ignition::msgs::StringMsg msg;
+    msg.mutable_header()->mutable_stamp()->CopyFrom(this->simTime);
+    msg.set_data("started");
+    this->startPub.Publish(msg);
   }
   else
     _res.success = false;
