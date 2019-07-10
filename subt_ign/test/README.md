@@ -12,12 +12,6 @@ ign launch -v 4 virtual_stix.ign \
 Make sure the test is built by running `make tests` from the build folder
 or using `catkin_make tests`.
 
-After the world has loaded, use the ROS service call to start scoring:
-
-~~~
-rosservice call /subt/start "data: true"
-~~~
-
 Then find the location of the `test_score` binary, which is in different
 locations for different workspace types, and execute it manually:
 
@@ -34,13 +28,15 @@ It should give the following output:
 [==========] Running 1 test from 1 test case.
 [----------] Global test environment set-up.
 [----------] 1 test from ScoreTest
-[ RUN      ] ScoreTest.ScoreAfterStart
-[ INFO] [1562200405.891439394, 5.000000000]: Storing callback for X2:4000
-[ INFO] [1562200405.893117720, 5.000000000]: Storing callback for broadcast:4000
-[       OK ] ScoreTest.ScoreAfterStart (3925 ms)
-[----------] 1 test from ScoreTest (3925 ms total)
+[ RUN      ] ScoreTest.TestScoring
+[ INFO] [1562618923.950294908, 4.809000000]: Storing callback for X2:4000
+[ INFO] [1562618923.954075402, 4.809000000]: Storing callback for broadcast:4000
+[ INFO] [1562618924.053645401, 4.809000000]: Storing callback for X2:4100
+[ INFO] [1562618924.053830558, 4.809000000]: Storing callback for broadcast:4100
+[       OK ] ScoreTest.TestScoring (4149 ms)
+[----------] 1 test from ScoreTest (4149 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test case ran. (3925 ms total)
+[==========] 1 test from 1 test case ran. (4150 ms total)
 [  PASSED  ] 1 test.
 ~~~

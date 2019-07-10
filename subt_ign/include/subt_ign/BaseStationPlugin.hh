@@ -29,6 +29,8 @@
 #include <ignition/launch/Plugin.hh>
 #include <ignition/transport/Node.hh>
 
+#include "subt_ign/protobuf/artifact.pb.h"
+
 namespace subt
 {
   /// \brief A plugin to receive artifact reports from the teams.
@@ -36,6 +38,9 @@ namespace subt
   {
     /// \brief Constructor
     public: BaseStationPlugin();
+
+    /// \brief Destructor
+    public: ~BaseStationPlugin();
 
     // Documentation inherited
     public: virtual bool Load(const tinyxml2::XMLElement *_elem) override final;
@@ -46,9 +51,27 @@ namespace subt
     /// \param[in] _dstPort Unused.
     /// \param[in] _data Serialized artifact.
     private: void OnArtifact(const std::string &_srcAddress,
-                            const std::string &_dstAddress,
-                            const uint32_t _dstPort,
-                            const std::string &_data);
+                             const std::string &_dstAddress,
+                             const uint32_t _dstPort,
+                             const std::string &_data);
+
+    /// \brief Thread to send Ack when required.
+    private: std::thread ackThread;
+
+    /// \brief Score acknowledgement data to send.
+    private: std::unique_ptr<subt::msgs::ArtifactScore> score = nullptr;
+
+    /// \brief Client address to respond with data.
+    private: std::string resAddress;
+
+    /// \brief Flag to terminate ack thread.
+    private: std::atomic<bool> running;
+
+    /// \brief Mutex to protect ack data.
+    private: std::mutex mutex;
+
+    /// \brief Condition variable to signal ack data ready.
+    private: std::condition_variable cv;
 
     /// \brief An ignition transport node.
     private: ignition::transport::Node node;
