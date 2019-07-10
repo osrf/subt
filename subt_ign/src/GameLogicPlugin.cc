@@ -230,6 +230,7 @@ bool GameLogicPlugin::Load(const tinyxml2::XMLElement *_elem)
   // The <filename_prefix> is used to specify the log filename prefix. For
   // example:
   // <logging>
+  //   <path>/tmp</path>
   //   <filename_prefix>subt_tunnel_qual</filename_prefix>
   // </logging>
   const tinyxml2::XMLElement *loggingElem = _elem->FirstChildElement("logging");
@@ -239,22 +240,33 @@ bool GameLogicPlugin::Load(const tinyxml2::XMLElement *_elem)
   {
     // Get the log filename prefix.
     std::string filenamePrefix = fileElem->GetText();
+    const tinyxml2::XMLElement *pathElem =
+      loggingElem->FirstChildElement("path");
 
-    // Make sure that we can access the HOME environment variable.
-    char *homePath = getenv("HOME");
-    if (!homePath)
+    // Get the logpath from the <path> element, if it exists.
+    if (pathElem)
     {
-      ignerr << "Unable to get HOME environment variable. Report this error to "
-        << "https://bitbucket.org/osrf/subt/issues/new. "
-        << "SubT logging will be disabled.\n";
+      logPath = pathElem->GetText();
     }
     else
     {
-      // Construct the final log filename.
-      logPath = homePath;
-      logPath += "/" + filenamePrefix + "_" +
-        ignition::common::systemTimeISO() + ".log";
+      // Make sure that we can access the HOME environment variable.
+      char *homePath = getenv("HOME");
+      if (!homePath)
+      {
+        ignerr << "Unable to get HOME environment variable. Report this error to "
+          << "https://bitbucket.org/osrf/subt/issues/new. "
+          << "SubT logging will be disabled.\n";
+      }
+      else
+      {
+        logPath = homePath;
+      }
     }
+
+    // Construct the final log filename.
+    logPath += "/" + filenamePrefix + "_" +
+      ignition::common::systemTimeISO() + ".log";
   }
 
   // Open the log file.
