@@ -40,7 +40,8 @@ namespace subt
   /// 3D point.
   ///
   /// Example usage:
-  ///   roslaunch subt_gazebo visibility.launch scenario:=tunnel_practice_1
+  ///   ign launch tunnel_circuit_practice.ign \
+  /// worldName:=tunnel_circuit_practice_01
   ///
   /// The visibility table (<WORLD_NAME>.dat) will be located in the same
   /// directory where the world file was located.

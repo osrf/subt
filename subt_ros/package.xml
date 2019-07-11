@@ -8,12 +8,21 @@
 
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>roslaunch</build_depend>
-  <depend>geometry_msgs</depend>
+
   <depend>roscpp</depend>
+  <depend>geometry_msgs</depend>
+  <depend>std_msgs</depend>
+  <depend>std_srvs</depend>
+  <depend>subt_msgs</depend>
+
   <depend>tf2</depend>
   <depend>tf2_ros</depend>
   <depend>urdf</depend>
+  <depend>ignition-math6</depend>
+  <depend>ignition-msgs4</depend>
+  <depend>ignition-transport7</depend>
 
+  <exec_depend>message_runtime</exec_depend>
   <export>
   </export>
 </package>

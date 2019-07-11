@@ -16,11 +16,9 @@
 */
 
 #include <tinyxml2.h>
-#include <ros/ros.h>
-#include <std_srvs/SetBool.h>
-#include <std_msgs/Int32.h>
+#include <ignition/msgs/boolean.pb.h>
 #include <ignition/msgs/float.pb.h>
-#include <subt_msgs/PoseFromArtifact.h>
+#include <ignition/msgs/stringmsg.pb.h>
 
 #include <chrono>
 #include <map>
@@ -30,7 +28,6 @@
 #include <ignition/common/Console.hh>
 #include <ignition/common/Util.hh>
 #include <ignition/common/Time.hh>
-#include <ignition/msgs/stringmsg.pb.h>
 #include <ignition/math/Pose3.hh>
 #include <ignition/transport/Node.hh>
 
@@ -65,9 +62,6 @@ class subt::GameLogicPluginPrivate
   /// \return A file stream that can be used to write additional
   /// information to the logfile.
   public: std::ofstream &Log();
-
-  // Configure ros functionality
-  public: void SetupRos();
 
   /// \brief Handle gazebo pose messages
   /// \param[in] _msg New set of poses.
@@ -123,26 +117,19 @@ class subt::GameLogicPluginPrivate
   private: bool PoseFromArtifactHelper(const std::string &_robot,
     ignition::math::Pose3d &_result);
 
-  /// \brief ROS service callback triggered when the service is called.
-  /// \param[in]  _req The message containing a flag telling if the game
+  /// \brief Ignition service callback triggered when the service is called.
+  /// \param[in] _req The message containing a flag telling if the game
   /// is to start.
   /// \param[out] _res The response message.
-  private: bool OnStartCall(std_srvs::SetBool::Request &_req,
-                            std_srvs::SetBool::Response &_res);
+  public: bool OnStartCall(const ignition::msgs::Boolean &_req,
+                            ignition::msgs::Boolean &_res);
 
-  /// \brief ROS service callback triggered when the service is called.
-  /// \param[in]  _req The message containing a flag telling if the game is to
+  /// \brief Ignition service callback triggered when the service is called.
+  /// \param[in] _req The message containing a flag telling if the game is to
   /// be finished.
   /// \param[out] _res The response message.
-  private: bool OnFinishCall(std_srvs::SetBool::Request &_req,
-                             std_srvs::SetBool::Response &_res);
-
-  /// \brief ROS service callback triggered when the service is called.
-  /// \param[in]  _req The message containing the robot name.
-  /// \param[out] _res The response message.
-  private: bool OnPoseFromArtifactRos(
-               subt_msgs::PoseFromArtifact::Request &_req,
-               subt_msgs::PoseFromArtifact::Response &_res);
+  public: bool OnFinishCall(const ignition::msgs::Boolean &_req,
+               ignition::msgs::Boolean &_res);
 
   /// \brief Ignition Transport node.
   public: transport::Node node;
@@ -188,22 +175,6 @@ class subt::GameLogicPluginPrivate
 
   /// \brief The pose of the object marking the origin of the artifacts.
   public: ignition::math::Pose3d artifactOriginPose;
-
-  /// \brief The ROS node handler used for communications.
-  public: std::unique_ptr<ros::NodeHandle> rosnode;
-
-  /// \brief ROS service to receive a call to finish the game.
-  public: ros::ServiceServer finishServiceRos;
-
-  /// \brief ROS service to receive a call to start the game.
-  public: ros::ServiceServer startServiceRos;
-
-  /// \brief ROS service server to receive the location of a robot relative to
-  /// the origin artifact.
-  public: ros::ServiceServer poseFromArtifactServiceRos;
-
-  /// \brief A ROS asynchronous spinner.
-  public: std::unique_ptr<ros::AsyncSpinner> spinner;
 
   /// \brief Ignition transport start publisher. This is needed by cloudsim
   /// to know when a run has been started.
@@ -259,8 +230,8 @@ bool GameLogicPlugin::Load(const tinyxml2::XMLElement *_elem)
       char *homePath = getenv("HOME");
       if (!homePath)
       {
-        ignerr << "Unable to get HOME environment variable. Report this error to "
-          << "https://bitbucket.org/osrf/subt/issues/new. "
+        ignerr << "Unable to get HOME environment variable. Report this error "
+          << "to https://bitbucket.org/osrf/subt/issues/new. "
           << "SubT logging will be disabled.\n";
       }
       else
@@ -276,8 +247,6 @@ bool GameLogicPlugin::Load(const tinyxml2::XMLElement *_elem)
 
   // Open the log file.
   this->dataPtr->logStream.open(logPath.c_str(), std::ios::out);
-
-  this->dataPtr->SetupRos();
 
   // Advertise the service to receive artifact reports.
   // Note that we're setting the scope to this service to SCOPE_T, so only
@@ -311,14 +280,17 @@ bool GameLogicPlugin::Load(const tinyxml2::XMLElement *_elem)
   this->dataPtr->node.Advertise("/subt/pose_from_artifact_origin",
       &GameLogicPluginPrivate::OnPoseFromArtifact, this->dataPtr.get());
 
+  this->dataPtr->node.Advertise("/subt/start",
+      &GameLogicPluginPrivate::OnStartCall, this->dataPtr.get());
+
+  this->dataPtr->node.Advertise("/subt/finish",
+      &GameLogicPluginPrivate::OnFinishCall, this->dataPtr.get());
+
   this->dataPtr->startPub =
     this->dataPtr->node.Advertise<ignition::msgs::StringMsg>("/subt/start");
 
   this->dataPtr->publishThread.reset(new std::thread(
         &GameLogicPluginPrivate::PublishScore, this->dataPtr.get()));
-
-  this->dataPtr->spinner.reset(new ros::AsyncSpinner(1));
-  this->dataPtr->spinner->start();
 
   ignmsg << "Starting SubT" << std::endl;
 
@@ -589,74 +561,40 @@ void GameLogicPluginPrivate::PublishScore()
 {
   transport::Node::Publisher scorePub =
     this->node.Advertise<ignition::msgs::Float>("/subt/score");
-  ros::Publisher rosScorePub =
-    this->rosnode->advertise<std_msgs::Int32>("score", 1000);
-
   ignition::msgs::Float msg;
-  std_msgs::Int32 rosMsg;
 
   while (!this->finished)
   {
     msg.set_data(this->totalScore);
-    rosMsg.data = this->totalScore;
 
     scorePub.Publish(msg);
-    rosScorePub.publish(rosMsg);
     IGN_SLEEP_S(1);
   }
 }
 
 /////////////////////////////////////////////////
-void GameLogicPluginPrivate::SetupRos()
+bool GameLogicPluginPrivate::OnFinishCall(const ignition::msgs::Boolean &_req,
+  ignition::msgs::Boolean &_res)
 {
-  // Make sure the ROS node for Gazebo has already been initialized
-  if (!ros::isInitialized())
-  {
-    int argc = 0;
-    char **argv = nullptr;
-    ros::init(argc, argv, "ignition", ros::init_options::NoSigintHandler);
-  }
-
-  // Initialize the ROS node.
-  this->rosnode.reset(new ros::NodeHandle("subt"));
-
-  // ROS service to receive a command to finish the game.
-  ros::NodeHandle n;
-  this->finishServiceRos = n.advertiseService(
-      "/subt/finish", &GameLogicPluginPrivate::OnFinishCall, this);
-
-  this->startServiceRos = n.advertiseService(
-      "/subt/start", &GameLogicPluginPrivate::OnStartCall, this);
-
-  // ROS service to request the robot pose relative to the origin artifact.
-  // Note that this service is only available for robots in the staging area.
-  this->poseFromArtifactServiceRos = n.advertiseService(
-      "/subt/pose_from_artifact_origin",
-      &GameLogicPluginPrivate::OnPoseFromArtifactRos, this);
-}
-
-/////////////////////////////////////////////////
-bool GameLogicPluginPrivate::OnFinishCall(std_srvs::SetBool::Request &_req,
-  std_srvs::SetBool::Response &_res)
-{
-  if (this->started && _req.data && !this->finished)
+  if (this->started && _req.data() && !this->finished)
   {
     this->Finish();
-    _res.success = true;
+    _res.set_data(true);
   }
   else
-    _res.success = false;
+    _res.set_data(false);
 
   return true;
 }
 
+
 /////////////////////////////////////////////////
-bool GameLogicPluginPrivate::OnStartCall(std_srvs::SetBool::Request &_req,
-  std_srvs::SetBool::Response &_res)
+bool GameLogicPluginPrivate::OnStartCall(const ignition::msgs::Boolean &_req,
+  ignition::msgs::Boolean &_res)
 {
-  if (_req.data && !this->started && !this->finished)
+  if (_req.data() && !this->started && !this->finished)
   {
-    _res.success = true;
+    _res.set_data(true);
     this->started = true;
     this->startTime = std::chrono::steady_clock::now();
     ignmsg << "Scoring has Started" << std::endl;
@@ -668,7 +606,7 @@ bool GameLogicPluginPrivate::OnStartCall(std_srvs::SetBool::Request &_req,
     this->startPub.Publish(msg);
   }
   else
-    _res.success = false;
+    _res.set_data(false);
 
   return true;
 }
@@ -755,30 +693,13 @@ bool GameLogicPluginPrivate::OnPoseFromArtifact(
   ignition::math::Pose3d pose;
   bool result = this->PoseFromArtifactHelper(_req.data(), pose);
   ignition::msgs::Set(&_res, pose);
+
+  _res.mutable_header()->mutable_stamp()->CopyFrom(this->simTime);
+  ignition::msgs::Header::Map *frame = _res.mutable_header()->add_data();
+  frame->set_key("frame_id");
+  frame->add_value(subt::kArtifactOriginName);
+
   return result;
-}
-
-/////////////////////////////////////////////////
-bool GameLogicPluginPrivate::OnPoseFromArtifactRos(
-  subt_msgs::PoseFromArtifact::Request &_req,
-  subt_msgs::PoseFromArtifact::Response &_res)
-{
-  ignition::math::Pose3d result;
-  _res.success = this->PoseFromArtifactHelper(_req.robot_name.data, result);
-  _res.pose.pose.position.x = result.Pos().X();
-  _res.pose.pose.position.y = result.Pos().Y();
-  _res.pose.pose.position.z = result.Pos().Z();
-  _res.pose.pose.orientation.x = result.Rot().X();
-  _res.pose.pose.orientation.y = result.Rot().Y();
-  _res.pose.pose.orientation.z = result.Rot().Z();
-  _res.pose.pose.orientation.w = result.Rot().W();
-
-  // Header.
-  _res.pose.header.stamp = ros::Time(
-    this->simTime.sec(), this->simTime.nsec());
-  _res.pose.header.frame_id = subt::kArtifactOriginName;
-
-  return _res.success;
 }
 
 /////////////////////////////////////////////////
