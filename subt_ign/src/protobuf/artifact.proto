@@ -19,6 +19,7 @@ syntax = "proto3";
 package subt.msgs;
 
 import "ignition/msgs/pose.proto";
+import "ignition/msgs/time.proto";
 
 /// \ingroup subt_msgs
 /// \interface Artifact
@@ -31,4 +32,32 @@ message Artifact
 
   /// \brief Pose.
   ignition.msgs.Pose pose = 2;
+}
+
+/// \ingroup subt_msgs
+/// \interface ArtifactScore
+/// \brief A message containing response to artifact scoring.
+
+message ArtifactScore
+{
+  /// \brief Unique Report identifier
+  uint32 report_id = 1;
+
+  /// \brief Information about the artifact
+  Artifact artifact = 2;
+
+  /// \brief Wall clock time of the submission
+  ignition.msgs.Time submitted_datetime = 3;
+
+  /// \brief Simulation clock time of the submission
+  ignition.msgs.Time sim_time = 4;
+
+  /// \brief Run identifier
+  uint32 run = 5;
+
+  /// \brief Status of the report
+  string report_status = 6;
+
+  /// \brief Change in score from the report
+  int32 score_change = 7;
 }

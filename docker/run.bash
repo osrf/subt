@@ -63,11 +63,12 @@ fi
 # E.g.:
 # -v "/opt/sublime_text:/opt/sublime_text" \
 
+# Developer note: If you are running docker in cloudsim then make sure to add
+# -e IGN_PARTITION=subt to the following command.
 docker run -it \
   -e DISPLAY \
   -e QT_X11_NO_MITSHM=1 \
   -e XAUTHORITY=$XAUTH \
-  -e IGN_PARTITION=subt \
   -v "$XAUTH:$XAUTH" \
   -v "/tmp/.X11-unix:/tmp/.X11-unix" \
   -v "/etc/localtime:/etc/localtime:ro" \
