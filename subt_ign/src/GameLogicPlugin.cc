@@ -20,6 +20,7 @@
 #include <std_srvs/SetBool.h>
 #include <std_msgs/Int32.h>
 #include <ignition/msgs/float.pb.h>
+#include <ignition/msgs/stringmsg.pb.h>
 #include <subt_msgs/PoseFromArtifact.h>
 
 #include <chrono>
@@ -97,7 +98,8 @@ class subt::GameLogicPluginPrivate
   /// \brief Callback executed to process a new artifact request
   /// sent by a team.
   /// \param[in] _req The service request.
-  public: void OnNewArtifact(const subt::msgs::Artifact &_req);
+  public: bool OnNewArtifact(const subt::msgs::Artifact &_req,
+                             subt::msgs::ArtifactScore &_resp);
 
   /// \brief Parse all the artifacts.
   /// \param[in] _sdf The SDF element containing the artifacts.
@@ -172,6 +174,9 @@ class subt::GameLogicPluginPrivate
 
   public: std::map<std::string, ignition::math::Pose3d> poses;
 
+  /// \brief Counter to track unique identifiers.
+  public: uint32_t reportCount = 1u;
+
   /// \brief Total score.
   public: double totalScore = 0.0;
 
@@ -199,6 +204,10 @@ class subt::GameLogicPluginPrivate
 
   /// \brief A ROS asynchronous spinner.
   public: std::unique_ptr<ros::AsyncSpinner> spinner;
+
+  /// \brief Ignition transport start publisher. This is needed by cloudsim
+  /// to know when a run has been started.
+  public: transport::Node::Publisher startPub;
 };
 
 //////////////////////////////////////////////////
@@ -226,6 +235,7 @@ bool GameLogicPlugin::Load(const tinyxml2::XMLElement *_elem)
   // The <filename_prefix> is used to specify the log filename prefix. For
   // example:
   // <logging>
+  //   <path>/tmp</path>
   //   <filename_prefix>subt_tunnel_qual</filename_prefix>
   // </logging>
   const tinyxml2::XMLElement *loggingElem = _elem->FirstChildElement("logging");
@@ -235,22 +245,33 @@ bool GameLogicPlugin::Load(const tinyxml2::XMLElement *_elem)
   {
     // Get the log filename prefix.
     std::string filenamePrefix = fileElem->GetText();
+    const tinyxml2::XMLElement *pathElem =
+      loggingElem->FirstChildElement("path");
 
-    // Make sure that we can access the HOME environment variable.
-    char *homePath = getenv("HOME");
-    if (!homePath)
+    // Get the logpath from the <path> element, if it exists.
+    if (pathElem)
     {
-      ignerr << "Unable to get HOME environment variable. Report this error to "
-        << "https://bitbucket.org/osrf/subt/issues/new. "
-        << "SubT logging will be disabled.\n";
+      logPath = pathElem->GetText();
     }
     else
     {
-      // Construct the final log filename.
-      logPath = homePath;
-      logPath += "/" + filenamePrefix + "_" +
-        ignition::common::systemTimeISO() + ".log";
+      // Make sure that we can access the HOME environment variable.
+      char *homePath = getenv("HOME");
+      if (!homePath)
+      {
+        ignerr << "Unable to get HOME environment variable. Report this error "
+          << "to https://bitbucket.org/osrf/subt/issues/new. "
+          << "SubT logging will be disabled.\n";
+      }
+      else
+      {
+        logPath = homePath;
+      }
     }
+
+    // Construct the final log filename.
+    logPath += "/" + filenamePrefix + "_" +
+      ignition::common::systemTimeISO() + ".log";
   }
 
   // Open the log file.
@@ -289,6 +310,9 @@ bool GameLogicPlugin::Load(const tinyxml2::XMLElement *_elem)
 
   this->dataPtr->node.Advertise("/subt/pose_from_artifact_origin",
       &GameLogicPluginPrivate::OnPoseFromArtifact, this->dataPtr.get());
+
+  this->dataPtr->startPub =
+    this->dataPtr->node.Advertise<ignition::msgs::StringMsg>("/subt/start");
 
   this->dataPtr->publishThread.reset(new std::thread(
         &GameLogicPluginPrivate::PublishScore, this->dataPtr.get()));
@@ -333,12 +357,39 @@ void GameLogicPluginPrivate::OnPose(const ignition::msgs::Pose_V &_msg)
 }
 
 /////////////////////////////////////////////////
-void GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req)
+bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
+                                           subt::msgs::ArtifactScore &_resp)
 {
   this->Log() << "new_artifact_reported" << std::endl;
+  auto realTime = std::chrono::steady_clock::now().time_since_epoch();
+  auto s = std::chrono::duration_cast<std::chrono::seconds>(realTime);
+  auto ns = std::chrono::duration_cast<std::chrono::nanoseconds>(realTime-s);
+
+  _resp.set_report_id(reportCount++);
+  *_resp.mutable_artifact() = _req;
+
+  _resp.mutable_submitted_datetime()->set_sec(s.count());
+  _resp.mutable_submitted_datetime()->set_nsec(ns.count());
+  *_resp.mutable_sim_time() = this->simTime;
+
+  // TODO(anyone) Where does run information come from?
+  _resp.set_run(1);
 
   ArtifactType artifactType;
-  if (!this->ArtifactFromInt(_req.type(), artifactType))
+
+  if (this->started && this->finished)
+  {
+    _resp.set_report_status("scoring finished");
+  }
+  else if (!this->started && !this->finished)
+  {
+    _resp.set_report_status("run not started");
+  }
+  else if (this->artifacts.size() == 0)
+  {
+    _resp.set_report_status("report limit exceeded");
+  }
+  else if (!this->ArtifactFromInt(_req.type(), artifactType))
   {
     ignerr << "Unknown artifact code. The number should be between 0 and "
           << this->kArtifactTypes.size() - 1 << " but we received "
@@ -347,16 +398,22 @@ void GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req)
     this->Log() << "error Unknown artifact code. The number should be between "
                 << "0 and " << this->kArtifactTypes.size() - 1
                 << " but we received " << _req.type() << std::endl;
-    return;
+    _resp.set_report_status("scored");
   }
-
+  else
   {
     std::lock_guard<std::mutex> lock(this->mutex);
-    this->totalScore += this->ScoreArtifact(
-        artifactType, _req.pose());
+    auto scoreDiff = this->ScoreArtifact(artifactType, _req.pose());
+    _resp.set_score_change(scoreDiff);
+    _resp.set_report_status("scored");
+    this->totalScore += scoreDiff;
+
     ignmsg << "Total score: " << this->totalScore << std::endl;
     this->Log() << "new_total_score " << this->totalScore << std::endl;
   }
+
+  this->Log() << _resp.DebugString() << std::endl;
+  return true;
 }
 
 /////////////////////////////////////////////////
@@ -604,6 +661,11 @@ bool GameLogicPluginPrivate::OnStartCall(std_srvs::SetBool::Request &_req,
     this->startTime = std::chrono::steady_clock::now();
     ignmsg << "Scoring has Started" << std::endl;
     this->Log() << "scoring_started" << std::endl;
+
+    ignition::msgs::StringMsg msg;
+    msg.mutable_header()->mutable_stamp()->CopyFrom(this->simTime);
+    msg.set_data("started");
+    this->startPub.Publish(msg);
   }
   else
     _res.success = false;

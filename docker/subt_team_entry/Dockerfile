@@ -95,7 +95,7 @@ RUN sudo apt-get install -y \
 
 # install the ros to ign bridge
 RUN sudo apt-get install -y \
-    ros1-ign-bridge \
+    ros-melodic-ros1-ign \
  && sudo apt-get clean
 
 # Clone all the subt models so that you don't download them every time
