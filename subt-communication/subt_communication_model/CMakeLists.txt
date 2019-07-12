@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 2.8.3)
 project(subt_communication_model)
 
 set(PKG_DEPENDS
-  roscpp
   subt_rf_interface
   )
 set(BUILD_DEPENDS
