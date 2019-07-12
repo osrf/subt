@@ -12,7 +12,6 @@ find_package(catkin REQUIRED COMPONENTS
   subt_msgs
 )
 
-find_package(ignition-common3 REQUIRED)
 find_package(ignition-math6 REQUIRED)
 find_package(ignition-msgs4 REQUIRED)
 find_package(ignition-transport7 REQUIRED)
