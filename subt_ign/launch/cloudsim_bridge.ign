@@ -1,5 +1,13 @@
 <?xml version="1.0"?>
-<!-- Usage: ign launch tunnel_circuit_practice.ign
+<!-- This launch file is used by CloudSim to start a ROS master, and handle
+     bridging of data to/from Ignition Gazebo to a competitor's docker image.
+     It is possible, and safe, to run this launch file locally during testing
+     development.
+
+     For more information, please refer to
+         https://bitbucket.org/osrf/subt/wiki/tutorials/cloudsim
+
+    Usage: ign launch cloudsim_bridge.ign
             [worldName:=<worldName>
              robotName1:=<robotName> robotConfig1:=<robotConfig>
              robotName2:=<robotName> robotConfig2:=<robotConfig>

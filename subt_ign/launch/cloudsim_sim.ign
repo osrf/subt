@@ -1,5 +1,12 @@
 <?xml version="1.0"?>
-<!-- Usage: ign launch tunnel_circuit_practice.ign
+<!-- This launch file is used by CloudSim to run Ignition Gazebo and the
+     plugins needed by SubT. It does not run ROS. A separete launch file,
+     cloudsim_bridge.ign, starts a ROS master and the ROS1-Ignition bridge.
+
+     For more information, please refer to
+         https://bitbucket.org/osrf/subt/wiki/tutorials/cloudsim
+
+    Usage: ign launch cloudsim_sim.ign
             [worldName:=<worldName>
              robotName1:=<robotName> robotConfig1:=<robotConfig>
              robotName2:=<robotName> robotConfig2:=<robotConfig>
@@ -11,7 +18,7 @@
 
     Example that loads tunnel circuit practice world with an X2 robot with configuration 3
 
-      ign launch tunnel_circuit_practice.ign worldName:=tunnel_circuit_practice_01
+      ign launch cloudsim_sim.ign worldName:=tunnel_circuit_practice_01
           robotName1:=X2_3 robotConfig1:=X2_SENSOR_CONFIG_3
 -->
 
