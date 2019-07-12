@@ -20,6 +20,7 @@
 #include <std_srvs/SetBool.h>
 #include <std_msgs/Int32.h>
 #include <ignition/msgs/float.pb.h>
+#include <ignition/msgs/stringmsg.pb.h>
 #include <subt_msgs/PoseFromArtifact.h>
 
 #include <chrono>
@@ -30,7 +31,6 @@
 #include <ignition/common/Console.hh>
 #include <ignition/common/Util.hh>
 #include <ignition/common/Time.hh>
-#include <ignition/msgs/stringmsg.pb.h>
 #include <ignition/math/Pose3.hh>
 #include <ignition/transport/Node.hh>
 
@@ -259,8 +259,8 @@ bool GameLogicPlugin::Load(const tinyxml2::XMLElement *_elem)
       char *homePath = getenv("HOME");
       if (!homePath)
       {
-        ignerr << "Unable to get HOME environment variable. Report this error to "
-          << "https://bitbucket.org/osrf/subt/issues/new. "
+        ignerr << "Unable to get HOME environment variable. Report this error "
+          << "to https://bitbucket.org/osrf/subt/issues/new. "
           << "SubT logging will be disabled.\n";
       }
       else
