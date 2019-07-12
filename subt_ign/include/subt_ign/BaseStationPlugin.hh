@@ -55,6 +55,8 @@ namespace subt
                              const uint32_t _dstPort,
                              const std::string &_data);
 
+    private: void RunLoop();
+
     /// \brief Thread to send Ack when required.
     private: std::thread ackThread;
 
