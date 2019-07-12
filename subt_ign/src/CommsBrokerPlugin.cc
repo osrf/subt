@@ -16,7 +16,6 @@
  */
 
 #include <tinyxml2.h>
-#include <ros/ros.h>
 
 #include <functional>
 #include <mutex>
@@ -226,12 +225,12 @@ bool CommsBrokerPlugin::Load(const tinyxml2::XMLElement *_elem)
     {
       return std::make_tuple(false,
                              ignition::math::Pose3<double>(),
-                             ros::Time());
+                             0.0);
     }
 
     return std::make_tuple(true,
                            iter->second,
-                           ros::Time(simTime.Double()));
+                           simTime.Double());
   };
   broker.SetPoseUpdateFunction(updatePoseFunc);
 
