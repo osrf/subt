@@ -62,21 +62,25 @@ TEST(broker, communicate)
   // Set communication function to use
   broker.SetCommunicationFunction(&subt::communication_model::attempt_send);
 
-  auto pose_update_func = [](const std::string& name) {
-    static ros::Time now;
-    now += ros::Duration(1.0);
-    if(name == "1") {
-      return std::make_tuple(true, ignition::math::Pose3<double>(0, 0, 0, 0, 0, 0), now);
+  auto pose_update_func = [](const std::string& name)
+  {
+    static double now;
+    now += 1.0;
+    if(name == "1")
+    {
+      return std::make_tuple(true, ignition::math::Pose3d::Zero, now);
     }
 
-    if(name == "2") {
+    if(name == "2")
+    {
       static double x = 0;
       x += 1.0;
       std::cout << "Moving (2) to x=" << x << std::endl;
-      return std::make_tuple(true, ignition::math::Pose3<double>(x, 0, 0, 0, 0, 0), now);
+      return std::make_tuple(true,
+          ignition::math::Pose3d(x, 0, 0, 0, 0, 0), now);
     }
 
-    return std::make_tuple(false, ignition::math::Pose3<double>(), ros::Time());
+    return std::make_tuple(false, ignition::math::Pose3d::Zero, 0.0);
   };
 
   broker.SetPoseUpdateFunction(pose_update_func);
@@ -88,13 +92,16 @@ TEST(broker, communicate)
   auto c2_cb = [=](const std::string& src,
                    const std::string& dst,
                    const uint32_t port,
-                   const std::string& data) {
-    std::cout << "Received " << data.size() << "(" << data << ") bytes from " << src << std::endl;
+                   const std::string& data)
+  {
+    std::cout << "Received " << data.size() << "("
+      << data << ") bytes from " << src << std::endl;
   };
 
   c2.Bind(c2_cb);
 
-  for(unsigned int i=0; i < 15; ++i) {
+  for(unsigned int i=0; i < 15; ++i)
+  {
     std::ostringstream oss;
     oss << "Hello c2, " << i;
     c1.SendTo(oss.str(), "2");
@@ -112,10 +119,8 @@ TEST(broker, communicate)
   //             );
 }
 
-
 int main(int argc, char **argv)
 {
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
-
