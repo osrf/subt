@@ -148,11 +148,9 @@ void Broker::DispatchMessages()
   for(auto t : *(this->team))
   {
     bool ret;
-    double time;
     std::tie(ret,
              t.second->rf_state.pose,
-             time) = pose_update_f(t.second->name);
-    t.second->rf_state.update_stamp.fromSec(time);
+             t.second->rf_state.update_stamp) = pose_update_f(t.second->name);
 
     if(!ret) {
       std::cerr << "Problem getting state for " << t.second->name
