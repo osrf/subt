@@ -6,6 +6,7 @@
   <arg name="sensor_prefix" value="/world/$(arg world_name)/model/$(arg name)/link/$(arg link_name)/sensor"/>
   <arg name="stereo_cam" default="0"/>
   <arg name="laser_scan" default="1"/>
+  <arg name="rgbd_cam" default="0"/>
   <group ns="$(arg name)">
     <!--Create multipe bridges so that it can run in parallel-->
     <node
@@ -43,6 +44,16 @@
       args="/model/$(arg name)/cmd_vel_relay@geometry_msgs/Twist@ignition.msgs.Twist">
       <remap from="/model/$(arg name)/cmd_vel_relay" to="cmd_vel"/>
     </node>
+    <group if="$(arg rgbd_cam)">
+    <node
+      pkg="ros1_ign_bridge"
+      type="parameter_bridge"
+      name="ros1_ign_bridge_rgbd"
+      args="$(arg sensor_prefix)/camera_front/points@sensor_msgs/PointCloud2@ignition.msgs.PointCloudPacked">
+      <remap from="$(arg sensor_prefix)/camera_front/points" to="front/points"/>
+    </node>
+    </group>
+
     <group if="$(arg stereo_cam)">
     <node
       pkg="ros1_ign_bridge"
