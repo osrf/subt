@@ -7,6 +7,7 @@
   <arg name="stereo_cam" default="0"/>
   <arg name="laser_scan" default="1"/>
   <arg name="rgbd_cam" default="0"/>
+  <arg name="lidar_3d" default="0"/>
   <group ns="$(arg name)">
     <!--Create multipe bridges so that it can run in parallel-->
     <node
@@ -51,6 +52,15 @@
       name="ros1_ign_bridge_rgbd"
       args="$(arg sensor_prefix)/camera_front/points@sensor_msgs/PointCloud2@ignition.msgs.PointCloudPacked">
       <remap from="$(arg sensor_prefix)/camera_front/points" to="front/points"/>
+    </node>
+    </group>
+    <group if="$(arg lidar_3d)">
+    <node
+      pkg="ros1_ign_bridge"
+      type="parameter_bridge"
+      name="ros1_ign_bridge_lidar3d"
+      args="$(arg sensor_prefix)/front_laser/scan/points@sensor_msgs/PointCloud2@ignition.msgs.PointCloudPacked">
+      <remap from="$(arg sensor_prefix)/front_laser/scan/points" to="front_scan/points"/>
     </node>
     </group>
 
