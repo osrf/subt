@@ -41,9 +41,9 @@ attempt_send(const radio_configuration& radio,
              const uint64_t& num_bytes)
 {
   // Do capacity checks here
-  static ros::Duration epoch_duration = ros::Duration(1.0);
+  static double epoch_duration = 1.0;
 
-  ros::Time now = tx_state.update_stamp;
+  double now = tx_state.update_stamp;
 
   // Maintain running window of bytes sent over the last epoch, e.g.,
   // 1s
@@ -51,7 +51,7 @@ attempt_send(const radio_configuration& radio,
     tx_state.bytes_sent_this_epoch -= tx_state.bytes_sent.front().second;
     tx_state.bytes_sent.pop_front();
   }
-  
+
   //ROS_INFO("bytes sent: %lu + %lu = %lu", tx_state.bytes_sent_this_epoch, num_bytes, tx_state.bytes_sent_this_epoch + num_bytes);
 
   // Compute prospective accumulated bits along with time window
@@ -60,7 +60,7 @@ attempt_send(const radio_configuration& radio,
 
   // Check current epoch bitrate vs capacity and fail to send
   // accordingly
-  if(bits_sent > radio.capacity*epoch_duration.toSec()) {
+  if(bits_sent > radio.capacity*epoch_duration) {
     // ROS_WARN("Bitrate limited: %f bits sent (limit: %2.2f)", bits_sent, radio.capacity * epoch_duration.toSec());
     return std::make_tuple(false, std::numeric_limits<double>::lowest());
   }
@@ -68,7 +68,7 @@ attempt_send(const radio_configuration& radio,
   // Record these bytes
   tx_state.bytes_sent.push_back(std::make_pair(now, num_bytes));
   tx_state.bytes_sent_this_epoch += num_bytes;
-  
+
   // Get the received power based on TX power and position of each
   // node
   auto rx_power_dist = radio.pathloss_f(radio.default_tx_power,
@@ -102,7 +102,7 @@ attempt_send(const radio_configuration& radio,
   //                 "BER: " << ber << "\n" <<
   //                 "# Bytes: " << num_bytes << "\n" <<
   //                 "PER: " << packet_drop_prob);
-  
+
   double rand_draw = (rand() % 1000) / 1000.0;
 
   bool packet_received = rand_draw > packet_drop_prob;
@@ -116,7 +116,7 @@ attempt_send(const radio_configuration& radio,
     rx_state.bytes_received_this_epoch -= rx_state.bytes_received.front().second;
     rx_state.bytes_received.pop_front();
   }
-  
+
   //ROS_INFO("bytes received: %lu + %lu = %lu", rx_state.bytes_received_this_epoch, num_bytes, rx_state.bytes_received_this_epoch + num_bytes);
 
   // Compute prospective accumulated bits along with time window
@@ -125,7 +125,7 @@ attempt_send(const radio_configuration& radio,
 
   // Check current epoch bitrate vs capacity and fail to send
   // accordingly
-  if(bits_received > radio.capacity*epoch_duration.toSec()) {
+  if(bits_received > radio.capacity*epoch_duration) {
     // ROS_WARN("Bitrate limited: %f bits received (limit: %2.2f)", bits_received, radio.capacity * epoch_duration.toSec());
     return std::make_tuple(false, std::numeric_limits<double>::lowest());
   }

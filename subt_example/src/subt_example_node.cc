@@ -241,7 +241,7 @@ Controller::Controller(const std::string &_name,
 
     for(auto kvp : neighbors) {
       std::string address = kvp.first;
-      ros::Time stamp = kvp.second.first;
+      double stamp = kvp.second.first;
       double rssi = kvp.second.second;
 
       auto neighbor_state_pub = this->neighbor_state_pubs.find(address);
@@ -251,8 +251,8 @@ Controller::Controller(const std::string &_name,
         continue;
       }
 
-      if(stamp > neighbor_state_pub->second.first) {
-        neighbor_state_pub->second.first = stamp;
+      if(stamp > neighbor_state_pub->second.first.toSec()) {
+        neighbor_state_pub->second.first.fromSec(stamp);
         std_msgs::Float64 data;
         data.data = rssi;
         neighbor_state_pub->second.second.publish(data);
@@ -333,9 +333,9 @@ void Controller::CommClientCallback(const std::string &_srcAddress,
 void Controller::SetCommsActive(double timeout)
 {
   std::lock_guard<std::mutex> l(comms_led_mutex);
-  
+
   ros::NodeHandle nh;
-  
+
   // Turn comms led on (they will blink automatically)
   {
     std_srvs::SetBool led_srv;
@@ -345,7 +345,7 @@ void Controller::SetCommsActive(double timeout)
       service.call(led_srv);
     }
   }
-  
+
   if(!active_comms_timer) {
     active_comms_timer =
         nh.createTimer(ros::Duration(timeout),

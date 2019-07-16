@@ -18,7 +18,8 @@
 #ifndef SUBT_RF_INTERFACE__SUBT_RF_INTERFACE_H_
 #define SUBT_RF_INTERFACE__SUBT_RF_INTERFACE_H_
 
-#include <ros/ros.h>
+#include <functional>
+#include <list>
 #include <ignition/math/Pose3.hh>
 
 namespace subt
@@ -34,14 +35,14 @@ namespace rf_interface
 /// necessary to implement bitrate limits.
 struct radio_state
 {
-  ros::Time update_stamp;      ///< Timestamp of last update
+  double update_stamp;      ///< Timestamp of last update
   ignition::math::Pose3<double> pose;  ///< Pose of the radio
-  std::list<std::pair<ros::Time, uint64_t>> bytes_sent; ///< Recent
+  std::list<std::pair<double, uint64_t>> bytes_sent; ///< Recent
                                                         ///sent packet
                                                         ///history
   uint64_t bytes_sent_this_epoch = 0; ///< Accumulation of bytes sent
                                       /// in an epoch
-  std::list<std::pair<ros::Time, uint64_t>> bytes_received; ///<
+  std::list<std::pair<double, uint64_t>> bytes_received; ///<
                                                             ///Recent
                                                             ///received
                                                             ///packet
@@ -51,7 +52,7 @@ struct radio_state
   double antenna_gain;      ///< Isotropic antenna gain
 };
 /// \struct rf_power
-/// 
+///
 /// \brief Type for holding RF power as a Normally distributed random
 /// variable
 struct rf_power

@@ -39,7 +39,7 @@ namespace communication_broker
 {
 
 typedef
-std::function<std::tuple<bool, ignition::math::Pose3<double>, ros::Time>(const std::string& name)>
+std::function<std::tuple<bool, ignition::math::Pose3<double>, double>(const std::string& name)>
 pose_update_function;
 
   /// \brief Stores information about a client broker.
