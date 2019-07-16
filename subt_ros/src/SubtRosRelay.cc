@@ -32,6 +32,8 @@ class SubtRosRelay
   /// \brief Destructor
   public: ~SubtRosRelay();
 
+  /// \brief Ign callback for score topic and the data is republished to ROS
+  /// \param[in] _msg Score msg
   public: void OnScore(const ignition::msgs::Float &_msg);
 
   /// \brief ROS service callback triggered when the service is called.
@@ -67,6 +69,7 @@ class SubtRosRelay
   /// \brief ROS service to receive a call to start the game.
   public: ros::ServiceServer startService;
 
+  /// \brief ROS publisher to publish score data
   public: ros::Publisher rosScorePub;
 
   /// \brief ROS service server to receive the location of a robot relative to
