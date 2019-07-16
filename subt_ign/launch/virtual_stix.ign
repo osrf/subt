@@ -40,6 +40,12 @@
 
 
 <%
+  if !defined?(headless) || headless == nil || headless.empty?
+    $headless = false
+  elsif headless == 'true' || headless == 'True' || headless == '1'
+    $headless = true
+  end
+
   $worldName = 'virtual_stix'
   $x3Version = '4'
 %>
@@ -154,6 +160,7 @@
 
   </plugin>
 
+  <%if !$headless %>
   <executable_wrapper>
     <plugin name="ignition::launch::GazeboGui"
           filename="libignition-launch-gazebogui.so">
@@ -231,6 +238,7 @@
       </plugin>
     </plugin>
   </executable_wrapper>
+  <%end%>
 
   <!-- The SubT challenge comms broker plugin -->
   <plugin entity_name="<%= $worldName %>"
