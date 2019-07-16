@@ -40,6 +40,7 @@
 
 <%
   $worldName = 'tunnel_qual_ign'
+  $x3Version = '4'
 %>
 
 <ignition version='1.0'>
@@ -509,7 +510,7 @@
     "  <sdf version='1.6'>\n"\
     "  <include>\n"\
     "    <name>#{_name}</name>\n"\
-    "    <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X3 UAV Config #{_config}</uri>\n"\
+    "    <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X3 UAV Config #{_config}/#{$x3Version}</uri>\n"\
     "    <!-- Publish robot state information -->\n"\
     "    <plugin filename=\"libignition-gazebo-pose-publisher-system.so\"\n"\
     "      name=\"ignition::gazebo::systems::PosePublisher\">\n"\
