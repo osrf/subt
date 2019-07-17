@@ -56,6 +56,12 @@
     $worldName = worldName
   end
 
+  if !defined?(headless) || headless == nil || headless.empty?
+    $headless = false
+  elsif headless == 'true' || headless == 'True' || headless == '1'
+    $headless = true
+  end
+
   worldNumber = $worldName.split('_').last
 %>
 
@@ -117,6 +123,7 @@
     </plugin>
   </plugin>
 
+  <%if !$headless%>
   <executable_wrapper>
     <plugin name="ignition::launch::GazeboGui"
           filename="libignition-launch-gazebogui.so">
@@ -194,6 +201,7 @@
       </plugin>
     </plugin>
   </executable_wrapper>
+  <%end%>
 
   <!-- The SubT challenge comms broker plugin -->
   <plugin entity_name="<%= $worldName %>"
@@ -313,14 +321,6 @@
 
 <%
   def spawnX1(_name, _config, _x, _y)
-    laserScan=0
-    stereoCam=0
-    if _config == "1" or _config == "2"
-      laserScan=1
-    end
-    if _config == "5"
-      stereoCam=1
-    end
     "<plugin name=\"ignition::launch::GazeboFactory\"\n"\
     "        filename=\"libignition-launch-gazebo-factory.so\">\n"\
     "  <name>#{_name}</name>\n"\
@@ -372,14 +372,6 @@
   end
 
   def spawnX2(_name, _config, _x, _y)
-    laserScan=0
-    stereoCam=0
-    if _config == "1" or _config == "2" or _config == "3" or _config == "4"
-      laserScan=1
-    end
-    if _config == "5"
-      stereoCam=1
-    end
     "<plugin name=\"ignition::launch::GazeboFactory\"\n"\
     "        filename=\"libignition-launch-gazebo-factory.so\">\n"\
     "  <name>#{_name}</name>\n"\
@@ -431,11 +423,6 @@
   end
 
   def spawnX3(_name, _config, _x, _y)
-    laserScan=0
-    stereoCam=0
-    if _config == "5"
-      stereoCam=1
-    end
     "<plugin name=\"ignition::launch::GazeboFactory\"\n"\
     "        filename=\"libignition-launch-gazebo-factory.so\">\n"\
     "  <name>#{_name}</name>\n"\
@@ -552,14 +539,6 @@
   end
 
   def spawnX4(_name, _config, _x, _y)
-    laserScan=0
-    stereoCam=0
-    if _config == "3" or _config == "4"
-      laserScan=1
-    end
-    if _config == "5"
-      stereoCam=1
-    end
     "<plugin name=\"ignition::launch::GazeboFactory\"\n"\
     "        filename=\"libignition-launch-gazebo-factory.so\">\n"\
     "  <name>#{_name}</name>\n"\
