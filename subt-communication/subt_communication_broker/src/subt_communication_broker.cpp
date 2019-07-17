@@ -148,7 +148,6 @@ void Broker::DispatchMessages()
   for(auto t : *(this->team))
   {
     bool ret;
-    double time;
     std::tie(ret,
              t.second->rf_state.pose,
              t.second->rf_state.update_stamp) = pose_update_f(t.second->name);
