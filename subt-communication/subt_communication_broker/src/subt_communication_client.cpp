@@ -18,6 +18,7 @@
 #include <chrono>
 #include <iostream>
 #include <string>
+#include <ignition/common/Console.hh>
 
 #include <subt_communication_broker/subt_communication_client.h>
 
@@ -186,13 +187,13 @@ bool CommsClient::Bind(std::function<void(const std::string &_srcAddress,
     {
       if (endpoint != bcastEndpoint || bcastAdvertiseNeeded)
       {
-        ROS_INFO("Storing callback for %s", endpoint.c_str());
+        ignmsg << "Storing callback for " <<  endpoint << std::endl;
         this->callbacks[endpoint] = std::bind(_cb,
                                               std::placeholders::_1, std::placeholders::_2,
                                               std::placeholders::_3, std::placeholders::_4);
       }
       else {
-        ROS_WARN("Skipping callback register for %s", endpoint.c_str());
+        ignwarn << "Skipping callback register for " << endpoint << std::endl;
       }
     }
   }

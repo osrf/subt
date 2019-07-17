@@ -15,12 +15,7 @@ set (SUBT_VERSION_FULL
 
 find_package(catkin REQUIRED
   COMPONENTS
-    roscpp
-    geometry_msgs
-    std_msgs
-    std_srvs
-    subt_msgs
-    message_generation
+    rostest
     subt_rf_interface
     subt_communication_model
     subt_communication_broker
@@ -36,12 +31,6 @@ find_package(ignition-plugin1 REQUIRED COMPONENTS loader register)
 find_package(ignition-launch1 REQUIRED)
 find_package(sdformat8 REQUIRED)
 
-########################
-## Message generation ##
-########################
-
-# Add here SubT ROS messages.
-
 ###########
 ## Build ##
 ###########
@@ -56,8 +45,6 @@ link_directories()
 
 catkin_package(
   CATKIN_DEPENDS
-    message_runtime
-    std_srvs
     subt_rf_interface
     subt_communication_model
     subt_communication_broker
