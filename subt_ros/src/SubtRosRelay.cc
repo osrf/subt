@@ -84,7 +84,7 @@ class SubtRosRelay
 SubtRosRelay::SubtRosRelay()
 {
   // Initialize the ROS node.
-  this->rosnode.reset(new ros::NodeHandle("subt_relay"));
+  this->rosnode.reset(new ros::NodeHandle("subt"));
 
   // ROS service to receive a command to finish the game.
   ros::NodeHandle n;
