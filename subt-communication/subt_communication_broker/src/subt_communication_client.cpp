@@ -19,6 +19,9 @@
 #include <iostream>
 #include <string>
 #include <ignition/common/Console.hh>
+#include <subt_msgs/Bind.h>
+#include <subt_msgs/Register.h>
+#include <subt_msgs/Unregister.h>
 
 #include <subt_communication_broker/subt_communication_client.h>
 
@@ -139,15 +142,14 @@ bool CommsClient::Bind(std::function<void(const std::string &_srcAddress,
   {
     if (endpoint != bcastEndpoint || bcastAdvertiseNeeded)
     {
-      ignition::msgs::StringMsg_V req;
-      req.add_data(address);
-      req.add_data(endpoint);
+      subt_msgs::Bind::Request req;
+      req.address = address;
+      req.endpoint = endpoint;
 
-      const unsigned int timeout = 3000u;
-      ignition::msgs::Boolean rep;
-      bool result;
-      bool executed = this->node.Request(
-          communication_broker::kEndPointRegistrationSrv, req, timeout, rep, result);
+      subt_msgs::Bind::Response rep;
+
+      bool executed = ros::service::call(
+          communication_broker::kEndPointRegistrationSrv, req, rep);
 
       if (!executed)
       {
@@ -156,7 +158,7 @@ bool CommsClient::Bind(std::function<void(const std::string &_srcAddress,
         return false;
       }
 
-      if (!result)
+      if (!rep.success)
       {
         std::cerr << "[CommsClient] Invalid data. Did you send the address "
                   << "followed by the endpoint?" << std::endl;
@@ -165,19 +167,13 @@ bool CommsClient::Bind(std::function<void(const std::string &_srcAddress,
     }
   }
 
-  if(!advertised) {
-    // Advertise a oneway service for receiving message requests.
-    ignition::transport::AdvertiseServiceOptions opts;
-    if (this->isPrivate)
-      opts.SetScope(ignition::transport::Scope_t::PROCESS);
+  if(!this->advertised)
+  {
+    ros::NodeHandle nh;
+    this->commsModelOnMessageService = nh.advertiseService(
+        address, &CommsClient::OnMessage, this);
 
-
-    if (!this->node.Advertise(address, &CommsClient::OnMessage, this, opts)) {
-      std::cerr << "[" << this->Host() << "] Bind Error: could not advertise " << address << std::endl;
-      return false;
-    }
-
-    advertised = true;
+    this->advertised = true;
   }
 
   // Register the callbacks.
@@ -218,14 +214,14 @@ bool CommsClient::SendTo(const std::string &_data,
               << "maximum allowed (" << this->kMtu << ")" << std::endl;
     return false;
   }
+  subt_msgs::DatagramRos::Request req;
+  subt_msgs::DatagramRos::Response rep;
+  req.src_address = this->Host();
+  req.dst_address = _dstAddress;
+  req.dst_port = _port;
+  req.data = _data;
 
-  msgs::Datagram msg;
-  msg.set_src_address(this->Host());
-  msg.set_dst_address(_dstAddress);
-  msg.set_dst_port(_port);
-  msg.set_data(_data);
-
-  return this->node.Request(kBrokerSrv, msg);
+  return ros::service::call(kBrokerSrv, req, rep);
 }
 
 //////////////////////////////////////////////////
@@ -254,15 +250,12 @@ void CommsClient::StartBeaconInterval(ros::Duration period)
 //////////////////////////////////////////////////
 bool CommsClient::Register()
 {
-  ignition::msgs::StringMsg req;
-  req.set_data(this->localAddress);
+  subt_msgs::Register::Request req;
+  subt_msgs::Register::Response rep;
 
-  ignition::msgs::Boolean rep;
-  bool result;
-  const unsigned int timeout = 3000u;
+  req.local_address = this->localAddress;
 
-  bool executed = this->node.Request(
-    kAddrRegistrationSrv, req, timeout, rep, result);
+  bool executed = ros::service::call(kAddrRegistrationSrv, req, rep);
 
   if(!executed) {
     std::cerr << "[" << this->localAddress
@@ -270,41 +263,41 @@ bool CommsClient::Register()
               << std::endl;
   }
 
-  return executed && result;
+  return executed && rep.success;
 }
 
 //////////////////////////////////////////////////
 bool CommsClient::Unregister()
 {
-  ignition::msgs::StringMsg req;
-  req.set_data(this->localAddress);
+  subt_msgs::Unregister::Request req;
+  subt_msgs::Unregister::Response rep;
 
-  ignition::msgs::Boolean rep;
-  bool result;
-  const unsigned int timeout = 3000u;
+  req.local_address = this->localAddress;
 
-  bool executed = this->node.Request(
-    kAddrUnregistrationSrv, req, timeout, rep, result);
+  bool executed = ros::service::call(kAddrUnregistrationSrv, req, rep);
 
-  return executed && result;
+  return executed && rep.success;
 }
 
 //////////////////////////////////////////////////
-void CommsClient::OnMessage(const msgs::Datagram &_msg)
+bool CommsClient::OnMessage(subt_msgs::DatagramRos::Request &_req,
+                            subt_msgs::DatagramRos::Response &_res)
 {
-  auto endPoint = _msg.dst_address() + ":" + std::to_string(_msg.dst_port());
+  auto endPoint = _req.dst_address + ":" + std::to_string(_req.dst_port);
 
   std::lock_guard<std::mutex> lock(this->mutex);
 
-  this->neighbors[_msg.src_address()] =
-      std::make_pair(ros::Time::now().toSec(), _msg.rssi());
+  this->neighbors[_req.src_address] =
+      std::make_pair(ros::Time::now().toSec(), _req.rssi);
 
   for (auto cb : this->callbacks)
   {
     if (cb.first == endPoint && cb.second)
     {
-      cb.second(_msg.src_address(), _msg.dst_address(),
-                _msg.dst_port(), _msg.data());
+      cb.second(_req.src_address, _req.dst_address,
+                _req.dst_port, _req.data);
     }
   }
+
+  return true;
 }

@@ -10,13 +10,17 @@ find_package(catkin REQUIRED COMPONENTS
   tf2
   tf2_ros
   subt_msgs
+  subt_communication_broker
 )
 
 find_package(ignition-math6 REQUIRED)
 find_package(ignition-msgs4 REQUIRED)
 find_package(ignition-transport7 REQUIRED)
 
-catkin_package()
+catkin_package(
+  CATKIN_DEPENDS
+    subt_communication_broker
+  )
 
 include_directories(
   ${catkin_INCLUDE_DIRS}

@@ -25,6 +25,7 @@
 #include <string>
 #include <vector>
 #include <ignition/transport/Node.hh>
+#include <subt_msgs/DatagramRos.h>
 
 #include <subt_communication_broker/common_types.h>
 #include <subt_communication_broker/protobuf/datagram.pb.h>
@@ -164,7 +165,8 @@ namespace subt
 
     /// \brief Function called each time a new datagram message is received.
     /// \param[in] _msg The incoming message.
-    private: void OnMessage(const msgs::Datagram &_msg);
+    private: bool OnMessage(subt_msgs::DatagramRos::Request &_req,
+                            subt_msgs::DatagramRos::Response &_res);
 
     /// \def Callback_t
     /// \brief The callback specified by the user when new data is available.
@@ -218,6 +220,9 @@ namespace subt
 
     /// \brief A mutex for avoiding race conditions.
     private: mutable std::mutex mutex;
+
+    /// \brief Service that receives comms messages.
+    private: ros::ServiceServer commsModelOnMessageService;
   };
 }
 #endif
