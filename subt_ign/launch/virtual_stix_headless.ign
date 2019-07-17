@@ -111,48 +111,6 @@
             name="ignition::gazebo::systems::AirPressure">
     </plugin>
 
-    <!-- Point Cloud -->
-    <%
-      robots.each do |name, config|
-        robotType = config[1]
-        robotConfigN = config[-1]
-
-        # Configs with RGBD camera
-        if (robotType == "3" and robotConfigN == "3") or
-           (robotType == "3" and robotConfigN == "4") or
-           (robotType == "4" and robotConfigN == "2")
-    %>
-      <plugin
-        entity_name="<%= name %>::base_link::camera_front"
-        entity_type="sensor"
-        filename="libRos1IgnPointCloud.so"
-        name="ros1_ign_point_cloud::PointCloud">
-          <topic>/<%= name %>/rgbd_camera/depth/points</topic>
-          <frame_id><%= name %>/base_link/camera_front</frame_id>
-      </plugin>
-      <%
-        end
-
-        # Configs with 3D lidar
-        if (robotType == "1" and robotConfigN == "3") or
-           (robotType == "1" and robotConfigN == "4") or
-           (robotType == "2" and robotConfigN == "6")
-    %>
-      <plugin
-        entity_name="<%= name %>::base_link::front_laser"
-        entity_type="sensor"
-        filename="libRos1IgnPointCloud.so"
-        name="ros1_ign_point_cloud::PointCloud">
-          <topic>/<%= name %>/points</topic>
-          <frame_id><%= name %>/base_link/front_laser</frame_id>
-      </plugin>
-      <%
-        end
-      %>
-    <%
-      end
-    %>
-
   </plugin>
 
   <!-- The SubT challenge comms broker plugin -->
