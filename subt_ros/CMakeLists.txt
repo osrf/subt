@@ -9,7 +9,12 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   tf2
   tf2_ros
+  subt_msgs
 )
+
+find_package(ignition-math6 REQUIRED)
+find_package(ignition-msgs4 REQUIRED)
+find_package(ignition-transport7 REQUIRED)
 
 catkin_package()
 
@@ -26,7 +31,16 @@ target_link_libraries(pose_tf_broadcaster
   ${catkin_LIBRARIES}
 )
 
-install(TARGETS pose_tf_broadcaster
+add_executable(subt_ros_relay src/SubtRosRelay.cc)
+target_link_libraries(subt_ros_relay
+  PUBLIC
+    ignition-math6::ignition-math6
+    ignition-msgs4::ignition-msgs4
+    ignition-transport7::ignition-transport7
+    ${catkin_LIBRARIES}
+)
+
+install(TARGETS pose_tf_broadcaster subt_ros_relay
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 install(DIRECTORY launch
