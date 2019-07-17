@@ -88,7 +88,7 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.osrfoundation.org/g
  && sudo /bin/sh -c 'apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654'
 
 # install ign-blueprint and the ign-bridge
-RUN apt-get update \
+RUN sudo apt-get update \
 &&  sudo apt-get install -y \
     ignition-blueprint \
     ros-melodic-ros1-ign \
@@ -162,8 +162,8 @@ RUN /bin/sh -c 'echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc' \
 RUN mkdir -p /tmp/ign
 
 # Copy entry point script, and set the entrypoint
-COPY run_sim.bash ./
-ENTRYPOINT ["./run_sim.bash"]
+COPY run_bridge.bash ./
+ENTRYPOINT ["./run_bridge.bash"]
 
 # Customize your image here.
 # E.g.:

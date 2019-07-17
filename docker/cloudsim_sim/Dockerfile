@@ -66,10 +66,10 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.osrfoundation.org/g
  && sudo /bin/sh -c 'apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654'
 
 # install ign-blueprint
-RUN apt-get update \
-&&  apt-get install -y \
+RUN sudo apt-get update \
+&&  sudo apt-get install -y \
     ignition-blueprint \
- && apt-get clean
+ && sudo apt-get clean
 
 # Clone all the subt models so that you don't download them every time
 # docker is run
