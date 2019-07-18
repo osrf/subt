@@ -76,6 +76,9 @@
       <!-- This path is used by cloudsim, please do not change -->
       <path>/tmp/ign/logs</path>
     </record>
+    <%if defined?(seed) && seed != nil && !seed.empty?%>
+    <seed><%= seed %></seed>
+    <%end%>
 
     <plugin entity_name="<%= $worldName %>"
             entity_type="world"
