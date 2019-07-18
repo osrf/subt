@@ -39,7 +39,6 @@ Broker::Broker()
 //////////////////////////////////////////////////
 void Broker::Start()
 {
-  std::cerr << "\n\n\n\nBroker::Start\n\n\n\n";
   // Advertise the service for registering addresses.
   if (!this->node.Advertise(kAddrRegistrationSrv,
                             &Broker::OnAddrRegistration, this))
