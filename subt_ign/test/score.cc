@@ -36,6 +36,8 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
   /// \brief Constructor.
   public: ScoreTest()
   {
+    std::this_thread::sleep_for(std::chrono::seconds(30));
+
     // Wait until Gazebo is ready.
     using namespace std::chrono_literals;
     EXPECT_TRUE(this->WaitForGazebo(120s));
@@ -103,7 +105,7 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     EXPECT_TRUE(result);
 
     EXPECT_NEAR(2.0,     rep.position().x(),    0.1);
-    EXPECT_NEAR(-1.0,     rep.position().y(),    0.1);
+    EXPECT_NEAR(1.0,     rep.position().y(),    0.1);
     EXPECT_NEAR(-0.3687, rep.position().z(),    0.1);
     EXPECT_NEAR(0,       rep.orientation().x(), 0.1);
     EXPECT_NEAR(0,       rep.orientation().y(), 0.1);

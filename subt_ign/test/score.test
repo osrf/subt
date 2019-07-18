@@ -3,7 +3,7 @@
 
   <param name="/use_sim_time" value="true" />
 
-  <node pkg="subt_ign" type="run_ign.bash" name="run_sim"/>
+  <node pkg="subt_ign" type="run_competition_x1x2.bash" name="run_sim"/>
 
   <test test-name="score" pkg="subt_ign" type="test_score" time-limit="120.0" />
 
