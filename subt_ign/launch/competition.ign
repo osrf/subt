@@ -71,6 +71,11 @@
     <world_file><%= $worldName %>.sdf</world_file>
     <run>true</run>
     <levels>true</levels>
+    <record>
+      <enabled>true</enabled>
+      <!-- This path is used by cloudsim, please do not change -->
+      <path>/tmp/ign/logs</path>
+    </record>
 
     <plugin entity_name="<%= $worldName %>"
             entity_type="world"

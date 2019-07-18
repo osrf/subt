@@ -73,7 +73,8 @@
     <levels>true</levels>
     <record>
       <enabled>true</enabled>
-      <!--<path>/tmp/ign</path>-->
+      <!-- This path is used by cloudsim, please do not change -->
+      <path>/tmp/ign/logs</path>
     </record>
 
     <plugin entity_name="<%= $worldName %>"
