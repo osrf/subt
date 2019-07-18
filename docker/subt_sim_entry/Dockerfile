@@ -89,13 +89,13 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.osrfoundation.org/g
 
 # install ign-blueprint
 RUN sudo apt-get update \
-&& sudo apt-get install -y \
+ && sudo apt-get install -y \
     ignition-blueprint \
  && sudo apt-get clean
 
 # install the ros to ign bridge
 RUN sudo apt-get update \
-&& sudo apt-get install -y \
+ && sudo apt-get install -y \
     ros-melodic-ros1-ign \
  && sudo apt-get clean
 
