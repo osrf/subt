@@ -157,7 +157,10 @@
 
     <world_name><%= $worldName %></world_name>
     <logging>
-      <filename_prefix>subt_tunnel_qual</filename_prefix>
+      <!-- Use the <path> element to control where to record the log file. 
+           The HOME path is used by default-->
+      <path>/tmp/ign/logs</path>
+      <filename_prefix>subt_virtual_stix</filename_prefix>
     </logging>
 
     <artifact>
