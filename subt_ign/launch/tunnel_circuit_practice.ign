@@ -74,7 +74,7 @@
           filename="libignition-launch-gazebo.so">
     <world_file><%= $worldName %>.sdf</world_file>
     <run>true</run>
-    <levels>false</levels>
+    <levels>true</levels>
     <record>
       <enabled>true</enabled>
       <!--<path>/tmp/ign</path>-->
@@ -243,7 +243,7 @@
 
     <world_name><%= $worldName %></world_name>
     <logging>
-      <!-- Use the <path> element to control where to record the log file. 
+      <!-- Use the <path> element to control where to record the log file.
            The HOME path is used by default
       <path>/tmp</path>-->
       <filename_prefix>subt_tunnel_practice</filename_prefix>
