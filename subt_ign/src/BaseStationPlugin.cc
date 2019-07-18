@@ -32,11 +32,14 @@ BaseStationPlugin::BaseStationPlugin()
 
 BaseStationPlugin::~BaseStationPlugin()
 {
-  std::unique_lock<std::mutex> lk(this->mutex);
-  this->running = false;
-  this->cv.notify_one();
+  {
+    std::lock_guard<std::mutex> lk(this->mutex);
+    this->running = false;
+  }
+  this->cv.notify_all();
   this->ackThread.join();
 }
+
 
 //////////////////////////////////////////////////
 bool BaseStationPlugin::Load(const tinyxml2::XMLElement *)
@@ -45,25 +48,7 @@ bool BaseStationPlugin::Load(const tinyxml2::XMLElement *)
   this->client->Bind(&BaseStationPlugin::OnArtifact, this);
 
   // Spawn a thread to reply outside of the callback.
-  this->ackThread = std::thread([this](){
-      while (this->running)
-      {
-        std::unique_lock<std::mutex> lk(this->mutex);
-
-        // Wait for valid response to be available.
-        auto res = this->cv.wait_for(lk,
-            std::chrono::milliseconds(100),
-            [this]{ return this->score != nullptr;});
-
-        if (res)
-        {
-          std::string data;
-          this->score->SerializeToString(&data);
-          this->client->SendTo(data, this->resAddress);
-          this->score.release();
-        }
-      }
-  });
+  this->ackThread = std::thread([this](){this->RunLoop();});
 
   return true;
 }
@@ -100,3 +85,25 @@ void BaseStationPlugin::OnArtifact(const std::string &_srcAddress,
     ignerr << "Error scoring artifact" << std::endl;
   }
 }
+
+//////////////////////////////////////////////////
+void BaseStationPlugin::RunLoop()
+{
+  while (this->running)
+  {
+    std::unique_lock<std::mutex> lk(this->mutex);
+    // Two possible conditions, we either have a score or shutdown.
+    this->cv.wait_for(lk, std::chrono::milliseconds(100));
+
+    if (this->score)
+    {
+      igndbg << "Sending Score" << std::endl;
+      std::string data;
+      this->score->SerializeToString(&data);
+      this->client->SendTo(data, this->resAddress);
+      this->score.release();
+    }
+  }
+  igndbg << "Terminating run loop" << std::endl;
+}
+

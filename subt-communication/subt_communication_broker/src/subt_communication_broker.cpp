@@ -145,7 +145,8 @@ void Broker::DispatchMessages()
 
   // Update state for all members in team (only do this for members
   // which touch messages in the queue?)
-  for(auto t : *(this->team)) {
+  for(auto t : *(this->team))
+  {
     bool ret;
     std::tie(ret,
              t.second->rf_state.pose,

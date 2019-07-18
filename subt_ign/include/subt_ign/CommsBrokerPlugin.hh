@@ -79,7 +79,7 @@ namespace subt
     private: subt::communication_broker::Broker broker;
 
     /// \brief Last time the plugin checked the ROS parameter server.
-    private: ignition::common::Time lastROSParameterCheckTime;
+    // private: ignition::common::Time lastROSParameterCheckTime;
 
     private: ignition::common::Time simTime;
 

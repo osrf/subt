@@ -296,7 +296,7 @@ void CommsClient::OnMessage(const msgs::Datagram &_msg)
   std::lock_guard<std::mutex> lock(this->mutex);
 
   this->neighbors[_msg.src_address()] =
-      std::make_pair(ros::Time::now(), _msg.rssi());
+      std::make_pair(ros::Time::now().toSec(), _msg.rssi());
 
   for (auto cb : this->callbacks)
   {

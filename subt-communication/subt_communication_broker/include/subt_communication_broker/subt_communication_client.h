@@ -16,7 +16,7 @@
 */
 #ifndef SUBT_GAZEBO_COMMSCLIENT_HH_
 #define SUBT_GAZEBO_COMMSCLIENT_HH_
-
+#include <ros/ros.h>
 #include <cstdint>
 #include <functional>
 #include <iostream>
@@ -138,7 +138,7 @@ namespace subt
                         const uint32_t _port = communication_broker::kDefaultPort);
 
     /// \brief Type for storing neighbor data
-    public: typedef std::map<std::string, std::pair<ros::Time, double>> Neighbor_M;
+    public: typedef std::map<std::string, std::pair<double, double>> Neighbor_M;
 
     /// \brief Get the list of local neighbors.
     ///
