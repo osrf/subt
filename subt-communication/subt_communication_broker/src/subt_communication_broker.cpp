@@ -39,6 +39,7 @@ Broker::Broker()
 //////////////////////////////////////////////////
 void Broker::Start()
 {
+  std::cerr << "\n\n\n\nBroker::Start\n\n\n\n";
   // Advertise the service for registering addresses.
   if (!this->node.Advertise(kAddrRegistrationSrv,
                             &Broker::OnAddrRegistration, this))
@@ -133,13 +134,17 @@ void Broker::DispatchMessages()
 
   // Cannot dispatch messages if we don't have function handles for
   // pathloss and communication
-  if(!communication_function) {
-    std::cerr << "[Broker::DispatchMessages()] Missing function handle for communication" << std::endl;
+  if (!communication_function)
+  {
+    std::cerr << "[Broker::DispatchMessages()] Missing function handle for "
+      << "communication" << std::endl;
     return;
   }
 
-  if(!pose_update_f) {
-    std::cerr << "[Broker::DispatchMessages()]: Missing function for updating pose" << std::endl;
+  if(!pose_update_f)
+  {
+    std::cerr << "[Broker::DispatchMessages()]: Missing function for updating "
+      << "pose" << std::endl;
     return;
   }
 
@@ -270,7 +275,8 @@ bool Broker::Register(const std::string &_id)
     std::cerr << "Broker::Register() warning: ID [" << _id << "] already exists"
               << std::endl;
   }
-  else {
+  else
+  {
     auto newMember = std::make_shared<TeamMember>();
 
     // Name and address are the same in SubT.

@@ -264,7 +264,8 @@ bool CommsClient::Register()
   bool executed = this->node.Request(
     kAddrRegistrationSrv, req, timeout, rep, result);
 
-  if(!executed) {
+  if (!executed)
+  {
     std::cerr << "[" << this->localAddress
               << "] CommsClient::Register: Problem registering with broker"
               << std::endl;

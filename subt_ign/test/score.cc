@@ -14,6 +14,7 @@
  * limitations under the License.
  *
 */
+#include <ros/ros.h>
 #include <gtest/gtest.h>
 #include <chrono>
 #include <memory>
@@ -360,6 +361,7 @@ TEST_F(ScoreTest, TestScoring)
 int main(int argc, char **argv)
 {
   ::testing::InitGoogleTest(&argc, argv);
+  ros::init(argc, argv, "score_test");
 
   return RUN_ALL_TESTS();
 }
