@@ -73,8 +73,12 @@
     <levels>true</levels>
     <record>
       <enabled>true</enabled>
-      <!--<path>/tmp/ign</path>-->
+      <!-- This path is used by cloudsim, please do not change -->
+      <path>/tmp/ign/logs</path>
     </record>
+    <%if defined?(seed) && seed != nil && !seed.empty?%>
+    <seed><%= seed %></seed>
+    <%end%>
 
     <plugin entity_name="<%= $worldName %>"
             entity_type="world"
@@ -243,9 +247,9 @@
     <world_name><%= $worldName %></world_name>
     <logging>
       <!-- Use the <path> element to control where to record the log file. 
-           The HOME path is used by default
-      <path>/tmp</path>-->
-      <filename_prefix>subt_tunnel_qual</filename_prefix>
+           The HOME path is used by default-->
+      <path>/tmp/ign/logs</path>
+      <filename_prefix>subt_virtual_stix</filename_prefix>
     </logging>
 
     <artifact>
