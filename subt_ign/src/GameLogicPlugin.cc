@@ -679,7 +679,6 @@ bool GameLogicPluginPrivate::PoseFromArtifactHelper(const std::string &_robot,
     return false;
   }
   this->artifactOriginPose = originIter->second;
-  std::cout << "\n\n\nAOP[" << this->artifactOriginPose << "]\n\n";
 
   // Pose.
   _result = robotIter->second - this->artifactOriginPose;

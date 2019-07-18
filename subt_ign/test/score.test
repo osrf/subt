@@ -3,8 +3,7 @@
 
   <param name="/use_sim_time" value="true" />
 
-  <include file="$(find subt_ign)/test/launch/test_score.launch">
-  </include>
+  <node pkg="subt_ign" type="run_ign.bash" name="run_sim"/>
 
   <test test-name="score" pkg="subt_ign" type="test_score" time-limit="120.0" />
 

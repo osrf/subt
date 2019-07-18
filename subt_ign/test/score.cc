@@ -103,17 +103,17 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     EXPECT_TRUE(result);
 
     EXPECT_NEAR(2.0,     rep.position().x(),    0.1);
-    EXPECT_NEAR(1.0,     rep.position().y(),    0.1);
+    EXPECT_NEAR(-1.0,     rep.position().y(),    0.1);
     EXPECT_NEAR(-0.3687, rep.position().z(),    0.1);
     EXPECT_NEAR(0,       rep.orientation().x(), 0.1);
     EXPECT_NEAR(0,       rep.orientation().y(), 0.1);
     EXPECT_NEAR(0,       rep.orientation().z(), 0.1);
     EXPECT_NEAR(1,       rep.orientation().w(), 0.1);
 
-    ignition::math::Pose3d robotPose(4, 5, 0.131, 0, 0, 0);
+    ignition::math::Pose3d robotPose(4, 3, 0.131, 0, 0, 0);
 
-    // Report an artifact with high accuracy (x3): +1 point.
-    ignition::math::Pose3d artifact1Pose(81.953, 72.097, 1.298, 0, 0, 0);
+    // Report an artifact with high accuracy (extinguisher_1): +1 point.
+    ignition::math::Pose3d artifact1Pose(158.0, 140.0, -15.0, 0, 0, 0);
     double err = 0.0;
     ignition::msgs::Pose pose;
     pose.mutable_position()->set_x(
@@ -279,7 +279,7 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     while (this->scoreAcks.empty() && retries < 20u)
     {
       ++retries;
-      std::this_thread::sleep_for(200ms);
+      std::this_thread::sleep_for(400ms);
     }
 
     return !this->scoreAcks.empty();
