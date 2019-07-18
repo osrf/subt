@@ -91,6 +91,9 @@ class SubtRosRelay
   public: bool OnUnregister(subt_msgs::Unregister::Request &_req,
                             subt_msgs::Unregister::Response &_res);
 
+  /// \brief Ignition service callback triggerered when a message is received.
+  /// Inside the callback, the message is forwarded via a ROS service call.
+  /// \param[in] _msg The message.
   public: bool OnMessage(const subt::msgs::Datagram &_msg,
                          ignition::msgs::Boolean &_res);
 

@@ -28,7 +28,6 @@
 #include <subt_msgs/DatagramRos.h>
 
 #include <subt_communication_broker/common_types.h>
-#include <subt_communication_broker/protobuf/datagram.pb.h>
 #include <subt_communication_broker/protobuf/neighbor_m.pb.h>
 
 namespace subt
