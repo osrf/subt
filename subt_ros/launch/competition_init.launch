@@ -11,6 +11,11 @@
     <remap from="/world/$(arg world_name)/clock" to="/clock"/>
   </node>
 
+  <node
+    pkg="subt_ros"
+    type="subt_ros_relay"
+    name="subt_ros_relay"/>
+
   <group if="$(arg vehicle_topics)">
     <include file="$(find subt_ros)/launch/vehicle_topics.launch">
       <arg name="world_name" value="$(arg world_name)"/>
