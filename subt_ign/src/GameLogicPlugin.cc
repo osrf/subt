@@ -16,6 +16,15 @@
 */
 
 #include <tinyxml2.h>
+#include "ignition/gazebo/components/Model.hh"
+#include "ignition/gazebo/components/Name.hh"
+#include "ignition/gazebo/components/ParentEntity.hh"
+#include "ignition/gazebo/components/Pose.hh"
+#include "ignition/gazebo/components/Static.hh"
+#include "ignition/gazebo/components/World.hh"
+#include "ignition/gazebo/Conversions.hh"
+#include "ignition/gazebo/EntityComponentManager.hh"
+
 #include <ignition/msgs/boolean.pb.h>
 #include <ignition/msgs/float.pb.h>
 #include <ignition/msgs/stringmsg.pb.h>
@@ -50,6 +59,8 @@ IGNITION_ADD_PLUGIN(
     subt::GameLogicPlugin::ISystemPostUpdate)
 
 using namespace ignition;
+using namespace gazebo;
+using namespace systems;
 using namespace subt;
 
 class subt::GameLogicPluginPrivate
@@ -288,9 +299,9 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
 
   // Subscribe to pose messages. We will pull out model and artifact
   // information from the published message.
-  Change this to use ECM!!!
-  this->dataPtr->node.Subscribe("/world/" + worldName + "/pose/info",
+  /*this->dataPtr->node.Subscribe("/world/" + worldName + "/pose/info",
       &GameLogicPluginPrivate::OnPose, this->dataPtr.get());
+      */
 
   this->dataPtr->node.Advertise("/subt/pose_from_artifact_origin",
       &GameLogicPluginPrivate::OnPoseFromArtifact, this->dataPtr.get());
@@ -308,6 +319,40 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
         &GameLogicPluginPrivate::PublishScore, this->dataPtr.get()));
 
   ignmsg << "Starting SubT" << std::endl;
+}
+
+//////////////////////////////////////////////////
+void GameLogicPlugin::PostUpdate(
+    const ignition::gazebo::UpdateInfo & /*_info*/,
+    const ignition::gazebo::EntityComponentManager &_ecm)
+{
+  // Store sim time
+  // this->simTime = _info.simTime;
+  _ecm.Each<gazebo::components::Model,
+            gazebo::components::Name,
+            gazebo::components::Pose,
+            gazebo::components::Static>(
+      [&](const gazebo::Entity &, const gazebo::components::Model *,
+          const gazebo::components::Name *_nameComp,
+          const gazebo::components::Pose *_poseComp) -> bool
+      {
+        this->dataPtr->poses[_nameComp->Data()] = _poseComp->Data();
+        for (std::pair<const subt::ArtifactType,
+            std::map<std::string, ignition::math::Pose3d>> &artifactPair :
+            this->dataPtr->artifacts)
+        {
+          for (std::pair<const std::string, ignition::math::Pose3d> &artifact :
+              artifactPair.second)
+          {
+            if (artifact.first == _nameComp->Data())
+            {
+              artifact.second = _poseComp->Data();
+              break;
+            }
+          }
+        }
+        return true;
+      });
 }
 
 /////////////////////////////////////////////////
