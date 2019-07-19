@@ -44,7 +44,7 @@ BaseStationPlugin::~BaseStationPlugin()
 //////////////////////////////////////////////////
 bool BaseStationPlugin::Load(const tinyxml2::XMLElement *)
 {
-  this->client.reset(new subt::CommsClient("base_station", true));
+  this->client.reset(new subt::CommsClient("base_station", true, true));
   this->client->Bind(&BaseStationPlugin::OnArtifact, this);
 
   // Spawn a thread to reply outside of the callback.
@@ -58,6 +58,7 @@ void BaseStationPlugin::OnArtifact(const std::string &_srcAddress,
   const std::string &/*_dstAddress*/, const uint32_t /*_dstPort*/,
   const std::string &_data)
 {
+  std::cerr << "\nON ARTIFACT\n";
   subt::msgs::Artifact artifact;
   if (!artifact.ParseFromString(_data))
   {
@@ -72,32 +73,40 @@ void BaseStationPlugin::OnArtifact(const std::string &_srcAddress,
 
   // Report this artifact to the scoring plugin.
   this->node.Request(kNewArtifactSrv, artifact, timeout, *this->score, result);
+  std::cerr << "blah[" << result << "][" << _srcAddress << "]\n";
 
   // If successfully reported, forward to requester.
   if (result)
   {
+    std::cerr << "\n NOTIFY \n";
     this->resAddress = _srcAddress;
     this->cv.notify_one();
   }
   else
   {
     this->score.release();
-    ignerr << "Error scoring artifact" << std::endl;
+    this->resAddress = "";
+    std::cerr << "Error scoring artifact" << std::endl;
   }
 }
 
 //////////////////////////////////////////////////
 void BaseStationPlugin::RunLoop()
 {
+  std::cerr << "\n\n RUN LOOP\n\n";
   while (this->running)
   {
     std::unique_lock<std::mutex> lk(this->mutex);
     // Two possible conditions, we either have a score or shutdown.
-    this->cv.wait_for(lk, std::chrono::milliseconds(100));
+    this->cv.wait_for(lk, std::chrono::milliseconds(1000), [&]
+    {
+      return this->score != nullptr;
+    });
 
     if (this->score)
     {
-      igndbg << "Sending Score" << std::endl;
+      std::cerr << "\n\n Sending Score To[" << this->resAddress << "]\n\n";
+      igndbg << "Sending Score to[" << this->resAddress << std::endl;
       std::string data;
       this->score->SerializeToString(&data);
       this->client->SendTo(data, this->resAddress);

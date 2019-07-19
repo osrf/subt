@@ -27,9 +27,10 @@ using namespace subt::communication_broker;
 
 //////////////////////////////////////////////////
 CommsClient::CommsClient(const std::string &_localAddress,
-  const bool _isPrivate)
+  const bool _isPrivate, const bool _isBaseStation)
   : localAddress(_localAddress),
-    isPrivate(_isPrivate)
+    isPrivate(_isPrivate),
+    isBaseStation(_isBaseStation)
 {
   this->enabled = false;
 
@@ -40,6 +41,11 @@ CommsClient::CommsClient(const std::string &_localAddress,
               << "be empty" << std::endl;
     return;
   }
+
+  // Subscribe to the ignition clock topic, which will only be
+  // available to the base station.
+  if (_isBaseStation)
+    this->node.Subscribe("/clock", &CommsClient::OnClock, this);
 
   const unsigned int kMaxWaitTime = 10000u;
   const auto kStart = std::chrono::steady_clock::now();
@@ -165,12 +171,12 @@ bool CommsClient::Bind(std::function<void(const std::string &_srcAddress,
     }
   }
 
-  if(!advertised) {
+  if (!advertised)
+  {
     // Advertise a oneway service for receiving message requests.
     ignition::transport::AdvertiseServiceOptions opts;
     if (this->isPrivate)
       opts.SetScope(ignition::transport::Scope_t::PROCESS);
-
 
     if (!this->node.Advertise(address, &CommsClient::OnMessage, this, opts)) {
       std::cerr << "[" << this->Host() << "] Bind Error: could not advertise " << address << std::endl;
@@ -297,9 +303,27 @@ void CommsClient::OnMessage(const msgs::Datagram &_msg)
 
   std::lock_guard<std::mutex> lock(this->mutex);
 
-  this->neighbors[_msg.src_address()] =
-      std::make_pair(ros::Time::now().toSec(), _msg.rssi());
+  if (this->isBaseStation)
+  {
+    double time = this->clockMsg.sim().sec() +
+      this->clockMsg.sim().nsec() * 1e-9;
+    this->neighbors[_msg.src_address()] = std::make_pair(time, _msg.rssi());
+  }
+  else
+  {
+    try
+    {
+      this->neighbors[_msg.src_address()] =
+        std::make_pair(ros::Time::now().toSec(), _msg.rssi());
+    }
+    catch (...)
+    {
+      std::cerr << "Exception in CommsClient::OnMessage. ROS time is probably "
+        << "not initialized.\n";
+    }
+  }
 
+  std::cerr << "!!!Comms Client got message. Callback time. Endpoint[" << endPoint << "]\n!!!";
   for (auto cb : this->callbacks)
   {
     if (cb.first == endPoint && cb.second)
@@ -308,4 +332,10 @@ void CommsClient::OnMessage(const msgs::Datagram &_msg)
                 _msg.dst_port(), _msg.data());
     }
   }
+}
+
+//////////////////////////////////////////////////
+void CommsClient::OnClock(const ignition::msgs::Clock &_clock)
+{
+  this->clockMsg.CopyFrom(_clock);
 }

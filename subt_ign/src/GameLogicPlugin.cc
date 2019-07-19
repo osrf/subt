@@ -332,6 +332,7 @@ void GameLogicPluginPrivate::OnPose(const ignition::msgs::Pose_V &_msg)
 bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
                                            subt::msgs::ArtifactScore &_resp)
 {
+  std::cerr << "\n\n ON NEW ARFIACAFSDFSDJFLS\n\n";
   this->Log() << "new_artifact_reported" << std::endl;
   auto realTime = std::chrono::steady_clock::now().time_since_epoch();
   auto s = std::chrono::duration_cast<std::chrono::seconds>(realTime);

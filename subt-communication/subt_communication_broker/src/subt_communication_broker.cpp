@@ -34,6 +34,7 @@ namespace communication_broker
 Broker::Broker()
     : team(std::make_shared<TeamMembership_M>())
 {
+  std::cerr << "CREATING A BROKER\n";
 }
 
 //////////////////////////////////////////////////
@@ -156,7 +157,8 @@ void Broker::DispatchMessages()
              t.second->rf_state.pose,
              t.second->rf_state.update_stamp) = pose_update_f(t.second->name);
 
-    if(!ret) {
+    if (!ret)
+    {
       std::cerr << "Problem getting state for " << t.second->name
                 << ", skipping DispatchMessages()" << std::endl;
       return;
@@ -173,6 +175,10 @@ void Broker::DispatchMessages()
     auto tx_node = this->team->find(msg.src_address());
     if (tx_node == this->team->end())
     {
+      for (auto t: *this->team)
+      {
+        std::cerr << "ON TEAM[" << t.first << "]\n";
+      }
       std::cerr << "Broker::DispatchMessages(): Discarding message. Robot ["
                 << msg.src_address() << "] is not registered as a member of the"
                 << " team" << std::endl;
@@ -214,10 +220,11 @@ void Broker::DispatchMessages()
                                                              rx_node->second->rf_state,
                                                              msg.data().size());
 
-        if(send_packet) {
-
+        if (send_packet)
+        {
           msg.set_rssi(rssi);
 
+          std::cerr << "Broker Sending message to["  << client.address << "]\n";
           if (!this->node.Request(client.address, msg))
           {
             std::cerr << "[CommsBrokerPlugin::DispatchMessages()]: Error "
@@ -225,7 +232,6 @@ void Broker::DispatchMessages()
                       << std::endl;
           }
         }
-
       }
     }
     else {
@@ -285,7 +291,7 @@ bool Broker::Register(const std::string &_id)
     newMember->radio = default_radio_configuration;
     (*this->team)[_id] = newMember;
 
-    std::cout << "New client registered [" << _id << "]" <<  std::endl;
+    std::cerr << "New client registered [" << _id << "]" <<  std::endl;
   }
 
   return true;
@@ -303,6 +309,7 @@ bool Broker::Unregister(const std::string &_id)
     return false;
   }
 
+  std::cerr << "UNREGISTER[" << _id << "]\n";
   this->team->erase(_id);
 
   // Unbind.
@@ -378,6 +385,8 @@ void Broker::OnMessage(const subt::msgs::Datagram &_req)
 {
   // Just save the message, it will be processed later.
   std::lock_guard<std::mutex> lk(this->mutex);
+
+  std::cerr << "Incoming Message[" << _req.DebugString() << "]\n";
 
   // Save the message.
   this->incomingMsgs.push_back(_req);
