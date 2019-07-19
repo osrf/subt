@@ -22,15 +22,17 @@
 #include <mutex>
 #include <string>
 
-#include <ignition/plugin/Register.hh>
-#include <ignition/launch/Plugin.hh>
+#include <ignition/gazebo/System.hh>
 
 namespace subt
 {
   class GameLogicPluginPrivate;
 
   /// \brief A plugin that takes care of all the SubT challenge logic.
-  class GameLogicPlugin : public ignition::launch::Plugin
+  class GameLogicPlugin :
+    public ignition::gazebo::System,
+    public ignition::gazebo::ISystemConfigure,
+    public ignition::gazebo::ISystemPostUpdate
   {
     /// \brief Constructor
     public: GameLogicPlugin();
@@ -39,19 +41,18 @@ namespace subt
     public: ~GameLogicPlugin();
 
     // Documentation inherited
-    public: virtual bool Load(const tinyxml2::XMLElement *_elem) override final;
+    public: void Configure(const ignition::gazebo::Entity &_entity,
+                           const std::shared_ptr<const sdf::Element> &_sdf,
+                           ignition::gazebo::EntityComponentManager &_ecm,
+                           ignition::gazebo::EventManager &_eventMgr) override;
 
-    /// \brief Callback triggered when a pair of links collide. It starts the
-    /// timer if a specified start area is collided by some object.
-    /// \param[in] _msg The message containing a list of collision information.
-    // \todo(nkoenig) Waiting on contact plugin.
-    // private: void OnStartCollision(ConstIntPtr &_msg);
+    // Documentation inherited
+    public: void PostUpdate(const ignition::gazebo::UpdateInfo &_info,
+                const ignition::gazebo::EntityComponentManager &_ecm) override;
 
     /// \brief Private data pointer.
     private: std::unique_ptr<GameLogicPluginPrivate> dataPtr;
   };
 }
 
-// Register the plugin
-IGNITION_ADD_PLUGIN(subt::GameLogicPlugin, ignition::launch::Plugin)
 #endif

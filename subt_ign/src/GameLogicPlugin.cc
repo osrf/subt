@@ -19,21 +19,35 @@
 #include <ignition/msgs/boolean.pb.h>
 #include <ignition/msgs/float.pb.h>
 #include <ignition/msgs/stringmsg.pb.h>
+#include <ignition/plugin/Register.hh>
 
 #include <chrono>
 #include <map>
 #include <mutex>
 #include <utility>
 
+#include <ignition/gazebo/components/Name.hh>
+#include <ignition/gazebo/components/DepthCamera.hh>
+#include <ignition/gazebo/components/GpuLidar.hh>
+#include <ignition/gazebo/components/RgbdCamera.hh>
+#include <ignition/gazebo/Util.hh>
+
 #include <ignition/common/Console.hh>
 #include <ignition/common/Util.hh>
 #include <ignition/common/Time.hh>
 #include <ignition/math/Pose3.hh>
 #include <ignition/transport/Node.hh>
+#include <sdf/sdf.hh>
 
 #include "subt_ign/CommonTypes.hh"
 #include "subt_ign/GameLogicPlugin.hh"
 #include "subt_ign/protobuf/artifact.pb.h"
+
+IGNITION_ADD_PLUGIN(
+    subt::GameLogicPlugin,
+    ignition::gazebo::System,
+    subt::GameLogicPlugin::ISystemConfigure,
+    subt::GameLogicPlugin::ISystemPostUpdate)
 
 using namespace ignition;
 using namespace subt;
@@ -97,7 +111,7 @@ class subt::GameLogicPluginPrivate
 
   /// \brief Parse all the artifacts.
   /// \param[in] _sdf The SDF element containing the artifacts.
-  public: void ParseArtifacts(const tinyxml2::XMLElement *_elem);
+  public: void ParseArtifacts(const std::shared_ptr<const sdf::Element> &_sdf);
 
   /// \brief Publish the score.
   /// \param[in] _event Unused.
@@ -196,7 +210,10 @@ GameLogicPlugin::~GameLogicPlugin()
 }
 
 //////////////////////////////////////////////////
-bool GameLogicPlugin::Load(const tinyxml2::XMLElement *_elem)
+void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
+                           const std::shared_ptr<const sdf::Element> &_sdf,
+                           ignition::gazebo::EntityComponentManager & /*_ecm*/,
+                           ignition::gazebo::EventManager & /*_eventMgr*/)
 {
   // Default log path is /dev/null.
   std::string logPath = "/dev/null";
@@ -209,20 +226,19 @@ bool GameLogicPlugin::Load(const tinyxml2::XMLElement *_elem)
   //   <path>/tmp</path>
   //   <filename_prefix>subt_tunnel_qual</filename_prefix>
   // </logging>
-  const tinyxml2::XMLElement *loggingElem = _elem->FirstChildElement("logging");
-  const tinyxml2::XMLElement *fileElem = nullptr;
-  if (loggingElem &&
-      (fileElem = loggingElem->FirstChildElement("filename_prefix")))
+  const sdf::ElementPtr loggingElem =
+    const_cast<sdf::Element*>(_sdf.get())->GetElement("logging");
+
+  if (loggingElem &&loggingElem->HasElement("filename_prefix"))
   {
     // Get the log filename prefix.
-    std::string filenamePrefix = fileElem->GetText();
-    const tinyxml2::XMLElement *pathElem =
-      loggingElem->FirstChildElement("path");
+    std::string filenamePrefix =
+      loggingElem->Get<std::string>("filename_prefix", "subt").first;
 
     // Get the logpath from the <path> element, if it exists.
-    if (pathElem)
+    if (loggingElem->HasElement("path"))
     {
-      logPath = pathElem->GetText();
+      logPath = loggingElem->Get<std::string>("path", "/dev/null").first;
     }
     else
     {
@@ -257,14 +273,12 @@ bool GameLogicPlugin::Load(const tinyxml2::XMLElement *_elem)
   this->dataPtr->node.Advertise(kNewArtifactSrv,
     &GameLogicPluginPrivate::OnNewArtifact, this->dataPtr.get(), opts);
 
-  this->dataPtr->ParseArtifacts(_elem);
+  this->dataPtr->ParseArtifacts(_sdf);
 
-  const tinyxml2::XMLElement *worldNameElem =
-    _elem->FirstChildElement("world_name");
   std::string worldName = "default";
-  if (worldNameElem)
+  if (_sdf->HasElement("world_name"))
   {
-    worldName = worldNameElem->GetText();
+    worldName = _sdf->Get<std::string>("world_name", "subt").first;
   }
   else
   {
@@ -274,6 +288,7 @@ bool GameLogicPlugin::Load(const tinyxml2::XMLElement *_elem)
 
   // Subscribe to pose messages. We will pull out model and artifact
   // information from the published message.
+  Change this to use ECM!!!
   this->dataPtr->node.Subscribe("/world/" + worldName + "/pose/info",
       &GameLogicPluginPrivate::OnPose, this->dataPtr.get());
 
@@ -293,8 +308,6 @@ bool GameLogicPlugin::Load(const tinyxml2::XMLElement *_elem)
         &GameLogicPluginPrivate::PublishScore, this->dataPtr.get()));
 
   ignmsg << "Starting SubT" << std::endl;
-
-  return true;
 }
 
 /////////////////////////////////////////////////
@@ -308,6 +321,7 @@ void GameLogicPluginPrivate::OnPose(const ignition::msgs::Pose_V &_msg)
   for (int i = 0; i < _msg.pose_size(); ++i)
   {
     const ignition::msgs::Pose &pose = _msg.pose(i);
+  std::cerr << "ON POSE[" << pose.name() << "]\n";
     this->poses[pose.name()] = ignition::msgs::Convert(pose);
 
     // Update artifact positions.
@@ -385,6 +399,8 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
     this->Log() << "new_total_score " << this->totalScore << std::endl;
   }
 
+  std::cerr << _resp.DebugString() << std::endl;
+
   this->Log() << _resp.DebugString() << std::endl;
   return true;
 }
@@ -425,6 +441,7 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
   ignition::math::Pose3d artifactPose = ignition::msgs::Convert(_pose);
   ignition::math::Pose3d pose = artifactPose +
     this->artifactOriginPose;
+  std::cerr << "ArtifactPose[" << artifactPose << "] Pose[" << pose << "]\n";
 
   double score = 0.0;
   std::map<std::string, ignition::math::Pose3d> &potentialArtifacts =
@@ -438,6 +455,7 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
   for (const std::pair<std::string, ignition::math::Pose3d> &object :
        potentialArtifacts)
   {
+    std::cerr << "ARTIFACT POSE[" << object.second.Pos() << "]\n";
     double distance = observedObjectPose.Distance(object.second.Pos());
 
     if (distance < std::get<2>(minDistance))
@@ -458,6 +476,8 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
     if (potentialArtifacts.empty())
       this->artifacts.erase(_type);
   }
+
+  this->Log() << "calculated_dist " << std::get<2>(minDistance) << std::endl;
 
   ignmsg << "  [Total]: " << score << std::endl;
   this->Log() << "modified_score " << score << std::endl;
@@ -485,43 +505,42 @@ bool GameLogicPluginPrivate::ArtifactFromString(const std::string &_name,
 }
 
 /////////////////////////////////////////////////
-void GameLogicPluginPrivate::ParseArtifacts(const tinyxml2::XMLElement *_elem)
+void GameLogicPluginPrivate::ParseArtifacts(
+    const std::shared_ptr<const sdf::Element> &_sdf)
 {
-  const tinyxml2::XMLElement *artifactElem =
-    _elem->FirstChildElement("artifact");
+  sdf::ElementPtr artifactElem = const_cast<sdf::Element*>(
+      _sdf.get())->GetElement("artifact");
+
   while (artifactElem)
   {
-    const tinyxml2::XMLElement *nameElem =
-      artifactElem->FirstChildElement("name");
-
     // Sanity check: "Name" is required.
-    if (!nameElem)
+    if (!artifactElem->HasElement("name"))
     {
       ignerr << "[GameLogicPlugin]: Parameter <name> not found. Ignoring this "
             << "artifact" << std::endl;
       this->Log() << "error Parameter <name> not found. Ignoring this artifact"
                   << std::endl;
-      artifactElem = artifactElem->NextSiblingElement("artifact");
+      artifactElem = artifactElem->GetNextElement("artifact");
       continue;
     }
-    std::string modelName = nameElem->GetText();
+    std::string modelName = artifactElem->Get<std::string>("name",
+        "name").first;
 
-    const tinyxml2::XMLElement *typeElem =
-      artifactElem->FirstChildElement("type");
     // Sanity check: "Type" is required.
-    if (!typeElem)
+    if (!artifactElem->HasElement("type"))
     {
       ignerr << "[GameLogicPlugin]: Parameter <type> not found. Ignoring this "
         << "artifact" << std::endl;
       this->Log() << "error Parameter <type> not found. Ignoring this artifact"
                   << std::endl;
 
-      artifactElem = artifactElem->NextSiblingElement("artifact");
+      artifactElem = artifactElem->GetNextElement("artifact");
       continue;
     }
 
     // Sanity check: Make sure that the artifact type is supported.
-    std::string modelTypeStr = typeElem->GetText();
+    std::string modelTypeStr = artifactElem->Get<std::string>("type",
+        "type").first;
     ArtifactType modelType;
     if (!this->ArtifactFromString(modelTypeStr, modelType))
     {
@@ -529,7 +548,7 @@ void GameLogicPluginPrivate::ParseArtifacts(const tinyxml2::XMLElement *_elem)
         << modelTypeStr << "]. Ignoring artifact" << std::endl;
       this->Log() << "error Unknown artifact type ["
                   << modelTypeStr << "]. Ignoring artifact" << std::endl;
-      artifactElem = artifactElem->NextSiblingElement("artifact");
+      artifactElem = artifactElem->GetNextElement("artifact");
       continue;
     }
 
@@ -545,7 +564,7 @@ void GameLogicPluginPrivate::ParseArtifacts(const tinyxml2::XMLElement *_elem)
           << modelName << "]. Ignoring artifact" << std::endl;
         this->Log() << "error Repeated model with name ["
                     << modelName << "]. Ignoring artifact" << std::endl;
-        artifactElem = artifactElem->NextSiblingElement("artifact");
+        artifactElem = artifactElem->GetNextElement("artifact");
         continue;
       }
     }
@@ -553,7 +572,7 @@ void GameLogicPluginPrivate::ParseArtifacts(const tinyxml2::XMLElement *_elem)
     ignmsg << "Adding artifact name[" << modelName << "] type["
       << modelTypeStr << "]\n";
     this->artifacts[modelType][modelName] = ignition::math::Pose3d::Zero;
-        artifactElem = artifactElem->NextSiblingElement("artifact");
+        artifactElem = artifactElem->GetNextElement("artifact");
   }
 }
 

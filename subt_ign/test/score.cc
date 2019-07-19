@@ -125,7 +125,10 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
       artifact1Pose.Pos().Y() - robotPose.Pos().Y() + rep.position().y());
     pose.mutable_position()->set_z(
       artifact1Pose.Pos().Z() - robotPose.Pos().Z() + rep.position().z());
-    uint32_t type = static_cast<uint32_t>(subt::ArtifactType::TYPE_BACKPACK);
+    uint32_t type = static_cast<uint32_t>(
+        subt::ArtifactType::TYPE_EXTINGUISHER);
+
+    std::cerr << "==== Report Good Artifact ====\n";
     this->ReportArtifact(type, pose);
     ASSERT_TRUE(this->WaitUntilScoreIs(1));
 

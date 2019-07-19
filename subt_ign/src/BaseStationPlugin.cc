@@ -66,26 +66,30 @@ void BaseStationPlugin::OnArtifact(const std::string &_srcAddress,
     return;
   }
 
-  std::unique_lock<std::mutex> lk(this->mutex);
-  this->score = std::make_unique<subt::msgs::ArtifactScore>();
+  std::scoped_lock<std::mutex> lk(this->mutex);
+  // this->score = std::make_unique<subt::msgs::ArtifactScore>();
   unsigned int timeout = 1000;
   bool result;
 
+  subt::msgs::ArtifactScore newScore;
+
   // Report this artifact to the scoring plugin.
-  this->node.Request(kNewArtifactSrv, artifact, timeout, *this->score, result);
+  this->node.Request(kNewArtifactSrv, artifact, timeout, newScore, result);
   std::cerr << "blah[" << result << "][" << _srcAddress << "]\n";
 
   // If successfully reported, forward to requester.
   if (result)
   {
-    std::cerr << "\n NOTIFY \n";
-    this->resAddress = _srcAddress;
-    this->cv.notify_one();
+    std::cerr << "\n save score \n";
+    this->scores[_srcAddress].push_back(newScore);
+
+    // this->resAddress = _srcAddress;
+    //this->cv.notify_one();
   }
   else
   {
-    this->score.release();
-    this->resAddress = "";
+    // this->score.release();
+    // this->resAddress = "";
     std::cerr << "Error scoring artifact" << std::endl;
   }
 }
@@ -96,13 +100,26 @@ void BaseStationPlugin::RunLoop()
   std::cerr << "\n\n RUN LOOP\n\n";
   while (this->running)
   {
-    std::unique_lock<std::mutex> lk(this->mutex);
-    // Two possible conditions, we either have a score or shutdown.
-    this->cv.wait_for(lk, std::chrono::milliseconds(1000), [&]
-    {
-      return this->score != nullptr;
-    });
+    // One possible conditions, we have a shutdown.
+    // this->cv.wait_for(lk, std::chrono::milliseconds(200));
 
+    {
+      std::scoped_lock<std::mutex> lk(this->mutex);
+      for (const std::pair<std::string, std::vector<subt::msgs::ArtifactScore>>
+          &scorePair : this->scores)
+      {
+        for (const subt::msgs::ArtifactScore &score : scorePair.second)
+        {
+          std::cout << "Sending score to[" << scorePair.first << "]\n";
+          std::string data;
+          score.SerializeToString(&data);
+          this->client->SendTo(data, scorePair.first);
+        }
+      }
+      this->scores.clear();
+    }
+    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+/*
     if (this->score)
     {
       std::cerr << "\n\n Sending Score To[" << this->resAddress << "]\n\n";
@@ -112,6 +129,7 @@ void BaseStationPlugin::RunLoop()
       this->client->SendTo(data, this->resAddress);
       this->score.release();
     }
+    */
   }
   igndbg << "Terminating run loop" << std::endl;
 }

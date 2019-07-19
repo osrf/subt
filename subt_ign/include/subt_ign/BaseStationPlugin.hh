@@ -20,6 +20,7 @@
 
 #include <subt_communication_broker/subt_communication_client.h>
 
+#include <map>
 #include <memory>
 #include <string>
 
@@ -61,7 +62,8 @@ namespace subt
     private: std::thread ackThread;
 
     /// \brief Score acknowledgement data to send.
-    private: std::unique_ptr<subt::msgs::ArtifactScore> score = nullptr;
+    private: std::map<std::string,
+                      std::vector<subt::msgs::ArtifactScore>> scores;
 
     /// \brief Client address to respond with data.
     private: std::string resAddress;
