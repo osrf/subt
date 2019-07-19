@@ -69,7 +69,7 @@ namespace subt
     private: std::string resAddress;
 
     /// \brief Flag to terminate ack thread.
-    private: std::atomic<bool> running;
+    private: std::atomic<bool> running{true};
 
     /// \brief Mutex to protect ack data.
     private: std::mutex mutex;

@@ -43,7 +43,8 @@ CommsClient::CommsClient(const std::string &_localAddress,
   }
 
   // Subscribe to the ignition clock topic, which will only be
-  // available to the base station.
+  // available to the base station. The base station is run as a plugin
+  // alongside simulation, and does not have access to ros::Time.
   if (_isBaseStation)
     this->node.Subscribe("/clock", &CommsClient::OnClock, this);
 
@@ -101,8 +102,11 @@ bool CommsClient::Bind(std::function<void(const std::string &_srcAddress,
                        const int _port)
 {
   // Sanity check: Make sure that the communications are enabled.
-  if (!this->enabled) {
-    std::cerr << "[" << this->Host() << "] Bind() error: Trying to bind before communications are enabled!" << std::endl;
+  if (!this->enabled)
+  {
+    std::cerr << "[" << this->Host()
+      << "] Bind() error: Trying to bind before communications are enabled!"
+      << std::endl;
     return false;
   }
 
@@ -178,8 +182,10 @@ bool CommsClient::Bind(std::function<void(const std::string &_srcAddress,
     if (this->isPrivate)
       opts.SetScope(ignition::transport::Scope_t::PROCESS);
 
-    if (!this->node.Advertise(address, &CommsClient::OnMessage, this, opts)) {
-      std::cerr << "[" << this->Host() << "] Bind Error: could not advertise " << address << std::endl;
+    if (!this->node.Advertise(address, &CommsClient::OnMessage, this, opts))
+    {
+      std::cerr << "[" << this->Host() << "] Bind Error: could not advertise "
+        << address << std::endl;
       return false;
     }
 
@@ -323,7 +329,6 @@ void CommsClient::OnMessage(const msgs::Datagram &_msg)
     }
   }
 
-  std::cerr << "!!!Comms Client got message. Callback time. Endpoint[" << endPoint << "]\n!!!";
   for (auto cb : this->callbacks)
   {
     if (cb.first == endPoint && cb.second)

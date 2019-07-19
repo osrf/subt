@@ -297,12 +297,6 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
       << " world name of 'default'. This could lead to incorrect scoring\n";
   }
 
-  // Subscribe to pose messages. We will pull out model and artifact
-  // information from the published message.
-  /*this->dataPtr->node.Subscribe("/world/" + worldName + "/pose/info",
-      &GameLogicPluginPrivate::OnPose, this->dataPtr.get());
-      */
-
   this->dataPtr->node.Advertise("/subt/pose_from_artifact_origin",
       &GameLogicPluginPrivate::OnPoseFromArtifact, this->dataPtr.get());
 
@@ -332,9 +326,11 @@ void GameLogicPlugin::PostUpdate(
             gazebo::components::Name,
             gazebo::components::Pose,
             gazebo::components::Static>(
-      [&](const gazebo::Entity &, const gazebo::components::Model *,
+      [&](const gazebo::Entity &,
+          const gazebo::components::Model *,
           const gazebo::components::Name *_nameComp,
-          const gazebo::components::Pose *_poseComp) -> bool
+          const gazebo::components::Pose *_poseComp,
+          const gazebo::components::Static *) -> bool
       {
         this->dataPtr->poses[_nameComp->Data()] = _poseComp->Data();
         for (std::pair<const subt::ArtifactType,
@@ -356,42 +352,9 @@ void GameLogicPlugin::PostUpdate(
 }
 
 /////////////////////////////////////////////////
-void GameLogicPluginPrivate::OnPose(const ignition::msgs::Pose_V &_msg)
-{
-  // Store sim time if present
-  if (_msg.has_header() && _msg.header().has_stamp())
-    this->simTime = _msg.header().stamp();
-
-  // Check the all the published poses
-  for (int i = 0; i < _msg.pose_size(); ++i)
-  {
-    const ignition::msgs::Pose &pose = _msg.pose(i);
-  std::cerr << "ON POSE[" << pose.name() << "]\n";
-    this->poses[pose.name()] = ignition::msgs::Convert(pose);
-
-    // Update artifact positions.
-    for (std::pair<const subt::ArtifactType,
-         std::map<std::string, ignition::math::Pose3d>> &artifactPair :
-         this->artifacts)
-    {
-      for (std::pair<const std::string, ignition::math::Pose3d> &artifact :
-          artifactPair.second)
-      {
-        if (artifact.first == pose.name())
-        {
-          artifact.second = ignition::msgs::Convert(pose);
-          break;
-        }
-      }
-    }
-  }
-}
-
-/////////////////////////////////////////////////
 bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
                                            subt::msgs::ArtifactScore &_resp)
 {
-  std::cerr << "\n\n ON NEW ARFIACAFSDFSDJFLS\n\n";
   this->Log() << "new_artifact_reported" << std::endl;
   auto realTime = std::chrono::steady_clock::now().time_since_epoch();
   auto s = std::chrono::duration_cast<std::chrono::seconds>(realTime);
@@ -444,8 +407,6 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
     this->Log() << "new_total_score " << this->totalScore << std::endl;
   }
 
-  std::cerr << _resp.DebugString() << std::endl;
-
   this->Log() << _resp.DebugString() << std::endl;
   return true;
 }
@@ -486,7 +447,6 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
   ignition::math::Pose3d artifactPose = ignition::msgs::Convert(_pose);
   ignition::math::Pose3d pose = artifactPose +
     this->artifactOriginPose;
-  std::cerr << "ArtifactPose[" << artifactPose << "] Pose[" << pose << "]\n";
 
   double score = 0.0;
   std::map<std::string, ignition::math::Pose3d> &potentialArtifacts =
@@ -500,7 +460,6 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
   for (const std::pair<std::string, ignition::math::Pose3d> &object :
        potentialArtifacts)
   {
-    std::cerr << "ARTIFACT POSE[" << object.second.Pos() << "]\n";
     double distance = observedObjectPose.Distance(object.second.Pos());
 
     if (distance < std::get<2>(minDistance))

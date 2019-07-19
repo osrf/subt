@@ -17,11 +17,7 @@
 #ifndef SUBT_IGN_GAMELOGICPLUGIN_HH_
 #define SUBT_IGN_GAMELOGICPLUGIN_HH_
 
-#include <array>
 #include <memory>
-#include <mutex>
-#include <string>
-
 #include <ignition/gazebo/System.hh>
 
 namespace subt
@@ -29,7 +25,7 @@ namespace subt
   class GameLogicPluginPrivate;
 
   /// \brief A plugin that takes care of all the SubT challenge logic.
-  class GameLogicPlugin :
+  class GameLogicPlugin:
     public ignition::gazebo::System,
     public ignition::gazebo::ISystemConfigure,
     public ignition::gazebo::ISystemPostUpdate
@@ -38,7 +34,7 @@ namespace subt
     public: GameLogicPlugin();
 
     /// \brief Destructor
-    public: ~GameLogicPlugin();
+    public: ~GameLogicPlugin() override;
 
     // Documentation inherited
     public: void Configure(const ignition::gazebo::Entity &_entity,

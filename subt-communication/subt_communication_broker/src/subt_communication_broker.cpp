@@ -34,7 +34,6 @@ namespace communication_broker
 Broker::Broker()
     : team(std::make_shared<TeamMembership_M>())
 {
-  std::cerr << "CREATING A BROKER\n";
 }
 
 //////////////////////////////////////////////////
@@ -175,10 +174,6 @@ void Broker::DispatchMessages()
     auto tx_node = this->team->find(msg.src_address());
     if (tx_node == this->team->end())
     {
-      for (auto t: *this->team)
-      {
-        std::cerr << "ON TEAM[" << t.first << "]\n";
-      }
       std::cerr << "Broker::DispatchMessages(): Discarding message. Robot ["
                 << msg.src_address() << "] is not registered as a member of the"
                 << " team" << std::endl;
@@ -192,8 +187,10 @@ void Broker::DispatchMessages()
     {
       std::vector<BrokerClientInfo> clientsV = this->endpoints.at(dstEndPoint);
 
-      if(clientsV.empty()) {
-        std::cerr << "[Broker::DispatchMessages()]: No clients for endpoint " << dstEndPoint << std::endl;
+      if(clientsV.empty())
+      {
+        std::cerr << "[Broker::DispatchMessages()]: No clients for endpoint "
+          << dstEndPoint << std::endl;
       }
 
       for (const BrokerClientInfo &client : clientsV)
@@ -208,8 +205,10 @@ void Broker::DispatchMessages()
 
         // Query communication_model if this packet is successful,
         // forward if so
-        if(!tx_node->second->radio.pathloss_f) {
-          std::cerr << "No pathloss function defined for " << msg.src_address() << std::endl;
+        if(!tx_node->second->radio.pathloss_f)
+        {
+          std::cerr << "No pathloss function defined for "
+                    << msg.src_address() << std::endl;
           continue;
         }
 
@@ -224,7 +223,6 @@ void Broker::DispatchMessages()
         {
           msg.set_rssi(rssi);
 
-          std::cerr << "Broker Sending message to["  << client.address << "]\n";
           if (!this->node.Request(client.address, msg))
           {
             std::cerr << "[CommsBrokerPlugin::DispatchMessages()]: Error "
@@ -234,8 +232,10 @@ void Broker::DispatchMessages()
         }
       }
     }
-    else {
-      std::cerr << "[Broker::DispatchMessages()]: Could not find endpoint " << dstEndPoint << std::endl;
+    else
+    {
+      std::cerr << "[Broker::DispatchMessages()]: Could not find endpoint "
+        << dstEndPoint << std::endl;
     }
   }
 }
@@ -264,9 +264,6 @@ bool Broker::Bind(const std::string &_clientAddress,
   clientInfo.address = _clientAddress;
   this->endpoints[_endpoint].push_back(clientInfo);
 
-  std::cout << "New endpoint registered [" << _endpoint << "] for client ["
-            << _clientAddress << "]" << std::endl;
-
   return true;
 }
 
@@ -290,8 +287,6 @@ bool Broker::Register(const std::string &_id)
 
     newMember->radio = default_radio_configuration;
     (*this->team)[_id] = newMember;
-
-    std::cerr << "New client registered [" << _id << "]" <<  std::endl;
   }
 
   return true;
@@ -309,7 +304,6 @@ bool Broker::Unregister(const std::string &_id)
     return false;
   }
 
-  std::cerr << "UNREGISTER[" << _id << "]\n";
   this->team->erase(_id);
 
   // Unbind.
@@ -386,8 +380,6 @@ void Broker::OnMessage(const subt::msgs::Datagram &_req)
   // Just save the message, it will be processed later.
   std::lock_guard<std::mutex> lk(this->mutex);
 
-  std::cerr << "Incoming Message[" << _req.DebugString() << "]\n";
-
   // Save the message.
   this->incomingMsgs.push_back(_req);
 }
@@ -404,8 +396,10 @@ void Broker::SetRadioConfiguration(const std::string& address,
     lk.lock();
 
     node = this->team->find(address);
-    if(node == this->team->end()) {
-      std::cerr << "Cannot set radio configuration for " << address << std::endl;
+    if(node == this->team->end())
+    {
+      std::cerr << "Cannot set radio configuration for "
+        << address << std::endl;
       return;
     }
   }

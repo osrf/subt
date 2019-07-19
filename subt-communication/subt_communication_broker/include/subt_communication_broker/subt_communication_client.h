@@ -228,6 +228,8 @@ namespace subt
     private: mutable std::mutex mutex;
 
     /// \brief Clock message from simulation. Used by the base station.
+    /// The base station is run as a plugin alongside simulation, and does
+    /// not have access to ros::Time.
     private: ignition::msgs::Clock clockMsg;
 
     /// \brief True if this is the base station.

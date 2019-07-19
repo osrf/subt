@@ -30,6 +30,7 @@ BaseStationPlugin::BaseStationPlugin()
   ignmsg << "Base station plugin loaded" << std::endl;
 }
 
+//////////////////////////////////////////////////
 BaseStationPlugin::~BaseStationPlugin()
 {
   {
@@ -58,7 +59,6 @@ void BaseStationPlugin::OnArtifact(const std::string &_srcAddress,
   const std::string &/*_dstAddress*/, const uint32_t /*_dstPort*/,
   const std::string &_data)
 {
-  std::cerr << "\nON ARTIFACT\n";
   subt::msgs::Artifact artifact;
   if (!artifact.ParseFromString(_data))
   {
@@ -66,8 +66,6 @@ void BaseStationPlugin::OnArtifact(const std::string &_srcAddress,
     return;
   }
 
-  std::scoped_lock<std::mutex> lk(this->mutex);
-  // this->score = std::make_unique<subt::msgs::ArtifactScore>();
   unsigned int timeout = 1000;
   bool result;
 
@@ -75,21 +73,15 @@ void BaseStationPlugin::OnArtifact(const std::string &_srcAddress,
 
   // Report this artifact to the scoring plugin.
   this->node.Request(kNewArtifactSrv, artifact, timeout, newScore, result);
-  std::cerr << "blah[" << result << "][" << _srcAddress << "]\n";
 
   // If successfully reported, forward to requester.
   if (result)
   {
-    std::cerr << "\n save score \n";
+    std::scoped_lock<std::mutex> lk(this->mutex);
     this->scores[_srcAddress].push_back(newScore);
-
-    // this->resAddress = _srcAddress;
-    //this->cv.notify_one();
   }
   else
   {
-    // this->score.release();
-    // this->resAddress = "";
     std::cerr << "Error scoring artifact" << std::endl;
   }
 }
@@ -97,12 +89,9 @@ void BaseStationPlugin::OnArtifact(const std::string &_srcAddress,
 //////////////////////////////////////////////////
 void BaseStationPlugin::RunLoop()
 {
-  std::cerr << "\n\n RUN LOOP\n\n";
   while (this->running)
   {
-    // One possible conditions, we have a shutdown.
-    // this->cv.wait_for(lk, std::chrono::milliseconds(200));
-
+    // Send the scores, and clear the score list.
     {
       std::scoped_lock<std::mutex> lk(this->mutex);
       for (const std::pair<std::string, std::vector<subt::msgs::ArtifactScore>>
@@ -110,7 +99,6 @@ void BaseStationPlugin::RunLoop()
       {
         for (const subt::msgs::ArtifactScore &score : scorePair.second)
         {
-          std::cout << "Sending score to[" << scorePair.first << "]\n";
           std::string data;
           score.SerializeToString(&data);
           this->client->SendTo(data, scorePair.first);
@@ -118,18 +106,7 @@ void BaseStationPlugin::RunLoop()
       }
       this->scores.clear();
     }
-    std::this_thread::sleep_for(std::chrono::milliseconds(200));
-/*
-    if (this->score)
-    {
-      std::cerr << "\n\n Sending Score To[" << this->resAddress << "]\n\n";
-      igndbg << "Sending Score to[" << this->resAddress << std::endl;
-      std::string data;
-      this->score->SerializeToString(&data);
-      this->client->SendTo(data, this->resAddress);
-      this->score.release();
-    }
-    */
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
   }
   igndbg << "Terminating run loop" << std::endl;
 }
