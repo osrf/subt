@@ -82,7 +82,7 @@ void BaseStationPlugin::OnArtifact(const std::string &_srcAddress,
   }
   else
   {
-    std::cerr << "Error scoring artifact" << std::endl;
+    ignerr << "Error scoring artifact" << std::endl;
   }
 }
 
