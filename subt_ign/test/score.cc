@@ -115,7 +115,10 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
 
     ignition::math::Pose3d robotPose(4, 3, 0.131, 0, 0, 0);
 
-    // Report an artifact with high accuracy (extinguisher_1): +1 point.
+    // The test positions are associated with artifacts in
+    /// the tunnel_qual_ign.sdf world
+
+    // Report an artifact with high accuracy (phone_2): +1 point.
     ignition::math::Pose3d artifact1Pose(201.8, 20.0, -15.0, 0, 0, 0);
     double err = 0.0;
     ignition::msgs::Pose pose;
@@ -146,7 +149,7 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
       this->scoreAcks.pop();
     }
 
-    // Report an artifact with medium accuracy (x2): +1 point.
+    // Report an artifact with medium accuracy (phone_1): +1 point.
     ignition::math::Pose3d artifact2Pose(260, 160, -15, 0, 0, 0);
     err = 1.0;
     pose.mutable_position()->set_x(
@@ -174,7 +177,7 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
       this->scoreAcks.pop();
     }
 
-    // Report an artifact with low accuracy (x1): +1 point.
+    // Report an artifact with low accuracy (extinguisher_1): +1 point.
     ignition::math::Pose3d artifact3Pose(158.0, 140.0, -15.0, 0, 0, 0);
     err = 4.99;
     pose.mutable_position()->set_x(
