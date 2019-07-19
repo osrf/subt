@@ -311,6 +311,7 @@ void CommsClient::OnMessage(const msgs::Datagram &_msg)
 
   if (this->isBaseStation)
   {
+    std::scoped_lock<std::mutex> lk(this->clockMutex);
     double time = this->clockMsg.sim().sec() +
       this->clockMsg.sim().nsec() * 1e-9;
     this->neighbors[_msg.src_address()] = std::make_pair(time, _msg.rssi());
@@ -342,5 +343,6 @@ void CommsClient::OnMessage(const msgs::Datagram &_msg)
 //////////////////////////////////////////////////
 void CommsClient::OnClock(const ignition::msgs::Clock &_clock)
 {
+  std::scoped_lock<std::mutex> lk(this->clockMutex);
   this->clockMsg.CopyFrom(_clock);
 }

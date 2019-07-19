@@ -232,8 +232,12 @@ namespace subt
     /// not have access to ros::Time.
     private: ignition::msgs::Clock clockMsg;
 
+    /// \brief Mutex to protect the clockMsg.
+    private: std::mutex clockMutex;
+
     /// \brief True if this is the base station.
     private: bool isBaseStation = false;
+
   };
 }
 #endif
