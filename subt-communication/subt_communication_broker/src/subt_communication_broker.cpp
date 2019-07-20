@@ -171,8 +171,8 @@ void Broker::DispatchMessages()
     this->incomingMsgs.pop_front();
 
     // Sanity check: Make sure that the sender is a member of the team.
-    auto tx_node = this->team->find(msg.src_address());
-    if (tx_node == this->team->end())
+    auto txNode = this->team->find(msg.src_address());
+    if (txNode == this->team->end())
     {
       std::cerr << "Broker::DispatchMessages(): Discarding message. Robot ["
                 << msg.src_address() << "] is not registered as a member of the"
@@ -187,7 +187,7 @@ void Broker::DispatchMessages()
     {
       std::vector<BrokerClientInfo> clientsV = this->endpoints.at(dstEndPoint);
 
-      if(clientsV.empty())
+      if (clientsV.empty())
       {
         std::cerr << "[Broker::DispatchMessages()]: No clients for endpoint "
           << dstEndPoint << std::endl;
@@ -195,31 +195,34 @@ void Broker::DispatchMessages()
 
       for (const BrokerClientInfo &client : clientsV)
       {
-        auto rx_node = this->team->find(client.address);
-        if(rx_node == this->team->end()) {
-          std::cerr << "Broker::DispatchMessages(): Skipping send attempt. Robot ["
-                    << client.address << "] is not registered as a member of the"
-                    << " team" << std::endl;
+        auto rxNode = this->team->find(client.address);
+        if (rxNode == this->team->end())
+        {
+          std::cerr << "Broker::DispatchMessages(): Skipping send attempt."
+            << "Robot [" << client.address
+            << "] is not registered as a member of the"
+            << " team" << std::endl;
           continue;
         }
 
         // Query communication_model if this packet is successful,
         // forward if so
-        if(!tx_node->second->radio.pathloss_f)
+        if (!txNode->second->radio.pathloss_f)
         {
           std::cerr << "No pathloss function defined for "
                     << msg.src_address() << std::endl;
           continue;
         }
 
-        bool send_packet;
+        bool sendPacket;
         double rssi;
-        std::tie(send_packet, rssi) = communication_function(tx_node->second->radio,
-                                                             tx_node->second->rf_state,
-                                                             rx_node->second->rf_state,
-                                                             msg.data().size());
+        std::tie(sendPacket, rssi) =
+          communication_function(txNode->second->radio,
+                                 txNode->second->rf_state,
+                                 rxNode->second->rf_state,
+                                 msg.data().size());
 
-        if (send_packet)
+        if (sendPacket)
         {
           msg.set_rssi(rssi);
 
