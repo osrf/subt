@@ -119,7 +119,8 @@ bool CommsClient::Bind(std::function<void(const std::string &_srcAddress,
     address = this->Host();
 
   // Sanity check: Make sure that you use your local address or multicast.
-  if ((address != communication_broker::kMulticast) && (address != this->Host()))
+  if ((address != communication_broker::kMulticast) &&
+      (address != this->Host()))
   {
     std::cerr << "[" << this->Host() << "] Bind() error: Address ["
               << address << "] is not your local address" << std::endl;
@@ -128,7 +129,9 @@ bool CommsClient::Bind(std::function<void(const std::string &_srcAddress,
 
   // Mapping the "unicast socket" to a topic name.
   const auto unicastEndPoint = address + ":" + std::to_string(_port);
-  const auto bcastEndpoint = communication_broker::kBroadcast + ":" + std::to_string(_port);
+  const auto bcastEndpoint = communication_broker::kBroadcast + ":" +
+    std::to_string(_port);
+
   bool bcastAdvertiseNeeded;
 
   {
@@ -148,7 +151,7 @@ bool CommsClient::Bind(std::function<void(const std::string &_srcAddress,
 
   // Register the endpoints in the broker.
   // Note that the broadcast endpoint will only be registered once.
-  for (std::string endpoint : {unicastEndPoint, bcastEndpoint})
+  for (const std::string &endpoint : {unicastEndPoint, bcastEndpoint})
   {
     if (endpoint != bcastEndpoint || bcastAdvertiseNeeded)
     {
@@ -156,55 +159,56 @@ bool CommsClient::Bind(std::function<void(const std::string &_srcAddress,
       // Otherwise, the client is on a robot and needs to use ROS.
       if (this->useIgnition)
       {
-      ignition::msgs::StringMsg_V req;
-      req.add_data(address);
-      req.add_data(endpoint);
+        ignition::msgs::StringMsg_V req;
+        req.add_data(address);
+        req.add_data(endpoint);
 
-      const unsigned int timeout = 3000u;
-      ignition::msgs::Boolean rep;
-      bool result;
-      bool executed = this->node.Request(
-          communication_broker::kEndPointRegistrationSrv,
-          req, timeout, rep, result);
+        const unsigned int timeout = 3000u;
+        ignition::msgs::Boolean rep;
+        bool result;
+        bool executed = this->node.Request(
+            communication_broker::kEndPointRegistrationSrv,
+            req, timeout, rep, result);
 
-      if (!executed)
-      {
-        std::cerr << "[CommsClient] Endpoint registration srv not available"
-                  << std::endl;
-        return false;
-      }
+        if (!executed)
+        {
+          std::cerr << "[CommsClient] Endpoint registration srv not available"
+            << std::endl;
+          return false;
+        }
 
-      if (!result)
-      {
-        std::cerr << "[CommsClient] Invalid data. Did you send the address "
-                  << "followed by the endpoint?" << std::endl;
-        return false;
-      }
+        if (!result)
+        {
+          std::cerr << "[CommsClient] Invalid data. Did you send the address "
+            << "followed by the endpoint?" << std::endl;
+          return false;
+        }
       }
       else
       {
-      subt_msgs::Bind::Request req;
-      req.address = address;
-      req.endpoint = endpoint;
+        std::cerr << "BIND use ros address[" << address << "]\n";
+        subt_msgs::Bind::Request req;
+        req.address = address;
+        req.endpoint = endpoint;
 
-      subt_msgs::Bind::Response rep;
+        subt_msgs::Bind::Response rep;
 
-      bool executed = ros::service::call(
-          communication_broker::kEndPointRegistrationSrv, req, rep);
+        bool executed = ros::service::call(
+            communication_broker::kEndPointRegistrationSrv, req, rep);
 
-      if (!executed)
-      {
-        std::cerr << "[CommsClient] Endpoint registration srv not available"
-                  << std::endl;
-        return false;
-      }
+        if (!executed)
+        {
+          std::cerr << "[CommsClient] Endpoint registration srv not available"
+            << std::endl;
+          return false;
+        }
 
-      if (!rep.success)
-      {
-        std::cerr << "[CommsClient] Invalid data. Did you send the address "
-                  << "followed by the endpoint?" << std::endl;
-        return false;
-      }
+        if (!rep.success)
+        {
+          std::cerr << "[CommsClient] Invalid data. Did you send the address "
+            << "followed by the endpoint?" << std::endl;
+          return false;
+        }
       }
     }
   }
@@ -278,24 +282,24 @@ bool CommsClient::SendTo(const std::string &_data,
 
   if (this->useIgnition)
   {
-  msgs::Datagram msg;
-  msg.set_src_address(this->Host());
-  msg.set_dst_address(_dstAddress);
-  msg.set_dst_port(_port);
-  msg.set_data(_data);
+    msgs::Datagram msg;
+    msg.set_src_address(this->Host());
+    msg.set_dst_address(_dstAddress);
+    msg.set_dst_port(_port);
+    msg.set_data(_data);
 
-  return this->node.Request(kBrokerSrv, msg);
+    return this->node.Request(kBrokerSrv, msg);
   }
   else
   {
     subt_msgs::DatagramRos::Request req;
-  subt_msgs::DatagramRos::Response rep;
-  req.src_address = this->Host();
-  req.dst_address = _dstAddress;
-  req.dst_port = _port;
-  req.data = _data;
+    subt_msgs::DatagramRos::Response rep;
+    req.src_address = this->Host();
+    req.dst_address = _dstAddress;
+    req.dst_port = _port;
+    req.data = _data;
 
-  return ros::service::call(kBrokerSrv, req, rep);
+    return ros::service::call(kBrokerSrv, req, rep);
   }
 }
 

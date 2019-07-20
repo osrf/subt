@@ -94,8 +94,7 @@ class SubtRosRelay
   /// \brief Ignition service callback triggerered when a message is received.
   /// Inside the callback, the message is forwarded via a ROS service call.
   /// \param[in] _msg The message.
-  public: bool OnMessage(const subt::msgs::Datagram &_msg,
-                         ignition::msgs::Boolean &_res);
+  public: void OnMessage(const subt::msgs::Datagram &_msg);
 
   /// \brief Ignition Transport node.
   public: ignition::transport::Node node;
@@ -121,7 +120,6 @@ class SubtRosRelay
   /// \brief ROS service to receive a unregister request.
   public: ros::ServiceServer commsModelUnregisterService;
 
-
   /// \brief ROS publisher to publish score data
   public: ros::Publisher rosScorePub;
 
@@ -131,6 +129,10 @@ class SubtRosRelay
 
   /// \brief A ROS asynchronous spinner.
   public: std::unique_ptr<ros::AsyncSpinner> spinner;
+
+  /// \brief The set of bound address. This is bookkeeping that helps
+  /// to reduce erroneous error output in the ::Bind function.
+  public: std::set<std::string> boundAddresses;
 };
 
 //////////////////////////////////////////////////
@@ -274,13 +276,19 @@ bool SubtRosRelay::OnBind(subt_msgs::Bind::Request &_req,
 
   _res.success = result;
 
-  if (executed && result)
+  if (executed && result &&
+      // Only establish the Ignition service once per client.
+      this->boundAddresses.find(_req.address) == this->boundAddresses.end())
   {
     if (!this->node.Advertise(_req.address, &SubtRosRelay::OnMessage, this))
     {
       std::cerr << "Bind Error: could not advertise "
-                << _req.address << std::endl;
+        << _req.address << std::endl;
       return false;
+    }
+    else
+    {
+      this->boundAddresses.insert(_req.address);
     }
   }
 
@@ -341,8 +349,7 @@ bool SubtRosRelay::OnUnregister(subt_msgs::Unregister::Request &_req,
 }
 
 //////////////////////////////////////////////////
-bool SubtRosRelay::OnMessage(const subt::msgs::Datagram &_req,
-    ignition::msgs::Boolean &_res)
+void SubtRosRelay::OnMessage(const subt::msgs::Datagram &_req)
 {
   subt_msgs::DatagramRos::Request req;
   subt_msgs::DatagramRos::Response res;
@@ -353,9 +360,6 @@ bool SubtRosRelay::OnMessage(const subt::msgs::Datagram &_req,
   req.rssi = _req.rssi();
 
   ros::service::call(_req.dst_address(), req, res);
-  _res.set_data(true);
-
-  return true;
 }
 
 //////////////////////////////////////////////////
@@ -368,4 +372,3 @@ int main(int argc, char * argv[])
   ros::spin();
   return 0;
 }
-
