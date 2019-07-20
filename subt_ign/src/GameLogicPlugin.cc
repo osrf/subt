@@ -366,7 +366,10 @@ void GameLogicPlugin::PostUpdate(
         << "]. Ignoring PoseFromArtifact request" << std::endl;
       errorSent = true;
     }
-    this->dataPtr->artifactOriginPose = originIter->second;
+    else
+    {
+      this->dataPtr->artifactOriginPose = originIter->second;
+    }
   }
 }
 
