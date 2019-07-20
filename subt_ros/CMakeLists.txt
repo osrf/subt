@@ -36,6 +36,8 @@ target_link_libraries(pose_tf_broadcaster
 )
 
 add_executable(subt_ros_relay src/SubtRosRelay.cc)
+target_include_directories(subt_ros_relay
+  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 target_link_libraries(subt_ros_relay
   PUBLIC
     ignition-math6::ignition-math6

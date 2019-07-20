@@ -28,6 +28,7 @@
 #include <subt_msgs/DatagramRos.h>
 
 #include <subt_communication_broker/common_types.h>
+#include <subt_communication_broker/protobuf/datagram.pb.h>
 #include <subt_communication_broker/protobuf/neighbor_m.pb.h>
 
 namespace subt
@@ -41,8 +42,13 @@ namespace subt
     /// Important: This address must be equal to a Gazebo model name.
     /// \param[in] _isPrivate If true, only nodes within the same process will
     /// be able to communicate with this client.
+    /// \param[in] _useIgnition Set to true if you are using Ignition
+    /// transport (i.e. not ROS). This is needed by the base station,
+    /// and tests. If you are a regular robot, then you really really do not
+    /// want to set this to true as your Commsclient will not work.
     public: CommsClient(const std::string &_localAddress,
-                        const bool _isPrivate = false);
+                        const bool _isPrivate = false,
+                        const bool _useIgnition = false);
 
     /// \brief Destructor.
     public: virtual ~CommsClient();
@@ -164,8 +170,16 @@ namespace subt
 
     /// \brief Function called each time a new datagram message is received.
     /// \param[in] _msg The incoming message.
-    private: bool OnMessage(subt_msgs::DatagramRos::Request &_req,
-                            subt_msgs::DatagramRos::Response &_res);
+    private: void OnMessage(const msgs::Datagram &_msg);
+
+    /// \brief Function called each time a new datagram message is received.
+    /// \param[in] _msg The incoming message.
+    private: bool OnMessageRos(subt_msgs::DatagramRos::Request &_req,
+                               subt_msgs::DatagramRos::Response &_res);
+
+    /// \brief On clock message. This is used primarily/only by the
+    /// BaseStation.
+    private: void OnClock(const ignition::msgs::Clock &_clock);
 
     /// \def Callback_t
     /// \brief The callback specified by the user when new data is available.
@@ -222,6 +236,17 @@ namespace subt
 
     /// \brief Service that receives comms messages.
     private: ros::ServiceServer commsModelOnMessageService;
+
+    /// \brief Clock message from simulation. Used by the base station.
+    /// The base station is run as a plugin alongside simulation, and does
+    /// not have access to ros::Time.
+    private: ignition::msgs::Clock clockMsg;
+
+    /// \brief Mutex to protect the clockMsg.
+    private: std::mutex clockMutex;
+
+    /// \brief True if this is the base station.
+    private: bool useIgnition = false;
   };
 }
 #endif

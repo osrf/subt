@@ -233,12 +233,11 @@ bool CommsBrokerPlugin::Load(const tinyxml2::XMLElement *_elem)
                            simTime.Double());
   };
   broker.SetPoseUpdateFunction(updatePoseFunc);
+  broker.Start();
 
   // Subscribe to pose messages.
   this->node.Subscribe("/world/" + worldName + "/pose/info",
       &CommsBrokerPlugin::OnPose, this);
-
-  broker.Start();
 
   ignmsg << "Starting SubT comms broker" << std::endl;
 

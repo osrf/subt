@@ -14,28 +14,49 @@
  * limitations under the License.
  *
 */
-
-#include <tinyxml2.h>
 #include <ignition/msgs/boolean.pb.h>
 #include <ignition/msgs/float.pb.h>
 #include <ignition/msgs/stringmsg.pb.h>
+#include <ignition/plugin/Register.hh>
 
 #include <chrono>
 #include <map>
 #include <mutex>
 #include <utility>
 
+#include <ignition/gazebo/components/Model.hh>
+#include <ignition/gazebo/components/Name.hh>
+#include <ignition/gazebo/components/DepthCamera.hh>
+#include <ignition/gazebo/components/GpuLidar.hh>
+#include <ignition/gazebo/components/RgbdCamera.hh>
+#include <ignition/gazebo/components/ParentEntity.hh>
+#include <ignition/gazebo/components/Pose.hh>
+#include <ignition/gazebo/components/Static.hh>
+#include <ignition/gazebo/components/World.hh>
+#include <ignition/gazebo/Conversions.hh>
+#include <ignition/gazebo/EntityComponentManager.hh>
+#include <ignition/gazebo/Util.hh>
+
 #include <ignition/common/Console.hh>
 #include <ignition/common/Util.hh>
 #include <ignition/common/Time.hh>
 #include <ignition/math/Pose3.hh>
 #include <ignition/transport/Node.hh>
+#include <sdf/sdf.hh>
 
 #include "subt_ign/CommonTypes.hh"
 #include "subt_ign/GameLogicPlugin.hh"
 #include "subt_ign/protobuf/artifact.pb.h"
 
+IGNITION_ADD_PLUGIN(
+    subt::GameLogicPlugin,
+    ignition::gazebo::System,
+    subt::GameLogicPlugin::ISystemConfigure,
+    subt::GameLogicPlugin::ISystemPostUpdate)
+
 using namespace ignition;
+using namespace gazebo;
+using namespace systems;
 using namespace subt;
 
 class subt::GameLogicPluginPrivate
@@ -97,7 +118,7 @@ class subt::GameLogicPluginPrivate
 
   /// \brief Parse all the artifacts.
   /// \param[in] _sdf The SDF element containing the artifacts.
-  public: void ParseArtifacts(const tinyxml2::XMLElement *_elem);
+  public: void ParseArtifacts(const std::shared_ptr<const sdf::Element> &_sdf);
 
   /// \brief Publish the score.
   /// \param[in] _event Unused.
@@ -196,7 +217,10 @@ GameLogicPlugin::~GameLogicPlugin()
 }
 
 //////////////////////////////////////////////////
-bool GameLogicPlugin::Load(const tinyxml2::XMLElement *_elem)
+void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
+                           const std::shared_ptr<const sdf::Element> &_sdf,
+                           ignition::gazebo::EntityComponentManager & /*_ecm*/,
+                           ignition::gazebo::EventManager & /*_eventMgr*/)
 {
   // Default log path is /dev/null.
   std::string logPath = "/dev/null";
@@ -209,20 +233,19 @@ bool GameLogicPlugin::Load(const tinyxml2::XMLElement *_elem)
   //   <path>/tmp</path>
   //   <filename_prefix>subt_tunnel_qual</filename_prefix>
   // </logging>
-  const tinyxml2::XMLElement *loggingElem = _elem->FirstChildElement("logging");
-  const tinyxml2::XMLElement *fileElem = nullptr;
-  if (loggingElem &&
-      (fileElem = loggingElem->FirstChildElement("filename_prefix")))
+  const sdf::ElementPtr loggingElem =
+    const_cast<sdf::Element*>(_sdf.get())->GetElement("logging");
+
+  if (loggingElem && loggingElem->HasElement("filename_prefix"))
   {
     // Get the log filename prefix.
-    std::string filenamePrefix = fileElem->GetText();
-    const tinyxml2::XMLElement *pathElem =
-      loggingElem->FirstChildElement("path");
+    std::string filenamePrefix =
+      loggingElem->Get<std::string>("filename_prefix", "subt").first;
 
     // Get the logpath from the <path> element, if it exists.
-    if (pathElem)
+    if (loggingElem->HasElement("path"))
     {
-      logPath = pathElem->GetText();
+      logPath = loggingElem->Get<std::string>("path", "/dev/null").first;
     }
     else
     {
@@ -257,25 +280,18 @@ bool GameLogicPlugin::Load(const tinyxml2::XMLElement *_elem)
   this->dataPtr->node.Advertise(kNewArtifactSrv,
     &GameLogicPluginPrivate::OnNewArtifact, this->dataPtr.get(), opts);
 
-  this->dataPtr->ParseArtifacts(_elem);
+  this->dataPtr->ParseArtifacts(_sdf);
 
-  const tinyxml2::XMLElement *worldNameElem =
-    _elem->FirstChildElement("world_name");
   std::string worldName = "default";
-  if (worldNameElem)
+  if (_sdf->HasElement("world_name"))
   {
-    worldName = worldNameElem->GetText();
+    worldName = _sdf->Get<std::string>("world_name", "subt").first;
   }
   else
   {
     ignerr << "Missing <world_name>, the GameLogicPlugin will assume a "
       << " world name of 'default'. This could lead to incorrect scoring\n";
   }
-
-  // Subscribe to pose messages. We will pull out model and artifact
-  // information from the published message.
-  this->dataPtr->node.Subscribe("/world/" + worldName + "/pose/info",
-      &GameLogicPluginPrivate::OnPose, this->dataPtr.get());
 
   this->dataPtr->node.Advertise("/subt/pose_from_artifact_origin",
       &GameLogicPluginPrivate::OnPoseFromArtifact, this->dataPtr.get());
@@ -293,37 +309,66 @@ bool GameLogicPlugin::Load(const tinyxml2::XMLElement *_elem)
         &GameLogicPluginPrivate::PublishScore, this->dataPtr.get()));
 
   ignmsg << "Starting SubT" << std::endl;
-
-  return true;
 }
 
-/////////////////////////////////////////////////
-void GameLogicPluginPrivate::OnPose(const ignition::msgs::Pose_V &_msg)
+//////////////////////////////////////////////////
+void GameLogicPlugin::PostUpdate(
+    const ignition::gazebo::UpdateInfo &_info,
+    const ignition::gazebo::EntityComponentManager &_ecm)
 {
-  // Store sim time if present
-  if (_msg.has_header() && _msg.header().has_stamp())
-    this->simTime = _msg.header().stamp();
+  // Store sim time
+  int64_t s, ns;
+  std::tie(s, ns) = ignition::math::durationToSecNsec(_info.simTime);
+  this->dataPtr->simTime.set_sec(s);
+  this->dataPtr->simTime.set_nsec(ns);
 
-  // Check the all the published poses
-  for (int i = 0; i < _msg.pose_size(); ++i)
-  {
-    const ignition::msgs::Pose &pose = _msg.pose(i);
-    this->poses[pose.name()] = ignition::msgs::Convert(pose);
-
-    // Update artifact positions.
-    for (std::pair<const subt::ArtifactType,
-         std::map<std::string, ignition::math::Pose3d>> &artifactPair :
-         this->artifacts)
-    {
-      for (std::pair<const std::string, ignition::math::Pose3d> &artifact :
-          artifactPair.second)
+  // Update pose information
+  _ecm.Each<gazebo::components::Model,
+            gazebo::components::Name,
+            gazebo::components::Pose,
+            gazebo::components::Static>(
+      [&](const gazebo::Entity &,
+          const gazebo::components::Model *,
+          const gazebo::components::Name *_nameComp,
+          const gazebo::components::Pose *_poseComp,
+          const gazebo::components::Static *) -> bool
       {
-        if (artifact.first == pose.name())
+        this->dataPtr->poses[_nameComp->Data()] = _poseComp->Data();
+        for (std::pair<const subt::ArtifactType,
+            std::map<std::string, ignition::math::Pose3d>> &artifactPair :
+            this->dataPtr->artifacts)
         {
-          artifact.second = ignition::msgs::Convert(pose);
-          break;
+          for (std::pair<const std::string, ignition::math::Pose3d> &artifact :
+              artifactPair.second)
+          {
+            if (artifact.first == _nameComp->Data())
+            {
+              artifact.second = _poseComp->Data();
+              break;
+            }
+          }
         }
-      }
+        return true;
+      });
+
+  // Set the artifact origion pose
+  if (this->dataPtr->artifactOriginPose == ignition::math::Pose3d::Zero)
+  {
+    static bool errorSent = false;
+
+    // Get the artifact origin's pose.
+    std::map<std::string, ignition::math::Pose3d>::iterator originIter =
+      this->dataPtr->poses.find(subt::kArtifactOriginName);
+    if (originIter == this->dataPtr->poses.end() && !errorSent)
+    {
+      ignerr << "[GameLogicPlugin]: Unable to find the artifact origin ["
+        << subt::kArtifactOriginName
+        << "]. Ignoring PoseFromArtifact request" << std::endl;
+      errorSent = true;
+    }
+    else
+    {
+      this->dataPtr->artifactOriginPose = originIter->second;
     }
   }
 }
@@ -422,8 +467,7 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
   // The teams are reporting the artifact poses relative to the fiducial located
   // in the staging area. Now, we convert the reported pose to world coordinates
   ignition::math::Pose3d artifactPose = ignition::msgs::Convert(_pose);
-  ignition::math::Pose3d pose = artifactPose +
-    this->artifactOriginPose;
+  ignition::math::Pose3d pose = artifactPose + this->artifactOriginPose;
 
   double score = 0.0;
   std::map<std::string, ignition::math::Pose3d> &potentialArtifacts =
@@ -458,6 +502,8 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
       this->artifacts.erase(_type);
   }
 
+  this->Log() << "calculated_dist " << std::get<2>(minDistance) << std::endl;
+
   ignmsg << "  [Total]: " << score << std::endl;
   this->Log() << "modified_score " << score << std::endl;
 
@@ -484,43 +530,42 @@ bool GameLogicPluginPrivate::ArtifactFromString(const std::string &_name,
 }
 
 /////////////////////////////////////////////////
-void GameLogicPluginPrivate::ParseArtifacts(const tinyxml2::XMLElement *_elem)
+void GameLogicPluginPrivate::ParseArtifacts(
+    const std::shared_ptr<const sdf::Element> &_sdf)
 {
-  const tinyxml2::XMLElement *artifactElem =
-    _elem->FirstChildElement("artifact");
+  sdf::ElementPtr artifactElem = const_cast<sdf::Element*>(
+      _sdf.get())->GetElement("artifact");
+
   while (artifactElem)
   {
-    const tinyxml2::XMLElement *nameElem =
-      artifactElem->FirstChildElement("name");
-
     // Sanity check: "Name" is required.
-    if (!nameElem)
+    if (!artifactElem->HasElement("name"))
     {
       ignerr << "[GameLogicPlugin]: Parameter <name> not found. Ignoring this "
             << "artifact" << std::endl;
       this->Log() << "error Parameter <name> not found. Ignoring this artifact"
                   << std::endl;
-      artifactElem = artifactElem->NextSiblingElement("artifact");
+      artifactElem = artifactElem->GetNextElement("artifact");
       continue;
     }
-    std::string modelName = nameElem->GetText();
+    std::string modelName = artifactElem->Get<std::string>("name",
+        "name").first;
 
-    const tinyxml2::XMLElement *typeElem =
-      artifactElem->FirstChildElement("type");
     // Sanity check: "Type" is required.
-    if (!typeElem)
+    if (!artifactElem->HasElement("type"))
     {
       ignerr << "[GameLogicPlugin]: Parameter <type> not found. Ignoring this "
         << "artifact" << std::endl;
       this->Log() << "error Parameter <type> not found. Ignoring this artifact"
                   << std::endl;
 
-      artifactElem = artifactElem->NextSiblingElement("artifact");
+      artifactElem = artifactElem->GetNextElement("artifact");
       continue;
     }
 
     // Sanity check: Make sure that the artifact type is supported.
-    std::string modelTypeStr = typeElem->GetText();
+    std::string modelTypeStr = artifactElem->Get<std::string>("type",
+        "type").first;
     ArtifactType modelType;
     if (!this->ArtifactFromString(modelTypeStr, modelType))
     {
@@ -528,7 +573,7 @@ void GameLogicPluginPrivate::ParseArtifacts(const tinyxml2::XMLElement *_elem)
         << modelTypeStr << "]. Ignoring artifact" << std::endl;
       this->Log() << "error Unknown artifact type ["
                   << modelTypeStr << "]. Ignoring artifact" << std::endl;
-      artifactElem = artifactElem->NextSiblingElement("artifact");
+      artifactElem = artifactElem->GetNextElement("artifact");
       continue;
     }
 
@@ -544,15 +589,15 @@ void GameLogicPluginPrivate::ParseArtifacts(const tinyxml2::XMLElement *_elem)
           << modelName << "]. Ignoring artifact" << std::endl;
         this->Log() << "error Repeated model with name ["
                     << modelName << "]. Ignoring artifact" << std::endl;
-        artifactElem = artifactElem->NextSiblingElement("artifact");
+        artifactElem = artifactElem->GetNextElement("artifact");
         continue;
       }
     }
 
-    ignmsg << "Adding artifact name[" << modelName << "] type["
-      << modelTypeStr << "]\n";
+    ignmsg << "Adding artifact name[" << modelName << "] type string["
+      << modelTypeStr << "] typeid[" << static_cast<int>(modelType) << "]\n";
     this->artifacts[modelType][modelName] = ignition::math::Pose3d::Zero;
-        artifactElem = artifactElem->NextSiblingElement("artifact");
+        artifactElem = artifactElem->GetNextElement("artifact");
   }
 }
 
@@ -668,17 +713,6 @@ bool GameLogicPluginPrivate::PoseFromArtifactHelper(const std::string &_robot,
     return false;
   }
 
-  // Get the artifact origin's pose.
-  std::map<std::string, ignition::math::Pose3d>::iterator originIter =
-    this->poses.find(subt::kArtifactOriginName);
-  if (originIter == this->poses.end())
-  {
-    ignerr << "[GameLogicPlugin]: Unable to find the artifact origin ["
-      << subt::kArtifactOriginName
-      << "]. Ignoring PoseFromArtifact request" << std::endl;
-    return false;
-  }
-  this->artifactOriginPose = originIter->second;
 
   // Pose.
   _result = robotIter->second - this->artifactOriginPose;

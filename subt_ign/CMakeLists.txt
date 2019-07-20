@@ -21,6 +21,9 @@ find_package(catkin REQUIRED
     subt_communication_broker
 )
 
+find_package(ignition-gazebo2 2.1 QUIET REQUIRED)
+set(IGN_GAZEBO_VER ${ignition-gazebo2_VERSION_MAJOR})
+
 file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include)
 
 find_package(ignition-common3 REQUIRED)
@@ -85,12 +88,10 @@ catkin_add_env_hooks(ign SHELLS zsh
 
 # Create the libGameLogicPlugin.so library.
 set(game_logic_plugin_name GameLogicPlugin)
-add_library(${game_logic_plugin_name} src/GameLogicPlugin.cc)
-add_dependencies(${game_logic_plugin_name} ${catkin_EXPORTED_TARGETS})
-target_include_directories(${game_logic_plugin_name}
-  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
+add_library(${game_logic_plugin_name} SHARED src/GameLogicPlugin.cc)
 target_link_libraries(${game_logic_plugin_name}
   PRIVATE
+    ignition-gazebo${IGN_GAZEBO_VER}::core
     ignition-common3::ignition-common3
     ignition-launch1::ignition-launch1
     ignition-math6::ignition-math6
