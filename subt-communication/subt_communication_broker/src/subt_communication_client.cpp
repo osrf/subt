@@ -27,9 +27,10 @@ using namespace subt::communication_broker;
 
 //////////////////////////////////////////////////
 CommsClient::CommsClient(const std::string &_localAddress,
-  const bool _isPrivate)
+  const bool _isPrivate, const bool _useIgnClock)
   : localAddress(_localAddress),
-    isPrivate(_isPrivate)
+    isPrivate(_isPrivate),
+    useIgnClock(_useIgnClock)
 {
   this->enabled = false;
 
@@ -40,6 +41,12 @@ CommsClient::CommsClient(const std::string &_localAddress,
               << "be empty" << std::endl;
     return;
   }
+
+  // Subscribe to the ignition clock topic, which will only be
+  // available to the base station. The base station is run as a plugin
+  // alongside simulation, and does not have access to ros::Time.
+  if (_useIgnClock)
+    this->node.Subscribe("/clock", &CommsClient::OnClock, this);
 
   const unsigned int kMaxWaitTime = 10000u;
   const auto kStart = std::chrono::steady_clock::now();
@@ -95,8 +102,11 @@ bool CommsClient::Bind(std::function<void(const std::string &_srcAddress,
                        const int _port)
 {
   // Sanity check: Make sure that the communications are enabled.
-  if (!this->enabled) {
-    std::cerr << "[" << this->Host() << "] Bind() error: Trying to bind before communications are enabled!" << std::endl;
+  if (!this->enabled)
+  {
+    std::cerr << "[" << this->Host()
+      << "] Bind() error: Trying to bind before communications are enabled!"
+      << std::endl;
     return false;
   }
 
@@ -165,15 +175,17 @@ bool CommsClient::Bind(std::function<void(const std::string &_srcAddress,
     }
   }
 
-  if(!advertised) {
+  if (!advertised)
+  {
     // Advertise a oneway service for receiving message requests.
     ignition::transport::AdvertiseServiceOptions opts;
     if (this->isPrivate)
       opts.SetScope(ignition::transport::Scope_t::PROCESS);
 
-
-    if (!this->node.Advertise(address, &CommsClient::OnMessage, this, opts)) {
-      std::cerr << "[" << this->Host() << "] Bind Error: could not advertise " << address << std::endl;
+    if (!this->node.Advertise(address, &CommsClient::OnMessage, this, opts))
+    {
+      std::cerr << "[" << this->Host() << "] Bind Error: could not advertise "
+        << address << std::endl;
       return false;
     }
 
@@ -264,7 +276,8 @@ bool CommsClient::Register()
   bool executed = this->node.Request(
     kAddrRegistrationSrv, req, timeout, rep, result);
 
-  if(!executed) {
+  if (!executed)
+  {
     std::cerr << "[" << this->localAddress
               << "] CommsClient::Register: Problem registering with broker"
               << std::endl;
@@ -296,8 +309,26 @@ void CommsClient::OnMessage(const msgs::Datagram &_msg)
 
   std::lock_guard<std::mutex> lock(this->mutex);
 
-  this->neighbors[_msg.src_address()] =
-      std::make_pair(ros::Time::now().toSec(), _msg.rssi());
+  if (this->useIgnClock)
+  {
+    std::scoped_lock<std::mutex> lk(this->clockMutex);
+    double time = this->clockMsg.sim().sec() +
+      this->clockMsg.sim().nsec() * 1e-9;
+    this->neighbors[_msg.src_address()] = std::make_pair(time, _msg.rssi());
+  }
+  else
+  {
+    try
+    {
+      this->neighbors[_msg.src_address()] =
+        std::make_pair(ros::Time::now().toSec(), _msg.rssi());
+    }
+    catch (...)
+    {
+      std::cerr << "Exception in CommsClient::OnMessage. ROS time is probably "
+        << "not initialized.\n";
+    }
+  }
 
   for (auto cb : this->callbacks)
   {
@@ -307,4 +338,11 @@ void CommsClient::OnMessage(const msgs::Datagram &_msg)
                 _msg.dst_port(), _msg.data());
     }
   }
+}
+
+//////////////////////////////////////////////////
+void CommsClient::OnClock(const ignition::msgs::Clock &_clock)
+{
+  std::scoped_lock<std::mutex> lk(this->clockMutex);
+  this->clockMsg.CopyFrom(_clock);
 }

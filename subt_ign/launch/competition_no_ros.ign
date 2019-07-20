@@ -1,14 +1,18 @@
 <?xml version="1.0"?>
-<!-- Usage: ign launch virtual_stix_headless.ign
+
+<!-- This is used by tests, you should not run this manually -->
+
+
+<!-- Usage: ign launch competition_no_ros.ign
             [robotName1:=<robotName> robotConfig1:=<robotConfig>
              robotName2:=<robotName> robotConfig2:=<robotConfig>
              ... ]
 
     The [robotNameX] command line argument is optional, where X can be 1 to 20
 
-    Example that loads virtual stix with an X2 robot with configuration 3
+    Example that loads tunnel qual world with an X2 robot with configuration 3
 
-      ign launch virtual_stix_headless.ign
+      ign launch competition.ign
           robotName1:=X2_3 robotConfig1:=X2_SENSOR_CONFIG_3
 -->
 
@@ -38,27 +42,22 @@
   end
 %>
 
-
 <%
-  $worldName = 'virtual_stix'
+  if !defined?(headless) || headless == nil || headless.empty?
+    $headless = false
+  elsif headless == 'true' || headless == 'True' || headless == '1'
+    $headless = true
+  end
+
+  $worldName = 'tunnel_qual_ign'
   $x3Version = '4'
 %>
 
 <ignition version='1.0'>
   <env>
-    <name>ROS_MASTER_URI</name>
-    <value>http://localhost:11311</value>
-  </env>
-  <env>
     <name>IGN_GAZEBO_SYSTEM_PLUGIN_PATH</name>
     <value>$LD_LIBRARY_PATH</value>
   </env>
-
-  <!-- Start ROS first. This is a bit hacky for now. -->
-  <!-- Make sure to source /opt/ros/melodic/setup.bash -->
-  <executable name='ros'>
-    <command>roslaunch subt_ros competition_init.launch world_name:=<%=$worldName%> vehicle_topics:=<%=(robots.empty?)?"1":"0"%></command>
-  </executable>
 
   <plugin name="ignition::launch::GazeboServer"
           filename="libignition-launch-gazebo.so">
@@ -113,24 +112,24 @@
             filename="libignition-gazebo-air-pressure-system.so"
             name="ignition::gazebo::systems::AirPressure">
     </plugin>
-
     <!-- The SubT challenge logic plugin -->
-    <plugin entity_name="<%= $worldName %>"
+    <plugin entity_name="<%=$worldName %>"
             entity_type="world"
-            filename="libGameLogicPlugin.so"
-            name="subt::GameLogicPlugin">
+            name="subt::GameLogicPlugin"
+            filename="libGameLogicPlugin.so">
       <!-- The collection of artifacts to locate -->
+
       <world_name><%= $worldName %></world_name>
       <logging>
         <!-- Use the <path> element to control where to record the log file. 
              The HOME path is used by default-->
         <path>/tmp/ign/logs</path>
-        <filename_prefix>subt_virtual_stix</filename_prefix>
+        <filename_prefix>subt_tunnel</filename_prefix>
       </logging>
 
       <artifact>
-        <name>extinguisher_1</name>
-        <type>TYPE_EXTINGUISHER</type>
+        <name>radio_1</name>
+        <type>TYPE_RADIO</type>
       </artifact>
       <artifact>
         <name>backpack_1</name>
@@ -141,47 +140,31 @@
         <type>TYPE_PHONE</type>
       </artifact>
       <artifact>
-        <name>rescue_randy_1</name>
-        <type>TYPE_RESCUE_RANDY</type>
+        <name>toolbox_1</name>
+        <type>TYPE_TOOLBOX</type>
       </artifact>
       <artifact>
-        <name>extinguisher_2</name>
+        <name>extinguisher_1</name>
         <type>TYPE_EXTINGUISHER</type>
       </artifact>
       <artifact>
-        <name>drill_1</name>
-        <type>TYPE_DRILL</type>
+        <name>radio_2</name>
+        <type>TYPE_RADIO</type>
       </artifact>
       <artifact>
-        <name>drill_2</name>
-        <type>TYPE_DRILL</type>
-      </artifact>
-      <artifact>
-        <name>drill_3</name>
-        <type>TYPE_DRILL</type>
-      </artifact>
-      <artifact>
-        <name>drill_4</name>
-        <type>TYPE_DRILL</type>
+        <name>toolbox_2</name>
+        <type>TYPE_TOOLBOX</type>
       </artifact>
       <artifact>
         <name>phone_2</name>
         <type>TYPE_PHONE</type>
       </artifact>
       <artifact>
+        <name>electrical_box_1</name>
+        <type>TYPE_ELECTRICAL_BOX</type>
+      </artifact>
+      <artifact>
         <name>backpack_2</name>
-        <type>TYPE_BACKPACK</type>
-      </artifact>
-      <artifact>
-        <name>rescue_randy_2</name>
-        <type>TYPE_RESCUE_RANDY</type>
-      </artifact>
-      <artifact>
-        <name>rescue_randy_3</name>
-        <type>TYPE_RESCUE_RANDY</type>
-      </artifact>
-      <artifact>
-        <name>backpack_3</name>
         <type>TYPE_BACKPACK</type>
       </artifact>
       <artifact>
@@ -189,11 +172,127 @@
         <type>TYPE_PHONE</type>
       </artifact>
       <artifact>
-        <name>extinguisher_3</name>
+        <name>valve_1</name>
+        <type>TYPE_VALVE</type>
+      </artifact>
+      <artifact>
+        <name>valve_2</name>
+        <type>TYPE_VALVE</type>
+      </artifact>
+      <artifact>
+        <name>electrical_box_2</name>
+        <type>TYPE_ELECTRICAL_BOX</type>
+      </artifact>
+      <artifact>
+        <name>backpack_3</name>
+        <type>TYPE_BACKPACK</type>
+      </artifact>
+      <artifact>
+        <name>extinguisher_2</name>
         <type>TYPE_EXTINGUISHER</type>
       </artifact>
     </plugin>
   </plugin>
+
+  <%if !$headless %>
+  <executable_wrapper>
+    <plugin name="ignition::launch::GazeboGui"
+          filename="libignition-launch-gazebogui.so">
+      <world_name><%= $worldName %></world_name>
+      <window_title>SubT Simulator</window_title>
+      <plugin filename="GzScene3D" name="3D View">
+        <ignition-gui>
+          <title>3D View</title>
+          <property type="bool" key="showTitleBar">false</property>
+          <property type="string" key="state">docked</property>
+        </ignition-gui>
+
+        <engine>ogre2</engine>
+        <scene>scene</scene>
+        <ambient_light>0.2 0.2 0.1</ambient_light>
+        <background_color>0.8 0.8 0.8</background_color>
+        <camera_pose>-6.3 -4.2 3.6 0 0.268 0.304</camera_pose>
+        <service>/world/<%= $worldName %>/scene/info</service>
+        <pose_topic>/world/<%= $worldName %>/pose/info</pose_topic>
+        <scene_topic>/world/<%= $worldName %>/scene/info</scene_topic>
+        <deletion_topic>/world/<%= $worldName %>/scene/deletion</deletion_topic>
+      </plugin>
+      <plugin filename="WorldControl" name="World control">
+        <ignition-gui>
+          <title>World control</title>
+          <property type="bool" key="showTitleBar">false</property>
+          <property type="bool" key="resizable">false</property>
+          <property type="double" key="height">72</property>
+          <property type="double" key="width">121</property>
+          <property type="double" key="z">1</property>
+
+          <property type="string" key="state">floating</property>
+          <anchors target="3D View">
+            <line own="left" target="left"/>
+            <line own="bottom" target="bottom"/>
+          </anchors>
+        </ignition-gui>
+
+        <play_pause>true</play_pause>
+        <step>true</step>
+        <start_paused>true</start_paused>
+        <service>/world/<%= $worldName %>/control</service>
+        <stats_topic>/world/<%= $worldName %>/stats</stats_topic>
+
+      </plugin>
+
+      <plugin filename="WorldStats" name="World stats">
+        <ignition-gui>
+          <title>World stats</title>
+          <property type="bool" key="showTitleBar">false</property>
+          <property type="bool" key="resizable">false</property>
+          <property type="double" key="height">110</property>
+          <property type="double" key="width">290</property>
+          <property type="double" key="z">1</property>
+
+          <property type="string" key="state">floating</property>
+          <anchors target="3D View">
+            <line own="right" target="right"/>
+            <line own="bottom" target="bottom"/>
+          </anchors>
+        </ignition-gui>
+
+        <sim_time>true</sim_time>
+        <real_time>true</real_time>
+        <real_time_factor>true</real_time_factor>
+        <iterations>true</iterations>
+        <topic>/world/<%= $worldName %>/stats</topic>
+      </plugin>
+    </plugin>
+  </executable_wrapper>
+  <%end%>
+
+  <!-- Load a joystick plugin that will read from a device and output to a
+       topic -->
+  <!--<plugin name="ignition::launch::Joystick"-->
+  <!--        filename="libignition-launch-joystick.so">-->
+  <!--  <device>/dev/input/js0</device>-->
+  <!--  <sticky_buttons>false</sticky_buttons>-->
+  <!--  <dead_zone>0.05</dead_zone>-->
+  <!--  <rate>60</rate>-->
+  <!--  <accumulation_rate>1000</accumulation_rate>-->
+  <!--</plugin>-->
+
+  <!-- Load a plugin that transforms a joystick message to a
+       twist message -->
+  <!--<plugin name="ignition::launch::JoyToTwist"-->
+  <!--        filename="libignition-launch-joytotwist.so">-->
+  <!--  <input_topic>/joy</input_topic>-->
+  <!--  <output_topic>/model/x1/cmd_vel</output_topic>-->
+  <!--</plugin>-->
+
+  <!-- Load a plugin that transforms a joystick message to a
+       twist message -->
+  <!--<plugin name="ignition::launch::JoyToTwist"-->
+  <!--        filename="libignition-launch-joytotwist.so">-->
+  <!--  <input_topic>/joy</input_topic>-->
+  <!--  <output_topic>/model/x2/cmd_vel</output_topic>-->
+  <!--</plugin>-->
 
   <!-- The SubT challenge comms broker plugin -->
   <plugin entity_name="<%= $worldName %>"
@@ -295,13 +394,7 @@
     "    </plugin>\n"\
     "  </include>\n"\
     "  </sdf>\n"\
-    "</plugin>\n"\
-    "<executable name='x1_description'>\n"\
-    "  <command>roslaunch --wait subt_ros x1_description.launch world_name:=#{$worldName} name:=#{_name}</command>\n"\
-    "</executable>\n"\
-    "<executable name='x1_ros_ign_bridge'>\n"\
-    "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} lidar_3d:=#{lidar3d}</command>\n"\
-    "</executable>\n"
+    "</plugin>\n"
   end
 
   def spawnX2(_name, _config, _x, _y)
@@ -364,13 +457,7 @@
     "    </plugin>\n"\
     "  </include>\n"\
     "  </sdf>\n"\
-    "</plugin>\n"\
-    "<executable name='x2_description'>\n"\
-    "  <command>roslaunch --wait subt_ros x2_description.launch world_name:=#{$worldName} name:=#{_name}</command>\n"\
-    "</executable>\n"\
-    "<executable name='x2_ros_ign_bridge'>\n"\
-    "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} lidar_3d:=#{lidar3d}</command>\n"\
-    "</executable>\n"
+    "</plugin>\n"
   end
 
   def spawnX3(_name, _config, _x, _y)
@@ -495,16 +582,7 @@
     "    </plugin>\n"\
     "  </include>\n"\
     "  </sdf>\n"\
-    "</plugin>\n"\
-    "<executable name='x3_description'>\n"\
-    "  <command>roslaunch --wait subt_ros x3_description.launch world_name:=#{$worldName} name:=#{_name}</command>\n"\
-    "</executable>\n"\
-    "<executable name='X3_controller'>\n"\
-    "  <command>roslaunch --wait x3_control control.launch world_name:=#{$worldName} x3_name:=#{_name}</command>\n"\
-    "</executable>\n"\
-    "<executable name='x3_ros_ign_bridge'>\n"\
-    "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} rgbd_cam:=#{rgbdCam}</command>\n"\
-    "</executable>\n"
+    "</plugin>\n"
   end
 
   def spawnX4(_name, _config, _x, _y)
@@ -670,16 +748,7 @@
     "    </plugin>\n"\
     "    </include>\n"\
     "  </sdf>\n"\
-    "</plugin>\n"\
-    "<executable name='X4_controller'>\n"\
-    "  <command>roslaunch --wait x4_control control.launch world_name:=#{$worldName} x4_name:=#{_name}</command>\n"\
-    "</executable>\n"\
-    "<executable name='x4_description'>\n"\
-    "  <command>roslaunch --wait subt_ros x4_description.launch world_name:=#{$worldName} name:=#{_name}</command>\n"\
-    "</executable>\n"\
-    "<executable name='x4_ros_ign_bridge'>\n"\
-    "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} rgbd_cam:=#{rgbdCam}</command>\n"\
-    "</executable>\n"
+    "</plugin>\n"
   end
 %>
 
@@ -715,5 +784,6 @@
     end
   end
 %>
+
 
 </ignition>
