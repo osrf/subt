@@ -41,12 +41,13 @@ namespace subt
     /// Important: This address must be equal to a Gazebo model name.
     /// \param[in] _isPrivate If true, only nodes within the same process will
     /// be able to communicate with this client.
-    /// \param[in] _isBasestation Set to true if you are the base station.
-    /// If you are a regular robot, then you really really do not want to
-    /// set this to true as your comms client will not work.
+    /// \param[in] _useIgnClock Set to true if you are using the /clock
+    /// topic from Ignition (not ROS). This is needed by the base station,
+    /// and tests. If you are a regular robot, then you really really do not
+    /// want to set this to true as your Commsclient will not work.
     public: CommsClient(const std::string &_localAddress,
                         const bool _isPrivate = false,
-                        const bool _isBaseStation = false);
+                        const bool _useIgnClock = false);
 
     /// \brief Destructor.
     public: virtual ~CommsClient();
@@ -236,8 +237,7 @@ namespace subt
     private: std::mutex clockMutex;
 
     /// \brief True if this is the base station.
-    private: bool isBaseStation = false;
-
+    private: bool useIgnClock = false;
   };
 }
 #endif

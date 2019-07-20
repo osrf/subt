@@ -27,10 +27,10 @@ using namespace subt::communication_broker;
 
 //////////////////////////////////////////////////
 CommsClient::CommsClient(const std::string &_localAddress,
-  const bool _isPrivate, const bool _isBaseStation)
+  const bool _isPrivate, const bool _useIgnClock)
   : localAddress(_localAddress),
     isPrivate(_isPrivate),
-    isBaseStation(_isBaseStation)
+    useIgnClock(_useIgnClock)
 {
   this->enabled = false;
 
@@ -45,7 +45,7 @@ CommsClient::CommsClient(const std::string &_localAddress,
   // Subscribe to the ignition clock topic, which will only be
   // available to the base station. The base station is run as a plugin
   // alongside simulation, and does not have access to ros::Time.
-  if (_isBaseStation)
+  if (_useIgnClock)
     this->node.Subscribe("/clock", &CommsClient::OnClock, this);
 
   const unsigned int kMaxWaitTime = 10000u;
@@ -309,7 +309,7 @@ void CommsClient::OnMessage(const msgs::Datagram &_msg)
 
   std::lock_guard<std::mutex> lock(this->mutex);
 
-  if (this->isBaseStation)
+  if (this->useIgnClock)
   {
     std::scoped_lock<std::mutex> lk(this->clockMutex);
     double time = this->clockMsg.sim().sec() +
