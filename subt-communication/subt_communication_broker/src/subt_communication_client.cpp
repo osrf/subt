@@ -87,7 +87,14 @@ CommsClient::CommsClient(const std::string &_localAddress,
 //////////////////////////////////////////////////
 CommsClient::~CommsClient()
 {
+  this->beaconRunning = false;
   this->Unregister();
+  if (this->beaconThread)
+  {
+    this->beaconThread->join();
+    delete this->beaconThread;
+    this->beaconThread = nullptr;
+  }
 }
 
 //////////////////////////////////////////////////
@@ -186,7 +193,6 @@ bool CommsClient::Bind(std::function<void(const std::string &_srcAddress,
       }
       else
       {
-        std::cerr << "BIND use ros address[" << address << "]\n";
         subt_msgs::Bind::Request req;
         req.address = address;
         req.endpoint = endpoint;
@@ -310,6 +316,7 @@ CommsClient::Neighbor_M CommsClient::Neighbors() const
   return this->neighbors;
 }
 
+//////////////////////////////////////////////////
 bool CommsClient::SendBeacon()
 {
   return this->SendTo("hello",
@@ -317,14 +324,30 @@ bool CommsClient::SendBeacon()
                kBeaconPort);
 }
 
-void CommsClient::StartBeaconInterval(ros::Duration period)
+//////////////////////////////////////////////////
+void CommsClient::StartBeaconInterval(ros::Duration _period)
 {
-  ros::NodeHandle nh;
-  auto cb = [this](const ros::TimerEvent&)
+
+  // Stop the current beacon, if present
+  if (this->beaconThread)
   {
-    this->SendBeacon();
-  };
-  beacon_timer = nh.createTimer(period, cb);
+    this->beaconRunning = false;
+    this->beaconThread->join();
+    delete this->beaconThread;
+    this->beaconThread = nullptr;
+  }
+
+  this->beaconPeriodNs = _period.toNSec();
+  // Start the beacon
+  this->beaconThread = new std::thread([&]()
+    {
+      while (this->beaconRunning)
+      {
+        this->SendBeacon();
+        std::this_thread::sleep_for(std::chrono::nanoseconds(
+              this->beaconPeriodNs));
+      }
+    });
 }
 
 //////////////////////////////////////////////////

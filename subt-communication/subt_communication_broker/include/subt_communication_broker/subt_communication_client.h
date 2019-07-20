@@ -156,7 +156,8 @@ namespace subt
     public: bool SendBeacon();
 
     /// \brief Start sending beacon packets at the specified interval
-    public: void StartBeaconInterval(ros::Duration period);
+    /// \bried Period at which to send the beacon.
+    public: void StartBeaconInterval(ros::Duration _period);
 
     /// \brief Register the current address. This will make a synchronous call
     /// to the broker to validate and register the address.
@@ -203,8 +204,8 @@ namespace subt
     /// \brief Port for BEACON packets
     public: static const uint32_t kBeaconPort = 4000u;
 
-    /// \brief Timer for triggering beacon transmits
-    private: ros::Timer beacon_timer;
+    /// \brief Thread for triggering beacon transmits
+    private: std::thread *beaconThread = nullptr;
 
     /// \brief The current list of neighbors
     ///
@@ -247,6 +248,12 @@ namespace subt
 
     /// \brief True if this is the base station.
     private: bool useIgnition = false;
+
+    /// \brief True if the beacon is running.
+    private: bool beaconRunning{true};
+
+    /// \brief Period of the beacon in nanoseconds.
+    private: int64_t beaconPeriodNs{0};
   };
 }
 #endif
