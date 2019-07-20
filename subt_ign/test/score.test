@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <launch>
 
+  <!-- Run simulatoin with an X1 and X2 -->
   <node pkg="subt_ign" type="run_competition_x1x2.bash" name="score"/>
 
   <param name="/use_sim_time" value="true" />
