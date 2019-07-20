@@ -23,6 +23,7 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <vector>
 
 #include <sdf/Element.hh>
 

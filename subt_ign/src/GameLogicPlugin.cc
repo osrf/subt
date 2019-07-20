@@ -14,15 +14,6 @@
  * limitations under the License.
  *
 */
-#include "ignition/gazebo/components/Model.hh"
-#include "ignition/gazebo/components/Name.hh"
-#include "ignition/gazebo/components/ParentEntity.hh"
-#include "ignition/gazebo/components/Pose.hh"
-#include "ignition/gazebo/components/Static.hh"
-#include "ignition/gazebo/components/World.hh"
-#include "ignition/gazebo/Conversions.hh"
-#include "ignition/gazebo/EntityComponentManager.hh"
-
 #include <ignition/msgs/boolean.pb.h>
 #include <ignition/msgs/float.pb.h>
 #include <ignition/msgs/stringmsg.pb.h>
@@ -33,10 +24,17 @@
 #include <mutex>
 #include <utility>
 
+#include <ignition/gazebo/components/Model.hh>
 #include <ignition/gazebo/components/Name.hh>
 #include <ignition/gazebo/components/DepthCamera.hh>
 #include <ignition/gazebo/components/GpuLidar.hh>
 #include <ignition/gazebo/components/RgbdCamera.hh>
+#include <ignition/gazebo/components/ParentEntity.hh>
+#include <ignition/gazebo/components/Pose.hh>
+#include <ignition/gazebo/components/Static.hh>
+#include <ignition/gazebo/components/World.hh>
+#include <ignition/gazebo/Conversions.hh>
+#include <ignition/gazebo/EntityComponentManager.hh>
 #include <ignition/gazebo/Util.hh>
 
 #include <ignition/common/Console.hh>
@@ -238,7 +236,7 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
   const sdf::ElementPtr loggingElem =
     const_cast<sdf::Element*>(_sdf.get())->GetElement("logging");
 
-  if (loggingElem &&loggingElem->HasElement("filename_prefix"))
+  if (loggingElem && loggingElem->HasElement("filename_prefix"))
   {
     // Get the log filename prefix.
     std::string filenamePrefix =
