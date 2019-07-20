@@ -361,11 +361,6 @@ void GameLogicPlugin::PostUpdate(
           const gazebo::components::Pose *_poseComp,
           const gazebo::components::Static *) -> bool
       {
-        /*auto snsCmp = _ecm.Component<gazebo::components::Sensor>(_entity);
-        if (snsCmp)
-          std::cerr << "Has sensor\n";
-          */
-
         this->dataPtr->poses[_nameComp->Data()] = _poseComp->Data();
         for (std::pair<const subt::ArtifactType,
             std::map<std::string, ignition::math::Pose3d>> &artifactPair :
