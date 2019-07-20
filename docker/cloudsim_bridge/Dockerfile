@@ -70,9 +70,6 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu 
     ros-melodic-spacenav-node \
     ros-melodic-tf2-sensor-msgs \
     ros-melodic-twist-mux \
-# ros-melodic-velodyne-simulator \
-#  ros-melodic-velodyne-gazebo-plugins \
-# ros-melodic-rotors-gazebo \
     ros-melodic-rviz-imu-plugin \
  && sudo rosdep init \
  && sudo apt-get clean
@@ -98,7 +95,7 @@ RUN sudo apt-get update \
 # docker is run
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
- && hg clone https://bitbucket.org/osrf/subt -b tunnel_circuit
+ && hg clone https://bitbucket.org/osrf/subt -b tunnel_circuit 
 
 # Download virtual stix models
 RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Edgar Mine Virtual STIX" -v 4

@@ -57,6 +57,25 @@ RUN export DEBIAN_FRONTEND=noninteractive \
  && sudo dpkg-reconfigure --frontend noninteractive tzdata \
  && sudo apt-get clean
 
+# install ROS and required packages
+RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' \
+ && sudo apt-get update \
+ && sudo apt-get install -y \
+    python-catkin-tools \
+    python-rosinstall \
+    ros-melodic-desktop \
+    ros-melodic-joystick-drivers \
+    ros-melodic-pointcloud-to-laserscan \
+    ros-melodic-robot-localization \
+    ros-melodic-spacenav-node \
+    ros-melodic-tf2-sensor-msgs \
+    ros-melodic-twist-mux \
+    ros-melodic-rviz-imu-plugin \
+ && sudo rosdep init \
+ && sudo apt-get clean
+
+RUN rosdep update
+
 # sdformat8-sdf conflicts with sdformat-sdf installed from gazebo
 # so we need to workaround this using a force overwrite
 # Do this before installing ign-gazebo
@@ -67,8 +86,14 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.osrfoundation.org/g
 
 # install ign-blueprint
 RUN sudo apt-get update \
-&&  sudo apt-get install -y \
+ && sudo apt-get install -y \
     ignition-blueprint \
+ && sudo apt-get clean
+
+# install the ros to ign bridge
+RUN sudo apt-get update \
+ && sudo apt-get install -y \
+    ros-melodic-ros1-ign \
  && sudo apt-get clean
 
 # Clone all the subt models so that you don't download them every time
@@ -127,7 +152,13 @@ RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/mode
 
 WORKDIR /home/$USERNAME/subt_ws
 
-RUN /bin/sh -c 'echo ". ~/subt_ws/install/setup.sh" >> ~/.bashrc'
+# Install Rotors
+RUN wget https://s3.amazonaws.com/osrf-distributions/subt_robot_examples/releases/subt_robot_examples_latest.tgz
+RUN tar xvf subt_robot_examples_latest.tgz
+RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && catkin_make install'
+
+RUN /bin/sh -c 'echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc' \
+ && /bin/sh -c 'echo ". ~/subt_ws/install/setup.sh" >> ~/.bashrc'
 
 # Create a directory required by cloudsim
 RUN mkdir -p /tmp/ign
