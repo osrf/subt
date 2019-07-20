@@ -313,11 +313,16 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
 
 //////////////////////////////////////////////////
 void GameLogicPlugin::PostUpdate(
-    const ignition::gazebo::UpdateInfo & /*_info*/,
+    const ignition::gazebo::UpdateInfo &_info,
     const ignition::gazebo::EntityComponentManager &_ecm)
 {
   // Store sim time
-  // this->simTime = _info.simTime;
+  int64_t s, ns;
+  std::tie(s, ns) = ignition::math::durationToSecNsec(_info.simTime);
+  this->dataPtr->simTime.set_sec(s);
+  this->dataPtr->simTime.set_nsec(ns);
+
+  // Update pose information
   _ecm.Each<gazebo::components::Model,
             gazebo::components::Name,
             gazebo::components::Pose,
@@ -345,6 +350,24 @@ void GameLogicPlugin::PostUpdate(
         }
         return true;
       });
+
+  // Set the artifact origion pose
+  if (this->dataPtr->artifactOriginPose == ignition::math::Pose3d::Zero)
+  {
+    static bool errorSent = false;
+
+    // Get the artifact origin's pose.
+    std::map<std::string, ignition::math::Pose3d>::iterator originIter =
+      this->dataPtr->poses.find(subt::kArtifactOriginName);
+    if (originIter == this->dataPtr->poses.end() && !errorSent)
+    {
+      ignerr << "[GameLogicPlugin]: Unable to find the artifact origin ["
+        << subt::kArtifactOriginName
+        << "]. Ignoring PoseFromArtifact request" << std::endl;
+      errorSent = true;
+    }
+    this->dataPtr->artifactOriginPose = originIter->second;
+  }
 }
 
 /////////////////////////////////////////////////
@@ -441,8 +464,7 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
   // The teams are reporting the artifact poses relative to the fiducial located
   // in the staging area. Now, we convert the reported pose to world coordinates
   ignition::math::Pose3d artifactPose = ignition::msgs::Convert(_pose);
-  ignition::math::Pose3d pose = artifactPose +
-    this->artifactOriginPose;
+  ignition::math::Pose3d pose = artifactPose + this->artifactOriginPose;
 
   double score = 0.0;
   std::map<std::string, ignition::math::Pose3d> &potentialArtifacts =
@@ -569,8 +591,8 @@ void GameLogicPluginPrivate::ParseArtifacts(
       }
     }
 
-    ignmsg << "Adding artifact name[" << modelName << "] type["
-      << modelTypeStr << "]\n";
+    ignmsg << "Adding artifact name[" << modelName << "] type string["
+      << modelTypeStr << "] typeid[" << static_cast<int>(modelType) << "]\n";
     this->artifacts[modelType][modelName] = ignition::math::Pose3d::Zero;
         artifactElem = artifactElem->GetNextElement("artifact");
   }
@@ -688,17 +710,6 @@ bool GameLogicPluginPrivate::PoseFromArtifactHelper(const std::string &_robot,
     return false;
   }
 
-  // Get the artifact origin's pose.
-  std::map<std::string, ignition::math::Pose3d>::iterator originIter =
-    this->poses.find(subt::kArtifactOriginName);
-  if (originIter == this->poses.end())
-  {
-    ignerr << "[GameLogicPlugin]: Unable to find the artifact origin ["
-      << subt::kArtifactOriginName
-      << "]. Ignoring PoseFromArtifact request" << std::endl;
-    return false;
-  }
-  this->artifactOriginPose = originIter->second;
 
   // Pose.
   _result = robotIter->second - this->artifactOriginPose;
