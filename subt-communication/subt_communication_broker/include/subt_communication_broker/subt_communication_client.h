@@ -25,6 +25,7 @@
 #include <string>
 #include <vector>
 #include <ignition/transport/Node.hh>
+#include <subt_msgs/DatagramRos.h>
 
 #include <subt_communication_broker/common_types.h>
 #include <subt_communication_broker/protobuf/datagram.pb.h>
@@ -41,13 +42,13 @@ namespace subt
     /// Important: This address must be equal to a Gazebo model name.
     /// \param[in] _isPrivate If true, only nodes within the same process will
     /// be able to communicate with this client.
-    /// \param[in] _useIgnClock Set to true if you are using the /clock
-    /// topic from Ignition (not ROS). This is needed by the base station,
+    /// \param[in] _useIgnition Set to true if you are using Ignition
+    /// transport (i.e. not ROS). This is needed by the base station,
     /// and tests. If you are a regular robot, then you really really do not
     /// want to set this to true as your Commsclient will not work.
     public: CommsClient(const std::string &_localAddress,
                         const bool _isPrivate = false,
-                        const bool _useIgnClock = false);
+                        const bool _useIgnition = false);
 
     /// \brief Destructor.
     public: virtual ~CommsClient();
@@ -155,7 +156,8 @@ namespace subt
     public: bool SendBeacon();
 
     /// \brief Start sending beacon packets at the specified interval
-    public: void StartBeaconInterval(ros::Duration period);
+    /// \bried Period at which to send the beacon.
+    public: void StartBeaconInterval(ros::Duration _period);
 
     /// \brief Register the current address. This will make a synchronous call
     /// to the broker to validate and register the address.
@@ -170,6 +172,11 @@ namespace subt
     /// \brief Function called each time a new datagram message is received.
     /// \param[in] _msg The incoming message.
     private: void OnMessage(const msgs::Datagram &_msg);
+
+    /// \brief Function called each time a new datagram message is received.
+    /// \param[in] _msg The incoming message.
+    private: bool OnMessageRos(subt_msgs::DatagramRos::Request &_req,
+                               subt_msgs::DatagramRos::Response &_res);
 
     /// \brief On clock message. This is used primarily/only by the
     /// BaseStation.
@@ -197,8 +204,8 @@ namespace subt
     /// \brief Port for BEACON packets
     public: static const uint32_t kBeaconPort = 4000u;
 
-    /// \brief Timer for triggering beacon transmits
-    private: ros::Timer beacon_timer;
+    /// \brief Thread for triggering beacon transmits
+    private: std::thread *beaconThread = nullptr;
 
     /// \brief The current list of neighbors
     ///
@@ -228,6 +235,9 @@ namespace subt
     /// \brief A mutex for avoiding race conditions.
     private: mutable std::mutex mutex;
 
+    /// \brief Service that receives comms messages.
+    private: ros::ServiceServer commsModelOnMessageService;
+
     /// \brief Clock message from simulation. Used by the base station.
     /// The base station is run as a plugin alongside simulation, and does
     /// not have access to ros::Time.
@@ -237,7 +247,13 @@ namespace subt
     private: std::mutex clockMutex;
 
     /// \brief True if this is the base station.
-    private: bool useIgnClock = false;
+    private: bool useIgnition = false;
+
+    /// \brief True if the beacon is running.
+    private: bool beaconRunning{true};
+
+    /// \brief Period of the beacon in nanoseconds.
+    private: int64_t beaconPeriodNs{0};
   };
 }
 #endif
