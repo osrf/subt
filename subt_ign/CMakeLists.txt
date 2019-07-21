@@ -15,16 +15,14 @@ set (SUBT_VERSION_FULL
 
 find_package(catkin REQUIRED
   COMPONENTS
-    roscpp
-    geometry_msgs
-    std_msgs
-    std_srvs
-    subt_msgs
-    message_generation
+    rostest
     subt_rf_interface
     subt_communication_model
     subt_communication_broker
 )
+
+find_package(ignition-gazebo2 2.1 QUIET REQUIRED)
+set(IGN_GAZEBO_VER ${ignition-gazebo2_VERSION_MAJOR})
 
 file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include)
 
@@ -35,12 +33,6 @@ find_package(ignition-transport7 REQUIRED)
 find_package(ignition-plugin1 REQUIRED COMPONENTS loader register)
 find_package(ignition-launch1 REQUIRED)
 find_package(sdformat8 REQUIRED)
-
-########################
-## Message generation ##
-########################
-
-# Add here SubT ROS messages.
 
 ###########
 ## Build ##
@@ -56,8 +48,6 @@ link_directories()
 
 catkin_package(
   CATKIN_DEPENDS
-    message_runtime
-    std_srvs
     subt_rf_interface
     subt_communication_model
     subt_communication_broker
@@ -98,12 +88,10 @@ catkin_add_env_hooks(ign SHELLS zsh
 
 # Create the libGameLogicPlugin.so library.
 set(game_logic_plugin_name GameLogicPlugin)
-add_library(${game_logic_plugin_name} src/GameLogicPlugin.cc)
-add_dependencies(${game_logic_plugin_name} ${catkin_EXPORTED_TARGETS})
-target_include_directories(${game_logic_plugin_name}
-  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
+add_library(${game_logic_plugin_name} SHARED src/GameLogicPlugin.cc)
 target_link_libraries(${game_logic_plugin_name}
   PRIVATE
+    ignition-gazebo${IGN_GAZEBO_VER}::core
     ignition-common3::ignition-common3
     ignition-launch1::ignition-launch1
     ignition-math6::ignition-math6

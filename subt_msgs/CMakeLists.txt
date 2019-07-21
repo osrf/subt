@@ -9,7 +9,11 @@ find_package(catkin REQUIRED COMPONENTS
 
 add_service_files(
   FILES
+    DatagramRos.srv
+    Bind.srv
     PoseFromArtifact.srv
+    Register.srv
+    Unregister.srv
 )
 
 generate_messages(

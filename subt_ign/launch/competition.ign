@@ -118,6 +118,87 @@
             filename="libignition-gazebo-air-pressure-system.so"
             name="ignition::gazebo::systems::AirPressure">
     </plugin>
+
+    <!-- The SubT challenge logic plugin -->
+    <plugin entity_name="<%= $worldName %>"
+            entity_type="world"
+            filename="libGameLogicPlugin.so"
+            name="subt::GameLogicPlugin">
+    <!-- The collection of artifacts to locate -->
+
+    <world_name><%= $worldName %></world_name>
+    <logging>
+      <!-- Use the <path> element to control where to record the log file. 
+           The HOME path is used by default-->
+      <path>/tmp/ign/logs</path>
+      <filename_prefix>subt_tunnel</filename_prefix>
+    </logging>
+
+    <artifact>
+      <name>radio_1</name>
+      <type>TYPE_RADIO</type>
+    </artifact>
+    <artifact>
+      <name>backpack_1</name>
+      <type>TYPE_BACKPACK</type>
+    </artifact>
+    <artifact>
+      <name>phone_1</name>
+      <type>TYPE_PHONE</type>
+    </artifact>
+    <artifact>
+      <name>toolbox_1</name>
+      <type>TYPE_TOOLBOX</type>
+    </artifact>
+    <artifact>
+      <name>extinguisher_1</name>
+      <type>TYPE_EXTINGUISHER</type>
+    </artifact>
+    <artifact>
+      <name>radio_2</name>
+      <type>TYPE_RADIO</type>
+    </artifact>
+    <artifact>
+      <name>toolbox_2</name>
+      <type>TYPE_TOOLBOX</type>
+    </artifact>
+    <artifact>
+      <name>phone_2</name>
+      <type>TYPE_PHONE</type>
+    </artifact>
+    <artifact>
+      <name>electrical_box_1</name>
+      <type>TYPE_ELECTRICAL_BOX</type>
+    </artifact>
+    <artifact>
+      <name>backpack_2</name>
+      <type>TYPE_BACKPACK</type>
+    </artifact>
+    <artifact>
+      <name>phone_3</name>
+      <type>TYPE_PHONE</type>
+    </artifact>
+    <artifact>
+      <name>valve_1</name>
+      <type>TYPE_VALVE</type>
+    </artifact>
+    <artifact>
+      <name>valve_2</name>
+      <type>TYPE_VALVE</type>
+    </artifact>
+    <artifact>
+      <name>electrical_box_2</name>
+      <type>TYPE_ELECTRICAL_BOX</type>
+    </artifact>
+    <artifact>
+      <name>backpack_3</name>
+      <type>TYPE_BACKPACK</type>
+    </artifact>
+    <artifact>
+      <name>extinguisher_2</name>
+      <type>TYPE_EXTINGUISHER</type>
+    </artifact>
+  </plugin>
   </plugin>
 
   <%if !$headless %>
@@ -256,84 +337,6 @@
           entity_type="model"
           name="subt::BaseStationPlugin"
           filename="libBaseStationPlugin.so">
-  </plugin>
-
-  <!-- The SubT challenge logic plugin -->
-  <plugin name="subt::GameLogicPlugin" filename="libGameLogicPlugin.so">
-    <!-- The collection of artifacts to locate -->
-
-    <world_name><%= $worldName %></world_name>
-    <logging>
-      <!-- Use the <path> element to control where to record the log file. 
-           The HOME path is used by default-->
-      <path>/tmp/ign/logs</path>
-      <filename_prefix>subt_tunnel</filename_prefix>
-    </logging>
-
-    <artifact>
-      <name>radio_1</name>
-      <type>TYPE_RADIO</type>
-    </artifact>
-    <artifact>
-      <name>backpack_1</name>
-      <type>TYPE_BACKPACK</type>
-    </artifact>
-    <artifact>
-      <name>phone_1</name>
-      <type>TYPE_PHONE</type>
-    </artifact>
-    <artifact>
-      <name>toolbox_1</name>
-      <type>TYPE_TOOLBOX</type>
-    </artifact>
-    <artifact>
-      <name>extinguisher_1</name>
-      <type>TYPE_EXTINGUISHER</type>
-    </artifact>
-    <artifact>
-      <name>radio_2</name>
-      <type>TYPE_RADIO</type>
-    </artifact>
-    <artifact>
-      <name>toolbox_2</name>
-      <type>TYPE_TOOLBOX</type>
-    </artifact>
-    <artifact>
-      <name>phone_2</name>
-      <type>TYPE_PHONE</type>
-    </artifact>
-    <artifact>
-      <name>electrical_box_1</name>
-      <type>TYPE_ELECTRICAL_BOX</type>
-    </artifact>
-    <artifact>
-      <name>backpack_2</name>
-      <type>TYPE_BACKPACK</type>
-    </artifact>
-    <artifact>
-      <name>phone_3</name>
-      <type>TYPE_PHONE</type>
-    </artifact>
-    <artifact>
-      <name>valve_1</name>
-      <type>TYPE_VALVE</type>
-    </artifact>
-    <artifact>
-      <name>valve_2</name>
-      <type>TYPE_VALVE</type>
-    </artifact>
-    <artifact>
-      <name>electrical_box_2</name>
-      <type>TYPE_ELECTRICAL_BOX</type>
-    </artifact>
-    <artifact>
-      <name>backpack_3</name>
-      <type>TYPE_BACKPACK</type>
-    </artifact>
-    <artifact>
-      <name>extinguisher_2</name>
-      <type>TYPE_EXTINGUISHER</type>
-    </artifact>
   </plugin>
 
 <%

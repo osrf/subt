@@ -20,8 +20,10 @@
 
 #include <subt_communication_broker/subt_communication_client.h>
 
+#include <map>
 #include <memory>
 #include <string>
+#include <vector>
 
 #include <sdf/Element.hh>
 
@@ -61,13 +63,14 @@ namespace subt
     private: std::thread ackThread;
 
     /// \brief Score acknowledgement data to send.
-    private: std::unique_ptr<subt::msgs::ArtifactScore> score = nullptr;
+    private: std::map<std::string,
+                      std::vector<subt::msgs::ArtifactScore>> scores;
 
     /// \brief Client address to respond with data.
     private: std::string resAddress;
 
     /// \brief Flag to terminate ack thread.
-    private: std::atomic<bool> running;
+    private: std::atomic<bool> running{true};
 
     /// \brief Mutex to protect ack data.
     private: std::mutex mutex;

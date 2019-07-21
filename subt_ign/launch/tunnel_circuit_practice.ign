@@ -130,6 +130,86 @@
             filename="libignition-gazebo-air-pressure-system.so"
             name="ignition::gazebo::systems::AirPressure">
     </plugin>
+
+    <!-- The SubT challenge logic plugin -->
+    <plugin entity_name="<%= $worldName %>"
+            entity_type="world"
+            filename="libGameLogicPlugin.so"
+            name="subt::GameLogicPlugin">
+      <!-- The collection of artifacts to locate -->
+      <world_name><%= $worldName %></world_name>
+      <logging>
+        <!-- Use the <path> element to control where to record the log file. 
+             The HOME path is used by default -->
+        <path>/tmp/ign/logs</path>
+        <filename_prefix>subt_tunnel_practice</filename_prefix>
+      </logging>
+
+      <artifact>
+        <name>extinguisher_1</name>
+        <type>TYPE_EXTINGUISHER</type>
+      </artifact>
+      <artifact>
+        <name>backpack_1</name>
+        <type>TYPE_BACKPACK</type>
+      </artifact>
+      <artifact>
+        <name>phone_1</name>
+        <type>TYPE_PHONE</type>
+      </artifact>
+      <artifact>
+        <name>rescue_randy_1</name>
+        <type>TYPE_RESCUE_RANDY</type>
+      </artifact>
+      <artifact>
+        <name>extinguisher_2</name>
+        <type>TYPE_EXTINGUISHER</type>
+      </artifact>
+      <artifact>
+        <name>drill_1</name>
+        <type>TYPE_DRILL</type>
+      </artifact>
+      <artifact>
+        <name>drill_2</name>
+        <type>TYPE_DRILL</type>
+      </artifact>
+      <artifact>
+        <name>drill_3</name>
+        <type>TYPE_DRILL</type>
+      </artifact>
+      <artifact>
+        <name>drill_4</name>
+        <type>TYPE_DRILL</type>
+      </artifact>
+      <artifact>
+        <name>phone_2</name>
+        <type>TYPE_PHONE</type>
+      </artifact>
+      <artifact>
+        <name>backpack_2</name>
+        <type>TYPE_BACKPACK</type>
+      </artifact>
+      <artifact>
+        <name>rescue_randy_2</name>
+        <type>TYPE_RESCUE_RANDY</type>
+      </artifact>
+      <artifact>
+        <name>rescue_randy_3</name>
+        <type>TYPE_RESCUE_RANDY</type>
+      </artifact>
+      <artifact>
+        <name>backpack_3</name>
+        <type>TYPE_BACKPACK</type>
+      </artifact>
+      <artifact>
+        <name>phone_3</name>
+        <type>TYPE_PHONE</type>
+      </artifact>
+      <artifact>
+        <name>extinguisher_3</name>
+        <type>TYPE_EXTINGUISHER</type>
+      </artifact>
+    </plugin>
   </plugin>
 
   <%if !$headless %>
@@ -250,83 +330,6 @@
           filename="libBaseStationPlugin.so">
   </plugin>
 
-  <!-- The SubT challenge logic plugin -->
-  <plugin name="subt::GameLogicPlugin" filename="libGameLogicPlugin.so">
-    <!-- The collection of artifacts to locate -->
-
-    <world_name><%= $worldName %></world_name>
-    <logging>
-      <!-- Use the <path> element to control where to record the log file. 
-           The HOME path is used by default -->
-      <path>/tmp/ign/logs</path>
-      <filename_prefix>subt_tunnel_practice</filename_prefix>
-    </logging>
-
-    <artifact>
-      <name>extinguisher_1</name>
-      <type>TYPE_EXTINGUISHER</type>
-    </artifact>
-    <artifact>
-      <name>backpack_1</name>
-      <type>TYPE_BACKPACK</type>
-    </artifact>
-    <artifact>
-      <name>phone_1</name>
-      <type>TYPE_PHONE</type>
-    </artifact>
-    <artifact>
-      <name>rescue_randy_1</name>
-      <type>TYPE_RESCUE_RANDY</type>
-    </artifact>
-    <artifact>
-      <name>extinguisher_2</name>
-      <type>TYPE_EXTINGUISHER</type>
-    </artifact>
-    <artifact>
-      <name>drill_1</name>
-      <type>TYPE_DRILL</type>
-    </artifact>
-    <artifact>
-      <name>drill_2</name>
-      <type>TYPE_DRILL</type>
-    </artifact>
-    <artifact>
-      <name>drill_3</name>
-      <type>TYPE_DRILL</type>
-    </artifact>
-    <artifact>
-      <name>drill_4</name>
-      <type>TYPE_DRILL</type>
-    </artifact>
-    <artifact>
-      <name>phone_2</name>
-      <type>TYPE_PHONE</type>
-    </artifact>
-    <artifact>
-      <name>backpack_2</name>
-      <type>TYPE_BACKPACK</type>
-    </artifact>
-    <artifact>
-      <name>rescue_randy_2</name>
-      <type>TYPE_RESCUE_RANDY</type>
-    </artifact>
-    <artifact>
-      <name>rescue_randy_3</name>
-      <type>TYPE_RESCUE_RANDY</type>
-    </artifact>
-    <artifact>
-      <name>backpack_3</name>
-      <type>TYPE_BACKPACK</type>
-    </artifact>
-    <artifact>
-      <name>phone_3</name>
-      <type>TYPE_PHONE</type>
-    </artifact>
-    <artifact>
-      <name>extinguisher_3</name>
-      <type>TYPE_EXTINGUISHER</type>
-    </artifact>
-  </plugin>
 
 <%
   def spawnX1(_name, _config, _x, _y)
