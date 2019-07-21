@@ -86,8 +86,8 @@ TEST(broker, communicate)
   broker.SetPoseUpdateFunction(pose_update_func);
   broker.Start();
 
-  CommsClient c1("1");
-  CommsClient c2("2");
+  CommsClient c1("1", false, true);
+  CommsClient c2("2", false , true);
 
   auto c2_cb = [=](const std::string& src,
                    const std::string& dst,

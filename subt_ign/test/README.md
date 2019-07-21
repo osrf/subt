@@ -1,10 +1,10 @@
 ## Scoring test
 
 You will need to run this test manually after starting the
-`virtual_stix` environment with the following command:
+`tunnel_qual_ign` environment with the following command:
 
 ~~~
-ign launch -v 4 virtual_stix.ign \
+ign launch -v 4 competition_no_ros.ign \
   robotName1:=X1 robotConfig1:=X1_SENSOR_CONFIG_1 \
   robotName2:=X2 robotConfig2:=X2_SENSOR_CONFIG_1
 ~~~
