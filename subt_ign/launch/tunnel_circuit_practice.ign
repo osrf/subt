@@ -81,7 +81,7 @@
           filename="libignition-launch-gazebo.so">
     <world_file><%= $worldName %>.sdf</world_file>
     <run>true</run>
-    <levels>false</levels>
+    <levels>true</levels>
     <record>
       <enabled>true</enabled>
       <!-- This path is used by cloudsim, please do not change -->
