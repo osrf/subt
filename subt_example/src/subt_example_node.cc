@@ -146,7 +146,8 @@ Controller::Controller(const std::string &_name,
       = this->n.subscribe<std_msgs::String>(
           _name + "/comm", 1, &Controller::TeleopCommCallback, this);
 
-  if(!this->client->Bind(&Controller::CommClientCallback, this)) {
+  if (!this->client->Bind(&Controller::CommClientCallback, this))
+  {
     ROS_FATAL(
         "subt_example_node did not successfully bind to the CommsClient");
   }
@@ -199,16 +200,15 @@ Controller::Controller(const std::string &_name,
   ros::NodeHandle pnh("~");
 
   createPeerSrv =
-      pnh.advertiseService<
-        subt_example::CreatePeer::Request,
-    subt_example::CreatePeer::Response
-    >("create_peer",
-      [this](auto& req,
-             auto& /*res*/)
+    pnh.advertiseService<subt_example::CreatePeer::Request,
+                        subt_example::CreatePeer::Response>("create_peer",
+      [this](auto& req, auto& /*res*/)
       {
         std::string remote = req.remote;
 
-        if(this->peer_connections.find(remote) != this->peer_connections.end()) {
+        if (this->peer_connections.find(remote) !=
+            this->peer_connections.end())
+        {
           ROS_WARN_STREAM(this->name << " is already connected to " << remote);
           return true;
         }
@@ -216,27 +216,28 @@ Controller::Controller(const std::string &_name,
         ros::NodeHandle pnh("~");
         ros::Subscriber sub =
         pnh.subscribe<std_msgs::String>(remote + "/send", 100,
-                                        [this, remote](const std_msgs::StringConstPtr& msg)
-  {
-    this->client->SendTo(msg->data, remote);
-    this->SetCommsActive();
-  });
+          [this, remote](const std_msgs::StringConstPtr& msg)
+          {
+            this->client->SendTo(msg->data, remote);
+            this->SetCommsActive();
+          });
 
-        ros::Publisher pub = pnh.advertise<std_msgs::String>(remote + "/recv", 100);
+        ros::Publisher pub =
+          pnh.advertise<std_msgs::String>(remote + "/recv", 100);
 
         this->peer_connections.insert(std::make_pair(remote,
-                                                     std::make_pair(sub, pub)));
+              std::make_pair(sub, pub)));
 
         ros::Publisher neighbor_pub =
-        pnh.advertise<std_msgs::Float64>(remote + "/rssi", 1);
+          pnh.advertise<std_msgs::Float64>(remote + "/rssi", 1);
         this->neighbor_state_pubs.insert(
             std::make_pair(remote,
-                           std::make_pair(ros::Time(), neighbor_pub)));
+              std::make_pair(ros::Time(), neighbor_pub)));
 
         return true;
-      });
+        });
 
-  auto neighbor_cb = [this](const ros::TimerEvent& ) {
+  auto neighborCb = [this](const ros::TimerEvent& ) {
     subt::CommsClient::Neighbor_M neighbors = this->client->Neighbors();
 
     for(auto kvp : neighbors) {
@@ -266,7 +267,8 @@ Controller::Controller(const std::string &_name,
 
   double neighbor_pub_rate;
   pnh.param("neighbor_publish_rate", neighbor_pub_rate, 5.0);
-  neighbor_timer = pnh.createTimer(ros::Duration(1.0/neighbor_pub_rate), neighbor_cb);
+  neighbor_timer = pnh.createTimer(ros::Duration(1.0/neighbor_pub_rate),
+      neighborCb);
 }
 
 /////////////////////////////////////////////////
@@ -318,18 +320,20 @@ void Controller::CommClientCallback(const std::string &_srcAddress,
                                     const uint32_t /*_dstPort*/,
                                     const std::string &_data)
 {
-  // ROS_INFO("CommClientCallback");
+  ROS_INFO("CommClientCallback");
   //this->FlashCommIndicator();
   this->SetCommsActive();
 
   auto peer = this->peer_connections.find(_srcAddress);
-  if(peer != this->peer_connections.end()) {
+  if (peer != this->peer_connections.end())
+  {
     std_msgs::String msg;
     msg.data = _data;
     peer->second.second.publish(msg);
   }
 }
 
+/////////////////////////////////////////////////
 void Controller::SetCommsActive(double timeout)
 {
   std::lock_guard<std::mutex> l(comms_led_mutex);
@@ -346,22 +350,23 @@ void Controller::SetCommsActive(double timeout)
     }
   }
 
-  if(!active_comms_timer) {
-    active_comms_timer =
-        nh.createTimer(ros::Duration(timeout),
-                       [this](const ros::TimerEvent&)
-                       {
-                         // Turn comms LEDs off
-                         std::lock_guard<std::mutex> l(comms_led_mutex);
-                         std_srvs::SetBool led_srv;
-                         led_srv.request.data = false;
-                         for (auto service : this->commLedSrvList)
-                         {
-                           service.call(led_srv);
-                         }
-                       }, true, true);
+  if(!active_comms_timer)
+  {
+    active_comms_timer = nh.createTimer(ros::Duration(timeout),
+      [this](const ros::TimerEvent&)
+      {
+        // Turn comms LEDs off
+        std::lock_guard<std::mutex> l(comms_led_mutex);
+        std_srvs::SetBool led_srv;
+        led_srv.request.data = false;
+        for (auto service : this->commLedSrvList)
+        {
+          service.call(led_srv);
+        }
+      }, true, true);
   }
-  else {
+  else
+  {
     active_comms_timer.setPeriod(ros::Duration(timeout), true);
   }
 }

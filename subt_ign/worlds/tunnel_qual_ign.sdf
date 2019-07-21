@@ -1002,16 +1002,6 @@
     </include>
 
     <plugin name="ignition::gazebo" filename="dummy">
-      <performer name="perf_x2">
-        <ref>X2</ref>
-        <geometry><box><size>2 2 2</size></box></geometry>
-      </performer>
-
-      <performer name="perf_x1">
-        <ref>X1</ref>
-        <geometry><box><size>2 2 2</size></box></geometry>
-      </performer>
-
       <level name="level1">
         <ref>tile_0</ref>
         <ref>tile_1</ref>
@@ -1133,7 +1123,11 @@
         <ref>tile_52</ref>
         <ref>tile_53</ref>
         <ref>tile_55</ref>
+        <!-- These three artifacts are required for the scoring test -->
+        <ref>phone_1</ref>
         <ref>phone_2</ref>
+        <ref>extinguisher_1</ref>
+        <!-- End artifact requirement -->
         <ref>tile_56</ref>
         <ref>tile_68</ref>
         <ref>tile_69</ref>
@@ -1158,7 +1152,11 @@
       </level>
 
       <level name="level7">
+        <!-- These three artifacts are required for the scoring test -->
+        <ref>phone_1</ref>
         <ref>phone_2</ref>
+        <ref>extinguisher_1</ref>
+        <!-- End artifact requirement -->
         <ref>tile_60</ref>
         <ref>tile_61</ref>
         <ref>tile_62</ref>

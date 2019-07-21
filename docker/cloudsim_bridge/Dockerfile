@@ -70,9 +70,6 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu 
     ros-melodic-spacenav-node \
     ros-melodic-tf2-sensor-msgs \
     ros-melodic-twist-mux \
-# ros-melodic-velodyne-simulator \
-#  ros-melodic-velodyne-gazebo-plugins \
-# ros-melodic-rotors-gazebo \
     ros-melodic-rviz-imu-plugin \
  && sudo rosdep init \
  && sudo apt-get clean
@@ -87,15 +84,10 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.osrfoundation.org/g
  && sudo /bin/sh -c 'wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -' \
  && sudo /bin/sh -c 'apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654'
 
-# install ign-blueprint
+# install ign-blueprint and the ign-bridge
 RUN sudo apt-get update \
- && sudo apt-get install -y \
+&&  sudo apt-get install -y \
     ignition-blueprint \
- && sudo apt-get clean
-
-# install the ros to ign bridge
-RUN sudo apt-get update \
- && sudo apt-get install -y \
     ros-melodic-ros1-ign \
  && sudo apt-get clean
 
@@ -103,7 +95,7 @@ RUN sudo apt-get update \
 # docker is run
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
- && hg clone https://bitbucket.org/osrf/subt -b tunnel_circuit
+ && hg clone https://bitbucket.org/osrf/subt -b tunnel_circuit 
 
 # Download virtual stix models
 RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Edgar Mine Virtual STIX" -v 4
@@ -158,15 +150,17 @@ WORKDIR /home/$USERNAME/subt_ws
 # Install Rotors
 RUN wget https://s3.amazonaws.com/osrf-distributions/subt_robot_examples/releases/subt_robot_examples_latest.tgz
 RUN tar xvf subt_robot_examples_latest.tgz
-
 RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && catkin_make install'
 
 RUN /bin/sh -c 'echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc' \
  && /bin/sh -c 'echo ". ~/subt_ws/install/setup.sh" >> ~/.bashrc'
 
-# Copy entry point script, and set the entrypoint. Automatically run the team.ign script
-COPY run_sim.bash ./
-ENTRYPOINT ["./run_sim.bash", "team.ign"]
+# Create a directory required by cloudsim
+RUN mkdir -p /tmp/ign
+
+# Copy entry point script, and set the entrypoint
+COPY run_bridge.bash ./
+ENTRYPOINT ["./run_bridge.bash"]
 
 # Customize your image here.
 # E.g.:
