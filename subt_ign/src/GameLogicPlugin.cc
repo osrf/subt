@@ -180,10 +180,21 @@ class subt::GameLogicPluginPrivate
   public: std::map<subt::ArtifactType,
                     std::map<std::string, ignition::math::Pose3d>> artifacts;
 
+  /// \brief Artifacts that were found.
+  public: std::set<std::string> foundArtifacts;
+
   public: std::map<std::string, ignition::math::Pose3d> poses;
 
   /// \brief Counter to track unique identifiers.
-  public: uint32_t reportCount = 1u;
+  public: uint32_t reportCount = 0u;
+
+  /// The maximum number of times that a team can attempt an
+  /// artifact report is this number multiplied by the total number
+  /// of artifacts.
+  public: uint32_t reportCountLimitFactor = 2;
+
+  /// \brief The total number of artifacts.
+  public: uint32_t artifactCount = 0;
 
   /// \brief Total score.
   public: double totalScore = 0.0;
@@ -382,7 +393,7 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
   auto s = std::chrono::duration_cast<std::chrono::seconds>(realTime);
   auto ns = std::chrono::duration_cast<std::chrono::nanoseconds>(realTime-s);
 
-  _resp.set_report_id(reportCount++);
+  _resp.set_report_id(++this->reportCount);
   *_resp.mutable_artifact() = _req;
 
   _resp.mutable_submitted_datetime()->set_sec(s.count());
@@ -402,7 +413,8 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
   {
     _resp.set_report_status("run not started");
   }
-  else if (this->artifacts.size() == 0)
+  else if (this->reportCount >
+      this->artifactCount * this->reportCountLimitFactor)
   {
     _resp.set_report_status("report limit exceeded");
   }
@@ -429,7 +441,15 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
     this->Log() << "new_total_score " << this->totalScore << std::endl;
   }
 
-  this->Log() << _resp.DebugString() << std::endl;
+  // Finish if the maximum score has been reached, or if the maximum number
+  // of artifact reports has been reached..
+  if (this->totalScore >= this->artifactCount ||
+      this->reportCount >
+      this->artifactCount * this->reportCountLimitFactor)
+  {
+    this->Finish();
+  }
+
   return true;
 }
 
@@ -457,7 +477,7 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
   }
 
   // Sanity check: Make sure that we still have artifacts.
-  if (this->artifacts.find(_type) == this->artifacts.end())
+  if (this->foundArtifacts.size() >= this->artifactCount)
   {
     ignmsg << "  No artifacts remaining" << std::endl;
     this->Log() << "no_remaining_artifacts_of_specified_type" << std::endl;
@@ -491,15 +511,17 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
     }
   }
 
-  // Calculate the score based on accuracy in the location.
-  if (std::get<2>(minDistance) < 5)
+  // Calculate the score based on accuracy in the location. Make sure that
+  // the artifact was not already reported.
+  if (std::get<2>(minDistance) < 5 &&
+      this->foundArtifacts.find(std::get<0>(minDistance)) ==
+      this->foundArtifacts.end())
   {
     score = 1.0;
-    // Remove this artifact to avoid getting score from the same artifact
-    // multiple times.
-    potentialArtifacts.erase(std::get<0>(minDistance));
-    if (potentialArtifacts.empty())
-      this->artifacts.erase(_type);
+
+    // Keep track of the artifacts that were found.
+    this->foundArtifacts.insert(std::get<0>(minDistance));
+    this->Log() << "found_artfiact " << std::get<0>(minDistance) <<  std::endl;
   }
 
   this->Log() << "calculated_dist " << std::get<2>(minDistance) << std::endl;
@@ -598,6 +620,9 @@ void GameLogicPluginPrivate::ParseArtifacts(
       << modelTypeStr << "] typeid[" << static_cast<int>(modelType) << "]\n";
     this->artifacts[modelType][modelName] = ignition::math::Pose3d::Zero;
         artifactElem = artifactElem->GetNextElement("artifact");
+
+    // Helper variable that is the total number of artifacts.
+    this->artifactCount++;
   }
 }
 
@@ -674,6 +699,13 @@ void GameLogicPluginPrivate::Finish()
       << " s." << std::endl;
     this->Log() << "finished_score " << this->totalScore << std::endl;
     this->logStream.flush();
+
+    // \todo(nkoenig) After the tunnel circuit, chagen the /subt/start topic
+    // to /sub/status.
+    ignition::msgs::StringMsg msg;
+    msg.mutable_header()->mutable_stamp()->CopyFrom(this->simTime);
+    msg.set_data("finished");
+    this->startPub.Publish(msg);
   }
 }
 

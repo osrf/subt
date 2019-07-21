@@ -235,6 +235,34 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
       EXPECT_EQ(ack.score_change(), 0);
       this->scoreAcks.pop();
     }
+
+    /// Test artifact report limits. Send multiple bad reports.
+    /// We are currently expect a limit of: artifact_count * 2 == 32.
+    /// The world we are testing with has 16 artifacts.
+    pose.mutable_position()->set_x(-100000);
+    for (; this->reportCount < 32;)
+    {
+      this->ReportArtifact(type, pose);
+      {
+        using namespace std::chrono_literals;
+        std::this_thread::sleep_for(std::chrono::milliseconds(200ms));
+      }
+
+      ASSERT_TRUE(this->WaitUntilScoreAck());
+      auto ack = this->scoreAcks.front();
+      EXPECT_EQ(ack.report_id(), this->reportCount);
+      this->scoreAcks.pop();
+    }
+    // Send one more report
+    this->ReportArtifact(type, pose);
+    {
+      using namespace std::chrono_literals;
+      std::this_thread::sleep_for(std::chrono::milliseconds(200ms));
+    }
+    auto ack = this->scoreAcks.front();
+    EXPECT_EQ(ack.report_id(), this->reportCount);
+    EXPECT_EQ(ack.report_status(), "report limit exceeded");
+    this->scoreAcks.pop();
   }
 
   /// \brief Check that artifacts after scoring ends are rejected.
