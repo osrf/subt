@@ -447,6 +447,7 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
       this->reportCount >
       this->artifactCount * this->reportCountLimitFactor)
   {
+    ignmsg << "Max score has been reached. Congratulations!" << std::endl;
     this->Finish();
   }
 

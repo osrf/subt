@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- Run simulatoin with an X1 and X2 -->
+  <node pkg="subt_ign" type="run_competition_x1x2.bash" name="max_score"/>
+
+  <param name="/use_sim_time" value="true" />
+
+  <include file="$(find subt_ros)/launch/competition_init.launch">
+    <arg name="world_name" value="tunnel_qual_ign"/>
+    <arg name="vehicle_topics" value="1"/>
+  </include>
+
+  <include file="$(find subt_ros)/launch/x1_description.launch">
+    <arg name="world_name" value="tunnel_qual_ign"/>
+    <arg name="name" value="X1"/>
+  </include>
+
+  <include file="$(find subt_ros)/launch/x2_description.launch">
+    <arg name="world_name" value="tunnel_qual_ign"/>
+    <arg name="name" value="X2"/>
+  </include>
+
+  <test test-name="max_score" pkg="subt_ign" type="max_test_score" time-limit="200.0" />
+
+</launch>
