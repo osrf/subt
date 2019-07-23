@@ -121,6 +121,7 @@ class subt::GameLogicPluginPrivate
   /// \param[in] _event Unused.
   public: void PublishScore();
 
+  /// \brief Finish game and generate log files
   public: void Finish();
 
   /// \brief Ignition service callback triggered when the service is called.
@@ -709,20 +710,20 @@ void GameLogicPluginPrivate::Finish()
       << " s." << std::endl;
     this->Log() << "finished_score " << this->totalScore << std::endl;
     this->logStream.flush();
+
+    // Output a run summary
+    std::ofstream summary(this->logPath + "/summary.yml", std::ios::out);
+    summary << "was_started: " << this->started << std::endl;
+    summary << "sim_time_duration_sec: " << simElapsed << std::endl;
+    summary << "real_time_duration_sec: " << realElapsed << std::endl;
+    summary << "model_count: " << this->robotNames.size() << std::endl;
+    summary.flush();
+
+    // Output a score file with just the final score
+    std::ofstream score(this->logPath + "/score.yml", std::ios::out);
+    score << totalScore << std::endl;
+    score.flush();
   }
-
-  // Output a run summary
-  std::ofstream summary(this->logPath + "/summary.yml", std::ios::out);
-  summary << "was_started: " << this->started << std::endl;
-  summary << "sim_time_duration_sec: " << simElapsed << std::endl;
-  summary << "real_time_duration_sec: " << realElapsed << std::endl;
-  summary << "model_count: " << this->robotNames.size() << std::endl;
-  summary.flush();
-
-  // Output a score file with just the final score
-  std::ofstream score(this->logPath + "/score.yml", std::ios::out);
-  score << totalScore << std::endl;
-  score.flush();
 }
 
 /////////////////////////////////////////////////
