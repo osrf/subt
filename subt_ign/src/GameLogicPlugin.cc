@@ -191,10 +191,10 @@ class subt::GameLogicPluginPrivate
   /// The maximum number of times that a team can attempt an
   /// artifact report is this number multiplied by the total number
   /// of artifacts.
-  public: uint32_t reportCountLimitFactor = 2;
+  public: uint32_t reportCountLimitFactor = 2u;
 
   /// \brief The total number of artifacts.
-  public: uint32_t artifactCount = 0;
+  public: uint32_t artifactCount = 0u;
 
   /// \brief Total score.
   public: double totalScore = 0.0;
@@ -700,7 +700,7 @@ void GameLogicPluginPrivate::Finish()
     this->Log() << "finished_score " << this->totalScore << std::endl;
     this->logStream.flush();
 
-    // \todo(nkoenig) After the tunnel circuit, chagen the /subt/start topic
+    // \todo(nkoenig) After the tunnel circuit, change the /subt/start topic
     // to /sub/status.
     ignition::msgs::StringMsg msg;
     msg.mutable_header()->mutable_stamp()->CopyFrom(this->simTime);
