@@ -31,8 +31,7 @@ then
     exit 1
 fi
 
-#IMG=$(basename $1)
-IMG=$1
+IMG=$(basename $1)
 
 ARGS=("$@")
 
@@ -60,8 +59,6 @@ then
   DOCKER_OPTS="$DOCKER_OPTS -v $VIMRC:/home/developer/.vimrc:ro"
 fi
 
-echo "IMAGE ================= $IMG"
-
 # Mount extra volumes if needed.
 # E.g.:
 # -v "/opt/sublime_text:/opt/sublime_text" \
@@ -84,4 +81,3 @@ docker run -it \
   $DOCKER_OPTS \
   $IMG \
   ${@:2}
-
