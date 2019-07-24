@@ -754,7 +754,7 @@ bool GameLogicPluginPrivate::PoseFromArtifactHelper(const std::string &_robot,
     return false;
   }
 
-  if (baseIter->second.Pos().Distance(robotIter->second.Pos()) > 15)
+  if (baseIter->second.Pos().Distance(robotIter->second.Pos()) > 18)
   {
     ignerr << "[GameLogicPlugin]: Robot [" << _robot << "] is too far from the "
       << "staging area. Ignoring PoseFromArtifact request" << std::endl;
