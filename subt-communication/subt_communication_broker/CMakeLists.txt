@@ -71,7 +71,6 @@ add_library(subt_communication_client src/subt_communication_client.cpp)
 target_link_libraries(subt_communication_client ${project_libs} ${protobuf_lib_name})
 add_dependencies(subt_communication_client ${protobuf_lib_name} ${catkin_EXPORTED_TARGETS})
 
-
 install(TARGETS subt_communication_broker subt_communication_client SubtCommsProtobuf
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
