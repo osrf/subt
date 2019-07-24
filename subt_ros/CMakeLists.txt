@@ -45,6 +45,7 @@ target_link_libraries(subt_ros_relay
     ignition-transport7::ignition-transport7
     ${catkin_LIBRARIES}
 )
+add_dependencies(subt_ros_relay ${catkin_EXPORTED_TARGETS})
 
 install(TARGETS pose_tf_broadcaster subt_ros_relay
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
