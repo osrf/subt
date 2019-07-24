@@ -29,7 +29,8 @@ set -e
 # Define usage function.
 usage()
 {
-  echo -e "Usage: $0 [--build | --tag | --push | --all]\n"
+  echo "Usage: $0 [--build | --tag | --push | --all]"
+  echo -e "Important: If you're a competitor, this script is not relevant for you\n"
   echo "Available commands:"
   echo "  --build    Build all SubT Docker images"
   echo "  --tag      Tag all SubT Docker images"
@@ -59,7 +60,7 @@ if [[ "$COMMAND" == "--build" ]] || [[ "$COMMAND" == "--all" ]]; then
   echo "build"
   
   ./build.bash cloudsim_sim --no-cache
-  ./build.bash cloudsim_bidge --no-cache
+  ./build.bash cloudsim_bridge --no-cache
   ./build.bash subt_sim_entry --no-cache
 fi
 
