@@ -57,8 +57,6 @@ fi
 
 # Build the images.
 if [[ "$COMMAND" == "--build" ]] || [[ "$COMMAND" == "--all" ]]; then
-  echo "build"
-  
   ./build.bash cloudsim_sim --no-cache
   ./build.bash cloudsim_bridge --no-cache
   ./build.bash subt_sim_entry --no-cache
@@ -66,7 +64,6 @@ fi
 
 # Tag the images.
 if [[ "$COMMAND" == "--tag" ]] || [[ "$COMMAND" == "--all" ]]; then
-  echo "tag"
   docker tag cloudsim_sim:latest nkoenig/subt-virtual-testbed:cloudsim_sim_latest
   docker tag cloudsim_bridge:latest nkoenig/subt-virtual-testbed:cloudsim_bridge_latest
   docker tag subt_sim_entry:latest nkoenig/subt-virtual-testbed:latest
@@ -74,7 +71,6 @@ fi
 
 # Push the images.
 if [[ "$COMMAND" == "--push" ]] || [[ "$COMMAND" == "--all" ]]; then
-  echo "push"
   docker push nkoenig/subt-virtual-testbed:cloudsim_sim_latest
   docker push nkoenig/subt-virtual-testbed:cloudsim_bridge_latest
   docker push nkoenig/subt-virtual-testbed:latest
