@@ -89,6 +89,8 @@ catkin_add_env_hooks(ign SHELLS zsh
 # Create the libGameLogicPlugin.so library.
 set(game_logic_plugin_name GameLogicPlugin)
 add_library(${game_logic_plugin_name} SHARED src/GameLogicPlugin.cc)
+target_include_directories(${game_logic_plugin_name}
+  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 target_link_libraries(${game_logic_plugin_name}
   PRIVATE
     ignition-gazebo${IGN_GAZEBO_VER}::core
