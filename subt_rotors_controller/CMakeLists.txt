@@ -5,13 +5,13 @@ add_definitions(-std=c++11)
 
 find_package(Eigen3 REQUIRED)
 
-catkin_package(
-  CATKIN_DEPENDS rotors_control
-)
-
 find_package(catkin REQUIRED COMPONENTS
   rotors_control
   cmake_modules
+)
+
+catkin_package(
+  CATKIN_DEPENDS rotors_control
 )
 
 include_directories(
