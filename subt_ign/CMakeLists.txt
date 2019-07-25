@@ -42,6 +42,7 @@ include_directories(
   include
   ${catkin_INCLUDE_DIRS}
   ${PROJECT_BINARY_DIR}/include
+  ${CATKIN_DEVEL_PREFIX}/include
 )
 
 link_directories()
@@ -102,6 +103,25 @@ target_link_libraries(${game_logic_plugin_name}
     ${protobuf_lib_name}
 )
 install(TARGETS ${game_logic_plugin_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+
+set(artifact_validator_name ArtifactValidator)
+add_library(${artifact_validator_name} SHARED src/ArtifactValidator.cc)
+target_link_libraries(${artifact_validator_name}
+  PRIVATE
+    ignition-gazebo${IGN_GAZEBO_VER}::core
+    ignition-common3::ignition-common3
+    ignition-launch1::ignition-launch1
+    ignition-math6::ignition-math6
+    ignition-msgs4::ignition-msgs4
+    ignition-plugin1::loader
+    ignition-transport7::ignition-transport7
+    ${catkin_LIBRARIES}
+    ${protobuf_lib_name}
+)
+install(TARGETS ${artifact_validator_name}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
