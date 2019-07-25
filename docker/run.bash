@@ -31,7 +31,8 @@ then
     exit 1
 fi
 
-IMG=$(basename $1)
+#IMG=$(basename $1)
+IMG=$1
 
 ARGS=("$@")
 
