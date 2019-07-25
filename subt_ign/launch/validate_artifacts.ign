@@ -259,6 +259,47 @@
               </material>
             </geometry>
           </visual>
+          <!-- Shine on the box  -->
+          <light name='light_on_box1' type='point'>
+            <pose>2.5 2.5 7.0 0 0 0</pose>
+            <diffuse>1 0 0 1</diffuse>
+            <specular>1 0 0 1</specular>
+            <attenuation>
+              <range>5</range>
+              <linear>0</linear>
+              <constant>1</constant>
+            </attenuation>
+          </light>
+          <light name='light_on_box2' type='point'>
+            <pose>-2.5 2.5 7.0 0 0 0</pose>
+            <diffuse>1 0 0 1</diffuse>
+            <specular>1 0 0 1</specular>
+            <attenuation>
+              <range>5</range>
+              <linear>0</linear>
+              <constant>1</constant>
+            </attenuation>
+          </light>
+          <light name='light_on_box3' type='point'>
+            <pose>2.5 -2.5 7.0 0 0 0</pose>
+            <diffuse>1 0 0 1</diffuse>
+            <specular>1 0 0 1</specular>
+            <attenuation>
+              <range>5</range>
+              <linear>0</linear>
+              <constant>1</constant>
+            </attenuation>
+          </light>
+          <light name='light_on_box4' type='point'>
+            <pose>-2.5 -2.5 7.0 0 0 0</pose>
+            <diffuse>1 0 0 1</diffuse>
+            <specular>1 0 0 1</specular>
+            <attenuation>
+              <range>5</range>
+              <linear>0</linear>
+              <constant>1</constant>
+            </attenuation>
+          </light>
           <light name='spawned_light' type='spot'>
             <pose>0 0 1.0 0 0 0</pose>
             <attenuation>
