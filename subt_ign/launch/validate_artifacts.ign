@@ -24,6 +24,10 @@
 %>
 
 <ignition version='1.0'>
+  <env>
+    <name>IGN_GAZEBO_SYSTEM_PLUGIN_PATH</name>
+    <value>$LD_LIBRARY_PATH</value>
+  </env>
   <plugin name="ignition::launch::GazeboServer"
           filename="libignition-launch-gazebo.so">
     <world_file><%= $worldName %>.sdf</world_file>
