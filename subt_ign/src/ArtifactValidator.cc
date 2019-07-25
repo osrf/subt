@@ -21,6 +21,8 @@
 
 #include <ignition/plugin/Register.hh>
 
+#include <ignition/gazebo/components/Level.hh>
+#include <ignition/gazebo/components/LevelEntityNames.hh>
 #include <ignition/gazebo/components/Model.hh>
 #include <ignition/gazebo/components/Name.hh>
 #include <ignition/gazebo/components/Pose.hh>
@@ -83,13 +85,43 @@ class subt::ArtifactValidatorPrivate
   public: void ParseArtifacts(const std::shared_ptr<const sdf::Element> &_sdf);
 
   public: bool OnNext(const ignition::msgs::StringMsg &_msg, ignition::msgs::StringMsg &_rep);
+  public: bool OnScan(const ignition::msgs::StringMsg &_msg, ignition::msgs::StringMsg &_rep);
 
   public: std::map<std::string, Artifact> artifacts;
   public: std::vector<std::string> validArtifacts;
   public: int index = -1;
   public: transport::Node node;
   public: std::string worldName;
+  public: std::vector<ignition::math::Pose3d> posesToCheck;
 };
+
+bool ArtifactValidatorPrivate::OnScan(const ignition::msgs::StringMsg& /*_req*/,
+                                      ignition::msgs::StringMsg& /*_rep*/)
+{
+  igndbg << "Scanning: " << this->posesToCheck.size() << " levels" << std::endl;
+  igndbg << "Have poses for: " << validArtifacts.size() << "/" << artifacts.size() << std::endl;
+
+  if (this->posesToCheck.size()) 
+  {
+    auto pose = this->posesToCheck.back();
+    ignition::msgs::Pose req;
+    req.set_name("validator");
+    req.mutable_position()->set_x(pose.Pos().X());
+    req.mutable_position()->set_y(pose.Pos().Y());
+    req.mutable_position()->set_z(pose.Pos().Z());
+
+    igndbg << pose << std::endl;
+
+    msgs::Boolean res;
+    bool result;
+    unsigned int timeout = 1000;
+    std::string service {"/world/" + this->worldName + "/set_pose"};
+    node.Request(service, req, timeout, res, result);
+    igndbg << "Result: " << res.data() << " " << result << std::endl;
+    this->posesToCheck.pop_back();
+  }
+  return true;
+}
 
 bool ArtifactValidatorPrivate::OnNext(const ignition::msgs::StringMsg& _req,
                                       ignition::msgs::StringMsg& _rep)
@@ -229,6 +261,33 @@ void ArtifactValidator::Configure(const ignition::gazebo::Entity & /*_entity*/,
 
   this->dataPtr->node.Advertise("/artifact/next",
       &ArtifactValidatorPrivate::OnNext, this->dataPtr.get());
+
+  this->dataPtr->node.Advertise("/artifact/scan",
+      &ArtifactValidatorPrivate::OnScan, this->dataPtr.get());
+
+  _ecm.Each<components::Level,
+            components::LevelEntityNames,
+            components::Pose>(
+              [&](const Entity& ,
+                  const components::Level*,
+                  const components::LevelEntityNames *_entities,
+                  const components::Pose *_pose) -> bool
+              {
+
+                for (const auto & name: _entities->Data())
+                {
+                  auto it = this->dataPtr->artifacts.find(name);
+                  if (it != this->dataPtr->artifacts.end())
+                  {
+                    this->dataPtr->posesToCheck.push_back(_pose->Data());
+                  }
+                }
+
+                return true;
+              });
+
+  igndbg << "Found artifacts: " << this->dataPtr->artifacts.size() << std::endl;
+  igndbg << "Found levels to check: " << this->dataPtr->posesToCheck.size() << std::endl;
 }
 
 //////////////////////////////////////////////////
@@ -248,6 +307,7 @@ void ArtifactValidator::PostUpdate(
 
         if (artifact != this->dataPtr->artifacts.end())
         {
+          igndbg << "Checking: " << _nameComp->Data() << std::endl;
 
           auto it = std::find(this->dataPtr->validArtifacts.begin(), 
                     this->dataPtr->validArtifacts.end(),
@@ -255,6 +315,9 @@ void ArtifactValidator::PostUpdate(
 
           if (it != this->dataPtr->validArtifacts.end())
           {
+            igndbg << "Skipping: " << _nameComp->Data() << "already found";
+            igndbg << "Have poses for: " << this->dataPtr->validArtifacts.size() << "/" << 
+              this->dataPtr->artifacts.size() << std::endl;
             return true;
           }
 
@@ -265,6 +328,8 @@ void ArtifactValidator::PostUpdate(
             this->dataPtr->index = 0;
           }
           igndbg << "Updated artifact: " << artifact->second.str() << std::endl;
+            igndbg << "Have poses for: " << this->dataPtr->validArtifacts.size() << "/" << 
+              this->dataPtr->artifacts.size() << std::endl;
         }
         return true;
       });

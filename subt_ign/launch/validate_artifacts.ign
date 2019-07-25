@@ -75,70 +75,86 @@
       <filename_prefix>subt_tunnel</filename_prefix>
     </logging>
 
-    <artifact>
-      <name>radio_1</name>
-      <type>TYPE_RADIO</type>
-    </artifact>
-    <artifact>
-      <name>backpack_1</name>
-      <type>TYPE_BACKPACK</type>
-    </artifact>
-    <artifact>
-      <name>phone_1</name>
-      <type>TYPE_PHONE</type>
-    </artifact>
-    <artifact>
-      <name>toolbox_1</name>
-      <type>TYPE_TOOLBOX</type>
-    </artifact>
-    <artifact>
-      <name>extinguisher_1</name>
-      <type>TYPE_EXTINGUISHER</type>
-    </artifact>
-    <artifact>
-      <name>radio_2</name>
-      <type>TYPE_RADIO</type>
-    </artifact>
-    <artifact>
-      <name>toolbox_2</name>
-      <type>TYPE_TOOLBOX</type>
-    </artifact>
-    <artifact>
-      <name>phone_2</name>
-      <type>TYPE_PHONE</type>
-    </artifact>
-    <artifact>
-      <name>electrical_box_1</name>
-      <type>TYPE_ELECTRICAL_BOX</type>
-    </artifact>
-    <artifact>
-      <name>backpack_2</name>
-      <type>TYPE_BACKPACK</type>
-    </artifact>
-    <artifact>
-      <name>phone_3</name>
-      <type>TYPE_PHONE</type>
-    </artifact>
-    <artifact>
-      <name>valve_1</name>
-      <type>TYPE_VALVE</type>
-    </artifact>
-    <artifact>
-      <name>valve_2</name>
-      <type>TYPE_VALVE</type>
-    </artifact>
-    <artifact>
-      <name>electrical_box_2</name>
-      <type>TYPE_ELECTRICAL_BOX</type>
-    </artifact>
-    <artifact>
-      <name>backpack_3</name>
-      <type>TYPE_BACKPACK</type>
-    </artifact>
-    <artifact>
-      <name>extinguisher_2</name>
-      <type>TYPE_EXTINGUISHER</type>
-    </artifact>
+     <artifact>
+        <name>extinguisher_1</name>
+        <type>TYPE_EXTINGUISHER</type>
+      </artifact>
+      <artifact>
+        <name>backpack_1</name>
+        <type>TYPE_BACKPACK</type>
+      </artifact>
+      <artifact>
+        <name>phone_1</name>
+        <type>TYPE_PHONE</type>
+      </artifact>
+      <artifact>
+        <name>drill_1</name>
+        <type>TYPE_DRILL</type>
+      </artifact>
+      <artifact>
+        <name>rescue_randy_1</name>
+        <type>TYPE_RESCUE_RANDY</type>
+      </artifact>
+     <artifact>
+        <name>extinguisher_2</name>
+        <type>TYPE_EXTINGUISHER</type>
+      </artifact>
+      <artifact>
+        <name>backpack_2</name>
+        <type>TYPE_BACKPACK</type>
+      </artifact>
+      <artifact>
+        <name>phone_2</name>
+        <type>TYPE_PHONE</type>
+      </artifact>
+      <artifact>
+        <name>drill_2</name>
+        <type>TYPE_DRILL</type>
+      </artifact>
+      <artifact>
+        <name>rescue_randy_2</name>
+        <type>TYPE_RESCUE_RANDY</type>
+      </artifact>
+     <artifact>
+        <name>extinguisher_3</name>
+        <type>TYPE_EXTINGUISHER</type>
+      </artifact>
+      <artifact>
+        <name>backpack_3</name>
+        <type>TYPE_BACKPACK</type>
+      </artifact>
+      <artifact>
+        <name>phone_3</name>
+        <type>TYPE_PHONE</type>
+      </artifact>
+      <artifact>
+        <name>drill_3</name>
+        <type>TYPE_DRILL</type>
+      </artifact>
+      <artifact>
+        <name>rescue_randy_3</name>
+        <type>TYPE_RESCUE_RANDY</type>
+      </artifact>
+     <artifact>
+        <name>extinguisher_4</name>
+        <type>TYPE_EXTINGUISHER</type>
+      </artifact>
+      <artifact>
+        <name>backpack_4</name>
+        <type>TYPE_BACKPACK</type>
+      </artifact>
+      <artifact>
+        <name>phone_4</name>
+        <type>TYPE_PHONE</type>
+      </artifact>
+      <artifact>
+        <name>drill_4</name>
+        <type>TYPE_DRILL</type>
+      </artifact>
+      <artifact>
+        <name>rescue_randy_4</name>
+        <type>TYPE_RESCUE_RANDY</type>
+      </artifact>
   </plugin>
   </plugin>
 
@@ -272,8 +288,8 @@
                     <center>0.5 0.5</center>
                 </distortion>
                 <image>
-                    <width>1280</width>
-                    <height>960</height>
+                    <width>640</width>
+                    <height>480</height>
                     <format>R8G8B8</format>
                 </image>
                 <clip>
@@ -298,8 +314,8 @@
                     <center>0.5 0.5</center>
                 </distortion>
                 <image>
-                    <width>1280</width>
-                    <height>960</height>
+                    <width>640</width>
+                    <height>480</height>
                     <format>R8G8B8</format>
                 </image>
                 <clip>
