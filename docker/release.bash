@@ -37,10 +37,11 @@ usage()
   echo "  --push     Push all SubT Docker images to DockerHub"
   echo -e "  --all      Build, tag and push all SubT Docker images\n"
   echo "Typically, you should:"
-  echo "  1. Build your new Docker images"
-  echo "  2. Test the images"
-  echo "  3. Tag the images"
-  echo "  4. Push the images"
+  echo "  1. Log in to a Docker registry. E.g.: docker login"
+  echo "  2. Build your new Docker images"
+  echo "  3. Test the images"
+  echo "  4. Tag the images"
+  echo "  5. Push the images"
   exit 1
 }
 
