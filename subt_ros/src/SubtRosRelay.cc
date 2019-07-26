@@ -242,6 +242,10 @@ bool SubtRosRelay::OnPoseFromArtifact(
   _res.success = this->node.Request("/subt/pose_from_artifact_origin",
       req, timeout, rep, result);
 
+  // Request failed, ignore response
+  if (!result)
+    return result;
+
   // Construct the ROS response
   _res.pose.pose.position.x = rep.position().x();
   _res.pose.pose.position.y = rep.position().y();

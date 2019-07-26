@@ -31,6 +31,7 @@
 #include <ignition/gazebo/components/RgbdCamera.hh>
 #include <ignition/gazebo/components/ParentEntity.hh>
 #include <ignition/gazebo/components/Pose.hh>
+#include <ignition/gazebo/components/Sensor.hh>
 #include <ignition/gazebo/components/Static.hh>
 #include <ignition/gazebo/components/World.hh>
 #include <ignition/gazebo/Conversions.hh>
@@ -84,10 +85,6 @@ class subt::GameLogicPluginPrivate
   /// information to the logfile.
   public: std::ofstream &Log();
 
-  /// \brief Handle gazebo pose messages
-  /// \param[in] _msg New set of poses.
-  public: void OnPose(const ignition::msgs::Pose_V &_msg);
-
   /// \brief Create an ArtifactType from a string.
   /// \param[in] _name The artifact in string format.
   /// \param[out] _type The artifact type.
@@ -124,6 +121,7 @@ class subt::GameLogicPluginPrivate
   /// \param[in] _event Unused.
   public: void PublishScore();
 
+  /// \brief Finish game and generate log files
   public: void Finish();
 
   /// \brief Ignition service callback triggered when the service is called.
@@ -158,6 +156,9 @@ class subt::GameLogicPluginPrivate
   /// \brief Current simulation time.
   public: ignition::msgs::Time simTime;
 
+  /// \brief The simulation time of the start call.
+  public: ignition::msgs::Time startSimTime;
+
   /// \brief Thread on which scores are published
   public: std::unique_ptr<std::thread> publishThread = nullptr;
 
@@ -170,9 +171,6 @@ class subt::GameLogicPluginPrivate
   /// \brief Start time used for scoring.
   public: std::chrono::steady_clock::time_point startTime;
 
-  /// \brief Finish time used for scoring.
-  public: std::chrono::steady_clock::time_point finishTime;
-
   /// \brief Store all artifacts.
   /// The key is the object type. See ArtifactType for all supported values.
   /// The value is another map, where the key is the model name and the value
@@ -180,10 +178,21 @@ class subt::GameLogicPluginPrivate
   public: std::map<subt::ArtifactType,
                     std::map<std::string, ignition::math::Pose3d>> artifacts;
 
+  /// \brief Artifacts that were found.
+  public: std::set<std::string> foundArtifacts;
+
   public: std::map<std::string, ignition::math::Pose3d> poses;
 
   /// \brief Counter to track unique identifiers.
-  public: uint32_t reportCount = 1u;
+  public: uint32_t reportCount = 0u;
+
+  /// The maximum number of times that a team can attempt an
+  /// artifact report is this number multiplied by the total number
+  /// of artifacts.
+  public: uint32_t reportCountLimitFactor = 2u;
+
+  /// \brief The total number of artifacts.
+  public: uint32_t artifactCount = 0u;
 
   /// \brief Total score.
   public: double totalScore = 0.0;
@@ -200,6 +209,12 @@ class subt::GameLogicPluginPrivate
   /// \brief Ignition transport start publisher. This is needed by cloudsim
   /// to know when a run has been started.
   public: transport::Node::Publisher startPub;
+
+  /// \brief Logpath.
+  public: std::string logPath{"/dev/null"};
+
+  /// \brief Names of the spawned robots.
+  public: std::set<std::string> robotNames;
 };
 
 //////////////////////////////////////////////////
@@ -211,6 +226,7 @@ GameLogicPlugin::GameLogicPlugin()
 //////////////////////////////////////////////////
 GameLogicPlugin::~GameLogicPlugin()
 {
+  this->dataPtr->Finish();
   this->dataPtr->finished = true;
   if (this->dataPtr->publishThread)
     this->dataPtr->publishThread->join();
@@ -222,9 +238,6 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
                            ignition::gazebo::EntityComponentManager & /*_ecm*/,
                            ignition::gazebo::EventManager & /*_eventMgr*/)
 {
-  // Default log path is /dev/null.
-  std::string logPath = "/dev/null";
-
   // Check if the game logic plugin has a <logging> element.
   // The <logging> element can contain a <filename_prefix> child element.
   // The <filename_prefix> is used to specify the log filename prefix. For
@@ -236,16 +249,18 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
   const sdf::ElementPtr loggingElem =
     const_cast<sdf::Element*>(_sdf.get())->GetElement("logging");
 
+  std::string filenamePrefix;
   if (loggingElem && loggingElem->HasElement("filename_prefix"))
   {
     // Get the log filename prefix.
-    std::string filenamePrefix =
+    filenamePrefix =
       loggingElem->Get<std::string>("filename_prefix", "subt").first;
 
     // Get the logpath from the <path> element, if it exists.
     if (loggingElem->HasElement("path"))
     {
-      logPath = loggingElem->Get<std::string>("path", "/dev/null").first;
+      this->dataPtr->logPath =
+        loggingElem->Get<std::string>("path", "/dev/null").first;
     }
     else
     {
@@ -259,17 +274,15 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
       }
       else
       {
-        logPath = homePath;
+        this->dataPtr->logPath = homePath;
       }
     }
-
-    // Construct the final log filename.
-    logPath += "/" + filenamePrefix + "_" +
-      ignition::common::systemTimeISO() + ".log";
   }
 
   // Open the log file.
-  this->dataPtr->logStream.open(logPath.c_str(), std::ios::out);
+  this->dataPtr->logStream.open(
+      (this->dataPtr->logPath + "/" + filenamePrefix + "_" +
+      ignition::common::systemTimeISO() + ".log").c_str(), std::ios::out);
 
   // Advertise the service to receive artifact reports.
   // Note that we're setting the scope to this service to SCOPE_T, so only
@@ -321,6 +334,32 @@ void GameLogicPlugin::PostUpdate(
   std::tie(s, ns) = ignition::math::durationToSecNsec(_info.simTime);
   this->dataPtr->simTime.set_sec(s);
   this->dataPtr->simTime.set_nsec(ns);
+
+  // Capture the names of the robots. We only do this until the team
+  // triggers the start signal.
+  if (!this->dataPtr->started)
+  {
+    _ecm.Each<gazebo::components::Sensor,
+              gazebo::components::ParentEntity>(
+        [&](const gazebo::Entity &,
+            const gazebo::components::Sensor *,
+            const gazebo::components::ParentEntity *_parent) -> bool
+        {
+          // Get the model. We are assuming that a sensor is attached to
+          // a link.
+          auto model = _ecm.Component<gazebo::components::ParentEntity>(
+              _parent->Data());
+
+          if (model)
+          {
+            // Get the model name
+            auto mName =
+              _ecm.Component<gazebo::components::Name>(model->Data());
+            this->dataPtr->robotNames.insert(mName->Data());
+          }
+          return true;
+        });
+  }
 
   // Update pose information
   _ecm.Each<gazebo::components::Model,
@@ -382,7 +421,7 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
   auto s = std::chrono::duration_cast<std::chrono::seconds>(realTime);
   auto ns = std::chrono::duration_cast<std::chrono::nanoseconds>(realTime-s);
 
-  _resp.set_report_id(reportCount++);
+  _resp.set_report_id(++this->reportCount);
   *_resp.mutable_artifact() = _req;
 
   _resp.mutable_submitted_datetime()->set_sec(s.count());
@@ -402,7 +441,8 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
   {
     _resp.set_report_status("run not started");
   }
-  else if (this->artifacts.size() == 0)
+  else if (this->reportCount >
+      this->artifactCount * this->reportCountLimitFactor)
   {
     _resp.set_report_status("report limit exceeded");
   }
@@ -429,7 +469,16 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
     this->Log() << "new_total_score " << this->totalScore << std::endl;
   }
 
-  this->Log() << _resp.DebugString() << std::endl;
+  // Finish if the maximum score has been reached, or if the maximum number
+  // of artifact reports has been reached..
+  if (this->totalScore >= this->artifactCount ||
+      this->reportCount >
+      this->artifactCount * this->reportCountLimitFactor)
+  {
+    ignmsg << "Max score has been reached. Congratulations!" << std::endl;
+    this->Finish();
+  }
+
   return true;
 }
 
@@ -457,7 +506,7 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
   }
 
   // Sanity check: Make sure that we still have artifacts.
-  if (this->artifacts.find(_type) == this->artifacts.end())
+  if (this->foundArtifacts.size() >= this->artifactCount)
   {
     ignmsg << "  No artifacts remaining" << std::endl;
     this->Log() << "no_remaining_artifacts_of_specified_type" << std::endl;
@@ -491,15 +540,17 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
     }
   }
 
-  // Calculate the score based on accuracy in the location.
-  if (std::get<2>(minDistance) < 5)
+  // Calculate the score based on accuracy in the location. Make sure that
+  // the artifact was not already reported.
+  if (std::get<2>(minDistance) < 5 &&
+      this->foundArtifacts.find(std::get<0>(minDistance)) ==
+      this->foundArtifacts.end())
   {
     score = 1.0;
-    // Remove this artifact to avoid getting score from the same artifact
-    // multiple times.
-    potentialArtifacts.erase(std::get<0>(minDistance));
-    if (potentialArtifacts.empty())
-      this->artifacts.erase(_type);
+
+    // Keep track of the artifacts that were found.
+    this->foundArtifacts.insert(std::get<0>(minDistance));
+    this->Log() << "found_artfiact " << std::get<0>(minDistance) <<  std::endl;
   }
 
   this->Log() << "calculated_dist " << std::get<2>(minDistance) << std::endl;
@@ -598,6 +649,9 @@ void GameLogicPluginPrivate::ParseArtifacts(
       << modelTypeStr << "] typeid[" << static_cast<int>(modelType) << "]\n";
     this->artifacts[modelType][modelName] = ignition::math::Pose3d::Zero;
         artifactElem = artifactElem->GetNextElement("artifact");
+
+    // Helper variable that is the total number of artifacts.
+    this->artifactCount++;
   }
 }
 
@@ -642,6 +696,7 @@ bool GameLogicPluginPrivate::OnStartCall(const ignition::msgs::Boolean &_req,
     _res.set_data(true);
     this->started = true;
     this->startTime = std::chrono::steady_clock::now();
+    this->startSimTime = this->simTime;
     ignmsg << "Scoring has Started" << std::endl;
     this->Log() << "scoring_started" << std::endl;
 
@@ -660,20 +715,46 @@ bool GameLogicPluginPrivate::OnStartCall(const ignition::msgs::Boolean &_req,
 /////////////////////////////////////////////////
 void GameLogicPluginPrivate::Finish()
 {
+  // Elapsed realtime
+  int realElapsed = 0;
+  int simElapsed = this->simTime.sec() - this->startSimTime.sec();
+
   if (this->started && !this->finished)
   {
-    this->finished = true;
-    this->finishTime = std::chrono::steady_clock::now();
+    std::chrono::steady_clock::time_point finishTime =
+      std::chrono::steady_clock::now();
+    realElapsed = std::chrono::duration_cast<std::chrono::seconds>(
+        finishTime - this->startTime).count();
 
-    auto elapsed = this->finishTime - this->startTime;
+    this->finished = true;
+
     ignmsg << "Scoring has finished. Elapsed time: "
-          << std::chrono::duration_cast<std::chrono::seconds>(elapsed).count()
-          << " seconds" << std::endl;
-    this->Log() << "finished_elapsed_time "
-      << std::chrono::duration_cast<std::chrono::seconds>(elapsed).count()
+          << realElapsed << " seconds" << std::endl;
+
+    this->Log() << "finished_elapsed_time " << realElapsed
       << " s." << std::endl;
     this->Log() << "finished_score " << this->totalScore << std::endl;
     this->logStream.flush();
+
+    // \todo(nkoenig) After the tunnel circuit, change the /subt/start topic
+    // to /sub/status.
+    ignition::msgs::StringMsg msg;
+    msg.mutable_header()->mutable_stamp()->CopyFrom(this->simTime);
+    msg.set_data("finished");
+    this->startPub.Publish(msg);
+
+    // Output a run summary
+    std::ofstream summary(this->logPath + "/summary.yml", std::ios::out);
+    summary << "was_started: " << this->started << std::endl;
+    summary << "sim_time_duration_sec: " << simElapsed << std::endl;
+    summary << "real_time_duration_sec: " << realElapsed << std::endl;
+    summary << "model_count: " << this->robotNames.size() << std::endl;
+    summary.flush();
+
+    // Output a score file with just the final score
+    std::ofstream score(this->logPath + "/score.yml", std::ios::out);
+    score << totalScore << std::endl;
+    score.flush();
   }
 }
 
@@ -706,7 +787,7 @@ bool GameLogicPluginPrivate::PoseFromArtifactHelper(const std::string &_robot,
     return false;
   }
 
-  if (baseIter->second.Pos().Distance(robotIter->second.Pos()) > 15)
+  if (baseIter->second.Pos().Distance(robotIter->second.Pos()) > 18)
   {
     ignerr << "[GameLogicPlugin]: Robot [" << _robot << "] is too far from the "
       << "staging area. Ignoring PoseFromArtifact request" << std::endl;
