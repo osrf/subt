@@ -227,7 +227,6 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
                            ignition::gazebo::EntityComponentManager & /*_ecm*/,
                            ignition::gazebo::EventManager & /*_eventMgr*/)
 {
-
   // Check if the game logic plugin has a <logging> element.
   // The <logging> element can contain a <filename_prefix> child element.
   // The <filename_prefix> is used to specify the log filename prefix. For
@@ -755,7 +754,7 @@ bool GameLogicPluginPrivate::PoseFromArtifactHelper(const std::string &_robot,
     return false;
   }
 
-  if (baseIter->second.Pos().Distance(robotIter->second.Pos()) > 15)
+  if (baseIter->second.Pos().Distance(robotIter->second.Pos()) > 18)
   {
     ignerr << "[GameLogicPlugin]: Robot [" << _robot << "] is too far from the "
       << "staging area. Ignoring PoseFromArtifact request" << std::endl;
