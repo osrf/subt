@@ -1,0 +1,737 @@
+<?xml version="1.0"?>
+
+<!-- This is used by tests, you should not run this manually -->
+
+
+<!-- Usage: ign launch test.ign
+            [robotName1:=<robotName> robotConfig1:=<robotConfig>
+             robotName2:=<robotName> robotConfig2:=<robotConfig>
+             ... ]
+
+    The [robotNameX] command line argument is optional, where X can be 1 to 20
+
+    Example that loads tunnel qual world with an X2 robot with configuration 3
+
+      ign launch competition.ign
+          robotName1:=X2_3 robotConfig1:=X2_SENSOR_CONFIG_3
+-->
+
+<%
+  # When 'enableGroundTruth = true' absolute poses of vehicles will be published.
+  # This is useful for debugging purposes, but will not be available during
+  # competition scoring.
+  $enableGroundTruth = false
+
+  # Check if robotNameX and robotConfigX exists
+  spawnRowSize = 4
+  spawnColSize = 5
+  spawnGridSize = 2
+  maxRobotCount = spawnRowSize * spawnColSize
+  spawnColOffset = spawnColSize * spawnGridSize / 2
+  spawnRowOffset = spawnRowSize * spawnGridSize / 2
+  robots = Hash.new
+  for i in 1..maxRobotCount do
+    if (local_variables.include?(:"robotName#{i}") &&
+        local_variables.include?(:"robotConfig#{i}"))
+      name=eval "robotName#{i}"
+      config=eval "robotConfig#{i}"
+      if name != nil && !name.empty?
+        robots[name] = config
+      end
+    end
+  end
+%>
+
+<%
+  if !defined?(headless) || headless == nil || headless.empty?
+    $headless = false
+  elsif headless == 'true' || headless == 'True' || headless == '1'
+    $headless = true
+  end
+
+  $worldName = 'tunnel_qual_ign'
+  $x3Version = '4'
+%>
+
+<ignition version='1.0'>
+  <env>
+    <name>IGN_GAZEBO_SYSTEM_PLUGIN_PATH</name>
+    <value>$LD_LIBRARY_PATH</value>
+  </env>
+
+  <plugin name="ignition::launch::GazeboServer"
+          filename="libignition-launch-gazebo.so">
+    <world_file><%= $worldName %>.sdf</world_file>
+    <run>true</run>
+    <levels>true</levels>
+    <record>
+      <enabled>true</enabled>
+      <!-- This path is used by cloudsim, please do not change -->
+      <path>/tmp/ign/logs</path>
+    </record>
+    <%if defined?(seed) && seed != nil && !seed.empty?%>
+    <seed><%= seed %></seed>
+    <%end%>
+
+    <plugin entity_name="<%= $worldName %>"
+            entity_type="world"
+            filename="libignition-gazebo-physics-system.so"
+            name="ignition::gazebo::systems::Physics">
+    </plugin>
+    <plugin entity_name="<%= $worldName %>"
+            entity_type="world"
+            filename="libignition-gazebo-sensors-system.so"
+            name="ignition::gazebo::systems::Sensors">
+            <render_engine>ogre2</render_engine>
+    </plugin>
+    <plugin entity_name="<%= $worldName %>"
+            entity_type="world"
+            filename="libignition-gazebo-user-commands-system.so"
+            name="ignition::gazebo::systems::UserCommands">
+    </plugin>
+    <plugin entity_name="<%= $worldName %>"
+            entity_type="world"
+            filename="libignition-gazebo-scene-broadcaster-system.so"
+            name="ignition::gazebo::systems::SceneBroadcaster">
+    </plugin>
+
+    <plugin entity_name="<%= $worldName %>"
+            entity_type="world"
+            filename="libignition-gazebo-imu-system.so"
+            name="ignition::gazebo::systems::Imu">
+    </plugin>
+
+    <plugin entity_name="<%= $worldName %>"
+            entity_type="world"
+            filename="libignition-gazebo-magnetometer-system.so"
+            name="ignition::gazebo::systems::Magnetometer">
+    </plugin>
+
+    <plugin entity_name="<%= $worldName %>"
+            entity_type="world"
+            filename="libignition-gazebo-air-pressure-system.so"
+            name="ignition::gazebo::systems::AirPressure">
+    </plugin>
+    <!-- The SubT challenge logic plugin -->
+    <plugin entity_name="<%=$worldName %>"
+            entity_type="world"
+            name="subt::GameLogicPlugin"
+            filename="libGameLogicPlugin.so">
+      <!-- The collection of artifacts to locate -->
+
+      <world_name><%= $worldName %></world_name>
+      <logging>
+        <!-- Use the <path> element to control where to record the log file. 
+             The HOME path is used by default-->
+        <path>/tmp/ign/logs</path>
+        <filename_prefix>subt_tunnel</filename_prefix>
+      </logging>
+
+      <artifact>
+        <name>phone_1</name>
+        <type>TYPE_PHONE</type>
+      </artifact>
+      <artifact>
+        <name>extinguisher_1</name>
+        <type>TYPE_EXTINGUISHER</type>
+      </artifact>
+      <artifact>
+        <name>phone_2</name>
+        <type>TYPE_PHONE</type>
+      </artifact>
+    </plugin>
+  </plugin>
+
+  <%if !$headless %>
+  <executable_wrapper>
+    <plugin name="ignition::launch::GazeboGui"
+          filename="libignition-launch-gazebogui.so">
+      <world_name><%= $worldName %></world_name>
+      <window_title>SubT Simulator</window_title>
+      <plugin filename="GzScene3D" name="3D View">
+        <ignition-gui>
+          <title>3D View</title>
+          <property type="bool" key="showTitleBar">false</property>
+          <property type="string" key="state">docked</property>
+        </ignition-gui>
+
+        <engine>ogre2</engine>
+        <scene>scene</scene>
+        <ambient_light>0.2 0.2 0.1</ambient_light>
+        <background_color>0.8 0.8 0.8</background_color>
+        <camera_pose>-6.3 -4.2 3.6 0 0.268 0.304</camera_pose>
+        <service>/world/<%= $worldName %>/scene/info</service>
+        <pose_topic>/world/<%= $worldName %>/pose/info</pose_topic>
+        <scene_topic>/world/<%= $worldName %>/scene/info</scene_topic>
+        <deletion_topic>/world/<%= $worldName %>/scene/deletion</deletion_topic>
+      </plugin>
+      <plugin filename="WorldControl" name="World control">
+        <ignition-gui>
+          <title>World control</title>
+          <property type="bool" key="showTitleBar">false</property>
+          <property type="bool" key="resizable">false</property>
+          <property type="double" key="height">72</property>
+          <property type="double" key="width">121</property>
+          <property type="double" key="z">1</property>
+
+          <property type="string" key="state">floating</property>
+          <anchors target="3D View">
+            <line own="left" target="left"/>
+            <line own="bottom" target="bottom"/>
+          </anchors>
+        </ignition-gui>
+
+        <play_pause>true</play_pause>
+        <step>true</step>
+        <start_paused>true</start_paused>
+        <service>/world/<%= $worldName %>/control</service>
+        <stats_topic>/world/<%= $worldName %>/stats</stats_topic>
+
+      </plugin>
+
+      <plugin filename="WorldStats" name="World stats">
+        <ignition-gui>
+          <title>World stats</title>
+          <property type="bool" key="showTitleBar">false</property>
+          <property type="bool" key="resizable">false</property>
+          <property type="double" key="height">110</property>
+          <property type="double" key="width">290</property>
+          <property type="double" key="z">1</property>
+
+          <property type="string" key="state">floating</property>
+          <anchors target="3D View">
+            <line own="right" target="right"/>
+            <line own="bottom" target="bottom"/>
+          </anchors>
+        </ignition-gui>
+
+        <sim_time>true</sim_time>
+        <real_time>true</real_time>
+        <real_time_factor>true</real_time_factor>
+        <iterations>true</iterations>
+        <topic>/world/<%= $worldName %>/stats</topic>
+      </plugin>
+    </plugin>
+  </executable_wrapper>
+  <%end%>
+
+  <!-- Load a joystick plugin that will read from a device and output to a
+       topic -->
+  <!--<plugin name="ignition::launch::Joystick"-->
+  <!--        filename="libignition-launch-joystick.so">-->
+  <!--  <device>/dev/input/js0</device>-->
+  <!--  <sticky_buttons>false</sticky_buttons>-->
+  <!--  <dead_zone>0.05</dead_zone>-->
+  <!--  <rate>60</rate>-->
+  <!--  <accumulation_rate>1000</accumulation_rate>-->
+  <!--</plugin>-->
+
+  <!-- Load a plugin that transforms a joystick message to a
+       twist message -->
+  <!--<plugin name="ignition::launch::JoyToTwist"-->
+  <!--        filename="libignition-launch-joytotwist.so">-->
+  <!--  <input_topic>/joy</input_topic>-->
+  <!--  <output_topic>/model/x1/cmd_vel</output_topic>-->
+  <!--</plugin>-->
+
+  <!-- Load a plugin that transforms a joystick message to a
+       twist message -->
+  <!--<plugin name="ignition::launch::JoyToTwist"-->
+  <!--        filename="libignition-launch-joytotwist.so">-->
+  <!--  <input_topic>/joy</input_topic>-->
+  <!--  <output_topic>/model/x2/cmd_vel</output_topic>-->
+  <!--</plugin>-->
+
+  <!-- The SubT challenge comms broker plugin -->
+  <plugin entity_name="<%= $worldName %>"
+          entity_type="world"
+          name="subt::CommsBrokerPlugin"
+          filename="libCommsBrokerPlugin.so">
+    <generate_table>true</generate_table>
+    <world_name><%= $worldName %></world_name>
+    <comms_model>
+      <comms_model_type>visibility_range</comms_model_type>
+
+      <range_config>
+        <max_range>500.0</max_range>
+        <fading_exponent>2.5</fading_exponent>
+        <L0>40</L0>
+        <sigma>10.0</sigma>
+      </range_config>
+
+      <visibility_config>
+        <visibility_cost_to_fading_exponent>0.2</visibility_cost_to_fading_exponent>
+        <comms_cost_max>15</comms_cost_max>
+      </visibility_config>
+
+      <radio_config>
+        <capacity>1000000</capacity>
+        <tx_power>20</tx_power>
+        <noise_floor>-90</noise_floor>
+        <modulation>QPSK</modulation>
+      </radio_config>
+    </comms_model>
+  </plugin>
+
+  <!-- The SubT challenge base station plugin -->
+  <plugin entity_name="base_station"
+          entity_type="model"
+          name="subt::BaseStationPlugin"
+          filename="libBaseStationPlugin.so">
+  </plugin>
+
+
+<%
+  def spawnX1(_name, _config, _x, _y)
+    laserScan=0
+    stereoCam=0
+    lidar3d=0
+    if _config == "1" or _config == "2"
+      laserScan=1
+    end
+    if _config == "3" or _config == "4"
+      lidar3d=1
+    end
+    if _config == "5"
+      stereoCam=1
+    end
+    "<plugin name=\"ignition::launch::GazeboFactory\"\n"\
+    "        filename=\"libignition-launch-gazebo-factory.so\">\n"\
+    "  <name>#{_name}</name>\n"\
+    "  <allow_renaming>false</allow_renaming>\n"\
+    "  <pose>#{_x} #{_y} .2 0 0 0</pose>\n"\
+    "  <world>#{$worldName}</world>\n"\
+    "  <is_performer>true</is_performer>\n"\
+    "  <sdf version='1.6'>\n"\
+    "  <include>\n"\
+    "    <name>#{_name}</name>\n"\
+    "    <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X1 Config #{_config}</uri>\n"\
+    "    <!-- Diff drive -->\n"\
+    "    <plugin filename=\"libignition-gazebo-diff-drive-system.so\"\n"\
+    "            name=\"ignition::gazebo::systems::DiffDrive\">\n"\
+    "      <left_joint>front_left_wheel_joint</left_joint>\n"\
+    "      <left_joint>rear_left_wheel_joint</left_joint>\n"\
+    "      <right_joint>front_right_wheel_joint</right_joint>\n"\
+    "      <right_joint>rear_right_wheel_joint</right_joint>\n"\
+    "      <wheel_separation>0.45649</wheel_separation>\n"\
+    "      <wheel_radius>0.1651</wheel_radius>\n"\
+    "      <topic>/model/#{_name}/cmd_vel_relay</topic>\n"\
+    "    </plugin>\n"\
+    "    <!-- Publish robot state information -->\n"\
+    "    <plugin filename=\"libignition-gazebo-pose-publisher-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::PosePublisher\">\n"\
+    "      <publish_link_pose>true</publish_link_pose>\n"\
+    "      <publish_sensor_pose>true</publish_sensor_pose>\n"\
+    "      <publish_collision_pose>false</publish_collision_pose>\n"\
+    "      <publish_visual_pose>false</publish_visual_pose>\n"\
+    "      <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>\n"\
+    "    </plugin>\n"\
+    "    <!-- Battery plugin -->\n"\
+    "    <plugin filename=\"libignition-gazebo-linearbatteryplugin-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::LinearBatteryPlugin\">\n"\
+    "      <battery_name>linear_battery</battery_name>\n"\
+    "      <voltage>12.694</voltage>\n"\
+    "      <open_circuit_voltage_constant_coef>12.694</open_circuit_voltage_constant_coef>\n"\
+    "      <open_circuit_voltage_linear_coef>-3.1424</open_circuit_voltage_linear_coef>\n"\
+    "      <initial_charge>18.0</initial_charge>\n"\
+    "      <capacity>18.0</capacity>\n"\
+    "      <resistance>0.061523</resistance>\n"\
+    "      <smooth_current_tau>1.9499</smooth_current_tau>\n"\
+    "      <power_load>6.6</power_load>\n"\
+    "      <start_on_motion>true</start_on_motion>\n"\
+    "    </plugin>\n"\
+    "  </include>\n"\
+    "  </sdf>\n"\
+    "</plugin>\n"
+  end
+
+  def spawnX2(_name, _config, _x, _y)
+    laserScan=0
+    stereoCam=0
+    lidar3d=0
+    if _config == "1" or _config == "2" or _config == "3" or _config == "4"
+      laserScan=1
+    end
+    if _config == "5"
+      stereoCam=1
+    end
+    if _config == "6"
+      lidar3d=1
+    end
+    "<plugin name=\"ignition::launch::GazeboFactory\"\n"\
+    "        filename=\"libignition-launch-gazebo-factory.so\">\n"\
+    "  <name>#{_name}</name>\n"\
+    "  <allow_renaming>false</allow_renaming>\n"\
+    "  <pose>#{_x} #{_y} 0.063494 0 0 0</pose>\n"\
+    "  <world>#{$worldName}</world>\n"\
+    "  <is_performer>true</is_performer>\n"\
+    "  <sdf version='1.6'>\n"\
+    "  <include>\n"\
+    "    <name>#{_name}</name>\n"\
+    "    <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X2 Config #{_config}</uri>\n"\
+    "    <!-- Diff drive -->\n"\
+    "    <plugin filename=\"libignition-gazebo-diff-drive-system.so\"\n"\
+    "            name=\"ignition::gazebo::systems::DiffDrive\">\n"\
+    "      <left_joint>front_left_wheel_joint</left_joint>\n"\
+    "      <left_joint>rear_left_wheel_joint</left_joint>\n"\
+    "      <right_joint>front_right_wheel_joint</right_joint>\n"\
+    "      <right_joint>rear_right_wheel_joint</right_joint>\n"\
+    "      <wheel_separation>0.33559</wheel_separation>\n"\
+    "      <wheel_radius>0.098</wheel_radius>\n"\
+    "      <topic>/model/#{_name}/cmd_vel_relay</topic>\n"\
+    "    </plugin>\n"\
+    "    <!-- Publish robot state information -->\n"\
+    "    <plugin filename=\"libignition-gazebo-pose-publisher-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::PosePublisher\">\n"\
+    "      <publish_link_pose>true</publish_link_pose>\n"\
+    "      <publish_sensor_pose>true</publish_sensor_pose>\n"\
+    "      <publish_collision_pose>false</publish_collision_pose>\n"\
+    "      <publish_visual_pose>false</publish_visual_pose>\n"\
+    "      <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>\n"\
+    "    </plugin>\n"\
+    "    <!-- Battery plugin -->\n"\
+    "    <plugin filename=\"libignition-gazebo-linearbatteryplugin-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::LinearBatteryPlugin\">\n"\
+    "      <battery_name>linear_battery</battery_name>\n"\
+    "      <voltage>12.694</voltage>\n"\
+    "      <open_circuit_voltage_constant_coef>12.694</open_circuit_voltage_constant_coef>\n"\
+    "      <open_circuit_voltage_linear_coef>-3.1424</open_circuit_voltage_linear_coef>\n"\
+    "      <initial_charge>18.0</initial_charge>\n"\
+    "      <capacity>18.0</capacity>\n"\
+    "      <resistance>0.061523</resistance>\n"\
+    "      <smooth_current_tau>1.9499</smooth_current_tau>\n"\
+    "      <power_load>6.6</power_load>\n"\
+    "      <start_on_motion>true</start_on_motion>\n"\
+    "    </plugin>\n"\
+    "  </include>\n"\
+    "  </sdf>\n"\
+    "</plugin>\n"
+  end
+
+  def spawnX3(_name, _config, _x, _y)
+    laserScan=0
+    stereoCam=0
+    rgbdCam=0
+    if _config == "3" || _config == "4"
+      rgbdCam=1
+    end
+    if _config == "5"
+      stereoCam=1
+    end
+    "<plugin name=\"ignition::launch::GazeboFactory\"\n"\
+    "        filename=\"libignition-launch-gazebo-factory.so\">\n"\
+    "  <name>#{_name}</name>\n"\
+    "  <allow_renaming>false</allow_renaming>\n"\
+    "  <pose>#{_x} #{_y} 0.2 0 0 0</pose>\n"\
+    "  <world>#{$worldName}</world>\n"\
+    "  <is_performer>true</is_performer>\n"\
+    "  <sdf version='1.6'>\n"\
+    "  <include>\n"\
+    "    <name>#{_name}</name>\n"\
+    "    <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X3 UAV Config #{_config}/#{$x3Version}</uri>\n"\
+    "    <!-- Publish robot state information -->\n"\
+    "    <plugin filename=\"libignition-gazebo-pose-publisher-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::PosePublisher\">\n"\
+    "      <publish_link_pose>true</publish_link_pose>\n"\
+    "      <publish_sensor_pose>true</publish_sensor_pose>\n"\
+    "      <publish_collision_pose>false</publish_collision_pose>\n"\
+    "      <publish_visual_pose>false</publish_visual_pose>\n"\
+    "      <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>\n"\
+    "    </plugin>\n"\
+    "    <plugin filename=\"libignition-gazebo-multicopter-motor-model-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::MulticopterMotorModel\">\n"\
+    "      <robotNamespace>model/#{_name}</robotNamespace>\n"\
+    "      <jointName>rotor_0_joint</jointName>\n"\
+    "      <linkName>rotor_0</linkName>\n"\
+    "      <turningDirection>ccw</turningDirection>\n"\
+    "      <timeConstantUp>0.0125</timeConstantUp>\n"\
+    "      <timeConstantDown>0.025</timeConstantDown>\n"\
+    "      <maxRotVelocity>800.0</maxRotVelocity>\n"\
+    "      <motorConstant>8.54858e-06</motorConstant>\n"\
+    "      <momentConstant>0.016</momentConstant>\n"\
+    "      <commandSubTopic>command/motor_speed</commandSubTopic>\n"\
+    "      <motorNumber>0</motorNumber>\n"\
+    "      <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>\n"\
+    "      <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>\n"\
+    "      <motorSpeedPubTopic>motor_speed/0</motorSpeedPubTopic>\n"\
+    "      <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>\n"\
+    "      <motorType>velocity</motorType>\n"\
+    "    </plugin>\n"\
+    "    <plugin filename=\"libignition-gazebo-multicopter-motor-model-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::MulticopterMotorModel\">\n"\
+    "      <robotNamespace>model/#{_name}</robotNamespace>\n"\
+    "      <jointName>rotor_1_joint</jointName>\n"\
+    "      <linkName>rotor_1</linkName>\n"\
+    "      <turningDirection>ccw</turningDirection>\n"\
+    "      <timeConstantUp>0.0125</timeConstantUp>\n"\
+    "      <timeConstantDown>0.025</timeConstantDown>\n"\
+    "      <maxRotVelocity>800.0</maxRotVelocity>\n"\
+    "      <motorConstant>8.54858e-06</motorConstant>\n"\
+    "      <momentConstant>0.016</momentConstant>\n"\
+    "      <commandSubTopic>command/motor_speed</commandSubTopic>\n"\
+    "      <motorNumber>1</motorNumber>\n"\
+    "      <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>\n"\
+    "      <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>\n"\
+    "      <motorSpeedPubTopic>motor_speed/1</motorSpeedPubTopic>\n"\
+    "      <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>\n"\
+    "      <motorType>velocity</motorType>\n"\
+    "    </plugin>\n"\
+    "    <plugin filename=\"libignition-gazebo-multicopter-motor-model-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::MulticopterMotorModel\">\n"\
+    "      <robotNamespace>model/#{_name}</robotNamespace>\n"\
+    "      <jointName>rotor_2_joint</jointName>\n"\
+    "      <linkName>rotor_2</linkName>\n"\
+    "      <turningDirection>cw</turningDirection>\n"\
+    "      <timeConstantUp>0.0125</timeConstantUp>\n"\
+    "      <timeConstantDown>0.025</timeConstantDown>\n"\
+    "      <maxRotVelocity>800.0</maxRotVelocity>\n"\
+    "      <motorConstant>8.54858e-06</motorConstant>\n"\
+    "      <momentConstant>0.016</momentConstant>\n"\
+    "      <commandSubTopic>command/motor_speed</commandSubTopic>\n"\
+    "      <motorNumber>2</motorNumber>\n"\
+    "      <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>\n"\
+    "      <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>\n"\
+    "      <motorSpeedPubTopic>motor_speed/2</motorSpeedPubTopic>\n"\
+    "      <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>\n"\
+    "      <motorType>velocity</motorType>\n"\
+    "    </plugin>\n"\
+    "    <plugin filename=\"libignition-gazebo-multicopter-motor-model-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::MulticopterMotorModel\">\n"\
+    "      <robotNamespace>model/#{_name}</robotNamespace>\n"\
+    "      <jointName>rotor_3_joint</jointName>\n"\
+    "      <linkName>rotor_3</linkName>\n"\
+    "      <turningDirection>cw</turningDirection>\n"\
+    "      <timeConstantUp>0.0125</timeConstantUp>\n"\
+    "      <timeConstantDown>0.025</timeConstantDown>\n"\
+    "      <maxRotVelocity>800.0</maxRotVelocity>\n"\
+    "      <motorConstant>8.54858e-06</motorConstant>\n"\
+    "      <momentConstant>0.016</momentConstant>\n"\
+    "      <commandSubTopic>command/motor_speed</commandSubTopic>\n"\
+    "      <motorNumber>3</motorNumber>\n"\
+    "      <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>\n"\
+    "      <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>\n"\
+    "      <motorSpeedPubTopic>motor_speed/3</motorSpeedPubTopic>\n"\
+    "      <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>\n"\
+    "      <motorType>velocity</motorType>\n"\
+    "    </plugin>\n"\
+    "    <!-- Battery plugin -->\n"\
+    "    <plugin filename=\"libignition-gazebo-linearbatteryplugin-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::LinearBatteryPlugin\">\n"\
+    "      <battery_name>linear_battery</battery_name>\n"\
+    "      <voltage>12.694</voltage>\n"\
+    "      <open_circuit_voltage_constant_coef>12.694</open_circuit_voltage_constant_coef>\n"\
+    "      <open_circuit_voltage_linear_coef>-3.1424</open_circuit_voltage_linear_coef>\n"\
+    "      <initial_charge>18.0</initial_charge>\n"\
+    "      <capacity>18.0</capacity>\n"\
+    "      <resistance>0.061523</resistance>\n"\
+    "      <smooth_current_tau>1.9499</smooth_current_tau>\n"\
+    "      <power_load>6.6</power_load>\n"\
+    "      <start_on_motion>true</start_on_motion>\n"\
+    "    </plugin>\n"\
+    "  </include>\n"\
+    "  </sdf>\n"\
+    "</plugin>\n"
+  end
+
+  def spawnX4(_name, _config, _x, _y)
+    laserScan=0
+    stereoCam=0
+    rgbdCam=0
+    if _config == "2"
+      rgbdCam=1
+    end
+    if _config == "3" or _config == "4"
+      laserScan=1
+    end
+    if _config == "5"
+      stereoCam=1
+    end
+    "<plugin name=\"ignition::launch::GazeboFactory\"\n"\
+    "        filename=\"libignition-launch-gazebo-factory.so\">\n"\
+    "  <name>#{_name}</name>\n"\
+    "  <allow_renaming>false</allow_renaming>\n"\
+    "  <pose>#{_x} #{_y} 0.2 0 0 0</pose>\n"\
+    "  <world>#{$worldName}</world>\n"\
+    "  <is_performer>true</is_performer>\n"\
+    "  <sdf version='1.6'>\n"\
+    "  <include>\n"\
+    "    <name>#{_name}</name>\n"\
+    "    <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X4 UAV Config #{_config}</uri>\n"\
+    "    <!-- Publish robot state information -->\n"\
+    "    <plugin filename=\"libignition-gazebo-pose-publisher-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::PosePublisher\">\n"\
+    "      <publish_link_pose>true</publish_link_pose>\n"\
+    "      <publish_sensor_pose>true</publish_sensor_pose>\n"\
+    "      <publish_collision_pose>false</publish_collision_pose>\n"\
+    "      <publish_visual_pose>false</publish_visual_pose>\n"\
+    "      <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>\n"\
+    "    </plugin>\n"\
+    "    <plugin filename=\"libignition-gazebo-multicopter-motor-model-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::MulticopterMotorModel\">\n"\
+    "      <robotNamespace>model/#{_name}</robotNamespace>\n"\
+    "      <jointName>rotor_0_joint</jointName>\n"\
+    "      <linkName>rotor_0</linkName>\n"\
+    "      <turningDirection>ccw</turningDirection>\n"\
+    "      <timeConstantUp>0.0182</timeConstantUp>\n"\
+    "      <timeConstantDown>0.0182</timeConstantDown>\n"\
+    "      <maxRotVelocity>1000.0</maxRotVelocity>\n"\
+    "      <motorConstant>1.269e-05</motorConstant>\n"\
+    "      <momentConstant>0.016754</momentConstant>\n"\
+    "      <commandSubTopic>command/motor_speed</commandSubTopic>\n"\
+    "      <motorNumber>0</motorNumber>\n"\
+    "      <rotorDragCoefficient>2.0673e-04</rotorDragCoefficient>\n"\
+    "      <rollingMomentCoefficient>0</rollingMomentCoefficient>\n"\
+    "      <motorSpeedPubTopic>motor_speed/0</motorSpeedPubTopic>\n"\
+    "      <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>\n"\
+    "      <motorType>velocity</motorType>\n"\
+    "    </plugin>\n"\
+    "    <plugin filename=\"libignition-gazebo-multicopter-motor-model-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::MulticopterMotorModel\">\n"\
+    "      <robotNamespace>model/#{_name}</robotNamespace>\n"\
+    "      <jointName>rotor_1_joint</jointName>\n"\
+    "      <linkName>rotor_1</linkName>\n"\
+    "      <turningDirection>cw</turningDirection>\n"\
+    "      <timeConstantUp>0.0182</timeConstantUp>\n"\
+    "      <timeConstantDown>0.0182</timeConstantDown>\n"\
+    "      <maxRotVelocity>1000.0</maxRotVelocity>\n"\
+    "      <motorConstant>1.269e-05</motorConstant>\n"\
+    "      <momentConstant>0.016754</momentConstant>\n"\
+    "      <commandSubTopic>command/motor_speed</commandSubTopic>\n"\
+    "      <motorNumber>1</motorNumber>\n"\
+    "      <rotorDragCoefficient>2.0673e-04</rotorDragCoefficient>\n"\
+    "      <rollingMomentCoefficient>0</rollingMomentCoefficient>\n"\
+    "      <motorSpeedPubTopic>motor_speed/1</motorSpeedPubTopic>\n"\
+    "      <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>\n"\
+    "      <motorType>velocity</motorType>\n"\
+    "    </plugin>\n"\
+    "    <plugin filename=\"libignition-gazebo-multicopter-motor-model-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::MulticopterMotorModel\">\n"\
+    "      <robotNamespace>model/#{_name}</robotNamespace>\n"\
+    "      <jointName>rotor_2_joint</jointName>\n"\
+    "      <linkName>rotor_2</linkName>\n"\
+    "      <turningDirection>ccw</turningDirection>\n"\
+    "      <timeConstantUp>0.0182</timeConstantUp>\n"\
+    "      <timeConstantDown>0.0182</timeConstantDown>\n"\
+    "      <maxRotVelocity>1000.0</maxRotVelocity>\n"\
+    "      <motorConstant>1.269e-05</motorConstant>\n"\
+    "      <momentConstant>0.016754</momentConstant>\n"\
+    "      <commandSubTopic>command/motor_speed</commandSubTopic>\n"\
+    "      <motorNumber>2</motorNumber>\n"\
+    "      <rotorDragCoefficient>2.0673e-04</rotorDragCoefficient>\n"\
+    "      <rollingMomentCoefficient>0</rollingMomentCoefficient>\n"\
+    "      <motorSpeedPubTopic>motor_speed/2</motorSpeedPubTopic>\n"\
+    "      <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>\n"\
+    "      <motorType>velocity</motorType>\n"\
+    "    </plugin>\n"\
+    "    <plugin filename=\"libignition-gazebo-multicopter-motor-model-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::MulticopterMotorModel\">\n"\
+    "      <robotNamespace>model/#{_name}</robotNamespace>\n"\
+    "      <jointName>rotor_3_joint</jointName>\n"\
+    "      <linkName>rotor_3</linkName>\n"\
+    "      <turningDirection>cw</turningDirection>\n"\
+    "      <timeConstantUp>0.0182</timeConstantUp>\n"\
+    "      <timeConstantDown>0.0182</timeConstantDown>\n"\
+    "      <maxRotVelocity>1000.0</maxRotVelocity>\n"\
+    "      <motorConstant>1.269e-05</motorConstant>\n"\
+    "      <momentConstant>0.016754</momentConstant>\n"\
+    "      <commandSubTopic>command/motor_speed</commandSubTopic>\n"\
+    "      <motorNumber>3</motorNumber>\n"\
+    "      <rotorDragCoefficient>2.0673e-04</rotorDragCoefficient>\n"\
+    "      <rollingMomentCoefficient>0</rollingMomentCoefficient>\n"\
+    "      <motorSpeedPubTopic>motor_speed/3</motorSpeedPubTopic>\n"\
+    "      <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>\n"\
+    "      <motorType>velocity</motorType>\n"\
+    "    </plugin>\n"\
+    "    <plugin filename=\"libignition-gazebo-multicopter-motor-model-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::MulticopterMotorModel\">\n"\
+    "      <robotNamespace>model/#{_name}</robotNamespace>\n"\
+    "      <jointName>rotor_4_joint</jointName>\n"\
+    "      <linkName>rotor_4</linkName>\n"\
+    "      <turningDirection>ccw</turningDirection>\n"\
+    "      <timeConstantUp>0.0182</timeConstantUp>\n"\
+    "      <timeConstantDown>0.0182</timeConstantDown>\n"\
+    "      <maxRotVelocity>1000.0</maxRotVelocity>\n"\
+    "      <motorConstant>1.269e-05</motorConstant>\n"\
+    "      <momentConstant>0.016754</momentConstant>\n"\
+    "      <commandSubTopic>command/motor_speed</commandSubTopic>\n"\
+    "      <motorNumber>4</motorNumber>\n"\
+    "      <rotorDragCoefficient>2.0673e-04</rotorDragCoefficient>\n"\
+    "      <rollingMomentCoefficient>0</rollingMomentCoefficient>\n"\
+    "      <motorSpeedPubTopic>motor_speed/4</motorSpeedPubTopic>\n"\
+    "      <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>\n"\
+    "      <motorType>velocity</motorType>\n"\
+    "    </plugin>\n"\
+    "    <plugin filename=\"libignition-gazebo-multicopter-motor-model-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::MulticopterMotorModel\">\n"\
+    "      <robotNamespace>model/#{_name}</robotNamespace>\n"\
+    "      <jointName>rotor_5_joint</jointName>\n"\
+    "      <linkName>rotor_5</linkName>\n"\
+    "      <turningDirection>cw</turningDirection>\n"\
+    "      <timeConstantUp>0.0182</timeConstantUp>\n"\
+    "      <timeConstantDown>0.0182</timeConstantDown>\n"\
+    "      <maxRotVelocity>1000.0</maxRotVelocity>\n"\
+    "      <motorConstant>1.269e-05</motorConstant>\n"\
+    "      <momentConstant>0.016754</momentConstant>\n"\
+    "      <commandSubTopic>command/motor_speed</commandSubTopic>\n"\
+    "      <motorNumber>5</motorNumber>\n"\
+    "      <rotorDragCoefficient>2.0673e-04</rotorDragCoefficient>\n"\
+    "      <rollingMomentCoefficient>0</rollingMomentCoefficient>\n"\
+    "      <motorSpeedPubTopic>motor_speed/5</motorSpeedPubTopic>\n"\
+    "      <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>\n"\
+    "      <motorType>velocity</motorType>\n"\
+    "    </plugin>\n"\
+    "    <!-- Battery plugin -->\n"\
+    "    <plugin filename=\"libignition-gazebo-linearbatteryplugin-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::LinearBatteryPlugin\">\n"\
+    "      <battery_name>linear_battery</battery_name>\n"\
+    "      <voltage>12.694</voltage>\n"\
+    "      <open_circuit_voltage_constant_coef>12.694</open_circuit_voltage_constant_coef>\n"\
+    "      <open_circuit_voltage_linear_coef>-3.1424</open_circuit_voltage_linear_coef>\n"\
+    "      <initial_charge>18.0</initial_charge>\n"\
+    "      <capacity>18.0</capacity>\n"\
+    "      <resistance>0.061523</resistance>\n"\
+    "      <smooth_current_tau>1.9499</smooth_current_tau>\n"\
+    "      <power_load>6.6</power_load>\n"\
+    "      <start_on_motion>true</start_on_motion>\n"\
+    "    </plugin>\n"\
+    "    </include>\n"\
+    "  </sdf>\n"\
+    "</plugin>\n"
+  end
+%>
+
+<%
+  robotSpawned = 0
+  robots.each do |name, config|
+    robotType = config[1]
+    robotConfigN = config[-1]
+    posX = -(robotSpawned / spawnColSize * spawnGridSize - spawnRowOffset)
+    posY = -(robotSpawned % spawnColSize * spawnGridSize - spawnColOffset)
+    if robotType == "1"
+      robotSpawned += 1
+%>
+<%=   spawnX1(name, robotConfigN, posX, posY) %>
+<%
+    elsif robotType == "2"
+      robotSpawned += 1
+%>
+<%=   spawnX2(name, robotConfigN, posX, posY) %>
+<%
+    elsif robotType == "3"
+      robotSpawned += 1
+%>
+<%=   spawnX3(name, robotConfigN, posX, posY) %>
+<%
+    elsif robotType == "4"
+      robotSpawned += 1
+%>
+<%=   spawnX4(name, robotConfigN, posX, posY) %>
+<%
+    else
+      puts "Unknown robot configuration #{config}"
+    end
+  end
+%>
+
+
+</ignition>
