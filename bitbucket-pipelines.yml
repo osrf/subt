@@ -28,3 +28,4 @@ pipelines:
           - source /opt/ros/melodic/setup.bash
           - catkin_make
           - catkin_make run_tests -j1
+          - catkin_test_results
