@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<package>
+<package format="2">
   <name>x4_control</name>
   <version>0.0.1</version>
   <description>X4 controller configurations</description>
@@ -11,9 +11,9 @@
 
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>roslaunch</build_depend>
-  <run_depend>subt_example</run_depend>
-  <run_depend>robot_localization</run_depend>
-  <run_depend>rotors_control</run_depend>
+  <exec_depend>subt_example</exec_depend>
+  <exec_depend>robot_localization</exec_depend>
+  <exec_depend>rotors_control</exec_depend>
 
   <export>
   </export>
