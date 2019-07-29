@@ -77,6 +77,7 @@
 
 <%
   def spawnX1(_name, _config, _x, _y)
+    uav=0
     laserScan=0
     stereoCam=0
     lidar3d=0
@@ -93,11 +94,12 @@
     "  <command>roslaunch --wait subt_ros x1_description.launch world_name:=#{$worldName} name:=#{_name}</command>\n"\
     "</executable>\n"\
     "<executable name='x1_ros_ign_bridge'>\n"\
-      "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} lidar_3d:=#{lidar3d}</command>\n"\
+      "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} lidar_3d:=#{lidar3d}</command>\n"\
     "</executable>\n"
   end
 
   def spawnX2(_name, _config, _x, _y)
+    uav=0
     laserScan=0
     stereoCam=0
     lidar3d=0
@@ -114,11 +116,12 @@
     "  <command>roslaunch --wait subt_ros x2_description.launch world_name:=#{$worldName} name:=#{_name}</command>\n"\
     "</executable>\n"\
     "<executable name='x2_ros_ign_bridge'>\n"\
-    "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} lidar_3d:=#{lidar3d}</command>\n"\
+    "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} lidar_3d:=#{lidar3d}</command>\n"\
     "</executable>\n"
   end
 
   def spawnX3(_name, _config, _x, _y)
+    uav=1
     laserScan=0
     stereoCam=0
     rgbdCam=0
@@ -135,11 +138,12 @@
     "  <command>roslaunch --wait x3_control control.launch world_name:=#{$worldName} x3_name:=#{_name}</command>\n"\
     "</executable>\n"\
     "<executable name='x3_ros_ign_bridge'>\n"\
-      "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} rgbd_cam:=#{rgbdCam}</command>\n"\
+      "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} rgbd_cam:=#{rgbdCam}</command>\n"\
     "</executable>\n"
   end
 
   def spawnX4(_name, _config, _x, _y)
+    uav=1
     laserScan=0
     stereoCam=0
     rgbdCam=0
@@ -159,7 +163,7 @@
     "  <command>roslaunch --wait subt_ros x4_description.launch world_name:=#{$worldName} name:=#{_name}</command>\n"\
     "</executable>\n"\
     "<executable name='x4_ros_ign_bridge'>\n"\
-    "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} rgbd_cam:=#{rgbdCam}</command>\n"\
+    "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} rgbd_cam:=#{rgbdCam}</command>\n"\
     "</executable>\n"
   end
 %>
