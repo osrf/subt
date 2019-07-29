@@ -335,6 +335,7 @@
 
 <%
   def spawnX1(_name, _config, _x, _y)
+    uav=0
     laserScan=0
     stereoCam=0
     lidar3d=0
@@ -385,8 +386,8 @@
     "      <voltage>12.694</voltage>\n"\
     "      <open_circuit_voltage_constant_coef>12.694</open_circuit_voltage_constant_coef>\n"\
     "      <open_circuit_voltage_linear_coef>-3.1424</open_circuit_voltage_linear_coef>\n"\
-    "      <initial_charge>18.0</initial_charge>\n"\
-    "      <capacity>18.0</capacity>\n"\
+    "      <initial_charge>78.4</initial_charge>\n"\
+    "      <capacity>78.4</capacity>\n"\
     "      <resistance>0.061523</resistance>\n"\
     "      <smooth_current_tau>1.9499</smooth_current_tau>\n"\
     "      <power_load>6.6</power_load>\n"\
@@ -398,6 +399,7 @@
   end
 
   def spawnX2(_name, _config, _x, _y)
+    uav=0
     laserScan=0
     stereoCam=0
     lidar3d=0
@@ -448,8 +450,8 @@
     "      <voltage>12.694</voltage>\n"\
     "      <open_circuit_voltage_constant_coef>12.694</open_circuit_voltage_constant_coef>\n"\
     "      <open_circuit_voltage_linear_coef>-3.1424</open_circuit_voltage_linear_coef>\n"\
-    "      <initial_charge>18.0</initial_charge>\n"\
-    "      <capacity>18.0</capacity>\n"\
+    "      <initial_charge>78.4</initial_charge>\n"\
+    "      <capacity>78.4</capacity>\n"\
     "      <resistance>0.061523</resistance>\n"\
     "      <smooth_current_tau>1.9499</smooth_current_tau>\n"\
     "      <power_load>6.6</power_load>\n"\
@@ -461,6 +463,7 @@
   end
 
   def spawnX3(_name, _config, _x, _y)
+    uav=1
     laserScan=0
     stereoCam=0
     rgbdCam=0
@@ -586,6 +589,7 @@
   end
 
   def spawnX4(_name, _config, _x, _y)
+    uav=1
     laserScan=0
     stereoCam=0
     rgbdCam=0
