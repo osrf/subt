@@ -31,7 +31,8 @@ then
     exit 1
 fi
 
-IMG=$(basename $1)
+#IMG=$(basename $1)
+IMG=$1
 
 ARGS=("$@")
 
@@ -40,10 +41,11 @@ ARGS=("$@")
 XAUTH=/tmp/.docker.xauth
 if [ ! -f $XAUTH ]
 then
-    xauth_list=$(xauth nlist :0 | sed -e 's/^..../ffff/')
+    xauth_list=$(xauth nlist $DISPLAY)
+    xauth_list=$(sed -e 's/^..../ffff/' <<< "$xauth_list")
     if [ ! -z "$xauth_list" ]
     then
-        echo $xauth_list | xauth -f $XAUTH nmerge -
+        echo "$xauth_list" | xauth -f $XAUTH nmerge -
     else
         touch $XAUTH
     fi
@@ -51,6 +53,22 @@ then
 fi
 
 DOCKER_OPTS=
+
+# Get the current version of docker-ce
+# Strip leading stuff before the version number so it can be compared
+DOCKER_VER=$(dpkg-query -f='${Version}' --show docker-ce | sed 's/[0-9]://')
+if dpkg --compare-versions 19.03 gt "$DOCKER_VER"
+then
+    echo "Docker version is less than 19.03, using nvidia-docker2 runtime"
+    if ! dpkg --list | grep nvidia-docker2
+    then
+        echo "Please either update docker-ce to a version greater than 19.03 or install nvidia-docker2"
+	exit 1
+    fi
+    DOCKER_OPTS="$DOCKER_OPTS --runtime=nvidia"
+else
+    DOCKER_OPTS="$DOCKER_OPTS --gpus all"
+fi
 
 # Share your vim settings.
 VIMRC=~/.vimrc
@@ -76,7 +94,6 @@ docker run -it \
   --network host \
   --rm \
   --privileged \
-  --runtime=nvidia \
   --security-opt seccomp=unconfined \
   $DOCKER_OPTS \
   $IMG \
