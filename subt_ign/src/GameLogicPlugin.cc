@@ -19,6 +19,7 @@
 #include <ignition/msgs/stringmsg.pb.h>
 #include <ignition/plugin/Register.hh>
 
+#include <algorithm>
 #include <chrono>
 #include <map>
 #include <mutex>
@@ -107,6 +108,14 @@ class subt::GameLogicPluginPrivate
   public: bool ArtifactFromInt(const uint32_t &_typeInt,
                                subt::ArtifactType &_type);
 
+  /// \brief Create a string from ArtifactType.
+  //
+  /// \param[in] _type The artifact type.
+  /// \param[out] _strType The artifact string.
+  /// \return True when the conversion succeed or false otherwise.
+  public: bool StringFromArtifact(const subt::ArtifactType &_type,
+                                  std::string &_strType);
+
   /// \brief Callback executed to process a new artifact request
   /// sent by a team.
   /// \param[in] _req The service request.
@@ -184,7 +193,7 @@ class subt::GameLogicPluginPrivate
   public: std::map<std::string, ignition::math::Pose3d> poses;
 
   /// \brief Counter to track unique identifiers.
-  public: uint32_t reportCount = 0u;
+  public: uint32_t reportCount = 1u;
 
   /// The maximum number of times that a team can attempt an
   /// artifact report is this number multiplied by the total number
@@ -215,6 +224,9 @@ class subt::GameLogicPluginPrivate
 
   /// \brief Names of the spawned robots.
   public: std::set<std::string> robotNames;
+
+  /// \brief The unique artifact reports received.
+  public: std::vector<std::string> uniqueReports;
 };
 
 //////////////////////////////////////////////////
@@ -421,7 +433,7 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
   auto s = std::chrono::duration_cast<std::chrono::seconds>(realTime);
   auto ns = std::chrono::duration_cast<std::chrono::nanoseconds>(realTime-s);
 
-  _resp.set_report_id(++this->reportCount);
+  _resp.set_report_id(this->reportCount);
   *_resp.mutable_artifact() = _req;
 
   _resp.mutable_submitted_datetime()->set_sec(s.count());
@@ -513,6 +525,39 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
     return 0.0;
   }
 
+  // Type converted into a string.
+  std::string reportType;
+  if (!this->StringFromArtifact(_type, reportType))
+  {
+    ignmsg << "Unknown artifact type" << std::endl;
+    this->Log() << "Unkown artifact type reported" << std::endl;
+    return 0.0;
+  }
+
+  // Pose converted into a string.
+  std::string reportPose = std::to_string(_pose.position().x()) + "_" +
+                           std::to_string(_pose.position().y()) + "_" +
+                           std::to_string(_pose.position().z());
+  
+  // Unique report Id: Type and pose combined into a string.
+  std::string uniqueReport = reportType + "_" + reportPose;
+
+  // Check whether we received the same report before.
+  if (std::find(this->uniqueReports.begin(),
+                this->uniqueReports.end(),
+                uniqueReport) != this->uniqueReports.end())
+  {
+    ignmsg << "This report has been received before" << std::endl;
+    this->Log() << "This report has been received before" << std::endl;
+    return 0.0; 
+  }
+
+  // This is a new unique report, let's save it.
+  this->uniqueReports.push_back(uniqueReport);
+
+  // This is a unique report.
+  this->reportCount++;
+
   // The teams are reporting the artifact poses relative to the fiducial located
   // in the staging area. Now, we convert the reported pose to world coordinates
   ignition::math::Pose3d artifactPose = ignition::msgs::Convert(_pose);
@@ -550,7 +595,7 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
 
     // Keep track of the artifacts that were found.
     this->foundArtifacts.insert(std::get<0>(minDistance));
-    this->Log() << "found_artfiact " << std::get<0>(minDistance) <<  std::endl;
+    this->Log() << "found_artifact " << std::get<0>(minDistance) <<  std::endl;
   }
 
   this->Log() << "calculated_dist " << std::get<2>(minDistance) << std::endl;
@@ -577,6 +622,25 @@ bool GameLogicPluginPrivate::ArtifactFromString(const std::string &_name,
     return false;
 
   _type = std::get<0>(*pos);
+  return true;
+}
+
+/////////////////////////////////////////////////
+bool GameLogicPluginPrivate::StringFromArtifact(const ArtifactType &_type,
+    std::string &_strType)
+{
+  auto pos = std::find_if(
+    std::begin(this->kArtifactTypes),
+    std::end(this->kArtifactTypes),
+    [&_type](const typename std::pair<ArtifactType, std::string> &_pair)
+    {
+      return (std::get<0>(_pair) == _type);
+    });
+
+  if (pos == std::end(this->kArtifactTypes))
+    return false;
+
+  _strType = std::get<1>(*pos);
   return true;
 }
 
