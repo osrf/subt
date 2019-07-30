@@ -20,12 +20,14 @@
   </include>
 
   <!-- Load robot description -->
+  <!--
   <include file="$(find x1_description)/launch/description.launch" >
     <arg name="robot_namespace" value="$(arg robot_namespace)"/>
     <arg name="laser_enabled" value="$(arg laser_enabled)"/>
     <arg name="kinect_enabled" value="$(arg kinect_enabled)"/>
     <arg name="urdf_extras" value="$(arg urdf_extras)"/>
   </include>
+  -->
 
   <!-- Load controller configuration -->
   <rosparam command="load" file="$(find x1_control)/config/control.yaml" />
