@@ -105,18 +105,31 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
       req, timeout, rep, result));
     EXPECT_TRUE(result);
 
-    EXPECT_NEAR(2.0,     rep.position().x(),    0.1);
-    EXPECT_NEAR(1.0,     rep.position().y(),    0.1);
-    EXPECT_NEAR(-0.3687, rep.position().z(),    0.1);
+    EXPECT_NEAR(-6.0,    rep.position().x(),    0.1);
+    EXPECT_NEAR(5.0,     rep.position().y(),    0.1);
+    EXPECT_NEAR(0.1303,  rep.position().z(),    0.1);
     EXPECT_NEAR(0,       rep.orientation().x(), 0.1);
     EXPECT_NEAR(0,       rep.orientation().y(), 0.1);
     EXPECT_NEAR(0,       rep.orientation().z(), 0.1);
     EXPECT_NEAR(1,       rep.orientation().w(), 0.1);
 
-    ignition::math::Pose3d robotPose(4, 3, 0.131, 0, 0, 0);
+    req.set_data("X2");
+    EXPECT_TRUE(this->node.Request("/subt/pose_from_artifact_origin",
+      req, timeout, rep, result));
+    EXPECT_TRUE(result);
+
+    EXPECT_NEAR(-6.0,    rep.position().x(),    0.1);
+    EXPECT_NEAR(3.0,     rep.position().y(),    0.1);
+    EXPECT_NEAR(0.1303,  rep.position().z(),    0.1);
+    EXPECT_NEAR(0,       rep.orientation().x(), 0.1);
+    EXPECT_NEAR(0,       rep.orientation().y(), 0.1);
+    EXPECT_NEAR(0,       rep.orientation().z(), 0.1);
+    EXPECT_NEAR(1,       rep.orientation().w(), 0.1);
+
+    ignition::math::Pose3d x2Pose(4, 3, 0.131, 0, 0, 0);
 
     // The test positions are associated with artifacts in
-    /// the tunnel_qual_ign.sdf world
+    // the tunnel_qual_ign.sdf world
 
     // Report an artifact with high accuracy (phone_2): +1 point.
     ignition::math::Pose3d artifact1Pose(201.8, 20.0, -15.0, 0, 0, 0);
@@ -124,11 +137,11 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     ignition::msgs::Pose pose;
     pose.mutable_position()->set_x(
       artifact1Pose.Pos().X() -
-      (robotPose.Pos().X() + rep.position().x()) + err);
+      (x2Pose.Pos().X() - rep.position().x()) + err);
     pose.mutable_position()->set_y(
-      artifact1Pose.Pos().Y() - (robotPose.Pos().Y() + rep.position().y()));
+      artifact1Pose.Pos().Y() - (x2Pose.Pos().Y() - rep.position().y()));
     pose.mutable_position()->set_z(
-      artifact1Pose.Pos().Z() - (robotPose.Pos().Z() + rep.position().z()));
+      artifact1Pose.Pos().Z() - (x2Pose.Pos().Z() - rep.position().z()));
     uint32_t type = static_cast<uint32_t>(
         subt::ArtifactType::TYPE_PHONE);
 
@@ -154,11 +167,11 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     err = 1.0;
     pose.mutable_position()->set_x(
       artifact2Pose.Pos().X() -
-      (robotPose.Pos().X() + rep.position().x()) + err);
+      (x2Pose.Pos().X() - rep.position().x()) + err);
     pose.mutable_position()->set_y(
-      artifact2Pose.Pos().Y() - (robotPose.Pos().Y() + rep.position().y()));
+      artifact2Pose.Pos().Y() - (x2Pose.Pos().Y() - rep.position().y()));
     pose.mutable_position()->set_z(
-      artifact2Pose.Pos().Z() - (robotPose.Pos().Z() + rep.position().z()));
+      artifact2Pose.Pos().Z() - (x2Pose.Pos().Z() - rep.position().z()));
     type = static_cast<uint32_t>(subt::ArtifactType::TYPE_PHONE);
     this->ReportArtifact(type, pose);
     ASSERT_TRUE(this->WaitUntilScoreIs(2));
@@ -182,11 +195,11 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     err = 4.99;
     pose.mutable_position()->set_x(
       artifact3Pose.Pos().X() -
-      (robotPose.Pos().X() + rep.position().x()) + err);
+      (x2Pose.Pos().X() - rep.position().x()) + err);
     pose.mutable_position()->set_y(
-      artifact3Pose.Pos().Y() - (robotPose.Pos().Y() + rep.position().y()));
+      artifact3Pose.Pos().Y() - (x2Pose.Pos().Y() - rep.position().y()));
     pose.mutable_position()->set_z(
-      artifact3Pose.Pos().Z() - (robotPose.Pos().Z() + rep.position().z()));
+      artifact3Pose.Pos().Z() - (x2Pose.Pos().Z() - rep.position().z()));
     type = static_cast<uint32_t>(subt::ArtifactType::TYPE_EXTINGUISHER);
     this->ReportArtifact(type, pose);
 

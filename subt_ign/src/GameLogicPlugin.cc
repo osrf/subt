@@ -715,18 +715,20 @@ bool GameLogicPluginPrivate::OnStartCall(const ignition::msgs::Boolean &_req,
 /////////////////////////////////////////////////
 void GameLogicPluginPrivate::Finish()
 {
-  // Elapsed realtime
-  int realElapsed = 0;
-  int simElapsed = this->simTime.sec() - this->startSimTime.sec();
+  if (this->finished)
+    return;
 
-  if (this->started && !this->finished)
+  // Elapsed time
+  int realElapsed = 0;
+  int simElapsed = 0;
+
+  if (this->started)
   {
+    simElapsed = this->simTime.sec() - this->startSimTime.sec();
     std::chrono::steady_clock::time_point finishTime =
       std::chrono::steady_clock::now();
     realElapsed = std::chrono::duration_cast<std::chrono::seconds>(
         finishTime - this->startTime).count();
-
-    this->finished = true;
 
     ignmsg << "Scoring has finished. Elapsed time: "
           << realElapsed << " seconds" << std::endl;
@@ -742,20 +744,22 @@ void GameLogicPluginPrivate::Finish()
     msg.mutable_header()->mutable_stamp()->CopyFrom(this->simTime);
     msg.set_data("finished");
     this->startPub.Publish(msg);
-
-    // Output a run summary
-    std::ofstream summary(this->logPath + "/summary.yml", std::ios::out);
-    summary << "was_started: " << this->started << std::endl;
-    summary << "sim_time_duration_sec: " << simElapsed << std::endl;
-    summary << "real_time_duration_sec: " << realElapsed << std::endl;
-    summary << "model_count: " << this->robotNames.size() << std::endl;
-    summary.flush();
-
-    // Output a score file with just the final score
-    std::ofstream score(this->logPath + "/score.yml", std::ios::out);
-    score << totalScore << std::endl;
-    score.flush();
   }
+
+  // Output a run summary
+  std::ofstream summary(this->logPath + "/summary.yml", std::ios::out);
+  summary << "was_started: " << this->started << std::endl;
+  summary << "sim_time_duration_sec: " << simElapsed << std::endl;
+  summary << "real_time_duration_sec: " << realElapsed << std::endl;
+  summary << "model_count: " << this->robotNames.size() << std::endl;
+  summary.flush();
+
+  // Output a score file with just the final score
+  std::ofstream score(this->logPath + "/score.yml", std::ios::out);
+  score << totalScore << std::endl;
+  score.flush();
+
+  this->finished = true;
 }
 
 /////////////////////////////////////////////////
