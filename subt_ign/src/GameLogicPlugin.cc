@@ -547,7 +547,7 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
   std::string reportPose = std::to_string(_pose.position().x()) + "_" +
                            std::to_string(_pose.position().y()) + "_" +
                            std::to_string(_pose.position().z());
-  
+
   // Unique report Id: Type and pose combined into a string.
   std::string uniqueReport = reportType + "_" + reportPose;
 
@@ -558,7 +558,7 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
   {
     ignmsg << "This report has been received before" << std::endl;
     this->Log() << "This report has been received before" << std::endl;
-    return 0.0; 
+    return 0.0;
   }
 
   // This is a new unique report, let's save it.
