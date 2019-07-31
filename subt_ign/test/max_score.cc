@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Open Source Robotics Foundation
+ * Copyright (C) 2019 Open Source Robotics Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -129,7 +129,7 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     ignition::math::Pose3d x2Pose(4, 3, 0.131, 0, 0, 0);
 
     // The test positions are associated with artifacts in
-    /// the tunnel_qual_ign.sdf world
+    // the tunnel_qual_ign.sdf world
 
     // Report an artifact with high accuracy (phone_2): +1 point.
     ignition::math::Pose3d artifact1Pose(201.8, 20.0, -15.0, 0, 0, 0);
@@ -190,22 +190,18 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
       this->scoreAcks.pop();
     }
 
-    // Report an artifact with bad accuracy (-1): 0 points.
-    ignition::math::Pose3d artifact4Pose(128.810, 74.807, 0.844, 0, 0, 0);
-    err = 5.1;
+    // Report an artifact with low accuracy (extinguisher_1): +1 point.
+    ignition::math::Pose3d artifact3Pose(158.0, 140.0, -15.0, 0, 0, 0);
+    err = 4.99;
     pose.mutable_position()->set_x(
-      artifact4Pose.Pos().X() - x2Pose.Pos().X() - rep.position().x() + err);
+      artifact3Pose.Pos().X() -
+      (x2Pose.Pos().X() - rep.position().x()) + err);
     pose.mutable_position()->set_y(
-      artifact4Pose.Pos().Y() - x2Pose.Pos().Y() - rep.position().y());
+      artifact3Pose.Pos().Y() - (x2Pose.Pos().Y() - rep.position().y()));
     pose.mutable_position()->set_z(
-      artifact4Pose.Pos().Z() - x2Pose.Pos().Z() - rep.position().z());
-    type = static_cast<uint32_t>(subt::ArtifactType::TYPE_DRILL);
+      artifact3Pose.Pos().Z() - (x2Pose.Pos().Z() - rep.position().z()));
+    type = static_cast<uint32_t>(subt::ArtifactType::TYPE_EXTINGUISHER);
     this->ReportArtifact(type, pose);
-    {
-      using namespace std::chrono_literals;
-      std::this_thread::sleep_for(std::chrono::milliseconds(200ms));
-    }
-    ASSERT_TRUE(this->WaitUntilScoreIs(2));
 
     {
       ASSERT_TRUE(this->WaitUntilScoreAck());
@@ -217,37 +213,9 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
       EXPECT_EQ(ack.artifact().pose().position().z(), pose.position().z());
       EXPECT_EQ(ack.run(), 1u);
       EXPECT_EQ(ack.report_status(), "scored");
-      EXPECT_EQ(ack.score_change(), 0);
+      EXPECT_EQ(ack.score_change(), 1);
       this->scoreAcks.pop();
     }
-
-    /// Test artifact report limits. Send multiple bad reports.
-    /// We are currently expect a limit of: artifact_count * 2 == 6.
-    /// The world we are testing with has 3 artifacts.
-    pose.mutable_position()->set_x(-100000);
-    for (; this->reportCount < 6u;)
-    {
-      this->ReportArtifact(type, pose);
-      {
-        using namespace std::chrono_literals;
-        std::this_thread::sleep_for(std::chrono::milliseconds(200ms));
-      }
-
-      ASSERT_TRUE(this->WaitUntilScoreAck());
-      auto ack = this->scoreAcks.front();
-      EXPECT_EQ(this->reportCount, ack.report_id());
-      this->scoreAcks.pop();
-    }
-    // Send one more report
-    this->ReportArtifact(type, pose);
-    {
-      using namespace std::chrono_literals;
-      std::this_thread::sleep_for(std::chrono::milliseconds(200ms));
-    }
-    auto ack = this->scoreAcks.front();
-    EXPECT_EQ(this->reportCount, ack.report_id());
-    EXPECT_EQ("report limit exceeded", ack.report_status());
-    this->scoreAcks.pop();
   }
 
   /// \brief Check that artifacts after scoring ends are rejected.
@@ -366,18 +334,6 @@ TEST_F(ScoreTest, TestScoring)
   }
 
   this->TestScoreAfterStart();
-
-  // Finish the scoring
-  {
-    ignition::msgs::Boolean req;
-    ignition::msgs::Boolean rep;
-    unsigned int timeout = 5000;
-    bool result;
-    req.set_data(true);
-    EXPECT_TRUE(this->node.Request("/subt/finish", req, timeout, rep, result));
-    EXPECT_TRUE(result);
-  }
-
   this->TestScoreAfterFinish();
 }
 

@@ -139,7 +139,7 @@
       <!-- The collection of artifacts to locate -->
       <world_name><%= $worldName %></world_name>
       <logging>
-        <!-- Use the <path> element to control where to record the log file. 
+        <!-- Use the <path> element to control where to record the log file.
              The HOME path is used by default -->
         <path>/tmp/ign/logs</path>
         <filename_prefix>subt_tunnel_practice</filename_prefix>
@@ -278,16 +278,16 @@
         <topic>/world/<%= $worldName %>/stats</topic>
       </plugin>
       <!-- Entity tree -->
-      <plugin filename="EntityTree" name="Entity tree">
+      <!-- <plugin filename="EntityTree" name="Entity tree">
         <ignition-gui>
           <title>Entity tree</title>
         </ignition-gui>
-      </plugin>
+      </plugin> -->
 
       <!-- Transform Control -->
-      <plugin filename="TransformControl" name="Transform Control">
+      <!-- <plugin filename="TransformControl" name="Transform Control">
         <service>/world/<%= $worldName %>/gui/transform_mode</service>
-      </plugin>
+      </plugin> -->
     </plugin>
   </executable_wrapper>
   <%end%>
@@ -333,6 +333,7 @@
 
 <%
   def spawnX1(_name, _config, _x, _y)
+    uav=0
     laserScan=0
     stereoCam=0
     lidar3d=0
@@ -383,8 +384,8 @@
     "      <voltage>12.694</voltage>\n"\
     "      <open_circuit_voltage_constant_coef>12.694</open_circuit_voltage_constant_coef>\n"\
     "      <open_circuit_voltage_linear_coef>-3.1424</open_circuit_voltage_linear_coef>\n"\
-    "      <initial_charge>18.0</initial_charge>\n"\
-    "      <capacity>18.0</capacity>\n"\
+    "      <initial_charge>78.4</initial_charge>\n"\
+    "      <capacity>78.4</capacity>\n"\
     "      <resistance>0.061523</resistance>\n"\
     "      <smooth_current_tau>1.9499</smooth_current_tau>\n"\
     "      <power_load>6.6</power_load>\n"\
@@ -397,11 +398,12 @@
     "  <command>roslaunch --wait subt_ros x1_description.launch world_name:=#{$worldName} name:=#{_name}</command>\n"\
     "</executable>\n"\
     "<executable name='x1_ros_ign_bridge'>\n"\
-      "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} lidar_3d:=#{lidar3d}</command>\n"\
+      "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} lidar_3d:=#{lidar3d}</command>\n"\
     "</executable>\n"
   end
 
   def spawnX2(_name, _config, _x, _y)
+    uav=0
     laserScan=0
     stereoCam=0
     lidar3d=0
@@ -452,8 +454,8 @@
     "      <voltage>12.694</voltage>\n"\
     "      <open_circuit_voltage_constant_coef>12.694</open_circuit_voltage_constant_coef>\n"\
     "      <open_circuit_voltage_linear_coef>-3.1424</open_circuit_voltage_linear_coef>\n"\
-    "      <initial_charge>18.0</initial_charge>\n"\
-    "      <capacity>18.0</capacity>\n"\
+    "      <initial_charge>78.4</initial_charge>\n"\
+    "      <capacity>78.4</capacity>\n"\
     "      <resistance>0.061523</resistance>\n"\
     "      <smooth_current_tau>1.9499</smooth_current_tau>\n"\
     "      <power_load>6.6</power_load>\n"\
@@ -466,11 +468,12 @@
     "  <command>roslaunch --wait subt_ros x2_description.launch world_name:=#{$worldName} name:=#{_name}</command>\n"\
     "</executable>\n"\
     "<executable name='x2_ros_ign_bridge'>\n"\
-    "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} lidar_3d:=#{lidar3d}</command>\n"\
+    "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} lidar_3d:=#{lidar3d}</command>\n"\
     "</executable>\n"
   end
 
   def spawnX3(_name, _config, _x, _y)
+    uav=1
     laserScan=0
     stereoCam=0
     rgbdCam=0
@@ -600,11 +603,12 @@
     "  <command>roslaunch --wait x3_control control.launch world_name:=#{$worldName} x3_name:=#{_name}</command>\n"\
     "</executable>\n"\
     "<executable name='x3_ros_ign_bridge'>\n"\
-      "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} rgbd_cam:=#{rgbdCam}</command>\n"\
+      "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} rgbd_cam:=#{rgbdCam}</command>\n"\
     "</executable>\n"
   end
 
   def spawnX4(_name, _config, _x, _y)
+    uav=1
     laserScan=0
     stereoCam=0
     rgbdCam=0
@@ -775,7 +779,7 @@
     "  <command>roslaunch --wait subt_ros x4_description.launch world_name:=#{$worldName} name:=#{_name}</command>\n"\
     "</executable>\n"\
     "<executable name='x4_ros_ign_bridge'>\n"\
-    "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} rgbd_cam:=#{rgbdCam}</command>\n"\
+    "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} rgbd_cam:=#{rgbdCam}</command>\n"\
     "</executable>\n"
   end
 %>
