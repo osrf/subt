@@ -12,10 +12,11 @@ pipelines:
           - dpkg-reconfigure --frontend noninteractive tzdata
           # Install dependencies
           - echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu bionic main" > /etc/apt/sources.list.d/ros-latest.list
+          - echo "deb [trusted=yes] http://packages.ros.org/ros-testing/ubuntu bionic main" > /etc/apt/sources.list.d/ros-latest.list
           - echo "deb [trusted=yes] http://packages.osrfoundation.org/gazebo/ubuntu-stable bionic main" > /etc/apt/sources.list.d/gazebo-stable.list
           - echo "deb [trusted=yes] http://packages.osrfoundation.org/gazebo/ubuntu-prerelease bionic main" > /etc/apt/sources.list.d/gazebo-prerelease.list
           - apt-get update
-          - apt-get -y install build-essential cmake libusb-dev lsb-release mercurial pkg-config python ignition-blueprint ros-melodic-desktop ros-melodic-tf2-sensor-msgs ros-melodic-robot-localization ros-melodic-rotors-control ros1-ign-bridge
+          - apt-get -y install build-essential cmake libusb-dev lsb-release mercurial pkg-config python ignition-blueprint ros-melodic-desktop ros-melodic-tf2-sensor-msgs ros-melodic-robot-localization ros-melodic-rotors-control ros1-ign-bridge ros-melodic-joy ros-melodic-teleop-twist-joy ros-melodic-xacro ros-melodic-controller-manager ros-melodic-interactive-marker-twist-server
           # SubT
           - mkdir -p /tmp/subt_ws/src
           - ln -s `pwd` /tmp/subt_ws/src
@@ -28,3 +29,5 @@ pipelines:
           - source /opt/ros/melodic/setup.bash
           - catkin_make
           - catkin_make run_tests -j1
+          - catkin_test_results --all --verbose || true
+          - catkin_test_results

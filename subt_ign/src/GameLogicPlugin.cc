@@ -193,7 +193,7 @@ class subt::GameLogicPluginPrivate
   public: std::map<std::string, ignition::math::Pose3d> poses;
 
   /// \brief Counter to track unique identifiers.
-  public: uint32_t reportCount = 1u;
+  public: uint32_t reportCount = 0u;
 
   /// The maximum number of times that a team can attempt an
   /// artifact report is this number multiplied by the total number
@@ -433,7 +433,6 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
   auto s = std::chrono::duration_cast<std::chrono::seconds>(realTime);
   auto ns = std::chrono::duration_cast<std::chrono::nanoseconds>(realTime-s);
 
-  _resp.set_report_id(this->reportCount);
   *_resp.mutable_artifact() = _req;
 
   _resp.mutable_submitted_datetime()->set_sec(s.count());
@@ -481,14 +480,24 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
     this->Log() << "new_total_score " << this->totalScore << std::endl;
   }
 
+  _resp.set_report_id(this->reportCount);
+
   // Finish if the maximum score has been reached, or if the maximum number
   // of artifact reports has been reached..
-  if (this->totalScore >= this->artifactCount ||
-      this->reportCount >
-      this->artifactCount * this->reportCountLimitFactor)
+  if (this->totalScore >= this->artifactCount)
   {
     ignmsg << "Max score has been reached. Congratulations!" << std::endl;
     this->Finish();
+    return true;
+  }
+
+  if (!this->finished &&
+      this->reportCount > this->artifactCount * this->reportCountLimitFactor)
+  {
+    _resp.set_report_status("report limit exceeded");
+    ignmsg << "Report limit exceed." << std::endl;
+    this->Finish();
+    return true;
   }
 
   return true;
