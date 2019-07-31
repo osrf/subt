@@ -245,7 +245,7 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     for (auto i = 0u; i < 2u; ++i)
     {
       this->ReportArtifact(type, pose);
-      pose.mutable_position()->set_x(pose.position().x() + 1);
+      pose.mutable_position()->set_x(pose.position().x() + 1e-3);
       {
         using namespace std::chrono_literals;
         std::this_thread::sleep_for(std::chrono::milliseconds(200ms));
