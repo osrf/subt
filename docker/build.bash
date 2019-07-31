@@ -39,7 +39,6 @@ image_name=$(basename $1)
 image_plus_tag=$image_name:$(date +%Y_%b_%d_%H%M)
 hg_id=$(hg id -i)
 
-
 shift
 
 docker build --rm -t $image_plus_tag --build-arg user_id=$user_id "$@" $DIR/$image_name
