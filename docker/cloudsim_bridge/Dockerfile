@@ -96,7 +96,7 @@ RUN sudo apt-get update \
 # docker is run
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
- && hg clone https://bitbucket.org/osrf/subt -b tunnel_circuit 
+ && hg clone https://bitbucket.org/osrf/subt -b tunnel_circuit
 
 # Download virtual stix models
 RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Edgar Mine Virtual STIX" -v 4
@@ -132,8 +132,11 @@ RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/mode
 RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X4 UAV Config 5" -v 4
 
 # Download the tunnel circuit models
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/subt_tunnel_staging_area" -v 4
 RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Tunnel Tile 1" -v 4
 RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Tunnel Tile 2" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Tunnel Tile 3" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Tunnel Tile 4" -v 4
 RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Tunnel Tile 5" -v 4
 RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Tunnel Tile 6" -v 4
 RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Tunnel Tile 7" -v 4
