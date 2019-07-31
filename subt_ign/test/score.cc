@@ -80,11 +80,11 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     {
       ASSERT_TRUE(this->WaitUntilScoreAck());
       auto ack = this->scoreAcks.front();
-      EXPECT_EQ(ack.report_id(), this->reportCount);
-      EXPECT_EQ(ack.artifact().type(), type);
-      EXPECT_EQ(ack.run(), 1u);
-      EXPECT_EQ(ack.report_status(), "run not started");
-      EXPECT_EQ(ack.score_change(), 0);
+      EXPECT_EQ(0u, ack.report_id());
+      EXPECT_EQ(type, ack.artifact().type());
+      EXPECT_EQ(1u, ack.run());
+      EXPECT_EQ("run not started", ack.report_status());
+      EXPECT_EQ(0, ack.score_change());
       this->scoreAcks.pop();
     }
   }
@@ -151,14 +151,14 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     {
       ASSERT_TRUE(this->WaitUntilScoreAck());
       auto ack = this->scoreAcks.front();
-      EXPECT_EQ(ack.report_id(), this->reportCount);
-      EXPECT_EQ(ack.artifact().type(), type);
-      EXPECT_EQ(ack.artifact().pose().position().x(), pose.position().x());
-      EXPECT_EQ(ack.artifact().pose().position().y(), pose.position().y());
-      EXPECT_EQ(ack.artifact().pose().position().z(), pose.position().z());
-      EXPECT_EQ(ack.run(), 1u);
-      EXPECT_EQ(ack.report_status(), "scored");
-      EXPECT_EQ(ack.score_change(), 1);
+      EXPECT_EQ(1u, ack.report_id());
+      EXPECT_EQ(type, ack.artifact().type());
+      EXPECT_EQ(pose.position().x(), ack.artifact().pose().position().x());
+      EXPECT_EQ(pose.position().y(), ack.artifact().pose().position().y());
+      EXPECT_EQ(pose.position().z(), ack.artifact().pose().position().z());
+      EXPECT_EQ(1u, ack.run());
+      EXPECT_EQ("scored", ack.report_status());
+      EXPECT_EQ(1, ack.score_change());
       this->scoreAcks.pop();
     }
 
@@ -179,14 +179,14 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     {
       ASSERT_TRUE(this->WaitUntilScoreAck());
       auto ack = this->scoreAcks.front();
-      EXPECT_EQ(ack.report_id(), this->reportCount);
-      EXPECT_EQ(ack.artifact().type(), type);
-      EXPECT_EQ(ack.artifact().pose().position().x(), pose.position().x());
-      EXPECT_EQ(ack.artifact().pose().position().y(), pose.position().y());
-      EXPECT_EQ(ack.artifact().pose().position().z(), pose.position().z());
-      EXPECT_EQ(ack.run(), 1u);
-      EXPECT_EQ(ack.report_status(), "scored");
-      EXPECT_EQ(ack.score_change(), 1);
+      EXPECT_EQ(2u, ack.report_id());
+      EXPECT_EQ(type, ack.artifact().type());
+      EXPECT_EQ(pose.position().x(), ack.artifact().pose().position().x());
+      EXPECT_EQ(pose.position().y(), ack.artifact().pose().position().y());
+      EXPECT_EQ(pose.position().z(), ack.artifact().pose().position().z());
+      EXPECT_EQ(1u, ack.run());
+      EXPECT_EQ("scored", ack.report_status());
+      EXPECT_EQ(1, ack.score_change());
       this->scoreAcks.pop();
     }
 
@@ -210,22 +210,21 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     {
       ASSERT_TRUE(this->WaitUntilScoreAck());
       auto ack = this->scoreAcks.front();
-      EXPECT_EQ(ack.report_id(), this->reportCount);
-      EXPECT_EQ(ack.artifact().type(), type);
-      EXPECT_EQ(ack.artifact().pose().position().x(), pose.position().x());
-      EXPECT_EQ(ack.artifact().pose().position().y(), pose.position().y());
-      EXPECT_EQ(ack.artifact().pose().position().z(), pose.position().z());
-      EXPECT_EQ(ack.run(), 1u);
-      EXPECT_EQ(ack.report_status(), "scored");
-      EXPECT_EQ(ack.score_change(), 0);
+      EXPECT_EQ(3u, ack.report_id());
+      EXPECT_EQ(type, ack.artifact().type());
+      EXPECT_EQ(pose.position().x(), ack.artifact().pose().position().x());
+      EXPECT_EQ(pose.position().y(), ack.artifact().pose().position().y());
+      EXPECT_EQ(pose.position().z(), ack.artifact().pose().position().z());
+      EXPECT_EQ(1u, ack.run());
+      EXPECT_EQ("scored", ack.report_status());
+      EXPECT_EQ(0, ack.score_change());
       this->scoreAcks.pop();
     }
 
-    /// Test artifact report limits. Send multiple bad reports.
-    /// We are currently expect a limit of: artifact_count * 2 == 6.
-    /// The world we are testing with has 3 artifacts.
+    /// Test sending the same report. We shouldn't see an increment
+    /// in the report_id field.
     pose.mutable_position()->set_x(-100000);
-    for (; this->reportCount < 6u;)
+    for (auto i = 0u; i < 6u; ++i)
     {
       this->ReportArtifact(type, pose);
       {
@@ -235,17 +234,37 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
 
       ASSERT_TRUE(this->WaitUntilScoreAck());
       auto ack = this->scoreAcks.front();
-      EXPECT_EQ(this->reportCount, ack.report_id());
+      EXPECT_EQ(4u, ack.report_id());
       this->scoreAcks.pop();
     }
-    // Send one more report
+
+    /// Test artifact report limits. Send multiple bad reports.
+    /// We are currently expect a limit of: artifact_count * 2 == 6.
+    /// The world we are testing with has 3 artifacts.
+    pose.mutable_position()->set_x(-110000);
+    for (auto i = 0u; i < 2u; ++i)
+    {
+      this->ReportArtifact(type, pose);
+      pose.mutable_position()->set_x(pose.position().x() + 1e-3);
+      {
+        using namespace std::chrono_literals;
+        std::this_thread::sleep_for(std::chrono::milliseconds(200ms));
+      }
+
+      ASSERT_TRUE(this->WaitUntilScoreAck());
+      auto ack = this->scoreAcks.front();
+      EXPECT_GE(ack.report_id(), 5u);
+      this->scoreAcks.pop();
+    }
+
+    // Send one more report to trigger the report limit exceed
     this->ReportArtifact(type, pose);
     {
       using namespace std::chrono_literals;
       std::this_thread::sleep_for(std::chrono::milliseconds(200ms));
     }
     auto ack = this->scoreAcks.front();
-    EXPECT_EQ(this->reportCount, ack.report_id());
+    EXPECT_EQ(7u, ack.report_id());
     EXPECT_EQ("report limit exceeded", ack.report_status());
     this->scoreAcks.pop();
   }
@@ -260,11 +279,11 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     {
       ASSERT_TRUE(this->WaitUntilScoreAck());
       auto ack = this->scoreAcks.front();
-      EXPECT_EQ(ack.report_id(), this->reportCount);
-      EXPECT_EQ(ack.artifact().type(), type);
-      EXPECT_EQ(ack.run(), 1u);
-      EXPECT_EQ(ack.report_status(), "scoring finished");
-      EXPECT_EQ(ack.score_change(), 0);
+      EXPECT_EQ(7u, ack.report_id());
+      EXPECT_EQ(type, ack.artifact().type());
+      EXPECT_EQ(1u, ack.run());
+      EXPECT_EQ("scoring finished", ack.report_status());
+      EXPECT_EQ(0, ack.score_change());
       this->scoreAcks.pop();
     }
   }
@@ -329,15 +348,11 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     }
 
     this->client->SendTo(serializedData, subt::kBaseStationName);
-    this->reportCount++;
   }
 
   /// \brief Whether a unicast/broadcast message has been received or
   /// not.
   protected: float score;
-
-  /// \brief Track number of reports submitted.
-  protected: uint32_t reportCount;
 
   /// \brief Queue of incoming score acknowledgements.
   protected: std::queue<subt::msgs::ArtifactScore> scoreAcks;
