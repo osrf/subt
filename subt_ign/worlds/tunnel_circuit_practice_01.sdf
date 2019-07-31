@@ -7,7 +7,7 @@
   <world name="tunnel_circuit_practice_01">
 
     <physics name="1ms" type="ode">
-      <max_step_size>0.001</max_step_size>
+      <max_step_size>0.004</max_step_size>
       <real_time_factor>1.0</real_time_factor>
     </physics>
 
@@ -23,7 +23,7 @@
       <static>true</static>
       <name>staging_area</name>
       <pose>0 0 0 0 0 0</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/subt_tunnel_staging_area/2</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/subt_tunnel_staging_area</uri>
     </include>
 
     <!-- Barriers -->
@@ -140,7 +140,7 @@
     <!-- Fiducial marking the origin for artifacts reports -->
     <include>
       <name>artifact_origin</name>
-      <pose>2 4 0.5 0 0 0</pose>
+      <pose>10 0 0.0 0 0 0</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Fiducial</uri>
     </include>
 
@@ -2953,8 +2953,8 @@
         <ref>tile_36</ref>
         <ref>tile_37</ref>
         <ref>tile_38</ref>
-        <pose>150.000000 160.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 160.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level3">
@@ -2971,28 +2971,28 @@
         <ref>tile_33</ref>
         <ref>tile_35</ref>
         <ref>tile_39</ref>
-        <pose>150.000000 171.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 171.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level4">
         <ref>extinguisher_1</ref>
-        <pose>150.000000 162.100000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 162.100000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level7">
         <ref>tile_5</ref>
         <ref>tile_11</ref>
         <ref>tile_15</ref>
-        <pose>150.000000 149.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 149.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level18">
         <ref>rescue_randy_1</ref>
-        <pose>150.000000 166.500000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 166.500000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level29">
@@ -3018,26 +3018,26 @@
         <ref>tile_59</ref>
         <ref>tile_62</ref>
         <ref>tile_63</ref>
-        <pose>150.000000 140.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 140.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level34">
         <ref>tile_60</ref>
-        <pose>150.000000 151.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 151.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level35">
         <ref>tile_61</ref>
-        <pose>150.000000 129.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 129.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level36">
         <ref>extinguisher_2</ref>
-        <pose>150.000000 137.900000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 137.900000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level38">
@@ -3063,20 +3063,20 @@
         <ref>tile_85</ref>
         <ref>tile_86</ref>
         <ref>tile_87</ref>
-        <pose>150.000000 120.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 120.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level39">
         <ref>tile_65</ref>
-        <pose>150.000000 131.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 131.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level40">
         <ref>tile_70</ref>
-        <pose>150.000000 109.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 109.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level42">
@@ -3102,21 +3102,21 @@
         <ref>tile_113</ref>
         <ref>tile_115</ref>
         <ref>rescue_randy_2</ref>
-        <pose>150.000000 100.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 100.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level44">
         <ref>tile_91</ref>
         <ref>tile_101</ref>
-        <pose>150.000000 89.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 89.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level47">
         <ref>drill_1</ref>
-        <pose>150.000000 98.800000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 98.800000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level49">
@@ -3125,8 +3125,8 @@
         <ref>tile_110</ref>
         <ref>tile_112</ref>
         <ref>tile_114</ref>
-        <pose>150.000000 111.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 111.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level51">
@@ -3151,28 +3151,28 @@
         <ref>tile_137</ref>
         <ref>tile_138</ref>
         <ref>tile_139</ref>
-        <pose>150.000000 80.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 80.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level54">
         <ref>tile_123</ref>
         <ref>tile_128</ref>
         <ref>tile_136</ref>
-        <pose>150.000000 69.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 69.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level55">
         <ref>drill_2</ref>
-        <pose>150.000000 79.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 79.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level58">
         <ref>tile_134</ref>
-        <pose>150.000000 91.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 91.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level59">
@@ -3194,16 +3194,16 @@
         <ref>tile_158</ref>
         <ref>tile_159</ref>
         <ref>tile_160</ref>
-        <pose>150.000000 60.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 60.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level60">
         <ref>tile_143</ref>
         <ref>tile_152</ref>
         <ref>tile_155</ref>
-        <pose>150.000000 49.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 49.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level62">
@@ -3228,14 +3228,14 @@
         <ref>tile_183</ref>
         <ref>tile_185</ref>
         <ref>tile_187</ref>
-        <pose>150.000000 40.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 40.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level63">
         <ref>extinguisher_3</ref>
-        <pose>150.000000 37.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 37.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level64">
@@ -3244,21 +3244,21 @@
         <ref>tile_184</ref>
         <ref>tile_186</ref>
         <ref>tile_188</ref>
-        <pose>150.000000 29.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 29.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level66">
         <ref>tile_171</ref>
         <ref>tile_178</ref>
-        <pose>150.000000 51.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 51.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level67">
         <ref>phone_2</ref>
-        <pose>150.000000 43.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 43.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level69">
@@ -3280,28 +3280,28 @@
         <ref>tile_208</ref>
         <ref>tile_209</ref>
         <ref>tile_210</ref>
-        <pose>150.000000 20.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 20.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level70">
         <ref>backpack_1</ref>
-        <pose>150.000000 14.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 14.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level72">
         <ref>tile_196</ref>
         <ref>tile_203</ref>
-        <pose>150.000000 31.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 31.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level73">
         <ref>tile_197</ref>
         <ref>tile_199</ref>
-        <pose>150.000000 9.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 9.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level74">
@@ -3324,22 +3324,22 @@
         <ref>tile_230</ref>
         <ref>tile_231</ref>
         <ref>tile_232</ref>
-        <pose>150.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level75">
         <ref>tile_221</ref>
-        <pose>150.000000 11.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 11.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level77">
         <ref>tile_224</ref>
         <ref>tile_226</ref>
         <ref>tile_229</ref>
-        <pose>150.000000 -11.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 -11.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level78">
@@ -3365,14 +3365,14 @@
         <ref>tile_259</ref>
         <ref>tile_260</ref>
         <ref>tile_261</ref>
-        <pose>150.000000 -20.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 -20.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level79">
         <ref>tile_237</ref>
-        <pose>150.000000 -9.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 -9.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level80">
@@ -3382,20 +3382,20 @@
         <ref>tile_253</ref>
         <ref>tile_256</ref>
         <ref>tile_258</ref>
-        <pose>150.000000 -31.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 -31.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level81">
         <ref>phone_3</ref>
-        <pose>150.000000 -20.200000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 -20.200000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level83">
         <ref>phone_4</ref>
-        <pose>150.000000 -17.900000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 -17.900000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level85">
@@ -3422,8 +3422,8 @@
         <ref>tile_289</ref>
         <ref>tile_290</ref>
         <ref>tile_291</ref>
-        <pose>150.000000 -40.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 -40.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level87">
@@ -3432,16 +3432,16 @@
         <ref>tile_277</ref>
         <ref>tile_282</ref>
         <ref>tile_288</ref>
-        <pose>150.000000 -29.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 -29.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level88">
         <ref>tile_272</ref>
         <ref>tile_287</ref>
         <ref>tile_292</ref>
-        <pose>150.000000 -51.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 -51.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level90">
@@ -3466,22 +3466,22 @@
         <ref>tile_313</ref>
         <ref>tile_314</ref>
         <ref>tile_315</ref>
-        <pose>150.000000 -60.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 -60.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level91">
         <ref>tile_294</ref>
         <ref>tile_298</ref>
         <ref>tile_316</ref>
-        <pose>150.000000 -49.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 -49.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level93">
         <ref>tile_312</ref>
-        <pose>150.000000 -71.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 -71.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level94">
@@ -3505,21 +3505,21 @@
         <ref>tile_336</ref>
         <ref>tile_337</ref>
         <ref>tile_338</ref>
-        <pose>150.000000 -80.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 -80.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level95">
         <ref>tile_320</ref>
         <ref>tile_323</ref>
-        <pose>150.000000 -69.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 -69.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level96">
         <ref>rescue_randy_3</ref>
-        <pose>150.000000 -79.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 -79.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level98">
@@ -3549,8 +3549,8 @@
         <ref>tile_364</ref>
         <ref>tile_365</ref>
         <ref>tile_367</ref>
-        <pose>150.000000 -100.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 -100.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level99">
@@ -3559,8 +3559,8 @@
         <ref>tile_358</ref>
         <ref>tile_366</ref>
         <ref>tile_368</ref>
-        <pose>150.000000 -89.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 -89.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level101">
@@ -3588,8 +3588,8 @@
         <ref>tile_394</ref>
         <ref>tile_396</ref>
         <ref>tile_397</ref>
-        <pose>150.000000 -120.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 -120.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level102">
@@ -3597,14 +3597,14 @@
         <ref>tile_374</ref>
         <ref>tile_385</ref>
         <ref>tile_392</ref>
-        <pose>150.000000 -109.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 -109.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level104">
         <ref>tile_395</ref>
-        <pose>150.000000 -131.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 -131.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level105">
@@ -3634,8 +3634,8 @@
         <ref>tile_433</ref>
         <ref>tile_435</ref>
         <ref>tile_436</ref>
-        <pose>150.000000 -140.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 -140.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level106">
@@ -3651,34 +3651,34 @@
         <ref>tile_432</ref>
         <ref>tile_434</ref>
         <ref>tile_437</ref>
-        <pose>150.000000 -151.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 -151.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level107">
         <ref>tile_400</ref>
         <ref>tile_404</ref>
         <ref>tile_429</ref>
-        <pose>150.000000 -129.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 -129.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level108">
         <ref>rescue_randy_4</ref>
-        <pose>150.000000 -147.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 -147.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level110">
         <ref>backpack_3</ref>
-        <pose>150.000000 -141.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 -141.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level112">
         <ref>backpack_4</ref>
-        <pose>150.000000 -141.300000 25.000000 0 0 0</pose>
-        <geometry><box><size>300.000000 30.000000 50.000000</size></box></geometry>
+        <pose>150.000000 -141.300000 0.000000 0 0 0</pose>
+        <geometry><box><size>340.000000 30.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
 
@@ -3705,8 +3705,8 @@
         <ref>tile_399</ref>
         <ref>tile_400</ref>
         <ref>rescue_randy_4</ref>
-        <pose>0.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>0.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level2">
@@ -3720,15 +3720,15 @@
         <ref>tile_340</ref>
         <ref>tile_370</ref>
         <ref>tile_401</ref>
-        <pose>-11.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>-11.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level5">
         <ref>extinguisher_1</ref>
         <ref>extinguisher_3</ref>
-        <pose>2.100000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>2.100000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level6">
@@ -3757,8 +3757,8 @@
         <ref>tile_402</ref>
         <ref>tile_403</ref>
         <ref>tile_404</ref>
-        <pose>20.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>20.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level8">
@@ -3782,8 +3782,8 @@
         <ref>tile_374</ref>
         <ref>tile_405</ref>
         <ref>tile_407</ref>
-        <pose>40.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>40.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level9">
@@ -3809,8 +3809,8 @@
         <ref>tile_344</ref>
         <ref>tile_375</ref>
         <ref>tile_408</ref>
-        <pose>60.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>60.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level10">
@@ -3833,8 +3833,8 @@
         <ref>tile_347</ref>
         <ref>tile_377</ref>
         <ref>tile_410</ref>
-        <pose>80.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>80.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level11">
@@ -3861,16 +3861,16 @@
         <ref>tile_379</ref>
         <ref>tile_412</ref>
         <ref>tile_415</ref>
-        <pose>100.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>100.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level12">
         <ref>tile_17</ref>
         <ref>tile_74</ref>
         <ref>tile_414</ref>
-        <pose>89.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>89.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level13">
@@ -3895,8 +3895,8 @@
         <ref>drill_4</ref>
         <ref>tile_380</ref>
         <ref>tile_416</ref>
-        <pose>120.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>120.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level14">
@@ -3920,8 +3920,8 @@
         <ref>tile_382</ref>
         <ref>tile_418</ref>
         <ref>tile_420</ref>
-        <pose>140.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>140.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level15">
@@ -3947,8 +3947,8 @@
         <ref>tile_385</ref>
         <ref>tile_421</ref>
         <ref>tile_422</ref>
-        <pose>160.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>160.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level16">
@@ -3975,8 +3975,8 @@
         <ref>tile_386</ref>
         <ref>tile_423</ref>
         <ref>tile_425</ref>
-        <pose>180.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>180.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level17">
@@ -4001,8 +4001,8 @@
         <ref>tile_388</ref>
         <ref>tile_426</ref>
         <ref>tile_427</ref>
-        <pose>200.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>200.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level19">
@@ -4029,8 +4029,8 @@
         <ref>tile_428</ref>
         <ref>tile_429</ref>
         <ref>tile_430</ref>
-        <pose>220.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>220.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level20">
@@ -4038,8 +4038,8 @@
         <ref>tile_56</ref>
         <ref>tile_182</ref>
         <ref>tile_281</ref>
-        <pose>209.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>209.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level21">
@@ -4065,8 +4065,8 @@
         <ref>tile_392</ref>
         <ref>tile_431</ref>
         <ref>tile_432</ref>
-        <pose>240.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>240.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level22">
@@ -4074,8 +4074,8 @@
         <ref>tile_84</ref>
         <ref>tile_107</ref>
         <ref>tile_255</ref>
-        <pose>229.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>229.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level23">
@@ -4101,8 +4101,8 @@
         <ref>tile_393</ref>
         <ref>tile_433</ref>
         <ref>tile_434</ref>
-        <pose>260.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>260.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level24">
@@ -4110,8 +4110,8 @@
         <ref>tile_208</ref>
         <ref>tile_285</ref>
         <ref>tile_364</ref>
-        <pose>249.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>249.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level25">
@@ -4141,8 +4141,8 @@
         <ref>tile_394</ref>
         <ref>tile_395</ref>
         <ref>tile_435</ref>
-        <pose>280.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>280.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level26">
@@ -4166,15 +4166,15 @@
         <ref>tile_396</ref>
         <ref>tile_436</ref>
         <ref>tile_437</ref>
-        <pose>300.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>300.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level27">
         <ref>tile_37</ref>
         <ref>tile_314</ref>
-        <pose>289.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>289.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level28">
@@ -4186,8 +4186,8 @@
         <ref>tile_291</ref>
         <ref>tile_315</ref>
         <ref>tile_397</ref>
-        <pose>311.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>311.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level30">
@@ -4196,8 +4196,8 @@
         <ref>tile_166</ref>
         <ref>tile_192</ref>
         <ref>tile_343</ref>
-        <pose>29.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>29.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level31">
@@ -4205,8 +4205,8 @@
         <ref>tile_174</ref>
         <ref>tile_243</ref>
         <ref>tile_274</ref>
-        <pose>109.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>109.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level32">
@@ -4217,8 +4217,8 @@
         <ref>tile_355</ref>
         <ref>tile_383</ref>
         <ref>tile_419</ref>
-        <pose>129.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>129.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level33">
@@ -4230,14 +4230,14 @@
         <ref>tile_359</ref>
         <ref>tile_387</ref>
         <ref>tile_424</ref>
-        <pose>169.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>169.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level37">
         <ref>extinguisher_2</ref>
-        <pose>282.100000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>282.100000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level41">
@@ -4246,14 +4246,14 @@
         <ref>tile_345</ref>
         <ref>tile_376</ref>
         <ref>tile_409</ref>
-        <pose>71.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>71.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level43">
         <ref>tile_90</ref>
-        <pose>31.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>31.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level45">
@@ -4265,46 +4265,46 @@
         <ref>tile_348</ref>
         <ref>tile_378</ref>
         <ref>tile_411</ref>
-        <pose>69.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>69.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level46">
         <ref>tile_97</ref>
         <ref>tile_413</ref>
-        <pose>111.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>111.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level48">
         <ref>drill_1</ref>
-        <pose>106.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>106.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level50">
         <ref>rescue_randy_2</ref>
-        <pose>307.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>307.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level52">
         <ref>phone_1</ref>
-        <pose>34.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>34.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level53">
         <ref>tile_121</ref>
         <ref>tile_346</ref>
-        <pose>49.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>49.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level56">
         <ref>drill_2</ref>
-        <pose>173.500000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>173.500000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level57">
@@ -4312,109 +4312,110 @@
         <ref>tile_154</ref>
         <ref>tile_279</ref>
         <ref>tile_333</ref>
-        <pose>189.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>189.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level61">
         <ref>tile_157</ref>
-        <pose>231.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>231.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level65">
         <ref>tile_167</ref>
         <ref>tile_406</ref>
-        <pose>51.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>51.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level68">
         <ref>phone_2</ref>
-        <pose>277.900000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>277.900000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level71">
         <ref>backpack_1</ref>
-        <pose>41.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>41.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level76">
         <ref>drill_3</ref>
-        <pose>154.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>154.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level82">
         <ref>phone_3</ref>
-        <pose>117.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>117.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level84">
         <ref>phone_4</ref>
-        <pose>137.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>137.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level86">
         <ref>tile_265</ref>
-        <pose>9.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>9.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level89">
         <ref>tile_289</ref>
-        <pose>269.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>269.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level92">
         <ref>extinguisher_4</ref>
-        <pose>135.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>135.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level97">
         <ref>rescue_randy_3</ref>
-        <pose>174.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>174.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level100">
         <ref>tile_353</ref>
         <ref>tile_381</ref>
         <ref>tile_417</ref>
-        <pose>131.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>131.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level103">
         <ref>tile_389</ref>
-        <pose>211.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>211.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level109">
         <ref>backpack_2</ref>
-        <pose>75.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>75.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level111">
         <ref>backpack_3</ref>
-        <pose>142.100000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>142.100000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level113">
         <ref>backpack_4</ref>
-        <pose>298.000000 0.000000 25.000000 0 0 0</pose>
-        <geometry><box><size>30.000000 300.000000 50.000000</size></box></geometry>
+        <pose>298.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 340.000000 50.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
+
     </plugin>
 
   </world>

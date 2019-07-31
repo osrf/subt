@@ -89,6 +89,10 @@ catkin_add_env_hooks(ign SHELLS zsh
 # Create the libGameLogicPlugin.so library.
 set(game_logic_plugin_name GameLogicPlugin)
 add_library(${game_logic_plugin_name} SHARED src/GameLogicPlugin.cc)
+target_include_directories(${game_logic_plugin_name}
+  PRIVATE
+    ${PROTOBUF_INCLUDE_DIRS}
+    ${CATKIN_DEVEL_PREFIX}/include)
 target_link_libraries(${game_logic_plugin_name}
   PRIVATE
     ignition-gazebo${IGN_GAZEBO_VER}::core
@@ -177,7 +181,17 @@ target_include_directories(${controller_plugin_name}
 
 find_package(rostest REQUIRED)
 
-add_rostest_gtest(test_score test/score.test test/score.cc)
+# test_score was ported from gazebo9, but doesn't work as rostest
+# since it needs ign launch. so just compile it, but don't
+# declare it as a rostest
+#add_rostest_gtest(test_score test/score.test test/score.cc)
+if(GTEST_FOUND)
+  add_executable(test_score EXCLUDE_FROM_ALL test/score.cc)
+  target_link_libraries(test_score ${GTEST_LIBRARIES})
+  if(TARGET tests)
+    add_dependencies(tests test_score)
+  endif()
+endif()
 target_include_directories(test_score
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 target_link_libraries(test_score
@@ -185,6 +199,24 @@ target_link_libraries(test_score
   ${catkin_LIBRARIES}
 )
 add_dependencies(test_score
+  ${game_logic_plugin_name}
+)
+
+#add_rostest_gtest(max_test_score test/max_score.test test/max_score.cc)
+if(GTEST_FOUND)
+  add_executable(max_test_score EXCLUDE_FROM_ALL test/max_score.cc)
+  target_link_libraries(max_test_score ${GTEST_LIBRARIES})
+  if(TARGET tests)
+    add_dependencies(tests max_test_score)
+  endif()
+endif()
+target_include_directories(max_test_score
+  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
+target_link_libraries(max_test_score
+  ${protobuf_lib_name}
+  ${catkin_LIBRARIES}
+)
+add_dependencies(max_test_score
   ${game_logic_plugin_name}
 )
 

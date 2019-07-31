@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(subt_communication_broker)
 
 set(PKG_DEPENDS
-  roscpp subt_communication_model subt_rf_interface
+  roscpp subt_communication_model subt_rf_interface subt_msgs
   )
 set(BUILD_DEPENDS
   ${PKG_DEPENDS}
@@ -69,7 +69,7 @@ add_dependencies(subt_communication_broker ${protobuf_lib_name})
 
 add_library(subt_communication_client src/subt_communication_client.cpp)
 target_link_libraries(subt_communication_client ${project_libs} ${protobuf_lib_name})
-add_dependencies(subt_communication_client ${protobuf_lib_name})
+add_dependencies(subt_communication_client ${protobuf_lib_name} ${catkin_EXPORTED_TARGETS})
 
 install(TARGETS subt_communication_broker subt_communication_client SubtCommsProtobuf
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
