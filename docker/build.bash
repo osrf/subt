@@ -46,8 +46,4 @@ docker build --rm -t $image_plus_tag --build-arg user_id=$user_id "$@" $DIR/$ima
 docker tag $image_plus_tag $image_name:latest
 docker tag $image_plus_tag $image_name:$hg_id
 
-echo "------"
-echo "$hg_id"
-echo "------"
-
 echo "Built $image_plus_tag and tagged as $image_name:latest and $image_name:$hg_id"
