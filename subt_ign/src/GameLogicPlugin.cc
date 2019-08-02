@@ -440,7 +440,7 @@ void GameLogicPlugin::PostUpdate(
   auto startSimTime = std::chrono::nanoseconds(
       this->dataPtr->startSimTime.sec() * 1000000000 +
       this->dataPtr->startSimTime.nsec());
-  // Check if the allowed time has elpased. If so, then mark as finished.
+  // Check if the allowed time has elapsed. If so, then mark as finished.
   if ((this->dataPtr->started && !this->dataPtr->finished) &&
       this->dataPtr->runDuration != std::chrono::seconds(0) &&
       _info.simTime - startSimTime > this->dataPtr->runDuration)
