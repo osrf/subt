@@ -84,7 +84,7 @@
 
     <world_name><%= $worldName %></world_name>
     <logging>
-      <!-- Use the <path> element to control where to record the log file. 
+      <!-- Use the <path> element to control where to record the log file.
            The HOME path is used by default-->
       <path>/tmp/ign/logs</path>
       <filename_prefix>subt_tunnel</filename_prefix>
@@ -249,7 +249,7 @@
           <title>Angled</title>
           <property key="state" type="string">docked</property>
         </ignition-gui>
-        <topic>/world/tunnel_circuit_practice_01/model/validator/link/base_link/sensor/angled/image</topic>
+        <topic>/validate/angled</topic>
         <topic_picker>false</topic_picker>
       </plugin>
 
@@ -258,7 +258,7 @@
           <title>Top-down</title>
           <property key="state" type="string">docked</property>
         </ignition-gui>
-	<topic>/world/tunnel_circuit_practice_01/model/validator/link/base_link/sensor/top_down/image</topic>
+        <topic>/validate/top_down</topic>
         <topic_picker>false</topic_picker>
       </plugin>
     </plugin>
@@ -347,6 +347,7 @@
             <direction>0 0 -1</direction>
           </light>
           <sensor name="top_down" type="camera">
+            <topic>/validate/top_down</topic>
             <pose>0.0 0 4 0 1.570 0</pose>
             <always_on>1</always_on>
             <update_rate>20</update_rate>
@@ -373,6 +374,7 @@
             </camera>
           </sensor>
           <sensor name="angled" type="camera">
+            <topic>/validate/angled</topic>
             <pose>-4 0 4 0 0.78 0.0</pose>
             <always_on>1</always_on>
             <update_rate>20</update_rate>
