@@ -141,6 +141,12 @@ class subt::GameLogicPluginPrivate
                const ignition::msgs::StringMsg &_req,
                ignition::msgs::Pose &_res);
 
+  /// \brief Update the score.yml and summary.yml files. This function also
+  /// returns the time point used to calculate the elapsed real time. By
+  /// returning this time point, we can make sure that the ::Finish function
+  /// uses the same time point.
+  /// \return The time point used to calculate the elapsed real time.
+  public: std::chrono::steady_clock::time_point UpdateScoreFiles() const;
 
   private: bool PoseFromArtifactHelper(const std::string &_robot,
     ignition::math::Pose3d &_result);
@@ -347,6 +353,9 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
         &GameLogicPluginPrivate::PublishScore, this->dataPtr.get()));
 
   ignmsg << "Starting SubT" << std::endl;
+
+  // Make sure that there are score files.
+  this->dataPtr->UpdateScoreFiles();
 }
 
 //////////////////////////////////////////////////
@@ -526,6 +535,11 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
     this->Finish();
     return true;
   }
+
+  // Update the score files, in case something bad happens.
+  // The ::Finish functions, used above, will also call the UpdateScoreFiles
+  // function.
+  this->UpdateScoreFiles();
 
   return true;
 }
@@ -808,6 +822,9 @@ bool GameLogicPluginPrivate::OnStartCall(const ignition::msgs::Boolean &_req,
   else
     _res.set_data(false);
 
+  // Update files when scoring has started.
+  this->UpdateScoreFiles();
+
   return true;
 }
 
@@ -820,15 +837,17 @@ void GameLogicPluginPrivate::Finish()
 
   // Elapsed time
   int realElapsed = 0;
-  int simElapsed = 0;
+
+  // Update the score.yml and summary.yml files. This function also
+  // returns the time point used to calculate the elapsed real time. By
+  // returning this time point, we can make sure that this function (the
+  // ::Finish function) uses the same time point.
+  std::chrono::steady_clock::time_point currTime = this->UpdateScoreFiles();
 
   if (this->started)
   {
-    simElapsed = this->simTime.sec() - this->startSimTime.sec();
-    std::chrono::steady_clock::time_point finishTime =
-      std::chrono::steady_clock::now();
     realElapsed = std::chrono::duration_cast<std::chrono::seconds>(
-        finishTime - this->startTime).count();
+        currTime - this->startTime).count();
 
     ignmsg << "Scoring has finished. Elapsed real time: "
           << realElapsed << " seconds. Elapsed sim time: "
@@ -849,6 +868,26 @@ void GameLogicPluginPrivate::Finish()
     this->startPub.Publish(msg);
   }
 
+  this->finished = true;
+}
+
+/////////////////////////////////////////////////
+std::chrono::steady_clock::time_point
+GameLogicPluginPrivate::UpdateScoreFiles() const
+{
+  // Elapsed time
+  int realElapsed = 0;
+  int simElapsed = 0;
+  std::chrono::steady_clock::time_point currTime =
+    std::chrono::steady_clock::now();
+
+  if (this->started)
+  {
+    simElapsed = this->simTime.sec() - this->startSimTime.sec();
+    realElapsed = std::chrono::duration_cast<std::chrono::seconds>(
+        currTime - this->startTime).count();
+  }
+
   // Output a run summary
   std::ofstream summary(this->logPath + "/summary.yml", std::ios::out);
   summary << "was_started: " << this->started << std::endl;
@@ -862,7 +901,7 @@ void GameLogicPluginPrivate::Finish()
   score << totalScore << std::endl;
   score.flush();
 
-  this->finished = true;
+  return currTime;
 }
 
 /////////////////////////////////////////////////
