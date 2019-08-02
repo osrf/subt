@@ -341,7 +341,7 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
 
   ignmsg << "Starting SubT" << std::endl;
 
-  // Make sure that there is are score files.
+  // Make sure that there are score files.
   this->dataPtr->UpdateScoreFiles();
 }
 
@@ -794,6 +794,9 @@ bool GameLogicPluginPrivate::OnStartCall(const ignition::msgs::Boolean &_req,
   }
   else
     _res.set_data(false);
+
+  // Update files when scoring has started.
+  this->UpdateScoreFiles();
 
   return true;
 }
