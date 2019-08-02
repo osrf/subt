@@ -45,6 +45,14 @@
     $headless = true
   end
 
+  # Check if durationSec is not defined or is empty/nil. In this case, set
+  # durationSec to zero, which equats to an infinite run time.
+  if !defined?(durationSec) || durationSec == nil || durationSec.empty?
+    $durationSec = 0
+  else
+    $durationSec = durationSec
+  end
+
   $worldName = 'tunnel_qual_ign'
   $x3Version = '4'
 %>
@@ -127,6 +135,9 @@
     <!-- The collection of artifacts to locate -->
 
     <world_name><%= $worldName %></world_name>
+
+    <duration_seconds><%= $durationSec %></duration_seconds>
+
     <logging>
       <!-- Use the <path> element to control where to record the log file. 
            The HOME path is used by default-->

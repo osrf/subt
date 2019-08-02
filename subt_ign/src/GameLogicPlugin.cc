@@ -168,6 +168,9 @@ class subt::GameLogicPluginPrivate
   /// \brief The simulation time of the start call.
   public: ignition::msgs::Time startSimTime;
 
+  /// \brief Number of simulation seconds allowed.
+  public: std::chrono::seconds runDuration{0};
+
   /// \brief Thread on which scores are published
   public: std::unique_ptr<std::thread> publishThread = nullptr;
 
@@ -307,6 +310,16 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
 
   this->dataPtr->ParseArtifacts(_sdf);
 
+  // Get the duration seconds.
+  if (_sdf->HasElement("duration_seconds"))
+  {
+    this->dataPtr->runDuration = std::chrono::seconds(
+        _sdf->Get<int>("duration_seconds"));
+
+    ignmsg << "Run duration set to " << this->dataPtr->runDuration.count()
+      << " seconds.\n";
+  }
+
   std::string worldName = "default";
   if (_sdf->HasElement("world_name"))
   {
@@ -421,6 +434,20 @@ void GameLogicPlugin::PostUpdate(
     {
       this->dataPtr->artifactOriginPose = originIter->second;
     }
+  }
+
+  // Get the start sim time in nanoseconds.
+  auto startSimTime = std::chrono::nanoseconds(
+      this->dataPtr->startSimTime.sec() * 1000000000 +
+      this->dataPtr->startSimTime.nsec());
+  // Check if the allowed time has elpased. If so, then make as finished.
+  if ((this->dataPtr->started && !this->dataPtr->finished) &&
+      this->dataPtr->runDuration != std::chrono::seconds(0) &&
+      _info.simTime - startSimTime > this->dataPtr->runDuration)
+  {
+    ignmsg << "Time limit[" <<  this->dataPtr->runDuration.count()
+      << "s] reached.\n";
+    this->dataPtr->Finish();
   }
 }
 
@@ -803,10 +830,13 @@ void GameLogicPluginPrivate::Finish()
     realElapsed = std::chrono::duration_cast<std::chrono::seconds>(
         finishTime - this->startTime).count();
 
-    ignmsg << "Scoring has finished. Elapsed time: "
-          << realElapsed << " seconds" << std::endl;
+    ignmsg << "Scoring has finished. Elapsed real time: "
+          << realElapsed << " seconds. Elapsed sim time: "
+          << simElapsed << " seconds. " << std::endl;
 
-    this->Log() << "finished_elapsed_time " << realElapsed
+    this->Log() << "finished_elapsed_real_time " << realElapsed
+      << " s." << std::endl;
+    this->Log() << "finished_elapsed_sim_time " << simElapsed
       << " s." << std::endl;
     this->Log() << "finished_score " << this->totalScore << std::endl;
     this->logStream.flush();
