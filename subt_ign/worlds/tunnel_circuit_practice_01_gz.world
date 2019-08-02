@@ -6,6 +6,12 @@
 <sdf version="1.6">
   <world name="tunnel_circuit_practice_01">
 
+    <physics type="ode">
+      <max_step_size>0.001</max_step_size>
+      <real_time_update_rate>100000000</real_time_update_rate>
+    </physics>
+
+
     <gui fullscreen='0'>
       <camera name='user_camera'>
         <pose>-6.3 -4.2 3.6 0 0.268 0.304</pose>
