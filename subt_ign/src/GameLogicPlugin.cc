@@ -837,6 +837,7 @@ void GameLogicPluginPrivate::Finish()
 
   // Elapsed time
   int realElapsed = 0;
+  int simElapsed = 0;
 
   // Update the score.yml and summary.yml files. This function also
   // returns the time point used to calculate the elapsed real time. By
