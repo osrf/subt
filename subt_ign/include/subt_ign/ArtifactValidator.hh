@@ -50,6 +50,6 @@ namespace subt
     /// \brief Private data pointer.
     private: std::unique_ptr<ArtifactValidatorPrivate> dataPtr;
   };
-}  // namespace subt
+}
 
 #endif  // SUBT_IGN_ARTIFACTVALIDATOR_HH_

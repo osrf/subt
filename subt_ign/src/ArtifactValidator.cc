@@ -43,14 +43,23 @@ using namespace gazebo;
 using namespace systems;
 using namespace subt;
 
+/// \brief Simple structure to represent an artifact
 struct Artifact
 {
+  /// \brief Artifact name
   std::string name;
+
+  /// \brief Artifact type
   subt::ArtifactType type;
+
+  /// \brief Artifact type as a string
   std::string typeStr;
+
+  /// \brief Artifact pose
   ignition::math::Pose3d pose;
 
-  std::string str() const
+  /// \brief Return a string representation of the artifact
+  std::string String() const
   {
     std::stringstream ss;
     ss << "<Artifact:"
@@ -62,8 +71,10 @@ struct Artifact
   }
 };
 
+/// \brief Private data for the artifact validator.
 class subt::ArtifactValidatorPrivate
 {
+  /// \brief Map of artifact types to string representations.
   public: const std::array<
       const std::pair<subt::ArtifactType, std::string>, 10> kArtifactTypes
       {
@@ -81,27 +92,57 @@ class subt::ArtifactValidatorPrivate
         }
       };
 
-  public: bool ArtifactFromString(const std::string &_name, ArtifactType &_type);
+  /// \brief Get the artifact enumeration from the string value.
+  /// \param[in] _name - string representation of artifact
+  /// \param[out] _type - enumeration representation of artifact
+  public: bool ArtifactFromString(
+              const std::string &_name, ArtifactType &_type);
+
+  /// \brief Parse artifacts from an SDF file
+  /// \param[in] _sdf sdf file to parse
   public: void ParseArtifacts(const std::shared_ptr<const sdf::Element> &_sdf);
 
-  public: bool OnNext(const ignition::msgs::StringMsg &_msg, ignition::msgs::StringMsg &_rep);
-  public: bool OnScan(const ignition::msgs::StringMsg &_msg, ignition::msgs::StringMsg &_rep);
+  /// \brief Callback fired when the next service is called.
+  /// \param[in] _msg Service request
+  /// \param[out] _rep Service response
+  public: bool OnNext(const ignition::msgs::StringMsg &_msg,
+                      ignition::msgs::StringMsg &_rep);
 
+  /// \brief Callback fired when the scan service is called.
+  /// \param[in] _msg Service request
+  /// \param[out] _rep Service response
+  public: bool OnScan(const ignition::msgs::StringMsg &_msg,
+                      ignition::msgs::StringMsg &_rep);
+
+  /// \brief Map of artifact names to additional artifact data.
   public: std::map<std::string, Artifact> artifacts;
+
+  /// \brief Cache of valid artifacts that have been detected.
   public: std::vector<std::string> validArtifacts;
+
+  /// \brief Index of current artifact being validated.
   public: int index = -1;
+
+  /// \brief Ignition transport node.
   public: transport::Node node;
+
+  /// \brief World name of current world.
   public: std::string worldName;
+
+  /// \brief List of level poses to check for artifacts.
   public: std::vector<ignition::math::Pose3d> posesToCheck;
 };
 
 bool ArtifactValidatorPrivate::OnScan(const ignition::msgs::StringMsg& /*_req*/,
                                       ignition::msgs::StringMsg& /*_rep*/)
 {
-  igndbg << "Scanning: " << this->posesToCheck.size() << " levels" << std::endl;
-  igndbg << "Have poses for: " << validArtifacts.size() << "/" << artifacts.size() << std::endl;
+  igndbg << "Scanning: "
+    << this->posesToCheck.size() << " levels" << std::endl;
 
-  if (this->posesToCheck.size()) 
+  igndbg << "Have poses for: "
+    << validArtifacts.size() << "/" << artifacts.size() << std::endl;
+
+  if (this->posesToCheck.size())
   {
     auto pose = this->posesToCheck.back();
     ignition::msgs::Pose req;
@@ -123,18 +164,18 @@ bool ArtifactValidatorPrivate::OnScan(const ignition::msgs::StringMsg& /*_req*/,
   return true;
 }
 
-bool ArtifactValidatorPrivate::OnNext(const ignition::msgs::StringMsg& _req,
+bool ArtifactValidatorPrivate::OnNext(const ignition::msgs::StringMsg& /*_req*/,
                                       ignition::msgs::StringMsg& _rep)
 {
-  if (this->index == -1) 
+  if (this->index == -1)
   {
     return false;
   }
 
-  if (this->index == validArtifacts.size() - 1)
+  if (this->index == static_cast<int>(validArtifacts.size() - 1))
   {
     this->index = 0;
-  } 
+  }
   else
   {
     this->index++;
@@ -182,7 +223,9 @@ bool ArtifactValidatorPrivate::ArtifactFromString(const std::string &_name,
   return true;
 }
 
-void ArtifactValidatorPrivate::ParseArtifacts(const std::shared_ptr<const sdf::Element> &_sdf)
+/////////////////////////////////////////////////
+void ArtifactValidatorPrivate::ParseArtifacts(
+    const std::shared_ptr<const sdf::Element> &_sdf)
 {
   sdf::ElementPtr artifactElem = const_cast<sdf::Element*>(
       _sdf.get())->GetElement("artifact");
@@ -192,18 +235,20 @@ void ArtifactValidatorPrivate::ParseArtifacts(const std::shared_ptr<const sdf::E
     // Sanity check: "Name" is required.
     if (!artifactElem->HasElement("name"))
     {
-      ignerr << "[ArtifactValidator]: Parameter <name> not found. Ignoring this "
-            << "artifact" << std::endl;
+      ignerr << "[ArtifactValidator]: Parameter <name> not found. "
+            << "Ignoring this artifact" << std::endl;
       artifactElem = artifactElem->GetNextElement("artifact");
       continue;
     }
-    std::string modelName = artifactElem->Get<std::string>("name", "name").first;
+
+    std::string modelName =
+      artifactElem->Get<std::string>("name", "name").first;
 
     // Sanity check: "Type" is required.
     if (!artifactElem->HasElement("type"))
     {
-      ignerr << "[ArtifactValidator]: Parameter <type> not found. Ignoring this "
-        << "artifact" << std::endl;
+      ignerr << "[ArtifactValidator]: Parameter <type> not found."
+        << "Ignoring this artifact" << std::endl;
       artifactElem = artifactElem->GetNextElement("artifact");
       continue;
     }
@@ -233,24 +278,27 @@ void ArtifactValidatorPrivate::ParseArtifacts(const std::shared_ptr<const sdf::E
     newArtifact.name = modelName;
     newArtifact.type = modelType;
     newArtifact.typeStr = modelTypeStr;
-    ignmsg << "Adding artifact: " << newArtifact.str() << std::endl;
+    ignmsg << "Adding artifact: " << newArtifact.String() << std::endl;
     this->artifacts[modelName] = newArtifact;
     artifactElem = artifactElem->GetNextElement("artifact");
   }
 }
 
+/////////////////////////////////////////////////
 ArtifactValidator::ArtifactValidator()
   : dataPtr(new ArtifactValidatorPrivate)
 {
-
 }
 
+/////////////////////////////////////////////////
 ArtifactValidator::~ArtifactValidator() = default;
 
+
+/////////////////////////////////////////////////
 void ArtifactValidator::Configure(const ignition::gazebo::Entity & /*_entity*/,
-                                  const std::shared_ptr<const sdf::Element> &_sdf,
-                                  ignition::gazebo::EntityComponentManager & _ecm,
-                                  ignition::gazebo::EventManager & /*_eventMgr*/)
+    const std::shared_ptr<const sdf::Element> &_sdf,
+    ignition::gazebo::EntityComponentManager & _ecm,
+    ignition::gazebo::EventManager & /*_eventMgr*/)
 {
   this->dataPtr->worldName = const_cast<sdf::Element*>(
       _sdf.get())->Get<std::string>("world_name", "world_name").first;
@@ -273,8 +321,7 @@ void ArtifactValidator::Configure(const ignition::gazebo::Entity & /*_entity*/,
                   const components::LevelEntityNames *_entities,
                   const components::Pose *_pose) -> bool
               {
-
-                for (const auto & name: _entities->Data())
+                for (const auto & name : _entities->Data())
                 {
                   auto it = this->dataPtr->artifacts.find(name);
                   if (it != this->dataPtr->artifacts.end())
@@ -286,18 +333,20 @@ void ArtifactValidator::Configure(const ignition::gazebo::Entity & /*_entity*/,
                 return true;
               });
 
-  igndbg << "Found artifacts: " << this->dataPtr->artifacts.size() << std::endl;
-  igndbg << "Found levels to check: " << this->dataPtr->posesToCheck.size() << std::endl;
+  igndbg << "Found artifacts: "
+    << this->dataPtr->artifacts.size() << std::endl;
+  igndbg << "Found levels to check: "
+    << this->dataPtr->posesToCheck.size() << std::endl;
 }
 
 //////////////////////////////////////////////////
 void ArtifactValidator::PostUpdate(
-    const ignition::gazebo::UpdateInfo &_info,
+    const ignition::gazebo::UpdateInfo &/*_info*/,
     const ignition::gazebo::EntityComponentManager &_ecm)
 {
-   _ecm.EachNew<gazebo::components::Model,
-             gazebo::components::Name,
-             gazebo::components::Pose>(
+  _ecm.EachNew<gazebo::components::Model,
+               gazebo::components::Name,
+               gazebo::components::Pose>(
       [&](const gazebo::Entity &,
           const gazebo::components::Model *,
           const gazebo::components::Name *_nameComp,
@@ -309,15 +358,16 @@ void ArtifactValidator::PostUpdate(
         {
           igndbg << "Checking: " << _nameComp->Data() << std::endl;
 
-          auto it = std::find(this->dataPtr->validArtifacts.begin(), 
+          auto it = std::find(this->dataPtr->validArtifacts.begin(),
                     this->dataPtr->validArtifacts.end(),
                     _nameComp->Data());
 
           if (it != this->dataPtr->validArtifacts.end())
           {
             igndbg << "Skipping: " << _nameComp->Data() << "already found";
-            igndbg << "Have poses for: " << this->dataPtr->validArtifacts.size() << "/" << 
-              this->dataPtr->artifacts.size() << std::endl;
+            igndbg << "Have poses for: "
+              << this->dataPtr->validArtifacts.size() << "/"
+              << this->dataPtr->artifacts.size() << std::endl;
             return true;
           }
 
@@ -327,9 +377,12 @@ void ArtifactValidator::PostUpdate(
           {
             this->dataPtr->index = 0;
           }
-          igndbg << "Updated artifact: " << artifact->second.str() << std::endl;
-            igndbg << "Have poses for: " << this->dataPtr->validArtifacts.size() << "/" << 
-              this->dataPtr->artifacts.size() << std::endl;
+          igndbg << "Updated artifact: "
+            << artifact->second.String() << std::endl;
+
+          igndbg << "Have poses for: "
+            << this->dataPtr->validArtifacts.size() << "/"
+            << this->dataPtr->artifacts.size() << std::endl;
         }
         return true;
       });
