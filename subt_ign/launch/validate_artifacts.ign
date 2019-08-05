@@ -1,0 +1,407 @@
+<?xml version="1.0"?>
+<!-- Usage: ign launch validate_artifacts.ign
+            [worldName:=<worldName>
+             ... ]
+
+**Note that there are a few double dashes with a separating space in the commands below. The spaces make the XML comment happy, and the spaces should be removed when running the command.**
+
+
+1. Use the following to scan through the levels until all artifact poses have been retrieved.
+
+    ign service -s /artifact/scan - -reqtype ignition.msgs.StringMsg - -reptype ignition.msgs.StringMsg - -timeout 1000 - -req 'data: ""'
+
+2. Use the following to iterate the through the artifacts. The service will respond with the artifact name that you are viewing. You can use the GUI to look through the two cameras (one top-down, one at a 45 degree angle).
+
+    ign service -s /artifact/next - -reqtype ignition.msgs.StringMsg - -reptype ignition.msgs.StringMsg - -timeout 1000 - -req 'data: ""'
+-->
+
+<%
+  # Check if worldName is not defined or is empty/nil
+  if !defined?(worldName) || worldName == nil || worldName.empty?
+    $worldName = 'tunnel_circuit_practice_01'
+  else
+    $worldName = worldName
+  end
+
+  if !defined?(headless) || headless == nil || headless.empty?
+    $headless = false
+  elsif headless == 'true' || headless == 'True' || headless == '1'
+    $headless = true
+  end
+
+  worldNumber = $worldName.split('_').last
+
+  $x3Version = '4'
+%>
+
+<ignition version='1.0'>
+  <env>
+    <name>IGN_GAZEBO_SYSTEM_PLUGIN_PATH</name>
+    <value>$LD_LIBRARY_PATH</value>
+  </env>
+  <plugin name="ignition::launch::GazeboServer"
+          filename="libignition-launch-gazebo.so">
+    <world_file><%= $worldName %>.sdf</world_file>
+    <run>true</run>
+    <levels>true</levels>
+    <record>
+      <enabled>true</enabled>
+      <!-- This path is used by cloudsim, please do not change -->
+      <path>/tmp/ign/logs</path>
+    </record>
+    <%if defined?(seed) && seed != nil && !seed.empty?%>
+    <seed><%= seed %></seed>
+    <%end%>
+
+    <plugin entity_name="<%= $worldName %>"
+            entity_type="world"
+            filename="libignition-gazebo-physics-system.so"
+            name="ignition::gazebo::systems::Physics">
+    </plugin>
+    <plugin entity_name="<%= $worldName %>"
+            entity_type="world"
+            filename="libignition-gazebo-sensors-system.so"
+            name="ignition::gazebo::systems::Sensors">
+            <render_engine>ogre2</render_engine>
+    </plugin>
+    <plugin entity_name="<%= $worldName %>"
+            entity_type="world"
+            filename="libignition-gazebo-user-commands-system.so"
+            name="ignition::gazebo::systems::UserCommands">
+    </plugin>
+    <plugin entity_name="<%= $worldName %>"
+            entity_type="world"
+            filename="libignition-gazebo-scene-broadcaster-system.so"
+            name="ignition::gazebo::systems::SceneBroadcaster">
+    </plugin>
+
+    <!-- The SubT challenge logic plugin -->
+    <plugin entity_name="<%= $worldName %>"
+            entity_type="world"
+            filename="libArtifactValidator.so"
+            name="subt::ArtifactValidator">
+    <!-- The collection of artifacts to locate -->
+
+    <world_name><%= $worldName %></world_name>
+    <logging>
+      <!-- Use the <path> element to control where to record the log file.
+           The HOME path is used by default-->
+      <path>/tmp/ign/logs</path>
+      <filename_prefix>subt_tunnel</filename_prefix>
+    </logging>
+
+     <artifact>
+        <name>extinguisher_1</name>
+        <type>TYPE_EXTINGUISHER</type>
+      </artifact>
+      <artifact>
+        <name>backpack_1</name>
+        <type>TYPE_BACKPACK</type>
+      </artifact>
+      <artifact>
+        <name>phone_1</name>
+        <type>TYPE_PHONE</type>
+      </artifact>
+      <artifact>
+        <name>drill_1</name>
+        <type>TYPE_DRILL</type>
+      </artifact>
+      <artifact>
+        <name>rescue_randy_1</name>
+        <type>TYPE_RESCUE_RANDY</type>
+      </artifact>
+     <artifact>
+        <name>extinguisher_2</name>
+        <type>TYPE_EXTINGUISHER</type>
+      </artifact>
+      <artifact>
+        <name>backpack_2</name>
+        <type>TYPE_BACKPACK</type>
+      </artifact>
+      <artifact>
+        <name>phone_2</name>
+        <type>TYPE_PHONE</type>
+      </artifact>
+      <artifact>
+        <name>drill_2</name>
+        <type>TYPE_DRILL</type>
+      </artifact>
+      <artifact>
+        <name>rescue_randy_2</name>
+        <type>TYPE_RESCUE_RANDY</type>
+      </artifact>
+     <artifact>
+        <name>extinguisher_3</name>
+        <type>TYPE_EXTINGUISHER</type>
+      </artifact>
+      <artifact>
+        <name>backpack_3</name>
+        <type>TYPE_BACKPACK</type>
+      </artifact>
+      <artifact>
+        <name>phone_3</name>
+        <type>TYPE_PHONE</type>
+      </artifact>
+      <artifact>
+        <name>drill_3</name>
+        <type>TYPE_DRILL</type>
+      </artifact>
+      <artifact>
+        <name>rescue_randy_3</name>
+        <type>TYPE_RESCUE_RANDY</type>
+      </artifact>
+     <artifact>
+        <name>extinguisher_4</name>
+        <type>TYPE_EXTINGUISHER</type>
+      </artifact>
+      <artifact>
+        <name>backpack_4</name>
+        <type>TYPE_BACKPACK</type>
+      </artifact>
+      <artifact>
+        <name>phone_4</name>
+        <type>TYPE_PHONE</type>
+      </artifact>
+      <artifact>
+        <name>drill_4</name>
+        <type>TYPE_DRILL</type>
+      </artifact>
+      <artifact>
+        <name>rescue_randy_4</name>
+        <type>TYPE_RESCUE_RANDY</type>
+      </artifact>
+  </plugin>
+  </plugin>
+
+
+  <%if !$headless %>
+  <executable_wrapper>
+    <plugin name="ignition::launch::GazeboGui"
+          filename="libignition-launch-gazebogui.so">
+      <world_name><%= $worldName %></world_name>
+      <window_title>SubT Simulator</window_title>
+      <plugin filename="GzScene3D" name="3D View">
+        <ignition-gui>
+          <title>3D View</title>
+          <property type="bool" key="showTitleBar">false</property>
+          <property type="string" key="state">docked</property>
+        </ignition-gui>
+
+        <engine>ogre2</engine>
+        <scene>scene</scene>
+        <ambient_light>0.2 0.2 0.1</ambient_light>
+        <background_color>0.8 0.8 0.8</background_color>
+        <camera_pose>-6.3 -4.2 3.6 0 0.268 0.304</camera_pose>
+        <service>/world/<%= $worldName %>/scene/info</service>
+        <pose_topic>/world/<%= $worldName %>/pose/info</pose_topic>
+        <scene_topic>/world/<%= $worldName %>/scene/info</scene_topic>
+        <deletion_topic>/world/<%= $worldName %>/scene/deletion</deletion_topic>
+      </plugin>
+      <plugin filename="WorldControl" name="World control">
+        <ignition-gui>
+          <title>World control</title>
+          <property type="bool" key="showTitleBar">false</property>
+          <property type="bool" key="resizable">false</property>
+          <property type="double" key="height">72</property>
+          <property type="double" key="width">121</property>
+          <property type="double" key="z">1</property>
+
+          <property type="string" key="state">floating</property>
+          <anchors target="3D View">
+            <line own="left" target="left"/>
+            <line own="bottom" target="bottom"/>
+          </anchors>
+        </ignition-gui>
+
+        <play_pause>true</play_pause>
+        <step>true</step>
+        <start_paused>true</start_paused>
+        <service>/world/<%= $worldName %>/control</service>
+        <stats_topic>/world/<%= $worldName %>/stats</stats_topic>
+
+      </plugin>
+
+      <plugin filename="WorldStats" name="World stats">
+        <ignition-gui>
+          <title>World stats</title>
+          <property type="bool" key="showTitleBar">false</property>
+          <property type="bool" key="resizable">false</property>
+          <property type="double" key="height">110</property>
+          <property type="double" key="width">290</property>
+          <property type="double" key="z">1</property>
+
+          <property type="string" key="state">floating</property>
+          <anchors target="3D View">
+            <line own="right" target="right"/>
+            <line own="bottom" target="bottom"/>
+          </anchors>
+        </ignition-gui>
+
+        <sim_time>true</sim_time>
+        <real_time>true</real_time>
+        <real_time_factor>true</real_time_factor>
+        <iterations>true</iterations>
+        <topic>/world/<%= $worldName %>/stats</topic>
+      </plugin>
+
+      <plugin filename="ImageDisplay" name="Image Display">
+        <ignition-gui>
+          <title>Angled</title>
+          <property key="state" type="string">docked</property>
+        </ignition-gui>
+        <topic>/validate/angled</topic>
+        <topic_picker>false</topic_picker>
+      </plugin>
+
+      <plugin filename="ImageDisplay" name="Image Display">
+        <ignition-gui>
+          <title>Top-down</title>
+          <property key="state" type="string">docked</property>
+        </ignition-gui>
+        <topic>/validate/top_down</topic>
+        <topic_picker>false</topic_picker>
+      </plugin>
+    </plugin>
+  </executable_wrapper>
+  <%end%>
+
+  <plugin name="ignition::launch::GazeboFactory"
+          filename="libignition-launch-gazebo-factory.so">
+    <name>validator</name>
+    <allow_renaming>false</allow_renaming>
+    <pose>0 0 0 0 0 0</pose>
+    <is_performer>true</is_performer>
+    <sdf version='1.6'>
+      <model name="validator">
+        <static>true</static>
+        <link name="base_link">
+          <visual name="box">
+            <pose>0 0 5 0 0 0</pose>
+            <geometry>
+              <box>
+                <size>1.0 1.0 1.0</size>
+              </box>
+              <material>
+                <ambient>1 0 0 1</ambient>
+                <diffuse>1 0 0 1</diffuse>
+                <specular>1 0 0 1</specular>
+              </material>
+            </geometry>
+          </visual>
+          <!-- Shine on the box  -->
+          <light name='light_on_box1' type='point'>
+            <pose>2.5 2.5 7.0 0 0 0</pose>
+            <diffuse>1 0 0 1</diffuse>
+            <specular>1 0 0 1</specular>
+            <attenuation>
+              <range>5</range>
+              <linear>0</linear>
+              <constant>1</constant>
+            </attenuation>
+          </light>
+          <light name='light_on_box2' type='point'>
+            <pose>-2.5 2.5 7.0 0 0 0</pose>
+            <diffuse>1 0 0 1</diffuse>
+            <specular>1 0 0 1</specular>
+            <attenuation>
+              <range>5</range>
+              <linear>0</linear>
+              <constant>1</constant>
+            </attenuation>
+          </light>
+          <light name='light_on_box3' type='point'>
+            <pose>2.5 -2.5 7.0 0 0 0</pose>
+            <diffuse>1 0 0 1</diffuse>
+            <specular>1 0 0 1</specular>
+            <attenuation>
+              <range>5</range>
+              <linear>0</linear>
+              <constant>1</constant>
+            </attenuation>
+          </light>
+          <light name='light_on_box4' type='point'>
+            <pose>-2.5 -2.5 7.0 0 0 0</pose>
+            <diffuse>1 0 0 1</diffuse>
+            <specular>1 0 0 1</specular>
+            <attenuation>
+              <range>5</range>
+              <linear>0</linear>
+              <constant>1</constant>
+            </attenuation>
+          </light>
+          <light name='spawned_light' type='spot'>
+            <pose>0 0 1.0 0 0 0</pose>
+            <attenuation>
+              <range>50</range>
+              <linear>0</linear>
+              <constant>0.1</constant>
+              <quadratic>0.0025</quadratic>
+            </attenuation>
+            <diffuse>0.8 0.8 0.5 1</diffuse>
+            <specular>0.8 0.8 0.5 1</specular>
+            <spot>
+              <inner_angle>1</inner_angle>
+              <outer_angle>1.5</outer_angle>
+              <falloff>1</falloff>
+            </spot>
+            <direction>0 0 -1</direction>
+          </light>
+          <sensor name="top_down" type="camera">
+            <topic>/validate/top_down</topic>
+            <pose>0.0 0 4 0 1.570 0</pose>
+            <always_on>1</always_on>
+            <update_rate>20</update_rate>
+            <camera name="top_down">
+                <pose>0 0 0 0 0 0</pose>
+                <horizontal_fov>1.0472</horizontal_fov>
+                <distortion>
+                    <k1>0.0</k1>
+                    <k2>0.0</k2>
+                    <k3>0.0</k3>
+                    <p1>0.0</p1>
+                    <p2>0.0</p2>
+                    <center>0.5 0.5</center>
+                </distortion>
+                <image>
+                    <width>640</width>
+                    <height>480</height>
+                    <format>R8G8B8</format>
+                </image>
+                <clip>
+                    <near>0.01</near>
+                    <far>300</far>
+                </clip>
+            </camera>
+          </sensor>
+          <sensor name="angled" type="camera">
+            <topic>/validate/angled</topic>
+            <pose>-4 0 4 0 0.78 0.0</pose>
+            <always_on>1</always_on>
+            <update_rate>20</update_rate>
+            <camera name="angled">
+                <pose>0 0 0 0 0 0</pose>
+                <horizontal_fov>1.0472</horizontal_fov>
+                <distortion>
+                    <k1>0.0</k1>
+                    <k2>0.0</k2>
+                    <k3>0.0</k3>
+                    <p1>0.0</p1>
+                    <p2>0.0</p2>
+                    <center>0.5 0.5</center>
+                </distortion>
+                <image>
+                    <width>640</width>
+                    <height>480</height>
+                    <format>R8G8B8</format>
+                </image>
+                <clip>
+                    <near>0.01</near>
+                    <far>300</far>
+                </clip>
+            </camera>
+          </sensor>
+        </link>
+      </model>
+    </sdf>
+  </plugin>
+</ignition>

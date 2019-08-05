@@ -19,6 +19,7 @@
 #include <ignition/msgs/stringmsg.pb.h>
 #include <ignition/plugin/Register.hh>
 
+#include <algorithm>
 #include <chrono>
 #include <map>
 #include <mutex>
@@ -107,6 +108,14 @@ class subt::GameLogicPluginPrivate
   public: bool ArtifactFromInt(const uint32_t &_typeInt,
                                subt::ArtifactType &_type);
 
+  /// \brief Create a string from ArtifactType.
+  //
+  /// \param[in] _type The artifact type.
+  /// \param[out] _strType The artifact string.
+  /// \return True when the conversion succeed or false otherwise.
+  public: bool StringFromArtifact(const subt::ArtifactType &_type,
+                                  std::string &_strType);
+
   /// \brief Callback executed to process a new artifact request
   /// sent by a team.
   /// \param[in] _req The service request.
@@ -132,6 +141,12 @@ class subt::GameLogicPluginPrivate
                const ignition::msgs::StringMsg &_req,
                ignition::msgs::Pose &_res);
 
+  /// \brief Update the score.yml and summary.yml files. This function also
+  /// returns the time point used to calculate the elapsed real time. By
+  /// returning this time point, we can make sure that the ::Finish function
+  /// uses the same time point.
+  /// \return The time point used to calculate the elapsed real time.
+  public: std::chrono::steady_clock::time_point UpdateScoreFiles() const;
 
   private: bool PoseFromArtifactHelper(const std::string &_robot,
     ignition::math::Pose3d &_result);
@@ -158,6 +173,9 @@ class subt::GameLogicPluginPrivate
 
   /// \brief The simulation time of the start call.
   public: ignition::msgs::Time startSimTime;
+
+  /// \brief Number of simulation seconds allowed.
+  public: std::chrono::seconds runDuration{0};
 
   /// \brief Thread on which scores are published
   public: std::unique_ptr<std::thread> publishThread = nullptr;
@@ -215,6 +233,9 @@ class subt::GameLogicPluginPrivate
 
   /// \brief Names of the spawned robots.
   public: std::set<std::string> robotNames;
+
+  /// \brief The unique artifact reports received.
+  public: std::vector<std::string> uniqueReports;
 };
 
 //////////////////////////////////////////////////
@@ -295,6 +316,16 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
 
   this->dataPtr->ParseArtifacts(_sdf);
 
+  // Get the duration seconds.
+  if (_sdf->HasElement("duration_seconds"))
+  {
+    this->dataPtr->runDuration = std::chrono::seconds(
+        _sdf->Get<int>("duration_seconds"));
+
+    ignmsg << "Run duration set to " << this->dataPtr->runDuration.count()
+      << " seconds.\n";
+  }
+
   std::string worldName = "default";
   if (_sdf->HasElement("world_name"))
   {
@@ -322,6 +353,9 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
         &GameLogicPluginPrivate::PublishScore, this->dataPtr.get()));
 
   ignmsg << "Starting SubT" << std::endl;
+
+  // Make sure that there are score files.
+  this->dataPtr->UpdateScoreFiles();
 }
 
 //////////////////////////////////////////////////
@@ -410,6 +444,20 @@ void GameLogicPlugin::PostUpdate(
       this->dataPtr->artifactOriginPose = originIter->second;
     }
   }
+
+  // Get the start sim time in nanoseconds.
+  auto startSimTime = std::chrono::nanoseconds(
+      this->dataPtr->startSimTime.sec() * 1000000000 +
+      this->dataPtr->startSimTime.nsec());
+  // Check if the allowed time has elapsed. If so, then mark as finished.
+  if ((this->dataPtr->started && !this->dataPtr->finished) &&
+      this->dataPtr->runDuration != std::chrono::seconds(0) &&
+      _info.simTime - startSimTime > this->dataPtr->runDuration)
+  {
+    ignmsg << "Time limit[" <<  this->dataPtr->runDuration.count()
+      << "s] reached.\n";
+    this->dataPtr->Finish();
+  }
 }
 
 /////////////////////////////////////////////////
@@ -421,7 +469,6 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
   auto s = std::chrono::duration_cast<std::chrono::seconds>(realTime);
   auto ns = std::chrono::duration_cast<std::chrono::nanoseconds>(realTime-s);
 
-  _resp.set_report_id(++this->reportCount);
   *_resp.mutable_artifact() = _req;
 
   _resp.mutable_submitted_datetime()->set_sec(s.count());
@@ -469,15 +516,30 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
     this->Log() << "new_total_score " << this->totalScore << std::endl;
   }
 
+  _resp.set_report_id(this->reportCount);
+
   // Finish if the maximum score has been reached, or if the maximum number
   // of artifact reports has been reached..
-  if (this->totalScore >= this->artifactCount ||
-      this->reportCount >
-      this->artifactCount * this->reportCountLimitFactor)
+  if (this->totalScore >= this->artifactCount)
   {
     ignmsg << "Max score has been reached. Congratulations!" << std::endl;
     this->Finish();
+    return true;
   }
+
+  if (!this->finished &&
+      this->reportCount > this->artifactCount * this->reportCountLimitFactor)
+  {
+    _resp.set_report_status("report limit exceeded");
+    ignmsg << "Report limit exceed." << std::endl;
+    this->Finish();
+    return true;
+  }
+
+  // Update the score files, in case something bad happens.
+  // The ::Finish functions, used above, will also call the UpdateScoreFiles
+  // function.
+  this->UpdateScoreFiles();
 
   return true;
 }
@@ -512,6 +574,39 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
     this->Log() << "no_remaining_artifacts_of_specified_type" << std::endl;
     return 0.0;
   }
+
+  // Type converted into a string.
+  std::string reportType;
+  if (!this->StringFromArtifact(_type, reportType))
+  {
+    ignmsg << "Unknown artifact type" << std::endl;
+    this->Log() << "Unkown artifact type reported" << std::endl;
+    return 0.0;
+  }
+
+  // Pose converted into a string.
+  std::string reportPose = std::to_string(_pose.position().x()) + "_" +
+                           std::to_string(_pose.position().y()) + "_" +
+                           std::to_string(_pose.position().z());
+
+  // Unique report Id: Type and pose combined into a string.
+  std::string uniqueReport = reportType + "_" + reportPose;
+
+  // Check whether we received the same report before.
+  if (std::find(this->uniqueReports.begin(),
+                this->uniqueReports.end(),
+                uniqueReport) != this->uniqueReports.end())
+  {
+    ignmsg << "This report has been received before" << std::endl;
+    this->Log() << "This report has been received before" << std::endl;
+    return 0.0;
+  }
+
+  // This is a new unique report, let's save it.
+  this->uniqueReports.push_back(uniqueReport);
+
+  // This is a unique report.
+  this->reportCount++;
 
   // The teams are reporting the artifact poses relative to the fiducial located
   // in the staging area. Now, we convert the reported pose to world coordinates
@@ -550,7 +645,7 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
 
     // Keep track of the artifacts that were found.
     this->foundArtifacts.insert(std::get<0>(minDistance));
-    this->Log() << "found_artfiact " << std::get<0>(minDistance) <<  std::endl;
+    this->Log() << "found_artifact " << std::get<0>(minDistance) <<  std::endl;
   }
 
   this->Log() << "calculated_dist " << std::get<2>(minDistance) << std::endl;
@@ -577,6 +672,25 @@ bool GameLogicPluginPrivate::ArtifactFromString(const std::string &_name,
     return false;
 
   _type = std::get<0>(*pos);
+  return true;
+}
+
+/////////////////////////////////////////////////
+bool GameLogicPluginPrivate::StringFromArtifact(const ArtifactType &_type,
+    std::string &_strType)
+{
+  auto pos = std::find_if(
+    std::begin(this->kArtifactTypes),
+    std::end(this->kArtifactTypes),
+    [&_type](const typename std::pair<ArtifactType, std::string> &_pair)
+    {
+      return (std::get<0>(_pair) == _type);
+    });
+
+  if (pos == std::end(this->kArtifactTypes))
+    return false;
+
+  _strType = std::get<1>(*pos);
   return true;
 }
 
@@ -708,6 +822,9 @@ bool GameLogicPluginPrivate::OnStartCall(const ignition::msgs::Boolean &_req,
   else
     _res.set_data(false);
 
+  // Update files when scoring has started.
+  this->UpdateScoreFiles();
+
   return true;
 }
 
@@ -722,18 +839,24 @@ void GameLogicPluginPrivate::Finish()
   int realElapsed = 0;
   int simElapsed = 0;
 
+  // Update the score.yml and summary.yml files. This function also
+  // returns the time point used to calculate the elapsed real time. By
+  // returning this time point, we can make sure that this function (the
+  // ::Finish function) uses the same time point.
+  std::chrono::steady_clock::time_point currTime = this->UpdateScoreFiles();
+
   if (this->started)
   {
-    simElapsed = this->simTime.sec() - this->startSimTime.sec();
-    std::chrono::steady_clock::time_point finishTime =
-      std::chrono::steady_clock::now();
     realElapsed = std::chrono::duration_cast<std::chrono::seconds>(
-        finishTime - this->startTime).count();
+        currTime - this->startTime).count();
 
-    ignmsg << "Scoring has finished. Elapsed time: "
-          << realElapsed << " seconds" << std::endl;
+    ignmsg << "Scoring has finished. Elapsed real time: "
+          << realElapsed << " seconds. Elapsed sim time: "
+          << simElapsed << " seconds. " << std::endl;
 
-    this->Log() << "finished_elapsed_time " << realElapsed
+    this->Log() << "finished_elapsed_real_time " << realElapsed
+      << " s." << std::endl;
+    this->Log() << "finished_elapsed_sim_time " << simElapsed
       << " s." << std::endl;
     this->Log() << "finished_score " << this->totalScore << std::endl;
     this->logStream.flush();
@@ -744,6 +867,26 @@ void GameLogicPluginPrivate::Finish()
     msg.mutable_header()->mutable_stamp()->CopyFrom(this->simTime);
     msg.set_data("finished");
     this->startPub.Publish(msg);
+  }
+
+  this->finished = true;
+}
+
+/////////////////////////////////////////////////
+std::chrono::steady_clock::time_point
+GameLogicPluginPrivate::UpdateScoreFiles() const
+{
+  // Elapsed time
+  int realElapsed = 0;
+  int simElapsed = 0;
+  std::chrono::steady_clock::time_point currTime =
+    std::chrono::steady_clock::now();
+
+  if (this->started)
+  {
+    simElapsed = this->simTime.sec() - this->startSimTime.sec();
+    realElapsed = std::chrono::duration_cast<std::chrono::seconds>(
+        currTime - this->startTime).count();
   }
 
   // Output a run summary
@@ -759,7 +902,7 @@ void GameLogicPluginPrivate::Finish()
   score << totalScore << std::endl;
   score.flush();
 
-  this->finished = true;
+  return currTime;
 }
 
 /////////////////////////////////////////////////

@@ -80,11 +80,11 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     {
       ASSERT_TRUE(this->WaitUntilScoreAck());
       auto ack = this->scoreAcks.front();
-      EXPECT_EQ(ack.report_id(), this->reportCount);
-      EXPECT_EQ(ack.artifact().type(), type);
-      EXPECT_EQ(ack.run(), 1u);
-      EXPECT_EQ(ack.report_status(), "run not started");
-      EXPECT_EQ(ack.score_change(), 0);
+      EXPECT_EQ(0u, ack.report_id());
+      EXPECT_EQ(type, ack.artifact().type());
+      EXPECT_EQ(1u, ack.run());
+      EXPECT_EQ("run not started", ack.report_status());
+      EXPECT_EQ(0, ack.score_change());
       this->scoreAcks.pop();
     }
   }
@@ -151,14 +151,14 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     {
       ASSERT_TRUE(this->WaitUntilScoreAck());
       auto ack = this->scoreAcks.front();
-      EXPECT_EQ(ack.report_id(), this->reportCount);
-      EXPECT_EQ(ack.artifact().type(), type);
-      EXPECT_EQ(ack.artifact().pose().position().x(), pose.position().x());
-      EXPECT_EQ(ack.artifact().pose().position().y(), pose.position().y());
-      EXPECT_EQ(ack.artifact().pose().position().z(), pose.position().z());
-      EXPECT_EQ(ack.run(), 1u);
-      EXPECT_EQ(ack.report_status(), "scored");
-      EXPECT_EQ(ack.score_change(), 1);
+      EXPECT_EQ(1u, ack.report_id());
+      EXPECT_EQ(type, ack.artifact().type());
+      EXPECT_EQ(pose.position().x(), ack.artifact().pose().position().x());
+      EXPECT_EQ(pose.position().y(), ack.artifact().pose().position().y());
+      EXPECT_EQ(pose.position().z(), ack.artifact().pose().position().z());
+      EXPECT_EQ(1u, ack.run());
+      EXPECT_EQ("scored", ack.report_status());
+      EXPECT_EQ(1, ack.score_change());
       this->scoreAcks.pop();
     }
 
@@ -179,14 +179,14 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     {
       ASSERT_TRUE(this->WaitUntilScoreAck());
       auto ack = this->scoreAcks.front();
-      EXPECT_EQ(ack.report_id(), this->reportCount);
-      EXPECT_EQ(ack.artifact().type(), type);
-      EXPECT_EQ(ack.artifact().pose().position().x(), pose.position().x());
-      EXPECT_EQ(ack.artifact().pose().position().y(), pose.position().y());
-      EXPECT_EQ(ack.artifact().pose().position().z(), pose.position().z());
-      EXPECT_EQ(ack.run(), 1u);
-      EXPECT_EQ(ack.report_status(), "scored");
-      EXPECT_EQ(ack.score_change(), 1);
+      EXPECT_EQ(2u, ack.report_id());
+      EXPECT_EQ(type, ack.artifact().type());
+      EXPECT_EQ(pose.position().x(), ack.artifact().pose().position().x());
+      EXPECT_EQ(pose.position().y(), ack.artifact().pose().position().y());
+      EXPECT_EQ(pose.position().z(), ack.artifact().pose().position().z());
+      EXPECT_EQ(1u, ack.run());
+      EXPECT_EQ("scored", ack.report_status());
+      EXPECT_EQ(1, ack.score_change());
       this->scoreAcks.pop();
     }
 
@@ -206,14 +206,14 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     {
       ASSERT_TRUE(this->WaitUntilScoreAck());
       auto ack = this->scoreAcks.front();
-      EXPECT_EQ(ack.report_id(), this->reportCount);
-      EXPECT_EQ(ack.artifact().type(), type);
-      EXPECT_EQ(ack.artifact().pose().position().x(), pose.position().x());
-      EXPECT_EQ(ack.artifact().pose().position().y(), pose.position().y());
-      EXPECT_EQ(ack.artifact().pose().position().z(), pose.position().z());
-      EXPECT_EQ(ack.run(), 1u);
-      EXPECT_EQ(ack.report_status(), "scored");
-      EXPECT_EQ(ack.score_change(), 1);
+      EXPECT_EQ(3u, ack.report_id());
+      EXPECT_EQ(type, ack.artifact().type());
+      EXPECT_EQ(pose.position().x(), ack.artifact().pose().position().x());
+      EXPECT_EQ(pose.position().y(), ack.artifact().pose().position().y());
+      EXPECT_EQ(pose.position().z(), ack.artifact().pose().position().z());
+      EXPECT_EQ(1u, ack.run());
+      EXPECT_EQ("scored", ack.report_status());
+      EXPECT_EQ(1, ack.score_change());
       this->scoreAcks.pop();
     }
   }
@@ -228,11 +228,11 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     {
       ASSERT_TRUE(this->WaitUntilScoreAck());
       auto ack = this->scoreAcks.front();
-      EXPECT_EQ(ack.report_id(), this->reportCount);
-      EXPECT_EQ(ack.artifact().type(), type);
-      EXPECT_EQ(ack.run(), 1u);
-      EXPECT_EQ(ack.report_status(), "scoring finished");
-      EXPECT_EQ(ack.score_change(), 0);
+      EXPECT_EQ(3u, ack.report_id());
+      EXPECT_EQ(type, ack.artifact().type());
+      EXPECT_EQ(1u, ack.run());
+      EXPECT_EQ("scoring finished", ack.report_status());
+      EXPECT_EQ(0, ack.score_change());
       this->scoreAcks.pop();
     }
   }
