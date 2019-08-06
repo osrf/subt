@@ -16,7 +16,6 @@ find_package(catkin REQUIRED COMPONENTS
 find_package(ignition-math6 REQUIRED)
 find_package(ignition-msgs4 REQUIRED)
 find_package(ignition-transport7 REQUIRED)
-find_package(ignition-common3 REQUIRED COMPONENTS profiler)
 
 catkin_package(
   CATKIN_DEPENDS
@@ -34,9 +33,7 @@ add_executable(pose_tf_broadcaster
 
 target_link_libraries(pose_tf_broadcaster
   ${catkin_LIBRARIES}
-  ignition-common3::profiler
 )
-target_compile_definitions(pose_tf_broadcaster PUBLIC "IGN_PROFILER_ENABLE=1")
 
 add_executable(subt_ros_relay src/SubtRosRelay.cc)
 target_include_directories(subt_ros_relay
