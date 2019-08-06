@@ -1,17 +1,14 @@
 <?xml version="1.0"?>
-<!-- Usage: ign launch tunnel_circuit_practice.ign
-            [worldName:=<worldName>
-             robotName1:=<robotName> robotConfig1:=<robotConfig>
+<!-- Usage: ign launch virtual_stix.ign
+            [robotName1:=<robotName> robotConfig1:=<robotConfig>
              robotName2:=<robotName> robotConfig2:=<robotConfig>
              ... ]
 
-    The [worldName] command line argument is optional,
-          defaults to tunnel_circuit_practice_01 if not specified
     The [robotNameX] command line argument is optional, where X can be 1 to 20
 
-    Example that loads tunnel circuit practice world with an X2 robot with configuration 3
+    Example that loads virtual stix with an X2 robot with configuration 3
 
-      ign launch tunnel_circuit_practice.ign worldName:=tunnel_circuit_practice_01
+      ign launch virtual_stix.ign
           robotName1:=X2_3 robotConfig1:=X2_SENSOR_CONFIG_3
 -->
 
@@ -41,14 +38,8 @@
   end
 %>
 
-<%
-  # Check if worldName is not defined or is empty/nil
-  if !defined?(worldName) || worldName == nil || worldName.empty?
-    $worldName = 'tunnel_circuit_practice_01'
-  else
-    $worldName = worldName
-  end
 
+<%
   if !defined?(headless) || headless == nil || headless.empty?
     $headless = false
   elsif headless == 'true' || headless == 'True' || headless == '1'
@@ -63,11 +54,10 @@
     $durationSec = durationSec
   end
 
-  worldNumber = $worldName.split('_').last
 
+  $worldName = 'virtual_stix'
   $x3Version = '4'
 %>
-
 
 <ignition version='1.0'>
   <env>
@@ -145,15 +135,16 @@
             filename="libGameLogicPlugin.so"
             name="subt::GameLogicPlugin">
       <!-- The collection of artifacts to locate -->
+
       <world_name><%= $worldName %></world_name>
 
       <duration_seconds><%= $durationSec %></duration_seconds>
 
       <logging>
         <!-- Use the <path> element to control where to record the log file.
-             The HOME path is used by default -->
+             The HOME path is used by default-->
         <path>/tmp/ign/logs</path>
-        <filename_prefix>subt_tunnel_practice</filename_prefix>
+        <filename_prefix>subt_virtual_stix</filename_prefix>
       </logging>
 
       <artifact>
@@ -229,6 +220,7 @@
           filename="libignition-launch-gazebogui.so">
       <world_name><%= $worldName %></world_name>
       <window_title>SubT Simulator</window_title>
+      <window_icon>@CMAKE_INSTALL_PREFIX@/@CATKIN_PACKAGE_SHARE_DESTINATION@/images/SubT-logo_notext_color.png</window_icon>
       <plugin filename="GzScene3D" name="3D View">
         <ignition-gui>
           <title>3D View</title>
@@ -238,7 +230,7 @@
 
         <engine>ogre2</engine>
         <scene>scene</scene>
-        <ambient_light>0.1 0.1 0.1</ambient_light>
+        <ambient_light>0.2 0.2 0.2</ambient_light>
         <background_color>0.8 0.8 0.8</background_color>
         <camera_pose>-6.3 -4.2 3.6 0 0.268 0.304</camera_pose>
       </plugin>
@@ -289,16 +281,16 @@
         <topic>/world/<%= $worldName %>/stats</topic>
       </plugin>
       <!-- Entity tree -->
-      <!-- <plugin filename="EntityTree" name="Entity tree">
+      <plugin filename="EntityTree" name="Entity tree">
         <ignition-gui>
           <title>Entity tree</title>
         </ignition-gui>
-      </plugin> -->
+      </plugin>
 
       <!-- Transform Control -->
-      <!-- <plugin filename="TransformControl" name="Transform Control">
+      <plugin filename="TransformControl" name="Transform Control">
         <service>/world/<%= $worldName %>/gui/transform_mode</service>
-      </plugin> -->
+      </plugin>
     </plugin>
   </executable_wrapper>
   <%end%>
@@ -340,7 +332,6 @@
           name="subt::BaseStationPlugin"
           filename="libBaseStationPlugin.so">
   </plugin>
-
 
 <%
   def spawnX1(_name, _config, _x, _y)

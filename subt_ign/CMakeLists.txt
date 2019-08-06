@@ -195,6 +195,19 @@ target_include_directories(${controller_plugin_name}
    LIBRARY DESTINATION lib
    RUNTIME DESTINATION bin)
 
+##################
+## Launch files ##
+##################
+
+file(GLOB launch_files "launch/*.ign.in")
+foreach(launch_file ${launch_files})
+  get_filename_component(name ${launch_file} NAME_WE)
+  configure_file(
+    "${launch_file}"
+    "${CMAKE_CURRENT_BINARY_DIR}/launch/${name}.ign" @ONLY
+  )
+endforeach()
+
 ###########
 ## Tests ##
 ###########
@@ -254,9 +267,13 @@ install(FILES cmake/${PROJECT_NAME}-extras.cmake
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/cmake)
 
 # Install all the launch files
-install(DIRECTORY launch/
+install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/launch/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch)
 
 # Install all the world files
 install(DIRECTORY worlds/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/worlds)
+
+# Install all the images
+install(DIRECTORY images/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/images)

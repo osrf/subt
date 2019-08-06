@@ -1,18 +1,24 @@
 <?xml version="1.0"?>
+<!-- This launch file is used by CloudSim to run Ignition Gazebo and the
+     plugins needed by SubT. It does not run ROS. A separete launch file,
+     cloudsim_bridge.ign, starts a ROS master and the ROS1-Ignition bridge.
 
-<!-- This is used by tests, you should not run this manually -->
+     For more information, please refer to
+         https://bitbucket.org/osrf/subt/wiki/tutorials/cloudsim
 
-
-<!-- Usage: ign launch competition_no_ros.ign
-            [robotName1:=<robotName> robotConfig1:=<robotConfig>
+    Usage: ign launch cloudsim_sim.ign
+            [worldName:=<worldName>
+             robotName1:=<robotName> robotConfig1:=<robotConfig>
              robotName2:=<robotName> robotConfig2:=<robotConfig>
              ... ]
 
+    The [worldName] command line argument is optional,
+          defaults to tunnel_circuit_practice_01 if not specified
     The [robotNameX] command line argument is optional, where X can be 1 to 20
 
-    Example that loads tunnel qual world with an X2 robot with configuration 3
+    Example that loads tunnel circuit practice world with an X2 robot with configuration 3
 
-      ign launch competition.ign
+      ign launch cloudsim_sim.ign worldName:=tunnel_circuit_practice_01
           robotName1:=X2_3 robotConfig1:=X2_SENSOR_CONFIG_3
 -->
 
@@ -43,6 +49,13 @@
 %>
 
 <%
+  # Check if worldName is not defined or is empty/nil
+  if !defined?(worldName) || worldName == nil || worldName.empty?
+    $worldName = 'tunnel_circuit_practice_01'
+  else
+    $worldName = worldName
+  end
+
   if !defined?(headless) || headless == nil || headless.empty?
     $headless = false
   elsif headless == 'true' || headless == 'True' || headless == '1'
@@ -57,9 +70,11 @@
     $durationSec = durationSec
   end
 
-  $worldName = 'tunnel_qual_ign'
+  worldNumber = $worldName.split('_').last
+
   $x3Version = '4'
 %>
+
 
 <ignition version='1.0'>
   <env>
@@ -120,27 +135,27 @@
             filename="libignition-gazebo-air-pressure-system.so"
             name="ignition::gazebo::systems::AirPressure">
     </plugin>
-    <!-- The SubT challenge logic plugin -->
-    <plugin entity_name="<%=$worldName %>"
-            entity_type="world"
-            name="subt::GameLogicPlugin"
-            filename="libGameLogicPlugin.so">
-      <!-- The collection of artifacts to locate -->
 
+    <!-- The SubT challenge logic plugin -->
+    <plugin entity_name="<%= $worldName %>"
+            entity_type="world"
+            filename="libGameLogicPlugin.so"
+            name="subt::GameLogicPlugin">
+      <!-- The collection of artifacts to locate -->
       <world_name><%= $worldName %></world_name>
 
       <duration_seconds><%= $durationSec %></duration_seconds>
 
       <logging>
-        <!-- Use the <path> element to control where to record the log file. 
-             The HOME path is used by default-->
+        <!-- Use the <path> element to control where to record the log file.
+             The HOME path is used by default -->
         <path>/tmp/ign/logs</path>
         <filename_prefix>subt_tunnel</filename_prefix>
       </logging>
 
       <artifact>
-        <name>radio_1</name>
-        <type>TYPE_RADIO</type>
+        <name>extinguisher_1</name>
+        <type>TYPE_EXTINGUISHER</type>
       </artifact>
       <artifact>
         <name>backpack_1</name>
@@ -151,31 +166,47 @@
         <type>TYPE_PHONE</type>
       </artifact>
       <artifact>
-        <name>toolbox_1</name>
-        <type>TYPE_TOOLBOX</type>
+        <name>rescue_randy_1</name>
+        <type>TYPE_RESCUE_RANDY</type>
       </artifact>
       <artifact>
-        <name>extinguisher_1</name>
+        <name>extinguisher_2</name>
         <type>TYPE_EXTINGUISHER</type>
       </artifact>
       <artifact>
-        <name>radio_2</name>
-        <type>TYPE_RADIO</type>
+        <name>drill_1</name>
+        <type>TYPE_DRILL</type>
       </artifact>
       <artifact>
-        <name>toolbox_2</name>
-        <type>TYPE_TOOLBOX</type>
+        <name>drill_2</name>
+        <type>TYPE_DRILL</type>
+      </artifact>
+      <artifact>
+        <name>drill_3</name>
+        <type>TYPE_DRILL</type>
+      </artifact>
+      <artifact>
+        <name>drill_4</name>
+        <type>TYPE_DRILL</type>
       </artifact>
       <artifact>
         <name>phone_2</name>
         <type>TYPE_PHONE</type>
       </artifact>
       <artifact>
-        <name>electrical_box_1</name>
-        <type>TYPE_ELECTRICAL_BOX</type>
+        <name>backpack_2</name>
+        <type>TYPE_BACKPACK</type>
       </artifact>
       <artifact>
-        <name>backpack_2</name>
+        <name>rescue_randy_2</name>
+        <type>TYPE_RESCUE_RANDY</type>
+      </artifact>
+      <artifact>
+        <name>rescue_randy_3</name>
+        <type>TYPE_RESCUE_RANDY</type>
+      </artifact>
+      <artifact>
+        <name>backpack_3</name>
         <type>TYPE_BACKPACK</type>
       </artifact>
       <artifact>
@@ -183,23 +214,7 @@
         <type>TYPE_PHONE</type>
       </artifact>
       <artifact>
-        <name>valve_1</name>
-        <type>TYPE_VALVE</type>
-      </artifact>
-      <artifact>
-        <name>valve_2</name>
-        <type>TYPE_VALVE</type>
-      </artifact>
-      <artifact>
-        <name>electrical_box_2</name>
-        <type>TYPE_ELECTRICAL_BOX</type>
-      </artifact>
-      <artifact>
-        <name>backpack_3</name>
-        <type>TYPE_BACKPACK</type>
-      </artifact>
-      <artifact>
-        <name>extinguisher_2</name>
+        <name>extinguisher_3</name>
         <type>TYPE_EXTINGUISHER</type>
       </artifact>
     </plugin>
@@ -211,6 +226,7 @@
           filename="libignition-launch-gazebogui.so">
       <world_name><%= $worldName %></world_name>
       <window_title>SubT Simulator</window_title>
+      <window_icon>@CMAKE_INSTALL_PREFIX@/@CATKIN_PACKAGE_SHARE_DESTINATION@/images/SubT-logo_notext_color.png</window_icon>
       <plugin filename="GzScene3D" name="3D View">
         <ignition-gui>
           <title>3D View</title>
@@ -220,13 +236,9 @@
 
         <engine>ogre2</engine>
         <scene>scene</scene>
-        <ambient_light>0.2 0.2 0.1</ambient_light>
+        <ambient_light>0.2 0.2 0.2</ambient_light>
         <background_color>0.8 0.8 0.8</background_color>
         <camera_pose>-6.3 -4.2 3.6 0 0.268 0.304</camera_pose>
-        <service>/world/<%= $worldName %>/scene/info</service>
-        <pose_topic>/world/<%= $worldName %>/pose/info</pose_topic>
-        <scene_topic>/world/<%= $worldName %>/scene/info</scene_topic>
-        <deletion_topic>/world/<%= $worldName %>/scene/deletion</deletion_topic>
       </plugin>
       <plugin filename="WorldControl" name="World control">
         <ignition-gui>
@@ -274,36 +286,20 @@
         <iterations>true</iterations>
         <topic>/world/<%= $worldName %>/stats</topic>
       </plugin>
+      <!-- Entity tree -->
+      <plugin filename="EntityTree" name="Entity tree">
+        <ignition-gui>
+          <title>Entity tree</title>
+        </ignition-gui>
+      </plugin>
+
+      <!-- Transform Control -->
+      <plugin filename="TransformControl" name="Transform Control">
+        <service>/world/<%= $worldName %>/gui/transform_mode</service>
+      </plugin>
     </plugin>
   </executable_wrapper>
   <%end%>
-
-  <!-- Load a joystick plugin that will read from a device and output to a
-       topic -->
-  <!--<plugin name="ignition::launch::Joystick"-->
-  <!--        filename="libignition-launch-joystick.so">-->
-  <!--  <device>/dev/input/js0</device>-->
-  <!--  <sticky_buttons>false</sticky_buttons>-->
-  <!--  <dead_zone>0.05</dead_zone>-->
-  <!--  <rate>60</rate>-->
-  <!--  <accumulation_rate>1000</accumulation_rate>-->
-  <!--</plugin>-->
-
-  <!-- Load a plugin that transforms a joystick message to a
-       twist message -->
-  <!--<plugin name="ignition::launch::JoyToTwist"-->
-  <!--        filename="libignition-launch-joytotwist.so">-->
-  <!--  <input_topic>/joy</input_topic>-->
-  <!--  <output_topic>/model/x1/cmd_vel</output_topic>-->
-  <!--</plugin>-->
-
-  <!-- Load a plugin that transforms a joystick message to a
-       twist message -->
-  <!--<plugin name="ignition::launch::JoyToTwist"-->
-  <!--        filename="libignition-launch-joytotwist.so">-->
-  <!--  <input_topic>/joy</input_topic>-->
-  <!--  <output_topic>/model/x2/cmd_vel</output_topic>-->
-  <!--</plugin>-->
 
   <!-- The SubT challenge comms broker plugin -->
   <plugin entity_name="<%= $worldName %>"
@@ -346,19 +342,6 @@
 
 <%
   def spawnX1(_name, _config, _x, _y)
-    uav=0
-    laserScan=0
-    stereoCam=0
-    lidar3d=0
-    if _config == "1" or _config == "2"
-      laserScan=1
-    end
-    if _config == "3" or _config == "4"
-      lidar3d=1
-    end
-    if _config == "5"
-      stereoCam=1
-    end
     "<plugin name=\"ignition::launch::GazeboFactory\"\n"\
     "        filename=\"libignition-launch-gazebo-factory.so\">\n"\
     "  <name>#{_name}</name>\n"\
@@ -397,8 +380,8 @@
     "      <voltage>12.694</voltage>\n"\
     "      <open_circuit_voltage_constant_coef>12.694</open_circuit_voltage_constant_coef>\n"\
     "      <open_circuit_voltage_linear_coef>-3.1424</open_circuit_voltage_linear_coef>\n"\
-    "      <initial_charge>78.4</initial_charge>\n"\
-    "      <capacity>78.4</capacity>\n"\
+    "      <initial_charge>18.0</initial_charge>\n"\
+    "      <capacity>18.0</capacity>\n"\
     "      <resistance>0.061523</resistance>\n"\
     "      <smooth_current_tau>1.9499</smooth_current_tau>\n"\
     "      <power_load>6.6</power_load>\n"\
@@ -410,19 +393,6 @@
   end
 
   def spawnX2(_name, _config, _x, _y)
-    uav=0
-    laserScan=0
-    stereoCam=0
-    lidar3d=0
-    if _config == "1" or _config == "2" or _config == "3" or _config == "4"
-      laserScan=1
-    end
-    if _config == "5"
-      stereoCam=1
-    end
-    if _config == "6"
-      lidar3d=1
-    end
     "<plugin name=\"ignition::launch::GazeboFactory\"\n"\
     "        filename=\"libignition-launch-gazebo-factory.so\">\n"\
     "  <name>#{_name}</name>\n"\
@@ -461,8 +431,8 @@
     "      <voltage>12.694</voltage>\n"\
     "      <open_circuit_voltage_constant_coef>12.694</open_circuit_voltage_constant_coef>\n"\
     "      <open_circuit_voltage_linear_coef>-3.1424</open_circuit_voltage_linear_coef>\n"\
-    "      <initial_charge>78.4</initial_charge>\n"\
-    "      <capacity>78.4</capacity>\n"\
+    "      <initial_charge>18.0</initial_charge>\n"\
+    "      <capacity>18.0</capacity>\n"\
     "      <resistance>0.061523</resistance>\n"\
     "      <smooth_current_tau>1.9499</smooth_current_tau>\n"\
     "      <power_load>6.6</power_load>\n"\
@@ -474,16 +444,6 @@
   end
 
   def spawnX3(_name, _config, _x, _y)
-    uav=1
-    laserScan=0
-    stereoCam=0
-    rgbdCam=0
-    if _config == "3" || _config == "4"
-      rgbdCam=1
-    end
-    if _config == "5"
-      stereoCam=1
-    end
     "<plugin name=\"ignition::launch::GazeboFactory\"\n"\
     "        filename=\"libignition-launch-gazebo-factory.so\">\n"\
     "  <name>#{_name}</name>\n"\
@@ -494,7 +454,7 @@
     "  <sdf version='1.6'>\n"\
     "  <include>\n"\
     "    <name>#{_name}</name>\n"\
-    "    <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X3 UAV Config #{_config}/#{$x3Version}</uri>\n"\
+    "    <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X3 UAV Config #{_config}</uri>\n"\
     "    <!-- Publish robot state information -->\n"\
     "    <plugin filename=\"libignition-gazebo-pose-publisher-system.so\"\n"\
     "      name=\"ignition::gazebo::systems::PosePublisher\">\n"\
@@ -600,19 +560,6 @@
   end
 
   def spawnX4(_name, _config, _x, _y)
-    uav=1
-    laserScan=0
-    stereoCam=0
-    rgbdCam=0
-    if _config == "2"
-      rgbdCam=1
-    end
-    if _config == "3" or _config == "4"
-      laserScan=1
-    end
-    if _config == "5"
-      stereoCam=1
-    end
     "<plugin name=\"ignition::launch::GazeboFactory\"\n"\
     "        filename=\"libignition-launch-gazebo-factory.so\">\n"\
     "  <name>#{_name}</name>\n"\
@@ -799,6 +746,5 @@
     end
   end
 %>
-
 
 </ignition>
