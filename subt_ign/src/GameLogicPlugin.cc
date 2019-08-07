@@ -424,7 +424,7 @@ void GameLogicPlugin::PostUpdate(
         return true;
       });
 
-  // Set the artifact origion pose
+  // Set the artifact origin pose
   if (this->dataPtr->artifactOriginPose == ignition::math::Pose3d::Zero)
   {
     static bool errorSent = false;
@@ -761,7 +761,9 @@ void GameLogicPluginPrivate::ParseArtifacts(
 
     ignmsg << "Adding artifact name[" << modelName << "] type string["
       << modelTypeStr << "] typeid[" << static_cast<int>(modelType) << "]\n";
-    this->artifacts[modelType][modelName] = ignition::math::Pose3d::Zero;
+    this->artifacts[modelType][modelName] =
+        ignition::math::Pose3d(ignition::math::INF_D, ignition::math::INF_D,
+            ignition::math::INF_D, 0, 0, 0);
         artifactElem = artifactElem->GetNextElement("artifact");
 
     // Helper variable that is the total number of artifacts.
