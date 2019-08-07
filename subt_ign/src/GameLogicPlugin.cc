@@ -631,7 +631,7 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
         || std::isinf(artifactPos.Z()))
       continue;
 
-    double distance = observedObjectPose.Distance(object.second.Pos());
+    double distance = observedObjectPose.Distance(artifactPos);
 
     if (distance < std::get<2>(minDistance))
     {
