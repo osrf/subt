@@ -625,6 +625,12 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
   for (const std::pair<std::string, ignition::math::Pose3d> &object :
        potentialArtifacts)
   {
+    // make sure the artifact has been loaded
+    ignition::math::Vector3d artifactPos = object.second.Pos();
+    if (std::isinf(artifactPos.X()) || std::isinf(artifactPos.Y())
+        || std::isinf(artifactPos.Z()))
+      continue;
+
     double distance = observedObjectPose.Distance(object.second.Pos());
 
     if (distance < std::get<2>(minDistance))
@@ -645,7 +651,7 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
 
     // Keep track of the artifacts that were found.
     this->foundArtifacts.insert(std::get<0>(minDistance));
-    this->Log() << "found_artifact " << std::get<0>(minDistance) <<  std::endl;
+    this->Log() << "found_artifact " << std::get<0>(minDistance) << std::endl;
   }
 
   this->Log() << "calculated_dist " << std::get<2>(minDistance) << std::endl;
