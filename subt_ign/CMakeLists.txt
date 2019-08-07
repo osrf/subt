@@ -199,6 +199,10 @@ target_include_directories(${controller_plugin_name}
 ## Launch files ##
 ##################
 
+set(SUBT_LOGO_FILE
+  ${CMAKE_INSTALL_PREFIX}/${CATKIN_PACKAGE_SHARE_DESTINATION}/images/SubT_logo.svg
+)
+
 file(GLOB launch_files "launch/*.ign.in")
 foreach(launch_file ${launch_files})
   get_filename_component(name ${launch_file} NAME_WE)

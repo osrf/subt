@@ -180,7 +180,7 @@
           filename="libignition-launch-gazebogui.so">
       <world_name><%= $worldName %></world_name>
       <window_title>SubT Simulator</window_title>
-      <window_icon>@CMAKE_INSTALL_PREFIX@/@CATKIN_PACKAGE_SHARE_DESTINATION@/images/SubT-logo_notext_color.png</window_icon>
+      <window_icon>@SUBT_LOGO_FILE@</window_icon>
       <plugin filename="GzScene3D" name="3D View">
         <ignition-gui>
           <title>3D View</title>
