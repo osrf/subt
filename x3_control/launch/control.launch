@@ -8,9 +8,11 @@
   <group ns="$(arg x3_name)">
     <node pkg="robot_localization" type="ukf_localization_node"
           name="robot_localization_ukf_node_odom">
-      <param name="frequency" value="1000." />
+      <!--The frequency cannot exceed the simulation frequency, which is currently set to 250 Hz (step size of 0.004 ms)-->
+      <param name="frequency" value="250.0" />
       <param name="sensor_timeout" value="0.2" />
       <param name="two_d_mode" value="false" />
+      <param name="transform_timeout" value="0.005" />
       <param name="odom_frame" value="$(arg x3_name)/odom" />
       <param name="base_link_frame" value="$(arg x3_name)" />
       <param name="base_link_frame_output" value="$(arg x3_name)" />
