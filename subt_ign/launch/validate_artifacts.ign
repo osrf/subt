@@ -180,7 +180,7 @@
           filename="libignition-launch-gazebogui.so">
       <world_name><%= $worldName %></world_name>
       <window_title>SubT Simulator</window_title>
-      <window_icon>@SUBT_LOGO_FILE@</window_icon>
+      <window_icon><%= ENV['SUBT_IMAGES_PATH'] %>/SubT_logo.svg</window_icon>
       <plugin filename="GzScene3D" name="3D View">
         <ignition-gui>
           <title>3D View</title>

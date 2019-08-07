@@ -195,23 +195,6 @@ target_include_directories(${controller_plugin_name}
    LIBRARY DESTINATION lib
    RUNTIME DESTINATION bin)
 
-##################
-## Launch files ##
-##################
-
-set(SUBT_LOGO_FILE
-  ${CMAKE_INSTALL_PREFIX}/${CATKIN_PACKAGE_SHARE_DESTINATION}/images/SubT_logo.svg
-)
-
-file(GLOB launch_files "launch/*.ign.in")
-foreach(launch_file ${launch_files})
-  get_filename_component(name ${launch_file} NAME_WE)
-  configure_file(
-    "${launch_file}"
-    "${CMAKE_CURRENT_BINARY_DIR}/launch/${name}.ign" @ONLY
-  )
-endforeach()
-
 ###########
 ## Tests ##
 ###########
@@ -271,7 +254,7 @@ install(FILES cmake/${PROJECT_NAME}-extras.cmake
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/cmake)
 
 # Install all the launch files
-install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/launch/
+install(DIRECTORY launch/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch)
 
 # Install all the world files

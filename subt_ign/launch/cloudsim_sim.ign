@@ -1,14 +1,24 @@
 <?xml version="1.0"?>
-<!-- Usage: ign launch virtual_stix.ign
-            [robotName1:=<robotName> robotConfig1:=<robotConfig>
+<!-- This launch file is used by CloudSim to run Ignition Gazebo and the
+     plugins needed by SubT. It does not run ROS. A separete launch file,
+     cloudsim_bridge.ign, starts a ROS master and the ROS1-Ignition bridge.
+
+     For more information, please refer to
+         https://bitbucket.org/osrf/subt/wiki/tutorials/cloudsim
+
+    Usage: ign launch cloudsim_sim.ign
+            [worldName:=<worldName>
+             robotName1:=<robotName> robotConfig1:=<robotConfig>
              robotName2:=<robotName> robotConfig2:=<robotConfig>
              ... ]
 
+    The [worldName] command line argument is optional,
+          defaults to tunnel_circuit_practice_01 if not specified
     The [robotNameX] command line argument is optional, where X can be 1 to 20
 
-    Example that loads virtual stix with an X2 robot with configuration 3
+    Example that loads tunnel circuit practice world with an X2 robot with configuration 3
 
-      ign launch virtual_stix.ign
+      ign launch cloudsim_sim.ign worldName:=tunnel_circuit_practice_01
           robotName1:=X2_3 robotConfig1:=X2_SENSOR_CONFIG_3
 -->
 
@@ -38,8 +48,14 @@
   end
 %>
 
-
 <%
+  # Check if worldName is not defined or is empty/nil
+  if !defined?(worldName) || worldName == nil || worldName.empty?
+    $worldName = 'tunnel_circuit_practice_01'
+  else
+    $worldName = worldName
+  end
+
   if !defined?(headless) || headless == nil || headless.empty?
     $headless = false
   elsif headless == 'true' || headless == 'True' || headless == '1'
@@ -54,26 +70,17 @@
     $durationSec = durationSec
   end
 
+  worldNumber = $worldName.split('_').last
 
-  $worldName = 'virtual_stix'
   $x3Version = '4'
 %>
 
+
 <ignition version='1.0'>
-  <env>
-    <name>ROS_MASTER_URI</name>
-    <value>http://localhost:11311</value>
-  </env>
   <env>
     <name>IGN_GAZEBO_SYSTEM_PLUGIN_PATH</name>
     <value>$LD_LIBRARY_PATH</value>
   </env>
-
-  <!-- Start ROS first. This is a bit hacky for now. -->
-  <!-- Make sure to source /opt/ros/melodic/setup.bash -->
-  <executable name='ros'>
-    <command>roslaunch subt_ros competition_init.launch world_name:=<%=$worldName%> vehicle_topics:=<%=(robots.empty?)?"1":"0"%></command>
-  </executable>
 
   <plugin name="ignition::launch::GazeboServer"
           filename="libignition-launch-gazebo.so">
@@ -135,16 +142,15 @@
             filename="libGameLogicPlugin.so"
             name="subt::GameLogicPlugin">
       <!-- The collection of artifacts to locate -->
-
       <world_name><%= $worldName %></world_name>
 
       <duration_seconds><%= $durationSec %></duration_seconds>
 
       <logging>
         <!-- Use the <path> element to control where to record the log file.
-             The HOME path is used by default-->
+             The HOME path is used by default -->
         <path>/tmp/ign/logs</path>
-        <filename_prefix>subt_virtual_stix</filename_prefix>
+        <filename_prefix>subt_tunnel</filename_prefix>
       </logging>
 
       <artifact>
@@ -220,7 +226,7 @@
           filename="libignition-launch-gazebogui.so">
       <world_name><%= $worldName %></world_name>
       <window_title>SubT Simulator</window_title>
-      <window_icon>@SUBT_LOGO_FILE@</window_icon>
+      <window_icon><%= ENV['SUBT_IMAGES_PATH'] %>/SubT_logo.svg</window_icon>
       <plugin filename="GzScene3D" name="3D View">
         <ignition-gui>
           <title>3D View</title>
@@ -333,21 +339,9 @@
           filename="libBaseStationPlugin.so">
   </plugin>
 
+
 <%
   def spawnX1(_name, _config, _x, _y)
-    uav=0
-    laserScan=0
-    stereoCam=0
-    lidar3d=0
-    if _config == "1" or _config == "2"
-      laserScan=1
-    end
-    if _config == "3" or _config == "4"
-      lidar3d=1
-    end
-    if _config == "5"
-      stereoCam=1
-    end
     "<plugin name=\"ignition::launch::GazeboFactory\"\n"\
     "        filename=\"libignition-launch-gazebo-factory.so\">\n"\
     "  <name>#{_name}</name>\n"\
@@ -386,8 +380,8 @@
     "      <voltage>12.694</voltage>\n"\
     "      <open_circuit_voltage_constant_coef>12.694</open_circuit_voltage_constant_coef>\n"\
     "      <open_circuit_voltage_linear_coef>-3.1424</open_circuit_voltage_linear_coef>\n"\
-    "      <initial_charge>78.4</initial_charge>\n"\
-    "      <capacity>78.4</capacity>\n"\
+    "      <initial_charge>18.0</initial_charge>\n"\
+    "      <capacity>18.0</capacity>\n"\
     "      <resistance>0.061523</resistance>\n"\
     "      <smooth_current_tau>1.9499</smooth_current_tau>\n"\
     "      <power_load>6.6</power_load>\n"\
@@ -395,29 +389,10 @@
     "    </plugin>\n"\
     "  </include>\n"\
     "  </sdf>\n"\
-    "</plugin>\n"\
-    "<executable name='x1_description'>\n"\
-    "  <command>roslaunch --wait subt_ros x1_description.launch world_name:=#{$worldName} name:=#{_name}</command>\n"\
-    "</executable>\n"\
-    "<executable name='x1_ros_ign_bridge'>\n"\
-      "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} lidar_3d:=#{lidar3d}</command>\n"\
-    "</executable>\n"
+    "</plugin>\n"
   end
 
   def spawnX2(_name, _config, _x, _y)
-    uav=0
-    laserScan=0
-    stereoCam=0
-    lidar3d=0
-    if _config == "1" or _config == "2" or _config == "3" or _config == "4"
-      laserScan=1
-    end
-    if _config == "5"
-      stereoCam=1
-    end
-    if _config == "6"
-      lidar3d=1
-    end
     "<plugin name=\"ignition::launch::GazeboFactory\"\n"\
     "        filename=\"libignition-launch-gazebo-factory.so\">\n"\
     "  <name>#{_name}</name>\n"\
@@ -456,8 +431,8 @@
     "      <voltage>12.694</voltage>\n"\
     "      <open_circuit_voltage_constant_coef>12.694</open_circuit_voltage_constant_coef>\n"\
     "      <open_circuit_voltage_linear_coef>-3.1424</open_circuit_voltage_linear_coef>\n"\
-    "      <initial_charge>78.4</initial_charge>\n"\
-    "      <capacity>78.4</capacity>\n"\
+    "      <initial_charge>18.0</initial_charge>\n"\
+    "      <capacity>18.0</capacity>\n"\
     "      <resistance>0.061523</resistance>\n"\
     "      <smooth_current_tau>1.9499</smooth_current_tau>\n"\
     "      <power_load>6.6</power_load>\n"\
@@ -465,26 +440,10 @@
     "    </plugin>\n"\
     "  </include>\n"\
     "  </sdf>\n"\
-    "</plugin>\n"\
-    "<executable name='x2_description'>\n"\
-    "  <command>roslaunch --wait subt_ros x2_description.launch world_name:=#{$worldName} name:=#{_name}</command>\n"\
-    "</executable>\n"\
-    "<executable name='x2_ros_ign_bridge'>\n"\
-    "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} lidar_3d:=#{lidar3d}</command>\n"\
-    "</executable>\n"
+    "</plugin>\n"
   end
 
   def spawnX3(_name, _config, _x, _y)
-    uav=1
-    laserScan=0
-    stereoCam=0
-    rgbdCam=0
-    if _config == "3" || _config == "4"
-      rgbdCam=1
-    end
-    if _config == "5"
-      stereoCam=1
-    end
     "<plugin name=\"ignition::launch::GazeboFactory\"\n"\
     "        filename=\"libignition-launch-gazebo-factory.so\">\n"\
     "  <name>#{_name}</name>\n"\
@@ -495,7 +454,7 @@
     "  <sdf version='1.6'>\n"\
     "  <include>\n"\
     "    <name>#{_name}</name>\n"\
-    "    <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X3 UAV Config #{_config}/#{$x3Version}</uri>\n"\
+    "    <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X3 UAV Config #{_config}</uri>\n"\
     "    <!-- Publish robot state information -->\n"\
     "    <plugin filename=\"libignition-gazebo-pose-publisher-system.so\"\n"\
     "      name=\"ignition::gazebo::systems::PosePublisher\">\n"\
@@ -597,32 +556,10 @@
     "    </plugin>\n"\
     "  </include>\n"\
     "  </sdf>\n"\
-    "</plugin>\n"\
-    "<executable name='x3_description'>\n"\
-    "  <command>roslaunch --wait subt_ros x3_description.launch world_name:=#{$worldName} name:=#{_name}</command>\n"\
-    "</executable>\n"\
-    "<executable name='X3_controller'>\n"\
-    "  <command>roslaunch --wait x3_control control.launch world_name:=#{$worldName} x3_name:=#{_name}</command>\n"\
-    "</executable>\n"\
-    "<executable name='x3_ros_ign_bridge'>\n"\
-      "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} rgbd_cam:=#{rgbdCam}</command>\n"\
-    "</executable>\n"
+    "</plugin>\n"
   end
 
   def spawnX4(_name, _config, _x, _y)
-    uav=1
-    laserScan=0
-    stereoCam=0
-    rgbdCam=0
-    if _config == "2"
-      rgbdCam=1
-    end
-    if _config == "3" or _config == "4"
-      laserScan=1
-    end
-    if _config == "5"
-      stereoCam=1
-    end
     "<plugin name=\"ignition::launch::GazeboFactory\"\n"\
     "        filename=\"libignition-launch-gazebo-factory.so\">\n"\
     "  <name>#{_name}</name>\n"\
@@ -773,16 +710,7 @@
     "    </plugin>\n"\
     "    </include>\n"\
     "  </sdf>\n"\
-    "</plugin>\n"\
-    "<executable name='X4_controller'>\n"\
-    "  <command>roslaunch --wait x4_control control.launch world_name:=#{$worldName} x4_name:=#{_name}</command>\n"\
-    "</executable>\n"\
-    "<executable name='x4_description'>\n"\
-    "  <command>roslaunch --wait subt_ros x4_description.launch world_name:=#{$worldName} name:=#{_name}</command>\n"\
-    "</executable>\n"\
-    "<executable name='x4_ros_ign_bridge'>\n"\
-    "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} rgbd_cam:=#{rgbdCam}</command>\n"\
-    "</executable>\n"
+    "</plugin>\n"
   end
 %>
 
