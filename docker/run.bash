@@ -77,6 +77,13 @@ then
   DOCKER_OPTS="$DOCKER_OPTS -v $VIMRC:/home/developer/.vimrc:ro"
 fi
 
+# Prevent executing "docker run" when xauth failed.
+if [ ! -f $XAUTH ]
+then
+  echo "[/tmp/.docker.xauth] was not properly created. Exiting..."
+  exit 1
+fi
+
 # Mount extra volumes if needed.
 # E.g.:
 # -v "/opt/sublime_text:/opt/sublime_text" \
