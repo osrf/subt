@@ -141,7 +141,7 @@
       <duration_seconds><%= $durationSec %></duration_seconds>
 
       <logging>
-        <!-- Use the <path> element to control where to record the log file. 
+        <!-- Use the <path> element to control where to record the log file.
              The HOME path is used by default-->
         <path>/tmp/ign/logs</path>
         <filename_prefix>subt_virtual_stix</filename_prefix>
@@ -220,6 +220,7 @@
           filename="libignition-launch-gazebogui.so">
       <world_name><%= $worldName %></world_name>
       <window_title>SubT Simulator</window_title>
+      <window_icon><%= ENV['SUBT_IMAGES_PATH'] %>/SubT_logo.svg</window_icon>
       <plugin filename="GzScene3D" name="3D View">
         <ignition-gui>
           <title>3D View</title>

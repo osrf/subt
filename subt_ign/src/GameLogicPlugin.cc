@@ -424,7 +424,7 @@ void GameLogicPlugin::PostUpdate(
         return true;
       });
 
-  // Set the artifact origion pose
+  // Set the artifact origin pose
   if (this->dataPtr->artifactOriginPose == ignition::math::Pose3d::Zero)
   {
     static bool errorSent = false;
@@ -625,7 +625,13 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
   for (const std::pair<std::string, ignition::math::Pose3d> &object :
        potentialArtifacts)
   {
-    double distance = observedObjectPose.Distance(object.second.Pos());
+    // make sure the artifact has been loaded
+    ignition::math::Vector3d artifactPos = object.second.Pos();
+    if (std::isinf(artifactPos.X()) || std::isinf(artifactPos.Y())
+        || std::isinf(artifactPos.Z()))
+      continue;
+
+    double distance = observedObjectPose.Distance(artifactPos);
 
     if (distance < std::get<2>(minDistance))
     {
@@ -645,7 +651,7 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
 
     // Keep track of the artifacts that were found.
     this->foundArtifacts.insert(std::get<0>(minDistance));
-    this->Log() << "found_artifact " << std::get<0>(minDistance) <<  std::endl;
+    this->Log() << "found_artifact " << std::get<0>(minDistance) << std::endl;
   }
 
   this->Log() << "calculated_dist " << std::get<2>(minDistance) << std::endl;
@@ -761,7 +767,9 @@ void GameLogicPluginPrivate::ParseArtifacts(
 
     ignmsg << "Adding artifact name[" << modelName << "] type string["
       << modelTypeStr << "] typeid[" << static_cast<int>(modelType) << "]\n";
-    this->artifacts[modelType][modelName] = ignition::math::Pose3d::Zero;
+    this->artifacts[modelType][modelName] =
+        ignition::math::Pose3d(ignition::math::INF_D, ignition::math::INF_D,
+            ignition::math::INF_D, 0, 0, 0);
         artifactElem = artifactElem->GetNextElement("artifact");
 
     // Helper variable that is the total number of artifacts.
