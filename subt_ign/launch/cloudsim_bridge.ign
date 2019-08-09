@@ -64,11 +64,6 @@
 
 
 <ignition version='1.0'>
-  <env>
-    <name>ROS_MASTER_URI</name>
-    <value>http://localhost:11311</value>
-  </env>
-
   <!-- Start ROS first. This is a bit hacky for now. -->
   <!-- Make sure to source /opt/ros/melodic/setup.bash -->
   <executable name='ros'>
