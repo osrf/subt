@@ -35,7 +35,7 @@ fi
 IMG=$1
 
 ARGS=("$@")
-
+t
 # Make sure processes in the container can connect to the x server
 # Necessary so gazebo can create a context for OpenGL rendering (even headless)
 XAUTH=/tmp/.docker.xauth
@@ -80,7 +80,7 @@ fi
 # Prevent executing "docker run" when xauth failed.
 if [ ! -f $XAUTH ]
 then
-  echo "[/tmp/.docker.xauth] was not properly created. Exiting..."
+  echo "[$XAUTH] was not properly created. Exiting..."
   exit 1
 fi
 
