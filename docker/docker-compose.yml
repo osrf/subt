@@ -13,6 +13,17 @@
 #
 #   $ docker-compose up
 #
+# Customization:
+#
+# 1. Modify the `sim` sevice's `command:` line to include the number and
+#    type of robots you need.
+#
+# 2. Each robot requires both a `bridge` and `solution` container. Modify the
+#   `bridge` container's `command:` to include only one of the robots
+#   specified in the `sim` `command`. Modify the `solution` container's
+#   `image` to be your own solution. Also, create another `relay_net` for
+#   the `bridge` and `solution` containers. 
+#
 version: "2.4"
 services:
 
@@ -50,10 +61,10 @@ services:
     # The bridge needs two networks. One for simulation and one for the
     # solution.
     networks:
-      sim_net:
-        ipv4_address: 172.28.1.2
       relay_net1:
         ipv4_address: 172.29.1.1
+      sim_net:
+        ipv4_address: 172.28.1.2
     environment:
       - IGN_PARTITION=sim
       - IGN_IP=172.28.1.2
@@ -79,10 +90,10 @@ services:
     image: osrf/subt-virtual-testbed:cloudsim_bridge_latest
     command: robotName1:=X2 robotConfig1:=X2_SENSOR_CONFIG_1
     networks:
-      sim_net:
-        ipv4_address: 172.28.1.3
       relay_net2:
         ipv4_address: 172.30.1.1
+      sim_net:
+        ipv4_address: 172.28.1.3
     environment:
       - IGN_PARTITION=sim
       - IGN_IP=172.28.1.3
@@ -110,11 +121,13 @@ networks:
       config:
         - subnet: 172.28.0.0/16
   relay_net1:
+    internal: true
     ipam:
       driver: default
       config:
         - subnet: 172.29.0.0/16
   relay_net2:
+    internal: true
     ipam:
       driver: default
       config:
