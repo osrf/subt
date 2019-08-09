@@ -50,6 +50,19 @@ usage()
 
 COMMAND=$1
 
+# Get the repo name.
+repo=$(hg paths)
+repo=$(echo ${repo##*/})
+if [[ "$repo" != *"private" ]]; then
+  registry="osrf/subt-virtual-testbed"
+else
+  if [[ -z "${REGISTRY}" ]]; then
+    echo -e "\e[1;31mError: REGISTRY is not set\e[0m"
+    exit 1
+  fi
+  registry="${REGISTRY}"
+fi 
+
 # Sanity check: Make sure that the parameter is supported.
 if [[ "$COMMAND" != "--build" ]] && [[ "$COMMAND" != "--tag" ]] &&
    [[ "$COMMAND" != "--push" ]]  && [[ "$COMMAND" != "--all" ]]; then
@@ -58,21 +71,41 @@ fi
 
 # Build the images.
 if [[ "$COMMAND" == "--build" ]] || [[ "$COMMAND" == "--all" ]]; then
+  echo -e "\e[1;34m## Building cloudsim_sim image\e[0m\n"
   ./build.bash cloudsim_sim --no-cache
+  echo -e "\e[1;34m## Building cloudsim_bridge image\e[0m\n"
   ./build.bash cloudsim_bridge --no-cache
-  ./build.bash subt_sim_entry --no-cache
+
+  # Only build the subt_sim_entry if building for the public dockerhub registry
+  if [[ "$repo" != *"private" ]]; then
+    echo -e "\e[1;34m## Building subt_sim_entry image\e[0m\n"
+    ./build.bash subt_sim_entry --no-cache
+  fi
 fi
 
 # Tag the images.
 if [[ "$COMMAND" == "--tag" ]] || [[ "$COMMAND" == "--all" ]]; then
-  docker tag cloudsim_sim:latest nkoenig/subt-virtual-testbed:cloudsim_sim_latest
-  docker tag cloudsim_bridge:latest nkoenig/subt-virtual-testbed:cloudsim_bridge_latest
-  docker tag subt_sim_entry:latest nkoenig/subt-virtual-testbed:latest
+  docker tag cloudsim_sim:latest $registry:cloudsim_sim_latest
+  docker tag cloudsim_bridge:latest $registry:cloudsim_bridge_latest
+  if [[ "$repo" != *"private" ]]; then
+    docker tag subt_sim_entry:latest $registry:latest
+  fi
 fi
 
 # Push the images.
 if [[ "$COMMAND" == "--push" ]] || [[ "$COMMAND" == "--all" ]]; then
-  docker push nkoenig/subt-virtual-testbed:cloudsim_sim_latest
-  docker push nkoenig/subt-virtual-testbed:cloudsim_bridge_latest
-  docker push nkoenig/subt-virtual-testbed:latest
+  echo -e -n "\e[1;31mPush images to $registry (Y/n)?\e[0m"
+  read ans
+  if [ "$ans" = "n" ] || [ "$ans" = "N" ]; then
+    exit 1
+  fi
+
+  if [[ "$repo" == *"private" ]]; then
+    $(aws ecr get-login --no-include-email --region us-east-1)
+  else
+    docker push $registry:latest
+  fi
+
+  docker push $registry:cloudsim_sim_latest
+  docker push $registry:cloudsim_bridge_latest
 fi
