@@ -61,10 +61,6 @@
 
 <ignition version='1.0'>
   <env>
-    <name>ROS_MASTER_URI</name>
-    <value>http://localhost:11311</value>
-  </env>
-  <env>
     <name>IGN_GAZEBO_SYSTEM_PLUGIN_PATH</name>
     <value>$LD_LIBRARY_PATH</value>
   </env>
