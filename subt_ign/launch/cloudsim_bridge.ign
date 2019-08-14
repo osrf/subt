@@ -86,7 +86,7 @@
       stereoCam=1
     end
     "<executable name='x1_description'>\n"\
-    "  <command>roslaunch --wait subt_ros x1_description.launch world_name:=#{$worldName} name:=#{_name}</command>\n"\
+    "  <command>roslaunch --wait subt_ros x1_description.launch name:=#{_name}</command>\n"\
     "</executable>\n"\
     "<executable name='x1_ros_ign_bridge'>\n"\
       "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} lidar_3d:=#{lidar3d}</command>\n"\
@@ -108,7 +108,7 @@
       lidar3d=1
     end
     "<executable name='x2_description'>\n"\
-    "  <command>roslaunch --wait subt_ros x2_description.launch world_name:=#{$worldName} name:=#{_name}</command>\n"\
+    "  <command>roslaunch --wait subt_ros x2_description.launch name:=#{_name}</command>\n"\
     "</executable>\n"\
     "<executable name='x2_ros_ign_bridge'>\n"\
     "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} lidar_3d:=#{lidar3d}</command>\n"\
@@ -127,10 +127,10 @@
       stereoCam=1
     end
     "<executable name='x3_description'>\n"\
-    "  <command>roslaunch --wait subt_ros x3_description.launch world_name:=#{$worldName} name:=#{_name}</command>\n"\
+    "  <command>roslaunch --wait subt_ros x3_description.launch name:=#{_name}</command>\n"\
     "</executable>\n"\
     "<executable name='X3_controller'>\n"\
-    "  <command>roslaunch --wait x3_control control.launch world_name:=#{$worldName} x3_name:=#{_name}</command>\n"\
+    "  <command>roslaunch --wait x3_control control.launch x3_name:=#{_name}</command>\n"\
     "</executable>\n"\
     "<executable name='x3_ros_ign_bridge'>\n"\
       "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} rgbd_cam:=#{rgbdCam}</command>\n"\
@@ -152,10 +152,10 @@
       stereoCam=1
     end
     "<executable name='X4_controller'>\n"\
-    "  <command>roslaunch --wait x4_control control.launch world_name:=#{$worldName} x4_name:=#{_name}</command>\n"\
+    "  <command>roslaunch --wait x4_control control.launch x4_name:=#{_name}</command>\n"\
     "</executable>\n"\
     "<executable name='x4_description'>\n"\
-    "  <command>roslaunch --wait subt_ros x4_description.launch world_name:=#{$worldName} name:=#{_name}</command>\n"\
+    "  <command>roslaunch --wait subt_ros x4_description.launch name:=#{_name}</command>\n"\
     "</executable>\n"\
     "<executable name='x4_ros_ign_bridge'>\n"\
     "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} rgbd_cam:=#{rgbdCam}</command>\n"\
