@@ -17,6 +17,7 @@ graph {
   7   [label="7::tunnel_tile_1::tile_7"];
   8   [label="8::tunnel_tile_6::tile_8"];
   9   [label="9::tunnel_tile_5::tile_9"];
+  10  [label="10::tunnel_tile_5::tile_10"];
   11  [label="11::tunnel_tile_5::tile_11"];
   12  [label="12::tunnel_tile_2::tile_12"];
   13  [label="13::tunnel_tile_5::tile_13"];
@@ -38,8 +39,8 @@ graph {
   1  -- 4   [label=3];
   2  -- 3   [label=3];
   3  -- 5   [label=3];
-  4  -- 7   [label=3];
-  6  -- 7   [label=3];
+  4  -- 7   [label=3];  /* Intersection */
+  6  -- 7   [label=3];  /* Intersection */
   7  -- 8   [label=3];  /* Intersection */
   7  -- 13  [label=3];  /* Intersection */
   8  -- 9   [label=1];
@@ -47,12 +48,14 @@ graph {
   11 -- 12  [label=3];
   12 -- 15  [label=3];
   13 -- 16  [label=3];
-  14 -- 18  [label=3];
+  14 -- 18  [label=3];  /* Intersection */
   15 -- 20  [label=1];
   16 -- 17  [label=3];
-  17 -- 18  [label=3];
+  17 -- 18  [label=3];  /* Intersection */
   18 -- 21  [label=6];  /* Intersection */
   20 -- 23  [label=3];
   21 -- 22  [label=6];
   22 -- 23  [label=6];
+  5  -- 10  [label=1];
+  10 -- 14  [label=1];
 }
