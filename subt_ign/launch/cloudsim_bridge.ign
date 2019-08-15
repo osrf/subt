@@ -27,8 +27,16 @@
   # When 'enableGroundTruth = true' absolute poses of vehicles will be published.
   # This is useful for debugging purposes, but will not be available during
   # competition scoring.
-  $enableGroundTruth = false
 
+  # Check if enableGroundTruith is not defined or is empty/nil
+  if !defined?(enableGroundTruth) || enableGroundTruth == nil || enableGroundTruth.empty?
+    $enableGroundTruth = false
+  else
+    $enableGroundTruth = enableGroundTruth
+  end
+%>
+
+<%
   # Check if robotNameX and robotConfigX exists
   spawnRowSize = 4
   spawnColSize = 5
@@ -67,7 +75,7 @@
   <!-- Start ROS first. This is a bit hacky for now. -->
   <!-- Make sure to source /opt/ros/melodic/setup.bash -->
   <executable name='ros'>
-    <command>roslaunch subt_ros competition_init.launch world_name:=<%=$worldName%> vehicle_topics:=<%=(robots.empty?)?"1":"0"%> enable_ground_truth:=<%=(enableGroundTruth)?"1":"0"%></command>
+    <command>roslaunch subt_ros competition_init.launch world_name:=<%=$worldName%> vehicle_topics:=<%=(robots.empty?)?"1":"0"%> enable_ground_truth:=<%=($enableGroundTruth)?"1":"0"%></command>
   </executable>
 
 <%
