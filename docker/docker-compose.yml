@@ -76,7 +76,7 @@ services:
   # solution container connects to the first bridge, and therefore controls
   # the X1 robot.
   solution1:
-    image: osrf/subt-virtual-testbed:subt_seed_latest
+    image: osrf/subt-virtual-testbed:subt_solution_latest
     networks:
       relay_net1:
         ipv4_address: 172.29.1.2
@@ -104,7 +104,7 @@ services:
   # This solution container connects to the second bridge, and therefore
   # controls the X2 robot.
   solution2:
-    image: osrf/subt-virtual-testbed:subt_seed_latest
+    image: osrf/subt-virtual-testbed:subt_solution_latest
     networks:
       relay_net2:
         ipv4_address: 172.30.1.2
