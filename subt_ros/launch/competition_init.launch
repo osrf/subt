@@ -7,7 +7,7 @@
   <param name="/use_sim_time" value="true"/>
   <param name="/world_name" value="$(arg world_name)"/>
 
-  <node pkg="ros1_ign_bridge" type="parameter_bridge" name="$(anon ros1_ign_bridge)" args="/clock@rosgraph_msgs/Clock<ignition.msgs.Clock">
+  <node pkg="ros1_ign_bridge" type="parameter_bridge" name="$(anon ros1_ign_bridge)" args="/clock@rosgraph_msgs/Clock[ignition.msgs.Clock">
   </node>
 
   <node
