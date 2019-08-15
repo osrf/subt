@@ -47,7 +47,19 @@ target_link_libraries(subt_ros_relay
 )
 add_dependencies(subt_ros_relay ${catkin_EXPORTED_TARGETS})
 
-install(TARGETS pose_tf_broadcaster subt_ros_relay
+add_executable(set_pose_relay src/SetPoseRelay.cc)
+target_include_directories(set_pose_relay
+  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
+target_link_libraries(set_pose_relay
+  PUBLIC
+    ignition-math6::ignition-math6
+    ignition-msgs4::ignition-msgs4
+    ignition-transport7::ignition-transport7
+    ${catkin_LIBRARIES}
+)
+add_dependencies(set_pose_relay ${catkin_EXPORTED_TARGETS})
+
+install(TARGETS pose_tf_broadcaster subt_ros_relay set_pose_relay
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 install(DIRECTORY launch
