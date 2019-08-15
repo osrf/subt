@@ -56,6 +56,7 @@ SetPoseRelay::SetPoseRelay()
 {
   if (!this->nh.getParam("/world_name", this->worldName)) {
     ROS_ERROR("Cannot operate without world_name set");
+    ros::shutdown();
     return;
   }
 
