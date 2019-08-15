@@ -20,8 +20,16 @@
   # When 'enableGroundTruth = true' absolute poses of vehicles will be published.
   # This is useful for debugging purposes, but will not be available during
   # competition scoring.
-  $enableGroundTruth = false
 
+  # Check if enableGroundTruith is not defined or is empty/nil
+  if !defined?(enableGroundTruth) || enableGroundTruth == nil || enableGroundTruth.empty?
+    $enableGroundTruth = false
+  else
+    $enableGroundTruth = enableGroundTruth
+  end
+%>
+
+<%
   # Check if robotNameX and robotConfigX exists
   spawnRowSize = 4
   spawnColSize = 5

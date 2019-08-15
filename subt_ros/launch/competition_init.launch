@@ -3,6 +3,7 @@
 
   <arg name="world_name"/>
   <arg name="vehicle_topics" default="1"/>
+  <arg name="enable_ground_truth" default="0"/>
 
   <param name="/use_sim_time" value="true"/>
   <param name="/world_name" value="$(arg world_name)"/>
@@ -14,6 +15,17 @@
     pkg="subt_ros"
     type="subt_ros_relay"
     name="subt_ros_relay"/>
+
+  <group if="$(arg enable_ground_truth)">
+    <!-- In the case that ground truth is enabled, also relay the /set_pose
+         service, which allows teleportation of models in the sim environment.
+         NOT FOR USE IN COMPETITION.
+    -->
+    <node
+      pkg="subt_ros"
+      type="set_pose_relay"
+      name="set_pose_relay"/>
+  </group>
 
   <group if="$(arg vehicle_topics)">
     <include file="$(find subt_ros)/launch/vehicle_topics.launch">
