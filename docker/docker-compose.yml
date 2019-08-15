@@ -1,0 +1,134 @@
+# Purpose:
+#
+#   This file will launch a SubT simulation image with two robots. Two
+#   bridge images are also launched, one for each robot. Finally, two 
+#   solution images are launched, one for each robot. 
+#
+#   This setup replicates the cloud simulation setup for the SubT Virtual
+#   Testbed.
+#
+#   See also: https://bitbucket.org/osrf/subt/wiki/cloudsim_architecture
+#
+# Usage: 
+#
+#   $ docker-compose up
+#
+# Customization:
+#
+# 1. Modify the `sim` sevice's `command:` line to include the number and
+#    type of robots you need.
+#
+# 2. Each robot requires both a `bridge` and `solution` container. Modify the
+#   `bridge` container's `command:` to include only one of the robots
+#   specified in the `sim` `command`. Modify the `solution` container's
+#   `image` to be your own solution. Also, create another `relay_net` for
+#   the `bridge` and `solution` containers. 
+#
+version: "2.4"
+services:
+
+  # The sim container runs Gazebo and all simulation plugins.
+  # In this example, two robots are started with the names X1 and X2.
+  sim:
+    image: osrf/subt-virtual-testbed:cloudsim_sim_latest
+    command: cloudsim_sim.ign headless:=false robotName1:=X1 robotConfig1:=X1_SENSOR_CONFIG_1 robotName2:=X2 robotConfig2:=X1_SENSOR_CONFIG_1
+    networks:
+      sim_net:
+        ipv4_address: 172.28.1.1
+    environment:
+      - DISPLAY
+      - QT_X11_NO_MITSHM=1
+      - XAUTHORITY="/tmp/.docker.xauth"
+      - IGN_PARTITION=sim
+      - IGN_IP=172.28.1.1
+    privileged: true
+    runtime: nvidia
+    security_opt:
+      - seccomp=unconfined
+    volumes:
+      - "/tmp/.docker.xauth:/tmp/.docker.xauth"
+      - "/tmp/.X11-unix:/tmp/.X11-unix"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/dev/input:/dev/input" 
+
+  # The bridge container relays a sub-set of information from the sim container
+  # to the solution container. This bridge container will relay information
+  # for the X1 robot
+  bridge1:
+    image: osrf/subt-virtual-testbed:cloudsim_bridge_latest
+    # Relay topics and service for X1
+    command: robotName1:=X1 robotConfig1:=X1_SENSOR_CONFIG_1
+    # The bridge needs two networks. One for simulation and one for the
+    # solution.
+    networks:
+      relay_net1:
+        ipv4_address: 172.29.1.1
+      sim_net:
+        ipv4_address: 172.28.1.2
+    environment:
+      - IGN_PARTITION=sim
+      - IGN_IP=172.28.1.2
+      - ROS_MASTER_URI=http://172.29.1.1:11311
+    depends_on:
+      - "sim"
+
+  # The solution container runs control code for a single robot. This
+  # solution container connects to the first bridge, and therefore controls
+  # the X1 robot.
+  solution1:
+    image: osrf/subt-virtual-testbed:subt_seed_latest
+    networks:
+      relay_net1:
+        ipv4_address: 172.29.1.2
+    environment:
+      - ROS_MASTER_URI=http://172.29.1.1:11311
+    depends_on:
+      - "bridge1"
+
+  # This bridge container will relay information for the X2 robot
+  bridge2:
+    image: osrf/subt-virtual-testbed:cloudsim_bridge_latest
+    command: robotName1:=X2 robotConfig1:=X2_SENSOR_CONFIG_1
+    networks:
+      relay_net2:
+        ipv4_address: 172.30.1.1
+      sim_net:
+        ipv4_address: 172.28.1.3
+    environment:
+      - IGN_PARTITION=sim
+      - IGN_IP=172.28.1.3
+      - ROS_MASTER_URI=http://172.30.1.1:11311
+    depends_on:
+      - "sim"
+
+  # This solution container connects to the second bridge, and therefore
+  # controls the X2 robot.
+  solution2:
+    image: osrf/subt-virtual-testbed:subt_seed_latest
+    networks:
+      relay_net2:
+        ipv4_address: 172.30.1.2
+    environment:
+      - ROS_MASTER_URI=http://172.30.1.1:11311
+    depends_on:
+      - "bridge2"
+
+# Definition of the networks.
+networks:
+  sim_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.0.0/16
+  relay_net1:
+    internal: true
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.29.0.0/16
+  relay_net2:
+    internal: true
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.30.0.0/16
