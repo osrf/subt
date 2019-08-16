@@ -239,8 +239,9 @@ bool CommsClient::Bind(std::function<void(const std::string &_srcAddress,
     else
     {
       ros::NodeHandle nh;
+      // Advertise on the global namespace
       this->commsModelOnMessageService = nh.advertiseService(
-          address, &CommsClient::OnMessageRos, this);
+          "/" + address, &CommsClient::OnMessageRos, this);
     }
 
     this->advertised = true;
