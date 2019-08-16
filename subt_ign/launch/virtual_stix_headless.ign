@@ -16,8 +16,16 @@
   # When 'enableGroundTruth = true' absolute poses of vehicles will be published.
   # This is useful for debugging purposes, but will not be available during
   # competition scoring.
-  $enableGroundTruth = false
 
+  # Check if enableGroundTruith is not defined or is empty/nil
+  if !defined?(enableGroundTruth) || enableGroundTruth == nil || enableGroundTruth.empty?
+    $enableGroundTruth = false
+  else
+    $enableGroundTruth = enableGroundTruth
+  end
+%>
+
+<%
   # Check if robotNameX and robotConfigX exists
   spawnRowSize = 4
   spawnColSize = 5
@@ -129,7 +137,7 @@
       <duration_seconds><%= $durationSec %></duration_seconds>
 
       <logging>
-        <!-- Use the <path> element to control where to record the log file. 
+        <!-- Use the <path> element to control where to record the log file.
              The HOME path is used by default-->
         <path>/tmp/ign/logs</path>
         <filename_prefix>subt_virtual_stix</filename_prefix>

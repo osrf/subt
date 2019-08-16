@@ -37,7 +37,9 @@ fi
 user_id=$(id -u)
 image_name=$(basename $1)
 image_plus_tag=$image_name:$(date +%Y_%b_%d_%H%M)
-hg_id=$(hg id -i)
+# mercurial adds a + symbol if there are uncomitted changes in the repo
+# that will break docker tag syntax
+hg_id=$(hg id -i | tr -d '+')
 
 shift
 
