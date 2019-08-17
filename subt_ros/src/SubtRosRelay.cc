@@ -382,10 +382,8 @@ void SubtRosRelay::OnMessage(const subt::msgs::Datagram &_req)
 //////////////////////////////////////////////////
 void SubtRosRelay::ProcessMessage(const subt::msgs::Datagram &_req)
 {
-  using Request = subt_msgs::DatagramRos::Request;
-  using Response = subt_msgs::DatagramRos::Response;
-  Request req;
-  Response res;
+  subt_msgs::DatagramRos::Request req;
+  subt_msgs::DatagramRos::Response res;
   req.src_address = _req.src_address();
   req.dst_address = _req.dst_address();
   req.dst_port = _req.dst_port();
