@@ -14,6 +14,7 @@
  * limitations under the License.
  *
 */
+#include <boost/lockfree/spsc_queue.hpp>
 #include <ros/ros.h>
 #include <std_srvs/SetBool.h>
 #include <std_msgs/Int32.h>
@@ -92,9 +93,18 @@ class SubtRosRelay
                             subt_msgs::Unregister::Response &_res);
 
   /// \brief Ignition service callback triggerered when a message is received.
-  /// Inside the callback, the message is forwarded via a ROS service call.
+  /// The received message is added to a message queue to be handled by a
+  /// separate thread.
   /// \param[in] _msg The message.
   public: void OnMessage(const subt::msgs::Datagram &_msg);
+
+  /// \brief Process messages in consumed from the message queue
+  /// The message is forwarded via a ROS service call.
+  /// \param[in] _req The message.
+  public: void ProcessMessage(const subt::msgs::Datagram &_req);
+
+  /// \brief Creates an AsyncSpinner and handles received messages
+  public: void Spin();
 
   /// \brief Ignition Transport node.
   public: ignition::transport::Node node;
@@ -127,12 +137,21 @@ class SubtRosRelay
   /// the origin artifact.
   public: ros::ServiceServer poseFromArtifactService;
 
-  /// \brief A ROS asynchronous spinner.
-  public: std::unique_ptr<ros::AsyncSpinner> spinner;
-
   /// \brief The set of bound address. This is bookkeeping that helps
   /// to reduce erroneous error output in the ::Bind function.
   public: std::set<std::string> boundAddresses;
+
+  /// \brief Lock free queue for holding msgs from Transport. This is needed to
+  /// avoid deadlocks between the Transport thread that invokes callbacks and
+  /// the main thread that handles messages.
+  public: boost::lockfree::spsc_queue<subt::msgs::Datagram> msgQueue{10};
+
+  /// \brief This mutex is used in conjunction with notifyCond to notify the
+  /// main thread the arrival of new messages.
+  public: std::mutex notifyMutex;
+
+  /// \brief Condition variable for notifying arrival of new messages.
+  public: std::condition_variable notifyCond;
 };
 
 //////////////////////////////////////////////////
@@ -355,8 +374,18 @@ bool SubtRosRelay::OnUnregister(subt_msgs::Unregister::Request &_req,
 //////////////////////////////////////////////////
 void SubtRosRelay::OnMessage(const subt::msgs::Datagram &_req)
 {
-  subt_msgs::DatagramRos::Request req;
-  subt_msgs::DatagramRos::Response res;
+  this->msgQueue.push(_req);
+  // Notify the main thread
+  this->notifyCond.notify_one();
+}
+
+//////////////////////////////////////////////////
+void SubtRosRelay::ProcessMessage(const subt::msgs::Datagram &_req)
+{
+  using Request = subt_msgs::DatagramRos::Request;
+  using Response = subt_msgs::DatagramRos::Response;
+  Request req;
+  Response res;
   req.src_address = _req.src_address();
   req.dst_address = _req.dst_address();
   req.dst_port = _req.dst_port();
@@ -367,12 +396,36 @@ void SubtRosRelay::OnMessage(const subt::msgs::Datagram &_req)
 }
 
 //////////////////////////////////////////////////
+void SubtRosRelay::Spin()
+{
+  ros::AsyncSpinner spinner(1);
+  spinner.start();
+  while(ros::ok())
+  {
+    {
+      // The code in this scope is only used for receiving notifications from
+      // the `OnMessage` function. The mutex is not actually used for protecting
+      // `msgQueue` since that is a lock free data structure. It is important
+      // that the lock is released before calling `ProcessMessage` to avoid
+      // deadlocks.
+      std::unique_lock<std::mutex> lock(this->notifyMutex);
+      this->notifyCond.wait(lock,
+          [this] { return this->msgQueue.read_available(); });
+    }
+
+    // Process each message in FIFO order.
+    this->msgQueue.consume_all(
+        boost::bind(&SubtRosRelay::ProcessMessage, this, _1));
+  }
+}
+
+//////////////////////////////////////////////////
 int main(int argc, char * argv[])
 {
   ros::init(argc, argv, "subt_ros_relay");
 
   SubtRosRelay relay;
+  relay.Spin();
 
-  ros::spin();
   return 0;
 }
