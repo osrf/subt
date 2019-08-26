@@ -100,21 +100,6 @@ namespace subt
   /// support multiple multicast groups, only one.
   const std::string kMulticast = "multicast";
 
-  /// \brief Service used to centralize all messages sent from the agents.
-  const std::string kBrokerSrv = "broker";
-
-  /// \brief Service used to validate an address.
-  const std::string kAddrRegistrationSrv = "address/register";
-
-  /// \brief Service used to invalidate an address.
-  const std::string kAddrUnregistrationSrv = "address/unregister";
-
-  /// \brief Service used to register an end point.
-  const std::string kEndPointRegistrationSrv = "end_point/register";
-
-  /// \brief Address used to receive neighbor updates.
-  const std::string kNeighborsTopic = "neighbors";
-
   /// \brief The name of the base station in Gazebo. This is used as the
   /// address to report artifacts.
   const std::string kBaseStationName = "base_station";
