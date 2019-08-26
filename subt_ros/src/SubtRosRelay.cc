@@ -14,13 +14,20 @@
  * limitations under the License.
  *
 */
+#include <boost/lockfree/spsc_queue.hpp>
 #include <ros/ros.h>
 #include <std_srvs/SetBool.h>
 #include <std_msgs/Int32.h>
 #include <ignition/msgs/boolean.pb.h>
 #include <ignition/msgs/float.pb.h>
 #include <ignition/msgs/stringmsg.pb.h>
+#include <subt_msgs/Bind.h>
+#include <subt_msgs/DatagramRos.h>
 #include <subt_msgs/PoseFromArtifact.h>
+#include <subt_msgs/Register.h>
+#include <subt_msgs/Unregister.h>
+#include <subt_communication_broker/protobuf/datagram.pb.h>
+#include <subt_communication_broker/common_types.h>
 
 #include <ignition/transport/Node.hh>
 
@@ -57,6 +64,48 @@ class SubtRosRelay
                subt_msgs::PoseFromArtifact::Request &_req,
                subt_msgs::PoseFromArtifact::Response &_res);
 
+  /// \brief ROS service callback triggered when a comms client binds to an
+  /// address.
+  /// \param[in] _req The requested address and endpoint.
+  /// \param[out] _res True if the bind was successful, false otherwise.
+  public: bool OnBind(subt_msgs::Bind::Request &_req,
+                      subt_msgs::Bind::Response &_res);
+
+  /// \brief ROS service callback triggerered when a comms client sends a
+  /// message to an address.
+  /// \param[in] _req The requested message to send.
+  /// \param[out] _res The response.
+  public: bool OnSendTo(subt_msgs::DatagramRos::Request &_req,
+                        subt_msgs::DatagramRos::Response &_res);
+
+  /// \brief ROS service callback triggerered when a comms client is
+  /// registered.
+  /// \param[in] _req The request.
+  /// \param[out] _res The response.
+  public: bool OnRegister(subt_msgs::Register::Request &_req,
+                          subt_msgs::Register::Response &_res);
+
+  /// \brief ROS service callback triggerered when a comms client is
+  /// unregistered.
+  /// \param[in] _req The request.
+  /// \param[out] _res The response.
+  public: bool OnUnregister(subt_msgs::Unregister::Request &_req,
+                            subt_msgs::Unregister::Response &_res);
+
+  /// \brief Ignition service callback triggerered when a message is received.
+  /// The received message is added to a message queue to be handled by a
+  /// separate thread.
+  /// \param[in] _msg The message.
+  public: void OnMessage(const subt::msgs::Datagram &_msg);
+
+  /// \brief Process messages in consumed from the message queue
+  /// The message is forwarded via a ROS service call.
+  /// \param[in] _req The message.
+  public: void ProcessMessage(const subt::msgs::Datagram &_req);
+
+  /// \brief Creates an AsyncSpinner and handles received messages
+  public: void Spin();
+
   /// \brief Ignition Transport node.
   public: ignition::transport::Node node;
 
@@ -69,6 +118,18 @@ class SubtRosRelay
   /// \brief ROS service to receive a call to start the game.
   public: ros::ServiceServer startService;
 
+  /// \brief ROS service to receive a bind request.
+  public: ros::ServiceServer commsModelBindService;
+
+  /// \brief ROS service to receive a send to request.
+  public: ros::ServiceServer commsModelSendToService;
+
+  /// \brief ROS service to receive a register request.
+  public: ros::ServiceServer commsModelRegisterService;
+
+  /// \brief ROS service to receive a unregister request.
+  public: ros::ServiceServer commsModelUnregisterService;
+
   /// \brief ROS publisher to publish score data
   public: ros::Publisher rosScorePub;
 
@@ -76,8 +137,21 @@ class SubtRosRelay
   /// the origin artifact.
   public: ros::ServiceServer poseFromArtifactService;
 
-  /// \brief A ROS asynchronous spinner.
-  public: std::unique_ptr<ros::AsyncSpinner> spinner;
+  /// \brief The set of bound address. This is bookkeeping that helps
+  /// to reduce erroneous error output in the ::Bind function.
+  public: std::set<std::string> boundAddresses;
+
+  /// \brief Lock free queue for holding msgs from Transport. This is needed to
+  /// avoid deadlocks between the Transport thread that invokes callbacks and
+  /// the main thread that handles messages.
+  public: boost::lockfree::spsc_queue<subt::msgs::Datagram> msgQueue{10};
+
+  /// \brief This mutex is used in conjunction with notifyCond to notify the
+  /// main thread the arrival of new messages.
+  public: std::mutex notifyMutex;
+
+  /// \brief Condition variable for notifying arrival of new messages.
+  public: std::condition_variable notifyCond;
 };
 
 //////////////////////////////////////////////////
@@ -99,6 +173,22 @@ SubtRosRelay::SubtRosRelay()
   this->poseFromArtifactService = n.advertiseService(
       "/subt/pose_from_artifact_origin",
       &SubtRosRelay::OnPoseFromArtifact, this);
+
+  this->commsModelBindService = n.advertiseService(
+      subt::communication_broker::kEndPointRegistrationSrv,
+      &SubtRosRelay::OnBind, this);
+
+  this->commsModelSendToService = n.advertiseService(
+      subt::communication_broker::kBrokerSrv,
+      &SubtRosRelay::OnSendTo, this);
+
+  this->commsModelRegisterService = n.advertiseService(
+      subt::communication_broker::kAddrRegistrationSrv,
+      &SubtRosRelay::OnRegister, this);
+
+  this->commsModelUnregisterService = n.advertiseService(
+      subt::communication_broker::kAddrUnregistrationSrv,
+      &SubtRosRelay::OnUnregister, this);
 
   this->node.Subscribe("/subt/score", &SubtRosRelay::OnScore, this);
 
@@ -171,6 +261,10 @@ bool SubtRosRelay::OnPoseFromArtifact(
   _res.success = this->node.Request("/subt/pose_from_artifact_origin",
       req, timeout, rep, result);
 
+  // Request failed, ignore response
+  if (!result)
+    return result;
+
   // Construct the ROS response
   _res.pose.pose.position.x = rep.position().x();
   _res.pose.pose.position.y = rep.position().y();
@@ -188,13 +282,148 @@ bool SubtRosRelay::OnPoseFromArtifact(
   return result;
 }
 
+/////////////////////////////////////////////////
+bool SubtRosRelay::OnBind(subt_msgs::Bind::Request &_req,
+                          subt_msgs::Bind::Response &_res)
+{
+  ignition::msgs::StringMsg_V req;
+  req.add_data(_req.address);
+  req.add_data(_req.endpoint);
+
+  const unsigned int timeout = 3000u;
+  ignition::msgs::Boolean rep;
+  bool result;
+  bool executed = this->node.Request(
+      subt::communication_broker::kEndPointRegistrationSrv,
+      req, timeout, rep, result);
+
+  _res.success = result;
+
+  if (executed && result &&
+      // Only establish the Ignition service once per client.
+      this->boundAddresses.find(_req.address) == this->boundAddresses.end())
+  {
+    if (!this->node.Advertise(_req.address, &SubtRosRelay::OnMessage, this))
+    {
+      std::cerr << "Bind Error: could not advertise "
+        << _req.address << std::endl;
+      return false;
+    }
+    else
+    {
+      this->boundAddresses.insert(_req.address);
+    }
+  }
+
+  return executed;
+}
+
+/////////////////////////////////////////////////
+bool SubtRosRelay::OnSendTo(subt_msgs::DatagramRos::Request &_req,
+                            subt_msgs::DatagramRos::Response &_res)
+{
+  subt::msgs::Datagram msg;
+  msg.set_src_address(_req.src_address);
+  msg.set_dst_address(_req.dst_address);
+  msg.set_dst_port(_req.dst_port);
+  msg.set_rssi(_req.rssi);
+  msg.set_data(_req.data);
+
+  return this->node.Request(subt::communication_broker::kBrokerSrv, msg);
+}
+
+//////////////////////////////////////////////////
+bool SubtRosRelay::OnRegister(subt_msgs::Register::Request &_req,
+                              subt_msgs::Register::Response &_res)
+{
+  ignition::msgs::StringMsg req;
+  req.set_data(_req.local_address);
+
+  ignition::msgs::Boolean rep;
+  bool result;
+  const unsigned int timeout = 3000u;
+
+  bool executed = this->node.Request(
+    subt::communication_broker::kAddrRegistrationSrv,
+    req, timeout, rep, result);
+
+  _res.success = result;
+  return executed;
+}
+
+//////////////////////////////////////////////////
+bool SubtRosRelay::OnUnregister(subt_msgs::Unregister::Request &_req,
+                                subt_msgs::Unregister::Response &_res)
+{
+  ignition::msgs::StringMsg req;
+  req.set_data(_req.local_address);
+
+  ignition::msgs::Boolean rep;
+  bool result;
+  const unsigned int timeout = 3000u;
+
+  bool executed = this->node.Request(
+    subt::communication_broker::kAddrUnregistrationSrv,
+    req, timeout, rep, result);
+
+  _res.success = result;
+
+  return executed;
+}
+
+//////////////////////////////////////////////////
+void SubtRosRelay::OnMessage(const subt::msgs::Datagram &_req)
+{
+  this->msgQueue.push(_req);
+  // Notify the main thread
+  this->notifyCond.notify_one();
+}
+
+//////////////////////////////////////////////////
+void SubtRosRelay::ProcessMessage(const subt::msgs::Datagram &_req)
+{
+  subt_msgs::DatagramRos::Request req;
+  subt_msgs::DatagramRos::Response res;
+  req.src_address = _req.src_address();
+  req.dst_address = _req.dst_address();
+  req.dst_port = _req.dst_port();
+  req.data = _req.data();
+  req.rssi = _req.rssi();
+
+  ros::service::call(_req.dst_address(), req, res);
+}
+
+//////////////////////////////////////////////////
+void SubtRosRelay::Spin()
+{
+  ros::AsyncSpinner spinner(1);
+  spinner.start();
+  while(ros::ok())
+  {
+    {
+      // The code in this scope is only used for receiving notifications from
+      // the `OnMessage` function. The mutex is not actually used for protecting
+      // `msgQueue` since that is a lock free data structure. It is important
+      // that the lock is released before calling `ProcessMessage` to avoid
+      // deadlocks.
+      std::unique_lock<std::mutex> lock(this->notifyMutex);
+      this->notifyCond.wait(lock,
+          [this] { return this->msgQueue.read_available(); });
+    }
+
+    // Process each message in FIFO order.
+    this->msgQueue.consume_all(
+        boost::bind(&SubtRosRelay::ProcessMessage, this, _1));
+  }
+}
+
 //////////////////////////////////////////////////
 int main(int argc, char * argv[])
 {
   ros::init(argc, argv, "subt_ros_relay");
 
   SubtRosRelay relay;
+  relay.Spin();
 
-  ros::spin();
   return 0;
 }

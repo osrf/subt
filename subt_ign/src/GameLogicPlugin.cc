@@ -14,28 +14,51 @@
  * limitations under the License.
  *
 */
-
-#include <tinyxml2.h>
 #include <ignition/msgs/boolean.pb.h>
 #include <ignition/msgs/float.pb.h>
 #include <ignition/msgs/stringmsg.pb.h>
+#include <ignition/plugin/Register.hh>
 
+#include <algorithm>
 #include <chrono>
 #include <map>
 #include <mutex>
 #include <utility>
+
+#include <ignition/gazebo/components/Model.hh>
+#include <ignition/gazebo/components/Name.hh>
+#include <ignition/gazebo/components/DepthCamera.hh>
+#include <ignition/gazebo/components/GpuLidar.hh>
+#include <ignition/gazebo/components/RgbdCamera.hh>
+#include <ignition/gazebo/components/ParentEntity.hh>
+#include <ignition/gazebo/components/Pose.hh>
+#include <ignition/gazebo/components/Sensor.hh>
+#include <ignition/gazebo/components/Static.hh>
+#include <ignition/gazebo/components/World.hh>
+#include <ignition/gazebo/Conversions.hh>
+#include <ignition/gazebo/EntityComponentManager.hh>
+#include <ignition/gazebo/Util.hh>
 
 #include <ignition/common/Console.hh>
 #include <ignition/common/Util.hh>
 #include <ignition/common/Time.hh>
 #include <ignition/math/Pose3.hh>
 #include <ignition/transport/Node.hh>
+#include <sdf/sdf.hh>
 
 #include "subt_ign/CommonTypes.hh"
 #include "subt_ign/GameLogicPlugin.hh"
 #include "subt_ign/protobuf/artifact.pb.h"
 
+IGNITION_ADD_PLUGIN(
+    subt::GameLogicPlugin,
+    ignition::gazebo::System,
+    subt::GameLogicPlugin::ISystemConfigure,
+    subt::GameLogicPlugin::ISystemPostUpdate)
+
 using namespace ignition;
+using namespace gazebo;
+using namespace systems;
 using namespace subt;
 
 class subt::GameLogicPluginPrivate
@@ -63,10 +86,6 @@ class subt::GameLogicPluginPrivate
   /// information to the logfile.
   public: std::ofstream &Log();
 
-  /// \brief Handle gazebo pose messages
-  /// \param[in] _msg New set of poses.
-  public: void OnPose(const ignition::msgs::Pose_V &_msg);
-
   /// \brief Create an ArtifactType from a string.
   /// \param[in] _name The artifact in string format.
   /// \param[out] _type The artifact type.
@@ -89,6 +108,14 @@ class subt::GameLogicPluginPrivate
   public: bool ArtifactFromInt(const uint32_t &_typeInt,
                                subt::ArtifactType &_type);
 
+  /// \brief Create a string from ArtifactType.
+  //
+  /// \param[in] _type The artifact type.
+  /// \param[out] _strType The artifact string.
+  /// \return True when the conversion succeed or false otherwise.
+  public: bool StringFromArtifact(const subt::ArtifactType &_type,
+                                  std::string &_strType);
+
   /// \brief Callback executed to process a new artifact request
   /// sent by a team.
   /// \param[in] _req The service request.
@@ -97,12 +124,13 @@ class subt::GameLogicPluginPrivate
 
   /// \brief Parse all the artifacts.
   /// \param[in] _sdf The SDF element containing the artifacts.
-  public: void ParseArtifacts(const tinyxml2::XMLElement *_elem);
+  public: void ParseArtifacts(const std::shared_ptr<const sdf::Element> &_sdf);
 
   /// \brief Publish the score.
   /// \param[in] _event Unused.
   public: void PublishScore();
 
+  /// \brief Finish game and generate log files
   public: void Finish();
 
   /// \brief Ignition service callback triggered when the service is called.
@@ -113,6 +141,12 @@ class subt::GameLogicPluginPrivate
                const ignition::msgs::StringMsg &_req,
                ignition::msgs::Pose &_res);
 
+  /// \brief Update the score.yml and summary.yml files. This function also
+  /// returns the time point used to calculate the elapsed real time. By
+  /// returning this time point, we can make sure that the ::Finish function
+  /// uses the same time point.
+  /// \return The time point used to calculate the elapsed real time.
+  public: std::chrono::steady_clock::time_point UpdateScoreFiles() const;
 
   private: bool PoseFromArtifactHelper(const std::string &_robot,
     ignition::math::Pose3d &_result);
@@ -137,6 +171,12 @@ class subt::GameLogicPluginPrivate
   /// \brief Current simulation time.
   public: ignition::msgs::Time simTime;
 
+  /// \brief The simulation time of the start call.
+  public: ignition::msgs::Time startSimTime;
+
+  /// \brief Number of simulation seconds allowed.
+  public: std::chrono::seconds runDuration{0};
+
   /// \brief Thread on which scores are published
   public: std::unique_ptr<std::thread> publishThread = nullptr;
 
@@ -149,9 +189,6 @@ class subt::GameLogicPluginPrivate
   /// \brief Start time used for scoring.
   public: std::chrono::steady_clock::time_point startTime;
 
-  /// \brief Finish time used for scoring.
-  public: std::chrono::steady_clock::time_point finishTime;
-
   /// \brief Store all artifacts.
   /// The key is the object type. See ArtifactType for all supported values.
   /// The value is another map, where the key is the model name and the value
@@ -159,10 +196,21 @@ class subt::GameLogicPluginPrivate
   public: std::map<subt::ArtifactType,
                     std::map<std::string, ignition::math::Pose3d>> artifacts;
 
+  /// \brief Artifacts that were found.
+  public: std::set<std::string> foundArtifacts;
+
   public: std::map<std::string, ignition::math::Pose3d> poses;
 
   /// \brief Counter to track unique identifiers.
-  public: uint32_t reportCount = 1u;
+  public: uint32_t reportCount = 0u;
+
+  /// The maximum number of times that a team can attempt an
+  /// artifact report is this number multiplied by the total number
+  /// of artifacts.
+  public: uint32_t reportCountLimitFactor = 2u;
+
+  /// \brief The total number of artifacts.
+  public: uint32_t artifactCount = 0u;
 
   /// \brief Total score.
   public: double totalScore = 0.0;
@@ -179,6 +227,15 @@ class subt::GameLogicPluginPrivate
   /// \brief Ignition transport start publisher. This is needed by cloudsim
   /// to know when a run has been started.
   public: transport::Node::Publisher startPub;
+
+  /// \brief Logpath.
+  public: std::string logPath{"/dev/null"};
+
+  /// \brief Names of the spawned robots.
+  public: std::set<std::string> robotNames;
+
+  /// \brief The unique artifact reports received.
+  public: std::vector<std::string> uniqueReports;
 };
 
 //////////////////////////////////////////////////
@@ -190,17 +247,18 @@ GameLogicPlugin::GameLogicPlugin()
 //////////////////////////////////////////////////
 GameLogicPlugin::~GameLogicPlugin()
 {
+  this->dataPtr->Finish();
   this->dataPtr->finished = true;
   if (this->dataPtr->publishThread)
     this->dataPtr->publishThread->join();
 }
 
 //////////////////////////////////////////////////
-bool GameLogicPlugin::Load(const tinyxml2::XMLElement *_elem)
+void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
+                           const std::shared_ptr<const sdf::Element> &_sdf,
+                           ignition::gazebo::EntityComponentManager & /*_ecm*/,
+                           ignition::gazebo::EventManager & /*_eventMgr*/)
 {
-  // Default log path is /dev/null.
-  std::string logPath = "/dev/null";
-
   // Check if the game logic plugin has a <logging> element.
   // The <logging> element can contain a <filename_prefix> child element.
   // The <filename_prefix> is used to specify the log filename prefix. For
@@ -209,20 +267,21 @@ bool GameLogicPlugin::Load(const tinyxml2::XMLElement *_elem)
   //   <path>/tmp</path>
   //   <filename_prefix>subt_tunnel_qual</filename_prefix>
   // </logging>
-  const tinyxml2::XMLElement *loggingElem = _elem->FirstChildElement("logging");
-  const tinyxml2::XMLElement *fileElem = nullptr;
-  if (loggingElem &&
-      (fileElem = loggingElem->FirstChildElement("filename_prefix")))
+  const sdf::ElementPtr loggingElem =
+    const_cast<sdf::Element*>(_sdf.get())->GetElement("logging");
+
+  std::string filenamePrefix;
+  if (loggingElem && loggingElem->HasElement("filename_prefix"))
   {
     // Get the log filename prefix.
-    std::string filenamePrefix = fileElem->GetText();
-    const tinyxml2::XMLElement *pathElem =
-      loggingElem->FirstChildElement("path");
+    filenamePrefix =
+      loggingElem->Get<std::string>("filename_prefix", "subt").first;
 
     // Get the logpath from the <path> element, if it exists.
-    if (pathElem)
+    if (loggingElem->HasElement("path"))
     {
-      logPath = pathElem->GetText();
+      this->dataPtr->logPath =
+        loggingElem->Get<std::string>("path", "/dev/null").first;
     }
     else
     {
@@ -236,17 +295,15 @@ bool GameLogicPlugin::Load(const tinyxml2::XMLElement *_elem)
       }
       else
       {
-        logPath = homePath;
+        this->dataPtr->logPath = homePath;
       }
     }
-
-    // Construct the final log filename.
-    logPath += "/" + filenamePrefix + "_" +
-      ignition::common::systemTimeISO() + ".log";
   }
 
   // Open the log file.
-  this->dataPtr->logStream.open(logPath.c_str(), std::ios::out);
+  this->dataPtr->logStream.open(
+      (this->dataPtr->logPath + "/" + filenamePrefix + "_" +
+      ignition::common::systemTimeISO() + ".log").c_str(), std::ios::out);
 
   // Advertise the service to receive artifact reports.
   // Note that we're setting the scope to this service to SCOPE_T, so only
@@ -257,25 +314,28 @@ bool GameLogicPlugin::Load(const tinyxml2::XMLElement *_elem)
   this->dataPtr->node.Advertise(kNewArtifactSrv,
     &GameLogicPluginPrivate::OnNewArtifact, this->dataPtr.get(), opts);
 
-  this->dataPtr->ParseArtifacts(_elem);
+  this->dataPtr->ParseArtifacts(_sdf);
 
-  const tinyxml2::XMLElement *worldNameElem =
-    _elem->FirstChildElement("world_name");
-  std::string worldName = "default";
-  if (worldNameElem)
+  // Get the duration seconds.
+  if (_sdf->HasElement("duration_seconds"))
   {
-    worldName = worldNameElem->GetText();
+    this->dataPtr->runDuration = std::chrono::seconds(
+        _sdf->Get<int>("duration_seconds"));
+
+    ignmsg << "Run duration set to " << this->dataPtr->runDuration.count()
+      << " seconds.\n";
+  }
+
+  std::string worldName = "default";
+  if (_sdf->HasElement("world_name"))
+  {
+    worldName = _sdf->Get<std::string>("world_name", "subt").first;
   }
   else
   {
     ignerr << "Missing <world_name>, the GameLogicPlugin will assume a "
       << " world name of 'default'. This could lead to incorrect scoring\n";
   }
-
-  // Subscribe to pose messages. We will pull out model and artifact
-  // information from the published message.
-  this->dataPtr->node.Subscribe("/world/" + worldName + "/pose/info",
-      &GameLogicPluginPrivate::OnPose, this->dataPtr.get());
 
   this->dataPtr->node.Advertise("/subt/pose_from_artifact_origin",
       &GameLogicPluginPrivate::OnPoseFromArtifact, this->dataPtr.get());
@@ -294,37 +354,109 @@ bool GameLogicPlugin::Load(const tinyxml2::XMLElement *_elem)
 
   ignmsg << "Starting SubT" << std::endl;
 
-  return true;
+  // Make sure that there are score files.
+  this->dataPtr->UpdateScoreFiles();
 }
 
-/////////////////////////////////////////////////
-void GameLogicPluginPrivate::OnPose(const ignition::msgs::Pose_V &_msg)
+//////////////////////////////////////////////////
+void GameLogicPlugin::PostUpdate(
+    const ignition::gazebo::UpdateInfo &_info,
+    const ignition::gazebo::EntityComponentManager &_ecm)
 {
-  // Store sim time if present
-  if (_msg.has_header() && _msg.header().has_stamp())
-    this->simTime = _msg.header().stamp();
+  // Store sim time
+  int64_t s, ns;
+  std::tie(s, ns) = ignition::math::durationToSecNsec(_info.simTime);
+  this->dataPtr->simTime.set_sec(s);
+  this->dataPtr->simTime.set_nsec(ns);
 
-  // Check the all the published poses
-  for (int i = 0; i < _msg.pose_size(); ++i)
+  // Capture the names of the robots. We only do this until the team
+  // triggers the start signal.
+  if (!this->dataPtr->started)
   {
-    const ignition::msgs::Pose &pose = _msg.pose(i);
-    this->poses[pose.name()] = ignition::msgs::Convert(pose);
-
-    // Update artifact positions.
-    for (std::pair<const subt::ArtifactType,
-         std::map<std::string, ignition::math::Pose3d>> &artifactPair :
-         this->artifacts)
-    {
-      for (std::pair<const std::string, ignition::math::Pose3d> &artifact :
-          artifactPair.second)
-      {
-        if (artifact.first == pose.name())
+    _ecm.Each<gazebo::components::Sensor,
+              gazebo::components::ParentEntity>(
+        [&](const gazebo::Entity &,
+            const gazebo::components::Sensor *,
+            const gazebo::components::ParentEntity *_parent) -> bool
         {
-          artifact.second = ignition::msgs::Convert(pose);
-          break;
+          // Get the model. We are assuming that a sensor is attached to
+          // a link.
+          auto model = _ecm.Component<gazebo::components::ParentEntity>(
+              _parent->Data());
+
+          if (model)
+          {
+            // Get the model name
+            auto mName =
+              _ecm.Component<gazebo::components::Name>(model->Data());
+            this->dataPtr->robotNames.insert(mName->Data());
+          }
+          return true;
+        });
+  }
+
+  // Update pose information
+  _ecm.Each<gazebo::components::Model,
+            gazebo::components::Name,
+            gazebo::components::Pose,
+            gazebo::components::Static>(
+      [&](const gazebo::Entity &,
+          const gazebo::components::Model *,
+          const gazebo::components::Name *_nameComp,
+          const gazebo::components::Pose *_poseComp,
+          const gazebo::components::Static *) -> bool
+      {
+        this->dataPtr->poses[_nameComp->Data()] = _poseComp->Data();
+        for (std::pair<const subt::ArtifactType,
+            std::map<std::string, ignition::math::Pose3d>> &artifactPair :
+            this->dataPtr->artifacts)
+        {
+          for (std::pair<const std::string, ignition::math::Pose3d> &artifact :
+              artifactPair.second)
+          {
+            if (artifact.first == _nameComp->Data())
+            {
+              artifact.second = _poseComp->Data();
+              break;
+            }
+          }
         }
-      }
+        return true;
+      });
+
+  // Set the artifact origin pose
+  if (this->dataPtr->artifactOriginPose == ignition::math::Pose3d::Zero)
+  {
+    static bool errorSent = false;
+
+    // Get the artifact origin's pose.
+    std::map<std::string, ignition::math::Pose3d>::iterator originIter =
+      this->dataPtr->poses.find(subt::kArtifactOriginName);
+    if (originIter == this->dataPtr->poses.end() && !errorSent)
+    {
+      ignerr << "[GameLogicPlugin]: Unable to find the artifact origin ["
+        << subt::kArtifactOriginName
+        << "]. Ignoring PoseFromArtifact request" << std::endl;
+      errorSent = true;
     }
+    else
+    {
+      this->dataPtr->artifactOriginPose = originIter->second;
+    }
+  }
+
+  // Get the start sim time in nanoseconds.
+  auto startSimTime = std::chrono::nanoseconds(
+      this->dataPtr->startSimTime.sec() * 1000000000 +
+      this->dataPtr->startSimTime.nsec());
+  // Check if the allowed time has elapsed. If so, then mark as finished.
+  if ((this->dataPtr->started && !this->dataPtr->finished) &&
+      this->dataPtr->runDuration != std::chrono::seconds(0) &&
+      _info.simTime - startSimTime > this->dataPtr->runDuration)
+  {
+    ignmsg << "Time limit[" <<  this->dataPtr->runDuration.count()
+      << "s] reached.\n";
+    this->dataPtr->Finish();
   }
 }
 
@@ -337,7 +469,6 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
   auto s = std::chrono::duration_cast<std::chrono::seconds>(realTime);
   auto ns = std::chrono::duration_cast<std::chrono::nanoseconds>(realTime-s);
 
-  _resp.set_report_id(reportCount++);
   *_resp.mutable_artifact() = _req;
 
   _resp.mutable_submitted_datetime()->set_sec(s.count());
@@ -357,7 +488,8 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
   {
     _resp.set_report_status("run not started");
   }
-  else if (this->artifacts.size() == 0)
+  else if (this->reportCount >
+      this->artifactCount * this->reportCountLimitFactor)
   {
     _resp.set_report_status("report limit exceeded");
   }
@@ -384,7 +516,31 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
     this->Log() << "new_total_score " << this->totalScore << std::endl;
   }
 
-  this->Log() << _resp.DebugString() << std::endl;
+  _resp.set_report_id(this->reportCount);
+
+  // Finish if the maximum score has been reached, or if the maximum number
+  // of artifact reports has been reached..
+  if (this->totalScore >= this->artifactCount)
+  {
+    ignmsg << "Max score has been reached. Congratulations!" << std::endl;
+    this->Finish();
+    return true;
+  }
+
+  if (!this->finished &&
+      this->reportCount > this->artifactCount * this->reportCountLimitFactor)
+  {
+    _resp.set_report_status("report limit exceeded");
+    ignmsg << "Report limit exceed." << std::endl;
+    this->Finish();
+    return true;
+  }
+
+  // Update the score files, in case something bad happens.
+  // The ::Finish functions, used above, will also call the UpdateScoreFiles
+  // function.
+  this->UpdateScoreFiles();
+
   return true;
 }
 
@@ -412,18 +568,50 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
   }
 
   // Sanity check: Make sure that we still have artifacts.
-  if (this->artifacts.find(_type) == this->artifacts.end())
+  if (this->foundArtifacts.size() >= this->artifactCount)
   {
     ignmsg << "  No artifacts remaining" << std::endl;
     this->Log() << "no_remaining_artifacts_of_specified_type" << std::endl;
     return 0.0;
   }
 
+  // Type converted into a string.
+  std::string reportType;
+  if (!this->StringFromArtifact(_type, reportType))
+  {
+    ignmsg << "Unknown artifact type" << std::endl;
+    this->Log() << "Unkown artifact type reported" << std::endl;
+    return 0.0;
+  }
+
+  // Pose converted into a string.
+  std::string reportPose = std::to_string(_pose.position().x()) + "_" +
+                           std::to_string(_pose.position().y()) + "_" +
+                           std::to_string(_pose.position().z());
+
+  // Unique report Id: Type and pose combined into a string.
+  std::string uniqueReport = reportType + "_" + reportPose;
+
+  // Check whether we received the same report before.
+  if (std::find(this->uniqueReports.begin(),
+                this->uniqueReports.end(),
+                uniqueReport) != this->uniqueReports.end())
+  {
+    ignmsg << "This report has been received before" << std::endl;
+    this->Log() << "This report has been received before" << std::endl;
+    return 0.0;
+  }
+
+  // This is a new unique report, let's save it.
+  this->uniqueReports.push_back(uniqueReport);
+
+  // This is a unique report.
+  this->reportCount++;
+
   // The teams are reporting the artifact poses relative to the fiducial located
   // in the staging area. Now, we convert the reported pose to world coordinates
   ignition::math::Pose3d artifactPose = ignition::msgs::Convert(_pose);
-  ignition::math::Pose3d pose = artifactPose +
-    this->artifactOriginPose;
+  ignition::math::Pose3d pose = artifactPose + this->artifactOriginPose;
 
   double score = 0.0;
   std::map<std::string, ignition::math::Pose3d> &potentialArtifacts =
@@ -437,7 +625,13 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
   for (const std::pair<std::string, ignition::math::Pose3d> &object :
        potentialArtifacts)
   {
-    double distance = observedObjectPose.Distance(object.second.Pos());
+    // make sure the artifact has been loaded
+    ignition::math::Vector3d artifactPos = object.second.Pos();
+    if (std::isinf(artifactPos.X()) || std::isinf(artifactPos.Y())
+        || std::isinf(artifactPos.Z()))
+      continue;
+
+    double distance = observedObjectPose.Distance(artifactPos);
 
     if (distance < std::get<2>(minDistance))
     {
@@ -447,16 +641,20 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
     }
   }
 
-  // Calculate the score based on accuracy in the location.
-  if (std::get<2>(minDistance) < 5)
+  // Calculate the score based on accuracy in the location. Make sure that
+  // the artifact was not already reported.
+  if (std::get<2>(minDistance) < 5 &&
+      this->foundArtifacts.find(std::get<0>(minDistance)) ==
+      this->foundArtifacts.end())
   {
     score = 1.0;
-    // Remove this artifact to avoid getting score from the same artifact
-    // multiple times.
-    potentialArtifacts.erase(std::get<0>(minDistance));
-    if (potentialArtifacts.empty())
-      this->artifacts.erase(_type);
+
+    // Keep track of the artifacts that were found.
+    this->foundArtifacts.insert(std::get<0>(minDistance));
+    this->Log() << "found_artifact " << std::get<0>(minDistance) << std::endl;
   }
+
+  this->Log() << "calculated_dist " << std::get<2>(minDistance) << std::endl;
 
   ignmsg << "  [Total]: " << score << std::endl;
   this->Log() << "modified_score " << score << std::endl;
@@ -484,43 +682,61 @@ bool GameLogicPluginPrivate::ArtifactFromString(const std::string &_name,
 }
 
 /////////////////////////////////////////////////
-void GameLogicPluginPrivate::ParseArtifacts(const tinyxml2::XMLElement *_elem)
+bool GameLogicPluginPrivate::StringFromArtifact(const ArtifactType &_type,
+    std::string &_strType)
 {
-  const tinyxml2::XMLElement *artifactElem =
-    _elem->FirstChildElement("artifact");
+  auto pos = std::find_if(
+    std::begin(this->kArtifactTypes),
+    std::end(this->kArtifactTypes),
+    [&_type](const typename std::pair<ArtifactType, std::string> &_pair)
+    {
+      return (std::get<0>(_pair) == _type);
+    });
+
+  if (pos == std::end(this->kArtifactTypes))
+    return false;
+
+  _strType = std::get<1>(*pos);
+  return true;
+}
+
+/////////////////////////////////////////////////
+void GameLogicPluginPrivate::ParseArtifacts(
+    const std::shared_ptr<const sdf::Element> &_sdf)
+{
+  sdf::ElementPtr artifactElem = const_cast<sdf::Element*>(
+      _sdf.get())->GetElement("artifact");
+
   while (artifactElem)
   {
-    const tinyxml2::XMLElement *nameElem =
-      artifactElem->FirstChildElement("name");
-
     // Sanity check: "Name" is required.
-    if (!nameElem)
+    if (!artifactElem->HasElement("name"))
     {
       ignerr << "[GameLogicPlugin]: Parameter <name> not found. Ignoring this "
             << "artifact" << std::endl;
       this->Log() << "error Parameter <name> not found. Ignoring this artifact"
                   << std::endl;
-      artifactElem = artifactElem->NextSiblingElement("artifact");
+      artifactElem = artifactElem->GetNextElement("artifact");
       continue;
     }
-    std::string modelName = nameElem->GetText();
+    std::string modelName = artifactElem->Get<std::string>("name",
+        "name").first;
 
-    const tinyxml2::XMLElement *typeElem =
-      artifactElem->FirstChildElement("type");
     // Sanity check: "Type" is required.
-    if (!typeElem)
+    if (!artifactElem->HasElement("type"))
     {
       ignerr << "[GameLogicPlugin]: Parameter <type> not found. Ignoring this "
         << "artifact" << std::endl;
       this->Log() << "error Parameter <type> not found. Ignoring this artifact"
                   << std::endl;
 
-      artifactElem = artifactElem->NextSiblingElement("artifact");
+      artifactElem = artifactElem->GetNextElement("artifact");
       continue;
     }
 
     // Sanity check: Make sure that the artifact type is supported.
-    std::string modelTypeStr = typeElem->GetText();
+    std::string modelTypeStr = artifactElem->Get<std::string>("type",
+        "type").first;
     ArtifactType modelType;
     if (!this->ArtifactFromString(modelTypeStr, modelType))
     {
@@ -528,7 +744,7 @@ void GameLogicPluginPrivate::ParseArtifacts(const tinyxml2::XMLElement *_elem)
         << modelTypeStr << "]. Ignoring artifact" << std::endl;
       this->Log() << "error Unknown artifact type ["
                   << modelTypeStr << "]. Ignoring artifact" << std::endl;
-      artifactElem = artifactElem->NextSiblingElement("artifact");
+      artifactElem = artifactElem->GetNextElement("artifact");
       continue;
     }
 
@@ -544,15 +760,20 @@ void GameLogicPluginPrivate::ParseArtifacts(const tinyxml2::XMLElement *_elem)
           << modelName << "]. Ignoring artifact" << std::endl;
         this->Log() << "error Repeated model with name ["
                     << modelName << "]. Ignoring artifact" << std::endl;
-        artifactElem = artifactElem->NextSiblingElement("artifact");
+        artifactElem = artifactElem->GetNextElement("artifact");
         continue;
       }
     }
 
-    ignmsg << "Adding artifact name[" << modelName << "] type["
-      << modelTypeStr << "]\n";
-    this->artifacts[modelType][modelName] = ignition::math::Pose3d::Zero;
-        artifactElem = artifactElem->NextSiblingElement("artifact");
+    ignmsg << "Adding artifact name[" << modelName << "] type string["
+      << modelTypeStr << "] typeid[" << static_cast<int>(modelType) << "]\n";
+    this->artifacts[modelType][modelName] =
+        ignition::math::Pose3d(ignition::math::INF_D, ignition::math::INF_D,
+            ignition::math::INF_D, 0, 0, 0);
+        artifactElem = artifactElem->GetNextElement("artifact");
+
+    // Helper variable that is the total number of artifacts.
+    this->artifactCount++;
   }
 }
 
@@ -597,6 +818,7 @@ bool GameLogicPluginPrivate::OnStartCall(const ignition::msgs::Boolean &_req,
     _res.set_data(true);
     this->started = true;
     this->startTime = std::chrono::steady_clock::now();
+    this->startSimTime = this->simTime;
     ignmsg << "Scoring has Started" << std::endl;
     this->Log() << "scoring_started" << std::endl;
 
@@ -608,6 +830,9 @@ bool GameLogicPluginPrivate::OnStartCall(const ignition::msgs::Boolean &_req,
   else
     _res.set_data(false);
 
+  // Update files when scoring has started.
+  this->UpdateScoreFiles();
+
   return true;
 }
 
@@ -615,21 +840,77 @@ bool GameLogicPluginPrivate::OnStartCall(const ignition::msgs::Boolean &_req,
 /////////////////////////////////////////////////
 void GameLogicPluginPrivate::Finish()
 {
-  if (this->started && !this->finished)
-  {
-    this->finished = true;
-    this->finishTime = std::chrono::steady_clock::now();
+  if (this->finished)
+    return;
 
-    auto elapsed = this->finishTime - this->startTime;
-    ignmsg << "Scoring has finished. Elapsed time: "
-          << std::chrono::duration_cast<std::chrono::seconds>(elapsed).count()
-          << " seconds" << std::endl;
-    this->Log() << "finished_elapsed_time "
-      << std::chrono::duration_cast<std::chrono::seconds>(elapsed).count()
+  // Elapsed time
+  int realElapsed = 0;
+  int simElapsed = 0;
+
+  // Update the score.yml and summary.yml files. This function also
+  // returns the time point used to calculate the elapsed real time. By
+  // returning this time point, we can make sure that this function (the
+  // ::Finish function) uses the same time point.
+  std::chrono::steady_clock::time_point currTime = this->UpdateScoreFiles();
+
+  if (this->started)
+  {
+    realElapsed = std::chrono::duration_cast<std::chrono::seconds>(
+        currTime - this->startTime).count();
+
+    ignmsg << "Scoring has finished. Elapsed real time: "
+          << realElapsed << " seconds. Elapsed sim time: "
+          << simElapsed << " seconds. " << std::endl;
+
+    this->Log() << "finished_elapsed_real_time " << realElapsed
+      << " s." << std::endl;
+    this->Log() << "finished_elapsed_sim_time " << simElapsed
       << " s." << std::endl;
     this->Log() << "finished_score " << this->totalScore << std::endl;
     this->logStream.flush();
+
+    // \todo(nkoenig) After the tunnel circuit, change the /subt/start topic
+    // to /sub/status.
+    ignition::msgs::StringMsg msg;
+    msg.mutable_header()->mutable_stamp()->CopyFrom(this->simTime);
+    msg.set_data("finished");
+    this->startPub.Publish(msg);
   }
+
+  this->finished = true;
+}
+
+/////////////////////////////////////////////////
+std::chrono::steady_clock::time_point
+GameLogicPluginPrivate::UpdateScoreFiles() const
+{
+  // Elapsed time
+  int realElapsed = 0;
+  int simElapsed = 0;
+  std::chrono::steady_clock::time_point currTime =
+    std::chrono::steady_clock::now();
+
+  if (this->started)
+  {
+    simElapsed = this->simTime.sec() - this->startSimTime.sec();
+    realElapsed = std::chrono::duration_cast<std::chrono::seconds>(
+        currTime - this->startTime).count();
+  }
+
+  // Output a run summary
+  std::ofstream summary(this->logPath + "/summary.yml", std::ios::out);
+  summary << "was_started: " << this->started << std::endl;
+  summary << "sim_time_duration_sec: " << simElapsed << std::endl;
+  summary << "real_time_duration_sec: " << realElapsed << std::endl;
+  summary << "model_count: " << this->robotNames.size() << std::endl;
+  summary.flush();
+
+  // Output a score file with just the final score
+  std::ofstream score(this->logPath + "/score.yml", std::ios::out);
+  score << totalScore << std::endl;
+  score.flush();
+
+  return currTime;
 }
 
 /////////////////////////////////////////////////
@@ -661,24 +942,13 @@ bool GameLogicPluginPrivate::PoseFromArtifactHelper(const std::string &_robot,
     return false;
   }
 
-  if (baseIter->second.Pos().Distance(robotIter->second.Pos()) > 15)
+  if (baseIter->second.Pos().Distance(robotIter->second.Pos()) > 18)
   {
     ignerr << "[GameLogicPlugin]: Robot [" << _robot << "] is too far from the "
       << "staging area. Ignoring PoseFromArtifact request" << std::endl;
     return false;
   }
 
-  // Get the artifact origin's pose.
-  std::map<std::string, ignition::math::Pose3d>::iterator originIter =
-    this->poses.find(subt::kArtifactOriginName);
-  if (originIter == this->poses.end())
-  {
-    ignerr << "[GameLogicPlugin]: Unable to find the artifact origin ["
-      << subt::kArtifactOriginName
-      << "]. Ignoring PoseFromArtifact request" << std::endl;
-    return false;
-  }
-  this->artifactOriginPose = originIter->second;
 
   // Pose.
   _result = robotIter->second - this->artifactOriginPose;

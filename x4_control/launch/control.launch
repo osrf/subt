@@ -1,15 +1,16 @@
 <?xml version="1.0"?>
 <launch>
 
-  <arg name="world_name" default="tunnel_qual_ign" />
   <arg name="x4_name" default="X4" />
   <arg name="robot_namespace" default="$(arg x4_name)"/>
 
   <group ns="$(arg x4_name)">
     <node pkg="robot_localization" type="ukf_localization_node"
           name="robot_localization_ukf_node_odom">
-      <param name="frequency" value="1000." />
+      <!--The frequency cannot exceed the simulation frequency, which is currently set to 250 Hz (step size of 0.004 ms)-->
+      <param name="frequency" value="250.0" /> 
       <param name="sensor_timeout" value="0.2" />
+      <param name="transform_timeout" value="0.005" />
       <param name="two_d_mode" value="false" />
       <param name="odom_frame" value="$(arg x4_name)/odom" />
       <param name="base_link_frame" value="$(arg x4_name)" />
@@ -23,7 +24,7 @@
         true, true, true]</rosparam>
     </node>
     <!-- Spawn a position controller -->
-    <node name="roll_pitch_yawrate_thrust_controller_node" pkg="rotors_control" type="roll_pitch_yawrate_thrust_controller_node" output="screen" respawn="true">
+    <node name="roll_pitch_yawrate_thrust_controller_node" pkg="subt_rotors_controller" type="roll_pitch_yawrate_thrust_controller_node" output="screen" respawn="true">
       <rosparam command="load" file="$(find x4_control)/resource/roll_pitch_yawrate_thrust_controller_neo11.yaml" />
       <rosparam command="load" file="$(find x4_control)/resource/neo11.yaml" />
       <remap from="odometry" to="odometry/filtered" />

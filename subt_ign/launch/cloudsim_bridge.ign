@@ -1,0 +1,207 @@
+<?xml version="1.0"?>
+<!-- This launch file is used by CloudSim to start a ROS master, and handle
+     bridging of data to/from Ignition Gazebo to a competitor's docker image.
+     It is possible, and safe, to run this launch file locally during testing
+     development.
+
+     For more information, please refer to
+         https://bitbucket.org/osrf/subt/wiki/tutorials/cloudsim
+
+    Usage: ign launch cloudsim_bridge.ign
+            [worldName:=<worldName>
+             robotName1:=<robotName> robotConfig1:=<robotConfig>
+             robotName2:=<robotName> robotConfig2:=<robotConfig>
+             ... ]
+
+    The [worldName] command line argument is optional,
+          defaults to tunnel_circuit_practice_01 if not specified
+    The [robotNameX] command line argument is optional, where X can be 1 to 20
+
+    Example that loads tunnel circuit practice world with an X2 robot with configuration 3
+
+      ign launch tunnel_circuit_practice.ign worldName:=tunnel_circuit_practice_01
+          robotName1:=X2_3 robotConfig1:=X2_SENSOR_CONFIG_3
+-->
+
+<%
+  # When 'enableGroundTruth = true' absolute poses of vehicles will be published.
+  # This is useful for debugging purposes, but will not be available during
+  # competition scoring.
+
+  # Check if enableGroundTruith is not defined or is empty/nil
+  if !defined?(enableGroundTruth) || enableGroundTruth == nil || enableGroundTruth.empty?
+    $enableGroundTruth = false
+  else
+    $enableGroundTruth = enableGroundTruth
+  end
+%>
+
+<%
+  # Check if robotNameX and robotConfigX exists
+  spawnRowSize = 4
+  spawnColSize = 5
+  spawnGridSize = 2
+  maxRobotCount = spawnRowSize * spawnColSize
+  spawnColOffset = spawnColSize * spawnGridSize / 2
+  spawnRowOffset = spawnRowSize * spawnGridSize / 2
+  robots = Hash.new
+  for i in 1..maxRobotCount do
+    if (local_variables.include?(:"robotName#{i}") &&
+        local_variables.include?(:"robotConfig#{i}"))
+      name=eval "robotName#{i}"
+      config=eval "robotConfig#{i}"
+      if name != nil && !name.empty?
+        robots[name] = config
+      end
+    end
+  end
+%>
+
+<%
+  # Check if worldName is not defined or is empty/nil
+  if !defined?(worldName) || worldName == nil || worldName.empty?
+    $worldName = 'tunnel_circuit_practice_01'
+  else
+    $worldName = worldName
+  end
+
+  worldNumber = $worldName.split('_').last
+
+  $x3Version = '4'
+%>
+
+
+<ignition version='1.0'>
+  <!-- Start ROS first. This is a bit hacky for now. -->
+  <!-- Make sure to source /opt/ros/melodic/setup.bash -->
+  <executable name='ros'>
+    <command>roslaunch subt_ros competition_init.launch world_name:=<%=$worldName%> vehicle_topics:=<%=(robots.empty?)?"1":"0"%> enable_ground_truth:=<%=($enableGroundTruth)?"1":"0"%></command>
+  </executable>
+
+<%
+  def spawnX1(_name, _config, _x, _y)
+    uav=0
+    laserScan=0
+    stereoCam=0
+    lidar3d=0
+    if _config == "1" or _config == "2"
+      laserScan=1
+    end
+    if _config == "3" or _config == "4"
+      lidar3d=1
+    end
+    if _config == "5"
+      stereoCam=1
+    end
+    "<executable name='x1_description'>\n"\
+    "  <command>roslaunch --wait subt_ros x1_description.launch name:=#{_name}</command>\n"\
+    "</executable>\n"\
+    "<executable name='x1_ros_ign_bridge'>\n"\
+      "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} lidar_3d:=#{lidar3d}</command>\n"\
+    "</executable>\n"
+  end
+
+  def spawnX2(_name, _config, _x, _y)
+    uav=0
+    laserScan=0
+    stereoCam=0
+    lidar3d=0
+    if _config == "1" or _config == "2" or _config == "3" or _config == "4"
+      laserScan=1
+    end
+    if _config == "5"
+      stereoCam=1
+    end
+    if _config == "6"
+      lidar3d=1
+    end
+    "<executable name='x2_description'>\n"\
+    "  <command>roslaunch --wait subt_ros x2_description.launch name:=#{_name}</command>\n"\
+    "</executable>\n"\
+    "<executable name='x2_ros_ign_bridge'>\n"\
+    "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} lidar_3d:=#{lidar3d}</command>\n"\
+    "</executable>\n"
+  end
+
+  def spawnX3(_name, _config, _x, _y)
+    uav=1
+    laserScan=0
+    stereoCam=0
+    rgbdCam=0
+    if _config == "3" || _config == "4"
+      rgbdCam=1
+    end
+    if _config == "5"
+      stereoCam=1
+    end
+    "<executable name='x3_description'>\n"\
+    "  <command>roslaunch --wait subt_ros x3_description.launch name:=#{_name}</command>\n"\
+    "</executable>\n"\
+    "<executable name='X3_controller'>\n"\
+    "  <command>roslaunch --wait x3_control control.launch x3_name:=#{_name}</command>\n"\
+    "</executable>\n"\
+    "<executable name='x3_ros_ign_bridge'>\n"\
+      "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} rgbd_cam:=#{rgbdCam}</command>\n"\
+    "</executable>\n"
+  end
+
+  def spawnX4(_name, _config, _x, _y)
+    uav=1
+    laserScan=0
+    stereoCam=0
+    rgbdCam=0
+    if _config == "2"
+      rgbdCam=1
+    end
+    if _config == "3" or _config == "4"
+      laserScan=1
+    end
+    if _config == "5"
+      stereoCam=1
+    end
+    "<executable name='X4_controller'>\n"\
+    "  <command>roslaunch --wait x4_control control.launch x4_name:=#{_name}</command>\n"\
+    "</executable>\n"\
+    "<executable name='x4_description'>\n"\
+    "  <command>roslaunch --wait subt_ros x4_description.launch name:=#{_name}</command>\n"\
+    "</executable>\n"\
+    "<executable name='x4_ros_ign_bridge'>\n"\
+    "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} rgbd_cam:=#{rgbdCam}</command>\n"\
+    "</executable>\n"
+  end
+%>
+
+<%
+  robotSpawned = 0
+  robots.each do |name, config|
+    robotType = config[1]
+    robotConfigN = config[-1]
+    posX = -(robotSpawned / spawnColSize * spawnGridSize - spawnRowOffset)
+    posY = -(robotSpawned % spawnColSize * spawnGridSize - spawnColOffset)
+    if robotType == "1"
+      robotSpawned += 1
+%>
+<%=   spawnX1(name, robotConfigN, posX, posY) %>
+<%
+    elsif robotType == "2"
+      robotSpawned += 1
+%>
+<%=   spawnX2(name, robotConfigN, posX, posY) %>
+<%
+    elsif robotType == "3"
+      robotSpawned += 1
+%>
+<%=   spawnX3(name, robotConfigN, posX, posY) %>
+<%
+    elsif robotType == "4"
+      robotSpawned += 1
+%>
+<%=   spawnX4(name, robotConfigN, posX, posY) %>
+<%
+    else
+      puts "Unknown robot configuration #{config}"
+    end
+  end
+%>
+
+</ignition>

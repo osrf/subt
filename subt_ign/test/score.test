@@ -1,11 +1,6 @@
 <?xml version="1.0"?>
 <launch>
 
-  <param name="/use_sim_time" value="true" />
-
-  <include file="$(find subt_ign)/test/launch/test_score.launch">
-  </include>
-
-  <test test-name="score" pkg="subt_ign" type="test_score" time-limit="120.0" />
+  <test test-name="score" pkg="subt_ign" type="test_score" time-limit="200.0" />
 
 </launch>

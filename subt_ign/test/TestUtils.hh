@@ -18,8 +18,8 @@
 #ifndef SUBT_GAZEBO_TESTUTILS_HH_
 #define SUBT_GAZEBO_TESTUTILS_HH_
 
-#include <std_msgs/Int32.h>
-#include <ros/ros.h>
+#include <ignition/msgs/float.pb.h>
+#include <ignition/transport/Node.hh>
 #include <chrono>
 
 namespace subt
@@ -29,11 +29,9 @@ namespace subt
   {
     /// \brief Constructor.
     public: GazeboTest()
-      : messageReceived(false),
-        subscriber(
-          this->nodeHandle.subscribe("/subt/score", 5,
-                                     &GazeboTest::Callback, this))
+      : messageReceived(false)
     {
+      this->node.Subscribe("/subt/score", &GazeboTest::Callback, this);
     }
 
     /// \brief Wait until Gazebo is ready.
@@ -49,8 +47,7 @@ namespace subt
       {
         if (std::chrono::high_resolution_clock::now() >= end)
           return false;
-
-        ros::spinOnce();
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
       }
 
       return true;
@@ -59,7 +56,7 @@ namespace subt
     /// \brief This callback is used to detect when a message from Gazebo is
     /// received.
     /// \param[in] _states Not used.
-    private: void Callback(const std_msgs::Int32 &/*_states*/)
+    private: void Callback(const ignition::msgs::Float &/*_states*/)
     {
       this->messageReceived = true;
     }
@@ -68,10 +65,7 @@ namespace subt
     private: bool messageReceived;
 
     /// \brief The ROS node handler.
-    private: ros::NodeHandle nodeHandle;
-
-    /// \bried Used to subscribe to a Gazebo ROS topic.
-    private: ros::Subscriber subscriber;
+    private: ignition::transport::Node node;
   };
 }
 

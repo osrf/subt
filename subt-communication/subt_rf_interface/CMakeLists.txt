@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 2.8.3)
 project(subt_rf_interface)
 
 set(PKG_DEPENDS
-  roscpp
   geometry_msgs
   )
 set(BUILD_DEPENDS
