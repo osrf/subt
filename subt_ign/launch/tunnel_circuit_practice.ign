@@ -92,6 +92,9 @@
   <plugin name="ignition::launch::GazeboServer"
           filename="libignition-launch-gazebo.so">
     <world_file><%= $worldName %>.sdf</world_file>
+    <%if defined?(updateRate) && updateRate != nil && !updateRate.empty?%>
+    <update_rate><%= updateRate %></update_rate>
+    <%end%>
     <run>true</run>
     <levels>true</levels>
     <record>
@@ -380,7 +383,7 @@
     "      <left_joint>rear_left_wheel_joint</left_joint>\n"\
     "      <right_joint>front_right_wheel_joint</right_joint>\n"\
     "      <right_joint>rear_right_wheel_joint</right_joint>\n"\
-    "      <wheel_separation>0.45649</wheel_separation>\n"\
+    "      <wheel_separation>#{0.45649 * 1.5}</wheel_separation>\n"\
     "      <wheel_radius>0.1651</wheel_radius>\n"\
     "      <topic>/model/#{_name}/cmd_vel_relay</topic>\n"\
     "    </plugin>\n"\
@@ -450,7 +453,7 @@
     "      <left_joint>rear_left_wheel_joint</left_joint>\n"\
     "      <right_joint>front_right_wheel_joint</right_joint>\n"\
     "      <right_joint>rear_right_wheel_joint</right_joint>\n"\
-    "      <wheel_separation>0.33559</wheel_separation>\n"\
+    "      <wheel_separation>#{0.33559 * 1.23}</wheel_separation>\n"\
     "      <wheel_radius>0.098</wheel_radius>\n"\
     "      <topic>/model/#{_name}/cmd_vel_relay</topic>\n"\
     "    </plugin>\n"\
