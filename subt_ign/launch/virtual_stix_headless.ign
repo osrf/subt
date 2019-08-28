@@ -75,6 +75,9 @@
   <plugin name="ignition::launch::GazeboServer"
           filename="libignition-launch-gazebo.so">
     <world_file><%= $worldName %>.sdf</world_file>
+    <%if defined?(updateRate) && updateRate != nil && !updateRate.empty?%>
+    <update_rate><%= updateRate %></update_rate>
+    <%end%>
     <run>true</run>
     <levels>true</levels>
     <record>
