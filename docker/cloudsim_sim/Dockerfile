@@ -31,6 +31,10 @@ RUN apt-get update \
         iputils-ping \
  && apt-get clean
 
+# Install AWS CLI. This is needed by cloudsim to capture ROS logs.
+RUN pip3 install --upgrade awscli=="1.16.220"
+VOLUME /root/.aws
+
 # Add a user with the same user_id as the user outside the container
 # Requires a docker build argument `user_id`
 ARG user_id
