@@ -260,7 +260,7 @@ bool SubtRosRelay::OnPoseFromArtifact(
   subt_msgs::PoseFromArtifact::Request &_req,
   subt_msgs::PoseFromArtifact::Response &_res)
 {
-  if (_req.robot_name.data != this->robotName)
+  if (!this->robotName.empty() && _req.robot_name.data != this->robotName)
   {
     ROS_ERROR_STREAM("OnPoseFromArtifact address does not match origination."
         << "Attempted impersonation of robot[" << this->robotName
@@ -304,7 +304,7 @@ bool SubtRosRelay::OnPoseFromArtifact(
 bool SubtRosRelay::OnBind(subt_msgs::Bind::Request &_req,
                           subt_msgs::Bind::Response &_res)
 {
-  if (_req.address != this->robotName)
+  if (!this->robotName.empty() && _req.address != this->robotName)
   {
     ROS_ERROR_STREAM("OnBind address does not match origination. Attempted "
         << "impersonation of robot[" << this->robotName
@@ -348,7 +348,7 @@ bool SubtRosRelay::OnBind(subt_msgs::Bind::Request &_req,
 bool SubtRosRelay::OnSendTo(subt_msgs::DatagramRos::Request &_req,
                             subt_msgs::DatagramRos::Response &_res)
 {
-  if (_req.src_address != this->robotName)
+  if (!this->robotName.empty() && _req.src_address != this->robotName)
   {
     ROS_ERROR_STREAM("OnSendTo address does not match origination. Attempted "
         << "impersonation of robot[" << this->robotName
