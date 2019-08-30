@@ -2,7 +2,7 @@
 <launch>
 
   <arg name="world_name"/>
-  <arg name="robot_name"/>
+  <arg name="robot_name" default=""/>
   <arg name="vehicle_topics" default="1"/>
   <arg name="enable_ground_truth" default="0"/>
 
