@@ -35,6 +35,52 @@ RUN apt-get update \
 RUN pip3 install --upgrade awscli=="1.16.220"
 VOLUME /root/.aws
 
+RUN export DEBIAN_FRONTEND=noninteractive \
+ && apt-get update \
+ && apt-get install -y \
+    tzdata \
+ && ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime \
+ && dpkg-reconfigure --frontend noninteractive tzdata \
+ && apt-get clean
+
+# install ROS and required packages
+RUN /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' \
+ && apt-get update \
+ && apt-get install -y \
+    python-catkin-tools \
+    python-rosinstall \
+    ros-melodic-desktop \
+    ros-melodic-joystick-drivers \
+    ros-melodic-pointcloud-to-laserscan \
+    ros-melodic-robot-localization \
+    ros-melodic-spacenav-node \
+    ros-melodic-tf2-sensor-msgs \
+    ros-melodic-twist-mux \
+    ros-melodic-rviz-imu-plugin \
+    ros-melodic-rotors-control \
+ && rosdep init \
+ && apt-get clean
+
+# sdformat8-sdf conflicts with sdformat-sdf installed from gazebo
+# so we need to workaround this using a force overwrite
+# Do this before installing ign-gazebo
+RUN /bin/sh -c 'echo "deb [trusted=yes] http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list' \
+ && /bin/sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-prerelease `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-prerelease.list' \
+ && /bin/sh -c 'wget http://packages.osrfoundation.org/gazebo.key -O - | apt-key add -' \
+ && /bin/sh -c 'apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654'
+
+# install ign-blueprint
+RUN apt-get update \
+ && apt-get install -y \
+    ignition-blueprint \
+ && apt-get clean
+
+# install the ros to ign bridge
+RUN apt-get update \
+ && apt-get install -y \
+    ros-melodic-ros1-ign \
+ && apt-get clean
+
 # Add a user with the same user_id as the user outside the container
 # Requires a docker build argument `user_id`
 ARG user_id
@@ -53,53 +99,7 @@ RUN mkdir ~/workspaces ~/other
 # When running a container start in the developer's home folder
 WORKDIR /home/$USERNAME
 
-RUN export DEBIAN_FRONTEND=noninteractive \
- && sudo apt-get update \
- && sudo -E apt-get install -y \
-    tzdata \
- && sudo ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime \
- && sudo dpkg-reconfigure --frontend noninteractive tzdata \
- && sudo apt-get clean
-
-# install ROS and required packages
-RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' \
- && sudo apt-get update \
- && sudo apt-get install -y \
-    python-catkin-tools \
-    python-rosinstall \
-    ros-melodic-desktop \
-    ros-melodic-joystick-drivers \
-    ros-melodic-pointcloud-to-laserscan \
-    ros-melodic-robot-localization \
-    ros-melodic-spacenav-node \
-    ros-melodic-tf2-sensor-msgs \
-    ros-melodic-twist-mux \
-    ros-melodic-rviz-imu-plugin \
-    ros-melodic-rotors-control \
- && sudo rosdep init \
- && sudo apt-get clean
-
 RUN rosdep update
-
-# sdformat8-sdf conflicts with sdformat-sdf installed from gazebo
-# so we need to workaround this using a force overwrite
-# Do this before installing ign-gazebo
-RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list' \
- && sudo /bin/sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-prerelease `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-prerelease.list' \
- && sudo /bin/sh -c 'wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -' \
- && sudo /bin/sh -c 'apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654'
-
-# install ign-blueprint
-RUN sudo apt-get update \
- && sudo apt-get install -y \
-    ignition-blueprint \
- && sudo apt-get clean
-
-# install the ros to ign bridge
-RUN sudo apt-get update \
- && sudo apt-get install -y \
-    ros-melodic-ros1-ign \
- && sudo apt-get clean
 
 # Clone all the subt models so that you don't download them every time
 # docker is run

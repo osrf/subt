@@ -37,27 +37,12 @@
 %>
 
 <%
-  # Check if robotNameX and robotConfigX exists
-  spawnRowSize = 4
-  spawnColSize = 5
-  spawnGridSize = 2
-  maxRobotCount = spawnRowSize * spawnColSize
-  spawnColOffset = spawnColSize * spawnGridSize / 2
-  spawnRowOffset = spawnRowSize * spawnGridSize / 2
-  robots = Hash.new
-  for i in 1..maxRobotCount do
-    if (local_variables.include?(:"robotName#{i}") &&
-        local_variables.include?(:"robotConfig#{i}"))
-      name=eval "robotName#{i}"
-      config=eval "robotConfig#{i}"
-      if name != nil && !name.empty?
-        robots[name] = config
-      end
-    end
-  end
 %>
 
 <%
+  robotName=eval "robotName1"
+  robotConfig=eval "robotConfig1"
+
   # Check if worldName is not defined or is empty/nil
   if !defined?(worldName) || worldName == nil || worldName.empty?
     $worldName = 'tunnel_circuit_practice_01'
@@ -75,11 +60,11 @@
   <!-- Start ROS first. This is a bit hacky for now. -->
   <!-- Make sure to source /opt/ros/melodic/setup.bash -->
   <executable name='ros'>
-    <command>roslaunch subt_ros competition_init.launch world_name:=<%=$worldName%> vehicle_topics:=<%=(robots.empty?)?"1":"0"%> enable_ground_truth:=<%=($enableGroundTruth)?"1":"0"%></command>
+    <command>roslaunch subt_ros competition_init.launch world_name:=<%=$worldName%> vehicle_topics:=0 enable_ground_truth:=<%=($enableGroundTruth)?"1":"0"%> robot_name:=<%= robotName %></command>
   </executable>
 
 <%
-  def spawnX1(_name, _config, _x, _y)
+  def spawnX1(_name, _config)
     uav=0
     laserScan=0
     stereoCam=0
@@ -101,7 +86,7 @@
     "</executable>\n"
   end
 
-  def spawnX2(_name, _config, _x, _y)
+  def spawnX2(_name, _config)
     uav=0
     laserScan=0
     stereoCam=0
@@ -123,7 +108,7 @@
     "</executable>\n"
   end
 
-  def spawnX3(_name, _config, _x, _y)
+  def spawnX3(_name, _config)
     uav=1
     laserScan=0
     stereoCam=0
@@ -145,7 +130,7 @@
     "</executable>\n"
   end
 
-  def spawnX4(_name, _config, _x, _y)
+  def spawnX4(_name, _config)
     uav=1
     laserScan=0
     stereoCam=0
@@ -172,35 +157,24 @@
 %>
 
 <%
-  robotSpawned = 0
-  robots.each do |name, config|
-    robotType = config[1]
-    robotConfigN = config[-1]
-    posX = -(robotSpawned / spawnColSize * spawnGridSize - spawnRowOffset)
-    posY = -(robotSpawned % spawnColSize * spawnGridSize - spawnColOffset)
-    if robotType == "1"
-      robotSpawned += 1
+  if robotConfig[1] == "1"
 %>
-<%=   spawnX1(name, robotConfigN, posX, posY) %>
+<%= spawnX1(robotName, robotConfig[-1]) %>
 <%
-    elsif robotType == "2"
-      robotSpawned += 1
+  elsif robotConfig[1] == "2"
 %>
-<%=   spawnX2(name, robotConfigN, posX, posY) %>
+<%= spawnX2(robotName, robotConfig[-1]) %>
 <%
-    elsif robotType == "3"
-      robotSpawned += 1
+  elsif robotConfig[1] == "3"
 %>
-<%=   spawnX3(name, robotConfigN, posX, posY) %>
+<%= spawnX3(robotName, robotConfig[-1]) %>
 <%
-    elsif robotType == "4"
-      robotSpawned += 1
+  elsif robotConfig[1] == "4"
 %>
-<%=   spawnX4(name, robotConfigN, posX, posY) %>
+<%= spawnX4(robotName,  robotConfig[-1]) %>
 <%
-    else
-      puts "Unknown robot configuration #{config}"
-    end
+  else
+    puts "Unknown robot configuration #{robotConfig}"
   end
 %>
 

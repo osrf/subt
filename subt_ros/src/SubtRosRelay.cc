@@ -152,6 +152,9 @@ class SubtRosRelay
 
   /// \brief Condition variable for notifying arrival of new messages.
   public: std::condition_variable notifyCond;
+
+  /// \brief Name of the robot this relay is associated with.
+  public: std::string robotName;
 };
 
 //////////////////////////////////////////////////
@@ -160,8 +163,15 @@ SubtRosRelay::SubtRosRelay()
   // Initialize the ROS node.
   this->rosnode.reset(new ros::NodeHandle("subt"));
 
-  // ROS service to receive a command to finish the game.
   ros::NodeHandle n;
+
+  if (!n.getParam("/robot_name", this->robotName)) {
+    ROS_ERROR("Cannot operate without robot_name set");
+    ros::shutdown();
+    return;
+  }
+
+  // ROS service to receive a command to finish the game.
   this->finishService = n.advertiseService(
       "/subt/finish", &SubtRosRelay::OnFinishCall, this);
 
@@ -250,6 +260,14 @@ bool SubtRosRelay::OnPoseFromArtifact(
   subt_msgs::PoseFromArtifact::Request &_req,
   subt_msgs::PoseFromArtifact::Response &_res)
 {
+  if (_req.robot_name.data != this->robotName)
+  {
+    ROS_ERROR_STREAM("OnPoseFromArtifact address does not match origination."
+        << "Attempted impersonation of robot[" << this->robotName
+        << "] as robot[" <<_req.robot_name.data << "].\n");
+    return false;
+  }
+
   ignition::msgs::StringMsg req;
   ignition::msgs::Pose rep;
   unsigned int timeout = 5000;
@@ -286,6 +304,14 @@ bool SubtRosRelay::OnPoseFromArtifact(
 bool SubtRosRelay::OnBind(subt_msgs::Bind::Request &_req,
                           subt_msgs::Bind::Response &_res)
 {
+  if (_req.address != this->robotName)
+  {
+    ROS_ERROR_STREAM("OnBind address does not match origination. Attempted "
+        << "impersonation of robot[" << this->robotName
+        << "] as robot[" <<_req.address << "].\n");
+      return false;
+  }
+
   ignition::msgs::StringMsg_V req;
   req.add_data(_req.address);
   req.add_data(_req.endpoint);
@@ -322,6 +348,14 @@ bool SubtRosRelay::OnBind(subt_msgs::Bind::Request &_req,
 bool SubtRosRelay::OnSendTo(subt_msgs::DatagramRos::Request &_req,
                             subt_msgs::DatagramRos::Response &_res)
 {
+  if (_req.src_address != this->robotName)
+  {
+    ROS_ERROR_STREAM("OnSendTo address does not match origination. Attempted "
+        << "impersonation of robot[" << this->robotName
+        << "] as robot[" <<_req.src_address << "].\n");
+    return false;
+  }
+
   subt::msgs::Datagram msg;
   msg.set_src_address(_req.src_address);
   msg.set_dst_address(_req.dst_address);
