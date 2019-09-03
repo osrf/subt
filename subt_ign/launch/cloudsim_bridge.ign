@@ -9,13 +9,17 @@
 
     Usage: ign launch cloudsim_bridge.ign
             [worldName:=<worldName>
-             robotName1:=<robotName> robotConfig1:=<robotConfig>
-             robotName2:=<robotName> robotConfig2:=<robotConfig>
+             robotNameX:=<robotName> robotConfigX:=<robotConfig>
              ... ]
 
     The [worldName] command line argument is optional,
           defaults to tunnel_circuit_practice_01 if not specified
-    The [robotNameX] command line argument is optional, where X can be 1 to 20
+    The [robotNameX] command line argument is required, where X can be 1 to 20
+
+    Note that each robot requires its own bridge, that is, only one pair of
+    robotNameX and robotConfigX arguments can be passed. So if two robots named
+    X1 and X2 have been spawned, cloudsim_bridge.ign must be launched two
+    times.
 
     Example that loads tunnel circuit practice world with an X2 robot with configuration 3
 
@@ -37,12 +41,21 @@
 %>
 
 <%
+  # Check if robotNameX and robotConfigX exists
+  maxRobotCount = 20
+  for i in 1..maxRobotCount do
+    if (local_variables.include?(:"robotName#{i}") &&
+        local_variables.include?(:"robotConfig#{i}"))
+      robotName=eval "robotName#{i}"
+      robotConfig=eval "robotConfig#{i}"
+      break
+    end
+  end
+  fail ArgumentError, "missing robotNameX argument" if robotName.nil? or robotName.empty?
+  fail ArgumentError, "missing robotConfigX argument" if robotConfig.nil? or robotConfig.empty?
 %>
 
 <%
-  robotName=eval "robotName1"
-  robotConfig=eval "robotConfig1"
-
   # Check if worldName is not defined or is empty/nil
   if !defined?(worldName) || worldName == nil || worldName.empty?
     $worldName = 'tunnel_circuit_practice_01'
