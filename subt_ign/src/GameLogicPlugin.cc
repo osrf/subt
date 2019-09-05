@@ -237,12 +237,11 @@ class subt::GameLogicPluginPrivate
   /// \brief The unique artifact reports received.
   public: std::vector<std::string> uniqueReports;
 
-  /// \brief Ignition transport status publisher. This publisher
-  /// periodically sends a status messages.
-  public: transport::Node::Publisher statusPub;
-
   /// \brief Current state.
   public: std::string state="init";
+
+  /// \brief Time at which the last status publication took place.
+  public: std::chrono::steady_clock::time_point lastStatusPubTime;
 };
 
 //////////////////////////////////////////////////
@@ -356,12 +355,6 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
   this->dataPtr->startPub =
     this->dataPtr->node.Advertise<ignition::msgs::StringMsg>("/subt/start");
 
-  ignition::transport::AdvertiseMessageOptions statusOpts;
-  statusOpts.SetMsgsPerSec(1);
-  this->dataPtr->statusPub =
-    this->dataPtr->node.Advertise<ignition::msgs::StringMsg>("/subt/status",
-        statusOpts);
-
   this->dataPtr->publishThread.reset(new std::thread(
         &GameLogicPluginPrivate::PublishScore, this->dataPtr.get()));
 
@@ -472,10 +465,15 @@ void GameLogicPlugin::PostUpdate(
     this->dataPtr->Finish();
   }
 
-  ignition::msgs::StringMsg msg;
-  msg.mutable_header()->mutable_stamp()->CopyFrom(this->dataPtr->simTime);
-  msg.set_data(this->dataPtr->state);
-  this->dataPtr->statusPub.Publish(msg);
+  auto currentTime = std::chrono::steady_clock::now();
+  if (currentTime - this->dataPtr->lastStatusPubTime > std::chrono::seconds(1))
+  {
+    ignition::msgs::StringMsg msg;
+    msg.mutable_header()->mutable_stamp()->CopyFrom(this->dataPtr->simTime);
+    msg.set_data(this->dataPtr->state);
+    this->dataPtr->startPub.Publish(msg);
+    this->dataPtr->lastStatusPubTime = currentTime;
+  }
 }
 
 /////////////////////////////////////////////////
@@ -845,6 +843,7 @@ bool GameLogicPluginPrivate::OnStartCall(const ignition::msgs::Boolean &_req,
     msg.set_data("started");
     this->state = "started";
     this->startPub.Publish(msg);
+    this->lastStatusPubTime = std::chrono::steady_clock::now();
   }
   else
     _res.set_data(false);
@@ -895,6 +894,7 @@ void GameLogicPluginPrivate::Finish()
     msg.set_data("finished");
     this->state = "finished";
     this->startPub.Publish(msg);
+    this->lastStatusPubTime = std::chrono::steady_clock::now();
   }
 
   this->finished = true;
