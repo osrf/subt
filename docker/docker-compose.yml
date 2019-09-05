@@ -11,7 +11,11 @@
 #
 # Usage: 
 #
-#   $ docker-compose up
+#   $ run_docker_compose.sh
+#
+# Note:
+# Running `docker-compose up` directly may not work because the cloudsim_sim
+# container needs `/tmp/.docker.xauth` to be created first.
 #
 # Customization:
 #
@@ -38,7 +42,7 @@ services:
     environment:
       - DISPLAY
       - QT_X11_NO_MITSHM=1
-      - XAUTHORITY="/tmp/.docker.xauth"
+      - XAUTHORITY=/tmp/.docker.xauth
       - IGN_PARTITION=sim
       - IGN_IP=172.28.1.1
     privileged: true
