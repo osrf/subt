@@ -236,6 +236,13 @@ class subt::GameLogicPluginPrivate
 
   /// \brief The unique artifact reports received.
   public: std::vector<std::string> uniqueReports;
+
+  /// \brief Ignition transport status publisher. This publisher
+  /// periodically sends a status messages.
+  public: transport::Node::Publisher statusPub;
+
+  /// \brief Current state.
+  public: std::string state="init";
 };
 
 //////////////////////////////////////////////////
@@ -349,6 +356,12 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
   this->dataPtr->startPub =
     this->dataPtr->node.Advertise<ignition::msgs::StringMsg>("/subt/start");
 
+  ignition::transport::AdvertiseMessageOptions statusOpts;
+  statusOpts.SetMsgsPerSec(1);
+  this->dataPtr->statusPub =
+    this->dataPtr->node.Advertise<ignition::msgs::StringMsg>("/subt/status",
+        statusOpts);
+
   this->dataPtr->publishThread.reset(new std::thread(
         &GameLogicPluginPrivate::PublishScore, this->dataPtr.get()));
 
@@ -458,6 +471,11 @@ void GameLogicPlugin::PostUpdate(
       << "s] reached.\n";
     this->dataPtr->Finish();
   }
+
+  ignition::msgs::StringMsg msg;
+  msg.mutable_header()->mutable_stamp()->CopyFrom(this->dataPtr->simTime);
+  msg.set_data(this->dataPtr->state);
+  this->dataPtr->statusPub.Publish(msg);
 }
 
 /////////////////////////////////////////////////
@@ -825,6 +843,7 @@ bool GameLogicPluginPrivate::OnStartCall(const ignition::msgs::Boolean &_req,
     ignition::msgs::StringMsg msg;
     msg.mutable_header()->mutable_stamp()->CopyFrom(this->simTime);
     msg.set_data("started");
+    this->state = "started";
     this->startPub.Publish(msg);
   }
   else
@@ -874,6 +893,7 @@ void GameLogicPluginPrivate::Finish()
     ignition::msgs::StringMsg msg;
     msg.mutable_header()->mutable_stamp()->CopyFrom(this->simTime);
     msg.set_data("finished");
+    this->state = "finished";
     this->startPub.Publish(msg);
   }
 
