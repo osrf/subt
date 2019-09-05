@@ -236,6 +236,12 @@ class subt::GameLogicPluginPrivate
 
   /// \brief The unique artifact reports received.
   public: std::vector<std::string> uniqueReports;
+
+  /// \brief Current state.
+  public: std::string state="init";
+
+  /// \brief Time at which the last status publication took place.
+  public: std::chrono::steady_clock::time_point lastStatusPubTime;
 };
 
 //////////////////////////////////////////////////
@@ -457,6 +463,16 @@ void GameLogicPlugin::PostUpdate(
     ignmsg << "Time limit[" <<  this->dataPtr->runDuration.count()
       << "s] reached.\n";
     this->dataPtr->Finish();
+  }
+
+  auto currentTime = std::chrono::steady_clock::now();
+  if (currentTime - this->dataPtr->lastStatusPubTime > std::chrono::seconds(1))
+  {
+    ignition::msgs::StringMsg msg;
+    msg.mutable_header()->mutable_stamp()->CopyFrom(this->dataPtr->simTime);
+    msg.set_data(this->dataPtr->state);
+    this->dataPtr->startPub.Publish(msg);
+    this->dataPtr->lastStatusPubTime = currentTime;
   }
 }
 
@@ -825,7 +841,9 @@ bool GameLogicPluginPrivate::OnStartCall(const ignition::msgs::Boolean &_req,
     ignition::msgs::StringMsg msg;
     msg.mutable_header()->mutable_stamp()->CopyFrom(this->simTime);
     msg.set_data("started");
+    this->state = "started";
     this->startPub.Publish(msg);
+    this->lastStatusPubTime = std::chrono::steady_clock::now();
   }
   else
     _res.set_data(false);
@@ -874,7 +892,9 @@ void GameLogicPluginPrivate::Finish()
     ignition::msgs::StringMsg msg;
     msg.mutable_header()->mutable_stamp()->CopyFrom(this->simTime);
     msg.set_data("finished");
+    this->state = "finished";
     this->startPub.Publish(msg);
+    this->lastStatusPubTime = std::chrono::steady_clock::now();
   }
 
   this->finished = true;
