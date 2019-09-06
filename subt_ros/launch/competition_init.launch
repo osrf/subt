@@ -2,13 +2,13 @@
 <launch>
 
   <arg name="world_name"/>
-  <arg name="robot_name" default=""/>
+  <arg name="robot_names" default=""/>
   <arg name="vehicle_topics" default="1"/>
   <arg name="enable_ground_truth" default="0"/>
 
   <param name="/use_sim_time" value="true"/>
   <param name="/world_name" value="$(arg world_name)"/>
-  <param name="/robot_name" value="$(arg robot_name)"/>
+  <rosparam param="/robot_names" subst_value='true'>$(arg robot_names)</rosparam>
 
   <node pkg="ros1_ign_bridge" type="parameter_bridge" name="$(anon ros1_ign_bridge)" args="/clock@rosgraph_msgs/Clock[ignition.msgs.Clock">
   </node>
