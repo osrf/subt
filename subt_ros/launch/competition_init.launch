@@ -10,7 +10,7 @@
   <param name="/world_name" value="$(arg world_name)"/>
   <rosparam param="/robot_names" subst_value='true'>$(arg robot_names)</rosparam>
 
-  <node pkg="ros1_ign_bridge" type="parameter_bridge" name="$(anon ros1_ign_bridge)" args="/clock@rosgraph_msgs/Clock[ignition.msgs.Clock">
+  <node pkg="ros_ign_bridge" type="parameter_bridge" name="$(anon ros_ign_bridge)" args="/clock@rosgraph_msgs/Clock[ignition.msgs.Clock">
   </node>
 
   <node

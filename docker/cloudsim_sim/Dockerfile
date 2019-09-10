@@ -77,7 +77,7 @@ RUN apt-get update \
 # install the ros to ign bridge
 RUN apt-get update \
  && apt-get install -y \
-    ros-melodic-ros1-ign \
+    ros-melodic-ros-ign \
  && apt-get clean
 
 # Add a user with the same user_id as the user outside the container
