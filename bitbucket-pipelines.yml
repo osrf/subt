@@ -22,7 +22,9 @@ pipelines:
           - rosdep install --from-paths ./ -i -y --rosdistro melodic
               --skip-keys=ignition-common3
               --skip-keys=ignition-gazebo2
+              --skip-keys=ignition-math6
               --skip-keys=ignition-msgs4
+              --skip-keys=ignition-plugin1
               --skip-keys=ignition-rendering2
               --skip-keys=ignition-sensors2
               --skip-keys=ignition-transport7
