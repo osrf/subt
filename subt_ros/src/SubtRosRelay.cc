@@ -18,6 +18,7 @@
 #include <ros/ros.h>
 #include <std_srvs/SetBool.h>
 #include <std_msgs/Int32.h>
+#include <ignition/common/Util.hh>
 #include <ignition/msgs/boolean.pb.h>
 #include <ignition/msgs/float.pb.h>
 #include <ignition/msgs/stringmsg.pb.h>
@@ -154,7 +155,7 @@ class SubtRosRelay
   public: std::condition_variable notifyCond;
 
   /// \brief Name of the robot this relay is associated with.
-  public: std::string robotName;
+  public: std::vector<std::string> robotNames;
 };
 
 //////////////////////////////////////////////////
@@ -165,11 +166,13 @@ SubtRosRelay::SubtRosRelay()
 
   ros::NodeHandle n;
 
-  if (!n.getParam("/robot_name", this->robotName)) {
-    ROS_ERROR("Cannot operate without robot_name set");
+  std::string stringNames;
+  if (!n.getParam("/robot_names", stringNames)) {
+    ROS_ERROR("Cannot operate without robot_names set");
     ros::shutdown();
     return;
   }
+  this->robotNames = ignition::common::split(stringNames, ",");
 
   // ROS service to receive a command to finish the game.
   this->finishService = n.advertiseService(
@@ -260,11 +263,12 @@ bool SubtRosRelay::OnPoseFromArtifact(
   subt_msgs::PoseFromArtifact::Request &_req,
   subt_msgs::PoseFromArtifact::Response &_res)
 {
-  if (!this->robotName.empty() && _req.robot_name.data != this->robotName)
+  if (std::find(this->robotNames.begin(), this->robotNames.end(),
+                _req.robot_name.data) == this->robotNames.end())
   {
     ROS_ERROR_STREAM("OnPoseFromArtifact address does not match origination."
-        << "Attempted impersonation of robot[" << this->robotName
-        << "] as robot[" <<_req.robot_name.data << "].\n");
+        << "Attempted impersonation of a robot as robot["
+        <<_req.robot_name.data << "].\n");
     return false;
   }
 
@@ -304,11 +308,11 @@ bool SubtRosRelay::OnPoseFromArtifact(
 bool SubtRosRelay::OnBind(subt_msgs::Bind::Request &_req,
                           subt_msgs::Bind::Response &_res)
 {
-  if (!this->robotName.empty() && _req.address != this->robotName)
+  if (std::find(this->robotNames.begin(), this->robotNames.end(),
+                _req.address) ==this->robotNames.end())
   {
     ROS_ERROR_STREAM("OnBind address does not match origination. Attempted "
-        << "impersonation of robot[" << this->robotName
-        << "] as robot[" <<_req.address << "].\n");
+        << "impersonation of a robot as robot[" << _req.address << "].\n");
       return false;
   }
 
@@ -348,11 +352,11 @@ bool SubtRosRelay::OnBind(subt_msgs::Bind::Request &_req,
 bool SubtRosRelay::OnSendTo(subt_msgs::DatagramRos::Request &_req,
                             subt_msgs::DatagramRos::Response &_res)
 {
-  if (!this->robotName.empty() && _req.src_address != this->robotName)
+  if (std::find(this->robotNames.begin(), this->robotNames.end(),
+                _req.src_address) == this->robotNames.end())
   {
     ROS_ERROR_STREAM("OnSendTo address does not match origination. Attempted "
-        << "impersonation of robot[" << this->robotName
-        << "] as robot[" <<_req.src_address << "].\n");
+        << "impersonation of a robot as robot[" <<_req.src_address << "].\n");
     return false;
   }
 
