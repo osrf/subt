@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   subt_communication_broker
 )
 
+find_package(ignition-common3 REQUIRED)
 find_package(ignition-math6 REQUIRED)
 find_package(ignition-msgs4 REQUIRED)
 find_package(ignition-transport7 REQUIRED)
@@ -40,6 +41,7 @@ target_include_directories(subt_ros_relay
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 target_link_libraries(subt_ros_relay
   PUBLIC
+    ignition-common3::ignition-common3
     ignition-math6::ignition-math6
     ignition-msgs4::ignition-msgs4
     ignition-transport7::ignition-transport7
@@ -52,6 +54,7 @@ target_include_directories(set_pose_relay
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 target_link_libraries(set_pose_relay
   PUBLIC
+    ignition-common3::ignition-common3
     ignition-math6::ignition-math6
     ignition-msgs4::ignition-msgs4
     ignition-transport7::ignition-transport7
