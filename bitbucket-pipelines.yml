@@ -17,7 +17,9 @@ pipelines:
           - echo "deb [trusted=yes] http://packages.osrfoundation.org/gazebo/ubuntu-prerelease bionic main" > /etc/apt/sources.list.d/gazebo-prerelease.list
           - apt-get update
           - apt-get -y install build-essential cmake libusb-dev lsb-release mercurial pkg-config python ignition-blueprint python-rosdep
-          - apt-get -y install ros-melodic-ros-ign-image
+          - apt-get -y install
+              ros-melodic-ros-ign-bridge
+              ros-melodic-ros-ign-image
           - rosdep init
           - rosdep update
           - rosdep install --from-paths ./ -i -y --rosdistro melodic
@@ -30,6 +32,8 @@ pipelines:
               --skip-keys=ignition-rendering2
               --skip-keys=ignition-sensors2
               --skip-keys=ignition-transport7
+              --skip-keys=ros_ign_bridge
+              --skip-keys=ros_ign_image
           # SubT
           - mkdir -p /tmp/subt_ws/src
           - ln -s `pwd` /tmp/subt_ws/src
