@@ -19,7 +19,7 @@
 #
 # Customization:
 #
-# 1. Modify the `sim` sevice's `command:` line to include the number and
+# 1. Modify the `sim` service's `command:` line to include the number and
 #    type of robots you need.
 #
 # 2. Each robot requires both a `bridge` and `solution` container. Modify the
@@ -28,7 +28,7 @@
 #   `image` to be your own solution. Also, create another `relay_net` for
 #   the `bridge` and `solution` containers. 
 #
-# 3. This script uses tunnel_circuit_practice_01. Change all occurances of
+# 3. This script uses tunnel_circuit_practice_01. Change all occurrences of
 # tunnel_circuit_practice_01 to the world you would like to run.
 version: "2.4"
 services:
