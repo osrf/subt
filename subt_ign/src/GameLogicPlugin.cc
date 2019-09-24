@@ -246,7 +246,7 @@ class subt::GameLogicPluginPrivate
   /// \brief Distance from the base station after which the competition is
   /// automatically started, and a robot can no longer receive the artifact
   /// origin frame.
-  public: const double allowedDistanceFromBase = 18.0;
+  public: const double allowedDistanceFromBase = 21.0;
 };
 
 //////////////////////////////////////////////////
