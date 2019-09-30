@@ -95,7 +95,7 @@ services:
   # This bridge container will relay information for the X2 robot
   bridge2:
     image: osrf/subt-virtual-testbed:cloudsim_bridge_latest
-    command: worldName:=tunnel_circuit_practice_01 robotName1:=X2 robotConfig1:=X2_SENSOR_CONFIG_1
+    command: worldName:=tunnel_circuit_practice_01 robotName1:=X2 robotConfig1:=X1_SENSOR_CONFIG_1
     networks:
       relay_net2:
         ipv4_address: 172.30.1.1
