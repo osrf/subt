@@ -505,7 +505,7 @@ void GameLogicPlugin::PostUpdate(
   }
 
   // Periodically update the score file.
-  if (currentTime -
+  if (!this->dataPtr->finished && currentTime -
       this->dataPtr->lastUpdateScoresTime > std::chrono::seconds(30))
   {
     this->dataPtr->UpdateScoreFiles();
