@@ -517,6 +517,9 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
                                            subt::msgs::ArtifactScore &_resp)
 {
   this->Log() << "new_artifact_reported" << std::endl;
+  ignmsg << "SimTime[" << this->simTime.sec() << " " << this->simTime.nsec()
+         << "] OnNewArtifact Msg=" << _req.DebugString() << std::endl;
+
   auto realTime = std::chrono::steady_clock::now().time_since_epoch();
   auto s = std::chrono::duration_cast<std::chrono::seconds>(realTime);
   auto ns = std::chrono::duration_cast<std::chrono::nanoseconds>(realTime-s);
@@ -706,7 +709,9 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
     this->Log() << "found_artifact " << std::get<0>(minDistance) << std::endl;
   }
 
-  this->Log() << "calculated_dist " << std::get<2>(minDistance) << std::endl;
+  this->Log() << "calculated_dist[" << std::get<2>(minDistance)
+    << "] for artifact[" << std::get<0>(minDistance) << "] reported_pos["
+    << observedObjectPose << "]" << std::endl;
 
   ignmsg << "  [Total]: " << score << std::endl;
   this->Log() << "modified_score " << score << std::endl;
