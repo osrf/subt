@@ -244,7 +244,7 @@ class subt::GameLogicPluginPrivate
   public: std::chrono::steady_clock::time_point lastStatusPubTime;
 
   /// \brief Time at which the summary.yaml file was last updated.
-  public: std::chrono::steady_clock::time_point lastUpdateScoresTime;
+  public: mutable std::chrono::steady_clock::time_point lastUpdateScoresTime;
 
   /// \brief Distance from the base station after which the competition is
   /// automatically started, and a robot can no longer receive the artifact
@@ -508,7 +508,7 @@ void GameLogicPlugin::PostUpdate(
   if (currentTime -
       this->dataPtr->lastUpdateScoresTime > std::chrono::seconds(30))
   {
-    this->UpdateScoreFiles();
+    this->dataPtr->UpdateScoreFiles();
   }
 }
 
@@ -966,7 +966,7 @@ GameLogicPluginPrivate::UpdateScoreFiles() const
   score << totalScore << std::endl;
   score.flush();
 
-  this->dataPtr->lastUpdateScoresTime = currTime;
+  this->lastUpdateScoresTime = currTime;
   return currTime;
 }
 
