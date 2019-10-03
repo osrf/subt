@@ -709,8 +709,9 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
     this->Log() << "found_artifact " << std::get<0>(minDistance) << std::endl;
   }
 
-  this->Log() << "calculated_dist[" << std::get<2>(minDistance) << "] for artifact["
-    << std::get<0>(minDistance) << "] reported_pos[" << observedObjectPose << "]" << std::endl;
+  this->Log() << "calculated_dist[" << std::get<2>(minDistance)
+    << "] for artifact[" << std::get<0>(minDistance) << "] reported_pos["
+    << observedObjectPose << "]" << std::endl;
 
   ignmsg << "  [Total]: " << score << std::endl;
   this->Log() << "modified_score " << score << std::endl;
