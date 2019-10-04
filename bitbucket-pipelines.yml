@@ -11,7 +11,7 @@ pipelines:
           - ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
           - dpkg-reconfigure --frontend noninteractive tzdata
           # Install dependencies
-          - echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu bionic main" > /etc/apt/sources.list.d/ros-latest.list
+          - echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu bionic main" > /etc/apt/sources.list.d/ros.list
           - echo "deb [trusted=yes] http://packages.ros.org/ros-testing/ubuntu bionic main" > /etc/apt/sources.list.d/ros-latest.list
           - echo "deb [trusted=yes] http://packages.osrfoundation.org/gazebo/ubuntu-stable bionic main" > /etc/apt/sources.list.d/gazebo-stable.list
           - echo "deb [trusted=yes] http://packages.osrfoundation.org/gazebo/ubuntu-prerelease bionic main" > /etc/apt/sources.list.d/gazebo-prerelease.list
