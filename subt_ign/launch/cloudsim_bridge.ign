@@ -77,7 +77,7 @@
   <!-- Make sure to source /opt/ros/melodic/setup.bash -->
   <executable name='ros'>
 
-    <command>stdbuf -o L roslaunch subt_ros competition_init.launch world_name:=<%=$worldName%> vehicle_topics:=0 enable_ground_truth:=<%=($enableGroundTruth)?"1":"0"%> robot_names:=<%= robotNames.join(",") %></command>
+    <command>roslaunch subt_ros competition_init.launch world_name:=<%=$worldName%> vehicle_topics:=0 enable_ground_truth:=<%=($enableGroundTruth)?"1":"0"%> robot_names:=<%= robotNames.join(",") %></command>
   </executable>
 <%
   def spawnX1(_name, _config)
@@ -95,10 +95,10 @@
       stereoCam=1
     end
     "<executable name='x1_description'>\n"\
-    "  <command>stdbuf -o L roslaunch --wait subt_ros x1_description.launch name:=#{_name}</command>\n"\
+    "  <command>roslaunch --wait subt_ros x1_description.launch name:=#{_name}</command>\n"\
     "</executable>\n"\
     "<executable name='x1_ros_ign_bridge'>\n"\
-      "  <command>stdbuf -o L roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} lidar_3d:=#{lidar3d}</command>\n"\
+      "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} lidar_3d:=#{lidar3d}</command>\n"\
     "</executable>\n"
   end
 
@@ -117,10 +117,10 @@
       lidar3d=1
     end
     "<executable name='x2_description'>\n"\
-    "  <command>stdbuf -o L roslaunch --wait subt_ros x2_description.launch name:=#{_name}</command>\n"\
+    "  <command>roslaunch --wait subt_ros x2_description.launch name:=#{_name}</command>\n"\
     "</executable>\n"\
     "<executable name='x2_ros_ign_bridge'>\n"\
-    "  <command>stdbuf -o L roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} lidar_3d:=#{lidar3d}</command>\n"\
+    "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} lidar_3d:=#{lidar3d}</command>\n"\
     "</executable>\n"
   end
 
@@ -136,13 +136,13 @@
       stereoCam=1
     end
     "<executable name='x3_description'>\n"\
-    "  <command>stdbuf -o L roslaunch --wait subt_ros x3_description.launch name:=#{_name}</command>\n"\
+    "  <command>roslaunch --wait subt_ros x3_description.launch name:=#{_name}</command>\n"\
     "</executable>\n"\
     "<executable name='X3_controller'>\n"\
-    "  <command>stdbuf -o L roslaunch --wait x3_control control.launch x3_name:=#{_name}</command>\n"\
+    "  <command>roslaunch --wait x3_control control.launch x3_name:=#{_name}</command>\n"\
     "</executable>\n"\
     "<executable name='x3_ros_ign_bridge'>\n"\
-      "  <command>stdbuf -o L roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} rgbd_cam:=#{rgbdCam}</command>\n"\
+      "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} rgbd_cam:=#{rgbdCam}</command>\n"\
     "</executable>\n"
   end
 
@@ -161,13 +161,13 @@
       stereoCam=1
     end
     "<executable name='X4_controller'>\n"\
-    "  <command>stdbuf -o L roslaunch --wait x4_control control.launch x4_name:=#{_name}</command>\n"\
+    "  <command>roslaunch --wait x4_control control.launch x4_name:=#{_name}</command>\n"\
     "</executable>\n"\
     "<executable name='x4_description'>\n"\
-    "  <command>stdbuf -o L roslaunch --wait subt_ros x4_description.launch name:=#{_name}</command>\n"\
+    "  <command>roslaunch --wait subt_ros x4_description.launch name:=#{_name}</command>\n"\
     "</executable>\n"\
     "<executable name='x4_ros_ign_bridge'>\n"\
-    "  <command>stdbuf -o L roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} rgbd_cam:=#{rgbdCam}</command>\n"\
+    "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} rgbd_cam:=#{rgbdCam}</command>\n"\
     "</executable>\n"
   end
 %>
