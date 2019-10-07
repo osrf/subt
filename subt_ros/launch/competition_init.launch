@@ -31,7 +31,7 @@
 
   <!-- rosbag the console output -->
   <node pkg="rosbag" type="record" name="rosbag_record_console"
-        args="record -o $(env HOME)/.ros/rosout_agg.bag /rosout_agg"/>
+        args="record -O $(env HOME)/.ros/rosout_agg.bag /rosout_agg"/>
 
   <group if="$(arg vehicle_topics)">
     <include file="$(find subt_ros)/launch/vehicle_topics.launch">
