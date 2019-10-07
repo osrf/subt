@@ -29,6 +29,10 @@
       name="set_pose_relay"/>
   </group>
 
+  <!-- rosbag the console output -->
+  <node pkg="rosbag" type="record" name="rosbag_record_console"
+        args="record -O $(env HOME)/.ros/rosout_agg.bag /rosout_agg"/>
+
   <group if="$(arg vehicle_topics)">
     <include file="$(find subt_ros)/launch/vehicle_topics.launch">
       <arg name="world_name" value="$(arg world_name)"/>
