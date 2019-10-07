@@ -7,4 +7,6 @@
 # See also https://bitbucket.org/osrf/subt/issues/204
 export ROSCONSOLE_STDOUT_LINE_BUFFERED=1
 
+rosbag record /rosout_agg -O ~/.ros/rosout_agg.bag &
+
 ign launch cloudsim_bridge.ign -v 4 $@
