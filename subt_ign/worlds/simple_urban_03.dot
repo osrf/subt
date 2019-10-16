@@ -1,0 +1,43 @@
+/* Visibility graph for simple_urban_03.tsv */
+/* Generated with the tile_tsv.py script: */
+/*   /home/master/data/ws/sim/subt_private_ws/src/subt_private/subt_ign/worlds/urban_circuit/tile_tsv.py simple_urban_03.tsv -\-graph-file simple_urban_03.dot -\-world-file simple_urban_03.sdf -\-world-name simple_urban_03 -\-scale_x 40 -\-scale_y 40 -\-urban -\-y0 32 -\-x0 -480 */
+
+graph {
+  /* ==== Vertices ==== */
+
+  /* Base station / Staging area */
+  0   [label="0::base_station::BaseStation"];
+
+  1   [label="1::Urban Bend Right::tile_1"];
+  2   [label="2::Urban Straight::tile_2"];
+  3   [label="3::Urban Straight::tile_3"];
+  4   [label="4::Urban Straight Door Right::tile_4"];
+  5   [label="5::Urban Platform::tile_5"];
+  7   [label="7::Urban Straight Door Left Flipped::tile_7"];
+  8   [label="8::Urban Straight Door Left::tile_8"];
+  9   [label="9::Urban Platform Open::tile_9"];
+  11  [label="11::Urban Straight Door Right::tile_11"];
+  13  [label="13::Urban Straight::tile_13"];
+  14  [label="14::Urban Straight Door Right::tile_14"];
+  16  [label="16::Urban Platform::tile_16"];
+  18  [label="18::Urban Straight Door Left Flipped::tile_18"];
+  19  [label="19::Urban Bend Left::tile_19"];
+
+  /* ==== Edges ==== */
+
+  /* Base station */
+  0  -- 9   [label=1];
+  1  -- 2   [label=3];
+  1  -- 13  [label=3];
+  2  -- 3   [label=1];
+  3  -- 4   [label=1];
+  4  -- 5   [label=3];
+  5  -- 7   [label=3];
+  7  -- 8   [label=1];
+  8  -- 9   [label=3];
+  9  -- 11  [label=3];
+  13 -- 19  [label=3];
+  14 -- 16  [label=3];
+  16 -- 18  [label=3];
+  18 -- 19  [label=3];
+}
