@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <!--
   Generated with the tile_tsv.py script:
-    urban_circuit/tile_tsv.py simple_urban_02.tsv -\-graph-file simple_urban_02.dot -\-world-file simple_urban_02.sdf -\-world-name simple_urban_02 -\-scale_x 40 -\-scale_y 40 -\-urban -\-x0 -280 -\-y0 32
+    tile_tsv.py simple_urban_02.tsv -\-graph-file simple_urban_02.dot -\-world-file simple_urban_02.sdf -\-world-name simple_urban_02 -\-scale_x 40 -\-scale_y 40 -\-urban -\-x0 -280 -\-y0 32
 -->
 <sdf version="1.6">
   <world name="simple_urban_02">
@@ -38,7 +38,7 @@
     <!-- Fiducial marking the origin for artifacts reports -->
     <include>
       <name>artifact_origin</name>
-      <pose>5 40 7.5 0.0 0 0 0</pose>
+      <pose>5 40 7.5 0 0 0</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Fiducial</uri>
     </include>
 
@@ -71,6 +71,12 @@
       <name>tile_5</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Tunnel Tile Blocker</uri>
       <pose>-40.000000 15.000000 3.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>backpack_1</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/JanSport Backpack Red</uri>
+      <pose>-48.000000 2.000000 1.696500 0 0 0.000000</pose>
     </include>
 
     <include>
@@ -113,6 +119,12 @@
       <name>tile_12</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Tunnel Tile Blocker</uri>
       <pose>-240.000000 -71.000000 3.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>rescue_randy_1</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Rescue Randy Sitting</uri>
+      <pose>-248.000000 -58.000000 1.696500 0 0 3.141593</pose>
     </include>
 
     <include>
@@ -206,6 +218,12 @@
     </include>
 
     <include>
+      <name>phone_1</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Samsung J8 Black</uri>
+      <pose>50.000000 -200.000000 1.696500 -1.570796 0 0.000000</pose>
+    </include>
+
+    <include>
       <name>tile_28</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Door Right</uri>
       <pose>40.000000 -248.000000 0.000000 0 0 -1.570796</pose>
@@ -290,144 +308,162 @@
         <buffer>5.000000</buffer>
       </level>
       <level name="level5">
+        <ref>backpack_1</ref>
+        <pose>-48.000000 2.000000 1.696500 0 0 0</pose>
+        <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level6">
         <ref>tile_6</ref>
         <pose>0.000000 -8.000000 0.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
-      <level name="level6">
+      <level name="level7">
         <ref>tile_7</ref>
         <pose>40.000000 -8.000000 0.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
-      <level name="level7">
+      <level name="level8">
         <ref>tile_8</ref>
         <pose>80.000000 -8.000000 0.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
-      <level name="level8">
+      <level name="level9">
         <ref>tile_9</ref>
         <pose>-280.000000 -48.000000 0.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
-      <level name="level9">
+      <level name="level10">
         <ref>tile_10</ref>
         <pose>-303.000000 -48.000000 2.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
-      <level name="level10">
+      <level name="level11">
         <ref>tile_11</ref>
         <pose>-240.000000 -48.000000 0.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
-      <level name="level11">
+      <level name="level12">
         <ref>tile_12</ref>
         <pose>-240.000000 -71.000000 3.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
-      <level name="level12">
+      <level name="level13">
+        <ref>rescue_randy_1</ref>
+        <pose>-248.000000 -58.000000 1.696500 0 0 0</pose>
+        <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level14">
         <ref>tile_13</ref>
         <pose>-200.000000 -48.000000 0.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
-      <level name="level13">
+      <level name="level15">
         <ref>tile_14</ref>
         <pose>-160.000000 -48.000000 0.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
-      <level name="level14">
+      <level name="level16">
         <ref>tile_15</ref>
         <pose>-120.000000 -48.000000 0.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
-      <level name="level15">
+      <level name="level17">
         <ref>tile_16</ref>
         <pose>80.000000 -48.000000 0.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
-      <level name="level16">
+      <level name="level18">
         <ref>tile_17</ref>
         <pose>-120.000000 -88.000000 0.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
-      <level name="level17">
+      <level name="level19">
         <ref>tile_18</ref>
         <pose>80.000000 -88.000000 0.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
-      <level name="level18">
+      <level name="level20">
         <ref>tile_19</ref>
         <pose>-120.000000 -128.000000 0.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
-      <level name="level19">
+      <level name="level21">
         <ref>tile_20</ref>
         <pose>-80.000000 -128.000000 0.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
-      <level name="level20">
+      <level name="level22">
         <ref>tile_21</ref>
         <pose>-40.000000 -128.000000 0.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
-      <level name="level21">
+      <level name="level23">
         <ref>tile_22</ref>
         <pose>0.000000 -128.000000 0.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
-      <level name="level22">
+      <level name="level24">
         <ref>tile_23</ref>
         <pose>40.000000 -128.000000 0.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
-      <level name="level23">
+      <level name="level25">
         <ref>tile_24</ref>
         <pose>80.000000 -128.000000 0.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
-      <level name="level24">
+      <level name="level26">
         <ref>tile_25</ref>
         <pose>40.000000 -168.000000 0.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
-      <level name="level25">
+      <level name="level27">
         <ref>tile_26</ref>
         <pose>40.000000 -208.000000 0.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
-      <level name="level26">
+      <level name="level28">
         <ref>tile_27</ref>
         <pose>63.000000 -208.000000 3.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
-      <level name="level27">
+      <level name="level29">
+        <ref>phone_1</ref>
+        <pose>50.000000 -200.000000 1.696500 0 0 0</pose>
+        <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level30">
         <ref>tile_28</ref>
         <pose>40.000000 -248.000000 0.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
-      <level name="level28">
+      <level name="level31">
         <ref>tile_29</ref>
         <pose>40.000000 -271.000000 2.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
