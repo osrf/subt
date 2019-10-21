@@ -1,0 +1,64 @@
+/* Visibility graph for simple_urban_02.tsv */
+/* Generated with the tile_tsv.py script: */
+/*   urban_circuit/tile_tsv.py simple_urban_02.tsv -\-graph-file simple_urban_02.dot -\-world-file simple_urban_02.sdf -\-world-name simple_urban_02 -\-scale_x 40 -\-scale_y 40 -\-urban -\-x0 -280 -\-y0 32 */
+
+graph {
+  /* ==== Vertices ==== */
+
+  /* Base station / Staging area */
+  0   [label="0::base_station::BaseStation"];
+
+  1   [label="1::Urban Bend Right::tile_1"];
+  2   [label="2::Urban 3-Way Right Intersection::tile_2"];
+  3   [label="3::Urban Straight Door Left::tile_3"];
+  4   [label="4::Urban Platform::tile_4"];
+  6   [label="6::Urban Straight Door Right::tile_6"];
+  7   [label="7::Urban Straight::tile_7"];
+  8   [label="8::Urban Bend Left::tile_8"];
+  9   [label="9::Urban Straight Door Right::tile_9"];
+  11  [label="11::Urban Platform::tile_11"];
+  13  [label="13::Urban Straight Door Left Flipped::tile_13"];
+  14  [label="14::Urban Bend Left::tile_14"];
+  15  [label="15::Urban Straight::tile_15"];
+  16  [label="16::Urban Straight::tile_16"];
+  17  [label="17::Urban Straight::tile_17"];
+  18  [label="18::Urban Straight::tile_18"];
+  19  [label="19::Urban Bend Left::tile_19"];
+  20  [label="20::Urban Straight::tile_20"];
+  21  [label="21::Urban Straight::tile_21"];
+  22  [label="22::Urban Straight::tile_22"];
+  23  [label="23::Urban 3-Way Right Intersection::tile_23"];
+  24  [label="24::Urban Bend Left::tile_24"];
+  25  [label="25::Urban Straight Door Left::tile_25"];
+  26  [label="26::Urban Platform::tile_26"];
+  28  [label="28::Urban Straight Door Right::tile_28"];
+
+  /* ==== Edges ==== */
+
+  /* Base station */
+  0  -- 4   [label=1];
+  1  -- 2   [label=6];
+  1  -- 14  [label=6];
+  2  -- 3   [label=3];  /* Intersection */
+  2  -- 15  [label=3];  /* Intersection */
+  3  -- 4   [label=3];
+  4  -- 6   [label=3];
+  6  -- 7   [label=1];
+  7  -- 8   [label=3];
+  8  -- 16  [label=3];
+  9  -- 11  [label=3];
+  11 -- 13  [label=3];
+  13 -- 14  [label=3];
+  15 -- 17  [label=1];
+  16 -- 18  [label=1];
+  17 -- 19  [label=3];
+  18 -- 24  [label=3];
+  19 -- 20  [label=3];
+  20 -- 21  [label=1];
+  21 -- 22  [label=1];
+  22 -- 23  [label=3];
+  23 -- 24  [label=6];  /* Intersection */
+  23 -- 25  [label=3];  /* Intersection */
+  25 -- 26  [label=3];
+  26 -- 28  [label=3];
+}
