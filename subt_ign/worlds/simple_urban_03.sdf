@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <!--
   Generated with the tile_tsv.py script:
-    /home/master/data/ws/sim/subt_private_ws/src/subt_private/subt_ign/worlds/urban_circuit/tile_tsv.py simple_urban_03.tsv -\-graph-file simple_urban_03.dot -\-world-file simple_urban_03.sdf -\-world-name simple_urban_03 -\-scale_x 40 -\-scale_y 40 -\-urban -\-y0 32 -\-x0 -480
+    tile_tsv.py simple_urban_03.tsv -\-graph-file simple_urban_03.dot -\-world-file simple_urban_03.sdf -\-world-name simple_urban_03 -\-scale_x 40 -\-scale_y 40 -\-urban -\-y0 32 -\-x0 -480
 -->
 <sdf version="1.6">
   <world name="simple_urban_03">
@@ -38,7 +38,7 @@
     <!-- Fiducial marking the origin for artifacts reports -->
     <include>
       <name>artifact_origin</name>
-      <pose>5 40 7.5 0.0 0 0 0</pose>
+      <pose>5 40 7.5 0 0 0</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Fiducial</uri>
     </include>
 
@@ -51,13 +51,13 @@
 
     <include>
       <name>tile_2</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Elevation Up</uri>
       <pose>-280.000000 -8.000000 0.000000 0 0 4.712389</pose>
     </include>
 
     <include>
       <name>tile_3</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Elevation Down</uri>
       <pose>-240.000000 -8.000000 0.000000 0 0 4.712389</pose>
     </include>
 
@@ -111,48 +111,72 @@
 
     <include>
       <name>tile_12</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Tunnel Tile Blocker</uri>
-      <pose>21.000000 -8.000000 2.000000 0 0 0.000000</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Door Right Flipped</uri>
+      <pose>40.000000 -8.000000 0.000000 0 0 3.141593</pose>
     </include>
 
     <include>
       <name>tile_13</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Service Room</uri>
+      <pose>40.000000 -8.000000 0.000000 0 0 3.141593</pose>
+    </include>
+
+    <include>
+      <name>tile_14</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Tunnel Tile Blocker</uri>
+      <pose>63.000000 -8.000000 2.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_15</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight</uri>
       <pose>-320.000000 -48.000000 0.000000 0 0 3.141593</pose>
     </include>
 
     <include>
-      <name>tile_14</name>
+      <name>tile_16</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Door Right Flipped</uri>
+      <pose>-480.000000 -88.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_17</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Service Room</uri>
+      <pose>-480.000000 -88.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_18</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Tunnel Tile Blocker</uri>
+      <pose>-503.000000 -88.000000 2.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_19</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Door Right</uri>
       <pose>-440.000000 -88.000000 0.000000 0 0 3.141593</pose>
     </include>
 
     <include>
-      <name>tile_15</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Tunnel Tile Blocker</uri>
-      <pose>-463.000000 -88.000000 2.000000 0 0 0.000000</pose>
-    </include>
-
-    <include>
-      <name>tile_16</name>
+      <name>tile_20</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Platform</uri>
       <pose>-400.000000 -88.000000 0.000000 0 0 3.141593</pose>
     </include>
 
     <include>
-      <name>tile_17</name>
+      <name>tile_21</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Tunnel Tile Blocker</uri>
       <pose>-400.000000 -111.000000 3.000000 0 0 0.000000</pose>
     </include>
 
     <include>
-      <name>tile_18</name>
+      <name>tile_22</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Door Left Flipped</uri>
       <pose>-360.000000 -88.000000 0.000000 0 0 0.000000</pose>
     </include>
 
     <include>
-      <name>tile_19</name>
+      <name>tile_23</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Bend Left</uri>
       <pose>-320.000000 -88.000000 0.000000 0 0 4.712389</pose>
     </include>
@@ -267,48 +291,62 @@
       </level>
       <level name="level11">
         <ref>tile_12</ref>
-        <pose>21.000000 -8.000000 2.000000 0 0 0</pose>
+        <ref>tile_13</ref>
+        <pose>40.000000 -8.000000 0.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level12">
-        <ref>tile_13</ref>
-        <pose>-320.000000 -48.000000 0.000000 0 0 0</pose>
+        <ref>tile_14</ref>
+        <pose>63.000000 -8.000000 2.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level13">
-        <ref>tile_14</ref>
-        <pose>-440.000000 -88.000000 0.000000 0 0 0</pose>
+        <ref>tile_15</ref>
+        <pose>-320.000000 -48.000000 0.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level14">
-        <ref>tile_15</ref>
-        <pose>-463.000000 -88.000000 2.000000 0 0 0</pose>
+        <ref>tile_16</ref>
+        <ref>tile_17</ref>
+        <pose>-480.000000 -88.000000 0.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level15">
-        <ref>tile_16</ref>
-        <pose>-400.000000 -88.000000 0.000000 0 0 0</pose>
+        <ref>tile_18</ref>
+        <pose>-503.000000 -88.000000 2.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level16">
-        <ref>tile_17</ref>
-        <pose>-400.000000 -111.000000 3.000000 0 0 0</pose>
+        <ref>tile_19</ref>
+        <pose>-440.000000 -88.000000 0.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level17">
-        <ref>tile_18</ref>
-        <pose>-360.000000 -88.000000 0.000000 0 0 0</pose>
+        <ref>tile_20</ref>
+        <pose>-400.000000 -88.000000 0.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level18">
-        <ref>tile_19</ref>
+        <ref>tile_21</ref>
+        <pose>-400.000000 -111.000000 3.000000 0 0 0</pose>
+        <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level19">
+        <ref>tile_22</ref>
+        <pose>-360.000000 -88.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level20">
+        <ref>tile_23</ref>
         <pose>-320.000000 -88.000000 0.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
