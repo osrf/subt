@@ -50,7 +50,6 @@
   end
 
   $worldName = 'tunnel_qual_ign'
-  $x3Version = '4'
 %>
 
 <ignition version='1.0'>
@@ -68,6 +67,7 @@
       <enabled>true</enabled>
       <!-- This path is used by cloudsim, please do not change -->
       <path>/tmp/ign/logs</path>
+      <overwrite>true</overwrite>
     </record>
     <%if defined?(seed) && seed != nil && !seed.empty?%>
     <seed><%= seed %></seed>
@@ -121,7 +121,7 @@
 
       <world_name><%= $worldName %></world_name>
       <logging>
-        <!-- Use the <path> element to control where to record the log file. 
+        <!-- Use the <path> element to control where to record the log file.
              The HOME path is used by default-->
         <path>/tmp/ign/logs</path>
         <filename_prefix>subt_tunnel</filename_prefix>
@@ -428,7 +428,7 @@
     "  <sdf version='1.6'>\n"\
     "  <include>\n"\
     "    <name>#{_name}</name>\n"\
-    "    <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X3 UAV Config #{_config}/#{$x3Version}</uri>\n"\
+    "    <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X3 UAV Config #{_config}</uri>\n"\
     "    <!-- Publish robot state information -->\n"\
     "    <plugin filename=\"libignition-gazebo-pose-publisher-system.so\"\n"\
     "      name=\"ignition::gazebo::systems::PosePublisher\">\n"\

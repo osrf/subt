@@ -1,0 +1,235 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name="X1" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:arg name="name" default="X1"/>
+  <xacro:property name="robot_namespace" value="$(arg name)"/>
+
+  <link name='${robot_namespace}/base_link'>
+    <inertial>
+      <origin xyz='-0.00065 -0.085 0.062' rpy='0 -0 0'/>
+      <mass value='46.034'/>
+      <inertia ixx='0.613201' ixy='-0.0236401' ixz='-0.1197' iyy='1.7496' iyz='-0.00154411' izz='2.0406'/>
+    </inertial>
+    <collision name='base_collision'>
+      <origin xyz='0 0 0.061875' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.9874 0.5709 0.12375'/>
+      </geometry>
+    </collision>
+    <collision name='base_collision_1'>
+      <origin xyz='0 0 0.185625' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.78992 0.5709 0.12375'/>
+      </geometry>
+    </collision>
+    <collision name='top_plate_collision'>
+      <origin xyz='0.0812 0 0.245' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename="package://x1_description/meshes/top_plate.dae" scale='1 1 1'/>
+      </geometry>
+    </collision>
+    <collision name='top_plate_collision_2'>
+      <origin xyz='0.0812 0 0.245' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.32 0.41 0.09'/>
+      </geometry>
+    </collision>
+    <visual name='base_visual'>
+      <origin xyz='0 0 0' rpy='0 0 -3.14159'/>
+      <geometry>
+        <mesh filename='package://x1_description/meshes/chassis.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='center_left_headlight_visual'>
+      <origin xyz='0.485766 0.0844 0.124431' rpy='0 0 -3.14159'/>
+      <geometry>
+        <mesh filename='package://x1_description/meshes/headlight.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='center_right_headlight_visual'>
+      <origin xyz='0.485766 -0.0844 0.124431' rpy='0 0 -3.14159'/>
+      <geometry>
+        <mesh filename='package://x1_description/meshes/headlight.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='left_headlight_visual'>
+      <origin xyz='0.461459 0.216803 0.124431' rpy='0 0 -3.14159'/>
+      <geometry>
+        <mesh filename='package://x1_description/meshes/headlight.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='marker_visual_1'>
+      <origin xyz='0.066047 0.212211 0.209188' rpy='-3.14159 1.57079 -1.60259'/>
+      <geometry>
+        <mesh filename='package://x1_description/meshes/led.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='marker_visual_2'>
+      <origin xyz='-0.066047 0.212211 0.209188' rpy='-3.14159 1.57079 -1.60259'/>
+      <geometry>
+        <mesh filename='package://x1_description/meshes/led.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='marker_visual_3'>
+      <origin xyz='-0.42493 0 0.209188' rpy='3.14159 1.57079 7e-06'/>
+      <geometry>
+        <mesh filename='package://x1_description/meshes/led.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='marker_visual_4'>
+      <origin xyz='-0.42493 0.13619 0.209188' rpy='3.14159 1.57079 7e-06'/>
+      <geometry>
+        <mesh filename='package://x1_description/meshes/led.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='marker_visual_5'>
+      <origin xyz='-0.42493 -0.13619 0.209188' rpy='3.14159 1.57079 7e-06'/>
+      <geometry>
+        <mesh filename='package://x1_description/meshes/led.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='right_headlight_visual'>
+      <origin xyz='0.461459 -0.216803 0.124431' rpy='0 0 -3.14159'/>
+      <geometry>
+        <mesh filename='package://x1_description/meshes/headlight.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='marker_visual_6'>
+      <origin xyz='0.066047 -0.212211 0.209188' rpy='3.14159 1.57079 1.60259'/>
+      <geometry>
+        <mesh filename='package://x1_description/meshes/led.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='marker_visual_7'>
+      <origin xyz='-0.066047 -0.212211 0.209188' rpy='3.14159 1.57079 1.60259'/>
+      <geometry>
+        <mesh filename='package://x1_description/meshes/led.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='top_plate_visual'>
+      <origin xyz='0.0812 0 0.245' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://x1_description/meshes/top_plate.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='left_light_source'>
+      <origin xyz='0.435959 0.124431 0' rpy='3.14159 -3e-06 3.14159'/>
+      <geometry>
+        <mesh filename='package://x1_description/meshes/headlight_lamp.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='center_left_light_visual'>
+      <origin xyz='0.485266 0.0844 0.124431' rpy='0 0 -3.14159'/>
+      <geometry>
+        <mesh filename='package://x1_description/meshes/headlight_lamp.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+  </link>
+  <sensor name='imu_sensor' update_rate='1000'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0 0 0' rpy='0 -0 0'/>
+  </sensor>
+  <link name='${robot_namespace}/front_left_wheel'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='2.637'/>
+      <inertia ixx='0.02467' ixy='0' ixz='0' iyy='0.04411' iyz='0' izz='0.02467'/>
+    </inertial>
+    <collision name='collision'>
+      <origin xyz='0 0 0' rpy='-1.57079 0 0'/>
+      <geometry>
+        <cylinder radius='0.1651' length='0.1143'/>
+      </geometry>
+    </collision>
+    <visual name='visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://x1_description/meshes/wheel.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/front_right_wheel'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='2.637'/>
+      <inertia ixx='0.02467' ixy='0' ixz='0' iyy='0.04411' iyz='0' izz='0.02467'/>
+    </inertial>
+    <collision name='collision'>
+      <origin xyz='0 0 0' rpy='-1.57079 0 0'/>
+      <geometry>
+        <cylinder radius='0.1651' length='0.1143'/>
+      </geometry>
+    </collision>
+    <visual name='visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://x1_description/meshes/wheel.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/rear_left_wheel'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='2.637'/>
+      <inertia ixx='0.02467' ixy='0' ixz='0' iyy='0.04411' iyz='0' izz='0.02467'/>
+    </inertial>
+    <collision name='collision'>
+      <origin xyz='0 0 0' rpy='-1.57079 0 0'/>
+      <geometry>
+        <cylinder radius='0.1651' length='0.1143'/>
+      </geometry>
+    </collision>
+    <visual name='visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://x1_description/meshes/wheel.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/rear_right_wheel'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='2.637'/>
+      <inertia ixx='0.02467' ixy='0' ixz='0' iyy='0.04411' iyz='0' izz='0.02467'/>
+    </inertial>
+    <collision name='collision'>
+      <origin xyz='0 0 0' rpy='-1.57079 0 0'/>
+      <geometry>
+        <cylinder radius='0.1651' length='0.1143'/>
+      </geometry>
+    </collision>
+    <visual name='visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://x1_description/meshes/wheel.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name='front_left_wheel_joint' type='revolute'>
+    <origin xyz='0.256 0.2854 0.03282' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/front_left_wheel'/>
+    <axis xyz='0 1 0'/>
+    <limit lower='-1.79769e+308' upper='1.79769e+308' effort='-1' velocity='-1'/>
+  </joint>
+  <joint name='front_right_wheel_joint' type='revolute'>
+    <origin xyz='0.256 -0.2854 0.03282' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/front_right_wheel'/>
+    <axis xyz='0 1 0'/>
+    <limit lower='-1.79769e+308' upper='1.79769e+308' effort='-1' velocity='-1'/>
+  </joint>
+  <joint name='rear_left_wheel_joint' type='revolute'>
+    <origin xyz='-0.256 0.2854 0.03282' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rear_left_wheel'/>
+    <axis xyz='0 1 0'/>
+    <limit lower='-1.79769e+308' upper='1.79769e+308' effort='-1' velocity='-1'/>
+  </joint>
+  <joint name='rear_right_wheel_joint' type='revolute'>
+    <origin xyz='-0.256 -0.2854 0.03282' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rear_right_wheel'/>
+    <axis xyz='0 1 0'/>
+    <limit lower='-1.79769e+308' upper='1.79769e+308' effort='-1' velocity='-1'/>
+  </joint>
+</robot>

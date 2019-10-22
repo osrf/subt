@@ -74,7 +74,11 @@ namespace subt
     TYPE_RADIO,
     TYPE_RESCUE_RANDY,
     TYPE_TOOLBOX,
-    TYPE_VALVE
+    TYPE_VALVE,
+    TYPE_VENT,
+    TYPE_GAS,
+    TYPE_HELMET,
+    TYPE_ROPE
   };
 
   /// \def TeamMemberPtr

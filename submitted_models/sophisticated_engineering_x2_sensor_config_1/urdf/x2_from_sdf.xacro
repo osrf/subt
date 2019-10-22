@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name="X2" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:arg name="name" default="X2"/>
+  <xacro:property name="robot_namespace" value="$(arg name)"/>
+
+  <link name='${robot_namespace}/base_link'>
+    <inertial>
+      <origin xyz='0.011999 0.002 0.066996' rpy='0 -0 0'/>
+      <mass value='16.524'/>
+      <inertia ixx='0.320605' ixy='-0.000800023' ixz='0.0163992' iyy='0.399205' iyz='-0.000900133' izz='0.455501'/>
+    </inertial>
+    <collision name='chassis_collision'>
+      <origin xyz='0 0 0.092' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.42 0.31 0.184'/>
+      </geometry>
+    </collision>
+    <visual name='chassis_visual'>
+      <origin xyz='0 0 -0.0655' rpy='1.5708 0 -1.5708'/>
+      <geometry>
+        <mesh filename='package://sophisticated_engineering_x2_sensor_config_1/meshes/x2_chassis.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='navsat_visual_1'>
+      <origin xyz='-0.18 0.126 0.1895' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.026' length='0.016'/>
+      </geometry>
+    </visual>
+    <visual name='center_left_headlight_visual'>
+      <origin xyz='0.22 0.05 0.0845' rpy='0 0 -3.14159'/>
+      <geometry>
+        <mesh filename='package://sophisticated_engineering_x2_sensor_config_1/meshes/headlight.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='left_headlight_visual'>
+      <origin xyz='0.22 0.145 0.0845' rpy='0 0 -3.14159'/>
+      <geometry>
+        <mesh filename='package://sophisticated_engineering_x2_sensor_config_1/meshes/headlight.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='center_right_headlight_visual'>
+      <origin xyz='0.22 -0.05 0.0845' rpy='0 0 -3.14159'/>
+      <geometry>
+        <mesh filename='package://sophisticated_engineering_x2_sensor_config_1/meshes/headlight.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='right_headlight_visual'>
+      <origin xyz='0.22 -0.145 0.0845' rpy='0 0 -3.14159'/>
+      <geometry>
+        <mesh filename='package://sophisticated_engineering_x2_sensor_config_1/meshes/headlight.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+  </link>
+  <sensor name='imu_sensor' update_rate='1000'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0 0 0' rpy='0 -0 0'/>
+  </sensor>
+  <link name='${robot_namespace}/front_left_wheel'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='0.477'/>
+      <inertia ixx='0.0013' ixy='0' ixz='0' iyy='0.0024' iyz='0' izz='0.0013'/>
+    </inertial>
+    <collision name='collision'>
+      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.098' length='0.04'/>
+      </geometry>
+    </collision>
+    <visual name='visual'>
+      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <mesh filename='package://sophisticated_engineering_x2_sensor_config_1/meshes/x2_wheel_left.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/front_right_wheel'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='0.477'/>
+      <inertia ixx='0.0013' ixy='0' ixz='0' iyy='0.0024' iyz='0' izz='0.0013'/>
+    </inertial>
+    <collision name='collision'>
+      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.098' length='0.04'/>
+      </geometry>
+    </collision>
+    <visual name='visual'>
+      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <mesh filename='package://sophisticated_engineering_x2_sensor_config_1/meshes/x2_wheel_right.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/rear_left_wheel'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='0.477'/>
+      <inertia ixx='0.0013' ixy='0' ixz='0' iyy='0.0024' iyz='0' izz='0.0013'/>
+    </inertial>
+    <collision name='collision'>
+      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.098' length='0.04'/>
+      </geometry>
+    </collision>
+    <visual name='visual'>
+      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <mesh filename='package://sophisticated_engineering_x2_sensor_config_1/meshes/x2_wheel_left.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/rear_right_wheel'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='0.477'/>
+      <inertia ixx='0.0013' ixy='0' ixz='0' iyy='0.0024' iyz='0' izz='0.0013'/>
+    </inertial>
+    <collision name='collision'>
+      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.098' length='0.04'/>
+      </geometry>
+    </collision>
+    <visual name='visual'>
+      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <mesh filename='package://sophisticated_engineering_x2_sensor_config_1/meshes/x2_wheel_right.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name='front_left_wheel_joint' type='revolute'>
+    <origin xyz='0.131 0.187795 0.0345' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/front_left_wheel'/>
+    <axis xyz='0 1 0'/>
+    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+  </joint>
+  <joint name='rear_left_wheel_joint' type='revolute'>
+    <origin xyz='-0.131 0.187795 0.0345' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rear_left_wheel'/>
+    <axis xyz='0 1 0'/>
+    <limit lower='-1.79769e+308' upper='1.79769e+308' effort='-1' velocity='-1'/>
+  </joint>
+  <joint name='rear_right_wheel_joint' type='revolute'>
+    <origin xyz='-0.131 -0.187795 0.0345' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rear_right_wheel'/>
+    <axis xyz='0 1 0'/>
+    <limit lower='-1.79769e+308' upper='1.79769e+308' effort='-1' velocity='-1'/>
+  </joint>
+  <joint name='front_right_wheel_joint' type='revolute'>
+    <origin xyz='0.131 -0.187795 0.0345' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/front_right_wheel'/>
+    <axis xyz='0 1 0'/>
+    <limit lower='-1.79769e+308' upper='1.79769e+308' effort='-1' velocity='-1'/>
+  </joint>
+</robot>

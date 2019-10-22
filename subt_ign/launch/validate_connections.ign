@@ -1,0 +1,392 @@
+<?xml version="1.0"?>
+<!-- Usage: ign launch validate_connections.ign
+            [worldName:=<worldName>
+             ... ]
+
+**Note that there are a few double dashes with a separating space in the commands below. The spaces make the XML comment happy, and the spaces should be removed when running the command.**
+
+Use the following to iterate the through tunnel connection points.
+The service will respond with the connection point that you are viewing.
+You can use the GUI to look through the two cameras (one top-down, one at a 45 degree angle).
+Hint: Using the "follow" functionality in the GUI is very helpful here.
+
+ign service -s /connection/next \
+  - -reqtype ignition.msgs.StringMsg \
+  - -reptype ignition.msgs.StringMsg \
+  - -timeout 1000 \
+  - -req 'data: ""'
+
+ign service -s /connection/prev \
+  - -reqtype ignition.msgs.StringMsg \
+  - -reptype ignition.msgs.StringMsg \
+  - -timeout 1000 \
+  - -req 'data: ""'
+-->
+
+<%
+  # Check if worldName is not defined or is empty/nil
+  if !defined?(worldName) || worldName == nil || worldName.empty?
+    $worldName = 'tunnel_circuit_practice_01'
+  else
+    $worldName = worldName
+  end
+
+  if !defined?(headless) || headless == nil || headless.empty?
+    $headless = false
+  elsif headless == 'true' || headless == 'True' || headless == '1'
+    $headless = true
+  end
+
+  worldNumber = $worldName.split('_').last
+%>
+
+<%
+  # disable levels for simple cave worlds
+  levels = "true"
+  if $worldName.include?('simple_cave_')
+    levels = "false"
+  end
+%>
+
+<ignition version='1.0'>
+  <env>
+    <name>IGN_GAZEBO_SYSTEM_PLUGIN_PATH</name>
+    <value>$LD_LIBRARY_PATH</value>
+  </env>
+
+  <executable name="topic_bridge">
+    <command>roslaunch subt_ros validator_topics.launch world_name:=<%= $worldName %> name:=validator</command>
+  </executable>
+
+  <plugin name="ignition::launch::GazeboServer"
+          filename="libignition-launch-gazebo.so">
+    <% if $worldName.include?('tunnel_circuit_') &&
+          !$worldName.include?('practice') %>
+      <world_file>tunnel_circuit/<%= worldNumber %>/<%= $worldName %>.sdf</world_file>
+    <% elsif $worldName.include?('urban_circuit_') &&
+          !$worldName.include?('practice') %>
+      <world_file>urban_circuit/<%= worldNumber %>/<%= $worldName %>.sdf</world_file>
+    <% else %>
+      <world_file><%= $worldName %>.sdf</world_file>
+    <% end %>
+    <run>true</run>
+    <levels><%= levels %></levels>
+    <%if defined?(seed) && seed != nil && !seed.empty?%>
+    <seed><%= seed %></seed>
+    <%end%>
+
+    <plugin entity_name="<%= $worldName %>"
+            entity_type="world"
+            filename="libignition-gazebo-physics-system.so"
+            name="ignition::gazebo::systems::Physics">
+    </plugin>
+    <plugin entity_name="<%= $worldName %>"
+            entity_type="world"
+            filename="libignition-gazebo-sensors-system.so"
+            name="ignition::gazebo::systems::Sensors">
+            <render_engine>ogre2</render_engine>
+    </plugin>
+    <plugin entity_name="<%= $worldName %>"
+            entity_type="world"
+            filename="libignition-gazebo-user-commands-system.so"
+            name="ignition::gazebo::systems::UserCommands">
+    </plugin>
+    <plugin entity_name="<%= $worldName %>"
+            entity_type="world"
+            filename="libignition-gazebo-scene-broadcaster-system.so"
+            name="ignition::gazebo::systems::SceneBroadcaster">
+    </plugin>
+
+    <!-- The SubT challenge logic plugin -->
+    <plugin entity_name="<%= $worldName %>"
+            entity_type="world"
+            filename="libConnectionValidator.so"
+            name="subt::ConnectionValidator">
+      <world_name><%= $worldName %></world_name>
+    </plugin>
+  </plugin>
+
+
+  <%if !$headless %>
+  <executable_wrapper>
+    <plugin name="ignition::launch::GazeboGui"
+          filename="libignition-launch-gazebogui.so">
+      <world_name><%= $worldName %></world_name>
+      <window_title>SubT Simulator</window_title>
+      <window_icon><%= ENV['SUBT_IMAGES_PATH'] %>/SubT_logo.svg</window_icon>
+      <plugin filename="GzScene3D" name="3D View">
+        <ignition-gui>
+          <title>3D View</title>
+          <property type="bool" key="showTitleBar">false</property>
+          <property type="string" key="state">docked</property>
+        </ignition-gui>
+
+        <engine>ogre2</engine>
+        <scene>scene</scene>
+        <ambient_light>0.2 0.2 0.1</ambient_light>
+        <background_color>0.8 0.8 0.8</background_color>
+        <camera_pose>-6.3 -4.2 3.6 0 0.268 0.304</camera_pose>
+        <service>/world/<%= $worldName %>/scene/info</service>
+        <pose_topic>/world/<%= $worldName %>/pose/info</pose_topic>
+        <scene_topic>/world/<%= $worldName %>/scene/info</scene_topic>
+        <deletion_topic>/world/<%= $worldName %>/scene/deletion</deletion_topic>
+        <camera_follow>
+          <p_gain>0.05</p_gain>
+          <target>validator</target>
+          <offset>-4 0 15</offset>
+        </camera_follow>
+      </plugin>
+      <plugin filename="WorldControl" name="World control">
+        <ignition-gui>
+          <title>World control</title>
+          <property type="bool" key="showTitleBar">false</property>
+          <property type="bool" key="resizable">false</property>
+          <property type="double" key="height">72</property>
+          <property type="double" key="width">121</property>
+          <property type="double" key="z">1</property>
+
+          <property type="string" key="state">floating</property>
+          <anchors target="3D View">
+            <line own="left" target="left"/>
+            <line own="bottom" target="bottom"/>
+          </anchors>
+        </ignition-gui>
+
+        <play_pause>true</play_pause>
+        <step>true</step>
+        <start_paused>true</start_paused>
+        <service>/world/<%= $worldName %>/control</service>
+        <stats_topic>/world/<%= $worldName %>/stats</stats_topic>
+
+      </plugin>
+
+      <plugin filename="WorldStats" name="World stats">
+        <ignition-gui>
+          <title>World stats</title>
+          <property type="bool" key="showTitleBar">false</property>
+          <property type="bool" key="resizable">false</property>
+          <property type="double" key="height">110</property>
+          <property type="double" key="width">290</property>
+          <property type="double" key="z">1</property>
+
+          <property type="string" key="state">floating</property>
+          <anchors target="3D View">
+            <line own="right" target="right"/>
+            <line own="bottom" target="bottom"/>
+          </anchors>
+        </ignition-gui>
+
+        <sim_time>true</sim_time>
+        <real_time>true</real_time>
+        <real_time_factor>true</real_time_factor>
+        <iterations>true</iterations>
+        <topic>/world/<%= $worldName %>/stats</topic>
+      </plugin>
+
+      <plugin filename="ImageDisplay" name="Image Display">
+        <ignition-gui>
+          <title>Angled</title>
+          <property key="state" type="string">docked</property>
+        </ignition-gui>
+        <topic>/validate/angled</topic>
+        <topic_picker>false</topic_picker>
+      </plugin>
+
+      <plugin filename="ImageDisplay" name="Image Display">
+        <ignition-gui>
+          <title>Top-down</title>
+          <property key="state" type="string">docked</property>
+        </ignition-gui>
+        <topic>/validate/top_down</topic>
+        <topic_picker>false</topic_picker>
+      </plugin>
+    </plugin>
+  </executable_wrapper>
+  <%end%>
+
+  <plugin name="ignition::launch::GazeboFactory"
+          filename="libignition-launch-gazebo-factory.so">
+    <name>validator</name>
+    <allow_renaming>false</allow_renaming>
+    <pose>0 0 0 0 0 0</pose>
+    <is_performer>true</is_performer>
+    <sdf version='1.6'>
+      <model name="validator">
+        <static>true</static>
+        <link name="base_link">
+          <visual name="box">
+            <pose>0 0 5 0 0 0</pose>
+            <geometry>
+              <box>
+                <size>1.0 1.0 1.0</size>
+              </box>
+              <material>
+                <ambient>1 0 0 1</ambient>
+                <diffuse>1 0 0 1</diffuse>
+                <specular>1 0 0 1</specular>
+              </material>
+            </geometry>
+          </visual>
+          <!-- Shine on the box  -->
+          <light name='light_on_box1' type='point'>
+            <pose>2.5 2.5 7.0 0 0 0</pose>
+            <diffuse>1 0 0 1</diffuse>
+            <specular>1 0 0 1</specular>
+            <attenuation>
+              <range>5</range>
+              <linear>0</linear>
+              <constant>1</constant>
+            </attenuation>
+            <cast_shadows>false</cast_shadows>
+          </light>
+          <light name='light_on_box2' type='point'>
+            <pose>-2.5 2.5 7.0 0 0 0</pose>
+            <diffuse>1 0 0 1</diffuse>
+            <specular>1 0 0 1</specular>
+            <attenuation>
+              <range>5</range>
+              <linear>0</linear>
+              <constant>1</constant>
+            </attenuation>
+            <cast_shadows>false</cast_shadows>
+          </light>
+          <light name='light_on_box3' type='point'>
+            <pose>2.5 -2.5 7.0 0 0 0</pose>
+            <diffuse>1 0 0 1</diffuse>
+            <specular>1 0 0 1</specular>
+            <attenuation>
+              <range>5</range>
+              <linear>0</linear>
+              <constant>1</constant>
+            </attenuation>
+            <cast_shadows>false</cast_shadows>
+          </light>
+          <light name='light_on_box4' type='point'>
+            <pose>-2.5 -2.5 7.0 0 0 0</pose>
+            <diffuse>1 0 0 1</diffuse>
+            <specular>1 0 0 1</specular>
+            <attenuation>
+              <range>5</range>
+              <linear>0</linear>
+              <constant>1</constant>
+            </attenuation>
+            <cast_shadows>false</cast_shadows>
+          </light>
+          <light name='spawned_light' type='spot'>
+            <pose>0 0 1.0 0 0 0</pose>
+            <attenuation>
+              <range>50</range>
+              <linear>0</linear>
+              <constant>0.1</constant>
+              <quadratic>0.0025</quadratic>
+            </attenuation>
+            <diffuse>0.8 0.8 0.5 1</diffuse>
+            <specular>0.8 0.8 0.5 1</specular>
+            <spot>
+              <inner_angle>1</inner_angle>
+              <outer_angle>1.5</outer_angle>
+              <falloff>1</falloff>
+            </spot>
+            <direction>0 0 -1</direction>
+            <cast_shadows>false</cast_shadows>
+          </light>
+          <sensor name="top_down" type="camera">
+            <topic>/validate/top_down</topic>
+            <pose>0.0 0 4 0 1.570 0</pose>
+            <always_on>1</always_on>
+            <update_rate>20</update_rate>
+            <camera name="top_down">
+                <pose>0 0 0 0 0 0</pose>
+                <horizontal_fov>1.0472</horizontal_fov>
+                <distortion>
+                    <k1>0.0</k1>
+                    <k2>0.0</k2>
+                    <k3>0.0</k3>
+                    <p1>0.0</p1>
+                    <p2>0.0</p2>
+                    <center>0.5 0.5</center>
+                </distortion>
+                <image>
+                    <width>640</width>
+                    <height>480</height>
+                    <format>R8G8B8</format>
+                </image>
+                <clip>
+                    <near>0.01</near>
+                    <far>300</far>
+                </clip>
+            </camera>
+          </sensor>
+          <sensor name="angled" type="camera">
+            <topic>/validate/angled</topic>
+            <pose>-4 0 4 0 0.78 0.0</pose>
+            <always_on>1</always_on>
+            <update_rate>20</update_rate>
+            <camera name="angled">
+                <pose>0 0 0 0 0 0</pose>
+                <horizontal_fov>1.0472</horizontal_fov>
+                <distortion>
+                    <k1>0.0</k1>
+                    <k2>0.0</k2>
+                    <k3>0.0</k3>
+                    <p1>0.0</p1>
+                    <p2>0.0</p2>
+                    <center>0.5 0.5</center>
+                </distortion>
+                <image>
+                    <width>640</width>
+                    <height>480</height>
+                    <format>R8G8B8</format>
+                </image>
+                <clip>
+                    <near>0.01</near>
+                    <far>300</far>
+                </clip>
+            </camera>
+          </sensor>
+          <sensor name="front_laser" type="gpu_lidar">
+            <pose frame="">0 0 2 1.54 1.54 0</pose>
+            <visualize>0</visualize>
+            <update_rate>1</update_rate>
+            <lidar>
+              <scan>
+                <horizontal>
+                  <!-- Resolution can't be above 16k, see
+                  https://github.com/ignitionrobotics/ign-sensors/issues/8 -->
+                  <samples>200</samples>
+                  <resolution>0.1</resolution>
+                  <min_angle>-3.1459</min_angle>
+                  <max_angle>3.1459</max_angle>
+                </horizontal>
+                <vertical>
+                  <samples>80</samples>
+                  <resolution>0.1</resolution>
+                  <min_angle>-1.4</min_angle>
+                  <max_angle>1.4</max_angle>
+                </vertical>
+              </scan>
+              <range>
+                <min>0.01</min>
+                <max>10</max>
+                <resolution>0.035</resolution>
+              </range>
+              <noise>
+                <type>gaussian</type>
+                <mean>0</mean>
+                <stddev>0.0</stddev>
+              </noise>
+            </lidar>
+          </sensor>
+        </link>
+        <plugin filename="libignition-gazebo-pose-publisher-system.so"
+                name="ignition::gazebo::systems::PosePublisher">
+          <publish_link_pose>true</publish_link_pose>
+          <publish_sensor_pose>true</publish_sensor_pose>
+          <publish_collision_pose>false</publish_collision_pose>
+          <publish_visual_pose>false</publish_visual_pose>
+          <publish_nested_model_pose>true</publish_nested_model_pose>
+        </plugin>
+      </model>
+    </sdf>
+  </plugin>
+</ignition>
