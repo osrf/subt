@@ -243,7 +243,7 @@ void ConnectionValidatorPrivate::PopulateConnections()
   for (uint64_t modelIndex = 0; modelIndex < world->ModelCount(); ++modelIndex)
   {
     auto model = world->ModelByIndex(modelIndex);
-    const auto pose = model->Pose();
+    const auto pose = model->RawPose();
     const auto name = model->Name();
 
     if (this->vertData.count(name))
