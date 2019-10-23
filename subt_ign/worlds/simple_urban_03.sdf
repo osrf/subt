@@ -46,13 +46,13 @@
     <include>
       <name>tile_1</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Bend Right</uri>
-      <pose>-320.000000 -8.000000 0.000000 0 0 0.000000</pose>
+      <pose>-320.000000 -8.000000 10.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_2</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Elevation Up</uri>
-      <pose>-280.000000 -8.000000 0.000000 0 0 4.712389</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Elevation Down</uri>
+      <pose>-280.000000 -8.000000 5.000000 0 0 4.712389</pose>
     </include>
 
     <include>
@@ -130,55 +130,55 @@
     <include>
       <name>tile_15</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight</uri>
-      <pose>-320.000000 -48.000000 0.000000 0 0 3.141593</pose>
+      <pose>-320.000000 -48.000000 10.000000 0 0 3.141593</pose>
     </include>
 
     <include>
       <name>tile_16</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Door Right Flipped</uri>
-      <pose>-480.000000 -88.000000 0.000000 0 0 0.000000</pose>
+      <pose>-480.000000 -88.000000 10.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_17</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Service Room</uri>
-      <pose>-480.000000 -88.000000 0.000000 0 0 0.000000</pose>
+      <pose>-480.000000 -88.000000 10.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_18</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Tunnel Tile Blocker</uri>
-      <pose>-503.000000 -88.000000 2.000000 0 0 0.000000</pose>
+      <pose>-503.000000 -88.000000 12.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_19</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Door Right</uri>
-      <pose>-440.000000 -88.000000 0.000000 0 0 3.141593</pose>
+      <pose>-440.000000 -88.000000 10.000000 0 0 3.141593</pose>
     </include>
 
     <include>
       <name>tile_20</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Platform</uri>
-      <pose>-400.000000 -88.000000 0.000000 0 0 3.141593</pose>
+      <pose>-400.000000 -88.000000 10.000000 0 0 3.141593</pose>
     </include>
 
     <include>
       <name>tile_21</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Tunnel Tile Blocker</uri>
-      <pose>-400.000000 -111.000000 3.000000 0 0 0.000000</pose>
+      <pose>-400.000000 -111.000000 13.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_22</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Door Left Flipped</uri>
-      <pose>-360.000000 -88.000000 0.000000 0 0 0.000000</pose>
+      <pose>-360.000000 -88.000000 10.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_23</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Bend Left</uri>
-      <pose>-320.000000 -88.000000 0.000000 0 0 4.712389</pose>
+      <pose>-320.000000 -88.000000 10.000000 0 0 4.712389</pose>
     </include>
 
 
@@ -225,13 +225,13 @@
 
       <level name="level0">
         <ref>tile_1</ref>
-        <pose>-320.000000 -8.000000 0.000000 0 0 0</pose>
+        <pose>-320.000000 -8.000000 10.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level1">
         <ref>tile_2</ref>
-        <pose>-280.000000 -8.000000 0.000000 0 0 0</pose>
+        <pose>-280.000000 -8.000000 5.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
@@ -304,50 +304,50 @@
       </level>
       <level name="level13">
         <ref>tile_15</ref>
-        <pose>-320.000000 -48.000000 0.000000 0 0 0</pose>
+        <pose>-320.000000 -48.000000 10.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level14">
         <ref>tile_16</ref>
         <ref>tile_17</ref>
-        <pose>-480.000000 -88.000000 0.000000 0 0 0</pose>
+        <pose>-480.000000 -88.000000 10.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level15">
         <ref>tile_18</ref>
-        <pose>-503.000000 -88.000000 2.000000 0 0 0</pose>
+        <pose>-503.000000 -88.000000 12.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level16">
         <ref>tile_19</ref>
-        <pose>-440.000000 -88.000000 0.000000 0 0 0</pose>
+        <pose>-440.000000 -88.000000 10.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level17">
         <ref>tile_20</ref>
-        <pose>-400.000000 -88.000000 0.000000 0 0 0</pose>
+        <pose>-400.000000 -88.000000 10.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level18">
         <ref>tile_21</ref>
-        <pose>-400.000000 -111.000000 3.000000 0 0 0</pose>
+        <pose>-400.000000 -111.000000 13.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level19">
         <ref>tile_22</ref>
-        <pose>-360.000000 -88.000000 0.000000 0 0 0</pose>
+        <pose>-360.000000 -88.000000 10.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level20">
         <ref>tile_23</ref>
-        <pose>-320.000000 -88.000000 0.000000 0 0 0</pose>
+        <pose>-320.000000 -88.000000 10.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
