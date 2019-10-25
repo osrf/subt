@@ -133,12 +133,20 @@ void GasDetector::Configure(
 
   auto topic = _sdf->Get<std::string>("topic",
       gazebo::scopedName(_entity, _ecm) + "/leak").first;
-  this->dataPtr->updateRate = _sdf->Get<double>("update_rate", 10.0).first;
+  this->dataPtr->updateRate = _sdf->Get<double>("update_rate", 0.0).first;
 
-  transport::AdvertiseMessageOptions opts;
-  opts.SetMsgsPerSec(this->dataPtr->updateRate);
-  this->dataPtr->pub =  this->dataPtr->node.Advertise<msgs::Boolean>(
-      topic, opts);
+
+  if (this->dataPtr->updateRate > 0.0)
+  {
+    transport::AdvertiseMessageOptions opts;
+    opts.SetMsgsPerSec(this->dataPtr->updateRate);
+    this->dataPtr->pub =  this->dataPtr->node.Advertise<msgs::Boolean>(
+        topic, opts);
+  }
+  else
+  {
+    this->dataPtr->pub =  this->dataPtr->node.Advertise<msgs::Boolean>(topic);
+  }
 }
 
 //////////////////////////////////////////////////

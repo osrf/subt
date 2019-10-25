@@ -265,7 +265,10 @@ add_dependencies(max_test_score
 )
 
 if (CATKIN_ENABLE_TESTING)
-  catkin_add_gtest(gas_emitter_detector test/gas_emitter_detector.cc)
+  message(STATUS ${CMAKE_CURRENT_BINARY_DIR})
+  catkin_add_gtest(gas_emitter_detector test/gas_emitter_detector.cc
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/devel/lib/)
+
   target_link_libraries(gas_emitter_detector
     ignition-gazebo${IGN_GAZEBO_VER}::core
     ignition-common3::ignition-common3

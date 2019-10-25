@@ -17,13 +17,13 @@
 
 #include <gtest/gtest.h>
 
+#include <atomic>
 
 #include <ignition/common/Console.hh>
 #include <ignition/math/Pose3.hh>
 #include <ignition/transport/Node.hh>
 
 #include <ignition/msgs/boolean.pb.h>
-
 
 #include <ignition/gazebo/Server.hh>
 #include <ignition/gazebo/ServerConfig.hh>
@@ -91,28 +91,28 @@ const std::string worldSdf = R"(
         <sensor name="methane_detector" type="contact">
           <plugin name="subt::GasDetector" filename="libGasEmitterDetectorPlugin.so">
             <topic>methane_detector</topic>
-            <update_rate>10</update_rate>
+            <update_rate>0</update_rate>
             <type>methane</type>
           </plugin>
         </sensor>
         <sensor name="oxygen_detector" type="contact">
           <plugin name="subt::GasDetector" filename="libGasEmitterDetectorPlugin.so">
             <topic>oxygen_detector</topic>
-            <update_rate>10</update_rate>
+            <update_rate>0</update_rate>
             <type>oxygen</type>
           </plugin>
         </sensor>
         <sensor name="propane_detector" type="contact">
           <plugin name="subt::GasDetector" filename="libGasEmitterDetectorPlugin.so">
             <topic>propane_detector</topic>
-            <update_rate>10</update_rate>
+            <update_rate>0</update_rate>
             <type>propane</type>
           </plugin>
         </sensor>
         <sensor name="any_detector" type="contact">
           <plugin name="subt::GasDetector" filename="libGasEmitterDetectorPlugin.so">
             <topic>any_detector</topic>
-            <update_rate>10</update_rate>
+            <update_rate>0</update_rate>
           </plugin>
         </sensor>
       </link>
@@ -121,32 +121,36 @@ const std::string worldSdf = R"(
 </sdf>
 )";
 
-static bool methane = false;
-static bool oxygen = false;
-static bool propane = false;
-static bool any = false;
+std::atomic<bool> methane = false;
+std::atomic<bool> oxygen = false;
+std::atomic<bool> propane = false;
+std::atomic<bool> any = false;
 
 void methane_cb(const ignition::msgs::Boolean &_msg)
 {
+  ignerr << "Methane: " << _msg.data() << std::endl;
   methane = _msg.data();
 }
 
 void oxygen_cb(const ignition::msgs::Boolean &_msg)
 {
+  ignerr << "Oxygen: " << _msg.data() << std::endl;
   oxygen = _msg.data();
 }
 
 void propane_cb(const ignition::msgs::Boolean &_msg)
 {
+  ignerr << "Propane: " << _msg.data() << std::endl;
   propane = _msg.data();
 }
 
 void any_cb(const ignition::msgs::Boolean &_msg)
 {
+  ignerr << "Any: " << _msg.data() << std::endl;
   any = _msg.data();
 }
 
-TEST(OxygenGasPlugin, OxygenGasPlugin)
+TEST(GasEmitterDetector, GasEmitterDetector)
 {
   ignition::transport::Node node;
   node.Subscribe("/methane_detector", methane_cb);
@@ -157,96 +161,51 @@ TEST(OxygenGasPlugin, OxygenGasPlugin)
   ignition::gazebo::ServerConfig serverConfig;
   serverConfig.SetSdfString(worldSdf);
   auto server = std::make_unique<ignition::gazebo::Server>(serverConfig);
-  server->Run(true, 1, false);
 
+  auto move_detector = [&](auto x_pos){
+    ignition::msgs::Pose req;
+    req.set_name("gas_detector_model");
+    req.mutable_position()->set_x(x_pos);
+
+    ignition::msgs::Boolean res;
+    bool result;
+    unsigned int timeout = 5000;
+    std::string service{"/world/default/set_pose"};
+
+    ignition::transport::Node node;
+    EXPECT_TRUE(node.Request(service, req, timeout, res, result));
+    EXPECT_TRUE(result);
+    EXPECT_TRUE(res.data());
+    server->Run(true, 1, false);
+    // Sleep to allow callbacks to all propagate.
+    std::this_thread::sleep_for(std::chrono::milliseconds(5));
+  };
+
+  move_detector(0.0);
   EXPECT_FALSE(methane);
   EXPECT_FALSE(oxygen);
   EXPECT_FALSE(propane);
   EXPECT_FALSE(any);
 
-  {
-    ignition::msgs::Pose req;
-    req.set_name("gas_detector_model");
-    req.mutable_position()->set_x(10);
-
-    ignition::msgs::Boolean res;
-    bool result;
-    unsigned int timeout = 5000;
-    std::string service{"/world/default/set_pose"};
-
-    ignition::transport::Node node;
-    EXPECT_TRUE(node.Request(service, req, timeout, res, result));
-    EXPECT_TRUE(result);
-    EXPECT_TRUE(res.data());
-    server->Run(true, 1, false);
-  }
-
+  move_detector(10.0);
   EXPECT_TRUE(methane);
   EXPECT_FALSE(oxygen);
   EXPECT_FALSE(propane);
   EXPECT_TRUE(any);
 
-  {
-    ignition::msgs::Pose req;
-    req.set_name("gas_detector_model");
-    req.mutable_position()->set_x(20);
-
-    ignition::msgs::Boolean res;
-    bool result;
-    unsigned int timeout = 5000;
-    std::string service{"/world/default/set_pose"};
-
-    ignition::transport::Node node;
-    EXPECT_TRUE(node.Request(service, req, timeout, res, result));
-    EXPECT_TRUE(result);
-    EXPECT_TRUE(res.data());
-    server->Run(true, 1, false);
-  }
-
+  move_detector(20.0);
   EXPECT_FALSE(methane);
   EXPECT_TRUE(oxygen);
   EXPECT_FALSE(propane);
   EXPECT_TRUE(any);
 
-  {
-    ignition::msgs::Pose req;
-    req.set_name("gas_detector_model");
-    req.mutable_position()->set_x(30);
-
-    ignition::msgs::Boolean res;
-    bool result;
-    unsigned int timeout = 5000;
-    std::string service{"/world/default/set_pose"};
-
-    ignition::transport::Node node;
-    EXPECT_TRUE(node.Request(service, req, timeout, res, result));
-    EXPECT_TRUE(result);
-    EXPECT_TRUE(res.data());
-    server->Run(true, 1, false);
-  }
-
+  move_detector(30.0);
   EXPECT_FALSE(methane);
   EXPECT_FALSE(oxygen);
   EXPECT_TRUE(propane);
   EXPECT_TRUE(any);
 
-  {
-    ignition::msgs::Pose req;
-    req.set_name("gas_detector_model");
-    req.mutable_position()->set_x(40);
-
-    ignition::msgs::Boolean res;
-    bool result;
-    unsigned int timeout = 5000;
-    std::string service{"/world/default/set_pose"};
-
-    ignition::transport::Node node;
-    EXPECT_TRUE(node.Request(service, req, timeout, res, result));
-    EXPECT_TRUE(result);
-    EXPECT_TRUE(res.data());
-    server->Run(true, 1, false);
-  }
-
+  move_detector(40.0);
   EXPECT_FALSE(methane);
   EXPECT_FALSE(oxygen);
   EXPECT_FALSE(propane);
