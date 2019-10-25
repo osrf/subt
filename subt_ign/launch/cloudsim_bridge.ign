@@ -77,7 +77,7 @@
   <!-- Make sure to source /opt/ros/melodic/setup.bash -->
   <executable name='ros'>
 
-    <command>roslaunch subt_ros competition_init.launch world_name:=<%=$worldName%> vehicle_topics:=0 enable_ground_truth:=<%=($enableGroundTruth)?"1":"0"%> robot_names:=<%= robotNames.join(",") %></command>
+    <command>roslaunch subt_ros competition_init.launch world_name:=<%=$worldName%> enable_ground_truth:=<%=($enableGroundTruth)?"1":"0"%> robot_names:=<%= robotNames.join(",") %></command>
   </executable>
 <%
   def spawnX1(_name, _config)
