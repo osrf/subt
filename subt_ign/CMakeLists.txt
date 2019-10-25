@@ -195,6 +195,30 @@ target_include_directories(${controller_plugin_name}
    LIBRARY DESTINATION lib
    RUNTIME DESTINATION bin)
 
+# Create the libOxygenGasPlugin.so library.
+set(gas_emitter_detector_plugin_name GasEmitterDetectorPlugin)
+add_library(${gas_emitter_detector_plugin_name} SHARED src/GasEmitterDetectorPlugin.cc)
+target_include_directories(${gas_emitter_detector_plugin_name}
+  PRIVATE
+    ${PROTOBUF_INCLUDE_DIRS}
+    ${CATKIN_DEVEL_PREFIX}/include)
+target_link_libraries(${gas_emitter_detector_plugin_name}
+  PRIVATE
+    ignition-gazebo${IGN_GAZEBO_VER}::core
+    ignition-common3::ignition-common3
+    ignition-launch1::ignition-launch1
+    ignition-math6::ignition-math6
+    ignition-msgs4::ignition-msgs4
+    ignition-plugin1::loader
+    ignition-transport7::ignition-transport7
+    ${catkin_LIBRARIES}
+    ${protobuf_lib_name}
+)
+install(TARGETS ${gas_emitter_detector_plugin_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+
 ###########
 ## Tests ##
 ###########
@@ -239,6 +263,15 @@ target_link_libraries(max_test_score
 add_dependencies(max_test_score
   ${game_logic_plugin_name}
 )
+
+if (CATKIN_ENABLE_TESTING)
+  catkin_add_gtest(gas_emitter_detector test/gas_emitter_detector.cc)
+  target_link_libraries(gas_emitter_detector
+    ignition-gazebo${IGN_GAZEBO_VER}::core
+    ignition-common3::ignition-common3
+  )
+endif()
+
 
 #############
 ## Install ##
