@@ -136,7 +136,9 @@ void GasDetector::Configure(
   this->dataPtr->updateRate = _sdf->Get<double>("update_rate", 10.0).first;
 
   transport::AdvertiseMessageOptions opts;
-  this->dataPtr->pub =  this->dataPtr->node.Advertise<msgs::Boolean>(topic);
+  opts.SetMsgsPerSec(this->dataPtr->updateRate);
+  this->dataPtr->pub =  this->dataPtr->node.Advertise<msgs::Boolean>(
+      topic, opts);
 }
 
 //////////////////////////////////////////////////

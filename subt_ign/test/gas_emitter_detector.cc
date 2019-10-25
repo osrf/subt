@@ -34,10 +34,16 @@ const std::string worldSdf = R"(
 <sdf version="1.6">
   <world name="default">
     <plugin
+      filename="libignition-gazebo-physics-system.so"
+      name="ignition::gazebo::systems::Physics">
+    </plugin>
+    <plugin
       filename="libignition-gazebo-user-commands-system.so"
       name="ignition::gazebo::systems::UserCommands">
     </plugin>
-    <plugin filename="libGasEmitterDetectorPlugin.so" name="subt::GasEmitter">
+    <plugin
+      filename="libGasEmitterDetectorPlugin.so"
+      name="subt::GasEmitter">
       <emitter>
         <type>methane</type>
         <pose>10 0 0 0 0 0</pose>
@@ -142,8 +148,6 @@ void any_cb(const ignition::msgs::Boolean &_msg)
 
 TEST(OxygenGasPlugin, OxygenGasPlugin)
 {
-  ignition::common::Console::SetVerbosity(4);
-
   ignition::transport::Node node;
   node.Subscribe("/methane_detector", methane_cb);
   node.Subscribe("/oxygen_detector", oxygen_cb);
