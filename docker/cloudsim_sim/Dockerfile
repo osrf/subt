@@ -157,6 +157,24 @@ RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/mode
 RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Rough Tunnel Tile Ramp" -v 4
 RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Rough Tunnel Tile Vertical Shaft" -v 4
 
+# Download urban circuit tiles
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Superpose" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Service Room" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Straight Door Right" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Straight Door Left" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Stairwell Straight" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Starting Area" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Straight" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban 3-Way Right Intersection" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Bend Left" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Bend Right" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban 4way Intersection" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Stairwell Platform" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Platform" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Platform Open" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Straight Door Left Flipped" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Straight Door Right Flipped" -v 4
+
 WORKDIR /home/$USERNAME/subt_ws
 
 # Install Rotors
