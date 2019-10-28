@@ -195,7 +195,7 @@ target_include_directories(${controller_plugin_name}
    LIBRARY DESTINATION lib
    RUNTIME DESTINATION bin)
 
-# Create the libGasEmitterDetectorPluign.so library.
+# Create the libGasEmitterDetectorPlugin.so library.
 set(gas_emitter_detector_plugin_name GasEmitterDetectorPlugin)
 add_library(${gas_emitter_detector_plugin_name} SHARED src/GasEmitterDetectorPlugin.cc)
 target_include_directories(${gas_emitter_detector_plugin_name}
