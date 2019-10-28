@@ -96,17 +96,17 @@ class GasDetector:
 
   // Documentation inherited
   public: void Configure(const ignition::gazebo::Entity &_entity,
-                         const std::shared_ptr<const sdf::Element> &_sdf,
-                         ignition::gazebo::EntityComponentManager &_ecm,
-                         ignition::gazebo::EventManager &_eventMgr) override;
+           const std::shared_ptr<const sdf::Element> &_sdf,
+           ignition::gazebo::EntityComponentManager &_ecm,
+           ignition::gazebo::EventManager &_eventMgr) override;
 
   // Documentation inherited
   public: void PostUpdate(const ignition::gazebo::UpdateInfo &_info,
-                          const ignition::gazebo::EntityComponentManager &_ecm) override;
+            const ignition::gazebo::EntityComponentManager &_ecm) override;
 
   /// \brief Private data pointer.
   private: std::unique_ptr<GasDetectorPrivate> dataPtr;
 };
-}  // namespace subt
+}
 
 #endif  // SUBT_IGN_GASEMITTERDETECTORPLUGIN_HH_

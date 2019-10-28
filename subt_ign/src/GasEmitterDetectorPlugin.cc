@@ -15,10 +15,13 @@
  *
  */
 
+#include "subt_ign/GasEmitterDetectorPlugin.hh"
+
+#include <ignition/msgs/boolean.pb.h>
+
 #include <ignition/common/StringUtils.hh>
 #include <ignition/common/Console.hh>
 #include <ignition/math/Pose3.hh>
-#include <ignition/msgs/boolean.pb.h>
 #include <ignition/plugin/Register.hh>
 #include <ignition/transport/Node.hh>
 
@@ -27,12 +30,9 @@
 
 #include <ignition/gazebo/components/Geometry.hh>
 #include <ignition/gazebo/components/Pose.hh>
-
 #include <ignition/gazebo/Util.hh>
 
 #include <set>
-
-#include "subt_ign/GasEmitterDetectorPlugin.hh"
 
 IGNITION_ADD_PLUGIN(
     subt::GasEmitter,
@@ -187,8 +187,7 @@ void GasDetector::PostUpdate(
         }
       }
       return true;
-    }
-  );
+    });
 
   msgs::Boolean msg;
   msg.mutable_header()->mutable_stamp()->CopyFrom(

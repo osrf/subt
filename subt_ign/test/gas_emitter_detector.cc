@@ -17,18 +17,18 @@
 
 #include <gtest/gtest.h>
 
-#include <atomic>
+#include <ignition/msgs/boolean.pb.h>
 
 #include <ignition/common/Console.hh>
 #include <ignition/math/Pose3.hh>
 #include <ignition/transport/Node.hh>
 
-#include <ignition/msgs/boolean.pb.h>
-
 #include <ignition/gazebo/Server.hh>
 #include <ignition/gazebo/ServerConfig.hh>
 #include <ignition/gazebo/components/Geometry.hh>
 #include <ignition/gazebo/components/Pose.hh>
+
+#include <atomic>
 
 const std::string worldSdf = R"(
 <sdf version="1.6">
