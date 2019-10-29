@@ -1,6 +1,6 @@
 /* Visibility graph for simple_urban_02.tsv */
 /* Generated with the tile_tsv.py script: */
-/*   tile_tsv.py simple_urban_02.tsv -\-graph-file simple_urban_02.dot -\-world-file simple_urban_02.sdf -\-world-name simple_urban_02 -\-scale_x 40 -\-scale_y 40 -\-urban -\-x0 -280 -\-y0 32 */
+/*   tile_tsv.py simple_urban_02.tsv -\-graph-file simple_urban_02.dot -\-world-file simple_urban_02.sdf -\-world-name simple_urban_02 -\-scale_x 40 -\-scale_y 40 -\-urban -\-y0 32 -\-x0 -280 */
 
 graph {
   /* ==== Vertices ==== */
@@ -32,7 +32,7 @@ graph {
   25  [label="25::Urban Bend Left::tile_25"];
   26  [label="26::Urban Straight Door Left::tile_26"];
   27  [label="27::Urban Platform::tile_27"];
-  28  [label="28::Urban Straight Door Right::tile_28"];
+  29  [label="29::Urban Straight Door Right::tile_29"];
 
   /* ==== Edges ==== */
 
@@ -61,6 +61,6 @@ graph {
   24 -- 25  [label=6];  /* Intersection */
   24 -- 26  [label=3];  /* Intersection */
   26 -- 27  [label=3];
-  27 -- 28  [label=3];
+  27 -- 29  [label=3];
   16 -- 17  [label=1];
 }
