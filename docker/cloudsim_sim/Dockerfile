@@ -174,6 +174,8 @@ RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/mode
 RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Platform Open" -v 4
 RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Straight Door Left Flipped" -v 4
 RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Straight Door Right Flipped" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Elevation Up" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Elevation Down" -v 4
 
 WORKDIR /home/$USERNAME/subt_ws
 
