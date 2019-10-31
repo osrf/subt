@@ -98,8 +98,8 @@
     </include>
 
     <include>
-      <name>extinguisher_1</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Fire Extinguisher</uri>
+      <name>backpack_2</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/JanSport Backpack Red</uri>
       <pose>40.000000 -7.500000 0.000000 0 0 1.221730</pose>
     </include>
 
@@ -170,15 +170,15 @@
     </include>
 
     <include>
-      <name>backpack_2</name>
+      <name>backpack_3</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/JanSport Backpack Red</uri>
       <pose>62.000000 -70.000000 0.920000 0 0 3.228859</pose>
     </include>
 
     <include>
-      <name>drill_1</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Black and Decker Cordless Drill</uri>
-      <pose>45.000000 -67.000000 0.920000 0 0 0.000000</pose>
+      <name>rescue_randy_2</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Rescue Randy Sitting</uri>
+      <pose>45.000000 -67.000000 0.920000 0 0 1.308997</pose>
     </include>
 
     <include>
@@ -218,9 +218,9 @@
     </include>
 
     <include>
-      <name>drill_2</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Black and Decker Cordless Drill</uri>
-      <pose>-40.000000 -127.000000 -5.000000 0 0 0.000000</pose>
+      <name>phone_3</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Samsung J8 Black</uri>
+      <pose>-40.000000 -127.000000 -5.000000 -1.570796 0 0.000000</pose>
     </include>
 
     <include>
@@ -236,8 +236,8 @@
     </include>
 
     <include>
-      <name>extinguisher_2</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Fire Extinguisher</uri>
+      <name>backpack_4</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/JanSport Backpack Red</uri>
       <pose>42.000000 -129.000000 -5.000000 0 0 0.000000</pose>
     </include>
 
@@ -266,13 +266,13 @@
     </include>
 
     <include>
-      <name>phone_3</name>
+      <name>phone_4</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Samsung J8 Black</uri>
       <pose>50.000000 -200.000000 -3.303500 -1.570796 0 0.000000</pose>
     </include>
 
     <include>
-      <name>rescue_randy_2</name>
+      <name>rescue_randy_3</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Rescue Randy Sitting</uri>
       <pose>49.500000 -223.500000 -3.303500 0 0 3.141593</pose>
     </include>
@@ -290,7 +290,7 @@
     </include>
 
     <include>
-      <name>rescue_randy_3</name>
+      <name>rescue_randy_4</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Rescue Randy Sitting</uri>
       <pose>40.000000 -267.000000 -5.000000 0 0 2.967060</pose>
     </include>
@@ -387,7 +387,7 @@
         <buffer>5.000000</buffer>
       </level>
       <level name="level8">
-        <ref>extinguisher_1</ref>
+        <ref>backpack_2</ref>
         <pose>40.000000 -7.500000 0.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
@@ -454,13 +454,13 @@
         <buffer>5.000000</buffer>
       </level>
       <level name="level19">
-        <ref>backpack_2</ref>
+        <ref>backpack_3</ref>
         <pose>62.000000 -70.000000 0.920000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level20">
-        <ref>drill_1</ref>
+        <ref>rescue_randy_2</ref>
         <pose>45.000000 -67.000000 0.920000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
@@ -497,7 +497,7 @@
         <buffer>5.000000</buffer>
       </level>
       <level name="level26">
-        <ref>drill_2</ref>
+        <ref>phone_3</ref>
         <pose>-40.000000 -127.000000 -5.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
@@ -515,7 +515,7 @@
         <buffer>5.000000</buffer>
       </level>
       <level name="level29">
-        <ref>extinguisher_2</ref>
+        <ref>backpack_4</ref>
         <pose>42.000000 -129.000000 -5.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
@@ -545,13 +545,13 @@
         <buffer>5.000000</buffer>
       </level>
       <level name="level34">
-        <ref>phone_3</ref>
+        <ref>phone_4</ref>
         <pose>50.000000 -200.000000 -3.303500 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level35">
-        <ref>rescue_randy_2</ref>
+        <ref>rescue_randy_3</ref>
         <pose>49.500000 -223.500000 -3.303500 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
@@ -569,7 +569,7 @@
         <buffer>5.000000</buffer>
       </level>
       <level name="level38">
-        <ref>rescue_randy_3</ref>
+        <ref>rescue_randy_4</ref>
         <pose>40.000000 -267.000000 -5.000000 0 0 0</pose>
         <geometry><box><size>620.000000 620.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
