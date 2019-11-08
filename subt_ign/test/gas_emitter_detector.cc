@@ -16,6 +16,7 @@
  */
 
 #include <gtest/gtest.h>
+#include "test_config.hh"
 
 #include <ignition/msgs/boolean.pb.h>
 
@@ -128,30 +129,29 @@ std::atomic<bool> any = false;
 
 void methane_cb(const ignition::msgs::Boolean &_msg)
 {
-  ignerr << "Methane: " << _msg.data() << std::endl;
   methane = _msg.data();
 }
 
 void oxygen_cb(const ignition::msgs::Boolean &_msg)
 {
-  ignerr << "Oxygen: " << _msg.data() << std::endl;
   oxygen = _msg.data();
 }
 
 void propane_cb(const ignition::msgs::Boolean &_msg)
 {
-  ignerr << "Propane: " << _msg.data() << std::endl;
   propane = _msg.data();
 }
 
 void any_cb(const ignition::msgs::Boolean &_msg)
 {
-  ignerr << "Any: " << _msg.data() << std::endl;
   any = _msg.data();
 }
 
 TEST(GasEmitterDetector, GasEmitterDetector)
 {
+  setenv("IGN_GAZEBO_SYSTEM_PLUGIN_PATH",
+         PROJECT_BINARY_PATH, 1);
+
   ignition::transport::Node node;
   node.Subscribe("/methane_detector", methane_cb);
   node.Subscribe("/oxygen_detector", oxygen_cb);

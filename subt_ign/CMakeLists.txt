@@ -215,9 +215,9 @@ target_link_libraries(${gas_emitter_detector_plugin_name}
     ${protobuf_lib_name}
 )
 install(TARGETS ${gas_emitter_detector_plugin_name}
-  ARCHIVE DESTINATION lib
-  LIBRARY DESTINATION lib
-  RUNTIME DESTINATION bin)
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION} 
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION} 
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
 ###########
 ## Tests ##
@@ -265,7 +265,15 @@ add_dependencies(max_test_score
 )
 
 if (CATKIN_ENABLE_TESTING)
+  configure_file(test/test_config.hh.in ${CMAKE_CURRENT_BINARY_DIR}/test_config.hh)
+
   catkin_add_gtest(gas_emitter_detector test/gas_emitter_detector.cc)
+
+  target_include_directories(
+    gas_emitter_detector
+    PRIVATE
+    ${CMAKE_CURRENT_BINARY_DIR}
+  )
 
   target_link_libraries(gas_emitter_detector
     ignition-gazebo${IGN_GAZEBO_VER}::core
