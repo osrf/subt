@@ -16,7 +16,6 @@
  */
 
 #include <gtest/gtest.h>
-#include "test_config.hh"
 
 #include <ignition/msgs/boolean.pb.h>
 
@@ -30,6 +29,8 @@
 #include <ignition/gazebo/components/Pose.hh>
 
 #include <atomic>
+
+#include "test_config.hh"
 
 const std::string worldSdf = R"(
 <sdf version="1.6">
