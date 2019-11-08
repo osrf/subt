@@ -89,34 +89,26 @@ const std::string worldSdf = R"(
             </box>
           </geometry>
         </visual>
-        <sensor name="methane_detector" type="contact">
-          <plugin name="subt::GasDetector" filename="libGasEmitterDetectorPlugin.so">
-            <topic>methane_detector</topic>
-            <update_rate>0</update_rate>
-            <type>methane</type>
-          </plugin>
-        </sensor>
-        <sensor name="oxygen_detector" type="contact">
-          <plugin name="subt::GasDetector" filename="libGasEmitterDetectorPlugin.so">
-            <topic>oxygen_detector</topic>
-            <update_rate>0</update_rate>
-            <type>oxygen</type>
-          </plugin>
-        </sensor>
-        <sensor name="propane_detector" type="contact">
-          <plugin name="subt::GasDetector" filename="libGasEmitterDetectorPlugin.so">
-            <topic>propane_detector</topic>
-            <update_rate>0</update_rate>
-            <type>propane</type>
-          </plugin>
-        </sensor>
-        <sensor name="any_detector" type="contact">
-          <plugin name="subt::GasDetector" filename="libGasEmitterDetectorPlugin.so">
-            <topic>any_detector</topic>
-            <update_rate>0</update_rate>
-          </plugin>
-        </sensor>
       </link>
+      <plugin name="subt::GasDetector" filename="libGasEmitterDetectorPlugin.so">
+        <topic>methane_detector</topic>
+        <update_rate>0</update_rate>
+        <type>methane</type>
+      </plugin>
+      <plugin name="subt::GasDetector" filename="libGasEmitterDetectorPlugin.so">
+        <topic>oxygen_detector</topic>
+        <update_rate>0</update_rate>
+        <type>oxygen</type>
+      </plugin>
+      <plugin name="subt::GasDetector" filename="libGasEmitterDetectorPlugin.so">
+        <topic>propane_detector</topic>
+        <update_rate>0</update_rate>
+        <type>propane</type>
+      </plugin>
+      <plugin name="subt::GasDetector" filename="libGasEmitterDetectorPlugin.so">
+        <topic>any_detector</topic>
+        <update_rate>0</update_rate>
+      </plugin>
     </model>
   </world>
 </sdf>
