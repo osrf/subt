@@ -33,9 +33,31 @@
   else
     $enableGroundTruth = enableGroundTruth
   end
+
+  # Check if circuit is not defined or is empty/nil
+  if !defined?(circuit) || circuit == nil || circuit.empty?
+    $circuit = 'tunnel'
+  else
+    $circuit = circuit
+  end
 %>
 
 <%
+  # spawn world offset
+  if $circuit == "urban"
+    spawnWorldXPos = 5
+    spawnWorldYPos = 28
+    spawnWorldZPos = 7.5
+    spawnWorldYaw = Math::PI/2.0
+    guiCameraPose = "5.0 18 15 0 0.868 1.5708"
+  else
+    spawnWorldXPos = 0
+    spawnWorldYPos = 0
+    spawnWorldZPos = 0
+    spawnWorldYaw = 0
+    guiCameraPose = "-6.3 -4.2 3.6 0 0.268 0.304"
+  end
+
   # Check if robotNameX and robotConfigX exists
   spawnRowSize = 4
   spawnColSize = 5
@@ -159,7 +181,7 @@
         <!-- Use the <path> element to control where to record the log file.
              The HOME path is used by default -->
         <path>/tmp/ign/logs</path>
-        <filename_prefix>subt_tunnel</filename_prefix>
+        <filename_prefix>subt_<%= $circuit %></filename_prefix>
       </logging>
 
       <artifact>
@@ -176,6 +198,10 @@
       </artifact>
       <artifact>
         <name>backpack_4</name>
+        <type>TYPE_BACKPACK</type>
+      </artifact>
+      <artifact>
+        <name>backpack_5</name>
         <type>TYPE_BACKPACK</type>
       </artifact>
 
@@ -229,6 +255,15 @@
         <name>phone_4</name>
         <type>TYPE_PHONE</type>
       </artifact>
+      <artifact>
+        <name>phone_5</name>
+        <type>TYPE_PHONE</type>
+      </artifact>
+      <artifact>
+        <name>phone_6</name>
+        <type>TYPE_PHONE</type>
+      </artifact>
+
 
       <artifact>
         <name>rescue_randy_1</name>
@@ -244,6 +279,10 @@
       </artifact>
       <artifact>
         <name>rescue_randy_4</name>
+        <type>TYPE_RESCUE_RANDY</type>
+      </artifact>
+      <artifact>
+        <name>rescue_randy_5</name>
         <type>TYPE_RESCUE_RANDY</type>
       </artifact>
     </plugin>
@@ -267,7 +306,7 @@
         <scene>scene</scene>
         <ambient_light>0.2 0.2 0.2</ambient_light>
         <background_color>0.8 0.8 0.8</background_color>
-        <camera_pose>-6.3 -4.2 3.6 0 0.268 0.304</camera_pose>
+        <camera_pose><%= guiCameraPose %></camera_pose>
       </plugin>
       <plugin filename="WorldControl" name="World control">
         <ignition-gui>
@@ -370,12 +409,13 @@
 
 
 <%
-  def spawnX1(_name, _config, _x, _y)
+  def spawnX1(_name, _config, _x, _y, _z, _yaw)
+    z = _z + 0.2
     "<plugin name=\"ignition::launch::GazeboFactory\"\n"\
     "        filename=\"libignition-launch-gazebo-factory.so\">\n"\
     "  <name>#{_name}</name>\n"\
     "  <allow_renaming>false</allow_renaming>\n"\
-    "  <pose>#{_x} #{_y} .2 0 0 0</pose>\n"\
+    "  <pose>#{_x} #{_y} #{z} 0 0 #{_yaw}</pose>\n"\
     "  <world>#{$worldName}</world>\n"\
     "  <is_performer>true</is_performer>\n"\
     "  <sdf version='1.6'>\n"\
@@ -421,12 +461,13 @@
     "</plugin>\n"
   end
 
-  def spawnX2(_name, _config, _x, _y)
+  def spawnX2(_name, _config, _x, _y, _z, _yaw)
+    z = _z + 0.063494
     "<plugin name=\"ignition::launch::GazeboFactory\"\n"\
     "        filename=\"libignition-launch-gazebo-factory.so\">\n"\
     "  <name>#{_name}</name>\n"\
     "  <allow_renaming>false</allow_renaming>\n"\
-    "  <pose>#{_x} #{_y} 0.063494 0 0 0</pose>\n"\
+    "  <pose>#{_x} #{_y} #{z} 0 0 #{_yaw}</pose>\n"\
     "  <world>#{$worldName}</world>\n"\
     "  <is_performer>true</is_performer>\n"\
     "  <sdf version='1.6'>\n"\
@@ -472,12 +513,13 @@
     "</plugin>\n"
   end
 
-  def spawnX3(_name, _config, _x, _y)
+  def spawnX3(_name, _config, _x, _y, _z, _yaw)
+    z = _z + 0.2
     "<plugin name=\"ignition::launch::GazeboFactory\"\n"\
     "        filename=\"libignition-launch-gazebo-factory.so\">\n"\
     "  <name>#{_name}</name>\n"\
     "  <allow_renaming>false</allow_renaming>\n"\
-    "  <pose>#{_x} #{_y} 0.2 0 0 0</pose>\n"\
+    "  <pose>#{_x} #{_y} #{z} 0 0 #{_yaw}</pose>\n"\
     "  <world>#{$worldName}</world>\n"\
     "  <is_performer>true</is_performer>\n"\
     "  <sdf version='1.6'>\n"\
@@ -588,12 +630,13 @@
     "</plugin>\n"
   end
 
-  def spawnX4(_name, _config, _x, _y)
+  def spawnX4(_name, _config, _x, _y, _z, _yaw)
+    z = _z + 0.2
     "<plugin name=\"ignition::launch::GazeboFactory\"\n"\
     "        filename=\"libignition-launch-gazebo-factory.so\">\n"\
     "  <name>#{_name}</name>\n"\
     "  <allow_renaming>false</allow_renaming>\n"\
-    "  <pose>#{_x} #{_y} 0.2 0 0 0</pose>\n"\
+    "  <pose>#{_x} #{_y} #{z} 0 0 #{_yaw}</pose>\n"\
     "  <world>#{$worldName}</world>\n"\
     "  <is_performer>true</is_performer>\n"\
     "  <sdf version='1.6'>\n"\
@@ -750,25 +793,31 @@
     robotConfigN = config[-1]
     posX = -(robotSpawned / spawnColSize * spawnGridSize - spawnRowOffset)
     posY = -(robotSpawned % spawnColSize * spawnGridSize - spawnColOffset)
+
+    x = Math.cos(-spawnWorldYaw) * posX + Math.sin(-spawnWorldYaw) * posY
+    y = -(Math.sin(-spawnWorldYaw)) * posX + Math.cos(-spawnWorldYaw) * posY
+    posX = x + spawnWorldXPos
+    posY = y + spawnWorldYPos
+
     if robotType == "1"
       robotSpawned += 1
 %>
-<%=   spawnX1(name, robotConfigN, posX, posY) %>
+<%=   spawnX1(name, robotConfigN, posX, posY, spawnWorldZPos, spawnWorldYaw) %>
 <%
     elsif robotType == "2"
       robotSpawned += 1
 %>
-<%=   spawnX2(name, robotConfigN, posX, posY) %>
+<%=   spawnX2(name, robotConfigN, posX, posY, spawnWorldZPos, spawnWorldYaw) %>
 <%
     elsif robotType == "3"
       robotSpawned += 1
 %>
-<%=   spawnX3(name, robotConfigN, posX, posY) %>
+<%=   spawnX3(name, robotConfigN, posX, posY, spawnWorldZPos, spawnWorldYaw) %>
 <%
     elsif robotType == "4"
       robotSpawned += 1
 %>
-<%=   spawnX4(name, robotConfigN, posX, posY) %>
+<%=   spawnX4(name, robotConfigN, posX, posY, spawnWorldZPos, spawnWorldYaw) %>
 <%
     else
       puts "Unknown robot configuration #{config}"
