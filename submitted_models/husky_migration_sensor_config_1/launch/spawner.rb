@@ -49,10 +49,10 @@ def spawner(_name, _modelURI, _worldName, _x, _y)
     </sdf>
   </plugin>
   <executable name='robot_description'>
-    <command>roslaunch --wait husky_migration description.launch world_name:=#{_worldName} name:=#{_name}</command>
+    <command>roslaunch --wait husky_migration_sensor_config_1 description.launch world_name:=#{_worldName} name:=#{_name}</command>
   </executable>
   <executable name='topics'>
-    <command>roslaunch --wait husky_migration vehicle_topics.launch world_name:=#{_worldName} name:=#{_name}</command>
+    <command>roslaunch --wait husky_migration_sensor_config_1 vehicle_topics.launch world_name:=#{_worldName} name:=#{_name}</command>
   </executable>
 
   HEREDOC

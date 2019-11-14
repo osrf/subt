@@ -23,7 +23,7 @@
     <collision name='base_link_fixed_joint_lump__top_plate_link_collision_2'>
       <origin xyz='0.0812 0 0.245' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://husky_migration/meshes/top_plate.dae' scale='1 1 1'/>
+        <mesh filename='package://husky_migration_sensor_config_1/meshes/top_plate.dae' scale='1 1 1'/>
       </geometry>
     </collision>
     <collision name='base_link_fixed_joint_lump__top_plate_link_collision_3'>
@@ -47,49 +47,49 @@
     <visual name='base_link_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://husky_migration/meshes/base_link.dae' scale='1 1 1'/>
+        <mesh filename='package://husky_migration_sensor_config_1/meshes/base_link.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='base_link_fixed_joint_lump__front_bumper_link_visual_1'>
       <origin xyz='0.48 0 0.091' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://husky_migration/meshes/bumper.dae' scale='1 1 1'/>
+        <mesh filename='package://husky_migration_sensor_config_1/meshes/bumper.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='base_link_fixed_joint_lump__rear_bumper_link_visual_2'>
       <origin xyz='-0.48 0 0.091' rpy='0 -0 3.14159'/>
       <geometry>
-        <mesh filename='package://husky_migration/meshes/bumper.dae' scale='1 1 1'/>
+        <mesh filename='package://husky_migration_sensor_config_1/meshes/bumper.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='base_link_fixed_joint_lump__top_chassis_link_visual_3'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://husky_migration/meshes/top_chassis.dae' scale='1 1 1'/>
+        <mesh filename='package://husky_migration_sensor_config_1/meshes/top_chassis.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='base_link_fixed_joint_lump__top_plate_link_visual_4'>
       <origin xyz='0.0812 0 0.245' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://husky_migration/meshes/top_plate.dae' scale='1 1 1'/>
+        <mesh filename='package://husky_migration_sensor_config_1/meshes/top_plate.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='base_link_fixed_joint_lump__base_laser_mount_visual_5'>
       <origin xyz='0.3018 0 0.25135' rpy='0 0 -1.5708'/>
       <geometry>
-        <mesh filename='package://husky_migration/meshes/lms1xx_mount.dae' scale='1 1 1'/>
+        <mesh filename='package://husky_migration_sensor_config_1/meshes/lms1xx_mount.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='base_link_fixed_joint_lump__base_laser_visual_6'>
       <origin xyz='0.337 0 0.30795' rpy='3.14159 -0 0'/>
       <geometry>
-        <mesh filename='package://husky_migration/meshes/sick-lms1xx.dae' scale='1 1 1'/>
+        <mesh filename='package://husky_migration_sensor_config_1/meshes/sick-lms1xx.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='base_link_fixed_joint_lump__user_rail_link_visual_7'>
       <origin xyz='0.272 0 0.245' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://husky_migration/meshes/user_rail.dae' scale='1 1 1'/>
+        <mesh filename='package://husky_migration_sensor_config_1/meshes/user_rail.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
@@ -116,7 +116,7 @@
     <visual name='front_left_wheel_link_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://husky_migration/meshes/wheel.dae' scale='1 1 1'/>
+        <mesh filename='package://husky_migration_sensor_config_1/meshes/wheel.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
@@ -135,7 +135,7 @@
     <visual name='front_right_wheel_link_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://husky_migration/meshes/wheel.dae' scale='1 1 1'/>
+        <mesh filename='package://husky_migration_sensor_config_1/meshes/wheel.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
@@ -154,7 +154,7 @@
     <visual name='rear_left_wheel_link_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://husky_migration/meshes/wheel.dae' scale='1 1 1'/>
+        <mesh filename='package://husky_migration_sensor_config_1/meshes/wheel.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
@@ -173,7 +173,7 @@
     <visual name='rear_right_wheel_link_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://husky_migration/meshes/wheel.dae' scale='1 1 1'/>
+        <mesh filename='package://husky_migration_sensor_config_1/meshes/wheel.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
