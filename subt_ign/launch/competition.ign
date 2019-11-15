@@ -888,12 +888,11 @@
         modelURI = $localModel ? installDir : "#{fuelPrefix}/#{config}"
         robotSpawned += 1
 %>
-<%=     spawner(name, modelURI, $worldName, posX, posY) %>
+<%=     spawner(name, modelURI, $worldName, posX, posY, 0.2, 0, 0, 0) %>
 <%
       end
     end
   end
 %>
-
 
 </ignition>
