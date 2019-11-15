@@ -5,6 +5,7 @@
   <arg name="link_name" value="base_link"/>
   <arg name="sensor_prefix" value="/world/$(arg world_name)/model/$(arg name)/link/$(arg link_name)/sensor"/>
   <arg name="uav" default="0"/>
+  <arg name="gas_sensor" default="1"/>
   <arg name="stereo_cam" default="0"/>
   <arg name="laser_scan" default="1"/>
   <arg name="rgbd_cam" default="0"/>
@@ -32,6 +33,17 @@
       args="/model/$(arg name)/cmd_vel_relay@geometry_msgs/Twist]ignition.msgs.Twist">
       <remap from="/model/$(arg name)/cmd_vel_relay" to="cmd_vel"/>
     </node>
+
+    <!-- Gas sensor -->
+    <group if="$(arg gas_sensor)">
+      <node
+        pkg="ros_ign_bridge"
+        type="parameter_bridge"
+        name="ros_ign_bridge_gas"
+        args="/model/$(arg name)/gas_detected@std_msgs/Bool[ignition.msgs.Boolean">
+        <remap from="/model/$(arg name)/gas_detected" to="gas_detected"/>
+      </node>
+    </group>
 
     <!-- RGBD -->
     <group if="$(arg rgbd_cam)">
