@@ -4,7 +4,7 @@
      cloudsim_bridge.ign, starts a ROS master and the ROS1-Ignition bridge.
 
      For more information, please refer to
-         https://bitbucket.org/osrf/subt/wiki/tutorials/cloudsim
+         https://github.com/osrf/subt/wiki/Cloudsim
 
     Usage: ign launch cloudsim_sim.ign
             [worldName:=<worldName>
@@ -21,7 +21,6 @@
       ign launch cloudsim_sim.ign worldName:=tunnel_circuit_practice_01
           robotName1:=X2_3 robotConfig1:=X2_SENSOR_CONFIG_3
 -->
-
 <%
   # When 'enableGroundTruth = true' absolute poses of vehicles will be published.
   # This is useful for debugging purposes, but will not be available during
@@ -101,8 +100,24 @@
   end
 
   worldNumber = $worldName.split('_').last
+
+  # If localModel is set, the model URI will use a local path to the model with
+  # the assumption that the model is installed in the same workspace as the
+  # launch file. This only applies to models submitted by teams.
+  if !defined?(localModel) || localModel == nil || localModel.empty?
+    $localModel = false
+  else
+    $localModel = localModel
+  end
 %>
 
+<%
+  # disable levels for simple cave worlds
+  levels = "true"
+  if $worldName.include?('simple_cave_')
+    levels = "false"
+  end
+%>
 
 <ignition version='1.0'>
   <env>
@@ -110,18 +125,42 @@
     <value>$LD_LIBRARY_PATH</value>
   </env>
 
+  <!-- Unlimited Ignition Transport send message buffer -->
+  <env>
+    <name>IGN_TRANSPORT_SNDHWM</name>
+    <value>0</value>
+  </env>
+
+  <!-- Unlimited Ignition Transport receieve message buffer -->
+  <env>
+    <name>IGN_TRANSPORT_RCVHWM</name>
+    <value>0</value>
+  </env>
+
   <plugin name="ignition::launch::GazeboServer"
           filename="libignition-launch-gazebo.so">
-    <world_file><%= $worldName %>.sdf</world_file>
-    <%if defined?(updateRate) && updateRate != nil && !updateRate.empty?%>
+    <% if $worldName.include?('tunnel_circuit_') &&
+          !$worldName.include?('practice') %>
+      <world_file>tunnel_circuit/<%= worldNumber %>/<%= $worldName %>.sdf</world_file>
+    <% elsif $worldName.include?('urban_circuit_') &&
+          !$worldName.include?('practice') %>
+      <world_file>urban_circuit/<%= worldNumber %>/<%= $worldName %>.sdf</world_file>
+    <% elsif $worldName.include?('cave_circuit_') &&
+          !$worldName.include?('practice') %>
+      <world_file>cave_circuit/<%= worldNumber %>/<%= $worldName %>.sdf</world_file>
+    <% else %>
+      <world_file><%= $worldName %>.sdf</world_file>
+    <% end %>
+   <%if defined?(updateRate) && updateRate != nil && !updateRate.empty?%>
     <update_rate><%= updateRate %></update_rate>
     <%end%>
     <run>true</run>
-    <levels>true</levels>
+    <levels><%= levels %></levels>
     <record>
       <enabled>true</enabled>
       <!-- This path is used by cloudsim, please do not change -->
       <path>/tmp/ign/logs</path>
+      <overwrite>true</overwrite>
     </record>
     <%if defined?(seed) && seed != nil && !seed.empty?%>
     <seed><%= seed %></seed>
@@ -285,6 +324,79 @@
         <name>rescue_randy_5</name>
         <type>TYPE_RESCUE_RANDY</type>
       </artifact>
+
+      <artifact>
+        <name>vent_1</name>
+        <type>TYPE_VENT</type>
+      </artifact>
+      <artifact>
+        <name>vent_2</name>
+        <type>TYPE_VENT</type>
+      </artifact>
+      <artifact>
+        <name>vent_3</name>
+        <type>TYPE_VENT</type>
+      </artifact>
+      <artifact>
+        <name>vent_4</name>
+        <type>TYPE_VENT</type>
+      </artifact>
+
+      <artifact>
+        <name>gas_1</name>
+        <type>TYPE_GAS</type>
+      </artifact>
+      <artifact>
+        <name>gas_2</name>
+        <type>TYPE_GAS</type>
+      </artifact>
+      <artifact>
+        <name>gas_3</name>
+        <type>TYPE_GAS</type>
+      </artifact>
+      <artifact>
+        <name>gas_4</name>
+        <type>TYPE_GAS</type>
+      </artifact>
+      <artifact>
+        <name>gas_5</name>
+        <type>TYPE_GAS</type>
+      </artifact>
+
+      <artifact>
+        <name>helmet_1</name>
+        <type>TYPE_HELMET</type>
+      </artifact>
+      <artifact>
+        <name>helmet_2</name>
+        <type>TYPE_HELMET</type>
+      </artifact>
+      <artifact>
+        <name>helmet_3</name>
+        <type>TYPE_HELMET</type>
+      </artifact>
+      <artifact>
+        <name>helmet_4</name>
+        <type>TYPE_HELMET</type>
+      </artifact>
+
+      <artifact>
+        <name>rope_1</name>
+        <type>TYPE_ROPE</type>
+      </artifact>
+      <artifact>
+        <name>rope_2</name>
+        <type>TYPE_ROPE</type>
+      </artifact>
+      <artifact>
+        <name>rope_3</name>
+        <type>TYPE_ROPE</type>
+      </artifact>
+      <artifact>
+        <name>rope_4</name>
+        <type>TYPE_ROPE</type>
+      </artifact>
+
     </plugin>
   </plugin>
 
@@ -388,7 +500,7 @@
 
       <visibility_config>
         <visibility_cost_to_fading_exponent>0.2</visibility_cost_to_fading_exponent>
-        <comms_cost_max>15</comms_cost_max>
+        <comms_cost_max>10</comms_cost_max>
       </visibility_config>
 
       <radio_config>
@@ -625,6 +737,57 @@
     "      <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>\n"\
     "      <motorType>velocity</motorType>\n"\
     "    </plugin>\n"\
+    "    <!--Multicopter velocity controller--> \n"\
+    "    <plugin\n"\
+    "      filename=\"libignition-gazebo-multicopter-control-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::MulticopterVelocityControl\">\n"\
+    "      <robotNamespace>model/#{_name}</robotNamespace>\n"\
+    "      <commandSubTopic>cmd_vel</commandSubTopic>\n"\
+    "      <motorControlPubTopic>command/motor_speed</motorControlPubTopic>\n"\
+    "      <enableSubTopic>velocity_controller/enable</enableSubTopic>\n"\
+    "      <comLinkName>base_link</comLinkName>\n"\
+    "      <velocityGain>2.7 2.7 2.7</velocityGain>\n"\
+    "      <attitudeGain>2 3 0.15</attitudeGain>\n"\
+    "      <angularRateGain>0.4 0.52 0.18</angularRateGain>\n"\
+    "      <maximumLinearAcceleration>1 1 2</maximumLinearAcceleration>\n"\
+    "      <maximumLinearVelocity>5 5 5</maximumLinearVelocity>\n"\
+    "      <maximumAngularVelocity>3 3 3</maximumAngularVelocity>\n"\
+    "      <linearVelocityNoiseMean>0 0 0.05</linearVelocityNoiseMean>\n"\
+    "      <!-- linearVelocityNoiseStdDev based on error values reported in the paper Shen et. al., -->\n"\
+    "      <!-- Vision-Based State Estimation and Trajectory Control Towards High-Speed Flight with a Quadrotor -->\n"\
+    "      <!-- http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.490.7958&rep=rep1&type=pdf -->\n"\
+    "      <linearVelocityNoiseStdDev>0.1105 0.1261 0.00947</linearVelocityNoiseStdDev>\n"\
+    "      <angularVelocityNoiseMean>0 0 0</angularVelocityNoiseMean>\n"\
+    "      <!-- angularVelocityNoiseStdDev values based on ADIS16448's Rate Noise Density with a sample  -->\n"\
+    "      <!-- time of 0.004 ms. -->\n"\
+    "      <angularVelocityNoiseStdDev>0.004 0.004 0.004</angularVelocityNoiseStdDev>\n"\
+    "      <rotorConfiguration>\n"\
+    "        <rotor>\n"\
+    "          <jointName>rotor_0_joint</jointName>\n"\
+    "          <forceConstant>8.54858e-06</forceConstant>\n"\
+    "          <momentConstant>0.016</momentConstant>\n"\
+    "          <direction>1</direction>\n"\
+    "        </rotor>\n"\
+    "        <rotor>\n"\
+    "          <jointName>rotor_1_joint</jointName>\n"\
+    "          <forceConstant>8.54858e-06</forceConstant>\n"\
+    "          <momentConstant>0.016</momentConstant>\n"\
+    "          <direction>1</direction>\n"\
+    "        </rotor>\n"\
+    "        <rotor>\n"\
+    "          <jointName>rotor_2_joint</jointName>\n"\
+    "          <forceConstant>8.54858e-06</forceConstant>\n"\
+    "          <momentConstant>0.016</momentConstant>\n"\
+    "          <direction>-1</direction>\n"\
+    "        </rotor>\n"\
+    "        <rotor>\n"\
+    "          <jointName>rotor_3_joint</jointName>\n"\
+    "          <forceConstant>8.54858e-06</forceConstant>\n"\
+    "          <momentConstant>0.016</momentConstant>\n"\
+    "          <direction>-1</direction>\n"\
+    "        </rotor>\n"\
+    "      </rotorConfiguration>\n"\
+    "    </plugin>\n"\
     "    <!-- Battery plugin -->\n"\
     "    <plugin filename=\"libignition-gazebo-linearbatteryplugin-system.so\"\n"\
     "      name=\"ignition::gazebo::systems::LinearBatteryPlugin\">\n"\
@@ -787,6 +950,69 @@
     "      <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>\n"\
     "      <motorType>velocity</motorType>\n"\
     "    </plugin>\n"\
+    "    <!--Multicopter velocity controller--> \n"\
+    "    <plugin\n"\
+    "      filename=\"libignition-gazebo-multicopter-control-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::MulticopterVelocityControl\">\n"\
+    "      <robotNamespace>model/#{_name}</robotNamespace>\n"\
+    "      <commandSubTopic>cmd_vel</commandSubTopic>\n"\
+    "      <motorControlPubTopic>command/motor_speed</motorControlPubTopic>\n"\
+    "      <enableSubTopic>velocity_controller/enable</enableSubTopic>\n"\
+    "      <comLinkName>base_link</comLinkName>\n"\
+    "      <velocityGain>6 6 10</velocityGain>\n"\
+    "      <attitudeGain>4 4 2</attitudeGain>\n"\
+    "      <angularRateGain>0.7 0.7 0.7</angularRateGain>\n"\
+    "      <maximumLinearAcceleration>1 1 2</maximumLinearAcceleration>\n"\
+    "      <maximumLinearVelocity>5 5 5</maximumLinearVelocity>\n"\
+    "      <maximumAngularVelocity>3 3 3</maximumAngularVelocity>\n"\
+    "      <linearVelocityNoiseMean>0 0 0</linearVelocityNoiseMean>\n"\
+    "      <!-- linearVelocityNoiseStdDev based on error values reported in the paper Shen et. al., -->\n"\
+    "      <!-- Vision-Based State Estimation and Trajectory Control Towards High-Speed Flight with a Quadrotor -->\n"\
+    "      <!-- http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.490.7958&rep=rep1&type=pdf -->\n"\
+    "      <linearVelocityNoiseStdDev>0.1105 0.1261 0.0947</linearVelocityNoiseStdDev>\n"\
+    "      <angularVelocityNoiseMean>0 0 0</angularVelocityNoiseMean>\n"\
+    "      <!-- angularVelocityNoiseStdDev values based on ADIS16448's Rate Noise Density with a sample  -->\n"\
+    "      <!-- time of 0.004 ms. -->\n"\
+    "      <angularVelocityNoiseStdDev>0.004 0.004 0.004</angularVelocityNoiseStdDev>\n"\
+    "      <rotorConfiguration>\n"\
+    "        <rotor>\n"\
+    "          <jointName>rotor_0_joint</jointName>\n"\
+    "          <forceConstant>1.269e-05</forceConstant>\n"\
+    "          <momentConstant>1.6754e-2</momentConstant>\n"\
+    "          <direction>1</direction>\n"\
+    "        </rotor>\n"\
+    "        <rotor>\n"\
+    "          <jointName>rotor_1_joint</jointName>\n"\
+    "          <forceConstant>1.269e-05</forceConstant>\n"\
+    "          <momentConstant>1.6754e-2</momentConstant>\n"\
+    "          <direction>-1</direction>\n"\
+    "        </rotor>\n"\
+    "        <rotor>\n"\
+    "          <jointName>rotor_2_joint</jointName>\n"\
+    "          <forceConstant>1.269e-05</forceConstant>\n"\
+    "          <momentConstant>1.6754e-2</momentConstant>\n"\
+    "          <direction>1</direction>\n"\
+    "        </rotor>\n"\
+    "        <rotor>\n"\
+    "          <jointName>rotor_3_joint</jointName>\n"\
+    "          <forceConstant>1.269e-05</forceConstant>\n"\
+    "          <momentConstant>1.6754e-2</momentConstant>\n"\
+    "          <direction>-1</direction>\n"\
+    "        </rotor>\n"\
+    "        <rotor>\n"\
+    "          <jointName>rotor_4_joint</jointName>\n"\
+    "          <forceConstant>1.269e-05</forceConstant>\n"\
+    "          <momentConstant>1.6754e-2</momentConstant>\n"\
+    "          <direction>1</direction>\n"\
+    "        </rotor>\n"\
+    "        <rotor>\n"\
+    "          <jointName>rotor_5_joint</jointName>\n"\
+    "          <forceConstant>1.269e-05</forceConstant>\n"\
+    "          <momentConstant>1.6754e-2</momentConstant>\n"\
+    "          <direction>-1</direction>\n"\
+    "        </rotor>\n"\
+    "      </rotorConfiguration>\n"\
+    "    </plugin>\n"\
     "    <!-- Battery plugin -->\n"\
     "    <plugin filename=\"libignition-gazebo-linearbatteryplugin-system.so\"\n"\
     "      name=\"ignition::gazebo::systems::LinearBatteryPlugin\">\n"\
@@ -827,22 +1053,22 @@
     posX = x + spawnWorldXPos
     posY = y + spawnWorldYPos
 
-    if robotType == "1"
+    if robotType == "1" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5")
       robotSpawned += 1
 %>
 <%=   spawnX1(name, robotConfigN, posX, posY, spawnWorldZPos, spawnWorldYaw) %>
 <%
-    elsif robotType == "2"
+    elsif robotType == "2" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5" or robotConfigN == "6")
       robotSpawned += 1
 %>
 <%=   spawnX2(name, robotConfigN, posX, posY, spawnWorldZPos, spawnWorldYaw) %>
 <%
-    elsif robotType == "3"
+    elsif robotType == "3" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4")
       robotSpawned += 1
 %>
 <%=   spawnX3(name, robotConfigN, posX, posY, spawnWorldZPos, spawnWorldYaw) %>
 <%
-    elsif robotType == "4"
+    elsif robotType == "4" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5")
       robotSpawned += 1
 %>
 <%=   spawnX4(name, robotConfigN, posX, posY, spawnWorldZPos, spawnWorldYaw) %>
@@ -857,12 +1083,35 @@
 
       spawnerScript =  "#{installDir}/launch/spawner.rb"
       begin
-        require spawnerScript
+        load spawnerScript
       rescue LoadError
         raise "Unknown robot configuration #{config}. #{spawnerScript} could not be found."
       else
         fuelPrefix = "https://fuel.ignitionrobotics.org/1.0/openrobotics/models"
-        modelURI = "#{fuelPrefix}/#{config}"
+        # We assume that the model and its supporting files can be found in
+        # `installDir`. If `$localModel` is not set, the model is loaded from
+        # Fuel.
+        if $localModel
+          modelURI = installDir
+        else
+          # check if robot name follows subt robot naming convention on Fuel.
+          # if so, construct a name without underscores, e.g. 'X1 Config 2' or
+          # 'X3 UAV Config 4', else use original name
+          convention = /^x[[:digit:]]_.*[[:digit:]]/.match(package)
+          if convention
+            robotType = config[1]
+            robotConfigN = config[-1]
+            if robotType == "3" or robotType == "4"
+              mUAVStr = "UAV "
+            else
+              mUAVStr = ""
+            end
+            robotName = "X#{robotType} #{mUAVStr}Config #{robotConfigN}"
+          else
+            robotName = config
+          end
+          modelURI = "#{fuelPrefix}/#{robotName}"
+        end
         robotSpawned += 1
 %>
 <%=     spawner(name, modelURI, $worldName, posX, posY, spawnWorldZPos, 0, 0, spawnWorldYaw) %>

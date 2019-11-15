@@ -65,7 +65,7 @@ class subt::GameLogicPluginPrivate
 {
   /// \brief Mapping between enum types and strings.
   public: const std::array<
-      const std::pair<subt::ArtifactType, std::string>, 10> kArtifactTypes
+      const std::pair<subt::ArtifactType, std::string>, 14> kArtifactTypes
       {
         {
           {subt::ArtifactType::TYPE_BACKPACK      , "TYPE_BACKPACK"},
@@ -77,7 +77,11 @@ class subt::GameLogicPluginPrivate
           {subt::ArtifactType::TYPE_RADIO         , "TYPE_RADIO"},
           {subt::ArtifactType::TYPE_RESCUE_RANDY  , "TYPE_RESCUE_RANDY"},
           {subt::ArtifactType::TYPE_TOOLBOX       , "TYPE_TOOLBOX"},
-          {subt::ArtifactType::TYPE_VALVE         , "TYPE_VALVE"}
+          {subt::ArtifactType::TYPE_VALVE         , "TYPE_VALVE"},
+          {subt::ArtifactType::TYPE_VENT          , "TYPE_VENT"},
+          {subt::ArtifactType::TYPE_GAS           , "TYPE_GAS"},
+          {subt::ArtifactType::TYPE_HELMET        , "TYPE_HELMET"},
+          {subt::ArtifactType::TYPE_ROPE          , "TYPE_ROPE"}
         }
       };
 
@@ -212,12 +216,11 @@ class subt::GameLogicPluginPrivate
   public: uint32_t reportCount = 0u;
 
   /// The maximum number of times that a team can attempt an
-  /// artifact report is this number multiplied by the total number
-  /// of artifacts.
-  public: uint32_t reportCountLimitFactor = 2u;
+  /// artifact report.
+  public: uint32_t reportCountLimit = 40u;
 
   /// \brief The total number of artifacts.
-  public: uint32_t artifactCount = 0u;
+  public: uint32_t artifactCount = 20u;
 
   /// \brief Total score.
   public: double totalScore = 0.0;
@@ -257,6 +260,38 @@ class subt::GameLogicPluginPrivate
   /// automatically started, and a robot can no longer receive the artifact
   /// origin frame.
   public: const double allowedDistanceFromBase = 21.0;
+
+  /// \brief The world name.
+  public: std::string worldName = "default";
+
+  /// \brief Offsets from each artifact's origin to its localization point.
+  /// The gas artifact has a location point of zero because it is placed at
+  /// the center point of the entry door threshold at floor level.
+  ///
+  /// Refer to:
+  /// https://subtchallenge.com/resources/SubT_Urban_Artifacts_Specification.pdf
+  public: std::map<subt::ArtifactType, ignition::math::Vector3d>
+          artifactOffsets =
+  {
+    {subt::ArtifactType::TYPE_BACKPACK,
+      ignition::math::Vector3d(0, -0.12766, 0.25668)},
+    {subt::ArtifactType::TYPE_DRILL,
+      ignition::math::Vector3d(0, 0.059073, 0.158863)},
+    {subt::ArtifactType::TYPE_EXTINGUISHER,
+      ignition::math::Vector3d(-0.03557, -0.03509, 0.3479)},
+    {subt::ArtifactType::TYPE_GAS,
+      ignition::math::Vector3d(0, 0, 0)},
+    {subt::ArtifactType::TYPE_HELMET,
+      ignition::math::Vector3d(0, 0, 0.165)},
+    {subt::ArtifactType::TYPE_PHONE,
+      ignition::math::Vector3d(0, -0.004, 0.08)},
+    {subt::ArtifactType::TYPE_RESCUE_RANDY,
+      ignition::math::Vector3d(-0.071305, 0.021966, 0.39217)},
+    {subt::ArtifactType::TYPE_ROPE,
+      ignition::math::Vector3d(0.004, -0.03, 0.095)},
+    {subt::ArtifactType::TYPE_VENT,
+      ignition::math::Vector3d(0, 0, 0.138369)}
+  };
 };
 
 //////////////////////////////////////////////////
@@ -311,7 +346,7 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
       if (!homePath)
       {
         ignerr << "Unable to get HOME environment variable. Report this error "
-          << "to https://bitbucket.org/osrf/subt/issues/new. "
+          << "to https://github.com/osrf/subt/issues/new. "
           << "SubT logging will be disabled.\n";
       }
       else
@@ -347,10 +382,10 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
       << " seconds.\n";
   }
 
-  std::string worldName = "default";
   if (_sdf->HasElement("world_name"))
   {
-    worldName = _sdf->Get<std::string>("world_name", "subt").first;
+    this->dataPtr->worldName =
+      _sdf->Get<std::string>("world_name", "subt").first;
   }
   else
   {
@@ -464,7 +499,16 @@ void GameLogicPlugin::PostUpdate(
           {
             if (artifact.first == _nameComp->Data())
             {
-              artifact.second = _poseComp->Data();
+              // Get a rotation matrix for the artifact
+              ignition::math::Matrix3d mat(_poseComp->Data().Rot());
+
+              // Compute the localization point
+              ignition::math::Vector3d localizationPoint =
+                _poseComp->Data().Pos() +
+                mat * this->dataPtr->artifactOffsets[artifactPair.first];
+
+              // Store the final localization point.
+              artifact.second.Pos() = localizationPoint;
               break;
             }
           }
@@ -556,8 +600,7 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
   {
     _resp.set_report_status("run not started");
   }
-  else if (this->reportCount >
-      this->artifactCount * this->reportCountLimitFactor)
+  else if (this->reportCount >= this->reportCountLimit)
   {
     _resp.set_report_status("report limit exceeded");
   }
@@ -595,10 +638,10 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
     return true;
   }
 
-  if (!this->finished &&
-      this->reportCount > this->artifactCount * this->reportCountLimitFactor)
+  if (!this->finished && this->reportCount > this->reportCountLimit)
   {
     _resp.set_report_status("report limit exceeded");
+    this->Log() << "report_limit_exceeded" << std::endl;
     ignmsg << "Report limit exceed." << std::endl;
     this->Finish();
     return true;
@@ -922,6 +965,14 @@ bool GameLogicPluginPrivate::Start()
 /////////////////////////////////////////////////
 void GameLogicPluginPrivate::Finish()
 {
+  // Pause simulation when finished. Always send this request, just to be
+  // safe.
+  ignition::msgs::WorldControl req;
+  req.set_pause(true);
+  this->node.Request<ignition::msgs::WorldControl, ignition::msgs::Boolean>(
+      std::string("/world/") + this->worldName + "/control", req,
+      [](const ignition::msgs::Boolean &, const bool) { });
+
   if (this->finished)
     return;
 
@@ -939,6 +990,8 @@ void GameLogicPluginPrivate::Finish()
   {
     realElapsed = std::chrono::duration_cast<std::chrono::seconds>(
         currTime - this->startTime).count();
+
+    simElapsed = this->simTime.sec() - this->startSimTime.sec();
 
     ignmsg << "Scoring has finished. Elapsed real time: "
           << realElapsed << " seconds. Elapsed sim time: "

@@ -1,10 +1,20 @@
 # Ubuntu 18.04 with nvidia-docker2 beta opengl support
 FROM nvidia/opengl:1.0-glvnd-devel-ubuntu18.04
 
-# Tools I find useful during development
-RUN apt-get update \
+RUN export DEBIAN_FRONTEND=noninteractive \
+ && apt-get update \
  && apt-get install -y \
+    tzdata \
+ && ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime \
+ && dpkg-reconfigure --frontend noninteractive tzdata \
+ && apt-get clean
+
+# Tools I find useful during development
+RUN apt-get update -qq \
+ && apt-get install --no-install-recommends -y -qq \
         build-essential \
+        bwm-ng \
+        atop \
         cmake \
         cppcheck \
         gdb \
@@ -15,10 +25,10 @@ RUN apt-get update \
         libspnav-dev \
         libusb-dev \
         lsb-release \
-        mercurial \
         python3-dbg \
         python3-empy \
         python3-numpy \
+        python3-setuptools \
         python3-pip \
         python3-venv \
         ruby2.5 \
@@ -29,25 +39,18 @@ RUN apt-get update \
         wget \
         net-tools \
         iputils-ping \
- && apt-get clean
+ && apt-get clean -qq
 
 # Install AWS CLI. This is needed by cloudsim to capture ROS logs.
 RUN pip3 install --upgrade awscli=="1.16.220"
 VOLUME /root/.aws
-
-RUN export DEBIAN_FRONTEND=noninteractive \
- && apt-get update \
- && apt-get install -y \
-    tzdata \
- && ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime \
- && dpkg-reconfigure --frontend noninteractive tzdata \
- && apt-get clean
 
 # install ROS and required packages
 RUN /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' \
  && apt-get update \
  && apt-get install -y \
     python-catkin-tools \
+    python-rosdep \
     python-rosinstall \
     ros-melodic-desktop \
     ros-melodic-joystick-drivers \
@@ -70,7 +73,7 @@ RUN /bin/sh -c 'echo "deb [trusted=yes] http://packages.osrfoundation.org/gazebo
 
 # install ign-blueprint
 RUN apt-get update \
- && apt-get install -y \
+&&  apt-get install -y \
     ignition-blueprint \
  && apt-get clean
 
@@ -104,78 +107,11 @@ RUN rosdep update
 # docker is run
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
- && hg clone https://bitbucket.org/osrf/subt -b urban_circuit
+ && git clone https://github.com/osrf/subt
 
-# Download virtual stix models
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Edgar Mine Virtual STIX" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Base Station" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Black and Decker Cordless Drill" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Fiducial" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Fire Extinguisher" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/JanSport Backpack Red" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Jersey Barrier" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Rescue Randy Sitting" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Samsung J8 Black" -v 4
-
-# Download the robot models
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X1 Config 1" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X1 Config 2" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X1 Config 3" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X1 Config 4" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X1 Config 5" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X2 Config 1" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X2 Config 2" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X2 Config 3" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X2 Config 4" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X2 Config 5" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X2 Config 6" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X3 UAV Config 1" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X3 UAV Config 2" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X3 UAV Config 3" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X3 UAV Config 4" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X4 UAV Config 1" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X4 UAV Config 2" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X4 UAV Config 3" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X4 UAV Config 4" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X4 UAV Config 5" -v 4
-
-# Download the tunnel circuit models
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/subt_tunnel_staging_area" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Tunnel Tile 1" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Tunnel Tile 2" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Tunnel Tile 3" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Tunnel Tile 4" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Tunnel Tile 5" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Tunnel Tile 6" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Tunnel Tile 7" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Tunnel Tile Blocker" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Constrained Tunnel Tile Short" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Constrained Tunnel Tile Tall" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Rough Tunnel Tile 4-way Intersection" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Rough Tunnel Tile 90-degree Turn" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Rough Tunnel Tile Straight" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Rough Tunnel Tile Ramp" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Rough Tunnel Tile Vertical Shaft" -v 4
-
-# Download urban circuit tiles
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Superpose" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Service Room" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Straight Door Right" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Straight Door Left" -v 4
-# RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Stairwell Straight" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Starting Area" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Straight" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban 3-Way Right Intersection" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Bend Left" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Bend Right" -v 4
-# RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban 4way Intersection" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Stairwell Platform" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Platform" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Platform Open" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Straight Door Left Flipped" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Straight Door Right Flipped" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Elevation Up" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Elevation Down" -v 4
+# Download the public models
+COPY download_models.sh ./
+RUN ./download_models.sh
 
 WORKDIR /home/$USERNAME/subt_ws
 
@@ -192,7 +128,7 @@ RUN /bin/sh -c 'echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc' \
 RUN mkdir -p /tmp/ign
 
 # Copy entry point script, and set the entrypoint
-COPY run_sim.bash ./
+COPY cloudsim_sim/run_sim.bash ./
 ENTRYPOINT ["./run_sim.bash"]
 
 # Customize your image here.
