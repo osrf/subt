@@ -19,7 +19,7 @@
 #
 # Customization:
 #
-# 1. Modify the `sim` sevice's `command:` line to include the number and
+# 1. Modify the `sim` service's `command:` line to include the number and
 #    type of robots you need.
 #
 # 2. Each robot requires both a `bridge` and `solution` container. Modify the
@@ -28,6 +28,8 @@
 #   `image` to be your own solution. Also, create another `relay_net` for
 #   the `bridge` and `solution` containers. 
 #
+# 3. This script uses tunnel_circuit_practice_01. Change all occurrences of
+# tunnel_circuit_practice_01 to the world you would like to run.
 version: "2.4"
 services:
 
@@ -35,7 +37,7 @@ services:
   # In this example, two robots are started with the names X1 and X2.
   sim:
     image: osrf/subt-virtual-testbed:cloudsim_sim_latest
-    command: cloudsim_sim.ign headless:=false robotName1:=X1 robotConfig1:=X1_SENSOR_CONFIG_1 robotName2:=X2 robotConfig2:=X1_SENSOR_CONFIG_1
+    command: cloudsim_sim.ign headless:=false circuit:=${circuit} worldName:=${worldName} robotName1:=X1 robotConfig1:=X1_SENSOR_CONFIG_1 robotName2:=X2 robotConfig2:=X1_SENSOR_CONFIG_1
     networks:
       sim_net:
         ipv4_address: 172.28.1.1
@@ -45,6 +47,7 @@ services:
       - XAUTHORITY=/tmp/.docker.xauth
       - IGN_PARTITION=sim
       - IGN_IP=172.28.1.1
+    env_file: .env  
     privileged: true
     runtime: nvidia
     security_opt:
@@ -61,7 +64,7 @@ services:
   bridge1:
     image: osrf/subt-virtual-testbed:cloudsim_bridge_latest
     # Relay topics and service for X1
-    command: robotName1:=X1 robotConfig1:=X1_SENSOR_CONFIG_1
+    command: circuit:=${circuit} worldName:=${worldName} robotName1:=X1 robotConfig1:=X1_SENSOR_CONFIG_1
     # The bridge needs two networks. One for simulation and one for the
     # solution.
     networks:
@@ -73,6 +76,7 @@ services:
       - IGN_PARTITION=sim
       - IGN_IP=172.28.1.2
       - ROS_MASTER_URI=http://172.29.1.1:11311
+    env_file: .env
     depends_on:
       - "sim"
 
@@ -86,13 +90,14 @@ services:
         ipv4_address: 172.29.1.2
     environment:
       - ROS_MASTER_URI=http://172.29.1.1:11311
+    runtime: nvidia
     depends_on:
       - "bridge1"
 
   # This bridge container will relay information for the X2 robot
   bridge2:
     image: osrf/subt-virtual-testbed:cloudsim_bridge_latest
-    command: robotName1:=X2 robotConfig1:=X2_SENSOR_CONFIG_1
+    command: circuit:=${circuit} worldName:=${worldName} robotName1:=X2 robotConfig1:=X1_SENSOR_CONFIG_1
     networks:
       relay_net2:
         ipv4_address: 172.30.1.1
@@ -102,6 +107,7 @@ services:
       - IGN_PARTITION=sim
       - IGN_IP=172.28.1.3
       - ROS_MASTER_URI=http://172.30.1.1:11311
+    env_file: .env
     depends_on:
       - "sim"
 
@@ -114,6 +120,7 @@ services:
         ipv4_address: 172.30.1.2
     environment:
       - ROS_MASTER_URI=http://172.30.1.1:11311
+    runtime: nvidia
     depends_on:
       - "bridge2"
 
@@ -136,3 +143,4 @@ networks:
       driver: default
       config:
         - subnet: 172.30.0.0/16
+

@@ -49,4 +49,23 @@ then
   exit 1
 fi
 
-docker-compose up
+
+if [ $# -gt 0 ]
+then
+  if [ "${1,,}" == "tunnel" ]
+  then
+    echo -e 'circuit=tunnel\nworldName=tunnel_circuit_practice_01' > .env
+    docker-compose up
+  elif [ "${1,,}" == "urban" ]
+  then
+    echo -e 'circuit=urban\nworldName=simple_urban_01' > .env
+    docker-compose up
+  #elif [ "${1,,}" == "cave" ]
+  #then
+  #  echo -e 'circuit=cave\nworldName=simple_cave_03' > .env
+  else
+     echo "Invalid [circuit] parameter value. Use tunnel or urban"
+  fi
+else
+  echo "[circuit] parameter value required (e.g. ./run_docker_compose.sh tunnel)"
+fi

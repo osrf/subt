@@ -1,0 +1,84 @@
+/* Visibility graph for simple_urban_01.tsv */
+/* Generated with the tile_tsv.py script: */
+/*   tile_tsv.py simple_urban_01.tsv -\-graph-file simple_urban_01.dot -\-world-file simple_urban_01.sdf -\-world-name simple_urban_01 -\-scale_x 40 -\-scale_y 40 -\-urban -\-y0 32 -\-x0 -360 */
+
+graph {
+  /* ==== Vertices ==== */
+
+  /* Base station / Staging area */
+  0   [label="0::base_station::BaseStation"];
+
+  1   [label="1::Urban Bend Right::tile_1"];
+  2   [label="2::Urban Straight::tile_2"];
+  3   [label="3::Urban Straight::tile_3"];
+  4   [label="4::Urban Straight::tile_4"];
+  5   [label="5::Urban Straight Door Right::tile_5"];
+  6   [label="6::Urban Platform::tile_6"];
+  7   [label="7::Urban Straight Door Left Flipped::tile_7"];
+  8   [label="8::Urban Straight Door Left::tile_8"];
+  9   [label="9::Urban Platform Open::tile_9"];
+  11  [label="11::Urban Straight Door Right::tile_11"];
+  12  [label="12::Urban Straight Door Right Flipped::tile_12"];
+  13  [label="13::Urban Service Room::tile_13"];
+  15  [label="15::Urban Straight::tile_15"];
+  16  [label="16::Urban Stairwell Platform::tile_16"];
+  17  [label="17::Urban Bend Right::tile_17"];
+  18  [label="18::Urban Straight::tile_18"];
+  19  [label="19::Urban Elevation Up::tile_19"];
+  20  [label="20::Urban Elevation Up::tile_20"];
+  21  [label="21::Urban Straight Door Left Flipped::tile_21"];
+  22  [label="22::Urban Platform::tile_22"];
+  23  [label="23::Urban Straight Door Right Flipped::tile_23"];
+  24  [label="24::Urban Straight::tile_24"];
+  25  [label="25::Urban Bend Right::tile_25"];
+  26  [label="26::Urban Straight::tile_26"];
+  27  [label="27::Urban Straight Door Right Flipped::tile_27"];
+  28  [label="28::Urban Service Room::tile_28"];
+  30  [label="30::Urban Straight Door Right::tile_30"];
+  31  [label="31::Urban Platform::tile_31"];
+  33  [label="33::Urban Straight Door Left::tile_33"];
+  34  [label="34::Urban Straight::tile_34"];
+  35  [label="35::Urban Elevation Up::tile_35"];
+  36  [label="36::Urban Elevation Up::tile_36"];
+  37  [label="37::Urban Straight::tile_37"];
+  38  [label="38::Urban Bend Right::tile_38"];
+
+  /* ==== Edges ==== */
+
+  /* Base station */
+  0  -- 9   [label=1];
+  1  -- 2   [label=3];
+  1  -- 15  [label=3];
+  2  -- 3   [label=1];
+  3  -- 4   [label=1];
+  4  -- 5   [label=1];
+  5  -- 6   [label=3];
+  6  -- 7   [label=3];
+  6  -- 16  [label=3];
+  7  -- 8   [label=1];
+  8  -- 9   [label=3];
+  9  -- 11  [label=3];
+  11 -- 12  [label=1];
+  15 -- 17  [label=3];
+  16 -- 22  [label=3];
+  17 -- 18  [label=3];
+  18 -- 19  [label=1];
+  19 -- 20  [label=1];
+  20 -- 21  [label=1];
+  21 -- 22  [label=3];
+  22 -- 23  [label=3];
+  23 -- 24  [label=1];
+  24 -- 25  [label=3];
+  25 -- 26  [label=3];
+  26 -- 38  [label=3];
+  27 -- 30  [label=1];
+  30 -- 31  [label=3];
+  31 -- 33  [label=3];
+  33 -- 34  [label=1];
+  34 -- 35  [label=1];
+  35 -- 36  [label=1];
+  36 -- 37  [label=1];
+  37 -- 38  [label=3];
+  12 -- 13  [label=1];
+  27 -- 28  [label=1];
+}

@@ -99,7 +99,7 @@ RUN rosdep update
 # docker is run
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
- && hg clone https://bitbucket.org/osrf/subt -b tunnel_circuit
+ && hg clone https://bitbucket.org/osrf/subt -b urban_circuit
 
 WORKDIR /home/$USERNAME/subt_ws
 

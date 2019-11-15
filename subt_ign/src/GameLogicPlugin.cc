@@ -242,6 +242,14 @@ class subt::GameLogicPluginPrivate
 
   /// \brief Time at which the last status publication took place.
   public: std::chrono::steady_clock::time_point lastStatusPubTime;
+
+  /// \brief Time at which the summary.yaml file was last updated.
+  public: mutable std::chrono::steady_clock::time_point lastUpdateScoresTime;
+
+  /// \brief Distance from the base station after which the competition is
+  /// automatically started, and a robot can no longer receive the artifact
+  /// origin frame.
+  public: const double allowedDistanceFromBase = 21.0;
 };
 
 //////////////////////////////////////////////////
@@ -379,6 +387,10 @@ void GameLogicPlugin::PostUpdate(
   // triggers the start signal.
   if (!this->dataPtr->started)
   {
+    // Get an iterator to the base station's pose.
+    std::map<std::string, ignition::math::Pose3d>::iterator baseIter =
+      this->dataPtr->poses.find(subt::kBaseStationName);
+
     _ecm.Each<gazebo::components::Sensor,
               gazebo::components::ParentEntity>(
         [&](const gazebo::Entity &,
@@ -392,6 +404,23 @@ void GameLogicPlugin::PostUpdate(
 
           if (model)
           {
+            // Check if the robot has moved into the tunnel. In this case,
+            // we need to trigger the /subt/start.
+            if (!this->dataPtr->started && baseIter !=
+                this->dataPtr->poses.end())
+            {
+              auto mPose =
+                _ecm.Component<gazebo::components::Pose>(model->Data());
+              // Execute the start logic if a robot has moved into the tunnel.
+              if (baseIter->second.Pos().Distance(mPose->Data().Pos()) >
+                  this->dataPtr->allowedDistanceFromBase)
+              {
+                ignition::msgs::Boolean req, res;
+                req.set_data(true);
+                this->dataPtr->OnStartCall(req, res);
+              }
+            }
+
             // Get the model name
             auto mName =
               _ecm.Component<gazebo::components::Name>(model->Data());
@@ -474,6 +503,13 @@ void GameLogicPlugin::PostUpdate(
     this->dataPtr->startPub.Publish(msg);
     this->dataPtr->lastStatusPubTime = currentTime;
   }
+
+  // Periodically update the score file.
+  if (!this->dataPtr->finished && currentTime -
+      this->dataPtr->lastUpdateScoresTime > std::chrono::seconds(30))
+  {
+    this->dataPtr->UpdateScoreFiles();
+  }
 }
 
 /////////////////////////////////////////////////
@@ -481,6 +517,9 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
                                            subt::msgs::ArtifactScore &_resp)
 {
   this->Log() << "new_artifact_reported" << std::endl;
+  ignmsg << "SimTime[" << this->simTime.sec() << " " << this->simTime.nsec()
+         << "] OnNewArtifact Msg=" << _req.DebugString() << std::endl;
+
   auto realTime = std::chrono::steady_clock::now().time_since_epoch();
   auto s = std::chrono::duration_cast<std::chrono::seconds>(realTime);
   auto ns = std::chrono::duration_cast<std::chrono::nanoseconds>(realTime-s);
@@ -670,7 +709,9 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
     this->Log() << "found_artifact " << std::get<0>(minDistance) << std::endl;
   }
 
-  this->Log() << "calculated_dist " << std::get<2>(minDistance) << std::endl;
+  this->Log() << "calculated_dist[" << std::get<2>(minDistance)
+    << "] for artifact[" << std::get<0>(minDistance) << "] reported_pos["
+    << observedObjectPose << "]" << std::endl;
 
   ignmsg << "  [Total]: " << score << std::endl;
   this->Log() << "modified_score " << score << std::endl;
@@ -930,6 +971,7 @@ GameLogicPluginPrivate::UpdateScoreFiles() const
   score << totalScore << std::endl;
   score.flush();
 
+  this->lastUpdateScoresTime = currTime;
   return currTime;
 }
 
@@ -962,7 +1004,8 @@ bool GameLogicPluginPrivate::PoseFromArtifactHelper(const std::string &_robot,
     return false;
   }
 
-  if (baseIter->second.Pos().Distance(robotIter->second.Pos()) > 18)
+  if (baseIter->second.Pos().Distance(robotIter->second.Pos()) >
+      this->allowedDistanceFromBase)
   {
     ignerr << "[GameLogicPlugin]: Robot [" << _robot << "] is too far from the "
       << "staging area. Ignoring PoseFromArtifact request" << std::endl;

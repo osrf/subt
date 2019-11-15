@@ -1,0 +1,45 @@
+/* Visibility graph for simple_tunnel_02.tsv */
+/* Generated with the tile_tsv.py script: */
+/*   tile_tsv.py simple_tunnel_02.tsv -\-y0 40 -\-graph-file simple_tunnel_02.dot -\-world-file simple_tunnel_02.sdf -\-world-name simple_tunnel_02 */
+
+graph {
+  /* ==== Vertices ==== */
+
+  /* Base station / Staging area */
+  0   [label="0::base_station::BaseStation"];
+
+  1   [label="1::tunnel_tile_2::tile_1"];
+  2   [label="2::tunnel_tile_5::tile_2"];
+  3   [label="3::tunnel_tile_2::tile_3"];
+  4   [label="4::tunnel_tile_5::tile_4"];
+  5   [label="5::tunnel_tile_5::tile_5"];
+  6   [label="6::tunnel_tile_5::tile_6"];
+  7   [label="7::tunnel_tile_1::tile_7"];
+  8   [label="8::tunnel_tile_5::tile_8"];
+  9   [label="9::tunnel_tile_1::tile_9"];
+  11  [label="11::tunnel_tile_5::tile_11"];
+  12  [label="12::tunnel_tile_5::tile_12"];
+  13  [label="13::tunnel_tile_2::tile_13"];
+  14  [label="14::tunnel_tile_5::tile_14"];
+  15  [label="15::tunnel_tile_2::tile_15"];
+
+  /* ==== Edges ==== */
+
+  /* Base station */
+  0  -- 6   [label=1];
+  1  -- 2   [label=3];
+  1  -- 4   [label=3];
+  2  -- 3   [label=3];
+  3  -- 5   [label=3];
+  4  -- 7   [label=3];
+  5  -- 9   [label=3];
+  6  -- 7   [label=3];
+  7  -- 8   [label=3];  /* Intersection */
+  7  -- 11  [label=3];  /* Intersection */
+  8  -- 9   [label=3];
+  9  -- 12  [label=3];  /* Intersection */
+  11 -- 13  [label=3];
+  12 -- 15  [label=3];
+  13 -- 14  [label=3];
+  14 -- 15  [label=3];
+}
