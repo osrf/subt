@@ -1,6 +1,6 @@
 /* Visibility graph for urban_circuit_practice_03.tsv */
 /* Generated with the tile_tsv.py script: */
-/*   tile_tsv.py urban_circuit_practice_03.tsv -\-graph-file urban_circuit_practice_03.dot -\-world-file urban_circuit_practice_03.sdf -\-world-name urban_circuit_practice_03 -\-scale_x 40 -\-scale_y 40 -\-urban -\-y0 24 -\-x0 -56 -\-z0 -9 */
+/*   tile_tsv.py urban_circuit_practice_03.tsv -\-graph-file urban_circuit_practice_03.dot -\-world-file urban_circuit_practice_03.sdf -\-world-name urban_circuit_practice_03 -\-scale_x 40 -\-scale_y 40 -\-urban -\-y0 24 -\-x0 -136 -\-z0 -9 */
 
 graph {
   /* ==== Vertices ==== */
@@ -16,10 +16,15 @@ graph {
   7   [label="7::Urban Room 2 Way::tile_7"];
   8   [label="8::Urban Straight Door Right Extension::tile_8"];
   10  [label="10::Urban Stairwell Platform Centered::tile_10"];
-  11  [label="11::Urban 2 Story::tile_11"];
-  12  [label="12::Urban Service Room Centered::tile_12"];
-  13  [label="13::Urban Service Room Centered::tile_13"];
-  14  [label="14::Urban Service Room Centered::tile_14"];
+  11  [label="11::Urban 2 Story Large Side 2::tile_11"];
+  13  [label="13::Urban 2 Story Large Side 1::tile_13"];
+  14  [label="14::Urban Room 2 Way::tile_14"];
+  15  [label="15::Urban 2 Story::tile_15"];
+  16  [label="16::Urban Service Room Centered::tile_16"];
+  17  [label="17::Urban Room 2 Way::tile_17"];
+  18  [label="18::Urban Straight Door Right Extension::tile_18"];
+  20  [label="20::Urban Straight Door Right Flipped::tile_20"];
+  21  [label="21::Urban Service Room::tile_21"];
 
   /* ==== Edges ==== */
 
@@ -31,20 +36,16 @@ graph {
   6  -- 7   [label=3];  /* Intersection */
   6  -- 10  [label=3];  /* Intersection */
   7  -- 8   [label=1];
-  10 -- 11  [label=3];  /* Intersection */
-  10 -- 14  [label=1];
+  10 -- 15  [label=3];  /* Intersection */
+  11 -- 13  [label=1];
+  13 -- 14  [label=1];
+  14 -- 15  [label=3];  /* Intersection */
+  14 -- 16  [label=1];
+  15 -- 17  [label=3];  /* Intersection */
+  17 -- 18  [label=1];
+  18 -- 20  [label=1];
   1  -- 2   [label=1];
   4  -- 5   [label=1];
-  11 -- 12  [label=3];  /* Intersection */
-  11 -- 13  [label=3];  /* Intersection */
-  11 -- 14  [label=3];  /* Intersection */
-  12 -- 13  [label=1];
-  11 -- 12  [label=3];  /* Intersection */
-  11 -- 13  [label=3];  /* Intersection */
-  11 -- 14  [label=3];  /* Intersection */
-  12 -- 13  [label=1];
-  11 -- 12  [label=3];  /* Intersection */
-  11 -- 13  [label=3];  /* Intersection */
-  11 -- 14  [label=3];  /* Intersection */
-  12 -- 13  [label=1];
+  15 -- 16  [label=3];  /* Intersection */
+  20 -- 21  [label=1];
 }
