@@ -158,6 +158,10 @@ class subt::GameLogicPluginPrivate
   public: bool OnStartCall(const ignition::msgs::Boolean &_req,
                             ignition::msgs::Boolean &_res);
 
+  /// \brief Helper function to start the competition.
+  /// \return True if the run was started.
+  public: bool Start();
+
   /// \brief Ignition service callback triggered when the service is called.
   /// \param[in] _req The message containing a flag telling if the game is to
   /// be finished.
@@ -170,6 +174,9 @@ class subt::GameLogicPluginPrivate
 
   /// \brief Current simulation time.
   public: ignition::msgs::Time simTime;
+
+  /// \brief Amount of allowed warmup time in seconds.
+  public: int warmupTimeSec = 900;
 
   /// \brief The simulation time of the start call.
   public: ignition::msgs::Time startSimTime;
@@ -428,6 +435,12 @@ void GameLogicPlugin::PostUpdate(
           }
           return true;
         });
+
+    // Start automatically if warmup time has elapsed.
+    if (this->dataPtr->simTime.sec() >= this->dataPtr->warmupTimeSec)
+    {
+      this->Start();
+    }
   }
 
   // Update pose information
@@ -870,9 +883,22 @@ bool GameLogicPluginPrivate::OnFinishCall(const ignition::msgs::Boolean &_req,
 bool GameLogicPluginPrivate::OnStartCall(const ignition::msgs::Boolean &_req,
   ignition::msgs::Boolean &_res)
 {
-  if (_req.data() && !this->started && !this->finished)
+  if (_req.data())
+    _res.set_data(this->Start());
+  else
+    _res.set_data(false);
+
+  return true;
+}
+
+/////////////////////////////////////////////////
+bool GameLogicPluginPrivate::Start()
+{
+  bool result = false;
+
+  if (!this->started && !this->finished)
   {
-    _res.set_data(true);
+    result = true;
     this->started = true;
     this->startTime = std::chrono::steady_clock::now();
     this->startSimTime = this->simTime;
@@ -886,15 +912,12 @@ bool GameLogicPluginPrivate::OnStartCall(const ignition::msgs::Boolean &_req,
     this->startPub.Publish(msg);
     this->lastStatusPubTime = std::chrono::steady_clock::now();
   }
-  else
-    _res.set_data(false);
 
   // Update files when scoring has started.
   this->UpdateScoreFiles();
 
-  return true;
+  return result;
 }
-
 
 /////////////////////////////////////////////////
 void GameLogicPluginPrivate::Finish()
