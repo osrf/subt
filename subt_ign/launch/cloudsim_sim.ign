@@ -45,11 +45,11 @@
 <%
   # spawn world offset
   if $circuit == "urban"
-    spawnWorldXPos = 5
-    spawnWorldYPos = 28
+    spawnWorldXPos = 6
+    spawnWorldYPos = 27
     spawnWorldZPos = 7.5
-    spawnWorldYaw = Math::PI/2.0
-    guiCameraPose = "5.0 18 15 0 0.868 1.5708"
+    spawnWorldYaw = 0
+    guiCameraPose = "-2.0 27 15 0 0.868 0"
   else
     spawnWorldXPos = 0
     spawnWorldYPos = 0
@@ -820,7 +820,26 @@
 <%=   spawnX4(name, robotConfigN, posX, posY, spawnWorldZPos, spawnWorldYaw) %>
 <%
     else
-      puts "Unknown robot configuration #{config}"
+      # Try a team-submitted vehicle.
+      package = config.downcase
+      installDir = `rospack find #{package}`.chomp
+      if installDir.empty?
+        raise "Unknown robot configuration #{config}. ROS package #{package} could not be found."
+      end
+
+      spawnerScript =  "#{installDir}/launch/spawner.rb"
+      begin
+        require spawnerScript
+      rescue LoadError
+        raise "Unknown robot configuration #{config}. #{spawnerScript} could not be found."
+      else
+        fuelPrefix = "https://fuel.ignitionrobotics.org/1.0/openrobotics/models"
+        modelURI = "#{fuelPrefix}/#{config}"
+        robotSpawned += 1
+%>
+<%=     spawner(name, modelURI, $worldName, posX, posY, spawnWorldZPos, 0, 0, spawnWorldYaw) %>
+<%
+      end
     end
   end
 %>
