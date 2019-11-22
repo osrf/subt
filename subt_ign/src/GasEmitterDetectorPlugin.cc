@@ -30,6 +30,8 @@
 
 #include <ignition/gazebo/components/Geometry.hh>
 #include <ignition/gazebo/components/Pose.hh>
+#include <ignition/gazebo/components/World.hh>
+#include <ignition/gazebo/components/Model.hh>
 #include <ignition/gazebo/Util.hh>
 
 #include <set>
@@ -97,8 +99,21 @@ void GasEmitter::Configure(const gazebo::Entity &_entity,
 
     _ecm.SetParentEntity(entity, _entity);
     _ecm.CreateComponent(entity, GasType(gasType));
-    _ecm.CreateComponent(entity, gazebo::components::WorldPose(pose));
     _ecm.CreateComponent(entity, gazebo::components::Geometry(geometry));
+    _ecm.CreateComponent(entity, gazebo::components::Pose(pose));
+
+    if (_ecm.EntityHasComponentType(_entity, gazebo::components::World::typeId))
+    {
+      _ecm.CreateComponent(entity, gazebo::components::WorldPose(pose));
+    }
+    else if (_ecm.EntityHasComponentType(_entity, gazebo::components::Model::typeId))
+    {
+      auto model_pose = _ecm.Component<gazebo::components::Pose>(_entity);
+
+      pose += model_pose->Data();
+      _ecm.CreateComponent(entity, gazebo::components::WorldPose(pose));
+    }
+
 
     gasElem = gasElem->GetNextElement("emitter");
   }
