@@ -439,7 +439,7 @@ void GameLogicPlugin::PostUpdate(
     // Start automatically if warmup time has elapsed.
     if (this->dataPtr->simTime.sec() >= this->dataPtr->warmupTimeSec)
     {
-      this->Start();
+      this->dataPtr->Start();
     }
   }
 
