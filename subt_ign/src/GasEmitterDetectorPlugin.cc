@@ -102,14 +102,15 @@ void GasEmitter::Configure(const gazebo::Entity &_entity,
     _ecm.CreateComponent(entity, gazebo::components::Geometry(geometry));
     _ecm.CreateComponent(entity, gazebo::components::Pose(pose));
 
-    if (_ecm.EntityHasComponentType(_entity, gazebo::components::World::typeId))
+    if (_ecm.EntityHasComponentType(_entity,
+                                    gazebo::components::World::typeId))
     {
       _ecm.CreateComponent(entity, gazebo::components::WorldPose(pose));
     }
-    else if (_ecm.EntityHasComponentType(_entity, gazebo::components::Model::typeId))
+    else if (_ecm.EntityHasComponentType(_entity,
+                                         gazebo::components::Model::typeId))
     {
       auto model_pose = _ecm.Component<gazebo::components::Pose>(_entity);
-
       pose += model_pose->Data();
       _ecm.CreateComponent(entity, gazebo::components::WorldPose(pose));
     }
