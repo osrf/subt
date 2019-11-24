@@ -456,6 +456,13 @@
     "      <power_load>6.6</power_load>\n"\
     "      <start_on_motion>true</start_on_motion>\n"\
     "    </plugin>\n"\
+    "    <!-- Gas Sensor plugin -->\n"\
+    "    <plugin filename=\"libGasEmitterDetectorPlugin.so\"\n"\
+    "      name=\"subt::GasDetector\">\n"\
+    "      <topic>/model/#{_name}/gas_detected</topic>\n"\
+    "      <update_rate>10</update_rate>"\
+    "      <type>gas</type>"\
+    "    </plugin>\n"\
     "  </include>\n"\
     "  </sdf>\n"\
     "</plugin>\n"
@@ -507,6 +514,13 @@
     "      <smooth_current_tau>1.9499</smooth_current_tau>\n"\
     "      <power_load>6.6</power_load>\n"\
     "      <start_on_motion>true</start_on_motion>\n"\
+    "    </plugin>\n"\
+    "    <!-- Gas Sensor plugin -->\n"\
+    "    <plugin filename=\"libGasEmitterDetectorPlugin.so\"\n"\
+    "      name=\"subt::GasDetector\">\n"\
+    "      <topic>/model/#{_name}/gas_detected</topic>\n"\
+    "      <update_rate>10</update_rate>"\
+    "      <type>gas</type>"\
     "    </plugin>\n"\
     "  </include>\n"\
     "  </sdf>\n"\
@@ -624,6 +638,13 @@
     "      <smooth_current_tau>1.9499</smooth_current_tau>\n"\
     "      <power_load>6.6</power_load>\n"\
     "      <start_on_motion>true</start_on_motion>\n"\
+    "    </plugin>\n"\
+    "    <!-- Gas Sensor plugin -->\n"\
+    "    <plugin filename=\"libGasEmitterDetectorPlugin.so\"\n"\
+    "      name=\"subt::GasDetector\">\n"\
+    "      <topic>/model/#{_name}/gas_detected</topic>\n"\
+    "      <update_rate>10</update_rate>"\
+    "      <type>gas</type>"\
     "    </plugin>\n"\
     "  </include>\n"\
     "  </sdf>\n"\
@@ -779,6 +800,13 @@
     "      <smooth_current_tau>1.9499</smooth_current_tau>\n"\
     "      <power_load>6.6</power_load>\n"\
     "      <start_on_motion>true</start_on_motion>\n"\
+    "    </plugin>\n"\
+    "    <!-- Gas Sensor plugin -->\n"\
+    "    <plugin filename=\"libGasEmitterDetectorPlugin.so\"\n"\
+    "      name=\"subt::GasDetector\">\n"\
+    "      <topic>/model/#{_name}/gas_detected</topic>\n"\
+    "      <update_rate>10</update_rate>"\
+    "      <type>gas</type>"\
     "    </plugin>\n"\
     "    </include>\n"\
     "  </sdf>\n"\
