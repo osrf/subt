@@ -77,7 +77,7 @@ RUN apt-get update \
 # install the ros to ign bridge
 RUN apt-get update \
  && apt-get install -y \
-    ros-melodic-ros1-ign \
+    ros-melodic-ros-ign \
  && apt-get clean
 
 # Add a user with the same user_id as the user outside the container
@@ -162,13 +162,13 @@ RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/mode
 RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Service Room" -v 4
 RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Straight Door Right" -v 4
 RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Straight Door Left" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Stairwell Straight" -v 4
+# RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Stairwell Straight" -v 4
 RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Starting Area" -v 4
 RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Straight" -v 4
 RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban 3-Way Right Intersection" -v 4
 RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Bend Left" -v 4
 RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Bend Right" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban 4way Intersection" -v 4
+# RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban 4way Intersection" -v 4
 RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Stairwell Platform" -v 4
 RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Platform" -v 4
 RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Platform Open" -v 4
