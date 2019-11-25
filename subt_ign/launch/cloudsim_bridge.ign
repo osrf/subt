@@ -182,7 +182,23 @@
 <%  elsif robotConfigs[i][1] == "4" %>
 <%=   spawnX4(robotNames[i],  robotConfigs[i][-1]) %>
 <%  else
-      puts "Unknown robot configuration #{robotConfigs[i]}"
+      # Try a team-submitted vehicle.
+      package = config.downcase
+      installDir = `rospack find #{package}`.chomp
+      if installDir.empty?
+        raise "Unknown robot configuration #{config}. ROS package #{package} could not be found."
+      end
+
+      spawnerScript =  "#{installDir}/launch/spawner.rb"
+      begin
+        require spawnerScript
+      rescue LoadError
+        raise "Unknown robot configuration #{config}. #{spawnerScript} could not be found."
+      else
+%>
+<%=     rosExecutables(name, $worldName) %>
+<%
+      end
     end
   end
 %>

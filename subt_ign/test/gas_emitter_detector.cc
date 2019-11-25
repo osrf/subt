@@ -63,6 +63,20 @@ const std::string worldSdf = R"(
       </emitter>
     </plugin>
 
+    <model name="gas_emitter_model">
+      <static>true</static>
+      <pose>10 10 10 0 0 0</pose>
+      <plugin
+        filename="libGasEmitterDetectorPlugin.so"
+        name="subt::GasEmitter">
+        <emitter>
+          <type>methane</type>
+          <pose>10 0 0 0 0 0</pose>
+          <geometry><box><size>1.0 1.0 1.0</size></box></geometry>
+        </emitter>
+      </plugin>
+    </model>
+
     <model name="gas_detector_model">
       <static>true</static>
       <pose>0 0 0 0 0 0</pose>
