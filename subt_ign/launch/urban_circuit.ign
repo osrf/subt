@@ -110,7 +110,7 @@
     <update_rate><%= updateRate %></update_rate>
     <%end%>
     <run>true</run>
-    <levels>false</levels>
+    <levels>true</levels>
     <record>
       <enabled>true</enabled>
       <!-- This path is used by cloudsim, please do not change -->
@@ -243,6 +243,40 @@
         <name>rescue_randy_5</name>
         <type>TYPE_RESCUE_RANDY</type>
       </artifact>
+
+      <artifact>
+        <name>vent_1</name>
+        <type>TYPE_VENT</type>
+      </artifact>
+      <artifact>
+        <name>vent_2</name>
+        <type>TYPE_VENT</type>
+      </artifact>
+      <artifact>
+        <name>vent_3</name>
+        <type>TYPE_VENT</type>
+      </artifact>
+      <artifact>
+        <name>vent_4</name>
+        <type>TYPE_VENT</type>
+      </artifact>
+
+      <artifact>
+        <name>gas_1</name>
+        <type>TYPE_GAS</type>
+      </artifact>
+      <artifact>
+        <name>gas_2</name>
+        <type>TYPE_GAS</type>
+      </artifact>
+      <artifact>
+        <name>gas_3</name>
+        <type>TYPE_GAS</type>
+      </artifact>
+      <artifact>
+        <name>gas_4</name>
+        <type>TYPE_GAS</type>
+      </artifact>
     </plugin>
   </plugin>
 
@@ -262,7 +296,7 @@
 
         <engine>ogre2</engine>
         <scene>scene</scene>
-        <ambient_light>0.1 0.1 0.1</ambient_light>
+        <ambient_light>0.2 0.2 0.2</ambient_light>
         <background_color>0.8 0.8 0.8</background_color>
         <camera_pose>-2.0 27 15 0 0.868 0</camera_pose>
       </plugin>
@@ -423,6 +457,13 @@
     "      <power_load>6.6</power_load>\n"\
     "      <start_on_motion>true</start_on_motion>\n"\
     "    </plugin>\n"\
+    "    <!-- Gas Sensor plugin -->\n"\
+    "    <plugin filename=\"libGasEmitterDetectorPlugin.so\"\n"\
+    "      name=\"subt::GasDetector\">\n"\
+    "      <topic>/model/#{_name}/gas_detected</topic>\n"\
+    "      <update_rate>10</update_rate>"\
+    "      <type>gas</type>"\
+    "    </plugin>\n"\
     "  </include>\n"\
     "  </sdf>\n"\
     "</plugin>\n"\
@@ -495,6 +536,13 @@
     "      <smooth_current_tau>1.9499</smooth_current_tau>\n"\
     "      <power_load>6.6</power_load>\n"\
     "      <start_on_motion>true</start_on_motion>\n"\
+    "    </plugin>\n"\
+    "    <!-- Gas Sensor plugin -->\n"\
+    "    <plugin filename=\"libGasEmitterDetectorPlugin.so\"\n"\
+    "      name=\"subt::GasDetector\">\n"\
+    "      <topic>/model/#{_name}/gas_detected</topic>\n"\
+    "      <update_rate>10</update_rate>"\
+    "      <type>gas</type>"\
     "    </plugin>\n"\
     "  </include>\n"\
     "  </sdf>\n"\
@@ -630,6 +678,13 @@
     "      <smooth_current_tau>1.9499</smooth_current_tau>\n"\
     "      <power_load>6.6</power_load>\n"\
     "      <start_on_motion>true</start_on_motion>\n"\
+    "    </plugin>\n"\
+    "    <!-- Gas Sensor plugin -->\n"\
+    "    <plugin filename=\"libGasEmitterDetectorPlugin.so\"\n"\
+    "      name=\"subt::GasDetector\">\n"\
+    "      <topic>/model/#{_name}/gas_detected</topic>\n"\
+    "      <update_rate>10</update_rate>"\
+    "      <type>gas</type>"\
     "    </plugin>\n"\
     "  </include>\n"\
     "  </sdf>\n"\
@@ -809,6 +864,13 @@
     "      <smooth_current_tau>1.9499</smooth_current_tau>\n"\
     "      <power_load>6.6</power_load>\n"\
     "      <start_on_motion>true</start_on_motion>\n"\
+    "    </plugin>\n"\
+    "    <!-- Gas Sensor plugin -->\n"\
+    "    <plugin filename=\"libGasEmitterDetectorPlugin.so\"\n"\
+    "      name=\"subt::GasDetector\">\n"\
+    "      <topic>/model/#{_name}/gas_detected</topic>\n"\
+    "      <update_rate>10</update_rate>"\
+    "      <type>gas</type>"\
     "    </plugin>\n"\
     "    </include>\n"\
     "  </sdf>\n"\
