@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--To be used in conjunction with spawn_preview_model.py-->
+<launch>
+  <!--Model name. This is optional-->
+  <arg name="model_name" default="preview_model"/>
+  <!--World name. This is optional-->
+  <arg name="world_name" default="preview"/>
+
+  <param name="/use_sim_time" value="true"/>
+
+  <node pkg="tf2_ros" type="static_transform_publisher" name="tf_world_static" args="0 0 0 0 0 0 world $(arg world_name)"/>
+  <node pkg="ros1_ign_bridge" type="parameter_bridge" name="$(anon ros1_ign_bridge)" args="/clock@rosgraph_msgs/Clock[ignition.msgs.Clock"/>
+  <group ns="$(arg model_name)">
+    <node
+      pkg="ros1_ign_bridge"
+      type="parameter_bridge"
+      name="ros1_ign_bridge_pose"
+      args="/model/$(arg model_name)/pose@geometry_msgs/TransformStamped[ignition.msgs.Pose">
+      <remap from="/model/$(arg model_name)/pose" to="pose"/>
+    </node>
+    <node
+      pkg="subt_ros"
+      type="pose_tf_broadcaster"
+      name="pose_tf_broadcaster"/>
+  </group>
+
+</launch>
