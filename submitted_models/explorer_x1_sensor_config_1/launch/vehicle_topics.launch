@@ -7,9 +7,9 @@
   <group ns="$(arg name)">
     <!--Create multipe bridges so that it can run in parallel-->
     <node
-      pkg="ros1_ign_bridge"
+      pkg="ros_ign_bridge"
       type="parameter_bridge"
-      name="ros1_ign_bridge_pose"
+      name="ros_ign_bridge_pose"
       args="/model/$(arg name)/pose@geometry_msgs/TransformStamped[ignition.msgs.Pose">
       <remap from="/model/$(arg name)/pose" to="pose"/>
     </node>
@@ -20,25 +20,25 @@
       name="pose_tf_broadcaster"/>
 
     <node
-      pkg="ros1_ign_bridge"
+      pkg="ros_ign_bridge"
       type="parameter_bridge"
-      name="ros1_ign_bridge_twist"
+      name="ros_ign_bridge_twist"
       args="/model/$(arg name)/cmd_vel_relay@geometry_msgs/Twist]ignition.msgs.Twist">
       <remap from="/model/$(arg name)/cmd_vel_relay" to="cmd_vel"/>
     </node>
 
     <node
-      pkg="ros1_ign_bridge"
+      pkg="ros_ign_bridge"
       type="parameter_bridge"
-      name="ros1_ign_bridge_odom"
+      name="ros_ign_bridge_odom"
       args="/model/$(arg name)/odometry@nav_msgs/Odometry[ignition.msgs.Odometry">
       <remap from="/model/$(arg name)/odometry" to="odom"/>
     </node>
 
     <node
-      pkg="ros1_ign_bridge"
+      pkg="ros_ign_bridge"
       type="parameter_bridge"
-      name="ros1_ign_bridge_battery_state"
+      name="ros_ign_bridge_battery_state"
       args="/model/$(arg name)/battery/linear_battery/state@sensor_msgs/BatteryState[ignition.msgs.BatteryState">
       <remap from="/model/$(arg name)/battery/linear_battery/state" to="battery_state"/>
     </node>
@@ -46,30 +46,30 @@
     <!--Front RGBD camera -->
     <group ns="front_rgbd">
       <node
-        pkg="ros1_ign_bridge"
+        pkg="ros_ign_bridge"
         type="parameter_bridge"
-        name="ros1_ign_bridge_camera"
+        name="ros_ign_bridge_camera"
         args="$(arg sensor_prefix)/front_realsense/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
         <remap from="$(arg sensor_prefix)/front_realsense/camera_info" to="camera_info"/>
       </node>
       <node
-        pkg="ros1_ign_image"
+        pkg="ros_ign_image"
         type="image_bridge"
-        name="ros1_ign_image_camera"
+        name="ros_ign_image_camera"
         args="$(arg sensor_prefix)/front_realsense/image">
         <remap from="$(arg sensor_prefix)/front_realsense/image" to="image_raw"/>
       </node>
       <node
-        pkg="ros1_ign_bridge"
+        pkg="ros_ign_bridge"
         type="parameter_bridge"
-        name="ros1_ign_bridge_rgbd"
+        name="ros_ign_bridge_rgbd"
         args="$(arg sensor_prefix)/front_realsense/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
         <remap from="$(arg sensor_prefix)/front_realsense/points" to="points"/>
       </node>
       <node
-        pkg="ros1_ign_image"
+        pkg="ros_ign_image"
         type="image_bridge"
-        name="ros1_ign_image_depth"
+        name="ros_ign_image_depth"
         args="$(arg sensor_prefix)/front_realsense/depth_image">
         <remap from="$(arg sensor_prefix)/front_realsense/depth_image" to="depth/image_raw"/>
       </node>
@@ -78,30 +78,30 @@
     <!--Left RGBD camera -->
     <group ns="left_rgbd">
       <node
-        pkg="ros1_ign_bridge"
+        pkg="ros_ign_bridge"
         type="parameter_bridge"
-        name="ros1_ign_bridge_camera"
+        name="ros_ign_bridge_camera"
         args="$(arg sensor_prefix)/left_realsense/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
         <remap from="$(arg sensor_prefix)/left_realsense/camera_info" to="camera_info"/>
       </node>
       <node
-        pkg="ros1_ign_image"
+        pkg="ros_ign_image"
         type="image_bridge"
-        name="ros1_ign_image_camera"
+        name="ros_ign_image_camera"
         args="$(arg sensor_prefix)/left_realsense/image">
         <remap from="$(arg sensor_prefix)/left_realsense/image" to="image_raw"/>
       </node>
       <node
-        pkg="ros1_ign_bridge"
+        pkg="ros_ign_bridge"
         type="parameter_bridge"
-        name="ros1_ign_bridge_rgbd"
+        name="ros_ign_bridge_rgbd"
         args="$(arg sensor_prefix)/left_realsense/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
         <remap from="$(arg sensor_prefix)/left_realsense/points" to="points"/>
       </node>
       <node
-        pkg="ros1_ign_image"
+        pkg="ros_ign_image"
         type="image_bridge"
-        name="ros1_ign_image_depth"
+        name="ros_ign_image_depth"
         args="$(arg sensor_prefix)/left_realsense/depth_image">
         <remap from="$(arg sensor_prefix)/left_realsense/depth_image" to="depth/image_raw"/>
       </node>
@@ -110,30 +110,30 @@
     <!--Rear RGBD camera -->
     <group ns="rear_rgbd">
       <node
-        pkg="ros1_ign_bridge"
+        pkg="ros_ign_bridge"
         type="parameter_bridge"
-        name="ros1_ign_bridge_camera"
+        name="ros_ign_bridge_camera"
         args="$(arg sensor_prefix)/rear_realsense/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
         <remap from="$(arg sensor_prefix)/rear_realsense/camera_info" to="camera_info"/>
       </node>
       <node
-        pkg="ros1_ign_image"
+        pkg="ros_ign_image"
         type="image_bridge"
-        name="ros1_ign_image_camera"
+        name="ros_ign_image_camera"
         args="$(arg sensor_prefix)/rear_realsense/image">
         <remap from="$(arg sensor_prefix)/rear_realsense/image" to="image_raw"/>
       </node>
       <node
-        pkg="ros1_ign_bridge"
+        pkg="ros_ign_bridge"
         type="parameter_bridge"
-        name="ros1_ign_bridge_rgbd"
+        name="ros_ign_bridge_rgbd"
         args="$(arg sensor_prefix)/rear_realsense/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
         <remap from="$(arg sensor_prefix)/rear_realsense/points" to="points"/>
       </node>
       <node
-        pkg="ros1_ign_image"
+        pkg="ros_ign_image"
         type="image_bridge"
-        name="ros1_ign_image_depth"
+        name="ros_ign_image_depth"
         args="$(arg sensor_prefix)/rear_realsense/depth_image">
         <remap from="$(arg sensor_prefix)/rear_realsense/depth_image" to="depth/image_raw"/>
       </node>
@@ -142,30 +142,30 @@
     <!--Right RGBD camera -->
     <group ns="right_rgbd">
       <node
-        pkg="ros1_ign_bridge"
+        pkg="ros_ign_bridge"
         type="parameter_bridge"
-        name="ros1_ign_bridge_camera"
+        name="ros_ign_bridge_camera"
         args="$(arg sensor_prefix)/right_realsense/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
         <remap from="$(arg sensor_prefix)/right_realsense/camera_info" to="camera_info"/>
       </node>
       <node
-        pkg="ros1_ign_image"
+        pkg="ros_ign_image"
         type="image_bridge"
-        name="ros1_ign_image_camera"
+        name="ros_ign_image_camera"
         args="$(arg sensor_prefix)/right_realsense/image">
         <remap from="$(arg sensor_prefix)/right_realsense/image" to="image_raw"/>
       </node>
       <node
-        pkg="ros1_ign_bridge"
+        pkg="ros_ign_bridge"
         type="parameter_bridge"
-        name="ros1_ign_bridge_rgbd"
+        name="ros_ign_bridge_rgbd"
         args="$(arg sensor_prefix)/right_realsense/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
         <remap from="$(arg sensor_prefix)/right_realsense/points" to="points"/>
       </node>
       <node
-        pkg="ros1_ign_image"
+        pkg="ros_ign_image"
         type="image_bridge"
-        name="ros1_ign_image_depth"
+        name="ros_ign_image_depth"
         args="$(arg sensor_prefix)/right_realsense/depth_image">
         <remap from="$(arg sensor_prefix)/right_realsense/depth_image" to="depth/image_raw"/>
       </node>
@@ -173,9 +173,9 @@
 
     <!--Front Laser-->
     <node
-      pkg="ros1_ign_bridge"
+      pkg="ros_ign_bridge"
       type="parameter_bridge"
-      name="ros1_ign_bridge_lidar3d"
+      name="ros_ign_bridge_lidar3d"
       args="$(arg sensor_prefix)/front_laser/scan/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
       <remap from="$(arg sensor_prefix)/front_laser/scan/points" to="points"/>
     </node>
@@ -183,9 +183,9 @@
 
     <!--IMU-->
     <node
-      pkg="ros1_ign_bridge"
+      pkg="ros_ign_bridge"
       type="parameter_bridge"
-      name="ros1_ign_bridge_imu"
+      name="ros_ign_bridge_imu"
       args="$(arg sensor_prefix)/imu_sensor/imu@sensor_msgs/Imu[ignition.msgs.IMU">
       <remap from="$(arg sensor_prefix)/imu_sensor/imu" to="imu/data"/>
     </node>
