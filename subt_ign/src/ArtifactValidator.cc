@@ -76,7 +76,7 @@ class subt::ArtifactValidatorPrivate
 {
   /// \brief Map of artifact types to string representations.
   public: const std::array<
-      const std::pair<subt::ArtifactType, std::string>, 10> kArtifactTypes
+      const std::pair<subt::ArtifactType, std::string>, 12> kArtifactTypes
       {
         {
           {subt::ArtifactType::TYPE_BACKPACK      , "TYPE_BACKPACK"},
@@ -88,7 +88,9 @@ class subt::ArtifactValidatorPrivate
           {subt::ArtifactType::TYPE_RADIO         , "TYPE_RADIO"},
           {subt::ArtifactType::TYPE_RESCUE_RANDY  , "TYPE_RESCUE_RANDY"},
           {subt::ArtifactType::TYPE_TOOLBOX       , "TYPE_TOOLBOX"},
-          {subt::ArtifactType::TYPE_VALVE         , "TYPE_VALVE"}
+          {subt::ArtifactType::TYPE_VALVE         , "TYPE_VALVE"},
+          {subt::ArtifactType::TYPE_VENT          , "TYPE_VENT"},
+          {subt::ArtifactType::TYPE_GAS           , "TYPE_GAS"}
         }
       };
 
