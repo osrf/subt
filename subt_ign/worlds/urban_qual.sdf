@@ -27,6 +27,30 @@
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Starting Area</uri>
     </include>
 
+    <!-- Test Gas Emitter -->
+    <!--
+
+    <model name="gas">
+      <static>true</static>
+      <pose>6 27 8.0 0 0 0</pose>
+      <link name="link">
+        <pose>0 0 0.0 0 0 0</pose>
+        <visual name="visual">
+          <geometry><box><size>2.0 2.0 1.0</size></box></geometry>
+        </visual>
+      </link>
+      <plugin
+        filename="libGasEmitterDetectorPlugin.so"
+        name="subt::GasEmitter">
+        <emitter>
+          <type>gas</type>
+          <pose>0 0 0.0 0 0 0</pose>
+          <geometry><box><size>2.0 2.0 1.0</size></box></geometry>
+        </emitter>
+      </plugin>
+    </model>
+    -->
+
     <!-- The base station -->
     <include>
       <static>true</static>

@@ -172,14 +172,16 @@
 
 <%
   robotNames.each_with_index do |name, i|
-    if robotConfigs[i][1] == "1"
+    config = robotConfigs[i]
+    robotConfigN = config[-1]
+    if robotConfigs[i][1] == "1" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5")
 %>
 <%=   spawnX1(robotNames[i], robotConfigs[i][-1]) %>
-<%  elsif robotConfigs[i][1] == "2" %>
+<%  elsif robotConfigs[i][1] == "2" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5" or robotConfigN == "6") %>
 <%=   spawnX2(robotNames[i], robotConfigs[i][-1]) %>
-<%  elsif robotConfigs[i][1] == "3" %>
+<%  elsif robotConfigs[i][1] == "3" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4") %>
 <%=   spawnX3(robotNames[i], robotConfigs[i][-1]) %>
-<%  elsif robotConfigs[i][1] == "4" %>
+<%  elsif robotConfigs[i][1] == "4" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5") %>
 <%=   spawnX4(robotNames[i],  robotConfigs[i][-1]) %>
 <%  else
       # Try a team-submitted vehicle.
