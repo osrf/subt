@@ -58,7 +58,7 @@ then
     docker-compose up
   elif [ "${1,,}" == "urban" ]
   then
-    echo -e 'circuit=urban\nworldName=simple_urban_01' > .env
+    echo -e 'circuit=urban\nworldName=urban_circuit_practice_01' > .env
     docker-compose up
   #elif [ "${1,,}" == "cave" ]
   #then
