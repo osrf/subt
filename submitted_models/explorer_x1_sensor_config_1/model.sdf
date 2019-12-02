@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <sdf version="1.6">
   <model name="explorer_x1_sensor_config_1">
     <link name="base_link">
@@ -15,10 +16,18 @@
         </inertia>
       </inertial>
       <collision name="base_link_collision">
-        <pose frame="">0 0 0.061875 0 -0 0</pose>
+        <pose frame="">0 0 0.12 0 0 0</pose>
         <geometry>
           <box>
-            <size>0.9874 0.5709 0.12375</size>
+            <size>0.9874 0.5709 0.05</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="base_link_collision_bottom">
+        <pose frame="">0 0 0.046 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.80 0.5709 0.095</size>
           </box>
         </geometry>
       </collision>
