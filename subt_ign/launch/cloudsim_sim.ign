@@ -45,11 +45,11 @@
 <%
   # spawn world offset
   if $circuit == "urban"
-    spawnWorldXPos = 5
-    spawnWorldYPos = 28
+    spawnWorldXPos = 6
+    spawnWorldYPos = 27
     spawnWorldZPos = 7.5
-    spawnWorldYaw = Math::PI/2.0
-    guiCameraPose = "5.0 18 15 0 0.868 1.5708"
+    spawnWorldYaw = 0
+    guiCameraPose = "-2.0 27 15 0 0.868 0"
   else
     spawnWorldXPos = 0
     spawnWorldYPos = 0
