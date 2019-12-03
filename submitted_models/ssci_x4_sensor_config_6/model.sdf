@@ -242,16 +242,17 @@
                     </z>
                 </magnetometer>
             </sensor>
+            <!-- Based on RPLidar S1 -->
             <sensor name="front_laser" type="gpu_ray">
                 <pose>0.43 0 0.26 0 0 0</pose>
-                <update_rate>20</update_rate>
+                <update_rate>10</update_rate>
                 <lidar>
                     <scan>
                         <horizontal>
                             <samples>720</samples>
                             <resolution>1</resolution>
-                            <min_angle>-2.3562</min_angle>
-                            <max_angle>2.3562</max_angle>
+                            <min_angle>-3.14159</min_angle>
+                            <max_angle>3.14159</max_angle>
                         </horizontal>
                     </scan>
                     <range>
