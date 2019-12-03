@@ -37,7 +37,7 @@ services:
   # In this example, two robots are started with the names X1 and X2.
   sim:
     image: osrf/subt-virtual-testbed:cloudsim_sim_latest
-    command: cloudsim_sim.ign headless:=false circuit:=${circuit} worldName:=${worldName} robotName1:=X1 robotConfig1:=X1_SENSOR_CONFIG_1 robotName2:=X2 robotConfig2:=X1_SENSOR_CONFIG_1
+    command: cloudsim_sim.ign headless:=${headless} circuit:=${circuit} worldName:=${worldName} robotName1:=X1 robotConfig1:=X1_SENSOR_CONFIG_1 robotName2:=X2 robotConfig2:=X1_SENSOR_CONFIG_1
     networks:
       sim_net:
         ipv4_address: 172.28.1.1
