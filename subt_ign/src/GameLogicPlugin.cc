@@ -65,7 +65,7 @@ class subt::GameLogicPluginPrivate
 {
   /// \brief Mapping between enum types and strings.
   public: const std::array<
-      const std::pair<subt::ArtifactType, std::string>, 10> kArtifactTypes
+      const std::pair<subt::ArtifactType, std::string>, 12> kArtifactTypes
       {
         {
           {subt::ArtifactType::TYPE_BACKPACK      , "TYPE_BACKPACK"},
@@ -77,7 +77,9 @@ class subt::GameLogicPluginPrivate
           {subt::ArtifactType::TYPE_RADIO         , "TYPE_RADIO"},
           {subt::ArtifactType::TYPE_RESCUE_RANDY  , "TYPE_RESCUE_RANDY"},
           {subt::ArtifactType::TYPE_TOOLBOX       , "TYPE_TOOLBOX"},
-          {subt::ArtifactType::TYPE_VALVE         , "TYPE_VALVE"}
+          {subt::ArtifactType::TYPE_VALVE         , "TYPE_VALVE"},
+          {subt::ArtifactType::TYPE_VENT          , "TYPE_VENT"},
+          {subt::ArtifactType::TYPE_GAS           , "TYPE_GAS"}
         }
       };
 
@@ -158,6 +160,10 @@ class subt::GameLogicPluginPrivate
   public: bool OnStartCall(const ignition::msgs::Boolean &_req,
                             ignition::msgs::Boolean &_res);
 
+  /// \brief Helper function to start the competition.
+  /// \return True if the run was started.
+  public: bool Start();
+
   /// \brief Ignition service callback triggered when the service is called.
   /// \param[in] _req The message containing a flag telling if the game is to
   /// be finished.
@@ -170,6 +176,9 @@ class subt::GameLogicPluginPrivate
 
   /// \brief Current simulation time.
   public: ignition::msgs::Time simTime;
+
+  /// \brief Amount of allowed warmup time in seconds.
+  public: int warmupTimeSec = 900;
 
   /// \brief The simulation time of the start call.
   public: ignition::msgs::Time startSimTime;
@@ -428,6 +437,12 @@ void GameLogicPlugin::PostUpdate(
           }
           return true;
         });
+
+    // Start automatically if warmup time has elapsed.
+    if (this->dataPtr->simTime.sec() >= this->dataPtr->warmupTimeSec)
+    {
+      this->dataPtr->Start();
+    }
   }
 
   // Update pose information
@@ -870,9 +885,22 @@ bool GameLogicPluginPrivate::OnFinishCall(const ignition::msgs::Boolean &_req,
 bool GameLogicPluginPrivate::OnStartCall(const ignition::msgs::Boolean &_req,
   ignition::msgs::Boolean &_res)
 {
-  if (_req.data() && !this->started && !this->finished)
+  if (_req.data())
+    _res.set_data(this->Start());
+  else
+    _res.set_data(false);
+
+  return true;
+}
+
+/////////////////////////////////////////////////
+bool GameLogicPluginPrivate::Start()
+{
+  bool result = false;
+
+  if (!this->started && !this->finished)
   {
-    _res.set_data(true);
+    result = true;
     this->started = true;
     this->startTime = std::chrono::steady_clock::now();
     this->startSimTime = this->simTime;
@@ -886,15 +914,12 @@ bool GameLogicPluginPrivate::OnStartCall(const ignition::msgs::Boolean &_req,
     this->startPub.Publish(msg);
     this->lastStatusPubTime = std::chrono::steady_clock::now();
   }
-  else
-    _res.set_data(false);
 
   // Update files when scoring has started.
   this->UpdateScoreFiles();
 
-  return true;
+  return result;
 }
-
 
 /////////////////////////////////////////////////
 void GameLogicPluginPrivate::Finish()
