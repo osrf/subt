@@ -25,6 +25,7 @@ example_json=<<EOF
 {
   "circuit": "urban",
   "world": "simple_urban_01",
+  "headless": "false",
   "robots":
   [
     {
@@ -156,6 +157,9 @@ if !submission.key?('robots')
   puts "Output an example JSON file using the '-e' option."
   exit
 end
+if !submission.key?('headless')
+  submission['headless'] = 'false'
+end
 
 # Construct a the robot string that is passed to the cloudsim_sim image.
 robotStr = ""
@@ -197,7 +201,7 @@ services:
   # In this example, two robots are started with the names X1 and X2.
   sim:
     image: #{options['sim_image']}
-    command: cloudsim_sim.ign headless:=false circuit:=#{submission['circuit']} worldName:=#{submission['world']} #{robotStr}
+    command: cloudsim_sim.ign headless:=#{submission['headless']} circuit:=#{submission['circuit']} worldName:=#{submission['world']} #{robotStr}
     networks:
       sim_net:
         ipv4_address: 172.28.1.1
