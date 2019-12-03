@@ -54,15 +54,22 @@ if [ $# -gt 0 ]
 then
   if [ "${1,,}" == "tunnel" ]
   then
-    echo -e 'circuit=tunnel\nworldName=tunnel_circuit_practice_01' > .env
+    if [ "${2,,}" == "headless" ]
+    then
+       echo -e 'circuit=tunnel\nworldName=tunnel_circuit_practice_01\nheadless=true' > .env
+    else
+       echo -e 'circuit=tunnel\nworldName=tunnel_circuit_practice_01\nheadless=false' > .env
+    fi
     docker-compose up
   elif [ "${1,,}" == "urban" ]
   then
-    echo -e 'circuit=urban\nworldName=urban_circuit_practice_01' > .env
+    if [ "${2,,}" == "headless" ]
+    then
+       echo -e 'circuit=urban\nworldName=urban_circuit_practice_01\nheadless=true' > .env
+    else
+       echo -e 'circuit=urban\nworldName=urban_circuit_practice_01\nheadless=false' > .env
+    fi
     docker-compose up
-  #elif [ "${1,,}" == "cave" ]
-  #then
-  #  echo -e 'circuit=cave\nworldName=simple_cave_03' > .env
   else
      echo "Invalid [circuit] parameter value. Use tunnel or urban"
   fi
