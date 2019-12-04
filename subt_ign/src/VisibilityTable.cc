@@ -42,6 +42,31 @@ bool VisibilityTable::Load(const std::string &_worldName)
 {
   std::string worldsDirectory = SUBT_INSTALL_WORLD_DIR;
   this->worldName = _worldName;
+
+  // Modifications for the tunnel circuit.
+  const std::string tunnelPrefix = "tunnel_circuit_";
+  const std::string urbanPrefix = "urban";
+  if (0 == this->worldName.compare(0, tunnelPrefix.size(), tunnelPrefix))
+  {
+    std::string suffix = this->worldName.substr(tunnelPrefix.size());
+    // don't use a subfolder for practice worlds
+    if (0 != suffix.compare(0, 9, "practice_"))
+    {
+      worldsDirectory = ignition::common::joinPaths(worldsDirectory,
+          "tunnel_circuit", suffix);
+    }
+  }
+  else if (this->worldName.find(urbanPrefix) != std::string::npos)
+  {
+    // todo(anyone) check for circuit number when there are more
+    // urban circuit worlds
+  }
+  else
+  {
+    ignerr << "Unable to determine circuit number from["
+      << this->worldName << "].\n";
+  }
+
   this->worldPath = ignition::common::joinPaths(
     worldsDirectory, _worldName + ".sdf");
 
