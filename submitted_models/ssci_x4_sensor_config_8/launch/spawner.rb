@@ -1,6 +1,6 @@
 def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
   <<-HEREDOC
-    _config=6
+    _config=8
     uav=1
     laserScan=0
     stereoCam=0
@@ -19,6 +19,11 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
       bottomScan=1
       rgbdCam=1
     end
+    if _config == "8"
+      laserScan=1
+      topScan=1
+      bottomScan=1
+      rgbdCam=1
     <plugin name="ignition::launch::GazeboFactory"
             filename="libignition-launch-gazebo-factory.so">
       <name>#{_name}</name>
@@ -182,7 +187,7 @@ def rosExecutables(_name, _worldName)
       <command>roslaunch --wait subt_ros x4_description.launch world_name:=#{_worldName} name:=#{_name}</command>
     </executable>
     <executable name='x4_ros_ign_bridge'>
-      <command>roslaunch --wait ssci_x4_sensor_config_8 vehicle_topics.launch world_name:=#{_worldName} name:=#{_name} uav:=1 lidar_3d:=1 laser_scan:=0 top_scan:=0 bottom_scan:=0 stereo_cam:=0 rgbd_cam:=0    </command>
+      <command>roslaunch --wait ssci_x4_sensor_config_8 vehicle_topics.launch world_name:=#{_worldName} name:=#{_name} uav:=1 lidar_3d:=1 laser_scan:=0 top_scan:=1 bottom_scan:=1 stereo_cam:=0 rgbd_cam:=0    </command>
   </executable>
   HEREDOC
 end

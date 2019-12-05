@@ -359,6 +359,54 @@
                     </noise>
                 </lidar>
             </sensor>
+            <sensor name="top_laser" type="gpu_ray">
+                <pose>0.0 0 0.1 0 1.57 0</pose>
+                <update_rate>50</update_rate>
+                <lidar>
+                    <scan>
+                        <horizontal>
+                            <samples>1</samples>
+                            <resolution>1</resolution>
+                            <min_angle>3.141592654</min_angle>
+                            <max_angle>3.141592654</max_angle>
+                        </horizontal>
+                    </scan>
+                    <range>
+                        <min>0.04</min>
+                        <max>40</max>
+                        <resolution>0.01</resolution>
+                    </range>
+                    <noise>
+                        <type>gaussian</type>
+                        <mean>0</mean>
+                        <stddev>0.01</stddev>
+                    </noise>
+                </lidar>
+            </sensor>
+            <sensor name="bottom_laser" type="gpu_ray">
+                <pose>0.0 0 -0.02 0 -1.57 0</pose>
+                <update_rate>50</update_rate>
+                <lidar>
+                    <scan>
+                        <horizontal>
+                            <samples>1</samples>
+                            <resolution>1</resolution>
+                            <min_angle>3.141592654</min_angle>
+                            <max_angle>3.141592654</max_angle>
+                        </horizontal>
+                    </scan>
+                    <range>
+                        <min>0.04</min>
+                        <max>40</max>
+                        <resolution>0.01</resolution>
+                    </range>
+                    <noise>
+                        <type>gaussian</type>
+                        <mean>0</mean>
+                        <stddev>0.01</stddev>
+                    </noise>
+                </lidar>
+            </sensor>
         </link>
         <link name="rotor_0">
             <pose frame="">0.247 0.1506 0.028 0.087267 0 0.523599</pose>
