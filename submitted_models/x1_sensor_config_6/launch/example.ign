@@ -23,6 +23,7 @@
   # This assumes that this launch file is in a directory below the model
   modelURI = File.expand_path("../", File.dirname(__FILE__))
   $worldName = 'example'
+  worldFile = File.join(File.expand_path("../worlds", File.dirname(__FILE__)), "#{$worldName}.sdf")
 
 %>
 
@@ -40,7 +41,7 @@
 
   <plugin name="ignition::launch::GazeboServer"
           filename="libignition-launch-gazebo.so">
-    <world_file>worlds/<%= $worldName %>.sdf</world_file>
+    <world_file><%= worldFile %></world_file>
     <run>true</run>
     <levels>false</levels>
     <record>
@@ -163,6 +164,7 @@
   <%end%>
 
 <%= spawner(robotName, modelURI, $worldName, 0, 0, 0, 0, 0, 0) %>
+<%= rosExecutables(robotName, $worldName) %>
  
 </ignition>
 
