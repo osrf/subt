@@ -15,12 +15,6 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
       stereoCam=1
     end
     if _config == "6"
-      laserScan=1
-      topScan=1
-      bottomScan=1
-      rgbdCam=1
-    end
-    if _config == "7"
       laserScan=0
       topScan=1
       bottomScan=1
@@ -193,10 +187,10 @@ def rosExecutables(_name, _worldName)
       <command>roslaunch --wait x4_control control.launch world_name:=#{_worldName} x4_name:=#{_name}</command>
     </executable>
     <executable name='x4_description'>
-      <command>roslaunch --wait x4_sensor_config_7 description.launch world_name:=#{_worldName} name:=#{_name}</command>
+      <command>roslaunch --wait x4_sensor_config_6 description.launch world_name:=#{_worldName} name:=#{_name}</command>
     </executable>
     <executable name='x4_ros_ign_bridge'>
-      <command>roslaunch --wait x4_sensor_config_7 vehicle_topics.launch world_name:=#{_worldName} name:=#{_name} uav:=1 laser_scan:=0 top_scan:=1 bottom_scan:=1 stereo_cam:=0 rgbd_cam:=1    </command>
+      <command>roslaunch --wait x4_sensor_config_6 vehicle_topics.launch world_name:=#{_worldName} name:=#{_name} uav:=1 laser_scan:=0 top_scan:=1 bottom_scan:=1 stereo_cam:=0 rgbd_cam:=1    </command>
   </executable>
   HEREDOC
 end

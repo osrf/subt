@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(x4_sensor_config_7)
+project(x4_sensor_config_6)
 
 find_package(catkin REQUIRED)
 
