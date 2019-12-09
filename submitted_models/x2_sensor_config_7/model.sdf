@@ -306,7 +306,7 @@
                 </lidar>
             </sensor>
             <sensor name="front_cliff_laser" type="gpu_ray">
-                <pose>0.25 0 0 0 -1.570796327 0</pose>
+                <pose>0.25 0 0 0 -2.4434589 0</pose>
                 <update_rate>50</update_rate>
                 <lidar>
                     <scan>
@@ -330,7 +330,7 @@
                 </lidar>
             </sensor>
             <sensor name="rear_cliff_laser" type="gpu_ray">
-                <pose>-0.25 0 0 0 -1.570796327 0</pose>
+                <pose>-0.25 0 0 0 -0.698131 0</pose>
                 <update_rate>50</update_rate>
                 <lidar>
                     <scan>
