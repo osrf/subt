@@ -15,7 +15,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
             filename="libignition-launch-gazebo-factory.so">
       <name>#{_name}</name>
       <allow_renaming>false</allow_renaming>
-      <pose>#{_x} #{_y} 10 0 0 0</pose>
+      <pose>#{_x} #{_y} #{_z + 0.2} #{_roll} #{_pitch} #{_yaw}</pose>
       <world>#{_worldName}</world>
       <is_performer>true</is_performer>
       <sdf version='1.6'>
