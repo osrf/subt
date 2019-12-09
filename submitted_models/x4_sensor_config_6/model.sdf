@@ -88,7 +88,7 @@
                 </geometry>
             </visual>
             <light name="right_light_source" type="spot">
-                <pose frame="">-0.01 -0.11 0.07 3.131592653589795 -1.5107899999999999 2.841592653589791</pose>
+                <pose frame="">-0.0 -0.11 0.07 3.131592653589795 -1.5107899999999999 2.841592653589791</pose>
                 <attenuation>
                     <range>15</range>
                     <linear>0</linear>
@@ -103,9 +103,10 @@
                     <falloff>1</falloff>
                 </spot>
                 <direction>0 0 -1</direction>
+                <cast_shadows>1</cast_shadows>
             </light>
             <light name="downward_flashlight_source" type="spot">
-                <pose frame="">0.02 0 0.09 -0.01 -1.3708026535897933 0</pose>
+                <pose frame="">0.03 0 0.09 -0.01 -1.3708026535897933 0</pose>
                 <attenuation>
                     <range>15</range>
                     <linear>0</linear>
@@ -120,9 +121,10 @@
                     <falloff>1</falloff>
                 </spot>
                 <direction>0 0 -1</direction>
+                <cast_shadows>1</cast_shadows>
             </light>
             <light name="left_flashlight_source" type="spot">
-                <pose frame="">-0.01 0.11 0.07 3.131592653589795 -1.5107899999999999 -2.841592653589791</pose>
+                <pose frame="">-0.0 0.11 0.07 3.131592653589795 -1.5107899999999999 -2.841592653589791</pose>
                 <attenuation>
                     <range>15</range>
                     <linear>0</linear>
@@ -137,6 +139,7 @@
                     <falloff>1</falloff>
                 </spot>
                 <direction>0 0 -1</direction>
+                <cast_shadows>1</cast_shadows>
             </light>
             <sensor name="imu_sensor" type="imu">
                 <always_on>1</always_on>
@@ -407,11 +410,13 @@
                     </mesh>
                 </geometry>
                 <material>
+                    <diffuse>1 0 0 1</diffuse>
                     <script>
                         <name>Gazebo/Red</name>
                         <uri>file://media/materials/scripts/gazebo.material</uri>
                     </script>
                 </material>
+                <cast_shadows>0</cast_shadows>
             </visual>
             <gravity>1</gravity>
             <velocity_decay/>
@@ -472,11 +477,13 @@
                     </mesh>
                 </geometry>
                 <material>
+                    <diffuse>0 0 1 1</diffuse>
                     <script>
                         <name>Gazebo/Blue</name>
                         <uri>file://media/materials/scripts/gazebo.material</uri>
                     </script>
                 </material>
+                <cast_shadows>0</cast_shadows>
             </visual>
             <gravity>1</gravity>
             <velocity_decay/>
@@ -537,11 +544,13 @@
                     </mesh>
                 </geometry>
                 <material>
+                    <diffuse>0 0 1 1</diffuse>
                     <script>
                         <name>Gazebo/Blue</name>
                         <uri>file://media/materials/scripts/gazebo.material</uri>
                     </script>
                 </material>
+                <cast_shadows>0</cast_shadows>
             </visual>
             <gravity>1</gravity>
             <velocity_decay/>
@@ -602,6 +611,7 @@
                     </mesh>
                 </geometry>
                 <material>
+                    <diffuse>0 0 1 1</diffuse>
                     <script>
                         <name>Gazebo/Blue</name>
                         <uri>file://media/materials/scripts/gazebo.material</uri>
@@ -667,11 +677,13 @@
                     </mesh>
                 </geometry>
                 <material>
+                    <diffuse>0 0 1 1</diffuse>
                     <script>
                         <name>Gazebo/Blue</name>
                         <uri>file://media/materials/scripts/gazebo.material</uri>
                     </script>
                 </material>
+                <cast_shadows>0</cast_shadows>
             </visual>
             <gravity>1</gravity>
             <velocity_decay/>
@@ -732,11 +744,13 @@
                     </mesh>
                 </geometry>
                 <material>
+                    <diffuse>1 0 0 1</diffuse>
                     <script>
                         <name>Gazebo/Red</name>
                         <uri>file://media/materials/scripts/gazebo.material</uri>
                     </script>
                 </material>
+                <cast_shadows>0</cast_shadows>
             </visual>
             <gravity>1</gravity>
             <velocity_decay/>
