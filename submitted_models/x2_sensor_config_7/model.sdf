@@ -74,7 +74,7 @@
                 </geometry>
             </visual>
             <light name="left_light_source" type="spot">
-                <pose>0.243 0.145 0.141 3.14159 1.56859 0</pose>
+                <pose>0.273 0.145 0.141 3.14159 1.56859 0</pose>
                 <attenuation>
                     <range>25</range>
                     <linear>0</linear>
@@ -91,7 +91,7 @@
                 <direction>0 0 -1</direction>
             </light>
             <light name="right_light_source" type="spot">
-                <pose>0.243 -0.145 0.141 3.14159 1.56859 0</pose>
+                <pose>0.273 -0.145 0.141 3.14159 1.56859 0</pose>
                 <attenuation>
                     <range>25</range>
                     <linear>0</linear>
@@ -106,9 +106,10 @@
                     <falloff>1</falloff>
                 </spot>
                 <direction>0 0 -1</direction>
+                <cast_shadows>1</cast_shadows>
             </light>
             <light name="center_left_light_source" type="spot">
-                <pose>0.243 0.05 0.141 3.14159 1.56859 0</pose>
+                <pose>0.273 0.05 0.141 3.14159 1.56859 0</pose>
                 <attenuation>
                     <range>25</range>
                     <linear>0</linear>
@@ -123,9 +124,10 @@
                     <falloff>1</falloff>
                 </spot>
                 <direction>0 0 -1</direction>
+                <cast_shadows>1</cast_shadows>
             </light>
             <light name="center_right_light_source" type="spot">
-                <pose>0.243 -0.05 0.141 3.14159 1.56859 0</pose>
+                <pose>0.273 -0.05 0.141 3.14159 1.56859 0</pose>
                 <attenuation>
                     <range>25</range>
                     <linear>0</linear>
@@ -140,6 +142,7 @@
                     <falloff>1</falloff>
                 </spot>
                 <direction>0 0 -1</direction>
+                <cast_shadows>1</cast_shadows>
             </light>
             <sensor name="imu_sensor" type="imu">
                 <always_on>1</always_on>
