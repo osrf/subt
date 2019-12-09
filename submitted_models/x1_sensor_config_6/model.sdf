@@ -161,7 +161,7 @@
                 </geometry>
             </visual>
             <light name="left_light_source" type="spot">
-                <pose frame="">0.484147 0.216803 0.180 3.14159 1.56859 0</pose>
+                <pose frame="">0.514147 0.216803 0.180 3.14159 1.56859 0</pose>
                 <attenuation>
                     <range>50</range>
                     <linear>0</linear>
@@ -176,9 +176,10 @@
                     <falloff>1</falloff>
                 </spot>
                 <direction>0 0 -1</direction>
+                <cast_shadows>1</cast_shadows>
             </light>
             <light name="center_left_light" type="spot">
-                <pose frame="">0.508 0.0844 0.180 3.14159 1.56859 0</pose>
+                <pose frame="">0.538 0.0844 0.180 3.14159 1.56859 0</pose>
                 <attenuation>
                     <range>50</range>
                     <linear>0</linear>
@@ -193,9 +194,10 @@
                     <falloff>1</falloff>
                 </spot>
                 <direction>0 0 -1</direction>
+                <cast_shadows>1</cast_shadows>
             </light>
             <light name="center_right_light" type="spot">
-                <pose frame="">0.508 -0.0844 0.180 3.14159 1.56859 0</pose>
+                <pose frame="">0.538 -0.0844 0.180 3.14159 1.56859 0</pose>
                 <attenuation>
                     <range>50</range>
                     <linear>0</linear>
@@ -210,9 +212,10 @@
                     <falloff>1</falloff>
                 </spot>
                 <direction>0 0 -1</direction>
+                <cast_shadows>1</cast_shadows>
             </light>
             <light name="right_light_source" type="spot">
-                <pose frame="">0.484147 -0.216803 0.180 3.14159 1.56859 0</pose>
+                <pose frame="">0.514147 -0.216803 0.180 3.14159 1.56859 0</pose>
                 <attenuation>
                     <range>50</range>
                     <linear>0</linear>
@@ -227,6 +230,7 @@
                     <falloff>1</falloff>
                 </spot>
                 <direction>0 0 -1</direction>
+                <cast_shadows>1</cast_shadows>
             </light>
             <sensor name="imu_sensor" type="imu">
                 <always_on>1</always_on>
