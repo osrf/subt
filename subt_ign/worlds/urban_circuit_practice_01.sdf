@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <!--
   Generated with the tile_tsv.py script:
-    tile_tsv.py urban_circuit_practice_01.tsv -\-graph-file urban_circuit_practice_01.dot -\-world-file urban_circuit_practice_01.sdf -\-world-name urban_circuit_practice_01 -\-scale_x 40 -\-scale_y 40 -\-urban -\-y0 24 -\-x0 -96 -\-z0 1 -\-level_type row_col
+    tile_tsv.py urban_circuit_practice_01.tsv -\-graph-file urban_circuit_practice_01.dot -\-world-file urban_circuit_practice_01.sdf -\-world-name urban_circuit_practice_01 -\-scale_x 40 -\-scale_y 40 -\-urban -\-y0 24 -\-x0 -96 -\-z0 1 -\-level_type row_col -\-levels_buf 9
 -->
 <sdf version="1.6">
   <world name="urban_circuit_practice_01">
@@ -412,21 +412,21 @@
         <ref>tile_6</ref>
         <ref>tile_7</ref>
         <pose>8.000000 -16.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>352.000000 80.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>352.000000 75.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level2">
         <ref>gas_1</ref>
         <ref>gas_2</ref>
         <pose>8.000000 16.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>352.000000 80.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>352.000000 75.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level5">
         <ref>backpack_1</ref>
         <pose>8.000000 -10.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>352.000000 80.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>352.000000 75.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level9">
         <ref>tile_8</ref>
@@ -436,32 +436,32 @@
         <ref>tile_11</ref>
         <ref>tile_12</ref>
         <pose>8.000000 -56.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>352.000000 80.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>352.000000 75.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level10">
         <ref>rescue_randy_1</ref>
         <pose>8.000000 -66.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>352.000000 80.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>352.000000 75.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level12">
         <ref>backpack_2</ref>
         <pose>8.000000 -64.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>352.000000 80.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>352.000000 75.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level16">
         <ref>vent_1</ref>
         <pose>8.000000 -48.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>352.000000 80.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>352.000000 75.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level18">
         <ref>phone_1</ref>
         <pose>8.000000 -38.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>352.000000 80.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>352.000000 75.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level19">
         <ref>tile_13</ref>
@@ -470,14 +470,14 @@
         <ref>vent_2</ref>
         <ref>rescue_randy_2</ref>
         <pose>8.000000 -96.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>352.000000 80.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>352.000000 75.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level20">
         <ref>backpack_3</ref>
         <pose>8.000000 -88.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>352.000000 80.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>352.000000 75.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level24">
         <ref>tile_16</ref>
@@ -491,38 +491,38 @@
         <ref>tile_23</ref>
         <ref>tile_24</ref>
         <pose>8.000000 -136.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>352.000000 80.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>352.000000 75.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level25">
         <ref>phone_2</ref>
         <pose>8.000000 -133.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>352.000000 80.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>352.000000 75.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level27">
         <ref>tile_20</ref>
         <pose>8.000000 -156.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>352.000000 80.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>352.000000 75.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level28">
         <ref>vent_3</ref>
         <pose>8.000000 -132.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>352.000000 80.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>352.000000 75.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level30">
         <ref>rescue_randy_3</ref>
         <pose>8.000000 -141.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>352.000000 80.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>352.000000 75.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level31">
         <ref>phone_3</ref>
         <pose>8.000000 -116.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>352.000000 80.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>352.000000 75.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level37">
         <ref>tile_25</ref>
@@ -535,26 +535,26 @@
         <ref>tile_32</ref>
         <ref>tile_33</ref>
         <pose>8.000000 -176.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>352.000000 80.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>352.000000 75.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level39">
         <ref>phone_4</ref>
         <pose>8.000000 -173.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>352.000000 80.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>352.000000 75.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level41">
         <ref>vent_4</ref>
         <pose>8.000000 -211.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>352.000000 80.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>352.000000 75.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level43">
         <ref>rescue_randy_4</ref>
         <pose>8.000000 -206.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>352.000000 80.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>352.000000 75.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
 
 
@@ -568,8 +568,8 @@
         <ref>tile_16</ref>
         <ref>tile_25</ref>
         <pose>-96.000000 -97.500000 0.000000 0 0 0</pose>
-        <geometry><box><size>80.000000 307.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>75.000000 307.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level3">
         <ref>tile_3</ref>
@@ -582,22 +582,22 @@
         <ref>tile_28</ref>
         <ref>tile_29</ref>
         <pose>-16.000000 -97.500000 0.000000 0 0 0</pose>
-        <geometry><box><size>80.000000 307.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>75.000000 307.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level4">
         <ref>tile_4</ref>
         <ref>tile_30</ref>
         <pose>24.000000 -97.500000 0.000000 0 0 0</pose>
-        <geometry><box><size>80.000000 307.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>75.000000 307.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level6">
         <ref>backpack_1</ref>
         <ref>gas_4</ref>
         <pose>16.000000 -97.500000 0.000000 0 0 0</pose>
-        <geometry><box><size>80.000000 307.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>75.000000 307.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level7">
         <ref>tile_5</ref>
@@ -609,132 +609,132 @@
         <ref>tile_21</ref>
         <ref>tile_31</ref>
         <pose>64.000000 -97.500000 0.000000 0 0 0</pose>
-        <geometry><box><size>80.000000 307.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>75.000000 307.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level8">
         <ref>tile_7</ref>
         <pose>84.000000 -97.500000 0.000000 0 0 0</pose>
-        <geometry><box><size>80.000000 307.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>75.000000 307.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level11">
         <ref>rescue_randy_1</ref>
         <pose>-101.000000 -97.500000 0.000000 0 0 0</pose>
-        <geometry><box><size>80.000000 307.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>75.000000 307.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level13">
         <ref>backpack_2</ref>
         <pose>-91.000000 -97.500000 0.000000 0 0 0</pose>
-        <geometry><box><size>80.000000 307.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>75.000000 307.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level14">
         <ref>gas_3</ref>
         <pose>-128.000000 -97.500000 0.000000 0 0 0</pose>
-        <geometry><box><size>80.000000 307.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>75.000000 307.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level15">
         <ref>tile_10</ref>
         <ref>rescue_randy_3</ref>
         <ref>tile_27</ref>
         <pose>-56.000000 -97.500000 0.000000 0 0 0</pose>
-        <geometry><box><size>80.000000 307.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>75.000000 307.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level17">
         <ref>vent_1</ref>
         <pose>-68.150000 -97.500000 0.000000 0 0 0</pose>
-        <geometry><box><size>80.000000 307.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>75.000000 307.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level21">
         <ref>backpack_3</ref>
         <pose>-16.100000 -97.500000 0.000000 0 0 0</pose>
-        <geometry><box><size>80.000000 307.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>75.000000 307.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level22">
         <ref>vent_2</ref>
         <pose>56.000000 -97.500000 0.000000 0 0 0</pose>
-        <geometry><box><size>80.000000 307.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>75.000000 307.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level23">
         <ref>rescue_randy_2</ref>
         <pose>77.000000 -97.500000 0.000000 0 0 0</pose>
-        <geometry><box><size>80.000000 307.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>75.000000 307.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level26">
         <ref>phone_2</ref>
         <pose>-98.000000 -97.500000 0.000000 0 0 0</pose>
-        <geometry><box><size>80.000000 307.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>75.000000 307.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level29">
         <ref>vent_3</ref>
         <pose>-68.000000 -97.500000 0.000000 0 0 0</pose>
-        <geometry><box><size>80.000000 307.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>75.000000 307.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level32">
         <ref>phone_3</ref>
         <pose>-18.000000 -97.500000 0.000000 0 0 0</pose>
-        <geometry><box><size>80.000000 307.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>75.000000 307.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level33">
         <ref>tile_22</ref>
         <pose>41.000000 -97.500000 0.000000 0 0 0</pose>
-        <geometry><box><size>80.000000 307.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>75.000000 307.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level34">
         <ref>backpack_4</ref>
         <pose>52.000000 -97.500000 0.000000 0 0 0</pose>
-        <geometry><box><size>80.000000 307.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>75.000000 307.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level35">
         <ref>tile_23</ref>
         <ref>tile_32</ref>
         <pose>104.000000 -97.500000 0.000000 0 0 0</pose>
-        <geometry><box><size>80.000000 307.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>75.000000 307.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level36">
         <ref>tile_24</ref>
         <ref>tile_33</ref>
         <pose>144.000000 -97.500000 0.000000 0 0 0</pose>
-        <geometry><box><size>80.000000 307.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>75.000000 307.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level38">
         <ref>tile_26</ref>
         <pose>-119.000000 -97.500000 0.000000 0 0 0</pose>
-        <geometry><box><size>80.000000 307.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>75.000000 307.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level40">
         <ref>phone_4</ref>
         <pose>-104.000000 -97.500000 0.000000 0 0 0</pose>
-        <geometry><box><size>80.000000 307.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>75.000000 307.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level42">
         <ref>vent_4</ref>
         <pose>-3.000000 -97.500000 0.000000 0 0 0</pose>
-        <geometry><box><size>80.000000 307.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>75.000000 307.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
       <level name="level44">
         <ref>rescue_randy_4</ref>
         <pose>2.000000 -97.500000 0.000000 0 0 0</pose>
-        <geometry><box><size>80.000000 307.000000 130.000000</size></box></geometry>
-        <buffer>10.000000</buffer>
+        <geometry><box><size>75.000000 307.000000 130.000000</size></box></geometry>
+        <buffer>9.000000</buffer>
       </level>
     </plugin>
 
