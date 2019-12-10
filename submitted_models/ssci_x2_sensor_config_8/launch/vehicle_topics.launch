@@ -6,11 +6,13 @@
   <arg name="sensor_prefix" value="/world/$(arg world_name)/model/$(arg name)/link/$(arg link_name)/sensor"/>
   <arg name="uav" default="0"/>
   <arg name="stereo_cam" default="0"/>
-  <arg name="laser_scan" default="0"/>
+  <arg name="laser_scan" default="1"/>
   <arg name="top_scan" default="0"/>
   <arg name="bottom_scan" default="0"/>
   <arg name="rgbd_cam" default="0"/>
-  <arg name="lidar_3d" default="1"/>
+  <arg name="rgbd_cam_up" default="1" />
+  <arg name="rgbd_cam_down" default="1" />
+  <arg name="lidar_3d" default="0"/>
   <group ns="$(arg name)">
     <!--Create multipe bridges so that it can run in parallel-->
     <node
@@ -51,6 +53,20 @@
         args="$(arg sensor_prefix)/camera_front/depth_image">
         <remap from="$(arg sensor_prefix)/camera_front/depth_image" to="front/depth"/>
       </node>
+      <node
+        pkg="ros_ign_bridge"
+        type="parameter_bridge"
+        name="ros_ign_bridge_camera"
+        args="$(arg sensor_prefix)/camera_front/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+        <remap from="$(arg sensor_prefix)/camera_front/camera_info" to="front/camera_info"/>
+      </node>
+      <node
+        pkg="ros_ign_image"
+        type="image_bridge"
+        name="ros_ign_image_camera"
+        args="$(arg sensor_prefix)/camera_front/image">
+        <remap from="$(arg sensor_prefix)/camera_front/image" to="front/image_raw"/>
+      </node>
     </group>
 
     <group if="$(arg rgbd_cam_up)">
@@ -68,6 +84,20 @@
         args="$(arg sensor_prefix)/camera_up/depth_image">
         <remap from="$(arg sensor_prefix)/camera_up/depth_image" to="up/depth"/>
       </node>
+      <node
+        pkg="ros_ign_bridge"
+        type="parameter_bridge"
+        name="ros_ign_bridge_camera_up"
+        args="$(arg sensor_prefix)/camera_up/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+        <remap from="$(arg sensor_prefix)/camera_up/camera_info" to="up/camera_info"/>
+      </node>
+      <node
+        pkg="ros_ign_image"
+        type="image_bridge"
+        name="ros_ign_image_camera_up"
+        args="$(arg sensor_prefix)/camera_up/image">
+        <remap from="$(arg sensor_prefix)/camera_up/image" to="up/image_raw"/>
+      </node>
     </group>
 
     <group if="$(arg rgbd_cam_down)">
@@ -84,6 +114,20 @@
         name="ros_ign_image_depth_down"
         args="$(arg sensor_prefix)/camera_down/depth_image">
         <remap from="$(arg sensor_prefix)/camera_down/depth_image" to="down/depth"/>
+      </node>
+      <node
+        pkg="ros_ign_bridge"
+        type="parameter_bridge"
+        name="ros_ign_bridge_camera_down"
+        args="$(arg sensor_prefix)/camera_down/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+        <remap from="$(arg sensor_prefix)/camera_down/camera_info" to="down/camera_info"/>
+      </node>
+      <node
+        pkg="ros_ign_image"
+        type="image_bridge"
+        name="ros_ign_image_camera_down"
+        args="$(arg sensor_prefix)/camera_down/image">
+        <remap from="$(arg sensor_prefix)/camera_down/image" to="down/image_raw"/>
       </node>
     </group>
 
@@ -119,24 +163,6 @@
         <remap from="$(arg sensor_prefix)/camera_front_left/image" to="front/left/image_raw"/>
       </node>
     </group>
-
-    <!-- non-stereo -->
-    <!--<group unless="$(arg stereo_cam)">
-      <node
-        pkg="ros_ign_bridge"
-        type="parameter_bridge"
-        name="ros_ign_bridge_camera"
-        args="$(arg sensor_prefix)/camera_front/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
-        <remap from="$(arg sensor_prefix)/camera_front/camera_info" to="front/camera_info"/>
-      </node>
-      <node
-        pkg="ros_ign_image"
-        type="image_bridge"
-        name="ros_ign_image_camera"
-        args="$(arg sensor_prefix)/camera_front/image">
-        <remap from="$(arg sensor_prefix)/camera_front/image" to="front/image_raw"/>
-      </node>
-    </group>-->
 
     <!-- laser scan -->
     <group if="$(arg laser_scan)">
