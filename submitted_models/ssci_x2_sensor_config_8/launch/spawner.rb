@@ -59,9 +59,16 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
           <power_load>6.6</power_load>
           <start_on_motion>true</start_on_motion>
         </plugin>
-      </include>
-    </sdf>
-  </plugin>
+       <!-- Gas Sensor plugin -->"
+       <plugin filename="libGasEmitterDetectorPlugin.so"
+         name="subt::GasDetector">
+         <topic>/model/#{_name}/gas_detected</topic>
+         <update_rate>10</update_rate>
+         <type>gas</type>
+       </plugin>
+        </include>
+      </sdf>
+    </plugin>
   HEREDOC
 end
 
