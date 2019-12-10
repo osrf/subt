@@ -184,7 +184,7 @@ def rosExecutables(_name, _worldName)
       <command>roslaunch --wait x4_control control.launch world_name:=#{_worldName} x4_name:=#{_name}</command>
     </executable>
     <executable name='x4_description'>
-      <command>roslaunch --wait subt_ros x4_description.launch world_name:=#{_worldName} name:=#{_name}</command>
+      <command>roslaunch --wait ssci_x4_sensor_config_8 description.launch world_name:=#{_worldName} name:=#{_name}</command>
     </executable>
     <executable name='x4_ros_ign_bridge'>
       <command>roslaunch --wait ssci_x4_sensor_config_8 vehicle_topics.launch world_name:=#{_worldName} name:=#{_name} uav:=1 lidar_3d:=1 laser_scan:=0 top_scan:=1 bottom_scan:=1 stereo_cam:=0 rgbd_cam:=0    </command>

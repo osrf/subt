@@ -6,7 +6,7 @@
             <pose frame="">0 0 0 0 -0 0</pose>
             <inertial>
                 <pose frame="">0 0 0 0 -0 0</pose>
-                <mass>3.42</mass>
+                <mass>4.10</mass>
                 <inertia>
                     <ixx>0.075</ixx>
                     <ixy>0</ixy>
@@ -319,7 +319,7 @@
                 </camera>
             </sensor>
             <visual name="laser_visual">
-                <pose>0.08 0 0.3 0 0 0</pose>
+                <pose>0 0 -0.05 0 0 0</pose>
                 <geometry>
                     <cylinder>
                         <radius>0.03</radius>
@@ -328,7 +328,10 @@
                 </geometry>
             </visual>
             <sensor name="front_laser" type="gpu_ray">
-                <pose>0.08 0 0.394 0 0 0</pose>
+				<!-- The laser is patterned off of the X1 medium range lidar.  
+					We believe this is based on a Velodyne Puck Lite 
+					which weighs 590 g -->
+                <pose>0 0 -0.05 0 0 0</pose>
                 <update_rate>15</update_rate>
                 <lidar>
                     <scan>
