@@ -20,6 +20,16 @@
       args="$(arg sensor_prefix)/imu_sensor/imu@sensor_msgs/Imu[ignition.msgs.IMU">
       <remap from="$(arg sensor_prefix)/imu_sensor/imu" to="imu/data"/>
     </node>
+
+    <!-- Gas sensor -->
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_gas"
+      args="/model/$(arg name)/gas_detected@std_msgs/Bool[ignition.msgs.Boolean">
+      <remap from="/model/$(arg name)/gas_detected" to="gas_detected"/>
+    </node>
+
     <node
       pkg="ros_ign_bridge"
       type="parameter_bridge"
