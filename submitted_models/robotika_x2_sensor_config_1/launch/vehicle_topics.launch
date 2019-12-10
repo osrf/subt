@@ -69,5 +69,13 @@
       args="$(arg sensor_prefix)/camera_front/depth_image">
       <remap from="$(arg sensor_prefix)/camera_front/depth_image" to="front/depth"/>
     </node>
+    <!-- Gas sensor -->
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_gas"
+      args="/model/$(arg name)/gas_detected@std_msgs/Bool[ignition.msgs.Boolean">
+      <remap from="/model/$(arg name)/gas_detected" to="gas_detected"/>
+    </node>
   </group>
 </launch>

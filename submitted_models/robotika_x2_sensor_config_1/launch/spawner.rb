@@ -44,6 +44,13 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
   "      <power_load>6.6</power_load>\n"\
   "      <start_on_motion>true</start_on_motion>\n"\
   "    </plugin>\n"\
+  "    <!-- Gas Sensor plugin -->\n"\
+  "    <plugin filename=\"libGasEmitterDetectorPlugin.so\"\n"\
+  "      name=\"subt::GasDetector\">\n"\
+  "      <topic>/model/#{_name}/gas_detected</topic>\n"\
+  "      <update_rate>10</update_rate>\n"\
+  "      <type>gas</type>\n"\
+  "    </plugin>\n"\
   "  </include>\n"\
   "  </sdf>\n"\
   "</plugin>\n"\
