@@ -3,13 +3,13 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
   "        filename=\"libignition-launch-gazebo-factory.so\">\n"\
   "  <name>#{_name}</name>\n"\
   "  <allow_renaming>false</allow_renaming>\n"\
-  "  <pose>#{_x} #{_y} 0.063494 0 0 0</pose>\n"\
+  "  <pose>#{_x} #{_y} #{_z+0.063494} #{_roll} #{_pitch} #{_yaw}</pose>\n"\
   "  <world>#{$worldName}</world>\n"\
   "  <is_performer>true</is_performer>\n"\
   "  <sdf version='1.6'>\n"\
   "  <include>\n"\
   "    <name>#{_name}</name>\n"\
-  "    <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Robotika X2 Config 1</uri>\n"\
+  "    <uri>#{_modelURI}</uri>\n"\
   "    <!-- Diff drive -->\n"\
   "    <plugin filename=\"libignition-gazebo-diff-drive-system.so\"\n"\
   "            name=\"ignition::gazebo::systems::DiffDrive\">\n"\
