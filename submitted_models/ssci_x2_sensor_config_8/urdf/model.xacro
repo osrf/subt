@@ -63,22 +63,22 @@
     </visual>
   </link>
   <sensor name='imu_sensor' update_rate='50'>
-    <parent link='base_link'/>
+    <parent link='{name}/base_link'/>
     <origin xyz='0 0 0' rpy='0 -0 0'/>
   </sensor>
   <sensor name='camera_front' update_rate='20'>
-    <parent link='base_link'/>
+    <parent link='{name}/base_link'/>
     <origin xyz='0.23 0 0.19' rpy='0 -0 0'/>
     <camera>
       <image width='1280' height='960' format='R8G8B8' hfov='1.0472' near='0.01' far='300' />
     </camera>
   </sensor>
   <sensor name='top_laser' update_rate='50'>
-    <parent link='base_link'/>
+    <parent link='{name}/base_link'/>
     <origin xyz='0 0 0.1' rpy='0 1.57 0'/>
   </sensor>
   <sensor name='front_laser' update_rate='15'>
-    <parent link='base_link'/>
+    <parent link='{name}/base_link'/>
     <origin xyz='0.08 0 0.394' rpy='0 -0 0'/>
   </sensor>
   <link name='{name}/front_left_wheel'>
@@ -159,29 +159,29 @@
   </link>
   <joint name='front_left_wheel_joint' type='revolute'>
     <origin xyz='0.131 0.187795 0.0345' rpy='0 -0 0'/>
-    <parent link='base_link'/>
-    <child link='front_left_wheel'/>
+    <parent link='{name}/base_link'/>
+    <child link='{name}/front_left_wheel'/>
     <axis xyz='0 1 0'/>
     <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
   </joint>
   <joint name='rear_left_wheel_joint' type='revolute'>
     <origin xyz='-0.131 0.187795 0.0345' rpy='0 -0 0'/>
-    <parent link='base_link'/>
-    <child link='rear_left_wheel'/>
+    <parent link='{name}/base_link'/>
+    <child link='{name}/rear_left_wheel'/>
     <axis xyz='0 1 0'/>
     <limit lower='-1.79769e+308' upper='1.79769e+308' effort='-1' velocity='-1'/>
   </joint>
   <joint name='rear_right_wheel_joint' type='revolute'>
     <origin xyz='-0.131 -0.187795 0.0345' rpy='0 -0 0'/>
-    <parent link='base_link'/>
-    <child link='rear_right_wheel'/>
+    <parent link='{name}/base_link'/>
+    <child link='{name}/rear_right_wheel'/>
     <axis xyz='0 1 0'/>
     <limit lower='-1.79769e+308' upper='1.79769e+308' effort='-1' velocity='-1'/>
   </joint>
   <joint name='front_right_wheel_joint' type='revolute'>
     <origin xyz='0.131 -0.187795 0.0345' rpy='0 -0 0'/>
-    <parent link='base_link'/>
-    <child link='front_right_wheel'/>
+    <parent link='{name}/base_link'/>
+    <child link='{name}/front_right_wheel'/>
     <axis xyz='0 1 0'/>
     <limit lower='-1.79769e+308' upper='1.79769e+308' effort='-1' velocity='-1'/>
   </joint>
