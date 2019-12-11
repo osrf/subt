@@ -1,7 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <robot name="X4" xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:arg name="name" default="X4"/>
-  <link name='{name}/base_link'>
+  <xacro:property name="name" value="$(arg name)"/>
+  <link name='${name}/base_link'>
     <inertial>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <mass value='3.42'/>
@@ -87,29 +88,29 @@
     </visual>
   </link>
   <sensor name='imu_sensor' update_rate='250'>
-    <parent link='{name}/base_link'/>
+    <parent link='${name}/base_link'/>
     <origin xyz='0 0 0' rpy='0 -0 0'/>
   </sensor>
   <sensor name='air_pressure' update_rate='20'>
-    <parent link='{name}/base_link'/>
+    <parent link='${name}/base_link'/>
     <origin xyz='0 0 0' rpy='0 -0 0'/>
   </sensor>
   <sensor name='magnetometer' update_rate='20'>
-    <parent link='{name}/base_link'/>
+    <parent link='${name}/base_link'/>
     <origin xyz='0 0 0' rpy='0 -0 0'/>
   </sensor>
   <sensor name='camera_front' update_rate='20'>
-    <parent link='{name}/base_link'/>
+    <parent link='${name}/base_link'/>
     <origin xyz='0.1 0 -0.08' rpy='0 -0 0'/>
     <camera>
       <image width='1280' height='960' format='R8G8B8' hfov='1.0472' near='0.02' far='300' />
     </camera>
   </sensor>
   <sensor name='front_laser' update_rate='15'>
-    <parent link='{name}/base_link'/>
+    <parent link='${name}/base_link'/>
     <origin xyz='0.08 0 0.394' rpy='0 -0 0'/>
   </sensor>
-  <link name='{name}/rotor_0'>
+  <link name='${name}/rotor_0'>
     <inertial>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <mass value='0.005'/>
@@ -128,7 +129,7 @@
       </geometry>
     </visual>
   </link>
-  <link name='{name}/rotor_1'>
+  <link name='${name}/rotor_1'>
     <inertial>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <mass value='0.005'/>
@@ -147,7 +148,7 @@
       </geometry>
     </visual>
   </link>
-  <link name='{name}/rotor_2'>
+  <link name='${name}/rotor_2'>
     <inertial>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <mass value='0.005'/>
@@ -166,7 +167,7 @@
       </geometry>
     </visual>
   </link>
-  <link name='{name}/rotor_3'>
+  <link name='${name}/rotor_3'>
     <inertial>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <mass value='0.005'/>
@@ -185,7 +186,7 @@
       </geometry>
     </visual>
   </link>
-  <link name='{name}/rotor_4'>
+  <link name='${name}/rotor_4'>
     <inertial>
       <origin xyz='0 0 0' rpy='-0 -0 -0'/>
       <mass value='0.005'/>
@@ -204,7 +205,7 @@
       </geometry>
     </visual>
   </link>
-  <link name='{name}/rotor_5'>
+  <link name='${name}/rotor_5'>
     <inertial>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <mass value='0.005'/>
@@ -225,48 +226,48 @@
   </link>
   <joint name='rotor_0_joint' type='revolute'>
     <origin xyz='0.247 0.1506 0.028' rpy='0.087267 0 0.523599'/>
-    <parent link='{name}/base_link'/>
-    <child link='{name}/rotor_0'/>
+    <parent link='${name}/base_link'/>
+    <child link='${name}/rotor_0'/>
     <dynamics damping='0' friction='0' />
     <axis xyz='0.118748 -0.118521 0.985826'/>
     <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
   </joint>
   <joint name='rotor_1_joint' type='revolute'>
     <origin xyz='-0.00067 0.28929 0.028' rpy='0 -0.087267 0'/>
-    <parent link='{name}/base_link'/>
-    <child link='{name}/rotor_1'/>
+    <parent link='${name}/base_link'/>
+    <child link='${name}/rotor_1'/>
     <dynamics damping='0' friction='0' />
     <axis xyz='-0.173649 0 0.984808'/>
     <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
   </joint>
   <joint name='rotor_2_joint' type='revolute'>
     <origin xyz='-0.2501 0.1454 0.028' rpy='0.087267 -0 2.61799'/>
-    <parent link='{name}/base_link'/>
-    <child link='{name}/rotor_2'/>
+    <parent link='${name}/base_link'/>
+    <child link='${name}/rotor_2'/>
     <dynamics damping='0' friction='0' />
     <axis xyz='-0.031923 0.031863 0.998983'/>
     <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
   </joint>
   <joint name='rotor_3_joint' type='revolute'>
     <origin xyz='-0.2501 -0.1454 0.028' rpy='-0.087267 -0 -2.61799'/>
-    <parent link='{name}/base_link'/>
-    <child link='{name}/rotor_3'/>
+    <parent link='${name}/base_link'/>
+    <child link='${name}/rotor_3'/>
     <dynamics damping='0' friction='0' />
     <axis xyz='-0.031923 -0.031863 0.998983'/>
     <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
   </joint>
   <joint name='rotor_4_joint' type='revolute'>
     <origin xyz='-0.00067 -0.28929 0.028' rpy='-0 0.087267 -3.14159'/>
-    <parent link='{name}/base_link'/>
-    <child link='{name}/rotor_4'/>
+    <parent link='${name}/base_link'/>
+    <child link='${name}/rotor_4'/>
     <dynamics damping='0' friction='0' />
     <axis xyz='-0 -0 1'/>
     <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
   </joint>
   <joint name='rotor_5_joint' type='revolute'>
     <origin xyz='0.247 -0.1506 0.028' rpy='-0.087267 0 -0.523599'/>
-    <parent link='{name}/base_link'/>
-    <child link='{name}/rotor_5'/>
+    <parent link='${name}/base_link'/>
+    <child link='${name}/rotor_5'/>
     <dynamics damping='0' friction='0' />
     <axis xyz='0.118748 0.118521 0.985826'/>
     <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
