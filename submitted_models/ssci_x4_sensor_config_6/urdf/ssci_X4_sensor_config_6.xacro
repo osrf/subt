@@ -18,7 +18,7 @@
     <visual name='base_link_inertia_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='meshes/x4.dae' scale='1 1 1'/>
+        <mesh filename='package://ssci_x4_sensor_config_6/meshes/x4.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='camera_mount_base_visual'>
@@ -92,7 +92,7 @@
     <visual name='rotor_0_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='meshes/neo11_propeller_ccw.dae' scale='1 1 1'/>
+        <mesh filename='package://ssci_x4_sensor_config_6/meshes/neo11_propeller_ccw.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
@@ -111,7 +111,7 @@
     <visual name='rotor_1_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='meshes/neo11_propeller_cw.dae' scale='1 1 1'/>
+        <mesh filename='package://ssci_x4_sensor_config_6/meshes/neo11_propeller_cw.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
@@ -130,7 +130,7 @@
     <visual name='rotor_2_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='meshes/neo11_propeller_ccw.dae' scale='1 1 1'/>
+        <mesh filename='package://ssci_x4_sensor_config_6/meshes/neo11_propeller_ccw.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
@@ -149,7 +149,7 @@
     <visual name='rotor_3_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='meshes/neo11_propeller_cw.dae' scale='1 1 1'/>
+        <mesh filename='package://ssci_x4_sensor_config_6/meshes/neo11_propeller_cw.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
@@ -168,7 +168,7 @@
     <visual name='rotor_4_visual'>
       <origin xyz='0 0 0' rpy='-0 -0 -0'/>
       <geometry>
-        <mesh filename='meshes/neo11_propeller_ccw.dae' scale='1 1 1'/>
+        <mesh filename='package://ssci_x4_sensor_config_6/meshes/neo11_propeller_ccw.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
@@ -187,7 +187,7 @@
     <visual name='rotor_5_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='meshes/neo11_propeller_cw.dae' scale='1 1 1'/>
+        <mesh filename='package://ssci_x4_sensor_config_6/meshes/neo11_propeller_cw.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
