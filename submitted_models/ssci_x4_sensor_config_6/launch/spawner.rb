@@ -23,7 +23,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
             filename="libignition-launch-gazebo-factory.so">
       <name>#{_name}</name>
       <allow_renaming>false</allow_renaming>
-      <pose>#{_x} #{_y} 0.2 0 0 0</pose>
+      <pose>#{_x} #{_y} #{_z + 0.2} #{_roll} #{_pitch} #{_yaw}</pose>
       <world>#{_worldName}</world>
       <is_performer>true</is_performer>
       <sdf version='1.6'>
@@ -186,7 +186,7 @@ def rosExecutables(_name, _worldName)
       <command>roslaunch --wait x4_control control.launch world_name:=#{_worldName} x4_name:=#{_name}</command>
     </executable>
     <executable name='x4_description'>
-      <command>roslaunch --wait subt_ros x4_description.launch world_name:=#{_worldName} name:=#{_name}</command>
+      <command>roslaunch --wait ssci_x4_sensor_config_6 description.launch world_name:=#{_worldName} name:=#{_name}</command>
     </executable>
     <executable name='x4_ros_ign_bridge'>
       <command>roslaunch --wait ssci_x4_sensor_config_6 vehicle_topics.launch world_name:=#{_worldName} name:=#{_name} uav:=1 laser_scan:=1 top_scan:=1 bottom_scan:=1 stereo_cam:=0 rgbd_cam:=1    </command>
