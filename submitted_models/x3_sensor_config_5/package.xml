@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>x3_sensor_config_5</name>
+  <version>0.1.0</version>
+  <description>
+    The x3_sensor_config_5 package derived from x3_sensor_config_4 (https://bitbucket.org/osrf/subt/wiki/robots) with the addition of LIDAR Lite v3 (http://static.garmin.com/pumac/LIDAR_Lite_v3_Operation_Manual_and_Technical_Specifications.pdf) sensors, used for floor/ceiling detection, to the top/bottom of the platform.
+  </description>
+  <maintainer email="arthur.schang@parsons.com">Arthur Schang</maintainer>
+  <author email="arthur.schang@parsons.com">Arthur Schang</author>
+
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <buildtool_depend>roslaunch</buildtool_depend>
+  <buildtool_depend>urdf</buildtool_depend>
+  <buildtool_depend>xacro</buildtool_depend>
+
+</package>
