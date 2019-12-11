@@ -648,135 +648,43 @@
         </imu>
       </sensor>
       <light name="left_headlight_body_light_source_light" type="spot">
-        <pose frame="">0.4869589999999102 0.2168030676665397 0.115 3.14159 1.56859 -0.</pose>
+        <pose frame="">0.514147 0.216803 0.180 3.14159 1.56859 0</pose>
         <attenuation>
           <range>50</range>
           <linear>0</linear>
           <constant>0.1</constant>
           <quadratic>0.0025</quadratic>
         </attenuation>
-        <diffuse>0.8 0.8 0.5 1</diffuse>
-        <specular>0.8 0.8 0.5 1</specular>
+        <diffuse>1.0 1.0 0.63 1</diffuse>
+        <specular>1.0 1.0 0.63 1</specular>
         <spot>
           <inner_angle>1</inner_angle>
           <outer_angle>1.1</outer_angle>
           <falloff>1</falloff>
         </spot>
         <direction>0 0 -1</direction>
+        <cast_shadows>1</cast_shadows>
       </light>
-      <visual name="left_headlight_body_light_source_visual">
-        <pose>0.4619589999999982 0.2168030013267949 0.06 0. -0. -3.14159</pose>
-        <geometry>
-          <mesh>
-            <uri>meshes/headlight_lamp.dae</uri>
-          </mesh>
-        </geometry>
-        <transparency>1</transparency>
-        <material>
-          <ambient>1 1 1 1</ambient>
-          <diffuse>1 1 1 1</diffuse>
-          <specular>1 1 1 1</specular>
-          <emissive>0 0 0 1</emissive>
-        </material>
-      </visual>
-      <light name="center_left_headlight_body_light_source_light" type="spot">
-        <pose frame="">0.5112659999999102 0.0844000676665397 0.115 3.14159 1.56859 -0.</pose>
-        <attenuation>
-          <range>50</range>
-          <linear>0</linear>
-          <constant>0.1</constant>
-          <quadratic>0.0025</quadratic>
-        </attenuation>
-        <diffuse>0.8 0.8 0.5 1</diffuse>
-        <specular>0.8 0.8 0.5 1</specular>
-        <spot>
-          <inner_angle>1</inner_angle>
-          <outer_angle>1.1</outer_angle>
-          <falloff>1</falloff>
-        </spot>
-        <direction>0 0 -1</direction>
-      </light>
-      <visual name="center_left_headlight_body_light_source_visual">
-        <pose>0.4862659999999982 0.0844000013267949 0.06 0. -0. -3.14159</pose>
-        <geometry>
-          <mesh>
-            <uri>meshes/headlight_lamp.dae</uri>
-          </mesh>
-        </geometry>
-        <transparency>1</transparency>
-        <material>
-          <ambient>1 1 1 1</ambient>
-          <diffuse>1 1 1 1</diffuse>
-          <specular>1 1 1 1</specular>
-          <emissive>0 0 0 1</emissive>
-        </material>
-      </visual>
-      <light name="center_right_headlight_body_light_source_light" type="spot">
-        <pose frame="">0.5112659999999102 -0.0843999323334603 0.115 3.14159 1.56859 -0.</pose>
-        <attenuation>
-          <range>50</range>
-          <linear>0</linear>
-          <constant>0.1</constant>
-          <quadratic>0.0025</quadratic>
-        </attenuation>
-        <diffuse>0.8 0.8 0.5 1</diffuse>
-        <specular>0.8 0.8 0.5 1</specular>
-        <spot>
-          <inner_angle>1</inner_angle>
-          <outer_angle>1.1</outer_angle>
-          <falloff>1</falloff>
-        </spot>
-        <direction>0 0 -1</direction>
-      </light>
-      <visual name="center_right_headlight_body_light_source_visual">
-        <pose>0.4862659999999982 -0.0843999986732051 0.06 0. -0. -3.14159</pose>
-        <geometry>
-          <mesh>
-            <uri>meshes/headlight_lamp.dae</uri>
-          </mesh>
-        </geometry>
-        <transparency>1</transparency>
-        <material>
-          <ambient>1 1 1 1</ambient>
-          <diffuse>1 1 1 1</diffuse>
-          <specular>1 1 1 1</specular>
-          <emissive>0 0 0 1</emissive>
-        </material>
-      </visual>
       <light name="right_headlight_body_light_source_light" type="spot">
-        <pose frame="">0.4869589999999102 -0.2168029323334603 0.115 3.14159 1.56859 -0.</pose>
+        <pose frame="">0.514147 -0.216803 0.180 3.14159 1.56859 0</pose>
         <attenuation>
           <range>50</range>
           <linear>0</linear>
           <constant>0.1</constant>
           <quadratic>0.0025</quadratic>
         </attenuation>
-        <diffuse>0.8 0.8 0.5 1</diffuse>
-        <specular>0.8 0.8 0.5 1</specular>
+        <diffuse>1.0 1.0 0.63 1</diffuse>
+        <specular>1.0 1.0 0.63 1</specular>
         <spot>
           <inner_angle>1</inner_angle>
           <outer_angle>1.1</outer_angle>
           <falloff>1</falloff>
         </spot>
         <direction>0 0 -1</direction>
+        <cast_shadows>1</cast_shadows>
       </light>
-      <visual name="right_headlight_body_light_source_visual">
-        <pose>0.4619589999999982 -0.2168029986732051 0.06 0. -0. -3.14159</pose>
-        <geometry>
-          <mesh>
-            <uri>meshes/headlight_lamp.dae</uri>
-          </mesh>
-        </geometry>
-        <transparency>1</transparency>
-        <material>
-          <ambient>1 1 1 1</ambient>
-          <diffuse>1 1 1 1</diffuse>
-          <specular>1 1 1 1</specular>
-          <emissive>0 0 0 1</emissive>
-        </material>
-      </visual>
       <light name="lateral_left_front_headlight_body_light_source_light" type="spot">
-        <pose frame="">0.2499796936688763 0.2754999919147618 0.155 3.14159 1.56859 1.5715899999999998</pose>
+        <pose frame="">0.2499796936688763 0.334 0.155 3.14159 1.56859 1.5715899999999998</pose>
         <attenuation>
           <range>50</range>
           <linear>0</linear>
@@ -791,24 +699,10 @@
           <falloff>1</falloff>
         </spot>
         <direction>0 0 -1</direction>
+        <cast_shadows>1</cast_shadows>
       </light>
-      <visual name="lateral_left_front_headlight_body_light_source_visual">
-        <pose>0.2499996018366446 0.2504999998414659 0.1 0. -0. -1.57</pose>
-        <geometry>
-          <mesh>
-            <uri>meshes/headlight_lamp.dae</uri>
-          </mesh>
-        </geometry>
-        <transparency>1</transparency>
-        <material>
-          <ambient>1 1 1 1</ambient>
-          <diffuse>1 1 1 1</diffuse>
-          <specular>1 1 1 1</specular>
-          <emissive>0 0 0 1</emissive>
-        </material>
-      </visual>
       <light name="lateral_left_rear_headlight_body_light_source_light" type="spot">
-        <pose frame="">-0.2500203063311236 0.2754999919147618 0.155 3.14159 1.56859 1.5715899999999998</pose>
+        <pose frame="">-0.2500203063311236 0.334 0.155 3.14159 1.56859 1.5715899999999998</pose>
         <attenuation>
           <range>50</range>
           <linear>0</linear>
@@ -823,24 +717,10 @@
           <falloff>1</falloff>
         </spot>
         <direction>0 0 -1</direction>
+        <cast_shadows>1</cast_shadows>
       </light>
-      <visual name="lateral_left_rear_headlight_body_light_source_visual">
-        <pose>-0.2500003981633553 0.2504999998414659 0.1 0. -0. -1.57</pose>
-        <geometry>
-          <mesh>
-            <uri>meshes/headlight_lamp.dae</uri>
-          </mesh>
-        </geometry>
-        <transparency>1</transparency>
-        <material>
-          <ambient>1 1 1 1</ambient>
-          <diffuse>1 1 1 1</diffuse>
-          <specular>1 1 1 1</specular>
-          <emissive>0 0 0 1</emissive>
-        </material>
-      </visual>
       <light name="lateral_right_front_headlight_body_light_source_light" type="spot">
-        <pose frame="">0.2499796936688763 -0.2754999919147618 0.155 3.14159 1.56859 -1.5715953071795865</pose>
+        <pose frame="">0.2499796936688763 -0.334 0.155 3.14159 1.56859 -1.5715953071795865</pose>
         <attenuation>
           <range>50</range>
           <linear>0</linear>
@@ -855,24 +735,10 @@
           <falloff>1</falloff>
         </spot>
         <direction>0 0 -1</direction>
+        <cast_shadows>1</cast_shadows>
       </light>
-      <visual name="lateral_right_front_headlight_body_light_source_visual">
-        <pose>0.2499996018366446 -0.2504999998414659 0.1 0. -0. 1.57</pose>
-        <geometry>
-          <mesh>
-            <uri>meshes/headlight_lamp.dae</uri>
-          </mesh>
-        </geometry>
-        <transparency>1</transparency>
-        <material>
-          <ambient>1 1 1 1</ambient>
-          <diffuse>1 1 1 1</diffuse>
-          <specular>1 1 1 1</specular>
-          <emissive>0 0 0 1</emissive>
-        </material>
-      </visual>
       <light name="lateral_right_rear_headlight_body_light_source_light" type="spot">
-        <pose frame="">-0.2500203063311236 -0.2754999919147618 0.155 3.14159 1.56859 -1.5715953071795865</pose>
+        <pose frame="">-0.2500203063311236 -0.334 0.155 3.14159 1.56859 -1.5715953071795865</pose>
         <attenuation>
           <range>50</range>
           <linear>0</linear>
@@ -887,339 +753,44 @@
           <falloff>1</falloff>
         </spot>
         <direction>0 0 -1</direction>
+        <cast_shadows>1</cast_shadows>
       </light>
-      <visual name="lateral_right_rear_headlight_body_light_source_visual">
-        <pose>-0.2500003981633553 -0.2504999998414659 0.1 0. -0. 1.57</pose>
-        <geometry>
-          <mesh>
-            <uri>meshes/headlight_lamp.dae</uri>
-          </mesh>
-        </geometry>
-        <transparency>1</transparency>
-        <material>
-          <ambient>1 1 1 1</ambient>
-          <diffuse>1 1 1 1</diffuse>
-          <specular>1 1 1 1</specular>
-          <emissive>0 0 0 1</emissive>
-        </material>
-      </visual>
       <light name="left_rear_headlight_body_light_source_light" type="spot">
-        <pose frame="">-0.486959 0.216803 0.115 3.14159 1.56859 3.14159</pose>
+        <pose frame="">-0.514147 0.216803 0.180 3.14159 1.56859 3.14159</pose>
         <attenuation>
           <range>50</range>
           <linear>0</linear>
           <constant>0.1</constant>
           <quadratic>0.0025</quadratic>
         </attenuation>
-        <diffuse>0.8 0.8 0.5 1</diffuse>
-        <specular>0.8 0.8 0.5 1</specular>
+        <diffuse>1.0 1.0 0.63 1</diffuse>
+        <specular>1.0 1.0 0.63 1</specular>
         <spot>
           <inner_angle>1</inner_angle>
           <outer_angle>1.1</outer_angle>
           <falloff>1</falloff>
         </spot>
         <direction>0 0 -1</direction>
+        <cast_shadows>1</cast_shadows>
       </light>
-      <visual name="left_rear_headlight_body_light_source_visual">
-        <pose>-0.461959 0.216803 0.06 0. -0. 0.</pose>
-        <geometry>
-          <mesh>
-            <uri>meshes/headlight_lamp.dae</uri>
-          </mesh>
-        </geometry>
-        <transparency>1</transparency>
-        <material>
-          <ambient>1 1 1 1</ambient>
-          <diffuse>1 1 1 1</diffuse>
-          <specular>1 1 1 1</specular>
-          <emissive>0 0 0 1</emissive>
-        </material>
-      </visual>
-      <light name="center_left_rear_headlight_body_light_source_light" type="spot">
-        <pose frame="">-0.511266 0.0844 0.115 3.14159 1.56859 3.14159</pose>
-        <attenuation>
-          <range>50</range>
-          <linear>0</linear>
-          <constant>0.1</constant>
-          <quadratic>0.0025</quadratic>
-        </attenuation>
-        <diffuse>0.8 0.8 0.5 1</diffuse>
-        <specular>0.8 0.8 0.5 1</specular>
-        <spot>
-          <inner_angle>1</inner_angle>
-          <outer_angle>1.1</outer_angle>
-          <falloff>1</falloff>
-        </spot>
-        <direction>0 0 -1</direction>
-      </light>
-      <visual name="center_left_rear_headlight_body_light_source_visual">
-        <pose>-0.486266 0.0844 0.06 0. -0. 0.</pose>
-        <geometry>
-          <mesh>
-            <uri>meshes/headlight_lamp.dae</uri>
-          </mesh>
-        </geometry>
-        <transparency>1</transparency>
-        <material>
-          <ambient>1 1 1 1</ambient>
-          <diffuse>1 1 1 1</diffuse>
-          <specular>1 1 1 1</specular>
-          <emissive>0 0 0 1</emissive>
-        </material>
-      </visual>
-      <light name="center_right_rear_headlight_body_light_source_light" type="spot">
-        <pose frame="">-0.511266 -0.0844 0.115 3.14159 1.56859 3.14159</pose>
-        <attenuation>
-          <range>50</range>
-          <linear>0</linear>
-          <constant>0.1</constant>
-          <quadratic>0.0025</quadratic>
-        </attenuation>
-        <diffuse>0.8 0.8 0.5 1</diffuse>
-        <specular>0.8 0.8 0.5 1</specular>
-        <spot>
-          <inner_angle>1</inner_angle>
-          <outer_angle>1.1</outer_angle>
-          <falloff>1</falloff>
-        </spot>
-        <direction>0 0 -1</direction>
-      </light>
-      <visual name="center_right_rear_headlight_body_light_source_visual">
-        <pose>-0.486266 -0.0844 0.06 0. -0. 0.</pose>
-        <geometry>
-          <mesh>
-            <uri>meshes/headlight_lamp.dae</uri>
-          </mesh>
-        </geometry>
-        <transparency>1</transparency>
-        <material>
-          <ambient>1 1 1 1</ambient>
-          <diffuse>1 1 1 1</diffuse>
-          <specular>1 1 1 1</specular>
-          <emissive>0 0 0 1</emissive>
-        </material>
-      </visual>
       <light name="right_rear_headlight_body_light_source_light" type="spot">
-        <pose frame="">-0.486959 -0.216803 0.115 3.14159 1.56859 3.14159</pose>
+        <pose frame="">-0.514147 -0.216803 0.180 3.14159 1.56859 3.14159</pose>
         <attenuation>
           <range>50</range>
           <linear>0</linear>
           <constant>0.1</constant>
           <quadratic>0.0025</quadratic>
         </attenuation>
-        <diffuse>0.8 0.8 0.5 1</diffuse>
-        <specular>0.8 0.8 0.5 1</specular>
+        <diffuse>1.0 1.0 0.63 1</diffuse>
+        <specular>1.0 1.0 0.63 1</specular>
         <spot>
           <inner_angle>1</inner_angle>
           <outer_angle>1.1</outer_angle>
           <falloff>1</falloff>
         </spot>
         <direction>0 0 -1</direction>
+        <cast_shadows>1</cast_shadows>
       </light>
-      <visual name="right_rear_headlight_body_light_source_visual">
-        <pose>-0.461959 -0.216803 0.06 0. -0. 0.</pose>
-        <geometry>
-          <mesh>
-            <uri>meshes/headlight_lamp.dae</uri>
-          </mesh>
-        </geometry>
-        <transparency>1</transparency>
-        <material>
-          <ambient>1 1 1 1</ambient>
-          <diffuse>1 1 1 1</diffuse>
-          <specular>1 1 1 1</specular>
-          <emissive>0 0 0 1</emissive>
-        </material>
-      </visual>
-      <light name="rear_right_led_body_light_source_light" type="point">
-        <pose frame="">-0.4254299987830263 -0.1361900021731966 0.2091868968374976 -3.14159 1.56859 0.000007</pose>
-        <attenuation>
-          <range>2</range>
-          <constant>0.5</constant>
-          <linear>0.1</linear>
-          <quadratic>0.5</quadratic>
-        </attenuation>
-        <diffuse>0 0 0 1</diffuse>
-        <specular>0 0 0 1</specular>
-        <direction>0 0 -1</direction>
-      </light>
-      <visual name="rear_right_led_body_light_source_visual">
-        <pose>-0.4254299987830263 -0.1361900021731966 0.2091868968374976 -3.14159 1.56859 0.000007</pose>
-        <geometry>
-          <mesh>
-            <uri>meshes/led_lamp.dae</uri>
-          </mesh>
-        </geometry>
-        <transparency>1</transparency>
-        <material>
-          <ambient>1 1 1 1</ambient>
-          <diffuse>1 1 1 1</diffuse>
-          <specular>1 1 1 1</specular>
-          <emissive>0 0 0 1</emissive>
-        </material>
-      </visual>
-      <light name="rear_center_led_body_light_source_light" type="point">
-        <pose frame="">-0.4254299987830263 -0.0000000021731966 0.2091868968374976 -3.14159 1.56859 0.000007</pose>
-        <attenuation>
-          <range>2</range>
-          <constant>0.5</constant>
-          <linear>0.1</linear>
-          <quadratic>0.5</quadratic>
-        </attenuation>
-        <diffuse>0 0 0 1</diffuse>
-        <specular>0 0 0 1</specular>
-        <direction>0 0 -1</direction>
-      </light>
-      <visual name="rear_center_led_body_light_source_visual">
-        <pose>-0.4254299987830263 -0.0000000021731966 0.2091868968374976 -3.14159 1.56859 0.000007</pose>
-        <geometry>
-          <mesh>
-            <uri>meshes/led_lamp.dae</uri>
-          </mesh>
-        </geometry>
-        <transparency>1</transparency>
-        <material>
-          <ambient>1 1 1 1</ambient>
-          <diffuse>1 1 1 1</diffuse>
-          <specular>1 1 1 1</specular>
-          <emissive>0 0 0 1</emissive>
-        </material>
-      </visual>
-      <light name="rear_left_led_body_light_source_light" type="point">
-        <pose frame="">-0.4254299987830263 0.1361899978268034 0.2091868968374976 -3.14159 1.56859 0.000007</pose>
-        <attenuation>
-          <range>2</range>
-          <constant>0.5</constant>
-          <linear>0.1</linear>
-          <quadratic>0.5</quadratic>
-        </attenuation>
-        <diffuse>0 0 0 1</diffuse>
-        <specular>0 0 0 1</specular>
-        <direction>0 0 -1</direction>
-      </light>
-      <visual name="rear_left_led_body_light_source_visual">
-        <pose>-0.4254299987830263 0.1361899978268034 0.2091868968374976 -3.14159 1.56859 0.000007</pose>
-        <geometry>
-          <mesh>
-            <uri>meshes/led_lamp.dae</uri>
-          </mesh>
-        </geometry>
-        <transparency>1</transparency>
-        <material>
-          <ambient>1 1 1 1</ambient>
-          <diffuse>1 1 1 1</diffuse>
-          <specular>1 1 1 1</specular>
-          <emissive>0 0 0 1</emissive>
-        </material>
-      </visual>
-      <light name="right_lateral_front_led_body_light_source_light" type="point">
-        <pose frame="">0.06606289544599 -0.2127107460533404 0.2091868968374976 3.14159 1.56859 1.60259</pose>
-        <attenuation>
-          <range>2</range>
-          <constant>0.5</constant>
-          <linear>0.1</linear>
-          <quadratic>0.5</quadratic>
-        </attenuation>
-        <diffuse>0 0 0 1</diffuse>
-        <specular>0 0 0 1</specular>
-        <direction>0 0 -1</direction>
-      </light>
-      <visual name="right_lateral_front_led_body_light_source_visual">
-        <pose>0.06606289544599 -0.2127107460533404 0.2091868968374976 3.14159 1.56859 1.60259</pose>
-        <geometry>
-          <mesh>
-            <uri>meshes/led_lamp.dae</uri>
-          </mesh>
-        </geometry>
-        <transparency>1</transparency>
-        <material>
-          <ambient>1 1 1 1</ambient>
-          <diffuse>1 1 1 1</diffuse>
-          <specular>1 1 1 1</specular>
-          <emissive>0 0 0 1</emissive>
-        </material>
-      </visual>
-      <light name="right_lateral_rear_led_body_light_source_light" type="point">
-        <pose frame="">-0.06603110455401 -0.2127107460533404 0.2091868968374976 3.14159 1.56859 1.60259</pose>
-        <attenuation>
-          <range>2</range>
-          <constant>0.5</constant>
-          <linear>0.1</linear>
-          <quadratic>0.5</quadratic>
-        </attenuation>
-        <diffuse>0 0 0 1</diffuse>
-        <specular>0 0 0 1</specular>
-        <direction>0 0 -1</direction>
-      </light>
-      <visual name="right_lateral_rear_led_body_light_source_visual">
-        <pose>-0.06603110455401 -0.2127107460533404 0.2091868968374976 3.14159 1.56859 1.60259</pose>
-        <geometry>
-          <mesh>
-            <uri>meshes/led_lamp.dae</uri>
-          </mesh>
-        </geometry>
-        <transparency>1</transparency>
-        <material>
-          <ambient>1 1 1 1</ambient>
-          <diffuse>1 1 1 1</diffuse>
-          <specular>1 1 1 1</specular>
-          <emissive>0 0 0 1</emissive>
-        </material>
-      </visual>
-      <light name="left_lateral_front_led_body_light_source_light" type="point">
-        <pose frame="">0.06606289544599 0.2127107460533404 0.2091868968374976 -3.14159 1.56859 -1.60259</pose>
-        <attenuation>
-          <range>2</range>
-          <constant>0.5</constant>
-          <linear>0.1</linear>
-          <quadratic>0.5</quadratic>
-        </attenuation>
-        <diffuse>0 0 0 1</diffuse>
-        <specular>0 0 0 1</specular>
-        <direction>0 0 -1</direction>
-      </light>
-      <visual name="left_lateral_front_led_body_light_source_visual">
-        <pose>0.06606289544599 0.2127107460533404 0.2091868968374976 -3.14159 1.56859 -1.60259</pose>
-        <geometry>
-          <mesh>
-            <uri>meshes/led_lamp.dae</uri>
-          </mesh>
-        </geometry>
-        <transparency>1</transparency>
-        <material>
-          <ambient>1 1 1 1</ambient>
-          <diffuse>1 1 1 1</diffuse>
-          <specular>1 1 1 1</specular>
-          <emissive>0 0 0 1</emissive>
-        </material>
-      </visual>
-      <light name="left_lateral_rear_led_body_light_source_light" type="point">
-        <pose frame="">-0.06603110455401 0.2127107460533404 0.2091868968374976 -3.14159 1.56859 -1.60259</pose>
-        <attenuation>
-          <range>2</range>
-          <constant>0.5</constant>
-          <linear>0.1</linear>
-          <quadratic>0.5</quadratic>
-        </attenuation>
-        <diffuse>0 0 0 1</diffuse>
-        <specular>0 0 0 1</specular>
-        <direction>0 0 -1</direction>
-      </light>
-      <visual name="left_lateral_rear_led_body_light_source_visual">
-        <pose>-0.06603110455401 0.2127107460533404 0.2091868968374976 -3.14159 1.56859 -1.60259</pose>
-        <geometry>
-          <mesh>
-            <uri>meshes/led_lamp.dae</uri>
-          </mesh>
-        </geometry>
-        <transparency>1</transparency>
-        <material>
-          <ambient>1 1 1 1</ambient>
-          <diffuse>1 1 1 1</diffuse>
-          <specular>1 1 1 1</specular>
-          <emissive>0 0 0 1</emissive>
-        </material>
-      </visual>
     </link>
     <link name="front_left_wheel_link">
       <pose frame="">0.256 0.2854 0.03282 0 -0 0</pose>
