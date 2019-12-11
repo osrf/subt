@@ -1,16 +1,5 @@
 def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
   <<-HEREDOC
-    _config=5
-    uav=1
-    laserScan=0
-    stereoCam=0
-    rgbdCam=0
-    if _config == "3" || _config == "4" || _config == "5"
-      rgbdCam=1
-    end
-    if _config == "5"
-      stereoCam=1
-    end
     <plugin name="ignition::launch::GazeboFactory"
             filename="libignition-launch-gazebo-factory.so">
       <name>#{_name}</name>
