@@ -1,7 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
-<robot name='X4'>
+<robot name="X4" xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:arg name="name" default="X4"/>
-  <link name='{name}/base_link'>
+  <xacro:property name="robot_namespace" value="$(arg name)"/>
+
+  <link name='${robot_namespace}/base_link'>
     <inertial>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <mass value='3.42'/>
@@ -16,102 +18,15 @@
     <visual name='base_link_inertia_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='file:///home/ssci-utah/.ignition/fuel/fuel.ignitionrobotics.org/openrobotics/models/X4 UAV Config 2/8//meshes/x4.dae' scale='1 1 1'/>
-      </geometry>
-    </visual>
-    <visual name='marker_visual_1'>
-      <origin xyz='-0.1 0 0.077' rpy='0 -0.1 0'/>
-      <geometry>
-        <mesh filename='file:///home/ssci-utah/.ignition/fuel/fuel.ignitionrobotics.org/openrobotics/models/X4 UAV Config 2/8//meshes/led.dae' scale='1 1 1'/>
-      </geometry>
-    </visual>
-    <visual name='marker_visual_2'>
-      <origin xyz='-0.09 0.059 0.059' rpy='-0.785397 -0 0.2'/>
-      <geometry>
-        <mesh filename='file:///home/ssci-utah/.ignition/fuel/fuel.ignitionrobotics.org/openrobotics/models/X4 UAV Config 2/8//meshes/led.dae' scale='1 1 1'/>
-      </geometry>
-    </visual>
-    <visual name='marker_visual_3'>
-      <origin xyz='-0.09 -0.059 0.059' rpy='0.785397 -0 -0.2'/>
-      <geometry>
-        <mesh filename='file:///home/ssci-utah/.ignition/fuel/fuel.ignitionrobotics.org/openrobotics/models/X4 UAV Config 2/8//meshes/led.dae' scale='1 1 1'/>
-      </geometry>
-    </visual>
-    <visual name='downward_flashlight_visual'>
-      <origin xyz='-0.043704 0 0.102914' rpy='-0.2 0.000158 -1.57002'/>
-      <geometry>
-        <mesh filename='file:///home/ssci-utah/.ignition/fuel/fuel.ignitionrobotics.org/openrobotics/models/X4 UAV Config 2/8//meshes/spotlight.dae' scale='0.01 0.01 0.01'/>
-      </geometry>
-    </visual>
-    <visual name='left_flashlight_visual'>
-      <origin xyz='-0.071985 0.090826 0.066102' rpy='0.06 -4.8e-05 -1.27'/>
-      <geometry>
-        <mesh filename='file:///home/ssci-utah/.ignition/fuel/fuel.ignitionrobotics.org/openrobotics/models/X4 UAV Config 2/8//meshes/spotlight.dae' scale='0.01 0.01 0.01'/>
-      </geometry>
-    </visual>
-    <visual name='right_flashlight_visual'>
-      <origin xyz='-0.071985 -0.090826 0.066102' rpy='0.06 -4.8e-05 -1.87'/>
-      <geometry>
-        <mesh filename='file:///home/ssci-utah/.ignition/fuel/fuel.ignitionrobotics.org/openrobotics/models/X4 UAV Config 2/8//meshes/spotlight.dae' scale='0.01 0.01 0.01'/>
-      </geometry>
-    </visual>
-    <visual name='camera_mount_base_visual'>
-      <origin xyz='0.05 0 -0.03' rpy='0 -0 0'/>
-      <geometry>
-        <box size='0.06 0.06 0.006'/>
-      </geometry>
-    </visual>
-    <visual name='camera_mount_arm_visual'>
-      <origin xyz='0.08 0 -0.04' rpy='0 -0 0'/>
-      <geometry>
-        <cylinder radius='0.005' length='0.08'/>
-      </geometry>
-    </visual>
-    <visual name='camera_mount_arm2_visual'>
-      <origin xyz='0.08 0 -0.08' rpy='0 1.57 0'/>
-      <geometry>
-        <cylinder radius='0.01' length='0.025'/>
-      </geometry>
-    </visual>
-    <visual name='camera_visual'>
-      <origin xyz='0.1 0 -0.08' rpy='0 -0 0'/>
-      <geometry>
-        <box size='0.02 0.025 0.025'/>
+        <mesh filename='package://ssci_x4_sensor_config_6/meshes/x4.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
-  <sensor name='imu_sensor' update_rate='250'>
-    <parent link='base_link'/>
+  <sensor name='imu_sensor' update_rate='1000'>
+    <parent link='${robot_namespace}/base_link'/>
     <origin xyz='0 0 0' rpy='0 -0 0'/>
   </sensor>
-  <sensor name='air_pressure' update_rate='20'>
-    <parent link='base_link'/>
-    <origin xyz='0 0 0' rpy='0 -0 0'/>
-  </sensor>
-  <sensor name='magnetometer' update_rate='20'>
-    <parent link='base_link'/>
-    <origin xyz='0 0 0' rpy='0 -0 0'/>
-  </sensor>
-  <sensor name='front_laser' update_rate='20'>
-    <parent link='base_link'/>
-    <origin xyz='0.43 0 0.26' rpy='0 -0 0'/>
-  </sensor>
-  <sensor name='top_laser' update_rate='20'>
-    <parent link='base_link'/>
-    <origin xyz='0.43 0 0.26' rpy='0 1.57 0'/>
-  </sensor>
-  <sensor name='bottom_laser' update_rate='20'>
-    <parent link='base_link'/>
-    <origin xyz='0.43 0 0' rpy='0 -1.57 0'/>
-  </sensor>
-  <sensor name='camera_front' update_rate='20'>
-    <parent link='base_link'/>
-    <origin xyz='0.1 0 -0.08' rpy='0 -0 0'/>
-    <camera>
-      <image width='640' height='480' format='R8G8B8' hfov='1.0472' near='0.01' far='300' />
-    </camera>
-  </sensor>
-  <link name='{name}/rotor_0'>
+  <link name='${robot_namespace}/rotor_0'>
     <inertial>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <mass value='0.005'/>
@@ -126,11 +41,11 @@
     <visual name='rotor_0_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='file:///home/ssci-utah/.ignition/fuel/fuel.ignitionrobotics.org/openrobotics/models/X4 UAV Config 2/8//meshes/neo11_propeller_ccw.dae' scale='1 1 1'/>
+        <mesh filename='package://ssci_x4_sensor_config_6/meshes/neo11_propeller_ccw.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
-  <link name='{name}/rotor_1'>
+  <link name='${robot_namespace}/rotor_1'>
     <inertial>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <mass value='0.005'/>
@@ -145,11 +60,11 @@
     <visual name='rotor_1_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='file:///home/ssci-utah/.ignition/fuel/fuel.ignitionrobotics.org/openrobotics/models/X4 UAV Config 2/8//meshes/neo11_propeller_cw.dae' scale='1 1 1'/>
+        <mesh filename='package://ssci_x4_sensor_config_6/meshes/neo11_propeller_cw.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
-  <link name='{name}/rotor_2'>
+  <link name='${robot_namespace}/rotor_2'>
     <inertial>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <mass value='0.005'/>
@@ -164,11 +79,11 @@
     <visual name='rotor_2_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='file:///home/ssci-utah/.ignition/fuel/fuel.ignitionrobotics.org/openrobotics/models/X4 UAV Config 2/8//meshes/neo11_propeller_ccw.dae' scale='1 1 1'/>
+        <mesh filename='package://ssci_x4_sensor_config_6/meshes/neo11_propeller_ccw.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
-  <link name='{name}/rotor_3'>
+  <link name='${robot_namespace}/rotor_3'>
     <inertial>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <mass value='0.005'/>
@@ -183,11 +98,11 @@
     <visual name='rotor_3_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='file:///home/ssci-utah/.ignition/fuel/fuel.ignitionrobotics.org/openrobotics/models/X4 UAV Config 2/8//meshes/neo11_propeller_cw.dae' scale='1 1 1'/>
+        <mesh filename='package://ssci_x4_sensor_config_6/meshes/neo11_propeller_cw.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
-  <link name='{name}/rotor_4'>
+  <link name='${robot_namespace}/rotor_4'>
     <inertial>
       <origin xyz='0 0 0' rpy='-0 -0 -0'/>
       <mass value='0.005'/>
@@ -202,11 +117,11 @@
     <visual name='rotor_4_visual'>
       <origin xyz='0 0 0' rpy='-0 -0 -0'/>
       <geometry>
-        <mesh filename='file:///home/ssci-utah/.ignition/fuel/fuel.ignitionrobotics.org/openrobotics/models/X4 UAV Config 2/8//meshes/neo11_propeller_ccw.dae' scale='1 1 1'/>
+        <mesh filename='package://ssci_x4_sensor_config_6/meshes/neo11_propeller_ccw.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
-  <link name='{name}/rotor_5'>
+  <link name='${robot_namespace}/rotor_5'>
     <inertial>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <mass value='0.005'/>
@@ -221,56 +136,56 @@
     <visual name='rotor_5_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='file:///home/ssci-utah/.ignition/fuel/fuel.ignitionrobotics.org/openrobotics/models/X4 UAV Config 2/8//meshes/neo11_propeller_cw.dae' scale='1 1 1'/>
+        <mesh filename='package://ssci_x4_sensor_config_6/meshes/neo11_propeller_cw.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
   <joint name='rotor_0_joint' type='revolute'>
     <origin xyz='0.247 0.1506 0.028' rpy='0.087267 0 0.523599'/>
-    <parent link='{name}/base_link'/>
-    <child link='{name}/rotor_0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rotor_0'/>
     <dynamics damping='0' friction='0' />
-    <axis xyz='0.118748 -0.118521 0.985826'/>
+    <axis xyz='0 1e-06 1'/>
     <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
   </joint>
   <joint name='rotor_1_joint' type='revolute'>
     <origin xyz='-0.00067 0.28929 0.028' rpy='0 -0.087267 0'/>
-    <parent link='{name}/base_link'/>
-    <child link='{name}/rotor_1'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rotor_1'/>
     <dynamics damping='0' friction='0' />
-    <axis xyz='-0.173649 0 0.984808'/>
+    <axis xyz='0 0 1'/>
     <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
   </joint>
   <joint name='rotor_2_joint' type='revolute'>
     <origin xyz='-0.2501 0.1454 0.028' rpy='0.087267 -0 2.61799'/>
-    <parent link='{name}/base_link'/>
-    <child link='{name}/rotor_2'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rotor_2'/>
     <dynamics damping='0' friction='0' />
-    <axis xyz='-0.031923 0.031863 0.998983'/>
+    <axis xyz='0 1e-06 1'/>
     <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
   </joint>
   <joint name='rotor_3_joint' type='revolute'>
     <origin xyz='-0.2501 -0.1454 0.028' rpy='-0.087267 -0 -2.61799'/>
-    <parent link='{name}/base_link'/>
-    <child link='{name}/rotor_3'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rotor_3'/>
     <dynamics damping='0' friction='0' />
-    <axis xyz='-0.031923 -0.031863 0.998983'/>
+    <axis xyz='0 -1e-06 1'/>
     <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
   </joint>
   <joint name='rotor_4_joint' type='revolute'>
     <origin xyz='-0.00067 -0.28929 0.028' rpy='-0 0.087267 -3.14159'/>
-    <parent link='{name}/base_link'/>
-    <child link='{name}/rotor_4'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rotor_4'/>
     <dynamics damping='0' friction='0' />
     <axis xyz='-0 -0 1'/>
     <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
   </joint>
   <joint name='rotor_5_joint' type='revolute'>
     <origin xyz='0.247 -0.1506 0.028' rpy='-0.087267 0 -0.523599'/>
-    <parent link='{name}/base_link'/>
-    <child link='{name}/rotor_5'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rotor_5'/>
     <dynamics damping='0' friction='0' />
-    <axis xyz='0.118748 0.118521 0.985826'/>
+    <axis xyz='0 -1e-06 1'/>
     <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
   </joint>
 </robot>
