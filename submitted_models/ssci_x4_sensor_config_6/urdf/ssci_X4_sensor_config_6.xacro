@@ -18,13 +18,64 @@
     <visual name='base_link_inertia_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://ssci_x4_sensor_config_6/meshes/x4.dae' scale='1 1 1'/>
+        <mesh filename='meshes/x4.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='camera_mount_base_visual'>
+      <origin xyz='0.05 0 -0.03' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.06 0.06 0.006'/>
+      </geometry>
+    </visual>
+    <visual name='camera_mount_arm_visual'>
+      <origin xyz='0.08 0 -0.04' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.005' length='0.08'/>
+      </geometry>
+    </visual>
+    <visual name='camera_mount_arm2_visual'>
+      <origin xyz='0.08 0 -0.08' rpy='0 1.57 0'/>
+      <geometry>
+        <cylinder radius='0.01' length='0.025'/>
+      </geometry>
+    </visual>
+    <visual name='camera_visual'>
+      <origin xyz='0.1 0 -0.08' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.02 0.025 0.025'/>
       </geometry>
     </visual>
   </link>
   <sensor name='imu_sensor' update_rate='1000'>
     <parent link='${robot_namespace}/base_link'/>
     <origin xyz='0 0 0' rpy='0 -0 0'/>
+  </sensor>
+  <sensor name='air_pressure' update_rate='20'>
+    <parent link='base_link'/>
+    <origin xyz='0 0 0' rpy='0 -0 0'/>
+  </sensor>
+  <sensor name='magnetometer' update_rate='20'>
+    <parent link='base_link'/>
+    <origin xyz='0 0 0' rpy='0 -0 0'/>
+  </sensor>
+  <sensor name='front_laser' update_rate='20'>
+    <parent link='base_link'/>
+    <origin xyz='0.43 0 0.26' rpy='0 -0 0'/>
+  </sensor>
+  <sensor name='top_laser' update_rate='20'>
+    <parent link='base_link'/>
+    <origin xyz='0.43 0 0.26' rpy='0 1.57 0'/>
+  </sensor>
+  <sensor name='bottom_laser' update_rate='20'>
+    <parent link='base_link'/>
+    <origin xyz='0.43 0 0' rpy='0 -1.57 0'/>
+  </sensor>
+  <sensor name='camera_front' update_rate='20'>
+    <parent link='base_link'/>
+    <origin xyz='0.1 0 -0.08' rpy='0 -0 0'/>
+    <camera>
+      <image width='640' height='480' format='R8G8B8' hfov='1.0472' near='0.01' far='300' />
+    </camera>
   </sensor>
   <link name='${robot_namespace}/rotor_0'>
     <inertial>
@@ -41,7 +92,7 @@
     <visual name='rotor_0_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://ssci_x4_sensor_config_6/meshes/neo11_propeller_ccw.dae' scale='1 1 1'/>
+        <mesh filename='meshes/neo11_propeller_ccw.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
@@ -60,7 +111,7 @@
     <visual name='rotor_1_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://ssci_x4_sensor_config_6/meshes/neo11_propeller_cw.dae' scale='1 1 1'/>
+        <mesh filename='meshes/neo11_propeller_cw.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
@@ -79,7 +130,7 @@
     <visual name='rotor_2_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://ssci_x4_sensor_config_6/meshes/neo11_propeller_ccw.dae' scale='1 1 1'/>
+        <mesh filename='meshes/neo11_propeller_ccw.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
@@ -98,7 +149,7 @@
     <visual name='rotor_3_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://ssci_x4_sensor_config_6/meshes/neo11_propeller_cw.dae' scale='1 1 1'/>
+        <mesh filename='meshes/neo11_propeller_cw.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
@@ -117,7 +168,7 @@
     <visual name='rotor_4_visual'>
       <origin xyz='0 0 0' rpy='-0 -0 -0'/>
       <geometry>
-        <mesh filename='package://ssci_x4_sensor_config_6/meshes/neo11_propeller_ccw.dae' scale='1 1 1'/>
+        <mesh filename='meshes/neo11_propeller_ccw.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
@@ -136,7 +187,7 @@
     <visual name='rotor_5_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://ssci_x4_sensor_config_6/meshes/neo11_propeller_cw.dae' scale='1 1 1'/>
+        <mesh filename='meshes/neo11_propeller_cw.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
