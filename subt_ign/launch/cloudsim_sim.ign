@@ -101,6 +101,15 @@
   end
 
   worldNumber = $worldName.split('_').last
+
+  # If localModel is set, the model URI will use a local path to the model with
+  # the assumption that the model is installed in the same workspace as the
+  # launch file. This only applies to models submitted by teams.
+  if !defined?(localModel) || localModel == nil || localModel.empty?
+    $localModel = false
+  else
+    $localModel = localModel
+  end
 %>
 
 
