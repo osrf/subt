@@ -939,7 +939,17 @@
         # `installDir`. If `$localModel` is not set, the model is loaded from
         # Fuel.
 
-        modelURI = $localModel ? installDir : "#{fuelPrefix}/#{config}"
+        # Follow the model naming convention on Fuel and construct a name
+        # without underscores, e.g. 'X1 Config 2' or 'X3 UAV Config 4'
+        robotType = config[1]
+        robotConfigN = config[-1]
+        if robotType == "3" or robotType == "4"
+          UAVStr = "UAV "
+        else
+          UAVStr = ""
+        end
+        robotName = "X#{robotType} #{UAVStr}Config #{robotConfigN}"
+        modelURI = $localModel ? installDir : "#{fuelPrefix}/#{robotName}"
         robotSpawned += 1
 %>
 <%=     spawner(name, modelURI, $worldName, posX, posY, spawnWorldZPos, 0, 0, spawnWorldYaw) %>
