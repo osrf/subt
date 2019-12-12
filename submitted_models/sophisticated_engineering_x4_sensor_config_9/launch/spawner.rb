@@ -14,16 +14,16 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
 
 
       <!-- Publish robot state information -->
-      <plugin filename=\"libignition-gazebo-pose-publisher-system.so\"
-        name=\"ignition::gazebo::systems::PosePublisher\">
+      <plugin filename="libignition-gazebo-pose-publisher-system.so"
+        name="ignition::gazebo::systems::PosePublisher">
         <publish_link_pose>true</publish_link_pose>
         <publish_sensor_pose>true</publish_sensor_pose>
         <publish_collision_pose>false</publish_collision_pose>
         <publish_visual_pose>false</publish_visual_pose>
         <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>
       </plugin>
-      <plugin filename=\"libignition-gazebo-multicopter-motor-model-system.so\"
-        name=\"ignition::gazebo::systems::MulticopterMotorModel\">
+      <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
+        name="ignition::gazebo::systems::MulticopterMotorModel">
         <robotNamespace>model/#{_name}</robotNamespace>
         <jointName>rotor_0_joint</jointName>
         <linkName>rotor_0</linkName>
@@ -41,8 +41,8 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
         <motorType>velocity</motorType>
       </plugin>
-      <plugin filename=\"libignition-gazebo-multicopter-motor-model-system.so\"
-        name=\"ignition::gazebo::systems::MulticopterMotorModel\">
+      <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
+        name="ignition::gazebo::systems::MulticopterMotorModel">
         <robotNamespace>model/#{_name}</robotNamespace>
         <jointName>rotor_1_joint</jointName>
         <linkName>rotor_1</linkName>
@@ -60,8 +60,8 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
         <motorType>velocity</motorType>
       </plugin>
-      <plugin filename=\"libignition-gazebo-multicopter-motor-model-system.so\"
-        name=\"ignition::gazebo::systems::MulticopterMotorModel\">
+      <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
+        name="ignition::gazebo::systems::MulticopterMotorModel">
         <robotNamespace>model/#{_name}</robotNamespace>
         <jointName>rotor_2_joint</jointName>
         <linkName>rotor_2</linkName>
@@ -79,8 +79,8 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
         <motorType>velocity</motorType>
       </plugin>
-      <plugin filename=\"libignition-gazebo-multicopter-motor-model-system.so\"
-        name=\"ignition::gazebo::systems::MulticopterMotorModel\">
+      <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
+        name="ignition::gazebo::systems::MulticopterMotorModel">
         <robotNamespace>model/#{_name}</robotNamespace>
         <jointName>rotor_3_joint</jointName>
         <linkName>rotor_3</linkName>
@@ -98,8 +98,8 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
         <motorType>velocity</motorType>
       </plugin>
-      <plugin filename=\"libignition-gazebo-multicopter-motor-model-system.so\"
-        name=\"ignition::gazebo::systems::MulticopterMotorModel\">
+      <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
+        name="ignition::gazebo::systems::MulticopterMotorModel">
         <robotNamespace>model/#{_name}</robotNamespace>
         <jointName>rotor_4_joint</jointName>
         <linkName>rotor_4</linkName>
@@ -117,8 +117,8 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
         <motorType>velocity</motorType>
       </plugin>
-      <plugin filename=\"libignition-gazebo-multicopter-motor-model-system.so\"
-        name=\"ignition::gazebo::systems::MulticopterMotorModel\">
+      <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
+        name="ignition::gazebo::systems::MulticopterMotorModel">
         <robotNamespace>model/#{_name}</robotNamespace>
         <jointName>rotor_5_joint</jointName>
         <linkName>rotor_5</linkName>
@@ -138,8 +138,8 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
       </plugin>
 
       <!-- Battery plugin -->
-      <plugin filename=\"libignition-gazebo-linearbatteryplugin-system.so\"
-        name=\"ignition::gazebo::systems::LinearBatteryPlugin\">
+      <plugin filename="libignition-gazebo-linearbatteryplugin-system.so"
+        name="ignition::gazebo::systems::LinearBatteryPlugin">
         <battery_name>linear_battery</battery_name>
         <voltage>12.694</voltage>
         <open_circuit_voltage_constant_coef>12.694</open_circuit_voltage_constant_coef>
@@ -152,6 +152,13 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <start_on_motion>true</start_on_motion>
       </plugin>      <!-- Battery plugin -->
 
+      <!-- Gas Sensor plugin -->
+      <plugin filename="libGasEmitterDetectorPlugin.so"
+        name="subt::GasDetector">
+        <topic>/model/#{_name}/gas_detected</topic>
+        <update_rate>10</update_rate>
+        <type>gas</type>
+      </plugin>
 
     </include>
     </sdf>

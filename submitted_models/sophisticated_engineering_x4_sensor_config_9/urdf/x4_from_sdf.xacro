@@ -18,13 +18,83 @@
     <visual name='base_link_inertia_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://x4_description/meshes/x4.dae' scale='1 1 1'/>
+        <mesh filename='package://sophisticated_engineering_x4_sensor_config_9/meshes/x4.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='marker_visual_1'>
+      <origin xyz='-0.1 0 0.077' rpy='0 -0.1 0'/>
+      <geometry>
+        <mesh filename='package://sophisticated_engineering_x4_sensor_config_9/meshes/led.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='marker_visual_2'>
+      <origin xyz='-0.09 0.059 0.059' rpy='-0.785397 -0 0.2'/>
+      <geometry>
+        <mesh filename='package://sophisticated_engineering_x4_sensor_config_9/meshes/led.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='marker_visual_3'>
+      <origin xyz='-0.09 -0.059 0.059' rpy='0.785397 -0 -0.2'/>
+      <geometry>
+        <mesh filename='package://sophisticated_engineering_x4_sensor_config_9/meshes/led.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='downward_flashlight_visual'>
+      <origin xyz='-0.043704 0 0.102914' rpy='-0.2 0.000158 -1.57002'/>
+      <geometry>
+        <mesh filename='package://sophisticated_engineering_x4_sensor_config_9/meshes/spotlight.dae' scale='0.01 0.01 0.01'/>
+      </geometry>
+    </visual>
+    <visual name='left_flashlight_visual'>
+      <origin xyz='-0.071985 0.090826 0.066102' rpy='0.06 -4.8e-05 -1.27'/>
+      <geometry>
+        <mesh filename='package://sophisticated_engineering_x4_sensor_config_9/meshes/spotlight.dae' scale='0.01 0.01 0.01'/>
+      </geometry>
+    </visual>
+    <visual name='right_flashlight_visual'>
+      <origin xyz='-0.071985 -0.090826 0.066102' rpy='0.06 -4.8e-05 -1.87'/>
+      <geometry>
+        <mesh filename='package://sophisticated_engineering_x4_sensor_config_9/meshes/spotlight.dae' scale='0.01 0.01 0.01'/>
+      </geometry>
+    </visual>
+    <visual name='camera_visual_right'>
+      <origin xyz='0.26 -0.15 -0.04' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.02 0.02 0.02'/>
+      </geometry>
+    </visual>
+    <visual name='camera_visual_left'>
+      <origin xyz='0.26 0.15 -0.04' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.02 0.02 0.02'/>
       </geometry>
     </visual>
   </link>
-  <sensor name='imu_sensor' update_rate='1000'>
+  <sensor name='imu_sensor' update_rate='250'>
     <parent link='${robot_namespace}/base_link'/>
     <origin xyz='0 0 0' rpy='0 -0 0'/>
+  </sensor>
+  <sensor name='air_pressure' update_rate='20'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0 0 0' rpy='0 -0 0'/>
+  </sensor>
+  <sensor name='magnetometer' update_rate='20'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0 0 0' rpy='0 -0 0'/>
+  </sensor>
+  <sensor name='camera_front_right' update_rate='20'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0.26 -0.15 -0.04' rpy='0 -0 0'/>
+    <camera>
+      <image width='1280' height='960' format='R8G8B8' hfov='2' near='0.02' far='300' />
+    </camera>
+  </sensor>
+  <sensor name='camera_front_left' update_rate='20'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0.26 0.15 -0.04' rpy='0 -0 0'/>
+    <camera>
+      <image width='1280' height='960' format='R8G8B8' hfov='2' near='0.02' far='300' />
+    </camera>
   </sensor>
   <link name='${robot_namespace}/rotor_0'>
     <inertial>
@@ -41,7 +111,7 @@
     <visual name='rotor_0_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://x4_description/meshes/neo11_propeller_ccw.dae' scale='1 1 1'/>
+        <mesh filename='package://sophisticated_engineering_x4_sensor_config_9/meshes/neo11_propeller_ccw.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
@@ -60,7 +130,7 @@
     <visual name='rotor_1_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://x4_description/meshes/neo11_propeller_cw.dae' scale='1 1 1'/>
+        <mesh filename='package://sophisticated_engineering_x4_sensor_config_9/meshes/neo11_propeller_cw.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
@@ -79,7 +149,7 @@
     <visual name='rotor_2_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://x4_description/meshes/neo11_propeller_ccw.dae' scale='1 1 1'/>
+        <mesh filename='package://sophisticated_engineering_x4_sensor_config_9/meshes/neo11_propeller_ccw.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
@@ -98,7 +168,7 @@
     <visual name='rotor_3_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://x4_description/meshes/neo11_propeller_cw.dae' scale='1 1 1'/>
+        <mesh filename='package://sophisticated_engineering_x4_sensor_config_9/meshes/neo11_propeller_cw.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
@@ -117,7 +187,7 @@
     <visual name='rotor_4_visual'>
       <origin xyz='0 0 0' rpy='-0 -0 -0'/>
       <geometry>
-        <mesh filename='package://x4_description/meshes/neo11_propeller_ccw.dae' scale='1 1 1'/>
+        <mesh filename='package://sophisticated_engineering_x4_sensor_config_9/meshes/neo11_propeller_ccw.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
@@ -136,7 +206,7 @@
     <visual name='rotor_5_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://x4_description/meshes/neo11_propeller_cw.dae' scale='1 1 1'/>
+        <mesh filename='package://sophisticated_engineering_x4_sensor_config_9/meshes/neo11_propeller_cw.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
@@ -145,7 +215,7 @@
     <parent link='${robot_namespace}/base_link'/>
     <child link='${robot_namespace}/rotor_0'/>
     <dynamics damping='0' friction='0' />
-    <axis xyz='0 1e-06 1'/>
+    <axis xyz='0.118748 -0.118521 0.985826'/>
     <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
   </joint>
   <joint name='rotor_1_joint' type='revolute'>
@@ -153,7 +223,7 @@
     <parent link='${robot_namespace}/base_link'/>
     <child link='${robot_namespace}/rotor_1'/>
     <dynamics damping='0' friction='0' />
-    <axis xyz='0 0 1'/>
+    <axis xyz='-0.173649 0 0.984808'/>
     <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
   </joint>
   <joint name='rotor_2_joint' type='revolute'>
@@ -161,7 +231,7 @@
     <parent link='${robot_namespace}/base_link'/>
     <child link='${robot_namespace}/rotor_2'/>
     <dynamics damping='0' friction='0' />
-    <axis xyz='0 1e-06 1'/>
+    <axis xyz='-0.031923 0.031863 0.998983'/>
     <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
   </joint>
   <joint name='rotor_3_joint' type='revolute'>
@@ -169,7 +239,7 @@
     <parent link='${robot_namespace}/base_link'/>
     <child link='${robot_namespace}/rotor_3'/>
     <dynamics damping='0' friction='0' />
-    <axis xyz='0 -1e-06 1'/>
+    <axis xyz='-0.031923 -0.031863 0.998983'/>
     <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
   </joint>
   <joint name='rotor_4_joint' type='revolute'>
@@ -185,7 +255,7 @@
     <parent link='${robot_namespace}/base_link'/>
     <child link='${robot_namespace}/rotor_5'/>
     <dynamics damping='0' friction='0' />
-    <axis xyz='0 -1e-06 1'/>
+    <axis xyz='0.118748 0.118521 0.985826'/>
     <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
   </joint>
 </robot>
