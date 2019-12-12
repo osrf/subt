@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>ssci_x2_sensor_config_8</name>
+  <version>0.1.0</version>
+  <description>
+    The ssci_x2_sensor_config_8 package. Includes two RGBD cameras offset by +/- 20 degrees vertically, a 360 degree 2d lidar, and an upward facing point laser.
+  </description>
+  <maintainer email="dvasquez@ssci.com">Derek Vasquez</maintainer>
+  <author email="dvasquez@ssci.com">Derek Vasquez</author>
+
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <buildtool_depend>roslaunch</buildtool_depend>
+  <buildtool_depend>urdf</buildtool_depend>
+  <buildtool_depend>xacro</buildtool_depend>
+
+</package>
