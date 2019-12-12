@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>ssci_x4_sensor_config_2</name>
+  <version>0.1.0</version>
+  <description>
+    The X4 vehicle with 2D laser scanner, rgbd camera, and point lasers 
+    pointed up and down to detect distance to ground and ceiling.
+  </description>
+  <maintainer email="derek.vasquez@ssci.com">Derek Vasquez</maintainer>
+  <author email="derek.vasquez@ssci.com">Derek Vasquez</author>
+
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <buildtool_depend>roslaunch</buildtool_depend>
+  <buildtool_depend>urdf</buildtool_depend>
+  <buildtool_depend>xacro</buildtool_depend>
+
+</package>
