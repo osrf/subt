@@ -66,6 +66,15 @@
   end
 
   $worldName = 'tunnel_qual_ign'
+
+  # If localModel is set, the model URI will use a local path to the model with
+  # the assumption that the model is installed in the same workspace as the
+  # launch file. This only applies to models submitted by teams.
+  if !defined?(localModel) || localModel == nil || localModel.empty?
+    $localModel = false
+  else
+    $localModel = localModel
+  end
 %>
 
 <ignition version='1.0'>
@@ -806,28 +815,51 @@
     robotConfigN = config[-1]
     posX = -(robotSpawned / spawnColSize * spawnGridSize - spawnRowOffset)
     posY = -(robotSpawned % spawnColSize * spawnGridSize - spawnColOffset)
-    if robotType == "1"
+    if robotType == "1" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5")
       robotSpawned += 1
 %>
 <%=   spawnX1(name, robotConfigN, posX, posY) %>
 <%
-    elsif robotType == "2"
+    elsif robotType == "2" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5" or robotConfigN == "6")
       robotSpawned += 1
 %>
 <%=   spawnX2(name, robotConfigN, posX, posY) %>
 <%
-    elsif robotType == "3"
+    elsif robotType == "3" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4")
       robotSpawned += 1
 %>
 <%=   spawnX3(name, robotConfigN, posX, posY) %>
 <%
-    elsif robotType == "4"
+    elsif robotType == "4" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5")
       robotSpawned += 1
 %>
 <%=   spawnX4(name, robotConfigN, posX, posY) %>
 <%
     else
-      puts "Unknown robot configuration #{config}"
+      # Try a team-submitted vehicle.
+      package = config.downcase
+      installDir = `rospack find #{package}`.chomp
+      if installDir.empty?
+        raise "Unknown robot configuration #{config}. ROS package #{package} could not be found."
+      end
+
+      spawnerScript =  "#{installDir}/launch/spawner.rb"
+      begin
+        require spawnerScript
+      rescue LoadError
+        raise "Unknown robot configuration #{config}. #{spawnerScript} could not be found."
+      else
+        fuelPrefix = "https://fuel.ignitionrobotics.org/1.0/openrobotics/models"
+        # We assume that the model and its supporting files can be found in
+        # `installDir`. If `$localModel` is not set, the model is loaded from
+        # Fuel.
+
+        modelURI = $localModel ? installDir : "#{fuelPrefix}/#{config}"
+        robotSpawned += 1
+%>
+<%=     spawner(name, modelURI, $worldName, posX, posY, 0.2, 0, 0, 0) %>
+<%
+      end
     end
   end
 %>
