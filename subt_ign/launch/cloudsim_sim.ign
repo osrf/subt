@@ -101,6 +101,15 @@
   end
 
   worldNumber = $worldName.split('_').last
+
+  # If localModel is set, the model URI will use a local path to the model with
+  # the assumption that the model is installed in the same workspace as the
+  # launch file. This only applies to models submitted by teams.
+  if !defined?(localModel) || localModel == nil || localModel.empty?
+    $localModel = false
+  else
+    $localModel = localModel
+  end
 %>
 
 
@@ -896,7 +905,30 @@
         raise "Unknown robot configuration #{config}. #{spawnerScript} could not be found."
       else
         fuelPrefix = "https://fuel.ignitionrobotics.org/1.0/openrobotics/models"
-        modelURI = "#{fuelPrefix}/#{config}"
+        # We assume that the model and its supporting files can be found in
+        # `installDir`. If `$localModel` is not set, the model is loaded from
+        # Fuel.
+        if $localModel
+          modelURI = installDir
+        else
+          # check if robot name follows subt robot naming convention on Fuel.
+          # if so, construct a name without underscores, e.g. 'X1 Config 2' or
+          # 'X3 UAV Config 4', else use original name
+          convention = /^x[[:digit:]]_.*[[:digit:]]/.match(package)
+          if convention
+            robotType = config[1]
+            robotConfigN = config[-1]
+            if robotType == "3" or robotType == "4"
+              UAVStr = "UAV "
+            else
+              UAVStr = ""
+            end
+            robotName = "X#{robotType} #{UAVStr}Config #{robotConfigN}"
+          else
+            robotName = config
+          end
+          modelURI = "#{fuelPrefix}/#{robotName}"
+        end
         robotSpawned += 1
 %>
 <%=     spawner(name, modelURI, $worldName, posX, posY, spawnWorldZPos, 0, 0, spawnWorldYaw) %>
