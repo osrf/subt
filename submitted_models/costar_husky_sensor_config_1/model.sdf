@@ -16,10 +16,18 @@
         </inertia>
       </inertial>
       <collision name="base_link_collision">
-        <pose frame="">0 0 0.061875 0 -0 0</pose>
+        <pose frame="">0 0 0.12 0 0 0</pose>
         <geometry>
           <box>
-            <size>0.9874 0.5709 0.12375</size>
+            <size>0.9874 0.5709 0.05</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="base_link_collision_bottom">
+        <pose frame="">0 0 0.046 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.80 0.5709 0.095</size>
           </box>
         </geometry>
       </collision>
@@ -308,7 +316,7 @@
         <pose frame="">0.0012 0 0.716 0 -0 0</pose>
       </sensor>
       <light name="flashlight_flashlight_light_source_lamp_light" type="spot">
-        <pose frame="">0.43 0.08 0.02 3.141592653589793 1.5707926535897934 -0.0015926535897931</pose>
+        <pose frame="">0.48 0.08 0.12 3.141592653589793 1.5707926535897934 -0.0015926535897931</pose>
         <attenuation>
           <range>50</range>
           <linear>0</linear>
@@ -325,7 +333,7 @@
         <direction>0 0 -1</direction>
       </light>
       <visual name="flashlight_flashlight_light_source_lamp_viz_visual">
-        <pose>0.43 0.08 0.02 3.141592653589793 1.5707926535897934 -0.0015926535897931</pose>
+        <pose>0.48 0.08 0.12 3.141592653589793 1.5707926535897934 -0.0015926535897931</pose>
         <geometry>
           <cylinder>
             <radius>0.019</radius>
