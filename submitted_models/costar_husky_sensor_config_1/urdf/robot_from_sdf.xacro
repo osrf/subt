@@ -51,12 +51,12 @@
       </geometry>
     </visual>
     <visual name='base_link_fixed_joint_lump__camera/camera_link_visual_1'>
-      <origin xyz='0.488 0 0.272' rpy='0 -0 0'/>
+      <origin xyz='0.438 0 0.272' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://costar_husky_sensor_config_1/meshes/realsense.dae' scale='0.01 0.01 0.01'/>
+        <mesh filename='package://costar_husky_sensor_config_1/meshes/realsense.dae'/>
       </geometry>
     </visual>
-    <visual name='base_link_fixed_joint_lump__evo_64px_link_visual_2'>
+    <visual name='base_link_fixed_joint_lump__cliff_sensor_link_visual_2'>
       <origin xyz='0.435 0 0.235' rpy='-2.35619 -0 -1.5708'/>
       <geometry>
         <cylinder radius='0.005' length='0.02'/>
@@ -95,12 +95,6 @@
         <color rgba="0.15 0.15 0.15 1"/>
       </material>
     </visual>
-    <visual name='base_link_fixed_joint_lump__husky_custom/flashlight_flashlight_link_visual_8'>
-      <origin xyz='0.4312 0.08 0.271' rpy='0 -0 1.57'/>
-      <geometry>
-        <mesh filename='package://costar_husky_sensor_config_1/meshes/spotlight.dae' scale='0.005 0.005 0.005'/>
-      </geometry>
-    </visual>
     <visual name='base_link_fixed_joint_lump__marker_visual_9'>
       <origin xyz='0.0012 0 2.251' rpy='0 -0 0'/>
       <geometry>
@@ -132,7 +126,7 @@
       </geometry>
     </visual>
     <visual name='flashlight_flashlight_light_source_lamp_viz_visual'>
-      <origin xyz='0.43 0.08 0.02' rpy='3.14159 1.57079 -0.001593'/>
+      <origin xyz='0.415 0.08 0.02' rpy='3.14159 1.57079 -0.001593'/>
       <geometry>
         <cylinder radius='0.019' length='0.005'/>
       </geometry>
@@ -140,17 +134,16 @@
   </link>
   <sensor name='camera_front' update_rate='10'>
     <parent link='${robot_namespace}/base_link'/>
-    <origin xyz='0.488 0 0.272' rpy='0 -0 0'/>
+    <origin xyz='0.438 0 0.272' rpy='0 -0 0'/>
     <camera>
-      <image width='424' height='240' format='R8G8B8' hfov='1.047' near='0.1' far='100' />
+      <image width='320' height='240' format='R8G8B8' hfov='1.047' near='0.01' far='300' />
     </camera>
   </sensor>
-  <sensor name='evo_64px' update_rate='10'>
+  <sensor name='front_cliff_laser' update_rate='10'>
     <parent link='${robot_namespace}/base_link'/>
     <origin xyz='0.435 0 0.235' rpy='-3.14159 -0.785398 3.14159'/>
     <ray>
-      <horizontal samples='8' resolution='1' min_angle='-0.025' max_angle='0.025' />
-      <vertical samples='8' resolution='1' min_angle='-0.025' max_angle='0.025' />
+      <horizontal samples='1' resolution='1' min_angle='3.141592653589793' max_angle='3.141592653589793' />
     </ray>
   </sensor>
   <sensor name='front_laser' update_rate='10'>

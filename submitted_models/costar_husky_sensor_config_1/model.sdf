@@ -89,15 +89,14 @@
         </geometry>
       </visual>
       <visual name="base_link_fixed_joint_lump__camera/camera_link_visual_1">
-        <pose frame="">0.488 0 0.272 0 -0 0</pose>
+        <pose frame="">0.438 0 0.272 0 -0 0</pose>
         <geometry>
           <mesh>
-            <scale>0.01 0.01 0.01</scale>
             <uri>meshes/realsense.dae</uri>
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__evo_64px_link_visual_2">
+      <visual name="base_link_fixed_joint_lump__cliff_sensor_link_visual_2">
         <pose frame="">0.435 0 0.235 -2.35619 -0 -1.5708</pose>
         <geometry>
           <cylinder>
@@ -156,15 +155,6 @@
           <specular>0.8 0.8 0.8 1.0</specular>
         </material>
       </visual>
-      <visual name="base_link_fixed_joint_lump__husky_custom/flashlight_flashlight_link_visual_8">
-        <pose frame="">0.4312 0.08 0.271 0 -0 1.57</pose>
-        <geometry>
-          <mesh>
-            <scale>0.005 0.005 0.005</scale>
-            <uri>meshes/spotlight.dae</uri>
-          </mesh>
-        </geometry>
-      </visual>
       <visual name="base_link_fixed_joint_lump__marker_visual_9">
         <pose frame="">0.0012 0 2.251 0 -0 0</pose>
         <geometry>
@@ -215,58 +205,72 @@
       <kinematic>0</kinematic>
       <sensor name="camera_front" type="rgbd_camera">
         <camera name="camera_front">
-          <horizontal_fov>1.047</horizontal_fov>
-          <image>
-            <width>424</width>
-            <height>240</height>
-            <format>R8G8B8</format>
-          </image>
-          <clip>
-            <near>0.1</near>
-            <far>100</far>
-          </clip>
-          <distortion>
-            <k1>0</k1>
-            <k2>0</k2>
-            <k3>0</k3>
-            <p1>0</p1>
-            <p2>0</p2>
-            <center>0.5 0.5</center>
-          </distortion>
-          <noise>
-            <type>gaussian</type>
-            <mean>0</mean>
-            <stddev>0.05</stddev>
-          </noise>
+            <horizontal_fov>1.0472</horizontal_fov>
+            <lens>
+                <intrinsics>
+                    <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+                    <fx>277.1</fx>
+                    <fy>277.1</fy>
+                    <!-- cx = ( width + 1 ) / 2 -->
+                    <cx>160.5</cx>
+                    <!-- cy = ( height + 1 ) / 2 -->
+                    <cy>120.5</cy>
+                    <s>0</s>
+                </intrinsics>
+            </lens>
+            <distortion>
+                <k1>0.0</k1>
+                <k2>0.0</k2>
+                <k3>0.0</k3>
+                <p1>0.0</p1>
+                <p2>0.0</p2>
+                <center>0.5 0.5</center>
+            </distortion>
+            <image>
+                <width>320</width>
+                <height>240</height>
+                <format>R8G8B8</format>
+            </image>
+            <clip>
+                <near>0.01</near>
+                <far>300</far>
+            </clip>
+            <noise>
+                <type>gaussian</type>
+                <mean>0</mean>
+                <stddev>0.007</stddev>
+            </noise>
         </camera>
         <always_on>1</always_on>
-        <update_rate>10</update_rate>
+        <update_rate>20</update_rate>
         <visualize>0</visualize>
-        <pose frame="">0.488 0 0.272 0 -0 0</pose>
+        <pose frame="">0.438 0 0.272 0 -0 0</pose>
       </sensor>
       <gravity>1</gravity>
       <velocity_decay/>
-      <sensor name="tof_camera_down" type="depth_camera">
-        <!--Based on the evo_64px sensor-->
-        <visualize>0</visualize>
-        <update_rate>10</update_rate>
-        <camera name="tof_camera_down">
-          <horizontal_fov>0.262</horizontal_fov>
-          <image>
-            <width>8</width>
-            <height>8</height>
-          </image>
-          <clip>
-            <near>0.1</near>
-            <far>5</far>
-          </clip>
-          <noise>
-            <type>gaussian</type>
-            <mean>0</mean>
-            <stddev>0.005</stddev>
-          </noise>
-        </camera>
-        <pose>0.435 0 0.235 0 0.785389 0</pose>
+      <sensor name="front_cliff_laser" type="gpu_ray">
+          <pose>0.435 0 0.235 0 -2.4434589 0</pose>
+          <update_rate>50</update_rate>
+          <lidar>
+              <scan>
+                  <horizontal>
+                      <samples>1</samples>
+                      <resolution>1</resolution>
+                      <min_angle>3.141592653589793</min_angle>
+                      <max_angle>3.141592653589793</max_angle>
+                  </horizontal>
+              </scan>
+              <range>
+                  <min>0.04</min>
+                  <max>40</max>
+                  <resolution>0.01</resolution>
+              </range>
+              <noise>
+                  <type>gaussian</type>
+                  <mean>0</mean>
+                  <stddev>0.01</stddev>
+              </noise>
+          </lidar>
       </sensor>
       <gravity>1</gravity>
       <velocity_decay/>
@@ -276,10 +280,12 @@
         <lidar>
           <scan>
             <horizontal>
-              <samples>440</samples>
-              <resolution>1</resolution>
-              <min_angle>-3.14159</min_angle>
-              <max_angle>3.14159</max_angle>
+              <!-- Resolution can't be above 16k, see
+              https://bitbucket.org/ignitionrobotics/ign-sensors/issues/8 -->
+              <samples>10000</samples>
+              <resolution>0.1</resolution>
+              <min_angle>-3.1459</min_angle>
+              <max_angle>3.1459</max_angle>
             </horizontal>
             <vertical>
               <samples>16</samples>
@@ -289,14 +295,14 @@
             </vertical>
           </scan>
           <range>
-            <min>0.9</min>
-            <max>130.0</max>
-            <resolution>0.001</resolution>
+            <min>0.05</min>
+            <max>100</max>
+            <resolution>0.01</resolution>
           </range>
           <noise>
             <type>gaussian</type>
             <mean>0</mean>
-            <stddev>0.008</stddev>
+            <stddev>0.01</stddev>
           </noise>
         </lidar>
         <pose frame="">0.0012 0 0.716 0 -0 0</pose>
@@ -312,8 +318,8 @@
         <diffuse>0.8 0.8 0.5 1</diffuse>
         <specular>0.8 0.8 0.5 1</specular>
         <spot>
-          <inner_angle>1</inner_angle>
-          <outer_angle>1.1</outer_angle>
+          <inner_angle>1.2</inner_angle>
+          <outer_angle>1.3</outer_angle>
           <falloff>1</falloff>
         </spot>
         <direction>0 0 -1</direction>
@@ -336,19 +342,6 @@
       </visual>
 
       <sensor name="imu_sensor" type="imu">
-        <!-- TODO: The IMU was adapter the following Gazebo9 entry. The noise values need to be accordingly.-->
-        <!--<plugin name="imu_controller" filename="libhector_gazebo_ros_imu.so">-->
-        <!--  <robotNamespace>husky_custom</robotNamespace>-->
-        <!--  <updateRate>50.0</updateRate>-->
-        <!--  <bodyName>base_link</bodyName>-->
-        <!--  <topicName>imu/data</topicName>-->
-        <!--  <accelDrift>0.005 0.005 0.005</accelDrift>-->
-        <!--  <accelGaussianNoise>0.005 0.005 0.005</accelGaussianNoise>-->
-        <!--  <rateDrift>0.005 0.005 0.005</rateDrift>-->
-        <!--  <rateGaussianNoise>0.005 0.005 0.005</rateGaussianNoise>-->
-        <!--  <headingDrift>0.005</headingDrift>-->
-        <!--  <headingGaussianNoise>0.005</headingGaussianNoise>-->
-        <!--</plugin>-->
         <always_on>1</always_on>
         <update_rate>50</update_rate>
         <imu>
