@@ -337,8 +337,14 @@
                     </image>
                     <clip>
                         <near>0.01</near>
-                        <far>10</far>
+                        <far>300</far>
                     </clip>
+                    <depth_camera>
+                      <clip>
+                        <near>0.1</near>
+                        <far>10</far>
+                      </clip>
+                    </depth_camera>
                     <noise>
                         <type>gaussian</type>
                         <mean>0</mean>
