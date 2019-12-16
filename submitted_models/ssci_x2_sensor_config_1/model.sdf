@@ -262,7 +262,7 @@
                     </image>
                     <clip>
                         <near>0.02</near>
-                        <far>300</far>
+                        <far>10</far>
                     </clip>
                     <noise>
                         <type>gaussian</type>
@@ -304,7 +304,7 @@
                     </image>
                     <clip>
                         <near>0.02</near>
-                        <far>300</far>
+                        <far>10</far>
                     </clip>
                     <noise>
                         <type>gaussian</type>
@@ -371,7 +371,7 @@
                     </noise>
                 </lidar>
             </sensor>
-            
+
         </link>
 
         <link name="front_left_wheel">
