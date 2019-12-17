@@ -236,16 +236,16 @@
                     <!--<cameraInfoTopicName>camera_info</cameraInfoTopicName>-->
                     <!--<hackBaseline>0.07</hackBaseline>-->
                     <pose frame="">0 0 0 0 -1.5707 1.5707</pose>
-                    <horizontal_fov>1.0472</horizontal_fov>
+                    <horizontal_fov>1.2113</horizontal_fov>
                     <lens>
                         <intrinsics>
                           <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
-                          <fx>554.3</fx>
-                          <fy>554.3</fy>
+                          <fx>462.1</fx>
+                          <fy>462.1</fy>
                           <!-- cx = ( width + 1 ) / 2 -->
                           <cx>320.5</cx>
                           <!-- cy = ( height + 1 ) / 2 -->
-                          <cy>240.5</cy>
+                          <cy>180.5</cy>
                           <s>0</s>
                         </intrinsics>
                     </lens>
@@ -259,7 +259,7 @@
                     </distortion>
                     <image>
                         <width>640</width>
-                        <height>480</height>
+                        <height>360</height>
                         <format>R8G8B8</format>
                     </image>
                     <clip>
