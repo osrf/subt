@@ -238,12 +238,12 @@
                     <lens>
                         <intrinsics>
                             <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
-                            <fx>1108.5</fx>
-                            <fy>1108.5</fy>
+                            <fx>554.3</fx>
+                            <fy>554.3</fy>
                             <!-- cx = ( width + 1 ) / 2 -->
-                            <cx>640.5</cx>
+                            <cx>320.5</cx>
                             <!-- cy = ( height + 1 ) / 2 -->
-                            <cy>480.5</cy>
+                            <cy>240.5</cy>
                             <s>0</s>
                         </intrinsics>
                     </lens>
@@ -256,12 +256,12 @@
                         <center>0.5 0.5</center>
                     </distortion>
                     <image>
-                        <width>1280</width>
-                        <height>960</height>
+                        <width>640</width>
+                        <height>480</height>
                         <format>R8G8B8</format>
                     </image>
                     <clip>
-                        <near>0.02</near>
+                        <near>0.01</near>
                         <far>300</far>
                     </clip>
                     <depth_camera>
@@ -286,12 +286,12 @@
                     <lens>
                         <intrinsics>
                             <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
-                            <fx>1108.5</fx>
-                            <fy>1108.5</fy>
+                            <fx>554.3</fx>
+                            <fy>554.3</fy>
                             <!-- cx = ( width + 1 ) / 2 -->
-                            <cx>640.5</cx>
+                            <cx>320.5</cx>
                             <!-- cy = ( height + 1 ) / 2 -->
-                            <cy>480.5</cy>
+                            <cy>240.5</cy>
                             <s>0</s>
                         </intrinsics>
                     </lens>
@@ -304,12 +304,12 @@
                         <center>0.5 0.5</center>
                     </distortion>
                     <image>
-                        <width>1280</width>
-                        <height>960</height>
+                        <width>640</width>
+                        <height>480</height>
                         <format>R8G8B8</format>
                     </image>
                     <clip>
-                        <near>0.02</near>
+                        <near>0.01</near>
                         <far>300</far>
                     </clip>
                     <depth_camera>
