@@ -264,6 +264,12 @@
                         <near>0.02</near>
                         <far>300</far>
                     </clip>
+                    <depth_camera>
+                      <clip>
+                        <near>0.1</near>
+                        <far>10</far>
+                      </clip>
+                    </depth_camera>
                     <noise>
                         <type>gaussian</type>
                         <mean>0</mean>
@@ -306,6 +312,12 @@
                         <near>0.02</near>
                         <far>300</far>
                     </clip>
+                    <depth_camera>
+                      <clip>
+                        <near>0.1</near>
+                        <far>10</far>
+                      </clip>
+                    </depth_camera>
                     <noise>
                         <type>gaussian</type>
                         <mean>0</mean>
@@ -371,7 +383,7 @@
                     </noise>
                 </lidar>
             </sensor>
-            
+
         </link>
 
         <link name="front_left_wheel">
