@@ -219,7 +219,6 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <type>gas</type>
       </plugin>
     </include>
-
     </sdf>
   </plugin>
   HEREDOC
@@ -227,6 +226,9 @@ end
 
 def rosExecutables(_name, _worldName)
   <<-HEREDOC
+  <executable name='X4_controller'>
+      <command>roslaunch --wait x4_control control.launch world_name:=#{_worldName} x4_name:=#{_name}</command>
+    </executable>
     <executable name='x4_description'>
       <command>roslaunch --wait x4_sensor_config_6 description.launch world_name:=#{_worldName} name:=#{_name}</command>
     </executable>
