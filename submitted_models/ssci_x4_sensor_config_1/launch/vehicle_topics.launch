@@ -41,8 +41,15 @@
       pkg="ros_ign_bridge"
       type="parameter_bridge"
       name="ros_ign_bridge_twist"
-      args="/model/$(arg name)/cmd_vel_relay@geometry_msgs/Twist]ignition.msgs.Twist">
-      <remap from="/model/$(arg name)/cmd_vel_relay" to="cmd_vel"/>
+      args="/model/$(arg name)/cmd_vel@geometry_msgs/Twist]ignition.msgs.Twist">
+      <remap from="/model/$(arg name)/cmd_vel" to="cmd_vel"/>
+    </node>
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_velocity_control_enable"
+      args="/model/$(arg name)/velocity_controller/enable@std_msgs/Bool]ignition.msgs.Boolean">
+      <remap from="/model/$(arg name)/velocity_controller/enable" to="velocity_controller/enable"/>
     </node>
 
     <!-- RGBD -->
@@ -149,13 +156,6 @@
 
     <!-- UAV -->
     <group if="$(arg uav)">
-      <node
-        pkg="ros_ign_bridge"
-        type="parameter_bridge"
-        name="ros_ign_bridge_actuators"
-        args="/model/$(arg name)/command/motor_speed@mav_msgs/Actuators]ignition.msgs.Actuators">
-        <remap from="/model/$(arg name)/command/motor_speed" to="command/motor_speed"/>
-      </node>
       <node
         pkg="ros_ign_bridge"
         type="parameter_bridge"

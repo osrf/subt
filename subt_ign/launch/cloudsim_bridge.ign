@@ -136,9 +136,6 @@
     "<executable name='x3_description'>\n"\
     "  <command>roslaunch --wait subt_ros x3_description.launch name:=#{_name}</command>\n"\
     "</executable>\n"\
-    "<executable name='X3_controller'>\n"\
-    "  <command>roslaunch --wait x3_control control.launch x3_name:=#{_name}</command>\n"\
-    "</executable>\n"\
     "<executable name='x3_ros_ign_bridge'>\n"\
       "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} rgbd_cam:=#{rgbdCam}</command>\n"\
     "</executable>\n"
@@ -158,9 +155,6 @@
     if _config == "5"
       stereoCam=1
     end
-    "<executable name='X4_controller'>\n"\
-    "  <command>roslaunch --wait x4_control control.launch x4_name:=#{_name}</command>\n"\
-    "</executable>\n"\
     "<executable name='x4_description'>\n"\
     "  <command>roslaunch --wait subt_ros x4_description.launch name:=#{_name}</command>\n"\
     "</executable>\n"\
