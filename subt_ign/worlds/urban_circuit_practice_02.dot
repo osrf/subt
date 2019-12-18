@@ -1,6 +1,6 @@
 /* Visibility graph for urban_circuit_practice_02.tsv */
 /* Generated with the tile_tsv.py script: */
-/*   tile_tsv.py urban_circuit_practice_02.tsv -\-graph-file urban_circuit_practice_02.dot -\-world-file urban_circuit_practice_02.sdf -\-world-name urban_circuit_practice_02 -\-scale_x 40 -\-scale_y 40 -\-urban -\-y0 32 -\-x0 -240 -\-level_type row_col -\-levels_buf 9 */
+/*   tile_tsv.py urban_circuit_practice_02.tsv -\-graph-file urban_circuit_practice_02.dot -\-world-file urban_circuit_practice_02.world -\-world-name urban_circuit_practice_02 -\-scale_x 40 -\-scale_y 40 -\-urban -\-y0 32 -\-x0 -240 -\-level_type row_col -\-levels_buf 9 -\-gz9 */
 
 graph {
   /* ==== Vertices ==== */
@@ -37,7 +37,7 @@ graph {
   31  [label="31::Urban Straight Lights::tile_31"];
   32  [label="32::Urban Straight Door Left Flipped::tile_32"];
   33  [label="33::Urban Platform::tile_33"];
-  34  [label="34::Urban Elevation Up Lights::tile_34"];
+  34  [label="34::Urban Straight Door Right::tile_34"];
   35  [label="35::Urban Bend Left Lights::tile_35"];
   36  [label="36::Urban Straight Door Right Flipped Lights::tile_36"];
   37  [label="37::Urban Service Room Lights::tile_37"];
@@ -48,7 +48,7 @@ graph {
   43  [label="43::Urban Straight Door Left Flipped::tile_43"];
   44  [label="44::Urban Straight Door Right Flipped Lights::tile_44"];
   45  [label="45::Urban Service Room::tile_45"];
-  47  [label="47::Urban Straight Lights::tile_47"];
+  47  [label="47::Urban Elevation Up Lights::tile_47"];
   48  [label="48::Urban Elevation Up Lights::tile_48"];
   49  [label="49::Urban Straight Door Left Flipped::tile_49"];
   50  [label="50::Urban 3-Way Right Intersection::tile_50"];
