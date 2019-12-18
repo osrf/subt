@@ -30,7 +30,7 @@
       <remap from="odometry" to="odometry/filtered" />
     </node>
 
-    <node name="cmdvel_transform" pkg="subt_example" type="cmdvel_converter_rpy.py" args="cmd_force command/roll_pitch_yawrate_thrust"/>
+    <node name="cmdvel_transform" pkg="subt_example" type="cmdvel_converter_rpy.py" args="cmd_vel command/roll_pitch_yawrate_thrust"/>
 
   </group>
 </launch>

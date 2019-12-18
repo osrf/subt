@@ -159,13 +159,6 @@
       <node
         pkg="ros_ign_bridge"
         type="parameter_bridge"
-        name="ros_ign_bridge_actuators"
-        args="/model/$(arg name)/command/motor_speed@mav_msgs/Actuators]ignition.msgs.Actuators">
-        <remap from="/model/$(arg name)/command/motor_speed" to="command/motor_speed"/>
-      </node>
-      <node
-        pkg="ros_ign_bridge"
-        type="parameter_bridge"
         name="ros_ign_bridge_magnetometer"
         args="$(arg sensor_prefix)/magnetometer/magnetometer@sensor_msgs/MagneticField[ignition.msgs.Magnetometer">
         <remap from="$(arg sensor_prefix)/magnetometer/magnetometer" to="magnetic_field"/>

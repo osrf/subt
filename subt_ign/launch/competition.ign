@@ -705,9 +705,6 @@
     "<executable name='x3_description'>\n"\
     "  <command>roslaunch --wait subt_ros x3_description.launch world_name:=#{$worldName} name:=#{_name}</command>\n"\
     "</executable>\n"\
-    "<executable name='X3_controller'>\n"\
-    "  <command>roslaunch --wait x3_control control.launch world_name:=#{$worldName} x3_name:=#{_name}</command>\n"\
-    "</executable>\n"\
     "<executable name='x3_ros_ign_bridge'>\n"\
       "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} rgbd_cam:=#{rgbdCam}</command>\n"\
     "</executable>\n"
@@ -941,9 +938,6 @@
     "    </include>\n"\
     "  </sdf>\n"\
     "</plugin>\n"\
-    "<executable name='X4_controller'>\n"\
-    "  <command>roslaunch --wait x4_control control.launch world_name:=#{$worldName} x4_name:=#{_name}</command>\n"\
-    "</executable>\n"\
     "<executable name='x4_description'>\n"\
     "  <command>roslaunch --wait subt_ros x4_description.launch world_name:=#{$worldName} name:=#{_name}</command>\n"\
     "</executable>\n"\
