@@ -1,0 +1,448 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name='explorer_x1_sensor_config_1' xmlns:xacro='http://ros.org/wiki/xacro'>
+  <xacro:arg name='name' default='explorer_x1_sensor_config_1'/>
+  <xacro:property name='robot_namespace' value='$(arg name)'/>
+  <link name='${robot_namespace}/base_link'>
+    <inertial>
+      <origin xyz='-0.000649 -0.084999 0.062001' rpy='0 -0 0'/>
+      <mass value='46.0344'/>
+      <inertia ixx='0.63323' ixy='-0.0236421' ixz='-0.119707' iyy='1.76965' iyz='-0.00154755' izz='2.06066'/>
+    </inertial>
+    <collision name='base_link_collision'>
+      <origin xyz='0 0 0.061875' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.9874 0.5709 0.12375'/>
+      </geometry>
+    </collision>
+    <collision name='base_link_collision_1'>
+      <origin xyz='0 0 0.185625' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.78992 0.5709 0.12375'/>
+      </geometry>
+    </collision>
+    <collision name='base_link_fixed_joint_lump__front_realsense_link_collision_2'>
+      <origin xyz='0.4 0 0.3' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.07 0.3 0.09'/>
+      </geometry>
+    </collision>
+    <collision name='base_link_fixed_joint_lump__left_realsense_link_collision_3'>
+      <origin xyz='0.3 0.2 0.3' rpy='0 -0 1.57'/>
+      <geometry>
+        <box size='0.07 0.3 0.09'/>
+      </geometry>
+    </collision>
+    <collision name='base_link_fixed_joint_lump__rear_realsense_link_collision_4'>
+      <origin xyz='0.2 0 0.3' rpy='0 -0 3.14'/>
+      <geometry>
+        <box size='0.07 0.3 0.09'/>
+      </geometry>
+    </collision>
+    <collision name='base_link_fixed_joint_lump__right_realsense_link_collision_5'>
+      <origin xyz='0.3 -0.2 0.3' rpy='0 0 -1.57'/>
+      <geometry>
+        <box size='0.07 0.3 0.09'/>
+      </geometry>
+    </collision>
+    <collision name='base_link_fixed_joint_lump__top_plate_link_collision_6'>
+      <origin xyz='0.0812 0 0.245' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/top_plate.dae' scale='1 1 1'/>
+      </geometry>
+    </collision>
+    <collision name='base_link_fixed_joint_lump__top_plate_link_collision_7'>
+      <origin xyz='0.0812 0 0.245' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.32 0.41 0.09'/>
+      </geometry>
+    </collision>
+    <visual name='base_link_visual'>
+      <origin xyz='0 0 0' rpy='0 0 -3.14159'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/chassis.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__center_left_headlight_link_visual_1'>
+      <origin xyz='0.485766 0.0844 0.06' rpy='0 0 -3.14159'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/headlight.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__center_left_rear_headlight_link_visual_2'>
+      <origin xyz='-0.485766 0.0844 0.06' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/headlight.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__center_right_headlight_link_visual_3'>
+      <origin xyz='0.485766 -0.0844 0.06' rpy='0 0 -3.14159'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/headlight.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__center_right_rear_headlight_link_visual_4'>
+      <origin xyz='-0.485766 -0.0844 0.06' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/headlight.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__front_realsense_link_visual_5'>
+      <origin xyz='0.4 0 0.3' rpy='0 -0 1.57079'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/accessories/kinect.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__lateral_left_front_headlight_link_visual_6'>
+      <origin xyz='0.25 0.25 0.1' rpy='0 0 -1.57'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/headlight.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__lateral_left_rear_headlight_link_visual_7'>
+      <origin xyz='-0.25 0.25 0.1' rpy='0 0 -1.57'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/headlight.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__lateral_right_front_headlight_link_visual_8'>
+      <origin xyz='0.25 -0.25 0.1' rpy='0 -0 1.57'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/headlight.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__lateral_right_rear_headlight_link_visual_9'>
+      <origin xyz='-0.25 -0.25 0.1' rpy='0 -0 1.57'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/headlight.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__left_headlight_link_visual_10'>
+      <origin xyz='0.461459 0.216803 0.06' rpy='0 0 -3.14159'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/headlight.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__marker_visual_11'>
+      <origin xyz='0.066047 0.212211 0.209188' rpy='-3.14159 1.57079 -1.60259'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/led.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__marker_visual_12'>
+      <origin xyz='-0.066047 0.212211 0.209188' rpy='-3.14159 1.57079 -1.60259'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/led.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__left_realsense_link_visual_13'>
+      <origin xyz='0.3 0.2 0.3' rpy='0 -0 3.1408'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/accessories/kinect.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__left_rear_headlight_link_visual_14'>
+      <origin xyz='-0.461459 0.216803 0.06' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/headlight.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__marker_visual_15'>
+      <origin xyz='-0.42493 0 0.209188' rpy='3.14159 1.57079 7e-06'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/led.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__marker_visual_16'>
+      <origin xyz='-0.42493 0.13619 0.209188' rpy='3.14159 1.57079 7e-06'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/led.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__rear_realsense_link_visual_17'>
+      <origin xyz='0.2 0 0.3' rpy='0 0 -1.57239'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/accessories/kinect.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__marker_visual_18'>
+      <origin xyz='-0.42493 -0.13619 0.209188' rpy='3.14159 1.57079 7e-06'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/led.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__right_headlight_link_visual_19'>
+      <origin xyz='0.461459 -0.216803 0.06' rpy='0 0 -3.14159'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/headlight.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__marker_visual_20'>
+      <origin xyz='0.066047 -0.212211 0.209188' rpy='3.14159 1.57079 1.60259'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/led.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__marker_visual_21'>
+      <origin xyz='-0.066047 -0.212211 0.209188' rpy='3.14159 1.57079 1.60259'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/led.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__right_realsense_link_visual_22'>
+      <origin xyz='0.3 -0.2 0.3' rpy='0 -0 0.000795'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/accessories/kinect.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__right_rear_headlight_link_visual_23'>
+      <origin xyz='-0.461459 -0.216803 0.06' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/headlight.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__top_plate_link_visual_24'>
+      <origin xyz='0.0812 0 0.245' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/top_plate.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__front_laser_mount_visual_25'>
+      <origin xyz='0.2812 0 0.345' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/sick-lms1xx-bracket.stl' scale='1 1 1'/>
+      </geometry>
+      <material name="dark_grey"/>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__front_laser_visual_visual_26'>
+      <origin xyz='0.2812 0 0.494' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.025' length='0.1'/>
+      </geometry>
+      <material name="front_laser_visual_material">
+        <color rgba="0.5 1.0 0.5 1.0"/>
+      </material>
+    </visual>
+    <visual name='left_headlight_body_light_source_visual'>
+      <origin xyz='0.461959 0.216803 0.06' rpy='0 0 -3.14159'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/headlight_lamp.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='center_left_headlight_body_light_source_visual'>
+      <origin xyz='0.486266 0.0844 0.06' rpy='0 0 -3.14159'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/headlight_lamp.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='center_right_headlight_body_light_source_visual'>
+      <origin xyz='0.486266 -0.0844 0.06' rpy='0 0 -3.14159'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/headlight_lamp.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='right_headlight_body_light_source_visual'>
+      <origin xyz='0.461959 -0.216803 0.06' rpy='0 0 -3.14159'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/headlight_lamp.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='lateral_left_front_headlight_body_light_source_visual'>
+      <origin xyz='0.25 0.2505 0.1' rpy='0 0 -1.57'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/headlight_lamp.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='lateral_left_rear_headlight_body_light_source_visual'>
+      <origin xyz='-0.25 0.2505 0.1' rpy='0 0 -1.57'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/headlight_lamp.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='lateral_right_front_headlight_body_light_source_visual'>
+      <origin xyz='0.25 -0.2505 0.1' rpy='0 -0 1.57'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/headlight_lamp.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='lateral_right_rear_headlight_body_light_source_visual'>
+      <origin xyz='-0.25 -0.2505 0.1' rpy='0 -0 1.57'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/headlight_lamp.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='left_rear_headlight_body_light_source_visual'>
+      <origin xyz='-0.461959 0.216803 0.06' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/headlight_lamp.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='center_left_rear_headlight_body_light_source_visual'>
+      <origin xyz='-0.486266 0.0844 0.06' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/headlight_lamp.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='center_right_rear_headlight_body_light_source_visual'>
+      <origin xyz='-0.486266 -0.0844 0.06' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/headlight_lamp.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='right_rear_headlight_body_light_source_visual'>
+      <origin xyz='-0.461959 -0.216803 0.06' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/headlight_lamp.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='rear_right_led_body_light_source_visual'>
+      <origin xyz='-0.42543 -0.13619 0.209187' rpy='-3.14159 1.56859 7e-06'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/led_lamp.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='rear_center_led_body_light_source_visual'>
+      <origin xyz='-0.42543 -0 0.209187' rpy='-3.14159 1.56859 7e-06'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/led_lamp.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='rear_left_led_body_light_source_visual'>
+      <origin xyz='-0.42543 0.13619 0.209187' rpy='-3.14159 1.56859 7e-06'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/led_lamp.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='right_lateral_front_led_body_light_source_visual'>
+      <origin xyz='0.066063 -0.212711 0.209187' rpy='3.14159 1.56859 1.60259'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/led_lamp.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='right_lateral_rear_led_body_light_source_visual'>
+      <origin xyz='-0.066031 -0.212711 0.209187' rpy='3.14159 1.56859 1.60259'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/led_lamp.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='left_lateral_front_led_body_light_source_visual'>
+      <origin xyz='0.066063 0.212711 0.209187' rpy='-3.14159 1.56859 -1.60259'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/led_lamp.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='left_lateral_rear_led_body_light_source_visual'>
+      <origin xyz='-0.066031 0.212711 0.209187' rpy='-3.14159 1.56859 -1.60259'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/led_lamp.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/front_left_wheel_link'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='2.637'/>
+      <inertia ixx='0.02467' ixy='0' ixz='0' iyy='0.04411' iyz='0' izz='0.02467'/>
+    </inertial>
+    <collision name='front_left_wheel_link_collision'>
+      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.1651' length='0.1143'/>
+      </geometry>
+    </collision>
+    <visual name='front_left_wheel_link_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/wheel.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/front_right_wheel_link'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='2.637'/>
+      <inertia ixx='0.02467' ixy='0' ixz='0' iyy='0.04411' iyz='0' izz='0.02467'/>
+    </inertial>
+    <collision name='front_right_wheel_link_collision'>
+      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.1651' length='0.1143'/>
+      </geometry>
+    </collision>
+    <visual name='front_right_wheel_link_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/wheel.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/rear_left_wheel_link'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='2.637'/>
+      <inertia ixx='0.02467' ixy='0' ixz='0' iyy='0.04411' iyz='0' izz='0.02467'/>
+    </inertial>
+    <collision name='rear_left_wheel_link_collision'>
+      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.1651' length='0.1143'/>
+      </geometry>
+    </collision>
+    <visual name='rear_left_wheel_link_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/wheel.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/rear_right_wheel_link'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='2.637'/>
+      <inertia ixx='0.02467' ixy='0' ixz='0' iyy='0.04411' iyz='0' izz='0.02467'/>
+    </inertial>
+    <collision name='rear_right_wheel_link_collision'>
+      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.1651' length='0.1143'/>
+      </geometry>
+    </collision>
+    <visual name='rear_right_wheel_link_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://explorer_x1_sensor_config_1/meshes/wheel.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name='front_left_wheel_joint' type='revolute'>
+    <origin xyz='0.256 0.2854 0.03282' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/front_left_wheel_link'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 1 0'/>
+    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+  </joint>
+  <joint name='front_right_wheel_joint' type='revolute'>
+    <origin xyz='0.256 -0.2854 0.03282' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/front_right_wheel_link'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 1 0'/>
+    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+  </joint>
+  <joint name='rear_left_wheel_joint' type='revolute'>
+    <origin xyz='-0.256 0.2854 0.03282' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rear_left_wheel_link'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 1 0'/>
+    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+  </joint>
+  <joint name='rear_right_wheel_joint' type='revolute'>
+    <origin xyz='-0.256 -0.2854 0.03282' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rear_right_wheel_link'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 1 0'/>
+    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+  </joint>
+</robot>

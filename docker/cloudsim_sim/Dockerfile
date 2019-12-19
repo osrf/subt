@@ -142,6 +142,18 @@ RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/mode
 RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X4 UAV Config 3" -v 4
 RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X4 UAV Config 4" -v 4
 RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X4 UAV Config 5" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X1 Config 6" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X2 Config 7" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X3 UAV Config 5" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/X4 UAV Config 6" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/SSCI_X2_SENSOR_CONFIG_1" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/SSCI_X4_SENSOR_CONFIG_1" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/SSCI_X4_SENSOR_CONFIG_2" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/ROBOTIKA_X2_SENSOR_CONFIG_1" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/EXPLORER_X1_SENSOR_CONFIG_1" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/COSTAR_HUSKY_SENSOR_CONFIG_1" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/SOPHISTICATED_ENGINEERING_X2_SENSOR_CONFIG_1" -v 4
+RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/SOPHISTICATED_ENGINEERING_X4_SENSOR_CONFIG_1" -v 4
 
 # Download the tunnel circuit models
 RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/subt_tunnel_staging_area" -v 4

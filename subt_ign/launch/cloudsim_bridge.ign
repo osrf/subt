@@ -136,9 +136,6 @@
     "<executable name='x3_description'>\n"\
     "  <command>roslaunch --wait subt_ros x3_description.launch name:=#{_name}</command>\n"\
     "</executable>\n"\
-    "<executable name='X3_controller'>\n"\
-    "  <command>roslaunch --wait x3_control control.launch x3_name:=#{_name}</command>\n"\
-    "</executable>\n"\
     "<executable name='x3_ros_ign_bridge'>\n"\
       "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} rgbd_cam:=#{rgbdCam}</command>\n"\
     "</executable>\n"
@@ -158,9 +155,6 @@
     if _config == "5"
       stereoCam=1
     end
-    "<executable name='X4_controller'>\n"\
-    "  <command>roslaunch --wait x4_control control.launch x4_name:=#{_name}</command>\n"\
-    "</executable>\n"\
     "<executable name='x4_description'>\n"\
     "  <command>roslaunch --wait subt_ros x4_description.launch name:=#{_name}</command>\n"\
     "</executable>\n"\
@@ -172,14 +166,16 @@
 
 <%
   robotNames.each_with_index do |name, i|
-    if robotConfigs[i][1] == "1"
+    config = robotConfigs[i]
+    robotConfigN = config[-1]
+    if robotConfigs[i][1] == "1" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5")
 %>
 <%=   spawnX1(robotNames[i], robotConfigs[i][-1]) %>
-<%  elsif robotConfigs[i][1] == "2" %>
+<%  elsif robotConfigs[i][1] == "2" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5" or robotConfigN == "6") %>
 <%=   spawnX2(robotNames[i], robotConfigs[i][-1]) %>
-<%  elsif robotConfigs[i][1] == "3" %>
+<%  elsif robotConfigs[i][1] == "3" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4") %>
 <%=   spawnX3(robotNames[i], robotConfigs[i][-1]) %>
-<%  elsif robotConfigs[i][1] == "4" %>
+<%  elsif robotConfigs[i][1] == "4" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5") %>
 <%=   spawnX4(robotNames[i],  robotConfigs[i][-1]) %>
 <%  else
       # Try a team-submitted vehicle.

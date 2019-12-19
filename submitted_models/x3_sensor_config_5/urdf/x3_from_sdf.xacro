@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name="X3" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:arg name="name" default="X3"/>
+  <xacro:property name="robot_namespace" value="$(arg name)"/>
+
+  <link name='${robot_namespace}/base_link'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='1.5'/>
+      <inertia ixx='0.0347563' ixy='0' ixz='0' iyy='0.07' iyz='0' izz='0.0977'/>
+    </inertial>
+    <collision name='base_link_inertia_collision'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.47 0.47 0.11'/>
+      </geometry>
+    </collision>
+    <visual name='base_link_inertia_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://x3_description/meshes/x3.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+  </link>
+  <sensor name='imu_sensor' update_rate='1000'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0 0 0' rpy='0 -0 0'/>
+  </sensor>
+  <link name='${robot_namespace}/rotor_0'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='0.005'/>
+      <inertia ixx='9.75e-07' ixy='0' ixz='0' iyy='4.17041e-05' iyz='0' izz='4.26041e-05'/>
+    </inertial>
+    <collision name='rotor_0_collision'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.1' length='0.005'/>
+      </geometry>
+    </collision>
+    <visual name='rotor_0_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://x3_description/meshes/propeller_ccw.dae' scale='0.1 0.1 0.1'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/rotor_1'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='0.005'/>
+      <inertia ixx='9.75e-07' ixy='0' ixz='0' iyy='4.17041e-05' iyz='0' izz='4.26041e-05'/>
+    </inertial>
+    <collision name='rotor_1_collision'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.1' length='0.005'/>
+      </geometry>
+    </collision>
+    <visual name='rotor_1_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://x3_description/meshes/propeller_ccw.dae' scale='0.1 0.1 0.1'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/rotor_2'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='0.005'/>
+      <inertia ixx='9.75e-07' ixy='0' ixz='0' iyy='4.17041e-05' iyz='0' izz='4.26041e-05'/>
+    </inertial>
+    <collision name='rotor_2_collision'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.1' length='0.005'/>
+      </geometry>
+    </collision>
+    <visual name='rotor_2_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://x3_description/meshes/propeller_cw.dae' scale='0.1 0.1 0.1'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/rotor_3'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='0.005'/>
+      <inertia ixx='9.75e-07' ixy='0' ixz='0' iyy='4.17041e-05' iyz='0' izz='4.26041e-05'/>
+    </inertial>
+    <collision name='rotor_3_collision'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.1' length='0.005'/>
+      </geometry>
+    </collision>
+    <visual name='rotor_3_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://x3_description/meshes/propeller_cw.dae' scale='0.1 0.1 0.1'/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name='rotor_0_joint' type='revolute'>
+    <origin xyz='0.13 -0.22 0.023' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rotor_0'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 0 1'/>
+    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+  </joint>
+  <joint name='rotor_1_joint' type='revolute'>
+    <origin xyz='-0.13 0.2 0.023' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rotor_1'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 0 1'/>
+    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+  </joint>
+  <joint name='rotor_2_joint' type='revolute'>
+    <origin xyz='0.13 0.22 0.023' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rotor_2'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 0 1'/>
+    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+  </joint>
+  <joint name='rotor_3_joint' type='revolute'>
+    <origin xyz='-0.13 -0.2 0.023' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rotor_3'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 0 1'/>
+    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+  </joint>
+</robot>

@@ -621,6 +621,57 @@
     "      <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>\n"\
     "      <motorType>velocity</motorType>\n"\
     "    </plugin>\n"\
+    "    <!--Multicopter velocity controller--> \n"\
+    "    <plugin\n"\
+    "      filename=\"libignition-gazebo-multicopter-control-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::MulticopterVelocityControl\">\n"\
+    "      <robotNamespace>model/#{_name}</robotNamespace>\n"\
+    "      <commandSubTopic>cmd_vel</commandSubTopic>\n"\
+    "      <motorControlPubTopic>command/motor_speed</motorControlPubTopic>\n"\
+    "      <enableSubTopic>velocity_controller/enable</enableSubTopic>\n"\
+    "      <comLinkName>base_link</comLinkName>\n"\
+    "      <velocityGain>2.7 2.7 2.7</velocityGain>\n"\
+    "      <attitudeGain>2 3 0.15</attitudeGain>\n"\
+    "      <angularRateGain>0.4 0.52 0.18</angularRateGain>\n"\
+    "      <maximumLinearAcceleration>1 1 2</maximumLinearAcceleration>\n"\
+    "      <maximumLinearVelocity>5 5 5</maximumLinearVelocity>\n"\
+    "      <maximumAngularVelocity>3 3 3</maximumAngularVelocity>\n"\
+    "      <linearVelocityNoiseMean>0 0 0.05</linearVelocityNoiseMean>\n"\
+    "      <!-- linearVelocityNoiseStdDev based on error values reported in the paper Shen et. al., -->\n"\
+    "      <!-- Vision-Based State Estimation and Trajectory Control Towards High-Speed Flight with a Quadrotor -->\n"\
+    "      <!-- http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.490.7958&rep=rep1&type=pdf -->\n"\
+    "      <linearVelocityNoiseStdDev>0.1105 0.1261 0.00947</linearVelocityNoiseStdDev>\n"\
+    "      <angularVelocityNoiseMean>0 0 0</angularVelocityNoiseMean>\n"\
+    "      <!-- angularVelocityNoiseStdDev values based on ADIS16448's Rate Noise Density with a sample  -->\n"\
+    "      <!-- time of 0.004 ms. -->\n"\
+    "      <angularVelocityNoiseStdDev>0.004 0.004 0.004</angularVelocityNoiseStdDev>\n"\
+    "      <rotorConfiguration>\n"\
+    "        <rotor>\n"\
+    "          <jointName>rotor_0_joint</jointName>\n"\
+    "          <forceConstant>8.54858e-06</forceConstant>\n"\
+    "          <momentConstant>0.016</momentConstant>\n"\
+    "          <direction>1</direction>\n"\
+    "        </rotor>\n"\
+    "        <rotor>\n"\
+    "          <jointName>rotor_1_joint</jointName>\n"\
+    "          <forceConstant>8.54858e-06</forceConstant>\n"\
+    "          <momentConstant>0.016</momentConstant>\n"\
+    "          <direction>1</direction>\n"\
+    "        </rotor>\n"\
+    "        <rotor>\n"\
+    "          <jointName>rotor_2_joint</jointName>\n"\
+    "          <forceConstant>8.54858e-06</forceConstant>\n"\
+    "          <momentConstant>0.016</momentConstant>\n"\
+    "          <direction>-1</direction>\n"\
+    "        </rotor>\n"\
+    "        <rotor>\n"\
+    "          <jointName>rotor_3_joint</jointName>\n"\
+    "          <forceConstant>8.54858e-06</forceConstant>\n"\
+    "          <momentConstant>0.016</momentConstant>\n"\
+    "          <direction>-1</direction>\n"\
+    "        </rotor>\n"\
+    "      </rotorConfiguration>\n"\
+    "    </plugin>\n"\
     "    <!-- Battery plugin -->\n"\
     "    <plugin filename=\"libignition-gazebo-linearbatteryplugin-system.so\"\n"\
     "      name=\"ignition::gazebo::systems::LinearBatteryPlugin\">\n"\
@@ -788,6 +839,69 @@
     "      <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>\n"\
     "      <motorType>velocity</motorType>\n"\
     "    </plugin>\n"\
+    "    <!--Multicopter velocity controller--> \n"\
+    "    <plugin\n"\
+    "      filename=\"libignition-gazebo-multicopter-control-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::MulticopterVelocityControl\">\n"\
+    "      <robotNamespace>model/#{_name}</robotNamespace>\n"\
+    "      <commandSubTopic>cmd_vel</commandSubTopic>\n"\
+    "      <motorControlPubTopic>command/motor_speed</motorControlPubTopic>\n"\
+    "      <enableSubTopic>velocity_controller/enable</enableSubTopic>\n"\
+    "      <comLinkName>base_link</comLinkName>\n"\
+    "      <velocityGain>6 6 10</velocityGain>\n"\
+    "      <attitudeGain>4 4 2</attitudeGain>\n"\
+    "      <angularRateGain>0.7 0.7 0.7</angularRateGain>\n"\
+    "      <maximumLinearAcceleration>1 1 2</maximumLinearAcceleration>\n"\
+    "      <maximumLinearVelocity>5 5 5</maximumLinearVelocity>\n"\
+    "      <maximumAngularVelocity>3 3 3</maximumAngularVelocity>\n"\
+    "      <linearVelocityNoiseMean>0 0 0</linearVelocityNoiseMean>\n"\
+    "      <!-- linearVelocityNoiseStdDev based on error values reported in the paper Shen et. al., -->\n"\
+    "      <!-- Vision-Based State Estimation and Trajectory Control Towards High-Speed Flight with a Quadrotor -->\n"\
+    "      <!-- http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.490.7958&rep=rep1&type=pdf -->\n"\
+    "      <linearVelocityNoiseStdDev>0.1105 0.1261 0.0947</linearVelocityNoiseStdDev>\n"\
+    "      <angularVelocityNoiseMean>0 0 0</angularVelocityNoiseMean>\n"\
+    "      <!-- angularVelocityNoiseStdDev values based on ADIS16448's Rate Noise Density with a sample  -->\n"\
+    "      <!-- time of 0.004 ms. -->\n"\
+    "      <angularVelocityNoiseStdDev>0.004 0.004 0.004</angularVelocityNoiseStdDev>\n"\
+    "      <rotorConfiguration>\n"\
+    "        <rotor>\n"\
+    "          <jointName>rotor_0_joint</jointName>\n"\
+    "          <forceConstant>1.269e-05</forceConstant>\n"\
+    "          <momentConstant>1.6754e-2</momentConstant>\n"\
+    "          <direction>1</direction>\n"\
+    "        </rotor>\n"\
+    "        <rotor>\n"\
+    "          <jointName>rotor_1_joint</jointName>\n"\
+    "          <forceConstant>1.269e-05</forceConstant>\n"\
+    "          <momentConstant>1.6754e-2</momentConstant>\n"\
+    "          <direction>-1</direction>\n"\
+    "        </rotor>\n"\
+    "        <rotor>\n"\
+    "          <jointName>rotor_2_joint</jointName>\n"\
+    "          <forceConstant>1.269e-05</forceConstant>\n"\
+    "          <momentConstant>1.6754e-2</momentConstant>\n"\
+    "          <direction>1</direction>\n"\
+    "        </rotor>\n"\
+    "        <rotor>\n"\
+    "          <jointName>rotor_3_joint</jointName>\n"\
+    "          <forceConstant>1.269e-05</forceConstant>\n"\
+    "          <momentConstant>1.6754e-2</momentConstant>\n"\
+    "          <direction>-1</direction>\n"\
+    "        </rotor>\n"\
+    "        <rotor>\n"\
+    "          <jointName>rotor_4_joint</jointName>\n"\
+    "          <forceConstant>1.269e-05</forceConstant>\n"\
+    "          <momentConstant>1.6754e-2</momentConstant>\n"\
+    "          <direction>1</direction>\n"\
+    "        </rotor>\n"\
+    "        <rotor>\n"\
+    "          <jointName>rotor_5_joint</jointName>\n"\
+    "          <forceConstant>1.269e-05</forceConstant>\n"\
+    "          <momentConstant>1.6754e-2</momentConstant>\n"\
+    "          <direction>-1</direction>\n"\
+    "        </rotor>\n"\
+    "      </rotorConfiguration>\n"\
+    "    </plugin>\n"\
     "    <!-- Battery plugin -->\n"\
     "    <plugin filename=\"libignition-gazebo-linearbatteryplugin-system.so\"\n"\
     "      name=\"ignition::gazebo::systems::LinearBatteryPlugin\">\n"\
@@ -815,22 +929,22 @@
     robotConfigN = config[-1]
     posX = -(robotSpawned / spawnColSize * spawnGridSize - spawnRowOffset)
     posY = -(robotSpawned % spawnColSize * spawnGridSize - spawnColOffset)
-    if robotType == "1"
+    if robotType == "1" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5")
       robotSpawned += 1
 %>
 <%=   spawnX1(name, robotConfigN, posX, posY) %>
 <%
-    elsif robotType == "2"
+    elsif robotType == "2" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5" or robotConfigN == "6")
       robotSpawned += 1
 %>
 <%=   spawnX2(name, robotConfigN, posX, posY) %>
 <%
-    elsif robotType == "3"
+    elsif robotType == "3" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4")
       robotSpawned += 1
 %>
 <%=   spawnX3(name, robotConfigN, posX, posY) %>
 <%
-    elsif robotType == "4"
+    elsif robotType == "4" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5")
       robotSpawned += 1
 %>
 <%=   spawnX4(name, robotConfigN, posX, posY) %>
@@ -853,11 +967,30 @@
         # We assume that the model and its supporting files can be found in
         # `installDir`. If `$localModel` is not set, the model is loaded from
         # Fuel.
-
-        modelURI = $localModel ? installDir : "#{fuelPrefix}/#{config}"
+        if $localModel
+          modelURI = installDir
+        else
+          # check if robot name follows subt robot naming convention on Fuel.
+          # if so, construct a name without underscores, e.g. 'X1 Config 2' or
+          # 'X3 UAV Config 4', else use original name
+          convention = /^x[[:digit:]]_.*[[:digit:]]/.match(package)
+          if convention
+            robotType = config[1]
+            robotConfigN = config[-1]
+            if robotType == "3" or robotType == "4"
+              UAVStr = "UAV "
+            else
+              UAVStr = ""
+            end
+            robotName = "X#{robotType} #{UAVStr}Config #{robotConfigN}"
+          else
+            robotName = config
+          end
+          modelURI = "#{fuelPrefix}/#{robotName}"
+        end
         robotSpawned += 1
 %>
-<%=     spawner(name, modelURI, $worldName, posX, posY, spawnWorldZPos, 0, 0, spawnWorldYaw) %>
+<%=     spawner(name, modelURI, $worldName, posX, posY, 0.2, 0, 0, 0) %>
 <%
       end
     end
