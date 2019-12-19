@@ -50,20 +50,30 @@ then
 fi
 
 
+# Define usage function.
+usage()
+{
+  echo "Usage: $0 [--tunnel | --urban]"
+  echo -e 
+  echo "Optional extra command:"
+  echo "  --headless : run cloudsim in headless mode"
+  exit 1
+}
+
 if [ $# -gt 0 ]
 then
-  if [ "${1,,}" == "tunnel" ]
+  if [ "${1,,}" == "--tunnel" ]
   then
-    if [ "${2,,}" == "headless" ]
+    if [ "${2,,}" == "--headless" ]
     then
        echo -e 'circuit=tunnel\nworldName=tunnel_circuit_practice_01\nheadless=true' > .env
     else
        echo -e 'circuit=tunnel\nworldName=tunnel_circuit_practice_01\nheadless=false' > .env
     fi
     docker-compose up
-  elif [ "${1,,}" == "urban" ]
+  elif [ "${1,,}" == "--urban" ]
   then
-    if [ "${2,,}" == "headless" ]
+    if [ "${2,,}" == "--headless" ]
     then
        echo -e 'circuit=urban\nworldName=urban_circuit_practice_01\nheadless=true' > .env
     else
@@ -71,8 +81,8 @@ then
     fi
     docker-compose up
   else
-     echo "Invalid [circuit] parameter value. Use tunnel or urban"
+     usage
   fi
 else
-  echo "[circuit] parameter value required (e.g. ./run_docker_compose.sh tunnel)"
+  usage
 fi
