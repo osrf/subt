@@ -18,6 +18,7 @@
 #include "subt_ign/ArtifactValidator.hh"
 
 #include <ignition/common/Console.hh>
+#include <ignition/common/SystemPaths.hh>
 
 #include <ignition/plugin/Register.hh>
 
@@ -28,6 +29,10 @@
 #include <ignition/gazebo/components/Pose.hh>
 
 #include <ignition/transport/Node.hh>
+
+#include <sdf/Root.hh>
+#include <sdf/Model.hh>
+#include <sdf/World.hh>
 
 #include "subt_ign/CommonTypes.hh"
 
@@ -100,9 +105,17 @@ class subt::ArtifactValidatorPrivate
   public: bool ArtifactFromString(
               const std::string &_name, ArtifactType &_type);
 
-  /// \brief Parse artifacts from an SDF file
-  /// \param[in] _sdf sdf file to parse
-  public: void ParseArtifacts(const std::shared_ptr<const sdf::Element> &_sdf);
+  public: bool StringFromArtifact(const ArtifactType &_type,
+              std::string &_typeStr);
+
+  /// \brief Parse artifacts from the SDF root.
+  public: void ParseArtifacts();
+
+  public: bool MoveTo(const std::string &_msg,
+                      ignition::msgs::StringMsg &_rep);
+
+  public: bool MoveTo(const ignition::msgs::StringMsg &_msg,
+                      ignition::msgs::StringMsg &_rep);
 
   /// \brief Callback fired when the next service is called.
   /// \param[in] _msg Service request
@@ -110,91 +123,46 @@ class subt::ArtifactValidatorPrivate
   public: bool OnNext(const ignition::msgs::StringMsg &_msg,
                       ignition::msgs::StringMsg &_rep);
 
-  /// \brief Callback fired when the scan service is called.
+  /// \brief Callback fired when the next service is called.
   /// \param[in] _msg Service request
   /// \param[out] _rep Service response
-  public: bool OnScan(const ignition::msgs::StringMsg &_msg,
+  public: bool OnPrev(const ignition::msgs::StringMsg &_msg,
                       ignition::msgs::StringMsg &_rep);
 
   /// \brief Map of artifact names to additional artifact data.
   public: std::map<std::string, Artifact> artifacts;
 
-  /// \brief Cache of valid artifacts that have been detected.
-  public: std::vector<std::string> validArtifacts;
+  public: std::map<std::string, Artifact>::iterator artifactsIter;
 
-  /// \brief Index of current artifact being validated.
-  public: int index = -1;
+  /// \brief The SDF root object.
+  public: sdf::Root sdfRoot;
 
   /// \brief Ignition transport node.
   public: transport::Node node;
 
   /// \brief World name of current world.
   public: std::string worldName;
-
-  /// \brief List of level poses to check for artifacts.
-  public: std::vector<ignition::math::Pose3d> posesToCheck;
 };
 
-bool ArtifactValidatorPrivate::OnScan(const ignition::msgs::StringMsg& /*_req*/,
-                                      ignition::msgs::StringMsg& /*_rep*/)
+bool ArtifactValidatorPrivate::MoveTo(const std::string &_name,
+                                      ignition::msgs::StringMsg &_rep)
 {
-  igndbg << "Scanning: "
-    << this->posesToCheck.size() << " levels" << std::endl;
-
-  igndbg << "Have poses for: "
-    << validArtifacts.size() << "/" << artifacts.size() << std::endl;
-
-  if (this->posesToCheck.size())
-  {
-    auto pose = this->posesToCheck.back();
-    ignition::msgs::Pose req;
-    req.set_name("validator");
-    req.mutable_position()->set_x(pose.Pos().X());
-    req.mutable_position()->set_y(pose.Pos().Y());
-    req.mutable_position()->set_z(pose.Pos().Z());
-
-    igndbg << pose << std::endl;
-
-    msgs::Boolean res;
-    bool result;
-    unsigned int timeout = 1000;
-    std::string service {"/world/" + this->worldName + "/set_pose"};
-    node.Request(service, req, timeout, res, result);
-    igndbg << "Result: " << res.data() << " " << result << std::endl;
-    this->posesToCheck.pop_back();
-  }
-  return true;
+  ignition::msgs::StringMsg msg;
+  msg.set_data(_name);
+  return this->MoveTo(msg, _rep);
 }
 
-bool ArtifactValidatorPrivate::OnNext(const ignition::msgs::StringMsg& /*_req*/,
-                                      ignition::msgs::StringMsg& _rep)
+bool ArtifactValidatorPrivate::MoveTo(const ignition::msgs::StringMsg &_msg,
+                                      ignition::msgs::StringMsg &_rep)
 {
-  if (this->index == -1)
-  {
-    return false;
-  }
-
-  if (this->index == static_cast<int>(validArtifacts.size() - 1))
-  {
-    this->index = 0;
-  }
-  else
-  {
-    this->index++;
-  }
-
-  auto name = this->validArtifacts[this->index];
-  ignmsg << "Moving to: " << name << std::endl;
-
-  auto artifact = this->artifacts[name];
-
+  ignmsg << "Moving to: " << _msg.data() << std::endl;
+  auto artifact = this->artifacts[_msg.data()];
   ignition::msgs::Pose req;
   req.set_name("validator");
   req.mutable_position()->set_x(artifact.pose.Pos().X());
   req.mutable_position()->set_y(artifact.pose.Pos().Y());
   req.mutable_position()->set_z(artifact.pose.Pos().Z());
-
-  _rep.set_data(name);
+  _rep.set_data(_msg.data());
 
   msgs::Boolean res;
   bool result;
@@ -202,8 +170,35 @@ bool ArtifactValidatorPrivate::OnNext(const ignition::msgs::StringMsg& /*_req*/,
   std::string service {"/world/" + this->worldName + "/set_pose"};
   node.Request(service, req, timeout, res, result);
   igndbg << "Result: " << res.data() << " " << result << std::endl;
+  return result;
+}
 
-  return true;
+bool ArtifactValidatorPrivate::OnNext(const ignition::msgs::StringMsg& /*_req*/,
+                                      ignition::msgs::StringMsg& _rep)
+{
+  this->artifactsIter++;
+
+  if (this->artifactsIter == this->artifacts.end())
+  {
+    this->artifactsIter = this->artifacts.begin();
+  }
+
+  return this->MoveTo(this->artifactsIter->first, _rep);
+}
+
+bool ArtifactValidatorPrivate::OnPrev(const ignition::msgs::StringMsg& /*_req*/,
+                                      ignition::msgs::StringMsg &_rep)
+{
+  this->artifactsIter--;
+
+  auto ret = this->MoveTo(this->artifactsIter->first, _rep);
+
+  if (this->artifactsIter == this->artifacts.begin())
+  {
+    this->artifactsIter = this->artifacts.end();
+    this->artifactsIter--;
+  }
+  return ret;
 }
 
 /////////////////////////////////////////////////
@@ -226,64 +221,80 @@ bool ArtifactValidatorPrivate::ArtifactFromString(const std::string &_name,
 }
 
 /////////////////////////////////////////////////
-void ArtifactValidatorPrivate::ParseArtifacts(
-    const std::shared_ptr<const sdf::Element> &_sdf)
+bool ArtifactValidatorPrivate::StringFromArtifact(const ArtifactType &_type,
+    std::string &_typeStr)
 {
-  sdf::ElementPtr artifactElem = const_cast<sdf::Element*>(
-      _sdf.get())->GetElement("artifact");
+  auto pos = std::find_if(
+    std::begin(this->kArtifactTypes),
+    std::end(this->kArtifactTypes),
+    [&_type](const typename std::pair<ArtifactType, std::string> &_pair)
+    {
+      return (std::get<0>(_pair) == _type);
+    });
 
-  while (artifactElem)
+  if (pos == std::end(this->kArtifactTypes))
+    return false;
+
+  _typeStr = std::get<1>(*pos);
+  return true;
+}
+
+
+/////////////////////////////////////////////////
+void ArtifactValidatorPrivate::ParseArtifacts()
+{
+  std::map<std::string, subt::ArtifactType> sdfToType = {
+    { "backpack", subt::ArtifactType::TYPE_BACKPACK },
+    { "drill", subt::ArtifactType::TYPE_DRILL},
+    { "duct", subt::ArtifactType::TYPE_DUCT},
+    { "electrical_box", subt::ArtifactType::TYPE_ELECTRICAL_BOX},
+    { "extinguisher", subt::ArtifactType::TYPE_EXTINGUISHER},
+    { "phone", subt::ArtifactType::TYPE_PHONE},
+    { "radio", subt::ArtifactType::TYPE_RADIO},
+    { "rescue_randy", subt::ArtifactType::TYPE_RESCUE_RANDY },
+    { "toolbox", subt::ArtifactType::TYPE_TOOLBOX },
+    { "valve", subt::ArtifactType::TYPE_VALVE},
+    { "vent", subt::ArtifactType::TYPE_VENT},
+    { "gas", subt::ArtifactType::TYPE_GAS}
+  };
+
+  // Assuming 1 world per SDF, which is true for SubT.
+  auto world = this->sdfRoot.WorldByIndex(0);
+
+  for (uint64_t modelIndex = 0; modelIndex < world->ModelCount(); ++modelIndex)
   {
-    // Sanity check: "Name" is required.
-    if (!artifactElem->HasElement("name"))
+    auto model = world->ModelByIndex(modelIndex);
+    auto pose = model->Pose();
+    auto name = model->Name();
+
+    if (name == "artifact_origin")
     {
-      ignerr << "[ArtifactValidator]: Parameter <name> not found. "
-            << "Ignoring this artifact" << std::endl;
-      artifactElem = artifactElem->GetNextElement("artifact");
-      continue;
+      Artifact newArtifact;
+      newArtifact.name = name;
+      newArtifact.pose = pose;
+      artifacts[name] = newArtifact;
     }
 
-    std::string modelName =
-      artifactElem->Get<std::string>("name", "name").first;
-
-    // Sanity check: "Type" is required.
-    if (!artifactElem->HasElement("type"))
+    for (auto [str, type] : sdfToType)
     {
-      ignerr << "[ArtifactValidator]: Parameter <type> not found."
-        << "Ignoring this artifact" << std::endl;
-      artifactElem = artifactElem->GetNextElement("artifact");
-      continue;
+      if (name.find(str) != std::string::npos)
+      {
+        Artifact newArtifact;
+        newArtifact.name = name;
+        newArtifact.type = type;
+        StringFromArtifact(type, newArtifact.typeStr);
+        newArtifact.pose = pose;
+        artifacts[name] = newArtifact;
+      }
     }
-
-    // Sanity check: Make sure that the artifact type is supported.
-    std::string modelTypeStr = artifactElem->Get<std::string>("type",
-        "type").first;
-    ArtifactType modelType;
-    if (!this->ArtifactFromString(modelTypeStr, modelType))
-    {
-      ignerr << "[ArtifactValidator]: Unknown artifact type ["
-        << modelTypeStr << "]. Ignoring artifact" << std::endl;
-      artifactElem = artifactElem->GetNextElement("artifact");
-      continue;
-    }
-
-    // Sanity check: The artifact shouldn't be repeated.
-    if (this->artifacts.find(modelName) != this->artifacts.end())
-    {
-        ignerr << "[ArtifactValidator]: Repeated model with name ["
-          << modelName << "]. Ignoring artifact" << std::endl;
-        artifactElem = artifactElem->GetNextElement("artifact");
-        continue;
-    }
-
-    Artifact newArtifact;
-    newArtifact.name = modelName;
-    newArtifact.type = modelType;
-    newArtifact.typeStr = modelTypeStr;
-    ignmsg << "Adding artifact: " << newArtifact.String() << std::endl;
-    this->artifacts[modelName] = newArtifact;
-    artifactElem = artifactElem->GetNextElement("artifact");
   }
+
+  for (auto artifact : this->artifacts)
+  {
+    igndbg << artifact.second.String() << "\n";
+  }
+
+  this->artifactsIter = this->artifacts.end();
 }
 
 /////////////////////////////////////////////////
@@ -299,93 +310,49 @@ ArtifactValidator::~ArtifactValidator() = default;
 /////////////////////////////////////////////////
 void ArtifactValidator::Configure(const ignition::gazebo::Entity & /*_entity*/,
     const std::shared_ptr<const sdf::Element> &_sdf,
-    ignition::gazebo::EntityComponentManager & _ecm,
+    ignition::gazebo::EntityComponentManager & /*_ecm*/,
     ignition::gazebo::EventManager & /*_eventMgr*/)
 {
   this->dataPtr->worldName = const_cast<sdf::Element*>(
       _sdf.get())->Get<std::string>("world_name", "world_name").first;
 
-  igndbg << "Set world name: " << this->dataPtr->worldName << std::endl;
+  if (this->dataPtr->worldName.empty())
+  {
+    ignerr << "File path not available.\n";
+    return;
+  }
 
-  this->dataPtr->ParseArtifacts(_sdf);
+  common::SystemPaths systemPaths;
+  systemPaths.SetFilePathEnv("IGN_GAZEBO_RESOURCE_PATH");
+  systemPaths.AddFilePaths(IGN_GAZEBO_WORLD_INSTALL_DIR);
+  std::string filePath = systemPaths.FindFile(this->dataPtr->worldName + ".sdf");
+  ignmsg << "Loading SDF world file[" << filePath << "].\n";
+
+  auto errors = this->dataPtr->sdfRoot.Load(filePath);
+
+  if (!errors.empty())
+  {
+    for (auto &err: errors)
+      ignerr << err << "\n";
+    return;
+  }
+
+  this->dataPtr->ParseArtifacts();
 
   this->dataPtr->node.Advertise("/artifact/next",
       &ArtifactValidatorPrivate::OnNext, this->dataPtr.get());
-
-  this->dataPtr->node.Advertise("/artifact/scan",
-      &ArtifactValidatorPrivate::OnScan, this->dataPtr.get());
-
-  _ecm.Each<components::Level,
-            components::LevelEntityNames,
-            components::Pose>(
-              [&](const Entity& ,
-                  const components::Level*,
-                  const components::LevelEntityNames *_entities,
-                  const components::Pose *_pose) -> bool
-              {
-                for (const auto & name : _entities->Data())
-                {
-                  auto it = this->dataPtr->artifacts.find(name);
-                  if (it != this->dataPtr->artifacts.end())
-                  {
-                    this->dataPtr->posesToCheck.push_back(_pose->Data());
-                  }
-                }
-
-                return true;
-              });
-
-  igndbg << "Found artifacts: "
-    << this->dataPtr->artifacts.size() << std::endl;
-  igndbg << "Found levels to check: "
-    << this->dataPtr->posesToCheck.size() << std::endl;
+  this->dataPtr->node.Advertise("/artifact/prev",
+      &ArtifactValidatorPrivate::OnPrev, this->dataPtr.get());
 }
 
-//////////////////////////////////////////////////
-void ArtifactValidator::PostUpdate(
-    const ignition::gazebo::UpdateInfo &/*_info*/,
-    const ignition::gazebo::EntityComponentManager &_ecm)
+void ArtifactValidator::PostUpdate(const ignition::gazebo::UpdateInfo &_info,
+                const ignition::gazebo::EntityComponentManager &_ecm)
 {
-  _ecm.EachNew<gazebo::components::Model,
-               gazebo::components::Name,
-               gazebo::components::Pose>(
-      [&](const gazebo::Entity &,
-          const gazebo::components::Model *,
-          const gazebo::components::Name *_nameComp,
-          const gazebo::components::Pose *_poseComp) -> bool
-      {
-        auto artifact = this->dataPtr->artifacts.find(_nameComp->Data());
-
-        if (artifact != this->dataPtr->artifacts.end())
-        {
-          igndbg << "Checking: " << _nameComp->Data() << std::endl;
-
-          auto it = std::find(this->dataPtr->validArtifacts.begin(),
-                    this->dataPtr->validArtifacts.end(),
-                    _nameComp->Data());
-
-          if (it != this->dataPtr->validArtifacts.end())
-          {
-            igndbg << "Skipping: " << _nameComp->Data() << "already found";
-            igndbg << "Have poses for: "
-              << this->dataPtr->validArtifacts.size() << "/"
-              << this->dataPtr->artifacts.size() << std::endl;
-            return true;
-          }
-
-          artifact->second.pose = _poseComp->Data();
-          this->dataPtr->validArtifacts.push_back(_nameComp->Data());
-          if (this->dataPtr->index == -1)
-          {
-            this->dataPtr->index = 0;
-          }
-          igndbg << "Updated artifact: "
-            << artifact->second.String() << std::endl;
-
-          igndbg << "Have poses for: "
-            << this->dataPtr->validArtifacts.size() << "/"
-            << this->dataPtr->artifacts.size() << std::endl;
-        }
-        return true;
-      });
+  if (this->dataPtr->artifactsIter == this->dataPtr->artifacts.end())
+  {
+    this->dataPtr->artifactsIter = this->dataPtr->artifacts.begin();
+    ignition::msgs::StringMsg rep;
+    this->dataPtr->MoveTo(this->dataPtr->artifactsIter->first, rep);
+  }
 }
+
