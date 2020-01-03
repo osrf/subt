@@ -5,14 +5,29 @@
 
 **Note that there are a few double dashes with a separating space in the commands below. The spaces make the XML comment happy, and the spaces should be removed when running the command.**
 
+Use the following to iterate the through the artifacts.
+The service will respond with the artifact name that you are viewing.
+You can use the GUI to look through the two cameras (one top-down, one at a 45 degree angle).
+Hint: Using the "follow" functionality in the GUI is very helpful here.
 
-1. Use the following to scan through the levels until all artifact poses have been retrieved.
+ign service -s /artifact/next \
+  - -reqtype ignition.msgs.StringMsg \
+  - -reptype ignition.msgs.StringMsg \
+  - -timeout 1000 \
+  - -req 'data: ""'
 
-    ign service -s /artifact/scan - -reqtype ignition.msgs.StringMsg - -reptype ignition.msgs.StringMsg - -timeout 1000 - -req 'data: ""'
+ign service -s /artifact/prev \
+  - -reqtype ignition.msgs.StringMsg \
+  - -reptype ignition.msgs.StringMsg \
+  - -timeout 1000 \
+  - -req 'data: ""'
 
-2. Use the following to iterate the through the artifacts. The service will respond with the artifact name that you are viewing. You can use the GUI to look through the two cameras (one top-down, one at a 45 degree angle).
+ign service -s /artifact/move_to \
+  - -reqtype ignition.msgs.StringMsg \
+  - -reptype ignition.msgs.StringMsg \
+  - -timeout 1000 \
+  - -req 'data: "artifact_origin"'
 
-    ign service -s /artifact/next - -reqtype ignition.msgs.StringMsg - -reptype ignition.msgs.StringMsg - -timeout 1000 - -req 'data: ""'
 -->
 
 <%

@@ -15,6 +15,34 @@
  *
  */
 
+
+/*
+
+Use the following to iterate the through the artifacts.
+The service will respond with the artifact name that you are viewing.
+You can use the GUI to look through the two cameras (one top-down, one at a 45 degree angle).
+Hint: Using the "follow" functionality in the GUI is very helpful here.
+
+ign service -s /artifact/next \
+  --reqtype ignition.msgs.StringMsg \
+  --reptype ignition.msgs.StringMsg \
+  --timeout 1000 \
+  --req 'data: ""'
+
+ign service -s /artifact/prev \
+  --reqtype ignition.msgs.StringMsg \
+  --reptype ignition.msgs.StringMsg \
+  --timeout 1000 \
+  --req 'data: ""'
+
+ign service -s /artifact/move_to \
+  --reqtype ignition.msgs.StringMsg \
+  --reptype ignition.msgs.StringMsg \
+  --timeout 1000 \
+  --req 'data: "artifact_origin"'
+
+*/
+
 #include "subt_ign/ArtifactValidator.hh"
 
 #include <ignition/common/Console.hh>
@@ -111,10 +139,16 @@ class subt::ArtifactValidatorPrivate
   /// \brief Parse artifacts from the SDF root.
   public: void ParseArtifacts();
 
-  public: bool MoveTo(const std::string &_msg,
+  /// \brief Callback fired when the move_to service is called.
+  /// \param[in] _msg Service request
+  /// \param[out] _rep Service response
+  public: bool MoveTo(const ignition::msgs::StringMsg &_msg,
                       ignition::msgs::StringMsg &_rep);
 
-  public: bool MoveTo(const ignition::msgs::StringMsg &_msg,
+  /// \brief Convenience method for calling the move_to service with a string
+  /// \param[in] _msg artifact to move to
+  /// \param[out] _rep Service response
+  public: bool MoveToString(const std::string &_msg,
                       ignition::msgs::StringMsg &_rep);
 
   /// \brief Callback fired when the next service is called.
@@ -132,6 +166,7 @@ class subt::ArtifactValidatorPrivate
   /// \brief Map of artifact names to additional artifact data.
   public: std::map<std::string, Artifact> artifacts;
 
+  /// \brief Iterator to current position in map
   public: std::map<std::string, Artifact>::iterator artifactsIter;
 
   /// \brief The SDF root object.
@@ -144,19 +179,21 @@ class subt::ArtifactValidatorPrivate
   public: std::string worldName;
 };
 
-bool ArtifactValidatorPrivate::MoveTo(const std::string &_name,
-                                      ignition::msgs::StringMsg &_rep)
-{
-  ignition::msgs::StringMsg msg;
-  msg.set_data(_name);
-  return this->MoveTo(msg, _rep);
-}
-
+/////////////////////////////////////////////////
 bool ArtifactValidatorPrivate::MoveTo(const ignition::msgs::StringMsg &_msg,
                                       ignition::msgs::StringMsg &_rep)
 {
   ignmsg << "Moving to: " << _msg.data() << std::endl;
-  auto artifact = this->artifacts[_msg.data()];
+
+  auto newIter = this->artifacts.find(_msg.data());
+  if (newIter == this->artifacts.end())
+  {
+    ignerr << "Artifact: " << _msg.data() << " does not exist" << std::endl;
+    return false;
+  }
+  this->artifactsIter = newIter;
+  auto artifact = this->artifactsIter->second;
+
   ignition::msgs::Pose req;
   req.set_name("validator");
   req.mutable_position()->set_x(artifact.pose.Pos().X());
@@ -173,6 +210,16 @@ bool ArtifactValidatorPrivate::MoveTo(const ignition::msgs::StringMsg &_msg,
   return result;
 }
 
+/////////////////////////////////////////////////
+bool ArtifactValidatorPrivate::MoveToString(const std::string &_name,
+                                      ignition::msgs::StringMsg &_rep)
+{
+  ignition::msgs::StringMsg msg;
+  msg.set_data(_name);
+  return this->MoveTo(msg, _rep);
+}
+
+/////////////////////////////////////////////////
 bool ArtifactValidatorPrivate::OnNext(const ignition::msgs::StringMsg& /*_req*/,
                                       ignition::msgs::StringMsg& _rep)
 {
@@ -183,15 +230,16 @@ bool ArtifactValidatorPrivate::OnNext(const ignition::msgs::StringMsg& /*_req*/,
     this->artifactsIter = this->artifacts.begin();
   }
 
-  return this->MoveTo(this->artifactsIter->first, _rep);
+  return this->MoveToString(this->artifactsIter->first, _rep);
 }
 
+/////////////////////////////////////////////////
 bool ArtifactValidatorPrivate::OnPrev(const ignition::msgs::StringMsg& /*_req*/,
                                       ignition::msgs::StringMsg &_rep)
 {
   this->artifactsIter--;
 
-  auto ret = this->MoveTo(this->artifactsIter->first, _rep);
+  auto ret = this->MoveToString(this->artifactsIter->first, _rep);
 
   if (this->artifactsIter == this->artifacts.begin())
   {
@@ -339,20 +387,23 @@ void ArtifactValidator::Configure(const ignition::gazebo::Entity & /*_entity*/,
 
   this->dataPtr->ParseArtifacts();
 
+  this->dataPtr->node.Advertise("/artifact/move_to",
+      &ArtifactValidatorPrivate::MoveTo, this->dataPtr.get());
   this->dataPtr->node.Advertise("/artifact/next",
       &ArtifactValidatorPrivate::OnNext, this->dataPtr.get());
   this->dataPtr->node.Advertise("/artifact/prev",
       &ArtifactValidatorPrivate::OnPrev, this->dataPtr.get());
 }
 
-void ArtifactValidator::PostUpdate(const ignition::gazebo::UpdateInfo &_info,
-                const ignition::gazebo::EntityComponentManager &_ecm)
+/////////////////////////////////////////////////
+void ArtifactValidator::PostUpdate(const ignition::gazebo::UpdateInfo &/*_info*/,
+                const ignition::gazebo::EntityComponentManager &/*_ecm*/)
 {
   if (this->dataPtr->artifactsIter == this->dataPtr->artifacts.end())
   {
     this->dataPtr->artifactsIter = this->dataPtr->artifacts.begin();
     ignition::msgs::StringMsg rep;
-    this->dataPtr->MoveTo(this->dataPtr->artifactsIter->first, rep);
+    this->dataPtr->MoveToString(this->dataPtr->artifactsIter->first, rep);
   }
 }
 
