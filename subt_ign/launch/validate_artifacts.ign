@@ -5,14 +5,29 @@
 
 **Note that there are a few double dashes with a separating space in the commands below. The spaces make the XML comment happy, and the spaces should be removed when running the command.**
 
+Use the following to iterate the through the artifacts.
+The service will respond with the artifact name that you are viewing.
+You can use the GUI to look through the two cameras (one top-down, one at a 45 degree angle).
+Hint: Using the "follow" functionality in the GUI is very helpful here.
 
-1. Use the following to scan through the levels until all artifact poses have been retrieved.
+ign service -s /artifact/next \
+  - -reqtype ignition.msgs.StringMsg \
+  - -reptype ignition.msgs.StringMsg \
+  - -timeout 1000 \
+  - -req 'data: ""'
 
-    ign service -s /artifact/scan - -reqtype ignition.msgs.StringMsg - -reptype ignition.msgs.StringMsg - -timeout 1000 - -req 'data: ""'
+ign service -s /artifact/prev \
+  - -reqtype ignition.msgs.StringMsg \
+  - -reptype ignition.msgs.StringMsg \
+  - -timeout 1000 \
+  - -req 'data: ""'
 
-2. Use the following to iterate the through the artifacts. The service will respond with the artifact name that you are viewing. You can use the GUI to look through the two cameras (one top-down, one at a 45 degree angle).
+ign service -s /artifact/move_to \
+  - -reqtype ignition.msgs.StringMsg \
+  - -reptype ignition.msgs.StringMsg \
+  - -timeout 1000 \
+  - -req 'data: "artifact_origin"'
 
-    ign service -s /artifact/next - -reqtype ignition.msgs.StringMsg - -reptype ignition.msgs.StringMsg - -timeout 1000 - -req 'data: ""'
 -->
 
 <%
@@ -78,129 +93,8 @@
             entity_type="world"
             filename="libArtifactValidator.so"
             name="subt::ArtifactValidator">
-    <!-- The collection of artifacts to locate -->
-
-    <world_name><%= $worldName %></world_name>
-    <logging>
-      <!-- Use the <path> element to control where to record the log file.
-           The HOME path is used by default-->
-      <path>/tmp/ign/logs</path>
-      <filename_prefix>subt_tunnel</filename_prefix>
-    </logging>
-
-     <artifact>
-        <name>extinguisher_1</name>
-        <type>TYPE_EXTINGUISHER</type>
-      </artifact>
-      <artifact>
-        <name>backpack_1</name>
-        <type>TYPE_BACKPACK</type>
-      </artifact>
-      <artifact>
-        <name>phone_1</name>
-        <type>TYPE_PHONE</type>
-      </artifact>
-      <artifact>
-        <name>drill_1</name>
-        <type>TYPE_DRILL</type>
-      </artifact>
-      <artifact>
-        <name>rescue_randy_1</name>
-        <type>TYPE_RESCUE_RANDY</type>
-      </artifact>
-     <artifact>
-        <name>extinguisher_2</name>
-        <type>TYPE_EXTINGUISHER</type>
-      </artifact>
-      <artifact>
-        <name>backpack_2</name>
-        <type>TYPE_BACKPACK</type>
-      </artifact>
-      <artifact>
-        <name>phone_2</name>
-        <type>TYPE_PHONE</type>
-      </artifact>
-      <artifact>
-        <name>drill_2</name>
-        <type>TYPE_DRILL</type>
-      </artifact>
-      <artifact>
-        <name>rescue_randy_2</name>
-        <type>TYPE_RESCUE_RANDY</type>
-      </artifact>
-     <artifact>
-        <name>extinguisher_3</name>
-        <type>TYPE_EXTINGUISHER</type>
-      </artifact>
-      <artifact>
-        <name>backpack_3</name>
-        <type>TYPE_BACKPACK</type>
-      </artifact>
-      <artifact>
-        <name>phone_3</name>
-        <type>TYPE_PHONE</type>
-      </artifact>
-      <artifact>
-        <name>drill_3</name>
-        <type>TYPE_DRILL</type>
-      </artifact>
-      <artifact>
-        <name>rescue_randy_3</name>
-        <type>TYPE_RESCUE_RANDY</type>
-      </artifact>
-     <artifact>
-        <name>extinguisher_4</name>
-        <type>TYPE_EXTINGUISHER</type>
-      </artifact>
-      <artifact>
-        <name>backpack_4</name>
-        <type>TYPE_BACKPACK</type>
-      </artifact>
-      <artifact>
-        <name>phone_4</name>
-        <type>TYPE_PHONE</type>
-      </artifact>
-      <artifact>
-        <name>drill_4</name>
-        <type>TYPE_DRILL</type>
-      </artifact>
-      <artifact>
-        <name>rescue_randy_4</name>
-        <type>TYPE_RESCUE_RANDY</type>
-      </artifact>
-      <artifact>
-        <name>vent_1</name>
-        <type>TYPE_VENT</type>
-      </artifact>
-      <artifact>
-        <name>vent_2</name>
-        <type>TYPE_VENT</type>
-      </artifact>
-      <artifact>
-        <name>vent_3</name>
-        <type>TYPE_VENT</type>
-      </artifact>
-      <artifact>
-        <name>vent_4</name>
-        <type>TYPE_VENT</type>
-      </artifact>
-      <artifact>
-        <name>gas_1</name>
-        <type>TYPE_GAS</type>
-      </artifact>
-      <artifact>
-        <name>gas_2</name>
-        <type>TYPE_GAS</type>
-      </artifact>
-      <artifact>
-        <name>gas_3</name>
-        <type>TYPE_GAS</type>
-      </artifact>
-      <artifact>
-        <name>gas_4</name>
-        <type>TYPE_GAS</type>
-      </artifact>
-  </plugin>
+      <world_name><%= $worldName %></world_name>
+    </plugin>
   </plugin>
 
 
