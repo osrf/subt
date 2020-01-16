@@ -128,7 +128,7 @@ class LogChecker
     {
       return false;
     }
-    
+
     return true;
   }
 
@@ -144,13 +144,13 @@ class LogChecker
     }
     catch (std::invalid_argument &_e)
     {
-      std::cerr << "Unable to convert from string [" << _in << "] to double." 
+      std::cerr << "Unable to convert from string [" << _in << "] to double."
                 << std::endl;
       return false;
     }
     catch (std::out_of_range &_e)
     {
-      std::cerr << "Unable to convert from string [" << _in << "] to double." 
+      std::cerr << "Unable to convert from string [" << _in << "] to double."
                 << "This number is out of range." << std::endl;
       return false;
     }
@@ -199,7 +199,7 @@ class LogChecker
       std::cerr << "Failed to start playback" << std::endl;
       return 2;
     }
-  
+
     // Wait until the player stops on its own
     handle->WaitUntilFinished();
 
