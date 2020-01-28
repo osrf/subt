@@ -323,7 +323,7 @@ void ArtifactValidatorPrivate::ParseArtifacts()
       artifacts[name] = newArtifact;
     }
 
-    for (auto [str, type] : sdfToType)
+    for (auto[str, type] : sdfToType)
     {
       if (name.find(str) != std::string::npos)
       {
@@ -373,14 +373,15 @@ void ArtifactValidator::Configure(const ignition::gazebo::Entity & /*_entity*/,
   common::SystemPaths systemPaths;
   systemPaths.SetFilePathEnv("IGN_GAZEBO_RESOURCE_PATH");
   systemPaths.AddFilePaths(IGN_GAZEBO_WORLD_INSTALL_DIR);
-  std::string filePath = systemPaths.FindFile(this->dataPtr->worldName + ".sdf");
+  std::string filePath = systemPaths.FindFile(
+    this->dataPtr->worldName + ".sdf");
   ignmsg << "Loading SDF world file[" << filePath << "].\n";
 
   auto errors = this->dataPtr->sdfRoot.Load(filePath);
 
   if (!errors.empty())
   {
-    for (auto &err: errors)
+    for (auto &err : errors)
       ignerr << err << "\n";
     return;
   }
@@ -396,7 +397,8 @@ void ArtifactValidator::Configure(const ignition::gazebo::Entity & /*_entity*/,
 }
 
 /////////////////////////////////////////////////
-void ArtifactValidator::PostUpdate(const ignition::gazebo::UpdateInfo &/*_info*/,
+void ArtifactValidator::PostUpdate(
+                const ignition::gazebo::UpdateInfo &/*_info*/,
                 const ignition::gazebo::EntityComponentManager &/*_ecm*/)
 {
   if (this->dataPtr->artifactsIter == this->dataPtr->artifacts.end())
