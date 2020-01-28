@@ -218,7 +218,7 @@ class subt::GameLogicPluginPrivate
   public: uint32_t reportCountLimit = 40u;
 
   /// \brief The total number of artifacts.
-  public: uint32_t artifactCount = 0u;
+  public: uint32_t artifactCount = 20u;
 
   /// \brief Total score.
   public: double totalScore = 0.0;
