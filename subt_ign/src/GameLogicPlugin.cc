@@ -214,9 +214,8 @@ class subt::GameLogicPluginPrivate
   public: uint32_t reportCount = 0u;
 
   /// The maximum number of times that a team can attempt an
-  /// artifact report is this number multiplied by the total number
-  /// of artifacts.
-  public: uint32_t reportCountLimitFactor = 2u;
+  /// artifact report.
+  public: uint32_t reportCountLimit = 40u;
 
   /// \brief The total number of artifacts.
   public: uint32_t artifactCount = 0u;
@@ -558,8 +557,7 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
   {
     _resp.set_report_status("run not started");
   }
-  else if (this->reportCount >
-      this->artifactCount * this->reportCountLimitFactor)
+  else if (this->reportCount > this->reportCountLimit)
   {
     _resp.set_report_status("report limit exceeded");
   }
@@ -597,10 +595,10 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
     return true;
   }
 
-  if (!this->finished &&
-      this->reportCount > this->artifactCount * this->reportCountLimitFactor)
+  if (!this->finished && this->reportCount > this->reportCountLimit)
   {
     _resp.set_report_status("report limit exceeded");
+    this->Log() << "report_limit_exceeded" << std::endl;
     ignmsg << "Report limit exceed." << std::endl;
     this->Finish();
     return true;
