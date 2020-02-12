@@ -21,7 +21,6 @@
       ign launch cloudsim_sim.ign worldName:=tunnel_circuit_practice_01
           robotName1:=X2_3 robotConfig1:=X2_SENSOR_CONFIG_3
 -->
-
 <%
   # When 'enableGroundTruth = true' absolute poses of vehicles will be published.
   # This is useful for debugging purposes, but will not be available during
@@ -117,6 +116,18 @@
   <env>
     <name>IGN_GAZEBO_SYSTEM_PLUGIN_PATH</name>
     <value>$LD_LIBRARY_PATH</value>
+  </env>
+
+  <!-- Unlimited Ignition Transport send message buffer -->
+  <env>
+    <name>IGN_TRANSPORT_SNDHWM</name>
+    <value>0</value>
+  </env>
+
+  <!-- Unlimited Ignition Transport receieve message buffer -->
+  <env>
+    <name>IGN_TRANSPORT_RCVHWM</name>
+    <value>0</value>
   </env>
 
   <plugin name="ignition::launch::GazeboServer"
