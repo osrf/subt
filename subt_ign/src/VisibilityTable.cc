@@ -46,6 +46,7 @@ bool VisibilityTable::Load(const std::string &_worldName)
   // Modifications for the tunnel circuit.
   const std::string tunnelPrefix = "tunnel_circuit_";
   const std::string urbanPrefix = "urban";
+  const std::string cavePrefix = "cave";
   if (0 == this->worldName.compare(0, tunnelPrefix.size(), tunnelPrefix))
   {
     std::string suffix = this->worldName.substr(tunnelPrefix.size());
@@ -60,6 +61,11 @@ bool VisibilityTable::Load(const std::string &_worldName)
   {
     // todo(anyone) check for circuit number when there are more
     // urban circuit worlds
+  }
+  else if (this->worldName.find(cavePrefix) != std::string::npos)
+  {
+    // todo(anyone) check for circuit number when there are more
+    // cave circuit worlds
   }
   else
   {
