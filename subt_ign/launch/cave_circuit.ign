@@ -6,12 +6,12 @@
              ... ]
 
     The [worldName] command line argument is optional,
-          defaults to cave_qual if not specified
+          defaults to simple_cave_01 if not specified
     The [robotNameX] command line argument is optional, where X can be 1 to 20
 
     Example that loads cave circuit world with an X2 robot with configuration 3
 
-      ign launch cave_circuit.ign worldName:=cave_qual
+      ign launch cave_circuit.ign worldName:=simple_cave_01
           robotName1:=X2_3 robotConfig1:=X2_SENSOR_CONFIG_3
 -->
 
