@@ -219,6 +219,14 @@ install(TARGETS ${gas_emitter_detector_plugin_name}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION} 
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
+# Create log_checker executable.
+add_executable(log_checker src/LogChecker.cc)
+target_link_libraries(log_checker
+  ignition-transport7::ignition-transport7
+  ignition-transport7::ignition-transport7-log)
+install(TARGETS log_checker
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+
 ###########
 ## Tests ##
 ###########
