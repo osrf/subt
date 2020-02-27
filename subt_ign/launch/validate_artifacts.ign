@@ -54,7 +54,15 @@ ign service -s /artifact/move_to \
   </env>
   <plugin name="ignition::launch::GazeboServer"
           filename="libignition-launch-gazebo.so">
-    <world_file><%= $worldName %>.sdf</world_file>
+    <% if $worldName.include?('tunnel_circuit_') &&
+          !$worldName.include?('practice') %>
+      <world_file>tunnel_circuit/<%= worldNumber %>/<%= $worldName %>.sdf</world_file>
+    <% elsif $worldName.include?('urban_circuit_') &&
+          !$worldName.include?('practice') %>
+      <world_file>urban_circuit/<%= worldNumber %>/<%= $worldName %>.sdf</world_file>
+    <% else %>
+      <world_file><%= $worldName %>.sdf</world_file>
+    <% end %>
     <run>true</run>
     <levels>true</levels>
     <record>
