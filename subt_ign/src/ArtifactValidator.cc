@@ -47,6 +47,7 @@ ign service -s /artifact/move_to \
 
 #include <ignition/common/Console.hh>
 #include <ignition/common/SystemPaths.hh>
+#include <ignition/common/StringUtils.hh>
 
 #include <ignition/plugin/Register.hh>
 
@@ -323,7 +324,7 @@ void ArtifactValidatorPrivate::ParseArtifacts()
       artifacts[name] = newArtifact;
     }
 
-    for (auto[str, type] : sdfToType)
+    for (auto [str, type] : sdfToType)
     {
       if (name.find(str) != std::string::npos)
       {
@@ -361,20 +362,38 @@ void ArtifactValidator::Configure(const ignition::gazebo::Entity & /*_entity*/,
     ignition::gazebo::EntityComponentManager & /*_ecm*/,
     ignition::gazebo::EventManager & /*_eventMgr*/)
 {
-  this->dataPtr->worldName = const_cast<sdf::Element*>(
+  auto worldName = const_cast<sdf::Element*>(
       _sdf.get())->Get<std::string>("world_name", "world_name").first;
 
-  if (this->dataPtr->worldName.empty())
+  if (worldName.empty())
   {
     ignerr << "File path not available.\n";
     return;
   }
 
+  this->dataPtr->worldName = worldName;
+  auto vals = ignition::common::Split(worldName, '_');
+  auto worldNum = vals.back();
+
+  if (worldName.find("tunnel_circuit_") != std::string::npos &&
+      worldName.find("practice") == std::string::npos)
+  {
+    worldName = "tunnel_circuit/" + worldNum + "/" + worldName +".sdf";
+  }
+  else if (worldName.find("urban_circuit_") != std::string::npos &&
+             worldName.find("practice") == std::string::npos)
+  {
+    worldName = "urban_circuit/" + worldNum + "/" + worldName + ".sdf";
+  }
+  else
+  {
+    worldName = worldName + ".sdf";
+  }
+
   common::SystemPaths systemPaths;
   systemPaths.SetFilePathEnv("IGN_GAZEBO_RESOURCE_PATH");
   systemPaths.AddFilePaths(IGN_GAZEBO_WORLD_INSTALL_DIR);
-  std::string filePath = systemPaths.FindFile(
-    this->dataPtr->worldName + ".sdf");
+  std::string filePath = systemPaths.FindFile(worldName);
   ignmsg << "Loading SDF world file[" << filePath << "].\n";
 
   auto errors = this->dataPtr->sdfRoot.Load(filePath);
