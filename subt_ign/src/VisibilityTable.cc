@@ -38,7 +38,7 @@ VisibilityTable::VisibilityTable()
 };
 
 //////////////////////////////////////////////////
-bool VisibilityTable::Load(const std::string &_worldName)
+bool VisibilityTable::Load(const std::string &_worldName, bool _loadLUT)
 {
   std::string worldsDirectory = SUBT_INSTALL_WORLD_DIR;
   this->worldName = _worldName;
@@ -84,6 +84,15 @@ bool VisibilityTable::Load(const std::string &_worldName)
     return false;
   }
 
+  if (_loadLUT)
+    return this->LoadLUT();
+
+  return true;
+}
+
+//////////////////////////////////////////////////
+bool VisibilityTable::LoadLUT()
+{
   std::ifstream in;
   in.open(this->lutPath);
   if (!in.is_open())
@@ -162,6 +171,13 @@ void VisibilityTable::Generate()
 }
 
 //////////////////////////////////////////////////
+void VisibilityTable::SetModelBoundingBoxes(
+    const std::map<std::string, ignition::math::AxisAlignedBox> &_boxes)
+{
+  this->bboxes = _boxes;
+}
+
+//////////////////////////////////////////////////
 const std::map<std::tuple<int32_t, int32_t, int32_t>, uint64_t>
   &VisibilityTable::Vertices() const
 {
@@ -227,9 +243,6 @@ void VisibilityTable::CreateWorldSegments()
   // Get the list of vertices Id.
   auto vertexIds = this->visibilityGraph.Vertices();
 
-  std::string modelInfoTopic = "/world/" + this->worldName + "/model/info";
-  ignition::transport::Node node;
-
   for (const auto from : vertexIds)
   {
     std::string data = from.second.get().Data();
@@ -246,7 +259,18 @@ void VisibilityTable::CreateWorldSegments()
     }
     std::string modelName = fields.at(2);
 
-    ignition::msgs::Model rep;
+    auto bboxIt = this->bboxes.find(modelName);
+    if (bboxIt == this->bboxes.end())
+    {
+      ignerr << "Unable to find bounding box info for model: ["
+             << modelName << "]. Ignoring vertex" << std::endl;
+      continue;
+    }
+    this->worldSegments.push_back(
+        std::make_pair(bboxIt->second, from.first));
+
+
+    /*ignition::msgs::Model rep;
     ignition::msgs::StringMsg req;
     bool result;
     unsigned int timeout = 5000;
@@ -265,6 +289,7 @@ void VisibilityTable::CreateWorldSegments()
              << "Ignoring vertex" << std::endl;
       continue;
     }
+    */
   }
 }
 

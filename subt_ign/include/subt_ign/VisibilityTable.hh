@@ -32,35 +32,35 @@ namespace subt
   class VisibilityTable
   {
     /// \brief Min X to sample.
-    public: static const int32_t kMinX = -20;
+    public: static const int32_t kMinX = -500;
 
     /// \brief Max X to sample.
-    public: static const int32_t kMaxX = 500;
+    public: static const int32_t kMaxX = 2100;
 
     /// \brief Min Y to sample.
-    public: static const int32_t kMinY = -300;
+    public: static const int32_t kMinY = -350;
 
     /// \brief Max Y to sample.
-    public: static const int32_t kMaxY = 300;
+    public: static const int32_t kMaxY = 350;
 
     /// \brief Min Z to sample.
     public: static const int32_t kMinZ = -50;
 
     /// \brief Max Z to sample.
-    public: static const int32_t kMaxZ = 20;
+    public: static const int32_t kMaxZ = 50;
 
     /// \brief Class constructor. Create the visibility table from a graph in
     /// DOT format.
     public: explicit VisibilityTable();
 
-    /// \brief Load a look up table from a file. It will try to load a file
-    /// located in the same directory as the world file, with the same world
-    /// name but with extension .dat.
-    /// E.g.: A world named 'tunnel_practice_1.world' will try to load
-    /// 'tunnel_practice_1.dat'.
-    /// \return True if the visibility look-up-table was loaded or false
-    /// otherwise.
-    public: bool Load(const std::string &_worldName);
+    /// \brief Load the Visibility Plugin
+    /// \param[in] _worldName Name of world
+    /// \param[in] _loadLUT True to load a look up table from a file.
+    /// \return True if the visibility plugin was loaded. If _loadLUT is true
+    /// the function will return true only if look-up-table was also loaded or
+    /// false otherwise.
+    /// \sa LoadLUT
+    public: bool Load(const std::string &_worldName, bool _loadLUT = true);
 
     /// \brief Get the visibility cost.
     /// \param[in] _from A 3D position.
@@ -72,14 +72,29 @@ namespace subt
     /// \brief Generate a binary .dat file containing a list of sample points
     /// that are within the explorable areas of the world. Each sample point
     /// contained in the file also has the vertex Id of the connectivity graph
-    /// associated to that point.
+    /// associated to that point. Note: make sure to call SetModelMoundingBoxes
+    /// before Generate()
+    /// \sa SetModelBoundingBoxes
     public: void Generate();
+
+    /// \brief Set the bounding boxes of models. Used for generating LUT
+    /// \param[in] _bboxes Bounding boxes of models.
+    /// \sa Generate
+    public: void SetModelBoundingBoxes(
+        const std::map<std::string, ignition::math::AxisAlignedBox> &_boxes);
 
     /// \brief Get the collection of sampled 3D points and their associated
     /// vertex id.
     /// \return the collection.
     public: const std::map<std::tuple<int32_t, int32_t, int32_t>, uint64_t>
       &Vertices() const;
+
+    /// \brief Load a look up table from a file. It will try to load a file
+    /// located in the same directory as the world file, with the same world
+    /// name but with extension .dat.
+    /// E.g.: A world named 'tunnel_practice_01.sdf' will try to load
+    /// 'tunnel_practice_01.dat'.
+    private: bool LoadLUT();
 
     /// \brief Populate a graph from a file in DOT format.
     /// \param[in] _graphFilename The path to the file containing the graph.
@@ -117,6 +132,9 @@ namespace subt
     /// Mapping between a model's bouding box and a vertex Id.
     private: std::vector<
              std::pair<ignition::math::AxisAlignedBox, uint64_t>> worldSegments;
+
+    /// \brief A map of model name to its bounding box. Used for generating LUT
+    private: std::map<std::string, ignition::math::AxisAlignedBox> bboxes;
 
     /// \brief A map that stores 3D points an the vertex id in which are located
     private: std::map<std::tuple<int32_t, int32_t, int32_t>, uint64_t> vertices;

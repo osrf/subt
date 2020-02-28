@@ -157,6 +157,34 @@ install(TARGETS ${comms_broker_plugin_name}
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
 
+# Create the libVisibilityPlugin.so library.
+set(visibility_plugin_name VisibilityPlugin)
+add_library(${visibility_plugin_name} SHARED
+  src/VisibilityPlugin.cc
+  src/VisibilityTable.cc
+  src/SimpleDOTParser.cc
+)
+target_include_directories(${visibility_plugin_name}
+  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
+target_link_libraries(${visibility_plugin_name}
+  PRIVATE
+  ignition-gazebo${IGN_GAZEBO_VER}::core
+  ignition-common3::ignition-common3
+  ignition-math6::ignition-math6
+  ignition-msgs4::ignition-msgs4
+  ignition-plugin1::loader
+  ignition-launch1::ignition-launch1
+  ignition-transport7::ignition-transport7
+  sdformat8::sdformat8
+  ${protobuf_lib_name}
+  ${catkin_LIBRARIES}
+)
+install(TARGETS ${visibility_plugin_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+
+
 # Create the libBaseStationPlugin.so library.
 set(base_station_plugin_name BaseStationPlugin)
 add_library(${base_station_plugin_name} src/BaseStationPlugin.cc)
