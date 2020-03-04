@@ -17,6 +17,9 @@
 #include <ignition/common/Console.hh>
 #include <ignition/plugin/Register.hh>
 
+#include <ignition/math/AxisAlignedBox.hh>
+
+#include <ignition/gazebo/components/AxisAlignedBox.hh>
 #include <ignition/gazebo/components/Model.hh>
 #include <ignition/gazebo/components/Name.hh>
 #include <ignition/gazebo/components/Pose.hh>
@@ -34,6 +37,7 @@ IGNITION_ADD_PLUGIN(
     subt::VisibilityPlugin,
     ignition::gazebo::System,
     subt::VisibilityPlugin::ISystemConfigure,
+    subt::VisibilityPlugin::ISystemPreUpdate,
     subt::VisibilityPlugin::ISystemPostUpdate)
 
 using namespace ignition;
@@ -65,7 +69,7 @@ VisibilityPlugin::~VisibilityPlugin()
 //////////////////////////////////////////////////
 void VisibilityPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
                            const std::shared_ptr<const sdf::Element> &_sdf,
-                           ignition::gazebo::EntityComponentManager & /*_ecm*/,
+                           ignition::gazebo::EntityComponentManager &/*_ecm*/,
                            ignition::gazebo::EventManager & /*_eventMgr*/)
 {
   if (!_sdf->HasElement("world_name"))
@@ -81,34 +85,51 @@ void VisibilityPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
 }
 
 //////////////////////////////////////////////////
+void VisibilityPlugin::PreUpdate(
+    const ignition::gazebo::UpdateInfo &/*_info*/,
+    ignition::gazebo::EntityComponentManager &_ecm)
+{
+  if (this->dataPtr->worldName.empty())
+    return;
+
+  // create aabb component to be filled by physics
+  _ecm.Each<gazebo::components::Model,
+            gazebo::components::Static>(
+      [&](const gazebo::Entity &_entity,
+          const gazebo::components::Model *,
+          const gazebo::components::Static *) -> bool
+      {
+        auto aabb = _ecm.Component<components::AxisAlignedBox>(_entity);
+        if (!aabb)
+          _ecm.CreateComponent(_entity, components::AxisAlignedBox());
+        return true;
+      });
+
+}
+
+//////////////////////////////////////////////////
 void VisibilityPlugin::PostUpdate(
-    const ignition::gazebo::UpdateInfo &_info,
+    const ignition::gazebo::UpdateInfo &/*_info*/,
     const ignition::gazebo::EntityComponentManager &_ecm)
 {
   if (this->dataPtr->worldName.empty())
     return;
 
-  int64_t s, ns;
-  std::tie(s, ns) = ignition::math::durationToSecNsec(_info.simTime);
-  if (s < 1)
-    return;
-
   // get all the bounding boxes
   _ecm.Each<gazebo::components::Model,
             gazebo::components::Name,
-            gazebo::components::Pose,
+            gazebo::components::AxisAlignedBox,
             gazebo::components::Static>(
       [&](const gazebo::Entity &,
           const gazebo::components::Model *,
           const gazebo::components::Name *_nameComp,
-          const gazebo::components::Pose * /*_poseComp*/,
+          const gazebo::components::AxisAlignedBox *_aabb,
           const gazebo::components::Static *) -> bool
       {
         // todo store bboxes instead
-        this->dataPtr->bboxes[_nameComp->Data()] = ignition::math::AxisAlignedBox();
+        this->dataPtr->bboxes[_nameComp->Data()] = _aabb->Data();
         return true;
       });
-
 
   // generate the LUT
   subt::VisibilityTable table;
@@ -116,6 +137,6 @@ void VisibilityPlugin::PostUpdate(
   table.SetModelBoundingBoxes(this->dataPtr->bboxes);
   table.Generate();
 
-   // Send SIGINT to terminate Gazebo.
-   raise(SIGINT);
+  // Send SIGINT to terminate Gazebo.
+  raise(SIGINT);
 }
