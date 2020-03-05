@@ -3,6 +3,10 @@
 . /opt/ros/melodic/setup.bash
 . ~/subt_ws/install/setup.sh
 
+# Network traffic monitoring
+bwm-ng -o csv -u bytes -T rate -C ',' -F /home/developer/.ros/network_traffic.csv &
+
+
 # https://wiki.ros.org/rosconsole#Force_line_buffering_for_ROS_logger
 # See also https://bitbucket.org/osrf/subt/issues/204
 export ROSCONSOLE_STDOUT_LINE_BUFFERED=1
