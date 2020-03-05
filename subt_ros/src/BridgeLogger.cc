@@ -18,12 +18,13 @@
 #include <fstream>
 #include <ros/ros.h>
 #include <std_msgs/String.h>
+#include <sensor_msgs/BatteryState.h>
 #include <sensor_msgs/CompressedImage.h>
 #include <sensor_msgs/Image.h>
 #include <sensor_msgs/Imu.h>
 #include <sensor_msgs/LaserScan.h>
 #include <sensor_msgs/LaserScan.h>
-#include <sensor_msgs/BatteryState.h>
+#include <sensor_msgs/PointCloud2.h>
 #include <theora_image_transport/Packet.h>
 #include <rosgraph_msgs/Clock.h>
 #include <topic_tools/shape_shifter.h>
@@ -166,6 +167,11 @@ void BridgeLogger::OnSensorMsg(const topic_tools::ShapeShifter::ConstPtr &_msg,
     const auto msg = _msg->instantiate<sensor_msgs::BatteryState>();
     seq = msg->header.seq;
   }
+  else if (_msg->getDataType() == "sensor_msgs/PointCloud2")
+  {
+    const auto msg = _msg->instantiate<sensor_msgs::PointCloud2>();
+    seq = msg->header.seq;
+  }
   else if (_msg->getDataType() == "theora_image_transport/Packet")
   {
     const auto msg = _msg->instantiate<theora_image_transport::Packet>();
@@ -174,7 +180,7 @@ void BridgeLogger::OnSensorMsg(const topic_tools::ShapeShifter::ConstPtr &_msg,
   else
   {
     // Debug output.
-    // ROS_ERROR("Data type[%s] not handled", _msg->getDataType().c_str());
+    ROS_ERROR("Data type[%s] not handled", _msg->getDataType().c_str());
     return;
   }
 
