@@ -5,6 +5,7 @@ FROM nvidia/opengl:1.0-glvnd-devel-ubuntu18.04
 RUN apt-get update \
  && apt-get install -y \
         build-essential \
+        bwm-ng \
         cmake \
         cppcheck \
         gdb \
