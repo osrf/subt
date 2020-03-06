@@ -180,7 +180,7 @@ void BridgeLogger::OnSensorMsg(const topic_tools::ShapeShifter::ConstPtr &_msg,
   else
   {
     // Debug output.
-    ROS_ERROR("Data type[%s] not handled", _msg->getDataType().c_str());
+    // ROS_ERROR("Data type[%s] not handled", _msg->getDataType().c_str());
     return;
   }
 
