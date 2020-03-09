@@ -40,6 +40,10 @@ class BridgeLogger
   /// \brief Destructor
   public: ~BridgeLogger();
 
+  /// \brief Callback for the updateTimer.
+  /// \param[in] _evt ros timer event.
+  public: void Update(const ros::TimerEvent &_evt);
+
   /// \brief Callback for all sensor messages.
   /// \param[in] _msg The message.
   /// \param[in] _topic The name of the topic.
@@ -60,6 +64,9 @@ class BridgeLogger
 
   /// \brief Just a mutex.
   private: std::mutex mutex;
+
+  /// \brief Timer that triggers the update function.
+  private: ros::Timer updateTimer;
 };
 
 /////////////////////////////////////////////////
@@ -67,6 +74,15 @@ BridgeLogger::BridgeLogger()
 {
   // Wait for the clock.
   ros::topic::waitForMessage<rosgraph_msgs::Clock>("/clock", this->n);
+
+  this->updateTimer = this->n.createTimer(ros::Duration(10.0),
+      &BridgeLogger::Update, this);
+}
+
+/////////////////////////////////////////////////
+void BridgeLogger::Update(const ros::TimerEvent &)
+{
+  std::lock_guard<std::mutex> lock(this->mutex);
 
   ros::master::V_TopicInfo masterTopics;
   ros::master::getTopics(masterTopics);
@@ -77,10 +93,15 @@ BridgeLogger::BridgeLogger()
   {
     const ros::master::TopicInfo &info = *it;
 
-    if (info.name.find("parameter_descriptions") != std::string::npos ||
+    // Skip if the topic has already been added to `this->streams` or if
+    // the topic is one that we don't monitor, such as parameter updates.
+    if (this->streams.find(info.name) != this->streams.end() ||
+        info.name.find("parameter_descriptions") != std::string::npos ||
         info.name.find("parameter_updates") != std::string::npos ||
         info.name.find("compressedDepth") != std::string::npos)
+    {
       continue;
+    }
 
     if (info.name.find("front_scan") != std::string::npos ||
         info.name.find("points") != std::string::npos ||
