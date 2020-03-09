@@ -11,6 +11,7 @@ echo "unix timestamp;iface_name;bytes_out/s;bytes_in/s;bytes_total/s;bytes_in;by
 bwm-ng -o csv -c 0 -t 1000 -T rate -I eth0 >> $FILE &
 
 # Set rosccp verbosity to DEBUG
+echo "log4j.logger.ros.roscpp.cached_parameters=INFO" >> /home/developer/.ros/config/rosconsole.config
 echo "log4j.logger.ros.roscpp=DEBUG" >> /home/developer/.ros/config/rosconsole.config
 
 # https://wiki.ros.org/rosconsole#Force_line_buffering_for_ROS_logger
