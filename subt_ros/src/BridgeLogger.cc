@@ -14,6 +14,7 @@
  * limitations under the License.
  *
 */
+#include <chrono>
 #include <mutex>
 #include <fstream>
 #include <ros/ros.h>
@@ -61,6 +62,7 @@ class BridgeLogger
 
   /// \brief Previous sequence numbers. This is used to detect errors.
   private: std::map<std::string, int32_t> prevSeq;
+  private: std::map<std::string, std::chrono::time_point<std::chrono::system_clock>> prevTime;
 
   /// \brief Just a mutex.
   private: std::mutex mutex;
@@ -140,6 +142,7 @@ void BridgeLogger::Update(const ros::TimerEvent &)
 
       // Init the previous sequence map
       this->prevSeq[info.name] = -1;
+      this->prevTime[info.name] = std::chrono::system_clock::now();
 
       // Subscribe to the topic.
       this->subscribers.push_back(
@@ -157,6 +160,7 @@ BridgeLogger::~BridgeLogger()
 void BridgeLogger::OnSensorMsg(const topic_tools::ShapeShifter::ConstPtr &_msg,
                              const std::string &_topic)
 {
+  auto systemTime = std::chrono::system_clock::now();
   std::lock_guard<std::mutex> lock(this->mutex);
   ros::Time currentTime = ros::Time::now();
 
@@ -209,10 +213,15 @@ void BridgeLogger::OnSensorMsg(const topic_tools::ShapeShifter::ConstPtr &_msg,
   if (this->prevSeq[_topic] + 1 != seq && this->prevSeq[_topic] >= 0)
     this->streams[_topic] << "***Error: Missed message(s) ***\n";
 
+  std::chrono::duration<double> diff = systemTime - this->prevTime[_topic];
+
   // Log the data.
-  this->prevSeq[_topic] = seq;
   this->streams[_topic] << seq << " "
-    << currentTime.sec + currentTime.nsec*1e-9 << std::endl;
+    << currentTime.sec + currentTime.nsec*1e-9 << " "
+    << diff.count() << std::endl;
+
+  this->prevSeq[_topic] = seq;
+  this->prevTime[_topic] = systemTime;
 }
 
 /////////////////////////////////////////////////
