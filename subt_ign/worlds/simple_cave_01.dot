@@ -1,6 +1,6 @@
 /* Visibility graph for simple_cave_01 */
 /* Generated with the generator.py script: */
-/*   __main__.py cave_demo.tsv -\-graph-file simple_cave_01.dot -\-world-file simple_cave_01.sdf -\-world-name simple_cave_01 -\-scale_x 25 -\-scale_y 25 -\-cave -\-y0 75 -\-x0 -2 -\-z0 0 -\-level_type row_col -\-levels_buf 5 */
+/*   __main__.py simple_cave_01.tsv -\-graph-file simple_cave_01.dot -\-world-file simple_cave_01.sdf -\-world-name simple_cave_01 -\-scale_x 25 -\-scale_y 25 -\-cave -\-y0 75 -\-x0 -2 -\-z0 0 -\-level_type row_col -\-levels_buf 5 */
 
 graph {
   /* ==== Vertices ==== */
@@ -9,11 +9,11 @@ graph {
   0   [label="0::base_station::BaseStation"];
 
   1   [label="1::Cave Corner 01::tile_1"];
-  2   [label="2::Cave Straight 02::tile_2"];
-  3   [label="3::Cave Straight 01::tile_3"];
+  2   [label="2::Cave Straight 05::tile_2"];
+  3   [label="3::Cave Elevation::tile_3"];
   4   [label="4::Cave Straight 03::tile_4"];
-  5   [label="5::Cave Straight 01::tile_5"];
-  6   [label="6::Cave Straight 02::tile_6"];
+  5   [label="5::Cave Elevation::tile_5"];
+  6   [label="6::Cave Elevation::tile_6"];
   7   [label="7::Cave Corner 01::tile_7"];
   8   [label="8::Cave Corner 02::tile_8"];
   9   [label="9::Cave Straight 03::tile_9"];
@@ -29,7 +29,7 @@ graph {
   19  [label="19::Cave Corner 02::tile_19"];
   20  [label="20::Cave Corner 01::tile_20"];
   21  [label="21::Cave Straight 02::tile_21"];
-  22  [label="22::Cave Straight 02::tile_22"];
+  22  [label="22::Cave Straight 05::tile_22"];
   23  [label="23::Cave Straight 01::tile_23"];
   24  [label="24::Cave Straight 03::tile_24"];
   25  [label="25::Cave 3 Way 01::tile_25"];
@@ -41,16 +41,16 @@ graph {
   31  [label="31::Cave Straight 03::tile_31"];
   32  [label="32::Cave Corner 02::tile_32"];
   33  [label="33::Cave Corner 01::tile_33"];
-  34  [label="34::Cave Straight 03::tile_34"];
+  34  [label="34::Cave Straight 05::tile_34"];
   35  [label="35::Cave Corner 01::tile_35"];
   36  [label="36::Cave 3 Way 01::tile_36"];
   37  [label="37::Cave Corner 02::tile_37"];
-  38  [label="38::Cave Straight 03::tile_38"];
-  39  [label="39::Cave Straight 02::tile_39"];
+  38  [label="38::Cave Straight 04::tile_38"];
+  39  [label="39::Cave Vertical Shaft::tile_39"];
   40  [label="40::Cave Corner 02::tile_40"];
-  41  [label="41::Cave Straight 03::tile_41"];
+  41  [label="41::Cave Vertical Shaft::tile_41"];
   42  [label="42::Cave 3 Way 01::tile_42"];
-  43  [label="43::Cave Straight 01::tile_43"];
+  43  [label="43::Cave Straight 02::tile_43"];
 
   /* ==== Edges ==== */
 
@@ -58,10 +58,7 @@ graph {
   0  -- 22  [label=1];
   1  -- 2   [label=3];
   1  -- 14  [label=3];
-  2  -- 3   [label=1];
   3  -- 4   [label=1];
-  4  -- 5   [label=1];
-  5  -- 6   [label=1];
   6  -- 7   [label=3];
   7  -- 15  [label=3];
   8  -- 9   [label=3];
@@ -95,8 +92,6 @@ graph {
   36 -- 37  [label=6];  /* Intersection */
   37 -- 39  [label=3];
   38 -- 40  [label=3];
-  39 -- 42  [label=3];  /* Intersection */
   40 -- 41  [label=3];
-  41 -- 42  [label=3];  /* Intersection */
   42 -- 43  [label=3];  /* Intersection */
 }

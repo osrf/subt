@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <!--
   Generated with the generator.py script:
-    __main__.py cave_demo.tsv -\-graph-file simple_cave_01.dot -\-world-file simple_cave_01.sdf -\-world-name simple_cave_01 -\-scale_x 25 -\-scale_y 25 -\-cave -\-y0 75 -\-x0 -2 -\-z0 0 -\-level_type row_col -\-levels_buf 5
+    __main__.py simple_cave_01.tsv -\-graph-file simple_cave_01.dot -\-world-file simple_cave_01.sdf -\-world-name simple_cave_01 -\-scale_x 25 -\-scale_y 25 -\-cave -\-y0 75 -\-x0 -2 -\-z0 0 -\-level_type row_col -\-levels_buf 5
 -->
 <sdf version="1.6">
   <world name="simple_cave_01">
@@ -51,38 +51,38 @@
 
     <include>
       <name>tile_2</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 02</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 05</uri>
       <pose>373.000000 75.000000 0.000000 0 0 1.570796</pose>
     </include>
 
     <include>
       <name>tile_3</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 01</uri>
-      <pose>398.000000 75.000000 0.000000 0 0 -1.570796</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Elevation</uri>
+      <pose>398.000000 75.000000 -10.000000 0 0 -1.570796</pose>
     </include>
 
     <include>
       <name>tile_4</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 03</uri>
-      <pose>423.000000 75.000000 0.000000 0 0 1.570796</pose>
+      <pose>423.000000 75.000000 -10.000000 0 0 1.570796</pose>
     </include>
 
     <include>
       <name>tile_5</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 01</uri>
-      <pose>448.000000 75.000000 0.000000 0 0 1.570796</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Elevation</uri>
+      <pose>448.000000 75.000000 -20.000000 0 0 -1.570796</pose>
     </include>
 
     <include>
       <name>tile_6</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 02</uri>
-      <pose>473.000000 75.000000 0.000000 0 0 -1.570796</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Elevation</uri>
+      <pose>473.000000 75.000000 -30.000000 0 0 -1.570796</pose>
     </include>
 
     <include>
       <name>tile_7</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 01</uri>
-      <pose>498.000000 75.000000 0.000000 0 0 1.570796</pose>
+      <pose>498.000000 75.000000 -30.000000 0 0 1.570796</pose>
     </include>
 
     <include>
@@ -130,7 +130,7 @@
     <include>
       <name>tile_15</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 01</uri>
-      <pose>498.000000 50.000000 0.000000 0 0 3.141593</pose>
+      <pose>498.000000 50.000000 -30.000000 0 0 3.141593</pose>
     </include>
 
     <include>
@@ -160,24 +160,24 @@
     <include>
       <name>tile_20</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 01</uri>
-      <pose>498.000000 25.000000 0.000000 0 0 -1.570796</pose>
+      <pose>498.000000 25.000000 -30.000000 0 0 -1.570796</pose>
     </include>
 
     <include>
       <name>tile_21</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 02</uri>
-      <pose>523.000000 25.000000 0.000000 0 0 -1.570796</pose>
+      <pose>523.000000 25.000000 -30.000000 0 0 -1.570796</pose>
     </include>
 
     <include>
       <name>cave_cap_1</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Cap</uri>
-      <pose>548.000000 25.000000 0.000000 0 0 1.570796</pose>
+      <pose>548.000000 25.000000 -30.000000 0 0 1.570796</pose>
     </include>
 
     <include>
       <name>tile_22</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 02</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 05</uri>
       <pose>23.000000 0.000000 0.000000 0 0 1.570796</pose>
     </include>
 
@@ -249,7 +249,7 @@
 
     <include>
       <name>tile_34</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 03</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 05</uri>
       <pose>123.000000 -125.000000 0.000000 0 0 0.000000</pose>
     </include>
 
@@ -273,14 +273,14 @@
 
     <include>
       <name>tile_38</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 03</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 04</uri>
       <pose>98.000000 -175.000000 0.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_39</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 02</uri>
-      <pose>148.000000 -175.000000 0.000000 0 0 0.000000</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Vertical Shaft</uri>
+      <pose>148.000000 -175.000000 0.000000 0 0 3.141593</pose>
     </include>
 
     <include>
@@ -291,26 +291,26 @@
 
     <include>
       <name>tile_41</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 03</uri>
-      <pose>123.000000 -200.000000 0.000000 0 0 1.570796</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Vertical Shaft</uri>
+      <pose>123.000000 -200.000000 0.000000 0 0 -1.570796</pose>
     </include>
 
     <include>
       <name>tile_42</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 3 Way 01</uri>
-      <pose>148.000000 -200.000000 0.000000 0 0 1.570796</pose>
+      <pose>148.000000 -200.000000 20.000000 0 0 1.570796</pose>
     </include>
 
     <include>
       <name>tile_43</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 01</uri>
-      <pose>148.000000 -225.000000 0.000000 0 0 3.141593</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 02</uri>
+      <pose>148.000000 -225.000000 20.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>cave_cap_2</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Cap</uri>
-      <pose>148.000000 -250.000000 0.000000 0 0 0.000000</pose>
+      <pose>148.000000 -250.000000 20.000000 0 0 0.000000</pose>
     </include>
 
 
