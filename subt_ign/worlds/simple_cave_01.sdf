@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <!--
   Generated with the generator.py script:
-    __main__.py simple_cave_01.tsv -\-graph-file simple_cave_01.dot -\-world-file simple_cave_01.sdf -\-world-name simple_cave_01 -\-scale_x 25 -\-scale_y 25 -\-cave -\-y0 50 -\-x0 -2 -\-z0 0 -\-level_type row_col -\-levels_buf 5
+    __main__.py cave_demo.tsv -\-graph-file simple_cave_01.dot -\-world-file simple_cave_01.sdf -\-world-name simple_cave_01 -\-scale_x 25 -\-scale_y 25 -\-cave -\-y0 75 -\-x0 -2 -\-z0 0 -\-level_type row_col -\-levels_buf 5
 -->
 <sdf version="1.6">
   <world name="simple_cave_01">
@@ -23,111 +23,9 @@
       <static>true</static>
       <name>staging_area</name>
       <pose>0 0 0 0 0 0</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/subt_tunnel_staging_area</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Starting Area</uri>
     </include>
 
-    <!-- Barriers -->
-    <include>
-      <name>barrier_0_-1</name>
-      <pose>8.0 -11 0 0 0 0</pose>
-      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
-    </include>
-
-    <include>
-      <name>barrier_0_1</name>
-      <pose>8.0 11 0 0 0 0 </pose>
-      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
-    </include>
-
-    <include>
-      <name>barrier_1_-1</name>
-      <pose>3.7 -11 0 0 0 0</pose>
-      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
-    </include>
-
-    <include>
-      <name>barrier_1_1</name>
-      <pose>3.7 11 0 0 0 0</pose>
-      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
-    </include>
-
-    <include>
-      <name>barrier_2_-1</name>
-      <pose>-0.5999999999999996 -11 0 0 0 0</pose>
-      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
-    </include>
-
-    <include>
-      <name>barrier_2_1</name>
-      <pose>-0.5999999999999996 11 0 0 0 0</pose>
-      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
-    </include>
-
-    <include>
-      <name>barrier_3_-1</name>
-      <pose>-4.899999999999999 -11 0 0 0 0</pose>
-      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
-    </include>
-
-    <include>
-      <name>barrier_3_1</name>
-      <pose>-4.899999999999999 11 0 0 0 0</pose>
-      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
-    </include>
-
-    <include>
-      <name>barrier_4_-1</name>
-      <pose>-9.2 -11 0 0 0 0</pose>
-      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
-    </include>
-
-    <include>
-      <name>barrier_4_1</name>
-      <pose>-9.2 11 0 0 0 0</pose>
-      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
-    </include>
-
-    <include>
-      <name>barrier_-9.5_-2</name>
-      <pose>10.5 -8.6 0 0 0 1.5707963267948966</pose>
-      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
-    </include>
-
-    <include>
-      <name>barrier_-9.5_2</name>
-      <pose>10.5 8.6 0 0 0 1.5707963267948966</pose>
-      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
-    </include>
-
-    <include>
-      <name>barrier_-32_-2</name>
-      <pose>-12 -8.6 0 0 0 1.5707963267948966</pose>
-      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
-    </include>
-
-    <include>
-      <name>barrier_-32_-1</name>
-      <pose>-12 -4.3 0 0 0 1.5707963267948966</pose>
-      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
-    </include>
-
-    <include>
-      <name>barrier_-32_0</name>
-      <pose>-12 0.0 0 0 0 1.5707963267948966</pose>
-      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
-    </include>
-
-    <include>
-      <name>barrier_-32_1</name>
-      <pose>-12 4.3 0 0 0 1.5707963267948966</pose>
-      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
-    </include>
-
-    <include>
-      <name>barrier_-32_2</name>
-      <pose>-12 8.6 0 0 0 1.5707963267948966</pose>
-      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
-    </include>
 
     <!-- The base station -->
     <include>
@@ -147,206 +45,272 @@
     <!-- Tunnel tiles and artifacts -->
     <include>
       <name>tile_1</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 3 Way</uri>
-      <pose>73.000000 50.000000 0.000000 0 0 0.000000</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 01</uri>
+      <pose>348.000000 75.000000 0.000000 0 0 3.141593</pose>
     </include>
 
     <include>
       <name>tile_2</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Tunnel Tile Blocker</uri>
-      <pose>60.500000 50.000000 0.000000 0 0 0.000000</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 02</uri>
+      <pose>373.000000 75.000000 0.000000 0 0 1.570796</pose>
     </include>
 
     <include>
       <name>tile_3</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight</uri>
-      <pose>98.000000 50.000000 0.000000 0 0 3.141593</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 01</uri>
+      <pose>398.000000 75.000000 0.000000 0 0 -1.570796</pose>
     </include>
 
     <include>
       <name>tile_4</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight</uri>
-      <pose>123.000000 50.000000 0.000000 0 0 0.000000</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 03</uri>
+      <pose>423.000000 75.000000 0.000000 0 0 1.570796</pose>
     </include>
 
     <include>
       <name>tile_5</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Tunnel Tile Blocker</uri>
-      <pose>135.500000 50.000000 0.000000 0 0 0.000000</pose>
-    </include>
-
-    <include>
-      <name>rescue_randy_1</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Rescue Randy Sitting</uri>
-      <pose>131.000000 50.000000 0.000000 0 0 -1.396263</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 01</uri>
+      <pose>448.000000 75.000000 0.000000 0 0 1.570796</pose>
     </include>
 
     <include>
       <name>tile_6</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight</uri>
-      <pose>73.000000 25.000000 0.000000 0 0 1.570796</pose>
-    </include>
-
-    <include>
-      <name>backpack_1</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/JanSport Backpack Red</uri>
-      <pose>72.700000 26.200000 0.040000 0 0 1.570796</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 02</uri>
+      <pose>473.000000 75.000000 0.000000 0 0 -1.570796</pose>
     </include>
 
     <include>
       <name>tile_7</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight</uri>
-      <pose>23.000000 0.000000 0.000000 0 0 0.000000</pose>
-    </include>
-
-    <include>
-      <name>phone_1</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Samsung J8 Black</uri>
-      <pose>24.400000 0.300000 0.055000 -1.570796 0 0.610865</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 01</uri>
+      <pose>498.000000 75.000000 0.000000 0 0 1.570796</pose>
     </include>
 
     <include>
       <name>tile_8</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 3 Way</uri>
-      <pose>48.000000 0.000000 0.000000 0 0 0.000000</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 02</uri>
+      <pose>173.000000 50.000000 0.000000 0 0 3.141593</pose>
     </include>
 
     <include>
       <name>tile_9</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 3 Way</uri>
-      <pose>73.000000 0.000000 0.000000 0 0 -1.570796</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 03</uri>
+      <pose>198.000000 50.000000 0.000000 0 0 1.570796</pose>
     </include>
 
     <include>
       <name>tile_10</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 3 Way</uri>
-      <pose>23.000000 -25.000000 0.000000 0 0 1.570796</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 02</uri>
+      <pose>223.000000 50.000000 0.000000 0 0 1.570796</pose>
     </include>
 
     <include>
       <name>tile_11</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Tunnel Tile Blocker</uri>
-      <pose>23.000000 -12.500000 0.000000 0 0 0.000000</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 01</uri>
+      <pose>248.000000 50.000000 0.000000 0 0 -1.570796</pose>
     </include>
 
     <include>
       <name>tile_12</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 3 Way</uri>
-      <pose>48.000000 -25.000000 0.000000 0 0 3.141593</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 02</uri>
+      <pose>273.000000 50.000000 0.000000 0 0 -1.570796</pose>
     </include>
 
     <include>
       <name>tile_13</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 3 Way</uri>
-      <pose>73.000000 -25.000000 0.000000 0 0 -1.570796</pose>
-    </include>
-
-    <include>
-      <name>phone_2</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Samsung J8 Black</uri>
-      <pose>69.500000 -29.500000 0.030000 -1.448623 0.104720 0.000000</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 01</uri>
+      <pose>298.000000 50.000000 0.000000 0 0 1.570796</pose>
     </include>
 
     <include>
       <name>tile_14</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight</uri>
-      <pose>23.000000 -50.000000 0.000000 0 0 -1.570796</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 01</uri>
+      <pose>348.000000 50.000000 0.000000 0 0 3.141593</pose>
     </include>
 
     <include>
       <name>tile_15</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 3 Way</uri>
-      <pose>73.000000 -50.000000 0.000000 0 0 3.141593</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 01</uri>
+      <pose>498.000000 50.000000 0.000000 0 0 3.141593</pose>
     </include>
 
     <include>
       <name>tile_16</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Tunnel Tile Blocker</uri>
-      <pose>60.500000 -50.000000 0.000000 0 0 0.000000</pose>
-    </include>
-
-    <include>
-      <name>rescue_randy_2</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Rescue Randy Sitting</uri>
-      <pose>66.000000 -47.600000 -0.200000 0 0 1.308997</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 02</uri>
+      <pose>173.000000 25.000000 0.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_17</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight</uri>
-      <pose>98.000000 -50.000000 0.000000 0 0 3.141593</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 02</uri>
+      <pose>298.000000 25.000000 0.000000 0 0 -1.570796</pose>
     </include>
 
     <include>
       <name>tile_18</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight</uri>
-      <pose>123.000000 -50.000000 0.000000 0 0 0.000000</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 03</uri>
+      <pose>323.000000 25.000000 0.000000 0 0 -1.570796</pose>
     </include>
 
     <include>
       <name>tile_19</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight</uri>
-      <pose>148.000000 -50.000000 0.000000 0 0 0.000000</pose>
-    </include>
-
-    <include>
-      <name>backpack_2</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/JanSport Backpack Red</uri>
-      <pose>152.000000 -51.200000 0.060000 0 0 -1.919862</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 02</uri>
+      <pose>348.000000 25.000000 0.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_20</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight</uri>
-      <pose>173.000000 -50.000000 0.000000 0 0 3.141593</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 01</uri>
+      <pose>498.000000 25.000000 0.000000 0 0 -1.570796</pose>
     </include>
 
     <include>
       <name>tile_21</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Tunnel Tile Blocker</uri>
-      <pose>185.500000 -50.000000 0.000000 0 0 0.000000</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 02</uri>
+      <pose>523.000000 25.000000 0.000000 0 0 -1.570796</pose>
     </include>
 
     <include>
-      <name>phone_3</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Samsung J8 Black</uri>
-      <pose>169.500000 -49.800000 0.050000 -1.570796 0 0.000000</pose>
+      <name>cave_cap_1</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Cap</uri>
+      <pose>548.000000 25.000000 0.000000 0 0 1.570796</pose>
     </include>
 
     <include>
       <name>tile_22</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight</uri>
-      <pose>23.000000 -75.000000 0.000000 0 0 1.570796</pose>
-    </include>
-
-    <include>
-      <name>backpack_3</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/JanSport Backpack Red</uri>
-      <pose>22.600000 -76.200000 -0.060000 0 0 1.919862</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 02</uri>
+      <pose>23.000000 0.000000 0.000000 0 0 1.570796</pose>
     </include>
 
     <include>
       <name>tile_23</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 3 Way</uri>
-      <pose>23.000000 -100.000000 0.000000 0 0 3.141593</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 01</uri>
+      <pose>48.000000 0.000000 0.000000 0 0 1.570796</pose>
     </include>
 
     <include>
       <name>tile_24</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Tunnel Tile Blocker</uri>
-      <pose>35.500000 -100.000000 0.000000 0 0 0.000000</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 03</uri>
+      <pose>73.000000 0.000000 0.000000 0 0 1.570796</pose>
     </include>
 
     <include>
       <name>tile_25</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Tunnel Tile Blocker</uri>
-      <pose>10.500000 -100.000000 0.000000 0 0 0.000000</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 3 Way 01</uri>
+      <pose>98.000000 0.000000 0.000000 0 0 3.141593</pose>
     </include>
 
     <include>
-      <name>rescue_randy_3</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Rescue Randy Sitting</uri>
-      <pose>30.000000 -98.750000 0.150000 0.174533 0.174533 -1.570796</pose>
+      <name>tile_26</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 02</uri>
+      <pose>123.000000 0.000000 0.000000 0 0 -1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_27</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 01</uri>
+      <pose>148.000000 0.000000 0.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_28</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 01</uri>
+      <pose>173.000000 0.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_29</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 03</uri>
+      <pose>98.000000 -25.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_30</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 01</uri>
+      <pose>98.000000 -50.000000 0.000000 0 0 3.141593</pose>
+    </include>
+
+    <include>
+      <name>tile_31</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 03</uri>
+      <pose>98.000000 -75.000000 0.000000 0 0 3.141593</pose>
+    </include>
+
+    <include>
+      <name>tile_32</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 02</uri>
+      <pose>98.000000 -100.000000 0.000000 0 0 -1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_33</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 01</uri>
+      <pose>123.000000 -100.000000 0.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_34</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 03</uri>
+      <pose>123.000000 -125.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_35</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 01</uri>
+      <pose>98.000000 -150.000000 0.000000 0 0 3.141593</pose>
+    </include>
+
+    <include>
+      <name>tile_36</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 3 Way 01</uri>
+      <pose>123.000000 -150.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_37</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 02</uri>
+      <pose>148.000000 -150.000000 0.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_38</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 03</uri>
+      <pose>98.000000 -175.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_39</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 02</uri>
+      <pose>148.000000 -175.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_40</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 02</uri>
+      <pose>98.000000 -200.000000 0.000000 0 0 -1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_41</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 03</uri>
+      <pose>123.000000 -200.000000 0.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_42</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 3 Way 01</uri>
+      <pose>148.000000 -200.000000 0.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_43</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 01</uri>
+      <pose>148.000000 -225.000000 0.000000 0 0 3.141593</pose>
+    </include>
+
+    <include>
+      <name>cave_cap_2</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Cap</uri>
+      <pose>148.000000 -250.000000 0.000000 0 0 0.000000</pose>
     </include>
 
 
@@ -397,253 +361,270 @@
         <ref>tile_3</ref>
         <ref>tile_4</ref>
         <ref>tile_5</ref>
-        <ref>rescue_randy_1</ref>
-        <pose>98.000000 50.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>225.000000 46.875000 130.000000</size></box></geometry>
-        <buffer>5.000000</buffer>
-      </level>
-      <level name="level7">
         <ref>tile_6</ref>
-        <pose>98.000000 25.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>225.000000 46.875000 130.000000</size></box></geometry>
+        <ref>tile_7</ref>
+        <pose>285.500000 75.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>575.000000 46.875000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level8">
-        <ref>backpack_1</ref>
-        <pose>98.000000 26.200000 0.000000 0 0 0</pose>
-        <geometry><box><size>225.000000 46.875000 130.000000</size></box></geometry>
-        <buffer>5.000000</buffer>
-      </level>
-      <level name="level10">
-        <ref>tile_7</ref>
         <ref>tile_8</ref>
         <ref>tile_9</ref>
-        <pose>98.000000 0.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>225.000000 46.875000 130.000000</size></box></geometry>
-        <buffer>5.000000</buffer>
-      </level>
-      <level name="level12">
-        <ref>phone_1</ref>
-        <pose>98.000000 0.300000 0.000000 0 0 0</pose>
-        <geometry><box><size>225.000000 46.875000 130.000000</size></box></geometry>
+        <ref>tile_10</ref>
+        <ref>tile_11</ref>
+        <ref>tile_12</ref>
+        <ref>tile_13</ref>
+        <ref>tile_14</ref>
+        <ref>tile_15</ref>
+        <pose>285.500000 50.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>575.000000 46.875000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level15">
-        <ref>tile_10</ref>
-        <ref>tile_12</ref>
-        <ref>tile_13</ref>
-        <pose>98.000000 -25.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>225.000000 46.875000 130.000000</size></box></geometry>
-        <buffer>5.000000</buffer>
-      </level>
-      <level name="level16">
-        <ref>tile_11</ref>
-        <pose>98.000000 -12.500000 0.000000 0 0 0</pose>
-        <geometry><box><size>225.000000 46.875000 130.000000</size></box></geometry>
-        <buffer>5.000000</buffer>
-      </level>
-      <level name="level17">
-        <ref>phone_2</ref>
-        <pose>98.000000 -29.500000 0.000000 0 0 0</pose>
-        <geometry><box><size>225.000000 46.875000 130.000000</size></box></geometry>
-        <buffer>5.000000</buffer>
-      </level>
-      <level name="level19">
-        <ref>tile_14</ref>
-        <ref>tile_15</ref>
         <ref>tile_16</ref>
         <ref>tile_17</ref>
         <ref>tile_18</ref>
         <ref>tile_19</ref>
         <ref>tile_20</ref>
         <ref>tile_21</ref>
-        <pose>98.000000 -50.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>225.000000 46.875000 130.000000</size></box></geometry>
+        <ref>cave_cap_1</ref>
+        <pose>285.500000 25.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>575.000000 46.875000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
-      <level name="level20">
-        <ref>rescue_randy_2</ref>
-        <pose>98.000000 -47.600000 0.000000 0 0 0</pose>
-        <geometry><box><size>225.000000 46.875000 130.000000</size></box></geometry>
-        <buffer>5.000000</buffer>
-      </level>
-      <level name="level23">
-        <ref>backpack_2</ref>
-        <pose>98.000000 -51.200000 0.000000 0 0 0</pose>
-        <geometry><box><size>225.000000 46.875000 130.000000</size></box></geometry>
-        <buffer>5.000000</buffer>
-      </level>
-      <level name="level27">
-        <ref>phone_3</ref>
-        <pose>98.000000 -49.800000 0.000000 0 0 0</pose>
-        <geometry><box><size>225.000000 46.875000 130.000000</size></box></geometry>
-        <buffer>5.000000</buffer>
-      </level>
-      <level name="level29">
+      <level name="level19">
         <ref>tile_22</ref>
-        <pose>98.000000 -75.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>225.000000 46.875000 130.000000</size></box></geometry>
-        <buffer>5.000000</buffer>
-      </level>
-      <level name="level30">
-        <ref>backpack_3</ref>
-        <pose>98.000000 -76.200000 0.000000 0 0 0</pose>
-        <geometry><box><size>225.000000 46.875000 130.000000</size></box></geometry>
-        <buffer>5.000000</buffer>
-      </level>
-      <level name="level32">
         <ref>tile_23</ref>
         <ref>tile_24</ref>
         <ref>tile_25</ref>
-        <pose>98.000000 -100.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>225.000000 46.875000 130.000000</size></box></geometry>
+        <ref>tile_26</ref>
+        <ref>tile_27</ref>
+        <ref>tile_28</ref>
+        <pose>285.500000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>575.000000 46.875000 130.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level26">
+        <ref>tile_29</ref>
+        <pose>285.500000 -25.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>575.000000 46.875000 130.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level27">
+        <ref>tile_30</ref>
+        <pose>285.500000 -50.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>575.000000 46.875000 130.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level28">
+        <ref>tile_31</ref>
+        <pose>285.500000 -75.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>575.000000 46.875000 130.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level29">
+        <ref>tile_32</ref>
+        <ref>tile_33</ref>
+        <pose>285.500000 -100.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>575.000000 46.875000 130.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level30">
+        <ref>tile_34</ref>
+        <pose>285.500000 -125.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>575.000000 46.875000 130.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level31">
+        <ref>tile_35</ref>
+        <ref>tile_36</ref>
+        <ref>tile_37</ref>
+        <pose>285.500000 -150.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>575.000000 46.875000 130.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level32">
+        <ref>tile_38</ref>
+        <ref>tile_39</ref>
+        <pose>285.500000 -175.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>575.000000 46.875000 130.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level33">
+        <ref>tile_40</ref>
+        <ref>tile_41</ref>
+        <ref>tile_42</ref>
+        <pose>285.500000 -200.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>575.000000 46.875000 130.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level34">
+        <ref>tile_43</ref>
+        <pose>285.500000 -225.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>575.000000 46.875000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level35">
-        <ref>rescue_randy_3</ref>
-        <pose>98.000000 -98.750000 0.000000 0 0 0</pose>
-        <geometry><box><size>225.000000 46.875000 130.000000</size></box></geometry>
+        <ref>cave_cap_2</ref>
+        <pose>285.500000 -250.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>575.000000 46.875000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
 
 
       <level name="level1">
         <ref>tile_1</ref>
-        <ref>tile_6</ref>
-        <ref>tile_9</ref>
-        <ref>tile_13</ref>
-        <ref>tile_15</ref>
-        <pose>73.000000 -25.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>46.875000 200.000000 130.000000</size></box></geometry>
+        <ref>tile_14</ref>
+        <ref>tile_19</ref>
+        <pose>348.000000 -87.500000 0.000000 0 0 0</pose>
+        <geometry><box><size>46.875000 375.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level2">
         <ref>tile_2</ref>
-        <ref>tile_16</ref>
-        <pose>60.500000 -25.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>46.875000 200.000000 130.000000</size></box></geometry>
+        <pose>373.000000 -87.500000 0.000000 0 0 0</pose>
+        <geometry><box><size>46.875000 375.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level3">
         <ref>tile_3</ref>
-        <ref>tile_17</ref>
-        <pose>98.000000 -25.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>46.875000 200.000000 130.000000</size></box></geometry>
+        <pose>398.000000 -87.500000 0.000000 0 0 0</pose>
+        <geometry><box><size>46.875000 375.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level4">
         <ref>tile_4</ref>
-        <ref>tile_18</ref>
-        <pose>123.000000 -25.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>46.875000 200.000000 130.000000</size></box></geometry>
+        <pose>423.000000 -87.500000 0.000000 0 0 0</pose>
+        <geometry><box><size>46.875000 375.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level5">
         <ref>tile_5</ref>
-        <pose>135.500000 -25.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>46.875000 200.000000 130.000000</size></box></geometry>
+        <pose>448.000000 -87.500000 0.000000 0 0 0</pose>
+        <geometry><box><size>46.875000 375.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level6">
-        <ref>rescue_randy_1</ref>
-        <pose>131.000000 -25.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>46.875000 200.000000 130.000000</size></box></geometry>
+        <ref>tile_6</ref>
+        <pose>473.000000 -87.500000 0.000000 0 0 0</pose>
+        <geometry><box><size>46.875000 375.000000 130.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level7">
+        <ref>tile_7</ref>
+        <ref>tile_15</ref>
+        <ref>tile_20</ref>
+        <pose>498.000000 -87.500000 0.000000 0 0 0</pose>
+        <geometry><box><size>46.875000 375.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level9">
-        <ref>backpack_1</ref>
-        <pose>72.700000 -25.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>46.875000 200.000000 130.000000</size></box></geometry>
+        <ref>tile_8</ref>
+        <ref>tile_16</ref>
+        <ref>tile_28</ref>
+        <pose>173.000000 -87.500000 0.000000 0 0 0</pose>
+        <geometry><box><size>46.875000 375.000000 130.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level10">
+        <ref>tile_9</ref>
+        <pose>198.000000 -87.500000 0.000000 0 0 0</pose>
+        <geometry><box><size>46.875000 375.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level11">
-        <ref>tile_7</ref>
         <ref>tile_10</ref>
+        <pose>223.000000 -87.500000 0.000000 0 0 0</pose>
+        <geometry><box><size>46.875000 375.000000 130.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level12">
         <ref>tile_11</ref>
-        <ref>tile_14</ref>
-        <ref>tile_22</ref>
-        <ref>tile_23</ref>
-        <pose>23.000000 -25.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>46.875000 200.000000 130.000000</size></box></geometry>
+        <pose>248.000000 -87.500000 0.000000 0 0 0</pose>
+        <geometry><box><size>46.875000 375.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level13">
-        <ref>phone_1</ref>
-        <pose>24.400000 -25.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>46.875000 200.000000 130.000000</size></box></geometry>
+        <ref>tile_12</ref>
+        <pose>273.000000 -87.500000 0.000000 0 0 0</pose>
+        <geometry><box><size>46.875000 375.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level14">
-        <ref>tile_8</ref>
-        <ref>tile_12</ref>
-        <pose>48.000000 -25.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>46.875000 200.000000 130.000000</size></box></geometry>
+        <ref>tile_13</ref>
+        <ref>tile_17</ref>
+        <pose>298.000000 -87.500000 0.000000 0 0 0</pose>
+        <geometry><box><size>46.875000 375.000000 130.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level16">
+        <ref>tile_18</ref>
+        <pose>323.000000 -87.500000 0.000000 0 0 0</pose>
+        <geometry><box><size>46.875000 375.000000 130.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level17">
+        <ref>tile_21</ref>
+        <pose>523.000000 -87.500000 0.000000 0 0 0</pose>
+        <geometry><box><size>46.875000 375.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level18">
-        <ref>phone_2</ref>
-        <pose>69.500000 -25.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>46.875000 200.000000 130.000000</size></box></geometry>
+        <ref>cave_cap_1</ref>
+        <pose>548.000000 -87.500000 0.000000 0 0 0</pose>
+        <geometry><box><size>46.875000 375.000000 130.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level20">
+        <ref>tile_22</ref>
+        <pose>23.000000 -87.500000 0.000000 0 0 0</pose>
+        <geometry><box><size>46.875000 375.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level21">
-        <ref>rescue_randy_2</ref>
-        <pose>66.000000 -25.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>46.875000 200.000000 130.000000</size></box></geometry>
+        <ref>tile_23</ref>
+        <pose>48.000000 -87.500000 0.000000 0 0 0</pose>
+        <geometry><box><size>46.875000 375.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level22">
-        <ref>tile_19</ref>
-        <pose>148.000000 -25.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>46.875000 200.000000 130.000000</size></box></geometry>
+        <ref>tile_24</ref>
+        <pose>73.000000 -87.500000 0.000000 0 0 0</pose>
+        <geometry><box><size>46.875000 375.000000 130.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level23">
+        <ref>tile_25</ref>
+        <ref>tile_29</ref>
+        <ref>tile_30</ref>
+        <ref>tile_31</ref>
+        <ref>tile_32</ref>
+        <ref>tile_35</ref>
+        <ref>tile_38</ref>
+        <ref>tile_40</ref>
+        <pose>98.000000 -87.500000 0.000000 0 0 0</pose>
+        <geometry><box><size>46.875000 375.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level24">
-        <ref>backpack_2</ref>
-        <pose>152.000000 -25.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>46.875000 200.000000 130.000000</size></box></geometry>
+        <ref>tile_26</ref>
+        <ref>tile_33</ref>
+        <ref>tile_34</ref>
+        <ref>tile_36</ref>
+        <ref>tile_41</ref>
+        <pose>123.000000 -87.500000 0.000000 0 0 0</pose>
+        <geometry><box><size>46.875000 375.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
       <level name="level25">
-        <ref>tile_20</ref>
-        <pose>173.000000 -25.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>46.875000 200.000000 130.000000</size></box></geometry>
-        <buffer>5.000000</buffer>
-      </level>
-      <level name="level26">
-        <ref>tile_21</ref>
-        <pose>185.500000 -25.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>46.875000 200.000000 130.000000</size></box></geometry>
-        <buffer>5.000000</buffer>
-      </level>
-      <level name="level28">
-        <ref>phone_3</ref>
-        <pose>169.500000 -25.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>46.875000 200.000000 130.000000</size></box></geometry>
-        <buffer>5.000000</buffer>
-      </level>
-      <level name="level31">
-        <ref>backpack_3</ref>
-        <pose>22.600000 -25.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>46.875000 200.000000 130.000000</size></box></geometry>
-        <buffer>5.000000</buffer>
-      </level>
-      <level name="level33">
-        <ref>tile_24</ref>
-        <pose>35.500000 -25.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>46.875000 200.000000 130.000000</size></box></geometry>
-        <buffer>5.000000</buffer>
-      </level>
-      <level name="level34">
-        <ref>tile_25</ref>
-        <pose>10.500000 -25.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>46.875000 200.000000 130.000000</size></box></geometry>
-        <buffer>5.000000</buffer>
-      </level>
-      <level name="level36">
-        <ref>rescue_randy_3</ref>
-        <pose>30.000000 -25.000000 0.000000 0 0 0</pose>
-        <geometry><box><size>46.875000 200.000000 130.000000</size></box></geometry>
+        <ref>tile_27</ref>
+        <ref>tile_37</ref>
+        <ref>tile_39</ref>
+        <ref>tile_42</ref>
+        <ref>tile_43</ref>
+        <ref>cave_cap_2</ref>
+        <pose>148.000000 -87.500000 0.000000 0 0 0</pose>
+        <geometry><box><size>46.875000 375.000000 130.000000</size></box></geometry>
         <buffer>5.000000</buffer>
       </level>
     </plugin>
