@@ -62,7 +62,7 @@ class BridgeLogger
 
   /// \brief Previous sequence numbers. This is used to detect errors.
   private: std::map<std::string, int32_t> prevSeq;
-  private: std::map<std::string, std::chrono::time_point<std::chrono::system_clock>> startTime;
+  private: std::map<std::string, std::chrono::time_point<std::chrono::steady_clock>> startTime;
 
   /// \brief Just a mutex.
   private: std::mutex mutex;
@@ -143,7 +143,7 @@ void BridgeLogger::Update(const ros::TimerEvent &)
 
       // Init the previous sequence map
       this->prevSeq[info.name] = -1;
-      this->startTime[info.name] = std::chrono::system_clock::now();
+      this->startTime[info.name] = std::chrono::steady_clock::now();
 
       // Subscribe to the topic.
       this->subscribers.push_back(
@@ -161,7 +161,7 @@ BridgeLogger::~BridgeLogger()
 void BridgeLogger::OnSensorMsg(const topic_tools::ShapeShifter::ConstPtr &_msg,
                              const std::string &_topic)
 {
-  auto systemTime = std::chrono::system_clock::now();
+  auto systemTime = std::chrono::steady_clock::now();
   std::lock_guard<std::mutex> lock(this->mutex);
   ros::Time currentTime = ros::Time::now();
 
