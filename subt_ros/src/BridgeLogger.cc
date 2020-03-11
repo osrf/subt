@@ -62,7 +62,7 @@ class BridgeLogger
 
   /// \brief Previous sequence numbers. This is used to detect errors.
   private: std::map<std::string, int32_t> prevSeq;
-  private: std::map<std::string, std::chrono::time_point<std::chrono::system_clock>> prevTime;
+  private: std::map<std::string, std::chrono::time_point<std::chrono::system_clock>> startTime;
 
   /// \brief Just a mutex.
   private: std::mutex mutex;
@@ -100,6 +100,7 @@ void BridgeLogger::Update(const ros::TimerEvent &)
     if (this->streams.find(info.name) != this->streams.end() ||
         info.name.find("parameter_descriptions") != std::string::npos ||
         info.name.find("parameter_updates") != std::string::npos ||
+        info.name.find("local_control_points") != std::string::npos ||
         info.name.find("compressedDepth") != std::string::npos)
     {
       continue;
@@ -142,7 +143,7 @@ void BridgeLogger::Update(const ros::TimerEvent &)
 
       // Init the previous sequence map
       this->prevSeq[info.name] = -1;
-      this->prevTime[info.name] = std::chrono::system_clock::now();
+      this->startTime[info.name] = std::chrono::system_clock::now();
 
       // Subscribe to the topic.
       this->subscribers.push_back(
@@ -213,7 +214,7 @@ void BridgeLogger::OnSensorMsg(const topic_tools::ShapeShifter::ConstPtr &_msg,
   if (this->prevSeq[_topic] + 1 != seq && this->prevSeq[_topic] >= 0)
     this->streams[_topic] << "***Error: Missed message(s) ***\n";
 
-  std::chrono::duration<double> diff = systemTime - this->prevTime[_topic];
+  std::chrono::duration<double> diff = systemTime - this->startTime[_topic];
 
   // Log the data.
   this->streams[_topic] << seq << " "
@@ -221,7 +222,6 @@ void BridgeLogger::OnSensorMsg(const topic_tools::ShapeShifter::ConstPtr &_msg,
     << diff.count() << std::endl;
 
   this->prevSeq[_topic] = seq;
-  this->prevTime[_topic] = systemTime;
 }
 
 /////////////////////////////////////////////////
