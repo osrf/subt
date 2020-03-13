@@ -18,11 +18,13 @@
 #define SUBT_IGN_VISIBILITYTABLE_HH_
 
 #include <map>
+#include <set>
 #include <string>
 #include <utility>
 #include <vector>
 #include <ignition/math/AxisAlignedBox.hh>
 #include <ignition/math/Vector3.hh>
+#include <ignition/math/graph/Vertex.hh>
 #include <subt_ign/VisibilityTypes.hh>
 
 namespace subt
@@ -88,6 +90,26 @@ namespace subt
 
     /// \brief Populate the visibility information in memory.
     private: void PopulateVisibilityInfo();
+
+    /// \brief Populate the visibility information in memory.
+    /// \param[in] _relays Set of vertices containing breadcrumb robots.
+    public: void PopulateVisibilityInfo(
+                      const std::set<ignition::math::Vector3d> &_relayPoses);
+
+    /// \brief Helper function for populating visibility information.
+    /// This function updates all routes from a pair of nodes.
+    /// \param[in] _relays The set of vertices containing breadcrumb robots.
+    /// \param[in] _from Source vertex.
+    /// \param[in] _to Destination vertex.
+    /// \param[in, out] _visited Set of vertices visited. This is used to
+    /// prevent infinite recursion.
+    /// \param[in, out] _visibilityInfoWithRelays Visibility information.
+    private: bool PopulateVisibilityInfoHelper(
+      const std::set<ignition::math::graph::VertexId> &_relays,
+      const ignition::math::graph::VertexId &_from,
+      const ignition::math::graph::VertexId &_to,
+      std::set<ignition::math::graph::VertexId> &_visited,
+      VisibilityInfo &_visibilityInfoWithRelays);
 
     /// \brief Get the vertex Id associated to a position. The vertex Id
     /// represents the world section containing the position.
