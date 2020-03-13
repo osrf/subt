@@ -280,10 +280,10 @@ bool VisibilityTable::PopulateVisibilityInfoHelper(
       if (srcToRelayIt == this->visibilityInfo.end())
         continue;
 
-      // I can reach the relay. Is the cost good enough?
+      // I can reach the relay with this cost.
       double srcToRelayCost = srcToRelayIt->second;
 
-      // Cost not cached.
+      // Route not cached.
       auto relayToDstIt =
         _visibilityInfoWithRelays.find(std::make_pair(i, _to));
       if (relayToDstIt == _visibilityInfoWithRelays.end())
