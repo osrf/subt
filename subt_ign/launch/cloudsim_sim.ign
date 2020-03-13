@@ -135,6 +135,9 @@
     <% if $worldName.include?('tunnel_circuit_') &&
           !$worldName.include?('practice') %>
       <world_file>tunnel_circuit/<%= worldNumber %>/<%= $worldName %>.sdf</world_file>
+    <% elsif $worldName.include?('urban_circuit_') &&
+          !$worldName.include?('practice') %>
+      <world_file>urban_circuit/<%= worldNumber %>/<%= $worldName %>.sdf</world_file>
     <% else %>
       <world_file><%= $worldName %>.sdf</world_file>
     <% end %>
@@ -342,6 +345,10 @@
       </artifact>
       <artifact>
         <name>gas_4</name>
+        <type>TYPE_GAS</type>
+      </artifact>
+      <artifact>
+        <name>gas_5</name>
         <type>TYPE_GAS</type>
       </artifact>
     </plugin>
