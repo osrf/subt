@@ -152,6 +152,10 @@ namespace subt
     /// \brief The connectivity information in a map format than can be queried.
     private: VisibilityInfo visibilityInfo;
 
+    /// \brief The connectivity information in a map format than can be queried.
+    /// This member stores just the costs without using relays.
+    private: VisibilityInfo visibilityInfoWithoutRelays;
+
     /// \brief All model segments used to create the environment. Each of these
     /// segments is associated with a vertex in a graph.
     /// Mapping between a model's bouding box and a vertex Id.

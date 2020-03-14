@@ -205,6 +205,13 @@ bool VisibilityTable::PopulateVisibilityGraph(const std::string &_graphFilename)
 //////////////////////////////////////////////////
 void VisibilityTable::PopulateVisibilityInfo()
 {
+  // Cached it.
+  if (!this->visibilityInfoWithoutRelays.empty())
+  {
+    this->visibilityInfo = this->visibilityInfoWithoutRelays;
+    return;
+  }
+
   // Get the list of vertices Id.
   auto vertexIds = this->visibilityGraph.Vertices();
 
@@ -220,6 +227,8 @@ void VisibilityTable::PopulateVisibilityInfo()
       this->visibilityInfo[std::make_pair(id1, id2)] = cost;
     }
   }
+
+  this->visibilityInfoWithoutRelays = this->visibilityInfo;
 }
 
 //////////////////////////////////////////////////
@@ -313,6 +322,8 @@ bool VisibilityTable::PopulateVisibilityInfoHelper(
 
   // Among all posible routes, select the one with lowest cost.
   _visibilityInfoWithRelays[std::make_pair(_from, _to)] =
+    std::min(srcToDstCost, bestRouteCost);
+  _visibilityInfoWithRelays[std::make_pair(_to, _from)] =
     std::min(srcToDstCost, bestRouteCost);
 
   return true;
