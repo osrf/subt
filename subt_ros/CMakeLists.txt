@@ -6,9 +6,11 @@ add_compile_options(-std=c++11)
 
 find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
+  message_generation
   roscpp
   tf2
   tf2_ros
+  topic_tools
   subt_msgs
   subt_communication_broker
 )
@@ -20,7 +22,9 @@ find_package(ignition-transport7 REQUIRED)
 
 catkin_package(
   CATKIN_DEPENDS
+    message_runtime
     subt_communication_broker
+    topic_tools
   )
 
 include_directories(
@@ -35,6 +39,10 @@ add_executable(pose_tf_broadcaster
 target_link_libraries(pose_tf_broadcaster
   ${catkin_LIBRARIES}
 )
+
+add_executable(bridge_logger src/BridgeLogger.cc)
+add_dependencies(bridge_logger ${catkin_EXPORTED_TARGETS})
+target_link_libraries(bridge_logger ${catkin_LIBRARIES})
 
 add_executable(subt_ros_relay src/SubtRosRelay.cc)
 target_include_directories(subt_ros_relay
@@ -62,7 +70,7 @@ target_link_libraries(set_pose_relay
 )
 add_dependencies(set_pose_relay ${catkin_EXPORTED_TARGETS})
 
-install(TARGETS pose_tf_broadcaster subt_ros_relay set_pose_relay
+install(TARGETS pose_tf_broadcaster subt_ros_relay set_pose_relay bridge_logger
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 install(DIRECTORY launch
