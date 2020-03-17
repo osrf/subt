@@ -18,11 +18,13 @@
 #define SUBT_IGN_VISIBILITYTABLE_HH_
 
 #include <map>
+#include <set>
 #include <string>
 #include <utility>
 #include <vector>
 #include <ignition/math/AxisAlignedBox.hh>
 #include <ignition/math/Vector3.hh>
+#include <ignition/math/graph/Vertex.hh>
 #include <subt_ign/VisibilityTypes.hh>
 
 namespace subt
@@ -81,6 +83,26 @@ namespace subt
     public: const std::map<std::tuple<int32_t, int32_t, int32_t>, uint64_t>
       &Vertices() const;
 
+    /// \brief Populate the visibility information in memory.
+    /// \param[in] _relays Set of vertices containing breadcrumb robots.
+    /// You should call this function when the breadcrumbs are updated.
+    /// The cost of the best route is computed as follows:
+    ///   * The direct route without taking into account breadcrumbs is computed
+    ///   * The best indirect route (using one or more relays) is computed.
+    ///   * The cost of a route that has multiple hops is the cost of the hop
+    ///     with bigger cost.
+    ///   * The total cost is the minimum cost between the direct route and the
+    ///     best indirect route.
+    ///  A few examples using A--(1)--B--(2)--BC--(2)--D--2--E
+    ///  Note that BC is a breadcrumb.
+    ///  Cost(A, A):  0
+    ///  Cost(A, B):  1
+    ///  Cost(A, BC): 3
+    ///  Cost(A, D):  3
+    ///  Cost(A, E):  4
+    public: void PopulateVisibilityInfo(
+                      const std::set<ignition::math::Vector3d> &_relayPoses);
+
     /// \brief Populate a graph from a file in DOT format.
     /// \param[in] _graphFilename The path to the file containing the graph.
     /// \return True if the graph was successfully generated or false otherwise.
@@ -88,6 +110,24 @@ namespace subt
 
     /// \brief Populate the visibility information in memory.
     private: void PopulateVisibilityInfo();
+
+    /// \brief Helper function for populating visibility information.
+    /// This function updates all routes from a pair of nodes.
+    /// Note that this function is recursive but optimized using dynamic
+    /// programming. "_visibilityInfoWithRelays" is used to store the result of
+    /// subproblems so that we don't have to recompute them later.
+    /// \param[in] _relays The set of vertices containing breadcrumb robots.
+    /// \param[in] _from Source vertex.
+    /// \param[in] _to Destination vertex.
+    /// \param[in, out] _visited Set of vertices visited. This is used to
+    /// prevent infinite recursion.
+    /// \param[in, out] _visibilityInfoWithRelays Visibility information.
+    private: bool PopulateVisibilityInfoHelper(
+      const std::set<ignition::math::graph::VertexId> &_relays,
+      const ignition::math::graph::VertexId &_from,
+      const ignition::math::graph::VertexId &_to,
+      std::set<ignition::math::graph::VertexId> &_visited,
+      VisibilityInfo &_visibilityInfoWithRelays);
 
     /// \brief Get the vertex Id associated to a position. The vertex Id
     /// represents the world section containing the position.
@@ -111,6 +151,10 @@ namespace subt
 
     /// \brief The connectivity information in a map format than can be queried.
     private: VisibilityInfo visibilityInfo;
+
+    /// \brief The connectivity information in a map format than can be queried.
+    /// This member stores just the costs without using relays.
+    private: VisibilityInfo visibilityInfoWithoutRelays;
 
     /// \brief All model segments used to create the environment. Each of these
     /// segments is associated with a vertex in a graph.
