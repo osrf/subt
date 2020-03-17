@@ -372,6 +372,102 @@ bool VisibilityTable::PopulateVisibilityInfoHelper(
 }
 
 //////////////////////////////////////////////////
+void VisibilityTable::PopulateVisibilityInfo(
+  const std::set<ignition::math::Vector3d> &_relayPoses)
+{
+  // Convert poses to vertices.
+  std::set<ignition::math::graph::VertexId> relays;
+  for (const auto pose : _relayPoses)
+    relays.insert(this->Index(pose));
+
+  // Compute the cost of all routes without considering relays.
+  this->PopulateVisibilityInfo();
+
+  // Update the cost of all routes considering relays.
+  VisibilityInfo visibilityInfoWithRelays;
+  std::set<ignition::math::graph::VertexId> visited;
+  auto vertexIds = this->visibilityGraph.Vertices();
+  for (const auto from : vertexIds)
+  {
+    auto id1 = from.first;
+    for (const auto to : vertexIds)
+    {
+      auto id2 = to.first;
+      this->PopulateVisibilityInfoHelper(
+        relays, id1, id2, visited, visibilityInfoWithRelays);
+      visited = {};
+    }
+  }
+
+  this->visibilityInfo = visibilityInfoWithRelays;
+}
+
+//////////////////////////////////////////////////
+bool VisibilityTable::PopulateVisibilityInfoHelper(
+  const std::set<ignition::math::graph::VertexId> &_relays,
+  const ignition::math::graph::VertexId &_from,
+  const ignition::math::graph::VertexId &_to,
+  std::set<ignition::math::graph::VertexId> &_visited,
+  VisibilityInfo &_visibilityInfoWithRelays)
+{
+  auto srcToDstCostIt = this->visibilityInfo.find(std::make_pair(_from, _to));
+  if (srcToDstCostIt == this->visibilityInfo.end())
+    return false;
+
+  double srcToDstCost = srcToDstCostIt->second;
+  double bestRouteCost = std::numeric_limits<double>::max();
+
+  if (_from != _to)
+  {
+    for (const auto i : _relays)
+    {
+      if (_from == i || _to == i || _visited.find(i) != _visited.end())
+        continue;
+
+      // I can't reach the relay.
+      auto srcToRelayIt = this->visibilityInfo.find(std::make_pair(_from, i));
+      if (srcToRelayIt == this->visibilityInfo.end())
+        continue;
+
+      // I can reach the relay with this cost.
+      double srcToRelayCost = srcToRelayIt->second;
+
+      // Route not cached.
+      auto relayToDstIt =
+        _visibilityInfoWithRelays.find(std::make_pair(i, _to));
+      if (relayToDstIt == _visibilityInfoWithRelays.end())
+      {
+        // Mark this relay as visited to avoid infinite recursion.
+        _visited.insert(i);
+
+        // Evaluate the route from the relay to the destination.
+        this->PopulateVisibilityInfoHelper(
+          _relays, i, _to, _visited, _visibilityInfoWithRelays);
+      }
+
+      // Do we now have a route from the relay to the destination?
+      double relayToDstCost = std::numeric_limits<double>::max();
+      relayToDstIt = _visibilityInfoWithRelays.find(std::make_pair(i, _to));
+      if (relayToDstIt != _visibilityInfoWithRelays.end())
+        relayToDstCost = relayToDstIt->second;
+
+      // The cost of a route is the cost of its biggest hop.
+      double currentRouteCost = std::max(srcToRelayCost, relayToDstCost);
+
+      // Among all the routes found going through relays,
+      // select the one with lowest cost.
+      bestRouteCost = std::min(bestRouteCost, currentRouteCost);
+    }
+  }
+
+  // Among all posible routes, select the one with lowest cost.
+  _visibilityInfoWithRelays[std::make_pair(_from, _to)] =
+    std::min(srcToDstCost, bestRouteCost);
+
+  return true;
+}
+
+//////////////////////////////////////////////////
 void VisibilityTable::CreateWorldSegments()
 {
   // Get the list of vertices Id.
