@@ -103,7 +103,7 @@
       <remap from="$(arg sensor_prefix)/camera_down/depth_image" to="front_down/depth"/>
     </node>
 
-    <!--Front Laser-->
+    <!--OS1-64 3D Laser-->
     <node
       pkg="ros_ign_bridge"
       type="parameter_bridge"
@@ -112,13 +112,15 @@
       <remap from="$(arg sensor_prefix)/front_laser/scan/points" to="points"/>
     </node>
 
+    <!-- Planar Laser -->
     <node
         pkg="ros_ign_bridge"
         type="parameter_bridge"
-        name="ros_ign_bridge_gpu_lidar_front_cliff"
-        args="$(arg sensor_prefix)/front_cliff_laser/scan@sensor_msgs/LaserScan[ignition.msgs.LaserScan">
-      <remap from="$(arg sensor_prefix)/front_cliff_laser/scan" to="front_cliff_scan"/>
+        name="ros_ign_bridge_gpu_lidar_planar_laser"
+        args="$(arg sensor_prefix)/planar_laser/scan@sensor_msgs/LaserScan[ignition.msgs.LaserScan">
+      <remap from="$(arg sensor_prefix)/planar_laser/scan" to="planar_laser_scan"/>
     </node>
+
 
     <!--IMU-->
     <node

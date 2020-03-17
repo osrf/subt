@@ -40,7 +40,7 @@
         </geometry>
       </collision>
       <collision name="base_link_fixed_joint_lump__camera/camera_link_collision_2">
-        <pose frame="">0.488 0 0.272 0 -0 0</pose>
+        <pose frame="">0.468 0 0.360 0 -0 0</pose>
         <geometry>
           <box>
             <size>0.0078 0.13 0.0192</size>
@@ -61,7 +61,29 @@
           </friction>
         </surface>
       </collision>
-      <collision name="base_link_fixed_joint_lump__top_plate_link_collision_3">
+      <collision name="base_link_fixed_joint_lump__camera/camera_link_collision_3">
+        <pose frame="">0.468 0 0.335 0 0.5236 0</pose>
+        <geometry>
+          <box>
+            <size>0.0078 0.13 0.0192</size>
+          </box>
+        </geometry>
+        <surface>
+          <contact>
+            <ode>
+              <kp>1e+13</kp>
+              <kd>1</kd>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu2>1</mu2>
+              <fdir1>0 0 0</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name="base_link_fixed_joint_lump__top_plate_link_collision_4">
         <pose frame="">0.0812 0 0.245 0 -0 0</pose>
         <geometry>
           <mesh>
@@ -70,7 +92,7 @@
           </mesh>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__top_plate_link_collision_4">
+      <collision name="base_link_fixed_joint_lump__top_plate_link_collision_5">
         <pose frame="">0.0812 0 0.245 0 -0 0</pose>
         <geometry>
           <box>
@@ -78,7 +100,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__velodyne_base_link_collision_5">
+      <collision name="base_link_fixed_joint_lump__velodyne_base_link_collision_6">
         <pose frame="">0.0012 0 0.71415 0 -0 0</pose>
         <geometry>
           <cylinder>
@@ -97,20 +119,19 @@
         </geometry>
       </visual>
       <visual name="base_link_fixed_joint_lump__camera/camera_link_visual_1">
-        <pose frame="">0.438 0 0.272 0 -0 0</pose>
+        <pose frame="">0.468 0 0.335 0 0.5236 0</pose>
         <geometry>
           <mesh>
             <uri>meshes/realsense.dae</uri>
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__cliff_sensor_link_visual_2">
-        <pose frame="">0.435 0 0.235 -2.35619 -0 -1.5708</pose>
+      <visual name="base_link_fixed_joint_lump__camera/camera_link_visual_2">
+        <pose frame="">0.468 0 0.360 0 -0 0</pose>
         <geometry>
-          <cylinder>
-            <length>0.02</length>
-            <radius>0.005</radius>
-          </cylinder>
+          <mesh>
+            <uri>meshes/realsense.dae</uri>
+          </mesh>
         </geometry>
       </visual>
       <visual name="base_link_fixed_joint_lump__front_bumper_link_visual_3">
@@ -149,7 +170,7 @@
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__arch_visual_7">
+      <!-- <visual name="base_link_fixed_joint_lump__arch_visual_7">
         <pose frame="">0.0012 0 0.251 0 -0 0</pose>
         <geometry>
           <mesh>
@@ -162,9 +183,9 @@
           <diffuse>0.45 0.45 0.45 1</diffuse>
           <specular>0.8 0.8 0.8 1.0</specular>
         </material>
-      </visual>
+      </visual> -->
       <visual name="base_link_fixed_joint_lump__velodyne_base_link_visual_10">
-        <pose frame="">0.0012 0 0.6783 0 -0 0</pose>
+        <pose frame="">0.424 0 0.402 0 -0 0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -173,7 +194,7 @@
         </geometry>
       </visual>
       <visual name="base_link_fixed_joint_lump__velodyne_base_link_visual_11">
-        <pose frame="">0.0012 0 0.6783 0 -0 0</pose>
+        <pose frame="">0.424 0 0.402 0 -0 0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -182,7 +203,7 @@
         </geometry>
       </visual>
       <visual name="base_link_fixed_joint_lump__velodyne_visual_12">
-        <pose frame="">0.0012 0 0.6783 0 -0 0</pose>
+        <pose frame="">0.424 0 0.402 0 -0 0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -199,10 +220,20 @@
           </mesh>
         </geometry>
       </visual>
+      <visual name="base_link_fixed_joint_lump__camera/camera_link_visual_14">
+        <pose frame="">0.424 0 0.152 0 -0 0</pose>
+        <geometry>
+          <cylinder>
+              <radius>0.045</radius>
+              <length>0.05</length>
+          </cylinder>
+        </geometry>
+      </visual>
       <velocity_decay/>
       <self_collide>0</self_collide>
       <enable_wind>0</enable_wind>
       <kinematic>0</kinematic>
+      <!-- Based on Intel realsense D435 (intrinsics and distortion not modeled)-->
       <sensor name="camera_front" type="rgbd_camera">
         <camera name="camera_front">
             <horizontal_fov>1.5184</horizontal_fov>
@@ -250,10 +281,11 @@
         <always_on>1</always_on>
         <update_rate>30</update_rate>
         <visualize>0</visualize>
-        <pose frame="">0.438 0 0.272 0 -0 0</pose>
+        <pose frame="">0.468 0 0.360 0 -0 0</pose>
       </sensor>
       <gravity>1</gravity>
       <velocity_decay/>
+      <!-- Based on Intel realsense D435 (intrinsics and distortion not modeled)-->
       <sensor name="camera_down" type="rgbd_camera">
         <camera name="camera_down">
             <horizontal_fov>1.5184</horizontal_fov>
@@ -301,26 +333,27 @@
         <always_on>1</always_on>
         <update_rate>30</update_rate>
         <visualize>0</visualize>
-        <pose frame="">0.438 0 0.242 0 0.5236 0</pose> <!-- 30 degree download look-->
+        <pose frame="">0.468 0 0.335 0 0.5236 0</pose> <!-- 30 degree download look-->
       </sensor>
       <gravity>1</gravity>
       <velocity_decay/>
-      <sensor name="front_cliff_laser" type="gpu_ray">
-          <pose>0.435 0 0.235 0 -2.4434589 0</pose>
-          <update_rate>50</update_rate>
+      <!-- Based on RPLidar S1 -->
+      <sensor name="planar_laser" type="gpu_ray">
+          <pose>0.424 0 0.152 0 -0 0</pose>
+          <update_rate>10</update_rate>
           <lidar>
               <scan>
                   <horizontal>
-                      <samples>1</samples>
+                      <samples>920</samples>
                       <resolution>1</resolution>
-                      <min_angle>3.141592653589793</min_angle>
-                      <max_angle>3.141592653589793</max_angle>
+                      <min_angle>-3.14159</min_angle>
+                      <max_angle>3.14159</max_angle>
                   </horizontal>
               </scan>
               <range>
                   <min>0.04</min>
-                  <max>40</max>
-                  <resolution>0.01</resolution>
+                  <max>25</max>
+                  <resolution>0.03</resolution>
               </range>
               <noise>
                   <type>gaussian</type>
@@ -331,6 +364,8 @@
       </sensor>
       <gravity>1</gravity>
       <velocity_decay/>
+
+      <!-- OS1-64 3D Laser Configuration (10x2048 or 10x1024 or 20x1024 or 20x512 as possible (rate) x (hor. res.) configs)-->
       <sensor name="front_laser" type="gpu_lidar">
         <visualize>0</visualize>
         <update_rate>10</update_rate>
@@ -339,21 +374,21 @@
             <horizontal>
               <!-- Resolution can't be above 16k, see
               https://bitbucket.org/ignitionrobotics/ign-sensors/issues/8 -->
-              <samples>10000</samples>
+              <samples>2048</samples>
               <resolution>0.1</resolution>
               <min_angle>-3.1459</min_angle>
               <max_angle>3.1459</max_angle>
             </horizontal>
             <vertical>
-              <samples>16</samples>
+              <samples>64</samples>
               <resolution>1</resolution>
-              <min_angle>-0.261799</min_angle>
-              <max_angle>0.261799</max_angle>
+              <min_angle>-0.3927</min_angle>
+              <max_angle>0.3927</max_angle>
             </vertical>
           </scan>
           <range>
-            <min>0.05</min>
-            <max>100</max>
+            <min>0.025</min>
+            <max>120</max>
             <resolution>0.01</resolution>
           </range>
           <noise>
@@ -362,7 +397,7 @@
             <stddev>0.01</stddev>
           </noise>
         </lidar>
-        <pose frame="">0.0012 0 0.716 0 -0 0</pose>
+        <pose frame="">0.424 0 0.402 0 -0 0</pose>
       </sensor>
       <light name="flashlight_flashlight_light_source_lamp_light" type="spot">
         <pose frame="">0.48 0.08 0.12 3.141592653589793 1.5707926535897934 -0.0015926535897931</pose>
