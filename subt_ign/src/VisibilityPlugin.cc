@@ -93,7 +93,7 @@ void VisibilityPlugin::PreUpdate(
     return;
 
   // create aabb component to be filled by physics
-  _ecm.Each<gazebo::components::Model,
+  _ecm.EachNew<gazebo::components::Model,
             gazebo::components::Static>(
       [&](const gazebo::Entity &_entity,
           const gazebo::components::Model *,
@@ -105,14 +105,31 @@ void VisibilityPlugin::PreUpdate(
         return true;
       });
 
+  // create aabb component to be filled by physics
+  _ecm.Each<gazebo::components::Model,
+            gazebo::components::Static>(
+      [&](const gazebo::Entity &_entity,
+          const gazebo::components::Model *,
+          const gazebo::components::Static *) -> bool
+      {
+        auto aabb = _ecm.Component<components::AxisAlignedBox>(_entity);
+        if (!aabb)
+          _ecm.CreateComponent(_entity, components::AxisAlignedBox());
+        return true;
+      });
 }
 
 //////////////////////////////////////////////////
 void VisibilityPlugin::PostUpdate(
-    const ignition::gazebo::UpdateInfo &/*_info*/,
+    const ignition::gazebo::UpdateInfo &_info,
     const ignition::gazebo::EntityComponentManager &_ecm)
 {
   if (this->dataPtr->worldName.empty())
+    return;
+
+  int64_t s, ns;
+  std::tie(s, ns) = ignition::math::durationToSecNsec(_info.simTime);
+  if (s < 1)
     return;
 
   // get all the bounding boxes
