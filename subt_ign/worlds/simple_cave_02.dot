@@ -1,6 +1,6 @@
 /* Visibility graph for simple_cave_02 */
 /* Generated with the generator.py script: */
-/*   __main__.py simple_cave_02.tsv -\-graph-file simple_cave_02.dot -\-world-file simple_cave_02.sdf -\-world-name simple_cave_02 -\-scale_x 25 -\-scale_y 25 -\-cave -\-y0 175 -\-x0 -1 -\-z0 0 -\-level_type row_col -\-levels_buf 5 */
+/*   __main__.py simple_cave_02.tsv -\-graph-file simple_cave_02.dot -\-world-file simple_cave_02.sdf -\-world-name simple_cave_02 -\-scale_x 25 -\-scale_y 25 -\-cave -\-y0 175 -\-x0 0 -\-z0 0 -\-level_type row_col -\-levels_buf 5 */
 
 graph {
   /* ==== Vertices ==== */
@@ -77,13 +77,17 @@ graph {
   6  -- 7   [label=3];  /* Intersection */
   7  -- 8   [label=3];  /* Intersection */
   7  -- 12  [label=3];  /* Intersection */
+  8  -- 9   [label=3];  /* Intersection */
   9  -- 10  [label=6];  /* Intersection */
+  9  -- 13  [label=3];  /* Intersection */
   11 -- 14  [label=1];
   12 -- 17  [label=3];  /* Intersection */
+  13 -- 18  [label=1];
   14 -- 19  [label=1];
   15 -- 16  [label=3];
   15 -- 20  [label=3];
   16 -- 17  [label=3];  /* Intersection */
+  17 -- 21  [label=3];  /* Intersection */
   18 -- 22  [label=3];  /* Intersection */
   19 -- 23  [label=1];
   20 -- 24  [label=1];
@@ -91,23 +95,34 @@ graph {
   22 -- 26  [label=3];  /* Intersection */
   23 -- 27  [label=3];  /* Intersection */
   24 -- 28  [label=1];
+  25 -- 29  [label=1];
+  26 -- 30  [label=1];
+  27 -- 31  [label=3];  /* Intersection */
+  28 -- 32  [label=1];
   29 -- 33  [label=1];
   30 -- 34  [label=1];
   31 -- 35  [label=3];
+  32 -- 37  [label=1];
   33 -- 38  [label=3];
   34 -- 40  [label=3];
   35 -- 36  [label=6];
+  36 -- 41  [label=3];
+  37 -- 42  [label=1];
   38 -- 39  [label=6];  /* Intersection */
   39 -- 40  [label=6];  /* Intersection */
   39 -- 43  [label=3];  /* Intersection */
   41 -- 44  [label=1];
   42 -- 45  [label=1];
+  43 -- 46  [label=1];
+  44 -- 47  [label=1];
   45 -- 48  [label=1];
+  46 -- 49  [label=1];
   47 -- 50  [label=3];
   48 -- 52  [label=3];  /* Intersection */
   49 -- 55  [label=3];
   50 -- 51  [label=3];
   51 -- 52  [label=3];  /* Intersection */
   52 -- 53  [label=3];  /* Intersection */
+  53 -- 54  [label=1];
   54 -- 55  [label=3];
 }
