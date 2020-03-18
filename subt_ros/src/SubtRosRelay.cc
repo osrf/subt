@@ -428,7 +428,17 @@ void SubtRosRelay::ProcessMessage(const subt::msgs::Datagram &_req)
   req.data = _req.data();
   req.rssi = _req.rssi();
 
-  ros::service::call(_req.dst_address(), req, res);
+  if (_req.dst_address() == "broadcast")
+  {
+    for (const std::string &dest : this->robotNames)
+    {
+      ros::service::call(dest, req, res);
+    }
+  }
+  else
+  {
+    ros::service::call(_req.dst_address(), req, res);
+  }
 }
 
 //////////////////////////////////////////////////
