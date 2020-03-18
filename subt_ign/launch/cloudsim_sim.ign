@@ -111,6 +111,13 @@
   end
 %>
 
+<%
+  # disable levels for simple cave worlds
+  levels = "true"
+  if $worldName.include?('simple_cave_')
+    levels = "false"
+  end
+%>
 
 <ignition version='1.0'>
   <env>
@@ -148,7 +155,7 @@
     <update_rate><%= updateRate %></update_rate>
     <%end%>
     <run>true</run>
-    <levels>true</levels>
+    <levels><%= levels %></levels>
     <record>
       <enabled>true</enabled>
       <!-- This path is used by cloudsim, please do not change -->
