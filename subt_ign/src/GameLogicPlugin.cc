@@ -258,6 +258,9 @@ class subt::GameLogicPluginPrivate
   /// automatically started, and a robot can no longer receive the artifact
   /// origin frame.
   public: const double allowedDistanceFromBase = 21.0;
+
+  /// \brief The world name.
+  public: std::string worldName = "default";
 };
 
 //////////////////////////////////////////////////
@@ -348,10 +351,10 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
       << " seconds.\n";
   }
 
-  std::string worldName = "default";
   if (_sdf->HasElement("world_name"))
   {
-    worldName = _sdf->Get<std::string>("world_name", "subt").first;
+    this->dataPtr->worldName =
+      _sdf->Get<std::string>("world_name", "subt").first;
   }
   else
   {
@@ -922,6 +925,13 @@ bool GameLogicPluginPrivate::Start()
 /////////////////////////////////////////////////
 void GameLogicPluginPrivate::Finish()
 {
+  // Pause simulation when finished. Always send this request, just to be
+  // safe.
+  ignition::msgs::WorldControl req;
+  req.set_pause(true);
+  this->node.Request(
+      std::string("/world/") + this->worldName + "/control", req);
+
   if (this->finished)
     return;
 
