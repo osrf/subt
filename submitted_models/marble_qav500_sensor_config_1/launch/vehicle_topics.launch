@@ -10,7 +10,9 @@
   <arg name="top_scan" default="0"/>
   <arg name="bottom_scan" default="0"/>
   <arg name="rgbd_cam" default="0"/>
-  <arg name="lidar_3d" default="1"/>
+  <arg name="lidar_3d" default="0"/>
+  <arg name="tof_top" default="0"/>
+  <arg name="tof_bottom" default="0"/>
   <group ns="$(arg name)">
     <!--Create multipe bridges so that it can run in parallel-->
     <node
@@ -70,6 +72,16 @@
       </node>
     </group>
 
+    <!-- Top TOF -->
+    <group if="$(arg tof_top)">
+      <node
+        pkg="ros_ign_bridge"
+        type="parameter_bridge"
+        name="ros_ign_bridge_tof_top"
+        args="$(arg sensor_prefix)/tof_top/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
+        <remap from="$(arg sensor_prefix)/tof_top/points" to="top/points"/>
+      </node>
+    </group>
     <!-- 3D lidar -->
     <group if="$(arg lidar_3d)">
       <node

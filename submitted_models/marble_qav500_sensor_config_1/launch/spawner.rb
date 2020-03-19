@@ -120,44 +120,6 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
           <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
           <motorType>velocity</motorType>
         </plugin>
-        <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
-          name="ignition::gazebo::systems::MulticopterMotorModel">
-          <robotNamespace>model/#{_name}</robotNamespace>
-          <jointName>rotor_4_joint</jointName>
-          <linkName>rotor_4</linkName>
-          <turningDirection>ccw</turningDirection>
-          <timeConstantUp>0.0182</timeConstantUp>
-          <timeConstantDown>0.0182</timeConstantDown>
-          <maxRotVelocity>1000.0</maxRotVelocity>
-          <motorConstant>1.269e-05</motorConstant>
-          <momentConstant>0.016754</momentConstant>
-          <commandSubTopic>command/motor_speed</commandSubTopic>
-          <motorNumber>4</motorNumber>
-          <rotorDragCoefficient>2.0673e-04</rotorDragCoefficient>
-          <rollingMomentCoefficient>0</rollingMomentCoefficient>
-          <motorSpeedPubTopic>motor_speed/4</motorSpeedPubTopic>
-          <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
-          <motorType>velocity</motorType>
-        </plugin>
-        <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
-          name="ignition::gazebo::systems::MulticopterMotorModel">
-          <robotNamespace>model/#{_name}</robotNamespace>
-          <jointName>rotor_5_joint</jointName>
-          <linkName>rotor_5</linkName>
-          <turningDirection>cw</turningDirection>
-          <timeConstantUp>0.0182</timeConstantUp>
-          <timeConstantDown>0.0182</timeConstantDown>
-          <maxRotVelocity>1000.0</maxRotVelocity>
-          <motorConstant>1.269e-05</motorConstant>
-          <momentConstant>0.016754</momentConstant>
-          <commandSubTopic>command/motor_speed</commandSubTopic>
-          <motorNumber>5</motorNumber>
-          <rotorDragCoefficient>2.0673e-04</rotorDragCoefficient>
-          <rollingMomentCoefficient>0</rollingMomentCoefficient>
-          <motorSpeedPubTopic>motor_speed/5</motorSpeedPubTopic>
-          <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
-          <motorType>velocity</motorType>
-        </plugin>
         <plugin
           filename="libignition-gazebo-multicopter-control-system.so"
           name="ignition::gazebo::systems::MulticopterVelocityControl">
@@ -207,18 +169,6 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
               <momentConstant>1.6754e-2</momentConstant>
               <direction>-1</direction>
             </rotor>
-            <rotor>
-              <jointName>rotor_4_joint</jointName>
-              <forceConstant>1.269e-05</forceConstant>
-              <momentConstant>1.6754e-2</momentConstant>
-              <direction>1</direction>
-            </rotor>
-            <rotor>
-              <jointName>rotor_5_joint</jointName>
-              <forceConstant>1.269e-05</forceConstant>
-              <momentConstant>1.6754e-2</momentConstant>
-              <direction>-1</direction>
-            </rotor>
           </rotorConfiguration>
         </plugin>
         <!-- Battery plugin -->
@@ -254,7 +204,7 @@ def rosExecutables(_name, _worldName)
       <command>roslaunch --wait ssci_x4_sensor_config_1 description.launch world_name:=#{_worldName} name:=#{_name}</command>
     </executable>
     <executable name='x4_ros_ign_bridge'>
-      <command>roslaunch --wait ssci_x4_sensor_config_1 vehicle_topics.launch world_name:=#{_worldName} name:=#{_name} uav:=1 lidar_3d:=1 laser_scan:=0 top_scan:=1 bottom_scan:=1 stereo_cam:=0 rgbd_cam:=0    </command>
+      <command>roslaunch --wait ssci_x4_sensor_config_1 vehicle_topics.launch world_name:=#{_worldName} name:=#{_name} uav:=1 lidar_3d:=1 rgbd_cam:=1 tof_top:=1 tof_bottom:=1   </command>
   </executable>
   HEREDOC
 end
