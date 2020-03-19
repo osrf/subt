@@ -1043,7 +1043,7 @@
 
       spawnerScript =  "#{installDir}/launch/spawner.rb"
       begin
-        require spawnerScript
+        load spawnerScript
       rescue LoadError
         raise "Unknown robot configuration #{config}. #{spawnerScript} could not be found."
       else
@@ -1062,11 +1062,11 @@
             robotType = config[1]
             robotConfigN = config[-1]
             if robotType == "3" or robotType == "4"
-              UAVStr = "UAV "
+              mUAVStr = "UAV "
             else
-              UAVStr = ""
+              mUAVStr = ""
             end
-            robotName = "X#{robotType} #{UAVStr}Config #{robotConfigN}"
+            robotName = "X#{robotType} #{mUAVStr}Config #{robotConfigN}"
           else
             robotName = config
           end
