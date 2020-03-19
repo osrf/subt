@@ -428,7 +428,7 @@ void SubtRosRelay::ProcessMessage(const subt::msgs::Datagram &_req)
   req.data = _req.data();
   req.rssi = _req.rssi();
 
-  if (_req.dst_address() == "broadcast")
+  if (_req.dst_address() == subt::communication_broker::kBroadcast)
   {
     for (const std::string &dest : this->robotNames)
     {
