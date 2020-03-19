@@ -929,8 +929,9 @@ void GameLogicPluginPrivate::Finish()
   // safe.
   ignition::msgs::WorldControl req;
   req.set_pause(true);
-  this->node.Request(
-      std::string("/world/") + this->worldName + "/control", req);
+  this->node.Request<ignition::msgs::WorldControl, ignition::msgs::Boolean>(
+      std::string("/world/") + this->worldName + "/control", req,
+      [](const ignition::msgs::Boolean &, const bool) { });
 
   if (this->finished)
     return;
@@ -949,6 +950,8 @@ void GameLogicPluginPrivate::Finish()
   {
     realElapsed = std::chrono::duration_cast<std::chrono::seconds>(
         currTime - this->startTime).count();
+
+    simElapsed = this->simTime.sec() - this->startSimTime.sec();
 
     ignmsg << "Scoring has finished. Elapsed real time: "
           << realElapsed << " seconds. Elapsed sim time: "
