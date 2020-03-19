@@ -446,4 +446,5 @@ void VisibilityTable::WriteOutputFile()
     out.write(reinterpret_cast<const char*>(&z), sizeof(z));
     out.write(reinterpret_cast<const char*>(&vertexId), sizeof(vertexId));
   }
+  ignmsg << "File saved to: " << this->lutPath << std::endl;
 }
