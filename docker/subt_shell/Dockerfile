@@ -100,7 +100,7 @@ RUN sudo apt-get update -qq \
 # docker is run
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
- && hg clone https://bitbucket.org/osrf/subt -b urban_circuit
+ && hg clone https://bitbucket.org/osrf/subt
 
 # Download the public models
 COPY download_models.sh ./
