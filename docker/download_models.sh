@@ -116,6 +116,8 @@ ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/C
 ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Elevation" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Corner 01" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Corner 02" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Corner 30" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Corner 30F" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Straight 01" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Straight 02" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Straight 03" -v 4
