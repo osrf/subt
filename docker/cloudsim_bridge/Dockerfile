@@ -28,7 +28,6 @@ RUN apt-get update -qq \
         python3-dbg \
         python3-empy \
         python3-numpy \
-        python-rosdep \
         python3-setuptools \
         python3-pip \
         python3-venv \
@@ -51,6 +50,7 @@ RUN /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu $(lsb
  && apt-get update \
  && apt-get install -y \
     python-catkin-tools \
+    python-rosdep \
     python-rosinstall \
     ros-melodic-desktop \
     ros-melodic-joystick-drivers \
