@@ -42,6 +42,78 @@
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Fiducial</uri>
     </include>
 
+    <include>
+      <name>backpack_1</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/JanSport Backpack Red</uri>
+      <pose>105.160000 -5.000000 0.070000 0 0 3.141593</pose>
+    </include>
+
+    <include>
+      <name>backpack_2</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/JanSport Backpack Red</uri>
+      <pose>75.149 -22.72 0.32 0 0 0</pose>
+    </include>
+
+    <include>
+      <name>backpack_3</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/JanSport Backpack Red</uri>
+      <pose>211.074 -73.29 0.1925 0 0 0</pose>
+    </include>
+
+    <include>
+      <name>backpack_4</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/JanSport Backpack Red</uri>
+      <pose>401.338 -23.936 -19.634 0 0 0</pose>
+    </include>
+
+    <include>
+      <name>phone_1</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Samsung J8 Black</uri>
+      <pose>375.000000 -71.680000 -19.790000 -1.639911 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>phone_2</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Samsung J8 Black</uri>
+      <pose>181.653811 -135.754 -29.8343 -1.71650 0.000000</pose>
+    </include>
+
+    <include>
+      <name>phone_3</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Samsung J8 Black</uri>
+      <pose>264.797 131.493 -9.74640 -1.640110 -0.075226 0.005217</pose>
+    </include>
+
+    <include>
+      <name>phone_4</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Samsung J8 Black</uri>
+      <pose>169.527 72.981 -0.0775 -1.640110 -0.075226 0.005217</pose>
+    </include>
+
+    <include>
+      <name>rescue_randy_1</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Rescue Randy Sitting</uri>
+      <pose>261.600000 -24.950000 -10.020000 0 0 -1.570796</pose>
+    </include>
+
+    <include>
+      <name>rescue_randy_2</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Rescue Randy Sitting</uri>
+      <pose>249.055081 -141.019 -30.0252 0 0 -0.288563</pose>
+    </include>
+
+    <include>
+      <name>rescue_randy_3</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Rescue Randy Sitting</uri>
+      <pose>333.206 131.249 -19.8467 0  0 -1.570796</pose>
+    </include>
+
+    <include>
+      <name>rescue_randy_4</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Rescue Randy Sitting</uri>
+      <pose>127.69 -88.85 -19.98 0 0 -1.570796</pose>
+    </include>
+
     <!-- Tunnel tiles and artifacts -->
     <include>
       <name>tile_1</name>
@@ -71,12 +143,6 @@
       <name>tile_5</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 03</uri>
       <pose>100.000000 0.000000 0.000000 0 0 1.570796</pose>
-    </include>
-
-    <include>
-      <name>backpack_1</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/JanSport Backpack Red</uri>
-      <pose>105.160000 -5.000000 0.070000 0 0 3.141593</pose>
     </include>
 
     <include>
@@ -127,11 +193,6 @@
       <pose>250.000000 -25.000000 -10.000000 0 0 -1.570796</pose>
     </include>
 
-    <include>
-      <name>rescue_randy_1</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Rescue Randy Sitting</uri>
-      <pose>261.600000 -24.950000 -10.020000 0 0 -1.570796</pose>
-    </include>
 
     <include>
       <name>tile_14</name>
@@ -218,12 +279,6 @@
     </include>
 
     <include>
-      <name>phone_1</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Samsung J8 Black</uri>
-      <pose>375.000000 -71.680000 -19.790000 -1.639911 0 0.000000</pose>
-    </include>
-
-    <include>
       <name>tile_26</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 02</uri>
       <pose>375.000000 -100.000000 -20.000000 0 0 -1.570796</pose>
@@ -275,12 +330,6 @@
     </include>
 
     <include>
-      <name>rescue_randy_2</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Rescue Randy Sitting</uri>
-      <pose>249.055081 -141.019 -30.0252 0 0 -0.288563</pose>
-    </include>
-
-    <include>
       <name>cave_cap_101</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Cap</uri>
       <pose>259.105716 -152.900635 -30.000000 0 0 1.047198</pose>
@@ -308,12 +357,6 @@
       <name>tile_109</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 01</uri>
       <pose>181.653811 -137.051270 -30.000000 0 0 1.047198</pose>
-    </include>
-
-    <include>
-      <name>phone_2</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Samsung J8 Black</uri>
-      <pose>181.653811 -135.754 -29.8343 -1.71650 0.000000</pose>
     </include>
 
     <include>
@@ -390,12 +433,6 @@
     </include>
 
     <include>
-      <name>phone_3</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Samsung J8 Black</uri>
-      <pose>264.797 131.493 -9.74640 -1.640110 -0.075226 0.005217</pose>
-    </include>
-
-    <include>
       <name>tile_205</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 03</uri>
       <pose>148.400635 31.198730 0.000000 0 0 2.094395</pose>
@@ -435,12 +472,6 @@
       <name>tile_211</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight 02</uri>
       <pose>321.605716 131.198730 -20.000000 0 0 -1.047198</pose>
-    </include>
-
-    <include>
-      <name>rescue_randy_3</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Rescue Randy Sitting</uri>
-      <pose>333.206 131.249 -19.8467 10 0 -1.570796</pose>
     </include>
 
     <include>
