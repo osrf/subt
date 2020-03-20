@@ -2,8 +2,8 @@
 FROM nvidia/opengl:1.0-glvnd-devel-ubuntu18.04
 
 # Tools I find useful during development
-RUN apt-get update \
- && apt-get install -y \
+RUN apt-get update -qq \
+ && apt-get install -y -qq \
         build-essential \
         bwm-ng \
         cmake \
@@ -30,7 +30,7 @@ RUN apt-get update \
         wget \
         net-tools \
         iputils-ping \
- && apt-get clean
+ && apt-get clean -qq
 
 # Install AWS CLI. This is needed by cloudsim to capture ROS logs.
 RUN pip3 install --upgrade awscli=="1.16.220"
@@ -117,7 +117,7 @@ RUN /bin/sh -c 'echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc' \
 RUN mkdir -p /tmp/ign
 
 # Copy entry point script, and set the entrypoint
-COPY run_bridge.bash ./
+COPY cloudsim_bridge/run_bridge.bash ./
 ENTRYPOINT ["./run_bridge.bash"]
 
 # Customize your image here.

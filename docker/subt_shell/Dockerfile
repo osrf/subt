@@ -2,8 +2,8 @@
 FROM nvidia/opengl:1.0-glvnd-devel-ubuntu18.04
 
 # Tools I find useful during development
-RUN apt-get update \
- && apt-get install -y \
+RUN apt-get update -qq \
+ && apt-get install -y -qq \
         build-essential \
         cmake \
         cppcheck \
@@ -29,7 +29,7 @@ RUN apt-get update \
         wget \
         net-tools \
         iputils-ping \
- && apt-get clean
+ && apt-get clean -qq
 
 # Add a user with the same user_id as the user outside the container
 # Requires a docker build argument `user_id`
@@ -50,17 +50,17 @@ RUN mkdir ~/workspaces ~/other
 WORKDIR /home/$USERNAME
 
 RUN export DEBIAN_FRONTEND=noninteractive \
- && sudo apt-get update \
- && sudo -E apt-get install -y \
+ && sudo apt-get update -qq \
+ && sudo -E apt-get install -y -qq \
     tzdata \
  && sudo ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime \
  && sudo dpkg-reconfigure --frontend noninteractive tzdata \
- && sudo apt-get clean
+ && sudo apt-get clean -qq
 
 # install ROS and required packages
 RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' \
- && sudo apt-get update \
- && sudo apt-get install -y \
+ && sudo apt-get update -qq \
+ && sudo apt-get install -y -qq \
     python-catkin-tools \
     python-rosinstall \
     ros-melodic-desktop \
@@ -73,7 +73,7 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu 
     ros-melodic-rviz-imu-plugin \
     ros-melodic-rotors-control \
  && sudo rosdep init \
- && sudo apt-get clean
+ && sudo apt-get clean -qq
 
 RUN rosdep update
 
@@ -85,16 +85,16 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.osrfoundation.org/g
  && sudo /bin/sh -c 'apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654'
 
 # install ign-blueprint
-RUN sudo apt-get update \
- && sudo apt-get install -y \
+RUN sudo apt-get update -qq \
+ && sudo apt-get install -y -qq \
     ignition-blueprint \
- && sudo apt-get clean
+ && sudo apt-get clean -qq
 
 # install the ros to ign bridge
-RUN sudo apt-get update \
- && sudo apt-get install -y \
+RUN sudo apt-get update -qq \
+ && sudo apt-get install -y -qq \
     ros-melodic-ros-ign \
- && sudo apt-get clean
+ && sudo apt-get clean -qq
 
 # Clone all the subt models so that you don't download them every time
 # docker is run
@@ -102,16 +102,9 @@ RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
  && hg clone https://bitbucket.org/osrf/subt -b urban_circuit
 
-# Download virtual stix models
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Edgar Mine Virtual STIX" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Base Station" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Black and Decker Cordless Drill" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Fiducial" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Fire Extinguisher" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/JanSport Backpack Red" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Jersey Barrier" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Rescue Randy Sitting" -v 4
-RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Samsung J8 Black" -v 4
+# Download the public models
+COPY download_models.sh ./
+RUN ./download_models.sh
 
 # Download urban circuit artifacts
 RUN ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Vent" -v 4
