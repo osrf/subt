@@ -47,6 +47,7 @@ bool VisibilityTable::Load(const std::string &_worldName)
   // Modifications for the tunnel circuit.
   const std::string tunnelPrefix = "tunnel_circuit_";
   const std::string urbanPrefix = "urban_circuit_";
+  const std::string cavePrefix = "cave_circuit_";
   if (0 == this->worldName.compare(0, tunnelPrefix.size(), tunnelPrefix))
   {
     std::string suffix = this->worldName.substr(tunnelPrefix.size());
@@ -65,6 +66,16 @@ bool VisibilityTable::Load(const std::string &_worldName)
     {
       worldsDirectory = ignition::common::joinPaths(worldsDirectory,
           "urban_circuit", suffix);
+    }
+  }
+  else if (this->worldName.find(cavePrefix) != std::string::npos)
+  {
+    std::string suffix = this->worldName.substr(cavePrefix.size());
+    // don't use a subfolder for practice worlds
+    if (0 != suffix.compare(0, 9, "practice_"))
+    {
+      worldsDirectory = ignition::common::joinPaths(worldsDirectory,
+          "cave_circuit", suffix);
     }
   }
   else if (this->worldName.find("simple") == std::string::npos)
