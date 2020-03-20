@@ -17,8 +17,8 @@
 #ifndef SUBT_IGN_VISIBILITYPLUGIN_HH_
 #define SUBT_IGN_VISIBILITYPLUGIN_HH_
 
-#include <ignition/plugin/Register.hh>
-#include <ignition/tools/launch/Plugin.hh>
+#include <memory>
+#include <ignition/gazebo/System.hh>
 
 namespace subt
 {
@@ -40,22 +40,39 @@ namespace subt
   /// 3D point.
   ///
   /// Example usage:
-  ///   roslaunch subt_gazebo visibility.launch scenario:=tunnel_practice_1
+  ///   ign launch -v 4 visibility.launch worldName:=tunnel_practice_1
   ///
   /// The visibility table (<WORLD_NAME>.dat) will be located in the same
   /// directory where the world file was located.
-  class VisibilityPlugin : public ignition::tools::launch::Plugin
+  class VisibilityPlugin :
+    public ignition::gazebo::System,
+    public ignition::gazebo::ISystemConfigure,
+    public ignition::gazebo::ISystemPreUpdate,
+    public ignition::gazebo::ISystemPostUpdate
   {
+    /// \brief Constructor
+    public: VisibilityPlugin();
+
     /// \brief Destructor
-    public: virtual ~VisibilityPlugin();
+    public: ~VisibilityPlugin();
 
     // Documentation inherited
-    public: virtual void Load(const tinyxml2::XMLElement *_elem) override final;
+    public: void Configure(const ignition::gazebo::Entity &_entity,
+                           const std::shared_ptr<const sdf::Element> &_sdf,
+                           ignition::gazebo::EntityComponentManager &_ecm,
+                           ignition::gazebo::EventManager &_eventMgr) override;
 
+    // Documentation inherited
+    public: void PreUpdate(const ignition::gazebo::UpdateInfo &_info,
+                ignition::gazebo::EntityComponentManager &_ecm) override;
+
+    // Documentation inherited
+    public: void PostUpdate(const ignition::gazebo::UpdateInfo &_info,
+                const ignition::gazebo::EntityComponentManager &_ecm) override;
+
+    /// \brief Private data pointer.
     private: std::unique_ptr<VisibilityPluginPrivate> dataPtr;
   };
 }
 
-// Register the plugin
-IGNITION_ADD_PLUGIN(subt::VisibilityPlugin, ignition::tools::launch::Plugin)
 #endif
