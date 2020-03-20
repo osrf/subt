@@ -1,9 +1,17 @@
 # Ubuntu 18.04 with nvidia-docker2 beta opengl support
 FROM nvidia/opengl:1.0-glvnd-devel-ubuntu18.04
 
+RUN export DEBIAN_FRONTEND=noninteractive \
+ && apt-get update \
+ && apt-get install -y \
+    tzdata \
+ && ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime \
+ && dpkg-reconfigure --frontend noninteractive tzdata \
+ && apt-get clean
+
 # Tools I find useful during development
 RUN apt-get update -qq \
- && apt-get install -y -qq \
+ && apt-get install --no-install-recommends -y -qq \
         build-essential \
         bwm-ng \
         cmake \
@@ -20,6 +28,8 @@ RUN apt-get update -qq \
         python3-dbg \
         python3-empy \
         python3-numpy \
+        python-rosdep \
+        python3-setuptools \
         python3-pip \
         python3-venv \
         ruby2.5 \
@@ -35,14 +45,6 @@ RUN apt-get update -qq \
 # Install AWS CLI. This is needed by cloudsim to capture ROS logs.
 RUN pip3 install --upgrade awscli=="1.16.220"
 VOLUME /root/.aws
-
-RUN export DEBIAN_FRONTEND=noninteractive \
- && apt-get update \
- && apt-get install -y \
-    tzdata \
- && ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime \
- && dpkg-reconfigure --frontend noninteractive tzdata \
- && apt-get clean
 
 # install ROS and required packages
 RUN /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' \
