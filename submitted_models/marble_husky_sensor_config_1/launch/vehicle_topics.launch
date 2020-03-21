@@ -3,7 +3,7 @@
   <arg name="world_name"/>
   <arg name="name"/>
   <arg name="link_name" value="base_link"/>
-  <arg name="gimbal_link_name" value="pan_gimbal_link"/>
+  <arg name="gimbal_link_name" value="tilt_gimbal_link"/>
   <arg name="sensor_prefix" value="/world/$(arg world_name)/model/$(arg name)/link/$(arg link_name)/sensor"/>
   <arg name="gimbal_sensor_prefix" value="/world/$(arg world_name)/model/$(arg name)/link/$(arg gimbal_link_name)/sensor"/>
   <group ns="$(arg name)">

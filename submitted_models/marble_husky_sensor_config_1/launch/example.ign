@@ -15,7 +15,6 @@
 %>
 
 <%
-
   unless local_variables.include?(:robotName)
     raise "missing parameters. robotName is a required parameter"
   end
