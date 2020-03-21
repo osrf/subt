@@ -166,6 +166,13 @@
         args="/model/$(arg name)/odometry@nav_msgs/Odometry[ignition.msgs.Odometry">
         <remap from="/model/$(arg name)/odometry" to="odom"/>
       </node>
+      <node
+        pkg="ros_ign_bridge"
+        type="parameter_bridge"
+        name="ros_ign_bridge_breadcrumbs"
+        args="/model/$(arg name)/breadcrumb/deploy@std_msgs/Empty]ignition.msgs.Empty">
+        <remap from="/model/$(arg name)/breadcrumb/deploy" to="breadcrumb/deploy"/>
+      </node>
     </group>
 
     <node
