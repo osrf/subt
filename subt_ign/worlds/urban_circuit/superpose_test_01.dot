@@ -1,0 +1,44 @@
+/* Visibility graph for superpose_test_01.tsv */
+/* Generated with the tile_tsv.py script: */
+/*   tile_tsv.py superpose_test_01.tsv -\-graph-file superpose_test_01.dot -\-world-file superpose_test_01.sdf -\-world-name superpose_test_01 -\-y0 20 */
+
+graph {
+  /* ==== Vertices ==== */
+
+  /* Base station / Staging area */
+  0   [label="0::base_station::BaseStation"];
+
+  1   [label="1::tunnel_tile_5::tile_1"];
+  2   [label="2::tunnel_tile_5::tile_2"];
+  3   [label="3::tunnel_tile_6::tile_3"];
+  4   [label="4::tunnel_tile_5::tile_4"];
+  5   [label="5::tunnel_tile_6::tile_5"];
+  6   [label="6::tunnel_tile_5::tile_6"];
+  7   [label="7::tunnel_tile_5::tile_7"];
+  8   [label="8::tunnel_tile_6::tile_8"];
+  9   [label="9::tunnel_tile_5::tile_9"];
+  10  [label="10::tunnel_tile_5::tile_10"];
+  11  [label="11::tunnel_tile_2::tile_11"];
+  12  [label="12::tunnel_tile_5::tile_12"];
+  13  [label="13::tunnel_tile_5::tile_13"];
+  14  [label="14::tunnel_tile_5::tile_14"];
+  15  [label="15::tunnel_tile_6::tile_15"];
+  16  [label="16::tunnel_tile_5::tile_16"];
+
+  /* ==== Edges ==== */
+
+  /* Base station */
+  0  -- 2   [label=1];
+  1  -- 6   [label=1];
+  2  -- 3   [label=1];
+  3  -- 5   [label=1];
+  4  -- 7   [label=1];
+  5  -- 8   [label=1];
+  7  -- 9   [label=1];
+  6  -- 12  [label=1];
+  8  -- 10  [label=1];
+  10 -- 11  [label=3];
+  11 -- 13  [label=3];
+  12 -- 15  [label=1];
+  15 -- 16  [label=1];
+}

@@ -17,6 +17,11 @@
     type="subt_ros_relay"
     name="subt_ros_relay"/>
 
+  <node
+    pkg="subt_ros"
+    type="bridge_logger"
+    name="bridge_logger"/>
+
   <group if="$(arg enable_ground_truth)">
     <!-- In the case that ground truth is enabled, also relay the /set_pose
          service, which allows teleportation of models in the sim environment.

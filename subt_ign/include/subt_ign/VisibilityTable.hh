@@ -18,11 +18,13 @@
 #define SUBT_IGN_VISIBILITYTABLE_HH_
 
 #include <map>
+#include <set>
 #include <string>
 #include <utility>
 #include <vector>
 #include <ignition/math/AxisAlignedBox.hh>
 #include <ignition/math/Vector3.hh>
+#include <ignition/math/graph/Vertex.hh>
 #include <subt_ign/VisibilityTypes.hh>
 
 namespace subt
@@ -32,35 +34,35 @@ namespace subt
   class VisibilityTable
   {
     /// \brief Min X to sample.
-    public: static const int32_t kMinX = -20;
+    public: static const int32_t kMinX = -500;
 
     /// \brief Max X to sample.
-    public: static const int32_t kMaxX = 500;
+    public: static const int32_t kMaxX = 2100;
 
     /// \brief Min Y to sample.
-    public: static const int32_t kMinY = -300;
+    public: static const int32_t kMinY = -350;
 
     /// \brief Max Y to sample.
-    public: static const int32_t kMaxY = 300;
+    public: static const int32_t kMaxY = 350;
 
     /// \brief Min Z to sample.
     public: static const int32_t kMinZ = -50;
 
     /// \brief Max Z to sample.
-    public: static const int32_t kMaxZ = 20;
+    public: static const int32_t kMaxZ = 50;
 
     /// \brief Class constructor. Create the visibility table from a graph in
     /// DOT format.
     public: explicit VisibilityTable();
 
-    /// \brief Load a look up table from a file. It will try to load a file
-    /// located in the same directory as the world file, with the same world
-    /// name but with extension .dat.
-    /// E.g.: A world named 'tunnel_practice_1.world' will try to load
-    /// 'tunnel_practice_1.dat'.
-    /// \return True if the visibility look-up-table was loaded or false
-    /// otherwise.
-    public: bool Load(const std::string &_worldName);
+    /// \brief Load the Visibility Plugin
+    /// \param[in] _worldName Name of world
+    /// \param[in] _loadLUT True to load a look up table from a file.
+    /// \return True if the visibility plugin was loaded. If _loadLUT is true
+    /// the function will return true only if look-up-table was also loaded or
+    /// false otherwise.
+    /// \sa LoadLUT
+    public: bool Load(const std::string &_worldName, bool _loadLUT = true);
 
     /// \brief Get the visibility cost.
     /// \param[in] _from A 3D position.
@@ -72,14 +74,49 @@ namespace subt
     /// \brief Generate a binary .dat file containing a list of sample points
     /// that are within the explorable areas of the world. Each sample point
     /// contained in the file also has the vertex Id of the connectivity graph
-    /// associated to that point.
+    /// associated to that point. Note: make sure to call SetModelMoundingBoxes
+    /// before Generate()
+    /// \sa SetModelBoundingBoxes
     public: void Generate();
+
+    /// \brief Set the bounding boxes of models. Used for generating LUT
+    /// \param[in] _bboxes Bounding boxes of models.
+    /// \sa Generate
+    public: void SetModelBoundingBoxes(
+        const std::map<std::string, ignition::math::AxisAlignedBox> &_boxes);
 
     /// \brief Get the collection of sampled 3D points and their associated
     /// vertex id.
     /// \return the collection.
     public: const std::map<std::tuple<int32_t, int32_t, int32_t>, uint64_t>
       &Vertices() const;
+
+    /// \brief Populate the visibility information in memory.
+    /// \param[in] _relays Set of vertices containing breadcrumb robots.
+    /// You should call this function when the breadcrumbs are updated.
+    /// The cost of the best route is computed as follows:
+    ///   * The direct route without taking into account breadcrumbs is computed
+    ///   * The best indirect route (using one or more relays) is computed.
+    ///   * The cost of a route that has multiple hops is the cost of the hop
+    ///     with bigger cost.
+    ///   * The total cost is the minimum cost between the direct route and the
+    ///     best indirect route.
+    ///  A few examples using A--(1)--B--(2)--BC--(2)--D--2--E
+    ///  Note that BC is a breadcrumb.
+    ///  Cost(A, A):  0
+    ///  Cost(A, B):  1
+    ///  Cost(A, BC): 3
+    ///  Cost(A, D):  3
+    ///  Cost(A, E):  4
+    public: void PopulateVisibilityInfo(
+                      const std::set<ignition::math::Vector3d> &_relayPoses);
+
+    /// \brief Load a look up table from a file. It will try to load a file
+    /// located in the same directory as the world file, with the same world
+    /// name but with extension .dat.
+    /// E.g.: A world named 'tunnel_practice_01.sdf' will try to load
+    /// 'tunnel_practice_01.dat'.
+    private: bool LoadLUT();
 
     /// \brief Populate a graph from a file in DOT format.
     /// \param[in] _graphFilename The path to the file containing the graph.
@@ -88,6 +125,24 @@ namespace subt
 
     /// \brief Populate the visibility information in memory.
     private: void PopulateVisibilityInfo();
+
+    /// \brief Helper function for populating visibility information.
+    /// This function updates all routes from a pair of nodes.
+    /// Note that this function is recursive but optimized using dynamic
+    /// programming. "_visibilityInfoWithRelays" is used to store the result of
+    /// subproblems so that we don't have to recompute them later.
+    /// \param[in] _relays The set of vertices containing breadcrumb robots.
+    /// \param[in] _from Source vertex.
+    /// \param[in] _to Destination vertex.
+    /// \param[in, out] _visited Set of vertices visited. This is used to
+    /// prevent infinite recursion.
+    /// \param[in, out] _visibilityInfoWithRelays Visibility information.
+    private: bool PopulateVisibilityInfoHelper(
+      const std::set<ignition::math::graph::VertexId> &_relays,
+      const ignition::math::graph::VertexId &_from,
+      const ignition::math::graph::VertexId &_to,
+      std::set<ignition::math::graph::VertexId> &_visited,
+      VisibilityInfo &_visibilityInfoWithRelays);
 
     /// \brief Get the vertex Id associated to a position. The vertex Id
     /// represents the world section containing the position.
@@ -112,11 +167,18 @@ namespace subt
     /// \brief The connectivity information in a map format than can be queried.
     private: VisibilityInfo visibilityInfo;
 
+    /// \brief The connectivity information in a map format than can be queried.
+    /// This member stores just the costs without using relays.
+    private: VisibilityInfo visibilityInfoWithoutRelays;
+
     /// \brief All model segments used to create the environment. Each of these
     /// segments is associated with a vertex in a graph.
     /// Mapping between a model's bouding box and a vertex Id.
     private: std::vector<
              std::pair<ignition::math::AxisAlignedBox, uint64_t>> worldSegments;
+
+    /// \brief A map of model name to its bounding box. Used for generating LUT
+    private: std::map<std::string, ignition::math::AxisAlignedBox> bboxes;
 
     /// \brief A map that stores 3D points an the vertex id in which are located
     private: std::map<std::tuple<int32_t, int32_t, int32_t>, uint64_t> vertices;

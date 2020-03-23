@@ -21,7 +21,6 @@
       ign launch cloudsim_sim.ign worldName:=tunnel_circuit_practice_01
           robotName1:=X2_3 robotConfig1:=X2_SENSOR_CONFIG_3
 -->
-
 <%
   # When 'enableGroundTruth = true' absolute poses of vehicles will be published.
   # This is useful for debugging purposes, but will not be available during
@@ -112,6 +111,13 @@
   end
 %>
 
+<%
+  # disable levels for simple cave worlds
+  levels = "true"
+  if $worldName.include?('simple_cave_')
+    levels = "false"
+  end
+%>
 
 <ignition version='1.0'>
   <env>
@@ -119,11 +125,29 @@
     <value>$LD_LIBRARY_PATH</value>
   </env>
 
+  <!-- Unlimited Ignition Transport send message buffer -->
+  <env>
+    <name>IGN_TRANSPORT_SNDHWM</name>
+    <value>0</value>
+  </env>
+
+  <!-- Unlimited Ignition Transport receieve message buffer -->
+  <env>
+    <name>IGN_TRANSPORT_RCVHWM</name>
+    <value>0</value>
+  </env>
+
   <plugin name="ignition::launch::GazeboServer"
           filename="libignition-launch-gazebo.so">
     <% if $worldName.include?('tunnel_circuit_') &&
           !$worldName.include?('practice') %>
       <world_file>tunnel_circuit/<%= worldNumber %>/<%= $worldName %>.sdf</world_file>
+    <% elsif $worldName.include?('urban_circuit_') &&
+          !$worldName.include?('practice') %>
+      <world_file>urban_circuit/<%= worldNumber %>/<%= $worldName %>.sdf</world_file>
+    <% elsif $worldName.include?('cave_circuit_') &&
+          !$worldName.include?('practice') %>
+      <world_file>cave_circuit/<%= worldNumber %>/<%= $worldName %>.sdf</world_file>
     <% else %>
       <world_file><%= $worldName %>.sdf</world_file>
     <% end %>
@@ -131,7 +155,7 @@
     <update_rate><%= updateRate %></update_rate>
     <%end%>
     <run>true</run>
-    <levels>true</levels>
+    <levels><%= levels %></levels>
     <record>
       <enabled>true</enabled>
       <!-- This path is used by cloudsim, please do not change -->
@@ -332,6 +356,10 @@
       </artifact>
       <artifact>
         <name>gas_4</name>
+        <type>TYPE_GAS</type>
+      </artifact>
+      <artifact>
+        <name>gas_5</name>
         <type>TYPE_GAS</type>
       </artifact>
     </plugin>
