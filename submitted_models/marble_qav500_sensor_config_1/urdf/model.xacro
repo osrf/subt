@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-<robot name="X4" xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:arg name="name" default="X4"/>
+<robot name="qav500" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:arg name="name" default="qav500"/>
   <xacro:property name="name" value="$(arg name)"/>
   <link name='${name}/base_link'>
     <inertial>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
-      <mass value='3.42'/>
+      <mass value='3'/>
       <inertia ixx='0.075' ixy='0' ixz='0' iyy='0.075' iyz='0' izz='0.148916'/>
     </inertial>
     <collision name='base_link_inertia_collision'>
@@ -15,75 +15,33 @@
       </geometry>
     </collision>
     <visual name='base_link_inertia_visual'>
-      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <origin xyz='0 0 -0.12' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://ssci_x4_sensor_config_1/meshes/x4.dae' scale='1 1 1'/>
-      </geometry>
-    </visual>
-    <visual name='marker_visual_1'>
-      <origin xyz='-0.1 0 0.077' rpy='0 -0.1 0'/>
-      <geometry>
-        <mesh filename='package://ssci_x4_sensor_config_1/meshes/led.dae' scale='1 1 1'/>
-      </geometry>
-    </visual>
-    <visual name='marker_visual_2'>
-      <origin xyz='-0.09 0.059 0.059' rpy='-0.785397 -0 0.2'/>
-      <geometry>
-        <mesh filename='package://ssci_x4_sensor_config_1/meshes/led.dae' scale='1 1 1'/>
-      </geometry>
-    </visual>
-    <visual name='marker_visual_3'>
-      <origin xyz='-0.09 -0.059 0.059' rpy='0.785397 -0 -0.2'/>
-      <geometry>
-        <mesh filename='package://ssci_x4_sensor_config_1/meshes/led.dae' scale='1 1 1'/>
-      </geometry>
-    </visual>
-    <visual name='downward_flashlight_visual'>
-      <origin xyz='-0.043704 0 0.102914' rpy='-0.2 0.000158 -1.57002'/>
-      <geometry>
-        <mesh filename='package://ssci_x4_sensor_config_1/meshes/spotlight.dae' scale='0.01 0.01 0.01'/>
-      </geometry>
-    </visual>
-    <visual name='left_flashlight_visual'>
-      <origin xyz='-0.071985 0.090826 0.066102' rpy='0.06 -4.8e-05 -1.27'/>
-      <geometry>
-        <mesh filename='package://ssci_x4_sensor_config_1/meshes/spotlight.dae' scale='0.01 0.01 0.01'/>
-      </geometry>
-    </visual>
-    <visual name='right_flashlight_visual'>
-      <origin xyz='-0.071985 -0.090826 0.066102' rpy='0.06 -4.8e-05 -1.87'/>
-      <geometry>
-        <mesh filename='package://ssci_x4_sensor_config_1/meshes/spotlight.dae' scale='0.01 0.01 0.01'/>
-      </geometry>
-    </visual>
-    <visual name='camera_mount_base_visual'>
-      <origin xyz='0.05 0 -0.03' rpy='0 -0 0'/>
-      <geometry>
-        <box size='0.06 0.06 0.006'/>
-      </geometry>
-    </visual>
-    <visual name='camera_mount_arm_visual'>
-      <origin xyz='0.08 0 -0.04' rpy='0 -0 0'/>
-      <geometry>
-        <cylinder radius='0.005' length='0.08'/>
-      </geometry>
-    </visual>
-    <visual name='camera_mount_arm2_visual'>
-      <origin xyz='0.08 0 -0.08' rpy='0 1.57 0'/>
-      <geometry>
-        <cylinder radius='0.01' length='0.025'/>
+        <mesh filename='package://marble_qav500_sensor_config_1/meshes/qav500.stl' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='camera_visual'>
-      <origin xyz='0.1 0 -0.08' rpy='0 -0 0'/>
+      <origin xyz='0.27 0 0.03' rpy='0 -0 0'/>
       <geometry>
-        <box size='0.02 0.025 0.025'/>
+        <box size='0.025 0.09 0.025'/>
       </geometry>
     </visual>
     <visual name='laser_visual'>
-      <origin xyz='0.08 0 0.3' rpy='0 -0 0'/>
+      <origin xyz='0 0 -0.05' rpy='0 -0 0'/>
       <geometry>
         <cylinder radius='0.03' length='0.1'/>
+      </geometry>
+    </visual>
+    <visual name='tof_top_visual'>
+      <origin xyz='0.24 0 0.055' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.017 0.068 0.00735'/>
+      </geometry>
+    </visual>
+    <visual name='tof_bottom_visual'>
+      <origin xyz='0.24 0 0.006' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.017 0.068 0.00735'/>
       </geometry>
     </visual>
   </link>
@@ -99,16 +57,30 @@
     <parent link='${name}/base_link'/>
     <origin xyz='0 0 0' rpy='0 -0 0'/>
   </sensor>
-  <sensor name='camera_front' update_rate='20'>
+  <sensor name='camera_front' update_rate='30'>
     <parent link='${name}/base_link'/>
-    <origin xyz='0.1 0 -0.08' rpy='0 -0 0'/>
+    <origin xyz='0.27 0 0.03' rpy='0 -0 0'/>
     <camera>
-      <image width='1280' height='960' format='R8G8B8' hfov='1.0472' near='0.02' far='300' />
+      <image width='1280' height='720' format='R8G8B8' hfov='1.5184' near='0.01' far='300' />
     </camera>
   </sensor>
   <sensor name='front_laser' update_rate='15'>
     <parent link='${name}/base_link'/>
-    <origin xyz='0.08 0 0.394' rpy='0 -0 0'/>
+    <origin xyz='0 0 -0.05' rpy='0 -0 0'/>
+  </sensor>
+  <sensor name='tof_top' update_rate='30'>
+    <parent link='${name}/base_link'/>
+    <origin xyz='0.24 0 0.055' rpy='0 -1.57 0'/>
+    <camera>
+      <image width='224' height='171' format='R8G8B8' hfov='1.047' near='0.1' far='4' />
+    </camera>
+  </sensor>
+  <sensor name='tof_bottom' update_rate='30'>
+    <parent link='${name}/base_link'/>
+    <origin xyz='0.24 0 0' rpy='0 1.57 0'/>
+    <camera>
+      <image width='224' height='171' format='R8G8B8' hfov='1.047' near='0.1' far='4' />
+    </camera>
   </sensor>
   <link name='${name}/rotor_0'>
     <inertial>
@@ -125,7 +97,7 @@
     <visual name='rotor_0_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://ssci_x4_sensor_config_1/meshes/neo11_propeller_ccw.dae' scale='1 1 1'/>
+        <mesh filename='package://marble_qav500_sensor_config_1/meshes/neo11_propeller_ccw.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
@@ -144,7 +116,7 @@
     <visual name='rotor_1_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://ssci_x4_sensor_config_1/meshes/neo11_propeller_cw.dae' scale='1 1 1'/>
+        <mesh filename='package://marble_qav500_sensor_config_1/meshes/neo11_propeller_cw.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
@@ -163,7 +135,7 @@
     <visual name='rotor_2_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://ssci_x4_sensor_config_1/meshes/neo11_propeller_ccw.dae' scale='1 1 1'/>
+        <mesh filename='package://marble_qav500_sensor_config_1/meshes/neo11_propeller_ccw.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
@@ -182,94 +154,40 @@
     <visual name='rotor_3_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://ssci_x4_sensor_config_1/meshes/neo11_propeller_cw.dae' scale='1 1 1'/>
-      </geometry>
-    </visual>
-  </link>
-  <link name='${name}/rotor_4'>
-    <inertial>
-      <origin xyz='0 0 0' rpy='-0 -0 -0'/>
-      <mass value='0.005'/>
-      <inertia ixx='9.75e-07' ixy='0' ixz='0' iyy='8.13545e-05' iyz='0' izz='8.22545e-05'/>
-    </inertial>
-    <collision name='rotor_4_collision'>
-      <origin xyz='0 0 0' rpy='-0 -0 -0'/>
-      <geometry>
-        <cylinder radius='0.1397' length='0.005'/>
-      </geometry>
-    </collision>
-    <visual name='rotor_4_visual'>
-      <origin xyz='0 0 0' rpy='-0 -0 -0'/>
-      <geometry>
-        <mesh filename='package://ssci_x4_sensor_config_1/meshes/neo11_propeller_ccw.dae' scale='1 1 1'/>
-      </geometry>
-    </visual>
-  </link>
-  <link name='${name}/rotor_5'>
-    <inertial>
-      <origin xyz='0 0 0' rpy='0 -0 0'/>
-      <mass value='0.005'/>
-      <inertia ixx='9.75e-07' ixy='0' ixz='0' iyy='8.13545e-05' iyz='0' izz='8.22545e-05'/>
-    </inertial>
-    <collision name='rotor_5_collision'>
-      <origin xyz='0 0 0' rpy='0 -0 0'/>
-      <geometry>
-        <cylinder radius='0.1397' length='0.005'/>
-      </geometry>
-    </collision>
-    <visual name='rotor_5_visual'>
-      <origin xyz='0 0 0' rpy='0 -0 0'/>
-      <geometry>
-        <mesh filename='package://ssci_x4_sensor_config_1/meshes/neo11_propeller_cw.dae' scale='1 1 1'/>
+        <mesh filename='package://marble_qav500_sensor_config_1/meshes/neo11_propeller_cw.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
   <joint name='rotor_0_joint' type='revolute'>
-    <origin xyz='0.247 0.1506 0.028' rpy='0.087267 0 0.523599'/>
+    <origin xyz='0.206069 0.206092 0.028' rpy='0 -0 0.523599'/>
     <parent link='${name}/base_link'/>
     <child link='${name}/rotor_0'/>
     <dynamics damping='0' friction='0' />
-    <axis xyz='0.118748 -0.118521 0.985826'/>
+    <axis xyz='0 0 1'/>
     <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
   </joint>
   <joint name='rotor_1_joint' type='revolute'>
-    <origin xyz='-0.00067 0.28929 0.028' rpy='0 -0.087267 0'/>
+    <origin xyz='-0.206432 0.205944 0.028' rpy='0 -0 0'/>
     <parent link='${name}/base_link'/>
     <child link='${name}/rotor_1'/>
     <dynamics damping='0' friction='0' />
-    <axis xyz='-0.173649 0 0.984808'/>
+    <axis xyz='0 0 1'/>
     <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
   </joint>
   <joint name='rotor_2_joint' type='revolute'>
-    <origin xyz='-0.2501 0.1454 0.028' rpy='0.087267 -0 2.61799'/>
+    <origin xyz='-0.206432 -0.205944 0.028' rpy='0 0 -2.61799'/>
     <parent link='${name}/base_link'/>
     <child link='${name}/rotor_2'/>
     <dynamics damping='0' friction='0' />
-    <axis xyz='-0.031923 0.031863 0.998983'/>
+    <axis xyz='0 0 1'/>
     <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
   </joint>
   <joint name='rotor_3_joint' type='revolute'>
-    <origin xyz='-0.2501 -0.1454 0.028' rpy='-0.087267 -0 -2.61799'/>
+    <origin xyz='0.206432 -0.205944 0.028' rpy='0 0 -0.523599'/>
     <parent link='${name}/base_link'/>
     <child link='${name}/rotor_3'/>
     <dynamics damping='0' friction='0' />
-    <axis xyz='-0.031923 -0.031863 0.998983'/>
-    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
-  </joint>
-  <joint name='rotor_4_joint' type='revolute'>
-    <origin xyz='-0.00067 -0.28929 0.028' rpy='-0 0.087267 -3.14159'/>
-    <parent link='${name}/base_link'/>
-    <child link='${name}/rotor_4'/>
-    <dynamics damping='0' friction='0' />
-    <axis xyz='-0 -0 1'/>
-    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
-  </joint>
-  <joint name='rotor_5_joint' type='revolute'>
-    <origin xyz='0.247 -0.1506 0.028' rpy='-0.087267 0 -0.523599'/>
-    <parent link='${name}/base_link'/>
-    <child link='${name}/rotor_5'/>
-    <dynamics damping='0' friction='0' />
-    <axis xyz='0.118748 0.118521 0.985826'/>
+    <axis xyz='0.075479 0.043578 0.996195'/>
     <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
   </joint>
 </robot>
