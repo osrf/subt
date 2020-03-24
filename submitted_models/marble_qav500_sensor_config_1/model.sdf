@@ -377,7 +377,7 @@
                     </noise>
                 </lidar>
             </sensor>
-            <sensor name="tof_top" type="depth_camera">
+            <sensor name="tof_top" type="rgbd_camera">
                 <pose>0.24 0 0.055 0 -1.57 0</pose>
                 <camera name="tof_top">
                     
@@ -385,14 +385,14 @@
                     <image>
                         <width>224</width>
                         <height>171</height>
-                        <format>R8G8B8</format>
+                        <!-- <format>R8G8B8</format> -->
                     </image>
                     <clip>
                         <near>0.1</near>
                         <far>4.0</far>
                     </clip>
                     <depth_camera>
-                        <output>depths</output>
+                        <!-- <output>depths</output> -->
                         <clip>
                             <near>0.1</near>
                             <far>4.0</far>
@@ -413,7 +413,7 @@
                 </geometry>
             </visual>
 
-            <sensor name="tof_bottom" type="depth_camera">
+            <sensor name="tof_bottom" type="rgbd_camera">
                 <pose>0.24 0 0.00 0 1.57 0</pose>
                 <camera name="tof_top">
                     
@@ -421,14 +421,14 @@
                     <image>
                         <width>224</width>
                         <height>171</height>
-                        <format>R8G8B8</format>
+                        <!-- <format>R8G8B8</format> -->
                     </image>
                     <clip>
                         <near>0.1</near>
                         <far>4.0</far>
                     </clip>
                     <depth_camera>
-                        <output>depths</output>
+                        <!-- <output>depths</output> -->
                         <clip>
                             <near>0.1</near>
                             <far>4.0</far>
