@@ -201,10 +201,10 @@ end
 def rosExecutables(_name, _worldName)
   <<-HEREDOC
     <executable name='x4_description'>
-      <command>roslaunch --wait ssci_x4_sensor_config_1 description.launch world_name:=#{_worldName} name:=#{_name}</command>
+      <command>roslaunch --wait marble_qav500_sensor_config_1 description.launch world_name:=#{_worldName} name:=#{_name}</command>
     </executable>
     <executable name='x4_ros_ign_bridge'>
-      <command>roslaunch --wait ssci_x4_sensor_config_1 vehicle_topics.launch world_name:=#{_worldName} name:=#{_name} uav:=1 lidar_3d:=1 rgbd_cam:=1 tof_top:=1 tof_bottom:=1   </command>
+      <command>roslaunch --wait marble_qav500_sensor_config_1 vehicle_topics.launch world_name:=#{_worldName} name:=#{_name} uav:=1 lidar_3d:=1 rgbd_cam:=1 tof_top:=1 tof_bottom:=1   </command>
   </executable>
   HEREDOC
 end
