@@ -413,6 +413,42 @@
                 </geometry>
             </visual>
 
+            <sensor name="tof_bottom" type="depth_camera">
+                <pose>0.24 0 0.00 0 1.57 0</pose>
+                <camera name="tof_top">
+                    
+                    <horizondal_fov>1.0821</horizondal_fov>
+                    <image>
+                        <width>224</width>
+                        <height>171</height>
+                        <format>R8G8B8</format>
+                    </image>
+                    <clip>
+                        <near>0.1</near>
+                        <far>4.0</far>
+                    </clip>
+                    <depth_camera>
+                        <output>depths</output>
+                        <clip>
+                            <near>0.1</near>
+                            <far>4.0</far>
+                        </clip>
+                    </depth_camera>
+                </camera>
+                <always_on>1</always_on>
+                <update_rate>30</update_rate>
+                <visualize>0</visualize>
+            </sensor>
+
+            <visual name="tof_bottom_visual">
+                <pose>0.24 0 0.006 0 0 0</pose>
+                <geometry>
+                    <box>
+                        <size>0.017 0.068 0.00735</size>
+                    </box>
+                </geometry>
+            </visual>
+
             <!-- <sensor name="tof_top" type="rgbd_camera">
                 <camera name="tof_top">
                     <horizontal_fov>1.5184</horizontal_fov>
