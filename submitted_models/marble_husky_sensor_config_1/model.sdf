@@ -1013,6 +1013,7 @@
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
+    <!-- Gimbal Joints Plugins --> 
     <plugin
       filename="libignition-gazebo-joint-controller-system.so"
       name="ignition::gazebo::systems::JointController">

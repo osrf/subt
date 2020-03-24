@@ -4,6 +4,7 @@
   <arg name="name"/>
   <arg name="link_name" value="base_link"/>
   <arg name="gimbal_link_name" value="tilt_gimbal_link"/>
+  <arg name="joint_state_prefix" value="/world/$(arg world_name)/model/$(arg name)"/>
   <arg name="sensor_prefix" value="/world/$(arg world_name)/model/$(arg name)/link/$(arg link_name)/sensor"/>
   <arg name="gimbal_sensor_prefix" value="/world/$(arg world_name)/model/$(arg name)/link/$(arg gimbal_link_name)/sensor"/>
   <group ns="$(arg name)">
@@ -171,5 +172,23 @@
       args="/model/$(arg name)/gas_detected@std_msgs/Bool[ignition.msgs.Boolean">
       <remap from="/model/$(arg name)/gas_detected" to="gas_detected"/>
     </node>
+
+    <!-- Joint Publisher (Publishes to topic but doesn't control...)-->
+    <!-- <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_gimbal_pan"
+      args="/model/$(arg name)/joint/pan_gimbal_joint/cmd_vel@std_msgs/Float32]ignition.msgs.Float">
+      <remap from="/model/$(arg name)/joint/pan_gimbal_joint/cmd_vel" to="pan_joint"/>
+    </node> -->
+
+    <!-- Joint State Publisher -->
+    <!-- <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_joint_state_publisher"
+      args="$(arg joint_state_prefix)/joint_state@sensor_msgs/JointState[ignition.msgs.Joint">
+      <remap from="/model/$(arg name)/joint" to="joint"/>
+    </node> -->
   </group>
 </launch>
