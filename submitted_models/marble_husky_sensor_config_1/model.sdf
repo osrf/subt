@@ -62,7 +62,7 @@
         </surface>
       </collision>
       <collision name="base_link_fixed_joint_lump__camera/camera_link_collision_2">
-        <pose frame="">0.468 0 0.360 0 -0 0</pose>
+        <pose frame="">0.478 0 0.285 0 -0 0</pose>
         <geometry>
           <box>
             <size>0.0078 0.13 0.0192</size>
@@ -84,7 +84,7 @@
         </surface>
       </collision>
       <collision name="base_link_fixed_joint_lump__camera/camera_link_collision_3">
-        <pose frame="">0.468 0 0.335 0 0.5236 0</pose>
+        <pose frame="">0.473 0 0.260 0 0.5236 0</pose>
         <geometry>
           <box>
             <size>0.0078 0.13 0.0192</size>
@@ -105,7 +105,7 @@
           </friction>
         </surface>
       </collision>
-      <collision name="base_link_fixed_joint_lump__top_plate_link_collision_4">
+      <!-- <collision name="base_link_fixed_joint_lump__top_plate_link_collision_4">
         <pose frame="">0.0812 0 0.245 0 -0 0</pose>
         <geometry>
           <mesh>
@@ -121,14 +121,38 @@
             <size>0.32 0.41 0.09</size>
           </box>
         </geometry>
-      </collision>
+      </collision> -->
       <collision name="base_link_fixed_joint_lump__velodyne_base_link_collision_6">
-        <pose frame="">0.0012 0 0.71415 0 -0 0</pose>
+        <pose frame="">0.424 0 0.327 0 -0 0</pose>
         <geometry>
           <cylinder>
             <length>0.0717</length>
             <radius>0.0516</radius>
           </cylinder>
+        </geometry>
+      </collision>
+      <collision name="base_link_fixed_joint_lump__velodyne_gimbal_plate_base_link_collision_7">
+        <pose frame="">0.424 0 0.400 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.1 0.1 0.01</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="base_link_fixed_joint_lump__sensor_tower_8">
+       <pose frame="">0.374 0 0.215 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.2 0.25 0.225</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="base_link_fixed_joint_lump__computer_block_9">
+       <pose frame="">0.050 0 0.185 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.30 0.355 0.175</size>
+          </box>
         </geometry>
       </collision>
       <visual name="base_link_visual">
@@ -141,7 +165,7 @@
         </geometry>
       </visual>
       <visual name="base_link_fixed_joint_lump__camera/camera_link_visual_1">
-        <pose frame="">0.468 0 0.335 0 0.5236 0</pose>
+        <pose frame="">0.478 0 0.260 0 0.5236 0</pose>
         <geometry>
           <mesh>
             <uri>meshes/realsense.dae</uri>
@@ -149,7 +173,7 @@
         </geometry>
       </visual>
       <visual name="base_link_fixed_joint_lump__camera/camera_link_visual_2">
-        <pose frame="">0.468 0 0.360 0 -0 0</pose>
+        <pose frame="">0.478 0 0.285 0 -0 0</pose>
         <geometry>
           <mesh>
             <uri>meshes/realsense.dae</uri>
@@ -183,7 +207,7 @@
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__top_plate_link_visual_6">
+      <!-- <visual name="base_link_fixed_joint_lump__top_plate_link_visual_6">
         <pose frame="">0.0812 0 0.245 0 -0 0</pose>
         <geometry>
           <mesh>
@@ -191,9 +215,9 @@
             <uri>meshes/top_plate.dae</uri>
           </mesh>
         </geometry>
-      </visual>
+      </visual> -->
       <visual name="base_link_fixed_joint_lump__velodyne_base_link_visual_10">
-        <pose frame="">0.424 0 0.402 0 -0 0</pose>
+        <pose frame="">0.424 0 0.327 0 -0 0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -202,7 +226,7 @@
         </geometry>
       </visual>
       <visual name="base_link_fixed_joint_lump__velodyne_base_link_visual_11">
-        <pose frame="">0.424 0 0.402 0 -0 0</pose>
+        <pose frame="">0.424 0 0.327 0 -0 0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -211,7 +235,7 @@
         </geometry>
       </visual>
       <visual name="base_link_fixed_joint_lump__velodyne_visual_12">
-        <pose frame="">0.424 0 0.402 0 -0 0</pose>
+        <pose frame="">0.424 0 0.327 0 -0 0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -228,8 +252,8 @@
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__camera/camera_link_visual_14">
-        <pose frame="">0.424 0 0.152 0 -0 0</pose>
+      <visual name="base_link_fixed_joint_lump__planar_lidar_link_visual_14">
+        <pose frame="">0.474 0 0.127 0 -0 0</pose>
         <geometry>
           <cylinder>
               <radius>0.045</radius>
@@ -237,6 +261,31 @@
           </cylinder>
         </geometry>
       </visual>
+      <visual name="base_link_fixed_joint_lump__velodyne_gimbal_plate_15">
+       <pose frame="">0.424 0 0.400 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.12 0.12 0.01</size>
+          </box>
+        </geometry>
+      </visual>
+      <visual name="base_link_fixed_joint_lump__sensor_tower_16">
+       <pose frame="">0.374 0 0.215 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.2 0.25 0.225</size>
+          </box>
+        </geometry>
+      </visual>
+      <visual name="base_link_fixed_joint_lump__computer_block_17">
+       <pose frame="">0.050 0 0.185 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.30 0.355 0.175</size>
+          </box>
+        </geometry>
+      </visual>
+      
       <velocity_decay/>
       <self_collide>0</self_collide>
       <enable_wind>0</enable_wind>
@@ -341,13 +390,13 @@
         <always_on>1</always_on>
         <update_rate>30</update_rate>
         <visualize>0</visualize>
-        <pose frame="">0.468 0 0.335 0 0.5236 0</pose> <!-- 30 degree download look-->
+        <pose frame="">0.473 0 0.335 0 0.5236 0</pose> <!-- 30 degree download look-->
       </sensor>
       <gravity>1</gravity>
       <velocity_decay/>
       <!-- Based on RPLidar S1 -->
       <sensor name="planar_laser" type="gpu_ray">
-          <pose>0.424 0 0.152 0 -0 0</pose>
+          <pose>0.474 0 0.127 0 -0 0</pose>
           <update_rate>10</update_rate>
           <lidar>
               <scan>
@@ -751,7 +800,7 @@
       </axis>
     </joint>
     <link name="pan_gimbal_link">
-      <pose frame="">0.424 0 0.502 0 -0 0</pose>
+      <pose frame="">0.424 0 0.427 0 -0 0</pose>
       <inertial>
         <pose frame="">0 0 0 0 -0 0</pose>
         <mass>0.1</mass>
@@ -848,7 +897,7 @@
       </visual> -->
     </link>
     <link name="tilt_gimbal_link">
-      <pose frame="">0.424 0 0.547 0 -0 0</pose>
+      <pose frame="">0.424 0 0.460 0 -0 0</pose>
       <inertial>
         <pose frame="">0 0 0 1.570796 -0 0</pose>
         <mass>0.1</mass>
@@ -935,20 +984,36 @@
         <update_rate>30</update_rate>
         <visualize>0</visualize>
         <!-- <pose frame="">0.424 0 0.542 0 0.0 0</pose>  -->
-        <pose frame="">0.0 0 0.05 0 0.0 0</pose> 
+        <pose frame="">0.0 0 0.03 0 0.0 0</pose> 
       </sensor>
-      <!-- <gravity>1</gravity>
-      <velocity_decay/> -->
-      <visual name="base_link_fixed_joint_lump__camera/camera_link_visual_0">
-        <pose frame="">0 0 0.05 0 0.0 0</pose>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <visual name="tilt_gimbal_link_fixed_joint_lump__camera/camera_link_visual_0">
+        <pose frame="">0 0 0.03 0 0.0 0</pose>
         <geometry>
           <mesh>
             <uri>meshes/realsense.dae</uri>
           </mesh>
         </geometry>
       </visual>
+      <visual name="tilt_gimbal_link_fixed_joint_lump_bot_camera_plate_link_visual_1">
+       <pose frame="">0 0 0.017 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.025 0.13 0.007</size>
+          </box>
+        </geometry>
+      </visual>
+      <visual name="tilt_gimbal_link_fixed_joint_lump_bot_camera_plate_link_visual_2">
+       <pose frame="">0 0 0.042 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.025 0.13 0.007</size>
+          </box>
+        </geometry>
+      </visual>
       <light name="flashlight_flashlight_light_source_lamp_light" type="spot">
-        <pose frame="">0.0 0.0 0.125 3.141592653589793 1.8207926535897934 -0.0015926535897931</pose>
+        <pose frame="">0.0 0.0 0.065 3.141592653589793 1.8207926535897934 -0.0015926535897931</pose>
         <attenuation>
           <range>50</range>
           <linear>0</linear>
@@ -964,8 +1029,25 @@
         </spot>
         <direction>0 0 -1</direction>
       </light>
+      <!-- <light name="SELF_VIEWING_LIGHT_FOR_DEV_ONLY" type="spot">
+        <pose frame="">3.0 0.0 0.065 0.0 1.8207926535897934 -0.0015926535897931</pose>
+        <attenuation>
+          <range>50</range>
+          <linear>0</linear>
+          <constant>0.1</constant>
+          <quadratic>0.0025</quadratic>
+        </attenuation>
+        <diffuse>0.8 0.8 0.5 1</diffuse>
+        <specular>0.8 0.8 0.5 1</specular>
+        <spot>
+          <inner_angle>1.2</inner_angle>
+          <outer_angle>1.3</outer_angle>
+          <falloff>1</falloff>
+        </spot>
+        <direction>0 0 -1</direction>
+      </light> -->
       <visual name="flashlight_flashlight_light_source_lamp_viz_visual">
-        <pose>0.0 0.0 0.125 3.141592653589793 1.8207926535897934 -0.0015926535897931</pose>
+        <pose>0.0 0.0 0.065 3.141592653589793 1.8207926535897934 -0.0015926535897931</pose>
         <geometry>
           <cylinder>
             <radius>0.019</radius>
@@ -1013,6 +1095,7 @@
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
+    <!-- Gimbal Joints Plugins --> 
     <plugin
       filename="libignition-gazebo-joint-controller-system.so"
       name="ignition::gazebo::systems::JointController">
