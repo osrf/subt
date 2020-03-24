@@ -3,9 +3,10 @@
   <arg name="world_name"/>
   <arg name="name"/>
   <arg name="link_name" value="base_link"/>
-  <arg name="gimbal_link_name" value="tilt_gimbal_link"/>
+  <!--<arg name="pan_joint_name" value="pan_gimbal_joint" />
+  <arg name="tilt_joint_name" value="tilt_gimbal_joint"/>-->
   <arg name="sensor_prefix" value="/world/$(arg world_name)/model/$(arg name)/link/$(arg link_name)/sensor"/>
-  <arg name="gimbal_sensor_prefix" value="/world/$(arg world_name)/model/$(arg name)/link/$(arg gimbal_link_name)/sensor"/>
+  <arg name="gimbal_sensor_prefix" value="/world/$(arg world_name)/model/$(arg name)/link/tilt_gimbal_link/sensor"/>
   <group ns="$(arg name)">
     <!--Create multipe bridges so that it can run in parallel-->
     <node
@@ -43,6 +44,22 @@
       name="ros_ign_bridge_battery_state"
       args="/model/$(arg name)/battery/linear_battery/state@sensor_msgs/BatteryState[ignition.msgs.BatteryState">
       <remap from="/model/$(arg name)/battery/linear_battery/state" to="battery_state"/>
+    </node>
+    
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_gimbal_pan"
+      args="/model/$(arg name)/joint/pan_gimbal_joint/cmd_vel@std_msgs/Float64]ignition.msgs.Double">
+      <remap from="/model/$(arg name)/joint/pan_gimbal_joint/cmd_vel" to="pan_tilt/pan_rate_cmd_double"/>
+    </node>
+    
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_gimbal_tilt"
+      args="/model/$(arg name)/joint/tilt_gimbal_joint/cmd_vel@std_msgs/Float64]ignition.msgs.Double">
+      <remap from="/model/$(arg name)/joint/tilt_gimbal_joint/cmd_vel" to="pan_tilt/tilt_rate_cmd_double"/>
     </node>
 
     <!--Forward Facing RGBD camera -->
