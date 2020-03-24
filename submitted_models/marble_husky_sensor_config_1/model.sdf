@@ -1013,6 +1013,20 @@
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
+    <plugin
+      filename="libignition-gazebo-joint-controller-system.so"
+      name="ignition::gazebo::systems::JointController">
+      <joint_name>pan_gimbal_joint</joint_name>
+    </plugin>
+    <plugin
+      filename="libignition-gazebo-joint-controller-system.so"
+      name="ignition::gazebo::systems::JointController">
+      <joint_name>tilt_gimbal_joint</joint_name>
+    </plugin>
+    <plugin
+      filename="libignition-gazebo-joint-state-publisher-system.so"
+      name="ignition::gazebo::systems::JointStatePublisher">
+    </plugin>
     <static>0</static>
   </model>
 </sdf>
