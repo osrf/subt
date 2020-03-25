@@ -45,7 +45,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <power_load>6.6</power_load>
         <start_on_motion>true</start_on_motion>
       </plugin>
-      <!-- Gas Sensor plugin -->"
+      <!-- Gas Sensor plugin -->
       <plugin filename="libGasEmitterDetectorPlugin.so"
         name="subt::GasDetector">
         <topic>/model/#{_name}/gas_detected</topic>
@@ -61,10 +61,10 @@ end
 def rosExecutables(_name, _worldName)
   <<-HEREDOC
   <executable name='robot_description'>
-    <command>roslaunch --wait explorer_x1_sensor_config_1 description.launch world_name:=#{_worldName} name:=#{_name}</command>
+    <command>roslaunch --wait marble_hd2_sensor_config_1 description.launch world_name:=#{_worldName} name:=#{_name}</command>
   </executable>
   <executable name='topics'>
-    <command>roslaunch --wait explorer_x1_sensor_config_1 vehicle_topics.launch world_name:=#{_worldName} name:=#{_name}</command>
+    <command>roslaunch --wait marble_hd2_sensor_config_1 vehicle_topics.launch world_name:=#{_worldName} name:=#{_name}</command>
   </executable>
   HEREDOC
 end
