@@ -75,6 +75,13 @@
     <!-- Top TOF -->
     <group if="$(arg tof_top)">
       <node
+        pkg="ros_ign_bridge"
+        type="parameter_bridge"
+        name="ros_ign_bridge_tof_top"
+        args="$(arg sensor_prefix)/tof_top/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
+        <remap from="$(arg sensor_prefix)/tof_top/points" to="tof_top/depth/points"/>
+      </node>
+      <node
         pkg="ros_ign_image"
         type="image_bridge"
         name="ros_ign_image_tof_top"
@@ -85,6 +92,13 @@
 
     <!-- Bottom TOF -->
     <group if="$(arg tof_bottom)">
+      <node
+        pkg="ros_ign_bridge"
+        type="parameter_bridge"
+        name="ros_ign_bridge_tof_bottom"
+        args="$(arg sensor_prefix)/tof_bottom/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
+        <remap from="$(arg sensor_prefix)/tof_bottom/points" to="tof_bottom/depth/points"/>
+      </node>
       <node
         pkg="ros_ign_image"
         type="image_bridge"
