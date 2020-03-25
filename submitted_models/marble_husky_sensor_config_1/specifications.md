@@ -33,6 +33,20 @@ This configuration has an endurance of approximately 4 hours, but we have limite
 ### Diversions from Physical Hardware of \<Robot Name\> <Explanation of Diversions\>
 
 ## <a name="validation_links"></a>X4 Validation and Specification Links
-* \<Vehicle Specification Link(s)\>* \<Sensor Specification Link(s)\>* \<Validation Video Link(s), e.g.,https://youtu.be/xxxxxxxxx/\>* \<Validation Data Link(s), e.g., https://drive.google.com/file/xxxxxxxxx/\>
+* \<Vehicle Specification Link(s)\>
+* \<Sensor Specification Link(s)\>
+  * IMU: Microstrain 3DM-GX5-25 - datasheet: https://www.microstrain.com/sites/default/files/applications/files/3dm-gx5-25_datasheet_8400-0093_rev_n.pdf
+    * Explanation of sensor parameter derivations:
+	We derived the stddev terms as follows:
+
+	accelerometer noise density = 0.00002 g/sqrt(Hz) 
+		=> convert to m/s^2 => 1.962e-4 m/s^2
+	gyro noise density = 0.005 deg/s/sqrt(Hz)
+		=> convert to rad/sec => 8.72664e-5 radians
+
+	Other terms are difficult to extract from datasheet, so we used similar terms to previous IMU models proposed (of similar or worse quality) such as the ADIS 16448 (which has worse performance than this IMU). 
+
+* \<Validation Video Link(s), e.g.,https://youtu.be/xxxxxxxxx/\>
+* \<Validation Data Link(s), e.g., https://drive.google.com/file/xxxxxxxxx/\>
 
 We are currently unable to provide validation data links due to coronavirus spreading prevention measures at CU Boulder and SSCI.  
