@@ -105,23 +105,6 @@
           </friction>
         </surface>
       </collision>
-      <!-- <collision name="base_link_fixed_joint_lump__top_plate_link_collision_4">
-        <pose frame="">0.0812 0 0.245 0 -0 0</pose>
-        <geometry>
-          <mesh>
-            <scale>1 1 1</scale>
-            <uri>meshes/top_plate.dae</uri>
-          </mesh>
-        </geometry>
-      </collision>
-      <collision name="base_link_fixed_joint_lump__top_plate_link_collision_5">
-        <pose frame="">0.0812 0 0.245 0 -0 0</pose>
-        <geometry>
-          <box>
-            <size>0.32 0.41 0.09</size>
-          </box>
-        </geometry>
-      </collision> -->
       <collision name="base_link_fixed_joint_lump__velodyne_base_link_collision_6">
         <pose frame="">0.424 0 0.327 0 -0 0</pose>
         <geometry>
@@ -207,15 +190,7 @@
           </mesh>
         </geometry>
       </visual>
-      <!-- <visual name="base_link_fixed_joint_lump__top_plate_link_visual_6">
-        <pose frame="">0.0812 0 0.245 0 -0 0</pose>
-        <geometry>
-          <mesh>
-            <scale>1 1 1</scale>
-            <uri>meshes/top_plate.dae</uri>
-          </mesh>
-        </geometry>
-      </visual> -->
+      <!-- Bottom cylinder of Ouster/Velodyne 3D Lidar -->
       <visual name="base_link_fixed_joint_lump__velodyne_base_link_visual_10">
         <pose frame="">0.424 0 0.327 0 -0 0</pose>
         <geometry>
@@ -225,6 +200,7 @@
           </mesh>
         </geometry>
       </visual>
+      <!-- Top cylinder of Ouster/Velodyne 3D Lidar -->
       <visual name="base_link_fixed_joint_lump__velodyne_base_link_visual_11">
         <pose frame="">0.424 0 0.327 0 -0 0</pose>
         <geometry>
@@ -234,6 +210,7 @@
           </mesh>
         </geometry>
       </visual>
+      <!-- Main cylinder of Ouster/Velodyne 3D Lidar -->
       <visual name="base_link_fixed_joint_lump__velodyne_visual_12">
         <pose frame="">0.424 0 0.327 0 -0 0</pose>
         <geometry>
@@ -243,6 +220,7 @@
           </mesh>
         </geometry>
       </visual>
+      <!-- Rail on top of husky -->
       <visual name="base_link_fixed_joint_lump__user_rail_link_visual_13">
         <pose frame="">0.272 0 0.245 0 -0 0</pose>
         <geometry>
@@ -252,6 +230,7 @@
           </mesh>
         </geometry>
       </visual>
+      <!-- 2D planar lidar at bottom of sensor suite -->
       <visual name="base_link_fixed_joint_lump__planar_lidar_link_visual_14">
         <pose frame="">0.474 0 0.127 0 -0 0</pose>
         <geometry>
@@ -820,13 +799,6 @@
             <kd>1</kd>
           </ode>
         </contact>
-        <!-- <friction>
-          <ode>
-            <mu>1</mu>
-            <mu2>1</mu2>
-            <fdir1>0 0 1</fdir1>
-          </ode>
-        </friction> -->
       </surface>
       </collision>
       <visual name="pan_gimbal_link_visual">
@@ -838,63 +810,6 @@
           </cylinder>
         </geometry>
       </visual>
-      <!-- Based on Intel realsense D435 (intrinsics and distortion not modeled)-->
-      <!-- <sensor name="camera_pan_tilt" type="rgbd_camera">
-        <camera name="camera_pan_tilt">
-            <horizontal_fov>1.5184</horizontal_fov>
-            <lens>
-                <intrinsics>
-                    <fx>277.1</fx>
-                    <fy>277.1</fy>
-                    <cx>640.5</cx>
-                    <cy>360.5</cy>
-                    <s>0</s>
-                </intrinsics>
-            </lens>
-            <distortion>
-                <k1>0.0</k1>
-                <k2>0.0</k2>
-                <k3>0.0</k3>
-                <p1>0.0</p1>
-                <p2>0.0</p2>
-                <center>0.5 0.5</center>
-            </distortion>
-            <image>
-                <width>1280</width>
-                <height>720</height>
-                <format>R8G8B8</format>
-            </image>
-            <clip>
-                <near>0.01</near>
-                <far>300</far>
-            </clip>
-            <depth_camera>
-              <clip>
-                <near>0.1</near>
-                <far>10</far>
-              </clip>
-            </depth_camera>
-            <noise>
-                <type>gaussian</type>
-                <mean>0</mean>
-                <stddev>0.007</stddev>
-            </noise>
-        </camera>
-        <always_on>1</always_on>
-        <update_rate>30</update_rate>
-        <visualize>0</visualize>
-        <pose frame="">0.0 0 0.05 0 0.0 0</pose> 
-      </sensor> -->
-      <!-- <gravity>1</gravity>
-      <velocity_decay/> -->
-      <!-- <visual name="base_link_fixed_joint_lump__camera/camera_link_visual_0">
-        <pose frame="">0 0 0.05 0 0.0 0</pose>
-        <geometry>
-          <mesh>
-            <uri>meshes/realsense.dae</uri>
-          </mesh>
-        </geometry>
-      </visual> -->
     </link>
     <link name="tilt_gimbal_link">
       <pose frame="">0.424 0 0.460 0 -0 0</pose>
@@ -917,13 +832,6 @@
             <kd>1</kd>
           </ode>
         </contact>
-        <!-- <friction>
-          <ode>
-            <mu>1</mu>
-            <mu2>1</mu2>
-            <fdir1>0 0 1</fdir1>
-          </ode>
-        </friction> -->
       </surface>
       </collision>
       <visual name="tilt_gimbal_link_visual">
@@ -1029,23 +937,6 @@
         </spot>
         <direction>0 0 -1</direction>
       </light>
-      <!-- <light name="SELF_VIEWING_LIGHT_FOR_DEV_ONLY" type="spot">
-        <pose frame="">3.0 0.0 0.065 0.0 1.8207926535897934 -0.0015926535897931</pose>
-        <attenuation>
-          <range>50</range>
-          <linear>0</linear>
-          <constant>0.1</constant>
-          <quadratic>0.0025</quadratic>
-        </attenuation>
-        <diffuse>0.8 0.8 0.5 1</diffuse>
-        <specular>0.8 0.8 0.5 1</specular>
-        <spot>
-          <inner_angle>1.2</inner_angle>
-          <outer_angle>1.3</outer_angle>
-          <falloff>1</falloff>
-        </spot>
-        <direction>0 0 -1</direction>
-      </light> -->
       <visual name="flashlight_flashlight_light_source_lamp_viz_visual">
         <pose>0.0 0.0 0.065 3.141592653589793 1.8207926535897934 -0.0015926535897931</pose>
         <geometry>
