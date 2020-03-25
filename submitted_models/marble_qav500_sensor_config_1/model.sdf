@@ -71,7 +71,7 @@
                 </geometry>
             </visual>
             <visual name="left_flashlight_visual">
-                <pose frame="">-0.071985 0.090826 0.066102 0.06 -4.8e-05 -1.27</pose>
+                <pose frame="">0.11 0.039 -0.066102 0.06 -4.8e-05 -1.27</pose>
                 <geometry>
                     <mesh>
                         <scale>0.01 0.01 0.01</scale>
@@ -80,7 +80,7 @@
                 </geometry>
             </visual>
             <visual name="right_flashlight_visual">
-                <pose frame="">-0.071985 -0.090826 0.066102 0.06 -4.8e-05 -1.87</pose>
+                <pose frame="">0.11 -0.039 -0.066102 0.06 -4.8e-05 -1.87</pose>
                 <geometry>
                     <mesh>
                         <scale>0.01 0.01 0.01</scale>
@@ -377,6 +377,7 @@
                     </noise>
                 </lidar>
             </sensor>
+            <!-- Modeled from the Pico flexx tof cameras-->
             <sensor name="tof_top" type="depth_camera">
                 <pose>0.24 0 0.055 0 -1.57 0</pose>
                 <camera name="tof_top">

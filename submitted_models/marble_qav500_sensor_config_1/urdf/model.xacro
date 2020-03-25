@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<robot name="qav500" xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:arg name="name" default="qav500"/>
-  <xacro:property name="name" value="$(arg name)"/>
-  <link name='${name}/base_link'>
+<robot name='marble_qav500_sensor_config_1' xmlns:xacro='http://ros.org/wiki/xacro'>
+  <xacro:arg name="name" default="marble_qav500_sensor_config_1"/>
+  <xacro:property name="robot_namespace" value="$(arg name)"/>
+  <link name='${robot_namespace}/base_link'>
     <inertial>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <mass value='3'/>
@@ -46,43 +46,43 @@
     </visual>
   </link>
   <sensor name='imu_sensor' update_rate='250'>
-    <parent link='${name}/base_link'/>
+    <parent link='${robot_namespace}/base_link'/>
     <origin xyz='0 0 0' rpy='0 -0 0'/>
   </sensor>
   <sensor name='air_pressure' update_rate='20'>
-    <parent link='${name}/base_link'/>
+    <parent link='${robot_namespace}/base_link'/>
     <origin xyz='0 0 0' rpy='0 -0 0'/>
   </sensor>
   <sensor name='magnetometer' update_rate='20'>
-    <parent link='${name}/base_link'/>
+    <parent link='${robot_namespace}/base_link'/>
     <origin xyz='0 0 0' rpy='0 -0 0'/>
   </sensor>
   <sensor name='camera_front' update_rate='30'>
-    <parent link='${name}/base_link'/>
+    <parent link='${robot_namespace}/base_link'/>
     <origin xyz='0.27 0 0.03' rpy='0 -0 0'/>
     <camera>
       <image width='1280' height='720' format='R8G8B8' hfov='1.5184' near='0.01' far='300' />
     </camera>
   </sensor>
   <sensor name='front_laser' update_rate='15'>
-    <parent link='${name}/base_link'/>
+    <parent link='${robot_namespace}/base_link'/>
     <origin xyz='0 0 -0.05' rpy='0 -0 0'/>
   </sensor>
   <sensor name='tof_top' update_rate='30'>
-    <parent link='${name}/base_link'/>
+    <parent link='${robot_namespace}/base_link'/>
     <origin xyz='0.24 0 0.055' rpy='0 -1.57 0'/>
     <camera>
       <image width='224' height='171' format='R8G8B8' hfov='1.047' near='0.1' far='4' />
     </camera>
   </sensor>
   <sensor name='tof_bottom' update_rate='30'>
-    <parent link='${name}/base_link'/>
+    <parent link='${robot_namespace}/base_link'/>
     <origin xyz='0.24 0 0' rpy='0 1.57 0'/>
     <camera>
       <image width='224' height='171' format='R8G8B8' hfov='1.047' near='0.1' far='4' />
     </camera>
   </sensor>
-  <link name='${name}/rotor_0'>
+  <link name='${robot_namespace}/rotor_0'>
     <inertial>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <mass value='0.005'/>
@@ -101,7 +101,7 @@
       </geometry>
     </visual>
   </link>
-  <link name='${name}/rotor_1'>
+  <link name='${robot_namespace}/rotor_1'>
     <inertial>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <mass value='0.005'/>
@@ -120,7 +120,7 @@
       </geometry>
     </visual>
   </link>
-  <link name='${name}/rotor_2'>
+  <link name='${robot_namespace}/rotor_2'>
     <inertial>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <mass value='0.005'/>
@@ -139,7 +139,7 @@
       </geometry>
     </visual>
   </link>
-  <link name='${name}/rotor_3'>
+  <link name='${robot_namespace}/rotor_3'>
     <inertial>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <mass value='0.005'/>
@@ -160,32 +160,32 @@
   </link>
   <joint name='rotor_0_joint' type='revolute'>
     <origin xyz='0.206069 0.206092 0.028' rpy='0 -0 0.523599'/>
-    <parent link='${name}/base_link'/>
-    <child link='${name}/rotor_0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rotor_0'/>
     <dynamics damping='0' friction='0' />
     <axis xyz='0 0 1'/>
     <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
   </joint>
   <joint name='rotor_1_joint' type='revolute'>
     <origin xyz='-0.206432 0.205944 0.028' rpy='0 -0 0'/>
-    <parent link='${name}/base_link'/>
-    <child link='${name}/rotor_1'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rotor_1'/>
     <dynamics damping='0' friction='0' />
     <axis xyz='0 0 1'/>
     <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
   </joint>
   <joint name='rotor_2_joint' type='revolute'>
     <origin xyz='-0.206432 -0.205944 0.028' rpy='0 0 -2.61799'/>
-    <parent link='${name}/base_link'/>
-    <child link='${name}/rotor_2'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rotor_2'/>
     <dynamics damping='0' friction='0' />
     <axis xyz='0 0 1'/>
     <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
   </joint>
   <joint name='rotor_3_joint' type='revolute'>
     <origin xyz='0.206432 -0.205944 0.028' rpy='0 0 -0.523599'/>
-    <parent link='${name}/base_link'/>
-    <child link='${name}/rotor_3'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rotor_3'/>
     <dynamics damping='0' friction='0' />
     <axis xyz='0.075479 0.043578 0.996195'/>
     <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>

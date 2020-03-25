@@ -5,11 +5,16 @@
   <description>
     The marble_qav500_sensor_config_1 package is derived from marble's air 
     vehicle system's submission.  
-    This sensor configuration has a 3D lidar (copied from the X1 3D medium 
-    range lidar), and upward and downward point lidars based on the lidarlite.  
+    This sensor configuration has:
+    - a Lidar ouster OS1-64
+    - an Intel realsense D435
+    - air pressure, magnetometer, 
+     IMU, and 
+    - 2 Pico flexx cameras.  
   </description>
   <maintainer email="derek.vasquez@ssci.com">Derek Vasquez</maintainer>
   <author email="derek.vasquez@ssci.com">Derek Vasquez</author>
+  <author email="hector.escobar@ssci.com">Hector Escobar</author>
 
   <license>BSD</license>
 
