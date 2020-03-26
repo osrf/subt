@@ -7,7 +7,9 @@ This specifications.md file is a description and proof of virtual model validati
 This configuration is based on Clearpath Robotics Husky ground robot. The marble sensor suite is located at the front of the husky and includes stationary sensors and some sensors and a light on a pan/tilt mechanism.  
 
 ## Usage Instructions
-The robot can be used in the same manner as the COSTAR Husky robot.  It accepts twist messages on the cmd_vel topic.  The gimbal can be controlled via the following topics:
+The robot can be used in the same manner as the COSTAR Husky robot.  It accepts twist messages on the cmd_vel topic.  The gimbal can be controlled using the test_gimbal.sh script (in this folder).  There are also scripts to print the current angles from the pan and tilt axes of the gimbal (pan_echo.sh and tilt_echo.sh). 
+
+The gimbal can be controlled via the following topics:
 pan_tilt/pan_rate_cmd_double (send a std_msgs/Double message)
 pan_tilt/tilt_rate_cmd_double (send a std_msgs/Double message)
 
@@ -78,4 +80,4 @@ Computers were installed in the payload area of the husky and these have been ro
 * \<Validation Video Link(s), e.g.,https://youtu.be/xxxxxxxxx/\>
 * \<Validation Data Link(s), e.g., https://drive.google.com/file/xxxxxxxxx/\>
 
-We are unable to provide validation video links and data links at this time due to the COVID-19 safety measures preventing us from accessing the necessary lab resources at this time.  
+We are unable to provide validation video links and data links at this time due to the COVID-19 safety measures preventing us from accessing the necessary lab resources.  
