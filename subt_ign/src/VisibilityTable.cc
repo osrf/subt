@@ -15,6 +15,7 @@
  *
 */
 
+#include <algorithm>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
@@ -38,7 +39,7 @@ VisibilityTable::VisibilityTable()
 };
 
 //////////////////////////////////////////////////
-bool VisibilityTable::Load(const std::string &_worldName)
+bool VisibilityTable::Load(const std::string &_worldName, bool _loadLUT)
 {
   std::string worldsDirectory = SUBT_INSTALL_WORLD_DIR;
   this->worldName = _worldName;
@@ -46,6 +47,7 @@ bool VisibilityTable::Load(const std::string &_worldName)
   // Modifications for the tunnel circuit.
   const std::string tunnelPrefix = "tunnel_circuit_";
   const std::string urbanPrefix = "urban_circuit_";
+  const std::string cavePrefix = "cave_circuit_";
   if (0 == this->worldName.compare(0, tunnelPrefix.size(), tunnelPrefix))
   {
     std::string suffix = this->worldName.substr(tunnelPrefix.size());
@@ -64,6 +66,16 @@ bool VisibilityTable::Load(const std::string &_worldName)
     {
       worldsDirectory = ignition::common::joinPaths(worldsDirectory,
           "urban_circuit", suffix);
+    }
+  }
+  else if (this->worldName.find(cavePrefix) != std::string::npos)
+  {
+    std::string suffix = this->worldName.substr(cavePrefix.size());
+    // don't use a subfolder for practice worlds
+    if (0 != suffix.compare(0, 9, "practice_"))
+    {
+      worldsDirectory = ignition::common::joinPaths(worldsDirectory,
+          "cave_circuit", suffix);
     }
   }
   else if (this->worldName.find("simple") == std::string::npos)
@@ -89,6 +101,15 @@ bool VisibilityTable::Load(const std::string &_worldName)
     return false;
   }
 
+  if (_loadLUT)
+    return this->LoadLUT();
+
+  return true;
+}
+
+//////////////////////////////////////////////////
+bool VisibilityTable::LoadLUT()
+{
   std::ifstream in;
   in.open(this->lutPath);
   if (!in.is_open())
@@ -167,6 +188,13 @@ void VisibilityTable::Generate()
 }
 
 //////////////////////////////////////////////////
+void VisibilityTable::SetModelBoundingBoxes(
+    const std::map<std::string, ignition::math::AxisAlignedBox> &_boxes)
+{
+  this->bboxes = _boxes;
+}
+
+//////////////////////////////////////////////////
 const std::map<std::tuple<int32_t, int32_t, int32_t>, uint64_t>
   &VisibilityTable::Vertices() const
 {
@@ -209,6 +237,13 @@ bool VisibilityTable::PopulateVisibilityGraph(const std::string &_graphFilename)
 //////////////////////////////////////////////////
 void VisibilityTable::PopulateVisibilityInfo()
 {
+  // Cached it.
+  if (!this->visibilityInfoWithoutRelays.empty())
+  {
+    this->visibilityInfo = this->visibilityInfoWithoutRelays;
+    return;
+  }
+
   // Get the list of vertices Id.
   auto vertexIds = this->visibilityGraph.Vertices();
 
@@ -224,6 +259,106 @@ void VisibilityTable::PopulateVisibilityInfo()
       this->visibilityInfo[std::make_pair(id1, id2)] = cost;
     }
   }
+
+  this->visibilityInfoWithoutRelays = this->visibilityInfo;
+}
+
+//////////////////////////////////////////////////
+void VisibilityTable::PopulateVisibilityInfo(
+  const std::set<ignition::math::Vector3d> &_relayPoses)
+{
+  // Convert poses to vertices.
+  std::set<ignition::math::graph::VertexId> relays;
+  for (const auto pose : _relayPoses)
+    relays.insert(this->Index(pose));
+
+  // Compute the cost of all routes without considering relays.
+  this->PopulateVisibilityInfo();
+
+  // Update the cost of all routes considering relays.
+  VisibilityInfo visibilityInfoWithRelays;
+  std::set<ignition::math::graph::VertexId> visited;
+  auto vertexIds = this->visibilityGraph.Vertices();
+  for (const auto from : vertexIds)
+  {
+    auto id1 = from.first;
+    for (const auto to : vertexIds)
+    {
+      auto id2 = to.first;
+      this->PopulateVisibilityInfoHelper(
+        relays, id1, id2, visited, visibilityInfoWithRelays);
+      visited = {};
+    }
+  }
+
+  this->visibilityInfo = visibilityInfoWithRelays;
+}
+
+//////////////////////////////////////////////////
+bool VisibilityTable::PopulateVisibilityInfoHelper(
+  const std::set<ignition::math::graph::VertexId> &_relays,
+  const ignition::math::graph::VertexId &_from,
+  const ignition::math::graph::VertexId &_to,
+  std::set<ignition::math::graph::VertexId> &_visited,
+  VisibilityInfo &_visibilityInfoWithRelays)
+{
+  auto srcToDstCostIt = this->visibilityInfo.find(std::make_pair(_from, _to));
+  if (srcToDstCostIt == this->visibilityInfo.end())
+    return false;
+
+  double srcToDstCost = srcToDstCostIt->second;
+  double bestRouteCost = std::numeric_limits<double>::max();
+
+  if (_from != _to)
+  {
+    for (const auto i : _relays)
+    {
+      if (_from == i || _to == i || _visited.find(i) != _visited.end())
+        continue;
+
+      // I can't reach the relay.
+      auto srcToRelayIt = this->visibilityInfo.find(std::make_pair(_from, i));
+      if (srcToRelayIt == this->visibilityInfo.end())
+        continue;
+
+      // I can reach the relay with this cost.
+      double srcToRelayCost = srcToRelayIt->second;
+
+      // Route not cached.
+      auto relayToDstIt =
+        _visibilityInfoWithRelays.find(std::make_pair(i, _to));
+      if (relayToDstIt == _visibilityInfoWithRelays.end())
+      {
+        // Mark this relay as visited to avoid infinite recursion.
+        _visited.insert(i);
+
+        // Evaluate the route from the relay to the destination.
+        this->PopulateVisibilityInfoHelper(
+          _relays, i, _to, _visited, _visibilityInfoWithRelays);
+      }
+
+      // Do we now have a route from the relay to the destination?
+      double relayToDstCost = std::numeric_limits<double>::max();
+      relayToDstIt = _visibilityInfoWithRelays.find(std::make_pair(i, _to));
+      if (relayToDstIt != _visibilityInfoWithRelays.end())
+        relayToDstCost = relayToDstIt->second;
+
+      // The cost of a route is the cost of its biggest hop.
+      double currentRouteCost = std::max(srcToRelayCost, relayToDstCost);
+
+      // Among all the routes found going through relays,
+      // select the one with lowest cost.
+      bestRouteCost = std::min(bestRouteCost, currentRouteCost);
+    }
+  }
+
+  // Among all posible routes, select the one with lowest cost.
+  _visibilityInfoWithRelays[std::make_pair(_from, _to)] =
+    std::min(srcToDstCost, bestRouteCost);
+  _visibilityInfoWithRelays[std::make_pair(_to, _from)] =
+    std::min(srcToDstCost, bestRouteCost);
+
+  return true;
 }
 
 //////////////////////////////////////////////////
@@ -231,9 +366,6 @@ void VisibilityTable::CreateWorldSegments()
 {
   // Get the list of vertices Id.
   auto vertexIds = this->visibilityGraph.Vertices();
-
-  std::string modelInfoTopic = "/world/" + this->worldName + "/model/info";
-  ignition::transport::Node node;
 
   for (const auto from : vertexIds)
   {
@@ -251,25 +383,24 @@ void VisibilityTable::CreateWorldSegments()
     }
     std::string modelName = fields.at(2);
 
-    ignition::msgs::Model rep;
-    ignition::msgs::StringMsg req;
-    bool result;
-    unsigned int timeout = 5000;
-    req.set_data(modelName);
-    bool executed = node.Request(modelInfoTopic, req, timeout, rep, result);
-    if (executed && result)
+    auto bboxIt = this->bboxes.find(modelName);
+    if (bboxIt == this->bboxes.end())
     {
-      // \todo(nkoenig) Remove cout, and verify that this works.
-      std::cout << "Got Model Info[" << rep.DebugString() << "]\n";
-      this->worldSegments.push_back(
-          std::make_pair(msgs::Convert(rep.bounding_box()), from.first));
+      // For backward compatibility
+      // The dot graph generated by tile_tsv.py names the staging area
+      // "BaseStation" but in ignition sdf world file it is named "staging_area"
+      if (modelName == "BaseStation")
+        bboxIt = this->bboxes.find("staging_area");
+
+      if (bboxIt == this->bboxes.end())
+      {
+        ignerr << "Unable to find bounding box info for model: ["
+               << modelName << "]. Ignoring vertex" << std::endl;
+        continue;
+      }
     }
-    else
-    {
-      ignerr << "Unable to find model [" << modelName << "]. "
-             << "Ignoring vertex" << std::endl;
-      continue;
-    }
+    this->worldSegments.push_back(
+        std::make_pair(bboxIt->second, from.first));
   }
 }
 
@@ -326,4 +457,5 @@ void VisibilityTable::WriteOutputFile()
     out.write(reinterpret_cast<const char*>(&z), sizeof(z));
     out.write(reinterpret_cast<const char*>(&vertexId), sizeof(vertexId));
   }
+  ignmsg << "File saved to: " << this->lutPath << std::endl;
 }
