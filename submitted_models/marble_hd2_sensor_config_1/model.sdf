@@ -131,10 +131,10 @@
         </geometry>
       </collision>
       <collision name="base_link_fixed_joint_lump__computer_block_9">
-       <pose frame="">0.050 0 0.185 0 -0 0</pose>
+       <pose frame="">0.050 0 0.155 0 -0 0</pose>
         <geometry>
           <box>
-            <size>0.30 0.355 0.175</size>
+            <size>0.30 0.355 0.160</size>
           </box>
         </geometry>
       </collision>
@@ -298,7 +298,7 @@
        <pose frame="">0.354 0 0.400 0 -0 0</pose>
         <geometry>
           <box>
-            <size>0.12 0.12 0.01</size>
+            <size>0.06 0.06 0.01</size>
           </box>
         </geometry>
       </visual>
@@ -484,7 +484,7 @@
             </vertical>
           </scan>
           <range>
-            <min>0.025</min>
+            <min>0.09</min>
             <max>120</max>
             <resolution>0.01</resolution>
           </range>
@@ -494,7 +494,7 @@
             <stddev>0.01</stddev>
           </noise>
         </lidar>
-        <pose frame="">0.354 0 0.402 0 -0 0</pose>
+        <pose frame="">0.354 0 0.387 0 -0 0</pose>
       </sensor>
       <!-- MARBLE HD2 and Husky use the Lord Microstrain 3DM-GX5-25 IMU/AHRS with 
 	the following noise density terms:
