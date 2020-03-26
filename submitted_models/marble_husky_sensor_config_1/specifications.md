@@ -24,7 +24,13 @@ BuildingCustomRosIgnBridgeForMarble.txt
 The same Rights are granted for the configuration as for the COSTAR Husky. No additional restrictions have to be taken into account for this configuration.
 
 ### Cost and Scale
-The MARBLE Husky has the same estimated commercial cost as the Husky vehicle, plus additional costs associated with the sensors. Its weight is approximately 85 lbs (two-person heft). 
+The MARBLE Husky has the following estimate commercial cost components:
+* Base vehicle: $25,000
+* Sensor suite: $12,000
+* Compute/Support Electronics: $4,000
+* Total: ~ $41,000
+
+Its weight is approximately 85 lbs (two-person heft). 
 
 ### Sensors
 This MARBLE Husky with sensor configuration 1 includes the following sensors. The specifications for these instruments are provided below in the [Validation Links](#validation_links) section.
