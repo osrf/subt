@@ -1,7 +1,7 @@
 <!---This is a Markdown description of a robot model submitted for inclusion in the DARPA Subterranean Challenge Technology Repository -->
 
-# MARBLE HD2 Sensor Config 1
-This specifications.md file is a description and proof of virtual model validation for the MARBLE HD2 with Sensor Configuration 1. This robot may be launched using an ign launch command with the variable name `marble_hd2_sensor_config_1`.
+# MARBLE QAV500 Sensor Config 1
+This specifications.md file is a description and proof of virtual model validation for the MARBLE QAV500 with Sensor Configuration 1. This robot may be launched using an ign launch command with the variable name `marble_qav500_sensor_config_1`.
 
 ## Description
 This configuration is based on Superdroid HD2 ground robot. The marble sensor suite is located at the front of the HD2 chassis and includes stationary sensors and some sensors and a light on a pan/tilt mechanism.  
