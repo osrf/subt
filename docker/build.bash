@@ -43,7 +43,7 @@ hg_id=$(hg id -i | tr -d '+')
 
 shift
 
-docker build --rm -t $image_plus_tag --build-arg user_id=$user_id "$@" $DIR/$image_name
+docker build --rm -t $image_plus_tag --build-arg user_id=$user_id "$@" -f $DIR/$image_name/Dockerfile .
 docker tag $image_plus_tag $image_name:latest
 docker tag $image_plus_tag $image_name:$hg_id
 
