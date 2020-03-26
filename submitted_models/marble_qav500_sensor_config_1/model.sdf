@@ -8,12 +8,12 @@
                 <pose frame="">0 0 0 0 -0 0</pose>
                 <mass>3</mass>
                 <inertia>
-                    <ixx>0.075</ixx>
+                    <ixx>0.03567</ixx>
                     <ixy>0</ixy>
-                    <ixz>0</ixz>
-                    <iyy>0.075</iyy>
+                    <ixz>0.0006</ixz>
+                    <iyy>0.05534</iyy>
                     <iyz>0</iyz>
-                    <izz>0.148916</izz>
+                    <izz>0.0847</izz>
                 </inertia>
             </inertial>
             <collision name="base_link_inertia_collision">
