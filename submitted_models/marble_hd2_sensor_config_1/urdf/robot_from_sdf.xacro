@@ -17,7 +17,7 @@
     <collision name='base_link_collision_bottom'>
       <origin xyz='0 0 0.046' rpy='0 -0 0'/>
       <geometry>
-        <box size='0.8 0.5709 0.095'/>
+        <box size='0.8 0.5709 0.2'/>
       </geometry>
     </collision>
     <collision name='base_link_collision_1'>
@@ -71,87 +71,105 @@
     <visual name='base_link_visual'>
       <origin xyz='0 0 0' rpy='1.57 -0 1.57'/>
       <geometry>
-        <mesh filename='package://marble_hd2_sensor_config_1/meshes/HD2_Urban_Assembly.stl' scale='1 1 1'/>
+        <mesh filename='package://marble_hd2_sensor_config_1/meshes/hd2_chassis.stl' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='track_left_visual'>
+      <origin xyz='0 0.2625 0' rpy='1.57 -0 1.57'/>
+      <geometry>
+        <mesh filename='package://marble_hd2_sensor_config_1/meshes/track.stl' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='track_right_visual'>
+      <origin xyz='0 -0.2625 0' rpy='1.57 -0 1.57'/>
+      <geometry>
+        <mesh filename='package://marble_hd2_sensor_config_1/meshes/track.stl' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='base_link_fixed_joint_lump__camera/camera_link_visual_1'>
-      <origin xyz='0.478 0 0.26' rpy='0 0.5236 0'/>
+      <origin xyz='0.44 0 0.26' rpy='0 0.5236 0'/>
       <geometry>
         <mesh filename='package://marble_hd2_sensor_config_1/meshes/realsense.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='base_link_fixed_joint_lump__camera/camera_link_visual_2'>
-      <origin xyz='0.478 0 0.285' rpy='0 -0 0'/>
+      <origin xyz='0.44 0 0.295' rpy='0 -0 0'/>
       <geometry>
         <mesh filename='package://marble_hd2_sensor_config_1/meshes/realsense.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='base_link_fixed_joint_lump__velodyne_base_link_visual_10'>
-      <origin xyz='0.424 0 0.327' rpy='0 -0 0'/>
+      <origin xyz='0.354 0 0.327' rpy='0 -0 0'/>
       <geometry>
         <mesh filename='package://marble_hd2_sensor_config_1/meshes/VLP16_base_1.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='base_link_fixed_joint_lump__velodyne_base_link_visual_11'>
-      <origin xyz='0.424 0 0.327' rpy='0 -0 0'/>
+      <origin xyz='0.354 0 0.327' rpy='0 -0 0'/>
       <geometry>
         <mesh filename='package://marble_hd2_sensor_config_1/meshes/VLP16_base_2.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='base_link_fixed_joint_lump__velodyne_visual_12'>
-      <origin xyz='0.424 0 0.327' rpy='0 -0 0'/>
+      <origin xyz='0.354 0 0.327' rpy='0 -0 0'/>
       <geometry>
         <mesh filename='package://marble_hd2_sensor_config_1/meshes/VLP16_scan.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='base_link_fixed_joint_lump__planar_lidar_link_visual_14'>
-      <origin xyz='0.474 0 0.127' rpy='0 -0 0'/>
+      <origin xyz='0.354 0 0.127' rpy='0 -0 0'/>
       <geometry>
         <cylinder radius='0.045' length='0.05'/>
       </geometry>
     </visual>
     <visual name='base_link_fixed_joint_lump__velodyne_gimbal_plate_15'>
-      <origin xyz='0.424 0 0.4' rpy='0 -0 0'/>
+      <origin xyz='0.354 0 0.4' rpy='0 -0 0'/>
       <geometry>
         <box size='0.12 0.12 0.01'/>
       </geometry>
     </visual>
     <visual name='base_link_fixed_joint_lump__sensor_tower_16'>
-      <origin xyz='0.374 0 0.215' rpy='0 -0 0'/>
+      <origin xyz='0.354 0 0.19' rpy='0 -0 0'/>
       <geometry>
-        <box size='0.2 0.25 0.225'/>
+        <box size='0.18 0.25 0.275'/>
       </geometry>
     </visual>
     <visual name='base_link_fixed_joint_lump__computer_block_17'>
-      <origin xyz='0.05 0 0.185' rpy='0 -0 0'/>
+      <origin xyz='0.05 0 0.135' rpy='0 -0 0'/>
       <geometry>
         <box size='0.3 0.355 0.175'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lid_18'>
+      <origin xyz='0 0 0.05' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.7 0.35 0.02'/>
       </geometry>
     </visual>
   </link>
   <sensor name='camera_front' update_rate='30'>
     <parent link='${robot_namespace}/base_link'/>
-    <origin xyz='0.468 0 0.36' rpy='0 -0 0'/>
+    <origin xyz='0.44 0 0.36' rpy='0 -0 0'/>
     <camera>
       <image width='1280' height='720' format='R8G8B8' hfov='1.5184' near='0.01' far='300' />
     </camera>
   </sensor>
   <sensor name='camera_down' update_rate='30'>
     <parent link='${robot_namespace}/base_link'/>
-    <origin xyz='0.473 0 0.335' rpy='0 0.5236 0'/>
+    <origin xyz='0.44 0 0.335' rpy='0 0.5236 0'/>
     <camera>
       <image width='1280' height='720' format='R8G8B8' hfov='1.5184' near='0.01' far='300' />
     </camera>
   </sensor>
   <sensor name='planar_laser' update_rate='10'>
     <parent link='${robot_namespace}/base_link'/>
-    <origin xyz='0.474 0 0.127' rpy='0 -0 0'/>
+    <origin xyz='0.354 0 0.127' rpy='0 -0 0'/>
   </sensor>
   <sensor name='front_laser' update_rate='20'>
     <parent link='${robot_namespace}/base_link'/>
-    <origin xyz='0.424 0 0.402' rpy='0 -0 0'/>
+    <origin xyz='0.354 0 0.402' rpy='0 -0 0'/>
   </sensor>
-  <sensor name='imu_sensor' update_rate='50'>
+  <sensor name='imu_sensor' update_rate='250'>
     <parent link='${robot_namespace}/base_link'/>
     <origin xyz='0 0 0' rpy='0 -0 0'/>
   </sensor>
@@ -164,22 +182,53 @@
     <collision name='front_left_wheel_link_collision'>
       <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
       <geometry>
-        <cylinder radius='0.1651' length='0.1143'/>
+        <cylinder radius='0.129' length='0.1'/>
       </geometry>
     </collision>
+    <visual name='front_left_wheel_link_visual'>
+      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.129' length='0.1'/>
+      </geometry>
+    </visual>
   </link>
-  <link name='${robot_namespace}/front_right_wheel_link'>
+  <link name='${robot_namespace}/front_middle_left_wheel_link'>
     <inertial>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <mass value='2.637'/>
       <inertia ixx='0.02467' ixy='0' ixz='0' iyy='0.04411' iyz='0' izz='0.02467'/>
     </inertial>
-    <collision name='front_right_wheel_link_collision'>
+    <collision name='front_middle_left_wheel_link_collision'>
       <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
       <geometry>
-        <cylinder radius='0.1651' length='0.1143'/>
+        <cylinder radius='0.129' length='0.1'/>
       </geometry>
     </collision>
+    <visual name='front_middle_left_wheel_link_visual'>
+      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.129' length='0.1'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/rear_middle_left_wheel_link'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='2.637'/>
+      <inertia ixx='0.02467' ixy='0' ixz='0' iyy='0.04411' iyz='0' izz='0.02467'/>
+    </inertial>
+    <collision name='rear_middle_left_wheel_link_collision'>
+      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.129' length='0.1'/>
+      </geometry>
+    </collision>
+    <visual name='rear_middle_left_wheel_link_visual'>
+      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.129' length='0.1'/>
+      </geometry>
+    </visual>
   </link>
   <link name='${robot_namespace}/rear_left_wheel_link'>
     <inertial>
@@ -193,6 +242,69 @@
         <cylinder radius='0.1651' length='0.1143'/>
       </geometry>
     </collision>
+    <visual name='rear_left_wheel_link_visual'>
+      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.129' length='0.1'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/front_right_wheel_link'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='2.637'/>
+      <inertia ixx='0.02467' ixy='0' ixz='0' iyy='0.04411' iyz='0' izz='0.02467'/>
+    </inertial>
+    <collision name='front_right_wheel_link_collision'>
+      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.129' length='0.1'/>
+      </geometry>
+    </collision>
+    <visual name='front_right_wheel_link_visual'>
+      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.129' length='0.1'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/front_middle_right_wheel_link'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='2.637'/>
+      <inertia ixx='0.02467' ixy='0' ixz='0' iyy='0.04411' iyz='0' izz='0.02467'/>
+    </inertial>
+    <collision name='front_middle_right_wheel_link_collision'>
+      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.129' length='0.1'/>
+      </geometry>
+    </collision>
+    <visual name='front_middle_right_wheel_link_visual'>
+      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.129' length='0.1'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/rear_middle_right_wheel_link'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='2.637'/>
+      <inertia ixx='0.02467' ixy='0' ixz='0' iyy='0.04411' iyz='0' izz='0.02467'/>
+    </inertial>
+    <collision name='rear_middle_right_wheel_link_collision'>
+      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.129' length='0.1'/>
+      </geometry>
+    </collision>
+    <visual name='rear_middle_right_wheel_link_visual'>
+      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.129' length='0.1'/>
+      </geometry>
+    </visual>
   </link>
   <link name='${robot_namespace}/rear_right_wheel_link'>
     <inertial>
@@ -206,6 +318,12 @@
         <cylinder radius='0.1651' length='0.1143'/>
       </geometry>
     </collision>
+    <visual name='rear_right_wheel_link_visual'>
+      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.129' length='0.1'/>
+      </geometry>
+    </visual>
   </link>
   <link name='${robot_namespace}/pan_gimbal_link'>
     <inertial>
@@ -277,31 +395,63 @@
     </camera>
   </sensor>
   <joint name='front_left_wheel_joint' type='revolute'>
-    <origin xyz='0.256 0.2854 0.03282' rpy='0 -0 0'/>
+    <origin xyz='0.36 0.26 0' rpy='0 -0 0'/>
     <parent link='${robot_namespace}/base_link'/>
     <child link='${robot_namespace}/front_left_wheel_link'/>
     <dynamics damping='0' friction='0' />
     <axis xyz='0 1 0'/>
     <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
   </joint>
-  <joint name='front_right_wheel_joint' type='revolute'>
-    <origin xyz='0.256 -0.2854 0.03282' rpy='0 -0 0'/>
+  <joint name='front_middle_left_wheel_joint' type='revolute'>
+    <origin xyz='0.12 0.26 0' rpy='0 -0 0'/>
     <parent link='${robot_namespace}/base_link'/>
-    <child link='${robot_namespace}/front_right_wheel_link'/>
+    <child link='${robot_namespace}/front_middle_left_wheel_link'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 1 0'/>
+    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+  </joint>
+  <joint name='rear_middle_left_wheel_joint' type='revolute'>
+    <origin xyz='-0.12 0.26 0' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rear_middle_left_wheel_link'/>
     <dynamics damping='0' friction='0' />
     <axis xyz='0 1 0'/>
     <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
   </joint>
   <joint name='rear_left_wheel_joint' type='revolute'>
-    <origin xyz='-0.256 0.2854 0.03282' rpy='0 -0 0'/>
+    <origin xyz='-0.36 0.26 0' rpy='0 -0 0'/>
     <parent link='${robot_namespace}/base_link'/>
     <child link='${robot_namespace}/rear_left_wheel_link'/>
     <dynamics damping='0' friction='0' />
     <axis xyz='0 1 0'/>
     <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
   </joint>
+  <joint name='front_right_wheel_joint' type='revolute'>
+    <origin xyz='0.36 -0.26 0' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/front_right_wheel_link'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 1 0'/>
+    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+  </joint>
+  <joint name='front_middle_right_wheel_joint' type='revolute'>
+    <origin xyz='0.12 -0.26 0' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/front_middle_right_wheel_link'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 1 0'/>
+    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+  </joint>
+  <joint name='rear_middle_right_wheel_joint' type='revolute'>
+    <origin xyz='-0.12 -0.26 0' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rear_middle_right_wheel_link'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 1 0'/>
+    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+  </joint>
   <joint name='rear_right_wheel_joint' type='revolute'>
-    <origin xyz='-0.256 -0.2854 0.03282' rpy='0 -0 0'/>
+    <origin xyz='-0.36 -0.26 0' rpy='0 -0 0'/>
     <parent link='${robot_namespace}/base_link'/>
     <child link='${robot_namespace}/rear_right_wheel_link'/>
     <dynamics damping='0' friction='0' />
@@ -309,7 +459,7 @@
     <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
   </joint>
   <joint name='pan_gimbal_joint' type='revolute'>
-    <origin xyz='0.424 0 0.427' rpy='0 -0 0'/>
+    <origin xyz='0.354 0 0.427' rpy='0 -0 0'/>
     <parent link='${robot_namespace}/base_link'/>
     <child link='${robot_namespace}/pan_gimbal_link'/>
     <dynamics damping='0' friction='0' />
@@ -317,7 +467,7 @@
     <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
   </joint>
   <joint name='tilt_gimbal_joint' type='revolute'>
-    <origin xyz='0.424 0 0.46' rpy='0 -0 0'/>
+    <origin xyz='0.354 0 0.46' rpy='0 -0 0'/>
     <parent link='${robot_namespace}/pan_gimbal_link'/>
     <child link='${robot_namespace}/tilt_gimbal_link'/>
     <dynamics damping='0' friction='0' />
