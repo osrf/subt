@@ -40,7 +40,7 @@ This configuration has the similar motion characteristics as the X4 vehicle due 
 This configuration has an endurance of approximately 12 minutes or 720 seconds  We plan to carry out the endurance test characterization but have been prevented from doing so due to the coronavirus measures preventing us from visiting the lab space while preparing these models for simulation.  
 
 ### Diversions from Physical Hardware of \<Robot Name\> <Explanation of Diversions\>
-Computers were installed in the payload area of the QAV500 and these have been roughly modeled.  The MARBLE vehicle uses a Nvidia TX2 processor.
+Computers were installed in the payload area of the QAV500 and these have been roughly modeled.  The MARBLE vehicle uses an Intel Nuc with Core i7-8650U processor.
 
 ## <a name="validation_links"></a>X4 Validation and Specification Links
 * Vehicle Links:
