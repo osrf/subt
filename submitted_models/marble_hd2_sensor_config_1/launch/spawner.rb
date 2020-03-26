@@ -15,11 +15,15 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
       <plugin filename="libignition-gazebo-diff-drive-system.so"
               name="ignition::gazebo::systems::DiffDrive">
         <left_joint>front_left_wheel_joint</left_joint>
+        <left_joint>front_middle_left_wheel_joint</left_joint>
+        <left_joint>rear_middle_left_wheel_joint</left_joint>
         <left_joint>rear_left_wheel_joint</left_joint>
         <right_joint>front_right_wheel_joint</right_joint>
+        <right_joint>front_middle_right_wheel_joint</right_joint>
+        <right_joint>rear_middle_right_wheel_joint</right_joint>
         <right_joint>rear_right_wheel_joint</right_joint>
-        <wheel_separation>#{0.45649 * 1.5}</wheel_separation>
-        <wheel_radius>0.1651</wheel_radius>
+        <wheel_separation>#{0.525}</wheel_separation>
+        <wheel_radius>0.129</wheel_radius>
         <topic>/model/#{_name}/cmd_vel_relay</topic>
       </plugin>
       <!-- Publish robot state information -->
