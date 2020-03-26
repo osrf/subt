@@ -1,0 +1,128 @@
+/* Visibility graph for simple_cave_02 */
+/* Generated with the generator.py script: */
+/*   __main__.py simple_cave_02.tsv -\-graph-file simple_cave_02.dot -\-world-file simple_cave_02.sdf -\-world-name simple_cave_02 -\-scale_x 25 -\-scale_y 25 -\-cave -\-y0 175 -\-x0 0 -\-z0 0 -\-level_type row_col -\-levels_buf 5 */
+
+graph {
+  /* ==== Vertices ==== */
+
+  /* Base station / Staging area */
+  0   [label="0::base_station::BaseStation"];
+
+  1   [label="1::Cave Straight 01::tile_1"];
+  2   [label="2::Cave Corner 01::tile_2"];
+  3   [label="3::Cave Straight 02::tile_3"];
+  4   [label="4::Cave Straight 01::tile_4"];
+  5   [label="5::Cave Straight 02::tile_5"];
+  6   [label="6::Cave Straight 05::tile_6"];
+  7   [label="7::Cave 3 Way 01::tile_7"];
+  8   [label="8::Cave Elevation::tile_8"];
+  9   [label="9::Cave 3 Way 01::tile_9"];
+  10  [label="10::Cave Corner 01::tile_10"];
+  11  [label="11::Cave Straight 03::tile_11"];
+  12  [label="12::Cave Straight 04::tile_12"];
+  13  [label="13::Cave Elevation::tile_13"];
+  14  [label="14::Cave Straight 01::tile_14"];
+  15  [label="15::Cave Corner 02::tile_15"];
+  16  [label="16::Cave Straight 05::tile_16"];
+  17  [label="17::Cave 3 Way 01::tile_17"];
+  18  [label="18::Cave Elevation::tile_18"];
+  19  [label="19::Cave Straight 05::tile_19"];
+  20  [label="20::Cave Straight 04::tile_20"];
+  21  [label="21::Cave Elevation::tile_21"];
+  22  [label="22::Cave 3 Way 01::tile_22"];
+  23  [label="23::Cave Straight 04::tile_23"];
+  24  [label="24::Cave Straight 01::tile_24"];
+  25  [label="25::Cave Straight 02::tile_25"];
+  26  [label="26::Cave Straight 04::tile_26"];
+  27  [label="27::Cave 3 Way 01::tile_27"];
+  28  [label="28::Cave Straight 04::tile_28"];
+  29  [label="29::Cave Elevation::tile_29"];
+  30  [label="30::Cave Elevation::tile_30"];
+  31  [label="31::Cave Elevation::tile_31"];
+  32  [label="32::Cave Elevation::tile_32"];
+  33  [label="33::Cave Straight 03::tile_33"];
+  34  [label="34::Cave Straight 01::tile_34"];
+  35  [label="35::Cave Corner 02::tile_35"];
+  36  [label="36::Cave Corner 01::tile_36"];
+  37  [label="37::Cave Elevation::tile_37"];
+  38  [label="38::Cave Corner 01::tile_38"];
+  39  [label="39::Cave 3 Way 01::tile_39"];
+  40  [label="40::Cave Corner 02::tile_40"];
+  41  [label="41::Cave Elevation::tile_41"];
+  42  [label="42::Cave Elevation::tile_42"];
+  43  [label="43::Cave Straight 05::tile_43"];
+  44  [label="44::Cave Straight 01::tile_44"];
+  45  [label="45::Cave Straight 02::tile_45"];
+  46  [label="46::Cave Elevation::tile_46"];
+  47  [label="47::Cave Elevation::tile_47"];
+  48  [label="48::Cave Straight 04::tile_48"];
+  49  [label="49::Cave Elevation::tile_49"];
+  50  [label="50::Cave Corner 01::tile_50"];
+  51  [label="51::Cave Straight 02::tile_51"];
+  52  [label="52::Cave 3 Way 01::tile_52"];
+  53  [label="53::Cave Straight 01::tile_53"];
+  54  [label="54::Cave Elevation::tile_54"];
+  55  [label="55::Cave Corner 01::tile_55"];
+
+  /* ==== Edges ==== */
+
+  /* Base station */
+  0  -- 27  [label=1];
+  1  -- 10  [label=3];
+  2  -- 3   [label=3];
+  2  -- 11  [label=3];
+  3  -- 4   [label=1];
+  4  -- 5   [label=1];
+  5  -- 6   [label=1];
+  6  -- 7   [label=3];  /* Intersection */
+  7  -- 8   [label=3];  /* Intersection */
+  7  -- 12  [label=3];  /* Intersection */
+  8  -- 9   [label=3];  /* Intersection */
+  9  -- 10  [label=6];  /* Intersection */
+  9  -- 13  [label=3];  /* Intersection */
+  11 -- 14  [label=1];
+  12 -- 17  [label=3];  /* Intersection */
+  13 -- 18  [label=1];
+  14 -- 19  [label=1];
+  15 -- 16  [label=3];
+  15 -- 20  [label=3];
+  16 -- 17  [label=3];  /* Intersection */
+  17 -- 21  [label=3];  /* Intersection */
+  18 -- 22  [label=3];  /* Intersection */
+  19 -- 23  [label=1];
+  20 -- 24  [label=1];
+  21 -- 25  [label=1];
+  22 -- 26  [label=3];  /* Intersection */
+  23 -- 27  [label=3];  /* Intersection */
+  24 -- 28  [label=1];
+  25 -- 29  [label=1];
+  26 -- 30  [label=1];
+  27 -- 31  [label=3];  /* Intersection */
+  28 -- 32  [label=1];
+  29 -- 33  [label=1];
+  30 -- 34  [label=1];
+  31 -- 35  [label=3];
+  32 -- 37  [label=1];
+  33 -- 38  [label=3];
+  34 -- 40  [label=3];
+  35 -- 36  [label=6];
+  36 -- 41  [label=3];
+  37 -- 42  [label=1];
+  38 -- 39  [label=6];  /* Intersection */
+  39 -- 40  [label=6];  /* Intersection */
+  39 -- 43  [label=3];  /* Intersection */
+  41 -- 44  [label=1];
+  42 -- 45  [label=1];
+  43 -- 46  [label=1];
+  44 -- 47  [label=1];
+  45 -- 48  [label=1];
+  46 -- 49  [label=1];
+  47 -- 50  [label=3];
+  48 -- 52  [label=3];  /* Intersection */
+  49 -- 55  [label=3];
+  50 -- 51  [label=3];
+  51 -- 52  [label=3];  /* Intersection */
+  52 -- 53  [label=3];  /* Intersection */
+  53 -- 54  [label=1];
+  54 -- 55  [label=3];
+}
