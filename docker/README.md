@@ -90,5 +90,5 @@ Use this directory to build a Docker image that will run an installed launch fil
    file.
 
 ```
-./run.bash subt_sim_entry virtual_stix.ign
+./run.bash subt_sim_entry tunne_circuit_practice.ign
 ```
