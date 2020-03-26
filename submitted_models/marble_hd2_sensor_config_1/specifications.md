@@ -24,7 +24,13 @@ BuildingCustomRosIgnBridgeForMarble.txt
 The same Rights are granted for the configuration as for the MARBLE Husky. No additional restrictions have to be taken into account for this configuration.
 
 ### Cost and Scale
-The MARBLE HD2 has the same estimated commercial cost as the HD2 vehicle which is about $10000, plus additional costs associated with the sensors. Its weight is approximately 75 lbs (possible, but heavy to heft with a single person). 
+The MARBLE HD2 has the following estimated commercial costs:
+* Base vehicle: $10,000
+* Sensor Suite: $12,000
+* Compute/support electronics: $4,000
+* Total: ~ $26,000
+
+Its weight is approximately 75 lbs (possible, but heavy to heft with a single person). 
 
 ### Sensors
 This HD2 with sensor configuration 1 includes the following sensors. The specifications for these instruments are provided below in the [Validation Links](#validation_links) section.
