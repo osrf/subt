@@ -59,8 +59,9 @@ endurance characteristics:
 * Battery life of 14400 seconds
 
 ## Diversions from Physical Hardware of Freyja
-Virtual Freyja is a faithful representation of real-world Freya both in appereance and
-in physical properties.
+Virtual Freyja is a faithful representation of real-world Freya both in appearance and
+in physical properties. It does not model long-range low-bandwidth (LoRa) mesh
+communication of the real robot.
 
 # <a name="validation_links"></a>Freyja Validation and Specification Links
 
@@ -73,3 +74,4 @@ in physical properties.
 * https://youtu.be/cHJ-ZloPmhE (speed test)
 * https://youtu.be/bZ83Zneuhf8 (rotation test)
 * https://drive.google.com/drive/folders/1M8W3vjP1G0Pz7oeB7dAkBjXhYE05hvxA?usp=sharing
+* https://heltec.org/project/wifi-lora-32/
