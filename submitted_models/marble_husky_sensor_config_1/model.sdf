@@ -244,7 +244,7 @@
        <pose frame="">0.424 0 0.400 0 -0 0</pose>
         <geometry>
           <box>
-            <size>0.12 0.12 0.01</size>
+            <size>0.06 0.06 0.01</size>
           </box>
         </geometry>
       </visual>
@@ -433,7 +433,7 @@
             <stddev>0.01</stddev>
           </noise>
         </lidar>
-        <pose frame="">0.424 0 0.402 0 -0 0</pose>
+        <pose frame="">0.424 0 0.387 0 -0 0</pose>
       </sensor>
       <!-- MARBLE HD2 and Husky use the Lord Microstrain 3DM-GX5-25 IMU/AHRS with 
 	the following noise density terms:
