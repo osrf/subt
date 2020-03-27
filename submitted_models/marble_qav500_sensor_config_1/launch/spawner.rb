@@ -52,7 +52,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
           <turningDirection>ccw</turningDirection>
           <timeConstantUp>0.0182</timeConstantUp>
           <timeConstantDown>0.0182</timeConstantDown>
-          <maxRotVelocity>1000.0</maxRotVelocity>
+          <maxRotVelocity>7850.0</maxRotVelocity>
           <motorConstant>1.269e-05</motorConstant>
           <momentConstant>0.016754</momentConstant>
           <commandSubTopic>command/motor_speed</commandSubTopic>
@@ -71,7 +71,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
           <turningDirection>cw</turningDirection>
           <timeConstantUp>0.0182</timeConstantUp>
           <timeConstantDown>0.0182</timeConstantDown>
-          <maxRotVelocity>1000.0</maxRotVelocity>
+          <maxRotVelocity>7850.0</maxRotVelocity>
           <motorConstant>1.269e-05</motorConstant>
           <momentConstant>0.016754</momentConstant>
           <commandSubTopic>command/motor_speed</commandSubTopic>
@@ -90,7 +90,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
           <turningDirection>ccw</turningDirection>
           <timeConstantUp>0.0182</timeConstantUp>
           <timeConstantDown>0.0182</timeConstantDown>
-          <maxRotVelocity>1000.0</maxRotVelocity>
+          <maxRotVelocity>7850.0</maxRotVelocity>
           <motorConstant>1.269e-05</motorConstant>
           <momentConstant>0.016754</momentConstant>
           <commandSubTopic>command/motor_speed</commandSubTopic>
@@ -109,7 +109,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
           <turningDirection>cw</turningDirection>
           <timeConstantUp>0.0182</timeConstantUp>
           <timeConstantDown>0.0182</timeConstantDown>
-          <maxRotVelocity>1000.0</maxRotVelocity>
+          <maxRotVelocity>7850.0</maxRotVelocity>
           <motorConstant>1.269e-05</motorConstant>
           <momentConstant>0.016754</momentConstant>
           <commandSubTopic>command/motor_speed</commandSubTopic>
