@@ -63,9 +63,9 @@
       </geometry>
     </collision>
     <collision name='base_link_fixed_joint_lump__computer_block_9'>
-      <origin xyz='0.05 0 0.185' rpy='0 -0 0'/>
+      <origin xyz='0.05 0 0.155' rpy='0 -0 0'/>
       <geometry>
-        <box size='0.3 0.355 0.175'/>
+        <box size='0.3 0.355 0.16'/>
       </geometry>
     </collision>
     <visual name='base_link_visual'>
@@ -125,7 +125,7 @@
     <visual name='base_link_fixed_joint_lump__velodyne_gimbal_plate_15'>
       <origin xyz='0.354 0 0.4' rpy='0 -0 0'/>
       <geometry>
-        <box size='0.12 0.12 0.01'/>
+        <box size='0.06 0.06 0.01'/>
       </geometry>
     </visual>
     <visual name='base_link_fixed_joint_lump__sensor_tower_16'>
@@ -167,7 +167,7 @@
   </sensor>
   <sensor name='front_laser' update_rate='20'>
     <parent link='${robot_namespace}/base_link'/>
-    <origin xyz='0.354 0 0.402' rpy='0 -0 0'/>
+    <origin xyz='0.354 0 0.387' rpy='0 -0 0'/>
   </sensor>
   <sensor name='imu_sensor' update_rate='250'>
     <parent link='${robot_namespace}/base_link'/>
