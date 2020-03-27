@@ -27,6 +27,15 @@
             <visual name="base_link_inertia_visual">
                 <pose frame="">0 0 -0.12 0 0 0</pose>
                 <geometry>
+                <material>
+                    <diffuse>0.5 0.5 0.5 1</diffuse>
+                    <ambient>.5 .5 .5 1</ambient>
+
+                    <!-- <script>
+                        <name>Gazebo/Blue</name>
+                        <uri>file://media/materials/scripts/gazebo.material</uri>
+                    </script> -->
+                </material>
                     <mesh>
                         <scale>1 1 1</scale>
                         <uri>meshes/qav500.stl</uri>
