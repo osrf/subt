@@ -26,16 +26,19 @@
             </collision>
             <visual name="base_link_inertia_visual">
                 <pose frame="">0 0 -0.12 0 0 0</pose>
-                <geometry>
                 <material>
-                    <diffuse>0.5 0.5 0.5 1</diffuse>
-                    <ambient>.5 .5 .5 1</ambient>
+                    <diffuse>0.25 0.25 0.25 1</diffuse>
+                    <ambient>0.25 0.25 0.25 1</ambient>
+                    <specular>0.25 0.25 0.25 1</specular>
+                    <emissive>0.25 0.25 0.25 1</emissive>
 
                     <!-- <script>
                         <name>Gazebo/Blue</name>
                         <uri>file://media/materials/scripts/gazebo.material</uri>
                     </script> -->
                 </material>
+                <geometry>
+                
                     <mesh>
                         <scale>1 1 1</scale>
                         <uri>meshes/qav500.stl</uri>
