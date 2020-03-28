@@ -101,7 +101,8 @@ void BridgeLogger::Update(const ros::TimerEvent &)
         info.name.find("parameter_descriptions") != std::string::npos ||
         info.name.find("parameter_updates") != std::string::npos ||
         info.name.find("local_control_points") != std::string::npos ||
-        info.name.find("compressedDepth") != std::string::npos)
+        info.name.find("compressed") != std::string::npos ||
+        info.name.find("theora") != std::string::npos)
     {
       continue;
     }
