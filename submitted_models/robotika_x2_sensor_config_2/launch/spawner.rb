@@ -51,6 +51,51 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
   "      <update_rate>10</update_rate>\n"\
   "      <type>gas</type>\n"\
   "    </plugin>\n"\
+  "    <!-- Breadcrumbs - droppable communication modules. -->\n"\
+  "    <plugin filename=\"libignition-gazebo-breadcrumbs-system.so\"\n"\
+  "      name=\"ignition::gazebo::systems::Breadcrumbs\">\n"\
+  "      <topic>/model/#{_name}/breadcrumb/deploy</topic>\n"\
+  "      <max_deployments>3</max_deployments>"\
+  "      <breadcrumb>\n"\
+  "        <sdf version=\"1.6\">\n"\
+  "          <model name=\"#{_name}__breadcrumb__\">\n"\
+  "            <pose>-1.2 0 0 0 0 0</pose>\n"\
+  "            <link name='body'>\n"\
+  "              <inertial>\n"\
+  "                <mass>0.5</mass>\n"\
+  "                <inertia>\n"\
+  "                  <ixx>0.0008</ixx>\n"\
+  "                  <ixy>0</ixy>\n"\
+  "                  <ixz>0</ixz>\n"\
+  "                  <iyy>0.0008</iyy>\n"\
+  "                  <iyz>0</iyz>\n"\
+  "                  <izz>0.0008</izz>\n"\
+  "                </inertia>\n"\
+  "              </inertial>\n"\
+  "              <visual name='visual'>\n"\
+  "                <geometry>\n"\
+  "                  <box>\n"\
+  "                    <size>0.1 0.1 0.1</size>\n"\
+  "                  </box>\n"\
+  "                </geometry>\n"\
+  "                <material>\n"\
+  "                  <ambient>0.0 1.0 0.0 1</ambient>\n"\
+  "                  <diffuse>0.0 1.0 0.0 1</diffuse>\n"\
+  "                  <specular>0.5 0.5 0.5 1</specular>\n"\
+  "                </material>\n"\
+  "              </visual>\n"\
+  "              <collision name='collision'>\n"\
+  "                <geometry>\n"\
+  "                  <box>\n"\
+  "                    <size>0.1 0.1 0.1</size>\n"\
+  "                  </box>\n"\
+  "                </geometry>\n"\
+  "              </collision>\n"\
+  "            </link>\n"\
+  "          </model>\n"\
+  "        </sdf>\n"\
+  "      </breadcrumb>\n"\
+  "    </plugin>\n"\
   "  </include>\n"\
   "  </sdf>\n"\
   "</plugin>\n"\
