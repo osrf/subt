@@ -637,10 +637,10 @@
                           <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
                           <fx>349.2</fx>
                           <fy>349.2</fy>
-                          <!-- cx = ( width + 1 ) / 2 -->
-                          <cx>320.5</cx>
-                          <!-- cy = ( height + 1 ) / 2 -->
-                          <cy>180.5</cy>
+                          <!-- cx = ( width - 1 ) / 2 -->
+                          <cx>319.5</cx>
+                          <!-- cy = ( height - 1 ) / 2 -->
+                          <cy>179.5</cy>
                           <s>0</s>
                         </intrinsics>
                     </lens>
@@ -700,10 +700,10 @@
                           <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
                           <fx>349.2</fx>
                           <fy>349.2</fy>
-                          <!-- cx = ( width + 1 ) / 2 -->
-                          <cx>320.5</cx>
-                          <!-- cy = ( height + 1 ) / 2 -->
-                          <cy>180.5</cy>
+                          <!-- cx = ( width - 1 ) / 2 -->
+                          <cx>319.5</cx>
+                          <!-- cy = ( height - 1 ) / 2 -->
+                          <cy>179.5</cy>
                           <s>0</s>
                         </intrinsics>
                     </lens>
@@ -822,10 +822,10 @@
                             <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
                             <fx>11.3464</fx>
                             <fy>11.3464</fy>
-                            <!-- cx = ( width + 1 ) / 2 -->
-                            <cx>320.5</cx>
-                            <!-- cy = ( height + 1 ) / 2 -->
-                            <cy>180.5</cy>
+                            <!-- cx = ( width - 1 ) / 2 -->
+                            <cx>319.5</cx>
+                            <!-- cy = ( height - 1 ) / 2 -->
+                            <cy>179.5</cy>
                             <s>0</s>
                         </intrinsics>
                     </lens>
