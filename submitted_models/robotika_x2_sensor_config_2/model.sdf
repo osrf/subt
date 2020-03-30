@@ -242,10 +242,10 @@
                           <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
                           <fx>462.1</fx>
                           <fy>462.1</fy>
-                          <!-- cx = ( width + 1 ) / 2 -->
-                          <cx>320.5</cx>
-                          <!-- cy = ( height + 1 ) / 2 -->
-                          <cy>180.5</cy>
+                          <!-- cx = ( width - 1 ) / 2 -->
+                          <cx>319.5</cx>
+                          <!-- cy = ( height - 1 ) / 2 -->
+                          <cy>179.5</cy>
                           <s>0</s>
                         </intrinsics>
                     </lens>
