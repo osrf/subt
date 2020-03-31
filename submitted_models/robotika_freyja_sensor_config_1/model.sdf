@@ -341,6 +341,106 @@
                     <diffuse>0.0 0.0 0.0 1.0</diffuse>
                 </material>
             </visual>
+            <visual name="wheel_mount_front_left_axis_visual">
+                <pose>0.19 0.11 0 1.5707963267948966 0 0</pose>
+                <geometry>
+                    <cylinder>
+                        <length>0.05</length>
+                        <radius>0.008</radius>
+                    </cylinder>
+                </geometry>
+                <material>
+                    <ambient>0.0 0.0 0.0 1.0</ambient>
+                    <diffuse>0.0 0.0 0.0 1.0</diffuse>
+                </material>
+            </visual>
+            <visual name="wheel_mount_front_left_visual">
+                <pose>0.19 0.08 0 0 0 0</pose>
+                <geometry>
+                    <box>
+                        <size>0.05 0.07 0.025</size>
+                    </box>
+                </geometry>
+                <material>
+                    <ambient>0.502 0.502 0.502 1.0</ambient>
+                    <diffuse>0.502 0.502 0.502 1.0</diffuse>
+                </material>
+            </visual>
+            <visual name="wheel_mount_front_right_axis_visual">
+                <pose>0.19 -0.11 0 1.5707963267948966 0 0</pose>
+                <geometry>
+                    <cylinder>
+                        <length>0.05</length>
+                        <radius>0.008</radius>
+                    </cylinder>
+                </geometry>
+                <material>
+                    <ambient>0.0 0.0 0.0 1.0</ambient>
+                    <diffuse>0.0 0.0 0.0 1.0</diffuse>
+                </material>
+            </visual>
+            <visual name="wheel_mount_front_right_visual">
+                <pose>0.19 -0.08 0 0 0 0</pose>
+                <geometry>
+                    <box>
+                        <size>0.05 0.07 0.025</size>
+                    </box>
+                </geometry>
+                <material>
+                    <ambient>0.502 0.502 0.502 1.0</ambient>
+                    <diffuse>0.502 0.502 0.502 1.0</diffuse>
+                </material>
+            </visual>
+            <visual name="wheel_mount_rear_left_axis_visual">
+                <pose>-0.19 0.11 0 1.5707963267948966 0 0</pose>
+                <geometry>
+                    <cylinder>
+                        <length>0.05</length>
+                        <radius>0.008</radius>
+                    </cylinder>
+                </geometry>
+                <material>
+                    <ambient>0.0 0.0 0.0 1.0</ambient>
+                    <diffuse>0.0 0.0 0.0 1.0</diffuse>
+                </material>
+            </visual>
+            <visual name="wheel_mount_rear_left_visual">
+                <pose>-0.19 0.08 0 0 0 0</pose>
+                <geometry>
+                    <box>
+                        <size>0.05 0.07 0.025</size>
+                    </box>
+                </geometry>
+                <material>
+                    <ambient>0.502 0.502 0.502 1.0</ambient>
+                    <diffuse>0.502 0.502 0.502 1.0</diffuse>
+                </material>
+            </visual>
+            <visual name="wheel_mount_rear_right_axis_visual">
+                <pose>-0.19 -0.11 0 1.5707963267948966 0 0</pose>
+                <geometry>
+                    <cylinder>
+                        <length>0.05</length>
+                        <radius>0.008</radius>
+                    </cylinder>
+                </geometry>
+                <material>
+                    <ambient>0.0 0.0 0.0 1.0</ambient>
+                    <diffuse>0.0 0.0 0.0 1.0</diffuse>
+                </material>
+            </visual>
+            <visual name="wheel_mount_rear_right_visual">
+                <pose>-0.19 -0.08 0 0 0 0</pose>
+                <geometry>
+                    <box>
+                        <size>0.05 0.07 0.025</size>
+                    </box>
+                </geometry>
+                <material>
+                    <ambient>0.502 0.502 0.502 1.0</ambient>
+                    <diffuse>0.502 0.502 0.502 1.0</diffuse>
+                </material>
+            </visual>
 
             <!-- CMPS14 provides IMU and magnetic heading information.
                 https://www.robot-electronics.co.uk/cmps14-tilt-compensated-compass.html
@@ -1146,31 +1246,6 @@
                     <diffuse>0.502 0.502 0.502 1.0</diffuse>
                 </material>
             </visual>
-            <visual name="axis_visual">
-                <pose>0 -0.08 0 1.5707963267948966 0 0</pose>
-                <geometry>
-                    <cylinder>
-                        <length>0.05</length>
-                        <radius>0.008</radius>
-                    </cylinder>
-                </geometry>
-                <material>
-                    <ambient>0.0 0.0 0.0 1.0</ambient>
-                    <diffuse>0.0 0.0 0.0 1.0</diffuse>
-                </material>
-            </visual>
-            <visual name="mount_visual">
-                <pose>0 -0.11 0 0 0 0</pose>
-                <geometry>
-                    <box>
-                        <size>0.05 0.07 0.025</size>
-                    </box>
-                </geometry>
-                <material>
-                    <ambient>0.502 0.502 0.502 1.0</ambient>
-                    <diffuse>0.502 0.502 0.502 1.0</diffuse>
-                </material>
-            </visual>
         </link>
 
         <link name="front_right_wheel">
@@ -1219,31 +1294,6 @@
                         <length>0.025</length>
                         <radius>0.04</radius>
                     </cylinder>
-                </geometry>
-                <material>
-                    <ambient>0.502 0.502 0.502 1.0</ambient>
-                    <diffuse>0.502 0.502 0.502 1.0</diffuse>
-                </material>
-            </visual>
-            <visual name="axis_visual">
-                <pose>0 0.08 0 1.5707963267948966 0 0</pose>
-                <geometry>
-                    <cylinder>
-                        <length>0.05</length>
-                        <radius>0.008</radius>
-                    </cylinder>
-                </geometry>
-                <material>
-                    <ambient>0.0 0.0 0.0 1.0</ambient>
-                    <diffuse>0.0 0.0 0.0 1.0</diffuse>
-                </material>
-            </visual>
-            <visual name="mount_visual">
-                <pose>0 0.11 0 0 0 0</pose>
-                <geometry>
-                    <box>
-                        <size>0.05 0.07 0.025</size>
-                    </box>
                 </geometry>
                 <material>
                     <ambient>0.502 0.502 0.502 1.0</ambient>
@@ -1304,31 +1354,6 @@
                     <diffuse>0.502 0.502 0.502 1.0</diffuse>
                 </material>
             </visual>
-            <visual name="axis_visual">
-                <pose>0 -0.08 0 1.5707963267948966 0 0</pose>
-                <geometry>
-                    <cylinder>
-                        <length>0.05</length>
-                        <radius>0.008</radius>
-                    </cylinder>
-                </geometry>
-                <material>
-                    <ambient>0.0 0.0 0.0 1.0</ambient>
-                    <diffuse>0.0 0.0 0.0 1.0</diffuse>
-                </material>
-            </visual>
-            <visual name="mount_visual">
-                <pose>0 -0.11 0 0 0 0</pose>
-                <geometry>
-                    <box>
-                        <size>0.05 0.07 0.025</size>
-                    </box>
-                </geometry>
-                <material>
-                    <ambient>0.502 0.502 0.502 1.0</ambient>
-                    <diffuse>0.502 0.502 0.502 1.0</diffuse>
-                </material>
-            </visual>
         </link>
 
         <link name="rear_right_wheel">
@@ -1377,31 +1402,6 @@
                         <length>0.025</length>
                         <radius>0.04</radius>
                     </cylinder>
-                </geometry>
-                <material>
-                    <ambient>0.502 0.502 0.502 1.0</ambient>
-                    <diffuse>0.502 0.502 0.502 1.0</diffuse>
-                </material>
-            </visual>
-            <visual name="axis_visual">
-                <pose>0 0.08 0 1.5707963267948966 0 0</pose>
-                <geometry>
-                    <cylinder>
-                        <length>0.05</length>
-                        <radius>0.008</radius>
-                    </cylinder>
-                </geometry>
-                <material>
-                    <ambient>0.0 0.0 0.0 1.0</ambient>
-                    <diffuse>0.0 0.0 0.0 1.0</diffuse>
-                </material>
-            </visual>
-            <visual name="mount_visual">
-                <pose>0 0.11 0 0 0 0</pose>
-                <geometry>
-                    <box>
-                        <size>0.05 0.07 0.025</size>
-                    </box>
                 </geometry>
                 <material>
                     <ambient>0.502 0.502 0.502 1.0</ambient>

@@ -168,6 +168,54 @@
         <box size='0.025 0.005 0.01'/>
       </geometry>
     </visual>
+    <visual name='wheel_mount_front_left_axis_visual'>
+      <origin xyz='0.19 0.11 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.008' length='0.05'/>
+      </geometry>
+    </visual>
+    <visual name='wheel_mount_front_left_visual'>
+      <origin xyz='0.19 0.08 0' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.05 0.07 0.025'/>
+      </geometry>
+    </visual>
+    <visual name='wheel_mount_front_right_axis_visual'>
+      <origin xyz='0.19 -0.11 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.008' length='0.05'/>
+      </geometry>
+    </visual>
+    <visual name='wheel_mount_front_right_visual'>
+      <origin xyz='0.19 -0.08 0' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.05 0.07 0.025'/>
+      </geometry>
+    </visual>
+    <visual name='wheel_mount_rear_left_axis_visual'>
+      <origin xyz='-0.19 0.11 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.008' length='0.05'/>
+      </geometry>
+    </visual>
+    <visual name='wheel_mount_rear_left_visual'>
+      <origin xyz='-0.19 0.08 0' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.05 0.07 0.025'/>
+      </geometry>
+    </visual>
+    <visual name='wheel_mount_rear_right_axis_visual'>
+      <origin xyz='-0.19 -0.11 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.008' length='0.05'/>
+      </geometry>
+    </visual>
+    <visual name='wheel_mount_rear_right_visual'>
+      <origin xyz='-0.19 -0.08 0' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.05 0.07 0.025'/>
+      </geometry>
+    </visual>
     <visual name='laser_front_bottom_visual'>
       <origin xyz='0.12 0 0.16' rpy='0 -0 0'/>
       <geometry>
@@ -363,18 +411,6 @@
         <cylinder radius='0.04' length='0.025'/>
       </geometry>
     </visual>
-    <visual name='axis_visual'>
-      <origin xyz='0 -0.08 0' rpy='1.5708 -0 0'/>
-      <geometry>
-        <cylinder radius='0.008' length='0.05'/>
-      </geometry>
-    </visual>
-    <visual name='mount_visual'>
-      <origin xyz='0 -0.11 0' rpy='0 -0 0'/>
-      <geometry>
-        <box size='0.05 0.07 0.025'/>
-      </geometry>
-    </visual>
   </link>
   <link name='front_right_wheel'>
     <inertial>
@@ -398,18 +434,6 @@
       <origin xyz='0 0.055 0' rpy='1.5708 -0 0'/>
       <geometry>
         <cylinder radius='0.04' length='0.025'/>
-      </geometry>
-    </visual>
-    <visual name='axis_visual'>
-      <origin xyz='0 0.08 0' rpy='1.5708 -0 0'/>
-      <geometry>
-        <cylinder radius='0.008' length='0.05'/>
-      </geometry>
-    </visual>
-    <visual name='mount_visual'>
-      <origin xyz='0 0.11 0' rpy='0 -0 0'/>
-      <geometry>
-        <box size='0.05 0.07 0.025'/>
       </geometry>
     </visual>
   </link>
@@ -437,18 +461,6 @@
         <cylinder radius='0.04' length='0.025'/>
       </geometry>
     </visual>
-    <visual name='axis_visual'>
-      <origin xyz='0 -0.08 0' rpy='1.5708 -0 0'/>
-      <geometry>
-        <cylinder radius='0.008' length='0.05'/>
-      </geometry>
-    </visual>
-    <visual name='mount_visual'>
-      <origin xyz='0 -0.11 0' rpy='0 -0 0'/>
-      <geometry>
-        <box size='0.05 0.07 0.025'/>
-      </geometry>
-    </visual>
   </link>
   <link name='rear_right_wheel'>
     <inertial>
@@ -472,18 +484,6 @@
       <origin xyz='0 0.055 0' rpy='1.5708 -0 0'/>
       <geometry>
         <cylinder radius='0.04' length='0.025'/>
-      </geometry>
-    </visual>
-    <visual name='axis_visual'>
-      <origin xyz='0 0.08 0' rpy='1.5708 -0 0'/>
-      <geometry>
-        <cylinder radius='0.008' length='0.05'/>
-      </geometry>
-    </visual>
-    <visual name='mount_visual'>
-      <origin xyz='0 0.11 0' rpy='0 -0 0'/>
-      <geometry>
-        <box size='0.05 0.07 0.025'/>
       </geometry>
     </visual>
   </link>
