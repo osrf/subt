@@ -11,6 +11,8 @@ Klubak is four wheels articulated robot. It is designed for research tasks in ag
 Robotika's Kloubak has an estimated commercial cost of USD 7,000. It weighs approximately 30 kg.
 
 ## Sensors
+Robot Kloubak with sensor configuration 1 includesthe following sensors. The specifications of the sensors are provided below in
+the [Validation Links](#validation_links) section.
 
 The following specific sensors are declared payloads of this vehicle:
 
@@ -21,9 +23,6 @@ The following specific sensors are declared payloads of this vehicle:
 * Altimeter &mdash; Infineon DPS310, modeled by `air_pressure` plugin.
 * Wheel odometry - wheel encoders modelled by `pose-publisher` plugin.
 
-The specifications of the sensors are provided below in
-the [Validation Links](#validation_links) section.
-
 ## Control
 Kloubak is controlled by the open-source Osgar framework.
 
@@ -33,8 +32,14 @@ Guide](https://subtchallenge.com/\<fix_me\>), this vehicle has the following mot
 constraint characteristics:
 
 * _x_ velocity range from -2.0 m/s to 2.0 m/s
-* _x_ acceleration range from -9.8 m/s<sup>2</sup> to 9.8 m/s<sup>2</sup>
+* _x_ acceleration range from -8.8 m/s<sup>2</sup> to 8.8 m/s<sup>2</sup>
 * Turning radius of 0.8 m
+
+The constraints can be found in the following locations within the simulation model
+package:
+
+* Front left wheel maximum velocity and torque &mdash; model.sdf, lines 1015 and 1017
+* Other wheels &mdash; just below Front Left wheel in the same file.
 
 ## Endurance Characteristics
 Based on the tests specified in the DARPA SubT Challenge [Model Preparation
@@ -46,7 +51,6 @@ endurance characteristics:
 ## Diversions from Physical Hardware of Kloubak
 Virtual Kloubak is a faithful representation of real-world Kloubak both in appearance and
 in physical properties. However, there are few diversions:
-
 * It does not model long-range low-bandwidth (LoRa) mesh communication of the real robot.
 * It does not model realsense tracking cameras t265.
 * It does not model angle sensor in the main joint and the second IMU is used instead.
