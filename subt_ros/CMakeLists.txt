@@ -76,3 +76,7 @@ install(TARGETS pose_tf_broadcaster subt_ros_relay set_pose_relay bridge_logger
 install(DIRECTORY launch
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
+
+install(PROGRAMS scripts/rostopic_stats_logger.sh
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
