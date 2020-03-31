@@ -4,7 +4,7 @@
 <!-- |    EDITING THIS FILE BY HAND IS NOT RECOMMENDED                                 | -->
 <!-- =================================================================================== -->
 <sdf version="1.6">
-  <model name="Robotika_K2">
+  <model name="ROBOTIKA_KLOUBAK">
     <static>false</static>
     <enable_wind>1</enable_wind>
     <link name="chassis_front">
@@ -19,7 +19,7 @@
         </inertia>
       </inertial>
       <!-- Box and axle -->
-      <collision name="collision_fron_box">
+      <collision name="collision_front_box">
         <pose>0 0 0.08 0 0 0</pose>
         <geometry>
           <box>
@@ -74,7 +74,7 @@
           </mesh>
         </geometry>
       </visual>
-      <!-- LORD IMU and magnetometer?? -->
+      <!-- LORD IMU and magnetometer -->
       <sensor name="imu_sensor_front" type="imu">
         <always_on>1</always_on>
         <update_rate>50</update_rate>
@@ -169,7 +169,7 @@
           </z>
         </magnetometer>
       </sensor>
-      <!-- Infineon DPS310 TODO ???
+      <!-- Infineon DPS310
             https://www.infineon.com/cms/en/product/sensor/pressure-sensors/absolute-pressure-sensors-map-bap/dps310/
         -->
       <sensor name="air_pressure" type="air_pressure">
@@ -182,7 +182,7 @@
           </noise>
         </air_pressure>
       </sensor>
-      <!--LED lihgt -->
+      <!--LED light -->
       <collision name="collision_light_lidar_camera">
         <pose>0.05 0 0.2325 0 0 0</pose>
         <geometry>
@@ -276,10 +276,10 @@
               <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
               <fx>17.8229</fx>
               <fy>17.8229</fy>
-              <!-- cx = ( width + 1 ) / 2 -->
-              <cx>512.5</cx>
-              <!-- cy = ( height + 1 ) / 2 -->
-              <cy>384.5</cy>
+              <!-- cx = ( width - 1 ) / 2 -->
+              <cx>511.5</cx>
+              <!-- cy = ( height - 1 ) / 2 -->
+              <cy>383.5</cy>
               <s>0</s>
             </intrinsics>
           </lens>
@@ -340,16 +340,16 @@
         <update_rate>20</update_rate>
         <camera name="depth_camera_front">
           <pose frame="">0 0 0 0 -1.5707 1.5707</pose>
-          <horizontal_fov>1.2113</horizontal_fov>
+          <horizontal_fov>1.5184</horizontal_fov>
           <lens>
             <intrinsics>
               <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
-              <fx>462.1</fx>
-              <fy>462.1</fy>
-              <!-- cx = ( width + 1 ) / 2 -->
-              <cx>320.5</cx>
-              <!-- cy = ( height + 1 ) / 2 -->
-              <cy>180.5</cy>
+              <fx>337.22</fx>
+              <fy>337.22</fy>
+              <!-- cx = ( width - 1 ) / 2 -->
+              <cx>319.5</cx>
+              <!-- cy = ( height - 1 ) / 2 -->
+              <cy>179.5</cy>
               <s>0</s>
             </intrinsics>
           </lens>
@@ -418,7 +418,7 @@
           </mesh>
         </geometry>
       </visual>
-      <!-- LORD IMU and magnetometer??? -->
+      <!-- LORD IMU and magnetometer -->
       <sensor name="imu_sensor_back" type="imu">
         <always_on>1</always_on>
         <update_rate>50</update_rate>
@@ -513,7 +513,7 @@
           </z>
         </magnetometer>
       </sensor>
-      <!--LED lihgt -->
+      <!--LED light -->
       <collision name="collision_light_lidar_camera">
         <pose>-0.07 0 0.2925 0 0 0</pose>
         <geometry>
@@ -607,10 +607,10 @@
               <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
               <fx>17.8229</fx>
               <fy>17.8229</fy>
-              <!-- cx = ( width + 1 ) / 2 -->
-              <cx>512.5</cx>
-              <!-- cy = ( height + 1 ) / 2 -->
-              <cy>384.5</cy>
+              <!-- cx = ( width - 1 ) / 2 -->
+              <cx>511.5</cx>
+              <!-- cy = ( height - 1 ) / 2 -->
+              <cy>383.5</cy>
               <s>0</s>
             </intrinsics>
           </lens>
@@ -671,16 +671,16 @@
         <update_rate>20</update_rate>
         <camera name="depth_camera_back">
           <pose frame="">0 0 0 0 -1.5707 1.5707</pose>
-          <horizontal_fov>1.2113</horizontal_fov>
+          <horizontal_fov>1.5184</horizontal_fov>
           <lens>
             <intrinsics>
               <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
-              <fx>462.1</fx>
-              <fy>462.1</fy>
-              <!-- cx = ( width + 1 ) / 2 -->
-              <cx>320.5</cx>
-              <!-- cy = ( height + 1 ) / 2 -->
-              <cy>180.5</cy>
+              <fx>337.22</fx>
+              <fy>337.22</fy>
+              <!-- cx = ( width - 1 ) / 2 -->
+              <cx>319.5</cx>
+              <!-- cy = ( height - 1 ) / 2 -->
+              <cy>179.5</cy>
               <s>0</s>
             </intrinsics>
           </lens>
@@ -740,8 +740,8 @@
           </box>
         </geometry>
         <material>
-          <ambient>204 204 204 </ambient>
-          <diffuse>204 204 204 </diffuse>
+          <ambient>204 204 204 1</ambient>
+          <diffuse>204 204 204 1</diffuse>
         </material>
       </visual>
     </link>

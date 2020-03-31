@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
-<robot name='Robotika_K2'>
+<robot name='ROBOTIKA_KLOUBAK'>
   <link name='chassis_front'>
     <inertial>
       <origin xyz='-0.05 0 0.28' rpy='0 -0 0'/>
       <mass value='8'/>
       <inertia ixx='0.1119' ixy='0' ixz='0' iyy='0.1286' iyz='0' izz='0.2159'/>
     </inertial>
-    <collision name='collision_fron_box'>
+    <collision name='collision_front_box'>
       <origin xyz='0 0 0.28' rpy='0 -0 0'/>
       <geometry>
         <box size='0.3 0.4 0.16'/>
@@ -118,7 +118,7 @@
     <parent link='chassis_front'/>
     <origin xyz='0.18 0 0.113' rpy='0 -0 0'/>
     <camera>
-      <image width='640' height='360' format='R8G8B8' hfov='1.2113' near='0.01' far='300' />
+      <image width='640' height='360' format='R8G8B8' hfov='1.5184' near='0.01' far='300' />
     </camera>
   </sensor>
   <link name='chassis_back'>
@@ -211,7 +211,7 @@
     <parent link='chassis_back'/>
     <origin xyz='-0.2 0 0.113' rpy='0 -0 -3.14159'/>
     <camera>
-      <image width='640' height='360' format='R8G8B8' hfov='1.2113' near='0.01' far='300' />
+      <image width='640' height='360' format='R8G8B8' hfov='1.5184' near='0.01' far='300' />
     </camera>
   </sensor>
   <link name='axle_back'>
