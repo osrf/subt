@@ -310,7 +310,7 @@ void CommsBrokerPlugin::UpdateIfNewBreadcrumbs()
   for (const auto& [name, pose] : this->poses)
   {
     // New breadcrumb found.
-    if (name.find("__breadcrumb__") &&
+    if (name.find("__breadcrumb__") != std::string::npos &&
         this->breadcrumbs.find(name) == this->breadcrumbs.end())
     {
       this->breadcrumbs[name] = pose;
