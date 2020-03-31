@@ -207,7 +207,7 @@
           <constant>0.1</constant>
           <quadratic>0.005</quadratic>
         </attenuation>
-        <diffuse>0.8 0.8 0.5 1</diffuse>
+        <diffuse>0.8 0.8 0.5 1.0</diffuse>
         <specular>0.8 0.8 0.5 1</specular>
         <spot>
           <inner_angle>1.571</inner_angle>
@@ -538,7 +538,7 @@
           <constant>0.1</constant>
           <quadratic>0.005</quadratic>
         </attenuation>
-        <diffuse>0.8 0.8 0.5 1</diffuse>
+        <diffuse>0.8 0.8 0.5 1.0</diffuse>
         <specular>0.8 0.8 0.5 1</specular>
         <spot>
           <inner_angle>1.571</inner_angle>
@@ -740,8 +740,8 @@
           </box>
         </geometry>
         <material>
-          <ambient>204 204 204 1</ambient>
-          <diffuse>204 204 204 1</diffuse>
+          <ambient>0.8 0.8 0.8 1.0</ambient>
+          <diffuse>0.8 0.8 0.8 1.0</diffuse>
         </material>
       </visual>
     </link>
@@ -793,8 +793,8 @@
           </cylinder>
         </geometry>
         <material>
-          <ambient>128 128 128</ambient>
-          <diffuse>128 128 128</diffuse>
+          <ambient>0.502 0.502 0.502 1.0</ambient>
+          <diffuse>0.502 0.502 0.502 1.0</diffuse>
         </material>
       </visual>
     </link>
@@ -846,8 +846,8 @@
           </cylinder>
         </geometry>
         <material>
-          <ambient>128 128 128</ambient>
-          <diffuse>128 128 128</diffuse>
+          <ambient>0.502 0.502 0.502 1.0</ambient>
+          <diffuse>0.502 0.502 0.502 1.0</diffuse>
         </material>
       </visual>
     </link>
@@ -899,8 +899,8 @@
           </cylinder>
         </geometry>
         <material>
-          <ambient>128 128 128</ambient>
-          <diffuse>128 128 128</diffuse>
+          <ambient>0.502 0.502 0.502 1.0</ambient>
+          <diffuse>0.502 0.502 0.502 1.0</diffuse>
         </material>
       </visual>
     </link>
@@ -952,8 +952,8 @@
           </cylinder>
         </geometry>
         <material>
-          <ambient>128 128 128</ambient>
-          <diffuse>128 128 128</diffuse>
+          <ambient>0.502 0.502 0.502 1.0</ambient>
+          <diffuse>0.502 0.502 0.502 1.0</diffuse>
         </material>
       </visual>
     </link>
