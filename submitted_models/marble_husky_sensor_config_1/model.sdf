@@ -838,8 +838,7 @@
       <inertial>
         <pose frame="">0 0 0 1.570796 -0 0</pose>
         <mass>0.1</mass>
-      </inertial>
-      <inertia>
+         <inertia>
           <ixx>0.000016875</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
@@ -847,6 +846,8 @@
           <iyz>0</iyz>
           <izz>0.000016875</izz>
         </inertia>
+      </inertial>
+     
       <collision name="tilt_gimbal_link_collision">
       <pose frame="">0.0 0 0.0 1.570796 -0 0</pose>
       <geometry>
