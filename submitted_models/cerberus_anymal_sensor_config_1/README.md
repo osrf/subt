@@ -9,6 +9,8 @@ This package contains a virtual model validation for the CERBERUS ANYmal with Se
 
 **Affiliation:** [Robotic Systems Lab - ETH Zurich](https://rsl.ethz.ch/the-lab.html)
 
+[![CERBERUS ANYmal](doc/anymal_simulator_small.png)](doc/anymal_simulator_small.png)
+
 ## License
 This software is released under a [BSD 3-Clause license](LICENSE).
 
