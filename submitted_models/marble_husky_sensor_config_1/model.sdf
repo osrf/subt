@@ -798,12 +798,12 @@
         <pose frame="">0 0 0 0 -0 0</pose>
         <mass>0.1</mass>
         <inertia>
-          <ixx>0.00001</ixx>
+          <ixx>0.000016875</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.00001</iyy>
+          <iyy>0.00000001</iyy>
           <iyz>0</iyz>
-          <izz>0.00001</izz>
+          <izz>0.000016875</izz>
         </inertia>
       </inertial>
       <collision name="pan_gimbal_link_collision">
@@ -840,12 +840,12 @@
         <mass>0.1</mass>
       </inertial>
       <inertia>
-          <ixx>0.00001</ixx>
+          <ixx>0.000016875</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.00001</iyy>
+          <iyy>0.00000001</iyy>
           <iyz>0</iyz>
-          <izz>0.00001</izz>
+          <izz>0.000016875</izz>
         </inertia>
       <collision name="tilt_gimbal_link_collision">
       <pose frame="">0.0 0 0.0 1.570796 -0 0</pose>
