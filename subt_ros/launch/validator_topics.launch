@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="world_name"/>
+  <arg name="name"/>
+  <arg name="link_name" value="base_link"/>
+  <arg name="sensor_prefix" value="/world/$(arg world_name)/model/$(arg name)/link/$(arg link_name)/sensor"/>
+
+  <group ns="$(arg name)">
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_pose"
+      args="/model/$(arg name)/pose@geometry_msgs/TransformStamped[ignition.msgs.Pose">
+      <remap from="/model/$(arg name)/pose" to="pose"/>
+    </node>
+
+    <node
+      pkg="subt_ros"
+      type="pose_tf_broadcaster"
+      name="pose_tf_broadcaster"/>
+
+    <!--Front Laser-->
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_lidar3d"
+      args="$(arg sensor_prefix)/front_laser/scan/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
+      <remap from="$(arg sensor_prefix)/front_laser/scan/points" to="points"/>
+    </node>
+  </group>
+</launch>
+
