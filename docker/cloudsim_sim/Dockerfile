@@ -14,6 +14,7 @@ RUN apt-get update -qq \
  && apt-get install --no-install-recommends -y -qq \
         build-essential \
         bwm-ng \
+        atop \
         cmake \
         cppcheck \
         gdb \
