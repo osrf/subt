@@ -5,6 +5,7 @@
   <arg name="robot_names" default=""/>
   <arg name="enable_ground_truth" default="0"/>
 
+  <param name="/enable_statistics" value="true"/>
   <param name="/use_sim_time" value="true"/>
   <param name="/world_name" value="$(arg world_name)"/>
   <rosparam param="/robot_names" subst_value='true'>$(arg robot_names)</rosparam>
@@ -21,6 +22,12 @@
     pkg="subt_ros"
     type="bridge_logger"
     name="bridge_logger"/>
+
+
+  <node
+    pkg="subt_ros"
+    type="rostopic_stats_logger.sh"
+    name="rostopic_stats_logger"/>
 
   <group if="$(arg enable_ground_truth)">
     <!-- In the case that ground truth is enabled, also relay the /set_pose
