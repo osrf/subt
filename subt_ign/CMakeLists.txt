@@ -134,6 +134,7 @@ set(connection_validator_name ConnectionValidator)
 add_library(${connection_validator_name} SHARED
   src/ConnectionValidator.cc
   src/ConnectionValidatorPrivate.cc
+  src/ConnectionHelper.cc
   src/SimpleDOTParser.cc)
 target_link_libraries(${connection_validator_name}
   PRIVATE
@@ -275,6 +276,16 @@ target_link_libraries(log_checker
   ignition-transport7::ignition-transport7-log)
 install(TARGETS log_checker
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+
+add_executable(dot_generator src/dot_generator.cc src/ConnectionHelper.cc)
+target_link_libraries(dot_generator
+  ignition-math6::ignition-math6
+  ignition-common3::ignition-common3
+  sdformat8::sdformat8)
+target_include_directories(dot_generator
+  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
+install(TARGETS dot_generator
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 
 ###########
 ## Tests ##
