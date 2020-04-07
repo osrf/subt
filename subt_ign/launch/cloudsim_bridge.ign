@@ -199,7 +199,7 @@
 
       spawnerScript =  "#{installDir}/launch/spawner.rb"
       begin
-        require spawnerScript
+        load spawnerScript
       rescue LoadError
         raise "Unknown robot configuration #{config}. #{spawnerScript} could not be found."
       else
