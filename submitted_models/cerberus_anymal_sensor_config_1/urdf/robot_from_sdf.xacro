@@ -1,0 +1,654 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name='anymal' xmlns:xacro='http://ros.org/wiki/xacro'>
+  <xacro:arg name="name" default="cerberus_anymal_sensor_config_1"/>
+  <xacro:property name="robot_namespace" value="$(arg name)"/>
+  <link name='${robot_namespace}/base'>
+    <inertial>
+      <origin xyz='-0.001799 -0.001412 0.050337' rpy='0 -0 0'/>
+      <mass value='23.32578'/>
+      <inertia ixx='0.30242793077' ixy='-0.00184980716' ixz='-0.00398797474' iyy='0.88931002497' iyz='-0.00192099149' izz='0.86742722698'/>
+    </inertial>
+    <collision name='base_collision'>
+      <origin xyz='0 0 0.08' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.531 0.27 0.24'/>
+      </geometry>
+    </collision>
+    <collision name='base_collision_1'>
+      <origin xyz='0.227 0.116 0' rpy='3.14159 1.57079 3.14159'/>
+      <geometry>
+        <cylinder radius='0.05' length='0.1'/>
+      </geometry>
+    </collision>
+    <collision name='base_collision_2'>
+      <origin xyz='0.227 -0.116 0' rpy='3.14159 1.57079 3.14159'/>
+      <geometry>
+        <cylinder radius='0.05' length='0.1'/>
+      </geometry>
+    </collision>
+    <collision name='base_collision_3'>
+      <origin xyz='-0.227 0.116 0' rpy='3.14159 1.57079 3.14159'/>
+      <geometry>
+        <cylinder radius='0.05' length='0.1'/>
+      </geometry>
+    </collision>
+    <collision name='base_collision_4'>
+      <origin xyz='-0.227 -0.116 0' rpy='3.14159 1.57079 3.14159'/>
+      <geometry>
+        <cylinder radius='0.05' length='0.1'/>
+      </geometry>
+    </collision>
+    <collision name='base_collision_5'>
+      <origin xyz='0.2155 0 -0.09' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.1 0.1 0.07'/>
+      </geometry>
+    </collision>
+    <collision name='base_collision_6'>
+      <origin xyz='-0.2155 0 -0.09' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.1 0.1 0.07'/>
+      </geometry>
+    </collision>
+    <collision name='base_collision_7'>
+      <origin xyz='0 0 -0.09' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.531 0.02 0.07'/>
+      </geometry>
+    </collision>
+    <collision name='base_fixed_joint_lump__jetson_case_collision_8'>
+      <origin xyz='-0.245 0 0.171' rpy='0 0 -1.5708'/>
+      <geometry>
+        <box size='0.14 0.15 0.1'/>
+      </geometry>
+    </collision>
+    <collision name='base_fixed_joint_lump__sensor_head_collision_9'>
+      <origin xyz='0.3482 0 0.131624' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.14 0.15 0.1'/>
+      </geometry>
+    </collision>
+    <collision name='base_fixed_joint_lump__downward_realsense_camera_collision_10'>
+      <origin xyz='0.405017 -0.000105 0.06461' rpy='-0.009501 0.382227 0'/>
+      <geometry>
+        <box size='0.025 0.089 0.025'/>
+      </geometry>
+    </collision>
+    <collision name='base_fixed_joint_lump__velodyne_axis_aligned_collision_11'>
+      <origin xyz='0.27 0 0.2676' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.0516' length='0.0717'/>
+      </geometry>
+    </collision>
+    <visual name='base_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='meshes/anymal_base.dae' scale='0.001 0.001 0.001'/>
+      </geometry>
+    </visual>
+    <visual name='base_fixed_joint_lump__jetson_case_visual_1'>
+      <origin xyz='-0.245 0 0.201' rpy='0 0 -1.5708'/>
+      <geometry>
+        <mesh filename='meshes/darpa_jetson_back.stl' scale='0.001 0.001 0.001'/>
+      </geometry>
+    </visual>
+    <visual name='base_fixed_joint_lump__sensor_head_visual_2'>
+      <origin xyz='0.3482 0 0.161624' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='meshes/darpa_head_1.stl' scale='0.001 0.001 0.001'/>
+      </geometry>
+    </visual>
+    <visual name='base_fixed_joint_lump__downward_realsense_camera_visual_3'>
+      <origin xyz='0.388757 -0.000224 0.057675' rpy='-0.009501 0.382227 0'/>
+      <geometry>
+        <mesh filename='meshes/realsense_d435.dae' scale='0.001 0.001 0.001'/>
+      </geometry>
+    </visual>
+    <visual name='base_fixed_joint_lump__velodyne_axis_aligned_visual_4'>
+      <origin xyz='0.27 0 0.2299' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='meshes/VLP16_base_1.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_fixed_joint_lump__velodyne_axis_aligned_visual_5'>
+      <origin xyz='0.27 0 0.2299' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='meshes/VLP16_base_2.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_fixed_joint_lump__velodyne_visual_6'>
+      <origin xyz='0.27 0 0.2299' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='meshes/VLP16_scan.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_fixed_joint_lump__light_back_left_visual_7'>
+      <origin xyz='-0.206 0.12 0.14' rpy='3.14159 1.57079 1.5692'/>
+      <geometry>
+        <cylinder radius='0.019' length='0.005'/>
+      </geometry>
+    </visual>
+    <visual name='base_fixed_joint_lump__light_back_right_visual_8'>
+      <origin xyz='-0.206 -0.12 0.14' rpy='3.14159 1.57079 -1.57239'/>
+      <geometry>
+        <cylinder radius='0.019' length='0.005'/>
+      </geometry>
+    </visual>
+    <visual name='base_fixed_joint_lump__light_front_left_visual_9'>
+      <origin xyz='0.305 0.045 0.33' rpy='-3.14159 1.57079 0.436332'/>
+      <geometry>
+        <cylinder radius='0.019' length='0.005'/>
+      </geometry>
+    </visual>
+    <visual name='base_fixed_joint_lump__light_front_right_visual_10'>
+      <origin xyz='0.305 -0.045 0.33' rpy='3.14159 1.57079 -0.436332'/>
+      <geometry>
+        <cylinder radius='0.019' length='0.005'/>
+      </geometry>
+    </visual>
+  </link>
+  <sensor name='imu_sensor' update_rate='400'>
+    <parent link='${robot_namespace}/base'/>
+    <origin xyz='0 0 0' rpy='0 -0 0'/>
+  </sensor>
+  <sensor name='front_laser' update_rate='10'>
+    <parent link='${robot_namespace}/base'/>
+    <origin xyz='0.27 0 0.2676' rpy='0 -0 0'/>
+  </sensor>
+  <sensor name='downward_realsense' update_rate='10'>
+    <parent link='${robot_namespace}/base'/>
+    <origin xyz='0.388757 -0.000224 0.0576' rpy='-0.009501 0.38227 -0'/>
+    <camera>
+      <image width='320' height='240' format='R8G8B8' hfov='1.0472' near='0.01' far='300' />
+    </camera>
+  </sensor>
+  <sensor name='camera_front' update_rate='20'>
+    <parent link='${robot_namespace}/base'/>
+    <origin xyz='0.419397 0.02 0.161624' rpy='0 -0 0'/>
+    <camera>
+      <image width='1280' height='960' format='R8G8B8' hfov='2' near='0.02' far='300' />
+    </camera>
+  </sensor>
+  <sensor name='camera_back_right' update_rate='20'>
+    <parent link='${robot_namespace}/base'/>
+    <origin xyz='-0.311374 -0.152675 0.136916' rpy='0 0 -1.5708'/>
+    <camera>
+      <image width='1280' height='960' format='R8G8B8' hfov='2' near='0.02' far='300' />
+    </camera>
+  </sensor>
+  <sensor name='camera_back_left' update_rate='20'>
+    <parent link='${robot_namespace}/base'/>
+    <origin xyz='-0.310417 0.158145 0.139186' rpy='0 -0 1.5708'/>
+    <camera>
+      <image width='1280' height='960' format='R8G8B8' hfov='2' near='0.02' far='300' />
+    </camera>
+  </sensor>
+  <link name='${robot_namespace}/LF_HIP'>
+    <inertial>
+      <origin xyz='0.064516 -0.003787 -0.000152' rpy='0 -0 0'/>
+      <mass value='1.42462'/>
+      <inertia ixx='0.00243023' ixy='-1.53024e-05' ixz='-2.18191e-05' iyy='0.00230257' iyz='2.6473e-05' izz='0.00198068'/>
+    </inertial>
+    <collision name='LF_HIP_collision'>
+      <origin xyz='0.0635 -0.009 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.08' length='0.1'/>
+      </geometry>
+    </collision>
+    <collision name='LF_HIP_collision_1'>
+      <origin xyz='0.0635 -0.074 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.045' length='0.03'/>
+      </geometry>
+    </collision>
+    <visual name='LF_HIP_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='meshes/anymal_hip_l.dae' scale='0.001 0.001 0.001'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/LF_THIGH'>
+    <inertial>
+      <origin xyz='-0.003898 0.054227 -0.214583' rpy='0 -0 0'/>
+      <mass value='1.63498'/>
+      <inertia ixx='0.0120368' ixy='6.76207e-05' ixz='0.000287806' iyy='0.0120644' iyz='-0.0014061' izz='0.00249423'/>
+    </inertial>
+    <collision name='LF_THIGH_collision'>
+      <origin xyz='0 0.035 -0.125' rpy='0.145 -0 0'/>
+      <geometry>
+        <box size='0.08 0.04 0.25'/>
+      </geometry>
+    </collision>
+    <collision name='LF_THIGH_collision_1'>
+      <origin xyz='0 0.069 -0.25' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.06' length='0.12'/>
+      </geometry>
+    </collision>
+    <collision name='LF_THIGH_collision_2'>
+      <origin xyz='0 -0.005 0' rpy='1.7158 -0 0'/>
+      <geometry>
+        <cylinder radius='0.066' length='0.12'/>
+      </geometry>
+    </collision>
+    <visual name='LF_THIGH_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='meshes/anymal_thigh_l.dae' scale='0.001 0.001 0.001'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/LF_SHANK'>
+    <inertial>
+      <origin xyz='0.058733 -0.010824 -0.098064' rpy='0 -0 0'/>
+      <mass value='0.347375'/>
+      <inertia ixx='0.00685813' ixy='3.2229e-05' ixz='0.00142869' iyy='0.00770431' iyz='-0.000316237' izz='0.00101942'/>
+    </inertial>
+    <collision name='LF_SHANK_collision'>
+      <origin xyz='0.065 -0.015 0.01' rpy='3.14159 1.57079 3.14159'/>
+      <geometry>
+        <box size='0.08 0.07 0.13'/>
+      </geometry>
+    </collision>
+    <collision name='LF_SHANK_fixed_joint_lump__LF_ADAPTER_collision_1'>
+      <origin xyz='0.1 -0.02 -0.160625' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.015' length='0.32125'/>
+      </geometry>
+    </collision>
+    <collision name='LF_SHANK_fixed_joint_lump__LF_FOOT_collision_2'>
+      <origin xyz='0.1 -0.02 -0.298' rpy='0 -0 0'/>
+      <geometry>
+        <sphere radius='0.031'/>
+      </geometry>
+    </collision>
+    <visual name='LF_SHANK_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='meshes/anymal_shank_l.dae' scale='0.001 0.001 0.001'/>
+      </geometry>
+    </visual>
+    <visual name='LF_SHANK_fixed_joint_lump__LF_ADAPTER_visual_1'>
+      <origin xyz='0.1 -0.02 0.032' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='meshes/anymal_foot.dae' scale='0.001 0.001 0.001'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/LH_HIP'>
+    <inertial>
+      <origin xyz='-0.064516 -0.003787 -0.000152' rpy='0 -0 0'/>
+      <mass value='1.42462'/>
+      <inertia ixx='0.00243023' ixy='1.53024e-05' ixz='2.18191e-05' iyy='0.00230257' iyz='2.6473e-05' izz='0.00198068'/>
+    </inertial>
+    <collision name='LH_HIP_collision'>
+      <origin xyz='-0.0635 -0.009 0' rpy='-1.5708 0 0'/>
+      <geometry>
+        <cylinder radius='0.08' length='0.1'/>
+      </geometry>
+    </collision>
+    <collision name='LH_HIP_collision_1'>
+      <origin xyz='-0.0635 -0.074 0' rpy='-1.5708 0 0'/>
+      <geometry>
+        <cylinder radius='0.045' length='0.03'/>
+      </geometry>
+    </collision>
+    <visual name='LH_HIP_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 3.14159'/>
+      <geometry>
+        <mesh filename='meshes/anymal_hip_r.dae' scale='0.001 0.001 0.001'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/LH_THIGH'>
+    <inertial>
+      <origin xyz='0.003898 0.054227 -0.214583' rpy='0 -0 0'/>
+      <mass value='1.63498'/>
+      <inertia ixx='0.0120368' ixy='-6.76207e-05' ixz='-0.000287806' iyy='0.0120644' iyz='-0.0014061' izz='0.00249423'/>
+    </inertial>
+    <collision name='LH_THIGH_collision'>
+      <origin xyz='0 0.035 -0.125' rpy='0.145 -0 0'/>
+      <geometry>
+        <box size='0.08 0.04 0.25'/>
+      </geometry>
+    </collision>
+    <collision name='LH_THIGH_collision_1'>
+      <origin xyz='0 0.069 -0.25' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.06' length='0.12'/>
+      </geometry>
+    </collision>
+    <collision name='LH_THIGH_collision_2'>
+      <origin xyz='0 -0.005 0' rpy='1.7158 -0 0'/>
+      <geometry>
+        <cylinder radius='0.066' length='0.12'/>
+      </geometry>
+    </collision>
+    <visual name='LH_THIGH_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 3.14159'/>
+      <geometry>
+        <mesh filename='meshes/anymal_thigh_r.dae' scale='0.001 0.001 0.001'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/LH_SHANK'>
+    <inertial>
+      <origin xyz='-0.058733 -0.010824 -0.098064' rpy='0 -0 0'/>
+      <mass value='0.347375'/>
+      <inertia ixx='0.00685813' ixy='-3.2229e-05' ixz='-0.00142869' iyy='0.00770431' iyz='-0.000316237' izz='0.00101942'/>
+    </inertial>
+    <collision name='LH_SHANK_collision'>
+      <origin xyz='-0.065 -0.015 0.01' rpy='3.14159 1.57079 3.14159'/>
+      <geometry>
+        <box size='0.08 0.07 0.13'/>
+      </geometry>
+    </collision>
+    <collision name='LH_SHANK_fixed_joint_lump__LH_ADAPTER_collision_1'>
+      <origin xyz='-0.1 -0.02 -0.160625' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.015' length='0.32125'/>
+      </geometry>
+    </collision>
+    <collision name='LH_SHANK_fixed_joint_lump__LH_FOOT_collision_2'>
+      <origin xyz='-0.1 -0.02 -0.298' rpy='0 -0 0'/>
+      <geometry>
+        <sphere radius='0.031'/>
+      </geometry>
+    </collision>
+    <visual name='LH_SHANK_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 3.14159'/>
+      <geometry>
+        <mesh filename='meshes/anymal_shank_r.dae' scale='0.001 0.001 0.001'/>
+      </geometry>
+    </visual>
+    <visual name='LH_SHANK_fixed_joint_lump__LH_ADAPTER_visual_1'>
+      <origin xyz='-0.1 -0.02 0.032' rpy='0 -0 3.14159'/>
+      <geometry>
+        <mesh filename='meshes/anymal_foot.dae' scale='0.001 0.001 0.001'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/RF_HIP'>
+    <inertial>
+      <origin xyz='0.064516 0.003787 -0.000152' rpy='0 -0 0'/>
+      <mass value='1.42462'/>
+      <inertia ixx='0.00243023' ixy='1.53024e-05' ixz='-2.18191e-05' iyy='0.00230257' iyz='-2.6473e-05' izz='0.00198068'/>
+    </inertial>
+    <collision name='RF_HIP_collision'>
+      <origin xyz='0.0635 0.009 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.08' length='0.1'/>
+      </geometry>
+    </collision>
+    <collision name='RF_HIP_collision_1'>
+      <origin xyz='0.0635 0.074 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.045' length='0.03'/>
+      </geometry>
+    </collision>
+    <visual name='RF_HIP_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='meshes/anymal_hip_r.dae' scale='0.001 0.001 0.001'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/RF_THIGH'>
+    <inertial>
+      <origin xyz='-0.003898 -0.054227 -0.214583' rpy='0 -0 0'/>
+      <mass value='1.63498'/>
+      <inertia ixx='0.0120368' ixy='-6.76207e-05' ixz='0.000287806' iyy='0.0120644' iyz='0.0014061' izz='0.00249423'/>
+    </inertial>
+    <collision name='RF_THIGH_collision'>
+      <origin xyz='0 -0.035 -0.125' rpy='-0.145 0 0'/>
+      <geometry>
+        <box size='0.08 0.04 0.25'/>
+      </geometry>
+    </collision>
+    <collision name='RF_THIGH_collision_1'>
+      <origin xyz='0 -0.069 -0.25' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.06' length='0.12'/>
+      </geometry>
+    </collision>
+    <collision name='RF_THIGH_collision_2'>
+      <origin xyz='0 0.005 0' rpy='-1.7158 0 0'/>
+      <geometry>
+        <cylinder radius='0.066' length='0.12'/>
+      </geometry>
+    </collision>
+    <visual name='RF_THIGH_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='meshes/anymal_thigh_r.dae' scale='0.001 0.001 0.001'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/RF_SHANK'>
+    <inertial>
+      <origin xyz='0.058733 0.010824 -0.098064' rpy='0 -0 0'/>
+      <mass value='0.347375'/>
+      <inertia ixx='0.00685813' ixy='-3.2229e-05' ixz='0.00142869' iyy='0.00770431' iyz='0.000316237' izz='0.00101942'/>
+    </inertial>
+    <collision name='RF_SHANK_collision'>
+      <origin xyz='0.065 0.015 0.01' rpy='3.14159 1.57079 3.14159'/>
+      <geometry>
+        <box size='0.08 0.07 0.13'/>
+      </geometry>
+    </collision>
+    <collision name='RF_SHANK_fixed_joint_lump__RF_ADAPTER_collision_1'>
+      <origin xyz='0.1 0.02 -0.160625' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.015' length='0.32125'/>
+      </geometry>
+    </collision>
+    <collision name='RF_SHANK_fixed_joint_lump__RF_FOOT_collision_2'>
+      <origin xyz='0.1 0.02 -0.298' rpy='0 -0 0'/>
+      <geometry>
+        <sphere radius='0.031'/>
+      </geometry>
+    </collision>
+    <visual name='RF_SHANK_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='meshes/anymal_shank_r.dae' scale='0.001 0.001 0.001'/>
+      </geometry>
+    </visual>
+    <visual name='RF_SHANK_fixed_joint_lump__RF_ADAPTER_visual_1'>
+      <origin xyz='0.1 0.02 0.032' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='meshes/anymal_foot.dae' scale='0.001 0.001 0.001'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/RH_HIP'>
+    <inertial>
+      <origin xyz='-0.064516 0.003787 -0.000152' rpy='0 -0 0'/>
+      <mass value='1.42462'/>
+      <inertia ixx='0.00243023' ixy='-1.53024e-05' ixz='2.18191e-05' iyy='0.00230257' iyz='-2.6473e-05' izz='0.00198068'/>
+    </inertial>
+    <collision name='RH_HIP_collision'>
+      <origin xyz='-0.0635 0.009 0' rpy='-1.5708 0 0'/>
+      <geometry>
+        <cylinder radius='0.08' length='0.1'/>
+      </geometry>
+    </collision>
+    <collision name='RH_HIP_collision_1'>
+      <origin xyz='-0.0635 0.074 0' rpy='-1.5708 0 0'/>
+      <geometry>
+        <cylinder radius='0.045' length='0.03'/>
+      </geometry>
+    </collision>
+    <visual name='RH_HIP_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 3.14159'/>
+      <geometry>
+        <mesh filename='meshes/anymal_hip_l.dae' scale='0.001 0.001 0.001'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/RH_THIGH'>
+    <inertial>
+      <origin xyz='0.003898 -0.054227 -0.214583' rpy='0 -0 0'/>
+      <mass value='1.63498'/>
+      <inertia ixx='0.0120368' ixy='6.76207e-05' ixz='-0.000287806' iyy='0.0120644' iyz='0.0014061' izz='0.00249423'/>
+    </inertial>
+    <collision name='RH_THIGH_collision'>
+      <origin xyz='0 -0.035 -0.125' rpy='-0.145 0 0'/>
+      <geometry>
+        <box size='0.08 0.04 0.25'/>
+      </geometry>
+    </collision>
+    <collision name='RH_THIGH_collision_1'>
+      <origin xyz='0 -0.069 -0.25' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.06' length='0.12'/>
+      </geometry>
+    </collision>
+    <collision name='RH_THIGH_collision_2'>
+      <origin xyz='0 0.005 0' rpy='-1.7158 0 0'/>
+      <geometry>
+        <cylinder radius='0.066' length='0.12'/>
+      </geometry>
+    </collision>
+    <visual name='RH_THIGH_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 3.14159'/>
+      <geometry>
+        <mesh filename='meshes/anymal_thigh_l.dae' scale='0.001 0.001 0.001'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/RH_SHANK'>
+    <inertial>
+      <origin xyz='-0.058733 0.010824 -0.098064' rpy='0 -0 0'/>
+      <mass value='0.347375'/>
+      <inertia ixx='0.00685813' ixy='3.2229e-05' ixz='-0.00142869' iyy='0.00770431' iyz='0.000316237' izz='0.00101942'/>
+    </inertial>
+    <collision name='RH_SHANK_collision'>
+      <origin xyz='-0.065 0.015 0.01' rpy='3.14159 1.57079 3.14159'/>
+      <geometry>
+        <box size='0.08 0.07 0.13'/>
+      </geometry>
+    </collision>
+    <collision name='RH_SHANK_fixed_joint_lump__RH_ADAPTER_collision_1'>
+      <origin xyz='-0.1 0.02 -0.160625' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.015' length='0.32125'/>
+      </geometry>
+    </collision>
+    <collision name='RH_SHANK_fixed_joint_lump__RH_FOOT_collision_2'>
+      <origin xyz='-0.1 0.02 -0.298' rpy='0 -0 0'/>
+      <geometry>
+        <sphere radius='0.031'/>
+      </geometry>
+    </collision>
+    <visual name='RH_SHANK_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 3.14159'/>
+      <geometry>
+        <mesh filename='meshes/anymal_shank_l.dae' scale='0.001 0.001 0.001'/>
+      </geometry>
+    </visual>
+    <visual name='RH_SHANK_fixed_joint_lump__RH_ADAPTER_visual_1'>
+      <origin xyz='-0.1 0.02 0.032' rpy='0 -0 3.14159'/>
+      <geometry>
+        <mesh filename='meshes/anymal_foot.dae' scale='0.001 0.001 0.001'/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name='LF_HAA' type='revolute'>
+    <origin xyz='0.277 0.116 0' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base'/>
+    <child link='${robot_namespace}/LF_HIP'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='1 0 0'/>
+    <limit lower='-9.42' upper='9.42' effort='80' velocity='15'/>
+  </joint>
+  <joint name='LF_HFE' type='revolute'>
+    <origin xyz='0.3405 0.157 0' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/LF_HIP'/>
+    <child link='${robot_namespace}/LF_THIGH'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 1 0'/>
+    <limit lower='-9.42' upper='9.42' effort='80' velocity='15'/>
+  </joint>
+  <joint name='LF_KFE' type='revolute'>
+    <origin xyz='0.3405 0.266 -0.25' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/LF_THIGH'/>
+    <child link='${robot_namespace}/LF_SHANK'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 1 0'/>
+    <limit lower='-9.42' upper='9.42' effort='80' velocity='15'/>
+  </joint>
+  <joint name='LH_HAA' type='revolute'>
+    <origin xyz='-0.277 0.116 0' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base'/>
+    <child link='${robot_namespace}/LH_HIP'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='1 0 0'/>
+    <limit lower='-9.42' upper='9.42' effort='80' velocity='15'/>
+  </joint>
+  <joint name='LH_HFE' type='revolute'>
+    <origin xyz='-0.3405 0.157 0' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/LH_HIP'/>
+    <child link='${robot_namespace}/LH_THIGH'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 1 0'/>
+    <limit lower='-9.42' upper='9.42' effort='80' velocity='15'/>
+  </joint>
+  <joint name='LH_KFE' type='revolute'>
+    <origin xyz='-0.3405 0.266 -0.25' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/LH_THIGH'/>
+    <child link='${robot_namespace}/LH_SHANK'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 1 0'/>
+    <limit lower='-9.42' upper='9.42' effort='80' velocity='15'/>
+  </joint>
+  <joint name='RF_HAA' type='revolute'>
+    <origin xyz='0.277 -0.116 0' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base'/>
+    <child link='${robot_namespace}/RF_HIP'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='1 0 0'/>
+    <limit lower='-9.42' upper='9.42' effort='80' velocity='15'/>
+  </joint>
+  <joint name='RF_HFE' type='revolute'>
+    <origin xyz='0.3405 -0.157 0' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/RF_HIP'/>
+    <child link='${robot_namespace}/RF_THIGH'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 1 0'/>
+    <limit lower='-9.42' upper='9.42' effort='80' velocity='15'/>
+  </joint>
+  <joint name='RF_KFE' type='revolute'>
+    <origin xyz='0.3405 -0.266 -0.25' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/RF_THIGH'/>
+    <child link='${robot_namespace}/RF_SHANK'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 1 0'/>
+    <limit lower='-9.42' upper='9.42' effort='80' velocity='15'/>
+  </joint>
+  <joint name='RH_HAA' type='revolute'>
+    <origin xyz='-0.277 -0.116 0' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base'/>
+    <child link='${robot_namespace}/RH_HIP'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='1 0 0'/>
+    <limit lower='-9.42' upper='9.42' effort='80' velocity='15'/>
+  </joint>
+  <joint name='RH_HFE' type='revolute'>
+    <origin xyz='-0.3405 -0.157 0' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/RH_HIP'/>
+    <child link='${robot_namespace}/RH_THIGH'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 1 0'/>
+    <limit lower='-9.42' upper='9.42' effort='80' velocity='15'/>
+  </joint>
+  <joint name='RH_KFE' type='revolute'>
+    <origin xyz='-0.3405 -0.266 -0.25' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/RH_THIGH'/>
+    <child link='${robot_namespace}/RH_SHANK'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 1 0'/>
+    <limit lower='-9.42' upper='9.42' effort='80' velocity='15'/>
+  </joint>
+</robot>
