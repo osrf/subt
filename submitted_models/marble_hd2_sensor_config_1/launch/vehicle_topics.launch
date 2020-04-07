@@ -1,0 +1,200 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="world_name"/>
+  <arg name="name"/>
+  <arg name="link_name" value="base_link"/>
+  <arg name="sensor_prefix" value="/world/$(arg world_name)/model/$(arg name)/link/$(arg link_name)/sensor"/>
+  <arg name="gimbal_sensor_prefix" value="/world/$(arg world_name)/model/$(arg name)/link/tilt_gimbal_link/sensor"/>
+  <group ns="$(arg name)">
+    <!--Create multipe bridges so that it can run in parallel-->
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_pose"
+      args="/model/$(arg name)/pose@geometry_msgs/TransformStamped[ignition.msgs.Pose">
+      <remap from="/model/$(arg name)/pose" to="pose"/>
+    </node>
+
+    <node
+      pkg="subt_ros"
+      type="pose_tf_broadcaster"
+      name="pose_tf_broadcaster"/>
+
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_twist"
+      args="/model/$(arg name)/cmd_vel_relay@geometry_msgs/Twist]ignition.msgs.Twist">
+      <remap from="/model/$(arg name)/cmd_vel_relay" to="cmd_vel"/>
+    </node>
+
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_odom"
+      args="/model/$(arg name)/odometry@nav_msgs/Odometry[ignition.msgs.Odometry">
+      <remap from="/model/$(arg name)/odometry" to="odom"/>
+    </node>
+
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_battery_state"
+      args="/model/$(arg name)/battery/linear_battery/state@sensor_msgs/BatteryState[ignition.msgs.BatteryState">
+      <remap from="/model/$(arg name)/battery/linear_battery/state" to="battery_state"/>
+    </node>
+    
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_gimbal_pan"
+      args="/model/$(arg name)/joint/pan_gimbal_joint/cmd_vel@std_msgs/Float64]ignition.msgs.Double">
+      <remap from="/model/$(arg name)/joint/pan_gimbal_joint/cmd_vel" to="pan_tilt/pan_rate_cmd_double"/>
+    </node>
+    
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_gimbal_tilt"
+      args="/model/$(arg name)/joint/tilt_gimbal_joint/cmd_vel@std_msgs/Float64]ignition.msgs.Double">
+      <remap from="/model/$(arg name)/joint/tilt_gimbal_joint/cmd_vel" to="pan_tilt/tilt_rate_cmd_double"/>
+    </node>
+    
+    <!-- Joint Publisher (Publishes to topic but doesn't control...)-->
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_joint_state_publisher"
+      args="/world/$(arg world_name)/model/$(arg name)/joint_state@sensor_msgs/JointState[ignition.msgs.Model">
+      <remap from="/world/$(arg world_name)/model/$(arg name)/joint_state" to="joint_state"/>-->
+    </node>
+
+    <!--Forward Facing RGBD camera -->
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_camera_front"
+      args="$(arg sensor_prefix)/camera_front/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+      <remap from="$(arg sensor_prefix)/camera_front/camera_info" to="front_facing/camera_info"/>
+    </node>
+    <node
+      pkg="ros_ign_image"
+      type="image_bridge"
+      name="ros_ign_image_camera_front"
+      args="$(arg sensor_prefix)/camera_front/image">
+      <remap from="$(arg sensor_prefix)/camera_front/image" to="front_facing/image_raw"/>
+    </node>
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_rgbd_front"
+      args="$(arg sensor_prefix)/camera_front/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
+      <remap from="$(arg sensor_prefix)/camera_front/points" to="front_facing_rgbd_camera/depth/points"/>
+    </node>
+    <node
+      pkg="ros_ign_image"
+      type="image_bridge"
+      name="ros_ign_image_depth_front"
+      args="$(arg sensor_prefix)/camera_front/depth_image">
+      <remap from="$(arg sensor_prefix)/camera_front/depth_image" to="front_facing/depth"/>
+    </node>
+
+    <!--30 Degree downward looking RGBD camera -->
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_camera_down"
+      args="$(arg sensor_prefix)/camera_down/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+      <remap from="$(arg sensor_prefix)/camera_down/camera_info" to="front_down/camera_info"/>
+    </node>
+    <node
+      pkg="ros_ign_image"
+      type="image_bridge"
+      name="ros_ign_image_camera_down"
+      args="$(arg sensor_prefix)/camera_down/image">
+      <remap from="$(arg sensor_prefix)/camera_down/image" to="front_down/image_raw"/>
+    </node>
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_rgbd_down"
+      args="$(arg sensor_prefix)/camera_down/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
+      <remap from="$(arg sensor_prefix)/camera_down/points" to="front_down_rgbd_camera/depth/points"/>
+    </node>
+    <node
+      pkg="ros_ign_image"
+      type="image_bridge"
+      name="ros_ign_image_depth_down"
+      args="$(arg sensor_prefix)/camera_down/depth_image">
+      <remap from="$(arg sensor_prefix)/camera_down/depth_image" to="front_down/depth"/>
+    </node>
+
+      <!--Pan Tilt RGBD camera -->
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_camera_pan_tilt"
+      args="$(arg gimbal_sensor_prefix)/camera_pan_tilt/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+      <remap from="$(arg gimbal_sensor_prefix)/camera_pan_tilt/camera_info" to="pan_tilt/camera_info"/>
+    </node>
+    <node
+      pkg="ros_ign_image"
+      type="image_bridge"
+      name="ros_ign_image_camera_pan_tilt"
+      args="$(arg gimbal_sensor_prefix)/camera_pan_tilt/image">
+      <remap from="$(arg gimbal_sensor_prefix)/camera_pan_tilt/image" to="pan_tilt/image_raw"/>
+    </node>
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_rgbd_pan_tilt"
+      args="$(arg gimbal_sensor_prefix)/camera_pan_tilt/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
+      <remap from="$(arg gimbal_sensor_prefix)/camera_pan_tilt/points" to="pan_tilt_rgbd_camera/depth/points"/>
+    </node>
+    <node
+      pkg="ros_ign_image"
+      type="image_bridge"
+      name="ros_ign_image_depth_pan_tilt"
+      args="$(arg gimbal_sensor_prefix)/camera_pan_tilt/depth_image">
+      <remap from="$(arg gimbal_sensor_prefix)/camera_pan_tilt/depth_image" to="pan_tilt/depth"/>
+    </node>
+
+    <!--OS1-64 3D Laser-->
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_lidar3d"
+      args="$(arg sensor_prefix)/front_laser/scan/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
+      <remap from="$(arg sensor_prefix)/front_laser/scan/points" to="points"/>
+    </node>
+
+    <!-- Planar Laser -->
+    <node
+        pkg="ros_ign_bridge"
+        type="parameter_bridge"
+        name="ros_ign_bridge_gpu_lidar_planar_laser"
+        args="$(arg sensor_prefix)/planar_laser/scan@sensor_msgs/LaserScan[ignition.msgs.LaserScan">
+      <remap from="$(arg sensor_prefix)/planar_laser/scan" to="planar_laser_scan"/>
+    </node>
+
+
+    <!--IMU-->
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_imu"
+      args="$(arg sensor_prefix)/imu_sensor/imu@sensor_msgs/Imu[ignition.msgs.IMU">
+      <remap from="$(arg sensor_prefix)/imu_sensor/imu" to="imu/data"/>
+    </node>
+
+    <!-- Gas sensor -->
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_gas"
+      args="/model/$(arg name)/gas_detected@std_msgs/Bool[ignition.msgs.Boolean">
+      <remap from="/model/$(arg name)/gas_detected" to="gas_detected"/>
+    </node>
+
+  </group>
+</launch>
