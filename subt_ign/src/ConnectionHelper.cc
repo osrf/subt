@@ -197,7 +197,8 @@ bool ConnectionHelper::ComputePoint(VertexData *_tile1, VertexData *_tile2,
       igndbg <<
         _tile1->tileType << " [" << _tile1->model.Pose() << "] -- " <<
         _tile2->tileType << " [" << _tile2->model.Pose() << "]"
-                         << " [" <<  pt1tf << "] [" << pt2tf << "]" << std::endl;
+                         << " [" <<  pt1tf << "] [" << pt2tf << "]"
+                         << std::endl;
     }
   }
 

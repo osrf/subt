@@ -26,7 +26,7 @@ using namespace subt;
 /// \param[in] _str String content of the sdf element
 /// \param[out] _endPos end position of the sdf element string
 /// \return Value for the input key
-std::string parse(const std::string _key, const std::string &_str,
+std::string parse(const std::string &_key, const std::string &_str,
      size_t &_endPos)
 {
   std::string elemStartStr = "<" + _key + ">";
@@ -49,7 +49,7 @@ std::string parse(const std::string _key, const std::string &_str,
 /// \param[in] _key SDF element key
 /// \param[in] _str String content of the sdf element
 /// \return Value for the input key
-std::string parse(const std::string _key, const std::string &_str)
+std::string parse(const std::string &_key, const std::string &_str)
 {
   size_t endPos;
   return parse(_key, _str, endPos);
@@ -109,7 +109,7 @@ void printGraph(std::vector<VertexData> &_vertexData)
           cost = 6;
 
         out << _vertexData[i].id << " -- " << _vertexData[j].id
-            << " " << "[label=" << cost << "];\n" ;
+            << " " << "[label=" << cost << "];\n";
       }
     }
   }
