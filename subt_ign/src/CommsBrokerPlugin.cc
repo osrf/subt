@@ -258,6 +258,9 @@ void CommsBrokerPlugin::OnPose(const ignition::msgs::Pose_V &_msg)
   for (int i = 0; i < _msg.pose_size(); ++i)
     this->poses[_msg.pose(i).name()] = ignition::msgs::Convert(_msg.pose(i));
 
+  // Update the visibility graph if needed.
+  this->UpdateIfNewBreadcrumbs();
+
   // double dt = (this->simTime - this->lastROSParameterCheckTime).Double();
 
   // Todo: Remove this line and enable the block below when ROS parameter
@@ -298,4 +301,30 @@ void CommsBrokerPlugin::OnPose(const ignition::msgs::Pose_V &_msg)
   // Dispatch all the incoming messages, deciding whether the destination gets
   // the message according to the communication model.
   this->broker.DispatchMessages();
+}
+
+/////////////////////////////////////////////////
+void CommsBrokerPlugin::UpdateIfNewBreadcrumbs()
+{
+  bool newBreadcrumbFound = false;
+  for (const auto& [name, pose] : this->poses)
+  {
+    // New breadcrumb found.
+    if (name.find("__breadcrumb__") != std::string::npos &&
+        this->breadcrumbs.find(name) == this->breadcrumbs.end())
+    {
+      this->breadcrumbs[name] = pose;
+      newBreadcrumbFound = true;
+    }
+  }
+
+  // Update the comms.
+  if (newBreadcrumbFound)
+  {
+    std::set<ignition::math::Vector3d> breadcrumbPoses;
+    for (const auto& [name, pose] : this->breadcrumbs)
+      breadcrumbPoses.insert(pose.Pos());
+    this->visibilityModel->PopulateVisibilityInfo(breadcrumbPoses);
+    ignmsg << "New breadcrumb detected, visibility graph updated" << std::endl;
+  }
 }
