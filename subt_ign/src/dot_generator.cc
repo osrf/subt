@@ -77,13 +77,14 @@ void printGraph(std::vector<VertexData> &_vertexData)
     {
       type = "base_station";
       name = "BaseStation";
+      out << "  /* Base station / Staging area */\n";
     }
     out << "  " << vd.id;
     if (vd.id < 10)
       out << " ";
     out << "  " << "[label=\"" << vd.id << "::" << type
         << "::" << name << "\"];\n";
-    if (vd.id == 0)
+    if (type == "base_station")
       out << std::endl;
   }
 
@@ -102,8 +103,16 @@ void printGraph(std::vector<VertexData> &_vertexData)
             subt::ConnectionHelper::connectionTypes[_vertexData[i].tileType];
         auto tp2 =
             subt::ConnectionHelper::connectionTypes[_vertexData[j].tileType];
-        if (tp1 == subt::ConnectionHelper::STRAIGHT &&
-            tp2 == subt::ConnectionHelper::STRAIGHT)
+
+        // Is one of the tile a starting area? If so, the cost should be 1.
+        bool connectsToStaging =
+          _vertexData[i].tileType == "Cave Starting Area" ||
+          _vertexData[i].tileType == "Urban Starting Area" ||
+          _vertexData[j].tileType == "Cave Starting Area" ||
+          _vertexData[j].tileType == "Urban Starting Area";
+
+        if ((tp1 == subt::ConnectionHelper::STRAIGHT &&
+            tp2 == subt::ConnectionHelper::STRAIGHT) || connectsToStaging)
           cost = 1;
         else if (tp1 == subt::ConnectionHelper::TURN &&
             tp2 == subt::ConnectionHelper::STRAIGHT)
@@ -114,6 +123,8 @@ void printGraph(std::vector<VertexData> &_vertexData)
         else
           cost = 6;
 
+        if (connectsToStaging)
+          out << "  /* Base station */\n";
         out << "  " << _vertexData[i].id;
         if (_vertexData[i].id < 10)
          out <<  " ";
