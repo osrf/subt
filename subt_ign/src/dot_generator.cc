@@ -162,7 +162,16 @@ bool fillVertexData(const std::string &_includeStr, VertexData &_vd)
   modelSdf.SetPose(pose);
 
   static int tileId = 0;
-  _vd.id = tileId++;
+  // Try getting the tile id from the tile name first.
+  try
+  {
+    int numIndex = name.rfind("_");
+    _vd.id = std::stoi(name.substr(numIndex+1));
+  }
+  catch (...)
+  {
+    _vd.id = tileId++;
+  }
   _vd.tileType = modelType;
   _vd.tileName = name;
   _vd.model = modelSdf;
