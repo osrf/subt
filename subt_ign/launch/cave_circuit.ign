@@ -474,21 +474,6 @@
     "      <update_rate>10</update_rate>"\
     "      <type>gas</type>"\
     "    </plugin>\n"\
-    "    <plugin filename=\"libignition-gazebo-breadcrumbs-system.so\"\n"\
-    "      name=\"ignition::gazebo::systems::Breadcrumbs\">\n"\
-    "      <topic>/model/#{_name}/breadcrumb/deploy</topic>\n"\
-    "      <max_deployments>3</max_deployments>"\
-    "      <breadcrumb>\n"\
-    "        <sdf version=\"1.6\">\n"\
-    "          <model name=\"#{_name}__breadcrumb__\">\n"\
-    "            <pose>-1.2 0 0 0 0 0</pose>\n"\
-    "            <include>\n"\
-    "              <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Breadcrumb Node</uri>\n"\
-    "            </include>\n"\
-    "          </model>\n"\
-    "        </sdf>\n"\
-    "      </breadcrumb>\n"\
-    "    </plugin>\n"\
     "  </include>\n"\
     "  </sdf>\n"\
     "</plugin>\n"\
@@ -568,21 +553,6 @@
     "      <topic>/model/#{_name}/gas_detected</topic>\n"\
     "      <update_rate>10</update_rate>"\
     "      <type>gas</type>"\
-    "    </plugin>\n"\
-    "    <plugin filename=\"libignition-gazebo-breadcrumbs-system.so\"\n"\
-    "      name=\"ignition::gazebo::systems::Breadcrumbs\">\n"\
-    "      <topic>/model/#{_name}/breadcrumb/deploy</topic>\n"\
-    "      <max_deployments>3</max_deployments>"\
-    "      <breadcrumb>\n"\
-    "        <sdf version=\"1.6\">\n"\
-    "          <model name=\"#{_name}__breadcrumb__\">\n"\
-    "            <pose>-1.2 0 0 0 0 0</pose>\n"\
-    "            <include>\n"\
-    "              <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Breadcrumb Node</uri>\n"\
-    "            </include>\n"\
-    "          </model>\n"\
-    "        </sdf>\n"\
-    "      </breadcrumb>\n"\
     "    </plugin>\n"\
     "  </include>\n"\
     "  </sdf>\n"\
