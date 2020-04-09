@@ -261,6 +261,31 @@ class subt::GameLogicPluginPrivate
 
   /// \brief The world name.
   public: std::string worldName = "default";
+
+  /// \brief Offsets from each artifact's origin to its localization point.
+  /// The gas artifact has a location point of zero because it is placed at
+  /// the center point of the entry door threshold at floor level.
+  ///
+  /// Refer to:
+  /// https://subtchallenge.com/resources/SubT_Urban_Artifacts_Specification.pdf
+  public: std::map<subt::ArtifactType, ignition::math::Vector3d>
+          artifactOffsets =
+  {
+    {subt::ArtifactType::TYPE_BACKPACK,
+      ignition::math::Vector3d(0, -0.12766, 0.25668)},
+    {subt::ArtifactType::TYPE_DRILL,
+      ignition::math::Vector3d(0, 0.059073, 0.158863)},
+    {subt::ArtifactType::TYPE_EXTINGUISHER,
+      ignition::math::Vector3d(-0.03557, -0.03509, 0.3479)},
+    {subt::ArtifactType::TYPE_GAS,
+      ignition::math::Vector3d(0, 0, 0)},
+    {subt::ArtifactType::TYPE_PHONE,
+      ignition::math::Vector3d(0, -0.004, 0.08)},
+    {subt::ArtifactType::TYPE_RESCUE_RANDY,
+      ignition::math::Vector3d(-0.071305, 0.021966, 0.39217)},
+    {subt::ArtifactType::TYPE_VENT,
+      ignition::math::Vector3d(0, 0, 0.138369)}
+  };
 };
 
 //////////////////////////////////////////////////
@@ -315,7 +340,7 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
       if (!homePath)
       {
         ignerr << "Unable to get HOME environment variable. Report this error "
-          << "to https://bitbucket.org/osrf/subt/issues/new. "
+          << "to https://github.com/osrf/subt/issues/new. "
           << "SubT logging will be disabled.\n";
       }
       else
@@ -468,7 +493,16 @@ void GameLogicPlugin::PostUpdate(
           {
             if (artifact.first == _nameComp->Data())
             {
-              artifact.second = _poseComp->Data();
+              // Get a rotation matrix for the artifact
+              ignition::math::Matrix3d mat(_poseComp->Data().Rot());
+
+              // Compute the localization point
+              ignition::math::Vector3d localizationPoint =
+                _poseComp->Data().Pos() +
+                mat * this->dataPtr->artifactOffsets[artifactPair.first];
+
+              // Store the final localization point.
+              artifact.second.Pos() = localizationPoint;
               break;
             }
           }
@@ -560,7 +594,7 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
   {
     _resp.set_report_status("run not started");
   }
-  else if (this->reportCount > this->reportCountLimit)
+  else if (this->reportCount >= this->reportCountLimit)
   {
     _resp.set_report_status("report limit exceeded");
   }
