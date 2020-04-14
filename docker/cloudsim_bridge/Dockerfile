@@ -25,7 +25,6 @@ RUN apt-get update -qq \
         libspnav-dev \
         libusb-dev \
         lsb-release \
-        mercurial \
         python3-dbg \
         python3-empy \
         python3-numpy \
@@ -103,7 +102,7 @@ RUN rosdep update
 # docker is run
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
- && hg clone https://bitbucket.org/osrf/subt
+ && git clone https://github.com/osrf/subt
 
 WORKDIR /home/$USERNAME/subt_ws
 

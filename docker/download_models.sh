@@ -112,14 +112,27 @@ ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/C
 ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Starting Area" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Cap" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave 3 Way 01" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave 3 Way 01 Lights" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Vertical Shaft" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Vertical Shaft Lights" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Elevation" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Elevation Lights" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Corner 01" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Corner 01 Lights" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Corner 02" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Corner 02 Lights" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Corner 30" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Corner 30 D" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Corner 30 D Lights" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Corner 30F" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Corner 30F D" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Corner 30F D Lights" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Straight 01" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Straight 01 Lights" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Straight 02" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Straight 02 Lights" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Straight 03" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Straight 04" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Straight 04 Lights" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Straight 05" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Straight 05 Lights" -v 4
