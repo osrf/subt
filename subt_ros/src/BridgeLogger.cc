@@ -19,6 +19,7 @@
 #include <fstream>
 #include <ros/ros.h>
 #include <std_msgs/String.h>
+#include <geometry_msgs/TransformStamped.h>
 #include <sensor_msgs/BatteryState.h>
 #include <sensor_msgs/CompressedImage.h>
 #include <sensor_msgs/Image.h>
@@ -69,6 +70,11 @@ class BridgeLogger
 
   /// \brief Timer that triggers the update function.
   private: ros::Timer updateTimer;
+
+  private: std::map<std::string,
+      std::chrono::time_point<std::chrono::steady_clock>> topicTimestamp;
+
+  private: std::chrono::time_point<std::chrono::steady_clock> lastHeartbeatTime;
 };
 
 /////////////////////////////////////////////////
@@ -97,6 +103,7 @@ void BridgeLogger::Update(const ros::TimerEvent &)
 
     // Skip if the topic has already been added to `this->streams` or if
     // the topic is one that we don't monitor, such as parameter updates.
+
     if (this->streams.find(info.name) != this->streams.end() ||
         info.name.find("parameter_descriptions") != std::string::npos ||
         info.name.find("parameter_updates") != std::string::npos ||
@@ -115,7 +122,8 @@ void BridgeLogger::Update(const ros::TimerEvent &)
         info.name.find("magnetic_field") != std::string::npos ||
         info.name.find("air_pressure") != std::string::npos ||
         info.name.find("battery_state") != std::string::npos ||
-        info.name.find("imu") != std::string::npos)
+        info.name.find("imu") != std::string::npos ||
+        info.name.find("pose") != std::string::npos)
     {
       boost::function<
         void(const topic_tools::ShapeShifter::ConstPtr&)> callback;
@@ -150,6 +158,7 @@ void BridgeLogger::Update(const ros::TimerEvent &)
       this->subscribers.push_back(
           this->n.subscribe(info.name, 1000, callback));
     }
+
   }
 }
 
@@ -204,12 +213,46 @@ void BridgeLogger::OnSensorMsg(const topic_tools::ShapeShifter::ConstPtr &_msg,
     const auto msg = _msg->instantiate<theora_image_transport::Packet>();
     seq = msg->header.seq;
   }
+  else if (_msg->getDataType() == "geometry_msgs/TransformStamped")
+  {
+    const auto msg = _msg->instantiate<geometry_msgs::TransformStamped>();
+    seq = msg->header.seq;
+  }
   else
   {
     // Debug output.
     // ROS_ERROR("Data type[%s] not handled", _msg->getDataType().c_str());
     return;
   }
+
+  // check heartbeat
+  auto tdiff = systemTime - this->lastHeartbeatTime;
+  auto seconds =
+      std::chrono::duration_cast<std::chrono::milliseconds>(tdiff).count() /
+      1000.0;
+  if (seconds > 5.0)
+  {
+    // check topic heartbeat
+    for (auto &tIt : this->streams)
+    {
+      std::string topic = tIt.first;
+      auto it = this->topicTimestamp.find(topic);
+      if (it != this->topicTimestamp.end())
+      {
+        auto d = systemTime - it->second;
+        seconds = std::chrono::duration_cast<std::chrono::milliseconds>(d).count() /
+                  1000.0;
+        if (seconds > 5.0)
+        {
+          this->streams[topic] << "***Error: No messages received for more than "
+                               << "5 seconds ***\n";
+        }
+      }
+    }
+    this->lastHeartbeatTime = systemTime;
+  }
+  // log msg time received in wall clock time
+  this->topicTimestamp[_topic] = systemTime;
 
   // Check if a message was missed.
   if (this->prevSeq[_topic] + 1 != seq && this->prevSeq[_topic] >= 0)
@@ -223,6 +266,8 @@ void BridgeLogger::OnSensorMsg(const topic_tools::ShapeShifter::ConstPtr &_msg,
     << diff.count() << std::endl;
 
   this->prevSeq[_topic] = seq;
+
+
 }
 
 /////////////////////////////////////////////////
