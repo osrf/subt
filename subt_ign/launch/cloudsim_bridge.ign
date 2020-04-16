@@ -98,7 +98,7 @@
     if _config == "1" or _config == "2"
       laserScan=1
     end
-    if _config == "3" or _config == "4"
+    if _config == "3" or _config == "4" or _config == "7" or _config == "8"
       lidar3d=1
     end
     if _config == "5"
@@ -180,7 +180,7 @@
   robotNames.each_with_index do |name, i|
     config = robotConfigs[i]
     robotConfigN = config[-1]
-    if robotConfigs[i][1] == "1" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5")
+    if robotConfigs[i][1] == "1" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5" or robotConfigN == "7" or robotConfigN == "8")
 %>
 <%=   spawnX1(robotNames[i], robotConfigs[i][-1]) %>
 <%  elsif robotConfigs[i][1] == "2" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5" or robotConfigN == "6") %>

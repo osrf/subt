@@ -125,6 +125,7 @@
       <enabled>true</enabled>
       <!-- This path is used by cloudsim, please do not change -->
       <path>/tmp/ign/logs</path>
+      <overwrite>true</overwrite>
     </record>
     <%if defined?(seed) && seed != nil && !seed.empty?%>
     <seed><%= seed %></seed>
@@ -287,6 +288,10 @@
         <name>gas_4</name>
         <type>TYPE_GAS</type>
       </artifact>
+      <artifact>
+        <name>gas_5</name>
+        <type>TYPE_GAS</type>
+      </artifact>
     </plugin>
   </plugin>
 
@@ -362,6 +367,11 @@
           <title>Entity tree</title>
         </ignition-gui>
       </plugin> -->
+
+      <!-- Transform Control -->
+      <!-- <plugin filename="TransformControl" name="Transform Control">
+        <service>/world/<%= $worldName %>/gui/transform_mode</service>
+      </plugin> -->
     </plugin>
   </executable_wrapper>
   <%end%>
@@ -414,11 +424,16 @@
     if _config == "1" or _config == "2"
       laserScan=1
     end
-    if _config == "3" or _config == "4"
+    if _config == "3" or _config == "4" or _config == "7" or _config == "8"
       lidar3d=1
     end
     if _config == "5"
       stereoCam=1
+    end
+
+    max_breadcrumbs = 0
+    if _config == "7" or _config == "8"
+      max_breadcrumbs = 12
     end
 
     z = _z + 0.2
@@ -473,6 +488,21 @@
     "      <topic>/model/#{_name}/gas_detected</topic>\n"\
     "      <update_rate>10</update_rate>"\
     "      <type>gas</type>"\
+    "    </plugin>\n"\
+    "    <plugin filename=\"libignition-gazebo-breadcrumbs-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::Breadcrumbs\">\n"\
+    "      <topic>/model/#{_name}/breadcrumb/deploy</topic>\n"\
+    "      <max_deployments>#{max_breadcrumbs}</max_deployments>"\
+    "      <breadcrumb>\n"\
+    "        <sdf version=\"1.6\">\n"\
+    "          <model name=\"#{_name}__breadcrumb__\">\n"\
+    "            <pose>-1.2 0 0 0 0 0</pose>\n"\
+    "            <include>\n"\
+    "              <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Breadcrumb Node</uri>\n"\
+    "            </include>\n"\
+    "          </model>\n"\
+    "        </sdf>\n"\
+    "      </breadcrumb>\n"\
     "    </plugin>\n"\
     "  </include>\n"\
     "  </sdf>\n"\
@@ -1018,7 +1048,7 @@
     posX = x + spawnWorldXPos
     posY = y + spawnWorldYPos
 
-    if robotType == "1" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5")
+    if robotType == "1" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5" or robotConfigN == "7" or robotConfigN == "8")
       robotSpawned += 1
 %>
 <%=   spawnX1(name, robotConfigN, posX, posY, spawnWorldZPos, spawnWorldYaw) %>
