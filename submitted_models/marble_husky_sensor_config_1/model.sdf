@@ -421,12 +421,12 @@
           <range>
             <min>0.025</min>
             <max>120</max>
-            <resolution>0.01</resolution>
+            <resolution>0.003</resolution>
           </range>
           <noise>
             <type>gaussian</type>
             <mean>0</mean>
-            <stddev>0.01</stddev>
+            <stddev>0.03</stddev>
           </noise>
         </lidar>
         <pose frame="">0.424 0 0.387 0 -0 0</pose>
