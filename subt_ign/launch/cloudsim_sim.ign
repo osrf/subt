@@ -565,6 +565,11 @@
   end
 
   def spawnX2(_name, _config, _x, _y, _z, _yaw)
+    max_breadcrumbs = 0
+    if _config == "8" or _config == "9"
+      max_breadcrumbs = 6
+    end
+
     z = _z + 0.063494
     "<plugin name=\"ignition::launch::GazeboFactory\"\n"\
     "        filename=\"libignition-launch-gazebo-factory.so\">\n"\
@@ -617,6 +622,21 @@
     "      <topic>/model/#{_name}/gas_detected</topic>\n"\
     "      <update_rate>10</update_rate>"\
     "      <type>gas</type>"\
+    "    </plugin>\n"\
+    "    <plugin filename=\"libignition-gazebo-breadcrumbs-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::Breadcrumbs\">\n"\
+    "      <topic>/model/#{_name}/breadcrumb/deploy</topic>\n"\
+    "      <max_deployments>#{max_breadcrumbs}</max_deployments>"\
+    "      <breadcrumb>\n"\
+    "        <sdf version=\"1.6\">\n"\
+    "          <model name=\"#{_name}__breadcrumb__\">\n"\
+    "            <pose>-1.2 0 0 0 0 0</pose>\n"\
+    "            <include>\n"\
+    "              <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Breadcrumb Node</uri>\n"\
+    "            </include>\n"\
+    "          </model>\n"\
+    "        </sdf>\n"\
+    "      </breadcrumb>\n"\
     "    </plugin>\n"\
     "  </include>\n"\
     "  </sdf>\n"\
@@ -1037,12 +1057,12 @@
     posX = x + spawnWorldXPos
     posY = y + spawnWorldYPos
 
-    if robotType == "1" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5")
+    if robotType == "1" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5" or robotConfigN == "7" or robotConfigN == "8")
       robotSpawned += 1
 %>
 <%=   spawnX1(name, robotConfigN, posX, posY, spawnWorldZPos, spawnWorldYaw) %>
 <%
-    elsif robotType == "2" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5" or robotConfigN == "6")
+    elsif robotType == "2" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5" or robotConfigN == "6" or robotConfigN == "8" or robotConfigN == "9")
       robotSpawned += 1
 %>
 <%=   spawnX2(name, robotConfigN, posX, posY, spawnWorldZPos, spawnWorldYaw) %>
