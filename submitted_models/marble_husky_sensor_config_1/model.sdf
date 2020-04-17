@@ -369,7 +369,7 @@
         <always_on>1</always_on>
         <update_rate>30</update_rate>
         <visualize>0</visualize>
-        
+        <pose frame="">0.468 0 0.335 0 0.5236 0</pose>
       </sensor>
       <gravity>1</gravity>
       <velocity_decay/>
@@ -952,7 +952,7 @@
         </geometry>
       </visual>
       <light name="flashlight_flashlight_light_source_lamp_light" type="spot">
-        <pose frame="">0.0 0.0 0.065 3.141592653589793 1.8207926535897934 -0.0015926535897931</pose>
+        <pose frame="">0.0 0.0 0.065 3.141592653589793 1.5707963267948966 -0.0015926535897931</pose>
         <attenuation>
           <range>50</range>
           <linear>0</linear>
@@ -962,14 +962,15 @@
         <diffuse>0.8 0.8 0.5 1</diffuse>
         <specular>0.8 0.8 0.5 1</specular>
         <spot>
-          <inner_angle>1.2</inner_angle>
-          <outer_angle>1.3</outer_angle>
+          <!-- The lights on the MARBLE ground vehicles are very wide angle, 100W LEDs -->
+          <inner_angle>2.8</inner_angle>
+          <outer_angle>2.9</outer_angle>
           <falloff>1</falloff>
         </spot>
         <direction>0 0 -1</direction>
       </light>
       <visual name="flashlight_flashlight_light_source_lamp_viz_visual">
-        <pose>0.0 0.0 0.065 3.141592653589793 1.8207926535897934 -0.0015926535897931</pose>
+        <pose>0.0 0.0 0.065 3.141592653589793 1.5707963267948966 -0.0015926535897931</pose>
         <geometry>
           <cylinder>
             <radius>0.019</radius>
