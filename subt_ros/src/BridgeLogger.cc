@@ -19,7 +19,6 @@
 #include <fstream>
 #include <ros/ros.h>
 #include <std_msgs/String.h>
-#include <geometry_msgs/TransformStamped.h>
 #include <sensor_msgs/BatteryState.h>
 #include <sensor_msgs/CompressedImage.h>
 #include <sensor_msgs/Image.h>
@@ -212,11 +211,6 @@ void BridgeLogger::OnSensorMsg(const topic_tools::ShapeShifter::ConstPtr &_msg,
     const auto msg = _msg->instantiate<theora_image_transport::Packet>();
     seq = msg->header.seq;
   }
-  else if (_msg->getDataType() == "geometry_msgs/TransformStamped")
-  {
-    const auto msg = _msg->instantiate<geometry_msgs::TransformStamped>();
-    seq = msg->header.seq;
-  }
   else
   {
     // Debug output.
@@ -239,12 +233,13 @@ void BridgeLogger::OnSensorMsg(const topic_tools::ShapeShifter::ConstPtr &_msg,
       if (it != this->topicTimestamp.end())
       {
         auto d = systemTime - it->second;
-        seconds = std::chrono::duration_cast<std::chrono::milliseconds>(d).count() /
-                  1000.0;
+        seconds =
+            std::chrono::duration_cast<std::chrono::milliseconds>(d).count() /
+            1000.0;
         if (seconds > 5.0)
         {
-          this->streams[topic] << "***Error: No messages received for more than "
-                               << "5 seconds ***\n";
+          this->streams[topic] << "***Error: No messages received for more than"
+                               << " 5 seconds ***\n";
         }
       }
     }
@@ -265,8 +260,6 @@ void BridgeLogger::OnSensorMsg(const topic_tools::ShapeShifter::ConstPtr &_msg,
     << diff.count() << std::endl;
 
   this->prevSeq[_topic] = seq;
-
-
 }
 
 /////////////////////////////////////////////////
