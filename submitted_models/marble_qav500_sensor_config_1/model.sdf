@@ -120,8 +120,10 @@
                 <diffuse>0.8 0.8 0.5 1</diffuse>
                 <specular>0.8 0.8 0.5 1</specular>
                 <spot>
-                    <inner_angle>1</inner_angle>
-                    <outer_angle>1.1</outer_angle>
+                  <!-- The real vehicle doesn't have a light currently, but for simulation
+                    purposes, we added one like the ones on the husky and hd2 -->
+                    <inner_angle>2.8</inner_angle>
+                    <outer_angle>2.9</outer_angle>
                     <falloff>1</falloff>
                 </spot>
                 <direction>0 0 -1</direction>
