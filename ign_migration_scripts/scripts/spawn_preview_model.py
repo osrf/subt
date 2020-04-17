@@ -74,6 +74,9 @@ def spawn_preview_model(args):
     etree.SubElement(plugin, 'publish_collision_pose').text = 'false'
     etree.SubElement(plugin, 'publish_visual_pose').text = 'false'
     etree.SubElement(plugin, 'publish_nested_model_pose').text = 'true'
+    etree.SubElement(plugin, 'use_pose_vector_msg').text = 'true'
+    etree.SubElement(plugin, 'static_pose_publisher').text = 'true'
+    etree.SubElement(plugin, 'static_pose_update_frequency').text = '1'
 
     sdf_esc = etree.tostring(sdf, encoding="unicode",
                              with_tail=False).replace('"', r'\"').replace('\n', '')

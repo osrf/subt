@@ -122,8 +122,7 @@ void BridgeLogger::Update(const ros::TimerEvent &)
         info.name.find("magnetic_field") != std::string::npos ||
         info.name.find("air_pressure") != std::string::npos ||
         info.name.find("battery_state") != std::string::npos ||
-        info.name.find("imu") != std::string::npos ||
-        info.name.find("pose") != std::string::npos)
+        info.name.find("imu") != std::string::npos)
     {
       boost::function<
         void(const topic_tools::ShapeShifter::ConstPtr&)> callback;
