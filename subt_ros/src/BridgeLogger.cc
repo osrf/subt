@@ -16,6 +16,7 @@
 */
 #include <chrono>
 #include <mutex>
+#include <thread>
 #include <fstream>
 #include <ros/ros.h>
 #include <std_msgs/String.h>
@@ -51,6 +52,9 @@ class BridgeLogger
   private: void OnSensorMsg(const topic_tools::ShapeShifter::ConstPtr &_msg,
                             const std::string &_topic);
 
+  /// \brief Check heartbeat for all topics monitored
+  private: void CheckHeartbeat();
+
   /// \brief ROS node handler.
   private: ros::NodeHandle n;
 
@@ -70,10 +74,13 @@ class BridgeLogger
   /// \brief Timer that triggers the update function.
   private: ros::Timer updateTimer;
 
+  /// \brief A map of topic names and time when their last heartbeat was
+  /// received.
   private: std::map<std::string,
       std::chrono::time_point<std::chrono::steady_clock>> topicTimestamp;
 
-  private: std::chrono::time_point<std::chrono::steady_clock> lastHeartbeatTime;
+  /// \brief Check heartbeat in separate thread
+  private: std::thread heartbeatThread;
 };
 
 /////////////////////////////////////////////////
@@ -84,6 +91,8 @@ BridgeLogger::BridgeLogger()
 
   this->updateTimer = this->n.createTimer(ros::Duration(10.0),
       &BridgeLogger::Update, this);
+
+  this->heartbeatThread = std::thread(&BridgeLogger::CheckHeartbeat, this);
 }
 
 /////////////////////////////////////////////////
@@ -102,7 +111,6 @@ void BridgeLogger::Update(const ros::TimerEvent &)
 
     // Skip if the topic has already been added to `this->streams` or if
     // the topic is one that we don't monitor, such as parameter updates.
-
     if (this->streams.find(info.name) != this->streams.end() ||
         info.name.find("parameter_descriptions") != std::string::npos ||
         info.name.find("parameter_updates") != std::string::npos ||
@@ -156,7 +164,6 @@ void BridgeLogger::Update(const ros::TimerEvent &)
       this->subscribers.push_back(
           this->n.subscribe(info.name, 1000, callback));
     }
-
   }
 }
 
@@ -218,33 +225,6 @@ void BridgeLogger::OnSensorMsg(const topic_tools::ShapeShifter::ConstPtr &_msg,
     return;
   }
 
-  // check heartbeat
-  auto tdiff = systemTime - this->lastHeartbeatTime;
-  auto seconds =
-      std::chrono::duration_cast<std::chrono::milliseconds>(tdiff).count() /
-      1000.0;
-  if (seconds > 5.0)
-  {
-    // check topic heartbeat
-    for (auto &tIt : this->streams)
-    {
-      std::string topic = tIt.first;
-      auto it = this->topicTimestamp.find(topic);
-      if (it != this->topicTimestamp.end())
-      {
-        auto d = systemTime - it->second;
-        seconds =
-            std::chrono::duration_cast<std::chrono::milliseconds>(d).count() /
-            1000.0;
-        if (seconds > 5.0)
-        {
-          this->streams[topic] << "***Error: No messages received for more than"
-                               << " 5 seconds ***\n";
-        }
-      }
-    }
-    this->lastHeartbeatTime = systemTime;
-  }
   // log msg time received in wall clock time
   this->topicTimestamp[_topic] = systemTime;
 
@@ -260,6 +240,40 @@ void BridgeLogger::OnSensorMsg(const topic_tools::ShapeShifter::ConstPtr &_msg,
     << diff.count() << std::endl;
 
   this->prevSeq[_topic] = seq;
+}
+
+/////////////////////////////////////////////////
+void BridgeLogger::CheckHeartbeat()
+{
+  // check heartbeat
+  using namespace std::chrono_literals;
+  double heartbeatCheckPeriod = 5.0;
+  while (ros::ok)
+  {
+    std::this_thread::sleep_for(5s);
+    auto systemTime = std::chrono::steady_clock::now();
+    {
+      std::lock_guard<std::mutex> lock(this->mutex);
+      // check topic heartbeat
+      for (auto &tIt : this->streams)
+      {
+        std::string topic = tIt.first;
+        auto it = this->topicTimestamp.find(topic);
+        if (it != this->topicTimestamp.end())
+        {
+          auto d = systemTime - it->second;
+          auto seconds =
+              std::chrono::duration_cast<std::chrono::milliseconds>(d).count() /
+              1000.0;
+          if (seconds > heartbeatCheckPeriod)
+          {
+            this->streams[topic] << "***Error: No messages received for more "
+                                 << "than 5 seconds ***\n";
+          }
+        }
+      }
+    }
+  }
 }
 
 /////////////////////////////////////////////////
