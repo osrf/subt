@@ -18,4 +18,7 @@ echo "log4j.logger.ros.roscpp=DEBUG" >> /home/developer/.ros/config/rosconsole.c
 # See also https://bitbucket.org/osrf/subt/issues/204
 export ROSCONSOLE_STDOUT_LINE_BUFFERED=1
 
+# atop process monitoring
+atop -R -w /home/developer/.ros/atop_log &
+
 ign launch cloudsim_bridge.ign -v 4 $@

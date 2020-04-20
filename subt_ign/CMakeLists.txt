@@ -130,6 +130,29 @@ install(TARGETS ${artifact_validator_name}
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
 
+set(connection_validator_name ConnectionValidator)
+add_library(${connection_validator_name} SHARED
+  src/ConnectionValidator.cc
+  src/ConnectionValidatorPrivate.cc
+  src/ConnectionHelper.cc
+  src/SimpleDOTParser.cc)
+target_link_libraries(${connection_validator_name}
+  PRIVATE
+    ignition-gazebo${IGN_GAZEBO_VER}::core
+    ignition-common3::ignition-common3
+    ignition-launch1::ignition-launch1
+    ignition-math6::ignition-math6
+    ignition-msgs4::ignition-msgs4
+    ignition-plugin1::loader
+    ignition-transport7::ignition-transport7
+    ${catkin_LIBRARIES}
+    ${protobuf_lib_name}
+)
+install(TARGETS ${connection_validator_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+
 # Create the libCommsBrokerPlugin.so library.
 set(comms_broker_plugin_name CommsBrokerPlugin)
 add_library(${comms_broker_plugin_name}
@@ -153,6 +176,33 @@ target_link_libraries(${comms_broker_plugin_name}
   ${catkin_LIBRARIES}
 )
 install(TARGETS ${comms_broker_plugin_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+
+# Create the libVisibilityPlugin.so library.
+set(visibility_plugin_name VisibilityPlugin)
+add_library(${visibility_plugin_name} SHARED
+  src/VisibilityPlugin.cc
+  src/VisibilityTable.cc
+  src/SimpleDOTParser.cc
+)
+target_include_directories(${visibility_plugin_name}
+  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
+target_link_libraries(${visibility_plugin_name}
+  PRIVATE
+  ignition-gazebo${IGN_GAZEBO_VER}::core
+  ignition-common3::ignition-common3
+  ignition-math6::ignition-math6
+  ignition-msgs4::ignition-msgs4
+  ignition-plugin1::loader
+  ignition-launch1::ignition-launch1
+  ignition-transport7::ignition-transport7
+  sdformat8::sdformat8
+  ${protobuf_lib_name}
+  ${catkin_LIBRARIES}
+)
+install(TARGETS ${visibility_plugin_name}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
@@ -226,6 +276,16 @@ target_link_libraries(log_checker
   ignition-transport8::ignition-transport8-log)
 install(TARGETS log_checker
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+
+add_executable(dot_generator src/dot_generator.cc src/ConnectionHelper.cc)
+target_link_libraries(dot_generator
+  ignition-math6::ignition-math6
+  ignition-common3::ignition-common3
+  sdformat8::sdformat8)
+target_include_directories(dot_generator
+  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
+install(TARGETS dot_generator
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 
 ###########
 ## Tests ##

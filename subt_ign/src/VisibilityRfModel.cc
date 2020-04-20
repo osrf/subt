@@ -87,6 +87,13 @@ rf_power VisibilityModel::ComputeReceivedPower(const double &_txPower,
 }
 
 /////////////////////////////////////////////
+void VisibilityModel::PopulateVisibilityInfo(
+  const std::set<ignition::math::Vector3d> &_relayPoses)
+{
+  this->visibilityTable.PopulateVisibilityInfo(_relayPoses);
+}
+
+/////////////////////////////////////////////
 bool VisibilityModel::VisualizeVisibility(const ignition::msgs::StringMsg &_req,
                                           ignition::msgs::Boolean &_rep)
 {
