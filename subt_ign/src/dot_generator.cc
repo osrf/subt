@@ -170,7 +170,7 @@ bool fillVertexData(const std::string &_includeStr, VertexData &_vd)
     return false;
   sdf::Model modelSdf;
   modelSdf.SetName(name);
-  modelSdf.SetPose(pose);
+  modelSdf.SetRawPose(pose);
 
   static int tileId = 0;
   // Try getting the tile id from the tile name first.

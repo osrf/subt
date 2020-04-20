@@ -195,10 +195,10 @@ bool ConnectionHelper::ComputePoint(VertexData *_tile1, VertexData *_tile2,
 
   for (const auto& pt1 : ConnectionHelper::connectionPoints[_tile1->tileType])
   {
-    auto pt1tf = _tile1->model.Pose().CoordPositionAdd(pt1);
+    auto pt1tf = _tile1->model.RawPose().CoordPositionAdd(pt1);
     for (const auto& pt2 : ConnectionHelper::connectionPoints[_tile2->tileType])
     {
-      auto pt2tf = _tile2->model.Pose().CoordPositionAdd(pt2);
+      auto pt2tf = _tile2->model.RawPose().CoordPositionAdd(pt2);
       if (pt1tf.Equal(pt2tf, 1))
       {
         _pt = pt1tf;
@@ -212,14 +212,14 @@ bool ConnectionHelper::ComputePoint(VertexData *_tile1, VertexData *_tile2,
 
   for (const auto& pt1 : ConnectionHelper::connectionPoints[_tile1->tileType])
   {
-    auto pt1tf = _tile1->model.Pose().CoordPositionAdd(pt1);
+    auto pt1tf = _tile1->model.RawPose().CoordPositionAdd(pt1);
     for (const auto& pt2 :
         ConnectionHelper::connectionPoints[_tile2->tileType])
     {
-      auto pt2tf = _tile2->model.Pose().CoordPositionAdd(pt2);
+      auto pt2tf = _tile2->model.RawPose().CoordPositionAdd(pt2);
       igndbg <<
-        _tile1->tileType << " [" << _tile1->model.Pose() << "] -- " <<
-        _tile2->tileType << " [" << _tile2->model.Pose() << "]"
+        _tile1->tileType << " [" << _tile1->model.RawPose() << "] -- " <<
+        _tile2->tileType << " [" << _tile2->model.RawPose() << "]"
                          << " [" <<  pt1tf << "] [" << pt2tf << "]"
                          << std::endl;
     }

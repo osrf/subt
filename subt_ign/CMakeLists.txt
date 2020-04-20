@@ -21,7 +21,7 @@ find_package(catkin REQUIRED
     subt_communication_broker
 )
 
-find_package(ignition-gazebo3 3.0 QUIET REQUIRED)
+find_package(ignition-gazebo3 REQUIRED)
 set(IGN_GAZEBO_VER ${ignition-gazebo3_VERSION_MAJOR})
 
 file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include)
@@ -140,11 +140,11 @@ target_link_libraries(${connection_validator_name}
   PRIVATE
     ignition-gazebo${IGN_GAZEBO_VER}::core
     ignition-common3::ignition-common3
-    ignition-launch1::ignition-launch1
+    ignition-launch2::ignition-launch2
     ignition-math6::ignition-math6
-    ignition-msgs4::ignition-msgs4
+    ignition-msgs5::ignition-msgs5
     ignition-plugin1::loader
-    ignition-transport7::ignition-transport7
+    ignition-transport8::ignition-transport8
     ${catkin_LIBRARIES}
     ${protobuf_lib_name}
 )
@@ -194,11 +194,11 @@ target_link_libraries(${visibility_plugin_name}
   ignition-gazebo${IGN_GAZEBO_VER}::core
   ignition-common3::ignition-common3
   ignition-math6::ignition-math6
-  ignition-msgs4::ignition-msgs4
+  ignition-msgs5::ignition-msgs5
   ignition-plugin1::loader
-  ignition-launch1::ignition-launch1
-  ignition-transport7::ignition-transport7
-  sdformat8::sdformat8
+  ignition-launch2::ignition-launch2
+  ignition-transport8::ignition-transport8
+  sdformat9::sdformat9
   ${protobuf_lib_name}
   ${catkin_LIBRARIES}
 )
@@ -281,7 +281,7 @@ add_executable(dot_generator src/dot_generator.cc src/ConnectionHelper.cc)
 target_link_libraries(dot_generator
   ignition-math6::ignition-math6
   ignition-common3::ignition-common3
-  sdformat8::sdformat8)
+  sdformat9::sdformat9)
 target_include_directories(dot_generator
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 install(TARGETS dot_generator
