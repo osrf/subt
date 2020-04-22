@@ -72,7 +72,8 @@ bool ConnectionValidatorPrivate::Load(const std::string &_worldName)
           "cave_circuit", suffix);
     }
   }
-  else if (_worldName.find("simple") == std::string::npos)
+  else if (_worldName.find("simple") == std::string::npos &&
+           _worldName.find("_qual") == std::string::npos)
   {
     ignwarn << "Unable to determine circuit number from["
       << _worldName << "].\n";
