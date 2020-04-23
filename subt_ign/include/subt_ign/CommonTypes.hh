@@ -76,7 +76,9 @@ namespace subt
     TYPE_TOOLBOX,
     TYPE_VALVE,
     TYPE_VENT,
-    TYPE_GAS
+    TYPE_GAS,
+    TYPE_HELMET,
+    TYPE_ROPE
   };
 
   /// \def TeamMemberPtr
