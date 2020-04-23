@@ -388,12 +388,18 @@
     if _config == "1" or _config == "2"
       laserScan=1
     end
-    if _config == "3" or _config == "4"
+    if _config == "3" or _config == "4" or _config == "7" or _config == "8"
       lidar3d=1
     end
     if _config == "5"
       stereoCam=1
     end
+
+    max_breadcrumbs = 0
+    if _config == "7" or _config == "8"
+      max_breadcrumbs = 12
+    end
+
     "<plugin name=\"ignition::launch::GazeboFactory\"\n"\
     "        filename=\"libignition-launch-gazebo-factory.so\">\n"\
     "  <name>#{_name}</name>\n"\
@@ -446,7 +452,7 @@
     "  <command>roslaunch --wait subt_ros x1_description.launch world_name:=#{$worldName} name:=#{_name}</command>\n"\
     "</executable>\n"\
     "<executable name='x1_ros_ign_bridge'>\n"\
-      "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} lidar_3d:=#{lidar3d}</command>\n"\
+      "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} lidar_3d:=#{lidar3d} breadcrumbs:=#{max_breadcrumbs>0?1:0}</command>\n"\
     "</executable>\n"
   end
 
@@ -455,15 +461,21 @@
     laserScan=0
     stereoCam=0
     lidar3d=0
-    if _config == "1" or _config == "2" or _config == "3" or _config == "4"
+    if _config == "1" or _config == "2" or _config == "3" or _config == "4" or _config == "9"
       laserScan=1
     end
     if _config == "5"
       stereoCam=1
     end
-    if _config == "6"
+    if _config == "6" or _config == "8"
       lidar3d=1
     end
+
+    max_breadcrumbs = 0
+    if _config == "8" or _config == "9"
+      max_breadcrumbs = 6
+    end
+
     "<plugin name=\"ignition::launch::GazeboFactory\"\n"\
     "        filename=\"libignition-launch-gazebo-factory.so\">\n"\
     "  <name>#{_name}</name>\n"\
@@ -516,7 +528,7 @@
     "  <command>roslaunch --wait subt_ros x2_description.launch world_name:=#{$worldName} name:=#{_name}</command>\n"\
     "</executable>\n"\
     "<executable name='x2_ros_ign_bridge'>\n"\
-    "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} lidar_3d:=#{lidar3d}</command>\n"\
+    "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} lidar_3d:=#{lidar3d} breadcrumbs:=#{max_breadcrumbs>0?1:0}</command>\n"\
     "</executable>\n"
   end
 
@@ -699,7 +711,7 @@
     "  <command>roslaunch --wait subt_ros x3_description.launch world_name:=#{$worldName} name:=#{_name}</command>\n"\
     "</executable>\n"\
     "<executable name='x3_ros_ign_bridge'>\n"\
-      "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} rgbd_cam:=#{rgbdCam}</command>\n"\
+      "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} rgbd_cam:=#{rgbdCam} breadcrumbs:=0</command>\n"\
     "</executable>\n"
   end
 
@@ -935,7 +947,7 @@
     "  <command>roslaunch --wait subt_ros x4_description.launch world_name:=#{$worldName} name:=#{_name}</command>\n"\
     "</executable>\n"\
     "<executable name='x4_ros_ign_bridge'>\n"\
-    "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} rgbd_cam:=#{rgbdCam}</command>\n"\
+    "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} rgbd_cam:=#{rgbdCam} breadcrumbs:=0</command>\n"\
     "</executable>\n"
   end
 %>
