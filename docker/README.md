@@ -10,7 +10,7 @@ Each subdirectory contains a Dockerfile for a particular use case.
 ### `cloudsim_sim`
 
 This is the docker image that will run a simulation instance in the
-same way as CloudSim. Refer to: https://bitbucket.org/osrf/subt/wiki/cloudsim_architecture.
+same way as CloudSim. Refer to: https://github.com/osrf/subt/wiki/Cloudsim%20Architecture.
 
 This image should be used in conjunction with `cloudsim_bridge`.
 
@@ -31,7 +31,7 @@ This image should be used in conjunction with `cloudsim_bridge`.
 ### `cloudsim_bridge`
 
 This is the docker image that with run the cloudsim bridge. Refer to:
-https://bitbucket.org/osrf/subt/wiki/cloudsim_architecture.
+https://github.com/osrf/subt/wiki/Cloudsim%20Architecture.
 
 This image should be used in conjunction with `cloudsim_sim`.
 
