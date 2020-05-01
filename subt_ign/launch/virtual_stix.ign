@@ -26,6 +26,8 @@
 %>
 
 <%
+  teamBaseSpawned = false
+
   # Check if robotNameX and robotConfigX exists
   spawnRowSize = 4
   spawnColSize = 5
@@ -981,9 +983,12 @@
     elsif (name.downcase == "teambase" || name.downcase == "team_base") &&
           (config.downcase == "teambase" || config.downcase == "team_base")
       robotSpawned += 1
+      if !teamBaseSpawned
+        teamBaseSpawned = true
 %>
-<%=   spawnTeamBase(posX, posY, spawnWorldZPos, spawnWorldYaw) %>
+<%=     spawnTeamBase(posX, posY, spawnWorldZPos, spawnWorldYaw) %>
 <%
+      end
     else
       # Try a team-submitted vehicle.
       package = config.downcase
