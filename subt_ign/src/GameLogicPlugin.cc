@@ -65,7 +65,7 @@ class subt::GameLogicPluginPrivate
 {
   /// \brief Mapping between enum types and strings.
   public: const std::array<
-      const std::pair<subt::ArtifactType, std::string>, 12> kArtifactTypes
+      const std::pair<subt::ArtifactType, std::string>, 14> kArtifactTypes
       {
         {
           {subt::ArtifactType::TYPE_BACKPACK      , "TYPE_BACKPACK"},
@@ -79,7 +79,9 @@ class subt::GameLogicPluginPrivate
           {subt::ArtifactType::TYPE_TOOLBOX       , "TYPE_TOOLBOX"},
           {subt::ArtifactType::TYPE_VALVE         , "TYPE_VALVE"},
           {subt::ArtifactType::TYPE_VENT          , "TYPE_VENT"},
-          {subt::ArtifactType::TYPE_GAS           , "TYPE_GAS"}
+          {subt::ArtifactType::TYPE_GAS           , "TYPE_GAS"},
+          {subt::ArtifactType::TYPE_HELMET        , "TYPE_HELMET"},
+          {subt::ArtifactType::TYPE_ROPE          , "TYPE_ROPE"}
         }
       };
 
@@ -279,10 +281,14 @@ class subt::GameLogicPluginPrivate
       ignition::math::Vector3d(-0.03557, -0.03509, 0.3479)},
     {subt::ArtifactType::TYPE_GAS,
       ignition::math::Vector3d(0, 0, 0)},
+    {subt::ArtifactType::TYPE_HELMET,
+      ignition::math::Vector3d(0, 0, 0.165)},
     {subt::ArtifactType::TYPE_PHONE,
       ignition::math::Vector3d(0, -0.004, 0.08)},
     {subt::ArtifactType::TYPE_RESCUE_RANDY,
       ignition::math::Vector3d(-0.071305, 0.021966, 0.39217)},
+    {subt::ArtifactType::TYPE_ROPE,
+      ignition::math::Vector3d(0.004, -0.03, 0.095)},
     {subt::ArtifactType::TYPE_VENT,
       ignition::math::Vector3d(0, 0, 0.138369)}
   };
