@@ -144,20 +144,6 @@
       <node
         pkg="ros_ign_bridge"
         type="parameter_bridge"
-        name="ros_ign_bridge_velocity_control_twist"
-        args="/model/$(arg name)/cmd_vel@geometry_msgs/Twist]ignition.msgs.Twist">
-        <remap from="/model/$(arg name)/cmd_vel" to="cmd_vel"/>
-      </node>
-      <node
-        pkg="ros_ign_bridge"
-        type="parameter_bridge"
-        name="ros_ign_bridge_velocity_control_enable"
-        args="/model/$(arg name)/velocity_controller/enable@std_msgs/Bool]ignition.msgs.Boolean">
-        <remap from="/model/$(arg name)/velocity_controller/enable" to="velocity_controller/enable"/>
-      </node>
-      <node
-        pkg="ros_ign_bridge"
-        type="parameter_bridge"
         name="ros_ign_bridge_magnetometer"
         args="$(arg sensor_prefix)/magnetometer/magnetometer@sensor_msgs/MagneticField[ignition.msgs.Magnetometer">
         <remap from="$(arg sensor_prefix)/magnetometer/magnetometer" to="magnetic_field"/>

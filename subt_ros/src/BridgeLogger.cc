@@ -223,7 +223,6 @@ void BridgeLogger::OnSensorMsg(const topic_tools::ShapeShifter::ConstPtr &_msg,
     << diff.count() << std::endl;
 
   this->prevSeq[_topic] = seq;
-  this->prevTime[_topic] = systemTime;
 }
 
 /////////////////////////////////////////////////
