@@ -70,8 +70,13 @@ bool VisibilityTable::Load(const std::string &_worldName, bool _loadLUT)
   }
   else if (this->worldName.find(cavePrefix) != std::string::npos)
   {
-    // todo(anyone) check for circuit number when there are more
-    // cave circuit worlds
+    std::string suffix = this->worldName.substr(cavePrefix.size());
+    // don't use a subfolder for practice worlds
+    if (0 != suffix.compare(0, 9, "practice_"))
+    {
+      worldsDirectory = ignition::common::joinPaths(worldsDirectory,
+          "cave_circuit", suffix);
+    }
   }
   else if (this->worldName.find("simple") == std::string::npos &&
            this->worldName.find("_qual") == std::string::npos)
