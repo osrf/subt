@@ -115,14 +115,6 @@
       <remap from="$(arg sensor_prefix)/front_laser/scan/points" to="front_laser/points"/>
     </node>
 
-    <node
-      pkg="ros_ign_bridge"
-      type="parameter_bridge"
-      name="ros_ign_bridge_gpu_lidar_front_cliff"
-      args="$(arg sensor_prefix)/front_cliff_laser/scan@sensor_msgs/LaserScan[ignition.msgs.LaserScan">
-      <remap from="$(arg sensor_prefix)/front_cliff_laser/scan" to="front_cliff_scan"/>
-    </node>
-
     <!-- Back Right Camera -->
     <node
       pkg="ros_ign_bridge"
