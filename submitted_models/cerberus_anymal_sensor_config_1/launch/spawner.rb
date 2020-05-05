@@ -12,7 +12,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
       <name>#{_name}</name>
       <uri>#{_modelURI}</uri>
       <!-- ANYmal control -->
-      <plugin filename="libAnymalControlPlugin.so"
+      <plugin filename="libAnymalControlPlugin1.so"
               name="ignition::gazebo::systems::AnymalControlPlugin">
         <jointNames>
           <LF_HAA>LF_HAA</LF_HAA>
@@ -30,7 +30,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         </jointNames>
         <desired_joint_positions_topic>/model/#{_name}/desired_joint_positions_relay</desired_joint_positions_topic>
         <robot_base_twist_topic>/model/#{_name}/robot_base_twist</robot_base_twist_topic>
-        <controller_update_frequency>400.0</controller_update_frequency>
+        <controller_update_frequency>500.0</controller_update_frequency>
       </plugin>
       <!-- Publish robot state information -->
       <plugin filename="libignition-gazebo-pose-publisher-system.so"

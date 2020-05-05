@@ -2,8 +2,8 @@
 <launch>
   <arg name="world_name"/>
   <arg name="name"/>
-  <arg name="link_name" value="base"/>
-  <arg name="sensor_prefix" value="/world/$(arg world_name)/model/$(arg name)/link/$(arg link_name)/sensor"/>
+  <arg name="link_name"       value="base"/>
+  <arg name="sensor_prefix"   value="/world/$(arg world_name)/model/$(arg name)/link/$(arg link_name)/sensor"/>
   <group ns="$(arg name)">
     <!-- Robot's state -->
     <node
@@ -22,9 +22,9 @@
     <node
       pkg="ros_ign_bridge"
       type="parameter_bridge"
-      name="ros_ign_bridge_twist"
-      args="/model/$(arg name)/cmd_vel_relay@geometry_msgs/Twist]ignition.msgs.Twist">
-      <remap from="/model/$(arg name)/cmd_vel_relay" to="cmd_vel"/>
+      name="ros_ign_bridge_base_pose"
+      args="/model/$(arg name)/robot_base_pose@geometry_msgs/TransformStamped[ignition.msgs.Pose">
+      <remap from="/model/$(arg name)/robot_base_pose" to="robot_base_pose"/>
     </node>
 
     <node
@@ -116,10 +116,10 @@
     </node>
 
     <node
-        pkg="ros_ign_bridge"
-        type="parameter_bridge"
-        name="ros_ign_bridge_gpu_lidar_front_cliff"
-        args="$(arg sensor_prefix)/front_cliff_laser/scan@sensor_msgs/LaserScan[ignition.msgs.LaserScan">
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_gpu_lidar_front_cliff"
+      args="$(arg sensor_prefix)/front_cliff_laser/scan@sensor_msgs/LaserScan[ignition.msgs.LaserScan">
       <remap from="$(arg sensor_prefix)/front_cliff_laser/scan" to="front_cliff_scan"/>
     </node>
 
