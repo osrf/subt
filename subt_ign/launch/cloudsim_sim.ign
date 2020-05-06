@@ -10,6 +10,7 @@
             [worldName:=<worldName>
              robotName1:=<robotName> robotConfig1:=<robotConfig>
              robotName2:=<robotName> robotConfig2:=<robotConfig>
+             marsupial1:=<robotName>:<robotName>
              ... ]
 
     The [worldName] command line argument is optional,
@@ -21,6 +22,12 @@
       ign launch cloudsim_sim.ign worldName:=tunnel_circuit_practice_01
           robotName1:=X2_3 robotConfig1:=X2_SENSOR_CONFIG_3
 -->
+
+<%
+  # Needed for adding marsupial robots
+  require "rexml/document"
+%>
+
 <%
   # When 'enableGroundTruth = true' absolute poses of vehicles will be published.
   # This is useful for debugging purposes, but will not be available during
@@ -42,6 +49,22 @@
 %>
 
 <%
+
+  Vector3d = Struct.new(:x, :y, :z)
+  AngularVector3d = Struct.new(:roll, :pitch, :yaw)
+
+  class Robot
+    attr_accessor :name, :config, :type, :configNumber, :pos, :rot
+    def initialize(name, config)
+      @name = name
+      @config = config
+      @type = config.match(/(.*)_SENSOR_CONFIG/)[1]
+      @configNumber = config[-1]
+      @pos = Vector3d.new(0, 0, 0)
+      @rot = AngularVector3d.new(0, 0, 0)
+    end
+  end
+
   # spawn world offset
   if $circuit == "urban"
     spawnWorldXPos = 6
@@ -71,8 +94,66 @@
       name=eval "robotName#{i}"
       config=eval "robotConfig#{i}"
       if name != nil && !name.empty?
-        robots[name] = config
+        raise "Duplicate robot name #{name}" if robots.has_key? name
+        robots[name] = Robot.new(name, config)
       end
+    end
+  end
+
+  MARSUPIAL_VALID_PARENT_ROBOT_TYPES = ["X1"]
+  MARSUPIAL_VALID_CHILD_ROBOT_TYPES = ["X3"]
+
+  MARSUPIAL_PARENT_ROBOT_POSITION_OFFSETS = {
+    "X1" => Vector3d.new(0, 0, 0.235)
+  }
+
+  # key: parent, value: child
+  marsupialParents = Hash.new
+
+  # The logic for validating marsupial robots is:
+  # * Check that parent names are unique
+  # * Check that child names are unique
+  # * Check that each parent and child robot is in the list of robots to be spawned
+  # * Check that parent robots are in the MARSUPIAL_VALID_PARENT_ROBOT_TYPES list
+  # * Check that child robots are in the MARSUPIAL_VALID_CHILD_ROBOT_TYPES list
+  # These criteria ensure that the robots specified in the "marsupial" variables are valid
+  # and that there is a one-to-one relationship between parent and child robots
+
+  # Handle marsupial robots
+  for i in 1..maxRobotCount do
+    if local_variables.include?(:"marsupial#{i}")
+      parent, child = (eval "marsupial#{i}").split(':')
+
+      # Check that parent names are unique
+      if marsupialParents.has_key?(parent)
+        raise "Invalid marsupial configuration: The parent robot [#{parent}] cannot be used more than once"
+      end
+
+      # Check that child names are unique
+      if marsupialParents.has_value?(child)
+        raise "Invalid marsupial configuration: The child robot [#{child}] cannot be used more than once"
+      end
+
+      # Check that each parent and child robot is in the list of robots to be spawned
+      unless robots.has_key?(parent)
+        raise "Invalid marsupial configuration: The parent robot [#{parent}] is not in the list of robots to be spawned"
+      end
+      unless robots.has_key?(child)
+        raise "Invalid marsupial configuration: The child robot [#{child}] is not in the list of robots to be spawned"
+      end
+
+      parentType = robots[parent].type
+      childType = robots[child].type
+      # Check that parent robots are in the MARSUPIAL_VALID_PARENT_ROBOT_TYPES list
+      unless MARSUPIAL_VALID_PARENT_ROBOT_TYPES.include?(parentType)
+        raise "Invalid marsupial configuration: The parent robot [#{parent}] with type [#{parentType}] is not in the list of robots allowed to be marsupial parents. The list is #{MARSUPIAL_VALID_PARENT_ROBOT_TYPES}"
+      end
+      # Check that child robots are in the MARSUPIAL_VALID_CHILD_ROBOT_TYPES list
+      unless MARSUPIAL_VALID_CHILD_ROBOT_TYPES.include?(childType)
+        raise "Invalid marsupial configuration: The child robot [#{child}] with type [#{childType}] is not in the list of robots allowed to be marsupial children: The list is #{MARSUPIAL_VALID_CHILD_ROBOT_TYPES}"
+      end
+
+      marsupialParents[parent] = child
     end
   end
 %>
@@ -576,8 +657,8 @@
     "    <plugin filename=\"libGasEmitterDetectorPlugin.so\"\n"\
     "      name=\"subt::GasDetector\">\n"\
     "      <topic>/model/#{_name}/gas_detected</topic>\n"\
-    "      <update_rate>10</update_rate>"\
-    "      <type>gas</type>"\
+    "      <update_rate>10</update_rate>\n"\
+    "      <type>gas</type>\n"\
     "    </plugin>\n"\
     "    <plugin filename=\"libignition-gazebo-breadcrumbs-system.so\"\n"\
     "      name=\"ignition::gazebo::systems::Breadcrumbs\">\n"\
@@ -1080,38 +1161,59 @@
 %>
 
 <%
+
+  # Reverse hash of mersupials, i.e, key: child, value: parent
+  marsupialChildren = marsupialParents.invert
+
+
+  # Spawn nonmarsupial and parent marsupial robots first. Then spawn child
+  # marsupials since they need the positions of their parents
+  spawnList = robots.select { |name| not marsupialChildren.has_key?(name) }.values +
+              robots.select { |name| marsupialChildren.has_key?(name) }.values
+
   robotSpawned = 0
-  robots.each do |name, config|
-    robotType = config[1]
-    robotConfigN = config[-1]
+  spawnList.each do |robot|
+    name = robot.name
+    config = robot.config
+    robotType = robot.type
+    robotConfigN = robot.configNumber
     posX = -(robotSpawned / spawnColSize * spawnGridSize - spawnRowOffset)
     posY = -(robotSpawned % spawnColSize * spawnGridSize - spawnColOffset)
 
-    x = Math.cos(-spawnWorldYaw) * posX + Math.sin(-spawnWorldYaw) * posY
-    y = -(Math.sin(-spawnWorldYaw)) * posX + Math.cos(-spawnWorldYaw) * posY
-    posX = x + spawnWorldXPos
-    posY = y + spawnWorldYPos
+    # Spawn above parent position if this robot is marsupial child
+    if marsupialChildren.has_key?(name)
+      parentRobot = robots[marsupialChildren[name]]
+      offsetX = MARSUPIAL_PARENT_ROBOT_POSITION_OFFSETS[parentRobot.type].x
+      offsetY = MARSUPIAL_PARENT_ROBOT_POSITION_OFFSETS[parentRobot.type].y
+      robot.pos.x = parentRobot.pos.x + Math.cos(-spawnWorldYaw) * offsetX + Math.sin(-spawnWorldYaw) * offsetY
+      robot.pos.y = parentRobot.pos.y - Math.sin(-spawnWorldYaw) * offsetX + Math.cos(-spawnWorldYaw) * offsetY
+      robot.pos.z = parentRobot.pos.z + MARSUPIAL_PARENT_ROBOT_POSITION_OFFSETS[parentRobot.type].z
+      robot.rot = parentRobot.rot
+    else
+      x = Math.cos(-spawnWorldYaw) * posX + Math.sin(-spawnWorldYaw) * posY
+      y = -(Math.sin(-spawnWorldYaw)) * posX + Math.cos(-spawnWorldYaw) * posY
+      robot.pos.x = x + spawnWorldXPos
+      robot.pos.y = y + spawnWorldYPos
+      robot.pos.z = spawnWorldZPos
+      robot.rot.yaw = spawnWorldYaw
+    end
 
-    if robotType == "1" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5" or robotConfigN == "7" or robotConfigN == "8")
+    spawnStringTmp = ""
+    if robotType == "X1" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5" or robotConfigN == "7" or robotConfigN == "8")
       robotSpawned += 1
-%>
-<%=   spawnX1(name, robotConfigN, posX, posY, spawnWorldZPos, spawnWorldYaw) %>
-<%
-    elsif robotType == "2" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5" or robotConfigN == "6" or robotConfigN == "8" or robotConfigN == "9")
+      spawnStringTmp = spawnX1(name, robotConfigN, robot.pos.x, robot.pos.y, robot.pos.z, robot.rot.yaw)
+    elsif robotType == "X2" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5" or robotConfigN == "6" or robotConfigN == "8" or robotConfigN == "9")
       robotSpawned += 1
-%>
-<%=   spawnX2(name, robotConfigN, posX, posY, spawnWorldZPos, spawnWorldYaw) %>
-<%
-    elsif robotType == "3" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4")
+      spawnStringTmp = spawnX2(name, robotConfigN, robot.pos.x, robot.pos.y, robot.pos.z, robot.rot.yaw)
+    elsif robotType == "X3" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4")
       robotSpawned += 1
-%>
-<%=   spawnX3(name, robotConfigN, posX, posY, spawnWorldZPos, spawnWorldYaw) %>
-<%
-    elsif robotType == "4" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5")
+      spawnStringTmp = spawnX3(name, robotConfigN, robot.pos.x, robot.pos.y, robot.pos.z, robot.rot.yaw)
+
+    elsif robotType == "X4" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5")
       robotSpawned += 1
-%>
-<%=   spawnX4(name, robotConfigN, posX, posY, spawnWorldZPos, spawnWorldYaw) %>
-<%
+
+      spawnStringTmp = spawnX4(name, robotConfigN, robot.pos.x, robot.pos.y, robot.pos.z, robot.rot.yaw)
+
     else
       # Try a team-submitted vehicle.
       package = config.downcase
@@ -1138,25 +1240,52 @@
           # 'X3 UAV Config 4', else use original name
           convention = /^x[[:digit:]]_.*[[:digit:]]/.match(package)
           if convention
-            robotType = config[1]
-            robotConfigN = config[-1]
-            if robotType == "3" or robotType == "4"
+            if robot.type == "X3" or robot.type == "X4"
               mUAVStr = "UAV "
             else
               mUAVStr = ""
             end
-            robotName = "X#{robotType} #{mUAVStr}Config #{robotConfigN}"
+            robotName = "#{robotType} #{mUAVStr}Config #{robotConfigN}"
           else
             robotName = config
           end
           modelURI = "#{fuelPrefix}/#{robotName}"
         end
         robotSpawned += 1
-%>
-<%=     spawner(name, modelURI, $worldName, posX, posY, spawnWorldZPos, 0, 0, spawnWorldYaw) %>
-<%
+
+        spawnStringTmp = spawner(name, modelURI, $worldName, robot.pos.x, robot.pos.y, robot.pos.z, 0, 0, robot.rot.yaw)
+
       end
     end
+
+    if marsupialParents.has_key?(name)
+      childModelName = marsupialParents[name]
+      detachableJointPlugin = REXML::Document.new <<-HEREDOC
+        <plugin filename="libignition-gazebo-detachable-joint-system.so" name="ignition::gazebo::systems::DetachableJoint">
+        <parent_link>base_link</parent_link>
+        <child_model>#{childModelName}</child_model>
+        <child_link>base_link</child_link>
+        <topic>/model/#{childModelName}/detach</topic>
+        </plugin>
+      HEREDOC
+
+      # Wrap the temporary spawn string with a root element. This is needed
+      # because the xml parser needs a root element. When we're adding the
+      # plugin, we print only the contents of the root element.
+      spawnXml = REXML::Document.new("<ignition>#{spawnStringTmp}</ignition>")
+      pluginElem = spawnXml.root.elements['//plugin[@name="ignition::launch::GazeboFactory"]']
+      includeElem = pluginElem.elements['sdf/include']
+      includeElem.add_element(detachableJointPlugin.root)
+
+      spawnString = ""
+      formatter = REXML::Formatters::Default.new
+      spawnXml.root.each { |el| formatter.write(el, spawnString) }
+    else
+      spawnString = spawnStringTmp
+    end
+%>
+<%= spawnString%>
+<%
   end
 %>
 

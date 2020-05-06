@@ -10,6 +10,7 @@
     Usage: ign launch cloudsim_bridge.ign
             [worldName:=<worldName>
              robotNameX:=<robotName> robotConfigX:=<robotConfig>
+             marsupial1:=<robotName>:<robotName>
              ... ]
 
     The [worldName] command line argument is optional,
@@ -56,6 +57,17 @@
   end
   fail ArgumentError, "missing robotNameX argument" if robotNames.nil? or robotNames.empty?
   fail ArgumentError, "missing robotConfigX argument" if robotConfigs.nil? or robotConfigs.empty?
+
+  marsupialParents = Hash.new
+  # We skip validation of marsupial robots here since this runs together with cloudsim_sim.ign which does the validation.
+
+  # Handle marsupial robots
+  for i in 1..maxRobotCount do
+    if local_variables.include?(:"marsupial#{i}")
+      parent, child = (eval "marsupial#{i}").split(':')
+      marsupialParents[parent] = child
+    end
+  end
 %>
 
 <%
@@ -217,6 +229,15 @@
 <%=     rosExecutables(name, $worldName) %>
 <%
       end
+    end
+
+    if marsupialParents.has_key?(name)
+      childModelName = marsupialParents[name]
+%>
+<executable name="<%=childModelName%>_marsupial">
+  <command>roslaunch --wait subt_ros marsupial_topics.launch name:=<%=childModelName%></command>
+</executable>
+<%
     end
   end
 %>
