@@ -1108,8 +1108,10 @@
     # Spawn above parent position if this robot is marsupial child
     if marsupialChildren.has_key?(name)
       parentRobot = robots[marsupialChildren[name]]
-      robot.pos.x = parentRobot.pos.x + MARSUPIAL_PARENT_ROBOT_POSITION_OFFSETS[parentRobot.type].x
-      robot.pos.y = parentRobot.pos.y + MARSUPIAL_PARENT_ROBOT_POSITION_OFFSETS[parentRobot.type].y
+      offsetX = MARSUPIAL_PARENT_ROBOT_POSITION_OFFSETS[parentRobot.type].x
+      offsetY = MARSUPIAL_PARENT_ROBOT_POSITION_OFFSETS[parentRobot.type].y
+      robot.pos.x = parentRobot.pos.x + Math.cos(-spawnWorldYaw) * offsetX + Math.sin(-spawnWorldYaw) * offsetY
+      robot.pos.y = parentRobot.pos.y - Math.sin(-spawnWorldYaw) * offsetX + Math.cos(-spawnWorldYaw) * offsetY
       robot.pos.z = parentRobot.pos.z + MARSUPIAL_PARENT_ROBOT_POSITION_OFFSETS[parentRobot.type].z
       robot.rot = parentRobot.rot
     else
