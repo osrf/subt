@@ -2,7 +2,7 @@
 <robot name="TeamBase" xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:property name="robot_namespace" value="TeamBase"/>
 
-  <link name='${robot_namespace}/base_link'>
+  <link name='${robot_namespace}/link'>
    <visual name='visual'>
       <origin xyz='0 0 0.05' rpy='0 0 0'/>
       <geometry>
