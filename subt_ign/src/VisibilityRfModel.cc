@@ -19,6 +19,9 @@
 #include <ignition/common/Console.hh>
 #include <subt_ign/VisibilityRfModel.hh>
 
+#include <ignition/math.hh>
+#include <ignition/common.hh>
+
 using namespace subt;
 using namespace rf_interface;
 using namespace visibilityModel;
@@ -113,22 +116,25 @@ bool VisibilityModel::VisualizeVisibility(const ignition::msgs::StringMsg &_req,
   //
   // RedGlow, YellowGlow, GreenGlow, TurquoiseGlow, BlueGlow
   // High (good)                                    Low (bad)
-  std::map<int, std::string> indexToColor;
-  indexToColor[0] = "Gazebo/RedGlow";
-  indexToColor[1] = "Gazebo/YellowGlow";
-  indexToColor[2] = "Gazebo/GreenGlow";
-  indexToColor[3] = "Gazebo/TurquoiseGlow";
-  indexToColor[4] = "Gazebo/BlueGlow";
+  std::map<int, ignition::math::Color> indexToColor;
+  indexToColor[0] = ignition::math::Color(1, 0, 0);
+  indexToColor[1] = ignition::math::Color(1, 1, 0);
+  indexToColor[2] = ignition::math::Color(0, 1, 0);
+  indexToColor[3] = ignition::math::Color(0, 1, 1);
+  indexToColor[4] = ignition::math::Color(0, 0, 1);
 
-  for (int i = 0; i < 5; ++i) {
+  for (int i = 0; i < 5; ++i)
+  {
     markerMsg.set_id(i);
 
     ignition::msgs::Material *matMsg = markerMsg.mutable_material();
-    matMsg->mutable_script()->set_name(indexToColor[i]);
-    ignition::msgs::Set(markerMsg.mutable_scale(),
-                        ignition::math::Vector3d(1.0, 1.0, 1.0));
+    ignition::msgs::Set(matMsg->mutable_ambient(), indexToColor[i]);
+    ignition::msgs::Set(matMsg->mutable_diffuse(), indexToColor[i]);
+    ignition::msgs::Set(matMsg->mutable_emissive(), indexToColor[i]);
+     ignition::msgs::Set(markerMsg.mutable_scale(),
+                         ignition::math::Vector3d(1.0, 1.0, 1.0));
 
-    perCostMarkers.insert(std::make_pair(i, markerMsg));
+     perCostMarkers.insert(std::make_pair(i, markerMsg));
   }
 
   std::string modelName = _req.data();
@@ -175,6 +181,7 @@ bool VisibilityModel::VisualizeVisibility(const ignition::msgs::StringMsg &_req,
   this->node.Request("/marker", perCostMarkers[4]);
 
   _rep.set_data(true);
+
   return true;
 }
 
