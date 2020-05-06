@@ -110,7 +110,7 @@ class subt::ArtifactValidatorPrivate
 {
   /// \brief Map of artifact types to string representations.
   public: const std::array<
-      const std::pair<subt::ArtifactType, std::string>, 12> kArtifactTypes
+      const std::pair<subt::ArtifactType, std::string>, 14> kArtifactTypes
       {
         {
           {subt::ArtifactType::TYPE_BACKPACK      , "TYPE_BACKPACK"},
@@ -124,7 +124,9 @@ class subt::ArtifactValidatorPrivate
           {subt::ArtifactType::TYPE_TOOLBOX       , "TYPE_TOOLBOX"},
           {subt::ArtifactType::TYPE_VALVE         , "TYPE_VALVE"},
           {subt::ArtifactType::TYPE_VENT          , "TYPE_VENT"},
-          {subt::ArtifactType::TYPE_GAS           , "TYPE_GAS"}
+          {subt::ArtifactType::TYPE_GAS           , "TYPE_GAS"},
+          {subt::ArtifactType::TYPE_HELMET        , "TYPE_HELMET"},
+          {subt::ArtifactType::TYPE_ROPE          , "TYPE_ROPE"}
         }
       };
 
@@ -304,7 +306,9 @@ void ArtifactValidatorPrivate::ParseArtifacts()
     { "toolbox", subt::ArtifactType::TYPE_TOOLBOX },
     { "valve", subt::ArtifactType::TYPE_VALVE},
     { "vent", subt::ArtifactType::TYPE_VENT},
-    { "gas", subt::ArtifactType::TYPE_GAS}
+    { "gas", subt::ArtifactType::TYPE_GAS},
+    { "helmet", subt::ArtifactType::TYPE_HELMET},
+    { "rope", subt::ArtifactType::TYPE_ROPE}
   };
 
   // Assuming 1 world per SDF, which is true for SubT.

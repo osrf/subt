@@ -205,6 +205,7 @@
       <enabled>true</enabled>
       <!-- This path is used by cloudsim, please do not change -->
       <path>/tmp/ign/logs</path>
+      <overwrite>true</overwrite>
     </record>
     <%if defined?(seed) && seed != nil && !seed.empty?%>
     <seed><%= seed %></seed>
@@ -367,6 +368,44 @@
         <name>gas_4</name>
         <type>TYPE_GAS</type>
       </artifact>
+      <artifact>
+        <name>gas_5</name>
+        <type>TYPE_GAS</type>
+      </artifact>
+
+      <artifact>
+        <name>helmet_1</name>
+        <type>TYPE_HELMET</type>
+      </artifact>
+      <artifact>
+        <name>helmet_2</name>
+        <type>TYPE_HELMET</type>
+      </artifact>
+      <artifact>
+        <name>helmet_3</name>
+        <type>TYPE_HELMET</type>
+      </artifact>
+      <artifact>
+        <name>helmet_4</name>
+        <type>TYPE_HELMET</type>
+      </artifact>
+
+      <artifact>
+        <name>rope_1</name>
+        <type>TYPE_ROPE</type>
+      </artifact>
+      <artifact>
+        <name>rope_2</name>
+        <type>TYPE_ROPE</type>
+      </artifact>
+      <artifact>
+        <name>rope_3</name>
+        <type>TYPE_ROPE</type>
+      </artifact>
+      <artifact>
+        <name>rope_4</name>
+        <type>TYPE_ROPE</type>
+      </artifact>
     </plugin>
   </plugin>
 
@@ -442,6 +481,11 @@
           <title>Entity tree</title>
         </ignition-gui>
       </plugin> -->
+
+      <!-- Transform Control -->
+      <!-- <plugin filename="TransformControl" name="Transform Control">
+        <service>/world/<%= $worldName %>/gui/transform_mode</service>
+      </plugin> -->
     </plugin>
   </executable_wrapper>
   <%end%>
@@ -494,11 +538,16 @@
     if _config == "1" or _config == "2"
       laserScan=1
     end
-    if _config == "3" or _config == "4"
+    if _config == "3" or _config == "4" or _config == "7" or _config == "8"
       lidar3d=1
     end
     if _config == "5"
       stereoCam=1
+    end
+
+    max_breadcrumbs = 0
+    if _config == "7" or _config == "8"
+      max_breadcrumbs = 12
     end
 
     z = _z + 0.2
@@ -554,6 +603,21 @@
     "      <update_rate>10</update_rate>\n"\
     "      <type>gas</type>\n"\
     "    </plugin>\n"\
+    "    <plugin filename=\"libignition-gazebo-breadcrumbs-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::Breadcrumbs\">\n"\
+    "      <topic>/model/#{_name}/breadcrumb/deploy</topic>\n"\
+    "      <max_deployments>#{max_breadcrumbs}</max_deployments>"\
+    "      <breadcrumb>\n"\
+    "        <sdf version=\"1.6\">\n"\
+    "          <model name=\"#{_name}__breadcrumb__\">\n"\
+    "            <pose>-0.45 0 0 0 0 0</pose>\n"\
+    "            <include>\n"\
+    "              <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Breadcrumb Node</uri>\n"\
+    "            </include>\n"\
+    "          </model>\n"\
+    "        </sdf>\n"\
+    "      </breadcrumb>\n"\
+    "    </plugin>\n"\
     "  </include>\n"\
     "  </sdf>\n"\
     "</plugin>\n"\
@@ -561,7 +625,7 @@
     "  <command>roslaunch --wait subt_ros x1_description.launch world_name:=#{$worldName} name:=#{_name}</command>\n"\
     "</executable>\n"\
     "<executable name='x1_ros_ign_bridge'>\n"\
-      "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} lidar_3d:=#{lidar3d}</command>\n"\
+      "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} lidar_3d:=#{lidar3d} breadcrumbs:=#{max_breadcrumbs>0?1:0}</command>\n"\
     "</executable>\n"
   end
 
@@ -570,14 +634,19 @@
     laserScan=0
     stereoCam=0
     lidar3d=0
-    if _config == "1" or _config == "2" or _config == "3" or _config == "4"
+    if _config == "1" or _config == "2" or _config == "3" or _config == "4" or _config == "9"
       laserScan=1
     end
     if _config == "5"
       stereoCam=1
     end
-    if _config == "6"
+    if _config == "6" or _config == "8"
       lidar3d=1
+    end
+
+    max_breadcrumbs = 0
+    if _config == "8" or _config == "9"
+      max_breadcrumbs = 6
     end
 
     z = _z + 0.063494
@@ -634,6 +703,21 @@
     "      <update_rate>10</update_rate>"\
     "      <type>gas</type>"\
     "    </plugin>\n"\
+    "    <plugin filename=\"libignition-gazebo-breadcrumbs-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::Breadcrumbs\">\n"\
+    "      <topic>/model/#{_name}/breadcrumb/deploy</topic>\n"\
+    "      <max_deployments>#{max_breadcrumbs}</max_deployments>"\
+    "      <breadcrumb>\n"\
+    "        <sdf version=\"1.6\">\n"\
+    "          <model name=\"#{_name}__breadcrumb__\">\n"\
+    "            <pose>-0.24 0 0 0 0 0</pose>\n"\
+    "            <include>\n"\
+    "              <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Breadcrumb Node</uri>\n"\
+    "            </include>\n"\
+    "          </model>\n"\
+    "        </sdf>\n"\
+    "      </breadcrumb>\n"\
+    "    </plugin>\n"\
     "  </include>\n"\
     "  </sdf>\n"\
     "</plugin>\n"\
@@ -641,7 +725,7 @@
     "  <command>roslaunch --wait subt_ros x2_description.launch world_name:=#{$worldName} name:=#{_name}</command>\n"\
     "</executable>\n"\
     "<executable name='x2_ros_ign_bridge'>\n"\
-    "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} lidar_3d:=#{lidar3d}</command>\n"\
+    "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} lidar_3d:=#{lidar3d} breadcrumbs:=#{max_breadcrumbs>0?1:0}</command>\n"\
     "</executable>\n"
   end
 
@@ -834,7 +918,7 @@
     "  <command>roslaunch --wait subt_ros x3_description.launch world_name:=#{$worldName} name:=#{_name}</command>\n"\
     "</executable>\n"\
     "<executable name='x3_ros_ign_bridge'>\n"\
-      "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} rgbd_cam:=#{rgbdCam}</command>\n"\
+      "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} rgbd_cam:=#{rgbdCam} breadcrumbs:=0</command>\n"\
     "</executable>\n"
   end
 
@@ -1080,7 +1164,7 @@
     "  <command>roslaunch --wait subt_ros x4_description.launch world_name:=#{$worldName} name:=#{_name}</command>\n"\
     "</executable>\n"\
     "<executable name='x4_ros_ign_bridge'>\n"\
-    "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} rgbd_cam:=#{rgbdCam}</command>\n"\
+    "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} rgbd_cam:=#{rgbdCam} breadcrumbs:=0</command>\n"\
     "</executable>\n"
   end
 %>
@@ -1124,10 +1208,10 @@
     end
 
     spawnStringTmp = ""
-    if robotType == "X1" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5")
+    if robotType == "X1" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5" or robotConfigN == "7" or robotConfigN == "8")
       robotSpawned += 1
       spawnStringTmp = spawnX1(name, robotConfigN, robot.pos.x, robot.pos.y, robot.pos.z, robot.rot.yaw)
-    elsif robotType == "X2" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5" or robotConfigN == "6")
+    elsif robotType == "X2" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5" or robotConfigN == "6" or robotConfigN == "8" or robotConfigN == "9")
       robotSpawned += 1
       spawnStringTmp = spawnX2(name, robotConfigN, robot.pos.x, robot.pos.y, robot.pos.z, robot.rot.yaw)
     elsif robotType == "X3" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4")
@@ -1149,7 +1233,7 @@
 
       spawnerScript =  "#{installDir}/launch/spawner.rb"
       begin
-        require spawnerScript
+        load spawnerScript
       rescue LoadError
         raise "Unknown robot configuration #{config}. #{spawnerScript} could not be found."
       else
@@ -1166,11 +1250,11 @@
           convention = /^x[[:digit:]]_.*[[:digit:]]/.match(package)
           if convention
             if robot.type == "X3" or robot.type == "X4"
-              UAVStr = "UAV "
+              mUAVStr = "UAV "
             else
-              UAVStr = ""
+              mUAVStr = ""
             end
-            robotName = "#{robotType} #{UAVStr}Config #{robotConfigN}"
+            robotName = "#{robotType} #{mUAVStr}Config #{robotConfigN}"
           else
             robotName = config
           end

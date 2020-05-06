@@ -5,7 +5,7 @@
      development.
 
      For more information, please refer to
-         https://bitbucket.org/osrf/subt/wiki/tutorials/cloudsim
+         https://github.com/osrf/subt/wiki/Cloudsim
 
     Usage: ign launch cloudsim_bridge.ign
             [worldName:=<worldName>
@@ -95,20 +95,25 @@
     laserScan=0
     stereoCam=0
     lidar3d=0
+    breadcrumbs=0
     if _config == "1" or _config == "2"
       laserScan=1
     end
-    if _config == "3" or _config == "4"
+    if _config == "3" or _config == "4" or _config == "7" or _config == "8"
       lidar3d=1
     end
     if _config == "5"
       stereoCam=1
     end
+    if _config == "7" or _config == "8"
+      breadcrumbs = 1
+    end
+
     "<executable name='x1_description'>\n"\
     "  <command>roslaunch --wait subt_ros x1_description.launch name:=#{_name}</command>\n"\
     "</executable>\n"\
     "<executable name='x1_ros_ign_bridge'>\n"\
-      "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} lidar_3d:=#{lidar3d}</command>\n"\
+      "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} lidar_3d:=#{lidar3d} breadcrumbs:=#{breadcrumbs}</command>\n"\
     "</executable>\n"
   end
 
@@ -117,20 +122,25 @@
     laserScan=0
     stereoCam=0
     lidar3d=0
-    if _config == "1" or _config == "2" or _config == "3" or _config == "4"
+    breadcrumbs=0
+    if _config == "1" or _config == "2" or _config == "3" or _config == "4" or _config == "9"
       laserScan=1
     end
     if _config == "5"
       stereoCam=1
     end
-    if _config == "6"
+    if _config == "6" or _config == "8"
       lidar3d=1
     end
+    if _config == "8" or _config == "9"
+      breadcrumbs=1
+    end
+
     "<executable name='x2_description'>\n"\
     "  <command>roslaunch --wait subt_ros x2_description.launch name:=#{_name}</command>\n"\
     "</executable>\n"\
     "<executable name='x2_ros_ign_bridge'>\n"\
-    "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} lidar_3d:=#{lidar3d}</command>\n"\
+    "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} lidar_3d:=#{lidar3d} breadcrumbs:=#{breadcrumbs}</command>\n"\
     "</executable>\n"
   end
 
@@ -149,7 +159,7 @@
     "  <command>roslaunch --wait subt_ros x3_description.launch name:=#{_name}</command>\n"\
     "</executable>\n"\
     "<executable name='x3_ros_ign_bridge'>\n"\
-      "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} rgbd_cam:=#{rgbdCam}</command>\n"\
+      "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} rgbd_cam:=#{rgbdCam} breadcrumbs:=0</command>\n"\
     "</executable>\n"
   end
 
@@ -171,7 +181,7 @@
     "  <command>roslaunch --wait subt_ros x4_description.launch name:=#{_name}</command>\n"\
     "</executable>\n"\
     "<executable name='x4_ros_ign_bridge'>\n"\
-    "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} rgbd_cam:=#{rgbdCam}</command>\n"\
+    "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} rgbd_cam:=#{rgbdCam} breadcrumbs:=0</command>\n"\
     "</executable>\n"
   end
 %>
@@ -180,10 +190,10 @@
   robotNames.each_with_index do |name, i|
     config = robotConfigs[i]
     robotConfigN = config[-1]
-    if robotConfigs[i][1] == "1" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5")
+    if robotConfigs[i][1] == "1" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5" or robotConfigN == "7" or robotConfigN == "8")
 %>
 <%=   spawnX1(robotNames[i], robotConfigs[i][-1]) %>
-<%  elsif robotConfigs[i][1] == "2" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5" or robotConfigN == "6") %>
+<%  elsif robotConfigs[i][1] == "2" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5" or robotConfigN == "6" or robotConfigN == "8" or robotConfigN == "9") %>
 <%=   spawnX2(robotNames[i], robotConfigs[i][-1]) %>
 <%  elsif robotConfigs[i][1] == "3" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4") %>
 <%=   spawnX3(robotNames[i], robotConfigs[i][-1]) %>
