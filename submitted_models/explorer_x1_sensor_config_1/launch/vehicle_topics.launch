@@ -65,6 +65,20 @@
         args="$(arg sensor_prefix)/front_realsense/image">
         <remap from="$(arg sensor_prefix)/front_realsense/image" to="image_raw"/>
       </node>
+
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_camera_info"
+        args="camera_info sensor_msgs/CameraInfo">
+      </node>
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_camera"
+        args="image_raw sensor_msgs/Image">
+      </node>
+
       <node
         pkg="ros_ign_bridge"
         type="parameter_bridge"
@@ -79,6 +93,14 @@
         args="$(arg sensor_prefix)/front_realsense/depth_image">
         <remap from="$(arg sensor_prefix)/front_realsense/depth_image" to="depth/image_raw"/>
       </node>
+
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_rgbd_depth"
+        args="depth/image_raw sensor_msgs/Image">
+      </node>
+
     </group>
 
     <!--Left RGBD camera -->
@@ -97,6 +119,20 @@
         args="$(arg sensor_prefix)/left_realsense/image">
         <remap from="$(arg sensor_prefix)/left_realsense/image" to="image_raw"/>
       </node>
+
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_camera_info"
+        args="camera_info sensor_msgs/CameraInfo">
+      </node>
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_camera"
+        args="image_raw sensor_msgs/Image">
+      </node>
+
       <node
         pkg="ros_ign_bridge"
         type="parameter_bridge"
@@ -111,6 +147,14 @@
         args="$(arg sensor_prefix)/left_realsense/depth_image">
         <remap from="$(arg sensor_prefix)/left_realsense/depth_image" to="depth/image_raw"/>
       </node>
+
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_rgbd_depth"
+        args="depth/image_raw sensor_msgs/Image">
+      </node>
+
     </group>
 
     <!--Rear RGBD camera -->
@@ -129,6 +173,20 @@
         args="$(arg sensor_prefix)/rear_realsense/image">
         <remap from="$(arg sensor_prefix)/rear_realsense/image" to="image_raw"/>
       </node>
+
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_camera_info"
+        args="camera_info sensor_msgs/CameraInfo">
+      </node>
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_camera"
+        args="image_raw sensor_msgs/Image">
+      </node>
+
       <node
         pkg="ros_ign_bridge"
         type="parameter_bridge"
@@ -143,6 +201,14 @@
         args="$(arg sensor_prefix)/rear_realsense/depth_image">
         <remap from="$(arg sensor_prefix)/rear_realsense/depth_image" to="depth/image_raw"/>
       </node>
+
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_rgbd_depth"
+        args="depth/image_raw sensor_msgs/Image">
+      </node>
+
     </group>
 
     <!--Right RGBD camera -->
@@ -161,6 +227,20 @@
         args="$(arg sensor_prefix)/right_realsense/image">
         <remap from="$(arg sensor_prefix)/right_realsense/image" to="image_raw"/>
       </node>
+
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_camera_info"
+        args="camera_info sensor_msgs/CameraInfo">
+      </node>
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_camera"
+        args="image_raw sensor_msgs/Image">
+      </node>
+
       <node
         pkg="ros_ign_bridge"
         type="parameter_bridge"
@@ -175,6 +255,14 @@
         args="$(arg sensor_prefix)/right_realsense/depth_image">
         <remap from="$(arg sensor_prefix)/right_realsense/depth_image" to="depth/image_raw"/>
       </node>
+
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_rgbd_depth"
+        args="depth/image_raw sensor_msgs/Image">
+      </node>
+
     </group>
 
     <!--Front Laser-->

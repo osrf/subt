@@ -68,6 +68,14 @@
         args="$(arg sensor_prefix)/camera_front/depth_image">
         <remap from="$(arg sensor_prefix)/camera_front/depth_image" to="front/depth"/>
       </node>
+
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_rgbd_depth"
+        args="front/depth sensor_msgs/Image">
+      </node>
+
     </group>
 
     <!-- 3D lidar -->
@@ -101,6 +109,32 @@
         <remap from="$(arg sensor_prefix)/camera_front_right/image" to="front/right/image_raw"/>
         <remap from="$(arg sensor_prefix)/camera_front_left/image" to="front/left/image_raw"/>
       </node>
+
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_stereo_camera_info_right"
+        args="front/right/camera_info sensor_msgs/CameraInfo">
+      </node>
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_stereo_camera_info_left"
+        args="front/left/camera_info sensor_msgs/CameraInfo">
+      </node>
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_stereo_camera_right"
+        args="front/right/image_raw sensor_msgs/Image">
+      </node>
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_stereo_camera_left"
+        args="front/left/image_raw sensor_msgs/Image">
+      </node>
+
     </group>
 
     <!-- non-stereo -->
@@ -118,6 +152,19 @@
         name="ros_ign_image_camera"
         args="$(arg sensor_prefix)/camera_front/image">
         <remap from="$(arg sensor_prefix)/camera_front/image" to="front/image_raw"/>
+      </node>
+
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_camera_info"
+        args="front/camera_info sensor_msgs/CameraInfo">
+      </node>
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_camera"
+        args="front/image_raw sensor_msgs/Image">
       </node>
     </group>
 

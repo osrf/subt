@@ -29,6 +29,20 @@
         args="$(arg sensor_prefix)/camera_front/image">
         <remap from="$(arg sensor_prefix)/camera_front/image" to="image_raw"/>
       </node>
+
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_camera_info"
+        args="camera_info sensor_msgs/CameraInfo">
+      </node>
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_camera"
+        args="image_raw sensor_msgs/Image">
+      </node>
+
     </group>
 
     <node
