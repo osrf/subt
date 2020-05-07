@@ -131,7 +131,7 @@ void OpticalFramePublisher<T>::PublishTF(const std::string &_frame,
   tfStamped.transform.translation.z = 0.0;
   tf2::Quaternion q;
   // converts x forward to z forward
-  q.setRPY(M_PI/2.0, 0, M_PI/2.0);
+  q.setRPY(-M_PI/2.0, 0, -M_PI/2.0);
   tfStamped.transform.rotation.x = q.x();
   tfStamped.transform.rotation.y = q.y();
   tfStamped.transform.rotation.z = q.z();
