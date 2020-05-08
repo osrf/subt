@@ -317,7 +317,7 @@ void ArtifactValidatorPrivate::ParseArtifacts()
   for (uint64_t modelIndex = 0; modelIndex < world->ModelCount(); ++modelIndex)
   {
     auto model = world->ModelByIndex(modelIndex);
-    auto pose = model->Pose();
+    auto pose = model->RawPose();
     auto name = model->Name();
 
     if (name == "artifact_origin")
