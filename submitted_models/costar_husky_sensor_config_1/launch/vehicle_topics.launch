@@ -69,14 +69,11 @@
     <node
       pkg="subt_ros"
       type="optical_frame_publisher"
-      name="optical_frame_publisher_camera_info"
-      args="front/camera_info sensor_msgs/CameraInfo">
-    </node>
-    <node
-      pkg="subt_ros"
-      type="optical_frame_publisher"
-      name="optical_frame_publisher_camera"
-      args="front/image_raw sensor_msgs/Image">
+      name="optical_frame_publisher">
+      <remap from="input/image" to="front/image_raw" />
+      <remap from="output/image" to="front/optical/image_raw" />
+      <remap from="input/camera_info" to="front/camera_info" />
+      <remap from="output/camera_info" to="front/optical/camera_info" />
     </node>
 
     <node
@@ -97,8 +94,10 @@
     <node
       pkg="subt_ros"
       type="optical_frame_publisher"
-      name="optical_frame_publisher_rgbd_depth"
-      args="front/depth sensor_msgs/Image">
+      name="optical_frame_publisher_depth"
+      args="depth">
+      <remap from="input/image" to="front/depth" />
+      <remap from="output/image" to="front/optical/depth" />
     </node>
 
     <!--Front Laser-->

@@ -69,14 +69,11 @@
       <node
         pkg="subt_ros"
         type="optical_frame_publisher"
-        name="optical_frame_publisher_camera_info"
-        args="camera_info sensor_msgs/CameraInfo">
-      </node>
-      <node
-        pkg="subt_ros"
-        type="optical_frame_publisher"
-        name="optical_frame_publisher_camera"
-        args="image_raw sensor_msgs/Image">
+        name="optical_frame_publisher">
+        <remap from="input/image" to="image_raw" />
+        <remap from="output/image" to="optical/image_raw" />
+        <remap from="input/camera_info" to="camera_info" />
+        <remap from="output/camera_info" to="optical/camera_info" />
       </node>
 
       <node
@@ -97,8 +94,10 @@
       <node
         pkg="subt_ros"
         type="optical_frame_publisher"
-        name="optical_frame_publisher_rgbd_depth"
-        args="depth/image_raw sensor_msgs/Image">
+        name="optical_frame_publisher_depth"
+        args="depth">
+        <remap from="input/image" to="depth/image_raw" />
+        <remap from="output/image" to="depth/optical/image_raw" />
       </node>
 
     </group>
@@ -123,14 +122,11 @@
       <node
         pkg="subt_ros"
         type="optical_frame_publisher"
-        name="optical_frame_publisher_camera_info"
-        args="camera_info sensor_msgs/CameraInfo">
-      </node>
-      <node
-        pkg="subt_ros"
-        type="optical_frame_publisher"
-        name="optical_frame_publisher_camera"
-        args="image_raw sensor_msgs/Image">
+        name="optical_frame_publisher">
+        <remap from="input/image" to="image_raw" />
+        <remap from="output/image" to="optical/image_raw" />
+        <remap from="input/camera_info" to="camera_info" />
+        <remap from="output/camera_info" to="optical/camera_info" />
       </node>
 
       <node
@@ -151,8 +147,10 @@
       <node
         pkg="subt_ros"
         type="optical_frame_publisher"
-        name="optical_frame_publisher_rgbd_depth"
-        args="depth/image_raw sensor_msgs/Image">
+        name="optical_frame_publisher_depth"
+        args="depth">
+        <remap from="input/image" to="depth/image_raw" />
+        <remap from="output/image" to="depth/optical/image_raw" />
       </node>
 
     </group>
@@ -177,14 +175,11 @@
       <node
         pkg="subt_ros"
         type="optical_frame_publisher"
-        name="optical_frame_publisher_camera_info"
-        args="camera_info sensor_msgs/CameraInfo">
-      </node>
-      <node
-        pkg="subt_ros"
-        type="optical_frame_publisher"
-        name="optical_frame_publisher_camera"
-        args="image_raw sensor_msgs/Image">
+        name="optical_frame_publisher">
+        <remap from="input/image" to="image_raw" />
+        <remap from="output/image" to="optical/image_raw" />
+        <remap from="input/camera_info" to="camera_info" />
+        <remap from="output/camera_info" to="optical/camera_info" />
       </node>
 
       <node
@@ -205,8 +200,10 @@
       <node
         pkg="subt_ros"
         type="optical_frame_publisher"
-        name="optical_frame_publisher_rgbd_depth"
-        args="depth/image_raw sensor_msgs/Image">
+        name="optical_frame_publisher_depth"
+        args="depth">
+        <remap from="input/image" to="depth/image_raw" />
+        <remap from="output/image" to="depth/optical/image_raw" />
       </node>
 
     </group>
@@ -231,14 +228,11 @@
       <node
         pkg="subt_ros"
         type="optical_frame_publisher"
-        name="optical_frame_publisher_camera_info"
-        args="camera_info sensor_msgs/CameraInfo">
-      </node>
-      <node
-        pkg="subt_ros"
-        type="optical_frame_publisher"
-        name="optical_frame_publisher_camera"
-        args="image_raw sensor_msgs/Image">
+        name="optical_frame_publisher">
+        <remap from="input/image" to="image_raw" />
+        <remap from="output/image" to="optical/image_raw" />
+        <remap from="input/camera_info" to="camera_info" />
+        <remap from="output/camera_info" to="optical/camera_info" />
       </node>
 
       <node
@@ -259,8 +253,10 @@
       <node
         pkg="subt_ros"
         type="optical_frame_publisher"
-        name="optical_frame_publisher_rgbd_depth"
-        args="depth/image_raw sensor_msgs/Image">
+        name="optical_frame_publisher_depth"
+        args="depth">
+        <remap from="input/image" to="depth/image_raw" />
+        <remap from="output/image" to="depth/optical/image_raw" />
       </node>
 
     </group>

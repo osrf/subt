@@ -69,8 +69,10 @@
       <node
         pkg="subt_ros"
         type="optical_frame_publisher"
-        name="optical_frame_publisher_rgbd_depth"
-        args="front/depth sensor_msgs/Image">
+        name="optical_frame_publisher_depth"
+        args="depth">
+        <remap from="input/image" to="front/depth" />
+        <remap from="output/image" to="front/optical/depth" />
       </node>
 
     </group>
@@ -110,26 +112,21 @@
       <node
         pkg="subt_ros"
         type="optical_frame_publisher"
-        name="optical_frame_publisher_stereo_camera_info_right"
-        args="front/right/camera_info sensor_msgs/CameraInfo">
+        name="optical_frame_publisher_stereo_right">
+        <remap from="input/image" to="front/right/image_raw" />
+        <remap from="output/image" to="front/right/optical/image_raw" />
+        <remap from="input/camera_info" to="front/right/camera_info" />
+        <remap from="output/camera_info" to="front/right/optical/camera_info" />
       </node>
+
       <node
         pkg="subt_ros"
         type="optical_frame_publisher"
-        name="optical_frame_publisher_stereo_camera_info_left"
-        args="front/left/camera_info sensor_msgs/CameraInfo">
-      </node>
-      <node
-        pkg="subt_ros"
-        type="optical_frame_publisher"
-        name="optical_frame_publisher_stereo_camera_right"
-        args="front/right/image_raw sensor_msgs/Image">
-      </node>
-      <node
-        pkg="subt_ros"
-        type="optical_frame_publisher"
-        name="optical_frame_publisher_stereo_camera_left"
-        args="front/left/image_raw sensor_msgs/Image">
+        name="optical_frame_publisher_stereo_left">
+        <remap from="input/image" to="front/left/image_raw" />
+        <remap from="output/image" to="front/left/optical/image_raw" />
+        <remap from="input/camera_info" to="front/left/camera_info" />
+        <remap from="output/camera_info" to="front/left/optical/camera_info" />
       </node>
 
     </group>
@@ -154,14 +151,11 @@
       <node
         pkg="subt_ros"
         type="optical_frame_publisher"
-        name="optical_frame_publisher_camera_info"
-        args="front/camera_info sensor_msgs/CameraInfo">
-      </node>
-      <node
-        pkg="subt_ros"
-        type="optical_frame_publisher"
-        name="optical_frame_publisher_camera"
-        args="front/image_raw sensor_msgs/Image">
+        name="optical_frame_publisher">
+        <remap from="input/image" to="front/image_raw" />
+        <remap from="output/image" to="front/optical/image_raw" />
+        <remap from="input/camera_info" to="front/camera_info" />
+        <remap from="output/camera_info" to="front/optical/camera_info" />
       </node>
 
     </group>
