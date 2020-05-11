@@ -58,7 +58,12 @@
     def initialize(name, config)
       @name = name
       @config = config
-      @type = config.match(/(.*)_SENSOR_CONFIG/)[1]
+      match = config.match(/(.*)_SENSOR_CONFIG/)
+      if match.nil?
+        @type = config
+      else
+        @type = match[1] unless match.nil?
+      end
       @configNumber = config[-1]
       @pos = Vector3d.new(0, 0, 0)
       @rot = AngularVector3d.new(0, 0, 0)
@@ -79,6 +84,8 @@
     spawnWorldYaw = 0
     guiCameraPose = "-6.3 -4.2 3.6 0 0.268 0.304"
   end
+
+  teamBaseSpawned = false
 
   # Check if robotNameX and robotConfigX exists
   spawnRowSize = 4
@@ -1158,6 +1165,32 @@
     "  </sdf>\n"\
     "</plugin>\n"
   end
+
+  def spawnTeamBase(_x, _y, _z, _yaw)
+    "<plugin name=\"ignition::launch::GazeboFactory\"\n"\
+    "        filename=\"libignition-launch-gazebo-factory.so\">\n"\
+    "  <name>TeamBase</name>\n"\
+    "  <allow_renaming>false</allow_renaming>\n"\
+    "  <world>#{$worldName}</world>\n"\
+    "  <is_performer>false</is_performer>\n"\
+    "  <sdf version='1.6'>\n"\
+    "  <model name='TeamBase'>\n"\
+    "    <pose>#{_x} #{_y} #{_z} 0 0 #{_yaw}</pose>\n"\
+    "    <static>true</static>\n"\
+    "    <link name='link'>\n"\
+    "      <pose>0 0 0.05 0 0 0</pose>\n"\
+    "      <visual name='visual'>\n"\
+    "        <geometry>\n"\
+    "          <box>\n"\
+    "            <size>.1 .1 .1</size>\n"\
+    "          </box>\n"\
+    "        </geometry>\n"\
+    "      </visual>\n"\
+    "    </link>\n"\
+    "  </model>\n"\
+    "  </sdf>\n"\
+    "</plugin>\n"
+  end
 %>
 
 <%
@@ -1214,6 +1247,13 @@
 
       spawnStringTmp = spawnX4(name, robotConfigN, robot.pos.x, robot.pos.y, robot.pos.z, robot.rot.yaw)
 
+    elsif (name.downcase == "teambase" || name.downcase == "team_base") &&
+          (config.downcase == "teambase" || config.downcase == "team_base")
+      robotSpawned += 1
+      if !teamBaseSpawned
+        teamBaseSpawned = true
+        spawnStringTmp = spawnTeamBase(posX, posY, spawnWorldZPos, spawnWorldYaw)
+      end
     else
       # Try a team-submitted vehicle.
       package = config.downcase
