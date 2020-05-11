@@ -1276,6 +1276,7 @@
         <child_model>#{childModelName}</child_model>
         <child_link>base_link</child_link>
         <topic>/model/#{childModelName}/detach</topic>
+        <suppress_child_warning>true</suppress_child_warning>
         </plugin>
       HEREDOC
 
