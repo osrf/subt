@@ -120,8 +120,10 @@
                 <diffuse>0.8 0.8 0.5 1</diffuse>
                 <specular>0.8 0.8 0.5 1</specular>
                 <spot>
-                    <inner_angle>1</inner_angle>
-                    <outer_angle>1.1</outer_angle>
+                  <!-- The real vehicle doesn't have a light currently, but for simulation
+                    purposes, we added one like the ones on the husky and hd2 -->
+                    <inner_angle>2.8</inner_angle>
+                    <outer_angle>2.9</outer_angle>
                     <falloff>1</falloff>
                 </spot>
                 <direction>0 0 -1</direction>
@@ -204,30 +206,30 @@
 		    <x>
 		      <noise type="gaussian">
 		        <mean>0</mean>
-		        <stddev>8.72664e-5</stddev>
-		        <bias_mean>7.5e-6</bias_mean>
-		        <bias_stddev>8.0e-7</bias_stddev>
-		        <dynamic_bias_stddev>4e-7</dynamic_bias_stddev>
+            <stddev>0.0000872664</stddev>
+            <bias_mean>0.0000075</bias_mean>
+            <bias_stddev>0.00000080</bias_stddev>
+            <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
 		        <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
 		      </noise>
 		    </x>
 		    <y>
 		      <noise type="gaussian">
 		        <mean>0</mean>
-		        <stddev>8.72664e-5</stddev>
-		        <bias_mean>7.5e-6</bias_mean>
-		        <bias_stddev>8.0e-7</bias_stddev>
-		        <dynamic_bias_stddev>4e-7</dynamic_bias_stddev>
+            <stddev>0.0000872664</stddev>
+            <bias_mean>0.0000075</bias_mean>
+            <bias_stddev>0.00000080</bias_stddev>
+            <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
 		        <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
 		      </noise>
 		    </y>
 		    <z>
 		      <noise type="gaussian">
 		        <mean>0</mean>
-		        <stddev>8.72664e-5</stddev>
-		        <bias_mean>7.5e-6</bias_mean>
-		        <bias_stddev>8.0e-7</bias_stddev>
-		        <dynamic_bias_stddev>4e-7</dynamic_bias_stddev>
+            <stddev>0.0000872664</stddev>
+            <bias_mean>0.0000075</bias_mean>
+            <bias_stddev>0.00000080</bias_stddev>
+            <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
 		        <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
 		      </noise>
 		    </z>
@@ -236,30 +238,30 @@
 		    <x>
 		      <noise type="gaussian">
 		        <mean>0</mean>
-		        <stddev>1.962e-4</stddev>
-		        <bias_mean>1.0e-3</bias_mean>
-		        <bias_stddev>1.0-4</bias_stddev>
-		        <dynamic_bias_stddev>1.0e-3</dynamic_bias_stddev>
+            <stddev>0.0001962</stddev>
+            <bias_mean>0.001</bias_mean>
+            <bias_stddev>0.0001</bias_stddev>
+            <dynamic_bias_stddev>0.001</dynamic_bias_stddev>
 		        <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
 		      </noise>
 		    </x>
 		    <y>
 		      <noise type="gaussian">
 		        <mean>0</mean>
-		        <stddev>1.962e-4</stddev>
-		        <bias_mean>1.0e-3</bias_mean>
-		        <bias_stddev>1.0-4</bias_stddev>
-		        <dynamic_bias_stddev>1.0e-3</dynamic_bias_stddev>
+            <stddev>0.0001962</stddev>
+            <bias_mean>0.001</bias_mean>
+            <bias_stddev>0.0001</bias_stddev>
+            <dynamic_bias_stddev>0.001</dynamic_bias_stddev>
 		        <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
 		      </noise>
 		    </y>
 		    <z>
 		      <noise type="gaussian">
 		        <mean>0</mean>
-		        <stddev>1.962e-4</stddev>
-		        <bias_mean>1.0e-3</bias_mean>
-		        <bias_stddev>1.0-4</bias_stddev>
-		        <dynamic_bias_stddev>1.0e-3</dynamic_bias_stddev>
+            <stddev>0.0001962</stddev>
+            <bias_mean>0.001</bias_mean>
+            <bias_stddev>0.0001</bias_stddev>
+            <dynamic_bias_stddev>0.001</dynamic_bias_stddev>
 		        <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
 		      </noise>
 		    </z>
@@ -344,12 +346,12 @@
                     <lens>
                         <intrinsics>
                             <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
-                            <fx>277.1</fx>
-                            <fy>277.1</fy>
+                            <fx>337.22195</fx>
+                            <fy>337.22195</fy>
                             <!-- cx = ( width + 1 ) / 2 -->
-                            <cx>640.5</cx>
+                            <cx>320.5</cx>
                             <!-- cy = ( height + 1 ) / 2 -->
-                            <cy>360.5</cy>
+                            <cy>240.5</cy>
                             <s>0</s>
                         </intrinsics>
                     </lens>
@@ -362,8 +364,8 @@
                         <center>0.5 0.5</center>
                     </distortion>
                     <image>
-                        <width>1280</width>
-                        <height>720</height>
+                        <width>640</width>
+                        <height>480</height>
                         <format>R8G8B8</format>
                     </image>
                     <clip>
@@ -420,12 +422,12 @@
                     <range>
                         <min>0.05</min>
                         <max>120</max>
-                        <resolution>0.01</resolution>
+                        <resolution>0.003</resolution>
                     </range>
                     <noise>
                         <type>gaussian</type>
                         <mean>0</mean>
-                        <stddev>0.01</stddev>
+                        <stddev>0.03</stddev>
                     </noise>
                 </lidar>
             </sensor>

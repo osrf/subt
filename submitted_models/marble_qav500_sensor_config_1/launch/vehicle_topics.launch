@@ -78,8 +78,8 @@
         pkg="ros_ign_bridge"
         type="parameter_bridge"
         name="ros_ign_bridge_tof_top"
-        args="$(arg sensor_prefix)/tof_top/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
-        <remap from="$(arg sensor_prefix)/tof_top/points" to="tof_top/depth/points"/>
+        args="$(arg sensor_prefix)/tof_top/depth_image/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
+        <remap from="$(arg sensor_prefix)/tof_top/depth_image/points" to="tof_top/depth/points"/>
       </node>
       <node
         pkg="ros_ign_image"
@@ -96,8 +96,8 @@
         pkg="ros_ign_bridge"
         type="parameter_bridge"
         name="ros_ign_bridge_tof_bottom"
-        args="$(arg sensor_prefix)/tof_bottom/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
-        <remap from="$(arg sensor_prefix)/tof_bottom/points" to="tof_bottom/depth/points"/>
+        args="$(arg sensor_prefix)/tof_bottom/depth_image/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
+        <remap from="$(arg sensor_prefix)/tof_bottom/depth_image/points" to="tof_bottom/depth/points"/>
       </node>
       <node
         pkg="ros_ign_image"

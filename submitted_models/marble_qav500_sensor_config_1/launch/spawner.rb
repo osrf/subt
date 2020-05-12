@@ -128,12 +128,12 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
           <motorControlPubTopic>command/motor_speed</motorControlPubTopic>
           <enableSubTopic>velocity_controller/enable</enableSubTopic>
           <comLinkName>base_link</comLinkName>
-          <velocityGain>6 6 10</velocityGain>
-          <attitudeGain>4 4 2</attitudeGain>
-          <angularRateGain>0.7 0.7 0.7</angularRateGain>
-          <maximumLinearAcceleration>1 1 2</maximumLinearAcceleration>
-          <maximumLinearVelocity>5 5 5</maximumLinearVelocity>
-          <maximumAngularVelocity>3 3 3</maximumAngularVelocity>
+          <velocityGain>8 8 10</velocityGain>
+          <attitudeGain>6 6 6</attitudeGain>
+          <angularRateGain>2.5 2.5 4.0</angularRateGain>
+          <maximumLinearAcceleration>5 5 5</maximumLinearAcceleration>
+          <maximumLinearVelocity>20 20 20</maximumLinearVelocity>
+          <maximumAngularVelocity>5 5 10</maximumAngularVelocity>
           <linearVelocityNoiseMean>0 0 0</linearVelocityNoiseMean>
           <!-- linearVelocityNoiseStdDev based on error values reported in the paper Shen et. al., -->
           <!-- Vision-Based State Estimation and Trajectory Control Towards High-Speed Flight with a Quadrotor -->
