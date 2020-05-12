@@ -34,8 +34,6 @@
 #include <tf2/LinearMath/Quaternion.h>
 #include <tf2_ros/static_transform_broadcaster.h>
 
-
-
 /// \brief A class that converts data from robot frame to optical frame
 /// It subscribes to existing topic, modifies the frame_id of the message to
 /// a new optical frame, then republishes the updated data to a new topic.
@@ -61,14 +59,20 @@ class OpticalFramePublisher
   private: void PublishTF(const std::string &_frame,
     const std::string &_childFrame);
 
+  /// \brief Callback when subscriber connects to the image topic
+  private: void ImageConnect();
+
+  /// \brief Callback when subscriber connects to the camera info topic
+  private: void CameraInfoConnect();
+
   /// \brief ROS node handle
   private: ros::NodeHandle node;
 
   /// \brief ROS subscriber that subscribes to original image topic
-  private: ros::Subscriber sub;
+  private: std::unique_ptr<ros::Subscriber> sub;
 
   /// \brief ROS subscriber that subscribes to original camera info topic
-  private: ros::Subscriber ciSub;
+  private: std::unique_ptr<ros::Subscriber> ciSub;
 
   /// \brief ROS publisher that publishes image msg with the new optical frame
   private: ros::Publisher pub;
@@ -84,18 +88,14 @@ class OpticalFramePublisher
 //////////////////////////////////////////////////
 void OpticalFramePublisher::Init(bool _cameraInfo)
 {
-  this->sub = this->node.subscribe("input/image", 10,
-      &OpticalFramePublisher::UpdateImageFrame, this);
-
-  this->pub = this->node.advertise<sensor_msgs::Image>("output/image", 10);
+  this->pub = this->node.advertise<sensor_msgs::Image>("output/image", 10,
+      std::bind(&OpticalFramePublisher::ImageConnect, this));
 
   if (_cameraInfo)
   {
-    this->ciSub = this->node.subscribe("input/camera_info", 10,
-        &OpticalFramePublisher::UpdateCameraInfoFrame, this);
-
     this->ciPub = this->node.advertise<sensor_msgs::CameraInfo>(
-        "output/camera_info", 10);
+        "output/camera_info", 10,
+        std::bind(&OpticalFramePublisher::CameraInfoConnect, this));
   }
 
   ROS_INFO("Optical Frame Publisher Ready");
@@ -105,6 +105,12 @@ void OpticalFramePublisher::Init(bool _cameraInfo)
 void OpticalFramePublisher::UpdateImageFrame(
     const sensor_msgs::Image::Ptr &_msg)
 {
+  if (this->pub.getNumSubscribers() == 0u && this->sub)
+  {
+    this->sub.reset();
+    return;
+  }
+
   if (this->newFrameId.empty())
   {
     this->newFrameId = _msg->header.frame_id + "_optical";
@@ -119,6 +125,12 @@ void OpticalFramePublisher::UpdateImageFrame(
 void OpticalFramePublisher::UpdateCameraInfoFrame(
     const sensor_msgs::CameraInfo::Ptr &_msg)
 {
+  if (this->ciPub.getNumSubscribers() == 0u && this->ciSub)
+  {
+    this->ciSub.reset();
+    return;
+  }
+
   if (this->newFrameId.empty())
   {
     this->newFrameId = _msg->header.frame_id + "_optical";
@@ -149,6 +161,26 @@ void OpticalFramePublisher::PublishTF(const std::string &_frame,
 
   static tf2_ros::StaticTransformBroadcaster brStatic;
   brStatic.sendTransform(tfStamped);
+}
+
+//////////////////////////////////////////////////
+void OpticalFramePublisher::ImageConnect()
+{
+  if (this->sub)
+    return;
+  this->sub = std::make_unique<ros::Subscriber>(
+      this->node.subscribe("input/image", 10,
+      &OpticalFramePublisher::UpdateImageFrame, this));
+}
+
+//////////////////////////////////////////////////
+void OpticalFramePublisher::CameraInfoConnect()
+{
+  if (this->ciSub)
+    return;
+  this->ciSub = std::make_unique<ros::Subscriber>(
+      this->node.subscribe("input/camera_info", 10,
+      &OpticalFramePublisher::UpdateCameraInfoFrame, this));
 }
 
 //////////////////////////////////////////////////
