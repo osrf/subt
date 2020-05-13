@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5.1)
+cmake_minimum_required(VERSION 3.5.1 FATAL_ERROR)
 project(subt_example)
 
 if(NOT WIN32)
