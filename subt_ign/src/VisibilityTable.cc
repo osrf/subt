@@ -141,39 +141,6 @@ bool VisibilityTable::LoadLUT()
 
   this->PopulateVisibilityInfo();
 
-  // debug caguero
-
-  // Convert poses to vertices.
-  std::set<ignition::math::graph::VertexId> relays{33};
-
-  // Update the cost of all routes considering relays.
-  VisibilityInfo visibilityInfoWithRelays;
-  std::set<ignition::math::graph::VertexId> visited;
-  auto vertexIds = this->visibilityGraph.Vertices();
-  for (const auto to : vertexIds)
-  {
-    auto id2 = to.first;
-    this->PopulateVisibilityInfoHelper(
-      relays, 0, id2, visited, visibilityInfoWithRelays);
-    visited = {};
-  }
-
-  this->visibilityInfo = visibilityInfoWithRelays;
-
-
-  ignerr << "=======================" << std::endl;
-  ignerr << "Visibility information:" << std::endl;
-  ignerr << "=======================" << std::endl;
-  for (auto const &p : this->visibilityInfo)
-  {
-    if ((p.first.first == 0 || p.first.second == 0) && p.second <= 10.0)
-    {
-      std::cerr << "From: [" << p.first.first << "] to [" << p.first.second
-                << "]: " << p.second << std::endl;
-    }
-  }
-  // debug caguero
-
   return true;
 }
 
