@@ -56,6 +56,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         name="ignition::gazebo::systems::Breadcrumbs">
         <topic>/model/#{_name}/breadcrumb/deploy</topic>
         <max_deployments>12</max_deployments>"
+        <disable_physics_time>3.0</disable_physics_time>
         <breadcrumb>"
           <sdf version="1.6">
             <model name="#{_name}__breadcrumb__">
