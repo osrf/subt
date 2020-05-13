@@ -277,7 +277,7 @@ target_link_libraries(log_checker
 install(TARGETS log_checker
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
-add_executable(dot_generator src/dot_generator.cc src/ConnectionHelper.cc)
+add_executable(dot_generator src/dot_generator.cc src/ConnectionHelper.cc src/SdfParser.cc)
 target_link_libraries(dot_generator
   ignition-math6::ignition-math6
   ignition-common3::ignition-common3
@@ -286,6 +286,17 @@ target_include_directories(dot_generator
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 install(TARGETS dot_generator
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+
+add_executable(level_generator src/level_generator.cc src/ConnectionHelper.cc src/SdfParser.cc)
+target_link_libraries(level_generator
+  ignition-math6::ignition-math6
+  ignition-common3::ignition-common3
+  sdformat8::sdformat8)
+target_include_directories(level_generator
+  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
+install(TARGETS level_generator
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+
 
 ###########
 ## Tests ##
