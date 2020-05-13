@@ -12,7 +12,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
       <name>#{_name}</name>
       <uri>#{_modelURI}</uri>
       <!-- ANYmal control -->
-      <plugin filename="libAnymalControlPlugin1.so"
+      <plugin filename="libAnymalBControlPlugin1.so"
               name="ignition::gazebo::systems::AnymalControlPlugin">
         <jointNames>
           <LF_HAA>LF_HAA</LF_HAA>
@@ -73,10 +73,10 @@ end
 def rosExecutables(_name, _worldName)
   <<-HEREDOC
   <executable name='robot_description'>
-    <command>roslaunch --wait cerberus_anymal_sensor_config_1 description.launch world_name:=#{_worldName} name:=#{_name}</command>
+    <command>roslaunch --wait cerberus_anymal_b_sensor_config_1 description.launch world_name:=#{_worldName} name:=#{_name}</command>
   </executable>
   <executable name='topics'>
-    <command>roslaunch --wait cerberus_anymal_sensor_config_1 vehicle_topics.launch world_name:=#{_worldName} name:=#{_name}</command>
+    <command>roslaunch --wait cerberus_anymal_b_sensor_config_1 vehicle_topics.launch world_name:=#{_worldName} name:=#{_name}</command>
   </executable>
   HEREDOC
 end

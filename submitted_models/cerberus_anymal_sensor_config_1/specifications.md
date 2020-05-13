@@ -1,5 +1,5 @@
 # ANYmal
-This specifications.md file is a description and proof of virtual model validation for the CERBERUS ANYmal with Sensor Configuration 1. This robot may be launched using a `roslaunch` command with the variable name `cerberus_anymal_sensor_config_1`.
+This specifications.md file is a description and proof of virtual model validation for the CERBERUS ANYmal B with Sensor Configuration 1. This robot may be launched using a `roslaunch` command with the variable name `cerberus_anymal_b_sensor_config_1`.
 
 ## Description
 ANYmal is a highly sophisticated four-legged robot, designed to tackle the challenges of harsh search and rescue operations, inspections, and other surveillance duties.
@@ -11,19 +11,19 @@ To be able to control this robot model you need a few additional packages. Pleas
 ## Usage Instructions
 The vehicle can be launched with the following command:
 ```
-ign launch -v 4 competition.ign robotName1:=anymal robotConfig1:=CERBERUS_ANYMAL_SENSOR_CONFIG_1 localModel:=true
+ign launch -v 4 competition.ign robotName1:=anymal_b robotConfig1:=CERBERUS_ANYMAL_B_SENSOR_CONFIG_1 localModel:=true
 ```
 
 In another terminal you can source the "anymal_locomotion_ws" workspace (see [Dependencies](#markdown-header-dependencies)) to start the locomotion controller node:
 ```
 cd ~/anymal_locomotion_ws/
 source devel/setup.bash
-roslaunch cerberus_anymal_control cerberus_anymal_controller.launch
+roslaunch cerberus_anymal_b_control_1 cerberus_anymal_controller.launch
 ```
 
 At this point you can control the vehicle model with a twist command, for example:
 ```
-rostopic pub /anymal/cmd_vel geometry_msgs/Twist "linear:
+rostopic pub /anymal_b/cmd_vel geometry_msgs/Twist "linear:
   x: 0.5
   y: 0.0
   z: 0.0
@@ -54,7 +54,7 @@ This ANYmal with sensor configuration 1 includes the following sensors. The spec
 * Synchronization Board - Autonomous Systems Lab, ETH Zurich - VersaVIS, there is not (yet) an Ignition-Gazebo plugin
 
 ### Control
-This ANYmal is controlled by the custom `cerberus_anymal_control` package, available in the repository [cerberus_anymal_locomotion](https://github.com/leggedrobotics/cerberus_anymal_locomotion).
+This ANYmal is controlled by the custom `cerberus_anymal_b_control_1` package, available in the repository [cerberus_anymal_locomotion](https://github.com/leggedrobotics/cerberus_anymal_locomotion).
 
 This controller makes the robot moving at a fixed velocity, in any direction. The input twist is used only to determine the orientation of movement. The bearing angle between X-axis and the orientation specified by the linear part of the twist vector indicates the direction of motion; The positive or negative value of the yaw rate of the twist vector sets the direction of rotation around the Z-axis.
 

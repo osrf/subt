@@ -22,17 +22,9 @@
     <node
       pkg="ros_ign_bridge"
       type="parameter_bridge"
-      name="ros_ign_bridge_base_pose"
-      args="/model/$(arg name)/robot_base_pose@geometry_msgs/TransformStamped[ignition.msgs.Pose">
-      <remap from="/model/$(arg name)/robot_base_pose" to="robot_base_pose"/>
-    </node>
-
-    <node
-      pkg="ros_ign_bridge"
-      type="parameter_bridge"
-      name="ros_ign_bridge_battery_state"
-      args="/model/$(arg name)/battery/linear_battery/state@sensor_msgs/BatteryState[ignition.msgs.BatteryState">
-      <remap from="/model/$(arg name)/battery/linear_battery/state" to="battery_state"/>
+      name="ros_ign_bridge_robot_base_twist"
+      args="/model/$(arg name)/robot_base_twist@geometry_msgs/Twist[ignition.msgs.Twist">
+      <remap from="/model/$(arg name)/robot_base_twist" to="robot_base_twist"/>
     </node>
 
     <node
@@ -46,9 +38,9 @@
     <node
       pkg="ros_ign_bridge"
       type="parameter_bridge"
-      name="ros_ign_bridge_robot_base_twist"
-      args="/model/$(arg name)/robot_base_twist@geometry_msgs/Twist[ignition.msgs.Twist">
-      <remap from="/model/$(arg name)/robot_base_twist" to="robot_base_twist"/>
+      name="ros_ign_bridge_battery_state"
+      args="/model/$(arg name)/battery/linear_battery/state@sensor_msgs/BatteryState[ignition.msgs.BatteryState">
+      <remap from="/model/$(arg name)/battery/linear_battery/state" to="battery_state"/>
     </node>
 
     <!-- Control Commands -->
