@@ -77,8 +77,25 @@
         <remap from="$(arg sensor_prefix)/camera_front_left/image" to="front/left/image_raw"/>
       </node>
 
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_stereo_right">
+        <remap from="input/image" to="front/right/image_raw" />
+        <remap from="output/image" to="front/right/optical/image_raw" />
+        <remap from="input/camera_info" to="front/right/camera_info" />
+        <remap from="output/camera_info" to="front/right/optical/camera_info" />
+      </node>
 
-
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_stereo_left">
+        <remap from="input/image" to="front/left/image_raw" />
+        <remap from="output/image" to="front/left/optical/image_raw" />
+        <remap from="input/camera_info" to="front/left/camera_info" />
+        <remap from="output/camera_info" to="front/left/optical/camera_info" />
+      </node>
 
     <!-- UAV -->
 

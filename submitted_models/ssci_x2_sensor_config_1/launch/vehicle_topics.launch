@@ -70,6 +70,16 @@
         args="$(arg sensor_prefix)/camera_front/depth_image">
         <remap from="$(arg sensor_prefix)/camera_front/depth_image" to="front/depth"/>
       </node>
+
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_depth"
+        args="depth">
+        <remap from="input/image" to="front/depth" />
+        <remap from="output/image" to="front/optical/depth" />
+      </node>
+
       <node
         pkg="ros_ign_bridge"
         type="parameter_bridge"
@@ -84,6 +94,17 @@
         args="$(arg sensor_prefix)/camera_front/image">
         <remap from="$(arg sensor_prefix)/camera_front/image" to="front/image_raw"/>
       </node>
+
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher">
+        <remap from="input/image" to="front/image_raw" />
+        <remap from="output/image" to="front/optical/image_raw" />
+        <remap from="input/camera_info" to="front/camera_info" />
+        <remap from="output/camera_info" to="front/optical/camera_info" />
+      </node>
+
     </group>
 
     <group if="$(arg rgbd_cam_up)">
@@ -101,6 +122,16 @@
         args="$(arg sensor_prefix)/camera_up/depth_image">
         <remap from="$(arg sensor_prefix)/camera_up/depth_image" to="up/depth"/>
       </node>
+
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_depth_up"
+        args="depth">
+        <remap from="input/image" to="up/depth" />
+        <remap from="output/image" to="up/optical/depth" />
+      </node>
+
       <node
         pkg="ros_ign_bridge"
         type="parameter_bridge"
@@ -115,6 +146,17 @@
         args="$(arg sensor_prefix)/camera_up/image">
         <remap from="$(arg sensor_prefix)/camera_up/image" to="up/image_raw"/>
       </node>
+
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_up">
+        <remap from="input/image" to="up/image_raw" />
+        <remap from="output/image" to="up/optical/image_raw" />
+        <remap from="input/camera_info" to="up/camera_info" />
+        <remap from="output/camera_info" to="up/optical/camera_info" />
+      </node>
+
     </group>
 
     <group if="$(arg rgbd_cam_down)">
@@ -132,6 +174,16 @@
         args="$(arg sensor_prefix)/camera_down/depth_image">
         <remap from="$(arg sensor_prefix)/camera_down/depth_image" to="down/depth"/>
       </node>
+
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_depth_down"
+        args="depth">
+        <remap from="input/image" to="down/depth" />
+        <remap from="output/image" to="down/optical/depth" />
+      </node>
+
       <node
         pkg="ros_ign_bridge"
         type="parameter_bridge"
@@ -146,6 +198,17 @@
         args="$(arg sensor_prefix)/camera_down/image">
         <remap from="$(arg sensor_prefix)/camera_down/image" to="down/image_raw"/>
       </node>
+
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_down">
+        <remap from="input/image" to="down/image_raw" />
+        <remap from="output/image" to="down/optical/image_raw" />
+        <remap from="input/camera_info" to="down/camera_info" />
+        <remap from="output/camera_info" to="down/optical/camera_info" />
+      </node>
+
     </group>
 
     <!-- 3D lidar -->
@@ -178,6 +241,26 @@
               $(arg sensor_prefix)/camera_front_left/image">
         <remap from="$(arg sensor_prefix)/camera_front_right/image" to="front/right/image_raw"/>
         <remap from="$(arg sensor_prefix)/camera_front_left/image" to="front/left/image_raw"/>
+      </node>
+
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_stereo_right">
+        <remap from="input/image" to="front/right/image_raw" />
+        <remap from="output/image" to="front/right/optical/image_raw" />
+        <remap from="input/camera_info" to="front/right/camera_info" />
+        <remap from="output/camera_info" to="front/right/optical/camera_info" />
+      </node>
+
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_stereo_left">
+        <remap from="input/image" to="front/left/image_raw" />
+        <remap from="output/image" to="front/left/optical/image_raw" />
+        <remap from="input/camera_info" to="front/left/camera_info" />
+        <remap from="output/camera_info" to="front/left/optical/camera_info" />
       </node>
     </group>
 
