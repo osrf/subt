@@ -385,6 +385,9 @@ ign service -s /connection/prev \
           <publish_collision_pose>false</publish_collision_pose>
           <publish_visual_pose>false</publish_visual_pose>
           <publish_nested_model_pose>true</publish_nested_model_pose>
+          <use_pose_vector_msg>true</use_pose_vector_msg>
+          <static_publisher>true</static_publisher>
+          <static_update_frequency>1</static_update_frequency>
         </plugin>
       </model>
     </sdf>
