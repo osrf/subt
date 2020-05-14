@@ -20,32 +20,14 @@
 
 #include <string>
 
-#include <sdf/Root.hh>
-#include <sdf/Model.hh>
-
 #include <ignition/msgs/stringmsg.pb.h>
 #include <ignition/transport/Node.hh>
 
 #include <subt_ign/SimpleDOTParser.hh>
+#include "ConnectionHelper.hh"
 
 namespace subt
 {
-  /// \brief Data about vertex (tile) in the environment
-  struct VertexData
-  {
-    /// \brief ID of the vertex (from dot graph)
-    int id;
-
-    /// \brief Type of the tile (eg "Urban Straight")
-    std::string tileType;
-
-    /// \brief Name of the tile as it appears in the SDF file. (eg "tile_1")
-    std::string tileName;
-
-    /// \brief SDF model content for the tile
-    sdf::Model model;
-  };
-
   /// \brief Data about connections between tiles in the environment
   struct Connection
   {
@@ -122,17 +104,6 @@ namespace subt
     /// Used in support of next/prev service calls
     public: std::vector<Connection>::iterator connDataIter;
   };
-
-  /// \brief Compute the connection point between two tiles.
-  /// This uses a reference list of connection points for each tile type.
-  /// The function iterates over the connection points transformed into the
-  /// world coordinate frame to find the location where the tiles meet.
-  /// \param[in] _tile1 vertex data for first connected tile
-  /// \param[in] _tile2 vertex data for second connected tile
-  /// \param[out] _pt Populated point data
-  /// \return True if connection point was found, false otherwise.
-  bool ComputePoint(VertexData *_tile1, VertexData *_tile2,
-                    ignition::math::Vector3d& _pt);
 }
 
 #endif  // SUBT_IGN_CONNECTIONVALIDATORPRIVATE_HH_

@@ -72,7 +72,8 @@ bool ConnectionValidatorPrivate::Load(const std::string &_worldName)
           "cave_circuit", suffix);
     }
   }
-  else if (_worldName.find("simple") == std::string::npos)
+  else if (_worldName.find("simple") == std::string::npos &&
+           _worldName.find("_qual") == std::string::npos)
   {
     ignwarn << "Unable to determine circuit number from["
       << _worldName << "].\n";
@@ -287,7 +288,7 @@ void ConnectionValidatorPrivate::PopulateConnections()
     c.tile1 = &conn1->second;
     c.tile2 = &conn2->second;
     // Only add to the list if a connection point can be computed.
-    if(ComputePoint(c.tile1, c.tile2, c.connectionPoint))
+    if(ConnectionHelper::ComputePoint(c.tile1, c.tile2, c.connectionPoint))
     {
       connData.push_back(c);
     }
@@ -296,115 +297,4 @@ void ConnectionValidatorPrivate::PopulateConnections()
   igndbg << "Populated " << connData.size() << "/" << graph.Edges().size() << std::endl;
 
   this->connDataIter = this->connData.end();
-}
-
-/////////////////////////////////////////////////
-bool subt::ComputePoint(VertexData *_tile1, VertexData *_tile2,
-    ignition::math::Vector3d& _pt)
-{
-  std::map<std::string,
-        std::vector<ignition::math::Vector3d>> connectionPoints = {
-    {"Urban Straight", {{0, 20, 0}, {0, -20, 0}}},
-    {"Urban Bend Right", {{0, -20, 0}, {20, 0, 0}}},
-    {"Urban Bend Left", {{0, -20, 0}, {-20, 0, 0}}},
-    {"Urban Superpose", {{0, 20, 0}, {0, -20, 0}, {-20, 0, 10}, {20, 0, 10}}},
-    {"Urban 3-Way Right Intersection", {{0, 20, 0}, {0, -20, 0}, {20, 0, 0}}},
-    {"Urban Straight Door Right", {{20, 0, 0}, {-20, 0, 0}, {-16.021, 3.94, 0.94}}},
-    {"Urban Straight Door Left", {{20, 0, 0}, {-20, 0, 0}, {-16.021, -3.94, 0.94}}},
-    {"Urban Straight Door Right Flipped", {{20, 0, 0}, {-20, 0, 0}, {-16.021, 3.94, 0.94}}},
-    {"Urban Straight Door Left Flipped", {{20, 0, 0}, {-20, 0, 0}, {-16.021, -3.94, 0.94}}},
-    {"Urban Straight Door Right Extension", {{20, 0, 0}, {-20, 0, 0}, {0, 20, 0}}},
-    {"Urban Service Room Centered", {{0, 20, 0}}},
-    {"Urban Service Room", {{-16.023, 3.906, 0.919}}},
-    {"Urban Service Room Straight", {{0, -20, 0}, {0, 20, 0}}},
-    {"Urban Platform", {{20, 0, 0}, {-20, 0, 0}, {0, 20, 1.7}, {23.979, 3.906, 0.94}, {-23.979, 3.906, 0.94}}},
-    {"Urban Platform Open", {{20, 0, 0}, {-20, 0, 0}, {0, 20, 0},
-      {23.979, 3.906, 0.919}, {-23.979, 3.906, 0.919}, {23.982, 11.743, 0.919}}},
-    {"Urban Stairwell Platform", {{0, 20, 11.69}, {0, -20, 1.69}}},
-    {"Urban Stairwell Platform Centered", {{0, 20, 10}, {0, -20, 0}}},
-    {"Urban Starting Area", {{-16.021, 3.94, 0.919}}},
-    {"Urban Elevation Up", {{0, 20, 5}, {0, -20, 0}}},
-    {"Urban Elevation Down", {{0, 20, 0}, {0, -20, 5}}},
-    {"Urban 2 Story", {{0, 20, 10}, {0, -20, 0}, {-20, 0, 10}, {20, 0, 0}}},
-    {"Urban 2 Story Large Side 1", {{0, 20, 10}, {0, -20, 0}}},
-    {"Urban 2 Story Large Side 2", {{0, -20, 0}, {0, 20, 0}}},
-    {"Urban Large Room Split", {{0, -20, 0}, {-20, 0, 0}, {0, 20, 0}}},
-    {"Cave Starting Area", {{12.5, 0, 0}}},
-    {"Cave Straight 01", {{0, 12.5, 0}, {0, -12.5, 0}}},
-    {"Cave Straight 02", {{0, 12.5, 0}, {0, -12.5, 0}}},
-    {"Cave Straight 03", {{0, 12.5, 0}, {0, -12.5, 0}}},
-    {"Cave Straight 04", {{0, 12.5, 0}, {0, -12.5, 0}}},
-    {"Cave Straight 05", {{0, 12.5, 0}, {0, -12.5, 0}}},
-    {"Cave Corner 01", {{-12.5, 0, 0}, {0, 12.5, 0}}},
-    {"Cave Corner 02", {{-12.5, 0, 0}, {0, 12.5, 0}}},
-    {"Cave 3 Way 01", {{12.5, 0, 0}, {-12.5, 0, 0}, {0, 12.5, 0}}},
-    {"Cave Elevation", {{0, 12.5, 0}, {0, -12.5, 10}}},
-    {"Cave Vertical Shaft", {{0, 12.5, 20}, {0, -12.5, 0}}},
-    {"Cave Cavern Split 01", {{0, 12.5, 12.5}, {12.5, 0, 0}, {-12.5, 0, 0}}},
-    {"Cave Cavern Split 02", {{12.5, 0, 0}, {-12.5, 0, 0}}},
-  };
-
-  std::vector<std::string> lights = {
-    "Urban Straight",
-    "Urban Bend Left",
-    "Urban Straight Door Right Extension",
-    "Urban Service Room Centered",
-    "Urban Service Room",
-    "Urban Service Room Straight",
-    "Urban Stairwell Platform",
-    "Urban Stairwell Platform Centered",
-    "Urban Elevation Up",
-    "Urban 2 Story",
-    "Urban 2 Story Large Side 1",
-    "Urban 2 Story Large Side 2",
-    "Urban Large Room Split",
-    "Urban Straight Door Right Flipped"
-  };
-
-  for (auto ll : lights)
-  {
-    connectionPoints[ll + " Lights"] = connectionPoints[ll];
-  }
-
-  if (!connectionPoints.count(_tile1->tileType))
-  {
-    ignwarn << "No connection information for: " << _tile1->tileType << std::endl;
-    return false;
-  }
-
-  if (!connectionPoints.count(_tile2->tileType))
-  {
-    ignwarn << "No connection information for: " << _tile2->tileType << std::endl;
-    return false;
-  }
-
-  for (const auto& pt1 : connectionPoints[_tile1->tileType])
-  {
-    auto pt1tf = _tile1->model.Pose().CoordPositionAdd(pt1);
-    for (const auto& pt2 : connectionPoints[_tile2->tileType])
-    {
-      auto pt2tf = _tile2->model.Pose().CoordPositionAdd(pt2);
-      if (pt1tf.Equal(pt2tf, 1))
-      {
-        _pt = pt1tf;
-        return true;
-      }
-    }
-  }
-
-  ignwarn << "Failed to connect: " << _tile1->tileType << " " << _tile2->tileType << std::endl;
-
-  for (const auto& pt1 : connectionPoints[_tile1->tileType])
-  {
-    auto pt1tf = _tile1->model.Pose().CoordPositionAdd(pt1);
-    for (const auto& pt2 : connectionPoints[_tile2->tileType])
-    {
-      auto pt2tf = _tile2->model.Pose().CoordPositionAdd(pt2);
-      igndbg <<
-        _tile1->tileType << " [" << _tile1->model.Pose() << "] -- " <<
-        _tile2->tileType << " [" << _tile2->model.Pose() << "] [" << pt1tf << "] [" << pt2tf << "]" << std::endl;
-    }
-  }
-
-  return false;
 }

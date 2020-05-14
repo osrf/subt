@@ -78,7 +78,8 @@ bool VisibilityTable::Load(const std::string &_worldName, bool _loadLUT)
           "cave_circuit", suffix);
     }
   }
-  else if (this->worldName.find("simple") == std::string::npos)
+  else if (this->worldName.find("simple") == std::string::npos &&
+           this->worldName.find("_qual") == std::string::npos)
   {
     ignerr << "Unable to determine circuit number from["
       << this->worldName << "].\n";
