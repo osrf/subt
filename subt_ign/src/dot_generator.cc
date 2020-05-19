@@ -72,7 +72,7 @@ void printGraph(std::vector<VertexData> &_vertexData)
     // rely on this naming convention
     std::string name = vd.tileName;
     std::string type = vd.tileType;
-    if (type == "Cave Starting Area" ||
+    if (type == "Cave Starting Area Type B" ||
         type == "Urban Starting Area")
     {
       type = "base_station";
@@ -106,9 +106,9 @@ void printGraph(std::vector<VertexData> &_vertexData)
 
         // Is one of the tile a starting area? If so, the cost should be 1.
         bool connectsToStaging =
-          _vertexData[i].tileType == "Cave Starting Area" ||
+          _vertexData[i].tileType == "Cave Starting Area Type B" ||
           _vertexData[i].tileType == "Urban Starting Area" ||
-          _vertexData[j].tileType == "Cave Starting Area" ||
+          _vertexData[j].tileType == "Cave Starting Area Type B" ||
           _vertexData[j].tileType == "Urban Starting Area";
 
         if ((tp1 == subt::ConnectionHelper::STRAIGHT &&

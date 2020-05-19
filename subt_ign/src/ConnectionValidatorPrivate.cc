@@ -229,7 +229,7 @@ void ConnectionValidatorPrivate::PopulateConnections()
       if (this->worldName.find("urban") != std::string::npos)
         dd.tileType = "Urban Starting Area";
       else if (this->worldName.find("cave") != std::string::npos)
-        dd.tileType = "Cave Starting Area";
+        dd.tileType = "Cave Starting Area Type B";
       dd.tileName = "staging_area";
     }
 
