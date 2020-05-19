@@ -112,16 +112,17 @@ bool VisibilityModel::VisualizeVisibility(const ignition::msgs::StringMsg &_req,
   ignition::msgs::Set(markerMsg.mutable_pose(),
                       ignition::math::Pose3d(0, 0, 0, 0, 0, 0));
 
+  // GreenGlow, TurquoiseGlow, BlueGlow, YellowGlow, RedGlow
   // Available colors
   //
   // RedGlow, YellowGlow, GreenGlow, TurquoiseGlow, BlueGlow
   // High (good)                                    Low (bad)
   std::map<int, ignition::math::Color> indexToColor;
-  indexToColor[0] = ignition::math::Color(1, 0, 0);
-  indexToColor[1] = ignition::math::Color(1, 1, 0);
-  indexToColor[2] = ignition::math::Color(0, 1, 0);
-  indexToColor[3] = ignition::math::Color(0, 1, 1);
-  indexToColor[4] = ignition::math::Color(0, 0, 1);
+  indexToColor[0] = ignition::math::Color(0, 1, 0);
+  indexToColor[1] = ignition::math::Color(0, 1, 1);
+  indexToColor[2] = ignition::math::Color(0, 0, 1);
+  indexToColor[3] = ignition::math::Color(1, 1, 0);
+  indexToColor[4] = ignition::math::Color(1, 0, 0);
 
   for (int i = 0; i < 5; ++i)
   {
