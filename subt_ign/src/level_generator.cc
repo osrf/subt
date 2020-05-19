@@ -119,8 +119,11 @@ std::string levelsStr(const std::map<double, Level> &_levels)
 
 /// \brief Print the level sdf elements
 /// \param[in] _vertexData vector of model info
-/// \param[in[ _size Tile size
-/// \param[in[ _buffer Level bfufer size
+/// \param[in] _size Tile size, which is used to compute the size of levels
+/// At minimum this should be the size of largest tile in the world but larger
+/// values can be specified to increase the size of each level.
+/// tile in the world.
+/// \param[in] _buffer Level buffer size
 /// \return A string containing the levels.
 std::string computeLevels(std::vector<VertexData> &_vertexData,
     const math::Vector3d &_size, double _buffer)
@@ -221,7 +224,10 @@ std::string computeLevels(std::vector<VertexData> &_vertexData,
 
 /// \brief Main function to generate levels from input sdf file
 /// \param[in] _sdfFile Input sdf file.
-/// \param[in] _size Tile size
+/// \param[in] _size Tile size, which is used to compute the size of levels
+/// At minimum this should be the size of largest tile in the world but larger
+/// values can be specified to increase the size of each level.
+/// tile in the world.
 /// \param[in] _buffer Buffer of level
 /// \param[out] _outFile Output file
 void generateLevel(const std::string &_sdfFile, const math::Vector3d &_size,
