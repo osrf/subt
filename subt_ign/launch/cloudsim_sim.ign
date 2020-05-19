@@ -111,7 +111,7 @@
   MARSUPIAL_VALID_CHILD_ROBOT_TYPES = ["X3"]
 
   MARSUPIAL_PARENT_ROBOT_POSITION_OFFSETS = {
-    "X1" => Vector3d.new(0, 0, 0.235)
+    "X1" => Vector3d.new(0, 0, 0.53)
   }
 
   # key: parent, value: child
@@ -1310,6 +1310,34 @@
         </plugin>
       HEREDOC
 
+      # This will be used to spawn the drone platform.
+      platform = <<-HEREDOC
+        <plugin name="ignition::launch::GazeboFactory"
+                filename="libignition-launch-gazebo-factory.so">
+          <name>#{name}_platform</name>
+          <allow_renaming>false</allow_renaming>
+          <!--<pose>#{robot.pos.x + 0.078} #{robot.pos.y} #{robot.pos.z+0.065} 0 0 0</pose>-->
+          <pose>#{robot.pos.x + 0.078} #{robot.pos.y} #{robot.pos.z+0.085} 0 0 0</pose>
+          <world>#{$worldName}</world>
+          <is_performer>false</is_performer>
+          <sdf version='1.6'>
+            <include>
+              <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/DronePlatformX1</uri> 
+            </include>
+          </sdf>
+        </plugin>
+      HEREDOC
+
+      # This will be use to attach the drone platform to the base.
+      platformJointPlugin = REXML::Document.new <<-HEREDOC
+        <plugin filename="libignition-gazebo-detachable-joint-system.so" name="ignition::gazebo::systems::DetachableJoint">
+        <parent_link>base_link</parent_link>
+        <child_model>#{name}_platform</child_model>
+        <child_link>base_link</child_link>
+        <suppress_child_warning>true</suppress_child_warning>
+        </plugin>
+      HEREDOC
+
       # Wrap the temporary spawn string with a root element. This is needed
       # because the xml parser needs a root element. When we're adding the
       # plugin, we print only the contents of the root element.
@@ -1317,10 +1345,12 @@
       pluginElem = spawnXml.root.elements['//plugin[@name="ignition::launch::GazeboFactory"]']
       includeElem = pluginElem.elements['sdf/include']
       includeElem.add_element(detachableJointPlugin.root)
+      includeElem.add_element(platformJointPlugin.root)
 
       spawnString = ""
       formatter = REXML::Formatters::Default.new
       spawnXml.root.each { |el| formatter.write(el, spawnString) }
+      spawnString += platform
     else
       spawnString = spawnStringTmp
     end
