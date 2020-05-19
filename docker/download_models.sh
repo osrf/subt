@@ -48,6 +48,7 @@ ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/E
 ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/COSTAR_HUSKY_SENSOR_CONFIG_1" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/SOPHISTICATED_ENGINEERING_X2_SENSOR_CONFIG_1" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/SOPHISTICATED_ENGINEERING_X4_SENSOR_CONFIG_1" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/DronePlatformX1" -v 4
 
 # Download the tunnel circuit models
 ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/subt_tunnel_staging_area" -v 4
