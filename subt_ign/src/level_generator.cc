@@ -119,56 +119,32 @@ std::string levelsStr(const std::map<double, Level> &_levels)
 
 /// \brief Print the level sdf elements
 /// \param[in] _vertexData vector of model info
-///\ param[in[ _size Tile size
-///\ param[in[ _buffer Level bfufer size
+/// \param[in] _size Tile size, which is used to compute the size of levels
+/// At minimum this should be the size of largest tile in the world but larger
+/// values can be specified to increase the size of each level.
+/// tile in the world.
+/// \param[in] _buffer Level buffer size
 void printLevels(std::vector<VertexData> &_vertexData,
     const math::Vector3d &_size, double _buffer)
 {
   std::map<double, Level> levelX;
   std::map<double, Level> levelY;
 
-  double minX = std::numeric_limits<double>::max();
-  double minY = minX;
-  double minZ = minX;
-  double maxX = -std::numeric_limits<double>::max();
-  double maxY = maxX;
-  double maxZ = maxX;
+  math::Vector3d min(math::MAX_D, math::MAX_D, math::MAX_D);
+  math::Vector3d max(-math::MAX_D, -math::MAX_D, -math::MAX_D);
 
-  // get min max of xyz of models
+  // get min & max model position values
   for (const auto &vd : _vertexData)
   {
-    double x = vd.model.Pose().Pos().X();
-    double y = vd.model.Pose().Pos().Y();
-    double z = vd.model.Pose().Pos().Z();
-
-    if (x < minX)
-      minX = x;
-    if (y < minY)
-      minY = y;
-    if (z < minZ)
-      minZ = z;
-
-    if (x > maxX)
-      maxX = x;
-    if (y > maxY)
-      maxY = y;
-    if (z > maxZ)
-      maxZ = z;
+    min.Min(vd.model.Pose().Pos());
+    max.Max(vd.model.Pose().Pos());
   }
 
   // compute level size and position
-  double lsx = maxX - minX;
-  double lx = minX + lsx * 0.5;
+  math::Vector3d ls = max - min;
+  math::Vector3d l = min + ls * 0.5;
 
-  double lsy = maxY - minY;
-  double ly = minY + lsy * 0.5;
-
-  double lsz = maxZ - minZ;
-  double lz = minZ + lsz * 0.5;
-
-  lsx += _size.X() * 2.0;
-  lsy += _size.Y() * 2.0;
-  lsz += _size.Z() * 2.0;
+  ls += _size * 2.0;
 
   double levelSizeFactor = 1.875;
 
@@ -183,12 +159,12 @@ void printLevels(std::vector<VertexData> &_vertexData,
     if (levelX.find(x) == levelX.end())
     {
       double rx = x;
-      double ry = ly;
-      double rz = lz;
+      double ry = l.Y();
+      double rz = l.Z();
 
       double rsx = _size.X() * levelSizeFactor;
-      double rsy = lsy;
-      double rsz = lsz;
+      double rsy = ls.Y();
+      double rsz = ls.Z();
 
       Level level;
       level.x = rx;
@@ -205,13 +181,13 @@ void printLevels(std::vector<VertexData> &_vertexData,
     // Create a new level for each unique y
     if (levelY.find(y) == levelY.end())
     {
-      double cx = lx;
+      double cx = l.X();
       double cy = y;
-      double cz = lz;
+      double cz = l.Z();
 
-      double csx = lsx;
+      double csx = ls.X();
       double csy = _size.Y() * levelSizeFactor;
-      double csz = lsz;
+      double csz = ls.Z();
 
       Level level;
       level.x = cx;
@@ -247,7 +223,10 @@ void printLevels(std::vector<VertexData> &_vertexData,
 
 /// \brief Main function to generate levels from input sdf file
 /// \param[in] _sdfFile Input sdf file.
-/// \param[in] _size Tile size
+/// \param[in] _size Tile size, which is used to compute the size of levels
+/// At minimum this should be the size of largest tile in the world but larger
+/// values can be specified to increase the size of each level.
+/// tile in the world.
 /// \param[in] _buffer Buffer of level
 void generateLevel(const std::string &_sdfFile, const math::Vector3d &_size,
     double _buffer)
