@@ -61,32 +61,32 @@ bool debugLevels = false;
 
 /// \brief Print debug visuals the levels sdf string
 /// \param[in] _levels List of levels to debug
-void printDebugVisuals(const std::map<double, Level> &_levels)
+/// \param[out] _out Stream to receive the debug visuals output.
+void printDebugVisuals(const std::map<double, Level> &_levels,
+    std::stringstream &_out)
 {
-  std::stringstream out;
   static int debugCounter = 0;
 
   for (const auto &lIt : _levels)
   {
     auto l = lIt.second;
-    out << "    <model name=\"level_debug_" << std::to_string(debugCounter++)
-        << "\">\n";
-    out << "      <pose>" << l.x << " " << l.y << " " << l.z
-                          << " 0 0 0</pose>\n";
-    out << "      <link name=\"level_debug_link\">\n";
-    out << "        <visual name=\"level_debug_visual\">\n";
-    out << "          <transparency>0.2</transparency>\n";
-    out << "          <geometry><box><size>\n";
-    out << "            " << l.sx << " " << l.sy << " " << l.sz << "\n";
-    out << "          </size></box></geometry>\n";
-    out << "          <material><diffuse>1 0 0</diffuse></material>\n";
-    out << "          <cast_shadows>false</cast_shadows>\n";
-    out << "        </visual>\n";
-    out << "      </link>\n";
-    out << "      <static>true</static>\n";
-    out << "    </model>\n";
+    _out << "    <model name=\"level_debug_" << std::to_string(debugCounter++)
+         << "\">\n";
+    _out << "      <pose>" << l.x << " " << l.y << " " << l.z
+                           << " 0 0 0</pose>\n";
+    _out << "      <link name=\"level_debug_link\">\n";
+    _out << "        <visual name=\"level_debug_visual\">\n";
+    _out << "          <transparency>0.2</transparency>\n";
+    _out << "          <geometry><box><size>\n";
+    _out << "            " << l.sx << " " << l.sy << " " << l.sz << "\n";
+    _out << "          </size></box></geometry>\n";
+    _out << "          <material><diffuse>1 0 0</diffuse></material>\n";
+    _out << "          <cast_shadows>false</cast_shadows>\n";
+    _out << "        </visual>\n";
+    _out << "      </link>\n";
+    _out << "      <static>true</static>\n";
+    _out << "    </model>\n";
   }
-  std::cout << out.str() << std::endl;
 }
 
 /// \brief Get the levels sdf string
@@ -119,56 +119,30 @@ std::string levelsStr(const std::map<double, Level> &_levels)
 
 /// \brief Print the level sdf elements
 /// \param[in] _vertexData vector of model info
-///\ param[in[ _size Tile size
-///\ param[in[ _buffer Level bfufer size
-void printLevels(std::vector<VertexData> &_vertexData,
+/// \param[in[ _size Tile size
+/// \param[in[ _buffer Level bfufer size
+/// \return A string containing the levels.
+std::string computeLevels(std::vector<VertexData> &_vertexData,
     const math::Vector3d &_size, double _buffer)
 {
   std::map<double, Level> levelX;
   std::map<double, Level> levelY;
 
-  double minX = std::numeric_limits<double>::max();
-  double minY = minX;
-  double minZ = minX;
-  double maxX = -std::numeric_limits<double>::max();
-  double maxY = maxX;
-  double maxZ = maxX;
+  math::Vector3d min(math::MAX_D, math::MAX_D, math::MAX_D);
+  math::Vector3d max(-math::MAX_D, -math::MAX_D, -math::MAX_D);
 
-  // get min max of xyz of models
+  // get min & max model position values
   for (const auto &vd : _vertexData)
   {
-    double x = vd.model.Pose().Pos().X();
-    double y = vd.model.Pose().Pos().Y();
-    double z = vd.model.Pose().Pos().Z();
-
-    if (x < minX)
-      minX = x;
-    if (y < minY)
-      minY = y;
-    if (z < minZ)
-      minZ = z;
-
-    if (x > maxX)
-      maxX = x;
-    if (y > maxY)
-      maxY = y;
-    if (z > maxZ)
-      maxZ = z;
+    min.Min(vd.model.Pose().Pos());
+    max.Max(vd.model.Pose().Pos());
   }
 
   // compute level size and position
-  double lsx = maxX - minX;
-  double lx = minX + lsx * 0.5;
+  math::Vector3d ls = max - min;
+  math::Vector3d l = min + ls * 0.5;
 
-  double lsy = maxY - minY;
-  double ly = minY + lsy * 0.5;
-
-  double lsz = maxZ - minZ;
-  double lz = minZ + lsz * 0.5;
-
-  lsx += _size.X() * 2.0;
-  lsy += _size.Y() * 2.0;
-  lsz += _size.Z() * 2.0;
+  ls += _size * 2.0;
 
   double levelSizeFactor = 1.875;
 
@@ -183,12 +157,12 @@ void printLevels(std::vector<VertexData> &_vertexData,
     if (levelX.find(x) == levelX.end())
     {
       double rx = x;
-      double ry = ly;
-      double rz = lz;
+      double ry = l.Y();
+      double rz = l.Z();
 
       double rsx = _size.X() * levelSizeFactor;
-      double rsy = lsy;
-      double rsz = lsz;
+      double rsy = ls.Y();
+      double rsz = ls.Z();
 
       Level level;
       level.x = rx;
@@ -205,13 +179,13 @@ void printLevels(std::vector<VertexData> &_vertexData,
     // Create a new level for each unique y
     if (levelY.find(y) == levelY.end())
     {
-      double cx = lx;
+      double cx = l.X();
       double cy = y;
-      double cz = lz;
+      double cz = l.Z();
 
-      double csx = lsx;
+      double csx = ls.X();
       double csy = _size.Y() * levelSizeFactor;
-      double csz = lsz;
+      double csz = ls.Z();
 
       Level level;
       level.x = cx;
@@ -234,23 +208,24 @@ void printLevels(std::vector<VertexData> &_vertexData,
   out << levelsStr(levelX);
   out << levelsStr(levelY);
   out << "    </plugin>";
-  std::cout << out.str() << std::endl;
-
 
   // print debug visuals
   if (debugLevels)
   {
-    printDebugVisuals(levelX);
-    printDebugVisuals(levelY);
+    printDebugVisuals(levelX, out);
+    printDebugVisuals(levelY, out);
   }
+
+  return out.str();
 }
 
 /// \brief Main function to generate levels from input sdf file
 /// \param[in] _sdfFile Input sdf file.
 /// \param[in] _size Tile size
 /// \param[in] _buffer Buffer of level
+/// \param[out] _outFile Output file
 void generateLevel(const std::string &_sdfFile, const math::Vector3d &_size,
-    double _buffer)
+    double _buffer, const std::string &_outFile)
 {
   std::ifstream file(_sdfFile);
   if (!file.is_open())
@@ -260,6 +235,11 @@ void generateLevel(const std::string &_sdfFile, const math::Vector3d &_size,
   }
   std::string str((std::istreambuf_iterator<char>(file)),
       std::istreambuf_iterator<char>());
+  file.close();
+
+  // Copy the string so that we can insert the levels at the end of this
+  // function.
+  std::string strCopy = str;
 
   // filter models that are in the staging area
   std::function<bool(const std::string &, const std::string &)>
@@ -285,18 +265,32 @@ void generateLevel(const std::string &_sdfFile, const math::Vector3d &_size,
     str = str.substr(result);
   }
 
-  printLevels(vertexData, _size, _buffer);
+  std::string levelStr = computeLevels(vertexData, _size, _buffer);
 
-  file.close();
+  // Just some pretty printing
+  levelStr += "\n  ";
+
+  // Insert the levelStr into the world
+  size_t worldEndPos = strCopy.find("</world>");
+  strCopy.insert(worldEndPos, levelStr);
+
+  std::ofstream outFile(_outFile);
+  if (!outFile.is_open())
+  {
+    std::cerr << "Failed to write to file " << _outFile << std::endl;
+    return;
+  }
+  outFile << strCopy;
+  outFile.close();
 }
 
 //////////////////////////////////////////////////
 int main(int argc, char **argv)
 {
-  if (argc != 6)
+  if (argc != 7)
   {
     std::cerr << "Usage: dot_generator <path_to_world_sdf_file> "
-              << "<size_x> <size_y> <size_z> <buffer>"
+              << "<size_x> <size_y> <size_z> <buffer> <output_file>"
               << std::endl;
     return -1;
   }
@@ -306,8 +300,8 @@ int main(int argc, char **argv)
   double sy = std::stod(argv[3]);
   double sz = std::stod(argv[4]);
   double buffer = std::stod(argv[5]);
-
-  generateLevel(sdfFile, math::Vector3d(sx, sy, sz), buffer);
+  std::string outFile = argv[6];
+  generateLevel(sdfFile, math::Vector3d(sx, sy, sz), buffer, outFile);
 
   return 0;
 }
