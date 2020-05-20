@@ -128,7 +128,6 @@ ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/mode
 ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Split Type A" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Straight Shift Type A" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Straight Type A" -v 4
-ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Transition" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave U Turn 01 Type A" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave U Turn Elevation Type A" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Vertical Shaft Cantilevered Type A" -v 4
