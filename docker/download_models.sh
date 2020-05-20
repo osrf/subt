@@ -145,6 +145,7 @@ ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/mode
 ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave U Turn Elevation Lights Type A " -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Vertical Shaft Straight Bottom Lights Type A" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Transition Type A to and from Type B" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Transition Type A to and from Type B Lights" -v 4
 
 # Download cave circuit tiles (Type B)
 ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Cavern Split 01 Type B" -v 4

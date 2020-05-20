@@ -135,7 +135,8 @@ std::map<std::string, std::vector<ignition::math::Vector3d>>
     {"Cave Straight Lights Type A", {{0.0, 25.0, 0.0}, {0.0, -25.0, 0.0}}},
     {"Cave U Turn Elevation Lights Type A", {{-50.0, -25.0, 0.0}, {0.0, -25.0, 25.0}}},
     {"Cave Vertical Shaft Straight Bottom Lights Type A", {{0.0, 0.0, 10.0}, {0.0, 25.0, 0.0}, {0.0, -25.0, 0.0}}},
-    {"Cave Transition Type A to and from Type B", {{0.0, 25.0, 0.0}, {0.0, -25.0, 0.0}}}
+    {"Cave Transition Type A to and from Type B", {{0.0, 25.0, 0.0}, {0.0, -25.0, 0.0}}},
+    {"Cave Transition Type A to and from Type B Lights", {{0.0, 25.0, 0.0}, {0.0, -25.0, 0.0}}}
   };
 
 std::map<std::string, subt::ConnectionHelper::ConnectionType>
@@ -244,7 +245,8 @@ std::map<std::string, subt::ConnectionHelper::ConnectionType>
     {"Cave Straight Lights Type A", subt::ConnectionHelper::STRAIGHT},
     {"Cave U Turn Elevation Lights Type A", subt::ConnectionHelper::TURN},
     {"Cave Vertical Shaft Straight Bottom Lights Type A", subt::ConnectionHelper::TURN},
-    {"Cave Transition Type A to and from Type B", subt::ConnectionHelper::STRAIGHT}
+    {"Cave Transition Type A to and from Type B", subt::ConnectionHelper::STRAIGHT},
+    {"Cave Transition Type A to and from Type B Lights", subt::ConnectionHelper::STRAIGHT}
   };
 
 using namespace ignition;
