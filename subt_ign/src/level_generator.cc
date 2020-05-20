@@ -295,7 +295,7 @@ int main(int argc, char **argv)
 {
   if (argc != 7)
   {
-    std::cerr << "Usage: dot_generator <path_to_world_sdf_file> "
+    std::cerr << "Usage: level_generator <path_to_world_sdf_file> "
               << "<size_x> <size_y> <size_z> <buffer> <output_file>"
               << std::endl;
     return -1;
