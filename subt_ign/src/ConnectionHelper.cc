@@ -131,7 +131,7 @@ std::map<std::string, std::vector<ignition::math::Vector3d>>
     {"Cave Corner 01 Lights Type A", {{25.0, 0.0, 0.0}, {0.0, -25.0, 0.0}}},
     {"Cave Corner 02 Lights Type A", {{0.0, 25.0, 0.0}, {25.0, -50.0, 0.0}}},
     {"Cave Corner 04 Lights Type A", {{0.0, 50.0, 25.0}, {-50.0, -50.0, 0.0}}},
-    {"Cave Elevation Straight Lights Type A", {{0.0, 50.0, 0.0}, {0.0, -50.0, 0.0}}},
+    {"Cave Elevation Straight Lights Type A", {{0.0, 50.0, 25.0}, {0.0, -50.0, 0.0}}},
     {"Cave Straight Lights Type A", {{0.0, 25.0, 0.0}, {0.0, -25.0, 0.0}}},
     {"Cave U Turn Elevation Lights Type A", {{-50.0, -25.0, 0.0}, {0.0, -25.0, 25.0}}},
     {"Cave Vertical Shaft Straight Bottom Lights Type A", {{0.0, 0.0, 10.0}, {0.0, 25.0, 0.0}, {0.0, -25.0, 0.0}}},
