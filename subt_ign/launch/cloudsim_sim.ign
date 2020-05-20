@@ -298,7 +298,7 @@
         <!-- Use the <path> element to control where to record the log file.
              The HOME path is used by default -->
         <path>/tmp/ign/logs</path>
-        <filename_prefix>subt_cave</filename_prefix>
+        <filename_prefix>subt_<%= $circuit %></filename_prefix>
       </logging>
 
       <artifact>
@@ -649,6 +649,9 @@
             <publish_collision_pose>false</publish_collision_pose>
             <publish_visual_pose>false</publish_visual_pose>
             <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>
+            <use_pose_vector_msg>true</use_pose_vector_msg>
+            <static_publisher>true</static_publisher>
+            <static_update_frequency>1</static_update_frequency>
           </plugin>
           <!-- Battery plugin -->
           <plugin filename="libignition-gazebo-linearbatteryplugin-system.so"
@@ -756,6 +759,9 @@
             <publish_collision_pose>false</publish_collision_pose>
             <publish_visual_pose>false</publish_visual_pose>
             <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>
+            <use_pose_vector_msg>true</use_pose_vector_msg>
+            <static_publisher>true</static_publisher>
+            <static_update_frequency>1</static_update_frequency>
           </plugin>
           <!-- Battery plugin -->
           <plugin filename="libignition-gazebo-linearbatteryplugin-system.so"
@@ -844,6 +850,9 @@
           <publish_collision_pose>false</publish_collision_pose>
           <publish_visual_pose>false</publish_visual_pose>
           <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>
+          <use_pose_vector_msg>true</use_pose_vector_msg>
+          <static_publisher>true</static_publisher>
+          <static_update_frequency>1</static_update_frequency>
         </plugin>
         <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
           name="ignition::gazebo::systems::MulticopterMotorModel">
@@ -1046,6 +1055,9 @@
           <publish_collision_pose>false</publish_collision_pose>
           <publish_visual_pose>false</publish_visual_pose>
           <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>
+          <use_pose_vector_msg>true</use_pose_vector_msg>
+          <static_publisher>true</static_publisher>
+          <static_update_frequency>1</static_update_frequency>
         </plugin>
         <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
           name="ignition::gazebo::systems::MulticopterMotorModel">

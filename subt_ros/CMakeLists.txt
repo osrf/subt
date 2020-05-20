@@ -40,6 +40,11 @@ target_link_libraries(pose_tf_broadcaster
   ${catkin_LIBRARIES}
 )
 
+add_executable(optical_frame_publisher src/OpticalFramePublisher.cc)
+target_link_libraries(optical_frame_publisher
+  ${catkin_LIBRARIES}
+)
+
 add_executable(bridge_logger src/BridgeLogger.cc)
 add_dependencies(bridge_logger ${catkin_EXPORTED_TARGETS})
 target_link_libraries(bridge_logger ${catkin_LIBRARIES})
@@ -71,6 +76,7 @@ target_link_libraries(set_pose_relay
 add_dependencies(set_pose_relay ${catkin_EXPORTED_TARGETS})
 
 install(TARGETS pose_tf_broadcaster subt_ros_relay set_pose_relay bridge_logger
+  optical_frame_publisher
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 install(DIRECTORY launch
