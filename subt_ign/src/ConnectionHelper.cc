@@ -124,7 +124,17 @@ std::map<std::string, std::vector<ignition::math::Vector3d>>
     {"Cave Vertical Shaft Straight Bottom Type A", {{0.0, 0.0, 10.0}, {0.0, 25.0, 0.0}, {0.0, -25.0, 0.0}}},
     {"Cave Vertical Shaft Straight Top Type A", {{0.0, 25.0, 0.0}, {0.0, -25.0, 0.0}, {0.0, 0.0, 0.0}}},
     {"Cave Vertical Shaft Type A", {{0.0, 0.0, 10.0}, {0.0, 0.0, 25.0}}},
-    {"Cave Vertical Shaft Dead End Type A", {{0.0, 0.0, 10.0}}}
+    {"Cave Vertical Shaft Dead End Type A", {{0.0, 0.0, 10.0}}},
+
+    {"Cave 3 Way Elevation 02 Lights Type A", {{0.0, -50.0, 0.0}, {-100.0, -50.0, -25.0}, {0.0, 50.0, 0.0}}},
+    {"Cave 4 Way 01 Lights Type A", {{0.0, 25.0, 0.0}, {25.0, 0.0, 0.0}, {0.0, -25.0, 0.0}, {-25.0, 0.0, 0.0}}},
+    {"Cave Corner 01 Lights Type A", {{25.0, 0.0, 0.0}, {0.0, -25.0, 0.0}}},
+    {"Cave Corner 02 Lights Type A", {{0.0, 25.0, 0.0}, {25.0, -50.0, 0.0}}},
+    {"Cave Corner 04 Lights Type A", {{0.0, 50.0, 25.0}, {-50.0, -50.0, 0.0}}},
+    {"Cave Elevation Straight Lights Type A", {{0.0, 50.0, 0.0}, {0.0, -50.0, 0.0}}},
+    {"Cave Straight Lights Type A", {{0.0, 25.0, 0.0}, {0.0, -25.0, 0.0}}},
+    {"Cave U Turn Elevation Lights Type A", {{-50.0, -25.0, 0.0}, {0.0, -25.0, 25.0}}},
+    {"Cave Vertical Shaft Straight Bottom Lights Type A", {{0.0, 0.0, 10.0}, {0.0, 25.0, 0.0}, {0.0, -25.0, 0.0}}}
   };
 
 std::map<std::string, subt::ConnectionHelper::ConnectionType>
@@ -223,7 +233,16 @@ std::map<std::string, subt::ConnectionHelper::ConnectionType>
     {"Cave Vertical Shaft Straight Bottom Type A", subt::ConnectionHelper::TURN},
     {"Cave Vertical Shaft Straight Top Type A", subt::ConnectionHelper::TURN},
     {"Cave Vertical Shaft Type A", subt::ConnectionHelper::STRAIGHT},
-    {"Cave Vertical Shaft Dead End Type A", subt::ConnectionHelper::STRAIGHT}
+    {"Cave Vertical Shaft Dead End Type A", subt::ConnectionHelper::STRAIGHT},
+    {"Cave 3 Way Elevation 02 Lights Type A", subt::ConnectionHelper::TURN},
+    {"Cave 4 Way 01 Lights Type A", subt::ConnectionHelper::TURN},
+    {"Cave Corner 01 Lights Type A", subt::ConnectionHelper::TURN},
+    {"Cave Corner 02 Lights Type A", subt::ConnectionHelper::TURN},
+    {"Cave Corner 04 Lights Type A", subt::ConnectionHelper::TURN},
+    {"Cave Elevation Straight Lights Type A", subt::ConnectionHelper::TURN},
+    {"Cave Straight Lights Type A", subt::ConnectionHelper::STRAIGHT},
+    {"Cave U Turn Elevation Lights Type A", subt::ConnectionHelper::TURN},
+    {"Cave Vertical Shaft Straight Bottom Lights Type A", subt::ConnectionHelper::TURN}
   };
 
 using namespace ignition;

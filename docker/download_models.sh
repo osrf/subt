@@ -167,5 +167,12 @@ ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/C
 ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Straight 04 Lights Type B" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Straight 05 Type B" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Straight 05 Lights Type B" -v 4
-
-
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 3 Way Elevation 02 Lights Type A " -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 4 Way 01 Lights Type A " -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 01 Lights Type A " -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 02 Lights Type A " -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 04 Lights Type A " -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Elevation Straight Lights Type A " -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Straight Lights Type A " -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave U Turn Elevation Lights Type A " -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Vertical Shaft Straight Bottom Lights Type A" -v 4
