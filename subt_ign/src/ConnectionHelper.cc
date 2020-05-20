@@ -97,7 +97,46 @@ std::map<std::string, std::vector<ignition::math::Vector3d>>
     {"Cave Corner 30 D Type B", {{12.5, 0, 0}, {0, 12.5, 0}}},
     {"Cave Corner 30 D Lights Type B", {{12.5, 0, 0}, {0, 12.5, 0}}},
     {"Cave Corner 30F D Type B", {{12.5, 0, 0}, {0, -12.5, 0}}},
-    {"Cave Corner 30F D Lights Type B", {{12.5, 0, 0}, {0, -12.5, 0}}}
+    {"Cave Corner 30F D Lights Type B", {{12.5, 0, 0}, {0, -12.5, 0}}},
+
+    {"Cave 2 Way 01 Type A", {{-25.0, 0.0, 0.0}, {25.0, 0.0, 0.0}}},
+    {"Cave 3 Way 01 Type A", {{0.0, -25.0, 0.0}, {-25.0, 50.0, 0.0}, {50.0, 25.0, 0.0}}},
+    {"Cave 3 Way 02 Type A", {{-50.0, 25.0, 0.0}, {25.0, 50.0, 0.0}, {0.0, -25.0, 0.0}}},
+    {"Cave 3 Way Elevation 01 Type A", {{0.0, 50.0, 0.0}, {-100.0, -50.0, -25.0}, {0.0, -50.0, -25.0}}},
+    {"Cave 3 Way Elevation 02 Type A", {{0.0, -50.0, 0.0}, {-100.0, -50.0, -25.0}, {0.0, 50.0, 0.0}}},
+    {"Cave 3 Way Elevation 03 Type A", {{0.0, 50.0, 75.0}, {50.0, 0.0, -50.0}, {0.0, -50.0, 0.0}}},
+    {"Cave 4 Way 01 Type A", {{0.0, 25.0, 0.0}, {25.0, 0.0, 0.0}, {0.0, -25.0, 0.0}, {-25.0, 0.0, 0.0}}},
+    {"Cave Cavern Type A", {{-25.0, 0.0, 25.0}, {25.0, 0.0, 25.0}, {0.0, 25.0, 0.0}, {0.0, -25.0, 0.0}}},
+    {"Cave Corner 01 Type A", {{25.0, 0.0, 0.0}, {0.0, -25.0, 0.0}}},
+    {"Cave Corner 02 Type A", {{0.0, 25.0, 0.0}, {25.0, -50.0, 0.0}}},
+    {"Cave Corner 03 Type A", {{-25.0, 0.0, 0.0}, {0.0, -25.0, 0.0}}},
+    {"Cave Corner 04 Type A", {{0.0, 50.0, 25.0}, {-50.0, -50.0, 0.0}}},
+    {"Cave Elevation 01 Type A", {{0.0, -50.0, 0.0}, {0.0, 50.0, 75.0}}},
+    {"Cave Elevation 02 Type A", {{-50.0, 0.0, 75.0}, {50.0, 0.0, 0.0}}},
+    {"Cave Elevation Corner Type A", {{25.0, 75.0, 25.0}, {0.0, -100.0, 0.0}}},
+    {"Cave Elevation Straight Type A", {{0.0, 50.0, 25.0}, {0.0, -50.0, 0.0}}},
+    {"Cave Split Type A", {{0.0, -50.0, 0.0}, {0.0, 50.0, 0.0}}},
+    {"Cave Straight Shift Type A", {{-25.0, 25.0, 0.0}, {25.0, -25.0, 0.0}}},
+    {"Cave Straight Type A", {{0.0, 25.0, 0.0}, {0.0, -25.0, 0.0}}},
+    {"Cave U Turn 01 Type A", {{-25.0, -25.0, 0.0}, {25.0, -25.0, 0.0}}},
+    {"Cave U Turn Elevation Type A", {{-50.0, -25.0, 0.0}, {0.0, -25.0, 25.0}}},
+    {"Cave Vertical Shaft Cantilevered Type A", {{0.0, -5.46392e-07, 10.0}, {0.0, 50.0, 25.0}}},
+    {"Cave Vertical Shaft Straight Bottom Type A", {{0.0, 0.0, 10.0}, {0.0, 25.0, 0.0}, {0.0, -25.0, 0.0}}},
+    {"Cave Vertical Shaft Straight Top Type A", {{0.0, 25.0, 0.0}, {0.0, -25.0, 0.0}, {0.0, 0.0, 0.0}}},
+    {"Cave Vertical Shaft Type A", {{0.0, 0.0, 10.0}, {0.0, 0.0, 25.0}}},
+    {"Cave Vertical Shaft Dead End Type A", {{0.0, 0.0, 10.0}}},
+
+    {"Cave 3 Way Elevation 02 Lights Type A", {{0.0, -50.0, 0.0}, {-100.0, -50.0, -25.0}, {0.0, 50.0, 0.0}}},
+    {"Cave 4 Way 01 Lights Type A", {{0.0, 25.0, 0.0}, {25.0, 0.0, 0.0}, {0.0, -25.0, 0.0}, {-25.0, 0.0, 0.0}}},
+    {"Cave Corner 01 Lights Type A", {{25.0, 0.0, 0.0}, {0.0, -25.0, 0.0}}},
+    {"Cave Corner 02 Lights Type A", {{0.0, 25.0, 0.0}, {25.0, -50.0, 0.0}}},
+    {"Cave Corner 04 Lights Type A", {{0.0, 50.0, 25.0}, {-50.0, -50.0, 0.0}}},
+    {"Cave Elevation Straight Lights Type A", {{0.0, 50.0, 25.0}, {0.0, -50.0, 0.0}}},
+    {"Cave Straight Lights Type A", {{0.0, 25.0, 0.0}, {0.0, -25.0, 0.0}}},
+    {"Cave U Turn Elevation Lights Type A", {{-50.0, -25.0, 0.0}, {0.0, -25.0, 25.0}}},
+    {"Cave Vertical Shaft Straight Bottom Lights Type A", {{0.0, 0.0, 10.0}, {0.0, 25.0, 0.0}, {0.0, -25.0, 0.0}}},
+    {"Cave Transition Type A to and from Type B", {{0.0, 25.0, 0.0}, {0.0, -25.0, 0.0}}},
+    {"Cave Transition Type A to and from Type B Lights", {{0.0, 25.0, 0.0}, {0.0, -25.0, 0.0}}}
   };
 
 std::map<std::string, subt::ConnectionHelper::ConnectionType>
@@ -169,7 +208,45 @@ std::map<std::string, subt::ConnectionHelper::ConnectionType>
     {"Cave Corner 30 D Type B", subt::ConnectionHelper::TURN},
     {"Cave Corner 30 D Lights Type B", subt::ConnectionHelper::TURN},
     {"Cave Corner 30F D Type B", subt::ConnectionHelper::TURN},
-    {"Cave Corner 30F D Lights Type B", subt::ConnectionHelper::TURN}
+    {"Cave Corner 30F D Lights Type B", subt::ConnectionHelper::TURN},
+
+    {"Cave 2 Way 01 Type A", subt::ConnectionHelper::STRAIGHT},
+    {"Cave 3 Way 01 Type A", subt::ConnectionHelper::TURN},
+    {"Cave 3 Way 02 Type A", subt::ConnectionHelper::TURN},
+    {"Cave 3 Way Elevation 01 Type A", subt::ConnectionHelper::TURN},
+    {"Cave 3 Way Elevation 02 Type A", subt::ConnectionHelper::TURN},
+    {"Cave 3 Way Elevation 03 Type A", subt::ConnectionHelper::TURN},
+    {"Cave 4 Way 01 Type A", subt::ConnectionHelper::TURN},
+    {"Cave Cavern Type A", subt::ConnectionHelper::TURN},
+    {"Cave Corner 01 Type A", subt::ConnectionHelper::TURN},
+    {"Cave Corner 02 Type A", subt::ConnectionHelper::TURN},
+    {"Cave Corner 03 Type A", subt::ConnectionHelper::TURN},
+    {"Cave Corner 04 Type A", subt::ConnectionHelper::TURN},
+    {"Cave Elevation 01 Type A", subt::ConnectionHelper::STRAIGHT},
+    {"Cave Elevation 02 Type A", subt::ConnectionHelper::STRAIGHT},
+    {"Cave Elevation Corner Type A", subt::ConnectionHelper::TURN},
+    {"Cave Elevation Straight Type A", subt::ConnectionHelper::TURN},
+    {"Cave Split Type A", subt::ConnectionHelper::TURN},
+    {"Cave Straight Shift Type A", subt::ConnectionHelper::STRAIGHT},
+    {"Cave Straight Type A", subt::ConnectionHelper::STRAIGHT},
+    {"Cave U Turn 01 Type A", subt::ConnectionHelper::TURN},
+    {"Cave U Turn Elevation Type A", subt::ConnectionHelper::TURN},
+    {"Cave Vertical Shaft Cantilevered Type A", subt::ConnectionHelper::TURN},
+    {"Cave Vertical Shaft Straight Bottom Type A", subt::ConnectionHelper::TURN},
+    {"Cave Vertical Shaft Straight Top Type A", subt::ConnectionHelper::TURN},
+    {"Cave Vertical Shaft Type A", subt::ConnectionHelper::STRAIGHT},
+    {"Cave Vertical Shaft Dead End Type A", subt::ConnectionHelper::STRAIGHT},
+    {"Cave 3 Way Elevation 02 Lights Type A", subt::ConnectionHelper::TURN},
+    {"Cave 4 Way 01 Lights Type A", subt::ConnectionHelper::TURN},
+    {"Cave Corner 01 Lights Type A", subt::ConnectionHelper::TURN},
+    {"Cave Corner 02 Lights Type A", subt::ConnectionHelper::TURN},
+    {"Cave Corner 04 Lights Type A", subt::ConnectionHelper::TURN},
+    {"Cave Elevation Straight Lights Type A", subt::ConnectionHelper::TURN},
+    {"Cave Straight Lights Type A", subt::ConnectionHelper::STRAIGHT},
+    {"Cave U Turn Elevation Lights Type A", subt::ConnectionHelper::TURN},
+    {"Cave Vertical Shaft Straight Bottom Lights Type A", subt::ConnectionHelper::TURN},
+    {"Cave Transition Type A to and from Type B", subt::ConnectionHelper::STRAIGHT},
+    {"Cave Transition Type A to and from Type B Lights", subt::ConnectionHelper::STRAIGHT}
   };
 
 using namespace ignition;
@@ -226,4 +303,25 @@ bool ConnectionHelper::ComputePoint(VertexData *_tile1, VertexData *_tile2,
   }
 
   return false;
+}
+
+/////////////////////////////////////////////////
+std::vector<ignition::math::Vector3d> ConnectionHelper::GetConnectionPoints(VertexData *_tile1)
+{
+  auto ret = std::vector<ignition::math::Vector3d>();
+
+  if (!ConnectionHelper::connectionPoints.count(_tile1->tileType))
+  {
+    ignwarn << "No connection information for: " << _tile1->tileType
+            << std::endl;
+  }
+  else
+  {
+    for (const auto& pt1 : ConnectionHelper::connectionPoints[_tile1->tileType])
+    {
+      auto pt1tf = _tile1->model.Pose().CoordPositionAdd(pt1);
+      ret.push_back(pt1tf);
+    }
+  }
+  return ret;
 }

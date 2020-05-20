@@ -240,6 +240,8 @@ void ConnectionValidatorPrivate::PopulateConnections()
   // Assuming 1 world per SDF, which is true for SubT.
   auto world = this->sdfRoot.WorldByIndex(0);
 
+  std::vector<ignition::math::Vector3d> caps;
+
   for (uint64_t modelIndex = 0; modelIndex < world->ModelCount(); ++modelIndex)
   {
     auto model = world->ModelByIndex(modelIndex);
@@ -250,6 +252,20 @@ void ConnectionValidatorPrivate::PopulateConnections()
     {
       this->vertData[name].model = *model;
     }
+    else if (name.find("cap") != std::string::npos)
+    {
+      caps.push_back(pose.Pos());
+    }
+  }
+
+  std::map<std::string, int> expectedConnections;
+  std::map<std::string, int> actualConnections;
+
+  for (const auto [name, data]: vertData)
+  {
+    auto points = ConnectionHelper::connectionPoints[data.tileType];
+    expectedConnections[name] = points.size();
+    actualConnections[name] = 0;
   }
 
   // Pull edge data from the DOT graph file.
@@ -290,11 +306,42 @@ void ConnectionValidatorPrivate::PopulateConnections()
     // Only add to the list if a connection point can be computed.
     if(ConnectionHelper::ComputePoint(c.tile1, c.tile2, c.connectionPoint))
     {
+      actualConnections[conn1->first]++;
+      actualConnections[conn2->first]++;
       connData.push_back(c);
     }
   }
 
   igndbg << "Populated " << connData.size() << "/" << graph.Edges().size() << std::endl;
+
+  for (const auto [name, data]: expectedConnections)
+  {
+    auto actual = actualConnections[name];
+
+    if (actual != data)
+    {
+      // Check against caps
+      int found_caps = 0;
+      auto points = ConnectionHelper::GetConnectionPoints(&this->vertData[name]);
+      for (auto point: points)
+      {
+        for (auto cap: caps)
+        {
+          if (point.Equal(cap, 1))
+          {
+            igndbg << "Found cap!" << std::endl;
+            found_caps += 1;
+          }
+        }
+      }
+
+      if (actual + found_caps != data)
+      {
+        igndbg << name << " " << actualConnections[name] << "/" << data <<
+          " (" << this->vertData[name].tileType << ")" << std::endl;
+      }
+    }
+  }
 
   this->connDataIter = this->connData.end();
 }
