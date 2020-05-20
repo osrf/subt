@@ -675,6 +675,7 @@
             name="ignition::gazebo::systems::Breadcrumbs">
             <topic>/model/#{_name}/breadcrumb/deploy</topic>
             <max_deployments>#{max_breadcrumbs}</max_deployments>
+            <disable_physics_time>3.0</disable_physics_time>
             <breadcrumb>
               <sdf version="1.6">
                 <model name="#{_name}__breadcrumb__">
@@ -781,6 +782,7 @@
             name="ignition::gazebo::systems::Breadcrumbs">
             <topic>/model/#{_name}/breadcrumb/deploy</topic>
             <max_deployments>#{max_breadcrumbs}</max_deployments>
+            <disable_physics_time>3.0</disable_physics_time>
             <breadcrumb>
               <sdf version="1.6">
                 <model name="#{_name}__breadcrumb__">

@@ -19,6 +19,7 @@
 
 #include <functional>
 #include <mutex>
+#include <regex>
 
 #include <ignition/common/Console.hh>
 #include <ignition/common/Util.hh>
@@ -310,7 +311,9 @@ void CommsBrokerPlugin::UpdateIfNewBreadcrumbs()
   for (const auto& [name, pose] : this->poses)
   {
     // New breadcrumb found.
-    if (name.find("__breadcrumb__") != std::string::npos &&
+    // A static model is spawned when the breadcrumb is made static
+    if (std::regex_match(name,
+        std::regex(".*__breadcrumb___(\\d+)__static__")) &&
         this->breadcrumbs.find(name) == this->breadcrumbs.end())
     {
       this->breadcrumbs[name] = pose;
