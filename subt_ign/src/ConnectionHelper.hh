@@ -67,6 +67,8 @@ namespace subt
     public: static bool ComputePoint(VertexData *_tile1, VertexData *_tile2,
                       ignition::math::Vector3d& _pt);
 
+    public: static std::vector<ignition::math::Vector3d> GetConnectionPoints(VertexData *_tile1);
+
     /// \brief Map of tile type to a vector of connection points
     public: static std::map<std::string, std::vector<ignition::math::Vector3d>>
                       connectionPoints;

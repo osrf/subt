@@ -54,6 +54,7 @@ ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/C
 ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/COSTAR_HUSKY_SENSOR_CONFIG_2" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/SOPHISTICATED_ENGINEERING_X2_SENSOR_CONFIG_1" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/SOPHISTICATED_ENGINEERING_X4_SENSOR_CONFIG_1" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/DronePlatformX1" -v 4
 
 # Download the tunnel circuit models
 ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/subt_tunnel_staging_area" -v 4
@@ -112,7 +113,47 @@ ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/U
 ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Large Room Split" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Urban Large Room Split Lights" -v 4
 
-# Download cave circuit tiles
+# Download cave circuit tiles (Type A)
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 2 Way 01 Type A" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 3 Way 01 Type A" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 3 Way 02 Type A" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 3 Way Elevation 01 Type A" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 3 Way Elevation 02 Type A" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 3 Way Elevation 03 Type A" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 4 Way 01 Type A" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cap Type A" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cavern Type A" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 01 Type A" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 02 Type A" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 03 Type A" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 04 Type A" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Elevation 01 Type A" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Elevation 02 Type A" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Elevation Corner Type A" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Elevation Straight Type A" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Split Type A" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Straight Shift Type A" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Straight Type A" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave U Turn 01 Type A" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave U Turn Elevation Type A" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Vertical Shaft Cantilevered Type A" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Vertical Shaft Dead End Type A" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Vertical Shaft Straight Bottom Type A" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Vertical Shaft Straight Top Type A" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Vertical Shaft Type A" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 3 Way Elevation 02 Lights Type A " -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 4 Way 01 Lights Type A " -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 01 Lights Type A " -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 02 Lights Type A " -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 04 Lights Type A " -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Elevation Straight Lights Type A " -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Straight Lights Type A " -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave U Turn Elevation Lights Type A " -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Vertical Shaft Straight Bottom Lights Type A" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Transition Type A to and from Type B" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Transition Type A to and from Type B Lights" -v 4
+
+# Download cave circuit tiles (Type B)
 ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Cavern Split 01 Type B" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Cavern Split 02 Type B" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/openrobotics/models/Cave Starting Area Type B" -v 4
