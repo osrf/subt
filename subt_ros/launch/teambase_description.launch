@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+  <param name="TeamBase/robot_description" command="$(find xacro)/xacro '$(find teambase_description)/urdf/teambase.xacro'"/>
+</launch>

@@ -10,6 +10,7 @@
   <arg name="laser_scan" default="1"/>
   <arg name="rgbd_cam" default="0"/>
   <arg name="lidar_3d" default="0"/>
+  <arg name="breadcrumbs" default="0"/>
   <group ns="$(arg name)">
     <!--Create multipe bridges so that it can run in parallel-->
     <node
@@ -23,8 +24,15 @@
       pkg="ros_ign_bridge"
       type="parameter_bridge"
       name="ros_ign_bridge_pose"
-      args="/model/$(arg name)/pose@geometry_msgs/TransformStamped[ignition.msgs.Pose">
+      args="/model/$(arg name)/pose@tf2_msgs/TFMessage[ignition.msgs.Pose_V">
       <remap from="/model/$(arg name)/pose" to="pose"/>
+    </node>
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_pose_static"
+      args="/model/$(arg name)/pose_static@tf2_msgs/TFMessage[ignition.msgs.Pose_V">
+      <remap from="/model/$(arg name)/pose_static" to="pose_static"/>
     </node>
     <node
       pkg="ros_ign_bridge"
@@ -61,6 +69,16 @@
         args="$(arg sensor_prefix)/camera_front/depth_image">
         <remap from="$(arg sensor_prefix)/camera_front/depth_image" to="front/depth"/>
       </node>
+
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_depth"
+        args="depth">
+        <remap from="input/image" to="front/depth" />
+        <remap from="output/image" to="front/optical/depth" />
+      </node>
+
     </group>
 
     <!-- 3D lidar -->
@@ -94,6 +112,27 @@
         <remap from="$(arg sensor_prefix)/camera_front_right/image" to="front/right/image_raw"/>
         <remap from="$(arg sensor_prefix)/camera_front_left/image" to="front/left/image_raw"/>
       </node>
+
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_stereo_right">
+        <remap from="input/image" to="front/right/image_raw" />
+        <remap from="output/image" to="front/right/optical/image_raw" />
+        <remap from="input/camera_info" to="front/right/camera_info" />
+        <remap from="output/camera_info" to="front/right/optical/camera_info" />
+      </node>
+
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_stereo_left">
+        <remap from="input/image" to="front/left/image_raw" />
+        <remap from="output/image" to="front/left/optical/image_raw" />
+        <remap from="input/camera_info" to="front/left/camera_info" />
+        <remap from="output/camera_info" to="front/left/optical/camera_info" />
+      </node>
+
     </group>
 
     <!-- non-stereo -->
@@ -112,6 +151,17 @@
         args="$(arg sensor_prefix)/camera_front/image">
         <remap from="$(arg sensor_prefix)/camera_front/image" to="front/image_raw"/>
       </node>
+
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher">
+        <remap from="input/image" to="front/image_raw" />
+        <remap from="output/image" to="front/optical/image_raw" />
+        <remap from="input/camera_info" to="front/camera_info" />
+        <remap from="output/camera_info" to="front/optical/camera_info" />
+      </node>
+
     </group>
 
     <!-- laser scan -->
@@ -166,13 +216,15 @@
         args="/model/$(arg name)/odometry@nav_msgs/Odometry[ignition.msgs.Odometry">
         <remap from="/model/$(arg name)/odometry" to="odom"/>
       </node>
-      <node
-        pkg="ros_ign_bridge"
-        type="parameter_bridge"
-        name="ros_ign_bridge_breadcrumbs"
-        args="/model/$(arg name)/breadcrumb/deploy@std_msgs/Empty]ignition.msgs.Empty">
-        <remap from="/model/$(arg name)/breadcrumb/deploy" to="breadcrumb/deploy"/>
-      </node>
+      <group if="$(arg breadcrumbs)">
+        <node
+          pkg="ros_ign_bridge"
+          type="parameter_bridge"
+          name="ros_ign_bridge_breadcrumbs"
+          args="/model/$(arg name)/breadcrumb/deploy@std_msgs/Empty]ignition.msgs.Empty">
+          <remap from="/model/$(arg name)/breadcrumb/deploy" to="breadcrumb/deploy"/>
+        </node>
+      </group>
     </group>
 
     <node
