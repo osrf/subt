@@ -104,7 +104,7 @@
   MARSUPIAL_VALID_CHILD_ROBOT_TYPES = ["X3"]
 
   MARSUPIAL_PARENT_ROBOT_POSITION_OFFSETS = {
-    "X1" => Vector3d.new(0, 0, 0.53)
+    "X1" => Vector3d.new(0, 0, 0.57)
   }
 
   allExecutables = ""
@@ -1454,7 +1454,7 @@
          <spawn name="#{name}_platform">
            <name>#{name}_platform</name>
            <allow_renaming>false</allow_renaming>
-           <pose>#{robot.pos.x + 0.078} #{robot.pos.y} #{robot.pos.z-0.15} 0 0 0</pose>
+           <pose>#{robot.pos.x + 0.078} #{robot.pos.y} #{robot.pos.z-0.11} 0 0 0</pose>
            <world>#{$worldName}</world>
            <is_performer>false</is_performer>
            <sdf version='1.6'>

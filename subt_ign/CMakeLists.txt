@@ -265,8 +265,8 @@ target_link_libraries(${gas_emitter_detector_plugin_name}
     ${protobuf_lib_name}
 )
 install(TARGETS ${gas_emitter_detector_plugin_name}
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION} 
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION} 
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
 # Create log_checker executable.
@@ -353,6 +353,15 @@ endif()
 #############
 ## Install ##
 #############
+
+# Unzip the cave_circuit_practice_02.dat.zip file
+add_custom_target(unzip_dat ALL)
+add_custom_command(TARGET unzip_dat PRE_BUILD
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/worlds
+  COMMAND ${CMAKE_COMMAND} -E tar xvf cave_circuit_practice_02.dat.zip
+  DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/worlds/cave_circuit_practice_02.dat.zip
+COMMENT "Unpacking cave_circuit_practice_02.dat.zip"
+VERBATIM)
 
 install(PROGRAMS
   scripts/subt_docker.bash
