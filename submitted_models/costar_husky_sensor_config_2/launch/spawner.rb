@@ -64,7 +64,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
             <model name="#{_name}__breadcrumb__">
               <pose>-0.45 0 0 0 0 0</pose>
               <include>
-                <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Breadcrumb Node</uri>
+                <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Breadcrumb Node</uri>
               </include>
             </model>
           </sdf>
