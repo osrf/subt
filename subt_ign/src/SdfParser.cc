@@ -64,7 +64,7 @@ bool SdfParser::FillVertexData(const std::string &_includeStr, VertexData &_vd,
   // parse uri and get model type
   std::string uri = Parse("uri", _includeStr);
   std::string fuelStr =
-      "https://fuel.ignitionrobotics.org/1.0/openrobotics/models/";
+      "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/";
   size_t fuelIdx = uri.find(fuelStr);
   std::string modelType;
   if (fuelIdx == std::string::npos)

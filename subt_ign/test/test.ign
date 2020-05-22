@@ -305,7 +305,7 @@
     "  <sdf version='1.6'>\n"\
     "  <include>\n"\
     "    <name>#{_name}</name>\n"\
-    "    <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X1 Config #{_config}</uri>\n"\
+    "    <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/X1 Config #{_config}</uri>\n"\
     "    <!-- Diff drive -->\n"\
     "    <plugin filename=\"libignition-gazebo-diff-drive-system.so\"\n"\
     "            name=\"ignition::gazebo::systems::DiffDrive\">\n"\
@@ -371,7 +371,7 @@
     "  <sdf version='1.6'>\n"\
     "  <include>\n"\
     "    <name>#{_name}</name>\n"\
-    "    <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X2 Config #{_config}</uri>\n"\
+    "    <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/X2 Config #{_config}</uri>\n"\
     "    <!-- Diff drive -->\n"\
     "    <plugin filename=\"libignition-gazebo-diff-drive-system.so\"\n"\
     "            name=\"ignition::gazebo::systems::DiffDrive\">\n"\
@@ -434,7 +434,7 @@
     "  <sdf version='1.6'>\n"\
     "  <include>\n"\
     "    <name>#{_name}</name>\n"\
-    "    <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X3 UAV Config #{_config}</uri>\n"\
+    "    <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/X3 UAV Config #{_config}</uri>\n"\
     "    <!-- Publish robot state information -->\n"\
     "    <plugin filename=\"libignition-gazebo-pose-publisher-system.so\"\n"\
     "      name=\"ignition::gazebo::systems::PosePublisher\">\n"\
@@ -565,7 +565,7 @@
     "  <sdf version='1.6'>\n"\
     "  <include>\n"\
     "    <name>#{_name}</name>\n"\
-    "    <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X4 UAV Config #{_config}</uri>\n"\
+    "    <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/X4 UAV Config #{_config}</uri>\n"\
     "    <!-- Publish robot state information -->\n"\
     "    <plugin filename=\"libignition-gazebo-pose-publisher-system.so\"\n"\
     "      name=\"ignition::gazebo::systems::PosePublisher\">\n"\
