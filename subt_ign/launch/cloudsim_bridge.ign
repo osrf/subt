@@ -77,18 +77,6 @@
 
 
 <ignition version='1.0'>
-  <!-- Unlimited Ignition Transport send message buffer -->
-  <env>
-    <name>IGN_TRANSPORT_SNDHWM</name>
-    <value>0</value>
-  </env>
-
-  <!-- Unlimited Ignition Transport receieve message buffer -->
-  <env>
-    <name>IGN_TRANSPORT_RCVHWM</name>
-    <value>0</value>
-  </env>
-
   <!-- Start ROS first. This is a bit hacky for now. -->
   <!-- Make sure to source /opt/ros/melodic/setup.bash -->
   <executable name='ros'>
