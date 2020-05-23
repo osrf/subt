@@ -229,7 +229,7 @@
     <% else %>
       <world_file><%= $worldName %>.sdf</world_file>
     <% end %>
-   <%if defined?(updateRate) && updateRate != nil && !updateRate.empty?%>
+    <%if defined?(updateRate) && updateRate != nil && !updateRate.empty?%>
     <update_rate><%= updateRate %></update_rate>
     <%end%>
     <run>true</run>
