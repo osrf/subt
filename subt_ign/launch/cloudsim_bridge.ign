@@ -77,18 +77,6 @@
 
 
 <ignition version='1.0'>
-  <!-- Unlimited Ignition Transport send message buffer -->
-  <env>
-    <name>IGN_TRANSPORT_SNDHWM</name>
-    <value>0</value>
-  </env>
-
-  <!-- Unlimited Ignition Transport receieve message buffer -->
-  <env>
-    <name>IGN_TRANSPORT_RCVHWM</name>
-    <value>0</value>
-  </env>
-
   <!-- Start ROS first. This is a bit hacky for now. -->
   <!-- Make sure to source /opt/ros/melodic/setup.bash -->
   <executable name='ros'>
@@ -215,7 +203,7 @@
 <%  elsif robotConfigs[i][1] == "4" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5") %>
 <%=   spawnX4(robotNames[i],  robotConfigs[i][-1]) %>
 <%
-    elsif name.downcase == "TEAMBASE" and config.downcase == "TEAMBASE"
+    elsif name == "TEAMBASE" and config == "TEAMBASE"
       robotSpawned += 1
       if !teamBaseSpawned
         teamBaseSpawned = true
