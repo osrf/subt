@@ -297,7 +297,7 @@
         <!-- Use the <path> element to control where to record the log file.
              The HOME path is used by default -->
         <path>/tmp/ign/logs</path>
-        <filename_prefix>subt_cave</filename_prefix>
+        <filename_prefix>subt_<%= $circuit %></filename_prefix>
       </logging>
 
       <artifact>
@@ -628,7 +628,7 @@
         <sdf version='1.6'>
         <include>
           <name>#{_name}</name>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X1 Config #{_config}</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/X1 Config #{_config}</uri>
           <!-- Diff drive -->
           <plugin filename="libignition-gazebo-diff-drive-system.so"
                   name="ignition::gazebo::systems::DiffDrive">
@@ -683,7 +683,7 @@
                 <model name="#{_name}__breadcrumb__">
                   <pose>-0.45 0 0 0 0 0</pose>
                   <include>
-                    <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Breadcrumb Node</uri>
+                    <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Breadcrumb Node</uri>
                   </include>
                 </model>
               </sdf>
@@ -738,7 +738,7 @@
         <sdf version='1.6'>
         <include>
           <name>#{_name}</name>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X2 Config #{_config}</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/X2 Config #{_config}</uri>
           <!-- Diff drive -->
           <plugin filename="libignition-gazebo-diff-drive-system.so"
                   name="ignition::gazebo::systems::DiffDrive">
@@ -793,7 +793,7 @@
                 <model name="#{_name}__breadcrumb__">
                   <pose>-0.24 0 0 0 0 0</pose>
                   <include>
-                    <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Breadcrumb Node</uri>
+                    <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Breadcrumb Node</uri>
                   </include>
                 </model>
               </sdf>
@@ -840,7 +840,7 @@
       <sdf version='1.6'>
       <include>
         <name>#{_name}</name>
-        <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X3 UAV Config #{_config}</uri>
+        <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/X3 UAV Config #{_config}</uri>
         <!-- Publish robot state information -->
         <plugin filename="libignition-gazebo-pose-publisher-system.so"
           name="ignition::gazebo::systems::PosePublisher">
@@ -1045,7 +1045,7 @@
       <sdf version='1.6'>
       <include>
         <name>#{_name}</name>
-        <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X4 UAV Config #{_config}</uri>
+        <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/X4 UAV Config #{_config}</uri>
         <!-- Publish robot state information -->
         <plugin filename="libignition-gazebo-pose-publisher-system.so"
           name="ignition::gazebo::systems::PosePublisher">
@@ -1387,7 +1387,7 @@
       rescue LoadError
         raise "Unknown robot configuration #{config}. #{spawnerScript} could not be found."
       else
-        fuelPrefix = "https://fuel.ignitionrobotics.org/1.0/openrobotics/models"
+        fuelPrefix = "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models"
         # We assume that the model and its supporting files can be found in
         # `installDir`. If `$localModel` is not set, the model is loaded from
         # Fuel.
@@ -1458,7 +1458,7 @@
            <is_performer>false</is_performer>
            <sdf version='1.6'>
              <include>
-               <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/DronePlatformX1</uri> 
+               <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/DronePlatformX1</uri> 
              </include>
            </sdf>
          </spawn>

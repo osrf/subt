@@ -107,7 +107,7 @@ RUN rosdep update
 # docker is run
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
- && git clone https://github.com/osrf/subt
+ && git clone https://github.com/osrf/subt -b cpw
 
 # Download the public models
 COPY download_models.sh ./

@@ -19,7 +19,7 @@
       <static>true</static>
       <name>staging_area</name>
       <pose>0.0 0.0 0.0 0.0 0.0 0</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Starting Area Type B</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Starting Area Type B</uri>
     </include>
 
     <!-- The base station -->
@@ -27,14 +27,14 @@
       <static>true</static>
       <name>base_station</name>
       <pose>-8 0 0 0 0 -1.5708</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Base Station</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Base Station</uri>
     </include>
 
     <!-- Fiducial marking the origin for artifacts reports -->
     <include>
       <name>artifact_origin</name>
       <pose>10.0 0.0 0.0 0 0 0</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Fiducial</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fiducial</uri>
     </include>
 
     <!-- Cave tiles -->
@@ -42,675 +42,676 @@
           <static>true</static>
           <name>tile_1</name>
           <pose>37.5 0.0 0.0 0.0 0.0 1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Transition Type A to and from Type B Lights</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Transition Type A to and from Type B Lights</uri>
     </include>
 
     <include>
           <name>tile_2</name>
           <pose>387.5 -75.0 0.0 0.0 0.0 -1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 3 Way Elevation 03 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 3 Way Elevation 03 Type A</uri>
     </include>
     <include>
           <name>tile_3</name>
           <pose>312.5 225.0 -25.0 0.0 0.0 0.0</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 4 Way 01 Lights Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 4 Way 01 Lights Type A</uri>
     </include>
     <include>
       <name>tile_4</name>
           <pose>612.5 25.0 -25.0 0.0 0.0 3.14159</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 02 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 02 Type A</uri>
     </include>
     <include>
       <name>tile_5</name>
           <pose>212.5 50.0 -25.0 0.0 0.0 0.0</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 04 Lights Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 04 Lights Type A</uri>
     </include>
     <include>
       <name>tile_6</name>
           <pose>312.5 -25.0 0.0 0.0 0.0 0.0</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight Lights Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Straight Lights Type A</uri>
     </include>
     <include>
       <name>tile_7</name>
           <pose>587.5 525.0 -50.0 0.0 0.0 0.0</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave U Turn 01 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave U Turn 01 Type A</uri>
     </include>
     <include>
       <name>tile_8</name>
           <pose>687.5 -25.0 -50.0 0.0 0.0 1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Elevation Corner Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Elevation Corner Type A</uri>
     </include>
     <include>
       <name>tile_9</name>
           <pose>487.5 25.0 -25.0 0.0 0.0 -1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 3 Way Elevation 01 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 3 Way Elevation 01 Type A</uri>
     </include>
     <include>
       <name>tile_10</name>
           <pose>562.5 450.0 -50.0 0.0 0.0 0.0</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Split Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Split Type A</uri>
     </include>
     <include>
       <name>tile_11</name>
           <pose>212.5 150.0 0.0 0.0 0.0 -3.14159</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 3 Way Elevation 01 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 3 Way Elevation 01 Type A</uri>
     </include>
     <include>
       <name>tile_12</name>
           <pose>312.5 125.0 0.0 0.0 0.0 3.14159</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 4 Way 01 Lights Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 4 Way 01 Lights Type A</uri>
     </include>
     <include>
       <name>tile_13</name>
           <pose>262.5 225.0 -25.0 0.0 0.0 0.0</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave U Turn Elevation Lights Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave U Turn Elevation Lights Type A</uri>
     </include>
     <include>
       <name>tile_14</name>
           <pose>937.5 -175.0 -100.0 0.0 0.0 0.0</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Elevation Straight Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Elevation Straight Type A</uri>
     </include>
     <include>
       <name>tile_15</name>
           <pose>612.5 375.0 -50.0 0.0 0.0 1.57079</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 03 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 03 Type A</uri>
     </include>
     <include>
       <name>tile_16</name>
           <pose>562.5 50.0 -25.0 0.0 0.0 1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight Shift Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Straight Shift Type A</uri>
     </include>
     <include>
       <name>tile_17</name>
           <pose>387.5 225.0 -25.0 0.0 0.0 1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 3 Way Elevation 02 Lights Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 3 Way Elevation 02 Lights Type A</uri>
     </include>
     <include>
       <name>tile_18</name>
           <pose>612.5 475.0 -50.0 0.0 0.0 1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 01 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 01 Type A</uri>
     </include>
     <include>
       <name>tile_19</name>
           <pose>112.5 -1.46484e-05 -25.0 0.0 0.0 1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Elevation Straight Lights Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Elevation Straight Lights Type A</uri>
     </include>
     <include>
       <name>tile_20</name>
           <pose>587.5 -100.0 100.0 0.0 0.0 -1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 2 Way 01 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 2 Way 01 Type A</uri>
     </include>
     <include>
       <name>tile_21</name>
           <pose>262.5 175.0 0.0 0.0 0.0 0.0</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 02 Lights Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 02 Lights Type A</uri>
     </include>
     <include>
       <name>tile_23</name>
           <pose>462.5 225.0 -25.0 0.0 0.0 -1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 3 Way 01 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 3 Way 01 Type A</uri>
     </include>
     <include>
       <name>tile_24</name>
           <pose>412.5 25.0 100.0 0.0 0.0 -6.99382e-07</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 03 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 03 Type A</uri>
     </include>
     <include>
       <name>tile_25</name>
           <pose>912.5 -125.0 -75.0 0.0 0.0 -1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 01 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 01 Type A</uri>
     </include>
     <include>
       <name>tile_26</name>
           <pose>912.5 -200.0 -75.0 0.0 0.0 0.0</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 3 Way Elevation 02 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 3 Way Elevation 02 Type A</uri>
     </include>
     <include>
       <name>tile_27</name>
           <pose>312.5 275.0 -25.0 0.0 0.0 -1.95505e-06</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 03 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 03 Type A</uri>
     </include>
     <include>
       <name>tile_28</name>
           <pose>512.5 300.0 -50.0 0.0 0.0 -3.14159</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Elevation Straight Lights Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Elevation Straight Lights Type A</uri>
     </include>
     <include>
       <name>tile_29</name>
           <pose>837.5 250.0 -50.0 0.0 0.0 -1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 2 Way 01 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 2 Way 01 Type A</uri>
     </include>
     <include>
       <name>tile_30</name>
           <pose>562.5 375.0 -50.0 0.0 0.0 -3.14159</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 01 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 01 Type A</uri>
     </include>
     <include>
       <name>tile_31</name>
           <pose>937.5 -25.0 -75.0 0.0 0.0 1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 04 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 04 Type A</uri>
     </include>
     <include>
       <name>tile_32</name>
           <pose>512.5 375.0 -50.0 0.0 0.0 1.57079</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 03 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 03 Type A</uri>
     </include>
     <include>
       <name>tile_33</name>
           <pose>462.5 -125.0 75.0 0.0 0.0 0.0</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 3 Way 01 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 3 Way 01 Type A</uri>
     </include>
     <include>
       <name>tile_34</name>
           <pose>562.5 -75.0 75.0 0.0 0.0 0.0</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave U Turn Elevation Lights Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave U Turn Elevation Lights Type A</uri>
     </include>
     <include>
       <name>tile_35</name>
           <pose>362.5 25.0 100.0 0.0 0.0 1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 01 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 01 Type A</uri>
     </include>
     <include>
       <name>tile_36</name>
           <pose>687.5 375.0 -25.0 0.0 0.0 -1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 3 Way Elevation 01 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 3 Way Elevation 01 Type A</uri>
     </include>
     <include>
       <name>tile_37</name>
           <pose>837.5 -25.0 -50.0 0.0 0.0 1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 3 Way Elevation 02 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 3 Way Elevation 02 Type A</uri>
     </include>
     <include>
       <name>tile_38</name>
           <pose>987.5 -100.0 -75.0 0.0 0.0 3.14159</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 3 Way 01 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 3 Way 01 Type A</uri>
     </include>
     <include>
       <name>tile_39</name>
           <pose>562.5 -125.0 100.0 0.0 0.0 1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 01 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 01 Type A</uri>
     </include>
     <include>
       <name>tile_40</name>
           <pose>412.5 -25.0 100.0 0.0 0.0 3.14159</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 03 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 03 Type A</uri>
     </include>
     <include>
       <name>tile_41</name>
           <pose>562.5 -75.0 100.0 0.0 0.0 3.14159</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 03 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 03 Type A</uri>
     </include>
     <include>
       <name>tile_42</name>
           <pose>562.5 -25.0 100.0 0.0 0.0 -1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 01 Lights Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 01 Lights Type A</uri>
     </include>
     <include>
       <name>tile_43</name>
           <pose>462.5 -25.0 100.0 0.0 0.0 -1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight Lights Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Straight Lights Type A</uri>
     </include>
     <include>
       <name>tile_44</name>
           <pose>812.5 -300.0 -100.0 0.0 0.0 -1.74846e-07</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 3 Way Elevation 01 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 3 Way Elevation 01 Type A</uri>
     </include>
     <include>
       <name>tile_45</name>
           <pose>912.5 -300.0 -150.0 0.0 0.0 -1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Elevation 02 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Elevation 02 Type A</uri>
     </include>
     <include>
       <name>tile_46</name>
           <pose>662.5 -375.0 -125.0 0.0 0.0 3.14159</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave U Turn Elevation Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave U Turn Elevation Type A</uri>
     </include>
     <include>
       <name>tile_47</name>
           <pose>462.5 -200.0 0.0 0.0 0.0 0.0</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 3 Way Elevation 02 Lights Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 3 Way Elevation 02 Lights Type A</uri>
     </include>
     <include>
       <name>tile_48</name>
           <pose>787.5 375.0 -25.0 0.0 0.0 1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 3 Way Elevation 02 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 3 Way Elevation 02 Type A</uri>
     </include>
     <include>
       <name>tile_49</name>
           <pose>512.5 125.0 -25.0 0.0 0.0 -1.74846e-07</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 3 Way 01 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 3 Way 01 Type A</uri>
     </include>
     <include>
       <name>tile_50</name>
           <pose>612.5 175.0 -25.0 0.0 0.0 0.0</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave U Turn Elevation Lights Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave U Turn Elevation Lights Type A</uri>
     </include>
     <include>
       <name>tile_51</name>
           <pose>512.5 -25.0 100.0 0.0 0.0 -1.74846e-07</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 4 Way 01 Lights Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 4 Way 01 Lights Type A</uri>
     </include>
     <include>
       <name>tile_52</name>
           <pose>887.5 375.0 -25.0 0.0 0.0 1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 3 Way Elevation 02 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 3 Way Elevation 02 Type A</uri>
     </include>
     <include>
       <name>tile_53</name>
           <pose>537.5 -275.0 0.0 0.0 0.0 1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 3 Way Elevation 02 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 3 Way Elevation 02 Type A</uri>
     </include>
     <include>
       <name>tile_54</name>
           <pose>462.5 -275.0 0.0 0.0 0.0 3.14159</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 03 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 03 Type A</uri>
     </include>
     <include>
       <name>tile_55</name>
           <pose>362.5 -300.0 -50.0 0.0 0.0 0.0</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 04 Lights Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 04 Lights Type A</uri>
     </include>
     <include>
       <name>tile_56</name>
           <pose>262.5 -350.0 -50.0 0.0 0.0 -1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 3 Way Elevation 02 Lights Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 3 Way Elevation 02 Lights Type A</uri>
     </include>
     <include>
       <name>tile_57</name>
           <pose>637.5 -475.0 0.0 0.0 0.0 -1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 3 Way Elevation 02 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 3 Way Elevation 02 Type A</uri>
     </include>
     <include>
       <name>tile_58</name>
           <pose>612.5 -275.0 0.0 0.0 0.0 -1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 3 Way 01 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 3 Way 01 Type A</uri>
     </include>
     <include>
       <name>tile_59</name>
           <pose>712.5 -225.0 0.0 0.0 0.0 1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 3 Way 01 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 3 Way 01 Type A</uri>
     </include>
     <include>
       <name>tile_60</name>
           <pose>762.5 -225.0 0.0 0.0 0.0 -3.14159</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 01 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 01 Type A</uri>
     </include>
     <include>
       <name>tile_61</name>
           <pose>787.5 -200.0 0.0 0.0 0.0 0.0</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 2 Way 01 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 2 Way 01 Type A</uri>
     </include>
     <include>
       <name>tile_62</name>
           <pose>662.5 -125.0 -2.44141e-06 0.0 0.0 1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave U Turn Elevation Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave U Turn Elevation Type A</uri>
     </include>
     <include>
       <name>tile_63</name>
           <pose>812.5 200.0 -50.0 0.0 0.0 -1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight Shift Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Straight Shift Type A</uri>
     </include>
     <include>
       <name>tile_64</name>
           <pose>537.5 -475.0 0.0 0.0 0.0 -1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 3 Way Elevation 02 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 3 Way Elevation 02 Type A</uri>
     </include>
     <include>
       <name>tile_65</name>
           <pose>462.5 -375.0 -25.0 0.0 0.0 -1.74846e-07</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 01 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 01 Type A</uri>
     </include>
     <include>
       <name>tile_66</name>
           <pose>462.5 -475.0 0.0 0.0 0.0 3.14159</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 4 Way 01 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 4 Way 01 Type A</uri>
     </include>
     <include>
       <name>tile_67</name>
           <pose>487.5 -525.0 0.0 0.0 0.0 0.0</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight Shift Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Straight Shift Type A</uri>
     </include>
     <include>
       <name>tile_68</name>
           <pose>512.5 -575.0 0.0 0.0 0.0 3.14159</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 01 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 01 Type A</uri>
     </include>
     <include>
       <name>tile_69</name>
           <pose>437.5 -575.0 0.0 0.0 0.0 1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Elevation Straight Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Elevation Straight Type A</uri>
     </include>
     <include>
       <name>tile_70</name>
           <pose>312.5 -75.0 0.0 0.0 0.0 3.14159</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 03 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 03 Type A</uri>
     </include>
     <include>
       <name>tile_71</name>
           <pose>712.5 -500.0 0.0 0.0 0.0 -1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave U Turn 01 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave U Turn 01 Type A</uri>
     </include>
     <include>
       <name>tile_72</name>
           <pose>662.5 -525.0 -25.0 0.0 0.0 1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave U Turn Elevation Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave U Turn Elevation Type A</uri>
     </include>
     <include>
       <name>tile_73</name>
           <pose>812.5 -375.0 -125.0 0.0 0.0 3.14159</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 03 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 03 Type A</uri>
     </include>
     <include>
       <name>tile_74</name>
           <pose>862.5 -375.0 -125.0 0.0 0.0 -1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 01 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 01 Type A</uri>
     </include>
     <include>
       <name>tile_75</name>
           <pose>412.5 25.0 -50.0 0.0 0.0 3.14159</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Corner 03 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 03 Type A</uri>
     </include>
     <include>
       <name>tile_76</name>
           <pose>737.5 -575.0 -25.0 0.0 0.0 -1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Split Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Split Type A</uri>
     </include>
     <include>
       <name>tile_77</name>
           <pose>837.5 -575.0 -25.0 0.0 0.0 1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave 3 Way Elevation 01 Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 3 Way Elevation 01 Type A</uri>
     </include>
     <include>
       <name>tile_78</name>
           <pose>312.5 25.0 0.0 0.0 0.0 3.14159</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight Lights Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Straight Lights Type A</uri>
     </include>
     <include>
       <name>tile_79</name>
           <pose>312.5 75.0 0.0 0.0 0.0 -1.74846e-07</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight Lights Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Straight Lights Type A</uri>
     </include>
     <include>
       <name>tile_80</name>
           <pose>512.5 -125.0 0.0 0.0 0.0 -1.74846e-07</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave U Turn Elevation Lights Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave U Turn Elevation Lights Type A</uri>
     </include>
     <include>
       <name>tile_81</name>
           <pose>512.5 -200.0 25.0 0.0 0.0 3.14159</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Elevation Straight Lights Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Elevation Straight Lights Type A</uri>
     </include>
     <include>
       <name>tile_82</name>
           <pose>462.5 -275.0 50.0 0.0 0.0 3.14159</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave U Turn Elevation Lights Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave U Turn Elevation Lights Type A</uri>
     </include>
     <include>
       <name>tile_83</name>
           <pose>462.5 -225.0 75.0 0.0 0.0 0.0</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight Lights Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Straight Lights Type A</uri>
     </include>
     <include>
       <name>tile_84</name>
           <pose>462.5 -175.0 75.0 0.0 0.0 3.14159</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Straight Lights Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Straight Lights Type A</uri>
     </include>
     <include>
       <name>cap_01</name>
           <pose>287.5 225.0 -25.0 0.0 0.0 1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Cap Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cap Type A</uri>
     </include>
     <include>
       <name>cap_02</name>
           <pose>787.5 175.0 -50.0 0.0 0.0 1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Cap Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cap Type A</uri>
     </include>
     <include>
       <name>cap_03</name>
           <pose>937.5 275.0 -50.0 0.0 0.0 -1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Cap Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cap Type A</uri>
     </include>
     <include>
       <name>cap_04</name>
           <pose>937.5 375.0 -25.0 0.0 0.0 -1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Cap Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cap Type A</uri>
     </include>
     <include>
       <name>cap_05</name>
           <pose>612.5 350.0 -50.0 0.0 0.0 3.14159</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Cap Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cap Type A</uri>
     </include>
     <include>
       <name>cap_06</name>
           <pose>612.5 150.0 0.0 0.0 0.0 3.14159</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Cap Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cap Type A</uri>
     </include>
     <include>
       <name>cap_07</name>
           <pose>287.5 275.0 -25.0 0.0 0.0 1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Cap Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cap Type A</uri>
     </include>
     <include>
       <name>cap_08</name>
           <pose>337.5 125.0 0.0 0.0 0.0 -1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Cap Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cap Type A</uri>
     </include>
     <include>
       <name>cap_09</name>
           <pose>312.5 150.0 0.0 0.0 0.0 -3.49691e-07</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Cap Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cap Type A</uri>
     </include>
     <include>
       <name>cap_10</name>
           <pose>387.5 -125.0 -50.0 0.0 0.0 3.14159</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Cap Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cap Type A</uri>
     </include>
     <include>
       <name>cap_11</name>
           <pose>1012.5 -150.0 -75.0 0.0 0.0 -1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Cap Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cap Type A</uri>
     </include>
     <include>
       <name>cap_12</name>
           <pose>937.5 -225.0 -100.0 0.0 0.0 3.14159</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Cap Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cap Type A</uri>
     </include>
     <include>
       <name>cap_13</name>
           <pose>912.5 -350.0 -150.0 0.0 0.0 3.14159</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Cap Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cap Type A</uri>
     </include>
     <include>
       <name>cap_14</name>
           <pose>862.5 -400.0 -125.0 0.0 0.0 3.14159</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Cap Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cap Type A</uri>
     </include>
     <include>
       <name>cap_15</name>
           <pose>662.5 -350.0 -100.0 0.0 0.0 0.0</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Cap Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cap Type A</uri>
     </include>
     <include>
       <name>cap_16</name>
           <pose>637.5 -325.0 0.0 0.0 0.0 -1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Cap Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cap Type A</uri>
     </include>
     <include>
       <name>cap_17</name>
           <pose>462.5 -400.0 -25.0 0.0 0.0 3.14159</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Cap Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cap Type A</uri>
     </include>
     <include>
       <name>cap_18</name>
           <pose>437.5 -475.0 0.0 0.0 0.0 1.57079</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Cap Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cap Type A</uri>
     </include>
     <include>
       <name>cap_19</name>
           <pose>387.5 -575.0 25.0 0.0 0.0 1.57079</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Cap Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cap Type A</uri>
     </include>
     <include>
       <name>cap_20</name>
           <pose>462.5 -450.0 0.0 0.0 0.0 -2.60673e-06</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Cap Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cap Type A</uri>
     </include>
     <include>
       <name>cap_21</name>
           <pose>887.5 -575.0 -50.0 0.0 0.0 -1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Cap Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cap Type A</uri>
     </include>
     <include>
       <name>cap_22</name>
           <pose>887.5 -675.0 -50.0 0.0 0.0 -1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Cap Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cap Type A</uri>
     </include>
     <include>
       <name>cap_23</name>
           <pose>212.5 -250.0 -75.0 0.0 0.0 1.57079</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Cap Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cap Type A</uri>
     </include>
     <include>
       <name>cap_24</name>
           <pose>212.5 -350.0 -50.0 0.0 0.0 1.57079</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Cap Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cap Type A</uri>
     </include>
     <include>
       <name>cap_25</name>
           <pose>512.5 -50.0 100.0 0.0 0.0 3.14159</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Cap Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cap Type A</uri>
     </include>
     <include>
       <name>cap_26</name>
           <pose>512.5 0.0 100.0 0.0 0.0 -2.60673e-06</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Cap Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cap Type A</uri>
     </include>
     <include>
       <name>cap_27</name>
           <pose>812.5 -200.0 0.0 0.0 0.0 3.14159</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Cap Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cap Type A</uri>
     </include>
     <include>
       <name>cap_28</name>
           <pose>412.5 50.0 -50.0 0.0 0.0 -3.49691e-07</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Cap Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cap Type A</uri>
     </include>
     <include>
       <name>cap_29</name>
           <pose>362.5 50.0 100.0 0.0 0.0 -3.49691e-07</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Cap Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cap Type A</uri>
     </include>
     <include>
       <name>cap_30</name>
           <pose>687.5 -125.0 25.0 0.0 0.0 -1.5708</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Cap Type A</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cap Type A</uri>
     </include>
+
     <include>
       <name>cap_31</name>
-          <pose>512.5 100.0 -25.0 0.0 0.0 3.14159</pose>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Cap Type A</uri>
+      <pose>512.5 100.0 -25.0 0.0 0.0 3.14159</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cap Type A</uri>
     </include>
 
     <!-- Artifacts -->
     <include>
       <name>rescue_randy_1</name>
       <pose>600.6 170.81 -4.23 -0.2415 0.0 1.22032</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Rescue Randy Sitting</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rescue Randy Sitting</uri>
 </include>
 <include>
       <name>rope_1</name>
       <pose>269.866 -352.272 -54.402111 -0.0360808 -1.27745 -1.64973</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Climbing Rope</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Climbing Rope</uri>
 </include>
 <include>
   <name>backpack_1</name>
       <pose>493.388 -577.02 0.416 0.0621741 0.0 -0.713954</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/JanSport Backpack Red</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/JanSport Backpack Red</uri>
 </include>
 <include>
   <name>helmet_1</name>
       <pose>478.80 -129.4 73.55 0.08 0.16 -1.39</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Climbing Helmet With Light</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Climbing Helmet With Light</uri>
 </include>
 <include>
   <name>helmet_2</name>
       <pose>543.09 -439.504 -8.787 -0.106082 0.134319 -0.0142585</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Climbing Helmet With Light</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Climbing Helmet With Light</uri>
 </include>
 <include>
   <name>rescue_randy_2</name>
       <pose>662.25 -136.91 19.68 -0.38 -0.09 2.53</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Rescue Randy Sitting</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rescue Randy Sitting</uri>
 </include>
 <include>
   <name>rescue_randy_3</name>
       <pose>798.186 -582.511 -26.5401 0.135297 0.214329 -0.00590088</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Rescue Randy Sitting</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rescue Randy Sitting</uri>
 </include>
 <include>
   <name>helmet_3</name>
       <pose>307.67001342773438 269.27099609375 -24.2334995269775 -0.049770 -0.136352 -0.024983</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Climbing Helmet With Light</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Climbing Helmet With Light</uri>
 </include>
 <include>
   <name>helmet_4</name>
       <pose>909.645 -301.683 -109.78 -0.6021 0.519 -2.596</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Climbing Helmet With Light</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Climbing Helmet With Light</uri>
 </include>
 <include>
       <name>rope_2</name>
       <pose>383.9805603027343 -61.373558044433594 43.217803955078125 2.970650 -1.476240 -0.916764</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Climbing Rope</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Climbing Rope</uri>
 </include>
 <include>
   <name>rescue_randy_4</name>
       <pose>211.628 151.321 -11.493 -0.344515 0.0 0.0</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Rescue Randy Sitting</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rescue Randy Sitting</uri>
 </include>
 <include>
   <name>backpack_2</name>
       <pose>934.3 4.95 -54.11 0.336501 -0.0582426 2.74096</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/JanSport Backpack Red</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/JanSport Backpack Red</uri>
 </include>
 <include>
   <name>helmet_5</name>
       <pose>589.533 74.955 -24.935 0.0 0.01679 1.82561</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Climbing Helmet With Light</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Climbing Helmet With Light</uri>
 </include>
 <include>
   <name>backpack_3</name>
       <pose>531.62 -66.02 81.6 0.0982187 0.0121419 -0.794911</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/JanSport Backpack Red</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/JanSport Backpack Red</uri>
 </include>
 <include>
   <name>rope_3</name>
       <pose>662.38 370.19 -45.08 -0.274899 0.0 0.0</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Climbing Rope</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Climbing Rope</uri>
 </include>
 <include>
   <name>rope_4</name>
       <pose>309.4755249023437 130.21699523925781 2.014211654663085 -0.477862 1.424870 3.141590</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Climbing Rope</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Climbing Rope</uri>
 </include>
 <include>
   <name>phone_1</name>
       <pose>571.806 452.335 -48.9735 -1.46625 0.159486 -0.245319</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Samsung J8 Black</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Samsung J8 Black</uri>
 </include>
 <include>
   <name>phone_2</name>
       <pose>359.099 27.595 101.5 -1.565750 0.104643 0.105768</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Samsung J8 Black</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Samsung J8 Black</uri>
 </include>
 <include>
   <name>phone_3</name>
   <pose>687.60809326171875 -366.80746459960938 -115.81280517578125 -0.597045 -0.524309 2.152200</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Samsung J8 Black</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Samsung J8 Black</uri>
 </include>
 <include>
   <name>phone_4</name>
       <pose>857.57 374.985 -27.744 -1.58428 0.079302 -0.326386</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Samsung J8 Black</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Samsung J8 Black</uri>
 </include>
 
     <wind>
