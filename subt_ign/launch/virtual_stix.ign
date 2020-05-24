@@ -926,12 +926,12 @@
   def spawnTeamBase(_x, _y, _z, _yaw)
     "<plugin name=\"ignition::launch::GazeboFactory\"\n"\
     "        filename=\"libignition-launch-gazebo-factory.so\">\n"\
-    "  <name>TeamBase</name>\n"\
+    "  <name>TEAMBASE</name>\n"\
     "  <allow_renaming>false</allow_renaming>\n"\
     "  <world>#{$worldName}</world>\n"\
     "  <is_performer>false</is_performer>\n"\
     "  <sdf version='1.6'>\n"\
-    "  <model name='TeamBase'>\n"\
+    "  <model name='TEAMBASE'>\n"\
     "    <pose>#{_x} #{_y} #{_z} 0 0 #{_yaw}</pose>\n"\
     "    <static>true</static>\n"\
     "    <link name='link'>\n"\
@@ -983,8 +983,7 @@
 %>
 <%=   spawnX4(name, robotConfigN, posX, posY) %>
 <%
-    elsif (name.downcase == "teambase" || name.downcase == "team_base") &&
-          (config.downcase == "teambase" || config.downcase == "team_base")
+    elsif name.downcase == "TEAMBASE" and config.downcase == "TEAMBASE"
       robotSpawned += 1
       if !teamBaseSpawned
         teamBaseSpawned = true
