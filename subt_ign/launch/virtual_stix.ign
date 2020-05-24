@@ -983,7 +983,7 @@
 %>
 <%=   spawnX4(name, robotConfigN, posX, posY) %>
 <%
-    elsif name.downcase == "TEAMBASE" and config.downcase == "TEAMBASE"
+    elsif name == "TEAMBASE" and config == "TEAMBASE"
       robotSpawned += 1
       if !teamBaseSpawned
         teamBaseSpawned = true

@@ -203,7 +203,7 @@
 <%  elsif robotConfigs[i][1] == "4" and (robotConfigN == "1" or robotConfigN == "2" or robotConfigN == "3" or robotConfigN == "4" or robotConfigN == "5") %>
 <%=   spawnX4(robotNames[i],  robotConfigs[i][-1]) %>
 <%
-    elsif name.downcase == "TEAMBASE" and config.downcase == "TEAMBASE"
+    elsif name == "TEAMBASE" and config == "TEAMBASE"
       robotSpawned += 1
       if !teamBaseSpawned
         teamBaseSpawned = true

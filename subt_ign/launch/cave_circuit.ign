@@ -1367,7 +1367,7 @@
 
       spawnStringTmp, executables  = spawnX4(name, robotConfigN, robot.pos.x, robot.pos.y, robot.pos.z, robot.rot.yaw)
 
-    elsif name.downcase == "TEAMBASE" and config.downcase == "TEAMBASE"
+    elsif name == "TEAMBASE" and config == "TEAMBASE"
       robotSpawned += 1
       if !teamBaseSpawned
         teamBaseSpawned = true
