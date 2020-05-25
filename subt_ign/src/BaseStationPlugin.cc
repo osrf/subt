@@ -89,22 +89,47 @@ void BaseStationPlugin::OnArtifact(const std::string &_srcAddress,
 //////////////////////////////////////////////////
 void BaseStationPlugin::RunLoop()
 {
+  std::map<std::string, std::vector<subt::msgs::ArtifactScore>> scoresCopy;
   while (this->running)
   {
-    // Send the scores, and clear the score list.
+    // Copy the scores so that we don't lock the mutex when calling
+    // this->client->SendTo(data, scorePair.first) because we could end in a
+    // deadlock.
+    //
+    // Process 1:
+    //     1.  BaseStationPlugin::RunLoop() locks this->mutex.
+    //     2.  Call this->client->SendTo(data, scorePair.first) which goes
+    //         to Broker::OnMessage(const subt::msgs::Datagram &_req))
+    //     4.  Attmepts to lock Broker's mutex but the mutex is held by
+    //         Process 2.
+    //
+    // Process 2:
+    //     1.  Broker::DispatchMessages(): Locks the Broker's mutex. Which
+    //         blocks Process 1.
+    //     2.  An artifact report goes to BaseStationPlugin::OnArtifact.
+    //     3.  Attemps to lock BaseStationPlugin's mutex. However, this
+    //         mutex is lock by Process 1.
     {
       std::scoped_lock<std::mutex> lk(this->mutex);
-      for (const std::pair<std::string, std::vector<subt::msgs::ArtifactScore>>
-          &scorePair : this->scores)
+      scoresCopy = this->scores;
+    }
+
+    // Send the scores, and clear the score list.
+    for (const std::pair<std::string, std::vector<subt::msgs::ArtifactScore>>
+        &scorePair : scoresCopy)
+    {
+      for (const subt::msgs::ArtifactScore &score : scorePair.second)
       {
-        for (const subt::msgs::ArtifactScore &score : scorePair.second)
-        {
-          std::string data;
-          score.SerializeToString(&data);
-          this->client->SendTo(data, scorePair.first);
-        }
+        std::string data;
+        score.SerializeToString(&data);
+        this->client->SendTo(data, scorePair.first);
       }
+    }
+
+    {
+      std::scoped_lock<std::mutex> lk(this->mutex);
       this->scores.clear();
+      scoresCopy.clear();
     }
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
   }
