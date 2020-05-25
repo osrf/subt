@@ -101,7 +101,7 @@ RUN sudo apt-get update -qq \
 # docker is run
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
- && git clone https://github.com/osrf/subt -b cpw
+ && git clone https://github.com/osrf/subt
 
 # Download the public models
 COPY download_models.sh ./

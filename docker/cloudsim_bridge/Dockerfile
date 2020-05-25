@@ -102,7 +102,7 @@ RUN rosdep update
 # docker is run
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
- && git clone https://github.com/osrf/subt -b cpw
+ && git clone https://github.com/osrf/subt
 
 WORKDIR /home/$USERNAME/subt_ws
 
