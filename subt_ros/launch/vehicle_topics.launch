@@ -10,6 +10,7 @@
   <arg name="laser_scan" default="1"/>
   <arg name="rgbd_cam" default="0"/>
   <arg name="lidar_3d" default="0"/>
+  <arg name="breadcrumbs" default="0"/>
   <group ns="$(arg name)">
     <!--Create multipe bridges so that it can run in parallel-->
     <node
@@ -215,13 +216,15 @@
         args="/model/$(arg name)/odometry@nav_msgs/Odometry[ignition.msgs.Odometry">
         <remap from="/model/$(arg name)/odometry" to="odom"/>
       </node>
-      <node
-        pkg="ros_ign_bridge"
-        type="parameter_bridge"
-        name="ros_ign_bridge_breadcrumbs"
-        args="/model/$(arg name)/breadcrumb/deploy@std_msgs/Empty]ignition.msgs.Empty">
-        <remap from="/model/$(arg name)/breadcrumb/deploy" to="breadcrumb/deploy"/>
-      </node>
+      <group if="$(arg breadcrumbs)">
+        <node
+          pkg="ros_ign_bridge"
+          type="parameter_bridge"
+          name="ros_ign_bridge_breadcrumbs"
+          args="/model/$(arg name)/breadcrumb/deploy@std_msgs/Empty]ignition.msgs.Empty">
+          <remap from="/model/$(arg name)/breadcrumb/deploy" to="breadcrumb/deploy"/>
+        </node>
+      </group>
     </group>
 
     <node

@@ -183,6 +183,13 @@ submission['robots'].each_with_index do |robot, index|
   robotStr += "robotName#{index+1}:=#{robot['name']} robotConfig#{index+1}:=#{robot['type']} "
 end
 
+marsupialChildren = []
+submission['marsupials'].each_with_index do |(parent, child), index|
+  robotStr += "marsupial#{index+1}:=#{parent}:#{child} "
+  marsupialChildren.append(child)
+end
+
+
 # Set where the output is going
 if options['run']
   output = Tempfile.new()
@@ -225,10 +232,11 @@ EOF
 
   # Output bridge and solution definitions
   submission['robots'].each_with_index do |robot, index|
+    marsupialStr = "marsupial:=true" if marsupialChildren.include? robot['name']
     output.puts <<EOF
   bridge#{index+1}:
     image: #{options['bridge_image']}
-    command: circuit:=#{submission['circuit']} worldName:=#{submission['world']} robotName1:=#{robot['name']} robotConfig1:=#{robot['type']}
+    command: circuit:=#{submission['circuit']} worldName:=#{submission['world']} robotName1:=#{robot['name']} robotConfig1:=#{robot['type']} #{marsupialStr}
     networks:
       relay_net#{index+1}:
         ipv4_address: 172.#{29+index}.1.1
