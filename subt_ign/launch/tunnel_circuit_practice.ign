@@ -758,6 +758,9 @@
             <publish_collision_pose>false</publish_collision_pose>
             <publish_visual_pose>false</publish_visual_pose>
             <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>
+            <use_pose_vector_msg>true</use_pose_vector_msg>
+            <static_publisher>true</static_publisher>
+            <static_update_frequency>1</static_update_frequency>
           </plugin>
           <!-- Battery plugin -->
           <plugin filename="libignition-gazebo-linearbatteryplugin-system.so"
@@ -772,9 +775,6 @@
             <smooth_current_tau>1.9499</smooth_current_tau>
             <power_load>6.6</power_load>
             <start_on_motion>true</start_on_motion>
-            <use_pose_vector_msg>true</use_pose_vector_msg>
-            <static_publisher>true</static_publisher>
-            <static_update_frequency>1</static_update_frequency>
           </plugin>
           <!-- Gas Sensor plugin -->
           <plugin filename="libGasEmitterDetectorPlugin.so"
@@ -1373,7 +1373,7 @@
         teamBaseSpawned = true
         spawnStringTmp, executables = spawnTeamBase(posX, posY, spawnWorldZPos, spawnWorldYaw)
       end
-    else
+    elsif config != "TEAMBASE"
       # Try a team-submitted vehicle.
       package = config.downcase
       installDir = `rospack find #{package}`.chomp
@@ -1415,9 +1415,13 @@
         spawnStringTmp = spawner(name, modelURI, $worldName, robot.pos.x, robot.pos.y, robot.pos.z, 0, 0, robot.rot.yaw)
         executables = rosExecutables(name, $worldName)
       end
+    else
+      puts "Error: Invalid Name[%s] or Config[%s]. Skpping." % [name, config]
     end
 
-    allExecutables += executables
+    if executables != nil
+      allExecutables += executables
+    end
 
     if marsupialParents.has_key?(name)
       childModelName = marsupialParents[name]
