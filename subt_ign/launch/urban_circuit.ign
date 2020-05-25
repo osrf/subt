@@ -1373,7 +1373,7 @@
         teamBaseSpawned = true
         spawnStringTmp, executables = spawnTeamBase(posX, posY, spawnWorldZPos, spawnWorldYaw)
       end
-    else
+    elsif config != "TEAMBASE"
       # Try a team-submitted vehicle.
       package = config.downcase
       installDir = `rospack find #{package}`.chomp
@@ -1415,9 +1415,13 @@
         spawnStringTmp = spawner(name, modelURI, $worldName, robot.pos.x, robot.pos.y, robot.pos.z, 0, 0, robot.rot.yaw)
         executables = rosExecutables(name, $worldName)
       end
+    else
+      puts "Error: Invalid Name[%s] or Config[%s]. Skpping." % [name, config]
     end
 
-    allExecutables += executables
+    if executables != nil
+      allExecutables += executables
+    end
 
     if marsupialParents.has_key?(name)
       childModelName = marsupialParents[name]
