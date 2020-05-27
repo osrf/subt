@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
-<robot name='anymal' xmlns:xacro='http://ros.org/wiki/xacro'>
-  <xacro:arg name="name" default="cerberus_anymal_sensor_config_1"/>
+<robot name='anymal_b' xmlns:xacro='http://ros.org/wiki/xacro'>
+  <xacro:arg name="name" default="cerberus_anymal_b_sensor_config_1"/>
+  <xacro:property name="robot_description_package" value="cerberus_anymal_b_sensor_config_1"/>
   <xacro:property name="robot_namespace" value="$(arg name)"/>
   <link name='${robot_namespace}/base'>
     <inertial>
@@ -83,43 +84,43 @@
     <visual name='base_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='meshes/anymal_base.dae' scale='0.001 0.001 0.001'/>
+        <mesh filename='package://${robot_description_package}/meshes/anymal_base.dae' scale='0.001 0.001 0.001'/>
       </geometry>
     </visual>
     <visual name='base_fixed_joint_lump__jetson_case_visual_1'>
       <origin xyz='-0.245 0 0.201' rpy='0 0 -1.5708'/>
       <geometry>
-        <mesh filename='meshes/darpa_jetson_back.stl' scale='0.001 0.001 0.001'/>
+        <mesh filename='package://${robot_description_package}/meshes/darpa_jetson_back.stl' scale='0.001 0.001 0.001'/>
       </geometry>
     </visual>
     <visual name='base_fixed_joint_lump__sensor_head_visual_2'>
       <origin xyz='0.3482 0 0.161624' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='meshes/darpa_head_1.stl' scale='0.001 0.001 0.001'/>
+        <mesh filename='package://${robot_description_package}/meshes/darpa_head_1.stl' scale='0.001 0.001 0.001'/>
       </geometry>
     </visual>
     <visual name='base_fixed_joint_lump__downward_realsense_camera_visual_3'>
       <origin xyz='0.388757 -0.000224 0.057675' rpy='-0.009501 0.382227 0'/>
       <geometry>
-        <mesh filename='meshes/realsense_d435.dae' scale='0.001 0.001 0.001'/>
+        <mesh filename='package://${robot_description_package}/meshes/realsense_d435.dae' scale='0.001 0.001 0.001'/>
       </geometry>
     </visual>
     <visual name='base_fixed_joint_lump__velodyne_axis_aligned_visual_4'>
       <origin xyz='0.27 0 0.2299' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='meshes/VLP16_base_1.dae' scale='1 1 1'/>
+        <mesh filename='package://${robot_description_package}/meshes/VLP16_base_1.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='base_fixed_joint_lump__velodyne_axis_aligned_visual_5'>
       <origin xyz='0.27 0 0.2299' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='meshes/VLP16_base_2.dae' scale='1 1 1'/>
+        <mesh filename='package://${robot_description_package}/meshes/VLP16_base_2.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='base_fixed_joint_lump__velodyne_visual_6'>
       <origin xyz='0.27 0 0.2299' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='meshes/VLP16_scan.dae' scale='1 1 1'/>
+        <mesh filename='package://${robot_description_package}/meshes/VLP16_scan.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='base_fixed_joint_lump__light_back_left_visual_7'>
@@ -204,7 +205,7 @@
     <visual name='LF_HIP_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='meshes/anymal_hip_l.dae' scale='0.001 0.001 0.001'/>
+        <mesh filename='package://${robot_description_package}/meshes/anymal_hip_l.dae' scale='0.001 0.001 0.001'/>
       </geometry>
     </visual>
   </link>
@@ -235,7 +236,7 @@
     <visual name='LF_THIGH_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='meshes/anymal_thigh_l.dae' scale='0.001 0.001 0.001'/>
+        <mesh filename='package://${robot_description_package}/meshes/anymal_thigh_l.dae' scale='0.001 0.001 0.001'/>
       </geometry>
     </visual>
   </link>
@@ -266,13 +267,13 @@
     <visual name='LF_SHANK_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='meshes/anymal_shank_l.dae' scale='0.001 0.001 0.001'/>
+        <mesh filename='package://${robot_description_package}/meshes/anymal_shank_l.dae' scale='0.001 0.001 0.001'/>
       </geometry>
     </visual>
     <visual name='LF_SHANK_fixed_joint_lump__LF_ADAPTER_visual_1'>
       <origin xyz='0.1 -0.02 0.032' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='meshes/anymal_foot.dae' scale='0.001 0.001 0.001'/>
+        <mesh filename='package://${robot_description_package}/meshes/anymal_foot.dae' scale='0.001 0.001 0.001'/>
       </geometry>
     </visual>
   </link>
@@ -297,7 +298,7 @@
     <visual name='LH_HIP_visual'>
       <origin xyz='0 0 0' rpy='0 -0 3.14159'/>
       <geometry>
-        <mesh filename='meshes/anymal_hip_r.dae' scale='0.001 0.001 0.001'/>
+        <mesh filename='package://${robot_description_package}/meshes/anymal_hip_r.dae' scale='0.001 0.001 0.001'/>
       </geometry>
     </visual>
   </link>
@@ -328,7 +329,7 @@
     <visual name='LH_THIGH_visual'>
       <origin xyz='0 0 0' rpy='0 -0 3.14159'/>
       <geometry>
-        <mesh filename='meshes/anymal_thigh_r.dae' scale='0.001 0.001 0.001'/>
+        <mesh filename='package://${robot_description_package}/meshes/anymal_thigh_r.dae' scale='0.001 0.001 0.001'/>
       </geometry>
     </visual>
   </link>
@@ -359,13 +360,13 @@
     <visual name='LH_SHANK_visual'>
       <origin xyz='0 0 0' rpy='0 -0 3.14159'/>
       <geometry>
-        <mesh filename='meshes/anymal_shank_r.dae' scale='0.001 0.001 0.001'/>
+        <mesh filename='package://${robot_description_package}/meshes/anymal_shank_r.dae' scale='0.001 0.001 0.001'/>
       </geometry>
     </visual>
     <visual name='LH_SHANK_fixed_joint_lump__LH_ADAPTER_visual_1'>
       <origin xyz='-0.1 -0.02 0.032' rpy='0 -0 3.14159'/>
       <geometry>
-        <mesh filename='meshes/anymal_foot.dae' scale='0.001 0.001 0.001'/>
+        <mesh filename='package://${robot_description_package}/meshes/anymal_foot.dae' scale='0.001 0.001 0.001'/>
       </geometry>
     </visual>
   </link>
@@ -390,7 +391,7 @@
     <visual name='RF_HIP_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='meshes/anymal_hip_r.dae' scale='0.001 0.001 0.001'/>
+        <mesh filename='package://${robot_description_package}/meshes/anymal_hip_r.dae' scale='0.001 0.001 0.001'/>
       </geometry>
     </visual>
   </link>
@@ -421,7 +422,7 @@
     <visual name='RF_THIGH_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='meshes/anymal_thigh_r.dae' scale='0.001 0.001 0.001'/>
+        <mesh filename='package://${robot_description_package}/meshes/anymal_thigh_r.dae' scale='0.001 0.001 0.001'/>
       </geometry>
     </visual>
   </link>
@@ -452,13 +453,13 @@
     <visual name='RF_SHANK_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='meshes/anymal_shank_r.dae' scale='0.001 0.001 0.001'/>
+        <mesh filename='package://${robot_description_package}/meshes/anymal_shank_r.dae' scale='0.001 0.001 0.001'/>
       </geometry>
     </visual>
     <visual name='RF_SHANK_fixed_joint_lump__RF_ADAPTER_visual_1'>
       <origin xyz='0.1 0.02 0.032' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='meshes/anymal_foot.dae' scale='0.001 0.001 0.001'/>
+        <mesh filename='package://${robot_description_package}/meshes/anymal_foot.dae' scale='0.001 0.001 0.001'/>
       </geometry>
     </visual>
   </link>
@@ -483,7 +484,7 @@
     <visual name='RH_HIP_visual'>
       <origin xyz='0 0 0' rpy='0 -0 3.14159'/>
       <geometry>
-        <mesh filename='meshes/anymal_hip_l.dae' scale='0.001 0.001 0.001'/>
+        <mesh filename='package://${robot_description_package}/meshes/anymal_hip_l.dae' scale='0.001 0.001 0.001'/>
       </geometry>
     </visual>
   </link>
@@ -514,7 +515,7 @@
     <visual name='RH_THIGH_visual'>
       <origin xyz='0 0 0' rpy='0 -0 3.14159'/>
       <geometry>
-        <mesh filename='meshes/anymal_thigh_l.dae' scale='0.001 0.001 0.001'/>
+        <mesh filename='package://${robot_description_package}/meshes/anymal_thigh_l.dae' scale='0.001 0.001 0.001'/>
       </geometry>
     </visual>
   </link>
@@ -545,13 +546,13 @@
     <visual name='RH_SHANK_visual'>
       <origin xyz='0 0 0' rpy='0 -0 3.14159'/>
       <geometry>
-        <mesh filename='meshes/anymal_shank_l.dae' scale='0.001 0.001 0.001'/>
+        <mesh filename='package://${robot_description_package}/meshes/anymal_shank_l.dae' scale='0.001 0.001 0.001'/>
       </geometry>
     </visual>
     <visual name='RH_SHANK_fixed_joint_lump__RH_ADAPTER_visual_1'>
       <origin xyz='-0.1 0.02 0.032' rpy='0 -0 3.14159'/>
       <geometry>
-        <mesh filename='meshes/anymal_foot.dae' scale='0.001 0.001 0.001'/>
+        <mesh filename='package://${robot_description_package}/meshes/anymal_foot.dae' scale='0.001 0.001 0.001'/>
       </geometry>
     </visual>
   </link>

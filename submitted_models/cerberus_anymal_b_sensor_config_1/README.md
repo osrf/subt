@@ -1,5 +1,5 @@
-# CERBERUS ANYmal Sensor Config 1
-This package contains a virtual model validation for the CERBERUS ANYmal with Sensor Configuration 1. Please see the [specifications.md](specifications.md) file for more information.
+# CERBERUS ANYmal B Sensor Config 1
+This package contains a virtual model validation for the CERBERUS ANYmal B with Sensor Configuration 1. Please see the [specifications.md](specifications.md) file for more information.
 
 **Authors & Maintainers**:
 

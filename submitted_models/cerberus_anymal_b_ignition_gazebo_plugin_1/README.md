@@ -1,5 +1,5 @@
-# CERBERUS ANYmal Ignition Gazebo Plugin
-This package contains an Ignition Gazebo Plugin that can be used to control the join positions of a virtual model for the CERBERUS ANYmal, with any sensor configuration.
+# CERBERUS ANYmal B Ignition Gazebo Plugin
+This package contains an Ignition Gazebo Plugin that can be used to control the join positions of a virtual model for the CERBERUS ANYmal B, with any sensor configuration.
 
 **Authors & Maintainers**:
 

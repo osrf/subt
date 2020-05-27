@@ -2,8 +2,8 @@
 <launch>
   <arg name="world_name"/>
   <arg name="name"/>
-  <arg name="link_name" value="base"/>
-  <arg name="sensor_prefix" value="/world/$(arg world_name)/model/$(arg name)/link/$(arg link_name)/sensor"/>
+  <arg name="link_name"       value="base"/>
+  <arg name="sensor_prefix"   value="/world/$(arg world_name)/model/$(arg name)/link/$(arg link_name)/sensor"/>
   <group ns="$(arg name)">
     <!-- Robot's state -->
     <node
@@ -22,17 +22,9 @@
     <node
       pkg="ros_ign_bridge"
       type="parameter_bridge"
-      name="ros_ign_bridge_twist"
-      args="/model/$(arg name)/cmd_vel_relay@geometry_msgs/Twist]ignition.msgs.Twist">
-      <remap from="/model/$(arg name)/cmd_vel_relay" to="cmd_vel"/>
-    </node>
-
-    <node
-      pkg="ros_ign_bridge"
-      type="parameter_bridge"
-      name="ros_ign_bridge_battery_state"
-      args="/model/$(arg name)/battery/linear_battery/state@sensor_msgs/BatteryState[ignition.msgs.BatteryState">
-      <remap from="/model/$(arg name)/battery/linear_battery/state" to="battery_state"/>
+      name="ros_ign_bridge_robot_base_twist"
+      args="/model/$(arg name)/robot_base_twist@geometry_msgs/Twist[ignition.msgs.Twist">
+      <remap from="/model/$(arg name)/robot_base_twist" to="robot_base_twist"/>
     </node>
 
     <node
@@ -46,9 +38,9 @@
     <node
       pkg="ros_ign_bridge"
       type="parameter_bridge"
-      name="ros_ign_bridge_robot_base_twist"
-      args="/model/$(arg name)/robot_base_twist@geometry_msgs/Twist[ignition.msgs.Twist">
-      <remap from="/model/$(arg name)/robot_base_twist" to="robot_base_twist"/>
+      name="ros_ign_bridge_battery_state"
+      args="/model/$(arg name)/battery/linear_battery/state@sensor_msgs/BatteryState[ignition.msgs.BatteryState">
+      <remap from="/model/$(arg name)/battery/linear_battery/state" to="battery_state"/>
     </node>
 
     <!-- Control Commands -->
@@ -113,14 +105,6 @@
       name="ros_ign_bridge_lidar3d"
       args="$(arg sensor_prefix)/front_laser/scan/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
       <remap from="$(arg sensor_prefix)/front_laser/scan/points" to="front_laser/points"/>
-    </node>
-
-    <node
-        pkg="ros_ign_bridge"
-        type="parameter_bridge"
-        name="ros_ign_bridge_gpu_lidar_front_cliff"
-        args="$(arg sensor_prefix)/front_cliff_laser/scan@sensor_msgs/LaserScan[ignition.msgs.LaserScan">
-      <remap from="$(arg sensor_prefix)/front_cliff_laser/scan" to="front_cliff_scan"/>
     </node>
 
     <!-- Back Right Camera -->
