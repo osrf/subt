@@ -32,6 +32,11 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <desired_joint_positions_topic>/model/#{_name}/desired_joint_positions_relay</desired_joint_positions_topic>
         <robot_base_twist_topic>/model/#{_name}/robot_base_twist</robot_base_twist_topic>
         <controller_update_frequency>500.0</controller_update_frequency>
+        <!-- Noise parameters -->
+        <linearVelocityNoiseMean>0 0 0.05</linearVelocityNoiseMean>
+        <linearVelocityNoiseStdDev>0.1105 0.1261 0.00947</linearVelocityNoiseStdDev>
+        <angularVelocityNoiseMean>0 0 0</angularVelocityNoiseMean>
+        <angularVelocityNoiseStdDev>0.004 0.004 0.004</angularVelocityNoiseStdDev>
       </plugin>
 
       <!-- Publish robot state information -->
