@@ -616,7 +616,7 @@
                     <scan>
                         <horizontal>
                             <samples>811</samples>
-                            <resolution>0.3333333333</resolution>
+                            <resolution>1</resolution>
                             <min_angle>-2.3562</min_angle>
                             <max_angle>2.3562</max_angle>
                         </horizontal>
@@ -692,7 +692,7 @@
                     <scan>
                         <horizontal>
                             <samples>811</samples>
-                            <resolution>0.3333333333</resolution>
+                            <resolution>1</resolution>
                             <min_angle>-2.3562</min_angle>
                             <max_angle>2.3562</max_angle>
                         </horizontal>
@@ -861,16 +861,16 @@
                 <always_on>1</always_on>
                 <update_rate>30</update_rate>
                 <camera name="camera_front">
-                    <horizontal_fov>3.0</horizontal_fov>
+                    <horizontal_fov>2.27</horizontal_fov>
                     <lens>
                         <intrinsics>
                             <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
-                            <fx>11.3464</fx>
-                            <fy>11.3464</fy>
-                            <!-- cx = ( width + 1 ) / 2 -->
-                            <cx>340.5</cx>
-                            <!-- cy = ( height + 1 ) / 2 -->
-                            <cy>180.5</cy>
+                            <fx>149.01</fx>
+                            <fy>149.01</fy>
+                            <!-- cx = ( width - 1 ) / 2 -->
+                            <cx>339.5</cx>
+                            <!-- cy = ( height - 1 ) / 2 -->
+                            <cy>179.5</cy>
                             <s>0</s>
                         </intrinsics>
                     </lens>
@@ -916,14 +916,14 @@
                 <always_on>1</always_on>
                 <update_rate>30</update_rate>
                 <camera name="camera_rear">
-                    <horizontal_fov>3.0</horizontal_fov>
+                    <horizontal_fov>2.27</horizontal_fov>
                     <lens>
                         <intrinsics>
                             <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
-                            <fx>11.3464</fx>
-                            <fy>11.3464</fy>
+                            <fx>149.01</fx>
+                            <fy>149.01</fy>
                             <!-- cx = ( width - 1 ) / 2 -->
-                            <cx>319.5</cx>
+                            <cx>339.5</cx>
                             <!-- cy = ( height - 1 ) / 2 -->
                             <cy>179.5</cy>
                             <s>0</s>
@@ -967,20 +967,20 @@
                 </material>
             </visual>
             <sensor name="camera_left" type="camera">
-                <pose>0.0 0.225 0 0.0725 0 0 1.5707963267948966</pose>
+                <pose>0.0 0.225 0.0725 0 0 1.5707963267948966</pose>
                 <always_on>1</always_on>
                 <update_rate>30</update_rate>
                 <camera name="camera_left">
-                    <horizontal_fov>3.0</horizontal_fov>
+                    <horizontal_fov>2.27</horizontal_fov>
                     <lens>
                         <intrinsics>
                             <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
-                            <fx>11.3464</fx>
-                            <fy>11.3464</fy>
-                            <!-- cx = ( width + 1 ) / 2 -->
-                            <cx>340.5</cx>
-                            <!-- cy = ( height + 1 ) / 2 -->
-                            <cy>180.5</cy>
+                            <fx>149.01</fx>
+                            <fy>149.01</fy>
+                            <!-- cx = ( width - 1 ) / 2 -->
+                            <cx>339.5</cx>
+                            <!-- cy = ( height - 1 ) / 2 -->
+                            <cy>179.5</cy>
                             <s>0</s>
                         </intrinsics>
                     </lens>
@@ -1026,16 +1026,16 @@
                 <always_on>1</always_on>
                 <update_rate>30</update_rate>
                 <camera name="camera_right">
-                    <horizontal_fov>3.0</horizontal_fov>
+                    <horizontal_fov>2.27</horizontal_fov>
                     <lens>
                         <intrinsics>
                             <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
-                            <fx>11.3464</fx>
-                            <fy>11.3464</fy>
-                            <!-- cx = ( width + 1 ) / 2 -->
-                            <cx>340.5</cx>
-                            <!-- cy = ( height + 1 ) / 2 -->
-                            <cy>180.5</cy>
+                            <fx>149.01</fx>
+                            <fy>149.01</fy>
+                            <!-- cx = ( width - 1 ) / 2 -->
+                            <cx>339.5</cx>
+                            <!-- cy = ( height - 1 ) / 2 -->
+                            <cy>179.5</cy>
                             <s>0</s>
                         </intrinsics>
                     </lens>
