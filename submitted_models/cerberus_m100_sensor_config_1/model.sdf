@@ -199,14 +199,11 @@
                     <horizontal_fov>2.0944</horizontal_fov>
                     <lens>
                         <intrinsics>
-                            <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
-                            <fx>415.7</fx>
-                            <fy>415.7</fy>
-                            <!-- cx = ( width + 1 ) / 2 -->
-                            <cx>720.5</cx>
-                            <!-- cy = ( height + 1 ) / 2 -->
-                            <cy>540.5</cy>
-                            <s>0</s>
+                            <fx>1108.952913</fx>
+                            <fy>1110.658360</fy>
+                            <cx>729.533992</cx>
+                            <cy>544.985715</cy>
+                            <s>1</s>
                         </intrinsics>
                     </lens>
                     <distortion>
@@ -218,13 +215,13 @@
                         <center>0.5 0.5</center>
                     </distortion>
                     <image>
-                        <width>1280</width>
-                        <height>960</height>
+                        <width>1440</width>
+                        <height>1080</height>
                         <format>R8G8B8</format>
                     </image>
                     <clip>
-                        <near>0.01</near>
-                        <far>300</far>
+                        <near>0.02</near>
+                        <far>100</far>
                     </clip>
                     <noise>
                         <type>gaussian</type>
