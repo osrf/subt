@@ -90,6 +90,11 @@ ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/R
 ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/Rough Tunnel Tile Ramp" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/Rough Tunnel Tile Vertical Shaft" -v 4
 
+# Download niosh models
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/NIOSH Staging Area" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/NIOSH Segment 01" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/NIOSH Segment 02" -v 4
+
 # Download urban circuit tiles
 ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/Urban Superpose" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/Urban Service Room" -v 4
