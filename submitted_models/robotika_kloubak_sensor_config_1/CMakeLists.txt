@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(robotika_klobak_sensor_config_1)
+project(robotika_kloubak_sensor_config_1)
 
 find_package(catkin REQUIRED)
 
