@@ -24,7 +24,7 @@
       <static>true</static>
       <name>staging_area</name>
       <pose>0 0 0 0 0 0</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Starting Area</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Starting Area</uri>
     </include>
 
     <!-- The base station -->
@@ -32,644 +32,644 @@
       <static>true</static>
       <name>base_station</name>
       <pose>1 27 7.5 0 0 -1.5708</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Base Station</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Base Station</uri>
     </include>
 
     <!-- Fiducial marking the origin for artifacts reports -->
     <include>
       <name>artifact_origin</name>
       <pose>17.5 27 7.5 0 0 0</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Fiducial</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fiducial</uri>
     </include>
 
     <!-- Tunnel tiles and artifacts -->
     <include>
       <name>tile_1</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Bend Right</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Bend Right</uri>
       <pose>-240.000000 -8.000000 -15.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_2</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Door Right</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Straight Door Right</uri>
       <pose>-200.000000 -8.000000 -15.000000 0 0 3.141593</pose>
     </include>
 
     <include>
       <name>tile_3</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Service Room</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Service Room</uri>
       <pose>-200.000000 -8.000000 -15.000000 0 0 3.141593</pose>
     </include>
 
     <include>
       <name>tile_4</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Tunnel Tile Blocker</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
       <pose>-177.000000 -8.000000 -13.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_5</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Door Right</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Straight Door Right</uri>
       <pose>-120.000000 -8.000000 0.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_6</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Service Room Lights</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Service Room Lights</uri>
       <pose>-120.000000 -8.000000 0.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_7</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Tunnel Tile Blocker</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
       <pose>-143.000000 -8.000000 2.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>gas_1</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Gas</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Gas</uri>
       <pose>-136.000000 8.000000 1.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_8</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Door Left Flipped</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Straight Door Left Flipped</uri>
       <pose>-80.000000 -8.000000 0.000000 0 0 3.141593</pose>
     </include>
 
     <include>
       <name>tile_9</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Platform Open</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Platform Open</uri>
       <pose>-40.000000 -8.000000 0.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_10</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Tunnel Tile Blocker</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
       <pose>-40.000000 15.000000 3.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>phone_1</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Samsung J8 Black</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Samsung J8 Black</uri>
       <pose>-39.000000 10.000000 1.700000 -1.570796 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_11</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Door Right</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Straight Door Right</uri>
       <pose>0.000000 -8.000000 0.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_12</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Elevation Up Lights</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Elevation Up Lights</uri>
       <pose>40.000000 -8.000000 -5.000000 0 0 1.570796</pose>
     </include>
 
     <include>
       <name>tile_13</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Bend Left Lights</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Bend Left Lights</uri>
       <pose>80.000000 -8.000000 -5.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>phone_2</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Samsung J8 Black</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Samsung J8 Black</uri>
       <pose>75.000000 -15.000000 -5.000000 -1.570796 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_14</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Elevation Up Lights</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Elevation Up Lights</uri>
       <pose>-240.000000 -48.000000 -20.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_15</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Door Right Flipped Lights</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Straight Door Right Flipped Lights</uri>
       <pose>-120.000000 -48.000000 -10.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_16</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Service Room</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Service Room</uri>
       <pose>-120.000000 -48.000000 -10.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_17</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Tunnel Tile Blocker</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
       <pose>-143.000000 -48.000000 -8.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>gas_2</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Gas</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Gas</uri>
       <pose>-136.000000 -32.000000 -9.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_18</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Door Right</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Straight Door Right</uri>
       <pose>-80.000000 -48.000000 -10.000000 0 0 3.141593</pose>
     </include>
 
     <include>
       <name>tile_19</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Platform</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Platform</uri>
       <pose>-40.000000 -48.000000 -10.000000 0 0 3.141593</pose>
     </include>
 
     <include>
       <name>tile_20</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Door Left Flipped</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Straight Door Left Flipped</uri>
       <pose>0.000000 -48.000000 -10.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_21</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Elevation Up Lights</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Elevation Up Lights</uri>
       <pose>40.000000 -48.000000 -10.000000 0 0 -1.570796</pose>
     </include>
 
     <include>
       <name>tile_22</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Bend Left Lights</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Bend Left Lights</uri>
       <pose>80.000000 -48.000000 -5.000000 0 0 -1.570796</pose>
     </include>
 
     <include>
       <name>tile_23</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Door Right</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Straight Door Right</uri>
       <pose>-240.000000 -88.000000 -20.000000 0 0 -1.570796</pose>
     </include>
 
     <include>
       <name>tile_24</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Service Room Lights</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Service Room Lights</uri>
       <pose>-240.000000 -88.000000 -20.000000 0 0 -1.570796</pose>
     </include>
 
     <include>
       <name>vent_1</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Vent</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Vent</uri>
       <pose>-203.950000 -68.000000 -17.000000 0 -1.570796 0.000000</pose>
     </include>
 
     <include>
       <name>tile_25</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Bend Left</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Bend Left</uri>
       <pose>-200.000000 -88.000000 -20.000000 0 0 1.570796</pose>
     </include>
 
     <include>
       <name>tile_26</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Bend Left Lights</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Bend Left Lights</uri>
       <pose>-160.000000 -88.000000 -20.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_27</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Stairwell Platform</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Stairwell Platform</uri>
       <pose>-40.000000 -88.000000 -20.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>backpack_1</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/JanSport Backpack Red</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/JanSport Backpack Red</uri>
       <pose>-68.000000 -82.000000 -10.900000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_28</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Elevation Up Lights</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Elevation Up Lights</uri>
       <pose>-240.000000 -128.000000 -25.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_29</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Door Right</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Straight Door Right</uri>
       <pose>-200.000000 -128.000000 -20.000000 0 0 1.570796</pose>
     </include>
 
     <include>
       <name>backpack_2</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/JanSport Backpack Red</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/JanSport Backpack Red</uri>
       <pose>-201.100000 -127.500000 -20.000000 0 0 1.483530</pose>
     </include>
 
     <include>
       <name>tile_30</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Bend Right</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Bend Right</uri>
       <pose>-160.000000 -128.000000 -20.000000 0 0 1.570796</pose>
     </include>
 
     <include>
       <name>tile_31</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Lights</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Straight Lights</uri>
       <pose>-120.000000 -128.000000 -20.000000 0 0 1.570796</pose>
     </include>
 
     <include>
       <name>tile_32</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Door Left Flipped</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Straight Door Left Flipped</uri>
       <pose>-80.000000 -128.000000 -20.000000 0 0 3.141593</pose>
     </include>
 
     <include>
       <name>tile_33</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Platform</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Platform</uri>
       <pose>-40.000000 -128.000000 -20.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>rescue_randy_1</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Rescue Randy Sitting</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rescue Randy Sitting</uri>
       <pose>-26.600000 -118.000000 -18.300000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_34</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Door Right</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Straight Door Right</uri>
       <pose>0.000000 -128.000000 -20.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_35</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Bend Left Lights</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Bend Left Lights</uri>
       <pose>40.000000 -128.000000 -20.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_36</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Door Right Flipped Lights</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Straight Door Right Flipped Lights</uri>
       <pose>-240.000000 -168.000000 -25.000000 0 0 1.570796</pose>
     </include>
 
     <include>
       <name>tile_37</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Service Room Lights</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Service Room Lights</uri>
       <pose>-240.000000 -168.000000 -25.000000 0 0 1.570796</pose>
     </include>
 
     <include>
       <name>rescue_randy_2</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Rescue Randy Sitting</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rescue Randy Sitting</uri>
       <pose>-260.000000 -188.000000 -24.080000 0 0 3.141593</pose>
     </include>
 
     <include>
       <name>vent_2</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Vent</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Vent</uri>
       <pose>-276.050000 -188.500000 -22.000000 0 1.570796 0.000000</pose>
     </include>
 
     <include>
       <name>tile_38</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Platform</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Platform</uri>
       <pose>-200.000000 -168.000000 -20.000000 0 0 1.570796</pose>
     </include>
 
     <include>
       <name>tile_39</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Tunnel Tile Blocker</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
       <pose>-223.000000 -168.000000 -17.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>backpack_3</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/JanSport Backpack Red</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/JanSport Backpack Red</uri>
       <pose>-210.000000 -152.000000 -18.300000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_40</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Bend Right</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Bend Right</uri>
       <pose>-160.000000 -168.000000 -20.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_41</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Door Right</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Straight Door Right</uri>
       <pose>-120.000000 -168.000000 -20.000000 0 0 3.141593</pose>
     </include>
 
     <include>
       <name>rescue_randy_3</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Rescue Randy Sitting</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rescue Randy Sitting</uri>
       <pose>-114.400000 -170.200000 -20.000000 0 0 1.570796</pose>
     </include>
 
     <include>
       <name>tile_42</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Platform</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Platform</uri>
       <pose>-80.000000 -168.000000 -20.000000 0 0 3.141593</pose>
     </include>
 
     <include>
       <name>tile_43</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Door Left Flipped</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Straight Door Left Flipped</uri>
       <pose>-40.000000 -168.000000 -20.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_44</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Door Right Flipped Lights</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Straight Door Right Flipped Lights</uri>
       <pose>0.000000 -168.000000 -20.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_45</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Service Room</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Service Room</uri>
       <pose>0.000000 -168.000000 -20.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_46</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Tunnel Tile Blocker</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
       <pose>23.000000 -168.000000 -18.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_47</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Elevation Up Lights</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Elevation Up Lights</uri>
       <pose>40.000000 -168.000000 -25.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_48</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Elevation Up Lights</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Elevation Up Lights</uri>
       <pose>-240.000000 -208.000000 -30.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_49</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Door Left Flipped</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Straight Door Left Flipped</uri>
       <pose>-200.000000 -208.000000 -20.000000 0 0 -1.570796</pose>
     </include>
 
     <include>
       <name>tile_50</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban 3-Way Right Intersection</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban 3-Way Right Intersection</uri>
       <pose>-160.000000 -208.000000 -20.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_51</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Door Left</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Straight Door Left</uri>
       <pose>-120.000000 -208.000000 -20.000000 0 0 3.141593</pose>
     </include>
 
     <include>
       <name>tile_52</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Platform</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Platform</uri>
       <pose>-80.000000 -208.000000 -20.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_53</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Door Right</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Straight Door Right</uri>
       <pose>-40.000000 -208.000000 -20.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>phone_3</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Samsung J8 Black</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Samsung J8 Black</uri>
       <pose>-37.000000 -207.500000 -20.000000 -1.570796 0 0.087266</pose>
     </include>
 
     <include>
       <name>tile_54</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Elevation Down</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Elevation Down</uri>
       <pose>0.000000 -208.000000 -20.000000 0 0 1.570796</pose>
     </include>
 
     <include>
       <name>tile_55</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Superpose</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Superpose</uri>
       <pose>40.000000 -208.000000 -25.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_56</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Bend Left Lights</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Bend Left Lights</uri>
       <pose>80.000000 -208.000000 -15.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>phone_4</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Samsung J8 Black</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Samsung J8 Black</uri>
       <pose>75.000000 -215.000000 -15.000000 -1.570796 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_57</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Door Right</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Straight Door Right</uri>
       <pose>-240.000000 -248.000000 -30.000000 0 0 -1.570796</pose>
     </include>
 
     <include>
       <name>tile_58</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Service Room</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Service Room</uri>
       <pose>-240.000000 -248.000000 -30.000000 0 0 -1.570796</pose>
     </include>
 
     <include>
       <name>tile_59</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Bend Left Lights</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Bend Left Lights</uri>
       <pose>-200.000000 -248.000000 -20.000000 0 0 3.141593</pose>
     </include>
 
     <include>
       <name>tile_60</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Bend Left Lights</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Bend Left Lights</uri>
       <pose>-160.000000 -248.000000 -20.000000 0 0 -1.570796</pose>
     </include>
 
     <include>
       <name>tile_61</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Door Right</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Straight Door Right</uri>
       <pose>-120.000000 -248.000000 -25.000000 0 0 3.141593</pose>
     </include>
 
     <include>
       <name>tile_62</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Service Room Lights</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Service Room Lights</uri>
       <pose>-120.000000 -248.000000 -25.000000 0 0 3.141593</pose>
     </include>
 
     <include>
       <name>tile_63</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Tunnel Tile Blocker</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
       <pose>-143.000000 -248.000000 -23.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_64</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Door Right</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Straight Door Right</uri>
       <pose>-80.000000 -248.000000 -25.000000 0 0 3.141593</pose>
     </include>
 
     <include>
       <name>backpack_4</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/JanSport Backpack Red</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/JanSport Backpack Red</uri>
       <pose>-74.400000 -250.200000 -25.000000 0 0 1.570796</pose>
     </include>
 
     <include>
       <name>tile_65</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Platform</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Platform</uri>
       <pose>-40.000000 -248.000000 -25.000000 0 0 3.141593</pose>
     </include>
 
     <include>
       <name>tile_66</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Door Left Flipped</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Straight Door Left Flipped</uri>
       <pose>0.000000 -248.000000 -25.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_67</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Bend Left Lights</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Bend Left Lights</uri>
       <pose>40.000000 -248.000000 -25.000000 0 0 -1.570796</pose>
     </include>
 
     <include>
       <name>tile_68</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Door Right Flipped</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Straight Door Right Flipped</uri>
       <pose>80.000000 -248.000000 -15.000000 0 0 1.570796</pose>
     </include>
 
     <include>
       <name>tile_69</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Service Room</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Service Room</uri>
       <pose>80.000000 -248.000000 -15.000000 0 0 1.570796</pose>
     </include>
 
     <include>
       <name>tile_70</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Tunnel Tile Blocker</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
       <pose>80.000000 -271.000000 -13.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_71</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Elevation Up Lights</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Elevation Up Lights</uri>
       <pose>-240.000000 -288.000000 -35.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_72</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Stairwell Platform</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Stairwell Platform</uri>
       <pose>-40.000000 -288.000000 -35.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>rescue_randy_4</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Rescue Randy Sitting</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rescue Randy Sitting</uri>
       <pose>-70.000000 -282.000000 -25.900000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_73</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Door Right Flipped Lights</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Straight Door Right Flipped Lights</uri>
       <pose>80.000000 -288.000000 -40.000000 0 0 1.570796</pose>
     </include>
 
     <include>
       <name>tile_74</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Service Room Lights</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Service Room Lights</uri>
       <pose>80.000000 -288.000000 -40.000000 0 0 1.570796</pose>
     </include>
 
     <include>
       <name>tile_75</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Tunnel Tile Blocker</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
       <pose>80.000000 -265.000000 -38.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>phone_5</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Samsung J8 Black</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Samsung J8 Black</uri>
       <pose>52.000000 -303.000000 -39.080000 -1.570796 0 0.087266</pose>
     </include>
 
     <include>
       <name>tile_76</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Bend Right</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Bend Right</uri>
       <pose>-240.000000 -328.000000 -35.000000 0 0 1.570796</pose>
     </include>
 
     <include>
       <name>tile_77</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Door Left Flipped</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Straight Door Left Flipped</uri>
       <pose>-200.000000 -328.000000 -35.000000 0 0 3.141593</pose>
     </include>
 
     <include>
       <name>tile_78</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Platform</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Platform</uri>
       <pose>-160.000000 -328.000000 -35.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_79</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Tunnel Tile Blocker</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
       <pose>-160.000000 -305.000000 -32.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>backpack_5</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/JanSport Backpack Red</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/JanSport Backpack Red</uri>
       <pose>-161.000000 -311.000000 -33.300000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_80</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Door Right</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Straight Door Right</uri>
       <pose>-120.000000 -328.000000 -35.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_81</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Door Left Flipped</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Straight Door Left Flipped</uri>
       <pose>-80.000000 -328.000000 -35.000000 0 0 3.141593</pose>
     </include>
 
     <include>
       <name>tile_82</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Platform</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Platform</uri>
       <pose>-40.000000 -328.000000 -35.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>rescue_randy_5</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Rescue Randy Sitting</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rescue Randy Sitting</uri>
       <pose>-58.000000 -319.000000 -33.300000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>phone_6</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Samsung J8 Black</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Samsung J8 Black</uri>
       <pose>-27.000000 -321.000000 -33.300000 -1.570796 0 0.087266</pose>
     </include>
 
     <include>
       <name>tile_83</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Door Right</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Straight Door Right</uri>
       <pose>0.000000 -328.000000 -35.000000 0 0 0.000000</pose>
     </include>
 
     <include>
       <name>tile_84</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Elevation Up Lights</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Elevation Up Lights</uri>
       <pose>40.000000 -328.000000 -40.000000 0 0 1.570796</pose>
     </include>
 
     <include>
       <name>tile_85</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Bend Right</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Bend Right</uri>
       <pose>80.000000 -328.000000 -40.000000 0 0 3.141593</pose>
     </include>
 
