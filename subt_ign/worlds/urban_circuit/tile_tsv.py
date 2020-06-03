@@ -1002,7 +1002,7 @@ def print_world_top(args, world_file, tile_type='tunnel'):
       <static>true</static>
       <name>staging_area</name>
       <pose>0 0 0 0 0 0</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Starting Area</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Starting Area</uri>
     </include>"""
 
         # Default
@@ -1015,110 +1015,110 @@ def print_world_top(args, world_file, tile_type='tunnel'):
       <static>true</static>
       <name>staging_area</name>
       <pose>0 0 0 0 0 0</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/subt_tunnel_staging_area</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/subt_tunnel_staging_area</uri>
     </include>
 
     <!-- Barriers -->
     <include>
       <name>barrier_0_-1</name>
       <pose>8.0 -11 0 0 0 0</pose>
-      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
     </include>
 
     <include>
       <name>barrier_0_1</name>
       <pose>8.0 11 0 0 0 0 </pose>
-      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
     </include>
 
     <include>
       <name>barrier_1_-1</name>
       <pose>3.7 -11 0 0 0 0</pose>
-      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
     </include>
 
     <include>
       <name>barrier_1_1</name>
       <pose>3.7 11 0 0 0 0</pose>
-      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
     </include>
 
     <include>
       <name>barrier_2_-1</name>
       <pose>-0.5999999999999996 -11 0 0 0 0</pose>
-      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
     </include>
 
     <include>
       <name>barrier_2_1</name>
       <pose>-0.5999999999999996 11 0 0 0 0</pose>
-      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
     </include>
 
     <include>
       <name>barrier_3_-1</name>
       <pose>-4.899999999999999 -11 0 0 0 0</pose>
-      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
     </include>
 
     <include>
       <name>barrier_3_1</name>
       <pose>-4.899999999999999 11 0 0 0 0</pose>
-      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
     </include>
 
     <include>
       <name>barrier_4_-1</name>
       <pose>-9.2 -11 0 0 0 0</pose>
-      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
     </include>
 
     <include>
       <name>barrier_4_1</name>
       <pose>-9.2 11 0 0 0 0</pose>
-      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
     </include>
 
     <include>
       <name>barrier_-9.5_-2</name>
       <pose>10.5 -8.6 0 0 0 1.5707963267948966</pose>
-      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
     </include>
 
     <include>
       <name>barrier_-9.5_2</name>
       <pose>10.5 8.6 0 0 0 1.5707963267948966</pose>
-      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
     </include>
 
     <include>
       <name>barrier_-32_-2</name>
       <pose>-12 -8.6 0 0 0 1.5707963267948966</pose>
-      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
     </include>
 
     <include>
       <name>barrier_-32_-1</name>
       <pose>-12 -4.3 0 0 0 1.5707963267948966</pose>
-      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
     </include>
 
     <include>
       <name>barrier_-32_0</name>
       <pose>-12 0.0 0 0 0 1.5707963267948966</pose>
-      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
     </include>
 
     <include>
       <name>barrier_-32_1</name>
       <pose>-12 4.3 0 0 0 1.5707963267948966</pose>
-      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
     </include>
 
     <include>
       <name>barrier_-32_2</name>
       <pose>-12 8.6 0 0 0 1.5707963267948966</pose>
-      <uri> https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Jersey Barrier </uri>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
     </include>"""
 
     print("""<?xml version="1.0" ?>
@@ -1188,14 +1188,14 @@ def print_world_top(args, world_file, tile_type='tunnel'):
       <static>true</static>
       <name>base_station</name>
       <pose>{tent_pos} 0 0 -1.5708</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Base Station</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Base Station</uri>
     </include>
 
     <!-- Fiducial marking the origin for artifacts reports -->
     <include>
       <name>artifact_origin</name>
       <pose>{artifact_origin_pos} 0 0 0</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Fiducial</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fiducial</uri>
     </include>
 
     <!-- Tunnel tiles and artifacts -->""".format(stage_mesh=stage_mesh, tent_pos=tent_pos,

@@ -14,6 +14,7 @@ RUN apt-get update -qq \
  && apt-get install --no-install-recommends -y -qq \
         build-essential \
         bwm-ng \
+        atop \
         cmake \
         cppcheck \
         gdb \
@@ -24,7 +25,6 @@ RUN apt-get update -qq \
         libspnav-dev \
         libusb-dev \
         lsb-release \
-        mercurial \
         python3-dbg \
         python3-empy \
         python3-numpy \
@@ -107,7 +107,7 @@ RUN rosdep update
 # docker is run
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
- && hg clone https://bitbucket.org/osrf/subt
+ && git clone https://github.com/osrf/subt
 
 # Download the public models
 COPY download_models.sh ./
