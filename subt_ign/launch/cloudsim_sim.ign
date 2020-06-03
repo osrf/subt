@@ -214,7 +214,6 @@
   end
 
   if defined?(levels) && levels != nil && !levels.empty?
-    puts "LEVELS"
     $levels = levels.downcase == "true"
   end
 %>
