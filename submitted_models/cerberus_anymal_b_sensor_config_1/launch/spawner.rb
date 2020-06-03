@@ -11,6 +11,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
     <include>
       <name>#{_name}</name>
       <uri>#{_modelURI}</uri>
+
       <!-- ANYmal control -->
       <plugin filename="libAnymalBControlPlugin1.so"
               name="ignition::gazebo::systems::AnymalControlPlugin">
@@ -31,7 +32,13 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <desired_joint_positions_topic>/model/#{_name}/desired_joint_positions_relay</desired_joint_positions_topic>
         <robot_base_twist_topic>/model/#{_name}/robot_base_twist</robot_base_twist_topic>
         <controller_update_frequency>500.0</controller_update_frequency>
+        <!-- Noise parameters -->
+        <linear_velocity_noise_mean>0 0 0.05</linear_velocity_noise_mean>
+        <linear_velocity_noise_std_dev>0.05 0.05 0.00947</linear_velocity_noise_std_dev>
+        <angular_velocity_noise_mean>0 0 0</angular_velocity_noise_mean>
+        <angular_velocity_noise_std_dev>0.004 0.004 0.004</angular_velocity_noise_std_dev>
       </plugin>
+
       <!-- Publish robot state information -->
       <plugin filename="libignition-gazebo-pose-publisher-system.so"
         name="ignition::gazebo::systems::PosePublisher">
@@ -41,29 +48,32 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <publish_visual_pose>false</publish_visual_pose>
         <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>
       </plugin>
-
       <plugin filename="libignition-gazebo-joint-state-publisher-system.so"
         name="ignition::gazebo::systems::JointStatePublisher">
       </plugin>
+
       <!-- Battery plugin -->
-      <!-- WARNING: this plugin seems to have a bug and freezes the joints even though
-           the battery is not empty. While investigating this issue, we need to comment the plugin
-           otherwise we are not able to set joint torques because the joints are frozen.
-           See opened issue: https://bitbucket.org/ignitionrobotics/ign-gazebo/issues/55/battery-plugin-freezes-joints
-      -->
-      <!--plugin filename="libignition-gazebo-linearbatteryplugin-system.so"
+      <plugin filename="libignition-gazebo-linearbatteryplugin-system.so"
         name="ignition::gazebo::systems::LinearBatteryPlugin">
         <battery_name>linear_battery</battery_name>
-        <voltage>12.694</voltage>
-        <open_circuit_voltage_constant_coef>12.694</open_circuit_voltage_constant_coef>
+        <voltage>50</voltage>
+        <open_circuit_voltage_constant_coef>50</open_circuit_voltage_constant_coef>
         <open_circuit_voltage_linear_coef>-3.1424</open_circuit_voltage_linear_coef>
-        <initial_charge>78.4</initial_charge>
-        <capacity>78.4</capacity>
+        <initial_charge>12.3</initial_charge>
+        <capacity>12.3</capacity>
         <resistance>0.061523</resistance>
         <smooth_current_tau>1.9499</smooth_current_tau>
-        <power_load>6.6</power_load>
+        <power_load>5</power_load>
         <start_on_motion>true</start_on_motion>
-      </plugin-->
+      </plugin>
+
+      <!-- Gas Sensor plugin -->"
+      <plugin filename="libGasEmitterDetectorPlugin.so"
+        name="subt::GasDetector">
+        <topic>/model/#{_name}/gas_detected</topic>
+        <update_rate>10</update_rate>
+        <type>gas</type>
+      </plugin>
     </include>
     </sdf>
   </plugin>

@@ -155,7 +155,7 @@
         </material>
       </visual>
       <visual name="base_fixed_joint_lump__downward_realsense_camera_visual_3">
-        <pose>0.388757 -0.000224 0.057675 -0.009501 0.382227 0</pose>
+        <pose>0.387757 -0.000224 0.057675 -0.009501 0.382227 0</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -383,22 +383,19 @@
       </sensor>
 
       <sensor name="camera_front" type="camera">
-          <pose>0.419397 0.02 0.161624 0 0 0</pose>
+          <pose>0.42 0.02 0.161624 0 0 0</pose>
           <always_on>1</always_on>
           <update_rate>20</update_rate>
           <camera name="camera_front">
               <horizontal_fov>2</horizontal_fov>
               <lens>
-                  <intrinsics>
-                    <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
-                    <fx>1108.5</fx>
-                    <fy>1108.5</fy>
-                    <!-- cx = ( width + 1 ) / 2 -->
-                    <cx>640.5</cx>
-                    <!-- cy = ( height + 1 ) / 2 -->
-                    <cy>480.5</cy>
-                    <s>0</s>
-                  </intrinsics>
+                <intrinsics>
+                  <fx>1108.952913</fx>
+                  <fy>1110.658360</fy>
+                  <cx>729.533992</cx>
+                  <cy>544.985715</cy>
+                  <s>1</s>
+                </intrinsics>
               </lens>
               <distortion>
                   <k1>0.0</k1>
@@ -409,18 +406,18 @@
                   <center>0.5 0.5</center>
               </distortion>
               <image>
-                  <width>1280</width>
-                  <height>960</height>
-                  <format>R8G8B8</format>
+                <width>1440</width>
+                <height>1080</height>
+                <format>R8G8B8</format>
               </image>
               <clip>
                   <near>0.02</near>
-                  <far>300</far>
+                  <far>100</far>
               </clip>
               <noise>
-                  <type>gaussian</type>
-                  <mean>0</mean>
-                  <stddev>0.007</stddev>
+                <type>gaussian</type>
+                <mean>0</mean>
+                <stddev>0.007</stddev>
               </noise>
           </camera>
       </sensor>
@@ -430,41 +427,38 @@
           <always_on>1</always_on>
           <update_rate>20</update_rate>
           <camera name="camera_back_right">
-              <horizontal_fov>2</horizontal_fov>
-              <lens>
-                  <intrinsics>
-                    <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
-                    <fx>1108.5</fx>
-                    <fy>1108.5</fy>
-                    <!-- cx = ( width + 1 ) / 2 -->
-                    <cx>640.5</cx>
-                    <!-- cy = ( height + 1 ) / 2 -->
-                    <cy>480.5</cy>
-                    <s>0</s>
-                  </intrinsics>
-              </lens>
-              <distortion>
-                  <k1>0.0</k1>
-                  <k2>0.0</k2>
-                  <k3>0.0</k3>
-                  <p1>0.0</p1>
-                  <p2>0.0</p2>
-                  <center>0.5 0.5</center>
-              </distortion>
-              <image>
-                  <width>1280</width>
-                  <height>960</height>
-                  <format>R8G8B8</format>
-              </image>
-              <clip>
-                  <near>0.02</near>
-                  <far>300</far>
-              </clip>
-              <noise>
-                  <type>gaussian</type>
-                  <mean>0</mean>
-                  <stddev>0.007</stddev>
-              </noise>
+            <horizontal_fov>2</horizontal_fov>
+            <lens>
+              <intrinsics>
+                <fx>1108.952913</fx>
+                <fy>1110.658360</fy>
+                <cx>729.533992</cx>
+                <cy>544.985715</cy>
+                <s>1</s>
+              </intrinsics>
+            </lens>
+            <distortion>
+                <k1>0.0</k1>
+                <k2>0.0</k2>
+                <k3>0.0</k3>
+                <p1>0.0</p1>
+                <p2>0.0</p2>
+                <center>0.5 0.5</center>
+            </distortion>
+            <image>
+              <width>1440</width>
+              <height>1080</height>
+              <format>R8G8B8</format>
+            </image>
+            <clip>
+                <near>0.02</near>
+                <far>100</far>
+            </clip>
+            <noise>
+              <type>gaussian</type>
+              <mean>0</mean>
+              <stddev>0.007</stddev>
+            </noise>
           </camera>
       </sensor>
 
@@ -473,41 +467,38 @@
           <always_on>1</always_on>
           <update_rate>20</update_rate>
           <camera name="camera_back_left">
-              <horizontal_fov>2</horizontal_fov>
-              <lens>
-                  <intrinsics>
-                    <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
-                    <fx>1108.5</fx>
-                    <fy>1108.5</fy>
-                    <!-- cx = ( width + 1 ) / 2 -->
-                    <cx>640.5</cx>
-                    <!-- cy = ( height + 1 ) / 2 -->
-                    <cy>480.5</cy>
-                    <s>0</s>
-                  </intrinsics>
-              </lens>
-              <distortion>
-                  <k1>0.0</k1>
-                  <k2>0.0</k2>
-                  <k3>0.0</k3>
-                  <p1>0.0</p1>
-                  <p2>0.0</p2>
-                  <center>0.5 0.5</center>
-              </distortion>
-              <image>
-                  <width>1280</width>
-                  <height>960</height>
-                  <format>R8G8B8</format>
-              </image>
-              <clip>
-                  <near>0.02</near>
-                  <far>300</far>
-              </clip>
-              <noise>
-                  <type>gaussian</type>
-                  <mean>0</mean>
-                  <stddev>0.007</stddev>
-              </noise>
+            <horizontal_fov>2</horizontal_fov>
+            <lens>
+              <intrinsics>
+                <fx>1108.952913</fx>
+                <fy>1110.658360</fy>
+                <cx>729.533992</cx>
+                <cy>544.985715</cy>
+                <s>1</s>
+              </intrinsics>
+            </lens>
+            <distortion>
+                <k1>0.0</k1>
+                <k2>0.0</k2>
+                <k3>0.0</k3>
+                <p1>0.0</p1>
+                <p2>0.0</p2>
+                <center>0.5 0.5</center>
+            </distortion>
+            <image>
+              <width>1440</width>
+              <height>1080</height>
+              <format>R8G8B8</format>
+            </image>
+            <clip>
+                <near>0.02</near>
+                <far>100</far>
+            </clip>
+            <noise>
+              <type>gaussian</type>
+              <mean>0</mean>
+              <stddev>0.007</stddev>
+            </noise>
           </camera>
       </sensor>
 
