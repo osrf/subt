@@ -63,7 +63,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <capacity>12.3</capacity>
         <resistance>0.061523</resistance>
         <smooth_current_tau>1.9499</smooth_current_tau>
-        <power_load>5</power_load>
+        <power_load>5.214</power_load>
         <start_on_motion>true</start_on_motion>
       </plugin>
 
