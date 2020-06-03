@@ -173,7 +173,7 @@ bool VisibilityModel::VisualizeVisibility(const ignition::msgs::StringMsg &_req,
       rf_power rf_pow = ComputeReceivedPower(txPower, tx, rx);
       // Based on rx_power, noise value, and modulation, compute the bit error rate (BER)
       double ber = QPSKPowerToBER( dbmToPow(rf_pow.mean), dbmToPow(noise_floor) );
-      int num_bytes = 5; // Hardcoded number of bytes, this value is relatively low
+      int num_bytes = 100; // Hardcoded number of bytes
       double packet_drop_prob = 1.0 - exp(num_bytes*log(1-ber));
       // Scale packet drop probability to align with the color scheme
       int pdp = floor(packet_drop_prob*5.00001);
