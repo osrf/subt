@@ -60,7 +60,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
           <rotorDragCoefficient>2.0673e-04</rotorDragCoefficient>
           <rollingMomentCoefficient>0</rollingMomentCoefficient>
           <motorSpeedPubTopic>motor_speed/0</motorSpeedPubTopic>
-          <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+          <rotorVelocitySlowdownSim>0.5</rotorVelocitySlowdownSim>
           <motorType>velocity</motorType>
         </plugin>
         <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
@@ -79,7 +79,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
           <rotorDragCoefficient>2.0673e-04</rotorDragCoefficient>
           <rollingMomentCoefficient>0</rollingMomentCoefficient>
           <motorSpeedPubTopic>motor_speed/1</motorSpeedPubTopic>
-          <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+          <rotorVelocitySlowdownSim>0.5</rotorVelocitySlowdownSim>
           <motorType>velocity</motorType>
         </plugin>
         <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
@@ -98,7 +98,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
           <rotorDragCoefficient>2.0673e-04</rotorDragCoefficient>
           <rollingMomentCoefficient>0</rollingMomentCoefficient>
           <motorSpeedPubTopic>motor_speed/2</motorSpeedPubTopic>
-          <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+          <rotorVelocitySlowdownSim>0.5</rotorVelocitySlowdownSim>
           <motorType>velocity</motorType>
         </plugin>
         <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
@@ -117,7 +117,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
           <rotorDragCoefficient>2.0673e-04</rotorDragCoefficient>
           <rollingMomentCoefficient>0</rollingMomentCoefficient>
           <motorSpeedPubTopic>motor_speed/3</motorSpeedPubTopic>
-          <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+          <rotorVelocitySlowdownSim>0.5</rotorVelocitySlowdownSim>
           <motorType>velocity</motorType>
         </plugin>
         <plugin
@@ -185,15 +185,17 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
           <power_load>70</power_load>
           <start_on_motion>true</start_on_motion>
         </plugin>
+        <!-- Gas Detector plugin -->
+        <plugin filename="libGasEmitterDetectorPlugin.so"
+          name="subt::GasDetector">
+          <topic>/model/#{_name}/gas_detected</topic>
+          <update_rate>10</update_rate>
+          <type>gas</type>
+        </plugin>
         </include>
       </sdf>
     </plugin>
-    <plugin filename="libGasEmitterDetectorPlugin.so"
-      name="subt::GasDetector">
-      <topic>/model/#{_name}/gas_detected</topic>
-      <update_rate>10</update_rate>
-      <type>gas</type>
-    </plugin>
+    
   HEREDOC
 end
 
