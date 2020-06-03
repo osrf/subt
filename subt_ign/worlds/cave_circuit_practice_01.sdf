@@ -491,6 +491,50 @@
       <name>small_rock_fall_1</name>
       <pose>284.95 -104.381 -15.65 0 -1.0147 0</pose>
     </include>
+    <model name="performer_detector_2">
+      <static>true</static>
+      <pose>101 -296 4 0 0 0</pose>
+      <!--Uncomment <link> to preview detector region-->
+      <!--<link name='body'>-->
+      <!--  <visual name="v1">-->
+      <!--    <transparency>0.5</transparency>-->
+      <!--    <geometry>-->
+      <!--      <box>-->
+      <!--        <size>16 16 15</size>-->
+      <!--      </box>-->
+      <!--    </geometry>-->
+      <!--  </visual>-->
+      <!--  <material>-->
+      <!--    <ambient>0.0 1.0 0.0 1</ambient>-->
+      <!--    <diffuse>0.0 1.0 0.0 1</diffuse>-->
+      <!--    <specular>0.5 0.5 0.5 1</specular>-->
+      <!--  </material>-->
+      <!--  <cast_shadows>false</cast_shadows>-->
+      <!--</link>-->
+      <plugin filename="libignition-gazebo-performer-detector-system.so"
+        name="ignition::gazebo::systems::PerformerDetector">
+        <topic>/subt_performer_detector</topic>
+        <geometry>
+          <box>
+            <size>16 16 15</size>
+          </box>
+        </geometry>
+      </plugin>
+
+      <!--Triggered by performer_detector_2-->
+      <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
+        <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
+          <match field='header.data'>{ key: "frame_id" value: "performer_detector_2" }</match>
+          <match field='header.data'>{ key: "state" value: "0" }</match>
+        </input>
+        <output type="ignition.msgs.Empty" topic="/model/large_rock_fall_1/breadcrumbs/Rock/deploy"/>
+      </plugin>
+    </model>
+    <include>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Large Rock Fall</uri>
+      <name>large_rock_fall_1</name>
+      <pose>101 -296 3.42 0 0 0</pose>
+    </include>
 
     <!-- Auto generated: level_generator 161 182 140 40 -->
     <plugin name="ignition::gazebo" filename="dummy">
