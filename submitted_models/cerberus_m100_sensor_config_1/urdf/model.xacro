@@ -5,13 +5,13 @@
   <link name='${name}/base_link'>
     <inertial>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
-      <mass value='3.42'/>
-      <inertia ixx='0.017' ixy='0.0' ixz='0.0' iyy='0.018' iyz='0' izz='0.028'/>
+      <mass value='3.76'/>
+      <inertia ixx='0.017' ixy='0' ixz='0' iyy='0.018' iyz='0' izz='0.028'/>
     </inertial>
     <collision name='base_link_inertia_collision'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <box size='0.3 0.3 0.25'/>
+        <box size='0.82 0.82 0.375'/>
       </geometry>
     </collision>
     <visual name='base_link_inertia_visual'>
@@ -20,14 +20,14 @@
         <mesh filename='package://cerberus_m100_sensor_config_1/meshes/m100.dae' scale='1 1 1'/>
       </geometry>
     </visual>
-    <visual name='front_left_led'>
-      <origin xyz='0.247592 0.24728 -0.016556' rpy='0 0 2.35619'/>
+    <visual name='left_flashlight_led'>
+      <origin xyz='0.247592 0.24728 -0.017556' rpy='0 -0 2.35619'/>
       <geometry>
         <mesh filename='package://cerberus_m100_sensor_config_1/meshes/cree_xhp70.dae' scale='1 1 1'/>
       </geometry>
     </visual>
-    <visual name='front_right_led'>
-      <origin xyz='0.247592 -0.24728 -0.017556' rpy='0 0 0.785398'/>
+    <visual name='right_flashlight_led'>
+      <origin xyz='0.247592 -0.24728 -0.017556' rpy='0 -0 0.785398'/>
       <geometry>
         <mesh filename='package://cerberus_m100_sensor_config_1/meshes/cree_xhp70.dae' scale='1 1 1'/>
       </geometry>
@@ -39,7 +39,7 @@
       </geometry>
     </visual>
     <visual name='laser_visual'>
-      <origin xyz='0.08 0 0.3' rpy='0 -0 0'/>
+      <origin xyz='0 0 0.05' rpy='0 -0 0'/>
       <geometry>
         <cylinder radius='0.03' length='0.1'/>
       </geometry>
@@ -58,12 +58,12 @@
     <parent link='${name}/base_link'/>
     <origin xyz='0.172 0 -0.023' rpy='0 0.174533 0'/>
     <camera>
-      <image width='1440' height='1080' format='R8G8B8' hfov='2.0944' near='0.02' far='300' />
+      <image width='1440' height='1080' format='R8G8B8' hfov='2.0944' near='0.02' far='100' />
     </camera>
   </sensor>
-  <sensor name='front_laser' update_rate='15'>
+  <sensor name='front_laser' update_rate='10'>
     <parent link='${name}/base_link'/>
-    <origin xyz='0.08 0 0.394' rpy='0 -0 0'/>
+    <origin xyz='0 0 0.05' rpy='0 -0 0'/>
   </sensor>
   <link name='${name}/rotor_0'>
     <inertial>
@@ -80,7 +80,7 @@
     <visual name='rotor_0_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://cerberus_m100_sensor_config_1/meshes/neo11_propeller_ccw.dae' scale='1 1 1'/>
+        <mesh filename='package://cerberus_m100_sensor_config_1/meshes/m100_propeller_ccw.dae' scale='0.175 0.175 0.175'/>
       </geometry>
     </visual>
   </link>
@@ -99,7 +99,7 @@
     <visual name='rotor_1_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://cerberus_m100_sensor_config_1/meshes/neo11_propeller_cw.dae' scale='1 1 1'/>
+        <mesh filename='package://cerberus_m100_sensor_config_1/meshes/m100_propeller_ccw.dae' scale='0.175 0.175 0.175'/>
       </geometry>
     </visual>
   </link>
@@ -118,7 +118,7 @@
     <visual name='rotor_2_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://cerberus_m100_sensor_config_1/meshes/neo11_propeller_ccw.dae' scale='1 1 1'/>
+        <mesh filename='package://cerberus_m100_sensor_config_1/meshes/m100_propeller_cw.dae' scale='0.175 0.175 0.175'/>
       </geometry>
     </visual>
   </link>
@@ -137,40 +137,40 @@
     <visual name='rotor_3_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://cerberus_m100_sensor_config_1/meshes/neo11_propeller_cw.dae' scale='1 1 1'/>
+        <mesh filename='package://cerberus_m100_sensor_config_1/meshes/m100_propeller_cw.dae' scale='0.175 0.175 0.175'/>
       </geometry>
     </visual>
   </link>
   <joint name='rotor_0_joint' type='revolute'>
-    <origin xyz='0.247 0.1506 0.028' rpy='0.087267 0 0.523599'/>
+    <origin xyz='0.2263 -0.2263 0.038' rpy='0 -0 0'/>
     <parent link='${name}/base_link'/>
     <child link='${name}/rotor_0'/>
     <dynamics damping='0' friction='0' />
-    <axis xyz='0.118748 -0.118521 0.985826'/>
-    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+    <axis xyz='0 0 1'/>
+    <limit lower='-1e+16' upper='1e+16' effort='0' velocity='0'/>
   </joint>
   <joint name='rotor_1_joint' type='revolute'>
-    <origin xyz='-0.00067 0.28929 0.028' rpy='0 -0.087267 0'/>
+    <origin xyz='-0.2263 0.2263 0.038' rpy='0 -0 0'/>
     <parent link='${name}/base_link'/>
     <child link='${name}/rotor_1'/>
     <dynamics damping='0' friction='0' />
-    <axis xyz='-0.173649 0 0.984808'/>
-    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+    <axis xyz='0 0 1'/>
+    <limit lower='-1e+16' upper='1e+16' effort='0' velocity='0'/>
   </joint>
   <joint name='rotor_2_joint' type='revolute'>
-    <origin xyz='-0.2501 0.1454 0.028' rpy='0.087267 -0 2.61799'/>
+    <origin xyz='0.2263 0.2263 0.038' rpy='0 -0 0'/>
     <parent link='${name}/base_link'/>
     <child link='${name}/rotor_2'/>
     <dynamics damping='0' friction='0' />
-    <axis xyz='-0.031923 0.031863 0.998983'/>
-    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+    <axis xyz='0 0 1'/>
+    <limit lower='-1e+16' upper='1e+16' effort='0' velocity='0'/>
   </joint>
   <joint name='rotor_3_joint' type='revolute'>
-    <origin xyz='-0.2501 -0.1454 0.028' rpy='-0.087267 -0 -2.61799'/>
+    <origin xyz='-0.2263 -0.2263 0.038' rpy='0 -0 0'/>
     <parent link='${name}/base_link'/>
     <child link='${name}/rotor_3'/>
     <dynamics damping='0' friction='0' />
-    <axis xyz='-0.031923 -0.031863 0.998983'/>
-    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+    <axis xyz='0 0 1'/>
+    <limit lower='-1e+16' upper='1e+16' effort='0' velocity='0'/>
   </joint>
 </robot>
