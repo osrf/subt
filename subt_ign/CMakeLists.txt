@@ -291,7 +291,7 @@ add_executable(level_generator src/level_generator.cc src/ConnectionHelper.cc sr
 target_link_libraries(level_generator
   ignition-math6::ignition-math6
   ignition-common3::ignition-common3
-  sdformat8::sdformat8)
+  sdformat9::sdformat9)
 target_include_directories(level_generator
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 install(TARGETS level_generator

@@ -23,8 +23,7 @@
 #include <vector>
 #include <ignition/math/Vector3.hh>
 
-#include <sdf/Root.hh>
-#include <sdf/Model.hh>
+#include <sdf/sdf.hh>
 
 namespace subt
 {
