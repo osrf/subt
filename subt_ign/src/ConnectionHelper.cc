@@ -321,7 +321,7 @@ std::vector<ignition::math::Vector3d> ConnectionHelper::GetConnectionPoints(Vert
   {
     for (const auto& pt1 : ConnectionHelper::connectionPoints[_tile1->tileType])
     {
-      auto pt1tf = _tile1->model.Pose().CoordPositionAdd(pt1);
+      auto pt1tf = _tile1->model.RawPose().CoordPositionAdd(pt1);
       ret.push_back(pt1tf);
     }
   }
