@@ -625,7 +625,7 @@
         <sdf version='1.6'>
         <include>
           <name>#{_name}</name>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X1 Config #{_config}</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/X1 Config #{_config}</uri>
           <!-- Diff drive -->
           <plugin filename="libignition-gazebo-diff-drive-system.so"
                   name="ignition::gazebo::systems::DiffDrive">
@@ -680,7 +680,7 @@
                 <model name="#{_name}__breadcrumb__">
                   <pose>-0.45 0 0 0 0 0</pose>
                   <include>
-                    <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Breadcrumb Node</uri>
+                    <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Breadcrumb Node</uri>
                   </include>
                 </model>
               </sdf>
@@ -735,7 +735,7 @@
         <sdf version='1.6'>
         <include>
           <name>#{_name}</name>
-          <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X2 Config #{_config}</uri>
+          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/X2 Config #{_config}</uri>
           <!-- Diff drive -->
           <plugin filename="libignition-gazebo-diff-drive-system.so"
                   name="ignition::gazebo::systems::DiffDrive">
@@ -790,7 +790,7 @@
                 <model name="#{_name}__breadcrumb__">
                   <pose>-0.24 0 0 0 0 0</pose>
                   <include>
-                    <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Breadcrumb Node</uri>
+                    <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Breadcrumb Node</uri>
                   </include>
                 </model>
               </sdf>
@@ -837,7 +837,7 @@
       <sdf version='1.6'>
       <include>
         <name>#{_name}</name>
-        <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X3 UAV Config #{_config}</uri>
+        <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/X3 UAV Config #{_config}</uri>
         <!-- Publish robot state information -->
         <plugin filename="libignition-gazebo-pose-publisher-system.so"
           name="ignition::gazebo::systems::PosePublisher">
@@ -1042,7 +1042,7 @@
       <sdf version='1.6'>
       <include>
         <name>#{_name}</name>
-        <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X4 UAV Config #{_config}</uri>
+        <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/X4 UAV Config #{_config}</uri>
         <!-- Publish robot state information -->
         <plugin filename="libignition-gazebo-pose-publisher-system.so"
           name="ignition::gazebo::systems::PosePublisher">
@@ -1272,13 +1272,13 @@
 
   def spawnTeamBase(_x, _y, _z, _yaw)
     spawn = <<-HEREDOC
-    <spawn name='TeamBase'>
-      <name>TeamBase</name>
+    <spawn name='TEAMBASE'>
+      <name>TEAMBASE</name>
       <allow_renaming>false</allow_renaming>
       <world>#{$worldName}</world>
       <is_performer>false</is_performer>
       <sdf version='1.6'>
-      <model name='TeamBase'>
+      <model name='TEAMBASE'>
         <pose>#{_x} #{_y} #{_z} 0 0 #{_yaw}</pose>
         <static>true</static>
         <link name='link'>
@@ -1364,14 +1364,13 @@
 
       spawnStringTmp, executables  = spawnX4(name, robotConfigN, robot.pos.x, robot.pos.y, robot.pos.z, robot.rot.yaw)
 
-    elsif (name.downcase == "teambase" || name.downcase == "team_base") &&
-          (config.downcase == "teambase" || config.downcase == "team_base")
+    elsif name == "TEAMBASE" and config == "TEAMBASE"
       robotSpawned += 1
       if !teamBaseSpawned
         teamBaseSpawned = true
         spawnStringTmp, executables = spawnTeamBase(posX, posY, spawnWorldZPos, spawnWorldYaw)
       end
-    else
+    elsif config != "TEAMBASE"
       # Try a team-submitted vehicle.
       package = config.downcase
       installDir = `rospack find #{package}`.chomp
@@ -1385,7 +1384,7 @@
       rescue LoadError
         raise "Unknown robot configuration #{config}. #{spawnerScript} could not be found."
       else
-        fuelPrefix = "https://fuel.ignitionrobotics.org/1.0/openrobotics/models"
+        fuelPrefix = "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models"
         # We assume that the model and its supporting files can be found in
         # `installDir`. If `$localModel` is not set, the model is loaded from
         # Fuel.
@@ -1413,9 +1412,13 @@
         spawnStringTmp = spawner(name, modelURI, $worldName, robot.pos.x, robot.pos.y, robot.pos.z, 0, 0, robot.rot.yaw)
         executables = rosExecutables(name, $worldName)
       end
+    else
+      puts "Error: Invalid Name[%s] or Config[%s]. Skpping." % [name, config]
     end
 
-    allExecutables += executables
+    if executables != nil
+      allExecutables += executables
+    end
 
     if marsupialParents.has_key?(name)
       childModelName = marsupialParents[name]
@@ -1456,7 +1459,7 @@
            <is_performer>false</is_performer>
            <sdf version='1.6'>
              <include>
-               <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/DronePlatformX1</uri> 
+               <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/DronePlatformX1</uri> 
              </include>
            </sdf>
          </spawn>
