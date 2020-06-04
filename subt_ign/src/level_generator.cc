@@ -137,8 +137,8 @@ std::string computeLevels(std::vector<VertexData> &_vertexData,
   // get min & max model position values
   for (const auto &vd : _vertexData)
   {
-    min.Min(vd.model.Pose().Pos());
-    max.Max(vd.model.Pose().Pos());
+    min.Min(vd.model.RawPose().Pos());
+    max.Max(vd.model.RawPose().Pos());
   }
 
   // compute level size and position
@@ -153,8 +153,8 @@ std::string computeLevels(std::vector<VertexData> &_vertexData,
   {
     std::string name = vd.tileName;
 
-    double x = vd.model.Pose().Pos().X();
-    double y = vd.model.Pose().Pos().Y();
+    double x = vd.model.RawPose().Pos().X();
+    double y = vd.model.RawPose().Pos().Y();
 
     // Create a new level for each unique x
     if (levelX.find(x) == levelX.end())
