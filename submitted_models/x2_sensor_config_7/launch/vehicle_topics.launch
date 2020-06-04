@@ -36,6 +36,17 @@
         args="$(arg sensor_prefix)/camera_front/image">
         <remap from="$(arg sensor_prefix)/camera_front/image" to="image_raw"/>
       </node>
+
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher">
+        <remap from="input/image" to="image_raw" />
+        <remap from="output/image" to="optical/image_raw" />
+        <remap from="input/camera_info" to="camera_info" />
+        <remap from="output/camera_info" to="optical/camera_info" />
+      </node>
+
     </group>
 
     <node
@@ -56,8 +67,15 @@
       pkg="ros_ign_bridge"
       type="parameter_bridge"
       name="ros_ign_bridge_pose"
-      args="/model/$(arg name)/pose@geometry_msgs/TransformStamped[ignition.msgs.Pose">
+      args="/model/$(arg name)/pose@tf2_msgs/TFMessage[ignition.msgs.Pose_V">
       <remap from="/model/$(arg name)/pose" to="pose"/>
+    </node>
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_pose_static"
+      args="/model/$(arg name)/pose_static@tf2_msgs/TFMessage[ignition.msgs.Pose_V">
+      <remap from="/model/$(arg name)/pose_static" to="pose_static"/>
     </node>
     <node
       pkg="ros_ign_bridge"

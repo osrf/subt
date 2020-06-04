@@ -17,43 +17,10 @@
 
 #include <ignition/common/Console.hh>
 #include "ConnectionHelper.hh"
+#include "SdfParser.hh"
 
-using namespace ignition;
 using namespace subt;
-
-/// \brief Parse contents of an sdf element
-/// \param[in] _key SDF element key
-/// \param[in] _str String content of the sdf element
-/// \param[out] _endPos end position of the sdf element string
-/// \return Value for the input key
-std::string parse(const std::string &_key, const std::string &_str,
-     size_t &_endPos)
-{
-  std::string elemStartStr = "<" + _key + ">";
-  std::string elemEndStr = "</" + _key + ">";
-
-  size_t start = _str.find(elemStartStr);
-  if (start == std::string::npos)
-    return std::string();
-  size_t startIdx = start + elemStartStr.size();
-  size_t end = _str.find(elemEndStr, startIdx);
-  if (end == std::string::npos)
-    return std::string();
-
-  _endPos = end + elemEndStr.size();
-  std::string result = _str.substr(startIdx, end - startIdx);
-  return result;
-}
-
-/// \brief Parse contents of an sdf element
-/// \param[in] _key SDF element key
-/// \param[in] _str String content of the sdf element
-/// \return Value for the input key
-std::string parse(const std::string &_key, const std::string &_str)
-{
-  size_t endPos;
-  return parse(_key, _str, endPos);
-}
+using namespace ignition;
 
 /// \brief Print the DOT file
 /// \param[in] _vertexData vector of vertex data containing
@@ -72,7 +39,7 @@ void printGraph(std::vector<VertexData> &_vertexData)
     // rely on this naming convention
     std::string name = vd.tileName;
     std::string type = vd.tileType;
-    if (type == "Cave Starting Area" ||
+    if (type == "Cave Starting Area Type B" ||
         type == "Urban Starting Area")
     {
       type = "base_station";
@@ -106,9 +73,9 @@ void printGraph(std::vector<VertexData> &_vertexData)
 
         // Is one of the tile a starting area? If so, the cost should be 1.
         bool connectsToStaging =
-          _vertexData[i].tileType == "Cave Starting Area" ||
+          _vertexData[i].tileType == "Cave Starting Area Type B" ||
           _vertexData[i].tileType == "Urban Starting Area" ||
-          _vertexData[j].tileType == "Cave Starting Area" ||
+          _vertexData[j].tileType == "Cave Starting Area Type B" ||
           _vertexData[j].tileType == "Urban Starting Area";
 
         if ((tp1 == subt::ConnectionHelper::STRAIGHT &&
@@ -140,57 +107,7 @@ void printGraph(std::vector<VertexData> &_vertexData)
   std::cout << out.str() << std::endl;
 }
 
-/// \brief Fill VertexData from string
-/// \param[in] _includeStr input <include> string
-/// \param[out] _vd Vertex data to be filled
-/// \return True if vertex data is successfully filled, false otherwise
-bool fillVertexData(const std::string &_includeStr, VertexData &_vd)
-{
-  // parse name
-  std::string name = parse("name", _includeStr);
-
-  // parse pose
-  std::string poseStr = parse("pose", _includeStr);
-  math::Pose3d pose;
-  std::stringstream ss(poseStr);
-  ss >> pose;
-
-  // parse uri and get model type
-  std::string uri = parse("uri", _includeStr);
-  std::string fuelStr =
-      "https://fuel.ignitionrobotics.org/1.0/openrobotics/models/";
-  size_t fuelIdx = uri.find(fuelStr);
-  std::string modelType;
-  if (fuelIdx == std::string::npos)
-    return false;
-  modelType = uri.substr(fuelIdx + fuelStr.size());
-
-  // check if model type is recognized
-  if (subt::ConnectionHelper::connectionPoints.count(modelType) <= 0)
-    return false;
-  sdf::Model modelSdf;
-  modelSdf.SetName(name);
-  modelSdf.SetRawPose(pose);
-
-  static int tileId = 0;
-  // Try getting the tile id from the tile name first.
-  try
-  {
-    int numIndex = name.rfind("_");
-    _vd.id = std::stoi(name.substr(numIndex+1));
-  }
-  catch (...)
-  {
-    _vd.id = tileId++;
-  }
-  _vd.tileType = modelType;
-  _vd.tileName = name;
-  _vd.model = modelSdf;
-
-  return true;
-}
-
-/// \brief Main function to generat DOT from input sdf file
+/// \brief Main function to generate DOT from input sdf file
 /// \param[in] _sdfFile Input sdf file.
 void generateDOT(const std::string &_sdfFile)
 {
@@ -203,16 +120,24 @@ void generateDOT(const std::string &_sdfFile)
   std::string str((std::istreambuf_iterator<char>(file)),
       std::istreambuf_iterator<char>());
 
+  // filter tiles that do not have connections
+  std::function<bool(const std::string &, const std::string &)>
+      filter = [](const std::string &/*_name*/,
+      const std::string &_type)
+  {
+    return subt::ConnectionHelper::connectionPoints.count(_type) <= 0;
+  };
+
   std::vector<VertexData> vertexData;
   while (!str.empty())
   {
     size_t result = std::string::npos;
-    std::string includeStr = parse("include", str, result);
+    std::string includeStr = SdfParser::Parse("include", str, result);
     if (result == std::string::npos || result > str.size())
       break;
 
     VertexData vd;
-    bool filled = fillVertexData(includeStr, vd);
+    bool filled = SdfParser::FillVertexData(includeStr, vd, filter);
     if (filled)
       vertexData.push_back(vd);
 

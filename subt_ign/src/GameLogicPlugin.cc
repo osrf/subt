@@ -37,6 +37,7 @@
 #include <ignition/gazebo/components/World.hh>
 #include <ignition/gazebo/Conversions.hh>
 #include <ignition/gazebo/EntityComponentManager.hh>
+#include <ignition/gazebo/Events.hh>
 #include <ignition/gazebo/Util.hh>
 
 #include <ignition/common/Console.hh>
@@ -292,6 +293,9 @@ class subt::GameLogicPluginPrivate
     {subt::ArtifactType::TYPE_VENT,
       ignition::math::Vector3d(0, 0, 0.138369)}
   };
+
+  /// \brief Event manager for pausing simulation
+  public: EventManager *eventManager;
 };
 
 //////////////////////////////////////////////////
@@ -313,8 +317,10 @@ GameLogicPlugin::~GameLogicPlugin()
 void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
                            const std::shared_ptr<const sdf::Element> &_sdf,
                            ignition::gazebo::EntityComponentManager & /*_ecm*/,
-                           ignition::gazebo::EventManager & /*_eventMgr*/)
+                           ignition::gazebo::EventManager & _eventMgr)
 {
+  this->dataPtr->eventManager = &_eventMgr;
+
   // Check if the game logic plugin has a <logging> element.
   // The <logging> element can contain a <filename_prefix> child element.
   // The <filename_prefix> is used to specify the log filename prefix. For
@@ -967,11 +973,7 @@ void GameLogicPluginPrivate::Finish()
 {
   // Pause simulation when finished. Always send this request, just to be
   // safe.
-  ignition::msgs::WorldControl req;
-  req.set_pause(true);
-  this->node.Request<ignition::msgs::WorldControl, ignition::msgs::Boolean>(
-      std::string("/world/") + this->worldName + "/control", req,
-      [](const ignition::msgs::Boolean &, const bool) { });
+  this->eventManager->Emit<events::Pause>(true);
 
   if (this->finished)
     return;

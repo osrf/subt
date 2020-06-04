@@ -14,8 +14,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
   if _config == "6"
     lidar3d=1
   end
-  <plugin name=\"ignition::launch::GazeboFactory\"
-          filename=\"libignition-launch-gazebo-factory.so\">
+  <spawn name='#{_name}'>
     <name>#{_name}</name>
     <allow_renaming>false</allow_renaming>
     <pose>#{_x} #{_y} #{_z + 0.2} #{_roll} #{_pitch} #{_yaw}</pose>
@@ -44,6 +43,9 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
           <publish_collision_pose>false</publish_collision_pose>
           <publish_visual_pose>false</publish_visual_pose>
           <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>
+          <use_pose_vector_msg>true</use_pose_vector_msg>
+          <static_publisher>true</static_publisher>
+          <static_update_frequency>1</static_update_frequency>
         </plugin>
         <!-- Battery plugin -->
         <plugin filename=\"libignition-gazebo-linearbatteryplugin-system.so\"
@@ -68,7 +70,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
        </plugin>
         </include>
       </sdf>
-    </plugin>
+    </spawn>
   HEREDOC
 end
 

@@ -305,7 +305,7 @@
     "  <sdf version='1.6'>\n"\
     "  <include>\n"\
     "    <name>#{_name}</name>\n"\
-    "    <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X1 Config #{_config}</uri>\n"\
+    "    <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/X1 Config #{_config}</uri>\n"\
     "    <!-- Diff drive -->\n"\
     "    <plugin filename=\"libignition-gazebo-diff-drive-system.so\"\n"\
     "            name=\"ignition::gazebo::systems::DiffDrive\">\n"\
@@ -325,6 +325,9 @@
     "      <publish_collision_pose>false</publish_collision_pose>\n"\
     "      <publish_visual_pose>false</publish_visual_pose>\n"\
     "      <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>\n"\
+    "      <use_pose_vector_msg>true</use_pose_vector_msg>\n"\
+    "      <static_publisher>true</static_publisher>\n"\
+    "      <static_update_frequency>1</static_update_frequency>\n"\
     "    </plugin>\n"\
     "    <!-- Battery plugin -->\n"\
     "    <plugin filename=\"libignition-gazebo-linearbatteryplugin-system.so\"\n"\
@@ -368,7 +371,7 @@
     "  <sdf version='1.6'>\n"\
     "  <include>\n"\
     "    <name>#{_name}</name>\n"\
-    "    <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X2 Config #{_config}</uri>\n"\
+    "    <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/X2 Config #{_config}</uri>\n"\
     "    <!-- Diff drive -->\n"\
     "    <plugin filename=\"libignition-gazebo-diff-drive-system.so\"\n"\
     "            name=\"ignition::gazebo::systems::DiffDrive\">\n"\
@@ -388,6 +391,9 @@
     "      <publish_collision_pose>false</publish_collision_pose>\n"\
     "      <publish_visual_pose>false</publish_visual_pose>\n"\
     "      <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>\n"\
+    "      <use_pose_vector_msg>true</use_pose_vector_msg>\n"\
+    "      <static_publisher>true</static_publisher>\n"\
+    "      <static_update_frequency>1</static_update_frequency>\n"\
     "    </plugin>\n"\
     "    <!-- Battery plugin -->\n"\
     "    <plugin filename=\"libignition-gazebo-linearbatteryplugin-system.so\"\n"\
@@ -428,7 +434,7 @@
     "  <sdf version='1.6'>\n"\
     "  <include>\n"\
     "    <name>#{_name}</name>\n"\
-    "    <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X3 UAV Config #{_config}</uri>\n"\
+    "    <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/X3 UAV Config #{_config}</uri>\n"\
     "    <!-- Publish robot state information -->\n"\
     "    <plugin filename=\"libignition-gazebo-pose-publisher-system.so\"\n"\
     "      name=\"ignition::gazebo::systems::PosePublisher\">\n"\
@@ -437,6 +443,9 @@
     "      <publish_collision_pose>false</publish_collision_pose>\n"\
     "      <publish_visual_pose>false</publish_visual_pose>\n"\
     "      <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>\n"\
+    "      <use_pose_vector_msg>true</use_pose_vector_msg>\n"\
+    "      <static_publisher>true</static_publisher>\n"\
+    "      <static_update_frequency>1</static_update_frequency>\n"\
     "    </plugin>\n"\
     "    <plugin filename=\"libignition-gazebo-multicopter-motor-model-system.so\"\n"\
     "      name=\"ignition::gazebo::systems::MulticopterMotorModel\">\n"\
@@ -556,7 +565,7 @@
     "  <sdf version='1.6'>\n"\
     "  <include>\n"\
     "    <name>#{_name}</name>\n"\
-    "    <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X4 UAV Config #{_config}</uri>\n"\
+    "    <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/X4 UAV Config #{_config}</uri>\n"\
     "    <!-- Publish robot state information -->\n"\
     "    <plugin filename=\"libignition-gazebo-pose-publisher-system.so\"\n"\
     "      name=\"ignition::gazebo::systems::PosePublisher\">\n"\
@@ -565,6 +574,9 @@
     "      <publish_collision_pose>false</publish_collision_pose>\n"\
     "      <publish_visual_pose>false</publish_visual_pose>\n"\
     "      <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>\n"\
+    "      <use_pose_vector_msg>true</use_pose_vector_msg>\n"\
+    "      <static_publisher>true</static_publisher>\n"\
+    "      <static_update_frequency>1</static_update_frequency>\n"\
     "    </plugin>\n"\
     "    <plugin filename=\"libignition-gazebo-multicopter-motor-model-system.so\"\n"\
     "      name=\"ignition::gazebo::systems::MulticopterMotorModel\">\n"\
