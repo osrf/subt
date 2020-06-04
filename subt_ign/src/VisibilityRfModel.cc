@@ -27,6 +27,11 @@ using namespace rf_interface;
 using namespace visibilityModel;
 
 /////////////////////////////////////////////
+// RF power functions from SubT communication model
+inline double dbmToPow(double x) { return 0.001 * pow(10., x / 10.); }
+inline double QPSKPowerToBER(double P, double N) { return erfc(sqrt(P / N)); }
+
+/////////////////////////////////////////////
 VisibilityModel::VisibilityModel(
     visibilityModel::RfConfiguration _visibilityConfig,
     range_model::rf_configuration _rangeConfig,
@@ -122,8 +127,9 @@ bool VisibilityModel::VisualizeVisibility(const ignition::msgs::StringMsg &_req,
   indexToColor[2] = ignition::math::Color(0, 0, 1);
   indexToColor[3] = ignition::math::Color(1, 1, 0);
   indexToColor[4] = ignition::math::Color(1, 0, 0);
+  indexToColor[5] = ignition::math::Color(1, 1, 1);
 
-  for (int i = 0; i < 5; ++i)
+  for (int i = 0; i < 6; ++i)
   {
     markerMsg.set_id(i);
 
@@ -156,16 +162,29 @@ bool VisibilityModel::VisualizeVisibility(const ignition::msgs::StringMsg &_req,
     double cost = this->visibilityTable.Cost(from, to);
     if (cost <= this->visibilityConfig.commsCostMax)
     {
-      auto m = perCostMarkers.find(static_cast<int>(
-          (((this->visibilityConfig.commsCostMax+1.0)/5.0) *
-           cost/10.0)) );
+    
+      /// Calculations from subt_communication_model/src/subt_communication_model.cpp
+      double txPower = 20.0; // Hardcoded from cave_circuit.ign
+      double noise_floor = -90.0; // Hardcoded from cave_circuit.ign
+      rf_interface::radio_state tx, rx;
+      // Set and calculate rf power
+      tx.pose.Set(from.X(), from.Y(), from.Z(), 0, 0, 0);
+      rx.pose.Set(to.X(), to.Y(), to.Z(), 0, 0, 0);
+      rf_power rf_pow = ComputeReceivedPower(txPower, tx, rx);
+      // Based on rx_power, noise value, and modulation, compute the bit error rate (BER)
+      double ber = QPSKPowerToBER( dbmToPow(rf_pow.mean), dbmToPow(noise_floor) );
+      int num_bytes = 100; // Hardcoded number of bytes
+      double packet_drop_prob = 1.0 - exp(num_bytes*log(1-ber));
+      // Scale packet drop probability to align with the color scheme
+      int pdp = floor(packet_drop_prob*5.00001);
+      ///
+  
+      auto m = perCostMarkers.find(static_cast<int>(pdp));
 
       if (m == perCostMarkers.end())
       {
-        ignwarn << "Have not pre-allocated a marker for cost: " << cost
-          << " ("
-          << (((this->visibilityConfig.commsCostMax+1.0)/5.0)*cost/10.0)
-          << ")\n";
+        ignwarn << "Have not pre-allocated a marker for cost: " << packet_drop_prob
+          << " (" << pdp << ")\n";
         continue;
       }
 

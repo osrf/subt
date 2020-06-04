@@ -19,7 +19,6 @@
 
 #include <ignition/math/AxisAlignedBox.hh>
 
-#include <ignition/gazebo/components/AxisAlignedBox.hh>
 #include <ignition/gazebo/components/Model.hh>
 #include <ignition/gazebo/components/Name.hh>
 #include <ignition/gazebo/components/Pose.hh>
@@ -92,31 +91,31 @@ void VisibilityPlugin::PreUpdate(
   if (this->dataPtr->worldName.empty())
     return;
 
-  // create aabb component to be filled by physics
-  _ecm.EachNew<gazebo::components::Model,
-            gazebo::components::Static>(
-      [&](const gazebo::Entity &_entity,
-          const gazebo::components::Model *,
-          const gazebo::components::Static *) -> bool
-      {
-        auto aabb = _ecm.Component<components::AxisAlignedBox>(_entity);
-        if (!aabb)
-          _ecm.CreateComponent(_entity, components::AxisAlignedBox());
-        return true;
-      });
+  // // create aabb component to be filled by physics
+  // _ecm.EachNew<gazebo::components::Model,
+  //           gazebo::components::Static>(
+  //     [&](const gazebo::Entity &_entity,
+  //         const gazebo::components::Model *,
+  //         const gazebo::components::Static *) -> bool
+  //     {
+  //       auto aabb = _ecm.Component<components::AxisAlignedBox>(_entity);
+  //       if (!aabb)
+  //         _ecm.CreateComponent(_entity, components::AxisAlignedBox());
+  //       return true;
+  //     });
 
-  // create aabb component to be filled by physics
-  _ecm.Each<gazebo::components::Model,
-            gazebo::components::Static>(
-      [&](const gazebo::Entity &_entity,
-          const gazebo::components::Model *,
-          const gazebo::components::Static *) -> bool
-      {
-        auto aabb = _ecm.Component<components::AxisAlignedBox>(_entity);
-        if (!aabb)
-          _ecm.CreateComponent(_entity, components::AxisAlignedBox());
-        return true;
-      });
+  // // create aabb component to be filled by physics
+  // _ecm.Each<gazebo::components::Model,
+  //           gazebo::components::Static>(
+  //     [&](const gazebo::Entity &_entity,
+  //         const gazebo::components::Model *,
+  //         const gazebo::components::Static *) -> bool
+  //     {
+  //       auto aabb = _ecm.Component<components::AxisAlignedBox>(_entity);
+  //       if (!aabb)
+  //         _ecm.CreateComponent(_entity, components::AxisAlignedBox());
+  //       return true;
+  //     });
 }
 
 //////////////////////////////////////////////////
@@ -132,21 +131,21 @@ void VisibilityPlugin::PostUpdate(
   if (s < 1)
     return;
 
-  // get all the bounding boxes
-  _ecm.Each<gazebo::components::Model,
-            gazebo::components::Name,
-            gazebo::components::AxisAlignedBox,
-            gazebo::components::Static>(
-      [&](const gazebo::Entity &,
-          const gazebo::components::Model *,
-          const gazebo::components::Name *_nameComp,
-          const gazebo::components::AxisAlignedBox *_aabb,
-          const gazebo::components::Static *) -> bool
-      {
-        // todo store bboxes instead
-        this->dataPtr->bboxes[_nameComp->Data()] = _aabb->Data();
-        return true;
-      });
+  // // get all the bounding boxes
+  // _ecm.Each<gazebo::components::Model,
+  //           gazebo::components::Name,
+  //           gazebo::components::AxisAlignedBox,
+  //           gazebo::components::Static>(
+  //     [&](const gazebo::Entity &,
+  //         const gazebo::components::Model *,
+  //         const gazebo::components::Name *_nameComp,
+  //         const gazebo::components::AxisAlignedBox *_aabb,
+  //         const gazebo::components::Static *) -> bool
+  //     {
+  //       // todo store bboxes instead
+  //       this->dataPtr->bboxes[_nameComp->Data()] = _aabb->Data();
+  //       return true;
+  //     });
 
   // generate the LUT
   subt::VisibilityTable table;
