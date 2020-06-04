@@ -19,6 +19,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
           <wheel_separation>0.50</wheel_separation>
           <wheel_radius>0.15</wheel_radius>
           <topic>/model/#{_name}/cmd_vel_relay/front</topic>
+          <odometry_topic>/model/#{_name}/odometry/front</odometry_topic>
         </plugin>
         <!-- Diff drive rear -->
         <plugin filename=\"libignition-gazebo-diff-drive-system.so\"
@@ -28,6 +29,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
           <wheel_separation>0.50</wheel_separation>
           <wheel_radius>0.15</wheel_radius>
           <topic>/model/#{_name}/cmd_vel_relay/rear</topic>
+          <odometry_topic>/model/#{_name}/odometry/rear</odometry_topic>
         </plugin>
         <!-- Publish robot state information -->
         <plugin filename=\"libignition-gazebo-pose-publisher-system.so\"
@@ -49,7 +51,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
           <capacity>20</capacity>
           <resistance>0.052</resistance>
           <smooth_current_tau>5.0</smooth_current_tau>
-          <power_load>100</power_load>
+          <power_load>3.33</power_load>
           <start_on_motion>true</start_on_motion>
         </plugin>
        <!-- Gas Sensor plugin -->"
