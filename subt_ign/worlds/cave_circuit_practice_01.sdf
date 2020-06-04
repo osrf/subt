@@ -483,12 +483,12 @@
           <match field='header.data'>{ key: "frame_id" value: "performer_detector_1" }</match>
           <match field='header.data'>{ key: "state" value: "1" }</match>
         </input>
-        <output type="ignition.msgs.Empty" topic="/model/small_rock_fall_1/breadcrumbs/Rock/deploy"/>
+        <output type="ignition.msgs.Empty" topic="/model/medium_rock_fall_1/breadcrumbs/Rock/deploy"/>
       </plugin>
     </model>
     <include>
-      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Small Rock Fall</uri>
-      <name>small_rock_fall_1</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Medium Rock Fall</uri>
+      <name>medium_rock_fall_1</name>
       <pose>284.95 -104.381 -15.65 0 -1.0147 0</pose>
     </include>
     <model name="performer_detector_2">
@@ -533,7 +533,7 @@
     <include>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Large Rock Fall</uri>
       <name>large_rock_fall_1</name>
-      <pose>101 -296 3.42 0 0 0</pose>
+      <pose>102.692000 -295.402000 3.005300 0 0.402990 -0.915400</pose>
     </include>
 
     <model name="performer_detector_3">
@@ -578,7 +578,7 @@
     <include>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Large Rock Fall</uri>
       <name>large_rock_fall_2</name>
-      <pose>178.14 -270 -47.83 0 0 1.57</pose>
+      <pose>178.14 -270 -47.83 0.210254 0 1.57</pose>
     </include>
 
     <!-- Auto generated: level_generator 161 182 140 40 -->
