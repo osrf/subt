@@ -25,7 +25,7 @@ The following specific sensors are declared payloads of this vehicle:
 
 ## Control
 Kloubak is controlled by the open-source Osgar framework. The robot Kloubak consists of the front and rear differential 
-drives connected by joint.
+drives connected by joint. The maximum joint angle is limited by robot construction. The limit value is +- 70 deg.
 
 ### 4WD drive mode
 For control in this mode the angle between front and rear axles is required. The speeds for individual wheels for movement in a circle can be calculated as follow:
@@ -86,3 +86,4 @@ in physical properties. However, there are few diversions:
 * Validation data: https://owncloud.cesnet.cz/index.php/s/0SVMsyiaIwQ9V99
 * Speed test video: https://www.youtube.com/watch?v=98LH0aPeuq8
 * Angular speed and turning radius limits: https://www.youtube.com/watch?v=CKyTvVXpdSM
+* An example of 4WD controller for Kloubak robot: https://github.com/robotika/osgar/blob/master/osgar/drivers/kloubak.py#L160
