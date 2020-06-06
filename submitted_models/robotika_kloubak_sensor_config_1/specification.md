@@ -72,7 +72,7 @@ in physical properties. However, there are few diversions:
 
 * It does not model long-range low-bandwidth (LoRa) mesh communication of the real robot.
 * It does not model realsense tracking cameras t265.
-* It does not model angle sensor in the main joint and the second IMU is used instead.  
+* It does not model angle sensor in the main joint and the second IMU or lookupTransform() between /${robot_name}/chassis_front and /${robot_name}/chassis_back can be used instead.
 * Real robot can be controlled in a "FRONT" mode as well. In this mode only front or rear wheels are driven. Other wheels are passive.
 
 # <a name="validation_links"></a>Kloubak Validation and Specification Links
