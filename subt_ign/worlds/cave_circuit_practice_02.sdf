@@ -19,7 +19,8 @@
     <model name="performer_detector_1">
       <static>true</static>
       <pose>314.608 217.222 -21.79 0.0 0.0 0.0</pose>
-      <link name='body'>
+      <!-- Uncomment to visualize performer detector-->
+      <!--<link name='body'>
         <visual name="v1">
           <transparency>1.0</transparency>
           <geometry>
@@ -35,6 +36,7 @@
         </material>
         <cast_shadows>false</cast_shadows>
       </link>
+-->
       <plugin filename="libignition-gazebo-performer-detector-system.so"
         name="ignition::gazebo::systems::PerformerDetector">
         <topic>/subt_performer_detector</topic>
@@ -80,7 +82,8 @@
     <model name="performer_detector_2">
       <static>true</static>
       <pose>785.201000 -25.106900 -47.35 0.0 0.0</pose>
-      <link name='body'>
+      <!-- Uncomment to visualize performer detector-->
+      <!--<link name='body'>
         <visual name="v1">
           <transparency>1.0</transparency>
           <geometry>
@@ -96,6 +99,7 @@
         </material>
         <cast_shadows>false</cast_shadows>
       </link>
+-->
       <plugin filename="libignition-gazebo-performer-detector-system.so"
         name="ignition::gazebo::systems::PerformerDetector">
         <topic>/subt_performer_detector</topic>
@@ -141,7 +145,8 @@
     <model name="performer_detector_3">
       <static>true</static>
       <pose>512.117000 348.182000 -45.122900 0.0 0.0 0.0</pose>
-      <link name='body'>
+      <!-- Uncomment to visualize performer detector-->
+      <!--<link name='body'>
         <visual name="v1">
           <transparency>1.0</transparency>
           <geometry>
@@ -157,6 +162,7 @@
         </material>
         <cast_shadows>false</cast_shadows>
       </link>
+-->
       <plugin filename="libignition-gazebo-performer-detector-system.so"
         name="ignition::gazebo::systems::PerformerDetector">
         <topic>/subt_performer_detector</topic>
