@@ -472,19 +472,19 @@
               <!-- Resolution can't be above 16k, see
               https://bitbucket.org/ignitionrobotics/ign-sensors/issues/8 -->
               <samples>1024</samples>
-              <resolution>0.1</resolution>
+              <resolution>1</resolution>
               <min_angle>-3.1459</min_angle>
               <max_angle>3.1459</max_angle>
             </horizontal>
             <vertical>
               <samples>64</samples>
               <resolution>1</resolution>
-              <min_angle>-0.3927</min_angle>
-              <max_angle>0.3927</max_angle>
+              <min_angle>-0.2897</min_angle>
+              <max_angle>0.2897</max_angle>
             </vertical>
           </scan>
           <range>
-            <min>0.09</min>
+            <min>0.8</min>
             <max>120</max>
             <resolution>0.003</resolution>
           </range>
