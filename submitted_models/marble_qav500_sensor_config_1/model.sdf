@@ -401,7 +401,7 @@
             <sensor name="front_laser" type="gpu_ray">
 				<!-- Lidar is based on ouster OS1-64 -->
                 <pose>0 0 -0.05 0 0 0</pose>
-                <update_rate>15</update_rate>
+                <update_rate>20</update_rate>
                 <lidar>
                     <scan>
                         <horizontal>
