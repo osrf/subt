@@ -71,9 +71,7 @@
     <include>
       <name>dynamic_rocks_1</name>
       <pose>318.415 217.602 -14.9601 0.0 0.0 0.0</pose>
-      <uri>
-        https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Medium Rock Fall
-      </uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Medium Rock Fall 3</uri>
     </include>
     <!-- END ROCK FALL 1 -->
 
@@ -188,6 +186,7 @@
           </match>
         </input>
         <output type="ignition.msgs.Empty" topic="/model/dynamic_rocks_3/breadcrumbs/Rock/deploy"/>
+        <output type="ignition.msgs.Empty" topic="/model/dynamic_rocks_3b/breadcrumbs/Rock/deploy"/>
       </plugin>
     </model>
 
@@ -195,10 +194,14 @@
     <include>
       <name>dynamic_rocks_3</name>
       <pose>511.806000 363.010000 -47.723600 0 0.310095 0</pose>
-      <uri>
-        https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Large Rock Fall
-      </uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Large Rock Fall</uri>
     </include>
+    <include>
+      <name>dynamic_rocks_3b</name>
+      <pose>514.233000 366.052000 -47.517700 0 0.310095 0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Large Rock Fall</uri>
+    </include>
+
     <!-- END ROCK FALL 3 -->
 
     <!-- START ROCK FALL 4 -->
@@ -249,17 +252,26 @@
           </match>
         </input>
         <output type="ignition.msgs.Empty" topic="/model/dynamic_rocks_4/breadcrumbs/Rock/deploy"/>
+        <output type="ignition.msgs.Empty" topic="/model/dynamic_rocks_4b/breadcrumbs/Rock/deploy"/>
       </plugin>
     </model>
 
     <!-- Dynamic Rocks 4, this is associated with performer_detector_4 -->
     <include>
       <name>dynamic_rocks_4</name>
-      <pose>741.238000 -555.771000 -22.408200 0 0 1.491650</pose>
+      <pose>741.681 -556.875 -22.4492 0 -0.337194 1.491650</pose>
       <uri>
         https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Large Rock Fall
       </uri>
     </include>
+    <include>
+      <name>dynamic_rocks_4b</name>
+      <pose>744.311000 -554.854000 -22.889000 0 0 1.491650</pose>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Large Rock Fall
+      </uri>
+    </include>
+
     <!-- END ROCK FALL 4 -->
    
     <!-- The staging area -->
