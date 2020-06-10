@@ -196,7 +196,7 @@
 
 <%
   # disable levels for simple cave worlds
-  $levels = "false"
+  $levels = "true"
   if $worldName.include?('simple_cave_')
     $levels = "false"
   end
