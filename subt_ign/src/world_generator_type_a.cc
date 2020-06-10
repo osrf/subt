@@ -703,7 +703,7 @@ void WorldGenerator::PreprocessTiles()
       auto result2 = fuelClient->DownloadModel(modelUri, path);
       if (result2.Type() == fuel_tools::ResultType::FETCH_ERROR)
       {
-        std::cerr << "Failed to dowload tile from fuel: " << tileType
+        std::cerr << "Failed to download tile from fuel: " << tileType
                   << tileType << std::endl;
 
       }
@@ -739,7 +739,6 @@ void WorldGenerator::PreprocessTiles()
 //////////////////////////////////////////////////
 WorldSection WorldGenerator::SelectWorldSection()
 {
-  // return worldSections[7];
   int r = rand() % worldSections.size();
   return this->worldSections[r];
 }
