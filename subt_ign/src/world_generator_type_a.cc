@@ -596,7 +596,8 @@ std::string WorldGenerator::WorldTopStr() const
   ss << "        world_generator_type_a " << (this->gui ? "-g" : "");
   ss <<          " -s " << this->seed;
   ss <<          " -o " << this->outputFile;
-  ss <<          " -n " << this->minTileCount << "\n";
+  ss <<          " -c " << this->minTileCount;
+  ss <<          " -n " << this->worldName << "\n";
   ss << "-->\n\n";
 
   ss << "<sdf version=\"1.6\">\n";
