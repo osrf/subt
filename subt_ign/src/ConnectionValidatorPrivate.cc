@@ -327,9 +327,14 @@ void ConnectionValidatorPrivate::PopulateConnections()
       {
         for (auto cap: caps)
         {
-          if (point.Equal(cap, 1))
+          if (point.Equal(cap, 1.0))
           {
             igndbg << "Found cap!" << std::endl;
+            found_caps += 1;
+          }
+          else if (point.Equal(cap, 12.6))
+          {
+            igndbg << "Found cap (with expanded tolerance)" << std::endl;
             found_caps += 1;
           }
         }
