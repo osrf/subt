@@ -153,6 +153,30 @@ install(TARGETS ${connection_validator_name}
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
 
+add_executable(TEST_ConnectionValidator
+  src/ConnectionValidator_TEST.cc
+  src/ConnectionValidator.cc
+  src/ConnectionValidatorPrivate.cc
+  src/ConnectionHelper.cc
+  src/SimpleDOTParser.cc)
+target_link_libraries(TEST_ConnectionValidator
+  PRIVATE
+    ignition-gazebo${IGN_GAZEBO_VER}::core
+    ignition-common3::ignition-common3
+    ignition-launch1::ignition-launch1
+    ignition-math6::ignition-math6
+    ignition-msgs4::ignition-msgs4
+    ignition-plugin1::loader
+    ignition-transport7::ignition-transport7
+    ${catkin_LIBRARIES}
+    ${protobuf_lib_name}
+)
+install(TARGETS TEST_ConnectionValidator
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+
+
 # Create the libCommsBrokerPlugin.so library.
 set(comms_broker_plugin_name CommsBrokerPlugin)
 add_library(${comms_broker_plugin_name}
