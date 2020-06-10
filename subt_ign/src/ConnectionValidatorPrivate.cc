@@ -341,7 +341,7 @@ void ConnectionValidatorPrivate::PopulateConnections()
                << "] do not match exected connections[" << data
                << "] for tile name[" << name << "] with type["
                << this->vertData[name].tileType << "]. "
-               << "Probably missing an end cap or connecting tile."
+               << "Missing an end cap or connecting tile."
                << std::endl;
       }
     }
