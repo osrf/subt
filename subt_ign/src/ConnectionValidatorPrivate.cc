@@ -337,8 +337,12 @@ void ConnectionValidatorPrivate::PopulateConnections()
 
       if (actual + found_caps != data)
       {
-        igndbg << name << " " << actualConnections[name] << "/" << data <<
-          " (" << this->vertData[name].tileType << ")" << std::endl;
+        igndbg << "Actual connections[" << actualConnections[name]
+               << "] do not match exected connections[" << data
+               << "] for tile name[" << name << "] with type["
+               << this->vertData[name].tileType << "]. "
+               << "Probably missing an end cap or connecting tile."
+               << std::endl;
       }
     }
   }
