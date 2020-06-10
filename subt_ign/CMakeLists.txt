@@ -153,13 +153,13 @@ install(TARGETS ${connection_validator_name}
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
 
-add_executable(TEST_ConnectionValidator
-  src/ConnectionValidator_TEST.cc
+add_executable(validate_connections
+  src/validate_connections.cc
   src/ConnectionValidator.cc
   src/ConnectionValidatorPrivate.cc
   src/ConnectionHelper.cc
   src/SimpleDOTParser.cc)
-target_link_libraries(TEST_ConnectionValidator
+target_link_libraries(validate_connections
   PRIVATE
     ignition-gazebo${IGN_GAZEBO_VER}::core
     ignition-common3::ignition-common3
@@ -171,7 +171,7 @@ target_link_libraries(TEST_ConnectionValidator
     ${catkin_LIBRARIES}
     ${protobuf_lib_name}
 )
-install(TARGETS TEST_ConnectionValidator
+install(TARGETS validate_connections
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
