@@ -216,6 +216,18 @@
   if defined?(levels) && levels != nil && !levels.empty?
     $levels = levels.downcase == "true"
   end
+
+  $websocketAuthKey = ""
+  if defined?(websocketAuthKey) && websocketAuthKey != nil && !websocketAuthKey.empty?
+    $websocketAuthKey = websocketAuthKey
+  end
+
+  $websocketAdminAuthKey = ""
+  if defined?(websocketAdminAuthKey) && websocketAdminAuthKey != nil && !websocketAdminAuthKey.empty?
+    $websocketAdminAuthKey = websocketAdminAuthKey
+  end
+
+  puts $websocketAuthKey
 %>
 
 <ignition version='1.0'>
@@ -223,6 +235,15 @@
     <name>IGN_GAZEBO_SYSTEM_PLUGIN_PATH</name>
     <value>$LD_LIBRARY_PATH</value>
   </env>
+
+  <!-- Run the websocket server -->
+  <plugin name="ignition::launch::WebsocketServer"
+          filename="libignition-launch-websocket-server.so">
+    <publication_hz>30</publication_hz>
+    <port>9002</port>
+    <authorization_key><%= $websocketAuthKey %></authorization_key>
+    <admin_authorization_key><%= $websocketAdminAuthKey %></admin_authorization_key>
+  </plugin>
 
   <plugin name="ignition::launch::GazeboServer"
           filename="libignition-launch-gazebo.so">
