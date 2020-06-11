@@ -134,7 +134,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
           <attitudeGain>6 6 6</attitudeGain>
           <angularRateGain>2.5 2.5 4.0</angularRateGain>
           <maximumLinearAcceleration>5 5 5</maximumLinearAcceleration>
-          <maximumLinearVelocity>20 20 20</maximumLinearVelocity>
+          <maximumLinearVelocity>4 4 4</maximumLinearVelocity>
           <maximumAngularVelocity>5 5 10</maximumAngularVelocity>
           <linearVelocityNoiseMean>0 0 0</linearVelocityNoiseMean>
           <!-- linearVelocityNoiseStdDev based on error values reported in the paper Shen et. al., -->
@@ -184,7 +184,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
           <capacity>18.0</capacity>
           <resistance>0.061523</resistance>
           <smooth_current_tau>1.9499</smooth_current_tau>
-          <power_load>6.6</power_load>
+          <power_load>13.2</power_load>
           <start_on_motion>true</start_on_motion>
         </plugin>
        <!-- Gas Sensor plugin -->"
