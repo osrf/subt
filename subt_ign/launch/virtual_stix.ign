@@ -26,6 +26,8 @@
 %>
 
 <%
+  teamBaseSpawned = false
+
   # Check if robotNameX and robotConfigX exists
   spawnRowSize = 4
   spawnColSize = 5
@@ -374,7 +376,7 @@
     "  <sdf version='1.6'>\n"\
     "  <include>\n"\
     "    <name>#{_name}</name>\n"\
-    "    <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X1 Config #{_config}</uri>\n"\
+    "    <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/X1 Config #{_config}</uri>\n"\
     "    <!-- Diff drive -->\n"\
     "    <plugin filename=\"libignition-gazebo-diff-drive-system.so\"\n"\
     "            name=\"ignition::gazebo::systems::DiffDrive\">\n"\
@@ -394,6 +396,9 @@
     "      <publish_collision_pose>false</publish_collision_pose>\n"\
     "      <publish_visual_pose>false</publish_visual_pose>\n"\
     "      <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>\n"\
+    "      <use_pose_vector_msg>true</use_pose_vector_msg>\n"\
+    "      <static_publisher>true</static_publisher>\n"\
+    "      <static_update_frequency>1</static_update_frequency>\n"\
     "    </plugin>\n"\
     "    <!-- Battery plugin -->\n"\
     "    <plugin filename=\"libignition-gazebo-linearbatteryplugin-system.so\"\n"\
@@ -444,7 +449,7 @@
     "  <sdf version='1.6'>\n"\
     "  <include>\n"\
     "    <name>#{_name}</name>\n"\
-    "    <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X2 Config #{_config}</uri>\n"\
+    "    <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/X2 Config #{_config}</uri>\n"\
     "    <!-- Diff drive -->\n"\
     "    <plugin filename=\"libignition-gazebo-diff-drive-system.so\"\n"\
     "            name=\"ignition::gazebo::systems::DiffDrive\">\n"\
@@ -464,6 +469,9 @@
     "      <publish_collision_pose>false</publish_collision_pose>\n"\
     "      <publish_visual_pose>false</publish_visual_pose>\n"\
     "      <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>\n"\
+    "      <use_pose_vector_msg>true</use_pose_vector_msg>\n"\
+    "      <static_publisher>true</static_publisher>\n"\
+    "      <static_update_frequency>1</static_update_frequency>\n"\
     "    </plugin>\n"\
     "    <!-- Battery plugin -->\n"\
     "    <plugin filename=\"libignition-gazebo-linearbatteryplugin-system.so\"\n"\
@@ -511,7 +519,7 @@
     "  <sdf version='1.6'>\n"\
     "  <include>\n"\
     "    <name>#{_name}</name>\n"\
-    "    <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X3 UAV Config #{_config}</uri>\n"\
+    "    <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/X3 UAV Config #{_config}</uri>\n"\
     "    <!-- Publish robot state information -->\n"\
     "    <plugin filename=\"libignition-gazebo-pose-publisher-system.so\"\n"\
     "      name=\"ignition::gazebo::systems::PosePublisher\">\n"\
@@ -520,6 +528,9 @@
     "      <publish_collision_pose>false</publish_collision_pose>\n"\
     "      <publish_visual_pose>false</publish_visual_pose>\n"\
     "      <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>\n"\
+    "      <use_pose_vector_msg>true</use_pose_vector_msg>\n"\
+    "      <static_publisher>true</static_publisher>\n"\
+    "      <static_update_frequency>1</static_update_frequency>\n"\
     "    </plugin>\n"\
     "    <plugin filename=\"libignition-gazebo-multicopter-motor-model-system.so\"\n"\
     "      name=\"ignition::gazebo::systems::MulticopterMotorModel\">\n"\
@@ -697,7 +708,7 @@
     "  <sdf version='1.6'>\n"\
     "  <include>\n"\
     "    <name>#{_name}</name>\n"\
-    "    <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/X4 UAV Config #{_config}</uri>\n"\
+    "    <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/X4 UAV Config #{_config}</uri>\n"\
     "    <!-- Publish robot state information -->\n"\
     "    <plugin filename=\"libignition-gazebo-pose-publisher-system.so\"\n"\
     "      name=\"ignition::gazebo::systems::PosePublisher\">\n"\
@@ -706,6 +717,9 @@
     "      <publish_collision_pose>false</publish_collision_pose>\n"\
     "      <publish_visual_pose>false</publish_visual_pose>\n"\
     "      <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>\n"\
+    "      <use_pose_vector_msg>true</use_pose_vector_msg>\n"\
+    "      <static_publisher>true</static_publisher>\n"\
+    "      <static_update_frequency>1</static_update_frequency>\n"\
     "    </plugin>\n"\
     "    <plugin filename=\"libignition-gazebo-multicopter-motor-model-system.so\"\n"\
     "      name=\"ignition::gazebo::systems::MulticopterMotorModel\">\n"\
@@ -908,6 +922,38 @@
     "  <command>roslaunch --wait subt_ros vehicle_topics.launch world_name:=#{$worldName} name:=#{_name} uav:=#{uav} laser_scan:=#{laserScan} stereo_cam:=#{stereoCam} rgbd_cam:=#{rgbdCam}</command>\n"\
     "</executable>\n"
   end
+
+  def spawnTeamBase(_x, _y, _z, _yaw)
+    "<plugin name=\"ignition::launch::GazeboFactory\"\n"\
+    "        filename=\"libignition-launch-gazebo-factory.so\">\n"\
+    "  <name>TEAMBASE</name>\n"\
+    "  <allow_renaming>false</allow_renaming>\n"\
+    "  <world>#{$worldName}</world>\n"\
+    "  <is_performer>false</is_performer>\n"\
+    "  <sdf version='1.6'>\n"\
+    "  <model name='TEAMBASE'>\n"\
+    "    <pose>#{_x} #{_y} #{_z} 0 0 #{_yaw}</pose>\n"\
+    "    <static>true</static>\n"\
+    "    <link name='link'>\n"\
+    "      <pose>0 0 0.05 0 0 0</pose>\n"\
+    "      <visual name='visual'>\n"\
+    "        <geometry>\n"\
+    "          <box>\n"\
+    "            <size>.1 .1 .1</size>\n"\
+    "          </box>\n"\
+    "        </geometry>\n"\
+    "      </visual>\n"\
+    "    </link>\n"\
+    "  </model>\n"\
+    "  </sdf>\n"\
+    "</plugin>\n"\
+    "<executable name='teambase_description'>\n"\
+    "  <command>roslaunch --wait subt_ros teambase_description.launch world_name:=#{$worldName}</command>\n"\
+    "</executable>\n"\
+    "<executable name='teambase_ros_ign_bridge'>\n"\
+      "  <command>roslaunch --wait subt_ros teambase_topics.launch world_name:=#{$worldName}</command>\n"\
+    "</executable>\n"
+  end
 %>
 
 <%
@@ -937,6 +983,14 @@
 %>
 <%=   spawnX4(name, robotConfigN, posX, posY) %>
 <%
+    elsif name == "TEAMBASE" and config == "TEAMBASE"
+      robotSpawned += 1
+      if !teamBaseSpawned
+        teamBaseSpawned = true
+%>
+<%=     spawnTeamBase(posX, posY, spawnWorldZPos, spawnWorldYaw) %>
+<%
+      end
     else
       # Try a team-submitted vehicle.
       package = config.downcase
@@ -951,7 +1005,7 @@
       rescue LoadError
         raise "Unknown robot configuration #{config}. #{spawnerScript} could not be found."
       else
-        fuelPrefix = "https://fuel.ignitionrobotics.org/1.0/openrobotics/models"
+        fuelPrefix = "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models"
         # We assume that the model and its supporting files can be found in
         # `installDir`. If `$localModel` is not set, the model is loaded from
         # Fuel.

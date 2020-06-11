@@ -13,8 +13,6 @@
 // limitations under the License.
 
 #include <iostream>
-#include <memory>
-#include <string>
 
 // include ROS 1
 #ifdef __clang__
@@ -27,21 +25,34 @@
 #endif
 
 #include <geometry_msgs/TransformStamped.h>
-#include <tf/transform_broadcaster.h>
+#include <tf2_msgs/TFMessage.h>
+#include <tf2_ros/transform_broadcaster.h>
+#include <tf2_ros/static_transform_broadcaster.h>
 
-void poseCallback(const geometry_msgs::TransformStamped& msg)
+void poseCallback(const tf2_msgs::TFMessage &_msg)
 {
   static tf2_ros::TransformBroadcaster br;
-  br.sendTransform(msg);
+  br.sendTransform(_msg.transforms);
+}
+
+void poseStaticCallback(const tf2_msgs::TFMessage &_msg)
+{
+   static tf2_ros::StaticTransformBroadcaster brStatic;
+   brStatic.sendTransform(_msg.transforms);
 }
 
 //////////////////////////////////////////////////
 int main(int argc, char * argv[])
 {
   ros::init(argc, argv, "pose_tf_broadcaster");
+
   ros::NodeHandle node;
   ros::Subscriber sub = node.subscribe("pose", 10, &poseCallback);
 
+  ros::Subscriber subStatic = node.subscribe(
+      "pose_static", 10, &poseStaticCallback);
+
   ros::spin();
+
   return 0;
 }

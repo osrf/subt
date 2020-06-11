@@ -40,16 +40,16 @@ namespace subt
     public: static const int32_t kMaxX = 2100;
 
     /// \brief Min Y to sample.
-    public: static const int32_t kMinY = -350;
+    public: static const int32_t kMinY = -850;
 
     /// \brief Max Y to sample.
-    public: static const int32_t kMaxY = 350;
+    public: static const int32_t kMaxY = 850;
 
     /// \brief Min Z to sample.
-    public: static const int32_t kMinZ = -50;
+    public: static const int32_t kMinZ = -250;
 
     /// \brief Max Z to sample.
-    public: static const int32_t kMaxZ = 50;
+    public: static const int32_t kMaxZ = 100;
 
     /// \brief Class constructor. Create the visibility table from a graph in
     /// DOT format.
