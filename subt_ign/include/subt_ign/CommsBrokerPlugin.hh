@@ -73,7 +73,12 @@ namespace subt
     public: virtual bool Load(const tinyxml2::XMLElement *_elem) override final;
 
     /// \brief Callback for World Update events.
+    /// \param[in] _msg Vector of entity positions.
     private: void OnPose(const ignition::msgs::Pose_V &_msg);
+
+    /// \brief Update the visibility table if new breadcrumbs are found.
+    /// Note that this function doesn't consider breadcrumb removals.
+    private: void UpdateIfNewBreadcrumbs();
 
     /// \brief Broker instance.
     private: subt::communication_broker::Broker broker;
@@ -90,6 +95,10 @@ namespace subt
       visibilityModel;
 
     private: ignition::transport::Node node;
+
+    /// \brief Names and poses of the breadcrumbs.
+    /// The key is the breadcrumb name and the value is its pose.
+    private: std::map<std::string, ignition::math::Pose3d> breadcrumbs;
   };
 }
 

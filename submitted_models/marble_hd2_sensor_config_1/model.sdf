@@ -5,7 +5,7 @@
       <pose frame="">0 0 0 0 -0 0</pose>
       <inertial>
         <pose frame="">-0.000649 -0.084945 0.062329 0 -0 0</pose>
-        <mass>34.02</mass>
+        <mass>21.8194</mass>
         <inertia>
           <ixx>0.615397</ixx>
           <ixy>-0.0240585</ixy>
@@ -472,19 +472,19 @@
               <!-- Resolution can't be above 16k, see
               https://bitbucket.org/ignitionrobotics/ign-sensors/issues/8 -->
               <samples>1024</samples>
-              <resolution>0.1</resolution>
+              <resolution>1</resolution>
               <min_angle>-3.1459</min_angle>
               <max_angle>3.1459</max_angle>
             </horizontal>
             <vertical>
               <samples>64</samples>
               <resolution>1</resolution>
-              <min_angle>-0.3927</min_angle>
-              <max_angle>0.3927</max_angle>
+              <min_angle>-0.2897</min_angle>
+              <max_angle>0.2897</max_angle>
             </vertical>
           </scan>
           <range>
-            <min>0.09</min>
+            <min>0.8</min>
             <max>120</max>
             <resolution>0.003</resolution>
           </range>
@@ -496,54 +496,39 @@
         </lidar>
         <pose frame="">0.354 0 0.387 0 -0 0</pose>
       </sensor>
-      <!-- MARBLE HD2 and Husky use the Lord Microstrain 3DM-GX5-25 IMU/AHRS with 
-	the following noise density terms:
-	Datasheet: https://www.microstrain.com/sites/default/files/applications/files/3dm-gx5-25_datasheet_8400-0093_rev_n.pdf
-	
-	We derived the stddev terms as follows:
-
-	accelerometer noise density = 0.00002 g/sqrt(Hz) 
-		=> convert to m/s^2 => 1.962e-4 m/s^2
-	gyro noise density = 0.005 deg/s/sqrt(Hz)
-		=> convert to rad/sec => 8.72664e-5 radians
-
-	Other terms are difficult to extract from datasheet, so we used similar terms to previous IMU models proposed (of similar or worse quality) such as the ADIS 16448 (which has worse performance than this IMU). 
-	-->
+      
       <sensor name="imu_sensor" type="imu">
         <always_on>1</always_on>
-        <update_rate>250</update_rate>
-	
+        <update_rate>50</update_rate>
         <imu>
           <angular_velocity>
             <x>
               <noise type="gaussian">
                 <mean>0</mean>
-                 <stddev>0.0000872664</stddev>
-                 <bias_mean>0.0000075</bias_mean>
-                 <bias_stddev>0.00000080</bias_stddev>
-                 <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
-                 <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
+                <stddev>2e-4</stddev>
+                <bias_mean>0.0000075</bias_mean>
+                <bias_stddev>0.0000008</bias_stddev>
+                <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
               </noise>
             </x>
             <y>
               <noise type="gaussian">
                 <mean>0</mean>
-                 <stddev>0.0000872664</stddev>
-                 <bias_mean>0.0000075</bias_mean>
-                 <bias_stddev>0.00000080</bias_stddev>
-                 <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
-                 <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
+                <stddev>2e-4</stddev>
+                <bias_mean>0.0000075</bias_mean>
+                <bias_stddev>0.0000008</bias_stddev>
+                <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
                 <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
               </noise>
             </y>
             <z>
               <noise type="gaussian">
                 <mean>0</mean>
-                 <stddev>0.0000872664</stddev>
-                 <bias_mean>0.0000075</bias_mean>
-                 <bias_stddev>0.00000080</bias_stddev>
-                 <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
-                 <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
+                <stddev>2e-4</stddev>
+                <bias_mean>0.0000075</bias_mean>
+                <bias_stddev>0.0000008</bias_stddev>
+                <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
                 <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
               </noise>
             </z>
@@ -552,33 +537,33 @@
             <x>
               <noise type="gaussian">
                 <mean>0</mean>
-                 <stddev>0.0001962</stddev>
-                 <bias_mean>0.001</bias_mean>
-                 <bias_stddev>0.0001</bias_stddev>
-                 <dynamic_bias_stddev>0.001</dynamic_bias_stddev>
+                <stddev>1e-2</stddev>
+                <bias_mean>0.1</bias_mean>
+                <bias_stddev>0.001</bias_stddev>
+                <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
                 <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
               </noise>
             </x>
             <y>
               <noise type="gaussian">
                 <mean>0</mean>
-                 <stddev>0.0001962</stddev>
-                 <bias_mean>0.001</bias_mean>
-                 <bias_stddev>0.0001</bias_stddev>
-                 <dynamic_bias_stddev>0.001</dynamic_bias_stddev>
+                <stddev>1e-2</stddev>
+                <bias_mean>0.1</bias_mean>
+                <bias_stddev>0.001</bias_stddev>
+                <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
                 <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
               </noise>
             </y>
             <z>
               <noise type="gaussian">
                 <mean>0</mean>
-                 <stddev>0.0001962</stddev>
-                 <bias_mean>0.001</bias_mean>
-                 <bias_stddev>0.0001</bias_stddev>
-                 <dynamic_bias_stddev>0.001</dynamic_bias_stddev>
+                <stddev>1e-2</stddev>
+                <bias_mean>0.1</bias_mean>
+                <bias_stddev>0.001</bias_stddev>
+                <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
                 <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
               </noise>
-            </z>
+            </z>21.8194
           </linear_acceleration>
         </imu>
       </sensor>
@@ -588,7 +573,7 @@
       <pose frame="">0.360 0.26 0.00 0 -0 0</pose>
       <inertial>
         <pose frame="">0 0 0 0 -0 0</pose>
-        <mass>2.637</mass>
+        <mass>1.5</mass>
         <inertia>
           <ixx>0.02467</ixx>
           <ixy>0</ixy>
@@ -658,7 +643,7 @@
       <pose frame="">0.120 0.26 0.00 0 -0 0</pose>
       <inertial>
         <pose frame="">0 0 0 0 -0 0</pose>
-        <mass>2.637</mass>
+        <mass>1.5</mass>
         <inertia>
           <ixx>0.02467</ixx>
           <ixy>0</ixy>
@@ -728,7 +713,7 @@
       <pose frame="">-0.120 0.26 0.00 0 -0 0</pose>
       <inertial>
         <pose frame="">0 0 0 0 -0 0</pose>
-        <mass>2.637</mass>
+        <mass>1.5</mass>
         <inertia>
           <ixx>0.02467</ixx>
           <ixy>0</ixy>
@@ -798,7 +783,7 @@
       <pose frame="">-0.36 0.26 0.0 0 -0 0</pose>
       <inertial>
         <pose frame="">0 0 0 0 -0 0</pose>
-        <mass>2.637</mass>
+        <mass>1.5</mass>
         <inertia>
           <ixx>0.02467</ixx>
           <ixy>0</ixy>
@@ -869,7 +854,7 @@
       <pose frame="">0.360 -0.26 0.00 0 -0 0</pose>
       <inertial>
         <pose frame="">0 0 0 0 -0 0</pose>
-        <mass>2.637</mass>
+        <mass>1.5</mass>
         <inertia>
           <ixx>0.02467</ixx>
           <ixy>0</ixy>
@@ -939,7 +924,7 @@
       <pose frame="">0.120 -0.26 0.00 0 -0 0</pose>
       <inertial>
         <pose frame="">0 0 0 0 -0 0</pose>
-        <mass>2.637</mass>
+        <mass>1.5</mass>
         <inertia>
           <ixx>0.02467</ixx>
           <ixy>0</ixy>
@@ -1009,7 +994,7 @@
       <pose frame="">-0.120 -0.26 0.00 0 -0 0</pose>
       <inertial>
         <pose frame="">0 0 0 0 -0 0</pose>
-        <mass>2.637</mass>
+        <mass>1.5</mass>
         <inertia>
           <ixx>0.02467</ixx>
           <ixy>0</ixy>
@@ -1079,7 +1064,7 @@
       <pose frame="">-0.36 -0.26 0.0 0 -0 0</pose>
       <inertial>
         <pose frame="">0 0 0 0 -0 0</pose>
-        <mass>2.637</mass>
+        <mass>1.5</mass>
         <inertia>
           <ixx>0.02467</ixx>
           <ixy>0</ixy>
