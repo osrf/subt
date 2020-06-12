@@ -78,7 +78,8 @@ bool VisibilityTable::Load(const std::string &_worldName, bool _loadLUT)
           "cave_circuit", suffix);
     }
   }
-  else if (this->worldName.find("simple") == std::string::npos)
+  else if (this->worldName.find("simple") == std::string::npos &&
+           this->worldName.find("_qual") == std::string::npos)
   {
     ignerr << "Unable to determine circuit number from["
       << this->worldName << "].\n";
@@ -270,7 +271,16 @@ void VisibilityTable::PopulateVisibilityInfo(
   // Convert poses to vertices.
   std::set<ignition::math::graph::VertexId> relays;
   for (const auto pose : _relayPoses)
-    relays.insert(this->Index(pose));
+  {
+    int32_t x = std::round(pose.X());
+    int32_t y = std::round(pose.Y());
+    int32_t z = std::round(pose.Z());
+    auto vertexId = std::make_tuple(x, y, z);
+
+    auto it = this->vertices.find(vertexId);
+    if (it != this->vertices.end())
+      relays.insert(it->second);
+  }
 
   // Compute the cost of all routes without considering relays.
   this->PopulateVisibilityInfo();

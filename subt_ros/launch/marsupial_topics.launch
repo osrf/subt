@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="name"/>
+  <group ns="$(arg name)">
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_marsupial"
+      args="/model/$(arg name)/detach@std_msgs/Empty]ignition.msgs.Empty">
+      <remap from="/model/$(arg name)/detach" to="detach"/>
+    </node>
+  </group>
+</launch>
+
