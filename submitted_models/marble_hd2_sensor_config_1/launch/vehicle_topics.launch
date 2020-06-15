@@ -105,6 +105,23 @@
       args="$(arg sensor_prefix)/camera_front/depth_image">
       <remap from="$(arg sensor_prefix)/camera_front/depth_image" to="front_facing/depth"/>
     </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_image_front_facing">
+      <remap from="input/image" to="front_facing/image_raw" />
+      <remap from="output/image" to="front_facing/optical/image_raw" />
+      <remap from="input/camera_info" to="front_facing/camera_info" />
+      <remap from="output/camera_info" to="front_facing/optical/camera_info" />
+    </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_depth_front"
+      args="depth">
+      <remap from="input/image" to="front_facing/depth" />
+      <remap from="output/image" to="front_facing/optical/depth" />
+    </node>
 
     <!--30 Degree downward looking RGBD camera -->
     <node
@@ -135,6 +152,23 @@
       args="$(arg sensor_prefix)/camera_down/depth_image">
       <remap from="$(arg sensor_prefix)/camera_down/depth_image" to="front_down/depth"/>
     </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_image_front_down">
+      <remap from="input/image" to="front_down/image_raw" />
+      <remap from="output/image" to="front_down/optical/image_raw" />
+      <remap from="input/camera_info" to="front_down/camera_info" />
+      <remap from="output/camera_info" to="front_down/optical/camera_info" />
+    </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_depth_down"
+      args="depth">
+      <remap from="input/image" to="front_down/depth" />
+      <remap from="output/image" to="front_down/optical/depth" />
+    </node>
 
       <!--Pan Tilt RGBD camera -->
     <node
@@ -164,6 +198,23 @@
       name="ros_ign_image_depth_pan_tilt"
       args="$(arg gimbal_sensor_prefix)/camera_pan_tilt/depth_image">
       <remap from="$(arg gimbal_sensor_prefix)/camera_pan_tilt/depth_image" to="pan_tilt/depth"/>
+    </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_image_pan_tilt">
+      <remap from="input/image" to="pan_tilt/image_raw" />
+      <remap from="output/image" to="pan_tilt/optical/image_raw" />
+      <remap from="input/camera_info" to="pan_tilt/camera_info" />
+      <remap from="output/camera_info" to="pan_tilt/optical/camera_info" />
+    </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_depth_pan_tilt"
+      args="depth">
+      <remap from="input/image" to="pan_tilt/depth" />
+      <remap from="output/image" to="pan_tilt/optical/depth" />
     </node>
 
     <!--OS1-64 3D Laser-->
