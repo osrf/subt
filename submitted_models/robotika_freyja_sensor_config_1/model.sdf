@@ -1204,7 +1204,7 @@
                     <izz>0.0153</izz>
                 </inertia>
             </inertial>
-            <collision name="collision">
+            <collision name="front_left_wheel_collision">
                 <pose>0 0 0 -1.5707963267948966 0 0</pose>
                 <geometry>
                     <cylinder>
@@ -1224,7 +1224,7 @@
                   </friction>
                 </surface>
             </collision>
-            <visual name="tire_visual">
+            <visual name="front_left_wheel_tire_visual">
                 <pose>0 0 0 1.5708 0 0</pose>
                 <geometry>
                     <mesh>
@@ -1233,7 +1233,7 @@
                     </mesh>
                 </geometry>
             </visual>
-            <visual name="hub_visual">
+            <visual name="front_left_wheel_hub_visual">
                 <pose>0 -0.055 0 1.5707963267948966 0 0</pose>
                 <geometry>
                     <cylinder>
@@ -1258,7 +1258,7 @@
                     <izz>0.0153</izz>
                 </inertia>
             </inertial>
-            <collision name="collision">
+            <collision name="front_right_wheel_collision">
                 <pose>0 0 0 1.5707963267948966 0 0</pose>
                 <geometry>
                     <cylinder>
@@ -1278,7 +1278,7 @@
                   </friction>
                 </surface>
             </collision>
-            <visual name="tire_visual">
+            <visual name="front_right_wheel_tire_visual">
                 <pose>0 0 0 1.5708 0 0</pose>
                 <geometry>
                     <mesh>
@@ -1287,7 +1287,7 @@
                     </mesh>
                 </geometry>
             </visual>
-            <visual name="hub_visual">
+            <visual name="front_right_wheel_hub_visual">
                 <pose>0 0.055 0 1.5707963267948966 0 0</pose>
                 <geometry>
                     <cylinder>
@@ -1312,7 +1312,7 @@
                     <izz>0.0153</izz>
                 </inertia>
             </inertial>
-            <collision name="collision">
+            <collision name="rear_left_wheel_collision">
                 <pose>0 0 0 -1.5707963267948966 0 0</pose>
                 <geometry>
                     <cylinder>
@@ -1332,7 +1332,7 @@
                   </friction>
                 </surface>
             </collision>
-            <visual name="tire_visual">
+            <visual name="rear_left_wheel_tire_visual">
                 <pose>0 0 0 1.5708 0 0</pose>
                 <geometry>
                     <mesh>
@@ -1341,7 +1341,7 @@
                     </mesh>
                 </geometry>
             </visual>
-            <visual name="hub_visual">
+            <visual name="rear_left_wheel_hub_visual">
                 <pose>0 -0.055 0 1.5707963267948966 0 0</pose>
                 <geometry>
                     <cylinder>
@@ -1366,7 +1366,7 @@
                     <izz>0.0153</izz>
                 </inertia>
             </inertial>
-            <collision name="collision">
+            <collision name="rear_right_wheel_collision">
                 <pose>0 0 0 1.5707963267948966 0 0</pose>
                 <geometry>
                     <cylinder>
@@ -1386,7 +1386,7 @@
                   </friction>
                 </surface>
             </collision>
-            <visual name="tire_visual">
+            <visual name="rear_right_wheel_tire_visual">
                 <pose>0 0 0 1.5708 0 0</pose>
                 <geometry>
                     <mesh>
@@ -1395,7 +1395,7 @@
                     </mesh>
                 </geometry>
             </visual>
-            <visual name="hub_visual">
+            <visual name="rear_right_wheel_hub_visual">
                 <pose>0 0.055 0 1.5707963267948966 0 0</pose>
                 <geometry>
                     <cylinder>

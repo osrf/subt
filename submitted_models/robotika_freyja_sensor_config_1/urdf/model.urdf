@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<robot name='ROBOTIKA_FREYJA'>
+<robot name='robotika_freyja'>
   <link name='base_link'>
     <inertial>
       <origin xyz='0 0 0.0725' rpy='0 -0 0'/>
@@ -325,6 +325,14 @@
       </geometry>
     </visual>
   </link>
+  <!-- Base footprint is on the ground under the robot -->
+  <link name="base_footprint"/>
+  <joint name="base_footprint_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 -0.1275"/>
+    <parent link="base_link"/>
+    <child link="base_footprint"/>
+  </joint>
+
   <sensor name='imu_sensor' update_rate='50'>
     <parent link='base_link'/>
     <origin xyz='0 0 0' rpy='0 -0 0'/>
