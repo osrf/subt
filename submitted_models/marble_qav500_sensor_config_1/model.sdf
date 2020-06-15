@@ -6,14 +6,21 @@
             <pose frame="">0 0 0 0 -0 0</pose>
             <inertial>
                 <pose frame="">0 0 0 0 -0 0</pose>
-                <mass>3</mass>
+                <!-- <mass>3</mass> -->
+                <mass>2.06</mass>
                 <inertia>
-                    <ixx>0.03567</ixx>
+                    <!-- <ixx>0.03567</ixx>
                     <ixy>0</ixy>
-                    <ixz>0.0006</ixz>
+                    <ixz>0.0</ixz>
                     <iyy>0.05534</iyy>
                     <iyz>0</iyz>
-                    <izz>0.0847</izz>
+                    <izz>0.0847</izz> -->
+                    <ixx>0.03566</ixx>
+                    <ixy>0</ixy>
+                    <ixz>0</ixz>
+                    <iyy>0.05535</iyy>
+                    <iyz>0</iyz>
+                    <izz>0.08475</izz>
                 </inertia>
             </inertial>
             <collision name="base_link_inertia_collision">
@@ -601,7 +608,7 @@
             </sensor> -->
         </link>
         <link name="rotor_0">
-            <pose frame="">0.206069 0.206092 0.028 0 0 0.523599</pose>
+            <pose frame="">0.206069 -0.205944 0.028 0 0 0.523599</pose>
             <inertial>
                 <pose frame="">0 0 0 0 -0 0</pose>
                 <mass>0.005</mass>
@@ -642,7 +649,7 @@
                 <material>
                     <diffuse>1 0 0 1</diffuse>
                     <script>
-                        <name>Gazebo/Red</name>
+                        <name>Gazebo/Blue</name>
                         <uri>materials/scripts/gazebo.material</uri>
                     </script>
                 </material>
@@ -704,13 +711,13 @@
                 <geometry>
                     <mesh>
                         <scale>1 1 1</scale>
-                        <uri>meshes/neo11_propeller_cw.dae</uri>
+                        <uri>meshes/neo11_propeller_ccw.dae</uri>
                     </mesh>
                 </geometry>
                 <material>
                     <diffuse>0 0 1 1</diffuse>
                     <script>
-                        <name>Gazebo/Blue</name>
+                        <name>Gazebo/Red</name>
                         <uri>materials/scripts/gazebo.material</uri>
                     </script>
                 </material>
@@ -803,7 +810,7 @@
             </axis>
         </joint> -->
         <link name="rotor_2">
-            <pose frame="">-0.206432 -0.205944 0.028 0 -0 -2.61799</pose>
+            <pose frame="">0.206432 0.205944 0.028 0 -0 -2.61799</pose>
             <inertial>
                 <pose frame="">0 0 0 0 -0 0</pose>
                 <mass>0.005</mass>
@@ -838,7 +845,7 @@
                 <geometry>
                     <mesh>
                         <scale>1 1 1</scale>
-                        <uri>meshes/neo11_propeller_ccw.dae</uri>
+                        <uri>meshes/neo11_propeller_cw.dae</uri>
                     </mesh>
                 </geometry>
                 <material>
@@ -937,7 +944,7 @@
             </axis>
         </joint> -->
         <link name="rotor_3">
-            <pose frame="">0.206432 -0.205944 0.028 0 0 -0.523599</pose>
+            <pose frame="">-0.206432 -0.205944 0.028 0 0 -0.523599</pose>
             <inertial>
                 <pose frame="">0 0 0 0 -0 0</pose>
                 <mass>0.005</mass>
