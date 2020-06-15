@@ -20,6 +20,10 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
           <wheel_radius>0.15</wheel_radius>
           <topic>/model/#{_name}/cmd_vel_relay/front</topic>
           <odom_topic>/model/#{_name}/odometry/front</odom_topic>
+          <min_velocity>-2.5</min_velocity>
+          <max_velocity>2.5</max_velocity>
+          <min_acceleration>-8.8</min_acceleration>
+          <max_acceleration>8.8</max_acceleration>
         </plugin>
         <!-- Diff drive rear -->
         <plugin filename=\"libignition-gazebo-diff-drive-system.so\"
@@ -30,6 +34,10 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
           <wheel_radius>0.15</wheel_radius>
           <topic>/model/#{_name}/cmd_vel_relay/rear</topic>
           <odom_topic>/model/#{_name}/odometry/rear</odom_topic>
+          <min_velocity>-2.5</min_velocity>
+          <max_velocity>2.5</max_velocity>
+          <min_acceleration>-8.8</min_acceleration>
+          <max_acceleration>8.8</max_acceleration>
         </plugin>
         <!-- Publish robot state information -->
         <plugin filename=\"libignition-gazebo-pose-publisher-system.so\"

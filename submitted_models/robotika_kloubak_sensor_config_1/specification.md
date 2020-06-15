@@ -20,6 +20,7 @@ The following specific sensors are declared payloads of this vehicle:
 * 2x Planar lidar &mdash; SICK TIM881P, modeled by `gpu_lidar` plugin.
 * 2x Monocular camera &mdash; Arecont Vision AV3216DN  + lens MPL 1.55, modeled by `camera` plugin.
 * 2x IMU f &mdash; LORD Sensing 3DM-GX5, modeled by `imu` plugins.
+* 2x Magnetometers &mdash; LORD Sensing 3DM-GX5, modeled by `magnetometer` plugins.
 * Altimeter &mdash; Infineon DPS310, modeled by `air_pressure` plugin.
 * Wheel odometry - wheel encoders modelled by `pose-publisher` plugin.
 

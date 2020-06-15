@@ -109,6 +109,23 @@
       args="$(arg sensor_prefix_front)/depth_camera_front/image">
       <remap from="$(arg sensor_prefix_front)/depth_camera_front/image" to="rgbd_front/image_raw"/>
     </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_rgbd_image_front">
+      <remap from="input/image" to="rgbd_front/image_raw" />
+      <remap from="output/image" to="rgbd_front/optical/image_raw" />
+      <remap from="input/camera_info" to="rgbd_front/camera_info" />
+      <remap from="output/camera_info" to="rgbd_front/optical/camera_info" />
+    </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_rgbd_depth_front"
+      args="depth">
+      <remap from="input/image" to="rgbd_front/depth" />
+      <remap from="output/image" to="rgbd_front/optical/depth" />
+    </node>
 
     <!-- Rear RGBD -->
     <node
@@ -139,7 +156,23 @@
       args="$(arg sensor_prefix_rear)/depth_camera_back/image">
       <remap from="$(arg sensor_prefix_rear)/depth_camera_back/image" to="rgbd_rear/image_raw"/>
     </node>
-
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_rgbd_image_rear">
+      <remap from="input/image" to="rgbd_rear/image_raw" />
+      <remap from="output/image" to="rgbd_rear/optical/image_raw" />
+      <remap from="input/camera_info" to="rgbd_rear/camera_info" />
+      <remap from="output/camera_info" to="rgbd_rear/optical/camera_info" />
+    </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_rgbd_depth_rear"
+      args="depth">
+      <remap from="input/image" to="rgbd_rear/depth" />
+      <remap from="output/image" to="rgbd_rear/optical/depth" />
+    </node>
 
     <!-- Front lidar scan -->
     <node
@@ -174,6 +207,15 @@
       args="$(arg sensor_prefix_front)/camera_front/image">
       <remap from="$(arg sensor_prefix_front)/camera_front/image" to="camera_front/image_raw"/>
     </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_camera_front">
+      <remap from="input/image" to="camera_front/image_raw" />
+      <remap from="output/image" to="camera_front/optical/image_raw" />
+      <remap from="input/camera_info" to="camera_front/camera_info" />
+      <remap from="output/camera_info" to="camera_front/optical/camera_info" />
+    </node>
 
     <!-- Rear monocular camera -->
     <node
@@ -189,6 +231,15 @@
       name="ros_ign_image_camera_rear"
       args="$(arg sensor_prefix_rear)/camera_back/image">
       <remap from="$(arg sensor_prefix_rear)/camera_back/image" to="camera_rear/image_raw"/>
+    </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_camera_rear">
+      <remap from="input/image" to="camera_rear/image_raw" />
+      <remap from="output/image" to="camera_rear/optical/image_raw" />
+      <remap from="input/camera_info" to="camera_rear/camera_info" />
+      <remap from="output/camera_info" to="camera_rear/optical/camera_info" />
     </node>
 
     <!-- UGV -->
