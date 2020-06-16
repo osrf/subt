@@ -130,6 +130,53 @@ install(TARGETS ${artifact_validator_name}
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
 
+set(connection_validator_name ConnectionValidator)
+add_library(${connection_validator_name} SHARED
+  src/ConnectionValidator.cc
+  src/ConnectionValidatorPrivate.cc
+  src/ConnectionHelper.cc
+  src/SimpleDOTParser.cc)
+target_link_libraries(${connection_validator_name}
+  PRIVATE
+    ignition-gazebo${IGN_GAZEBO_VER}::core
+    ignition-common3::ignition-common3
+    ignition-launch1::ignition-launch1
+    ignition-math6::ignition-math6
+    ignition-msgs4::ignition-msgs4
+    ignition-plugin1::loader
+    ignition-transport7::ignition-transport7
+    ${catkin_LIBRARIES}
+    ${protobuf_lib_name}
+)
+install(TARGETS ${connection_validator_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+
+add_executable(validate_connections
+  src/validate_connections.cc
+  src/ConnectionValidator.cc
+  src/ConnectionValidatorPrivate.cc
+  src/ConnectionHelper.cc
+  src/SimpleDOTParser.cc)
+target_link_libraries(validate_connections
+  PRIVATE
+    ignition-gazebo${IGN_GAZEBO_VER}::core
+    ignition-common3::ignition-common3
+    ignition-launch1::ignition-launch1
+    ignition-math6::ignition-math6
+    ignition-msgs4::ignition-msgs4
+    ignition-plugin1::loader
+    ignition-transport7::ignition-transport7
+    ${catkin_LIBRARIES}
+    ${protobuf_lib_name}
+)
+install(TARGETS validate_connections
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+
+
 # Create the libCommsBrokerPlugin.so library.
 set(comms_broker_plugin_name CommsBrokerPlugin)
 add_library(${comms_broker_plugin_name}
@@ -242,8 +289,8 @@ target_link_libraries(${gas_emitter_detector_plugin_name}
     ${protobuf_lib_name}
 )
 install(TARGETS ${gas_emitter_detector_plugin_name}
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION} 
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION} 
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
 # Create log_checker executable.
@@ -253,6 +300,27 @@ target_link_libraries(log_checker
   ignition-transport7::ignition-transport7-log)
 install(TARGETS log_checker
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+
+add_executable(dot_generator src/dot_generator.cc src/ConnectionHelper.cc src/SdfParser.cc)
+target_link_libraries(dot_generator
+  ignition-math6::ignition-math6
+  ignition-common3::ignition-common3
+  sdformat8::sdformat8)
+target_include_directories(dot_generator
+  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
+install(TARGETS dot_generator
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+
+add_executable(level_generator src/level_generator.cc src/ConnectionHelper.cc src/SdfParser.cc)
+target_link_libraries(level_generator
+  ignition-math6::ignition-math6
+  ignition-common3::ignition-common3
+  sdformat8::sdformat8)
+target_include_directories(level_generator
+  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
+install(TARGETS level_generator
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+
 
 ###########
 ## Tests ##
@@ -320,6 +388,15 @@ endif()
 #############
 ## Install ##
 #############
+
+# Unzip the cave_circuit_practice_02.dat.zip file
+add_custom_target(unzip_dat ALL)
+add_custom_command(TARGET unzip_dat PRE_BUILD
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/worlds
+  COMMAND ${CMAKE_COMMAND} -E tar xvf cave_circuit_practice_02.dat.zip
+  DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/worlds/cave_circuit_practice_02.dat.zip
+COMMENT "Unpacking cave_circuit_practice_02.dat.zip"
+VERBATIM)
 
 install(PROGRAMS
   scripts/subt_docker.bash
