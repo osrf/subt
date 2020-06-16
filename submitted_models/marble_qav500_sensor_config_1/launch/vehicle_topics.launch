@@ -79,6 +79,15 @@
       </node>
     </group>
 
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_depth"
+      args="depth">
+      <remap from="input/image" to="front/depth" />
+      <remap from="output/image" to="front/optical/depth" />
+    </node>
+
     <!-- Top TOF -->
     <group if="$(arg tof_top)">
       <node
@@ -165,6 +174,16 @@
         <remap from="$(arg sensor_prefix)/camera_front/image" to="front/image_raw"/>
       </node>
     </group>
+
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher">
+      <remap from="input/image" to="front/image_raw" />
+      <remap from="output/image" to="front/optical/image_raw" />
+      <remap from="input/camera_info" to="front/camera_info" />
+      <remap from="output/camera_info" to="front/optical/camera_info" />
+    </node>
 
     <!-- laser scan -->
     <group if="$(arg laser_scan)">
