@@ -24,10 +24,10 @@ source install/setup.bash
 
 2. Run Ignition
 ```bash
-ign launch -v 4 cave_circuit.ign worldName:=simple_cave_01 robotName1:=x1 robotConfig1:=EXPLORER_R2_SENSOR_CONFIG_1 localModel:=true
+ign launch -v 4 cave_circuit.ign worldName:=simple_cave_01 robotName1:=r2 robotConfig1:=EXPLORER_R2_SENSOR_CONFIG_1 localModel:=true
 ```
 ### How to control the drone ###
-1. Publish velocity control command to "x1/cmd_vel"
+1. Publish velocity control command to "r2/cmd_vel"
 
 
 ### how to get odometry ###
