@@ -35,8 +35,8 @@ constraint characteristics:
 The constraints can be found in the following locations within the simulation model
 package:
 
-* front left wheel maximum velocity and torque &mdash; model.sdf, lines 1015 and 1017
-* Other wheels &mdash; just below front Left wheel in the same file.
+* left front wheel maximum velocity and torque &mdash; model.sdf, lines 626 and 627
+* Other wheels &mdash; just below Left front wheel in the same file.
 
 ## Endurance Characteristics
 Based on the tests specified in the DARPA SubT Challenge [Model Preparation
@@ -53,3 +53,4 @@ in physical properties. However, there are few diversions:
 # <a name="validation_links"></a>R2 Validation and Specification Links
 
 * https://www.intelrealsense.com/depth-camera-d435/
+* https://autonomoustuff.com/product/velodyne-puck-vlp-16/
