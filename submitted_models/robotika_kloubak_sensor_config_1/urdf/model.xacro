@@ -2,7 +2,6 @@
 <robot name='robotika_kloubak_sensor_config_1' xmlns:xacro='http://ros.org/wiki/xacro'>
   <xacro:arg name="name" default="robotika_kloubak_sensor_config_1"/>
   <xacro:property name="robot_namespace" value="$(arg name)"/>
-  <link name='${robot_namespace}/base_link'/>
 
   <link name='${robot_namespace}/chassis_front'>
     <inertial>
