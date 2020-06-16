@@ -227,7 +227,15 @@
     $websocketAdminAuthKey = websocketAdminAuthKey
   end
 
-  puts $websocketAuthKey
+  $websocketSSLCertFile = ""
+  if defined?(websocketSSLCertFile) && websocketSSLCertFile != nil && !websocketSSLCertFile.empty?
+    $websocketSSLCertFile = websocketSSLCertFile
+  end
+
+  $websocketSSLKeyFile = ""
+  if defined?(websocketSSLKeyFile) && websocketSSLKeyFile != nil && !websocketSSLKeyFile.empty?
+    $websocketSSLKeyFile = websocketSSLKeyFile
+  end
 %>
 
 <ignition version='1.0'>
@@ -243,6 +251,10 @@
     <port>9002</port>
     <authorization_key><%= $websocketAuthKey %></authorization_key>
     <admin_authorization_key><%= $websocketAdminAuthKey %></admin_authorization_key>
+    <ssl>
+      <cert_file><%= $websocketSSLCertFile %></cert_file>
+      <private_key_file><%= $websocketSSLKeyFile %></private_key_file>
+    </ssl>
   </plugin>
 
   <plugin name="ignition::launch::GazeboServer"
