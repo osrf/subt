@@ -1,10 +1,10 @@
-# Building custom ros_ign_bridge to make pan/tilt gimbal work (on marble vehicles):
+# Building ros_ign_bridge to make pan/tilt gimbal work (on marble vehicles):
 
 First, follow instructions for building from source on this page:
-https://github.com/realdealneil/ros_ign/tree/melodic/ros_ign_bridge
+https://github.com/osrf/ros_ign/tree/melodic/ros_ign_bridge
 
 Except, use the following clone URL instead:
-git clone https://github.com/realdealneil/ros_ign.git -b melodic
+git clone https://github.com/osrf/ros_ign.git -b melodic
 
 Once you've built, you will need to stack your workspace (subt workspace)
 on top of this workspace.  To do this, do as follows:
@@ -17,6 +17,4 @@ source ~/bridge_ws/install/setup.bash
 catkin_make install
 ```
 
-Alternatively, you can clone the above repo directly inside of subt repo 
-and do a clean build.  I have issued pull request on ros_ign_bridge and
-once that has made its way into subt, this will no longer be necessary.  
+Once the binaries for this package are updated a simple "sudo apt-get install ros-melodic-ros-ign-bridge" will suffice for installation
