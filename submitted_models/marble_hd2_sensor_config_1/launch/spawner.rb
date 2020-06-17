@@ -52,7 +52,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <capacity>78.4</capacity>
         <resistance>0.061523</resistance>
         <smooth_current_tau>1.9499</smooth_current_tau>
-        <power_load>6.6</power_load>
+        <power_load>9.9</power_load>
         <start_on_motion>true</start_on_motion>
       </plugin>
       <!-- Gas Sensor plugin -->
