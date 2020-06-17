@@ -22,7 +22,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <topic>/model/#{_name}/cmd_vel_relay</topic>
         <min_velocity>-1</min_velocity>
         <max_velocity>1</max_velocity>
-        <min_acceleration>-2</min_acceleration>
+        <min_acceleration>-3</min_acceleration>
         <max_acceleration>3</max_acceleration>
       </plugin>
       <!-- Publish robot state information -->
