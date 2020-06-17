@@ -134,8 +134,8 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <velocityGain>8 8 10</velocityGain>
         <attitudeGain>6 6 6</attitudeGain>
         <angularRateGain>2.5 2.5 4.0</angularRateGain>
-        <maximumLinearAcceleration>5 5 5</maximumLinearAcceleration>
-        <maximumLinearVelocity>10 10 10</maximumLinearVelocity>
+        <maximumLinearAcceleration>5 5 3</maximumLinearAcceleration>
+        <maximumLinearVelocity>10 10 5</maximumLinearVelocity>
         <maximumAngularVelocity>3 3 6</maximumAngularVelocity>
         <linearVelocityNoiseMean>0 0 0</linearVelocityNoiseMean>
         <!-- linearVelocityNoiseStdDev based on error values reported in the paper Shen et. al., -->
