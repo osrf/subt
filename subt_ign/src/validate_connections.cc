@@ -15,8 +15,8 @@
  *
  */
 
-/// Helper test to evaluate graph population without starting gazebo.
-/// Call with TEST_connection_validator <world_name>
+/// Helper to evaluate graph population without starting gazebo.
+/// Call with `validate_connections` <world_name>
 #include "ConnectionValidatorPrivate.hh"
 
 #include <ignition/common/Console.hh>
