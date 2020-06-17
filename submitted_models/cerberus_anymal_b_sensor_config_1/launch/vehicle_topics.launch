@@ -87,7 +87,26 @@
       type="image_bridge"
       name="ros_ign_image_depth"
       args="$(arg sensor_prefix)/downward_realsense/depth_image">
-      <remap from="$(arg sensor_prefix)/downward_realsense/depth_image" to="downward_realsense/depth/image_raw"/>
+      <remap from="$(arg sensor_prefix)/downward_realsense/depth_image" to="downward_realsense/depth"/>
+    </node>
+
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher">
+      <remap from="input/image" to="downward_realsense/image_raw" />
+      <remap from="output/image" to="downward_realsense/optical/image_raw" />
+      <remap from="input/camera_info" to="downward_realsense/camera_info" />
+      <remap from="output/camera_info" to="downward_realsense/optical/camera_info" />
+    </node>
+
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_depth"
+      args="depth">
+      <remap from="input/image" to="downward_realsense/depth" />
+      <remap from="output/image" to="downward_realsense/optical/depth" />
     </node>
 
     <!-- Front Camera -->
