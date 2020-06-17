@@ -6,4 +6,4 @@ find_package(catkin REQUIRED)
 catkin_package()
 
 install(FILES lib/libAnymalBControlPlugin1.so
-  DESTINATION lib)
+  DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION})
