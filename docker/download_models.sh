@@ -55,6 +55,8 @@ ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/C
 ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/SOPHISTICATED_ENGINEERING_X2_SENSOR_CONFIG_1" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/SOPHISTICATED_ENGINEERING_X4_SENSOR_CONFIG_1" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/DronePlatformX1" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/ROBOTIKA_KLOUBAK_SENSOR_CONFIG_1" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/ROBOTIKA_FREYJA_SENSOR_CONFIG_1" -v 4
 
 # Download the tunnel circuit models
 ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/subt_tunnel_staging_area" -v 4
@@ -183,6 +185,15 @@ ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/C
 ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/Cave Straight 04 Lights Type B" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/Cave Straight 05 Type B" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/Cave Straight 05 Lights Type B" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/Medium Rock Fall" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/Medium Rock Fall 3" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/Large Rock Fall" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/Falling Rock 1" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/Falling Rock 2" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/Falling Rock 3" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/Falling Rock 4" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/Falling Rock 5" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/Falling Rock 6" -v 4
 
 # Download cave circuit artifacts
 ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/Climbing Rope" -v 4
