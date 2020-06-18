@@ -264,7 +264,7 @@
           </box>
         </geometry>
       </visual>
-      
+
       <velocity_decay/>
       <self_collide>0</self_collide>
       <enable_wind>0</enable_wind>
@@ -435,7 +435,7 @@
         </lidar>
         <pose frame="">0.424 0 0.387 0 -0 0</pose>
       </sensor>
-     
+
 
       <sensor name="imu_sensor" type="imu">
         <always_on>1</always_on>
@@ -835,7 +835,7 @@
           <izz>0.000016875</izz>
         </inertia>
       </inertial>
-     
+
       <collision name="tilt_gimbal_link_collision">
       <pose frame="">0.0 0 0.0 1.570796 -0 0</pose>
       <geometry>
@@ -910,8 +910,8 @@
         <always_on>1</always_on>
         <update_rate>30</update_rate>
         <visualize>0</visualize>
-        
-        <pose frame="">0.0 0 0.03 0 0.0 0</pose> 
+
+        <pose frame="">0.0 0 0.03 0 0.0 0</pose>
       </sensor>
       <gravity>1</gravity>
       <velocity_decay/>
@@ -982,10 +982,12 @@
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
+          <effort>10</effort>
         </limit>
         <dynamics>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
+          <damping>0.5</damping>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
@@ -998,23 +1000,25 @@
         <limit>
           <lower>-2.79253</lower> <!-- 160 degrees both direction (mechanical interference)-->
           <upper>2.79253</upper>
+          <effort>10</effort>
         </limit>
         <dynamics>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
+          <damping>0.5</damping>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
-    <!-- Gimbal Joints Plugins --> 
+    <!-- Gimbal Joints Plugins -->
     <plugin
-      filename="libignition-gazebo-joint-controller-system.so"
-      name="ignition::gazebo::systems::JointController">
+      filename="libignition-gazebo-apply-joint-force-system.so"
+      name="ignition::gazebo::systems::ApplyJointForce">
       <joint_name>pan_gimbal_joint</joint_name>
     </plugin>
     <plugin
-      filename="libignition-gazebo-joint-controller-system.so"
-      name="ignition::gazebo::systems::JointController">
+      filename="libignition-gazebo-apply-joint-force-system.so"
+      name="ignition::gazebo::systems::ApplyJointForce">
       <joint_name>tilt_gimbal_joint</joint_name>
     </plugin>
     <plugin
