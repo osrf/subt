@@ -33,6 +33,26 @@ using namespace subt;
 
 namespace subt {
 
+enum TileType
+{
+  CAVE_TYPE_A = 1,
+  CAVE_TYPE_B = 2,
+  CAVE_TYPE_TRANSITION = 3
+};
+
+/// \brief A connection opening
+class ConnectionOpening
+{
+  /// \brief Position of the  opening
+  public: math::Vector3d pos;
+
+  /// \brief Orientation of the opening expressed in rotation from X.
+  public: math::Quaterniond rot;
+
+  /// \brief Type of tile for this opening
+  public: TileType tileType;
+};
+
 /// \brief A section of a world
 class WorldSection
 {
@@ -43,7 +63,7 @@ class WorldSection
   public: std::vector<VertexData> tiles;
 
   /// \brief A list of connection points and their orientation from +X
-  /// This field is manually filled in CreatePrefabWorldSections().
+  /// This field is manually filled in CreateType[A/B]WorldSections().
   public: std::vector<std::pair<math::Vector3d, math::Quaterniond>>
       connectionPoints;
 
@@ -53,11 +73,21 @@ class WorldSection
 
   /// \brief Pose of this world section from world origin
   public: math::Pose3d pose;
+
+  /// \brief Type of tile
+  public: TileType tileType;
 };
 
 /// \brief Helper class to generate a world from tiles
 class WorldGenerator
 {
+  public: enum WorldType
+  {
+    CAVE_ANASTOMOTIC = 1,
+    CAVE_CURVILINEAR = 2,
+    CAVE_RECTILINEAR = 3,
+  };
+
   /// \brief Set the seed for generating random numbers
   /// \param[in] _seed Seed to set
   public: void SetSeed(int _seed);
@@ -78,12 +108,23 @@ class WorldGenerator
   /// \param[in] _worldName World name
   public: void SetWorldName(const std::string &_worldName);
 
+  /// \brief Set the world type
+  /// \param[in] _type WorldType
+  public: void SetWorldType(WorldType _type);
+
   /// \brief Generate the world sdf
   public: void Generate();
 
-  /// \brief Create a collection of prefab world sections which are used
-  /// to create the final generated world
-  private: void CreatePrefabWorldSections();
+  /// \brief Create a collection of prefab world sections from Type A tiles
+  /// The worls section are used to create the final generated world
+  private: void CreateTypeAWorldSections();
+
+  /// \brief Create a collection of prefab world sections from Type B tiles
+  /// The worls section are used to create the final generated world
+  private: void CreateTypeBWorldSections();
+
+  /// \brief Create a world section from transitiion tile
+  private: void CreateTransitionWorldSection();
 
   /// \brief Helper function to create a world section from an individual file
   /// \param[in] _type Type of tile
@@ -91,17 +132,20 @@ class WorldGenerator
   /// connection points of the tile
   /// \param[in] _rot Rotation to be applied to tile so that its entry point is
   /// in +X direction
+  /// \param[in] _tileType Type of tile
   private: WorldSection CreateWorldSectionFromTile(const std::string &_type,
-      const math::Vector3d &_entry, const math::Quaterniond &_rot);
+      const math::Vector3d &_entry, const math::Quaterniond &_rot,
+      TileType _tileType);
 
   /// \brief Preprocess all tiles from the ConnectionHelper class to filter
   /// out only the tiles needed for this world generator class. In addtion,
   /// we also generate bounding box data for each tile.
-  private: void PreprocessTiles();
+  private: void LoadTiles();
 
   /// \brief Randomly select a world section from the collection of prefab
   /// world sections
-  private: WorldSection SelectWorldSection();
+  /// \param[in] _tileType Type of tile to select
+  private: WorldSection SelectWorldSection(TileType _tileType);
 
   /// \brief Intersection check between a section to be added to the world
   /// and all the sections that have already been added.
@@ -122,15 +166,27 @@ class WorldGenerator
   private: std::string WorldBottomStr() const;
 
   /// \brief A list of connection types used by this world generator
-  public: std::map<std::string, subt::ConnectionHelper::ConnectionType>
-      tileConnectionTypes;
+//  public: std::map<std::string, subt::ConnectionHelper::ConnectionType>
+//      tileConnectionTypes;
+//
+  /// \brief A list of connection points for tiles used by this world generator
+  public: std::map<std::string, std::vector<ignition::math::Vector3d>>
+      tileConnectionPoints;
+
+
 
   /// \brief A list of tile bounding box data for each tile connection type
   public: std::map<std::string, math::AxisAlignedBox>
       tileBoundingBoxes;
 
-  /// \brief A collection of prefab world sections
-  public: std::vector<WorldSection> worldSections;
+  /// \brief A collection of prefab world sections made of tile type A
+  public: std::vector<WorldSection> worldSectionsTypeA;
+
+  /// \brief A collection of prefab world sections made of tile type B
+  public: std::vector<WorldSection> worldSectionsTypeB;
+
+  /// \brief World section created from transition tile
+  public: WorldSection transitionWorldSection;
 
   /// \brief Seed
   private: int seed = 0;
@@ -146,6 +202,9 @@ class WorldGenerator
 
   /// \brief Name of generated world
   private: std::string worldName = "cave_circuit";
+
+  /// \brief World type
+  private: WorldType worldType = CAVE_ANASTOMOTIC;
 };
 }
 
@@ -244,8 +303,14 @@ void WorldGenerator::SetWorldName(const std::string &_worldName)
 }
 
 //////////////////////////////////////////////////
+void WorldGenerator::SetWorldType(WorldType _type)
+{
+  this->worldType = _type;
+}
+
+//////////////////////////////////////////////////
 WorldSection WorldGenerator::CreateWorldSectionFromTile(const std::string &_type,
-  const math::Vector3d &_entry, const math::Quaterniond &_rot)
+  const math::Vector3d &_entry, const math::Quaterniond &_rot, TileType _tileType)
 {
   WorldSection s;
   auto it = subt::ConnectionHelper::connectionPoints.find(_type);
@@ -257,35 +322,60 @@ WorldSection WorldGenerator::CreateWorldSectionFromTile(const std::string &_type
 
   VertexData t;
   t.tileType = _type;
-  t.model.SetPose(math::Pose3d(_rot * _entry, _rot));
+  t.model.SetPose(math::Pose3d(_rot * -_entry, _rot));
   s.tiles.push_back(t);
 
   for (const auto &o : it->second)
   {
-    math::Vector3d pt = _rot * (o + _entry);
+//    math::Vector3d pt = _rot * (o + _entry);
+//    std::cerr << "type " << _type << std::endl;
+//    std::cerr << "original " << o << std::endl;
+//    std::cerr << "pt " << pt << std::endl;
 
     // ignore the connection point at zero that we use to connect to previous
     // world section.
-    if (pt != math::Vector3d::Zero)
+    if (o != _entry)
+//    if (pt != math::Vector3d::Zero)
     {
+      math::Vector3d pt = _rot * (-_entry + o);
+      math::Quaterniond rot = math::Quaterniond::Identity;
+      if (_tileType == CAVE_TYPE_B)
+      {
+        if (!math::equal(pt.Y(), 0.0))
+        {
+          if (pt.Y() > 0.0)
+            rot = math::Quaterniond(0, 0, IGN_PI * 0.5);
+          else
+            rot = math::Quaterniond(0, 0, -IGN_PI * 0.5);
+        }
+        else if (!math::equal(pt.X(), 0.0))
+        {
+          if (pt.X() < 0.0)
+            rot = math::Quaterniond(0, 0, -IGN_PI);
+        }
+//        std::cerr << "  cp rot " << rot << std::endl;
+      }
+
       s.connectionPoints.push_back(std::make_pair(
-          pt, math::Quaterniond::Identity));
+          pt, rot));
 
     }
   }
+  std::cerr << " ===  " << std::endl;
   return s;
 }
 
 //////////////////////////////////////////////////
-void WorldGenerator::CreatePrefabWorldSections()
+void WorldGenerator::CreateTypeAWorldSections()
 {
-  size_t nextId = 0u;
+  static size_t nextId = 0u;
   // --------------------------
   {
     WorldSection s;
-    VertexData t;
+    s.tileType = CAVE_TYPE_A;
     s.id = nextId++;
 
+    VertexData t;
     t.tileType = "Cave Vertical Shaft Straight Bottom Type A";
     t.model.SetPose(math::Pose3d(25, 0, 0, 0, 0, -1.5708));
     s.tiles.push_back(t);
@@ -317,16 +407,17 @@ void WorldGenerator::CreatePrefabWorldSections()
     s.connectionPoints.push_back(std::make_pair(
         math::Vector3d(150, -100, -25), math::Quaterniond::Identity));
 
-    this->worldSections.push_back(s);
+    this->worldSectionsTypeA.push_back(s);
   }
 
 
   // --------------------------
   {
     WorldSection s;
-    VertexData t;
+    s.tileType = CAVE_TYPE_A;
     s.id = nextId++;
 
+    VertexData t;
     t.tileType = "Cave 3 Way 01 Type A";
     t.model.SetPose(math::Pose3d(25, 0, 0, 0, 0, -1.5708));
     s.tiles.push_back(t);
@@ -355,15 +446,16 @@ void WorldGenerator::CreatePrefabWorldSections()
     s.connectionPoints.push_back(std::make_pair(
         math::Vector3d(175, -75, 25), math::Quaterniond(0, 0, -IGN_PI/2)));
 
-    this->worldSections.push_back(s);
+    this->worldSectionsTypeA.push_back(s);
   }
 
   // --------------------------
   {
     WorldSection s;
-    VertexData t;
+    s.tileType = CAVE_TYPE_A;
     s.id = nextId++;
 
+    VertexData t;
     t.tileType = "Cave Straight Type A";
     t.model.SetPose(math::Pose3d(25, 0, 0, 0, 0, -1.5708));
     s.tiles.push_back(t);
@@ -397,15 +489,16 @@ void WorldGenerator::CreatePrefabWorldSections()
     s.connectionPoints.push_back(std::make_pair(
         math::Vector3d(75, 25, 0), math::Quaterniond(0, 0, IGN_PI/2)));
 
-    this->worldSections.push_back(s);
+    this->worldSectionsTypeA.push_back(s);
   }
 
   // --------------------------
   {
     WorldSection s;
-    VertexData t;
+    s.tileType = CAVE_TYPE_A;
     s.id = nextId++;
 
+    VertexData t;
     t.tileType = "Cave Elevation Straight Type A";
     t.model.SetPose(math::Pose3d(50, 0, 0, 0, 0, -1.5708));
     s.tiles.push_back(t);
@@ -419,15 +512,16 @@ void WorldGenerator::CreatePrefabWorldSections()
     s.connectionPoints.push_back(std::make_pair(
         math::Vector3d(150, -50, 150), math::Quaterniond(0, 0, -IGN_PI/2)));
 
-    this->worldSections.push_back(s);
+    this->worldSectionsTypeA.push_back(s);
   }
 
   // --------------------------
   {
     WorldSection s;
-    VertexData t;
+    s.tileType = CAVE_TYPE_A;
     s.id = nextId++;
 
+    VertexData t;
     t.tileType = "Cave Straight Type A";
     t.model.SetPose(math::Pose3d(25, 0, 0, 0, 0, -1.5708));
     s.tiles.push_back(t);
@@ -449,15 +543,16 @@ void WorldGenerator::CreatePrefabWorldSections()
     s.connectionPoints.push_back(std::make_pair(
         math::Vector3d(75, -25, -25), math::Quaterniond(0, 0, -IGN_PI/2)));
 
-    this->worldSections.push_back(s);
+    this->worldSectionsTypeA.push_back(s);
   }
 
   // --------------------------
   {
     WorldSection s;
-    VertexData t;
+    s.tileType = CAVE_TYPE_A;
     s.id = nextId++;
 
+    VertexData t;
     t.tileType = "Cave 3 Way Elevation 01 Type A";
     t.model.SetPose(math::Pose3d(50, 0, 0, 0, 0, 1.5708));
     s.tiles.push_back(t);
@@ -474,15 +569,16 @@ void WorldGenerator::CreatePrefabWorldSections()
     t.model.SetPose(math::Pose3d(175, -25, -25, 0, 0, -1.5708));
     s.tiles.push_back(t);
 
-    this->worldSections.push_back(s);
+    this->worldSectionsTypeA.push_back(s);
   }
 
   // --------------------------
   {
     WorldSection s;
-    VertexData t;
+    s.tileType = CAVE_TYPE_A;
     s.id = nextId++;
 
+    VertexData t;
     t.tileType = "Cave 3 Way Elevation 01 Type A";
     t.model.SetPose(math::Pose3d(50, 0, 0, 0, 0, 1.5708));
     s.tiles.push_back(t);
@@ -510,41 +606,215 @@ void WorldGenerator::CreatePrefabWorldSections()
     s.connectionPoints.push_back(std::make_pair(
         math::Vector3d(250, 0, -25), math::Quaterniond::Identity));
 
-    this->worldSections.push_back(s);
+    this->worldSectionsTypeA.push_back(s);
   }
 
   // --------------------------
   {
     WorldSection s = std::move(
         this->CreateWorldSectionFromTile("Cave Split Type A",
-        math::Vector3d(0, -50, 0), math::Quaterniond(0, 0, IGN_PI/2)));
+        math::Vector3d(0, 50, 0), math::Quaterniond(0, 0, IGN_PI/2),
+        CAVE_TYPE_A));
+    s.tileType = CAVE_TYPE_A;
     s.id = nextId++;
-    this->worldSections.push_back(s);
+    this->worldSectionsTypeA.push_back(s);
   }
 
   {
     WorldSection s = std::move(
         this->CreateWorldSectionFromTile("Cave Elevation 01 Type A",
-        math::Vector3d(0, -50, -75), math::Quaterniond(0, 0, IGN_PI/2)));
+        math::Vector3d(0, 50, 75), math::Quaterniond(0, 0, IGN_PI/2),
+        CAVE_TYPE_A));
+    s.tileType = CAVE_TYPE_A;
     s.id = nextId++;
-    this->worldSections.push_back(s);
+    this->worldSectionsTypeA.push_back(s);
   }
 
   {
     WorldSection s = std::move(
-      this->CreateWorldSectionFromTile("Cave Elevation Straight Type A",
-      math::Vector3d(0, 50, 0), math::Quaterniond(0, 0, -IGN_PI/2)));
+        this->CreateWorldSectionFromTile("Cave Elevation Straight Type A",
+        math::Vector3d(0, -50, 0), math::Quaterniond(0, 0, -IGN_PI/2),
+        CAVE_TYPE_A));
+    s.tileType = CAVE_TYPE_A;
     s.id = nextId++;
-    this->worldSections.push_back(s);
+    this->worldSectionsTypeA.push_back(s);
   }
 
   {
     WorldSection s = std::move(
         this->CreateWorldSectionFromTile("Cave Straight Type A",
-        math::Vector3d(0, 25, 0), math::Quaterniond(0, 0, -IGN_PI/2)));
+        math::Vector3d(0, -25, 0), math::Quaterniond(0, 0, -IGN_PI/2),
+        CAVE_TYPE_A));
+    s.tileType = CAVE_TYPE_A;
     s.id = nextId++;
-    this->worldSections.push_back(s);
+    this->worldSectionsTypeA.push_back(s);
   }
+}
+
+//////////////////////////////////////////////////
+void WorldGenerator::CreateTypeBWorldSections()
+{
+  static size_t nextId = 0u;
+  double tileSize = 25.0;
+  double halfTileSize = tileSize * 0.5;
+  for (const auto &t : this->tileConnectionPoints)
+  {
+    // only accept Type B tiles
+    if (t.first.find("Type B") == std::string::npos)
+      continue;
+
+    // filter out Type B to Type A transition tile
+    if (t.first.find("Type A") != std::string::npos)
+      continue;
+
+    // ignore starting area
+    if (t.first.find("Starting") != std::string::npos)
+      continue;
+
+    // build cavern manually
+    if (t.first.find("Cavern") != std::string::npos)
+      continue;
+
+    //
+    if (t.first.find("Straight") != std::string::npos ||
+        t.first.find("Vertical Shaft") != std::string::npos)
+    {
+      WorldSection s = std::move(
+          this->CreateWorldSectionFromTile(t.first,
+          math::Vector3d(0, -halfTileSize, 0), math::Quaterniond(0, 0, -IGN_PI/2),
+          CAVE_TYPE_B));
+      s.tileType = CAVE_TYPE_B;
+      s.id = nextId++;
+      this->worldSectionsTypeB.push_back(s);
+    }
+    else if (t.first.find("Corner 01") != std::string::npos)
+    {
+      WorldSection s = std::move(
+          this->CreateWorldSectionFromTile(t.first,
+          math::Vector3d(0, halfTileSize, 0), math::Quaterniond(0, 0, IGN_PI/2),
+          CAVE_TYPE_B));
+      s.tileType = CAVE_TYPE_B;
+      s.id = nextId++;
+      this->worldSectionsTypeB.push_back(s);
+    }
+    else if (t.first.find("Corner 02") != std::string::npos)
+    {
+      WorldSection s = std::move(
+          this->CreateWorldSectionFromTile(t.first,
+          math::Vector3d(-halfTileSize, 0, 0), math::Quaterniond::Identity,
+          CAVE_TYPE_B));
+      s.tileType = CAVE_TYPE_B;
+      s.id = nextId++;
+      this->worldSectionsTypeB.push_back(s);
+    }
+    else if (t.first.find("3 Way") != std::string::npos)
+    {
+      {
+        WorldSection s = std::move(
+            this->CreateWorldSectionFromTile(t.first,
+            math::Vector3d(-halfTileSize, 0, 0), math::Quaterniond::Identity,
+            CAVE_TYPE_B));
+        s.tileType = CAVE_TYPE_B;
+        s.id = nextId++;
+        this->worldSectionsTypeB.push_back(s);
+      }
+      {
+        WorldSection s = std::move(
+            this->CreateWorldSectionFromTile(t.first,
+            math::Vector3d(halfTileSize, 0, 0),
+            math::Quaterniond(0, 0, IGN_PI),
+            CAVE_TYPE_B));
+        s.tileType = CAVE_TYPE_B;
+        s.id = nextId++;
+        this->worldSectionsTypeB.push_back(s);
+      }
+    }
+    else if (t.first.find("Vertical Shaft") != std::string::npos)
+    {
+      {
+        WorldSection s = std::move(
+            this->CreateWorldSectionFromTile(t.first,
+            math::Vector3d(-halfTileSize, 0, 0), math::Quaterniond::Identity,
+            CAVE_TYPE_B));
+        s.tileType = CAVE_TYPE_B;
+        s.id = nextId++;
+        this->worldSectionsTypeB.push_back(s);
+      }
+      {
+        WorldSection s = std::move(
+            this->CreateWorldSectionFromTile(t.first,
+            math::Vector3d(halfTileSize, 20, 0),
+            math::Quaterniond(0, 0, IGN_PI),
+            CAVE_TYPE_B));
+        s.tileType = CAVE_TYPE_B;
+        s.id = nextId++;
+        this->worldSectionsTypeB.push_back(s);
+      }
+    }
+    else if (t.first.find("Elevation") != std::string::npos)
+    {
+      {
+        WorldSection s = std::move(
+            this->CreateWorldSectionFromTile(t.first,
+            math::Vector3d(0, -halfTileSize, 10),
+            math::Quaterniond(0, 0, -IGN_PI/2),
+            CAVE_TYPE_B));
+        s.tileType = CAVE_TYPE_B;
+        s.id = nextId++;
+        this->worldSectionsTypeB.push_back(s);
+      }
+      {
+        WorldSection s = std::move(
+            this->CreateWorldSectionFromTile(t.first,
+            math::Vector3d(0, halfTileSize, 0),
+            math::Quaterniond(0, 0, IGN_PI/2),
+            CAVE_TYPE_B));
+        s.tileType = CAVE_TYPE_B;
+        s.id = nextId++;
+        this->worldSectionsTypeB.push_back(s);
+      }
+    }
+  }
+
+  // build cavern world section
+  {
+    WorldSection s;
+    s.tileType = CAVE_TYPE_B;
+    s.id = nextId++;
+
+    VertexData t;
+    t.tileType = "Cave Cavern Split 02 Type B";
+    t.model.SetPose(math::Pose3d(halfTileSize, 0, 0, 0, 0, 0));
+    s.tiles.push_back(t);
+
+    t.tileType = "Cave Cavern Split 01 Type B";
+    t.model.SetPose(math::Pose3d(halfTileSize + tileSize, 0, 0, 0, 0, 0));
+    s.tiles.push_back(t);
+
+    s.connectionPoints.push_back(std::make_pair(
+        math::Vector3d(tileSize + tileSize, 0, 0),
+        math::Quaterniond::Identity));
+
+    s.connectionPoints.push_back(std::make_pair(
+        math::Vector3d(halfTileSize + tileSize, tileSize, 25),
+        math::Quaterniond(0, 0, IGN_PI/2)));
+
+    this->worldSectionsTypeB.push_back(s);
+  }
+
+}
+
+//////////////////////////////////////////////////
+void WorldGenerator::CreateTransitionWorldSection()
+{
+  static size_t nextId = 0u;
+  std::string type = "Cave Transition Type A to and from Type B";
+  this->transitionWorldSection = std::move(
+     this->CreateWorldSectionFromTile(type,
+      math::Vector3d(0, 25, 0), math::Quaterniond(0, 0, -IGN_PI/2),
+      CAVE_TYPE_TRANSITION));
+  this->transitionWorldSection.tileType = CAVE_TYPE_TRANSITION;
+  this->transitionWorldSection.id = nextId++;
 }
 
 //////////////////////////////////////////////////
@@ -557,6 +827,10 @@ std::string WorldGenerator::WorldGUIStr() const
   ss << "      <grid>false</grid>\n";
   ss << "      <origin_visual>false</origin_visual>\n";
   ss << "    </scene>\n";
+  ss << "    <plugin\n";
+  ss << "      filename=\"libignition-gazebo-physics-system.so\"\n";
+  ss << "      name=\"ignition::gazebo::systems::Physics\">\n";
+  ss << "    </plugin>\n";
   ss << "    <plugin\n";
   ss << "      filename=\"libignition-gazebo-user-commands-system.so\"\n";
   ss << "      name=\"ignition::gazebo::systems::UserCommands\">\n";
@@ -609,7 +883,7 @@ std::string WorldGenerator::WorldTopStr() const
   ss << "    </physics>\n\n";
 
   ss << "    <scene>\n";
-  ss << "      <ambient>0.1 0.1 0.1 1.0</ambient>\n";
+  ss << "      <ambient>1.0 1.0 1.0 1.0</ambient>\n";
   ss << "      <background>0 0 0 1.0</background>\n";
   ss << "      <grid>false</grid>\n";
   ss << "      <origin_visual>false</origin_visual>\n";
@@ -642,13 +916,17 @@ std::string WorldGenerator::WorldTopStr() const
   ss << "    </include>\n\n";
 
   ss << "    <!-- Tunnel tiles and artifacts -->\n";
-  ss << "    <include>\n";
-  ss << "      <static>true</static>\n";
-  ss << "      <name>tile_1</name>\n";
-  ss << "      <pose>37.5 0 0 0 0 1.5708</pose>\n";
-  ss << "      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/";
-  ss <<            "Cave Transition Type A to and from Type B Lights</uri>\n";
-  ss << "    </include>\n\n";
+
+  if (this->worldType == CAVE_ANASTOMOTIC)
+  {
+    ss << "    <include>\n";
+    ss << "      <static>true</static>\n";
+    ss << "      <name>tile_1</name>\n";
+    ss << "      <pose>37.5 0 0 0 0 1.5708</pose>\n";
+    ss << "      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/";
+    ss <<            "Cave Transition Type A to and from Type B Lights</uri>\n";
+    ss << "    </include>\n\n";
+  }
   return ss.str();
 }
 
@@ -662,13 +940,31 @@ std::string WorldGenerator::WorldBottomStr() const
 }
 
 //////////////////////////////////////////////////
-void WorldGenerator::PreprocessTiles()
+void WorldGenerator::LoadTiles()
 {
   // filter tiles
-  for (const auto &t : subt::ConnectionHelper::connectionTypes)
+  for (const auto &t : subt::ConnectionHelper::connectionPoints)
   {
+    // ignore lights
+    if (t.first.find("Lights") != std::string::npos)
+      continue;
+
+    // ignore 30 deg turns for now
+    if (t.first.find("30") != std::string::npos)
+      continue;
+
     if (t.first.find("Type A") != std::string::npos)
-      this->tileConnectionTypes[t.first] = t.second;
+    {
+      if (this->worldType == CAVE_ANASTOMOTIC ||
+          this->worldType == CAVE_CURVILINEAR)
+        this->tileConnectionPoints[t.first] = t.second;
+    }
+    else if (t.first.find("Type B") != std::string::npos)
+    {
+      if (this->worldType == CAVE_RECTILINEAR ||
+          this->worldType == CAVE_CURVILINEAR)
+        this->tileConnectionPoints[t.first] = t.second;
+    }
   }
 
   // fetch model and find the mesh file so we can load it and compute
@@ -682,9 +978,8 @@ void WorldGenerator::PreprocessTiles()
 
   std::string baseUri = "https://fuel.ignitionrobotics.org/openrobotics/models";
 
-  for (const auto &t : tileConnectionTypes)
+  for (const auto &t : tileConnectionPoints)
   {
-    // lights just include another model and do not have dae meshes so exclude
     std::string tileType = t.first;
     if (tileType.find("Lights") != std::string::npos)
       continue;
@@ -734,19 +1029,55 @@ void WorldGenerator::PreprocessTiles()
     this->tileBoundingBoxes[tileType] =
         math::AxisAlignedBox(mesh->Min(), mesh->Max());
   }
+
+  // create prefab world sections
+  if (this->worldType == CAVE_ANASTOMOTIC ||
+      this->worldType == CAVE_CURVILINEAR)
+  {
+    this->CreateTransitionWorldSection();
+    this->CreateTypeAWorldSections();
+  }
+  if (this->worldType == CAVE_RECTILINEAR ||
+      this->worldType == CAVE_CURVILINEAR)
+  {
+    this->CreateTypeBWorldSections();
+  }
 }
 
 //////////////////////////////////////////////////
-WorldSection WorldGenerator::SelectWorldSection()
+WorldSection WorldGenerator::SelectWorldSection(TileType _tileType)
 {
-  int r = rand() % worldSections.size();
-  return this->worldSections[r];
+  if (_tileType == CAVE_TYPE_A)
+  {
+    int r = rand() % worldSectionsTypeA.size();
+    return this->worldSectionsTypeA[r];
+  }
+  else if (_tileType == CAVE_TYPE_B)
+  {
+    int r = rand() % worldSectionsTypeB.size();
+    return this->worldSectionsTypeB[r];
+  }
+  else if (_tileType == CAVE_TYPE_TRANSITION)
+  {
+    return this->transitionWorldSection;
+  }
+  else
+  {
+    std::cerr << "Unknown tile type: " << _tileType << std::endl;
+    WorldSection s;
+    return s;
+  }
 }
 
 //////////////////////////////////////////////////
 bool WorldGenerator::IntersectionCheck(WorldSection &_section,
   const math::Pose3d _pose, const std::vector<WorldSection> &_addedSections)
 {
+  // skip checking if there are only a couple of sections as intersection
+  // should not occur
+  if (_addedSections.size() <= 2u)
+    return false;
+
   // do a bounding box intersection check for all tiles in the input world
   // section against all tiles that have been added to the world
   for (const auto &tile : _section.tiles)
@@ -754,7 +1085,17 @@ bool WorldGenerator::IntersectionCheck(WorldSection &_section,
     math::Pose3d pose = tile.model.Pose() + _pose;
     math::AxisAlignedBox box = this->tileBoundingBoxes[tile.tileType];
     box = transformAxisAlignedBox(box, pose);
+    // save the bounding box in case we do use this section so that we don't
+    // have to compute it again later
     _section.boundingboxes.push_back(box);
+
+    // first check intersection against starting area
+    math::AxisAlignedBox startingAreaBox =
+        this->tileBoundingBoxes["Cave Starting Area Type B"];
+    if (box.Intersects(startingAreaBox))
+    {
+      return true;
+    }
 
     // store list of connection openings in world frame.
     // If intersection occurs, we check the center of intersection
@@ -817,15 +1158,27 @@ bool WorldGenerator::IntersectionCheck(WorldSection &_section,
 //////////////////////////////////////////////////
 void WorldGenerator::Generate()
 {
-  this->PreprocessTiles();
-  this->CreatePrefabWorldSections();
+  this->LoadTiles();
 
-  // starting pos specific to type A world
-  math::Vector3d startingPos(37.5 + 25.0, 0, 0);
+  std::list<ConnectionOpening> openings;
+  std::list<ConnectionOpening> unfilledOpenings;
+  ConnectionOpening op;
+//  op.pos = startingPos;
+  op.rot = math::Quaterniond::Identity;
 
-  std::list<std::pair<math::Vector3d, math::Quaterniond>> openings;
-  std::list<std::pair<math::Vector3d, math::Quaterniond>> unfilledOpenings;
-  openings.push_back(std::make_pair(startingPos, math::Quaterniond::Identity));
+  // starting pos specific to type A world as it needs a transition tile
+  if (this->worldType == CAVE_ANASTOMOTIC)
+  {
+    op.pos = math::Vector3d(25 + 37.5, 0, 0);
+    op.tileType = CAVE_TYPE_A;
+  }
+  else
+  {
+    op.pos += math::Vector3d(12.5, 0, 0);
+    op.tileType = CAVE_TYPE_B;
+  }
+  openings.push_back(op);
+
 
   std::vector<WorldSection> addedWorldSections;
   int tileCount = this->minTileCount;
@@ -834,8 +1187,9 @@ void WorldGenerator::Generate()
     auto o = openings.front();
     openings.pop_front();
 
-    math::Vector3d connectionPoint = o.first;
-    math::Quaterniond rot = o.second;
+    math::Vector3d connectionPoint = o.pos;
+    math::Quaterniond rot = o.rot;
+    TileType tileType = o.tileType;
 
     bool selected = false;
     int attempt = 0;
@@ -843,7 +1197,17 @@ void WorldGenerator::Generate()
     while (!selected && attempt++ < 10)
     {
       // randomly select a world section
-      WorldSection s = std::move(this->SelectWorldSection());
+      TileType tileTypeToSelect = tileType;
+
+      // set a 30% probablity of including a transition tile for
+      // curvilinear worlds
+      if (this->worldType == WorldType::CAVE_CURVILINEAR)
+      {
+        if ((rand() % 10 + 1)> 3)
+          tileTypeToSelect = CAVE_TYPE_TRANSITION;
+      }
+
+      WorldSection s = std::move(this->SelectWorldSection(tileTypeToSelect));
 
       // check if it is a large prefab world section
       // we check to see if the sections has been included or not
@@ -872,7 +1236,10 @@ void WorldGenerator::Generate()
 
       // do bounding box intersection check to prevent overlapping tiles
       if (this->IntersectionCheck(s, transform, addedWorldSections))
+      {
+        std::cerr << "bbox fail " << std::endl;
         continue;
+      }
 
       // make sure we do not add a section that has zero openings
       // if we have not reached the desired tile count yet.
@@ -882,7 +1249,22 @@ void WorldGenerator::Generate()
       if (!valid)
         continue;
 
-      // add the new section and populate its bounding box data
+      // if it is a transition tile, we need to make sure connection points
+      // match. The transition world section created has Type A connection
+      // point at +x and Type B connection point at -x
+      bool flip = false;
+      if (tileTypeToSelect == CAVE_TYPE_TRANSITION)
+      {
+        // if the tile to connect to is Type A, we need to flip the transition
+        // tile by 180 degrees
+        if (tileType == CAVE_TYPE_A)
+        {
+          s.pose.Rot() = math::Quaterniond(0, 0, IGN_PI) * transform.Rot();
+          flip = true;
+        }
+      }
+
+      // add the new section
       s.pose = transform;
       selected = true;
       selectedSection = s;
@@ -892,9 +1274,22 @@ void WorldGenerator::Generate()
       // be sure to convert to world frame
       for (auto &cp : s.connectionPoints)
       {
-        auto tCp = std::make_pair(transform.CoordPositionAdd(cp.first),
-            transform.Rot() * cp.second);
-        openings.push_back(tCp);
+        ConnectionOpening op;
+        op.pos = transform.CoordPositionAdd(cp.first);
+        op.rot = transform.Rot() * cp.second;
+
+        if (s.tileType == CAVE_TYPE_TRANSITION)
+        {
+          if (flip)
+            op.tileType = CAVE_TYPE_B;
+          else
+            op.tileType = CAVE_TYPE_A;
+        }
+        else
+        {
+          op.tileType = s.tileType;
+        }
+        openings.push_back(op);
       }
 
       // update number of tiles that still need to be added
@@ -916,8 +1311,10 @@ void WorldGenerator::Generate()
   // begin generating the world sdf
   std::stringstream ss;
   math::AxisAlignedBox worldBBox;
+  int tileNo = 1;
   // tile no starts from 2 (1 is the transition tile)
-  int tileNo = 2;
+  if (this->worldType == WorldType::CAVE_ANASTOMOTIC)
+    tileNo++;
   for (const auto &s : addedWorldSections)
   {
     for (const auto &t : s.tiles)
@@ -947,21 +1344,38 @@ void WorldGenerator::Generate()
   int capNo = 1;
   std::string capUri =
       "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/";
-  capUri += "Cave Cap Type A";
+  std::string capUriTypeA = capUri + "Cave Cap Type A";
+  std::string capUriTypeB = capUri + "Cave Cap Type B";
 
   for (const auto & uf : unfilledOpenings)
   {
     // convert cap pose to world coordinates
-    math::Vector3d pos = uf.first;
-    math::Quaterniond rot = uf.second;
+    math::Vector3d pos = uf.pos;
+    math::Quaterniond rot = uf.rot;
     std::string name = "cap_" + std::to_string(capNo++);
-    math::Pose3d pose(pos, math::Quaterniond(0, 0, -IGN_PI/2)*rot);
-
+    math::Pose3d pose;
+    std::string uri;
+    if (uf.tileType == CAVE_TYPE_A)
+    {
+      uri = capUriTypeA;
+      // the cap is placed at opening
+      pose = math::Pose3d(pos, math::Quaterniond(0, 0, -IGN_PI/2)*rot);
+    }
+    else if (uf.tileType == CAVE_TYPE_B)
+    {
+      uri = capUriTypeB;
+      std::cerr << "pos " << pos << std::endl;
+      // there cap origin is at an offset and so it needs to be placed at
+      // center of the next tile position instead of where the opening is
+      // pose = math::Pose3d(pos + rot*math::Vector3d(25, 0, 0),
+      pose = math::Pose3d(pos + rot*math::Vector3d(12.5, 0, 0),
+          math::Quaterniond(0, 0, IGN_PI/2)*rot);
+    }
     ss << "    <include>\n";
     ss << "      <static>true</static>\n";
     ss << "      <name>" << name << "</name>\n";
     ss << "      <pose>" << pose << "</pose>\n";
-    ss << "      <uri>" << capUri << "</uri>\n";
+    ss << "      <uri>" << uri << "</uri>\n";
     ss << "    </include>\n\n";
   }
 
@@ -998,6 +1412,10 @@ void printUsage()
   usage += "    -s <seed>\t Seed\n";
   usage += "    -c <count>\t Min tile count\n";
   usage += "    -n <name>\t World name\n";
+  usage += "    -t <type>\t Cave Type:\n";
+  usage += "             \t    'anastomotic' or 'a',\n";
+  usage += "             \t    'curvilinear' or 'c',\n";
+  usage += "             \t    'rectilinear' or 'r'\n";
   usage += "    -g\t\t Generate sdf with GUI plugin\n";
   std::cout << usage << std::endl;
 }
@@ -1014,10 +1432,11 @@ int main(int argc, char **argv)
   int opt;
   std::string output;
   std::string worldName;
+  std::string worldType = "anastomotic";
   int seed = 0;
   bool gui = false;
   int tileCount = 10;
-  while((opt = getopt(argc, argv, "o:s:c:n:hg")) != -1)
+  while((opt = getopt(argc, argv, "t:o:s:c:n:hg")) != -1)
   {
     switch(opt)
     {
@@ -1045,6 +1464,12 @@ int main(int argc, char **argv)
         worldName = optarg;
         break;
       }
+      // cave type
+      case 't':
+      {
+        worldType = optarg;
+        break;
+      }
       // help
       case 'h':
       {
@@ -1070,6 +1495,16 @@ int main(int argc, char **argv)
   wg.SetMinTileCount(tileCount);
   wg.SetEnableGUI(gui);
   wg.SetWorldName(worldName);
+
+  WorldGenerator::WorldType wt;
+  if (worldType == "a" || worldType == "anastomotic")
+    wt = WorldGenerator::WorldType::CAVE_ANASTOMOTIC;
+  else if (worldType == "c" || worldType == "curvilinear")
+    wt = WorldGenerator::WorldType::CAVE_CURVILINEAR;
+  else if (worldType == "r" || worldType == "rectilinear")
+    wt = WorldGenerator::WorldType::CAVE_RECTILINEAR;
+  wg.SetWorldType(wt);
+
   wg.Generate();
 
   return 0;
