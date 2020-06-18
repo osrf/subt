@@ -6,15 +6,8 @@
             <pose frame="">0 0 0 0 -0 0</pose>
             <inertial>
                 <pose frame="">0 0 0 0 -0 0</pose>
-                <!-- <mass>3</mass> -->
                 <mass>2.06</mass>
                 <inertia>
-                    <!-- <ixx>0.03567</ixx>
-                    <ixy>0</ixy>
-                    <ixz>0.0</ixz>
-                    <iyy>0.05534</iyy>
-                    <iyz>0</iyz>
-                    <izz>0.0847</izz> -->
                     <ixx>0.03566</ixx>
                     <ixy>0</ixy>
                     <ixz>0</ixz>
@@ -38,11 +31,6 @@
                     <ambient>0.25 0.25 0.25 1</ambient>
                     <specular>0.25 0.25 0.25 1</specular>
                     <emissive>0.25 0.25 0.25 1</emissive>
-
-                    <!-- <script>
-                        <name>Gazebo/Blue</name>
-                        <uri>file://media/materials/scripts/gazebo.material</uri>
-                    </script> -->
                 </material>
                 <geometry>
                 
