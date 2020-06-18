@@ -102,7 +102,7 @@
         type="image_bridge"
         name="ros_ign_image_tof_top"
         args="$(arg sensor_prefix)/tof_top/depth_image">
-        <remap from="$(arg sensor_prefix)/tof_top/depth_image" to="top/depth"/>
+        <remap from="$(arg sensor_prefix)/tof_top/depth_image" to="tof_top/depth"/>
       </node>
     </group>
 
@@ -120,7 +120,7 @@
         type="image_bridge"
         name="ros_ign_image_tof_bottom"
         args="$(arg sensor_prefix)/tof_bottom/depth_image">
-        <remap from="$(arg sensor_prefix)/tof_bottom/depth_image" to="bottom/depth"/>
+        <remap from="$(arg sensor_prefix)/tof_bottom/depth_image" to="tof_bottom/depth"/>
       </node>
     </group>
 
