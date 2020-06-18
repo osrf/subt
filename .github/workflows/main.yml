@@ -16,19 +16,16 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install base dependencies
-        if: ${{ success() }}
         run: |
           sudo apt update;
           sudo apt-get install -y docker
 
       - name: Run build script
-        if: ${{ success() }}
         run: |
             cd docker
             bash +xe ./build.bash ${{ matrix.image_name }}
 
       - name: Tag image
-        if: ${{ success() }}
         run: docker tag ${{ matrix.image_name }}:latest ${{ env.registry }}:${{ matrix.image_name }}_latest
 
       # only reserverd for subt_sim_entry
@@ -37,14 +34,12 @@ jobs:
         if: matrix.image_name == 'subt_sim_entry'
 
       - name: Login to docker hub
-        if: ${{ success() }}
         uses: actions-hub/docker/login@master
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Push to docker
-        if: ${{ success() }}
         uses: actions-hub/docker@master
         env:
           NAME: ${{ matrix.image_name }}
