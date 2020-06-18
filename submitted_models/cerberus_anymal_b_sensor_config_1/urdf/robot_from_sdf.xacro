@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<robot name='anymal_b' xmlns:xacro='http://ros.org/wiki/xacro'>
+<robot name='cerberus_anymal_b_sensor_config_1' xmlns:xacro='http://ros.org/wiki/xacro'>
   <xacro:arg name="name" default="cerberus_anymal_b_sensor_config_1"/>
   <xacro:property name="robot_description_package" value="cerberus_anymal_b_sensor_config_1"/>
   <xacro:property name="robot_namespace" value="$(arg name)"/>
