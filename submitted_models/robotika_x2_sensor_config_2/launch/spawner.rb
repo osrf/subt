@@ -1,5 +1,5 @@
 def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
-  "<plugin name=\"ignition::launch::GazeboFactory\"\n"\
+  "<spawn name=\"#{_name}\">\n"\
   "        filename=\"libignition-launch-gazebo-factory.so\">\n"\
   "  <name>#{_name}</name>\n"\
   "  <allow_renaming>false</allow_renaming>\n"\
@@ -20,6 +20,10 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
   "      <wheel_separation>#{0.33559 * 1.23}</wheel_separation>\n"\
   "      <wheel_radius>0.098</wheel_radius>\n"\
   "      <topic>/model/#{_name}/cmd_vel_relay</topic>\n"\
+  "      <min_velocity>-2</min_velocity>\n"\
+  "      <max_velocity>2</max_velocity>\n"\
+  "      <min_acceleration>-6</min_acceleration>\n"\
+  "      <max_acceleration>6</max_acceleration>\n"\
   "    </plugin>\n"\
   "    <!-- Publish robot state information -->\n"\
   "    <plugin filename=\"libignition-gazebo-pose-publisher-system.so\"\n"\
@@ -29,6 +33,9 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
   "      <publish_collision_pose>false</publish_collision_pose>\n"\
   "      <publish_visual_pose>false</publish_visual_pose>\n"\
   "      <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>\n"\
+  "      <use_pose_vector_msg>true</use_pose_vector_msg>\n"\
+  "      <static_publisher>true</static_publisher>\n"\
+  "      <static_update_frequency>1</static_update_frequency>\n"\
   "    </plugin>\n"\
   "    <!-- Battery plugin -->\n"\
   "    <plugin filename=\"libignition-gazebo-linearbatteryplugin-system.so\"\n"\
@@ -98,7 +105,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
   "    </plugin>\n"\
   "  </include>\n"\
   "  </sdf>\n"\
-  "</plugin>\n"\
+  "</spawn>\n"\
 end
 
 def rosExecutables(_name, _worldName)
