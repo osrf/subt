@@ -55,7 +55,6 @@ jobs:
       - name: Push latest to docker
         uses: actions-hub/docker@master
         env:
-          NAME: ${{ matrix.image_name }}
           TAG: ${{ env.registry }}:latest
         with:
           args: push ${IMAGE_TAG}
