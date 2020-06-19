@@ -60,6 +60,7 @@ ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/R
 ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/MARBLE_QAV500_SENSOR_CONFIG_1" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/CERBERUS_ANYMAL_B_SENSOR_CONFIG_1" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/MARBLE_HUSKY_SENSOR_CONFIG_1" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/MARBLE_HD2_SENSOR_CONFIG_1" -v 4
 
 # Download the tunnel circuit models
 ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/subt_tunnel_staging_area" -v 4
