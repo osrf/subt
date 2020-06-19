@@ -21,6 +21,7 @@
 #include <subt_rf_interface/subt_rf_model.h>
 
 #include <map>
+#include <set>
 #include <string>
 
 #include <ignition/msgs.hh>
@@ -90,6 +91,27 @@ namespace subt
         /// initialized.
         /// \return True if initialized or false otherwise.
         public: bool Initialized() const;
+
+        /// \brief Populate the visibility information in memory.
+        /// \param[in] _relays Set of vertices containing breadcrumb robots.
+        /// You should call this function when the breadcrumbs are updated.
+        /// The cost of the best route is computed as follows:
+        ///   * The direct route without taking into account breadcrumbs is
+        ///     computed.
+        ///   * The best indirect route (using one or more relays) is computed.
+        ///   * The cost of a route that has multiple hops is the cost of the
+        ///     hop with bigger cost.
+        ///   * The total cost is the minimum cost between the direct route and
+        ///     the best indirect route.
+        ///  A few examples using A--(1)--B--(2)--BC--(2)--D--2--E
+        ///  Note that BC is a breadcrumb.
+        ///  Cost(A, A):  0
+        ///  Cost(A, B):  1
+        ///  Cost(A, BC): 3
+        ///  Cost(A, D):  3
+        ///  Cost(A, E):  4
+        public: void PopulateVisibilityInfo(
+                         const std::set<ignition::math::Vector3d> &_relayPoses);
 
         /// Function to visualize visibility cost in Gazebo.
         private: bool VisualizeVisibility(const ignition::msgs::StringMsg &_req,

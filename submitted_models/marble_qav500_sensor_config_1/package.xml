@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>marble_qav500_sensor_config_1</name>
+  <version>0.1.0</version>
+  <description>
+    The marble_qav500_sensor_config_1 package is derived from marble's air 
+    vehicle system's submission.  
+    This sensor configuration has:
+    - a 3D Lidar, Ouster OS1-64 (on underside)
+    - an Intel realsense D435 (RGBD camera)
+    - air pressure sensor
+    - magnetometer
+    - Microstrain 3DM-GX5-15 IMU
+    - 2 Pico flexx cameras, one facing up towards ceiling, other facing down towards ground.  
+  </description>
+  <maintainer email="derek.vasquez@ssci.com">Derek Vasquez</maintainer>
+  <author email="derek.vasquez@ssci.com">Derek Vasquez</author>
+  <author email="hector.escobar@ssci.com">Hector Escobar</author>
+
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <buildtool_depend>roslaunch</buildtool_depend>
+  <buildtool_depend>urdf</buildtool_depend>
+  <buildtool_depend>xacro</buildtool_depend>
+
+</package>
