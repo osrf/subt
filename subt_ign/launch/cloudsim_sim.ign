@@ -70,6 +70,11 @@
     end
   end
 
+  $commsFadingExponent = 2.5
+  if $circuit == "cave"
+    $commsFadingExponent = 1.5
+  end
+
   # spawn world offset
   if $circuit == "urban"
     spawnWorldXPos = 6
@@ -203,9 +208,13 @@
 
 <%
   # disable levels for simple cave worlds
-  levels = "true"
+  $levels = "true"
   if $worldName.include?('simple_cave_')
-    levels = "false"
+    $levels = "false"
+  end
+
+  if defined?(levels) && levels != nil && !levels.empty?
+    $levels = levels.downcase == "true"
   end
 %>
 
@@ -233,7 +242,7 @@
     <update_rate><%= updateRate %></update_rate>
     <%end%>
     <run>true</run>
-    <levels><%= levels %></levels>
+    <levels><%= $levels %></levels>
     <record>
       <enabled>true</enabled>
       <!-- This path is used by cloudsim, please do not change -->
@@ -569,7 +578,7 @@
 
       <range_config>
         <max_range>500.0</max_range>
-        <fading_exponent>2.5</fading_exponent>
+        <fading_exponent><%= $commsFadingExponent %></fading_exponent>
         <L0>40</L0>
         <sigma>10.0</sigma>
       </range_config>
