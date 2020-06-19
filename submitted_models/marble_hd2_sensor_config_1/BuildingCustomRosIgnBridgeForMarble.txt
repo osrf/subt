@@ -1,0 +1,20 @@
+# Building ros_ign_bridge to make pan/tilt gimbal work (on marble vehicles):
+
+First, follow instructions for building from source on this page:
+https://github.com/osrf/ros_ign/tree/melodic/ros_ign_bridge
+
+Except, use the following clone URL instead:
+git clone https://github.com/osrf/ros_ign.git -b melodic
+
+Once you've built, you will need to stack your workspace (subt workspace)
+on top of this workspace.  To do this, do as follows:
+
+```
+cd ~/subt_ws
+rm -rf build devel install
+source /opt/ros/melodic/setup.bash
+source ~/bridge_ws/install/setup.bash
+catkin_make install
+```
+
+Once the binaries for this package are updated a simple "sudo apt-get install ros-melodic-ros-ign-bridge" will suffice for installation
