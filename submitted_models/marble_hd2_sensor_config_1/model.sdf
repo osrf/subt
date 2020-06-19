@@ -1332,10 +1332,12 @@
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
+          <damping>0.5</damping>
         </limit>
         <dynamics>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
+          <damping>0.5</damping>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
@@ -1346,25 +1348,27 @@
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
-          <lower>-2.79253</lower> <!-- 160 degrees both direction (mechanical interference)-->
-          <upper>2.79253</upper>
+          <lower>-1.5708</lower> <!-- 90 degrees both direction (mechanical interference)-->
+          <upper>1.5708</upper>
+          <effort>10</effort>
         </limit>
         <dynamics>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
+          <damping>0.5</damping>
         </dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
-    <!-- Gimbal Joints Plugins --> 
+    <!-- Gimbal Joints Plugins -->
     <plugin
-      filename="libignition-gazebo-joint-controller-system.so"
-      name="ignition::gazebo::systems::JointController">
+      filename="libignition-gazebo-apply-joint-force-system.so"
+      name="ignition::gazebo::systems::ApplyJointForce">
       <joint_name>pan_gimbal_joint</joint_name>
     </plugin>
     <plugin
-      filename="libignition-gazebo-joint-controller-system.so"
-      name="ignition::gazebo::systems::JointController">
+      filename="libignition-gazebo-apply-joint-force-system.so"
+      name="ignition::gazebo::systems::ApplyJointForce">
       <joint_name>tilt_gimbal_joint</joint_name>
     </plugin>
     <plugin
