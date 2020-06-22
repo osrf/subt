@@ -1063,12 +1063,13 @@
                       <limit>
                         <lower>-1e+16</lower>
                         <upper>1e+16</upper>
-                        <damping>0.5</damping>
+                        <effort>10</effort>
                       </limit>
                       <dynamics>
                         <spring_reference>0</spring_reference>
                         <spring_stiffness>0</spring_stiffness>
                         <damping>0.5</damping>
+                        <friction>0.001</friction>
                       </dynamics>
                       <use_parent_model_frame>1</use_parent_model_frame>
                     </axis>
