@@ -18,7 +18,7 @@ The following specific sensors are declared payloads of this vehicle:
 
 * 4x RGBD camera &mdash; intel realsense depth d435i, modeled by `rgbd_camera` plugin.
 * 1x 3D medium range lidar &mdash; Velodyne-16, modeled by `gpu_lidar` plugin.
-* 1x IMU f &mdash; LORD Sensing 3DM-GX5, modeled by `imu` plugins.
+* 1x IMU f &mdash; Xsense MTI-100, modeled by `imu` plugins.
 
 ## Control
 R2 is controlled by the open-source teleop_twist_joy package.
@@ -54,3 +54,4 @@ in physical properties. However, there are few diversions:
 
 * https://www.intelrealsense.com/depth-camera-d435/
 * https://autonomoustuff.com/product/velodyne-puck-vlp-16/
+* https://www.mouser.com/datasheet/2/693/mti-100-series-1540263.pdf
