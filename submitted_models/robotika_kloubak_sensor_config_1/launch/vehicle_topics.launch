@@ -254,7 +254,7 @@
       pkg="ros_ign_bridge"
       type="parameter_bridge"
       name="ros_ign_bridge_odom_front"
-      args="/model/$(arg name)/odometry@nav_msgs/Odometry[ignition.msgs.Odometry">
+      args="/model/$(arg name)/odometry/front@nav_msgs/Odometry[ignition.msgs.Odometry">
       <remap from="/model/$(arg name)/odometry/front" to="odom/front"/>
     </node>
 
@@ -262,7 +262,7 @@
       pkg="ros_ign_bridge"
       type="parameter_bridge"
       name="ros_ign_bridge_odom"
-      args="/model/$(arg name)/odometry@nav_msgs/Odometry[ignition.msgs.Odometry">
+      args="/model/$(arg name)/odometry/rear@nav_msgs/Odometry[ignition.msgs.Odometry">
       <remap from="/model/$(arg name)/odometry/rear" to="odom/rear"/>
     </node>
 
