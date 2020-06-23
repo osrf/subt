@@ -63,6 +63,11 @@
     end
   end
 
+  $commsFadingExponent = 2.5
+  if $circuit == "cave"
+    $commsFadingExponent = 1.5
+  end
+
   # spawn world offset
   if $circuit == "urban"
     spawnWorldXPos = 6
@@ -572,7 +577,7 @@
 
       <range_config>
         <max_range>500.0</max_range>
-        <fading_exponent>1.5</fading_exponent>
+        <fading_exponent><%= $commsFadingExponent %></fading_exponent>
         <L0>40</L0>
         <sigma>10.0</sigma>
       </range_config>
@@ -643,6 +648,10 @@
             <wheel_separation>#{0.45649 * 1.5}</wheel_separation>
             <wheel_radius>0.1651</wheel_radius>
             <topic>/model/#{_name}/cmd_vel_relay</topic>
+            <min_velocity>-1</min_velocity>
+            <max_velocity>1</max_velocity>
+            <min_acceleration>-3</min_acceleration>
+            <max_acceleration>3</max_acceleration>
           </plugin>
           <!-- Publish robot state information -->
           <plugin filename="libignition-gazebo-pose-publisher-system.so"
@@ -697,7 +706,7 @@
         </sdf>
       </spawn>
     HEREDOC
-  
+
     exec = <<-HEREDOC
       <executable name='x1_description'>
         <command>roslaunch --wait subt_ros x1_description.launch world_name:=#{$worldName} name:=#{_name}</command>
@@ -753,6 +762,10 @@
             <wheel_separation>#{0.33559 * 1.23}</wheel_separation>
             <wheel_radius>0.098</wheel_radius>
             <topic>/model/#{_name}/cmd_vel_relay</topic>
+            <min_velocity>-2</min_velocity>
+            <max_velocity>2</max_velocity>
+            <min_acceleration>-6</min_acceleration>
+            <max_acceleration>6</max_acceleration>
           </plugin>
           <!-- Publish robot state information -->
           <plugin filename="libignition-gazebo-pose-publisher-system.so"
@@ -933,7 +946,7 @@
           <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
           <motorType>velocity</motorType>
         </plugin>
-        <!--Multicopter velocity controller--> 
+        <!--Multicopter velocity controller-->
         <plugin
           filename="libignition-gazebo-multicopter-control-system.so"
           name="ignition::gazebo::systems::MulticopterVelocityControl">
@@ -1176,7 +1189,7 @@
           <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
           <motorType>velocity</motorType>
         </plugin>
-        <!--Multicopter velocity controller--> 
+        <!--Multicopter velocity controller-->
         <plugin
           filename="libignition-gazebo-multicopter-control-system.so"
           name="ignition::gazebo::systems::MulticopterVelocityControl">
@@ -1466,7 +1479,7 @@
            <is_performer>false</is_performer>
            <sdf version='1.6'>
              <include>
-               <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/DronePlatformX1</uri> 
+               <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/DronePlatformX1</uri>
              </include>
            </sdf>
          </spawn>
