@@ -2,35 +2,7 @@
 <sdf version="1.6">
   <model name="marble_hd2_sensor_config_1">
     <link name="base_link">
-      <visual name= "Body_visual">
-        <pose>0 0 0.16 0 0 1.5707</pose>
-        <geometry>
-          <mesh>
-            <uri>model://MARBLE_HD2_SENSOR_CONFIG_1/meshes/hd2.dae</uri>
-            <submesh>
-              <name>Body</name>
-              <center>true</center>
-            </submesh>
-          </mesh>
-        </geometry>
-        <material>
-          <diffuse>1.0 1.0 1.0</diffuse>
-          <specular>1.0 1.0 1.0</specular>
-          <pbr>
-            <metal>
-              <albedo_map>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/HD2_Albedo.png</albedo_map>
-              <metal_map>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/HD2_Metalness.png</metal_map>
-              <roughness_map>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/HD2_Roughness.png</roughness_map>
-            </metal>
-          </pbr>
-          <!-- fallback to script if no PBR support-->
-          <script>
-            <uri>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/scripts/</uri>
-            <uri>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/</uri>
-            <name>UrbanTile/HD2_Diffuse</name>
-          </script>
-        </material>
-      </visual>
+      <pose frame="">0 0 0 0 -0 0</pose>
       <inertial>
         <pose frame="">-0.000649 -0.084945 0.062329 0 -0 0</pose>
         <mass>21.8194</mass>
@@ -90,7 +62,7 @@
         </surface>
       </collision>
       <collision name="base_link_fixed_joint_lump__camera/camera_link_collision_2">
-        <pose frame="">0.478 0 0.285 0 -0 0</pose>
+        <pose frame="">0.485 0 0.31 0 -0 0</pose>
         <geometry>
           <box>
             <size>0.0078 0.13 0.0192</size>
@@ -134,7 +106,7 @@
         </surface>
       </collision>
       <collision name="base_link_fixed_joint_lump__velodyne_base_link_collision_6">
-        <pose frame="">0.424 0 0.327 0 -0 0</pose>
+        <pose frame="">0.403 0 0.36 0 -0 0</pose>
         <geometry>
           <cylinder>
             <length>0.0717</length>
@@ -143,7 +115,7 @@
         </geometry>
       </collision>
       <collision name="base_link_fixed_joint_lump__velodyne_gimbal_plate_base_link_collision_7">
-        <pose frame="">0.424 0 0.400 0 -0 0</pose>
+        <pose frame="">0.403 0 0.410 0 -0 0</pose>
         <geometry>
           <box>
             <size>0.1 0.1 0.01</size>
@@ -166,6 +138,35 @@
           </box>
         </geometry>
       </collision>
+      <visual name="Body_visual">
+        <pose>0 0 -0.135 0 0 1.57</pose>
+        <geometry>
+          <mesh>
+            <uri>model://MARBLE_HD2_SENSOR_CONFIG_1/meshes/hd2.dae</uri>
+            <submesh>
+              <name>Body</name>
+              <center>false</center>
+            </submesh>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1.0 1.0 1.0</diffuse>
+          <specular>1.0 1.0 1.0</specular>
+          <pbr>
+            <metal>
+              <albedo_map>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/HD2_Albedo.png</albedo_map>
+              <metalness_map>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/HD2_Metalness.png</metalness_map>
+              <roughness_map>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/HD2_Roughness.png</roughness_map>
+            </metal>
+          </pbr>
+          <!-- fallback to script if no PBR support-->
+          <script>
+            <uri>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/scripts/</uri>
+            <uri>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/</uri>
+            <name>HD/HD2_Diffuse</name>
+          </script>
+        </material>
+      </visual>
 
       <!-- Based on Intel realsense D435 (intrinsics and distortion not modeled)-->
       <sensor name="camera_front" type="rgbd_camera">
@@ -214,7 +215,7 @@
         </camera>
         <always_on>1</always_on>
         <update_rate>30</update_rate>
-        <pose frame="">0.44 0 0.360 0 -0 0</pose>
+        <pose frame="">0.485 0 0.31 0 -0 0</pose>
       </sensor>
       <gravity>1</gravity>
       <velocity_decay/>
@@ -265,14 +266,14 @@
         </camera>
         <always_on>1</always_on>
         <update_rate>30</update_rate>
-        <pose frame="">0.44 0 0.335 0 0.5236 0</pose>
+        <pose frame="">0.473 0 0.260 0 0.5236 0</pose>
         <!-- 30 degree download look-->
       </sensor>
       <gravity>1</gravity>
       <velocity_decay/>
       <!-- Based on RPLidar S1 -->
       <sensor name="planar_laser" type="gpu_ray">
-        <pose>0.354 0 0.127 0 -0 0</pose>
+        <pose>0.403 0 0.127 0 -0 0</pose>
         <update_rate>10</update_rate>
         <lidar>
           <scan>
@@ -328,7 +329,7 @@
                           <stddev>0.03</stddev>
                         </noise>
                       </lidar>
-                      <pose frame="">0.354 0 0.387 0 -0 0</pose>
+                      <pose frame="">0.403 0 0.36 0 -0 </pose>
                     </sensor>
                     <sensor name="imu_sensor" type="imu">
                       <always_on>1</always_on>
@@ -861,7 +862,7 @@
                   </joint>
                   <!-- Gimbal Links + Joints -->
                   <link name="pan_gimbal_link">
-                    <pose frame="">0.354 0 0.427 0 -0 0</pose>
+                    <pose frame="">0.4056 -0.01122 0.4904 0 -0 0</pose>
                     <inertial>
                       <pose frame="">0 0 0 0 -0 0</pose>
                       <mass>0.1</mass>
@@ -892,9 +893,8 @@
                       </surface>
                     </collision>
 
-                    <!--
                     <visual name= "CameraPivot_visual">
-                      <pose>0 0 0 0 0 1.5705</pose>
+                      <pose>0 0 0 0 0 1.57</pose>
                       <geometry>
                         <mesh>
                           <uri>model://MARBLE_HD2_SENSOR_CONFIG_1/meshes/hd2.dae</uri>
@@ -910,30 +910,21 @@
                         <pbr>
                           <metal>
                             <albedo_map>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/HD2_Albedo.png</albedo_map>
-                            <metal_map>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/HD2_Metalness.png</metal_map>
+                            <metalness_map>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/HD2_Metalness.png</metalness_map>
                             <roughness_map>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/HD2_Roughness.png</roughness_map>
                           </metal>
                         </pbr>
                         <script>
                           <uri>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/scripts/</uri>
                           <uri>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/</uri>
-                          <name>UrbanTile/HD2_Diffuse</name>
+                          <name>HD2/HD2_Diffuse</name>
                         </script>
                       </material>
                     </visual>
--->
-                   <visual name="pan_gimbal_link_visual">
-                     <pose frame="">0.0 0 0.0 0 -0 0</pose>
-                     <geometry>
-                       <cylinder>
-                         <length>0.045</length>
-                         <radius>0.014</radius>
-                       </cylinder>
-                     </geometry>
-                   </visual>
+
                   </link>
                   <link name="tilt_gimbal_link">
-                    <pose frame="">0.354 0 0.460 0 -0 0</pose>
+                    <pose frame="">0.409 -0.008 0.5013 0 -0 0</pose>
                     <inertial>
                       <pose frame="">0 0 0 1.570796 -0 0</pose>
                       <mass>0.1</mass>
@@ -963,9 +954,9 @@
                         </contact>
                       </surface>
                     </collision>
-                    <!--
+
                     <visual name= "CameraTilt_visual">
-                      <pose>0 0 0 0 0 1.5705</pose>
+                      <pose>0.005 0.015 0.038 0 0 -1.570796</pose>
                       <geometry>
                         <mesh>
                           <uri>model://MARBLE_HD2_SENSOR_CONFIG_1/meshes/hd2.dae</uri>
@@ -981,26 +972,17 @@
                         <pbr>
                           <metal>
                             <albedo_map>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/HD2_Albedo.png</albedo_map>
-                            <metal_map>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/HD2_Metalness.png</metal_map>
+                            <metalness_map>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/HD2_Metalness.png</metalness_map>
                             <roughness_map>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/HD2_Roughness.png</roughness_map>
                           </metal>
                         </pbr>
+                        <!-- fallback to script if no PBR support-->
                         <script>
                           <uri>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/scripts/</uri>
                           <uri>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/</uri>
-                          <name>UrbanTile/HD2_Diffuse</name>
+                          <name>HD/HD2_Diffuse</name>
                         </script>
                       </material>
-                    </visual>
--->
-                    <visual name="tilt_gimbal_link_visual">
-                        <pose frame="">0.0 0 0.0 1.570796 -0 0</pose>
-                        <geometry>
-                            <cylinder>
-                                <length>0.045</length>
-                                <radius>0.014</radius>
-                            </cylinder>
-                        </geometry>
                     </visual>
 
                     <!-- Based on Intel realsense D435 (intrinsics and distortion not modeled)-->
@@ -1053,33 +1035,9 @@
                       <!-- <pose frame="">0.424 0 0.542 0 0.0 0</pose>  -->
                       <pose frame="">0.0 0 0.03 0 0.0 0</pose>
                     </sensor>
-                    <visual name="tilt_gimbal_link_fixed_joint_lump__camera/camera_link_visual_0">
-                        <pose frame="">0 0 0.03 0 0.0 0</pose>
-                        <geometry>
-                            <mesh>
-                                <uri>meshes/realsense.dae</uri>
-                            </mesh>
-                        </geometry>
-                    </visual>
-                    <visual name="tilt_gimbal_link_fixed_joint_lump_bot_camera_plate_link_visual_1">
-                        <pose frame="">0 0 0.017 0 -0 0</pose>
-                        <geometry>
-                            <box>
-                                <size>0.025 0.13 0.007</size>
-                            </box>
-                        </geometry>
-                    </visual>
-                    <visual name="tilt_gimbal_link_fixed_joint_lump_bot_camera_plate_link_visual_2">
-                        <pose frame="">0 0 0.042 0 -0 0</pose>
-                        <geometry>
-                            <box>
-                                <size>0.025 0.13 0.007</size>
-                            </box>
-                        </geometry>
-                    </visual>
 
                     <light name="flashlight_flashlight_light_source_lamp_light" type="spot">
-                      <pose frame="">0.0 0.0 0.065 3.141592653589793 1.5707963267948966 -0.0015926535897931</pose>
+                      <pose frame="">0.02 -0.01 0.076 3.141592653589793 1.5707963267948966 -0.0015926535897931</pose>
                       <attenuation>
                         <range>50</range>
                         <linear>0</linear>
@@ -1105,12 +1063,13 @@
                       <limit>
                         <lower>-1e+16</lower>
                         <upper>1e+16</upper>
-                        <damping>0.5</damping>
+                        <effort>10</effort>
                       </limit>
                       <dynamics>
                         <spring_reference>0</spring_reference>
                         <spring_stiffness>0</spring_stiffness>
                         <damping>0.5</damping>
+                        <friction>0.001</friction>
                       </dynamics>
                       <use_parent_model_frame>1</use_parent_model_frame>
                     </axis>
