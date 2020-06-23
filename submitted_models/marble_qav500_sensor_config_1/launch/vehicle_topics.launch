@@ -92,6 +92,14 @@
       args="$(arg sensor_prefix)/tof_top/depth_image">
       <remap from="$(arg sensor_prefix)/tof_top/depth_image" to="tof_top/depth"/>
     </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_tof_top_depth"
+      args="depth">
+      <remap from="input/image" to="tof_top/depth" />
+      <remap from="output/image" to="tof_top/optical/depth" />
+    </node>
 
     <!-- Bottom TOF -->
     <node
@@ -107,6 +115,14 @@
       name="ros_ign_image_tof_bottom"
       args="$(arg sensor_prefix)/tof_bottom/depth_image">
       <remap from="$(arg sensor_prefix)/tof_bottom/depth_image" to="tof_bottom/depth"/>
+    </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_tof_bottom_depth"
+      args="depth">
+      <remap from="input/image" to="tof_bottom/depth" />
+      <remap from="output/image" to="tof_bottom/optical/depth" />
     </node>
 
     <!-- 3D lidar -->

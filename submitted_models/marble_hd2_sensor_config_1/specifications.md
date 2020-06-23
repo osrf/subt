@@ -17,9 +17,6 @@ The position of the pan and tilt axes can be accessed through the joint_state to
 Pan: joint_state/position[4]
 Tilt: joint_state/position[5]
 
-Note: It was necessary to make changes to the ros_ign_bridge github repository in order to make the gimbal work properly.  A pull request has been merged as of 3/26/20.  Until this newer version of ros_ign is added to the ubuntu ros package manager, you will need to build and install ros_ign from the latest package source for this vehicle model to function properly.  Instructions for building this source code are found in this file (in this folder):
-BuildingCustomRosIgnBridgeForMarble.txt 
-
 ## Usage Rights
 The same Rights are granted for the configuration as for the MARBLE Husky. No additional restrictions have to be taken into account for this configuration.
 
@@ -37,7 +34,7 @@ This HD2 with sensor configuration 1 includes the following sensors. The specifi
 
 The following specific sensors are declared payloads of this vehicle:
 
-* Trossen ScorpionX MX-64 Robot Turret, modeled by JointStateController and JointStatePublisher plugins.  Note: We included limits in the tilt axis, but the simulator does not appear to honor those limits.  
+* Trossen ScorpionX MX-64 Robot Turret, modeled by JointStateController and JointStatePublisher plugins.
 * D435i RGBD Camera (x3), modeled by rgbd_camera plugin
   - 1x fixed, forward-looking
   - 1x fixed, downward-facing at about 45 degrees (for examining terrain)
