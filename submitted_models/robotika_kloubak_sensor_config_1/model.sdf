@@ -707,7 +707,7 @@
     
     
     <link name='axle_back'>
-        <pose>-0.7 0 0.18 0 0 0</pose>
+        <pose>-0.729 0 0.183 0 0 0</pose>
         <inertial>
             <pose>0 0 0 0 0 0</pose>
             <mass>0.8</mass>
@@ -723,12 +723,24 @@
             <box>
                 <size>0.04 0.42 0.04</size>
             </box>
-            </geometry>
+          </geometry>
         </collision>
+        <visual name="visual">
+          <pose>-0.0132 0 0 0 0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>meshes/k2.dae</uri>
+              <submesh>
+                <name>Axle</name>
+                <center>true</center>
+              </submesh>
+            </mesh>
+          </geometry>
+        </visual>
     </link>
     
     <link name="front_left_wheel">
-      <pose>0 0.25 0.18 0 0 0</pose>
+      <pose>0 0.25 0.172 0 0 0</pose>
       <inertial>
         <mass>3.5</mass>
         <inertia>
@@ -742,7 +754,7 @@
         <geometry>
           <cylinder>
             <length>0.08</length>
-            <radius>0.15</radius>
+            <radius>0.147</radius>
           </cylinder>
         </geometry>
         <surface>
@@ -758,13 +770,12 @@
         </surface>
       </collision>
       <visual name="tire_visual">
-        <pose>-0.340 -0.25 -0.153 0 0 0</pose>
         <geometry>
           <mesh>
             <uri>meshes/k2.dae</uri>
             <submesh>
               <name>WheelBL</name>
-              <center>false</center>
+              <center>true</center>
             </submesh>
           </mesh>
         </geometry>
@@ -772,7 +783,7 @@
     </link>
 
         <link name="front_right_wheel">
-            <pose>0 -0.25 0.18 0 0 0</pose>
+            <pose>0 -0.25 0.172 0 0 0</pose>
             <inertial>
                 <mass>3.5</mass>
                 <inertia>
@@ -786,7 +797,7 @@
                 <geometry>
                     <cylinder>
                         <length>0.08</length>
-                        <radius>0.15</radius>
+                        <radius>0.147</radius>
                     </cylinder>
                 </geometry>
                 <surface>
@@ -802,13 +813,12 @@
                 </surface>
             </collision>
             <visual name="tire_visual">
-              <pose>-0.340 0.25 -0.153 0 0 0</pose>
                 <geometry>
                     <mesh>
                       <uri>meshes/k2.dae</uri>
                       <submesh>
                         <name>WheelBR</name>
-                        <center>false</center>
+                        <center>true</center>
                       </submesh>
                     </mesh>
                 </geometry>
@@ -817,7 +827,7 @@
         
         
         <link name="rear_left_wheel">
-            <pose>-0.7 0.25 0.18 0 0 0</pose>
+            <pose>-0.729 0.25 0.172 0 0 0</pose>
             <inertial>
                 <mass>3.5</mass>
                 <inertia>
@@ -831,7 +841,7 @@
                 <geometry>
                     <cylinder>
                         <length>0.08</length>
-                        <radius>0.15</radius>
+                        <radius>0.147</radius>
                     </cylinder>
                 </geometry>
                 <surface>
@@ -847,13 +857,12 @@
                 </surface>
             </collision>
             <visual name="tire_visual">
-              <pose>0.340 -0.25 -0.153 0 0 0</pose>
                 <geometry>
                     <mesh>
                       <uri>meshes/k2.dae</uri>
                       <submesh>
                         <name>WheelFR</name>
-                        <center>false</center>
+                        <center>true</center>
                       </submesh>
                     </mesh>
                 </geometry>
@@ -861,7 +870,7 @@
         </link>
 
         <link name="rear_right_wheel">
-            <pose>-0.7 -0.25 0.18 0 0 0</pose>
+            <pose>-0.729 -0.25 0.172 0 0 0</pose>
             <inertial>
                 <mass>3.5</mass>
                 <inertia>
@@ -875,7 +884,7 @@
                 <geometry>
                     <cylinder>
                         <length>0.08</length>
-                        <radius>0.15</radius>
+                        <radius>0.147</radius>
                     </cylinder>
                 </geometry>
                 <surface>
@@ -891,13 +900,12 @@
                 </surface>
             </collision>
             <visual name="tire_visual">
-              <pose>0.340 0.25 -0.153 0 0 0</pose>
                 <geometry>
                     <mesh>
                       <uri>meshes/k2.dae</uri>
                       <submesh>
                         <name>WheelFL</name>
-                        <center>false</center>
+                        <center>true</center>
                       </submesh>
                     </mesh>
                 </geometry>

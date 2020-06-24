@@ -92,6 +92,22 @@
       args="$(arg sensor_prefix)/tof_top/depth_image">
       <remap from="$(arg sensor_prefix)/tof_top/depth_image" to="tof_top/depth"/>
     </node>
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_tof_top_info"
+      args="$(arg sensor_prefix)/tof_top/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+      <remap from="$(arg sensor_prefix)/tof_top/camera_info" to="tof_top/camera_info"/>
+    </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_tof_top_depth">
+      <remap from="input/image" to="tof_top/depth" />
+      <remap from="output/image" to="tof_top/optical/depth" />
+      <remap from="input/camera_info" to="tof_top/camera_info" />
+      <remap from="output/camera_info" to="tof_top/optical/camera_info" />
+    </node>
 
     <!-- Bottom TOF -->
     <node
@@ -107,6 +123,22 @@
       name="ros_ign_image_tof_bottom"
       args="$(arg sensor_prefix)/tof_bottom/depth_image">
       <remap from="$(arg sensor_prefix)/tof_bottom/depth_image" to="tof_bottom/depth"/>
+    </node>
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_tof_bottom_info"
+      args="$(arg sensor_prefix)/tof_bottom/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+      <remap from="$(arg sensor_prefix)/tof_bottom/camera_info" to="tof_bottom/camera_info"/>
+    </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_tof_bottom_depth">
+      <remap from="input/image" to="tof_bottom/depth" />
+      <remap from="output/image" to="tof_bottom/optical/depth" />
+      <remap from="input/camera_info" to="tof_bottom/camera_info" />
+      <remap from="output/camera_info" to="tof_bottom/optical/camera_info" />
     </node>
 
     <!-- 3D lidar -->
