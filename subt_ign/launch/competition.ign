@@ -1287,15 +1287,15 @@
     return spawn, exec
   end
 
-  def spawnTeamBase(_x, _y, _z, _yaw)
+  def spawnTeamBase(_name, _x, _y, _z, _yaw)
     spawn = <<-HEREDOC
-    <spawn name='TEAMBASE'>
-      <name>TEAMBASE</name>
+    <spawn name='#{_name}'>
+      <name>#{_name}</name>
       <allow_renaming>false</allow_renaming>
       <world>#{$worldName}</world>
       <is_performer>false</is_performer>
       <sdf version='1.6'>
-      <model name='TEAMBASE'>
+      <model name='#{_name}'>
         <pose>#{_x} #{_y} #{_z} 0 0 #{_yaw}</pose>
         <static>true</static>
         <link name='link'>
@@ -1315,10 +1315,10 @@
 
     exec = <<-HEREDOC
     <executable name='teambase_description'>
-      <command>roslaunch --wait subt_ros teambase_description.launch world_name:=#{$worldName}</command>
+      <command>roslaunch --wait subt_ros teambase_description.launch world_name:=#{$worldName} name:=#{_name}</command>
     </executable>
     <executable name='teambase_ros_ign_bridge'>
-      <command>roslaunch --wait subt_ros teambase_topics.launch world_name:=#{$worldName}</command>
+      <command>roslaunch --wait subt_ros teambase_topics.launch world_name:=#{$worldName} name:=#{_name}</command>
     </executable>
     HEREDOC
 
@@ -1381,13 +1381,15 @@
 
       spawnStringTmp, executables  = spawnX4(name, robotConfigN, robot.pos.x, robot.pos.y, robot.pos.z, robot.rot.yaw)
 
-    elsif name == "TEAMBASE" and config == "TEAMBASE"
+    elsif config.upcase == "TEAMBASE"
       robotSpawned += 1
       if !teamBaseSpawned
         teamBaseSpawned = true
-        spawnStringTmp, executables = spawnTeamBase(posX, posY, spawnWorldZPos, spawnWorldYaw)
+        spawnStringTmp, executables = spawnTeamBase(name, posX, posY, spawnWorldZPos, spawnWorldYaw)
+      else
+        puts "Error: Only 1 teambase is allows. Skpping[%s]." % [name]
       end
-    elsif config != "TEAMBASE"
+    else
       # Try a team-submitted vehicle.
       package = config.downcase
       installDir = `rospack find #{package}`.chomp
@@ -1429,8 +1431,6 @@
         spawnStringTmp = spawner(name, modelURI, $worldName, robot.pos.x, robot.pos.y, robot.pos.z, 0, 0, robot.rot.yaw)
         executables = rosExecutables(name, $worldName)
       end
-    else
-      puts "Error: Invalid Name[%s] or Config[%s]. Skpping." % [name, config]
     end
 
     if executables != nil
