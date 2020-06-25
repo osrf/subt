@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
 <launch>
-  <node pkg="tf2_ros" type="static_transform_publisher" name="tf_teambase_static" args="0 0 0.05 0 0 0 TeamBase TeamBase/link"/>
+  <arg name="name" default="TEAMBASE"/>
+  <node pkg="tf2_ros" type="static_transform_publisher" name="tf_teambase_static" args="0 0 0.05 0 0 0 $(arg name) $(arg name)/link"/>
 </launch>
