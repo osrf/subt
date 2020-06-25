@@ -153,6 +153,10 @@ class subt::GameLogicPluginPrivate
   /// \return The time point used to calculate the elapsed real time.
   public: std::chrono::steady_clock::time_point UpdateScoreFiles() const;
 
+  /// \brief Performer detector subscription callback.
+  /// \param[in] _msg Pose message of the event.
+  public: void OnEvent(const ignition::msgs::Pose &_msg);
+
   private: bool PoseFromArtifactHelper(const std::string &_robot,
     ignition::math::Pose3d &_result);
 
@@ -231,6 +235,9 @@ class subt::GameLogicPluginPrivate
 
   /// \brief Log file output stream.
   public: std::ofstream logStream;
+
+  /// \brief Event file output stream.
+  public: std::ofstream eventStream;
 
   /// \brief The pose of the object marking the origin of the artifacts.
   public: ignition::math::Pose3d artifactOriginPose;
@@ -367,6 +374,11 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
       (this->dataPtr->logPath + "/" + filenamePrefix + "_" +
       ignition::common::systemTimeISO() + ".log").c_str(), std::ios::out);
 
+  // Open the event log file.
+  this->dataPtr->eventStream.open(
+      (this->dataPtr->logPath + "/" + filenamePrefix + "_events_" +
+      ignition::common::systemTimeISO() + ".yaml").c_str(), std::ios::out);
+
   // Advertise the service to receive artifact reports.
   // Note that we're setting the scope to this service to SCOPE_T, so only
   // nodes within the same process will be able to reach this plugin.
@@ -414,10 +426,44 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
   this->dataPtr->publishThread.reset(new std::thread(
         &GameLogicPluginPrivate::PublishScore, this->dataPtr.get()));
 
+  this->dataPtr->node.Subscribe("/subt_performer_detector",
+      &GameLogicPluginPrivate::OnEvent, this->dataPtr.get());
+
   ignmsg << "Starting SubT" << std::endl;
 
   // Make sure that there are score files.
   this->dataPtr->UpdateScoreFiles();
+}
+
+//////////////////////////////////////////////////
+void GameLogicPluginPrivate::OnEvent(const ignition::msgs::Pose &_msg)
+{
+  std::string frameId = "nil";
+  std::string state = "nil";
+
+  for (int i = 0; i < _msg.header().data_size(); ++i)
+  {
+    if (_msg.header().data(i).key() == "frame_id")
+      frameId = _msg.header().data(i).value(0);
+    else if (_msg.header().data(i).key() == "state")
+    {
+      if (_msg.header().data(i).value(0) == "1")
+        state = "enter";
+      else
+        state = "exit";
+    }
+  }
+
+  this->eventStream
+    << "- event:\n"
+    << "    time_sec: " << _msg.header().stamp().sec() << "\n"
+    << "    detector: " << frameId << "\n"
+    << "    robot: " << _msg.name() << "\n"
+    << "    state: " << state << "\n"
+    << "    pos:\n"
+    << "        x: " << _msg.position().x() << "\n"
+    << "        y: " << _msg.position().y() << "\n"
+    << "        z: " << _msg.position().z() << std::endl;
 }
 
 //////////////////////////////////////////////////
@@ -1005,6 +1051,7 @@ void GameLogicPluginPrivate::Finish()
       << " s." << std::endl;
     this->Log() << "finished_score " << this->totalScore << std::endl;
     this->logStream.flush();
+    this->eventStream.flush();
 
     // \todo(nkoenig) After the tunnel circuit, change the /subt/start topic
     // to /sub/status.
