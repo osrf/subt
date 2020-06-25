@@ -8,7 +8,7 @@ a `roslaunch` command with the variable name `explorer_r2_sensor_config_1`.
 R2 is four wheels ground robot. It is designed for exploring various environments, such as tunnel, cave and so on.
 
 ## Cost and Scale
-Explorer's R2 has an estimated commercial cost of USD 7,000. It weighs approximately 200 kg.
+Explorer's R2 has an estimated commercial cost of USD 125000. It weighs approximately 200 kg.
 
 ## Sensors
 Robot R2 with sensor configuration 1 includes the following sensors. The specifications of the sensors are provided below in
@@ -18,7 +18,7 @@ The following specific sensors are declared payloads of this vehicle:
 
 * 4x RGBD camera &mdash; intel realsense depth d435i, modeled by `rgbd_camera` plugin.
 * 1x 3D medium range lidar &mdash; Velodyne-16, modeled by `gpu_lidar` plugin.
-* 1x IMU f &mdash; Xsense MTI-100, modeled by `imu` plugins.
+* 2x IMU f &mdash; Xsense MTI-100, modeled by `imu` plugins.
 
 ## Control
 R2 is controlled by the open-source teleop_twist_joy package.
@@ -48,7 +48,7 @@ endurance characteristics:
 ## Diversions from Physical Hardware of R2
 Virtual R2 is a faithful representation of real-world R2 both in appearance and
 in physical properties. However, there are few diversions:
-* It does not model long-range low-bandwidth (LoRa) mesh communication of the real robot.
+* It does not model long-range Rajant wireless network of the real robot.
 
 # <a name="validation_links"></a>R2 Validation and Specification Links
 
