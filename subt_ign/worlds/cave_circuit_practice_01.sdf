@@ -508,7 +508,7 @@
         </geometry>
       </plugin>
 
-      <!--Triggered by performer_detector_1-->
+      <!--Triggered by performer_detector_rockfall_1-->
       <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
         <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
           <match field='header.data'>{ key: "frame_id" value: "performer_detector_1" }</match>
@@ -552,7 +552,7 @@
         </geometry>
       </plugin>
 
-      <!--Triggered by performer_detector_2-->
+      <!--Triggered by performer_detector_rockfall_2-->
       <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
         <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
           <match field='header.data'>{ key: "frame_id" value: "performer_detector_2" }</match>
@@ -597,7 +597,7 @@
         </geometry>
       </plugin>
 
-      <!--Triggered by performer_detector_3-->
+      <!--Triggered by performer_detector_rockfall_3-->
       <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
         <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
           <match field='header.data'>{ key: "frame_id" value: "performer_detector_3" }</match>
