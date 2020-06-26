@@ -298,15 +298,15 @@ target_include_directories(level_generator
 install(TARGETS level_generator
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 
-add_executable(world_generator_type_a src/world_generator_type_a.cc src/ConnectionHelper.cc)
-target_link_libraries(world_generator_type_a
+add_executable(world_generator_cave src/world_generator_cave.cc src/ConnectionHelper.cc)
+target_link_libraries(world_generator_cave
   ignition-math6::ignition-math6
   ignition-common3::requested
   ignition-fuel_tools3::ignition-fuel_tools3
   sdformat8::sdformat8)
-target_include_directories(world_generator_type_a
+target_include_directories(world_generator_cave
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
-install(TARGETS world_generator_type_a
+install(TARGETS world_generator_cave
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 
 

@@ -851,8 +851,8 @@ std::string WorldGenerator::WorldTopStr() const
   ss << "<?xml version=\"1.0\" ?>\n\n";
 
   ss << "<!--\n";
-  ss << "    Generated using world generator:\n";
-  ss << "        world_generator_type_a " << (this->gui ? "-g" : "");
+  ss << "    Generated using cave world generator:\n";
+  ss << "        world_generator_cave " << (this->gui ? "-g" : "");
   ss <<          " -s " << this->seed;
   ss <<          " -o " << this->outputFile;
   ss <<          " -c " << this->minTileCount;
@@ -1432,7 +1432,7 @@ void WorldGenerator::Generate()
 void printUsage()
 {
   std::string usage;
-  usage += "Usage: world_generator_type_a [options]\n";
+  usage += "Usage: world_generator_cave [options]\n";
   usage += "Options:\n";
   usage += "    -h\t\t Print this help message\n";
   usage += "    -o <file>\t Output sdf filename\n";
