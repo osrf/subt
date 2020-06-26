@@ -173,8 +173,6 @@ class WorldGenerator
   public: std::map<std::string, std::vector<ignition::math::Vector3d>>
       tileConnectionPoints;
 
-
-
   /// \brief A list of tile bounding box data for each tile connection type
   public: std::map<std::string, math::AxisAlignedBox>
       tileBoundingBoxes;
@@ -187,6 +185,9 @@ class WorldGenerator
 
   /// \brief World section created from transition tile
   public: WorldSection transitionWorldSection;
+
+  /// \brief World section created from cave cap type B tile
+  public: WorldSection caveCapTypeBWorldSection;
 
   /// \brief Seed
   private: int seed = 0;
@@ -327,15 +328,9 @@ WorldSection WorldGenerator::CreateWorldSectionFromTile(const std::string &_type
 
   for (const auto &o : it->second)
   {
-//    math::Vector3d pt = _rot * (o + _entry);
-//    std::cerr << "type " << _type << std::endl;
-//    std::cerr << "original " << o << std::endl;
-//    std::cerr << "pt " << pt << std::endl;
-
     // ignore the connection point at zero that we use to connect to previous
     // world section.
     if (o != _entry)
-//    if (pt != math::Vector3d::Zero)
     {
       math::Vector3d pt = _rot * (-_entry + o);
       math::Quaterniond rot = math::Quaterniond::Identity;
@@ -353,7 +348,6 @@ WorldSection WorldGenerator::CreateWorldSectionFromTile(const std::string &_type
           if (pt.X() < 0.0)
             rot = math::Quaterniond(0, 0, -IGN_PI);
         }
-//        std::cerr << "  cp rot " << rot << std::endl;
       }
 
       s.connectionPoints.push_back(std::make_pair(
@@ -361,7 +355,6 @@ WorldSection WorldGenerator::CreateWorldSectionFromTile(const std::string &_type
 
     }
   }
-  std::cerr << " ===  " << std::endl;
   return s;
 }
 
@@ -802,6 +795,17 @@ void WorldGenerator::CreateTypeBWorldSections()
     this->worldSectionsTypeB.push_back(s);
   }
 
+  {
+    this->caveCapTypeBWorldSection = std::move(
+        this->CreateWorldSectionFromTile("Cave Cap Type B",
+        math::Vector3d(0, halfTileSize, 0),
+        math::Quaterniond(0, 0, IGN_PI/2),
+        CAVE_TYPE_B));
+    this->caveCapTypeBWorldSection.tileType = CAVE_TYPE_B;
+    this->caveCapTypeBWorldSection.id = nextId++;
+  }
+
+
 }
 
 //////////////////////////////////////////////////
@@ -811,7 +815,7 @@ void WorldGenerator::CreateTransitionWorldSection()
   std::string type = "Cave Transition Type A to and from Type B";
   this->transitionWorldSection = std::move(
      this->CreateWorldSectionFromTile(type,
-      math::Vector3d(0, 25, 0), math::Quaterniond(0, 0, -IGN_PI/2),
+      math::Vector3d(0, 25, 0), math::Quaterniond(0, 0, IGN_PI/2),
       CAVE_TYPE_TRANSITION));
   this->transitionWorldSection.tileType = CAVE_TYPE_TRANSITION;
   this->transitionWorldSection.id = nextId++;
@@ -871,7 +875,8 @@ std::string WorldGenerator::WorldTopStr() const
   ss <<          " -s " << this->seed;
   ss <<          " -o " << this->outputFile;
   ss <<          " -c " << this->minTileCount;
-  ss <<          " -n " << this->worldName << "\n";
+  ss <<          " -n " << this->worldName;
+  ss <<          " -t " << this->worldType << "\n";
   ss << "-->\n\n";
 
   ss << "<sdf version=\"1.6\">\n";
@@ -917,16 +922,6 @@ std::string WorldGenerator::WorldTopStr() const
 
   ss << "    <!-- Tunnel tiles and artifacts -->\n";
 
-  if (this->worldType == CAVE_ANASTOMOTIC)
-  {
-    ss << "    <include>\n";
-    ss << "      <static>true</static>\n";
-    ss << "      <name>tile_1</name>\n";
-    ss << "      <pose>37.5 0 0 0 0 1.5708</pose>\n";
-    ss << "      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/";
-    ss <<            "Cave Transition Type A to and from Type B Lights</uri>\n";
-    ss << "    </include>\n\n";
-  }
   return ss.str();
 }
 
@@ -1073,11 +1068,6 @@ WorldSection WorldGenerator::SelectWorldSection(TileType _tileType)
 bool WorldGenerator::IntersectionCheck(WorldSection &_section,
   const math::Pose3d _pose, const std::vector<WorldSection> &_addedSections)
 {
-  // skip checking if there are only a couple of sections as intersection
-  // should not occur
-  if (_addedSections.size() <= 2u)
-    return false;
-
   // do a bounding box intersection check for all tiles in the input world
   // section against all tiles that have been added to the world
   for (const auto &tile : _section.tiles)
@@ -1088,6 +1078,11 @@ bool WorldGenerator::IntersectionCheck(WorldSection &_section,
     // save the bounding box in case we do use this section so that we don't
     // have to compute it again later
     _section.boundingboxes.push_back(box);
+
+    // skip checking if there are only a couple of sections as intersection
+    // should not occur. All we need to do is fill the bounding box data above
+    if (_addedSections.size() <= 2u)
+      continue;
 
     // first check intersection against starting area
     math::AxisAlignedBox startingAreaBox =
@@ -1163,22 +1158,10 @@ void WorldGenerator::Generate()
   std::list<ConnectionOpening> openings;
   std::list<ConnectionOpening> unfilledOpenings;
   ConnectionOpening op;
-//  op.pos = startingPos;
   op.rot = math::Quaterniond::Identity;
-
-  // starting pos specific to type A world as it needs a transition tile
-  if (this->worldType == CAVE_ANASTOMOTIC)
-  {
-    op.pos = math::Vector3d(25 + 37.5, 0, 0);
-    op.tileType = CAVE_TYPE_A;
-  }
-  else
-  {
-    op.pos += math::Vector3d(12.5, 0, 0);
-    op.tileType = CAVE_TYPE_B;
-  }
+  op.pos += math::Vector3d(12.5, 0, 0);
+  op.tileType = CAVE_TYPE_B;
   openings.push_back(op);
-
 
   std::vector<WorldSection> addedWorldSections;
   int tileCount = this->minTileCount;
@@ -1193,8 +1176,9 @@ void WorldGenerator::Generate()
 
     bool selected = false;
     int attempt = 0;
+    int maxAttempt = 20;
     WorldSection selectedSection;
-    while (!selected && attempt++ < 10)
+    while (!selected && attempt++ < maxAttempt)
     {
       // randomly select a world section
       TileType tileTypeToSelect = tileType;
@@ -1203,7 +1187,13 @@ void WorldGenerator::Generate()
       // curvilinear worlds
       if (this->worldType == WorldType::CAVE_CURVILINEAR)
       {
-        if ((rand() % 10 + 1)> 3)
+        if ((rand() % 10 + 1) > 7)
+          tileTypeToSelect = CAVE_TYPE_TRANSITION;
+      }
+      // first tile in anastomotic cave must be a transition tile
+      else if (this->worldType == WorldType::CAVE_ANASTOMOTIC)
+      {
+        if (addedWorldSections.empty())
           tileTypeToSelect = CAVE_TYPE_TRANSITION;
       }
 
@@ -1237,7 +1227,6 @@ void WorldGenerator::Generate()
       // do bounding box intersection check to prevent overlapping tiles
       if (this->IntersectionCheck(s, transform, addedWorldSections))
       {
-        std::cerr << "bbox fail " << std::endl;
         continue;
       }
 
@@ -1249,6 +1238,10 @@ void WorldGenerator::Generate()
       if (!valid)
         continue;
 
+
+      // set the world pose of the new section
+      s.pose = transform;
+
       // if it is a transition tile, we need to make sure connection points
       // match. The transition world section created has Type A connection
       // point at +x and Type B connection point at -x
@@ -1259,13 +1252,14 @@ void WorldGenerator::Generate()
         // tile by 180 degrees
         if (tileType == CAVE_TYPE_A)
         {
-          s.pose.Rot() = math::Quaterniond(0, 0, IGN_PI) * transform.Rot();
+          auto &transitionTile = s.tiles[0].model;
+          transitionTile.SetPose(math::Pose3d(transitionTile.Pose().Pos(),
+              math::Quaterniond(0, 0, IGN_PI) * transitionTile.Pose().Rot()));
           flip = true;
         }
       }
 
       // add the new section
-      s.pose = transform;
       selected = true;
       selectedSection = s;
       addedWorldSections.push_back(selectedSection);
@@ -1298,7 +1292,7 @@ void WorldGenerator::Generate()
 
     // if we fail to add a section, add to the unfilled list
     // so we can put a cap there to block the opening
-    if (attempt >= 10)
+    if (attempt >= maxAttempt)
     {
       unfilledOpenings.push_back(o);
     }
@@ -1312,9 +1306,6 @@ void WorldGenerator::Generate()
   std::stringstream ss;
   math::AxisAlignedBox worldBBox;
   int tileNo = 1;
-  // tile no starts from 2 (1 is the transition tile)
-  if (this->worldType == WorldType::CAVE_ANASTOMOTIC)
-    tileNo++;
   for (const auto &s : addedWorldSections)
   {
     for (const auto &t : s.tiles)
@@ -1364,12 +1355,17 @@ void WorldGenerator::Generate()
     else if (uf.tileType == CAVE_TYPE_B)
     {
       uri = capUriTypeB;
-      std::cerr << "pos " << pos << std::endl;
       // there cap origin is at an offset and so it needs to be placed at
       // center of the next tile position instead of where the opening is
-      // pose = math::Pose3d(pos + rot*math::Vector3d(25, 0, 0),
       pose = math::Pose3d(pos + rot*math::Vector3d(12.5, 0, 0),
           math::Quaterniond(0, 0, IGN_PI/2)*rot);
+
+      if (this->IntersectionCheck(this->caveCapTypeBWorldSection,
+          pose, addedWorldSections))
+      {
+        std::cerr << "Please check " << name << " for potential intersection "
+                  << "with other tiles" << std::endl;
+      }
     }
     ss << "    <include>\n";
     ss << "      <static>true</static>\n";
