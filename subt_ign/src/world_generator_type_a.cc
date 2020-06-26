@@ -165,10 +165,6 @@ class WorldGenerator
   /// \brief Get the bottom part of the world sdf string
   private: std::string WorldBottomStr() const;
 
-  /// \brief A list of connection types used by this world generator
-//  public: std::map<std::string, subt::ConnectionHelper::ConnectionType>
-//      tileConnectionTypes;
-//
   /// \brief A list of connection points for tiles used by this world generator
   public: std::map<std::string, std::vector<ignition::math::Vector3d>>
       tileConnectionPoints;
@@ -185,9 +181,6 @@ class WorldGenerator
 
   /// \brief World section created from transition tile
   public: WorldSection transitionWorldSection;
-
-  /// \brief World section created from cave cap type B tile
-  public: WorldSection caveCapTypeBWorldSection;
 
   /// \brief Seed
   private: int seed = 0;
@@ -794,18 +787,6 @@ void WorldGenerator::CreateTypeBWorldSections()
 
     this->worldSectionsTypeB.push_back(s);
   }
-
-  {
-    this->caveCapTypeBWorldSection = std::move(
-        this->CreateWorldSectionFromTile("Cave Cap Type B",
-        math::Vector3d(0, halfTileSize, 0),
-        math::Quaterniond(0, 0, IGN_PI/2),
-        CAVE_TYPE_B));
-    this->caveCapTypeBWorldSection.tileType = CAVE_TYPE_B;
-    this->caveCapTypeBWorldSection.id = nextId++;
-  }
-
-
 }
 
 //////////////////////////////////////////////////
@@ -876,7 +857,21 @@ std::string WorldGenerator::WorldTopStr() const
   ss <<          " -o " << this->outputFile;
   ss <<          " -c " << this->minTileCount;
   ss <<          " -n " << this->worldName;
-  ss <<          " -t " << this->worldType << "\n";
+  ss <<          " -t ";
+  switch (this->worldType)
+  {
+    case CAVE_ANASTOMOTIC:
+      ss << "a\n";
+      break;
+    case CAVE_CURVILINEAR:
+      ss << "c\n";
+      break;
+    case CAVE_RECTILINEAR:
+      ss << "r\n";
+      break;
+    default:
+      break;
+  }
   ss << "-->\n\n";
 
   ss << "<sdf version=\"1.6\">\n";
@@ -1021,8 +1016,16 @@ void WorldGenerator::LoadTiles()
     // load dae and compute bbox
     common::MeshManager *meshManager = common::MeshManager::Instance();
     const common::Mesh *mesh = meshManager->Load(resourcePath);
-    this->tileBoundingBoxes[tileType] =
-        math::AxisAlignedBox(mesh->Min(), mesh->Max());
+    math::AxisAlignedBox bbox = math::AxisAlignedBox(mesh->Min(), mesh->Max());
+
+    // special case for starting area
+    if (tileType == "Cave Starting Area Type B")
+    {
+      bbox = transformAxisAlignedBox(
+          bbox, math::Pose3d(0, 0, 0, 0, 0, IGN_PI/2));
+    }
+
+    this->tileBoundingBoxes[tileType] = bbox;
   }
 
   // create prefab world sections
@@ -1133,7 +1136,11 @@ bool WorldGenerator::IntersectionCheck(WorldSection &_section,
               // make sure the overlapping region is small
               double volume = region.XLength() * region.YLength()
                   * region.ZLength();
-              if (volume < 1000)
+
+              double maxOverlapVolume = 1000;
+              if (section.tileType == CAVE_TYPE_B)
+                maxOverlapVolume = 1800;
+              if (volume < maxOverlapVolume)
               {
                 overlapAtConnection = true;
                 break;
@@ -1142,7 +1149,9 @@ bool WorldGenerator::IntersectionCheck(WorldSection &_section,
           }
 
           if (!overlapAtConnection)
+          {
             return true;
+          }
         }
       }
     }
@@ -1157,6 +1166,8 @@ void WorldGenerator::Generate()
 
   std::list<ConnectionOpening> openings;
   std::list<ConnectionOpening> unfilledOpenings;
+
+  // first connection opening is at entrance pos in staging area
   ConnectionOpening op;
   op.rot = math::Quaterniond::Identity;
   op.pos += math::Vector3d(12.5, 0, 0);
@@ -1165,6 +1176,10 @@ void WorldGenerator::Generate()
 
   std::vector<WorldSection> addedWorldSections;
   int tileCount = this->minTileCount;
+
+  // loop through all openings in the world, starting from the staging area,
+  // and add tiles to these connection points until we reach the specified
+  // tile count
   while (tileCount > 0 && !openings.empty())
   {
     auto o = openings.front();
@@ -1175,19 +1190,23 @@ void WorldGenerator::Generate()
     TileType tileType = o.tileType;
 
     bool selected = false;
+    WorldSection selectedSection;
+
+    // Set max number of attempts at adding a tile to the current connection
+    // point before giving up. Failure to add a tile is mostly due to
+    // intersection with existing tiles in the world.
     int attempt = 0;
     int maxAttempt = 20;
-    WorldSection selectedSection;
     while (!selected && attempt++ < maxAttempt)
     {
       // randomly select a world section
       TileType tileTypeToSelect = tileType;
 
-      // set a 30% probablity of including a transition tile for
+      // set a 20% probablity of including a transition tile for
       // curvilinear worlds
       if (this->worldType == WorldType::CAVE_CURVILINEAR)
       {
-        if ((rand() % 10 + 1) > 7)
+        if ((rand() % 10 + 1) > 8)
           tileTypeToSelect = CAVE_TYPE_TRANSITION;
       }
       // first tile in anastomotic cave must be a transition tile
@@ -1210,9 +1229,10 @@ void WorldGenerator::Generate()
           if (added.id == s.id)
           {
             exists = true;
+            break;
           }
         }
-        // if tile exists, set a 30% probablity of it being included again
+        // if section exists, set a 70% probablity of skipping this section
         if (exists)
         {
           if ((rand() % 10 + 1)> 3)
@@ -1237,7 +1257,6 @@ void WorldGenerator::Generate()
           tileCount - s.tiles.size() > 0);
       if (!valid)
         continue;
-
 
       // set the world pose of the new section
       s.pose = transform;
@@ -1272,6 +1291,8 @@ void WorldGenerator::Generate()
         op.pos = transform.CoordPositionAdd(cp.first);
         op.rot = transform.Rot() * cp.second;
 
+        // mark the tile type for the opening of the transition tile
+        // based on the tile type the opening connects to.
         if (s.tileType == CAVE_TYPE_TRANSITION)
         {
           if (flip)
@@ -1305,12 +1326,15 @@ void WorldGenerator::Generate()
   // begin generating the world sdf
   std::stringstream ss;
   math::AxisAlignedBox worldBBox;
-  int tileNo = 1;
+  int tileNo = 0;
+  int caveTypeACount = 0;
+  int caveTypeBCount = 0;
+  int caveTransitionCount = 0;
   for (const auto &s : addedWorldSections)
   {
     for (const auto &t : s.tiles)
     {
-      std::string name = "tile_" + std::to_string(tileNo++);
+      std::string name = "tile_" + std::to_string(++tileNo);
 
       // convert tile pose to world coordinates
       math::Pose3d pose = t.model.Pose() + s.pose;
@@ -1326,7 +1350,15 @@ void WorldGenerator::Generate()
       ss << "    </include>\n\n";
     }
 
-    // Get world bbox
+    // keep track of tile count for each tile type
+    if (s.tileType == CAVE_TYPE_A)
+      caveTypeACount += s.tiles.size();
+    else if (s.tileType == CAVE_TYPE_B)
+      caveTypeBCount += s.tiles.size();
+    else if (s.tileType == CAVE_TYPE_TRANSITION)
+      caveTransitionCount++;
+
+    // update world bbox info
     for (const auto &bbox : s.boundingboxes)
       worldBBox.Merge(bbox);
   }
@@ -1355,17 +1387,10 @@ void WorldGenerator::Generate()
     else if (uf.tileType == CAVE_TYPE_B)
     {
       uri = capUriTypeB;
-      // there cap origin is at an offset and so it needs to be placed at
+      // the cap origin is at an offset and so it needs to be placed at
       // center of the next tile position instead of where the opening is
       pose = math::Pose3d(pos + rot*math::Vector3d(12.5, 0, 0),
           math::Quaterniond(0, 0, IGN_PI/2)*rot);
-
-      if (this->IntersectionCheck(this->caveCapTypeBWorldSection,
-          pose, addedWorldSections))
-      {
-        std::cerr << "Please check " << name << " for potential intersection "
-                  << "with other tiles" << std::endl;
-      }
     }
     ss << "    <include>\n";
     ss << "      <static>true</static>\n";
@@ -1375,6 +1400,7 @@ void WorldGenerator::Generate()
     ss << "    </include>\n\n";
   }
 
+  // assemble the sdf string
   std::string worldStr;
   worldStr += this->WorldTopStr();
   if (this->gui)
@@ -1382,6 +1408,7 @@ void WorldGenerator::Generate()
   worldStr += ss.str();
   worldStr += this->WorldBottomStr();
 
+  // output to file
   std::ofstream outFile(this->outputFile);
   if (!outFile.is_open())
   {
@@ -1391,8 +1418,12 @@ void WorldGenerator::Generate()
   outFile << worldStr;
   outFile.close();
 
+  // print out some stats
   std::cout << "World Generated: " << this->outputFile << std::endl;
-  std::cout << "  Tile count: " << tileNo-1 << std::endl;
+  std::cout << "  Total Tile count: " << tileNo << std::endl;
+  std::cout << "    Type A Tile count: " << caveTypeACount << std::endl;
+  std::cout << "    Type B Tile count: " << caveTypeBCount<< std::endl;
+  std::cout << "    Transition Tile count: " << caveTransitionCount << std::endl;
   std::cout << "  Approx. World Dimension (excl. staging area): "
             << worldBBox.Size() << std::endl;
 }
@@ -1479,7 +1510,8 @@ int main(int argc, char **argv)
         break;
       }
       default:
-        abort();
+        printUsage();
+        return -1;
     }
   }
 
