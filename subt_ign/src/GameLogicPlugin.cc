@@ -459,11 +459,7 @@ void GameLogicPluginPrivate::OnEvent(const ignition::msgs::Pose &_msg)
     << "    time_sec: " << _msg.header().stamp().sec() << "\n"
     << "    detector: " << frameId << "\n"
     << "    robot: " << _msg.name() << "\n"
-    << "    state: " << state << "\n"
-    << "    pos:\n"
-    << "        x: " << _msg.position().x() << "\n"
-    << "        y: " << _msg.position().y() << "\n"
-    << "        z: " << _msg.position().z() << std::endl;
+    << "    state: " << state << std::endl;
 }
 
 //////////////////////////////////////////////////
