@@ -71,10 +71,10 @@ RUN /bin/sh -c 'echo "deb [trusted=yes] http://packages.osrfoundation.org/gazebo
  && /bin/sh -c 'wget http://packages.osrfoundation.org/gazebo.key -O - | apt-key add -' \
  && /bin/sh -c 'apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654'
 
-# install ign-blueprint and the ign-bridge
+# install ign-citadel and the ign-bridge
 RUN apt-get update \
 &&  apt-get install -y \
-    ignition-blueprint \
+    ignition-citadel \
     ros-melodic-ros-ign \
  && apt-get clean
 
@@ -102,7 +102,7 @@ RUN rosdep update
 # docker is run
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
- && git clone https://github.com/osrf/subt
+ && git clone https://github.com/osrf/subt -b citadel
 
 WORKDIR /home/$USERNAME/subt_ws
 
