@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot name='robotika_freyja_sensor_config_1' xmlns:xacro='http://ros.org/wiki/xacro'>
+  <xacro:arg name="name" default="robotika_freyja_sensor_config_1"/>
+  <xacro:property name="robot_namespace" value="$(arg name)"/>
+
+  <link name='${robot_namespace}/base_link'>
+    <inertial>
+      <origin xyz='0 0 0.0725' rpy='0 -0 0'/>
+      <mass value='9.6'/>
+      <inertia ixx='0.0512' ixy='0' ixz='0' iyy='0.07712' iyz='0' izz='0.11808'/>
+    </inertial>
+    <collision name='chassis_collision'>
+      <origin xyz='0 0 0.105' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.5 0.24 0.235'/>
+      </geometry>
+    </collision>
+    <collision name='left_mount_collision'>
+      <origin xyz='0 0.17 0.085' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.08 0.1 0.115'/>
+      </geometry>
+    </collision>
+    <collision name='right_mount_collision'>
+      <origin xyz='0 -0.17 0.085' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.08 0.1 0.115'/>
+      </geometry>
+    </collision>
+    <visual name='chassis_main_visual'>
+      <origin xyz='0 0 0.0725' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.46 0.24 0.12'/>
+      </geometry>
+    </visual>
+    <visual name='chassis_front_face_bottom'>
+      <origin xyz='0.24 0 0.0175' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.02001 0.24 0.01'/>
+      </geometry>
+    </visual>
+    <visual name='chassis_front_face_top'>
+      <origin xyz='0.24 0 0.1275' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.02001 0.24 0.01'/>
+      </geometry>
+    </visual>
+    <visual name='chassis_front_face_top_marker'>
+      <origin xyz='0.245 0 0.1325' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.01 0.12 0.0001'/>
+      </geometry>
+    </visual>
+    <visual name='chassis_front_face_left'>
+      <origin xyz='0.24 0.115 0.0725' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.02001 0.01 0.12'/>
+      </geometry>
+    </visual>
+    <visual name='chassis_front_face_right'>
+      <origin xyz='0.24 -0.115 0.0725' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.02001 0.01 0.12'/>
+      </geometry>
+    </visual>
+    <visual name='chassis_rear_face_bottom'>
+      <origin xyz='-0.24 0 0.0175' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.02001 0.24 0.01'/>
+      </geometry>
+    </visual>
+    <visual name='chassis_rear_face_top'>
+      <origin xyz='-0.24 0 0.1275' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.02001 0.24 0.01'/>
+      </geometry>
+    </visual>
+    <visual name='chassis_rear_face_top_marker'>
+      <origin xyz='-0.245 0 0.1325' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.01 0.12 0.0001'/>
+      </geometry>
+    </visual>
+    <visual name='chassis_rear_face_left'>
+      <origin xyz='-0.24 0.115 0.0725' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.02001 0.01 0.12'/>
+      </geometry>
+    </visual>
+    <visual name='chassis_rear_face_right'>
+      <origin xyz='-0.24 -0.115 0.0725' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.02001 0.01 0.12'/>
+      </geometry>
+    </visual>
+    <visual name='lidar_base_visual'>
+      <origin xyz='0 0 0.135' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.3001 0.21 0.005'/>
+      </geometry>
+    </visual>
+    <visual name='cable_cover_left_visual'>
+      <origin xyz='0 0.095 0.1475' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.07 0.02 0.02001'/>
+      </geometry>
+    </visual>
+    <visual name='cable_cover_right_visual'>
+      <origin xyz='0 -0.095 0.1475' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.07 0.02 0.02001'/>
+      </geometry>
+    </visual>
+    <visual name='cable_cover_top_visual'>
+      <origin xyz='0 0 0.16' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.07 0.21 0.005'/>
+      </geometry>
+    </visual>
+    <visual name='left_mount_visual'>
+      <origin xyz='0 0.17 0.0725' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.08 0.1 0.09'/>
+      </geometry>
+    </visual>
+    <visual name='left_mount_top_marker_visual'>
+      <origin xyz='0 0.215 0.1175' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.08 0.01 0.0001'/>
+      </geometry>
+    </visual>
+    <visual name='right_mount_visual'>
+      <origin xyz='0 -0.17 0.0725' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.08 0.1 0.09'/>
+      </geometry>
+    </visual>
+    <visual name='right_mount_top_marker_visual'>
+      <origin xyz='0 -0.215 0.1175' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.08 0.01 0.0001'/>
+      </geometry>
+    </visual>
+    <visual name='emergency_stop_bottom_visual'>
+      <origin xyz='0 -0.155 0.125' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.015' length='0.015'/>
+      </geometry>
+    </visual>
+    <visual name='emergency_stop_top_visual'>
+      <origin xyz='0 -0.155 0.135' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.02' length='0.005'/>
+      </geometry>
+    </visual>
+    <visual name='power_switch_bottom_visual'>
+      <origin xyz='0 0.155 0.1225' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.015' length='0.005'/>
+      </geometry>
+    </visual>
+    <visual name='power_switch_middle_visual'>
+      <origin xyz='0 0.155 0.1275' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.015' length='0.005'/>
+      </geometry>
+    </visual>
+    <visual name='power_switch_top_visual'>
+      <origin xyz='0 0.155 0.1375' rpy='0 -0 0.35'/>
+      <geometry>
+        <box size='0.025 0.005 0.01'/>
+      </geometry>
+    </visual>
+    <visual name='wheel_mount_front_left_axis_visual'>
+      <origin xyz='0.19 0.11 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.008' length='0.05'/>
+      </geometry>
+    </visual>
+    <visual name='wheel_mount_front_left_visual'>
+      <origin xyz='0.19 0.08 0' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.05 0.07 0.025'/>
+      </geometry>
+    </visual>
+    <visual name='wheel_mount_front_right_axis_visual'>
+      <origin xyz='0.19 -0.11 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.008' length='0.05'/>
+      </geometry>
+    </visual>
+    <visual name='wheel_mount_front_right_visual'>
+      <origin xyz='0.19 -0.08 0' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.05 0.07 0.025'/>
+      </geometry>
+    </visual>
+    <visual name='wheel_mount_rear_left_axis_visual'>
+      <origin xyz='-0.19 0.11 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.008' length='0.05'/>
+      </geometry>
+    </visual>
+    <visual name='wheel_mount_rear_left_visual'>
+      <origin xyz='-0.19 0.08 0' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.05 0.07 0.025'/>
+      </geometry>
+    </visual>
+    <visual name='wheel_mount_rear_right_axis_visual'>
+      <origin xyz='-0.19 -0.11 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.008' length='0.05'/>
+      </geometry>
+    </visual>
+    <visual name='wheel_mount_rear_right_visual'>
+      <origin xyz='-0.19 -0.08 0' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.05 0.07 0.025'/>
+      </geometry>
+    </visual>
+    <visual name='laser_front_bottom_visual'>
+      <origin xyz='0.12 0 0.16' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.06 0.065 0.045'/>
+      </geometry>
+    </visual>
+    <visual name='laser_front_top_visual'>
+      <origin xyz='0.12 0 0.2025' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.02' length='0.04'/>
+      </geometry>
+    </visual>
+    <visual name='laser_front_cable_green'>
+      <origin xyz='0.045 0.01 0.1525' rpy='0 1.5708 0'/>
+      <geometry>
+        <cylinder radius='0.005' length='0.09'/>
+      </geometry>
+    </visual>
+    <visual name='laser_front_cable_black'>
+      <origin xyz='0.045 -0.01 0.1525' rpy='0 1.5708 0'/>
+      <geometry>
+        <cylinder radius='0.005' length='0.09'/>
+      </geometry>
+    </visual>
+    <visual name='laser_rear_bottom_visual'>
+      <origin xyz='-0.12 0 0.1625' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.06 0.065 0.045'/>
+      </geometry>
+    </visual>
+    <visual name='laser_rear_top_visual'>
+      <origin xyz='-0.12 0 0.2025' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.02' length='0.04'/>
+      </geometry>
+    </visual>
+    <visual name='laser_rear_cable_green'>
+      <origin xyz='-0.045 -0.01 0.1525' rpy='0 1.5708 0'/>
+      <geometry>
+        <cylinder radius='0.005' length='0.09'/>
+      </geometry>
+    </visual>
+    <visual name='laser_rear_cable_black'>
+      <origin xyz='-0.045 0.01 0.1525' rpy='0 1.5708 0'/>
+      <geometry>
+        <cylinder radius='0.005' length='0.09'/>
+      </geometry>
+    </visual>
+    <visual name='rgbd_front_visual'>
+      <origin xyz='0.235 0 0.1025' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.03 0.162 0.03'/>
+      </geometry>
+    </visual>
+    <visual name='rgbd_rear_visual'>
+      <origin xyz='-0.235 0 0.1025' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.03 0.162 0.03'/>
+      </geometry>
+    </visual>
+    <visual name='camera_front_visual'>
+      <origin xyz='0.2349 0 0.0725' rpy='0 1.5708 0'/>
+      <geometry>
+        <cylinder radius='0.011' length='0.03'/>
+      </geometry>
+    </visual>
+    <visual name='camera_rear_visual'>
+      <origin xyz='-0.2349 0 0.0725' rpy='0 -1.5708 0'/>
+      <geometry>
+        <cylinder radius='0.011' length='0.03'/>
+      </geometry>
+    </visual>
+    <visual name='camera_left_visual'>
+      <origin xyz='0 0.22 0.0725' rpy='-1.5708 0 0'/>
+      <geometry>
+        <cylinder radius='0.011' length='0.005'/>
+      </geometry>
+    </visual>
+    <visual name='camera_right_visual'>
+      <origin xyz='0 -0.22 0.0725' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.011' length='0.005'/>
+      </geometry>
+    </visual>
+    <visual name='light_front_visual'>
+      <origin xyz='0.24 0 0.0425' rpy='0 1.5708 0'/>
+      <geometry>
+        <cylinder radius='0.004' length='0.02001'/>
+      </geometry>
+    </visual>
+    <visual name='light_rear_visual'>
+      <origin xyz='-0.24 0 0.0425' rpy='0 1.5708 0'/>
+      <geometry>
+        <cylinder radius='0.004' length='0.02001'/>
+      </geometry>
+    </visual>
+    <visual name='light_left_visual'>
+      <origin xyz='0 0.22 0.0425' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.004' length='0.0005'/>
+      </geometry>
+    </visual>
+    <visual name='light_right_visual'>
+      <origin xyz='0 -0.22 0.0425' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.004' length='0.0005'/>
+      </geometry>
+    </visual>
+  </link>
+
+  <sensor name='imu_sensor' update_rate='50'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0 0 0' rpy='0 -0 0'/>
+  </sensor>
+  <sensor name='magnetometer' update_rate='50'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0 0 0' rpy='0 -0 0'/>
+  </sensor>
+  <sensor name='air_pressure' update_rate='20'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0 0 0' rpy='0 -0 0'/>
+  </sensor>
+  <sensor name='laser_front' update_rate='15'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0.12 0 0.1925' rpy='0 -0 0'/>
+  </sensor>
+  <sensor name='laser_rear' update_rate='15'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='-0.12 0 0.1925' rpy='0 -0 3.14159'/>
+  </sensor>
+  <sensor name='rgbd_front' update_rate='30'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0.250001 0 0.1025' rpy='0 -0 0'/>
+    <camera>
+      <image width='640' height='360' format='R8G8B8' hfov='1.48358' near='0.01' far='300' />
+    </camera>
+  </sensor>
+  <sensor name='rgbd_rear' update_rate='30'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='-0.250001 0 0.1025' rpy='0 -0 3.14159'/>
+    <camera>
+      <image width='640' height='360' format='R8G8B8' hfov='1.48358' near='0.01' far='300' />
+    </camera>
+  </sensor>
+  <sensor name='camera_front' update_rate='30'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0.25 0 0.0725' rpy='0 -0 0'/>
+    <camera>
+      <image width='640' height='360' format='R8G8B8' hfov='3' near='0.01' far='300' />
+    </camera>
+  </sensor>
+  <sensor name='camera_rear' update_rate='30'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='-0.25 0 0.0725' rpy='0 -0 3.14159'/>
+    <camera>
+      <image width='640' height='360' format='R8G8B8' hfov='3' near='0.01' far='300' />
+    </camera>
+  </sensor>
+  <sensor name='camera_left' update_rate='30'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0 0.225 0' rpy='0.0725 -0 0'/>
+    <camera>
+      <image width='640' height='360' format='R8G8B8' hfov='3' near='0.01' far='300' />
+    </camera>
+  </sensor>
+  <sensor name='camera_right' update_rate='30'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0 -0.225 0.0725' rpy='0 0 -1.5708'/>
+    <camera>
+      <image width='640' height='360' format='R8G8B8' hfov='3' near='0.01' far='300' />
+    </camera>
+  </sensor>
+  <link name='${robot_namespace}/front_left_wheel'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='5'/>
+      <inertia ixx='0.0153' ixy='0' ixz='0' iyy='0.025' iyz='0' izz='0.0153'/>
+    </inertial>
+    <collision name='front_left_wheel_collision'>
+      <origin xyz='0 0 0' rpy='-1.5708 0 0'/>
+      <geometry>
+        <cylinder radius='0.1275' length='0.082'/>
+      </geometry>
+    </collision>
+    <visual name='front_left_wheel_tire_visual'>
+      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <mesh filename='meshes/wheel_left.dae' scale='1.30102 1.30102 2.05'/>
+      </geometry>
+    </visual>
+    <visual name='front_left_wheel_hub_visual'>
+      <origin xyz='0 -0.055 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.04' length='0.025'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/front_right_wheel'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='5'/>
+      <inertia ixx='0.0153' ixy='0' ixz='0' iyy='0.025' iyz='0' izz='0.0153'/>
+    </inertial>
+    <collision name='front_right_wheel_collision'>
+      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.1275' length='0.082'/>
+      </geometry>
+    </collision>
+    <visual name='front_right_wheel_tire_visual'>
+      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <mesh filename='meshes/wheel_right.dae' scale='1.30102 1.30102 2.05'/>
+      </geometry>
+    </visual>
+    <visual name='front_right_wheel_hub_visual'>
+      <origin xyz='0 0.055 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.04' length='0.025'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/rear_left_wheel'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='5'/>
+      <inertia ixx='0.0153' ixy='0' ixz='0' iyy='0.025' iyz='0' izz='0.0153'/>
+    </inertial>
+    <collision name='rear_left_wheel_collision'>
+      <origin xyz='0 0 0' rpy='-1.5708 0 0'/>
+      <geometry>
+        <cylinder radius='0.1275' length='0.082'/>
+      </geometry>
+    </collision>
+    <visual name='rear_left_wheel_tire_visual'>
+      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <mesh filename='meshes/wheel_left.dae' scale='1.30102 1.30102 2.05'/>
+      </geometry>
+    </visual>
+    <visual name='rear_left_wheel_hub_visual'>
+      <origin xyz='0 -0.055 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.04' length='0.025'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/rear_right_wheel'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='5'/>
+      <inertia ixx='0.0153' ixy='0' ixz='0' iyy='0.025' iyz='0' izz='0.0153'/>
+    </inertial>
+    <collision name='rear_right_wheel_collision'>
+      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.1275' length='0.082'/>
+      </geometry>
+    </collision>
+    <visual name='rear_right_wheel_tire_visual'>
+      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <mesh filename='meshes/wheel_right.dae' scale='1.30102 1.30102 2.05'/>
+      </geometry>
+    </visual>
+    <visual name='rear_right_wheel_hub_visual'>
+      <origin xyz='0 0.055 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.04' length='0.025'/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name='front_left_wheel_joint' type='revolute'>
+    <origin xyz='0.19 0.19 0' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/front_left_wheel'/>
+    <axis xyz='0 1 0'/>
+    <limit lower='-1.79769e+308' upper='1.79769e+308' effort='10' velocity='19.61'/>
+  </joint>
+  <joint name='rear_left_wheel_joint' type='revolute'>
+    <origin xyz='-0.19 0.19 0' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rear_left_wheel'/>
+    <axis xyz='0 1 0'/>
+    <limit lower='-1.79769e+308' upper='1.79769e+308' effort='10' velocity='19.61'/>
+  </joint>
+  <joint name='rear_right_wheel_joint' type='revolute'>
+    <origin xyz='-0.19 -0.19 0' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rear_right_wheel'/>
+    <axis xyz='0 1 0'/>
+    <limit lower='-1.79769e+308' upper='1.79769e+308' effort='10' velocity='19.61'/>
+  </joint>
+  <joint name='front_right_wheel_joint' type='revolute'>
+    <origin xyz='0.19 -0.19 0' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/front_right_wheel'/>
+    <axis xyz='0 1 0'/>
+    <limit lower='-1.79769e+308' upper='1.79769e+308' effort='10' velocity='19.61'/>
+  </joint>
+</robot>

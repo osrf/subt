@@ -63,6 +63,11 @@
     end
   end
 
+  $commsFadingExponent = 2.5
+  if $circuit == "cave"
+    $commsFadingExponent = 1.5
+  end
+
   # spawn world offset
   if $circuit == "urban"
     spawnWorldXPos = 6
@@ -196,9 +201,13 @@
 
 <%
   # disable levels for simple cave worlds
-  levels = "true"
+  $levels = "true"
   if $worldName.include?('simple_cave_')
-    levels = "false"
+    $levels = "false"
+  end
+
+  if defined?(levels) && levels != nil && !levels.empty?
+    $levels = levels.downcase == "true"
   end
 %>
 
@@ -232,7 +241,7 @@
     <update_rate><%= updateRate %></update_rate>
     <%end%>
     <run>true</run>
-    <levels><%= levels %></levels>
+    <levels><%= $levels %></levels>
     <record>
       <enabled>true</enabled>
       <!-- This path is used by cloudsim, please do not change -->
@@ -297,7 +306,7 @@
         <!-- Use the <path> element to control where to record the log file.
              The HOME path is used by default -->
         <path>/tmp/ign/logs</path>
-        <filename_prefix>subt_tunnel_practice</filename_prefix>
+        <filename_prefix>subt_<%= $circuit %></filename_prefix>
       </logging>
 
       <artifact>
@@ -568,7 +577,7 @@
 
       <range_config>
         <max_range>500.0</max_range>
-        <fading_exponent>2.5</fading_exponent>
+        <fading_exponent><%= $commsFadingExponent %></fading_exponent>
         <L0>40</L0>
         <sigma>10.0</sigma>
       </range_config>
@@ -639,6 +648,10 @@
             <wheel_separation>#{0.45649 * 1.5}</wheel_separation>
             <wheel_radius>0.1651</wheel_radius>
             <topic>/model/#{_name}/cmd_vel_relay</topic>
+            <min_velocity>-1</min_velocity>
+            <max_velocity>1</max_velocity>
+            <min_acceleration>-3</min_acceleration>
+            <max_acceleration>3</max_acceleration>
           </plugin>
           <!-- Publish robot state information -->
           <plugin filename="libignition-gazebo-pose-publisher-system.so"
@@ -649,7 +662,7 @@
             <publish_visual_pose>false</publish_visual_pose>
             <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>
             <use_pose_vector_msg>true</use_pose_vector_msg>
-           <static_publisher>true</static_publisher>
+            <static_publisher>true</static_publisher>
             <static_update_frequency>1</static_update_frequency>
           </plugin>
           <!-- Battery plugin -->
@@ -693,7 +706,7 @@
         </sdf>
       </spawn>
     HEREDOC
-  
+
     exec = <<-HEREDOC
       <executable name='x1_description'>
         <command>roslaunch --wait subt_ros x1_description.launch world_name:=#{$worldName} name:=#{_name}</command>
@@ -749,6 +762,10 @@
             <wheel_separation>#{0.33559 * 1.23}</wheel_separation>
             <wheel_radius>0.098</wheel_radius>
             <topic>/model/#{_name}/cmd_vel_relay</topic>
+            <min_velocity>-2</min_velocity>
+            <max_velocity>2</max_velocity>
+            <min_acceleration>-6</min_acceleration>
+            <max_acceleration>6</max_acceleration>
           </plugin>
           <!-- Publish robot state information -->
           <plugin filename="libignition-gazebo-pose-publisher-system.so"
@@ -929,7 +946,7 @@
           <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
           <motorType>velocity</motorType>
         </plugin>
-        <!--Multicopter velocity controller--> 
+        <!--Multicopter velocity controller-->
         <plugin
           filename="libignition-gazebo-multicopter-control-system.so"
           name="ignition::gazebo::systems::MulticopterVelocityControl">
@@ -1172,7 +1189,7 @@
           <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
           <motorType>velocity</motorType>
         </plugin>
-        <!--Multicopter velocity controller--> 
+        <!--Multicopter velocity controller-->
         <plugin
           filename="libignition-gazebo-multicopter-control-system.so"
           name="ignition::gazebo::systems::MulticopterVelocityControl">
@@ -1273,15 +1290,15 @@
     return spawn, exec
   end
 
-  def spawnTeamBase(_x, _y, _z, _yaw)
+  def spawnTeamBase(_name, _x, _y, _z, _yaw)
     spawn = <<-HEREDOC
-    <spawn name='TEAMBASE'>
-      <name>TEAMBASE</name>
+    <spawn name='#{_name}'>
+      <name>#{_name}</name>
       <allow_renaming>false</allow_renaming>
       <world>#{$worldName}</world>
       <is_performer>false</is_performer>
       <sdf version='1.6'>
-      <model name='TEAMBASE'>
+      <model name='#{_name}'>
         <pose>#{_x} #{_y} #{_z} 0 0 #{_yaw}</pose>
         <static>true</static>
         <link name='link'>
@@ -1301,10 +1318,10 @@
 
     exec = <<-HEREDOC
     <executable name='teambase_description'>
-      <command>roslaunch --wait subt_ros teambase_description.launch world_name:=#{$worldName}</command>
+      <command>roslaunch --wait subt_ros teambase_description.launch world_name:=#{$worldName} name:=#{_name}</command>
     </executable>
     <executable name='teambase_ros_ign_bridge'>
-      <command>roslaunch --wait subt_ros teambase_topics.launch world_name:=#{$worldName}</command>
+      <command>roslaunch --wait subt_ros teambase_topics.launch world_name:=#{$worldName} name:=#{_name}</command>
     </executable>
     HEREDOC
 
@@ -1367,13 +1384,15 @@
 
       spawnStringTmp, executables  = spawnX4(name, robotConfigN, robot.pos.x, robot.pos.y, robot.pos.z, robot.rot.yaw)
 
-    elsif name == "TEAMBASE" and config == "TEAMBASE"
+    elsif config.upcase == "TEAMBASE"
       robotSpawned += 1
       if !teamBaseSpawned
         teamBaseSpawned = true
-        spawnStringTmp, executables = spawnTeamBase(posX, posY, spawnWorldZPos, spawnWorldYaw)
+        spawnStringTmp, executables = spawnTeamBase(name, posX, posY, spawnWorldZPos, spawnWorldYaw)
+      else
+        puts "Error: Only 1 teambase is allows. Skpping[%s]." % [name]
       end
-    elsif config != "TEAMBASE"
+    else
       # Try a team-submitted vehicle.
       package = config.downcase
       installDir = `rospack find #{package}`.chomp
@@ -1415,8 +1434,6 @@
         spawnStringTmp = spawner(name, modelURI, $worldName, robot.pos.x, robot.pos.y, robot.pos.z, 0, 0, robot.rot.yaw)
         executables = rosExecutables(name, $worldName)
       end
-    else
-      puts "Error: Invalid Name[%s] or Config[%s]. Skpping." % [name, config]
     end
 
     if executables != nil
@@ -1462,7 +1479,7 @@
            <is_performer>false</is_performer>
            <sdf version='1.6'>
              <include>
-               <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/DronePlatformX1</uri> 
+               <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/DronePlatformX1</uri>
              </include>
            </sdf>
          </spawn>
