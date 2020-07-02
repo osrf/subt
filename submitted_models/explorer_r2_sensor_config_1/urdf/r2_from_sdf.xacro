@@ -79,7 +79,7 @@
     <parent link='base_link'/>
     <origin xyz='0.310583 0.001835 0.44788' rpy='5e-06 -0 0'/>
     <ray>
-      <horizontal samples='18000' resolution='0.1' min_angle='-3.14159' max_angle='3.14159' />
+      <horizontal samples='10000' resolution='0.1' min_angle='-3.14159' max_angle='3.14159' />
       <vertical samples='16' resolution='1' min_angle='-0.261799' max_angle='0.261799' />
     </ray>
   </sensor>
