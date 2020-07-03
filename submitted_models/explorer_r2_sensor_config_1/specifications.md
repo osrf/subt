@@ -8,7 +8,7 @@ a `roslaunch` command with the variable name `explorer_r2_sensor_config_1`.
 R2 is four wheels ground robot. It is designed for exploring various environments, such as tunnel, cave and so on.
 
 ## Cost and Scale
-Explorer's R2 has an estimated commercial cost of USD 125000. It weighs approximately 200 kg.
+Explorer's R2 has an estimated commercial cost of USD 100000. It weighs approximately 200 kg.
 
 ## Sensors
 Robot R2 with sensor configuration 1 includes the following sensors. The specifications of the sensors are provided below in
