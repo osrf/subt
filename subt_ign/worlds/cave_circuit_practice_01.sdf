@@ -480,7 +480,7 @@
       <!--Triggered by performer_detector_rockfall_1-->
       <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
         <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
-          <match field='header.data'>{ key: "frame_id" value: "performer_detector_1" }</match>
+          <match field='header.data'>{ key: "frame_id" value: "performer_detector_rockfall_1" }</match>
           <match field='header.data'>{ key: "state" value: "1" }</match>
         </input>
         <output type="ignition.msgs.Empty" topic="/model/medium_rock_fall_1/breadcrumbs/Rock/deploy"/>
@@ -524,7 +524,7 @@
       <!--Triggered by performer_detector_rockfall_2-->
       <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
         <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
-          <match field='header.data'>{ key: "frame_id" value: "performer_detector_2" }</match>
+          <match field='header.data'>{ key: "frame_id" value: "performer_detector_rockfall_2" }</match>
           <match field='header.data'>{ key: "state" value: "0" }</match>
         </input>
         <output type="ignition.msgs.Empty" topic="/model/large_rock_fall_1/breadcrumbs/Rock/deploy"/>
@@ -569,7 +569,7 @@
       <!--Triggered by performer_detector_rockfall_3-->
       <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
         <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
-          <match field='header.data'>{ key: "frame_id" value: "performer_detector_3" }</match>
+          <match field='header.data'>{ key: "frame_id" value: "performer_detector_rockfall_3" }</match>
           <match field='header.data'>{ key: "state" value: "0" }</match>
         </input>
         <output type="ignition.msgs.Empty" topic="/model/large_rock_fall_2/breadcrumbs/Rock/deploy"/>
