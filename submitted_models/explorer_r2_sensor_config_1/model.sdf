@@ -357,7 +357,7 @@
         <pose>0.27254 -0.090301 0.38988 1e-06 4e-06 -1.5707963267948966</pose>
       </sensor>
       <light name="right_light_source" type="spot">
-        <pose frame="">0.34254 -0.090301 0.38988 3.1415926535897931 1.5707963267948966 -1.5707963267948966</pose>
+        <pose frame="">0.358 -0.133 0.45 3.1415926535897931 1.5707963267948966 -1.5707963267948966</pose>
         <attenuation>
           <range>50</range>
           <linear>0</linear>
@@ -375,7 +375,7 @@
         <cast_shadows>1</cast_shadows>
       </light>
       <light name="front_light" type="spot">
-        <pose frame="">0.40054 0.035301 0.38988 1.5707963267948966 1.5707963267948966 -1.5707963267948966</pose>
+        <pose frame="">0.49 0 0.45 1.5707963267948966 1.5707963267948966 -1.5707963267948966</pose>
         <attenuation>
           <range>50</range>
           <linear>0</linear>
@@ -411,7 +411,7 @@
         <cast_shadows>1</cast_shadows>
       </light>
       <light name="back_light_source" type="spot">
-        <pose frame="">0.22054 -0.037199 0.38988 -1.5707963267948966 1.5707963267948966 -1.5707963267948966</pose>
+        <pose frame="">0.26 0 0.46 -1.5707963267948966 1.5707963267948966 -1.5707963267948966</pose>
         <attenuation>
           <range>50</range>
           <linear>0</linear>
