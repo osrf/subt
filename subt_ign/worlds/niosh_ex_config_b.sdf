@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <sdf version="1.6">
-  <world name="niosh_ex_config_a">
+  <world name="niosh_ex_config_b">
 
     <physics name="1ms" type="ode">
       <max_step_size>0.004</max_step_size>
@@ -210,13 +210,13 @@
     <include>
       <name>backpack_1</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/JanSport Backpack Red</uri>
-      <pose>45.9199 -3.08994 1.187180 0 0 2.071470</pose>
+      <pose>133.558 -5.61621 2.24636 0 0 -1.464920</pose>
     </include>
 
     <include>
       <name>backpack_2</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/JanSport Backpack Red</uri>
-      <pose>366.805 -8.3926 3.135730 0 0 1.570700</pose>
+      <pose>265.435 -17.703 2.37616 0 0 3.14</pose>
     </include>
 
     <include>
@@ -240,7 +240,7 @@
     <include>
       <name>rescue_randy_1</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rescue Randy Sitting</uri>
-      <pose>133.558 -5.61621 2.24636 0 0 -1.464920</pose>
+      <pose>219.844 2.00738 2.69773 0 0 0.154953</pose>
     </include>
 
     <include>
@@ -264,19 +264,19 @@
     <include>
       <name>phone_2</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Samsung J8 Black</uri>
-      <pose>75.6359 -13.5519 1.401440 -1.5707 0 -0.476791</pose>
+      <pose>317.535 -12.3871 2.96408 -1.5707 0 0</pose>
     </include>
 
     <include>
       <name>phone_3</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Samsung J8 Black</uri>
-      <pose>203.046 65.9938 4.145510 -1.5707 -0.133185 0.315981</pose>
+      <pose>75.6359 -13.5519 1.401440 -1.5707 0 -0.476791</pose>
     </include>
 
     <include>
       <name>phone_4</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Samsung J8 Black</uri>
-      <pose>246.028 93.6245 4.18068 -1.5707 0 -1.36068</pose>
+      <pose>204.003 91.4695 3.74175 -1.5707 0 0.533666</pose>
     </include>
 
     <include>
@@ -288,13 +288,13 @@
     <include>
       <name>drill_2</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Black and Decker Cordless Drill</uri>
-      <pose>219.844 2.00738 2.69773 0 0 -0.913054</pose>
+      <pose>243.631 40.447 3.49895 0 0 3.14</pose>
     </include>
 
     <include>
       <name>drill_3</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Black and Decker Cordless Drill</uri>
-      <pose>243.631 40.447 3.49895 0 0 3.14</pose>
+      <pose>203.046 65.9938 4.145510 0 -0.133185 0.315981</pose>
     </include>
 
     <include>
@@ -318,16 +318,14 @@
     <include>
       <name>extinguisher_3</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fire Extinguisher</uri>
-      <pose>168.704 -17.048 1.93534 0 0 3.14</pose>
+      <pose>133.156 -11.1985 1.98072 0 0 0</pose>
     </include>
 
     <include>
       <name>extinguisher_4</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fire Extinguisher</uri>
-      <pose>204.003 91.4695 3.74175 0 0 0.533666</pose>
+      <pose>179.608 102.333 3.54797 0 0 -1.5707</pose>
     </include>
-
-
 
     <wind>
       <linear_velocity>0.000000 0.000000 0.000000</linear_velocity>
