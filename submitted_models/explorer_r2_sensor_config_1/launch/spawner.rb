@@ -17,9 +17,13 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <left_joint>left_rear_wheel</left_joint>
         <right_joint>right_front_wheel</right_joint>
         <right_joint>right_rear_wheel</right_joint>
-        <wheel_separation>#{0.45649 * 1.5}</wheel_separation>
-        <wheel_radius>0.1651</wheel_radius>
+        <wheel_separation>#{0.343 * 2.0 - 0.1125}</wheel_separation>
+        <wheel_radius>0.31</wheel_radius>
         <topic>/model/#{_name}/cmd_vel_relay</topic>
+        <min_velocity>-2</min_velocity>
+        <max_velocity>2</max_velocity>
+        <min_acceleration>-10</min_acceleration>
+        <max_acceleration>10</max_acceleration>
       </plugin>
       <!-- Publish robot state information -->
       <plugin filename="libignition-gazebo-pose-publisher-system.so"
