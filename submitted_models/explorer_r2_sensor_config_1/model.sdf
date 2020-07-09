@@ -130,6 +130,7 @@
                 </imu>
             </sensor>
       <sensor name="rs_front" type="rgbd_camera">
+        <pose>0.565 0  0.245 0 0 0</pose>
         <always_on>1</always_on>
         <update_rate>30</update_rate>
         <camera name="camera_front">
@@ -175,11 +176,10 @@
             <stddev>0.007</stddev>
           </noise>
         </camera>
-        <pose>0.40054 -0.035301 0.38988 5e-06 0 -0</pose>
       </sensor>
-      <velocity_decay/>
       <sensor name="front_laser" type="gpu_lidar">
-	<always_on>1</always_on>
+        <pose>0.37 0 0.55 0 0 0</pose>
+        <always_on>1</always_on>
         <update_rate>15</update_rate>
         <ray>
           <scan>
@@ -206,10 +206,9 @@
             <stddev>0.01</stddev>
           </noise>
         </ray>
-        <pose>0.310583 0.001835 0.44788 5e-06 0 -0</pose>
       </sensor>
-      <velocity_decay/>
       <sensor name="rs_left" type="rgbd_camera">
+        <pose>0.365 0.133 0.426 0 0 1.5707963267948966</pose>
         <always_on>1</always_on>
         <update_rate>30</update_rate>
         <camera name="camera_left">
@@ -255,10 +254,9 @@
             <stddev>0.007</stddev>
           </noise>
         </camera>
-        <pose>0.34854 0.091699 0.389881 1e-06 -4e-06 1.5707963267948966</pose>
       </sensor>
-      <velocity_decay/>
       <sensor name="rs_back" type="rgbd_camera">
+        <pose>0.25 0 0.432 0 0 3.1415926535897931</pose>
         <always_on>1</always_on>
         <update_rate>30</update_rate>
         <camera name="camera_rear">
@@ -304,11 +302,9 @@
             <stddev>0.007</stddev>
           </noise>
         </camera>
-        <pose>0.22054 0.037199 0.38988 -2e-06 -0 3.1415926535897931</pose>
       </sensor>
-      <gravity>1</gravity>
-      <velocity_decay/>
       <sensor name="rs_right" type="rgbd_camera">
+        <pose>0.365 -0.133 0.426 0 0 -1.5707963267948966</pose>
         <always_on>1</always_on>
         <update_rate>30</update_rate>
         <camera name="camera_right">
