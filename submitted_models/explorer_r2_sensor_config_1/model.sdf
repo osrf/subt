@@ -1,6 +1,7 @@
 <?xml version='1.0'?>
 <sdf version="1.6">
-  <model name="ground_robot_sim">
+  <model name="explorer_r2_sensor_config_1">
+    <pose>0 0 0.398 0 0 0</pose>
     <link name="base_link">
       <inertial>
         <pose>0.002225 0.033355 0.022792 0 -0 0</pose>
@@ -44,15 +45,15 @@
               <specular>1.0 1.0 1.0</specular>
               <pbr>
                   <metal>
-                      <albedo_map>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/R2_Albedo.png</albedo_map>
-                      <metal_map>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/R2_Metalness.png</metal_map>
-                      <roughness_map>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/R2_Roughness.png</roughness_map>
+                      <albedo_map>materials/textures/R2_Albedo.png</albedo_map>
+                      <metal_map>materials/textures/R2_Metalness.png</metal_map>
+                      <roughness_map>materials/textures/R2_Roughness.png</roughness_map>
                   </metal>
               </pbr>
               <!-- fallback to script if no PBR support-->
               <script>
                   <uri>materials/scripts/</uri>
-                  <uri>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/</uri>
+                  <uri>materials/textures/</uri>
                   <name>UrbanTile/R2_Diffuse</name>
               </script>
           </material>
@@ -464,14 +465,14 @@
             <specular>1.0 1.0 1.0</specular>
             <pbr>
               <metal>
-                <albedo_map>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/R2_Albedo.png</albedo_map>
-                <metalness_map>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/R2_Metalness.png</metalness_map>
-                <roughness_map>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/R2_Roughness.png</roughness_map>
+                <albedo_map>materials/textures/R2_Albedo.png</albedo_map>
+                <metalness_map>materials/textures/R2_Metalness.png</metalness_map>
+                <roughness_map>materials/textures/R2_Roughness.png</roughness_map>
               </metal>
             </pbr>
             <script>
               <uri>materials/scripts/</uri>
-              <uri>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/</uri>
+              <uri>materials/textures/</uri>
               <name>UrbanTile/R2_Diffuse</name>
             </script>
           </material>
@@ -552,15 +553,15 @@
               <specular>1.0 1.0 1.0</specular>
               <pbr>
                   <metal>
-                      <albedo_map>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/R2_Albedo.png</albedo_map>
-                      <metal_map>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/R2_Metalness.png</metal_map>
-                      <roughness_map>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/R2_Roughness.png</roughness_map>
+                      <albedo_map>materials/textures/R2_Albedo.png</albedo_map>
+                      <metal_map>materials/textures/R2_Metalness.png</metal_map>
+                      <roughness_map>materials/textures/R2_Roughness.png</roughness_map>
                   </metal>
               </pbr>
               <!-- fallback to script if no PBR support-->
               <script>
                   <uri>materials/scripts/</uri>
-                  <uri>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/</uri>
+                  <uri>materials/textures/</uri>
                   <name>UrbanTile/R2_Diffuse</name>
               </script>
           </material>
@@ -643,15 +644,15 @@
               <specular>1.0 1.0 1.0</specular>
               <pbr>
                   <metal>
-                      <albedo_map>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/R2_Albedo.png</albedo_map>
-                      <metal_map>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/R2_Metalness.png</metal_map>
-                      <roughness_map>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/R2_Roughness.png</roughness_map>
+                      <albedo_map>materials/textures/R2_Albedo.png</albedo_map>
+                      <metal_map>materials/textures/R2_Metalness.png</metal_map>
+                      <roughness_map>materials/textures/R2_Roughness.png</roughness_map>
                   </metal>
               </pbr>
               <!-- fallback to script if no PBR support-->
               <script>
                   <uri>materials/scripts/</uri>
-                  <uri>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/</uri>
+                  <uri>materials/textures/</uri>
                   <name>UrbanTile/R2_Diffuse</name>
               </script>
           </material>
@@ -735,15 +736,15 @@
               <specular>1.0 1.0 1.0</specular>
               <pbr>
                   <metal>
-                      <albedo_map>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/R2_Albedo.png</albedo_map>
-                      <metal_map>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/R2_Metalness.png</metal_map>
-                      <roughness_map>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/R2_Roughness.png</roughness_map>
+                      <albedo_map>materials/textures/R2_Albedo.png</albedo_map>
+                      <metal_map>materials/textures/R2_Metalness.png</metal_map>
+                      <roughness_map>materials/textures/R2_Roughness.png</roughness_map>
                   </metal>
               </pbr>
               <!-- fallback to script if no PBR support-->
               <script>
                   <uri>materials/scripts/</uri>
-                  <uri>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/</uri>
+                  <uri>materials/textures/</uri>
                   <name>UrbanTile/R2_Diffuse</name>
               </script>
           </material>
@@ -827,15 +828,15 @@
               <specular>1.0 1.0 1.0</specular>
               <pbr>
                   <metal>
-                      <albedo_map>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/R2_Albedo.png</albedo_map>
-                      <metal_map>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/R2_Metalness.png</metal_map>
-                      <roughness_map>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/R2_Roughness.png</roughness_map>
+                      <albedo_map>materials/textures/R2_Albedo.png</albedo_map>
+                      <metal_map>materials/textures/R2_Metalness.png</metal_map>
+                      <roughness_map>materials/textures/R2_Roughness.png</roughness_map>
                   </metal>
               </pbr>
               <!-- fallback to script if no PBR support-->
               <script>
                   <uri>materials/scripts/</uri>
-                  <uri>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/</uri>
+                  <uri>materials/textures/</uri>
                   <name>UrbanTile/R2_Diffuse</name>
               </script>
           </material>
