@@ -1,7 +1,7 @@
+<?xml version='1.0'?>
 <sdf version="1.6">
   <model name="ground_robot_sim">
     <link name="base_link">
-      <pose>0 0 0 0 -0 0</pose>
       <inertial>
         <pose>0.002225 0.033355 0.022792 0 -0 0</pose>
         <mass>60.4249</mass>
@@ -15,113 +15,49 @@
         </inertia>
       </inertial>
       <collision name="base_link_collision">
-        <pose>0 0 0 0 -0 0</pose>
-        <geometry>
-          <mesh>
-            <scale>1 1 1</scale>
-            <uri>meshes/cube.STL</uri>
-          </mesh>
-        </geometry>
-        <surface>
-          <contact>
-            <ode/>
-          </contact>
-          <friction>
-            <ode/>
-          </friction>
-        </surface>
+          <pose>0.25 0 0.0480 0 0 0</pose>
+          <geometry>
+            <box><size>0.6 0.55 0.428</size></box>
+          </geometry>
       </collision>
       <collision name="base_link_fixed_joint_lump__sensor_payload_link_collision_1">
-        <pose>0.31054 -0.0903 0.23288 1.5707963267948966 0 0</pose>
-        <geometry>
-          <mesh>
-            <scale>1 1 1</scale>
-            <uri>meshes/payload_cube.STL</uri>
-          </mesh>
-        </geometry>
-        <surface>
-          <contact>
-            <ode/>
-          </contact>
-          <friction>
-            <ode/>
-          </friction>
-        </surface>
+          <pose>0.38 0 0.4 0 0 0</pose>
+          <geometry>
+              <box>
+                  <size>0.28 0.28 0.4</size>
+              </box>
+          </geometry>
       </collision>
       <visual name="base_link_visual">
-        <pose>0 0 0 0 -0 -1.5707963267948966</pose>
-        <geometry>
-          <mesh>
-            <scale>1 1 1</scale>
-            <uri>meshes/cube.STL</uri>
-          </mesh>
-        </geometry>
-        <material>
-	  <diffuse>1 0 0 1</diffuse>
-          <ambient>1 0 0 1</ambient>
-	</material>
+        <pose>0.180 0 .24 0 0 -1.5707963267948966</pose>
+          <geometry>
+              <mesh>
+                  <uri>meshes/r2.dae</uri>
+                  <submesh>
+                      <name>BodyFront</name>
+                      <center>true</center>
+                  </submesh>
+              </mesh>
+          </geometry>
+          <material>
+              <diffuse>1.0 1.0 1.0</diffuse>
+              <specular>1.0 1.0 1.0</specular>
+              <pbr>
+                  <metal>
+                      <albedo_map>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/R2_Albedo.png</albedo_map>
+                      <metal_map>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/R2_Metalness.png</metal_map>
+                      <roughness_map>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/R2_Roughness.png</roughness_map>
+                  </metal>
+              </pbr>
+              <!-- fallback to script if no PBR support-->
+              <script>
+                  <uri>materials/scripts/</uri>
+                  <uri>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/</uri>
+                  <name>UrbanTile/R2_Diffuse</name>
+              </script>
+          </material>
       </visual>
-      <visual name="base_link_fixed_joint_lump__sensor_payload_link_visual_1">
-        <pose>0.31054 -0.0903 0.23288 1.5707963267948966 0 0</pose>
-        <geometry>
-          <mesh>
-            <scale>1 1 1</scale>
-            <uri>meshes/payload_cube.STL</uri>
-          </mesh>
-        </geometry>
-        <material>
-	  <diffuse>0 0 1 1</diffuse>
-          <ambient>0 0 1 1</ambient>
-	</material>
-      </visual>
-      <visual name="base_link_fixed_joint_lump__front_depth_camera_link_visual_2">
-        <pose>0.40054 -0.035301 0.38988 1.5707963267948966 0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.09</length>
-            <radius>0.01</radius>
-          </cylinder>
-        </geometry>
-      </visual>
-      <visual name="base_link_fixed_joint_lump__front_laser_visual_visual_3">
-        <pose>0.310583 0.001835 0.44788 5e-06 0 -0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.07357</length>
-            <radius>0.04267</radius>
-          </cylinder>
-        </geometry>
-      </visual>
-      <visual name="base_link_fixed_joint_lump__left_depth_camera_link_visual_4">
-        <pose>0.34854 0.091699 0.389881 1.5707963267948966 -4e-06 1.5707963267948966</pose>
-        <geometry>
-          <cylinder>
-            <length>0.09</length>
-            <radius>0.01</radius>
-          </cylinder>
-        </geometry>
-      </visual>
-      <visual name="base_link_fixed_joint_lump__rear_depth_camera_link_visual_5">
-        <pose>0.22054 0.037199 0.38988 1.5707963267948966 -0 3.1415926535897931</pose>
-        <geometry>
-          <cylinder>
-            <length>0.09</length>
-            <radius>0.01</radius>
-          </cylinder>
-        </geometry>
-      </visual>
-      <visual name="base_link_fixed_joint_lump__right_depth_camera_link_visual_6">
-        <pose>0.27254 -0.090301 0.38988 1.5707963267948966 -4e-06 1.5707963267948966</pose>
-        <geometry>
-          <cylinder>
-            <length>0.09</length>
-            <radius>0.01</radius>
-          </cylinder>
-        </geometry>
-      </visual>
-      <velocity_decay/>
-      <velocity_decay/>
-      <velocity_decay/>
+
       <sensor name="imu_sensor" type="imu">
                 <always_on>1</always_on>
                 <update_rate>250</update_rate>
@@ -507,37 +443,39 @@
         </inertia>
       </inertial>
       <collision name="Rear_Rocker_Link_collision">
-        <pose>0 0 0 0 -0 0</pose>
-        <geometry>
-          <mesh>
-            <scale>1 1 1</scale>
-            <uri>meshes/rear_cube.STL</uri>
-          </mesh>
-        </geometry>
-        <surface>
-          <contact>
-            <ode/>
-          </contact>
-          <friction>
-            <ode/>
-          </friction>
-        </surface>
-      </collision>
-      <visual name="Rear_Rocker_Link_visual">
-        <pose>0 0 0 0 -0 0</pose>
-        <geometry>
-          <mesh>
-            <scale>1 1 1</scale>
-            <uri>meshes/rear_cube.STL</uri>
-          </mesh>
-        </geometry>
-	<material>
-	  <diffuse>1 0 0 1</diffuse>
-          <ambient>1 0 0 1</ambient>
-	</material>
-      </visual>
-      <gravity>1</gravity>
-      <velocity_decay/>
+        <pose>-0.2 0.072 0 0 0 0</pose>
+          <geometry>
+            <box><size>0.42 0.43 0.56</size></box>
+          </geometry>
+        </collision>
+        <visual name= "BodyRear_visual">
+          <pose>-0.428 0.068 0 -1.5707963267948966 -1.5707963267948966 0</pose>
+          <geometry>
+            <mesh>
+              <uri>meshes/r2.dae</uri>
+              <submesh>
+                <name>BodyRear</name>
+                <center>true</center>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <diffuse>1.0 1.0 1.0</diffuse>
+            <specular>1.0 1.0 1.0</specular>
+            <pbr>
+              <metal>
+                <albedo_map>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/R2_Albedo.png</albedo_map>
+                <metalness_map>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/R2_Metalness.png</metalness_map>
+                <roughness_map>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/R2_Roughness.png</roughness_map>
+              </metal>
+            </pbr>
+            <script>
+              <uri>materials/scripts/</uri>
+              <uri>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/</uri>
+              <name>UrbanTile/R2_Diffuse</name>
+            </script>
+          </material>
+        </visual>
     </link>
     <joint name="Center Pivot" type="revolute">
       <child>Rear_Rocker_Link</child>
@@ -600,20 +538,33 @@
         </surface>
       </collision>
       <visual name="left_front_wheel_link_visual">
-        <pose>0 0 0 0 -0 0</pose>
-        <geometry>
-          <mesh>
-            <scale>1 1 1</scale>
-            <uri>meshes/left_front_wheel_cube.STL</uri>
-          </mesh>
-        </geometry>
-        <material>
-          <ambient>1 1 1 1</ambient>
-	</material>
+          <geometry>
+              <mesh>
+                  <uri>meshes/r2.dae</uri>
+                  <submesh>
+                      <name>WheelFL</name>
+                      <center>true</center>
+                  </submesh>
+              </mesh>
+          </geometry>
+          <material>
+              <diffuse>1.0 1.0 1.0</diffuse>
+              <specular>1.0 1.0 1.0</specular>
+              <pbr>
+                  <metal>
+                      <albedo_map>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/R2_Albedo.png</albedo_map>
+                      <metal_map>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/R2_Metalness.png</metal_map>
+                      <roughness_map>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/R2_Roughness.png</roughness_map>
+                  </metal>
+              </pbr>
+              <!-- fallback to script if no PBR support-->
+              <script>
+                  <uri>materials/scripts/</uri>
+                  <uri>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/</uri>
+                  <name>UrbanTile/R2_Diffuse</name>
+              </script>
+          </material>
       </visual>
-      <velocity_decay/>
-      <gravity>1</gravity>
-      <velocity_decay/>
     </link>
     <joint name="left_front_wheel" type="revolute">
       <child>left_front_wheel_link</child>
@@ -678,20 +629,34 @@
         </surface>
       </collision>
       <visual name="left_rear_wheel_link_visual">
-        <pose>0 0 0 0 -0 0</pose>
-        <geometry>
-          <mesh>
-            <scale>1 1 1</scale>
-            <uri>meshes/left_front_wheel_cube.STL</uri>
-          </mesh>
-        </geometry>
-        <material>
-          <ambient>1 1 1 1</ambient>
-	</material>
+          <geometry>
+              <mesh>
+                  <uri>meshes/r2.dae</uri>
+                  <submesh>
+                      <name>WheelBL</name>
+                      <center>true</center>
+                  </submesh>
+              </mesh>
+          </geometry>
+          <material>
+              <diffuse>1.0 1.0 1.0</diffuse>
+              <specular>1.0 1.0 1.0</specular>
+              <pbr>
+                  <metal>
+                      <albedo_map>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/R2_Albedo.png</albedo_map>
+                      <metal_map>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/R2_Metalness.png</metal_map>
+                      <roughness_map>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/R2_Roughness.png</roughness_map>
+                  </metal>
+              </pbr>
+              <!-- fallback to script if no PBR support-->
+              <script>
+                  <uri>materials/scripts/</uri>
+                  <uri>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/</uri>
+                  <name>UrbanTile/R2_Diffuse</name>
+              </script>
+          </material>
       </visual>
-      <velocity_decay/>
-      <gravity>1</gravity>
-      <velocity_decay/>
+
     </link>
     <joint name="left_rear_wheel" type="revolute">
       <child>left_rear_wheel_link</child>
@@ -756,20 +721,34 @@
         </surface>
       </collision>
       <visual name="right_front_wheel_link_visual">
-        <pose>0 0 0 0 -0 0</pose>
-        <geometry>
-          <mesh>
-            <scale>1 1 1</scale>
-            <uri>meshes/left_front_wheel_cube.STL</uri>
-          </mesh>
-        </geometry>
-        <material>
-          <ambient>1 1 1 1</ambient>
-	</material>
+          <geometry>
+              <mesh>
+                  <uri>meshes/r2.dae</uri>
+                  <submesh>
+                      <name>WheelFR</name>
+                      <center>true</center>
+                  </submesh>
+              </mesh>
+          </geometry>
+          <material>
+              <diffuse>1.0 1.0 1.0</diffuse>
+              <specular>1.0 1.0 1.0</specular>
+              <pbr>
+                  <metal>
+                      <albedo_map>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/R2_Albedo.png</albedo_map>
+                      <metal_map>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/R2_Metalness.png</metal_map>
+                      <roughness_map>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/R2_Roughness.png</roughness_map>
+                  </metal>
+              </pbr>
+              <!-- fallback to script if no PBR support-->
+              <script>
+                  <uri>materials/scripts/</uri>
+                  <uri>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/</uri>
+                  <name>UrbanTile/R2_Diffuse</name>
+              </script>
+          </material>
       </visual>
-      <velocity_decay/>
-      <gravity>1</gravity>
-      <velocity_decay/>
+
     </link>
     <joint name="right_front_wheel" type="revolute">
       <child>right_front_wheel_link</child>
@@ -834,20 +813,33 @@
         </surface>
       </collision>
       <visual name="right_rear_wheel_link_visual">
-        <pose>0 0 0 0 -0 0</pose>
-        <geometry>
-          <mesh>
-            <scale>1 1 1</scale>
-            <uri>meshes/left_front_wheel_cube.STL</uri>
-          </mesh>
-        </geometry>
-       <material>
-          <ambient>1 1 1 1</ambient>
-	</material>
+          <geometry>
+              <mesh>
+                  <uri>meshes/r2.dae</uri>
+                  <submesh>
+                      <name>WheelBR</name>
+                      <center>true</center>
+                  </submesh>
+              </mesh>
+          </geometry>
+          <material>
+              <diffuse>1.0 1.0 1.0</diffuse>
+              <specular>1.0 1.0 1.0</specular>
+              <pbr>
+                  <metal>
+                      <albedo_map>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/R2_Albedo.png</albedo_map>
+                      <metal_map>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/R2_Metalness.png</metal_map>
+                      <roughness_map>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/R2_Roughness.png</roughness_map>
+                  </metal>
+              </pbr>
+              <!-- fallback to script if no PBR support-->
+              <script>
+                  <uri>materials/scripts/</uri>
+                  <uri>model://EXPLORER_R2_SENSOR_CONFIG_1/materials/textures/</uri>
+                  <name>UrbanTile/R2_Diffuse</name>
+              </script>
+          </material>
       </visual>
-      <velocity_decay/>
-      <gravity>1</gravity>
-      <velocity_decay/>
     </link>
     <joint name="right_rear_wheel" type="revolute">
       <child>right_rear_wheel_link</child>
@@ -857,7 +849,7 @@
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
-	  <velocity>6.45</velocity>
+	        <velocity>6.45</velocity>
           <effort>40</effort>
         </limit>
         <dynamics>
@@ -869,7 +861,5 @@
         <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <static>0</static>
   </model>
 </sdf>
-
