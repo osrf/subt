@@ -163,11 +163,11 @@ target_link_libraries(validate_connections
   PRIVATE
     ignition-gazebo${IGN_GAZEBO_VER}::core
     ignition-common3::ignition-common3
-    ignition-launch1::ignition-launch1
+    ignition-launch2::ignition-launch2
     ignition-math6::ignition-math6
-    ignition-msgs4::ignition-msgs4
+    ignition-msgs5::ignition-msgs5
     ignition-plugin1::loader
-    ignition-transport7::ignition-transport7
+    ignition-transport8::ignition-transport8
     ${catkin_LIBRARIES}
     ${protobuf_lib_name}
 )
