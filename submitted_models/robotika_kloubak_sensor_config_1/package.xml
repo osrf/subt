@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package>
+  <name>robotika_kloubak_sensor_config_1</name>
+  <version>0.0.1</version>
+  <description>Robot Kloubak - articulated robot, symmetric configuration, two planar lidars, two RGB cameras and two depth cameras.
+  </description>
+
+  <author email="md@robotika.cz">Martin Dlouhy</author>
+  <maintainer email="md@orobotika.cz">Martin Dlouhy</maintainer>
+
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roslaunch</build_depend>
+  <run_depend>urdf</run_depend>
+  <run_depend>xacro</run_depend>
+
+  <export>
+  </export>
+</package>
