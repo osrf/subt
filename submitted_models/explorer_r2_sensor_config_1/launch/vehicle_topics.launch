@@ -81,6 +81,23 @@
         args="$(arg sensor_prefix)/rs_front/depth_image">
         <remap from="$(arg sensor_prefix)/rs_front/depth_image" to="depth/image"/>
       </node>
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_rgbd_image_front">
+        <remap from="input/image" to="color/image" />
+        <remap from="output/image" to="optical/color/image" />
+        <remap from="input/camera_info" to="color/camera_info" />
+        <remap from="output/camera_info" to="optical/color/camera_info" />
+      </node>
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_rgbd_depth_front"
+        args="depth">
+        <remap from="input/image" to="depth/image" />
+        <remap from="output/image" to="optical/depth/image" />
+      </node>
     </group>
 
     <!--Left RGBD camera -->
@@ -112,6 +129,23 @@
         name="ros_ign_image_depth"
         args="$(arg sensor_prefix)/rs_left/depth_image">
         <remap from="$(arg sensor_prefix)/rs_left/depth_image" to="depth/image"/>
+      </node>
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_rgbd_image_front">
+        <remap from="input/image" to="color/image" />
+        <remap from="output/image" to="optical/color/image" />
+        <remap from="input/camera_info" to="color/camera_info" />
+        <remap from="output/camera_info" to="optical/color/camera_info" />
+      </node>
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_rgbd_depth_front"
+        args="depth">
+        <remap from="input/image" to="depth/image" />
+        <remap from="output/image" to="optical/depth/image" />
       </node>
     </group>
 
@@ -145,6 +179,23 @@
         args="$(arg sensor_prefix)/rs_back/depth_image">
         <remap from="$(arg sensor_prefix)/rs_back/depth_image" to="depth/image"/>
       </node>
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_rgbd_image_front">
+        <remap from="input/image" to="color/image" />
+        <remap from="output/image" to="optical/color/image" />
+        <remap from="input/camera_info" to="color/camera_info" />
+        <remap from="output/camera_info" to="optical/color/camera_info" />
+      </node>
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_rgbd_depth_front"
+        args="depth">
+        <remap from="input/image" to="depth/image" />
+        <remap from="output/image" to="optical/depth/image" />
+      </node>
     </group>
 
     <!--Right RGBD camera -->
@@ -176,6 +227,23 @@
         name="ros_ign_image_depth"
         args="$(arg sensor_prefix)/rs_right/depth_image">
         <remap from="$(arg sensor_prefix)/rs_right/depth_image" to="depth/image"/>
+      </node>
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_rgbd_image_front">
+        <remap from="input/image" to="color/image" />
+        <remap from="output/image" to="optical/color/image" />
+        <remap from="input/camera_info" to="color/camera_info" />
+        <remap from="output/camera_info" to="optical/color/camera_info" />
+      </node>
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_rgbd_depth_front"
+        args="depth">
+        <remap from="input/image" to="depth/image" />
+        <remap from="output/image" to="optical/depth/image" />
       </node>
     </group>
 
