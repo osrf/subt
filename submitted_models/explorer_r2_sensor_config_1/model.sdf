@@ -29,6 +29,16 @@
               </box>
           </geometry>
       </collision>
+      <visual name="connection_visual">
+        <pose>0 0 0 0 1.5707 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.5</length>
+            <radius>0.05</radius>
+          </cylinder>
+        </geometry>
+      </visual>
+
       <visual name="base_link_visual">
         <pose>0.180 0 .24 0 0 -1.5707963267948966</pose>
           <geometry>
