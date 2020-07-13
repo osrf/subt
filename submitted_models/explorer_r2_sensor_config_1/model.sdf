@@ -493,7 +493,7 @@
           <upper>1e+16</upper>
         </limit>
         <dynamics>
-	  <damping>10</damping>
+          <damping>10</damping>
           <friction>0.1</friction>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
@@ -529,7 +529,7 @@
               <mu>1</mu>
               <mu2>1</mu2>
               <fdir1>0 0 1</fdir1>
-              <slip1>0.001</slip1>
+              <slip1>0.046</slip1>
               <slip2>0</slip2>
               <max_vel>10</max_vel>
               <min_depth>0.1</min_depth>
@@ -580,8 +580,6 @@
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
-	  <velocity>6.45</velocity><!-- rad/s 2m/s-->
-          <effort>40</effort><!-- N/m -->
         </limit>
         <dynamics>
           <damping>10</damping>
@@ -620,7 +618,7 @@
               <mu>1</mu>
               <mu2>1</mu2>
               <fdir1>0 0 1</fdir1>
-              <slip1>0.001</slip1>
+              <slip1>0.046</slip1>
               <slip2>0</slip2>
               <max_vel>10</max_vel>
               <min_depth>0.1</min_depth>
@@ -672,8 +670,6 @@
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
-	  <velocity>6.45</velocity>
-          <effort>40</effort>
         </limit>
         <dynamics>
           <damping>10</damping>
@@ -712,7 +708,7 @@
               <mu>1</mu>
               <mu2>1</mu2>
               <fdir1>0 0 1</fdir1>
-              <slip1>0.001</slip1>
+              <slip1>0.046</slip1>
               <slip2>0</slip2>
               <max_vel>10</max_vel>
               <min_depth>0.1</min_depth>
@@ -764,8 +760,6 @@
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
-	  <velocity>6.45</velocity>
-          <effort>40</effort>
         </limit>
         <dynamics>
           <damping>10</damping>
@@ -804,7 +798,7 @@
               <mu>1</mu>
               <mu2>1</mu2>
               <fdir1>0 0 1</fdir1>
-              <slip1>0.001</slip1>
+              <slip1>0.046</slip1>
               <slip2>0</slip2>
               <max_vel>10</max_vel>
               <min_depth>0.1</min_depth>
@@ -855,8 +849,6 @@
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
-	        <velocity>6.45</velocity>
-          <effort>40</effort>
         </limit>
         <dynamics>
           <damping>10</damping>
