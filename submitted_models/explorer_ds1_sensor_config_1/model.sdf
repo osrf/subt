@@ -36,31 +36,92 @@
             </visual>
             <!-- Camera Visual -->
             <visual name="rs_up_visual">
-                <pose frame="">0.305 0 0.11 -1.57079632679 0 1.57079632679</pose>
-                <geometry>
-                    <mesh>
-                        <scale>1 1 1</scale>
-                        <uri>meshes/realsense.dae</uri>
-                    </mesh>
-                </geometry>
+              <pose frame="">0.305 0 0.085 -1.57079632679 0 1.57079632679</pose>
+              <geometry>
+                <mesh>
+                  <uri>meshes/realsense.dae</uri>
+                  <submesh>
+                    <name>RealSense</name>
+                    <center>false</center>
+                  </submesh>
+                </mesh>
+              </geometry>
+              <material>
+                <diffuse>1.0 1.0 1.0</diffuse>
+                <specular>1.0 1.0 1.0</specular>
+                <pbr>
+                  <metal>
+                    <albedo_map>model://EXPLORER_DS1_SENSOR_CONFIG_1/materials/textures/RealSense_Albedo.png</albedo_map>
+                    <normal_map>model://EXPLORER_DS1_SENSOR_CONFIG_1/materials/textures/RealSense_Normal.png</normal_map>
+                    <metalness_map>model://EXPLORER_DS1_SENSOR_CONFIG_1/materials/textures/RealSense_Metalness.png</metalness_map>
+                    <roughness_map>model://EXPLORER_DS1_SENSOR_CONFIG_1/materials/textures/RealSense_Roughness.png</roughness_map>
+                  </metal>
+                </pbr>
+                <script>
+                  <uri>model://EXPLORER_DS1_SENSOR_CONFIG_1/materials/scripts/</uri>
+                  <uri>model://EXPLORER_DS1_SENSOR_CONFIG_1/materials/textures/</uri>
+                  <name>UrbanTile/RealSense_Diffuse</name>
+                </script>
+              </material>
             </visual>
-            <visual name="rs_down_visual">
-                <pose frame="">0.305 0 0.03 1.57079632679 0 1.57079632679</pose>
-                <geometry>
-                    <mesh>
-                        <scale>1 1 1</scale>
-                        <uri>meshes/realsense.dae</uri>
-                    </mesh>
-                </geometry>
+            <visual name="rs_down_visual1">
+              <pose frame="">0.305 0 0.055 1.57079632679 0 1.57079632679</pose>
+              <geometry>
+                <mesh>
+                  <uri>meshes/realsense.dae</uri>
+                  <submesh>
+                    <name>RealSense</name>
+                    <center>false</center>
+                  </submesh>
+                </mesh>
+              </geometry>
+              <material>
+                <diffuse>1.0 1.0 1.0</diffuse>
+                <specular>1.0 1.0 1.0</specular>
+                <pbr>
+                  <metal>
+                    <albedo_map>model://EXPLORER_DS1_SENSOR_CONFIG_1/materials/textures/RealSense_Albedo.png</albedo_map>
+                    <normal_map>model://EXPLORER_DS1_SENSOR_CONFIG_1/materials/textures/RealSense_Normal.png</normal_map>
+                    <metalness_map>model://EXPLORER_DS1_SENSOR_CONFIG_1/materials/textures/RealSense_Metalness.png</metalness_map>
+                    <roughness_map>model://EXPLORER_DS1_SENSOR_CONFIG_1/materials/textures/RealSense_Roughness.png</roughness_map>
+                  </metal>
+                </pbr>
+                <script>
+                  <uri>model://EXPLORER_DS1_SENSOR_CONFIG_1/materials/scripts/</uri>
+                  <uri>model://EXPLORER_DS1_SENSOR_CONFIG_1/materials/textures/</uri>
+                  <name>UrbanTile/RealSense_Diffuse</name>
+                </script>
+              </material>
             </visual>
-            <visual name="rs_front_visual">
-                <pose frame="">0.325 0 0.07 0 -0 1.57079632679</pose>
-                <geometry>
-                    <mesh>
-                        <scale>1 1 1</scale>
-                        <uri>meshes/realsense.dae</uri>
-                    </mesh>
-                </geometry>
+
+            <visual name="rs_front_visual1">
+              <pose frame="">0.3 0 0.07 0 -0 1.57079632679</pose>
+              <geometry>
+                <mesh>
+                  <uri>meshes/realsense.dae</uri>
+                  <submesh>
+                    <name>RealSense</name>
+                    <center>false</center>
+                  </submesh>
+                </mesh>
+              </geometry>
+              <material>
+                <diffuse>1.0 1.0 1.0</diffuse>
+                <specular>1.0 1.0 1.0</specular>
+                <pbr>
+                  <metal>
+                    <albedo_map>model://EXPLORER_DS1_SENSOR_CONFIG_1/materials/textures/RealSense_Albedo.png</albedo_map>
+                    <normal_map>model://EXPLORER_DS1_SENSOR_CONFIG_1/materials/textures/RealSense_Normal.png</normal_map>
+                    <metalness_map>model://EXPLORER_DS1_SENSOR_CONFIG_1/materials/textures/RealSense_Metalness.png</metalness_map>
+                    <roughness_map>model://EXPLORER_DS1_SENSOR_CONFIG_1/materials/textures/RealSense_Roughness.png</roughness_map>
+                  </metal>
+                </pbr>
+                <script>
+                  <uri>model://EXPLORER_DS1_SENSOR_CONFIG_1/materials/scripts/</uri>
+                  <uri>model://EXPLORER_DS1_SENSOR_CONFIG_1/materials/textures/</uri>
+                  <name>UrbanTile/RealSense_Diffuse</name>
+                </script>
+              </material>
             </visual>
 
 
