@@ -18,7 +18,7 @@ The following specific sensors are declared payloads of this vehicle:
 
 * 4x RGBD camera &mdash; intel realsense depth d435i, modeled by `rgbd_camera` plugin.
 * 1x 3D medium range lidar &mdash; Velodyne-16, modeled by `gpu_lidar` plugin.
-* 2x IMU f &mdash; Xsense MTI-100, modeled by `imu` plugins.
+* 1x IMU &mdash; Xsense MTI-100, modeled by `imu` plugins.
 
 ## Control
 R2 is controlled by the open-source teleop_twist_joy package.
@@ -31,12 +31,16 @@ constraint characteristics:
 * _x_ velocity range from -2.0 m/s to 2.0 m/s
 * _x_ acceleration range from -10 m/s<sup>2</sup> to 10 m/s<sup>2</sup>
 * Turning radius of 0.6 m
+* Rotation angle between two parts of the robot is limited to -30-30 degree
+* Spring reference is set to 0.1 and spring stiffness is set to 100 for joint Center Pivot
 
 The constraints can be found in the following locations within the simulation model
 package:
 
 * left front wheel maximum velocity and torque &mdash; model.sdf, lines 626 and 627
 * Other wheels &mdash; just below Left front wheel in the same file.
+* Rotation angle limit &mdash; model.sdf, line 547 to 550
+* Spring coefficients &mdash; model.sdf, line 554 and 555
 
 ## Endurance Characteristics
 Based on the tests specified in the DARPA SubT Challenge [Model Preparation
