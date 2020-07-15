@@ -239,10 +239,9 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     }
 
     /// Test artifact report limits. Send multiple bad reports.
-    /// We are currently expect a limit of: artifact_count * 2 == 6.
-    /// The world we are testing with has 3 artifacts.
+    /// We are currently expect a limit of 40.
     pose.mutable_position()->set_x(-110000);
-    for (auto i = 0u; i < 2u; ++i)
+    for (auto i = 0u; i < 36u; ++i)
     {
       this->ReportArtifact(type, pose);
       pose.mutable_position()->set_x(pose.position().x() + 1e-3);
@@ -264,7 +263,7 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
       std::this_thread::sleep_for(std::chrono::milliseconds(200ms));
     }
     auto ack = this->scoreAcks.front();
-    EXPECT_EQ(7u, ack.report_id());
+    EXPECT_EQ(40u, ack.report_id());
     EXPECT_EQ("report limit exceeded", ack.report_status());
     this->scoreAcks.pop();
   }
@@ -279,7 +278,7 @@ class ScoreTest : public testing::Test, public subt::GazeboTest
     {
       ASSERT_TRUE(this->WaitUntilScoreAck());
       auto ack = this->scoreAcks.front();
-      EXPECT_EQ(7u, ack.report_id());
+      EXPECT_EQ(40u, ack.report_id());
       EXPECT_EQ(type, ack.artifact().type());
       EXPECT_EQ(1u, ack.run());
       EXPECT_EQ("scoring finished", ack.report_status());
