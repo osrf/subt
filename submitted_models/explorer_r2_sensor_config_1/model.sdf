@@ -4,7 +4,7 @@
       <pose>0 0 0 0 -0 0</pose>
       <inertial>
         <pose>0.002225 0.033355 0.022792 0 -0 0</pose>
-        <mass>60.4249</mass>
+        <mass>111.0015</mass>
         <inertia>
           <ixx>4.49753</ixx>
           <ixy>0.00199937</ixy>
@@ -496,7 +496,7 @@
       <pose>-0.047625 0 -0.0254 1.5707963267948966 0 0</pose>
       <inertial>
         <pose>-0.191018 -0.006403 -0 0 -0 0</pose>
-        <mass>23.1126</mass>
+        <mass>42.8393</mass>
         <inertia>
           <ixx>0.848992</ixx>
           <ixy>0.00301842</ixy>
@@ -545,20 +545,20 @@
       <axis>
         <xyz>-1 0 0</xyz>
         <limit>
-          <lower>-1e+16</lower>
-          <upper>1e+16</upper>
+          <lower>-0.5236</lower>
+          <upper>0.5236</upper>
         </limit>
         <dynamics>
 	  <damping>10</damping>
           <friction>0.1</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
+          <spring_reference>0.1</spring_reference>
+          <spring_stiffness>100</spring_stiffness>
         </dynamics>
         <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
     <link name="left_front_wheel_link">
-      <pose>0.33421 0.343 -0.091538 -0.013747 -0 -1.5707963267948966</pose>
+      <pose>0.33421 0.363 -0.091538 -0.013747 -0 -1.5707963267948966</pose>
       <inertial>
         <pose>0.007124 -1.6e-05 4e-06 0 -0 0</pose>
         <mass>11.5398</mass>
@@ -624,7 +624,7 @@
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
 	  <velocity>6.45</velocity><!-- rad/s 2m/s-->
-          <effort>40</effort><!-- N/m -->
+          <effort>666</effort><!-- N/m -->
         </limit>
         <dynamics>
           <damping>10</damping>
@@ -636,7 +636,7 @@
       </axis>
     </joint>
     <link name="left_rear_wheel_link">
-      <pose>-0.334625 0.343 -0.083399 -0.014389 0.000148 -1.5707963267948966</pose>
+      <pose>-0.334625 0.363 -0.083399 -0.014389 0.000148 -1.5707963267948966</pose>
       <inertial>
         <pose>0.007124 -1.6e-05 4e-06 0 -0 0</pose>
         <mass>11.5398</mass>
@@ -702,7 +702,7 @@
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
 	  <velocity>6.45</velocity>
-          <effort>40</effort>
+          <effort>666</effort>
         </limit>
         <dynamics>
           <damping>10</damping>
@@ -714,7 +714,7 @@
       </axis>
     </joint>
     <link name="right_front_wheel_link">
-      <pose>0.33421 -0.343 -0.091538 -0.013747 -0 1.5707963267948966</pose>
+      <pose>0.33421 -0.363 -0.091538 -0.013747 -0 1.5707963267948966</pose>
       <inertial>
         <pose>0.007124 -1.6e-05 4e-06 0 -0 0</pose>
         <mass>11.5398</mass>
@@ -780,7 +780,7 @@
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
 	  <velocity>6.45</velocity>
-          <effort>40</effort>
+          <effort>666</effort>
         </limit>
         <dynamics>
           <damping>10</damping>
@@ -792,7 +792,7 @@
       </axis>
     </joint>
     <link name="right_rear_wheel_link">
-      <pose>-0.334625 -0.343 -0.083401 -0.014389 -0.000148 1.5707963267948966</pose>
+      <pose>-0.334625 -0.363 -0.083401 -0.014389 -0.000148 1.5707963267948966</pose>
       <inertial>
         <pose>0.007124 -1.6e-05 4e-06 0 -0 0</pose>
         <mass>11.5398</mass>
@@ -858,7 +858,7 @@
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
 	  <velocity>6.45</velocity>
-          <effort>40</effort>
+          <effort>666</effort>
         </limit>
         <dynamics>
           <damping>10</damping>
