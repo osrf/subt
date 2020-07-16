@@ -29,7 +29,7 @@
       <pose>-8 0 0 0 0 -1.5708</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Base Station</uri>
     </include>
-
+ 
     <!-- Fiducial marking the origin for artifacts reports -->
     <include>
       <name>artifact_origin</name>
@@ -447,7 +447,7 @@
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Samsung J8 Black</uri>
     </include>
 
-    <model name="performer_detector_1">
+    <model name="performer_detector_rockfall_1">
       <static>true</static>
       <pose>287.47 -105.5 -19.67 0 0 0</pose>
       <!--Uncomment <link> to preview detector region-->
@@ -477,10 +477,10 @@
         </geometry>
       </plugin>
 
-      <!--Triggered by performer_detector_1-->
+      <!--Triggered by performer_detector_rockfall_1-->
       <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
         <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
-          <match field='header.data'>{ key: "frame_id" value: "performer_detector_1" }</match>
+          <match field='header.data'>{ key: "frame_id" value: "performer_detector_rockfall_1" }</match>
           <match field='header.data'>{ key: "state" value: "1" }</match>
         </input>
         <output type="ignition.msgs.Empty" topic="/model/medium_rock_fall_1/breadcrumbs/Rock/deploy"/>
@@ -491,7 +491,7 @@
       <name>medium_rock_fall_1</name>
       <pose>284.95 -104.381 -15.65 0 -1.0147 0</pose>
     </include>
-    <model name="performer_detector_2">
+    <model name="performer_detector_rockfall_2">
       <static>true</static>
       <pose>101 -296 4 0 0 0</pose>
       <!--Uncomment <link> to preview detector region-->
@@ -521,10 +521,10 @@
         </geometry>
       </plugin>
 
-      <!--Triggered by performer_detector_2-->
+      <!--Triggered by performer_detector_rockfall_2-->
       <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
         <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
-          <match field='header.data'>{ key: "frame_id" value: "performer_detector_2" }</match>
+          <match field='header.data'>{ key: "frame_id" value: "performer_detector_rockfall_2" }</match>
           <match field='header.data'>{ key: "state" value: "0" }</match>
         </input>
         <output type="ignition.msgs.Empty" topic="/model/large_rock_fall_1/breadcrumbs/Rock/deploy"/>
@@ -536,7 +536,7 @@
       <pose>102.692000 -295.402000 3.005300 0 0.402990 -0.915400</pose>
     </include>
 
-    <model name="performer_detector_3">
+    <model name="performer_detector_rockfall_3">
       <static>true</static>
       <pose>178 -270 -45 0 0 0</pose>
       <!--Uncomment <link> to preview detector region-->
@@ -566,10 +566,10 @@
         </geometry>
       </plugin>
 
-      <!--Triggered by performer_detector_2-->
+      <!--Triggered by performer_detector_rockfall_3-->
       <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
         <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
-          <match field='header.data'>{ key: "frame_id" value: "performer_detector_3" }</match>
+          <match field='header.data'>{ key: "frame_id" value: "performer_detector_rockfall_3" }</match>
           <match field='header.data'>{ key: "state" value: "0" }</match>
         </input>
         <output type="ignition.msgs.Empty" topic="/model/large_rock_fall_2/breadcrumbs/Rock/deploy"/>
