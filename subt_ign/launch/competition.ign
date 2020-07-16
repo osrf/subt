@@ -103,7 +103,7 @@
   end
 
   MARSUPIAL_VALID_ROBOT_PAIRS = {
-  "X1" => ["X3", "EXPLORER_DS1", "MARBLE_QAV500"],
+  "X1" => ["X3", "MARBLE_QAV500"],
   "EXPLORER_R2" =>["X3", "EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100"]
   }
 
@@ -1441,7 +1441,7 @@
       allExecutables += executables
     end
 
-    if marsupialParents.has_key?(name)
+    if marsupialParents.has_key?(name) && robots[name].type.include?("X1")
       childModelName = marsupialParents[name]
        detachableJointPlugin = REXML::Document.new <<-HEREDOC
          <plugin filename="libignition-gazebo-detachable-joint-system.so" name="ignition::gazebo::systems::DetachableJoint">
