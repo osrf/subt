@@ -114,7 +114,7 @@
 
   MARSUPIAL_VALID_ROBOT_PAIRS = {
     "X1" => ["X3", "MARBLE_QAV500"],
-    "EXPLORER_R2" =>["X3", "EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100"]
+    "EXPLORER_R2" =>["X3", "X4", "EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100"]
   }
 
   MARSUPIAL_PARENT_ROBOT_POSITION_OFFSETS = {
@@ -278,7 +278,7 @@
     <%if defined?(updateRate) && updateRate != nil && !updateRate.empty?%>
     <update_rate><%= updateRate %></update_rate>
     <%end%>
-    <run>false</run>
+    <run>true</run>
     <levels><%= $levels %></levels>
     <record>
       <enabled>true</enabled>
@@ -1088,7 +1088,7 @@
       stereoCam=1
     end
 
-    z = _z + 0.2
+    z = _z + 0.125
 
     spawn = <<-HEREDOC
     <spawn name='#{_name}'>
