@@ -1,0 +1,880 @@
+<?xml version='1.0'?>
+<sdf version="1.6">
+  <model name="explorer_r2_sensor_config_1">
+    <pose>0 0 0.398 0 0 0</pose>
+    <link name="base_link">
+      <inertial>
+        <pose>0.002225 0.033355 0.022792 0 -0 0</pose>
+        <mass>111.0015</mass>
+        <inertia>
+          <ixx>4.49753</ixx>
+          <ixy>0.00199937</ixy>
+          <ixz>-0.00152659</ixz>
+          <iyy>2.46329</iyy>
+          <iyz>-0.424901</iyz>
+          <izz>5.57714</izz>
+        </inertia>
+      </inertial>
+      <collision name="base_link_collision">
+          <pose>0.25 0 0.0480 0 0 0</pose>
+          <geometry>
+            <box><size>0.6 0.55 0.428</size></box>
+          </geometry>
+      </collision>
+      <collision name="base_link_fixed_joint_lump__sensor_payload_link_collision_1">
+          <pose>0.38 0 0.4 0 0 0</pose>
+          <geometry>
+              <box>
+                  <size>0.28 0.28 0.4</size>
+              </box>
+          </geometry>
+      </collision>
+      <visual name="connection_visual">
+        <pose>0 0 0 0 1.5707 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.5</length>
+            <radius>0.05</radius>
+          </cylinder>
+        </geometry>
+      </visual>
+
+      <visual name="base_link_visual">
+        <pose>0.180 0 .24 0 0 -1.5707963267948966</pose>
+          <geometry>
+              <mesh>
+                  <uri>meshes/r2.dae</uri>
+                  <submesh>
+                      <name>BodyFront</name>
+                      <center>true</center>
+                  </submesh>
+              </mesh>
+          </geometry>
+          <material>
+              <diffuse>1.0 1.0 1.0</diffuse>
+              <specular>1.0 1.0 1.0</specular>
+              <pbr>
+                  <metal>
+                    <albedo_map>materials/textures/R2_Albedo.png</albedo_map>
+                      <metalness_map>materials/textures/R2_Metalness.png</metalness_map>
+                      <roughness_map>materials/textures/R2_Roughness.png</roughness_map>
+                  </metal>
+              </pbr>
+              <!-- fallback to script if no PBR support-->
+              <script>
+                  <uri>materials/scripts/</uri>
+                  <uri>materials/textures/</uri>
+                  <name>UrbanTile/R2_Diffuse</name>
+              </script>
+          </material>
+      </visual>
+
+      <sensor name="imu_sensor" type="imu">
+                <always_on>1</always_on>
+                <update_rate>250</update_rate>
+                <imu>
+                    <angular_velocity>
+                        <x>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>2e-4</stddev>
+                                <bias_mean>0.0000075</bias_mean>
+                                <bias_stddev>0.0000008</bias_stddev>
+                                <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
+                            </noise>
+                        </x>
+                        <y>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>2e-4</stddev>
+                                <bias_mean>0.0000075</bias_mean>
+                                <bias_stddev>0.0000008</bias_stddev>
+                                <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
+                            </noise>
+                        </y>
+                        <z>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>2e-4</stddev>
+                                <bias_mean>0.0000075</bias_mean>
+                                <bias_stddev>0.0000008</bias_stddev>
+                                <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
+                            </noise>
+                        </z>
+                    </angular_velocity>
+                    <linear_acceleration>
+                        <x>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>1e-2</stddev>
+                                <bias_mean>0.1</bias_mean>
+                                <bias_stddev>0.001</bias_stddev>
+                                <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
+                            </noise>
+                        </x>
+                        <y>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>1e-2</stddev>
+                                <bias_mean>0.1</bias_mean>
+                                <bias_stddev>0.001</bias_stddev>
+                                <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
+                            </noise>
+                        </y>
+                        <z>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>1e-2</stddev>
+                                <bias_mean>0.1</bias_mean>
+                                <bias_stddev>0.001</bias_stddev>
+                                <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
+                            </noise>
+                        </z>
+                    </linear_acceleration>
+                </imu>
+            </sensor>
+      <sensor name="rs_front" type="rgbd_camera">
+        <pose>0.565 0  0.245 0 0 0</pose>
+        <always_on>1</always_on>
+        <update_rate>30</update_rate>
+        <camera name="camera_front">
+          <horizontal_fov>1.0472</horizontal_fov>
+          <lens>
+            <intrinsics>
+              <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+              <fx>277.1</fx>
+              <fy>277.1</fy>
+                <!-- cx = ( width + 1 ) / 2 -->
+              <cx>160.5</cx>
+                <!-- cy = ( height + 1 ) / 2 -->
+              <cy>120.5</cy>
+              <s>0</s>
+            </intrinsics>
+          </lens>
+          <distortion>
+            <k1>0.0</k1>
+            <k2>0.0</k2>
+            <k3>0.0</k3>
+            <p1>0.0</p1>
+            <p2>0.0</p2>
+            <center>0.5 0.5</center>
+          </distortion>
+          <image>
+            <width>320</width>
+            <height>240</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.01</near>
+            <far>300</far>
+          </clip>
+          <depth_camera>
+            <clip>
+              <near>0.1</near>
+              <far>10</far>
+            </clip>
+          </depth_camera>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+      </sensor>
+      <sensor name="front_laser" type="gpu_lidar">
+        <pose>0.37 0 0.55 0 0 0</pose>
+        <always_on>1</always_on>
+        <update_rate>15</update_rate>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>10000</samples>
+              <resolution>0.1</resolution>
+              <min_angle>-3.14159</min_angle>
+              <max_angle>3.14159</max_angle>
+            </horizontal>
+            <vertical>
+              <samples>16</samples>
+              <resolution>1</resolution>
+              <min_angle>-0.261799</min_angle>
+              <max_angle>0.261799</max_angle>
+            </vertical>
+          </scan>
+          <range>
+            <min>0.05</min>
+            <max>100</max>
+          </range>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.01</stddev>
+          </noise>
+        </ray>
+      </sensor>
+      <sensor name="rs_left" type="rgbd_camera">
+        <pose>0.365 0.133 0.426 0 0 1.5707963267948966</pose>
+        <always_on>1</always_on>
+        <update_rate>30</update_rate>
+        <camera name="camera_left">
+          <horizontal_fov>1.0472</horizontal_fov>
+          <lens>
+            <intrinsics>
+              <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+              <fx>277.1</fx>
+              <fy>277.1</fy>
+                <!-- cx = ( width + 1 ) / 2 -->
+              <cx>160.5</cx>
+                <!-- cy = ( height + 1 ) / 2 -->
+              <cy>120.5</cy>
+              <s>0</s>
+            </intrinsics>
+          </lens>
+          <distortion>
+            <k1>0.0</k1>
+            <k2>0.0</k2>
+            <k3>0.0</k3>
+            <p1>0.0</p1>
+            <p2>0.0</p2>
+            <center>0.5 0.5</center>
+          </distortion>
+          <image>
+            <width>320</width>
+            <height>240</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.01</near>
+            <far>300</far>
+          </clip>
+          <depth_camera>
+            <clip>
+              <near>0.1</near>
+              <far>10</far>
+            </clip>
+          </depth_camera>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+      </sensor>
+      <sensor name="rs_back" type="rgbd_camera">
+        <pose>0.25 0 0.432 0 0 3.1415926535897931</pose>
+        <always_on>1</always_on>
+        <update_rate>30</update_rate>
+        <camera name="camera_rear">
+          <horizontal_fov>1.0472</horizontal_fov>
+          <lens>
+            <intrinsics>
+              <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+              <fx>277.1</fx>
+              <fy>277.1</fy>
+                <!-- cx = ( width + 1 ) / 2 -->
+              <cx>160.5</cx>
+                <!-- cy = ( height + 1 ) / 2 -->
+              <cy>120.5</cy>
+              <s>0</s>
+            </intrinsics>
+          </lens>
+          <distortion>
+            <k1>0.0</k1>
+            <k2>0.0</k2>
+            <k3>0.0</k3>
+            <p1>0.0</p1>
+            <p2>0.0</p2>
+            <center>0.5 0.5</center>
+          </distortion>
+          <image>
+            <width>320</width>
+            <height>240</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.01</near>
+            <far>300</far>
+          </clip>
+          <depth_camera>
+            <clip>
+              <near>0.1</near>
+              <far>10</far>
+            </clip>
+          </depth_camera>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+      </sensor>
+      <sensor name="rs_right" type="rgbd_camera">
+        <pose>0.365 -0.133 0.426 0 0 -1.5707963267948966</pose>
+        <always_on>1</always_on>
+        <update_rate>30</update_rate>
+        <camera name="camera_right">
+          <horizontal_fov>1.0472</horizontal_fov>
+          <lens>
+            <intrinsics>
+              <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+              <fx>277.1</fx>
+              <fy>277.1</fy>
+                <!-- cx = ( width + 1 ) / 2 -->
+              <cx>160.5</cx>
+                <!-- cy = ( height + 1 ) / 2 -->
+              <cy>120.5</cy>
+              <s>0</s>
+            </intrinsics>
+          </lens>
+          <distortion>
+            <k1>0.0</k1>
+            <k2>0.0</k2>
+            <k3>0.0</k3>
+            <p1>0.0</p1>
+            <p2>0.0</p2>
+            <center>0.5 0.5</center>
+          </distortion>
+          <image>
+            <width>320</width>
+            <height>240</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.01</near>
+            <far>300</far>
+          </clip>
+          <depth_camera>
+            <clip>
+              <near>0.1</near>
+              <far>10</far>
+            </clip>
+          </depth_camera>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+      </sensor>
+      <light name="right_light_source" type="spot">
+        <pose frame="">0.358 -0.133 0.45 3.1415926535897931 1.5707963267948966 -1.5707963267948966</pose>
+        <attenuation>
+          <range>50</range>
+          <linear>0</linear>
+          <constant>0.1</constant>
+          <quadratic>0.0025</quadratic>
+        </attenuation>
+        <diffuse>1.0 1.0 0.63 1</diffuse>
+        <specular>1.0 1.0 0.63 1</specular>
+        <spot>
+          <inner_angle>1</inner_angle>
+          <outer_angle>1.1</outer_angle>
+          <falloff>1</falloff>
+        </spot>
+        <direction>0 0 -1</direction>
+        <cast_shadows>1</cast_shadows>
+      </light>
+      <light name="front_light" type="spot">
+        <pose frame="">0.49 0 0.45 1.5707963267948966 1.5707963267948966 -1.5707963267948966</pose>
+        <attenuation>
+          <range>50</range>
+          <linear>0</linear>
+          <constant>0.1</constant>
+          <quadratic>0.0025</quadratic>
+        </attenuation>
+        <diffuse>0.8 0.8 0.5 1</diffuse>
+        <specular>0.8 0.8 0.5 1</specular>
+        <spot>
+          <inner_angle>1</inner_angle>
+          <outer_angle>1.1</outer_angle>
+          <falloff>1</falloff>
+        </spot>
+        <direction>0 -1 0</direction>
+        <cast_shadows>1</cast_shadows>
+      </light>
+      <light name="left_light_source" type="spot">
+        <pose frame="">0.358 0.133 0.45 0 1.5707963267948966 -1.5707963267948966</pose>
+        <attenuation>
+          <range>50</range>
+          <linear>0</linear>
+          <constant>0.1</constant>
+          <quadratic>0.0025</quadratic>
+        </attenuation>
+        <diffuse>1.0 1.0 0.63 1</diffuse>
+        <specular>1.0 1.0 0.63 1</specular>
+        <spot>
+          <inner_angle>1</inner_angle>
+          <outer_angle>1.1</outer_angle>
+          <falloff>1</falloff>
+        </spot>
+        <direction>0 0 -1</direction>
+        <cast_shadows>1</cast_shadows>
+      </light>
+      <light name="back_light_source" type="spot">
+        <pose frame="">0.26 0 0.46 -1.5707963267948966 1.5707963267948966 -1.5707963267948966</pose>
+        <attenuation>
+          <range>50</range>
+          <linear>0</linear>
+          <constant>0.1</constant>
+          <quadratic>0.0025</quadratic>
+        </attenuation>
+        <diffuse>1.0 1.0 0.63 1</diffuse>
+        <specular>1.0 1.0 0.63 1</specular>
+        <spot>
+          <inner_angle>1</inner_angle>
+          <outer_angle>1.1</outer_angle>
+          <falloff>1</falloff>
+        </spot>
+        <direction>0 0 -1</direction>
+        <cast_shadows>1</cast_shadows>
+      </light>
+    </link>
+    <link name="Rear_Rocker_Link">
+      <pose>-0.047625 0 -0.0254 1.5707963267948966 0 0</pose>
+      <inertial>
+        <pose>-0.191018 -0.006403 -0 0 -0 0</pose>
+        <mass>42.8393</mass>
+        <inertia>
+          <ixx>0.848992</ixx>
+          <ixy>0.00301842</ixy>
+          <ixz>5.21788e-06</ixz>
+          <iyy>1.03049</iyy>
+          <iyz>1.2171e-07</iyz>
+          <izz>0.43679</izz>
+        </inertia>
+      </inertial>
+      <collision name="Rear_Rocker_Link_collision">
+        <pose>-0.2 0.072 0 0 0 0</pose>
+          <geometry>
+            <box><size>0.42 0.43 0.56</size></box>
+          </geometry>
+        </collision>
+        <collision name="Rear_Rocker_Link_platform_collision1">
+          <pose>-0.70 0.2855 0 -0.005 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.17 0.01 0.5</size>
+            </box>
+          </geometry>
+        </collision>
+        <collision name="Rear_Rocker_Link_platform_collision2">
+          <pose>-0.35 0.2855 -0.005 -0.005 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.678 0.01 0.69</size>
+            </box>
+          </geometry>
+        </collision>
+
+        <visual name= "BodyRear_visual">
+          <pose>-0.428 0.068 0 -1.5707963267948966 -1.5707963267948966 0</pose>
+          <geometry>
+            <mesh>
+              <uri>meshes/r2.dae</uri>
+              <submesh>
+                <name>BodyRear</name>
+                <center>true</center>
+              </submesh>
+            </mesh>
+          </geometry>
+          <material>
+            <diffuse>1.0 1.0 1.0</diffuse>
+            <specular>1.0 1.0 1.0</specular>
+            <pbr>
+              <metal>
+                <albedo_map>materials/textures/R2_Albedo.png</albedo_map>
+                <metalness_map>materials/textures/R2_Metalness.png</metalness_map>
+                <roughness_map>materials/textures/R2_Roughness.png</roughness_map>
+              </metal>
+            </pbr>
+            <script>
+              <uri>materials/scripts/</uri>
+              <uri>materials/textures/</uri>
+              <name>UrbanTile/R2_Diffuse</name>
+            </script>
+          </material>
+        </visual>
+    </link>
+    <joint name="Center Pivot" type="revolute">
+      <child>Rear_Rocker_Link</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>-1 0 0</xyz>
+        <limit>
+          <lower>-0.5236</lower>
+          <upper>0.5236</upper>
+        </limit>
+        <dynamics>
+          <damping>10</damping>
+          <friction>0.1</friction>
+          <spring_reference>0.1</spring_reference>
+          <spring_stiffness>100</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name="left_front_wheel_link">
+      <pose>0.33421 0.363 -0.091538 -0.013747 -0 -1.5707963267948966</pose>
+      <inertial>
+        <pose>0.007124 -1.6e-05 4e-06 0 -0 0</pose>
+        <mass>11.5398</mass>
+        <inertia>
+          <ixx>0.127932</ixx>
+          <ixy>6.41777e-06</ixy>
+          <ixz>2.40271e-06</ixz>
+          <iyy>0.0695645</iyy>
+          <iyz>1.35439e-09</iyz>
+          <izz>0.0695643</izz>
+        </inertia>
+      </inertial>
+      <collision name="left_front_wheel_link_collision">
+        <pose>0 0 0 3.1415926535897931 1.5707963267948966 3.1415926535897931</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1125</length>
+            <radius>0.31</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1</mu>
+              <mu2>1</mu2>
+              <fdir1>0 0 1</fdir1>
+              <slip1>0.046</slip1>
+              <slip2>0</slip2>
+              <max_vel>10</max_vel>
+              <min_depth>0.1</min_depth>
+            </ode>
+          </friction>
+          <contact>
+            <ode>
+              <kp>1e+07</kp>
+              <kd>0.0001</kd>
+            </ode>
+          </contact>
+        </surface>
+      </collision>
+      <visual name="left_front_wheel_link_visual">
+          <geometry>
+              <mesh>
+                  <uri>meshes/r2.dae</uri>
+                  <submesh>
+                      <name>WheelFL</name>
+                      <center>true</center>
+                  </submesh>
+              </mesh>
+          </geometry>
+          <material>
+              <diffuse>1.0 1.0 1.0</diffuse>
+              <specular>1.0 1.0 1.0</specular>
+              <pbr>
+                  <metal>
+                      <albedo_map>materials/textures/R2_Albedo.png</albedo_map>
+                      <metalness_map>materials/textures/R2_Metalness.png</metalness_map>
+                      <roughness_map>materials/textures/R2_Roughness.png</roughness_map>
+                  </metal>
+              </pbr>
+              <!-- fallback to script if no PBR support-->
+              <script>
+                  <uri>materials/scripts/</uri>
+                  <uri>materials/textures/</uri>
+                  <name>UrbanTile/R2_Diffuse</name>
+              </script>
+          </material>
+      </visual>
+    </link>
+    <joint name="left_front_wheel" type="revolute">
+      <child>left_front_wheel_link</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>-1 0 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <damping>10</damping>
+          <friction>0.1</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name="left_rear_wheel_link">
+      <pose>-0.334625 0.363 -0.083399 -0.014389 0.000148 -1.5707963267948966</pose>
+      <inertial>
+        <pose>0.007124 -1.6e-05 4e-06 0 -0 0</pose>
+        <mass>11.5398</mass>
+        <inertia>
+          <ixx>0.127932</ixx>
+          <ixy>6.41777e-06</ixy>
+          <ixz>2.40271e-06</ixz>
+          <iyy>0.0695645</iyy>
+          <iyz>1.35439e-09</iyz>
+          <izz>0.0695643</izz>
+        </inertia>
+      </inertial>
+      <collision name="left_rear_wheel_link_collision">
+        <pose>0 0 0 3.1415926535897931 1.5707963267948966 3.1415926535897931</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1125</length>
+            <radius>0.31</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1</mu>
+              <mu2>1</mu2>
+              <fdir1>0 0 1</fdir1>
+              <slip1>0.046</slip1>
+              <slip2>0</slip2>
+              <max_vel>10</max_vel>
+              <min_depth>0.1</min_depth>
+            </ode>
+          </friction>
+          <contact>
+            <ode>
+              <kp>1e+07</kp>
+              <kd>0.0001</kd>
+            </ode>
+          </contact>
+        </surface>
+      </collision>
+      <visual name="left_rear_wheel_link_visual">
+          <geometry>
+              <mesh>
+                  <uri>meshes/r2.dae</uri>
+                  <submesh>
+                      <name>WheelBL</name>
+                      <center>true</center>
+                  </submesh>
+              </mesh>
+          </geometry>
+          <material>
+              <diffuse>1.0 1.0 1.0</diffuse>
+              <specular>1.0 1.0 1.0</specular>
+              <pbr>
+                  <metal>
+                      <albedo_map>materials/textures/R2_Albedo.png</albedo_map>
+                      <metalness_map>materials/textures/R2_Metalness.png</metalness_map>
+                      <roughness_map>materials/textures/R2_Roughness.png</roughness_map>
+                  </metal>
+              </pbr>
+              <!-- fallback to script if no PBR support-->
+              <script>
+                  <uri>materials/scripts/</uri>
+                  <uri>materials/textures/</uri>
+                  <name>UrbanTile/R2_Diffuse</name>
+              </script>
+          </material>
+      </visual>
+
+    </link>
+    <joint name="left_rear_wheel" type="revolute">
+      <child>left_rear_wheel_link</child>
+      <parent>Rear_Rocker_Link</parent>
+      <axis>
+        <xyz>-1 0 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <damping>10</damping>
+          <friction>0.1</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name="right_front_wheel_link">
+      <pose>0.33421 -0.363 -0.091538 -0.013747 -0 1.5707963267948966</pose>
+      <inertial>
+        <pose>0.007124 -1.6e-05 4e-06 0 -0 0</pose>
+        <mass>11.5398</mass>
+        <inertia>
+          <ixx>0.127932</ixx>
+          <ixy>6.41777e-06</ixy>
+          <ixz>2.40271e-06</ixz>
+          <iyy>0.0695645</iyy>
+          <iyz>1.35439e-09</iyz>
+          <izz>0.0695643</izz>
+        </inertia>
+      </inertial>
+      <collision name="right_front_wheel_link_collision">
+        <pose>0 0 0 3.1415926535897931 1.5707963267948966 3.1415926535897931</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1125</length>
+            <radius>0.31</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1</mu>
+              <mu2>1</mu2>
+              <fdir1>0 0 1</fdir1>
+              <slip1>0.046</slip1>
+              <slip2>0</slip2>
+              <max_vel>10</max_vel>
+              <min_depth>0.1</min_depth>
+            </ode>
+          </friction>
+          <contact>
+            <ode>
+              <kp>1e+07</kp>
+              <kd>0.0001</kd>
+            </ode>
+          </contact>
+        </surface>
+      </collision>
+      <visual name="right_front_wheel_link_visual">
+          <geometry>
+              <mesh>
+                  <uri>meshes/r2.dae</uri>
+                  <submesh>
+                      <name>WheelFR</name>
+                      <center>true</center>
+                  </submesh>
+              </mesh>
+          </geometry>
+          <material>
+              <diffuse>1.0 1.0 1.0</diffuse>
+              <specular>1.0 1.0 1.0</specular>
+              <pbr>
+                  <metal>
+                      <albedo_map>materials/textures/R2_Albedo.png</albedo_map>
+                      <metalness_map>materials/textures/R2_Metalness.png</metalness_map>
+                      <roughness_map>materials/textures/R2_Roughness.png</roughness_map>
+                  </metal>
+              </pbr>
+              <!-- fallback to script if no PBR support-->
+              <script>
+                  <uri>materials/scripts/</uri>
+                  <uri>materials/textures/</uri>
+                  <name>UrbanTile/R2_Diffuse</name>
+              </script>
+          </material>
+      </visual>
+
+    </link>
+    <joint name="right_front_wheel" type="revolute">
+      <child>right_front_wheel_link</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <damping>10</damping>
+          <friction>0.1</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name="right_rear_wheel_link">
+      <pose>-0.334625 -0.363 -0.083401 -0.014389 -0.000148 1.5707963267948966</pose>
+      <inertial>
+        <pose>0.007124 -1.6e-05 4e-06 0 -0 0</pose>
+        <mass>11.5398</mass>
+        <inertia>
+          <ixx>0.127932</ixx>
+          <ixy>6.41777e-06</ixy>
+          <ixz>2.40271e-06</ixz>
+          <iyy>0.0695645</iyy>
+          <iyz>1.35439e-09</iyz>
+          <izz>0.0695643</izz>
+        </inertia>
+      </inertial>
+      <collision name="right_rear_wheel_link_collision">
+        <pose>0 0 0 3.1415926535897931 1.5707963267948966 3.1415926535897931</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1125</length>
+            <radius>0.31</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1</mu>
+              <mu2>1</mu2>
+              <fdir1>0 0 1</fdir1>
+              <slip1>0.046</slip1>
+              <slip2>0</slip2>
+              <max_vel>10</max_vel>
+              <min_depth>0.1</min_depth>
+            </ode>
+          </friction>
+          <contact>
+            <ode>
+              <kp>1e+07</kp>
+              <kd>0.0001</kd>
+            </ode>
+          </contact>
+        </surface>
+      </collision>
+      <visual name="right_rear_wheel_link_visual">
+          <geometry>
+              <mesh>
+                  <uri>meshes/r2.dae</uri>
+                  <submesh>
+                      <name>WheelBR</name>
+                      <center>true</center>
+                  </submesh>
+              </mesh>
+          </geometry>
+          <material>
+              <diffuse>1.0 1.0 1.0</diffuse>
+              <specular>1.0 1.0 1.0</specular>
+              <pbr>
+                  <metal>
+                      <albedo_map>materials/textures/R2_Albedo.png</albedo_map>
+                      <metalness_map>materials/textures/R2_Metalness.png</metalness_map>
+                      <roughness_map>materials/textures/R2_Roughness.png</roughness_map>
+                  </metal>
+              </pbr>
+              <!-- fallback to script if no PBR support-->
+              <script>
+                  <uri>materials/scripts/</uri>
+                  <uri>materials/textures/</uri>
+                  <name>UrbanTile/R2_Diffuse</name>
+              </script>
+          </material>
+      </visual>
+    </link>
+    <joint name="right_rear_wheel" type="revolute">
+      <child>right_rear_wheel_link</child>
+      <parent>Rear_Rocker_Link</parent>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <damping>10</damping>
+          <friction>0.1</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+  </model>
+</sdf>
