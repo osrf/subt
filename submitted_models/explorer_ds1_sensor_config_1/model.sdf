@@ -567,8 +567,6 @@
                     <izz>4.26041e-05</izz>
                 </inertia>
             </inertial>
-            <gravity>1</gravity>
-            <velocity_decay/>
         </link>
         <joint name="rotor_0_joint" type="revolute">
             <child>rotor_0</child>
@@ -601,8 +599,6 @@
                     <izz>4.26041e-05</izz>
                 </inertia>
             </inertial>
-            <gravity>1</gravity>
-            <velocity_decay/>
         </link>
         <joint name="rotor_1_joint" type="revolute">
             <child>rotor_1</child>
@@ -635,8 +631,6 @@
                     <izz>4.26041e-05</izz>
                 </inertia>
             </inertial>
-            <gravity>1</gravity>
-            <velocity_decay/>
         </link>
         <joint name="rotor_2_joint" type="revolute">
             <child>rotor_2</child>
@@ -669,8 +663,6 @@
                     <izz>4.26041e-05</izz>
                 </inertia>
             </inertial>
-            <gravity>1</gravity>
-            <velocity_decay/>
         </link>
         <joint name="rotor_3_joint" type="revolute">
             <child>rotor_3</child>

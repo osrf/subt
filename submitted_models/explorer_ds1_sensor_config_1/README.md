@@ -9,7 +9,7 @@ CMU SubT Explorer DS1 model in SubT-Ignition Simulation Enviroment.
 ### How to get the ignition runing on your workspace ###
 
 You may follow the instruction here to get the simulation running in your workspace.
-[tutorials](https://bitbucket.org/osrf/subt/wiki/documentation)
+[tutorials](https://github.com/osrf/subt/wiki/Tutorials)
 
 ### How to spawn this model in ignition ###
 
