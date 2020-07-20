@@ -567,27 +567,6 @@
                     <izz>4.26041e-05</izz>
                 </inertia>
             </inertial>
-            <collision name="collision">
-              <pose>0.031 0.055 0 0 0 0</pose>
-              <geometry>
-                <cylinder>
-                  <length>0.005</length>
-                  <radius>0.1397</radius>
-                </cylinder>
-              </geometry>
-            </collision>
-            <visual name="visual">
-              <pose>0.031 0.055 0 3.1415 0 0</pose>
-              <geometry>
-                <mesh>
-                  <uri>meshes/neo11_propeller_ccw.dae</uri>
-                </mesh>
-              </geometry>
-              <material>
-                <diffuse>0 0 0 1</diffuse>
-              </material>
-              <cast_shadows>0</cast_shadows>
-            </visual>
         </link>
         <joint name="rotor_0_joint" type="revolute">
             <child>rotor_0</child>
@@ -620,27 +599,6 @@
                     <izz>4.26041e-05</izz>
                 </inertia>
             </inertial>
-            <collision name="collision">
-              <pose>-0.037 -0.034 0 0 0 0</pose>
-              <geometry>
-                <cylinder>
-                  <length>0.005</length>
-                  <radius>0.1397</radius>
-                </cylinder>
-              </geometry>
-            </collision>
-            <visual name="visual">
-              <pose>-0.037 -0.034 0 3.1415 0 0</pose>
-              <geometry>
-                <mesh>
-                  <uri>meshes/neo11_propeller_ccw.dae</uri>
-                </mesh>
-              </geometry>
-              <material>
-                <diffuse>0 0 0 1</diffuse>
-              </material>
-              <cast_shadows>0</cast_shadows>
-            </visual>
         </link>
         <joint name="rotor_1_joint" type="revolute">
             <child>rotor_1</child>
@@ -673,27 +631,6 @@
                     <izz>4.26041e-05</izz>
                 </inertia>
             </inertial>
-            <collision name="collision">
-              <pose>0.031 -0.055 0 0 0 0</pose>
-              <geometry>
-                <cylinder>
-                  <length>0.005</length>
-                  <radius>0.1397</radius>
-                </cylinder>
-              </geometry>
-            </collision>
-            <visual name="visual">
-              <pose>0.031 -0.055 0 3.1415 0 0</pose>
-              <geometry>
-                <mesh>
-                  <uri>/meshes/neo11_propeller_ccw.dae</uri>
-                </mesh>
-              </geometry>
-              <material>
-                <diffuse>0 0 0 1</diffuse>
-              </material>
-              <cast_shadows>0</cast_shadows>
-            </visual>
         </link>
         <joint name="rotor_2_joint" type="revolute">
             <child>rotor_2</child>
@@ -726,27 +663,6 @@
                     <izz>4.26041e-05</izz>
                 </inertia>
             </inertial>
-            <collision name="collision">
-              <pose>-0.037 0.034 0 0 0 0</pose>
-              <geometry>
-                <cylinder>
-                  <length>0.005</length>
-                  <radius>0.1397</radius>
-                </cylinder>
-              </geometry>
-            </collision>
-            <visual name="visual">
-              <pose>-0.037 0.034 0 3.1415 0 0</pose>
-              <geometry>
-                <mesh>
-                  <uri>meshes/neo11_propeller_ccw.dae</uri>
-                </mesh>
-              </geometry>
-              <material>
-                <diffuse>0 0 0 1</diffuse>
-              </material>
-              <cast_shadows>0</cast_shadows>
-            </visual>
         </link>
         <joint name="rotor_3_joint" type="revolute">
             <child>rotor_3</child>
