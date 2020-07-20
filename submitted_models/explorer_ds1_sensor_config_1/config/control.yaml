@@ -1,0 +1,58 @@
+rocker_joint_publisher:
+  type: "joint_state_controller/JointStateController"
+  publish_rate: 50
+
+rocker_velocity_controller:
+  type: "diff_drive_controller/DiffDriveController"
+  left_wheel: ['left_front_wheel','left_rear_wheel']
+  right_wheel: ['right_front_wheel','right_rear_wheel']
+  publish_rate: 50
+  pose_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.03]
+  twist_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.03]
+  cmd_vel_timeout: 0.25
+  velocity_rolling_window_size: 2
+
+  # Odometry fused with IMU is published by robot_localization, so
+  # no need to publish a TF based on encoders alone.
+  enable_odom_tf: false
+
+  # X1 hardware provides wheel velocities
+  estimate_velocity_from_position: false
+
+  # Wheel separation and radius multipliers
+  wheel_separation_multiplier: 1.0 # default: 1.0
+  wheel_radius_multiplier    : 1.0 # default: 1.0
+
+  # Velocity and acceleration limits
+  # Whenever a min_* is unspecified, default to -max_*
+  linear:
+    x:
+      has_velocity_limits    : true
+      max_velocity           : 5.0   # m/s
+      has_acceleration_limits: true
+      max_acceleration       : 3.0   # m/s^2
+  angular:
+    z:
+      has_velocity_limits    : true
+      max_velocity           : 2.0   # rad/s
+      has_acceleration_limits: true
+      max_acceleration       : 6.0   # rad/s^2
+
+  /gazebo_ros_control:
+    pid_gains:
+        left_front_wheel:
+            p: 100.0
+            i: 0.0
+            d: 0.0
+        right_front_wheel:
+            p: 100.0
+            i: 0.0
+            d: 0.0
+        left_rear_wheel:
+            p: 100.0
+            i: 0.0
+            d: 0.0
+        right_rear_wheel:
+            p: 100.0
+            i: 0.0
+            d: 0.0
