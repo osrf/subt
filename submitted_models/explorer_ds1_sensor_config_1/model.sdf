@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <sdf version="1.6">
     <model name="ds1">
-        <pose>0 0 0.121078 0 0 0</pose>
+        <pose>0 0 0.051 0 0 0</pose>
         <link name="base_link">
             <pose frame="">0 0 0 0 -0 0</pose>
             <inertial>
@@ -17,7 +17,7 @@
                 </inertia>
             </inertial>
             <collision name="base_link_inertia_collision">
-                <pose frame="">0 0 0 0 -0 0</pose>
+                <pose frame="">0 0 0.019 0 0 0</pose>
                 <geometry>
                     <mesh>
                         <scale>1 1 1</scale>
