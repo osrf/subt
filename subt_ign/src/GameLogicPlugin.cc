@@ -241,16 +241,13 @@ class subt::GameLogicPluginPrivate
   /// reported pos, distance between true pos and reported pos
   public: std::tuple<std::string, std::string, ignition::math::Vector3d,
       ignition::math::Vector3d, double> closestReport =
-    {"", "", ignition::math::Vector3d(), ignition::math::Vector3d(),
-    std::numeric_limits<double>::infinity()};
+    {"", "", ignition::math::Vector3d(), ignition::math::Vector3d(), -1};
 
   /// \brief First artifact report time
-  public: double firstReportTime =
-      std::numeric_limits<double>::infinity();
+  public: double firstReportTime = -1;
 
   /// \brief Last artifact report time
-  public: double lastReportTime =
-      std::numeric_limits<double>::infinity();
+  public: double lastReportTime = -1;
 
   /// \brief A mutex.
   public: std::mutex mutex;
@@ -851,7 +848,7 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
       // collect artifact report data for logging
       // update closest artifact reported so far
       double closestDist = std::get<4>(this->closestReport);
-      if (distToArtifact < closestDist)
+      if (closestDist < 0.0 || distToArtifact < closestDist)
       {
         std::string artifactType;
         if (!this->StringFromArtifact(_type, artifactType))
@@ -866,7 +863,7 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
       // compute sim time of this report
       double reportTime = this->simTime.sec() + this->simTime.nsec() * 1e-9;
       this->lastReportTime = reportTime;
-      if (std::isinf(this->firstReportTime))
+      if (this->firstReportTime < 0)
         this->firstReportTime = reportTime;
     }
   }
