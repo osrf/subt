@@ -696,17 +696,38 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
   if (this->started && this->finished)
   {
     _resp.set_report_status("scoring finished");
+    this->eventStream
+      << "- event:\n"
+      << "  type: artifact_report_score_finished\n"
+      << "  time_sec: " << this->simTime.sec() << "\n"
+      << "  total_score: " << this->totalScore << std::endl;
   }
   else if (!this->started && !this->finished)
   {
     _resp.set_report_status("run not started");
+    this->eventStream
+      << "- event:\n"
+      << "  type: artifact_report_not_started\n"
+      << "  time_sec: " << this->simTime.sec() << "\n"
+      << "  total_score: " << this->totalScore << std::endl;
   }
   else if (this->reportCount >= this->reportCountLimit)
   {
     _resp.set_report_status("report limit exceeded");
+    this->eventStream
+      << "- event:\n"
+      << "  type: artifact_report_limit_exceeded\n"
+      << "  time_sec: " << this->simTime.sec() << "\n"
+      << "  total_score: " << this->totalScore << std::endl;
   }
   else if (!this->ArtifactFromInt(_req.type(), artifactType))
   {
+    this->eventStream
+      << "- event:\n"
+      << "  type: artifact_report_unknown_artifact\n"
+      << "  time_sec: " << this->simTime.sec() << "\n"
+      << "  total_score: " << this->totalScore << std::endl;
+
     ignerr << "Unknown artifact code. The number should be between 0 and "
           << this->kArtifactTypes.size() - 1 << " but we received "
           << _req.type() << std::endl;
@@ -723,6 +744,12 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
     _resp.set_score_change(scoreDiff);
     _resp.set_report_status("scored");
     this->totalScore += scoreDiff;
+
+    this->eventStream
+      << "- event:\n"
+      << "  type: artifact_report_scored\n"
+      << "  time_sec: " << this->simTime.sec() << "\n"
+      << "  total_score: " << this->totalScore << std::endl;
 
     ignmsg << "Total score: " << this->totalScore << std::endl;
     this->Log() << "new_total_score " << this->totalScore << std::endl;
@@ -1055,6 +1082,11 @@ bool GameLogicPluginPrivate::Start()
     this->state = "started";
     this->startPub.Publish(msg);
     this->lastStatusPubTime = std::chrono::steady_clock::now();
+
+    this->eventStream
+      << "- event:\n"
+      << "  type: started\n"
+      << "  time_sec: " << this->simTime.sec() << std::endl;
   }
 
   // Update files when scoring has started.
@@ -1101,6 +1133,14 @@ void GameLogicPluginPrivate::Finish()
     this->Log() << "finished_score " << this->totalScore << std::endl;
     this->logStream.flush();
     this->eventStream.flush();
+
+    this->eventStream
+      << "- event:\n"
+      << "  type: finished\n"
+      << "  time_sec: " << this->simTime.sec() << "\n"
+      << "  elapsed_real_time " << realElapsed << "\n"
+      << "  elapsed_sim_time " << simElapsed << "\n"
+      << "  total_score: " << this->totalScore << std::endl;
 
     // \todo(nkoenig) After the tunnel circuit, change the /subt/start topic
     // to /sub/status.
