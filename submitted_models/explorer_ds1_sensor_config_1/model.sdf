@@ -6,7 +6,7 @@
             <pose frame="">0 0 0 0 -0 0</pose>
             <inertial>
                 <pose frame="">0 0 0 0 -0 0</pose>
-                <mass>1.5</mass>
+                <mass>1.55</mass>
                 <inertia>
                     <ixx>0.025</ixx>
                     <ixy>0</ixy>
@@ -123,12 +123,66 @@
                 </script>
               </material>
             </visual>
-
+            <!-- Leds Visual -->
+            <visual name="front_left_led">
+                <pose frame="">0.39 -0.166 0.065 0 1.57079632679 0</pose>
+                <geometry>
+                    <mesh>
+                        <scale>0.5 0.5 0.5</scale>
+                        <uri>meshes/led.dae</uri>
+                    </mesh>
+                </geometry>
+            </visual>
+            <visual name="front_right_led">
+                <pose frame="">0.39 0.166 0.065 0 1.57079632679 0</pose>
+                <geometry>
+                    <mesh>
+                        <scale>0.5 0.5 0.5</scale>
+                        <uri>meshes/led.dae</uri>
+                    </mesh>
+                </geometry>
+            </visual>
+            <visual name="up_left_led">
+                <pose frame="">0.36 -0.166 0.07 0 0 0</pose>
+                <geometry>
+                    <mesh>
+                        <scale>0.5 0.5 0.5</scale>
+                        <uri>meshes/led.dae</uri>
+                    </mesh>
+                </geometry>
+            </visual>
+            <visual name="up_right_led">
+                <pose frame="">0.36 0.166 0.07 0 0 0</pose>
+                <geometry>
+                    <mesh>
+                        <scale>0.5 0.5 0.5</scale>
+                        <uri>meshes/led.dae</uri>
+                    </mesh>
+                </geometry>
+            </visual>
+            <visual name="down_left_led">
+                <pose frame="">0.36 -0.166 0.06 0 -3.14159265359 0</pose>
+                <geometry>
+                    <mesh>
+                        <scale>0.5 0.5 0.5</scale>
+                        <uri>meshes/led.dae</uri>
+                    </mesh>
+                </geometry>
+            </visual>
+            <visual name="down_right_led">
+                <pose frame="">0.36 0.166 0.06 0 -3.14159265359 0</pose>
+                <geometry>
+                    <mesh>
+                        <scale>0.5 0.5 0.5</scale>
+                        <uri>meshes/led.dae</uri>
+                    </mesh>
+                </geometry>
+            </visual>
 
             <light name="front_left_flashlight_source" type="spot">
-                <pose frame="">0.4 -0.4 0.07 0 -1.57079632679 0</pose>
+                <pose frame="">0.43 -0.166 0.07 0 -1.57079632679 0</pose>
                 <attenuation>
-                    <range>20</range>
+                    <range>50</range>
                     <linear>0</linear>
                     <constant>0.1</constant>
                     <quadratic>0.0025</quadratic>
@@ -136,8 +190,8 @@
                 <diffuse>0.8 0.8 0.5 1</diffuse>
                 <specular>0.8 0.8 0.5 1</specular>
                 <spot>
-                    <inner_angle>1</inner_angle>
-                    <outer_angle>1.1</outer_angle>
+                    <inner_angle>1.5</inner_angle>
+                    <outer_angle>1.8</outer_angle>
                     <falloff>1</falloff>
                 </spot>
                 <direction>0 0 -1</direction>
@@ -145,9 +199,9 @@
             </light>        
 
             <light name="front_right_flashlight_source" type="spot">
-                <pose frame="">0.4 0.4 0.07 0 -1.57079632679 0</pose>
+                <pose frame="">0.43 0.166 0.07 0 -1.57079632679 0</pose>
                 <attenuation>
-                    <range>20</range>
+                    <range>50</range>
                     <linear>0</linear>
                     <constant>0.1</constant>
                     <quadratic>0.0025</quadratic>
@@ -155,46 +209,8 @@
                 <diffuse>0.8 0.8 0.5 1</diffuse>
                 <specular>0.8 0.8 0.5 1</specular>
                 <spot>
-                    <inner_angle>1</inner_angle>
-                    <outer_angle>1.1</outer_angle>
-                    <falloff>1</falloff>
-                </spot>
-                <direction>0 0 -1</direction>
-                <cast_shadows>1</cast_shadows>
-            </light>
-
-            <light name="up_left_flashlight_source" type="spot">
-                <pose frame="">0.4 -0.4 0.07 0 0 0</pose>
-                <attenuation>
-                    <range>20</range>
-                    <linear>0</linear>
-                    <constant>0.1</constant>
-                    <quadratic>0.0025</quadratic>
-                </attenuation>
-                <diffuse>0.8 0.8 0.5 1</diffuse>
-                <specular>0.8 0.8 0.5 1</specular>
-                <spot>
-                    <inner_angle>1</inner_angle>
-                    <outer_angle>1.1</outer_angle>
-                    <falloff>1</falloff>
-                </spot>
-                <direction>0 0 -1</direction>
-                <cast_shadows>1</cast_shadows>
-            </light>        
-
-            <light name="up_right_flashlight_source" type="spot">
-                <pose frame="">0.4 0.4 0.07 0 0 0</pose>
-                <attenuation>
-                    <range>20</range>
-                    <linear>0</linear>
-                    <constant>0.1</constant>
-                    <quadratic>0.0025</quadratic>
-                </attenuation>
-                <diffuse>0.8 0.8 0.5 1</diffuse>
-                <specular>0.8 0.8 0.5 1</specular>
-                <spot>
-                    <inner_angle>1</inner_angle>
-                    <outer_angle>1.1</outer_angle>
+                    <inner_angle>1.5</inner_angle>
+                    <outer_angle>1.8</outer_angle>
                     <falloff>1</falloff>
                 </spot>
                 <direction>0 0 -1</direction>
@@ -202,9 +218,9 @@
             </light>
 
             <light name="down_left_flashlight_source" type="spot">
-                <pose frame="">0.4 -0.4 0.07 0 -3.14159265359 0</pose>
+                <pose frame="">0.4 -0.166 0.04 0 0 0</pose>
                 <attenuation>
-                    <range>20</range>
+                    <range>15</range>
                     <linear>0</linear>
                     <constant>0.1</constant>
                     <quadratic>0.0025</quadratic>
@@ -212,8 +228,8 @@
                 <diffuse>0.8 0.8 0.5 1</diffuse>
                 <specular>0.8 0.8 0.5 1</specular>
                 <spot>
-                    <inner_angle>1</inner_angle>
-                    <outer_angle>1.1</outer_angle>
+                    <inner_angle>1.8</inner_angle>
+                    <outer_angle>2.0</outer_angle>
                     <falloff>1</falloff>
                 </spot>
                 <direction>0 0 -1</direction>
@@ -221,9 +237,9 @@
             </light>        
 
             <light name="down_right_flashlight_source" type="spot">
-                <pose frame="">0.4 0.4 0.07 0 -3.14159265359 0</pose>
+                <pose frame="">0.4 0.166 0.04 0 0 0</pose>
                 <attenuation>
-                    <range>20</range>
+                    <range>15</range>
                     <linear>0</linear>
                     <constant>0.1</constant>
                     <quadratic>0.0025</quadratic>
@@ -231,8 +247,46 @@
                 <diffuse>0.8 0.8 0.5 1</diffuse>
                 <specular>0.8 0.8 0.5 1</specular>
                 <spot>
-                    <inner_angle>1</inner_angle>
-                    <outer_angle>1.1</outer_angle>
+                    <inner_angle>1.8</inner_angle>
+                    <outer_angle>2.0</outer_angle>
+                    <falloff>1</falloff>
+                </spot>
+                <direction>0 0 -1</direction>
+                <cast_shadows>1</cast_shadows>
+            </light>
+
+            <light name="up_left_flashlight_source" type="spot">
+                <pose frame="">0.4 -0.166 0.1 0 -3.14159265359 0</pose>
+                <attenuation>
+                    <range>15</range>
+                    <linear>0</linear>
+                    <constant>0.1</constant>
+                    <quadratic>0.0025</quadratic>
+                </attenuation>
+                <diffuse>0.8 0.8 0.5 1</diffuse>
+                <specular>0.8 0.8 0.5 1</specular>
+                <spot>
+                    <inner_angle>1.8</inner_angle>
+                    <outer_angle>2.0</outer_angle>
+                    <falloff>1</falloff>
+                </spot>
+                <direction>0 0 -1</direction>
+                <cast_shadows>1</cast_shadows>
+            </light>        
+
+            <light name="up_right_flashlight_source" type="spot">
+                <pose frame="">0.4 0.166 0.1 0 -3.14159265359 0</pose>
+                <attenuation>
+                    <range>15</range>
+                    <linear>0</linear>
+                    <constant>0.1</constant>
+                    <quadratic>0.0025</quadratic>
+                </attenuation>
+                <diffuse>0.8 0.8 0.5 1</diffuse>
+                <specular>0.8 0.8 0.5 1</specular>
+                <spot>
+                    <inner_angle>1.8</inner_angle>
+                    <outer_angle>2.0</outer_angle>
                     <falloff>1</falloff>
                 </spot>
                 <direction>0 0 -1</direction>
@@ -554,7 +608,7 @@
         </link>
 
         <link name="rotor_0">
-            <pose frame="">0.13 -0.22 0.023 0 -0 0</pose>
+            <pose frame="">0.1644 -0.166 0.023 0 -0 0</pose>
             <inertial>
                 <pose frame="">0 0 0 0 -0 0</pose>
                 <mass>0.005</mass>
@@ -567,6 +621,25 @@
                     <izz>4.26041e-05</izz>
                 </inertia>
             </inertial>
+            <visual name="rotor_0_visual">
+                <pose frame="">0 0 0 0 -0 0</pose>
+                <geometry>
+                    <mesh>
+                        <scale>0.12 0.12 0.12</scale>
+                        <uri>meshes/propeller_ccw.dae</uri>
+                    </mesh>
+                </geometry>
+                <material>
+                    <diffuse>0 0 0 1</diffuse>
+                    <script>
+                        <name>Gazebo/Black</name>
+                        <uri>file://media/materials/scripts/gazebo.material</uri>
+                    </script>
+                </material>
+                <cast_shadows>0</cast_shadows>
+            </visual>
+            <gravity>1</gravity>
+            <velocity_decay/>
         </link>
         <joint name="rotor_0_joint" type="revolute">
             <child>rotor_0</child>
@@ -586,7 +659,7 @@
         </joint>
 
         <link name="rotor_1">
-            <pose frame="">-0.13 0.2 0.023 0 -0 0</pose>
+            <pose frame="">-0.16443 0.1661 0.023 0 -0 0</pose>
             <inertial>
                 <pose frame="">0 0 0 0 -0 0</pose>
                 <mass>0.005</mass>
@@ -599,6 +672,25 @@
                     <izz>4.26041e-05</izz>
                 </inertia>
             </inertial>
+            <visual name="rotor_1_visual">
+                <pose frame="">0 0 0 0 -0 0</pose>
+                <geometry>
+                    <mesh>
+                        <scale>0.12 0.12 0.12</scale>
+                        <uri>meshes/propeller_ccw.dae</uri>
+                    </mesh>
+                </geometry>
+                <material>
+                    <diffuse>0 0 0 1</diffuse>
+                    <script>
+                        <name>Gazebo/Black</name>
+                        <uri>file://media/materials/scripts/gazebo.material</uri>
+                    </script>
+                </material>
+                <cast_shadows>0</cast_shadows>
+            </visual>
+            <gravity>1</gravity>
+            <velocity_decay/>
         </link>
         <joint name="rotor_1_joint" type="revolute">
             <child>rotor_1</child>
@@ -618,7 +710,7 @@
         </joint>
         
         <link name="rotor_2">
-            <pose frame="">0.13 0.22 0.023 0 -0 0</pose>
+            <pose frame="">0.16443 0.1661 0.023 0 -0 0</pose>
             <inertial>
                 <pose frame="">0 0 0 0 -0 0</pose>
                 <mass>0.005</mass>
@@ -631,6 +723,25 @@
                     <izz>4.26041e-05</izz>
                 </inertia>
             </inertial>
+            <visual name="rotor_2_visual">
+                <pose frame="">0 0 0 0 -0 0</pose>
+                <geometry>
+                    <mesh>
+                        <scale>0.12 0.12 0.12</scale>
+                        <uri>meshes/propeller_cw.dae</uri>
+                    </mesh>
+                </geometry>
+                <material>
+                    <diffuse>0 0 0 1</diffuse>
+                    <script>
+                        <name>Gazebo/Black</name>
+                        <uri>file://media/materials/scripts/gazebo.material</uri>
+                    </script>
+                </material>
+                <cast_shadows>0</cast_shadows>
+            </visual>
+            <gravity>1</gravity>
+            <velocity_decay/>
         </link>
         <joint name="rotor_2_joint" type="revolute">
             <child>rotor_2</child>
@@ -650,7 +761,7 @@
         </joint>
 
         <link name="rotor_3">
-            <pose frame="">-0.13 -0.2 0.023 0 -0 0</pose>
+            <pose frame="">-0.16443 -0.1661 0.023 0 -0 0</pose>
             <inertial>
                 <pose frame="">0 0 0 0 -0 0</pose>
                 <mass>0.005</mass>
@@ -663,6 +774,25 @@
                     <izz>4.26041e-05</izz>
                 </inertia>
             </inertial>
+            <visual name="rotor_3_visual">
+                <pose frame="">0 0 0 0 -0 0</pose>
+                <geometry>
+                    <mesh>
+                        <scale>0.12 0.12 0.12</scale>
+                        <uri>meshes/propeller_cw.dae</uri>
+                    </mesh>
+                </geometry>
+                <material>
+                    <diffuse>0 0 0 1</diffuse>
+                    <script>
+                        <name>Gazebo/Black</name>
+                        <uri>file://media/materials/scripts/gazebo.material</uri>
+                    </script>
+                </material>
+                <cast_shadows>0</cast_shadows>
+            </visual>
+            <gravity>1</gravity>
+            <velocity_decay/>
         </link>
         <joint name="rotor_3_joint" type="revolute">
             <child>rotor_3</child>
