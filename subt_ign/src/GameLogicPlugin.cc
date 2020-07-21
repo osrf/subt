@@ -382,8 +382,7 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
 
   // Open the event log file.
   this->dataPtr->eventStream.open(
-      (this->dataPtr->logPath + "/" + filenamePrefix + "_events" +
-       ".yaml").c_str(), std::ios::out);
+      (this->dataPtr->logPath + "/events.yml").c_str(), std::ios::out);
 
   // Advertise the service to receive artifact reports.
   // Note that we're setting the scope to this service to SCOPE_T, so only
