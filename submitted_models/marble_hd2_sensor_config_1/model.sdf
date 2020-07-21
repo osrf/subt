@@ -1100,7 +1100,10 @@
             <plugin filename="libignition-gazebo-apply-joint-force-system.so" name="ignition::gazebo::systems::ApplyJointForce">
               <joint_name>tilt_gimbal_joint</joint_name>
             </plugin>
-            <plugin filename="libignition-gazebo-joint-state-publisher-system.so" name="ignition::gazebo::systems::JointStatePublisher"/>
+            <plugin filename="libignition-gazebo-joint-state-publisher-system.so" name="ignition::gazebo::systems::JointStatePublisher">
+              <joint_name>pan_gimbal_joint</joint_name>
+              <joint_name>tilt_gimbal_joint</joint_name>
+            </plugin>
             <static>0</static>
           </model>
         </sdf>
