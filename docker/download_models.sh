@@ -211,5 +211,6 @@ ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/F
 # Download cave circuit artifacts
 ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/Climbing Rope" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/Climbing Helmet With Light" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/Artifact Proximity Detector" -v 4
 
 
