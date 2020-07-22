@@ -6,6 +6,7 @@
   <arg name="link_name_rear" value="chassis_back"/>
   <arg name="sensor_prefix_front" value="/world/$(arg world_name)/model/$(arg name)/link/$(arg link_name_front)/sensor"/>
   <arg name="sensor_prefix_rear" value="/world/$(arg world_name)/model/$(arg name)/link/$(arg link_name_rear)/sensor"/>
+  <arg name="breadcrumbs" default="0"/>
   <group ns="$(arg name)">
     <!--Create multipe bridges so that it can run in parallel-->
 
@@ -277,5 +278,14 @@
       pkg="subt_ros"
       type="pose_tf_broadcaster"
       name="pose_tf_broadcaster"/>
+    <group if="$(arg breadcrumbs)">
+      <node
+        pkg="ros_ign_bridge"
+        type="parameter_bridge"
+        name="ros_ign_bridge_breadcrumbs"
+        args="/model/$(arg name)/breadcrumb/deploy@std_msgs/Empty]ignition.msgs.Empty">
+        <remap from="/model/$(arg name)/breadcrumb/deploy" to="breadcrumb/deploy"/>
+      </node>
+    </group>
   </group>
 </launch>
