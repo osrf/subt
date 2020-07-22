@@ -7,6 +7,7 @@
   <arg name="tilt_joint_name" value="tilt_gimbal_joint"/>-->
   <arg name="sensor_prefix" value="/world/$(arg world_name)/model/$(arg name)/link/$(arg link_name)/sensor"/>
   <arg name="gimbal_sensor_prefix" value="/world/$(arg world_name)/model/$(arg name)/link/tilt_gimbal_link/sensor"/>
+  <arg name="breadcrumbs" default="0"/>
   <group ns="$(arg name)">
     <!--Create multipe bridges so that it can run in parallel-->
     <node
@@ -256,5 +257,14 @@
       <remap from="/model/$(arg name)/gas_detected" to="gas_detected"/>
     </node>
 
+    <group if="$(arg breadcrumbs)">
+      <node
+        pkg="ros_ign_bridge"
+        type="parameter_bridge"
+        name="ros_ign_bridge_breadcrumbs"
+        args="/model/$(arg name)/breadcrumb/deploy@std_msgs/Empty]ignition.msgs.Empty">
+        <remap from="/model/$(arg name)/breadcrumb/deploy" to="breadcrumb/deploy"/>
+      </node>
+    </group>
   </group>
 </launch>

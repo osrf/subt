@@ -102,11 +102,14 @@
     end
   end
 
-  MARSUPIAL_VALID_PARENT_ROBOT_TYPES = ["X1"]
-  MARSUPIAL_VALID_CHILD_ROBOT_TYPES = ["X3"]
+  MARSUPIAL_VALID_ROBOT_PAIRS = {
+    "X1" => ["X3", "MARBLE_QAV500"],
+    "EXPLORER_R2" =>["X3", "X4", "EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100"]
+  }
 
   MARSUPIAL_PARENT_ROBOT_POSITION_OFFSETS = {
-    "X1" => Vector3d.new(0, 0, 0.57)
+    "X1" => Vector3d.new(0, 0, 0.717),
+    "EXPLORER_R2" => Vector3d.new(-0.45, 0, 0.662)
   }
 
   allExecutables = ""
@@ -118,8 +121,8 @@
   # * Check that parent names are unique
   # * Check that child names are unique
   # * Check that each parent and child robot is in the list of robots to be spawned
-  # * Check that parent robots are in the MARSUPIAL_VALID_PARENT_ROBOT_TYPES list
-  # * Check that child robots are in the MARSUPIAL_VALID_CHILD_ROBOT_TYPES list
+  # * Check that parent robots are in the MARSUPIAL_VALID_ROBOT_PAIRS list
+  # * Check that child robots are in the MARSUPIAL_VALID_ROBOT_PAIRS list
   # These criteria ensure that the robots specified in the "marsupial" variables are valid
   # and that there is a one-to-one relationship between parent and child robots
 
@@ -148,13 +151,14 @@
 
       parentType = robots[parent].type
       childType = robots[child].type
-      # Check that parent robots are in the MARSUPIAL_VALID_PARENT_ROBOT_TYPES list
-      unless MARSUPIAL_VALID_PARENT_ROBOT_TYPES.include?(parentType)
-        raise "Invalid marsupial configuration: The parent robot [#{parent}] with type [#{parentType}] is not in the list of robots allowed to be marsupial parents. The list is #{MARSUPIAL_VALID_PARENT_ROBOT_TYPES}"
+
+      # Check that parent robots are in the MARSUPIAL_VALID_ROBOT_PAIRS hash
+      unless MARSUPIAL_VALID_ROBOT_PAIRS.key?(parentType)
+        raise "Invalid marsupial configuration: The parent robot [#{parent}] with type [#{parentType}] is not in the list of robots allowed to be marsupial parents. The list is #{MARSUPIAL_VALID_ROBOT_PAIRS}"
       end
-      # Check that child robots are in the MARSUPIAL_VALID_CHILD_ROBOT_TYPES list
-      unless MARSUPIAL_VALID_CHILD_ROBOT_TYPES.include?(childType)
-        raise "Invalid marsupial configuration: The child robot [#{child}] with type [#{childType}] is not in the list of robots allowed to be marsupial children: The list is #{MARSUPIAL_VALID_CHILD_ROBOT_TYPES}"
+      # Check that child robots are in the MARSUPIAL_VALID_ROBOT_PARIS hash
+      unless MARSUPIAL_VALID_ROBOT_PAIRS[parentType].include?(childType)
+        raise "Invalid marsupial configuration: The child robot [#{child}] with type [#{childType}] is not in the list of robots allowed to be marsupial children: The list is #{MARSUPIAL_VALID_ROBOT_PAIRS}"
       end
 
       marsupialParents[parent] = child
@@ -842,7 +846,7 @@
       stereoCam=1
     end
 
-    z = _z + 0.2
+    z = _z + 0.053302
 
     spawn = <<-HEREDOC
     <spawn name='#{_name}'>
@@ -1047,7 +1051,7 @@
       stereoCam=1
     end
 
-    z = _z + 0.2
+    z = _z + 0.125
 
     spawn = <<-HEREDOC
     <spawn name='#{_name}'>
@@ -1437,7 +1441,7 @@
       allExecutables += executables
     end
 
-    if marsupialParents.has_key?(name)
+    if marsupialParents.has_key?(name) && robots[name].type.include?("X1")
       childModelName = marsupialParents[name]
        detachableJointPlugin = REXML::Document.new <<-HEREDOC
          <plugin filename="libignition-gazebo-detachable-joint-system.so" name="ignition::gazebo::systems::DetachableJoint">
