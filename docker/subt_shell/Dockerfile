@@ -30,6 +30,7 @@ RUN apt-get update -qq \
         wget \
         net-tools \
         iputils-ping \
+        libyaml-cpp-dev \
  && apt-get clean -qq
 
 # Add a user with the same user_id as the user outside the container

@@ -14,6 +14,9 @@
  * limitations under the License.
  *
 */
+
+#include <yaml-cpp/yaml.h>
+
 #include <ignition/msgs/boolean.pb.h>
 #include <ignition/msgs/float.pb.h>
 #include <ignition/msgs/stringmsg.pb.h>
@@ -34,6 +37,7 @@
 #include <ignition/gazebo/components/Pose.hh>
 #include <ignition/gazebo/components/Sensor.hh>
 #include <ignition/gazebo/components/Static.hh>
+#include <ignition/gazebo/components/SourceFilePath.hh>
 #include <ignition/gazebo/components/World.hh>
 #include <ignition/gazebo/Conversions.hh>
 #include <ignition/gazebo/EntityComponentManager.hh>
@@ -220,6 +224,9 @@ class subt::GameLogicPluginPrivate
   /// \brief Counter to track unique identifiers.
   public: uint32_t reportCount = 0u;
 
+  /// \brief Counter to track duplicate artifact reports
+  public: uint32_t duplicateReportCount = 0u;
+
   /// The maximum number of times that a team can attempt an
   /// artifact report.
   public: uint32_t reportCountLimit = 40u;
@@ -229,6 +236,18 @@ class subt::GameLogicPluginPrivate
 
   /// \brief Total score.
   public: double totalScore = 0.0;
+
+  /// \brief Closest artifact report. The elements are: artifact name, type, true pos,
+  /// reported pos, distance between true pos and reported pos
+  public: std::tuple<std::string, std::string, ignition::math::Vector3d,
+      ignition::math::Vector3d, double> closestReport =
+    {"", "", ignition::math::Vector3d(), ignition::math::Vector3d(), -1};
+
+  /// \brief First artifact report time
+  public: double firstReportTime = -1;
+
+  /// \brief Last artifact report time
+  public: double lastReportTime = -1;
 
   /// \brief A mutex.
   public: std::mutex mutex;
@@ -251,6 +270,10 @@ class subt::GameLogicPluginPrivate
 
   /// \brief Names of the spawned robots.
   public: std::set<std::string> robotNames;
+
+  /// \brief Source file paths of the spawned robots.
+  /// For keeping track of unique robot models.
+  public: std::set<std::string> robotSourceFilePaths;
 
   /// \brief The unique artifact reports received.
   public: std::vector<std::string> uniqueReports;
@@ -515,6 +538,10 @@ void GameLogicPlugin::PostUpdate(
             auto mName =
               _ecm.Component<gazebo::components::Name>(model->Data());
             this->dataPtr->robotNames.insert(mName->Data());
+
+            auto filePath =
+              _ecm.Component<gazebo::components::SourceFilePath>(model->Data());
+            this->dataPtr->robotSourceFilePaths.insert(filePath->Data());
           }
           return true;
         });
@@ -561,6 +588,7 @@ void GameLogicPlugin::PostUpdate(
             }
           }
         }
+
         return true;
       });
 
@@ -758,6 +786,8 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
   {
     ignmsg << "This report has been received before" << std::endl;
     this->Log() << "This report has been received before" << std::endl;
+
+    this->duplicateReportCount++;
     return 0.0;
   }
 
@@ -802,15 +832,40 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
 
   // Calculate the score based on accuracy in the location. Make sure that
   // the artifact was not already reported.
-  if (std::get<2>(minDistance) < 5 &&
-      this->foundArtifacts.find(std::get<0>(minDistance)) ==
-      this->foundArtifacts.end())
+  double distToArtifact = std::get<2>(minDistance);
+  if (distToArtifact < 5)
   {
-    score = 1.0;
+    std::string artifactName = std::get<0>(minDistance);
+    if (this->foundArtifacts.find(artifactName) ==
+        this->foundArtifacts.end())
+    {
+      score = 1.0;
 
-    // Keep track of the artifacts that were found.
-    this->foundArtifacts.insert(std::get<0>(minDistance));
-    this->Log() << "found_artifact " << std::get<0>(minDistance) << std::endl;
+      // Keep track of the artifacts that were found.
+      this->foundArtifacts.insert(artifactName);
+      this->Log() << "found_artifact " << std::get<0>(minDistance) << std::endl;
+
+      // collect artifact report data for logging
+      // update closest artifact reported so far
+      double closestDist = std::get<4>(this->closestReport);
+      if (closestDist < 0.0 || distToArtifact < closestDist)
+      {
+        std::string artifactType;
+        if (!this->StringFromArtifact(_type, artifactType))
+          artifactType = "";
+        // the elements are name, type, true pos, reported pos, dist
+        std::get<0>(this->closestReport) = artifactName;
+        std::get<1>(this->closestReport) = artifactType;
+        std::get<2>(this->closestReport) = std::get<1>(minDistance);
+        std::get<3>(this->closestReport) = observedObjectPose;
+        std::get<4>(this->closestReport) = std::get<2>(minDistance);
+      }
+      // compute sim time of this report
+      double reportTime = this->simTime.sec() + this->simTime.nsec() * 1e-9;
+      this->lastReportTime = reportTime;
+      if (this->firstReportTime < 0)
+        this->firstReportTime = reportTime;
+    }
   }
 
   this->Log() << "calculated_dist[" << std::get<2>(minDistance)
@@ -1091,6 +1146,77 @@ GameLogicPluginPrivate::UpdateScoreFiles() const
   std::ofstream score(this->logPath + "/score.yml", std::ios::out);
   score << totalScore << std::endl;
   score.flush();
+
+  // output full log to a yml file
+  // 1. Number of artifacts found.
+  // 2. Robot count
+  // 3. Unique robot count (for example, a team of two X1_SENSOR_CONFIG_1
+  // robots would have a unique count of 1).
+  // 4. Total simulation time.
+  // 5. Total real time.
+  // 6. Number of artifact report attempts
+  // 7. Number of duplicate artifact reports.
+  // 8. Closest artifact report:
+  //      a. Distance in meters.
+  //      b. True position of the artifact.
+  //      c. Reported position.
+  //      d. Artifact type and name.
+  // 9. First artifact report time.
+  // 10. Last artifact report time.
+  // 11. Mean time between success reports
+  YAML::Emitter out;
+  out << YAML::BeginMap;
+  out << YAML::Key << "artifacts_found";
+  out << YAML::Value << this->foundArtifacts.size();
+  out << YAML::Key << "robot_count";
+  out << YAML::Value << this->robotNames.size();
+  out << YAML::Key << "unique_robot_count";
+  out << YAML::Value << this->robotSourceFilePaths.size();
+  out << YAML::Key << "sim_time";
+  out << YAML::Value << simElapsed;
+  out << YAML::Key << "real_time";
+  out << YAML::Value << realElapsed;
+  out << YAML::Key << "artifact_report_count";
+  out << YAML::Value << this->reportCount;
+  out << YAML::Key << "duplicate_report_count";
+  out << YAML::Value << this->duplicateReportCount;
+
+  std::stringstream artifactPos;
+  artifactPos << std::get<2>(this->closestReport);
+  std::stringstream reportedPos;
+  reportedPos << std::get<3>(this->closestReport);
+
+  out << YAML::Key << "closest_artifact_report";
+  out << YAML::Value << YAML::BeginMap
+      << YAML::Key << "name"
+      << YAML::Value << std::get<0>(this->closestReport)
+      << YAML::Key << "type"
+      << YAML::Value << std::get<1>(this->closestReport)
+      << YAML::Key << "true_pos"
+      << YAML::Value << artifactPos.str()
+      << YAML::Key << "reported_pos"
+      << YAML::Value << reportedPos.str()
+      << YAML::Key << "distance"
+      << YAML::Value << std::get<4>(this->closestReport)
+      << YAML::EndMap;
+  out << YAML::Key << "first_artifact_report";
+  out << YAML::Value << this->firstReportTime;
+  out << YAML::Key << "last_artifact_report";
+  out << YAML::Value << this->lastReportTime;
+
+  double meanReportTime = 0;
+  if (!this->foundArtifacts.empty())
+  {
+    meanReportTime = (this->lastReportTime-this->firstReportTime) /
+        this->foundArtifacts.size();
+  }
+  out << YAML::Key << "mean_time_between_successful_artifact_reports";
+  out << YAML::Value << meanReportTime;
+  out << YAML::EndMap;
+
+  std::ofstream logFile(this->logPath + "/run.yml", std::ios::out);
+  logFile << out.c_str() << std::endl;
+  logFile.flush();
 
   this->lastUpdateScoresTime = currTime;
   return currTime;
