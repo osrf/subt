@@ -244,7 +244,7 @@
     <%if defined?(updateRate) && updateRate != nil && !updateRate.empty?%>
     <update_rate><%= updateRate %></update_rate>
     <%end%>
-    <run>true</run>
+    <run>false</run>
     <levels><%= $levels %></levels>
     <record>
       <enabled>true</enabled>
