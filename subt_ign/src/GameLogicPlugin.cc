@@ -161,6 +161,12 @@ class subt::GameLogicPluginPrivate
   /// \param[in] _msg Pose message of the event.
   public: void OnEvent(const ignition::msgs::Pose &_msg);
 
+  /// \brief Marsupial detach subscription callback.
+  /// \param[in] _msg Detach message.
+  /// \param[in] _info Message information.
+  public: void OnDetachEvent(const ignition::msgs::Empty &_msg,
+    const transport::MessageInfo &_info);
+
   private: bool PoseFromArtifactHelper(const std::string &_robot,
     ignition::math::Pose3d &_result);
 
@@ -399,8 +405,7 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
 
   // Open the event log file.
   this->dataPtr->eventStream.open(
-      (this->dataPtr->logPath + "/" + filenamePrefix + "_events_" +
-      ignition::common::systemTimeISO() + ".yaml").c_str(), std::ios::out);
+      (this->dataPtr->logPath + "/events.yml").c_str(), std::ios::out);
 
   // Advertise the service to receive artifact reports.
   // Note that we're setting the scope to this service to SCOPE_T, so only
@@ -459,10 +464,31 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
 }
 
 //////////////////////////////////////////////////
+void GameLogicPluginPrivate::OnDetachEvent(
+    const ignition::msgs::Empty &/*_msg*/,
+    const transport::MessageInfo &_info)
+{
+  std::vector<std::string> topicParts = common::split(_info.Topic(), "/");
+  std::string name = "_unknown_";
+
+  // Get the name of the model from the topic name, where the topic name
+  // look like '/model/{model_name}/detach'.
+  if (topicParts.size() > 1)
+    name = topicParts[1];
+
+  this->eventStream
+    << "- event:\n"
+    << "  type: detach\n"
+    << "  time_sec: " << this->simTime.sec() << "\n"
+    << "  robot: " << name << std::endl;
+}
+
+//////////////////////////////////////////////////
 void GameLogicPluginPrivate::OnEvent(const ignition::msgs::Pose &_msg)
 {
   std::string frameId = "nil";
   std::string state = "nil";
+  std::map<std::string, std::string> extraData;
 
   for (int i = 0; i < _msg.header().data_size(); ++i)
   {
@@ -475,14 +501,28 @@ void GameLogicPluginPrivate::OnEvent(const ignition::msgs::Pose &_msg)
       else
         state = "exit";
     }
+    else
+    {
+      extraData[_msg.header().data(i).key()] =  _msg.header().data(i).value(0);
+    }
   }
 
   this->eventStream
     << "- event:\n"
-    << "    time_sec: " << _msg.header().stamp().sec() << "\n"
-    << "    detector: " << frameId << "\n"
-    << "    robot: " << _msg.name() << "\n"
-    << "    state: " << state << std::endl;
+    << "  type: detect\n"
+    << "  time_sec: " << _msg.header().stamp().sec() << "\n"
+    << "  detector: " << frameId << "\n"
+    << "  robot: " << _msg.name() << "\n"
+    << "  state: " << state << std::endl;
+  if (!extraData.empty())
+  {
+    this->eventStream << "  extra:\n";
+    for (const auto &data : extraData)
+    {
+      this->eventStream << "    "
+        << data.first << ":" << data.second << std::endl;
+    }
+  }
 }
 
 //////////////////////////////////////////////////
@@ -537,11 +577,24 @@ void GameLogicPlugin::PostUpdate(
             // Get the model name
             auto mName =
               _ecm.Component<gazebo::components::Name>(model->Data());
-            this->dataPtr->robotNames.insert(mName->Data());
+            if (this->dataPtr->robotNames.find(mName->Data()) ==
+                this->dataPtr->robotNames.end())
+            {
+              this->dataPtr->robotNames.insert(mName->Data());
 
-            auto filePath =
-              _ecm.Component<gazebo::components::SourceFilePath>(model->Data());
-            this->dataPtr->robotSourceFilePaths.insert(filePath->Data());
+              auto filePath =
+                _ecm.Component<gazebo::components::SourceFilePath>(model->Data());
+              this->dataPtr->robotSourceFilePaths.insert(filePath->Data());
+
+              // Subscribe to detach topics. We are doing a blanket
+              // subscribe even though a robot model may not be marsupial.
+              // This is fine since non-marsupial vehicles won't create the
+              // publisher, and no extra logic is required here.
+              std::string detachTopic = std::string("/model/") +
+                mName->Data() + "/detach";
+              this->dataPtr->node.Subscribe(detachTopic,
+                  &GameLogicPluginPrivate::OnDetachEvent, this->dataPtr.get());
+            }
           }
           return true;
         });
@@ -671,17 +724,38 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
   if (this->started && this->finished)
   {
     _resp.set_report_status("scoring finished");
+    this->eventStream
+      << "- event:\n"
+      << "  type: artifact_report_score_finished\n"
+      << "  time_sec: " << this->simTime.sec() << "\n"
+      << "  total_score: " << this->totalScore << std::endl;
   }
   else if (!this->started && !this->finished)
   {
     _resp.set_report_status("run not started");
+    this->eventStream
+      << "- event:\n"
+      << "  type: artifact_report_not_started\n"
+      << "  time_sec: " << this->simTime.sec() << "\n"
+      << "  total_score: " << this->totalScore << std::endl;
   }
   else if (this->reportCount >= this->reportCountLimit)
   {
     _resp.set_report_status("report limit exceeded");
+    this->eventStream
+      << "- event:\n"
+      << "  type: artifact_report_limit_exceeded\n"
+      << "  time_sec: " << this->simTime.sec() << "\n"
+      << "  total_score: " << this->totalScore << std::endl;
   }
   else if (!this->ArtifactFromInt(_req.type(), artifactType))
   {
+    this->eventStream
+      << "- event:\n"
+      << "  type: artifact_report_unknown_artifact\n"
+      << "  time_sec: " << this->simTime.sec() << "\n"
+      << "  total_score: " << this->totalScore << std::endl;
+
     ignerr << "Unknown artifact code. The number should be between 0 and "
           << this->kArtifactTypes.size() - 1 << " but we received "
           << _req.type() << std::endl;
@@ -698,6 +772,12 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
     _resp.set_score_change(scoreDiff);
     _resp.set_report_status("scored");
     this->totalScore += scoreDiff;
+
+    this->eventStream
+      << "- event:\n"
+      << "  type: artifact_report_scored\n"
+      << "  time_sec: " << this->simTime.sec() << "\n"
+      << "  total_score: " << this->totalScore << std::endl;
 
     ignmsg << "Total score: " << this->totalScore << std::endl;
     this->Log() << "new_total_score " << this->totalScore << std::endl;
@@ -1057,6 +1137,11 @@ bool GameLogicPluginPrivate::Start()
     this->state = "started";
     this->startPub.Publish(msg);
     this->lastStatusPubTime = std::chrono::steady_clock::now();
+
+    this->eventStream
+      << "- event:\n"
+      << "  type: started\n"
+      << "  time_sec: " << this->simTime.sec() << std::endl;
   }
 
   // Update files when scoring has started.
@@ -1103,6 +1188,14 @@ void GameLogicPluginPrivate::Finish()
     this->Log() << "finished_score " << this->totalScore << std::endl;
     this->logStream.flush();
     this->eventStream.flush();
+
+    this->eventStream
+      << "- event:\n"
+      << "  type: finished\n"
+      << "  time_sec: " << this->simTime.sec() << "\n"
+      << "  elapsed_real_time " << realElapsed << "\n"
+      << "  elapsed_sim_time " << simElapsed << "\n"
+      << "  total_score: " << this->totalScore << std::endl;
 
     // \todo(nkoenig) After the tunnel circuit, change the /subt/start topic
     // to /sub/status.
