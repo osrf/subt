@@ -271,6 +271,12 @@ class subt::GameLogicPluginPrivate
   /// to know when a run has been started.
   public: transport::Node::Publisher startPub;
 
+  /// \brief Ignition transport competition clock publisher.
+  public: transport::Node::Publisher competitionClockPub;
+
+  /// \brief Ignition transport warmup clock publisher.
+  public: transport::Node::Publisher warmupClockPub;
+
   /// \brief Logpath.
   public: std::string logPath{"/dev/null"};
 
@@ -450,6 +456,13 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
 
   this->dataPtr->startPub =
     this->dataPtr->node.Advertise<ignition::msgs::StringMsg>("/subt/start");
+
+  this->dataPtr->competitionClockPub =
+    this->dataPtr->node.Advertise<ignition::msgs::Time>(
+        "/subt/clock/competition");
+
+  this->dataPtr->warmupClockPub =
+    this->dataPtr->node.Advertise<ignition::msgs::Time>("/subt/clock/warmup");
 
   this->dataPtr->publishThread.reset(new std::thread(
         &GameLogicPluginPrivate::PublishScore, this->dataPtr.get()));
@@ -670,10 +683,21 @@ void GameLogicPlugin::PostUpdate(
   auto startSimTime = std::chrono::nanoseconds(
       this->dataPtr->startSimTime.sec() * 1000000000 +
       this->dataPtr->startSimTime.nsec());
+
+  // Compute the elapsed competition time.
+  auto elapsedCompetitionTime = this->dataPtr->started ?
+    _info.simTime - startSimTime : std::chrono::seconds(0);
+
+  // Compute the remaining competition time.
+  auto remainingCompetitionTime = this->dataPtr->started &&
+    this->dataPtr->runDuration != std::chrono::seconds(0) ?
+    this->dataPtr->runDuration - elapsedCompetitionTime :
+    std::chrono::seconds(0) ;
+
   // Check if the allowed time has elapsed. If so, then mark as finished.
   if ((this->dataPtr->started && !this->dataPtr->finished) &&
       this->dataPtr->runDuration != std::chrono::seconds(0) &&
-      _info.simTime - startSimTime > this->dataPtr->runDuration)
+      remainingCompetitionTime <= std::chrono::seconds(0))
   {
     ignmsg << "Time limit[" <<  this->dataPtr->runDuration.count()
       << "s] reached.\n";
@@ -683,6 +707,26 @@ void GameLogicPlugin::PostUpdate(
   auto currentTime = std::chrono::steady_clock::now();
   if (currentTime - this->dataPtr->lastStatusPubTime > std::chrono::seconds(1))
   {
+    ignition::msgs::Time competitionTimeMsg;
+    if (this->dataPtr->started)
+    {
+      auto secondsRemaining = std::chrono::duration_cast<std::chrono::seconds>(
+          remainingCompetitionTime);
+      competitionTimeMsg.set_sec(secondsRemaining.count());
+      competitionTimeMsg.set_nsec(
+          (remainingCompetitionTime - secondsRemaining).count());
+    }
+    else
+    {
+      competitionTimeMsg.set_sec(this->dataPtr->runDuration.count());
+
+      ignition::msgs::Time warmupTimeMsg;
+      warmupTimeMsg.set_sec(
+          this->dataPtr->warmupTimeSec - this->dataPtr->simTime.sec());
+      this->dataPtr->warmupClockPub.Publish(warmupTimeMsg);
+    }
+    this->dataPtr->competitionClockPub.Publish(competitionTimeMsg);
+
     ignition::msgs::StringMsg msg;
     msg.mutable_header()->mutable_stamp()->CopyFrom(this->dataPtr->simTime);
     msg.set_data(this->dataPtr->state);
