@@ -3,7 +3,8 @@ DARPA Subterranean Challenge Technology Repository -->
 # Explorer - DS1
 This specifications.md file is a description and proof of virtual model validation for
 Explorer's robot DS1 with Sensor Configuration 1. This robot may be launched using
-a `roslaunch` command with the variable name `explorer_ds1_sensor_config_1`.
+an `ign launch ` command with the variable name `explorer_ds1_sensor_config_1`.
+
 ## Description
 DS1 is quadrotor UAV. It is designed for exploring various environments, such as tunnels, caves and so on.
 
@@ -25,15 +26,19 @@ DS1 is controlled by the open-source teleop_twist_joy package.
 
 ## Motion Characteristics
 Based on the tests specified in the DARPA SubT Challenge [Model Preparation
-Guide](https://subtchallenge.com/\<fix_me\>), this vehicle has the following motion
+Guide](https://subtchallenge.com/resources/Simulation_Model_Preparation_Guide.pdf), this vehicle has the following motion
 constraint characteristics:
 
 * _x_, _y_, and _z_ velocity range from -4.0 m/s to 4.0 m/s
 * _x_, _y_, and _z_ acceleration range from -10 m/s<sup>2</sup> to 10 m/s<sup>2</sup>
 
+The constraints can be found in the following locations within the simulation model package:
+
+* `spawner.rb`, lines 113-115
+
 ## Endurance Characteristics
 Based on the tests specified in the DARPA SubT Challenge [Model Preparation
-Guide](https://subtchallenge.com/\<fix_me\>), this vehicle has the following
+Guide](https://subtchallenge.com/resources/Simulation_Model_Preparation_Guide.pdf), this vehicle has the following
 endurance characteristics:
 
 * Battery life of 600 seconds
@@ -42,7 +47,7 @@ endurance characteristics:
 Virtual DS1 is a faithful representation of real-world DS1 both in appearance and
 in physical properties. However, there are few diversions:
 * It does not model long-range Rajant communication of the real robot.
-* It does not model the exact dynamic model (mass and inertial) of real-world DS1, instead it's using the motion parameters of standard X3 UAV model for control perspective. 
+* It does not model the exact dynamic model (mass, inertia, motion, and endurance characteristics) of real-world DS1, instead it's using the motion parameters of standard X3 UAV model for control perspective until validation data can be provided. 
 
 # <a name="validation_links"></a>DS1 Validation and Specification Links
 

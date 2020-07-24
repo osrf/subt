@@ -46,7 +46,7 @@ This Aerial Scout is controlled by the default twist controller package inside t
 
 ### Motion Characteristics
 Based on the tests specified in the DARPA SubT Challenge [Model Preparation
-Guide], this vehicle has the following motion constraint characteristics.
+Guide](https://subtchallenge.com/resources/Simulation_Model_Preparation_Guide.pdf), this vehicle has the following motion constraint characteristics.
 * _x_ linear velocity range from -3.0 m/s to 3.0 m/s
 * _y_ linear velocity range from -3.0 m/s to 3.0 m/s
 * _z_ linear velocity range from -1.8 m/s to 1.8 m/s
