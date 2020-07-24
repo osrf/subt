@@ -1212,7 +1212,6 @@ void GameLogicPluginPrivate::Finish()
       << " s." << std::endl;
     this->Log() << "finished_score " << this->totalScore << std::endl;
     this->logStream.flush();
-    this->eventStream.flush();
 
     std::ostringstream stream;
     stream
@@ -1407,6 +1406,7 @@ void GameLogicPluginPrivate::LogEvent(const std::string &_event)
 {
   std::lock_guard<std::mutex> lock(this->eventMutex);
   this->eventStream << _event;
+  this->eventStream.flush();
 }
 
 /////////////////////////////////////////////////
