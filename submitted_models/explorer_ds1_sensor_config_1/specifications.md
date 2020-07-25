@@ -28,8 +28,9 @@ Based on the tests specified in the DARPA SubT Challenge [Model Preparation
 Guide](https://subtchallenge.com/\<fix_me\>), this vehicle has the following motion
 constraint characteristics:
 
-* _x_, _y_, and _z_ velocity range from -4.0 m/s to 4.0 m/s
-* _x_, _y_, and _z_ acceleration range from -10 m/s<sup>2</sup> to 10 m/s<sup>2</sup>
+* _x_ and _y_ velocity range from -4.0 m/s to 4.0 m/s. _z_ velocity ranges from -1.5 m/s to 1.5 m/s.
+* _x_, _y_ acceleration range from -3.9 m/s<sup>2</sup> to 3.9 m/s<sup>2</sup>. _z_ acceleration ranges from -2 m/s<sup>2</sup> to 2 m/s<sup>2</sup>.
+* Angular velocity ranges from -1.2 rad/s to 1.2 rad/s.
 
 ## Endurance Characteristics
 Based on the tests specified in the DARPA SubT Challenge [Model Preparation
@@ -49,4 +50,5 @@ in physical properties. However, there are few diversions:
 * https://www.intelrealsense.com/depth-camera-d435/
 * https://autonomoustuff.com/product/velodyne-puck-vlp-16/
 * https://www.mouser.com/datasheet/2/693/mti-100-series-1540263.pdf
-
+* \<Validation Motion Test Link, https://youtu.be/K0IjFDt_e80/\>
+* \<Validation Endurance Test Link, https://youtu.be/AeAUZVCKmkA/\>
