@@ -4,14 +4,23 @@
   <arg name="name"/>
   <arg name="link_name" value="base_link"/>
   <arg name="sensor_prefix" value="/world/$(arg world_name)/model/$(arg name)/link/$(arg link_name)/sensor"/>
+  <arg name="breadcrumbs" default="0"/>
   <group ns="$(arg name)">
     <!--Create multipe bridges so that it can run in parallel-->
     <node
       pkg="ros_ign_bridge"
       type="parameter_bridge"
       name="ros_ign_bridge_pose"
-      args="/model/$(arg name)/pose@geometry_msgs/TransformStamped[ignition.msgs.Pose">
+      args="/model/$(arg name)/pose@tf2_msgs/TFMessage[ignition.msgs.Pose_V">
       <remap from="/model/$(arg name)/pose" to="pose"/>
+    </node>
+
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_pose_static"
+      args="/model/$(arg name)/pose_static@tf2_msgs/TFMessage[ignition.msgs.Pose_V">
+      <remap from="/model/$(arg name)/pose_static" to="pose_static"/>
     </node>
 
     <node
@@ -67,11 +76,36 @@
         <remap from="$(arg sensor_prefix)/rs_front/points" to="points"/>
       </node>
       <node
+        pkg="ros_ign_bridge"
+        type="parameter_bridge"
+        name="ros_ign_bridge_depth_info_front"
+        args="$(arg sensor_prefix)/rs_front/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+        <remap from="$(arg sensor_prefix)/rs_front/camera_info" to="depth/camera_info"/>
+      </node>
+      <node
         pkg="ros_ign_image"
         type="image_bridge"
         name="ros_ign_image_depth"
         args="$(arg sensor_prefix)/rs_front/depth_image">
         <remap from="$(arg sensor_prefix)/rs_front/depth_image" to="depth/image"/>
+      </node>
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_rgbd_image_front">
+        <remap from="input/image" to="color/image" />
+        <remap from="output/image" to="optical/color/image" />
+        <remap from="input/camera_info" to="color/camera_info" />
+        <remap from="output/camera_info" to="optical/color/camera_info" />
+      </node>
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_rgbd_depth_front">
+        <remap from="input/image" to="depth/image" />
+        <remap from="output/image" to="optical/depth/image" />
+        <remap from="input/camera_info" to="depth/camera_info" />
+        <remap from="output/camera_info" to="optical/depth/camera_info" />
       </node>
     </group>
 
@@ -99,11 +133,36 @@
         <remap from="$(arg sensor_prefix)/rs_left/points" to="points"/>
       </node>
       <node
+        pkg="ros_ign_bridge"
+        type="parameter_bridge"
+        name="ros_ign_bridge_depth_info_left"
+        args="$(arg sensor_prefix)/rs_left/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+        <remap from="$(arg sensor_prefix)/rs_left/camera_info" to="depth/camera_info"/>
+      </node>
+      <node
         pkg="ros_ign_image"
         type="image_bridge"
         name="ros_ign_image_depth"
         args="$(arg sensor_prefix)/rs_left/depth_image">
         <remap from="$(arg sensor_prefix)/rs_left/depth_image" to="depth/image"/>
+      </node>
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_rgbd_image_left">
+        <remap from="input/image" to="color/image" />
+        <remap from="output/image" to="optical/color/image" />
+        <remap from="input/camera_info" to="color/camera_info" />
+        <remap from="output/camera_info" to="optical/color/camera_info" />
+      </node>
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_rgbd_depth_left">
+        <remap from="input/image" to="depth/image" />
+        <remap from="output/image" to="optical/depth/image" />
+        <remap from="input/camera_info" to="depth/camera_info" />
+        <remap from="output/camera_info" to="optical/depth/camera_info" />
       </node>
     </group>
 
@@ -131,11 +190,36 @@
         <remap from="$(arg sensor_prefix)/rs_back/points" to="points"/>
       </node>
       <node
+        pkg="ros_ign_bridge"
+        type="parameter_bridge"
+        name="ros_ign_bridge_depth_info_back"
+        args="$(arg sensor_prefix)/rs_back/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+        <remap from="$(arg sensor_prefix)/rs_back/camera_info" to="depth/camera_info"/>
+      </node>
+      <node
         pkg="ros_ign_image"
         type="image_bridge"
         name="ros_ign_image_depth"
         args="$(arg sensor_prefix)/rs_back/depth_image">
         <remap from="$(arg sensor_prefix)/rs_back/depth_image" to="depth/image"/>
+      </node>
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_rgbd_image_back">
+        <remap from="input/image" to="color/image" />
+        <remap from="output/image" to="optical/color/image" />
+        <remap from="input/camera_info" to="color/camera_info" />
+        <remap from="output/camera_info" to="optical/color/camera_info" />
+      </node>
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_rgbd_depth_back">
+        <remap from="input/image" to="depth/image" />
+        <remap from="output/image" to="optical/depth/image" />
+        <remap from="input/camera_info" to="depth/camera_info" />
+        <remap from="output/camera_info" to="optical/depth/camera_info" />
       </node>
     </group>
 
@@ -163,11 +247,36 @@
         <remap from="$(arg sensor_prefix)/rs_right/points" to="points"/>
       </node>
       <node
+        pkg="ros_ign_bridge"
+        type="parameter_bridge"
+        name="ros_ign_bridge_depth_info_right"
+        args="$(arg sensor_prefix)/rs_right/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+        <remap from="$(arg sensor_prefix)/rs_right/camera_info" to="depth/camera_info"/>
+      </node>
+      <node
         pkg="ros_ign_image"
         type="image_bridge"
         name="ros_ign_image_depth"
         args="$(arg sensor_prefix)/rs_right/depth_image">
         <remap from="$(arg sensor_prefix)/rs_right/depth_image" to="depth/image"/>
+      </node>
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_rgbd_image_right">
+        <remap from="input/image" to="color/image" />
+        <remap from="output/image" to="optical/color/image" />
+        <remap from="input/camera_info" to="color/camera_info" />
+        <remap from="output/camera_info" to="optical/color/camera_info" />
+      </node>
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_rgbd_depth_right">
+        <remap from="input/image" to="depth/image" />
+        <remap from="output/image" to="optical/depth/image" />
+        <remap from="input/camera_info" to="depth/camera_info" />
+        <remap from="output/camera_info" to="optical/depth/camera_info" />
       </node>
     </group>
 
@@ -197,5 +306,15 @@
       args="/model/$(arg name)/gas_detected@std_msgs/Bool[ignition.msgs.Boolean">
       <remap from="/model/$(arg name)/gas_detected" to="gas_detected"/>
     </node>
+
+    <group if="$(arg breadcrumbs)">
+      <node
+        pkg="ros_ign_bridge"
+        type="parameter_bridge"
+        name="ros_ign_bridge_breadcrumbs"
+        args="/model/$(arg name)/breadcrumb/deploy@std_msgs/Empty]ignition.msgs.Empty">
+        <remap from="/model/$(arg name)/breadcrumb/deploy" to="breadcrumb/deploy"/>
+      </node>
+    </group>
   </group>
 </launch>

@@ -10,15 +10,17 @@
       <inertia ixx='4.49753' ixy='0.00199937' ixz='-0.00152659' iyy='2.46329' iyz='-0.424901' izz='5.57714'/>
     </inertial>
     <collision name='base_link_collision'>
-      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <origin xyz="0.25 0 0.0480" rpy="0 0 0"/>
       <geometry>
-        <mesh filename='package://explorer_r2_sensor_config_1/meshes/cube.STL' scale='1 1 1'/>
+        <box><size>0.6 0.55 0.428</size></box>
       </geometry>
     </collision>
     <collision name='base_link_fixed_joint_lump__sensor_payload_link_collision_1'>
-      <origin xyz='0.31054 -0.0903 0.23288' rpy='1.5708 -0 0'/>
+      <origin xyz='0.38 0 0.4' rpy='0 0 0'/>
       <geometry>
-        <mesh filename='package://explorer_r2_sensor_config_1/meshes/payload_cube.STL' scale='1 1 1'/>
+        <box>
+          <size>0.28 0.28 0.4</size>
+        </box>
       </geometry>
     </collision>
     <visual name='base_link_visual'>
@@ -70,36 +72,36 @@
   </sensor>
   <sensor name='rs_front' update_rate='30'>
     <parent link='base_link'/>
-    <origin xyz='0.40054 -0.035301 0.38988' rpy='5e-06 -0 0'/>
+    <origin xyz='0.565 0 0.245' rpy='0 0 0'/>
     <camera>
       <image width='320' height='240' format='R8G8B8' hfov='1.0472' near='0.01' far='300' />
     </camera>
   </sensor>
   <sensor name='front_laser' update_rate='15'>
     <parent link='base_link'/>
-    <origin xyz='0.310583 0.001835 0.44788' rpy='5e-06 -0 0'/>
+    <origin xyz='0.37 0 0.55' rpy='0 0 0'/>
     <ray>
-      <horizontal samples='18000' resolution='0.1' min_angle='-3.14159' max_angle='3.14159' />
+      <horizontal samples='10000' resolution='0.1' min_angle='-3.14159' max_angle='3.14159' />
       <vertical samples='16' resolution='1' min_angle='-0.261799' max_angle='0.261799' />
     </ray>
   </sensor>
   <sensor name='rs_left' update_rate='30'>
     <parent link='base_link'/>
-    <origin xyz='0.34854 0.091699 0.389881' rpy='1e-06 -4e-06 1.5708'/>
+    <origin xyz='0.365 0.133 0.426' rpy='0 0 1.5708'/>
     <camera>
       <image width='320' height='240' format='R8G8B8' hfov='1.0472' near='0.01' far='300' />
     </camera>
   </sensor>
   <sensor name='rs_back' update_rate='30'>
     <parent link='base_link'/>
-    <origin xyz='0.22054 0.037199 0.38988' rpy='-2e-06 -0 3.14159'/>
+    <origin xyz='0.25 0 0.432' rpy='0 0 3.14159'/>
     <camera>
       <image width='320' height='240' format='R8G8B8' hfov='1.0472' near='0.01' far='300' />
     </camera>
   </sensor>
   <sensor name='rs_right' update_rate='30'>
     <parent link='base_link'/>
-    <origin xyz='0.27254 -0.090301 0.38988' rpy='1e-06 4e-06 -1.5708'/>
+    <origin xyz='0.365 -0.133 0.426' rpy='0 0 -1.5708'/>
     <camera>
       <image width='320' height='240' format='R8G8B8' hfov='1.0472' near='0.01' far='300' />
     </camera>
