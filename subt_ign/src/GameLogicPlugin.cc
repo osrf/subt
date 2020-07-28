@@ -318,6 +318,9 @@ class subt::GameLogicPluginPrivate
   /// \brief Ignition transport competition clock publisher.
   public: transport::Node::Publisher competitionClockPub;
 
+  /// \brief Ignition transport for the remaining artifact reports.
+  public: transport::Node::Publisher artifactReportPub;
+
   /// \brief Logpath.
   public: std::string logPath{"/dev/null"};
 
@@ -500,6 +503,9 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
 
   this->dataPtr->competitionClockPub =
     this->dataPtr->node.Advertise<ignition::msgs::Clock>("/subt/run_clock");
+
+  this->dataPtr->artifactReportPub =
+    this->dataPtr->node.Advertise<ignition::msgs::Int32>("/subt/artifact_reports_remaining");
 
   this->dataPtr->publishThread.reset(new std::thread(
         &GameLogicPluginPrivate::PublishScore, this->dataPtr.get()));
@@ -1105,6 +1111,11 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
 
   // This is a unique report.
   this->reportCount++;
+
+  // Publish the remaining artifact reports
+  ignition::msgs::Int32 limitMsg;
+  limitMsg.set_data(this->reportCountLimit - this->reportCount);
+  this->artifactReportPub.Publish(limitMsg);
 
   // The teams are reporting the artifact poses relative to the fiducial located
   // in the staging area. Now, we convert the reported pose to world coordinates
