@@ -215,12 +215,13 @@ SubtRosRelay::SubtRosRelay()
 
   this->node.Subscribe("/subt/score", &SubtRosRelay::OnScore, this);
 
-  this->node.Subscribe("/subt/clock", &SubtRosRelay::OnCompetitionClock, this);
+  this->node.Subscribe("/subt/run_clock",
+      &SubtRosRelay::OnCompetitionClock, this);
 
   this->rosScorePub =
     this->rosnode->advertise<std_msgs::Int32>("score", 1000);
   this->rosCompetitionClockPub =
-    this->rosnode->advertise<subt_ros::CompetitionClock>("clock", 1000);
+    this->rosnode->advertise<subt_ros::CompetitionClock>("run_clock", 1000);
 }
 
 //////////////////////////////////////////////////

@@ -462,7 +462,7 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
     this->dataPtr->node.Advertise<ignition::msgs::StringMsg>("/subt/start");
 
   this->dataPtr->competitionClockPub =
-    this->dataPtr->node.Advertise<ignition::msgs::Clock>("/subt/clock");
+    this->dataPtr->node.Advertise<ignition::msgs::Clock>("/subt/run_clock");
 
   this->dataPtr->publishThread.reset(new std::thread(
         &GameLogicPluginPrivate::PublishScore, this->dataPtr.get()));
@@ -726,10 +726,16 @@ void GameLogicPlugin::PostUpdate(
     }
     else if (!this->dataPtr->finished)
     {
-      mapData->add_value("warmup");
+      mapData->add_value("setup");
       competitionClockMsg.mutable_sim()->set_sec(
           this->dataPtr->warmupTimeSec - this->dataPtr->simTime.sec());
     }
+    else
+    {
+      // It's possible for a team to call Finish before starting.
+      mapData->add_value("finished");
+    }
+
     this->dataPtr->competitionClockPub.Publish(competitionClockMsg);
 
     ignition::msgs::StringMsg msg;
