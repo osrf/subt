@@ -30,6 +30,7 @@
 #include <subt_msgs/Unregister.h>
 #include <subt_communication_broker/protobuf/datagram.pb.h>
 #include <subt_communication_broker/common_types.h>
+#include <subt_ros/CompetitionClock.h>
 
 #include <ignition/transport/Node.hh>
 
@@ -47,13 +48,8 @@ class SubtRosRelay
 
   /// \brief Ign callback for competition clock and the data is republished
   /// to ROS
-  /// \param[in] _msg Time msg
-  public: void OnCompetitionClock(const ignition::msgs::Time &_msg);
-
-  /// \brief Ign callback for warmup clock and the data is republished
-  /// to ROS
-  /// \param[in] _msg Time msg
-  public: void OnWarmupClock(const ignition::msgs::Time &_msg);
+  /// \param[in] _msg Clock msg
+  public: void OnCompetitionClock(const ignition::msgs::Clock &_msg);
 
   /// \brief ROS service callback triggered when the service is called.
   /// \param[in]  _req The message containing a flag telling if the game
@@ -148,9 +144,6 @@ class SubtRosRelay
   /// \brief ROS publisher for competition clock data.
   public: ros::Publisher rosCompetitionClockPub;
 
-  /// \brief ROS publisher for warmup clock data.
-  public: ros::Publisher rosWarmupClockPub;
-
   /// \brief ROS service server to receive the location of a robot relative to
   /// the origin artifact.
   public: ros::ServiceServer poseFromArtifactService;
@@ -222,18 +215,12 @@ SubtRosRelay::SubtRosRelay()
 
   this->node.Subscribe("/subt/score", &SubtRosRelay::OnScore, this);
 
-  this->node.Subscribe("/subt/clock/competition",
-      &SubtRosRelay::OnCompetitionClock, this);
-
-  this->node.Subscribe("/subt/clock/warmup",
-      &SubtRosRelay::OnWarmupClock, this);
+  this->node.Subscribe("/subt/clock", &SubtRosRelay::OnCompetitionClock, this);
 
   this->rosScorePub =
     this->rosnode->advertise<std_msgs::Int32>("score", 1000);
   this->rosCompetitionClockPub =
-    this->rosnode->advertise<std_msgs::Time>("clock/competition", 1000);
-  this->rosWarmupClockPub =
-    this->rosnode->advertise<std_msgs::Time>("clock/warmup", 1000);
+    this->rosnode->advertise<subt_ros::CompetitionClock>("clock", 1000);
 }
 
 //////////////////////////////////////////////////
@@ -250,21 +237,23 @@ void SubtRosRelay::OnScore(const ignition::msgs::Float &_msg)
 }
 
 /////////////////////////////////////////////////
-void SubtRosRelay::OnCompetitionClock(const ignition::msgs::Time &_msg)
+void SubtRosRelay::OnCompetitionClock(const ignition::msgs::Clock &_msg)
 {
-  std_msgs::Time timeMsg;
-  timeMsg.data.sec = _msg.sec();
-  timeMsg.data.nsec = _msg.nsec();
-  this->rosCompetitionClockPub.publish(timeMsg);
-}
-
-/////////////////////////////////////////////////
-void SubtRosRelay::OnWarmupClock(const ignition::msgs::Time &_msg)
-{
-  std_msgs::Time timeMsg;
-  timeMsg.data.sec = _msg.sec();
-  timeMsg.data.nsec = _msg.nsec();
-  this->rosWarmupClockPub.publish(timeMsg);
+  subt_ros::CompetitionClock clockMsg;
+  if (_msg.has_header() && _msg.header().data_size() > 0)
+  {
+    for (int i = 0; i < _msg.header().data_size(); ++i)
+    {
+      if (_msg.header().data(i).key() == "phase" &&
+          _msg.header().data(i).value_size() > 0)
+      {
+        clockMsg.phase = _msg.header().data(i).value(0);
+      }
+    }
+  }
+  clockMsg.data.sec = _msg.sim().sec();
+  clockMsg.data.nsec = _msg.sim().nsec();
+  this->rosCompetitionClockPub.publish(clockMsg);
 }
 
 /////////////////////////////////////////////////

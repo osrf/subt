@@ -281,9 +281,6 @@ class subt::GameLogicPluginPrivate
   /// \brief Ignition transport competition clock publisher.
   public: transport::Node::Publisher competitionClockPub;
 
-  /// \brief Ignition transport warmup clock publisher.
-  public: transport::Node::Publisher warmupClockPub;
-
   /// \brief Logpath.
   public: std::string logPath{"/dev/null"};
 
@@ -465,11 +462,7 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
     this->dataPtr->node.Advertise<ignition::msgs::StringMsg>("/subt/start");
 
   this->dataPtr->competitionClockPub =
-    this->dataPtr->node.Advertise<ignition::msgs::Time>(
-        "/subt/clock/competition");
-
-  this->dataPtr->warmupClockPub =
-    this->dataPtr->node.Advertise<ignition::msgs::Time>("/subt/clock/warmup");
+    this->dataPtr->node.Advertise<ignition::msgs::Clock>("/subt/clock");
 
   this->dataPtr->publishThread.reset(new std::thread(
         &GameLogicPluginPrivate::PublishScore, this->dataPtr.get()));
@@ -720,25 +713,24 @@ void GameLogicPlugin::PostUpdate(
   auto currentTime = std::chrono::steady_clock::now();
   if (currentTime - this->dataPtr->lastStatusPubTime > std::chrono::seconds(1))
   {
-    ignition::msgs::Time competitionTimeMsg;
+    ignition::msgs::Clock competitionClockMsg;
+    ignition::msgs::Header::Map *mapData =
+      competitionClockMsg.mutable_header()->add_data();
+    mapData->set_key("phase");
     if (this->dataPtr->started)
     {
+      mapData->add_value(this->dataPtr->finished ? "finished" : "run");
       auto secondsRemaining = std::chrono::duration_cast<std::chrono::seconds>(
           remainingCompetitionTime);
-      competitionTimeMsg.set_sec(secondsRemaining.count());
-      competitionTimeMsg.set_nsec(
-          (remainingCompetitionTime - secondsRemaining).count());
+      competitionClockMsg.mutable_sim()->set_sec(secondsRemaining.count());
     }
-    else
+    else if (!this->dataPtr->finished)
     {
-      competitionTimeMsg.set_sec(this->dataPtr->runDuration.count());
-
-      ignition::msgs::Time warmupTimeMsg;
-      warmupTimeMsg.set_sec(
+      mapData->add_value("warmup");
+      competitionClockMsg.mutable_sim()->set_sec(
           this->dataPtr->warmupTimeSec - this->dataPtr->simTime.sec());
-      this->dataPtr->warmupClockPub.Publish(warmupTimeMsg);
     }
-    this->dataPtr->competitionClockPub.Publish(competitionTimeMsg);
+    this->dataPtr->competitionClockPub.Publish(competitionClockMsg);
 
     ignition::msgs::StringMsg msg;
     msg.mutable_header()->mutable_stamp()->CopyFrom(this->dataPtr->simTime);
