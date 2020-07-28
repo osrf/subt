@@ -139,6 +139,9 @@ class subt::GameLogicPluginPrivate
   /// \param[in] _event Unused.
   public: void PublishScore();
 
+  /// \brief Log robot pos data
+  public: void LogRobotPosData();
+
   /// \brief Log robot and artifact data
   public: void LogRobotArtifactData() const;
 
@@ -158,7 +161,7 @@ class subt::GameLogicPluginPrivate
   /// returning this time point, we can make sure that the ::Finish function
   /// uses the same time point.
   /// \return The time point used to calculate the elapsed real time.
-  public: std::chrono::steady_clock::time_point UpdateScoreFiles() const;
+  public: std::chrono::steady_clock::time_point UpdateScoreFiles();
 
   /// \brief Performer detector subscription callback.
   /// \param[in] _msg Pose message of the event.
@@ -263,8 +266,9 @@ class subt::GameLogicPluginPrivate
   public: double lastReportTime = -1;
 
   /// \brief A map of robot name and a vector of timestamped position data
-  public: std::map<std::string,
-      std::vector<std::pair<double, ignition::math::Vector3d>>> robotPoseData;
+  public: std::map<std::string, std::vector<std::pair<
+      std::chrono::steady_clock::duration, ignition::math::Vector3d>>>
+      robotPoseData;
 
   /// \brief A map of robot name and its starting pose
   public: std::map<std::string, ignition::math::Pose3d> robotStartPose;
@@ -295,6 +299,12 @@ class subt::GameLogicPluginPrivate
 
   /// \brief Total distanced traveled by all robots
   public: double robotsTotalDistance = 0;
+
+  /// \brief A map of robot name and its pos output stream
+  public: std::map<std::string, std::shared_ptr<std::ofstream>> robotPosStream;
+
+  /// \brief A mutex.
+  public: std::mutex logMutex;
 
   /// \brief A mutex.
   public: std::mutex mutex;
@@ -727,6 +737,9 @@ void GameLogicPlugin::PostUpdate(
 
           // sim time
           double t = s + static_cast<double>(ns)*1e-9;
+          auto tDur =
+              std::chrono::duration_cast<std::chrono::steady_clock::duration>
+              (std::chrono::seconds(s) + std::chrono::nanoseconds(ns));
 
           // store robot pose and velocity data only if robot has traveled
           // more than 1 meter
@@ -734,7 +747,7 @@ void GameLogicPlugin::PostUpdate(
           if (robotPoseDataIt == this->dataPtr->robotPoseData.end())
           {
             this->dataPtr->robotPoseData[name].push_back(
-                std::make_pair(t, pose.Pos()));
+                std::make_pair(tDur, pose.Pos()));
 
             this->dataPtr->robotStartPose[name] = pose;
             this->dataPtr->robotDistance[name] = 0.0;
@@ -748,7 +761,8 @@ void GameLogicPlugin::PostUpdate(
               > 1.0)
           {
             //  time passed since last pose sample
-            double dt = t - robotPoseDataIt->second.back().first;
+            double prevT = robotPoseDataIt->second.back().first.count() * 1e-9;
+            double dt = t - prevT;
 
             // sim paused?
             if (dt <= 0)
@@ -782,7 +796,7 @@ void GameLogicPlugin::PostUpdate(
               this->dataPtr->maxRobotAvgVel.second = avgVel;
             }
 
-            robotPoseDataIt->second.push_back(std::make_pair(t, pose.Pos()));
+            robotPoseDataIt->second.push_back(std::make_pair(tDur, pose.Pos()));
           }
 
           // compute and log greatest / total distance
@@ -1401,9 +1415,10 @@ void GameLogicPluginPrivate::Finish()
 }
 
 /////////////////////////////////////////////////
-std::chrono::steady_clock::time_point
-GameLogicPluginPrivate::UpdateScoreFiles() const
+std::chrono::steady_clock::time_point GameLogicPluginPrivate::UpdateScoreFiles()
 {
+  std::lock_guard<std::mutex> lock(this->logMutex);
+
   // Elapsed time
   int realElapsed = 0;
   int simElapsed = 0;
@@ -1430,10 +1445,79 @@ GameLogicPluginPrivate::UpdateScoreFiles() const
   score << totalScore << std::endl;
   score.flush();
 
+  this->LogRobotPosData();
   this->LogRobotArtifactData();
 
   this->lastUpdateScoresTime = currTime;
   return currTime;
+}
+
+/////////////////////////////////////////////////
+void GameLogicPluginPrivate::LogRobotPosData()
+{
+  std::string path = common::joinPaths(this->logPath, "pos-data");
+
+  // remove previous pos data on start
+  if (this->lastUpdateScoresTime.time_since_epoch().count() == 0u)
+  {
+    common::removeAll(path);
+    common::createDirectory(path);
+  }
+
+  // log robot pos data
+  for (auto &it : this->robotPoseData)
+  {
+    if (it.second.empty())
+      return;
+    std::string robotName = it.first;
+
+    // create the pos data file if it does not exist yet
+    std::shared_ptr<std::ofstream> posStream;
+    auto streamIt = this->robotPosStream.find(robotName);
+    bool fileExists = true;
+    if (streamIt == this->robotPosStream.end())
+    {
+      std::string file = common::joinPaths(path, robotName + "-pos.data");
+      std::shared_ptr<std::ofstream> logFile =
+          std::make_shared<std::ofstream>(file, std::ios::ate);
+      this->robotPosStream[robotName] = logFile;
+      posStream = logFile;
+      fileExists = false;
+    }
+    else
+    {
+      posStream = streamIt->second;
+    }
+
+    // write to file only if there are new data, or it is the first time.
+    // Note that robot pos data should always have at least 1 (latest) pos data
+    // in the vector which is used during PostUpdate for computating robot
+    // distance traveled and vel data
+    if (!fileExists || it.second.size() > 1u)
+    {
+      auto poseData = std::move(it.second);
+      auto posIt = poseData.begin();
+
+      // if file already exists, it is not the first time we are writing out
+      // pos data. So the first entry in the vector should be the last pos
+      // data that was already written out to file so skip it
+      if (fileExists)
+        posIt++;
+      for(; posIt != poseData.end(); ++posIt)
+      {
+        auto t = posIt->first;
+        int64_t s, ns;
+        std::tie(s, ns) = ignition::math::durationToSecNsec(posIt->first);
+        math::Vector3d pos = posIt->second;
+        // sec nsec x y z
+        *posStream << s << " " << ns << " " << pos << std::endl;
+      }
+      posStream->flush();
+
+      // make sure to push the latest pos data back in the vector
+      it.second.push_back({poseData.back().first, poseData.back().second});
+    }
+  }
 }
 
 /////////////////////////////////////////////////
