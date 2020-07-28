@@ -1530,6 +1530,13 @@ void GameLogicPluginPrivate::LogRobotPosData()
 {
   std::string path = common::joinPaths(this->logPath, "pos-data");
 
+  // remove previous pos data on start
+  if (this->lastUpdateScoresTime.time_since_epoch().count() == 0u)
+  {
+    common::removeAll(path);
+    common::createDirectory(path);
+  }
+
   // log robot pos data
   for (auto &it : this->robotPoseData)
   {
