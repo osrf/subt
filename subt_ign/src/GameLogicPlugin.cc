@@ -139,6 +139,9 @@ class subt::GameLogicPluginPrivate
   /// \param[in] _event Unused.
   public: void PublishScore();
 
+  /// \brief Log robot and artifact data
+  public: void LogRobotArtifactData() const;
+
   /// \brief Finish game and generate log files
   public: void Finish();
 
@@ -247,8 +250,8 @@ class subt::GameLogicPluginPrivate
   /// \brief Total score.
   public: double totalScore = 0.0;
 
-  /// \brief Closest artifact report. The elements are: artifact name, type, true pos,
-  /// reported pos, distance between true pos and reported pos
+  /// \brief Closest artifact report. The elements are: artifact name, type,
+  /// true pos, reported pos, distance between true pos and reported pos
   public: std::tuple<std::string, std::string, ignition::math::Vector3d,
       ignition::math::Vector3d, double> closestReport =
     {"", "", ignition::math::Vector3d(), ignition::math::Vector3d(), -1};
@@ -258,6 +261,40 @@ class subt::GameLogicPluginPrivate
 
   /// \brief Last artifact report time
   public: double lastReportTime = -1;
+
+  /// \brief A map of robot name and a vector of timestamped position data
+  public: std::map<std::string,
+      std::vector<std::pair<double, ignition::math::Vector3d>>> robotPoseData;
+
+  /// \brief A map of robot name and its starting pose
+  public: std::map<std::string, ignition::math::Pose3d> robotStartPose;
+
+  /// \brief A map of robot name and distance traveled
+  public: std::map<std::string, double> robotDistance;
+
+  /// \brief A map of robot name and max euclidean distance traveled
+  public: std::map<std::string, double> robotMaxEuclideanDistance;
+
+  /// \brief A map of robot name and its average velocity
+  public: std::map<std::string, double> robotAvgVel;
+
+  /// \brief A map of robot name and its previous pose
+  public: std::map<std::string, ignition::math::Pose3d> robotPrevPose;
+
+  /// \brief Robot name with the max velocity
+  public: std::pair<std::string, double> maxRobotVel = {"", 0};
+
+  /// \brief Robot name with the max average velocity
+  public: std::pair<std::string, double> maxRobotAvgVel = {"", 0};
+
+  /// \brief Robot name with the max distance traveled;
+  public: std::pair<std::string, double> maxRobotDistance = {"", 0};
+
+  /// \brief Robot name with the max euclidean distance from starting area;
+  public: std::pair<std::string, double> maxRobotEuclideanDistance  = {"", 0};
+
+  /// \brief Total distanced traveled by all robots
+  public: double robotsTotalDistance = 0;
 
   /// \brief A mutex.
   public: std::mutex mutex;
@@ -596,7 +633,8 @@ void GameLogicPlugin::PostUpdate(
               this->dataPtr->robotNames.insert(mName->Data());
 
               auto filePath =
-                _ecm.Component<gazebo::components::SourceFilePath>(model->Data());
+                _ecm.Component<gazebo::components::SourceFilePath>(
+                model->Data());
               this->dataPtr->robotSourceFilePaths.insert(filePath->Data());
 
               // Subscribe to detach topics. We are doing a blanket
@@ -657,6 +695,132 @@ void GameLogicPlugin::PostUpdate(
 
         return true;
       });
+
+    // log robot pose and vel data
+    _ecm.Each<gazebo::components::Sensor,
+              gazebo::components::ParentEntity>(
+        [&](const gazebo::Entity &,
+            const gazebo::components::Sensor *,
+            const gazebo::components::ParentEntity *_parent) -> bool
+        {
+          // Get the model. We are assuming that a sensor is attached to
+          // a link.
+          auto model = _ecm.Component<gazebo::components::ParentEntity>(
+              _parent->Data());
+
+          if (!model)
+            return true;
+
+          // robot pose.
+          auto poseComp =
+              _ecm.Component<gazebo::components::Pose>(model->Data());
+          if (!poseComp)
+            return true;
+          math::Pose3d pose = poseComp->Data();
+
+          // robot name
+          auto nameComp =
+              _ecm.Component<gazebo::components::Name>(model->Data());
+          if (!nameComp)
+            return true;
+          std::string name = nameComp->Data();
+
+          // sim time
+          double t = s + static_cast<double>(ns)*1e-9;
+
+          // store robot pose and velocity data only if robot has traveled
+          // more than 1 meter
+          auto robotPoseDataIt = this->dataPtr->robotPoseData.find(name);
+          if (robotPoseDataIt == this->dataPtr->robotPoseData.end())
+          {
+            this->dataPtr->robotPoseData[name].push_back(
+                std::make_pair(t, pose.Pos()));
+
+            this->dataPtr->robotStartPose[name] = pose;
+            this->dataPtr->robotDistance[name] = 0.0;
+            this->dataPtr->robotMaxEuclideanDistance[name] = 0.0;
+            this->dataPtr->robotAvgVel[name] = 0.0;
+
+            this->dataPtr->robotPrevPose[name] = pose;
+            return true;
+          }
+          else if (robotPoseDataIt->second.back().second.Distance(pose.Pos())
+              > 1.0)
+          {
+            //  time passed since last pose sample
+            double dt = t - robotPoseDataIt->second.back().first;
+
+            // sim paused?
+            if (dt <= 0)
+              return true;
+
+            // Consider only velocity in the xy plane.
+            math::Vector3d p1 = pose.Pos();
+            math::Vector3d p2 = robotPoseDataIt->second.back().second;
+            double dist = sqrt(std::pow(p2.X() - p1.X(), 2) +
+                std::pow(p2.Y() - p1.Y(), 2));
+            double vel = dist / dt;
+
+            // greatest max velocity by a robot
+            if (vel > this->dataPtr->maxRobotVel.second)
+            {
+              this->dataPtr->maxRobotVel.first = name;
+              this->dataPtr->maxRobotVel.second = vel;
+            }
+
+            // avg vel for this robot
+            size_t velCount = robotPoseDataIt->second.size();
+            double avgVel =
+                (this->dataPtr->robotAvgVel[name] * velCount + vel) /
+                (velCount + 1);
+            this->dataPtr->robotAvgVel[name] = avgVel;
+
+            // greatest avg vel by a robot
+            if (avgVel > this->dataPtr->maxRobotAvgVel.second)
+            {
+              this->dataPtr->maxRobotAvgVel.first = name;
+              this->dataPtr->maxRobotAvgVel.second = avgVel;
+            }
+
+            robotPoseDataIt->second.push_back(std::make_pair(t, pose.Pos()));
+          }
+
+          // compute and log greatest / total distance
+
+          // distance traveled by this robot
+          double distanceDiff =
+              this->dataPtr->robotPrevPose[name].Pos().Distance(pose.Pos());
+          double distanceTraveled = this->dataPtr->robotDistance[name] +
+              distanceDiff;
+          this->dataPtr->robotDistance[name] = distanceTraveled;
+
+          // greatest distance traveled by a robot
+          if (distanceTraveled > this->dataPtr->maxRobotDistance.second)
+          {
+            this->dataPtr->maxRobotDistance.first = name;
+            this->dataPtr->maxRobotDistance.second = distanceTraveled;
+          }
+
+          // max euclidean from starting pose for this robot
+          double euclideanDist =
+              pose.Pos().Distance(this->dataPtr->robotStartPose[name].Pos());
+          if (euclideanDist > this->dataPtr->robotMaxEuclideanDistance[name])
+              this->dataPtr->robotMaxEuclideanDistance[name] = euclideanDist;
+
+          // greatest euclidean distance traveled by a robot
+          if (euclideanDist > this->dataPtr->maxRobotEuclideanDistance.second)
+          {
+            this->dataPtr->maxRobotEuclideanDistance.first = name;
+            this->dataPtr->maxRobotEuclideanDistance.second = euclideanDist;
+          }
+
+          // total distance traveled by all robots
+          this->dataPtr->robotsTotalDistance += distanceDiff;
+
+          this->dataPtr->robotPrevPose[name] = pose;
+          return true;
+        });
+
 
   // Set the artifact origin pose
   if (this->dataPtr->artifactOriginPose == ignition::math::Pose3d::Zero)
@@ -1266,7 +1430,28 @@ GameLogicPluginPrivate::UpdateScoreFiles() const
   score << totalScore << std::endl;
   score.flush();
 
-  // output full log to a yml file
+  this->LogRobotArtifactData();
+
+  this->lastUpdateScoresTime = currTime;
+  return currTime;
+}
+
+/////////////////////////////////////////////////
+void GameLogicPluginPrivate::LogRobotArtifactData() const
+{
+  int realElapsed = 0;
+  int simElapsed = 0;
+  std::chrono::steady_clock::time_point currTime =
+    std::chrono::steady_clock::now();
+
+  if (this->started)
+  {
+    simElapsed = this->simTime.sec() - this->startSimTime.sec();
+    realElapsed = std::chrono::duration_cast<std::chrono::seconds>(
+        currTime - this->startTime).count();
+  }
+
+  // output robot and artifact data to a yml file
   // 1. Number of artifacts found.
   // 2. Robot count
   // 3. Unique robot count (for example, a team of two X1_SENSOR_CONFIG_1
@@ -1283,8 +1468,16 @@ GameLogicPluginPrivate::UpdateScoreFiles() const
   // 9. First artifact report time.
   // 10. Last artifact report time.
   // 11. Mean time between success reports
+  // 12. Greatest distance traveled by a robot on the team.
+  // 13. Greatest euclidean distance traveled by a robot from the staging area.
+  // 14. Total distance traveled by all the robots.
+  // 15. Greatest maximum velocity by a robot.
+  // 16. Greatest average velocity.
+
   YAML::Emitter out;
   out << YAML::BeginMap;
+
+  // artifact data
   out << YAML::Key << "artifacts_found";
   out << YAML::Value << this->foundArtifacts.size();
   out << YAML::Key << "robot_count";
@@ -1331,14 +1524,31 @@ GameLogicPluginPrivate::UpdateScoreFiles() const
   }
   out << YAML::Key << "mean_time_between_successful_artifact_reports";
   out << YAML::Value << meanReportTime;
+
+  // robot pose and vel data
+  out << YAML::Key << "greatest_distance_traveled";
+  out << YAML::Value << this->maxRobotDistance.second;
+  out << YAML::Key << "greatest_distance_traveled_robot";
+  out << YAML::Value << this->maxRobotDistance.first;
+  out << YAML::Key << "greatest_euclidean_distance_from_start";
+  out << YAML::Value << this->maxRobotEuclideanDistance.second;
+  out << YAML::Key << "greatest_euclidean_distance_from_start_robot";
+  out << YAML::Value << this->maxRobotEuclideanDistance.first;
+  out << YAML::Key << "total_distance_traveled";
+  out << YAML::Value << this->robotsTotalDistance;
+  out << YAML::Key << "greatest_max_vel";
+  out << YAML::Value << this->maxRobotVel.second;
+  out << YAML::Key << "greatest_max_vel_robot";
+  out << YAML::Value << this->maxRobotVel.first;
+  out << YAML::Key << "greatest_avg_vel";
+  out << YAML::Value << this->maxRobotAvgVel.second;
+  out << YAML::Key << "greatest_avg_vel_robot";
+  out << YAML::Value << this->maxRobotAvgVel.first;
   out << YAML::EndMap;
 
   std::ofstream logFile(this->logPath + "/run.yml", std::ios::out);
   logFile << out.c_str() << std::endl;
   logFile.flush();
-
-  this->lastUpdateScoresTime = currTime;
-  return currTime;
 }
 
 /////////////////////////////////////////////////
