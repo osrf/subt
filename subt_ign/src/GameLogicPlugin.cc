@@ -161,6 +161,10 @@ class subt::GameLogicPluginPrivate
   /// \param[in] _msg Pose message of the event.
   public: void OnEvent(const ignition::msgs::Pose &_msg);
 
+  /// \brief Log an event to the eventStream.
+  /// \param[in] _event The event to log.
+  public: void LogEvent(const std::string &_event);
+
   /// \brief Marsupial detach subscription callback.
   /// \param[in] _msg Detach message.
   /// \param[in] _info Message information.
@@ -263,6 +267,9 @@ class subt::GameLogicPluginPrivate
 
   /// \brief Event file output stream.
   public: std::ofstream eventStream;
+
+  /// \brief Mutex to protect the eventStream.
+  public: std::mutex eventMutex;
 
   /// \brief The pose of the object marking the origin of the artifacts.
   public: ignition::math::Pose3d artifactOriginPose;
@@ -476,11 +483,15 @@ void GameLogicPluginPrivate::OnDetachEvent(
   if (topicParts.size() > 1)
     name = topicParts[1];
 
-  this->eventStream
+
+  std::ostringstream stream;
+  stream
     << "- event:\n"
     << "  type: detach\n"
     << "  time_sec: " << this->simTime.sec() << "\n"
     << "  robot: " << name << std::endl;
+
+  this->LogEvent(stream.str());
 }
 
 //////////////////////////////////////////////////
@@ -507,7 +518,8 @@ void GameLogicPluginPrivate::OnEvent(const ignition::msgs::Pose &_msg)
     }
   }
 
-  this->eventStream
+  std::ostringstream stream;
+  stream
     << "- event:\n"
     << "  type: detect\n"
     << "  time_sec: " << _msg.header().stamp().sec() << "\n"
@@ -516,13 +528,14 @@ void GameLogicPluginPrivate::OnEvent(const ignition::msgs::Pose &_msg)
     << "  state: " << state << std::endl;
   if (!extraData.empty())
   {
-    this->eventStream << "  extra:\n";
+    stream << "  extra:\n";
     for (const auto &data : extraData)
     {
-      this->eventStream << "    "
+      stream << "    "
         << data.first << ":" << data.second << std::endl;
     }
   }
+  this->LogEvent(stream.str());
 }
 
 //////////////////////////////////////////////////
@@ -724,37 +737,45 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
   if (this->started && this->finished)
   {
     _resp.set_report_status("scoring finished");
-    this->eventStream
+    std::ostringstream stream;
+    stream
       << "- event:\n"
       << "  type: artifact_report_score_finished\n"
       << "  time_sec: " << this->simTime.sec() << "\n"
       << "  total_score: " << this->totalScore << std::endl;
+    this->LogEvent(stream.str());
   }
   else if (!this->started && !this->finished)
   {
     _resp.set_report_status("run not started");
-    this->eventStream
+    std::ostringstream stream;
+    stream
       << "- event:\n"
       << "  type: artifact_report_not_started\n"
       << "  time_sec: " << this->simTime.sec() << "\n"
       << "  total_score: " << this->totalScore << std::endl;
+    this->LogEvent(stream.str());
   }
   else if (this->reportCount >= this->reportCountLimit)
   {
     _resp.set_report_status("report limit exceeded");
-    this->eventStream
+    std::ostringstream stream;
+    stream
       << "- event:\n"
       << "  type: artifact_report_limit_exceeded\n"
       << "  time_sec: " << this->simTime.sec() << "\n"
       << "  total_score: " << this->totalScore << std::endl;
+    this->LogEvent(stream.str());
   }
   else if (!this->ArtifactFromInt(_req.type(), artifactType))
   {
-    this->eventStream
+    std::ostringstream stream;
+    stream
       << "- event:\n"
       << "  type: artifact_report_unknown_artifact\n"
       << "  time_sec: " << this->simTime.sec() << "\n"
       << "  total_score: " << this->totalScore << std::endl;
+    this->LogEvent(stream.str());
 
     ignerr << "Unknown artifact code. The number should be between 0 and "
           << this->kArtifactTypes.size() - 1 << " but we received "
@@ -773,11 +794,13 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
     _resp.set_report_status("scored");
     this->totalScore += scoreDiff;
 
-    this->eventStream
+    std::ostringstream stream;
+    stream
       << "- event:\n"
       << "  type: artifact_report_scored\n"
       << "  time_sec: " << this->simTime.sec() << "\n"
       << "  total_score: " << this->totalScore << std::endl;
+    this->LogEvent(stream.str());
 
     ignmsg << "Total score: " << this->totalScore << std::endl;
     this->Log() << "new_total_score " << this->totalScore << std::endl;
@@ -1138,10 +1161,12 @@ bool GameLogicPluginPrivate::Start()
     this->startPub.Publish(msg);
     this->lastStatusPubTime = std::chrono::steady_clock::now();
 
-    this->eventStream
+    std::ostringstream stream;
+    stream
       << "- event:\n"
       << "  type: started\n"
       << "  time_sec: " << this->simTime.sec() << std::endl;
+    this->LogEvent(stream.str());
   }
 
   // Update files when scoring has started.
@@ -1187,15 +1212,16 @@ void GameLogicPluginPrivate::Finish()
       << " s." << std::endl;
     this->Log() << "finished_score " << this->totalScore << std::endl;
     this->logStream.flush();
-    this->eventStream.flush();
 
-    this->eventStream
+    std::ostringstream stream;
+    stream
       << "- event:\n"
       << "  type: finished\n"
       << "  time_sec: " << this->simTime.sec() << "\n"
       << "  elapsed_real_time " << realElapsed << "\n"
       << "  elapsed_sim_time " << simElapsed << "\n"
       << "  total_score: " << this->totalScore << std::endl;
+    this->LogEvent(stream.str());
 
     // \todo(nkoenig) After the tunnel circuit, change the /subt/start topic
     // to /sub/status.
@@ -1373,6 +1399,14 @@ bool GameLogicPluginPrivate::OnPoseFromArtifact(
   frame->add_value(subt::kArtifactOriginName);
 
   return result;
+}
+
+/////////////////////////////////////////////////
+void GameLogicPluginPrivate::LogEvent(const std::string &_event)
+{
+  std::lock_guard<std::mutex> lock(this->eventMutex);
+  this->eventStream << _event;
+  this->eventStream.flush();
 }
 
 /////////////////////////////////////////////////
