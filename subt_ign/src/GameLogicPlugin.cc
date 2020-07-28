@@ -315,6 +315,9 @@ class subt::GameLogicPluginPrivate
   /// to know when a run has been started.
   public: transport::Node::Publisher startPub;
 
+  /// \brief Ignition transport competition clock publisher.
+  public: transport::Node::Publisher competitionClockPub;
+
   /// \brief Logpath.
   public: std::string logPath{"/dev/null"};
 
@@ -494,6 +497,9 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
 
   this->dataPtr->startPub =
     this->dataPtr->node.Advertise<ignition::msgs::StringMsg>("/subt/start");
+
+  this->dataPtr->competitionClockPub =
+    this->dataPtr->node.Advertise<ignition::msgs::Clock>("/subt/run_clock");
 
   this->dataPtr->publishThread.reset(new std::thread(
         &GameLogicPluginPrivate::PublishScore, this->dataPtr.get()));
@@ -847,10 +853,21 @@ void GameLogicPlugin::PostUpdate(
   auto startSimTime = std::chrono::nanoseconds(
       this->dataPtr->startSimTime.sec() * 1000000000 +
       this->dataPtr->startSimTime.nsec());
+
+  // Compute the elapsed competition time.
+  auto elapsedCompetitionTime = this->dataPtr->started ?
+    _info.simTime - startSimTime : std::chrono::seconds(0);
+
+  // Compute the remaining competition time.
+  auto remainingCompetitionTime = this->dataPtr->started &&
+    this->dataPtr->runDuration != std::chrono::seconds(0) ?
+    this->dataPtr->runDuration - elapsedCompetitionTime :
+    std::chrono::seconds(0) ;
+
   // Check if the allowed time has elapsed. If so, then mark as finished.
   if ((this->dataPtr->started && !this->dataPtr->finished) &&
       this->dataPtr->runDuration != std::chrono::seconds(0) &&
-      _info.simTime - startSimTime > this->dataPtr->runDuration)
+      remainingCompetitionTime <= std::chrono::seconds(0))
   {
     ignmsg << "Time limit[" <<  this->dataPtr->runDuration.count()
       << "s] reached.\n";
@@ -860,6 +877,31 @@ void GameLogicPlugin::PostUpdate(
   auto currentTime = std::chrono::steady_clock::now();
   if (currentTime - this->dataPtr->lastStatusPubTime > std::chrono::seconds(1))
   {
+    ignition::msgs::Clock competitionClockMsg;
+    ignition::msgs::Header::Map *mapData =
+      competitionClockMsg.mutable_header()->add_data();
+    mapData->set_key("phase");
+    if (this->dataPtr->started)
+    {
+      mapData->add_value(this->dataPtr->finished ? "finished" : "run");
+      auto secondsRemaining = std::chrono::duration_cast<std::chrono::seconds>(
+          remainingCompetitionTime);
+      competitionClockMsg.mutable_sim()->set_sec(secondsRemaining.count());
+    }
+    else if (!this->dataPtr->finished)
+    {
+      mapData->add_value("setup");
+      competitionClockMsg.mutable_sim()->set_sec(
+          this->dataPtr->warmupTimeSec - this->dataPtr->simTime.sec());
+    }
+    else
+    {
+      // It's possible for a team to call Finish before starting.
+      mapData->add_value("finished");
+    }
+
+    this->dataPtr->competitionClockPub.Publish(competitionClockMsg);
+
     ignition::msgs::StringMsg msg;
     msg.mutable_header()->mutable_stamp()->CopyFrom(this->dataPtr->simTime);
     msg.set_data(this->dataPtr->state);
