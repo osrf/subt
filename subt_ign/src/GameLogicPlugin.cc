@@ -139,6 +139,9 @@ class subt::GameLogicPluginPrivate
   /// \param[in] _event Unused.
   public: void PublishScore();
 
+  /// \brief Log robot pos data
+  public: void LogRobotPosData();
+
   /// \brief Log robot and artifact data
   public: void LogRobotArtifactData() const;
 
@@ -158,7 +161,7 @@ class subt::GameLogicPluginPrivate
   /// returning this time point, we can make sure that the ::Finish function
   /// uses the same time point.
   /// \return The time point used to calculate the elapsed real time.
-  public: std::chrono::steady_clock::time_point UpdateScoreFiles() const;
+  public: std::chrono::steady_clock::time_point UpdateScoreFiles();
 
   /// \brief Performer detector subscription callback.
   /// \param[in] _msg Pose message of the event.
@@ -263,14 +266,21 @@ class subt::GameLogicPluginPrivate
   public: double lastReportTime = -1;
 
   /// \brief A map of robot name and a vector of timestamped position data
-  public: std::map<std::string,
-      std::vector<std::pair<double, ignition::math::Vector3d>>> robotPoseData;
+  public: std::map<std::string, std::vector<std::pair<
+      std::chrono::steady_clock::duration, ignition::math::Vector3d>>>
+      robotPoseData;
 
   /// \brief A map of robot name and its starting pose
   public: std::map<std::string, ignition::math::Pose3d> robotStartPose;
 
   /// \brief A map of robot name and distance traveled
   public: std::map<std::string, double> robotDistance;
+
+  /// \brief A map of robot name and elevation gain (cumulative)
+  public: std::map<std::string, double> robotElevationGain;
+
+  /// \brief A map of robot name and elevation loss (cumulative)
+  public: std::map<std::string, double> robotElevationLoss;
 
   /// \brief A map of robot name and max euclidean distance traveled
   public: std::map<std::string, double> robotMaxEuclideanDistance;
@@ -293,8 +303,32 @@ class subt::GameLogicPluginPrivate
   /// \brief Robot name with the max euclidean distance from starting area;
   public: std::pair<std::string, double> maxRobotEuclideanDistance  = {"", 0};
 
+  /// \brief Robot name with the max cumulative elevation gain;
+  public: std::pair<std::string, double> maxRobotElevationGain = {"", 0};
+
+  /// \brief Robot name with the max cumulative elevation loss;
+  public: std::pair<std::string, double> maxRobotElevationLoss = {"", 0};
+
+  /// \brief Robot name with the max elevation reached;
+  public: std::pair<std::string, double> maxRobotElevation = {"", 0};
+
+  /// \brief Robot name with the min elevation reached;
+  public: std::pair<std::string, double> minRobotElevation = {"", 0};
+
   /// \brief Total distanced traveled by all robots
   public: double robotsTotalDistance = 0;
+
+  /// \brief Total cumulative elevation gain by all robots
+  public: double robotsTotalElevationGain = 0;
+
+  /// \brief Total cumulative elevation loss by all robots
+  public: double robotsTotalElevationLoss = 0;
+
+  /// \brief A map of robot name and its pos output stream
+  public: std::map<std::string, std::shared_ptr<std::ofstream>> robotPosStream;
+
+  /// \brief A mutex.
+  public: std::mutex logMutex;
 
   /// \brief A mutex.
   public: std::mutex mutex;
@@ -739,6 +773,9 @@ void GameLogicPlugin::PostUpdate(
 
           // sim time
           double t = s + static_cast<double>(ns)*1e-9;
+          auto tDur =
+              std::chrono::duration_cast<std::chrono::steady_clock::duration>
+              (std::chrono::seconds(s) + std::chrono::nanoseconds(ns));
 
           // store robot pose and velocity data only if robot has traveled
           // more than 1 meter
@@ -746,12 +783,14 @@ void GameLogicPlugin::PostUpdate(
           if (robotPoseDataIt == this->dataPtr->robotPoseData.end())
           {
             this->dataPtr->robotPoseData[name].push_back(
-                std::make_pair(t, pose.Pos()));
+                std::make_pair(tDur, pose.Pos()));
 
             this->dataPtr->robotStartPose[name] = pose;
             this->dataPtr->robotDistance[name] = 0.0;
             this->dataPtr->robotMaxEuclideanDistance[name] = 0.0;
             this->dataPtr->robotAvgVel[name] = 0.0;
+            this->dataPtr->robotElevationGain[name] = 0.0;
+            this->dataPtr->robotElevationLoss[name] = 0.0;
 
             this->dataPtr->robotPrevPose[name] = pose;
             return true;
@@ -760,7 +799,8 @@ void GameLogicPlugin::PostUpdate(
               > 1.0)
           {
             //  time passed since last pose sample
-            double dt = t - robotPoseDataIt->second.back().first;
+            double prevT = robotPoseDataIt->second.back().first.count() * 1e-9;
+            double dt = t - prevT;
 
             // sim paused?
             if (dt <= 0)
@@ -794,10 +834,11 @@ void GameLogicPlugin::PostUpdate(
               this->dataPtr->maxRobotAvgVel.second = avgVel;
             }
 
-            robotPoseDataIt->second.push_back(std::make_pair(t, pose.Pos()));
+            robotPoseDataIt->second.push_back(std::make_pair(tDur, pose.Pos()));
           }
 
-          // compute and log greatest / total distance
+          // compute and log greatest / total distance traveled and
+          // elevation changes
 
           // distance traveled by this robot
           double distanceDiff =
@@ -828,6 +869,52 @@ void GameLogicPlugin::PostUpdate(
 
           // total distance traveled by all robots
           this->dataPtr->robotsTotalDistance += distanceDiff;
+
+          // greatest elevation gain / loss
+          double elevationDiff =
+              pose.Pos().Z() -  this->dataPtr->robotPrevPose[name].Pos().Z();
+          if (elevationDiff > 0)
+          {
+            double elevationGain = this->dataPtr->robotElevationGain[name]
+                + elevationDiff;
+            this->dataPtr->robotElevationGain[name] = elevationGain;
+            if (elevationGain > this->dataPtr->maxRobotElevationGain.second)
+            {
+              this->dataPtr->maxRobotElevationGain.first = name;
+              this->dataPtr->maxRobotElevationGain.second = elevationGain;
+            }
+            // total elevation gain by all robots
+            this->dataPtr->robotsTotalElevationGain += elevationDiff;
+          }
+          else
+          {
+            double elevationLoss = this->dataPtr->robotElevationLoss[name]
+                + elevationDiff;
+            this->dataPtr->robotElevationLoss[name] = elevationLoss;
+            if (elevationLoss < this->dataPtr->maxRobotElevationLoss.second)
+            {
+              this->dataPtr->maxRobotElevationLoss.first = name;
+              this->dataPtr->maxRobotElevationLoss.second = elevationLoss;
+            }
+            // total elevation loss by all robots
+            this->dataPtr->robotsTotalElevationLoss += elevationDiff;
+          }
+
+          // min / max elevation reached
+          double elevation = pose.Pos().Z();
+          if (elevation > this->dataPtr->maxRobotElevation.second ||
+              this->dataPtr->maxRobotElevation.first.empty())
+          {
+            this->dataPtr->maxRobotElevation.first = name;
+            this->dataPtr->maxRobotElevation.second = elevation;
+          }
+
+          if (elevation < this->dataPtr->minRobotElevation.second ||
+              this->dataPtr->minRobotElevation.first.empty())
+          {
+            this->dataPtr->minRobotElevation.first = name;
+            this->dataPtr->minRobotElevation.second = elevation;
+          }
 
           this->dataPtr->robotPrevPose[name] = pose;
           return true;
@@ -1454,9 +1541,10 @@ void GameLogicPluginPrivate::Finish()
 }
 
 /////////////////////////////////////////////////
-std::chrono::steady_clock::time_point
-GameLogicPluginPrivate::UpdateScoreFiles() const
+std::chrono::steady_clock::time_point GameLogicPluginPrivate::UpdateScoreFiles()
 {
+  std::lock_guard<std::mutex> lock(this->logMutex);
+
   // Elapsed time
   int realElapsed = 0;
   int simElapsed = 0;
@@ -1483,10 +1571,79 @@ GameLogicPluginPrivate::UpdateScoreFiles() const
   score << totalScore << std::endl;
   score.flush();
 
+  this->LogRobotPosData();
   this->LogRobotArtifactData();
 
   this->lastUpdateScoresTime = currTime;
   return currTime;
+}
+
+/////////////////////////////////////////////////
+void GameLogicPluginPrivate::LogRobotPosData()
+{
+  std::string path = common::joinPaths(this->logPath, "pos-data");
+
+  // remove previous pos data on start
+  if (this->lastUpdateScoresTime.time_since_epoch().count() == 0u)
+  {
+    common::removeAll(path);
+    common::createDirectory(path);
+  }
+
+  // log robot pos data
+  for (auto &it : this->robotPoseData)
+  {
+    if (it.second.empty())
+      return;
+    std::string robotName = it.first;
+
+    // create the pos data file if it does not exist yet
+    std::shared_ptr<std::ofstream> posStream;
+    auto streamIt = this->robotPosStream.find(robotName);
+    bool fileExists = true;
+    if (streamIt == this->robotPosStream.end())
+    {
+      std::string file = common::joinPaths(path, robotName + "-pos.data");
+      std::shared_ptr<std::ofstream> logFile =
+          std::make_shared<std::ofstream>(file, std::ios::ate);
+      this->robotPosStream[robotName] = logFile;
+      posStream = logFile;
+      fileExists = false;
+    }
+    else
+    {
+      posStream = streamIt->second;
+    }
+
+    // write to file only if there are new data, or it is the first time.
+    // Note that robot pos data should always have at least 1 (latest) pos data
+    // in the vector which is used during PostUpdate for computating robot
+    // distance traveled and vel data
+    if (!fileExists || it.second.size() > 1u)
+    {
+      auto poseData = std::move(it.second);
+      auto posIt = poseData.begin();
+
+      // if file already exists, it is not the first time we are writing out
+      // pos data. So the first entry in the vector should be the last pos
+      // data that was already written out to file so skip it
+      if (fileExists)
+        posIt++;
+      for(; posIt != poseData.end(); ++posIt)
+      {
+        auto t = posIt->first;
+        int64_t s, ns;
+        std::tie(s, ns) = ignition::math::durationToSecNsec(posIt->first);
+        math::Vector3d pos = posIt->second;
+        // sec nsec x y z
+        *posStream << s << " " << ns << " " << pos << std::endl;
+      }
+      posStream->flush();
+
+      // make sure to push the latest pos data back in the vector
+      it.second.push_back({poseData.back().first, poseData.back().second});
+    }
+  }
 }
 
 /////////////////////////////////////////////////
@@ -1526,6 +1683,12 @@ void GameLogicPluginPrivate::LogRobotArtifactData() const
   // 14. Total distance traveled by all the robots.
   // 15. Greatest maximum velocity by a robot.
   // 16. Greatest average velocity.
+  // 17. Greatest cumulative elevation gain by a robot on the team
+  // 18. Greatest cumulative elevation loss by a robot on the team
+  // 19. Total cumulative elevation gain by all the robots.
+  // 20. Total cumulative elevation loss by all the robots.
+  // 21. Max elevation reached by a robot
+  // 22. Min elevation reached by a robot
 
   YAML::Emitter out;
   out << YAML::BeginMap;
@@ -1578,7 +1741,7 @@ void GameLogicPluginPrivate::LogRobotArtifactData() const
   out << YAML::Key << "mean_time_between_successful_artifact_reports";
   out << YAML::Value << meanReportTime;
 
-  // robot pose and vel data
+  // robot distance traveled and vel data
   out << YAML::Key << "greatest_distance_traveled";
   out << YAML::Value << this->maxRobotDistance.second;
   out << YAML::Key << "greatest_distance_traveled_robot";
@@ -1597,6 +1760,29 @@ void GameLogicPluginPrivate::LogRobotArtifactData() const
   out << YAML::Value << this->maxRobotAvgVel.second;
   out << YAML::Key << "greatest_avg_vel_robot";
   out << YAML::Value << this->maxRobotAvgVel.first;
+
+  // robot elevation data
+  out << YAML::Key << "greatest_elevation_gain";
+  out << YAML::Value << this->maxRobotElevationGain.second;
+  out << YAML::Key << "greatest_elevation_gain_robot";
+  out << YAML::Value << this->maxRobotElevationGain.first;
+  out << YAML::Key << "greatest_elevation_loss";
+  out << YAML::Value << this->maxRobotElevationLoss.second;
+  out << YAML::Key << "greatest_elevation_loss_robot";
+  out << YAML::Value << this->maxRobotElevationLoss.first;
+  out << YAML::Key << "total_elevation_gain";
+  out << YAML::Value << this->robotsTotalElevationGain;
+  out << YAML::Key << "total_elevation_loss";
+  out << YAML::Value << this->robotsTotalElevationLoss;
+  out << YAML::Key << "max_elevation_reached";
+  out << YAML::Value << this->maxRobotElevation.second;
+  out << YAML::Key << "max_elevation_reached_robot";
+  out << YAML::Value << this->maxRobotElevation.first;
+  out << YAML::Key << "min_elevation_reached";
+  out << YAML::Value << this->minRobotElevation.second;
+  out << YAML::Key << "min_elevation_reached_robot";
+  out << YAML::Value << this->minRobotElevation.first;
+
   out << YAML::EndMap;
 
   std::ofstream logFile(this->logPath + "/run.yml", std::ios::out);
