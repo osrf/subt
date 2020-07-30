@@ -178,7 +178,7 @@
     </visual>
   </link>
   <sensor name='imu_sensor' update_rate='50'>
-    <parent link='${robot_namespace}/sensor_head_link'/>
+    <parent link='${robot_namespace}/base_link'/>
     <origin xyz='0 0 0' rpy='0 -0 0'/>
   </sensor>
   <sensor name='horiz_laser' update_rate='20'>
