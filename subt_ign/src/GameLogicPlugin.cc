@@ -1003,8 +1003,9 @@ void GameLogicPlugin::PostUpdate(
 
     // Publish the remaining artifact reports
     ignition::msgs::Int32 limitMsg;
-    limitMsg.set_data(this->reportCountLimit - this->reportCount);
-    this->artifactReportPub.Publish(limitMsg);
+    limitMsg.set_data(this->dataPtr->reportCountLimit -
+        this->dataPtr->reportCount);
+    this->dataPtr->artifactReportPub.Publish(limitMsg);
   }
 
   // Periodically update the score file.
