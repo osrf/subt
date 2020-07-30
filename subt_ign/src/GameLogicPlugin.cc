@@ -1000,6 +1000,12 @@ void GameLogicPlugin::PostUpdate(
     msg.set_data(this->dataPtr->state);
     this->dataPtr->startPub.Publish(msg);
     this->dataPtr->lastStatusPubTime = currentTime;
+
+    // Publish the remaining artifact reports
+    ignition::msgs::Int32 limitMsg;
+    limitMsg.set_data(this->dataPtr->reportCountLimit -
+        this->dataPtr->reportCount);
+    this->dataPtr->artifactReportPub.Publish(limitMsg);
   }
 
   // Periodically update the score file.
@@ -1198,11 +1204,6 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
 
   // This is a unique report.
   this->reportCount++;
-
-  // Publish the remaining artifact reports
-  ignition::msgs::Int32 limitMsg;
-  limitMsg.set_data(this->reportCountLimit - this->reportCount);
-  this->artifactReportPub.Publish(limitMsg);
 
   // The teams are reporting the artifact poses relative to the fiducial located
   // in the staging area. Now, we convert the reported pose to world coordinates
