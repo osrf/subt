@@ -1,11 +1,8 @@
 <!---This is a Markdown description of a robot model submitted for inclusion in the DARPA Subterranean Challenge Technology Repository -->
 
 # MARBLE QAV500 Sensor Config 3
-<<<<<<< HEAD
-This specifications.md file is a description and proof of virtual model validation for the MARBLE QAV500 with Sensor Configuration 1. This robot may be launched using an ign launch command with the variable name `marble_qav500_sensor_config_2`.
-=======
-This specifications.md file is a description and proof of virtual model validation for the MARBLE QAV500 with Sensor Configuration 1. This robot may be launched using an ign launch command with the variable name `marble_qav500_sensor_config_3`.
->>>>>>> 0403517644a9d55feb5356204184d989c10883ab
+This specifications.md file is a description and proof of virtual model validation for the MARBLE QAV500 with Sensor Configuration 3. This robot may be launched using an ign launch command with the variable name `marble_qav500_sensor_config_3`.
+
 
 ## Description
 This configuration is based on the Lumineer QAV500 Quadcopter. The marble sensor suite is located at the front and bottom of the chassis.
