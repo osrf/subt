@@ -1,6 +1,6 @@
 <!---This is a Markdown description of a robot model submitted for inclusion in the DARPA Subterranean Challenge Technology Repository -->
 
-# MARBLE QAV500 Sensor Config 1
+# MARBLE QAV500 Sensor Config 3
 This specifications.md file is a description and proof of virtual model validation for the MARBLE QAV500 with Sensor Configuration 1. This robot may be launched using an ign launch command with the variable name `marble_qav500_sensor_config_2`.
 
 ## Description
