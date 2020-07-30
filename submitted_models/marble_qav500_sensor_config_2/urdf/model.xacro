@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
-<robot name='marble_qav500_sensor_config_1' xmlns:xacro='http://ros.org/wiki/xacro'>
-  <xacro:arg name="name" default="marble_qav500_sensor_config_1"/>
+<robot name='marble_qav500_sensor_config_2' xmlns:xacro='http://ros.org/wiki/xacro'>
+  <xacro:arg name="name" default="marble_qav500_sensor_config_2"/>
   <xacro:property name="robot_namespace" value="$(arg name)"/>
   <link name='${robot_namespace}/base_link'>
     <inertial>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
-      <mass value='3'/>
-      <inertia ixx='0.075' ixy='0' ixz='0' iyy='0.075' iyz='0' izz='0.148916'/>
+      <mass value='2.06'/>
+      <inertia ixx='0.03566' ixy='0' ixz='0' iyy='0.05535' iyz='0' izz='0.08475'/>
     </inertial>
     <collision name='base_link_inertia_collision'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
@@ -17,11 +17,41 @@
     <visual name='base_link_inertia_visual'>
       <origin xyz='0 0 -0.12' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://marble_qav500_sensor_config_1/meshes/qav500.stl' scale='1 1 1'/>
+        <mesh filename='package://marble_qav500_sensor_config_2/meshes/qav500.stl' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='front_flashlight_visual'>
+      <origin xyz='0.15 0 -0.034102' rpy='0 0 -1.5708'/>
+      <geometry>
+        <mesh filename='package://marble_qav500_sensor_config_2/meshes/spotlight.dae' scale='0.01 0.01 0.01'/>
+      </geometry>
+    </visual>
+    <visual name='right_flashlight_visual'>
+      <origin xyz='0 0 0' rpy='-0 -0 3.14159'/>
+      <geometry>
+        <mesh filename='package://marble_qav500_sensor_config_2/meshes/spotlight.dae' scale='0.01 0.01 0.01'/>
+      </geometry>
+    </visual>
+    <visual name='left_flashlight_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://marble_qav500_sensor_config_2/meshes/spotlight.dae' scale='0.01 0.01 0.01'/>
       </geometry>
     </visual>
     <visual name='camera_visual'>
       <origin xyz='0.27 0 0.03' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.025 0.09 0.025'/>
+      </geometry>
+    </visual>
+    <visual name='left_camera_visual'>
+      <origin xyz='0 0.02 -0.1' rpy='0 -0 1.57'/>
+      <geometry>
+        <box size='0.025 0.09 0.025'/>
+      </geometry>
+    </visual>
+    <visual name='right_camera_visual'>
+      <origin xyz='0 -0.02 -0.1' rpy='0 -0 1.57'/>
       <geometry>
         <box size='0.025 0.09 0.025'/>
       </geometry>
@@ -61,10 +91,24 @@
     <parent link='${robot_namespace}/base_link'/>
     <origin xyz='0.27 0 0.03' rpy='0 -0 0'/>
     <camera>
-      <image width='1280' height='720' format='R8G8B8' hfov='1.5184' near='0.01' far='300' />
+      <image width='640' height='480' format='R8G8B8' hfov='1.5184' near='0.01' far='300' />
     </camera>
   </sensor>
-  <sensor name='front_laser' update_rate='15'>
+  <sensor name='camera_left' update_rate='30'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0 0.02 -0.1' rpy='0 -0 1.57'/>
+    <camera>
+      <image width='640' height='480' format='R8G8B8' hfov='1.5184' near='0.01' far='300' />
+    </camera>
+  </sensor>
+  <sensor name='camera_right' update_rate='30'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0 -0.02 -0.1' rpy='0 0 -1.57'/>
+    <camera>
+      <image width='640' height='480' format='R8G8B8' hfov='1.5184' near='0.01' far='300' />
+    </camera>
+  </sensor>
+  <sensor name='front_laser' update_rate='20'>
     <parent link='${robot_namespace}/base_link'/>
     <origin xyz='0 0 -0.05' rpy='0 -0 0'/>
   </sensor>
@@ -97,7 +141,7 @@
     <visual name='rotor_0_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://marble_qav500_sensor_config_1/meshes/neo11_propeller_ccw.dae' scale='1 1 1'/>
+        <mesh filename='package://marble_qav500_sensor_config_2/meshes/neo11_propeller_ccw.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
@@ -116,7 +160,7 @@
     <visual name='rotor_1_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://marble_qav500_sensor_config_1/meshes/neo11_propeller_cw.dae' scale='1 1 1'/>
+        <mesh filename='package://marble_qav500_sensor_config_2/meshes/neo11_propeller_ccw.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
@@ -135,7 +179,7 @@
     <visual name='rotor_2_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://marble_qav500_sensor_config_1/meshes/neo11_propeller_ccw.dae' scale='1 1 1'/>
+        <mesh filename='package://marble_qav500_sensor_config_2/meshes/neo11_propeller_cw.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
@@ -154,12 +198,12 @@
     <visual name='rotor_3_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://marble_qav500_sensor_config_1/meshes/neo11_propeller_cw.dae' scale='1 1 1'/>
+        <mesh filename='package://marble_qav500_sensor_config_2/meshes/neo11_propeller_cw.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
   <joint name='rotor_0_joint' type='revolute'>
-    <origin xyz='0.206069 0.206092 0.028' rpy='0 -0 0.523599'/>
+    <origin xyz='0.206069 -0.205944 0.028' rpy='0 -0 0.523599'/>
     <parent link='${robot_namespace}/base_link'/>
     <child link='${robot_namespace}/rotor_0'/>
     <dynamics damping='0' friction='0' />
@@ -175,7 +219,7 @@
     <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
   </joint>
   <joint name='rotor_2_joint' type='revolute'>
-    <origin xyz='-0.206432 -0.205944 0.028' rpy='0 0 -2.61799'/>
+    <origin xyz='0.206432 0.205944 0.028' rpy='0 0 -2.61799'/>
     <parent link='${robot_namespace}/base_link'/>
     <child link='${robot_namespace}/rotor_2'/>
     <dynamics damping='0' friction='0' />
@@ -183,7 +227,7 @@
     <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
   </joint>
   <joint name='rotor_3_joint' type='revolute'>
-    <origin xyz='0.206432 -0.205944 0.028' rpy='0 0 -0.523599'/>
+    <origin xyz='-0.206432 -0.205944 0.028' rpy='0 0 -0.523599'/>
     <parent link='${robot_namespace}/base_link'/>
     <child link='${robot_namespace}/rotor_3'/>
     <dynamics damping='0' friction='0' />
