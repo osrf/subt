@@ -1,7 +1,11 @@
 <!---This is a Markdown description of a robot model submitted for inclusion in the DARPA Subterranean Challenge Technology Repository -->
 
 # MARBLE QAV500 Sensor Config 3
+<<<<<<< HEAD
 This specifications.md file is a description and proof of virtual model validation for the MARBLE QAV500 with Sensor Configuration 1. This robot may be launched using an ign launch command with the variable name `marble_qav500_sensor_config_2`.
+=======
+This specifications.md file is a description and proof of virtual model validation for the MARBLE QAV500 with Sensor Configuration 1. This robot may be launched using an ign launch command with the variable name `marble_qav500_sensor_config_3`.
+>>>>>>> 0403517644a9d55feb5356204184d989c10883ab
 
 ## Description
 This configuration is based on the Lumineer QAV500 Quadcopter. The marble sensor suite is located at the front and bottom of the chassis.
@@ -16,7 +20,7 @@ The same Rights are granted for the configuration as for the MARBLE Husky. No ad
 The MARBLE QAV500 frame has the same estimated commercial cost as the QAV500 vehicle of $200, plus additional costs associated with the sensors ($10,000). Its weight is approximately 6.6 lbs (possible to heft with a single person).
 
 ### Sensors
-This QAV500 with sensor configuration 1 includes the following sensors. The specifications for these instruments are provided below in the [Validation Links](#validation_links) section.
+This QAV500 with sensor configuration 3 includes the following sensors. The specifications for these instruments are provided below in the [Validation Links](#validation_links) section.
 
 The following specific sensors are declared payloads of this vehicle:
 

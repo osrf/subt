@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-  <arg name="name" doc="Name of Vehicle"/>
-  <param name="$(arg name)/robot_description" command="$(find xacro)/xacro '$(find marble_qav500_sensor_config_2)/urdf/model.xacro' name:=$(arg name)"/>
-</launch>
-
