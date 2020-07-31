@@ -373,7 +373,7 @@
 
         <!-- Bottom cylinder of Vertical Ouster/Velodyne 3D Lidar -->
         <visual name="base_link_fixed_joint_lump__velodyne_base_link_visual_13">
-          <pose frame="">0.158 0 -0.086 0 1.5708 0</pose>
+          <pose frame="">-0.158 0 -0.086 0 1.5708 0</pose>
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
@@ -383,7 +383,7 @@
         </visual>
         <!-- Top cylinder of Vertical Ouster/Velodyne 3D Lidar -->
         <visual name="base_link_fixed_joint_lump__velodyne_base_link_visual_14">
-          <pose frame="">0.158 0 -0.086 0 1.5708 0</pose>
+          <pose frame="">-0.158 0 -0.086 0 1.5708 0</pose>
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
@@ -393,7 +393,7 @@
         </visual>
         <!-- Main cylinder of Vertical Ouster/Velodyne 3D Lidar -->
         <visual name="base_link_fixed_joint_lump__velodyne_visual_15">
-          <pose frame="">0.158 0 -0.086 0 1.5708 0</pose>
+          <pose frame="">-0.158 0 -0.086 0 1.5708 0</pose>
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
@@ -468,7 +468,7 @@
               <stddev>0.03</stddev>
             </noise>
           </lidar>
-          <pose frame="">0.158 0 -0.086 0 1.5708 0</pose>
+          <pose frame="">-0.158 0 -0.086 0 1.5708 0</pose>
         </sensor>
 
         <visual name="camera_front_visual">
