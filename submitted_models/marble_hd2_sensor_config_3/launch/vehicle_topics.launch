@@ -4,7 +4,8 @@
   <arg name="name"/>
   <arg name="link_name" value="base_link"/>
   <arg name="sensor_prefix" value="/world/$(arg world_name)/model/$(arg name)/link/$(arg link_name)/sensor"/>
-  <arg name="breadcrumbs" default="0"/>
+  <arg name="sensor_head_prefix" value="/world/$(arg world_name)/model/$(arg name)/link/sensor_head_link/sensor"/>
+  <arg name="breadcrumbs" default="1"/>
   <group ns="$(arg name)">
     <!--Create multipe bridges so that it can run in parallel-->
     <node
@@ -50,31 +51,68 @@
       args="/model/$(arg name)/battery/linear_battery/state@sensor_msgs/BatteryState[ignition.msgs.BatteryState">
       <remap from="/model/$(arg name)/battery/linear_battery/state" to="battery_state"/>
     </node>
-    
-    <node
-      pkg="ros_ign_bridge"
-      type="parameter_bridge"
-      name="ros_ign_bridge_gimbal_pan"
-      args="/model/$(arg name)/joint/pan_gimbal_joint/cmd_force@std_msgs/Float64]ignition.msgs.Double">
-      <remap from="/model/$(arg name)/joint/pan_gimbal_joint/cmd_force" to="pan_tilt/pan_rate_cmd_double"/>
-    </node>
-    
-    <node
-      pkg="ros_ign_bridge"
-      type="parameter_bridge"
-      name="ros_ign_bridge_gimbal_tilt"
-      args="/model/$(arg name)/joint/tilt_gimbal_joint/cmd_force@std_msgs/Float64]ignition.msgs.Double">
-      <remap from="/model/$(arg name)/joint/tilt_gimbal_joint/cmd_force" to="pan_tilt/tilt_rate_cmd_double"/>
-    </node>
-    
+
     <!-- Joint Publisher (Publishes to topic but doesn't control...)-->
     <node
       pkg="ros_ign_bridge"
       type="parameter_bridge"
       name="ros_ign_bridge_joint_state_publisher"
       args="/world/$(arg world_name)/model/$(arg name)/joint_state@sensor_msgs/JointState[ignition.msgs.Model">
-      <remap from="/world/$(arg world_name)/model/$(arg name)/joint_state" to="joint_state"/>
+      <remap from="/world/$(arg world_name)/model/$(arg name)/joint_state" to="joint_state"/>-->
     </node>
+
+    <!--Forward Facing camera -->
+   <node
+        pkg="ros_ign_bridge"
+        type="parameter_bridge"
+        name="ros_ign_bridge_camera_front"
+        args="$(arg sensor_head_prefix)/camera_front/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+        <remap from="$(arg sensor_head_prefix)/camera_front/camera_info" to="front/camera_info"/>
+      </node>
+      <node
+        pkg="ros_ign_image"
+        type="image_bridge"
+        name="ros_ign_image_camera_front"
+        args="$(arg sensor_head_prefix)/camera_front/image">
+        <remap from="$(arg sensor_head_prefix)/camera_front/image" to="front/image_raw"/>
+      </node>
+
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_front">
+        <remap from="input/image" to="front/image_raw" />
+        <remap from="output/image" to="front/optical/image_raw" />
+        <remap from="input/camera_info" to="front/camera_info" />
+        <remap from="output/camera_info" to="front/optical/camera_info" />
+      </node>
+
+    <!--Backward Facing camera -->
+   <node
+        pkg="ros_ign_bridge"
+        type="parameter_bridge"
+        name="ros_ign_bridge_camera_back"
+        args="$(arg sensor_head_prefix)/camera_back/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+        <remap from="$(arg sensor_head_prefix)/camera_back/camera_info" to="back/camera_info"/>
+      </node>
+      <node
+        pkg="ros_ign_image"
+        type="image_bridge"
+        name="ros_ign_image_camera_back"
+        args="$(arg sensor_head_prefix)/camera_back/image">
+        <remap from="$(arg sensor_head_prefix)/camera_back/image" to="back/image_raw"/>
+      </node>
+
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher_back">
+        <remap from="input/image" to="back/image_raw" />
+        <remap from="output/image" to="back/optical/image_raw" />
+        <remap from="input/camera_info" to="back/camera_info" />
+        <remap from="output/camera_info" to="back/optical/camera_info" />
+      </node>
+
 
     <!--30 Degree downward looking RGBD camera -->
     <node
@@ -123,13 +161,22 @@
       <remap from="output/image" to="front_down/optical/depth" />
     </node>
 
-    <!--OS1-64 3D Laser-->
+    <!--OS1-64 3D Horizontal Laser-->
     <node
       pkg="ros_ign_bridge"
       type="parameter_bridge"
-      name="ros_ign_bridge_lidar3d"
-      args="$(arg sensor_prefix)/front_laser/scan/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
-      <remap from="$(arg sensor_prefix)/front_laser/scan/points" to="points"/>
+      name="ros_ign_bridge_lidar3d_horiz"
+      args="$(arg sensor_head_prefix)/horiz_laser/scan/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
+      <remap from="$(arg sensor_head_prefix)/horiz_laser/scan/points" to="horiz_points"/>
+    </node>
+
+    <!--OS1-64 3D Vertical Laser-->
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_lidar3d_vert"
+      args="$(arg sensor_head_prefix)/vert_laser/scan/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
+      <remap from="$(arg sensor_head_prefix)/vert_laser/scan/points" to="vert_points"/>
     </node>
 
     <!-- Planar Laser -->
