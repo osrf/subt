@@ -116,6 +116,10 @@
       <image width='320' height='240' format='R8G8B8' hfov='1.5184' near='0.01' far='300' />
     </camera>
   </sensor>
+  <sensor name='imu_sensor' update_rate='50'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0 0 0' rpy='0 -0 0'/>
+  </sensor>
   <link name='${robot_namespace}/sensor_head_link'>
     <inertial>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
@@ -147,19 +151,19 @@
       </geometry>
     </visual>
     <visual name='base_link_fixed_joint_lump__velodyne_base_link_visual_13'>
-      <origin xyz='0.12753 0 -0.076' rpy='3.14159 1.57079 -3e-06'/>
+      <origin xyz='-0.12753 0 -0.076' rpy='3.14159 1.57079 -3e-06'/>
       <geometry>
         <mesh filename='package://marble_husky_sensor_config_3/meshes/VLP16_base_1.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='base_link_fixed_joint_lump__velodyne_base_link_visual_14'>
-      <origin xyz='0.12753 0 -0.076' rpy='3.14159 1.57079 3.14159'/>
+      <origin xyz='-0.12753 0 -0.076' rpy='3.14159 1.57079 3.14159'/>
       <geometry>
         <mesh filename='package://marble_husky_sensor_config_3/meshes/VLP16_base_2.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='base_link_fixed_joint_lump__velodyne_visual_15'>
-      <origin xyz='0.12753 0 -0.076' rpy='3.14159 1.57079 3.14159'/>
+      <origin xyz='-0.12753 0 -0.076' rpy='3.14159 1.57079 3.14159'/>
       <geometry>
         <mesh filename='package://marble_husky_sensor_config_3/meshes/VLP16_scan.dae' scale='1 1 1'/>
       </geometry>
@@ -177,17 +181,13 @@
       </geometry>
     </visual>
   </link>
-  <sensor name='imu_sensor' update_rate='50'>
-    <parent link='${robot_namespace}/base_link'/>
-    <origin xyz='0 0 0' rpy='0 -0 0'/>
-  </sensor>
   <sensor name='horiz_laser' update_rate='20'>
     <parent link='${robot_namespace}/sensor_head_link'/>
     <origin xyz='0 0 0.086' rpy='0 -0 0'/>
   </sensor>
   <sensor name='vert_laser' update_rate='20'>
     <parent link='${robot_namespace}/sensor_head_link'/>
-    <origin xyz='0.12753 0 -0.076' rpy='3.14159 1.57079 3.14159'/>
+    <origin xyz='-0.12753 0 -0.076' rpy='3.14159 1.57079 3.14159'/>
   </sensor>
   <sensor name='camera_front' update_rate='15'>
     <parent link='${robot_namespace}/sensor_head_link'/>
