@@ -198,6 +198,12 @@ class subt::GameLogicPluginPrivate
   public: bool OnFinishCall(const ignition::msgs::Boolean &_req,
                ignition::msgs::Boolean &_res);
 
+  /// \brief Checks if a robot has flipped.
+  /// \param[in] _name The robot's name.
+  /// \param[in] _pose The robot's pose.
+  public: void CheckRobotFlip(const std::string &_name,
+                              const ignition::math::Pose3d &_pose);
+
   /// \brief Ignition Transport node.
   public: transport::Node node;
 
@@ -776,6 +782,9 @@ void GameLogicPlugin::PostUpdate(
           auto tDur =
               std::chrono::duration_cast<std::chrono::steady_clock::duration>
               (std::chrono::seconds(s) + std::chrono::nanoseconds(ns));
+
+          // check if the robot has flipped
+          this->dataPtr->CheckRobotFlip(name, pose);
 
           // store robot pose and velocity data only if robot has traveled
           // more than 1 meter
@@ -1864,4 +1873,29 @@ std::ofstream &GameLogicPluginPrivate::Log()
   this->logStream << this->simTime.sec()
                   << " " << this->simTime.nsec() << " ";
   return this->logStream;
+}
+
+/////////////////////////////////////////////////
+void GameLogicPluginPrivate::CheckRobotFlip(const std::string &_name,
+                                            const ignition::math::Pose3d &_pose)
+{
+  // radian equivalents
+  static const double k170_deg = 2.96706;
+  static const double k190_deg = 3.316126;
+
+  auto orientation = _pose.Rot().Euler();
+  auto roll = std::abs(orientation.X());
+  auto pitch = std::abs(orientation.Y());
+
+  if ((roll >= k170_deg && roll <= k190_deg) ||
+      (pitch >= k170_deg && pitch <= k190_deg))
+  {
+    std::ostringstream stream;
+    stream
+      << "- event:\n"
+      << "  type: flip\n"
+      << "  time_sec: " << this->simTime.sec() << "\n"
+      << "  robot:" << _name << "\n";
+    this->LogEvent(stream.str());
+  }
 }
