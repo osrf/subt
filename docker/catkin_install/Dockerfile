@@ -45,10 +45,6 @@ RUN apt-get update && apt-get -q -y install --no-install-recommends \
   ros-melodic-twist-mux \
   && rm -rf /var/lib/apt/lists/*
 
-# Download the public models
-COPY download_models.sh ./
-RUN ./download_models.sh
-
 # Add new sudo user (based on https://wiki.ros.org/docker/Tutorials/GUI#The_isolated_way)
 # Requires a docker build argument `user_id`
 ARG user_id
@@ -68,5 +64,9 @@ USER ${USERNAME}
 # (this is where the subt repo can be mounted as a volume)
 WORKDIR /home/${USERNAME}
 RUN mkdir -p subt_ws/src
+
+# Download the public models
+COPY download_models.sh ./
+RUN ./download_models.sh
 
 CMD [ "/bin/bash" ]
