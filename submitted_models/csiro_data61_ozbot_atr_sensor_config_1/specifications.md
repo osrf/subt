@@ -26,7 +26,7 @@ the [Validation Links](#markdown-header-ozbot-atr-validation-and-specification-l
 The following specific sensors are declared payloads of this vehicle:
 
 * A Velodyne VLP-16 Lidar, modeled by the gpu_lidar plugin. (note this lidar is also mounted at 45 degrees on a rotating gimbal for to give a near-360 degree FOV)
-* ECON e-CAM130_CUXVR Quad Camera system with each camera mounted on one side of the payload, modeled by the camera plugin
+* ECON e-CAM130_CUXVR Quad Camera system with each camera mounted on one side of the payload. The version on the platform is a custom set of sensors run at a resolution of 2016x1512, hardware triggered at 15fps. They are modeled by the standard camera plugin
 * A Microstrain CV5-25 IMU, modeled by the standard imu plugin
 
 ### Control

@@ -39,10 +39,10 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <right_joint>right_11_wheel_joint</right_joint>
         <wheel_separation>0.5</wheel_separation>
         <wheel_radius>0.14</wheel_radius>
-        <min_velocity>-1.6</min_velocity>
-        <max_velocity>1.6</max_velocity>
-        <min_acceleration>-1.6</min_acceleration>
-        <max_acceleration>1.6</max_acceleration>
+        <min_velocity>-1.2</min_velocity>
+        <max_velocity>1.2</max_velocity>
+        <min_acceleration>-1.0</min_acceleration>
+        <max_acceleration>1.0</max_acceleration>
         <topic>/model/#{_name}/cmd_vel_relay</topic>
       </plugin>
 
@@ -55,6 +55,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
       <plugin
         filename="libignition-gazebo-joint-state-publisher-system.so"
         name="ignition::gazebo::systems::JointStatePublisher">
+        <joint_name>lidar_gimbal</joint_name>
       </plugin>
 
       <!-- Publish robot state information -->
@@ -84,6 +85,15 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <power_load>15.00</power_load>
         <start_on_motion>true</start_on_motion>
       </plugin>
+
+      <!-- Gas Sensor plugin -->"
+      <plugin filename="libGasEmitterDetectorPlugin.so"
+        name="subt::GasDetector">
+        <topic>/model/#{_name}/gas_detected</topic>
+        <update_rate>10</update_rate>
+        <type>gas</type>
+      </plugin>
+
     </include>
     </sdf>
   </plugin>
