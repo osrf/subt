@@ -1,0 +1,356 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="world_name"/>
+  <arg name="name"/>
+  <arg name="link_prefix" value="/world/$(arg world_name)/model/$(arg name)/link"/>
+  <arg name="breadcrumbs" default="0"/>
+  <group ns="$(arg name)">
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_pose"
+      args="/model/$(arg name)/pose@tf2_msgs/TFMessage[ignition.msgs.Pose_V">
+      <remap from="/model/$(arg name)/pose" to="pose"/>
+    </node>
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_pose_static"
+      args="/model/$(arg name)/pose_static@tf2_msgs/TFMessage[ignition.msgs.Pose_V">
+      <remap from="/model/$(arg name)/pose_static" to="pose_static"/>
+    </node>
+
+    <node
+      pkg="subt_ros"
+      type="pose_tf_broadcaster"
+      name="pose_tf_broadcaster"/>
+
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_twist"
+      args="/model/$(arg name)/cmd_vel_relay@geometry_msgs/Twist]ignition.msgs.Twist">
+      <remap from="/model/$(arg name)/cmd_vel_relay" to="cmd_vel"/>
+    </node>
+
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_odom"
+      args="/model/$(arg name)/odometry@nav_msgs/Odometry[ignition.msgs.Odometry">
+      <remap from="/model/$(arg name)/odometry" to="odom"/>
+    </node>
+
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_battery_state"
+      args="/model/$(arg name)/battery/linear_battery/state@sensor_msgs/BatteryState[ignition.msgs.BatteryState">
+      <remap from="/model/$(arg name)/battery/linear_battery/state" to="battery_state"/>
+    </node>
+    
+    <!-- Flipper control -->
+    
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_front_left_flipper"
+      args="/model/$(arg name)/joint/front_left_flipper_j/cmd_vel@std_msgs/Float64]ignition.msgs.Double">
+      <remap from="/model/$(arg name)/joint/front_left_flipper_j/cmd_vel" to="flippers_cmd_vel/front_left"/>
+    </node>
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_front_right_flipper"
+      args="/model/$(arg name)/joint/front_right_flipper_j/cmd_vel@std_msgs/Float64]ignition.msgs.Double">
+      <remap from="/model/$(arg name)/joint/front_right_flipper_j/cmd_vel" to="flippers_cmd_vel/front_right"/>
+    </node>
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_rear_left_flipper"
+      args="/model/$(arg name)/joint/rear_left_flipper_j/cmd_vel@std_msgs/Float64]ignition.msgs.Double">
+      <remap from="/model/$(arg name)/joint/rear_left_flipper_j/cmd_vel" to="flippers_cmd_vel/rear_left"/>
+    </node>
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_rear_right_flipper"
+      args="/model/$(arg name)/joint/rear_right_flipper_j/cmd_vel@std_msgs/Float64]ignition.msgs.Double">
+      <remap from="/model/$(arg name)/joint/rear_right_flipper_j/cmd_vel" to="flippers_cmd_vel/rear_right"/>
+    </node>
+    
+    <!-- Laser rotation control -->
+    
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_laser"
+      args="/model/$(arg name)/joint/laser_j/cmd_vel@std_msgs/Float64]ignition.msgs.Double">
+      <remap from="/model/$(arg name)/joint/laser_j/cmd_vel" to="scanning_speed_cmd"/>
+    </node>
+    
+    <!-- Joint Publisher (Publishes to topic but doesn't control...)-->
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_joint_state_publisher"
+      args="/world/$(arg world_name)/model/$(arg name)/joint_state@sensor_msgs/JointState[ignition.msgs.Model">
+      <remap from="/world/$(arg world_name)/model/$(arg name)/joint_state" to="joint_states"/>
+    </node>
+    
+    <!-- Slightly downward looking RGBD camera -->
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_camera"
+      args="$(arg link_prefix)/base_link/sensor/camera/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+      <remap from="$(arg link_prefix)/base_link/sensor/camera/camera_info" to="camera/color/camera_info"/>
+    </node>
+    <node
+      pkg="ros_ign_image"
+      type="image_bridge"
+      name="ros_ign_image_camera"
+      respawn="true"
+      args="$(arg link_prefix)/base_link/sensor/camera/image">
+      <remap from="$(arg link_prefix)/base_link/sensor/camera/image" to="camera/color/image_raw"/>
+    </node>
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_rgbd"
+      args="$(arg link_prefix)/base_link/sensor/camera/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
+      <remap from="$(arg link_prefix)/base_link/sensor/camera/points" to="camera/depth/points"/>
+    </node>
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_depth"
+      args="$(arg link_prefix)/base_link/sensor/camera/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+      <remap from="$(arg link_prefix)/base_link/sensor/camera/camera_info" to="camera/depth/camera_info"/>
+    </node>
+    <node
+      pkg="ros_ign_image"
+      type="image_bridge"
+      name="ros_ign_image_depth"
+      respawn="true"
+      args="$(arg link_prefix)/base_link/sensor/camera/depth_image">
+      <remap from="$(arg link_prefix)/base_link/sensor/camera/depth_image" to="camera/depth/image_rect_raw"/>
+    </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_color">
+      <remap from="input/image" to="camera/color/image_raw" />
+      <remap from="output/image" to="camera/color/optical/image_raw" />
+      <remap from="input/camera_info" to="camera/color/camera_info" />
+      <remap from="output/camera_info" to="camera/color/optical/camera_info" />
+    </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_depth"
+      args="depth">
+      <remap from="input/image" to="camera/depth/image_rect_raw" />
+      <remap from="output/image" to="camera/depth/optical/image_rect_raw" />
+      <remap from="input/camera_info" to="camera/depth/camera_info" />
+      <remap from="output/camera_info" to="camera/depth/optical/camera_info" />
+    </node>
+
+    <!-- Planar Laser -->
+    <node
+        pkg="ros_ign_bridge"
+        type="parameter_bridge"
+        name="ros_ign_bridge_gpu_lidar_planar_laser"
+        args="$(arg link_prefix)/laser/sensor/laser/scan@sensor_msgs/LaserScan[ignition.msgs.LaserScan">
+      <remap from="$(arg link_prefix)/laser/sensor/laser/scan" to="scan"/>
+    </node>
+
+    <!-- Omnicamera -->
+    
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_omnicam0"
+      args="$(arg link_prefix)/base_link/sensor/omnicam_sensor0/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+      <remap from="$(arg link_prefix)/base_link/sensor/omnicam_sensor0/camera_info" to="viz/camera_0/camera_info"/>
+    </node>
+    <node
+      pkg="ros_ign_image"
+      type="image_bridge"
+      name="ros_ign_image_omnicam0"
+      respawn="true"
+      args="$(arg link_prefix)/base_link/sensor/omnicam_sensor0/image">
+      <remap from="$(arg link_prefix)/base_link/sensor/omnicam_sensor0/image" to="viz/camera_0/image_raw"/>
+    </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_omnicam0">
+      <remap from="input/image" to="viz/camera_0/image_raw" />
+      <remap from="output/image" to="viz/camera_0/optical/image_raw" />
+      <remap from="input/camera_info" to="viz/camera_0/camera_info" />
+      <remap from="output/camera_info" to="viz/camera_0/optical/camera_info" />
+    </node>
+    
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_omnicam1"
+      args="$(arg link_prefix)/base_link/sensor/omnicam_sensor1/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+      <remap from="$(arg link_prefix)/base_link/sensor/omnicam_sensor1/camera_info" to="viz/camera_1/camera_info"/>
+    </node>
+    <node
+      pkg="ros_ign_image"
+      type="image_bridge"
+      name="ros_ign_image_omnicam1"
+      respawn="true"
+      args="$(arg link_prefix)/base_link/sensor/omnicam_sensor1/image">
+      <remap from="$(arg link_prefix)/base_link/sensor/omnicam_sensor1/image" to="viz/camera_1/image_raw"/>
+    </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_omnicam1">
+      <remap from="input/image" to="viz/camera_1/image_raw" />
+      <remap from="output/image" to="viz/camera_1/optical/image_raw" />
+      <remap from="input/camera_info" to="viz/camera_1/camera_info" />
+      <remap from="output/camera_info" to="viz/camera_1/optical/camera_info" />
+    </node>
+
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_omnicam2"
+      args="$(arg link_prefix)/base_link/sensor/omnicam_sensor2/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+      <remap from="$(arg link_prefix)/base_link/sensor/omnicam_sensor2/camera_info" to="viz/camera_2/camera_info"/>
+    </node>
+    <node
+      pkg="ros_ign_image"
+      type="image_bridge"
+      name="ros_ign_image_omnicam2"
+      respawn="true"
+      args="$(arg link_prefix)/base_link/sensor/omnicam_sensor2/image">
+      <remap from="$(arg link_prefix)/base_link/sensor/omnicam_sensor2/image" to="viz/camera_2/image_raw"/>
+    </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_omnicam2">
+      <remap from="input/image" to="viz/camera_2/image_raw" />
+      <remap from="output/image" to="viz/camera_2/optical/image_raw" />
+      <remap from="input/camera_info" to="viz/camera_2/camera_info" />
+      <remap from="output/camera_info" to="viz/camera_2/optical/camera_info" />
+    </node>
+
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_omnicam3"
+      respawn="true"
+      args="$(arg link_prefix)/base_link/sensor/omnicam_sensor3/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+      <remap from="$(arg link_prefix)/base_link/sensor/omnicam_sensor3/camera_info" to="viz/camera_3/camera_info"/>
+    </node>
+    <node
+      pkg="ros_ign_image"
+      type="image_bridge"
+      name="ros_ign_image_omnicam3"
+      args="$(arg link_prefix)/base_link/sensor/omnicam_sensor3/image">
+      <remap from="$(arg link_prefix)/base_link/sensor/omnicam_sensor3/image" to="viz/camera_3/image_raw"/>
+    </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_omnicam3">
+      <remap from="input/image" to="viz/camera_3/image_raw" />
+      <remap from="output/image" to="viz/camera_3/optical/image_raw" />
+      <remap from="input/camera_info" to="viz/camera_3/camera_info" />
+      <remap from="output/camera_info" to="viz/camera_3/optical/camera_info" />
+    </node>
+
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_omnicam4"
+      args="$(arg link_prefix)/base_link/sensor/omnicam_sensor4/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+      <remap from="$(arg link_prefix)/base_link/sensor/omnicam_sensor4/camera_info" to="viz/camera_4/camera_info"/>
+    </node>
+    <node
+      pkg="ros_ign_image"
+      type="image_bridge"
+      name="ros_ign_image_omnicam4"
+      respawn="true"
+      args="$(arg link_prefix)/base_link/sensor/omnicam_sensor4/image">
+      <remap from="$(arg link_prefix)/base_link/sensor/omnicam_sensor4/image" to="viz/camera_4/image_raw"/>
+    </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_omnicam4">
+      <remap from="input/image" to="viz/camera_4/image_raw" />
+      <remap from="output/image" to="viz/camera_4/optical/image_raw" />
+      <remap from="input/camera_info" to="viz/camera_4/camera_info" />
+      <remap from="output/camera_info" to="viz/camera_4/optical/camera_info" />
+    </node>
+
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_omnicam5"
+      args="$(arg link_prefix)/base_link/sensor/omnicam_sensor5/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+      <remap from="$(arg link_prefix)/base_link/sensor/omnicam_sensor5/camera_info" to="viz/camera_5/camera_info"/>
+    </node>
+    <node
+      pkg="ros_ign_image"
+      type="image_bridge"
+      name="ros_ign_image_omnicam5"
+      respawn="true"
+      args="$(arg link_prefix)/base_link/sensor/omnicam_sensor5/image">
+      <remap from="$(arg link_prefix)/base_link/sensor/omnicam_sensor5/image" to="viz/camera_5/image_raw"/>
+    </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_omnicam5">
+      <remap from="input/image" to="viz/camera_5/image_raw" />
+      <remap from="output/image" to="viz/camera_5/optical/image_raw" />
+      <remap from="input/camera_info" to="viz/camera_5/camera_info" />
+      <remap from="output/camera_info" to="viz/camera_5/optical/camera_info" />
+    </node>
+
+    <!--IMU-->
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_imu"
+      args="$(arg link_prefix)/base_link/sensor/imu/imu@sensor_msgs/Imu[ignition.msgs.IMU">
+      <remap from="$(arg link_prefix)/base_link/sensor/imu/imu" to="imu/data"/>
+    </node>
+
+    <!-- Gas sensor -->
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_gas"
+      args="/model/$(arg name)/gas_detected@std_msgs/Bool[ignition.msgs.Boolean">
+      <remap from="/model/$(arg name)/gas_detected" to="gas_detected"/>
+    </node>
+
+    <group if="$(arg breadcrumbs)">
+      <node
+        pkg="ros_ign_bridge"
+        type="parameter_bridge"
+        name="ros_ign_bridge_breadcrumbs"
+        args="/model/$(arg name)/breadcrumb/deploy@std_msgs/Empty]ignition.msgs.Empty">
+        <remap from="/model/$(arg name)/breadcrumb/deploy" to="breadcrumb/deploy"/>
+      </node>
+    </group>
+  </group>
+  
+    <!-- As URDF->SDF conversion "swallows" all fixed joints (and thus static transforms), we need to re-create them from the URDF  -->
+    <!-- Due to an internal limitation of robot_state_publisher, it has to be created in the global namespace. -->
+    <node name="$(anon robot_state_publisher)" pkg="robot_state_publisher" type="robot_state_publisher">
+      <remap from="/tf" to="/nonexistent" /> <!-- published by ign_ros bridge -->
+      <remap from="robot_description" to="/$(arg name)/robot_description" />
+    </node>
+</launch>

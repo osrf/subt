@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<root xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<xacro:arg name="has_realsense_t265" default="0" />
+<xacro:arg name="t265_parent_link" default="rear_sensor_item" />
+<xacro:arg name="t265_upside_down" default="0" />
+
+<xacro:arg name="t265_pos_x" default="0.0" />
+<xacro:arg name="t265_pos_y" default="0.0" />
+<xacro:arg name="t265_pos_z" default="0.0" />
+<xacro:arg name="t265_rpy_r" default="0.0" />
+<xacro:arg name="t265_rpy_p" default="0.0" />
+<xacro:arg name="t265_rpy_y" default="0.0" />
+
+<xacro:if value="$(arg has_realsense_t265)">
+    <link name="$(arg prefix)t265_pose_frame">
+        <visual>
+            <pose xyz="0.0 -0.01 0.0"/>
+            <geometry>
+                <box size="0.015 0.13 0.025" />
+            </geometry>
+            <material name="t265_aluminium">
+                <color rgba="0.8 0.8 0.8 1.0" />
+            </material>
+        </visual>
+        <collision>
+            <pose xyz="0.0 -0.01 0.0"/>
+            <geometry>
+                <box size="0.015 0.13 0.025" />
+            </geometry>
+        </collision>
+    </link>
+    <xacro:calibrated_fixed_joint name="t265_pose_frame_j" parent="$(arg t265_parent_link)" child="t265_pose_frame" prefix="t265" />
+</xacro:if>
+
+</root>
