@@ -298,10 +298,10 @@
 	<!-- MEASURED CONSTANTS -->
 
 	<xacro:property name="body_scale" value="1.0" />
-	<xacro:property name="body_mass" value="6.746" />
+	<xacro:property name="body_mass" value="16.0" />
 
 	<xacro:property name="battery_scale" value="1.0" />
-	<xacro:property name="battery_mass" value="3.18" />
+	<xacro:property name="battery_mass" value="2.7" />
 
 	<xacro:property name="top_box_scale" value="1.0" />
 	<xacro:property name="top_box_mass" value="0.24" />
@@ -1064,6 +1064,8 @@
 			<xacro:calibrated_fixed_joint name="camera_5_j" parent="omnicam" child="camera_5" />
 
 			<xacro:if value="$(arg has_omnicam_sensor_mount)">
+				<!-- For some reason, the mount is visible in simulated cameras, so we hide it in Gazebo. -->
+				<xacro:if value="${'$(arg rendering_target)' == 'urdf'}">
 					<link name="$(arg prefix)omnicam_sensor_mount">
 							<visual>
 									<origin rpy="3.14152 0 0" xyz="-0.003 -0.002 0"/>
@@ -1094,6 +1096,10 @@
 									</geometry>
 							</collision>
 					</link>
+				</xacro:if>
+				<xacro:unless value="${'$(arg rendering_target)' == 'urdf'}">
+					<xacro:empty_link name="$(arg prefix)omnicam_sensor_mount" />
+				</xacro:unless>
 
 					<joint name="omnicam_sensor_mount_j" type="fixed">
 							<child link="$(arg prefix)omnicam_sensor_mount"/>
@@ -1295,7 +1301,13 @@
 
     <xacro:macro name="omnicam_camera" params="num name">
 				<xacro:empty_link name="$(arg prefix)${name}_sim" />
-				<xacro:fixed_joint name="${name}_sim_j" parent="${name}" child="${name}_sim" rpy="1.5707963267948966 0 0" />
+				<xacro:if value="${num != 5}">
+					<xacro:property name="rpy" value="${pi/2} 0 0" />
+				</xacro:if>
+				<xacro:if value="${num == 5}">
+					<xacro:property name="rpy" value="0 ${-pi/2} 0" />
+				</xacro:if>
+				<xacro:fixed_joint name="${name}_sim_j" parent="${name}" child="${name}_sim" rpy="${rpy}" />
 				<gazebo reference="$(arg prefix)${name}_sim">
 					<sensor name="omnicam_sensor${num}" type="camera">
 						<update_rate>6.0</update_rate>
@@ -1423,11 +1435,11 @@
 
 		<gazebo reference="$(arg prefix)base_link">
 			<light name="light_left" type="spot">
-				<pose>0 0.13 0.1 0 0 0</pose>
+				<pose>0 0.13 0.2 ${pi/2} ${pi/2} 0</pose>
 				<attenuation>
-					<range>30</range>
+					<range>50</range>
 					<linear>0</linear>
-					<constant>0.2</constant>
+					<constant>0.1</constant>
 					<quadratic>0.0025</quadratic>
 				</attenuation>
 				<diffuse>0.8 0.8 0.5 1</diffuse>
@@ -1437,14 +1449,14 @@
 					<outer_angle>2.9</outer_angle>
 					<falloff>1</falloff>
 				</spot>
-				<direction>0 1 0</direction>
+				<direction>1 0 0</direction>
 			</light>
 			<light name="light_right" type="spot">
-				<pose>0 -0.13 0.1 0 0 0</pose>
+				<pose>0 -0.13 0.2 ${3*pi/2} ${pi/2} 0</pose>
 				<attenuation>
-					<range>30</range>
+					<range>50</range>
 					<linear>0</linear>
-					<constant>0.2</constant>
+					<constant>0.1</constant>
 					<quadratic>0.0025</quadratic>
 				</attenuation>
 				<diffuse>0.8 0.8 0.5 1</diffuse>
@@ -1454,10 +1466,10 @@
 					<outer_angle>2.9</outer_angle>
 					<falloff>1</falloff>
 				</spot>
-				<direction>0 -1 0</direction>
+				<direction>1 0 0</direction>
 			</light>
 			<light name="light_front_left" type="spot">
-				<pose>0.3 0.13 0.1 0 0 0</pose>
+				<pose>0.3 0.13 0.2 ${7*pi/8} ${pi/2} 0</pose>
 				<attenuation>
 					<range>30</range>
 					<linear>0</linear>
@@ -1467,14 +1479,14 @@
 				<diffuse>0.8 0.8 0.5 1</diffuse>
 				<specular>0.8 0.8 0.5 1</specular>
 				<spot>
-					<inner_angle>2.8</inner_angle>
-					<outer_angle>2.9</outer_angle>
+					<inner_angle>1.5</inner_angle>
+					<outer_angle>1.6</outer_angle>
 					<falloff>1</falloff>
 				</spot>
-				<direction>1 1 0</direction>
+				<direction>1 0 0</direction>
 			</light>
 			<light name="light_front_right" type="spot">
-				<pose>0.3 -0.13 0.1 0 0 0</pose>
+				<pose>0.3 -0.13 0.2 ${9*pi/8} ${pi/2} 0</pose>
 				<attenuation>
 					<range>30</range>
 					<linear>0</linear>
@@ -1484,14 +1496,14 @@
 				<diffuse>0.8 0.8 0.5 1</diffuse>
 				<specular>0.8 0.8 0.5 1</specular>
 				<spot>
-					<inner_angle>2.8</inner_angle>
-					<outer_angle>2.9</outer_angle>
+					<inner_angle>1.5</inner_angle>
+					<outer_angle>1.6</outer_angle>
 					<falloff>1</falloff>
 				</spot>
-				<direction>1 -1 0</direction>
+				<direction>1 0 0</direction>
 			</light>
 			<light name="light_rear" type="spot">
-				<pose>-0.2 0 0.1 0 0 0</pose>
+				<pose>-0.4 0 0.2 0 ${pi/2} 0</pose>
 				<attenuation>
 					<range>30</range>
 					<linear>0</linear>
@@ -1501,11 +1513,11 @@
 				<diffuse>0.8 0.8 0.5 1</diffuse>
 				<specular>0.8 0.8 0.5 1</specular>
 				<spot>
-					<inner_angle>2.8</inner_angle>
-					<outer_angle>2.9</outer_angle>
+					<inner_angle>1.5</inner_angle>
+					<outer_angle>1.8</outer_angle>
 					<falloff>1</falloff>
 				</spot>
-				<direction>-1 0 0</direction>
+				<direction>1 0 0</direction>
 			</light>
 		</gazebo>
 	

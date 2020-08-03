@@ -25,7 +25,7 @@ The Absolem robot has the following estimated costs:
 * Compute/support electronics: $2,500
 * Total: ~ $22,600
 
-Its weight is approximately 35 kg (possible, but heavy to heft with a single person). 
+Its weight is approximately 38 kg (possible, but heavy to heft with a single person). 
 
 ### Sensors
 This Absolem with sensor configuration 1 includes the following sensors. The specifications for these instruments are provided below in the [Validation Links](#validation_links) section.
@@ -90,5 +90,6 @@ The RGBD camera has no depth noise at all. That is a problem of Ignition Gazebo.
   * Differential motion: https://youtu.be/eyesmU_BmUI
 
 * Validation Data Links:
-  * https://login.rci.cvut.cz/data/darpa-subt/data/bagfiles/virtual_qual_absolem/
+  * Recordings of validation tests: https://login.rci.cvut.cz/data/darpa-subt/data/bagfiles/virtual_qual_absolem/
+  * Total mass measurement: https://login.rci.cvut.cz/data/darpa-subt/data/share/virtual_qual_absolem/
 
