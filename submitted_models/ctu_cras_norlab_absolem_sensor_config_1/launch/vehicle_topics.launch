@@ -4,6 +4,11 @@
   <arg name="name"/>
   <arg name="link_prefix" value="/world/$(arg world_name)/model/$(arg name)/link"/>
   <arg name="breadcrumbs" default="0"/>
+
+  <include file="$(dirname)/description.launch">
+    <arg name="name" value="$(arg name)" />
+  </include>
+
   <group ns="$(arg name)">
     <node
       pkg="ros_ign_bridge"
