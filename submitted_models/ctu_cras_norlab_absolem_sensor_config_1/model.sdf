@@ -143,15 +143,7 @@
           </friction>
         </surface>
       </collision>
-      <collision name="base_link_fixed_joint_lump__big_collision_box_collision_8">
-        <pose>-0.1 0 0.33 0 -0 0</pose>
-        <geometry>
-          <box>
-            <size>0.65 0.5 0.5</size>
-          </box>
-        </geometry>
-      </collision>
-      <collision name="base_link_fixed_joint_lump__antenna_collision_9">
+      <collision name="base_link_fixed_joint_lump__antenna_collision_8">
         <pose>-0.39064 0.0789 0.1551 3.1415926535897931 1.5707963267948966 3.1415926535897931</pose>
         <geometry>
           <cylinder>
@@ -160,7 +152,7 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__antenna_collision_10">
+      <collision name="base_link_fixed_joint_lump__antenna_collision_9">
         <pose>-0.402 0.0789 0.34563 0 -0 0</pose>
         <geometry>
           <cylinder>
@@ -169,7 +161,7 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__battery_collision_11">
+      <collision name="base_link_fixed_joint_lump__battery_collision_10">
         <pose>-0.2836 -0.0221 0.1132 0 -0 0</pose>
         <geometry>
           <box>
@@ -177,7 +169,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__jetson_collision_12">
+      <collision name="base_link_fixed_joint_lump__jetson_collision_11">
         <pose>0.136 0.0435 0.2125 0 -0 0</pose>
         <geometry>
           <box>
@@ -185,7 +177,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__rear_sensor_item_collision_13">
+      <collision name="base_link_fixed_joint_lump__rear_sensor_item_collision_12">
         <pose>-0.295 -0.1065 0.36 0 -0 0</pose>
         <geometry>
           <box>
@@ -193,7 +185,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__mobilicom_collision_14">
+      <collision name="base_link_fixed_joint_lump__mobilicom_collision_13">
         <pose>-0.295121 -0.064 0.385106 -1.56579 -0.858407 -7.3e-05</pose>
         <geometry>
           <box>
@@ -201,7 +193,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__mobilicom_antenna_l_collision_15">
+      <collision name="base_link_fixed_joint_lump__mobilicom_antenna_l_collision_14">
         <pose>-0.139117 -0.02338 0.465445 -1.29704 -0.418237 -1.17028</pose>
         <geometry>
           <cylinder>
@@ -210,7 +202,7 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__mobilicom_antenna_r_collision_16">
+      <collision name="base_link_fixed_joint_lump__mobilicom_antenna_r_collision_15">
         <pose>-0.193116 -0.064558 0.541453 -0.7124 0.007057 -1.5707963267948966</pose>
         <geometry>
           <cylinder>
@@ -219,7 +211,7 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__top_box_collision_17">
+      <collision name="base_link_fixed_joint_lump__top_box_collision_16">
         <pose>-0.007 -0.0557 0.2165 0 -0 0</pose>
         <geometry>
           <box>
@@ -227,7 +219,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__top_box_collision_18">
+      <collision name="base_link_fixed_joint_lump__top_box_collision_17">
         <pose>-0.07624 -0.01443 0.254 0 -0 0</pose>
         <geometry>
           <box>
@@ -235,7 +227,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__top_box_collision_19">
+      <collision name="base_link_fixed_joint_lump__top_box_collision_18">
         <pose>-0.05183 -0.09792 0.26496 0 -0 0</pose>
         <geometry>
           <box>
@@ -243,7 +235,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__omnicam_collision_20">
+      <collision name="base_link_fixed_joint_lump__omnicam_collision_19">
         <pose>0.020991 -0.05685 0.3172 0 0 -0.628319</pose>
         <geometry>
           <cylinder>
@@ -260,7 +252,7 @@
           </friction>
         </surface>
       </collision>
-      <collision name="base_link_fixed_joint_lump__realsense_holder_part2_collision_21">
+      <collision name="base_link_fixed_joint_lump__realsense_holder_part2_collision_20">
         <pose>0.111811 -0.018928 0.440133 0 0.504467 -0.000319</pose>
         <geometry>
           <box>
@@ -268,7 +260,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__realsense_holder_part2_collision_22">
+      <collision name="base_link_fixed_joint_lump__realsense_holder_part2_collision_21">
         <pose>0.099551 -0.028924 0.4469 0 0.504467 -0.000319</pose>
         <geometry>
           <box>
@@ -276,7 +268,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__realsense_holder_part2_collision_23">
+      <collision name="base_link_fixed_joint_lump__realsense_holder_part2_collision_22">
         <pose>0.074085 -0.043916 0.415266 -0 0.004467 -0.000319</pose>
         <geometry>
           <box>
@@ -284,7 +276,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__camera_link_collision_24">
+      <collision name="base_link_fixed_joint_lump__camera_link_collision_23">
         <pose>0.125348 -0.010971 0.43571 0.015 0.499467 -0.000319</pose>
         <geometry>
           <box>
