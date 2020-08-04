@@ -1112,16 +1112,8 @@
 
     <gazebo>
         <xacro:if value="$(arg has_flippers)">
-						<plugin filename="libignition-gazebo-joint-controller-system.so" name="ignition::gazebo::systems::JointController">
+						<plugin filename="libflipper_control_plugin.so" name="cras::FlipperControlPlugin">
 							<joint_name>front_left_flipper_j</joint_name>
-							<use_force_commands>true</use_force_commands>
-							<p_gain>30.0</p_gain>
-							<i_gain>0.1</i_gain>
-							<d_gain>0.01</d_gain>
-							<i_max>10</i_max>
-							<i_min>-10</i_min>
-							<cmd_max>100</cmd_max>
-							<cmd_min>-100</cmd_min>
 						</plugin>
 						<plugin filename="libignition-gazebo-joint-controller-system.so" name="ignition::gazebo::systems::JointController">
 							<joint_name>front_right_flipper_j</joint_name>

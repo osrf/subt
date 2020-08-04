@@ -44,8 +44,7 @@ class LaserRotatePlugin : public System, public ISystemConfigure, public ISystem
     this->model = Model(_entity);
     if (!this->model.Valid(_ecm))
     {
-      ignerr << "DiffDrive plugin should be attached to a model entity. "
-             << "Failed to initialize." << std::endl;
+      ignerr << "LaserRotatePlugin should be attached to a model entity. Failed to initialize." << std::endl;
       return;
     }
 
