@@ -31,7 +31,7 @@ constraint characteristics:
 * _x_ velocity range from -1.0 m/s to 1.0 m/s
 * _x_ acceleration range from -1.24 m/s<sup>2</sup> to 1.16 m/s<sup>2</sup>
 * Angular velocity ranges from -0.95 rad/s to 0.99 rad/s.
-* Turning radius of 0.6 m
+* Turning radius of 0.0 m (turns on the spot)
 * Rotation angle between two parts of the robot is limited to -30-30 degree
 * Spring reference is set to 0.1 and spring stiffness is set to 100 for joint Center Pivot
 
