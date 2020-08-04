@@ -1159,8 +1159,10 @@
         </xacro:if>
 
         <xacro:if value="$(arg has_sick_lidar)">
-					<plugin filename="libignition-gazebo-joint-controller-system.so" name="ignition::gazebo::systems::JointController">
-							<joint_name>laser_j</joint_name>
+					<plugin filename="liblaser_rotate_plugin.so" name="cras::LaserRotatePlugin">
+						<joint_name>laser_j</joint_name>
+						<initial_velocity>0.0</initial_velocity>
+						<rotation_angular_limit>1.618994</rotation_angular_limit>
 					</plugin>
         </xacro:if>
 			

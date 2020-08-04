@@ -14,9 +14,13 @@
   <license>BSD</license>
 
   <buildtool_depend>catkin</buildtool_depend>
-  <build_depend>roslaunch</build_depend>
-  <exec_depend>lms1xx</exec_depend>
-  <exec_depend>urdf</exec_depend>
+
+  <build_depend>ignition-common3</build_depend>
+  <exec_depend>ignition-common3</exec_depend>
+  <build_depend>ignition-gazebo2</build_depend>
+  <exec_depend>ignition-gazebo2</exec_depend>
+
+  <exec_depend>roslaunch</exec_depend>
   <exec_depend>xacro</exec_depend>
 
 </package>
