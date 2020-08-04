@@ -719,7 +719,7 @@
       <self_collide>0</self_collide>
       <sensor name="imu" type="imu">
         <always_on>1</always_on>
-        <update_rate>200</update_rate>
+        <update_rate>50</update_rate>
         <imu>
           <angular_velocity>
             <x>
@@ -3128,7 +3128,7 @@
     </plugin>
     <plugin name="cras::LaserRotatePlugin" filename="liblaser_rotate_plugin.so">
       <joint_name>laser_j</joint_name>
-      <initial_velocity>1.2</initial_velocity>
+      <initial_velocity>0.0</initial_velocity>
       <rotation_angular_limit>1.618994</rotation_angular_limit>
     </plugin>
     <plugin name="ignition::gazebo::systems::JointStatePublisher" filename="libignition-gazebo-joint-state-publisher-system.so">
