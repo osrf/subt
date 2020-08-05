@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>comms_broadcast_test</name>
+  <version>0.0.0</version>
+  <description>The comms_broadcast_test package</description>
+
+  <maintainer email="ashton@openrobotics.org">Ashton Larkin</maintainer>
+
+  <license>Apache 2.0</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>roscpp</depend>
+  <depend>subt_communication_broker</depend>
+</package>
