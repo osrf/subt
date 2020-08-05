@@ -325,7 +325,7 @@ void CommsBrokerPlugin::UpdateIfNewBreadcrumbs()
   {
     std::set<ignition::math::Vector3d> breadcrumbPoses;
     for (const auto& it: this->breadcrumbs)
-      breadcrumbPoses.insert(it->second.Pos());
+      breadcrumbPoses.insert(it.second.Pos());
     this->visibilityModel->PopulateVisibilityInfo(breadcrumbPoses);
     ignmsg << "New breadcrumb detected, visibility graph updated" << std::endl;
   }
