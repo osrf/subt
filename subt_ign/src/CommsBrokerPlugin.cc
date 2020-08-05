@@ -324,7 +324,7 @@ void CommsBrokerPlugin::UpdateIfNewBreadcrumbs()
   if (newBreadcrumbFound)
   {
     std::set<ignition::math::Vector3d> breadcrumbPoses;
-    #pragma GCC diagnostic Push
+    #pragma GCC diagnostic push
     #pragma GCC diagnostic ignored "-Wunused-variable"
     for (const auto& [name, pose] : this->breadcrumbs)
     {
