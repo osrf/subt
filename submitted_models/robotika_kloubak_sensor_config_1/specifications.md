@@ -23,6 +23,7 @@ The following specific sensors are declared payloads of this vehicle:
 * 2x Magnetometers &mdash; LORD Sensing 3DM-GX5, modeled by `magnetometer` plugins.
 * Altimeter &mdash; Infineon DPS310, modeled by `air_pressure` plugin.
 * Wheel odometry - wheel encoders modelled by `pose-publisher` plugin.
+* 12 communication breadcrumbs are also available as a payload for this robot in sensor configuration 2.
 
 ## Control
 Kloubak is controlled by the open-source Osgar framework. The robot Kloubak consists of the front and rear differential 
@@ -47,7 +48,7 @@ Movement in a circle (described above), rotation of individual axles and axle di
 
 ## Motion Characteristics
 Based on the tests specified in the DARPA SubT Challenge [Model Preparation
-Guide](https://subtchallenge.com/\<fix_me\>), this vehicle has the following motion
+Guide](https://subtchallenge.com/resources/Simulation_Model_Preparation_Guide.pdf), this vehicle has the following motion
 constraint characteristics:
 
 * _x_ velocity range from -2.5 m/s to 2.5 m/s
@@ -59,13 +60,10 @@ package:
 
 * Front left wheel maximum velocity and torque &mdash; model.sdf, lines 1015 and 1017
 * Other wheels &mdash; just below Front Left wheel in the same file.
+* Velocity and acceleration limits applied to the `diff_drive` plugin in the `spawner.rb` file, lines 22-25 and 36-39
 
 ## Endurance Characteristics
-Based on the tests specified in the DARPA SubT Challenge [Model Preparation
-Guide](https://subtchallenge.com/\<fix_me\>), this vehicle has the following
-endurance characteristics:
-
-* Battery life of 5400 seconds
+This vehicle has battery life of 5400 seconds, but the model has been limited to have 1 hour endurance until endurance validation data can be provided.
 
 ## Diversions from Physical Hardware of Kloubak
 Virtual Kloubak is a faithful representation of real-world Kloubak both in appearance and
@@ -75,6 +73,8 @@ in physical properties. However, there are few diversions:
 * It does not model realsense tracking cameras t265.
 * It does not model angle sensor in the main joint and the second IMU or lookupTransform() between /${robot_name}/chassis_front and /${robot_name}/chassis_back can be used instead.
 * Real robot can be controlled in a "FRONT" mode as well. In this mode only front or rear wheels are driven. Other wheels are passive.
+* The endurance characteristic above is approximated to match existing models until endurance validation data can be provided.
+* The physical robot has 0 communication breadcrumbs. 12 breadcrumbs are included in sensor configuration 2 which is standardized to match other available models.
 
 # <a name="validation_links"></a>Kloubak Validation and Specification Links
 

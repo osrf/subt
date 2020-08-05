@@ -139,6 +139,12 @@ class subt::GameLogicPluginPrivate
   /// \param[in] _event Unused.
   public: void PublishScore();
 
+  /// \brief Log robot pos data
+  public: void LogRobotPosData();
+
+  /// \brief Log robot and artifact data
+  public: void LogRobotArtifactData() const;
+
   /// \brief Finish game and generate log files
   public: void Finish();
 
@@ -155,11 +161,15 @@ class subt::GameLogicPluginPrivate
   /// returning this time point, we can make sure that the ::Finish function
   /// uses the same time point.
   /// \return The time point used to calculate the elapsed real time.
-  public: std::chrono::steady_clock::time_point UpdateScoreFiles() const;
+  public: std::chrono::steady_clock::time_point UpdateScoreFiles();
 
   /// \brief Performer detector subscription callback.
   /// \param[in] _msg Pose message of the event.
   public: void OnEvent(const ignition::msgs::Pose &_msg);
+
+  /// \brief Log an event to the eventStream.
+  /// \param[in] _event The event to log.
+  public: void LogEvent(const std::string &_event);
 
   /// \brief Marsupial detach subscription callback.
   /// \param[in] _msg Detach message.
@@ -243,8 +253,8 @@ class subt::GameLogicPluginPrivate
   /// \brief Total score.
   public: double totalScore = 0.0;
 
-  /// \brief Closest artifact report. The elements are: artifact name, type, true pos,
-  /// reported pos, distance between true pos and reported pos
+  /// \brief Closest artifact report. The elements are: artifact name, type,
+  /// true pos, reported pos, distance between true pos and reported pos
   public: std::tuple<std::string, std::string, ignition::math::Vector3d,
       ignition::math::Vector3d, double> closestReport =
     {"", "", ignition::math::Vector3d(), ignition::math::Vector3d(), -1};
@@ -255,6 +265,71 @@ class subt::GameLogicPluginPrivate
   /// \brief Last artifact report time
   public: double lastReportTime = -1;
 
+  /// \brief A map of robot name and a vector of timestamped position data
+  public: std::map<std::string, std::vector<std::pair<
+      std::chrono::steady_clock::duration, ignition::math::Vector3d>>>
+      robotPoseData;
+
+  /// \brief A map of robot name and its starting pose
+  public: std::map<std::string, ignition::math::Pose3d> robotStartPose;
+
+  /// \brief A map of robot name and distance traveled
+  public: std::map<std::string, double> robotDistance;
+
+  /// \brief A map of robot name and elevation gain (cumulative)
+  public: std::map<std::string, double> robotElevationGain;
+
+  /// \brief A map of robot name and elevation loss (cumulative)
+  public: std::map<std::string, double> robotElevationLoss;
+
+  /// \brief A map of robot name and max euclidean distance traveled
+  public: std::map<std::string, double> robotMaxEuclideanDistance;
+
+  /// \brief A map of robot name and its average velocity
+  public: std::map<std::string, double> robotAvgVel;
+
+  /// \brief A map of robot name and its previous pose
+  public: std::map<std::string, ignition::math::Pose3d> robotPrevPose;
+
+  /// \brief Robot name with the max velocity
+  public: std::pair<std::string, double> maxRobotVel = {"", 0};
+
+  /// \brief Robot name with the max average velocity
+  public: std::pair<std::string, double> maxRobotAvgVel = {"", 0};
+
+  /// \brief Robot name with the max distance traveled;
+  public: std::pair<std::string, double> maxRobotDistance = {"", 0};
+
+  /// \brief Robot name with the max euclidean distance from starting area;
+  public: std::pair<std::string, double> maxRobotEuclideanDistance  = {"", 0};
+
+  /// \brief Robot name with the max cumulative elevation gain;
+  public: std::pair<std::string, double> maxRobotElevationGain = {"", 0};
+
+  /// \brief Robot name with the max cumulative elevation loss;
+  public: std::pair<std::string, double> maxRobotElevationLoss = {"", 0};
+
+  /// \brief Robot name with the max elevation reached;
+  public: std::pair<std::string, double> maxRobotElevation = {"", 0};
+
+  /// \brief Robot name with the min elevation reached;
+  public: std::pair<std::string, double> minRobotElevation = {"", 0};
+
+  /// \brief Total distanced traveled by all robots
+  public: double robotsTotalDistance = 0;
+
+  /// \brief Total cumulative elevation gain by all robots
+  public: double robotsTotalElevationGain = 0;
+
+  /// \brief Total cumulative elevation loss by all robots
+  public: double robotsTotalElevationLoss = 0;
+
+  /// \brief A map of robot name and its pos output stream
+  public: std::map<std::string, std::shared_ptr<std::ofstream>> robotPosStream;
+
+  /// \brief A mutex.
+  public: std::mutex logMutex;
+
   /// \brief A mutex.
   public: std::mutex mutex;
 
@@ -264,12 +339,21 @@ class subt::GameLogicPluginPrivate
   /// \brief Event file output stream.
   public: std::ofstream eventStream;
 
+  /// \brief Mutex to protect the eventStream.
+  public: std::mutex eventMutex;
+
   /// \brief The pose of the object marking the origin of the artifacts.
   public: ignition::math::Pose3d artifactOriginPose;
 
   /// \brief Ignition transport start publisher. This is needed by cloudsim
   /// to know when a run has been started.
   public: transport::Node::Publisher startPub;
+
+  /// \brief Ignition transport competition clock publisher.
+  public: transport::Node::Publisher competitionClockPub;
+
+  /// \brief Ignition transport for the remaining artifact reports.
+  public: transport::Node::Publisher artifactReportPub;
 
   /// \brief Logpath.
   public: std::string logPath{"/dev/null"};
@@ -451,6 +535,12 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
   this->dataPtr->startPub =
     this->dataPtr->node.Advertise<ignition::msgs::StringMsg>("/subt/start");
 
+  this->dataPtr->competitionClockPub =
+    this->dataPtr->node.Advertise<ignition::msgs::Clock>("/subt/run_clock");
+
+  this->dataPtr->artifactReportPub =
+    this->dataPtr->node.Advertise<ignition::msgs::Int32>("/subt/artifact_reports_remaining");
+
   this->dataPtr->publishThread.reset(new std::thread(
         &GameLogicPluginPrivate::PublishScore, this->dataPtr.get()));
 
@@ -476,11 +566,15 @@ void GameLogicPluginPrivate::OnDetachEvent(
   if (topicParts.size() > 1)
     name = topicParts[1];
 
-  this->eventStream
+
+  std::ostringstream stream;
+  stream
     << "- event:\n"
     << "  type: detach\n"
     << "  time_sec: " << this->simTime.sec() << "\n"
     << "  robot: " << name << std::endl;
+
+  this->LogEvent(stream.str());
 }
 
 //////////////////////////////////////////////////
@@ -507,7 +601,8 @@ void GameLogicPluginPrivate::OnEvent(const ignition::msgs::Pose &_msg)
     }
   }
 
-  this->eventStream
+  std::ostringstream stream;
+  stream
     << "- event:\n"
     << "  type: detect\n"
     << "  time_sec: " << _msg.header().stamp().sec() << "\n"
@@ -516,13 +611,14 @@ void GameLogicPluginPrivate::OnEvent(const ignition::msgs::Pose &_msg)
     << "  state: " << state << std::endl;
   if (!extraData.empty())
   {
-    this->eventStream << "  extra:\n";
+    stream << "  extra:\n";
     for (const auto &data : extraData)
     {
-      this->eventStream << "    "
+      stream << "    "
         << data.first << ":" << data.second << std::endl;
     }
   }
+  this->LogEvent(stream.str());
 }
 
 //////////////////////////////////////////////////
@@ -583,7 +679,8 @@ void GameLogicPlugin::PostUpdate(
               this->dataPtr->robotNames.insert(mName->Data());
 
               auto filePath =
-                _ecm.Component<gazebo::components::SourceFilePath>(model->Data());
+                _ecm.Component<gazebo::components::SourceFilePath>(
+                model->Data());
               this->dataPtr->robotSourceFilePaths.insert(filePath->Data());
 
               // Subscribe to detach topics. We are doing a blanket
@@ -645,6 +742,185 @@ void GameLogicPlugin::PostUpdate(
         return true;
       });
 
+    // log robot pose and vel data
+    _ecm.Each<gazebo::components::Sensor,
+              gazebo::components::ParentEntity>(
+        [&](const gazebo::Entity &,
+            const gazebo::components::Sensor *,
+            const gazebo::components::ParentEntity *_parent) -> bool
+        {
+          // Get the model. We are assuming that a sensor is attached to
+          // a link.
+          auto model = _ecm.Component<gazebo::components::ParentEntity>(
+              _parent->Data());
+
+          if (!model)
+            return true;
+
+          // robot pose.
+          auto poseComp =
+              _ecm.Component<gazebo::components::Pose>(model->Data());
+          if (!poseComp)
+            return true;
+          math::Pose3d pose = poseComp->Data();
+
+          // robot name
+          auto nameComp =
+              _ecm.Component<gazebo::components::Name>(model->Data());
+          if (!nameComp)
+            return true;
+          std::string name = nameComp->Data();
+
+          // sim time
+          double t = s + static_cast<double>(ns)*1e-9;
+          auto tDur =
+              std::chrono::duration_cast<std::chrono::steady_clock::duration>
+              (std::chrono::seconds(s) + std::chrono::nanoseconds(ns));
+
+          // store robot pose and velocity data only if robot has traveled
+          // more than 1 meter
+          auto robotPoseDataIt = this->dataPtr->robotPoseData.find(name);
+          if (robotPoseDataIt == this->dataPtr->robotPoseData.end())
+          {
+            this->dataPtr->robotPoseData[name].push_back(
+                std::make_pair(tDur, pose.Pos()));
+
+            this->dataPtr->robotStartPose[name] = pose;
+            this->dataPtr->robotDistance[name] = 0.0;
+            this->dataPtr->robotMaxEuclideanDistance[name] = 0.0;
+            this->dataPtr->robotAvgVel[name] = 0.0;
+            this->dataPtr->robotElevationGain[name] = 0.0;
+            this->dataPtr->robotElevationLoss[name] = 0.0;
+
+            this->dataPtr->robotPrevPose[name] = pose;
+            return true;
+          }
+          else if (robotPoseDataIt->second.back().second.Distance(pose.Pos())
+              > 1.0)
+          {
+            //  time passed since last pose sample
+            double prevT = robotPoseDataIt->second.back().first.count() * 1e-9;
+            double dt = t - prevT;
+
+            // sim paused?
+            if (dt <= 0)
+              return true;
+
+            // Consider only velocity in the xy plane.
+            math::Vector3d p1 = pose.Pos();
+            math::Vector3d p2 = robotPoseDataIt->second.back().second;
+            double dist = sqrt(std::pow(p2.X() - p1.X(), 2) +
+                std::pow(p2.Y() - p1.Y(), 2));
+            double vel = dist / dt;
+
+            // greatest max velocity by a robot
+            if (vel > this->dataPtr->maxRobotVel.second)
+            {
+              this->dataPtr->maxRobotVel.first = name;
+              this->dataPtr->maxRobotVel.second = vel;
+            }
+
+            // avg vel for this robot
+            size_t velCount = robotPoseDataIt->second.size();
+            double avgVel =
+                (this->dataPtr->robotAvgVel[name] * velCount + vel) /
+                (velCount + 1);
+            this->dataPtr->robotAvgVel[name] = avgVel;
+
+            // greatest avg vel by a robot
+            if (avgVel > this->dataPtr->maxRobotAvgVel.second)
+            {
+              this->dataPtr->maxRobotAvgVel.first = name;
+              this->dataPtr->maxRobotAvgVel.second = avgVel;
+            }
+
+            robotPoseDataIt->second.push_back(std::make_pair(tDur, pose.Pos()));
+          }
+
+          // compute and log greatest / total distance traveled and
+          // elevation changes
+
+          // distance traveled by this robot
+          double distanceDiff =
+              this->dataPtr->robotPrevPose[name].Pos().Distance(pose.Pos());
+          double distanceTraveled = this->dataPtr->robotDistance[name] +
+              distanceDiff;
+          this->dataPtr->robotDistance[name] = distanceTraveled;
+
+          // greatest distance traveled by a robot
+          if (distanceTraveled > this->dataPtr->maxRobotDistance.second)
+          {
+            this->dataPtr->maxRobotDistance.first = name;
+            this->dataPtr->maxRobotDistance.second = distanceTraveled;
+          }
+
+          // max euclidean from starting pose for this robot
+          double euclideanDist =
+              pose.Pos().Distance(this->dataPtr->robotStartPose[name].Pos());
+          if (euclideanDist > this->dataPtr->robotMaxEuclideanDistance[name])
+              this->dataPtr->robotMaxEuclideanDistance[name] = euclideanDist;
+
+          // greatest euclidean distance traveled by a robot
+          if (euclideanDist > this->dataPtr->maxRobotEuclideanDistance.second)
+          {
+            this->dataPtr->maxRobotEuclideanDistance.first = name;
+            this->dataPtr->maxRobotEuclideanDistance.second = euclideanDist;
+          }
+
+          // total distance traveled by all robots
+          this->dataPtr->robotsTotalDistance += distanceDiff;
+
+          // greatest elevation gain / loss
+          double elevationDiff =
+              pose.Pos().Z() -  this->dataPtr->robotPrevPose[name].Pos().Z();
+          if (elevationDiff > 0)
+          {
+            double elevationGain = this->dataPtr->robotElevationGain[name]
+                + elevationDiff;
+            this->dataPtr->robotElevationGain[name] = elevationGain;
+            if (elevationGain > this->dataPtr->maxRobotElevationGain.second)
+            {
+              this->dataPtr->maxRobotElevationGain.first = name;
+              this->dataPtr->maxRobotElevationGain.second = elevationGain;
+            }
+            // total elevation gain by all robots
+            this->dataPtr->robotsTotalElevationGain += elevationDiff;
+          }
+          else
+          {
+            double elevationLoss = this->dataPtr->robotElevationLoss[name]
+                + elevationDiff;
+            this->dataPtr->robotElevationLoss[name] = elevationLoss;
+            if (elevationLoss < this->dataPtr->maxRobotElevationLoss.second)
+            {
+              this->dataPtr->maxRobotElevationLoss.first = name;
+              this->dataPtr->maxRobotElevationLoss.second = elevationLoss;
+            }
+            // total elevation loss by all robots
+            this->dataPtr->robotsTotalElevationLoss += elevationDiff;
+          }
+
+          // min / max elevation reached
+          double elevation = pose.Pos().Z();
+          if (elevation > this->dataPtr->maxRobotElevation.second ||
+              this->dataPtr->maxRobotElevation.first.empty())
+          {
+            this->dataPtr->maxRobotElevation.first = name;
+            this->dataPtr->maxRobotElevation.second = elevation;
+          }
+
+          if (elevation < this->dataPtr->minRobotElevation.second ||
+              this->dataPtr->minRobotElevation.first.empty())
+          {
+            this->dataPtr->minRobotElevation.first = name;
+            this->dataPtr->minRobotElevation.second = elevation;
+          }
+
+          this->dataPtr->robotPrevPose[name] = pose;
+          return true;
+        });
+
+
   // Set the artifact origin pose
   if (this->dataPtr->artifactOriginPose == ignition::math::Pose3d::Zero)
   {
@@ -670,10 +946,21 @@ void GameLogicPlugin::PostUpdate(
   auto startSimTime = std::chrono::nanoseconds(
       this->dataPtr->startSimTime.sec() * 1000000000 +
       this->dataPtr->startSimTime.nsec());
+
+  // Compute the elapsed competition time.
+  auto elapsedCompetitionTime = this->dataPtr->started ?
+    _info.simTime - startSimTime : std::chrono::seconds(0);
+
+  // Compute the remaining competition time.
+  auto remainingCompetitionTime = this->dataPtr->started &&
+    this->dataPtr->runDuration != std::chrono::seconds(0) ?
+    this->dataPtr->runDuration - elapsedCompetitionTime :
+    std::chrono::seconds(0) ;
+
   // Check if the allowed time has elapsed. If so, then mark as finished.
   if ((this->dataPtr->started && !this->dataPtr->finished) &&
       this->dataPtr->runDuration != std::chrono::seconds(0) &&
-      _info.simTime - startSimTime > this->dataPtr->runDuration)
+      remainingCompetitionTime <= std::chrono::seconds(0))
   {
     ignmsg << "Time limit[" <<  this->dataPtr->runDuration.count()
       << "s] reached.\n";
@@ -683,11 +970,42 @@ void GameLogicPlugin::PostUpdate(
   auto currentTime = std::chrono::steady_clock::now();
   if (currentTime - this->dataPtr->lastStatusPubTime > std::chrono::seconds(1))
   {
+    ignition::msgs::Clock competitionClockMsg;
+    ignition::msgs::Header::Map *mapData =
+      competitionClockMsg.mutable_header()->add_data();
+    mapData->set_key("phase");
+    if (this->dataPtr->started)
+    {
+      mapData->add_value(this->dataPtr->finished ? "finished" : "run");
+      auto secondsRemaining = std::chrono::duration_cast<std::chrono::seconds>(
+          remainingCompetitionTime);
+      competitionClockMsg.mutable_sim()->set_sec(secondsRemaining.count());
+    }
+    else if (!this->dataPtr->finished)
+    {
+      mapData->add_value("setup");
+      competitionClockMsg.mutable_sim()->set_sec(
+          this->dataPtr->warmupTimeSec - this->dataPtr->simTime.sec());
+    }
+    else
+    {
+      // It's possible for a team to call Finish before starting.
+      mapData->add_value("finished");
+    }
+
+    this->dataPtr->competitionClockPub.Publish(competitionClockMsg);
+
     ignition::msgs::StringMsg msg;
     msg.mutable_header()->mutable_stamp()->CopyFrom(this->dataPtr->simTime);
     msg.set_data(this->dataPtr->state);
     this->dataPtr->startPub.Publish(msg);
     this->dataPtr->lastStatusPubTime = currentTime;
+
+    // Publish the remaining artifact reports
+    ignition::msgs::Int32 limitMsg;
+    limitMsg.set_data(this->dataPtr->reportCountLimit -
+        this->dataPtr->reportCount);
+    this->dataPtr->artifactReportPub.Publish(limitMsg);
   }
 
   // Periodically update the score file.
@@ -724,37 +1042,45 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
   if (this->started && this->finished)
   {
     _resp.set_report_status("scoring finished");
-    this->eventStream
+    std::ostringstream stream;
+    stream
       << "- event:\n"
       << "  type: artifact_report_score_finished\n"
       << "  time_sec: " << this->simTime.sec() << "\n"
       << "  total_score: " << this->totalScore << std::endl;
+    this->LogEvent(stream.str());
   }
   else if (!this->started && !this->finished)
   {
     _resp.set_report_status("run not started");
-    this->eventStream
+    std::ostringstream stream;
+    stream
       << "- event:\n"
       << "  type: artifact_report_not_started\n"
       << "  time_sec: " << this->simTime.sec() << "\n"
       << "  total_score: " << this->totalScore << std::endl;
+    this->LogEvent(stream.str());
   }
   else if (this->reportCount >= this->reportCountLimit)
   {
     _resp.set_report_status("report limit exceeded");
-    this->eventStream
+    std::ostringstream stream;
+    stream
       << "- event:\n"
       << "  type: artifact_report_limit_exceeded\n"
       << "  time_sec: " << this->simTime.sec() << "\n"
       << "  total_score: " << this->totalScore << std::endl;
+    this->LogEvent(stream.str());
   }
   else if (!this->ArtifactFromInt(_req.type(), artifactType))
   {
-    this->eventStream
+    std::ostringstream stream;
+    stream
       << "- event:\n"
       << "  type: artifact_report_unknown_artifact\n"
       << "  time_sec: " << this->simTime.sec() << "\n"
       << "  total_score: " << this->totalScore << std::endl;
+    this->LogEvent(stream.str());
 
     ignerr << "Unknown artifact code. The number should be between 0 and "
           << this->kArtifactTypes.size() - 1 << " but we received "
@@ -773,11 +1099,13 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
     _resp.set_report_status("scored");
     this->totalScore += scoreDiff;
 
-    this->eventStream
+    std::ostringstream stream;
+    stream
       << "- event:\n"
       << "  type: artifact_report_scored\n"
       << "  time_sec: " << this->simTime.sec() << "\n"
       << "  total_score: " << this->totalScore << std::endl;
+    this->LogEvent(stream.str());
 
     ignmsg << "Total score: " << this->totalScore << std::endl;
     this->Log() << "new_total_score " << this->totalScore << std::endl;
@@ -1138,10 +1466,12 @@ bool GameLogicPluginPrivate::Start()
     this->startPub.Publish(msg);
     this->lastStatusPubTime = std::chrono::steady_clock::now();
 
-    this->eventStream
+    std::ostringstream stream;
+    stream
       << "- event:\n"
       << "  type: started\n"
       << "  time_sec: " << this->simTime.sec() << std::endl;
+    this->LogEvent(stream.str());
   }
 
   // Update files when scoring has started.
@@ -1187,15 +1517,16 @@ void GameLogicPluginPrivate::Finish()
       << " s." << std::endl;
     this->Log() << "finished_score " << this->totalScore << std::endl;
     this->logStream.flush();
-    this->eventStream.flush();
 
-    this->eventStream
+    std::ostringstream stream;
+    stream
       << "- event:\n"
       << "  type: finished\n"
       << "  time_sec: " << this->simTime.sec() << "\n"
       << "  elapsed_real_time " << realElapsed << "\n"
       << "  elapsed_sim_time " << simElapsed << "\n"
       << "  total_score: " << this->totalScore << std::endl;
+    this->LogEvent(stream.str());
 
     // \todo(nkoenig) After the tunnel circuit, change the /subt/start topic
     // to /sub/status.
@@ -1211,9 +1542,10 @@ void GameLogicPluginPrivate::Finish()
 }
 
 /////////////////////////////////////////////////
-std::chrono::steady_clock::time_point
-GameLogicPluginPrivate::UpdateScoreFiles() const
+std::chrono::steady_clock::time_point GameLogicPluginPrivate::UpdateScoreFiles()
 {
+  std::lock_guard<std::mutex> lock(this->logMutex);
+
   // Elapsed time
   int realElapsed = 0;
   int simElapsed = 0;
@@ -1240,7 +1572,97 @@ GameLogicPluginPrivate::UpdateScoreFiles() const
   score << totalScore << std::endl;
   score.flush();
 
-  // output full log to a yml file
+  this->LogRobotPosData();
+  this->LogRobotArtifactData();
+
+  this->lastUpdateScoresTime = currTime;
+  return currTime;
+}
+
+/////////////////////////////////////////////////
+void GameLogicPluginPrivate::LogRobotPosData()
+{
+  std::string path = common::joinPaths(this->logPath, "pos-data");
+
+  // remove previous pos data on start
+  if (this->lastUpdateScoresTime.time_since_epoch().count() == 0u)
+  {
+    common::removeAll(path);
+    common::createDirectory(path);
+  }
+
+  // log robot pos data
+  for (auto &it : this->robotPoseData)
+  {
+    if (it.second.empty())
+      return;
+    std::string robotName = it.first;
+
+    // create the pos data file if it does not exist yet
+    std::shared_ptr<std::ofstream> posStream;
+    auto streamIt = this->robotPosStream.find(robotName);
+    bool fileExists = true;
+    if (streamIt == this->robotPosStream.end())
+    {
+      std::string file = common::joinPaths(path, robotName + "-pos.data");
+      std::shared_ptr<std::ofstream> logFile =
+          std::make_shared<std::ofstream>(file, std::ios::ate);
+      this->robotPosStream[robotName] = logFile;
+      posStream = logFile;
+      fileExists = false;
+    }
+    else
+    {
+      posStream = streamIt->second;
+    }
+
+    // write to file only if there are new data, or it is the first time.
+    // Note that robot pos data should always have at least 1 (latest) pos data
+    // in the vector which is used during PostUpdate for computating robot
+    // distance traveled and vel data
+    if (!fileExists || it.second.size() > 1u)
+    {
+      auto poseData = std::move(it.second);
+      auto posIt = poseData.begin();
+
+      // if file already exists, it is not the first time we are writing out
+      // pos data. So the first entry in the vector should be the last pos
+      // data that was already written out to file so skip it
+      if (fileExists)
+        posIt++;
+      for(; posIt != poseData.end(); ++posIt)
+      {
+        auto t = posIt->first;
+        int64_t s, ns;
+        std::tie(s, ns) = ignition::math::durationToSecNsec(posIt->first);
+        math::Vector3d pos = posIt->second;
+        // sec nsec x y z
+        *posStream << s << " " << ns << " " << pos << std::endl;
+      }
+      posStream->flush();
+
+      // make sure to push the latest pos data back in the vector
+      it.second.push_back({poseData.back().first, poseData.back().second});
+    }
+  }
+}
+
+/////////////////////////////////////////////////
+void GameLogicPluginPrivate::LogRobotArtifactData() const
+{
+  int realElapsed = 0;
+  int simElapsed = 0;
+  std::chrono::steady_clock::time_point currTime =
+    std::chrono::steady_clock::now();
+
+  if (this->started)
+  {
+    simElapsed = this->simTime.sec() - this->startSimTime.sec();
+    realElapsed = std::chrono::duration_cast<std::chrono::seconds>(
+        currTime - this->startTime).count();
+  }
+
+  // output robot and artifact data to a yml file
   // 1. Number of artifacts found.
   // 2. Robot count
   // 3. Unique robot count (for example, a team of two X1_SENSOR_CONFIG_1
@@ -1257,8 +1679,22 @@ GameLogicPluginPrivate::UpdateScoreFiles() const
   // 9. First artifact report time.
   // 10. Last artifact report time.
   // 11. Mean time between success reports
+  // 12. Greatest distance traveled by a robot on the team.
+  // 13. Greatest euclidean distance traveled by a robot from the staging area.
+  // 14. Total distance traveled by all the robots.
+  // 15. Greatest maximum velocity by a robot.
+  // 16. Greatest average velocity.
+  // 17. Greatest cumulative elevation gain by a robot on the team
+  // 18. Greatest cumulative elevation loss by a robot on the team
+  // 19. Total cumulative elevation gain by all the robots.
+  // 20. Total cumulative elevation loss by all the robots.
+  // 21. Max elevation reached by a robot
+  // 22. Min elevation reached by a robot
+
   YAML::Emitter out;
   out << YAML::BeginMap;
+
+  // artifact data
   out << YAML::Key << "artifacts_found";
   out << YAML::Value << this->foundArtifacts.size();
   out << YAML::Key << "robot_count";
@@ -1305,14 +1741,54 @@ GameLogicPluginPrivate::UpdateScoreFiles() const
   }
   out << YAML::Key << "mean_time_between_successful_artifact_reports";
   out << YAML::Value << meanReportTime;
+
+  // robot distance traveled and vel data
+  out << YAML::Key << "greatest_distance_traveled";
+  out << YAML::Value << this->maxRobotDistance.second;
+  out << YAML::Key << "greatest_distance_traveled_robot";
+  out << YAML::Value << this->maxRobotDistance.first;
+  out << YAML::Key << "greatest_euclidean_distance_from_start";
+  out << YAML::Value << this->maxRobotEuclideanDistance.second;
+  out << YAML::Key << "greatest_euclidean_distance_from_start_robot";
+  out << YAML::Value << this->maxRobotEuclideanDistance.first;
+  out << YAML::Key << "total_distance_traveled";
+  out << YAML::Value << this->robotsTotalDistance;
+  out << YAML::Key << "greatest_max_vel";
+  out << YAML::Value << this->maxRobotVel.second;
+  out << YAML::Key << "greatest_max_vel_robot";
+  out << YAML::Value << this->maxRobotVel.first;
+  out << YAML::Key << "greatest_avg_vel";
+  out << YAML::Value << this->maxRobotAvgVel.second;
+  out << YAML::Key << "greatest_avg_vel_robot";
+  out << YAML::Value << this->maxRobotAvgVel.first;
+
+  // robot elevation data
+  out << YAML::Key << "greatest_elevation_gain";
+  out << YAML::Value << this->maxRobotElevationGain.second;
+  out << YAML::Key << "greatest_elevation_gain_robot";
+  out << YAML::Value << this->maxRobotElevationGain.first;
+  out << YAML::Key << "greatest_elevation_loss";
+  out << YAML::Value << this->maxRobotElevationLoss.second;
+  out << YAML::Key << "greatest_elevation_loss_robot";
+  out << YAML::Value << this->maxRobotElevationLoss.first;
+  out << YAML::Key << "total_elevation_gain";
+  out << YAML::Value << this->robotsTotalElevationGain;
+  out << YAML::Key << "total_elevation_loss";
+  out << YAML::Value << this->robotsTotalElevationLoss;
+  out << YAML::Key << "max_elevation_reached";
+  out << YAML::Value << this->maxRobotElevation.second;
+  out << YAML::Key << "max_elevation_reached_robot";
+  out << YAML::Value << this->maxRobotElevation.first;
+  out << YAML::Key << "min_elevation_reached";
+  out << YAML::Value << this->minRobotElevation.second;
+  out << YAML::Key << "min_elevation_reached_robot";
+  out << YAML::Value << this->minRobotElevation.first;
+
   out << YAML::EndMap;
 
   std::ofstream logFile(this->logPath + "/run.yml", std::ios::out);
   logFile << out.c_str() << std::endl;
   logFile.flush();
-
-  this->lastUpdateScoresTime = currTime;
-  return currTime;
 }
 
 /////////////////////////////////////////////////
@@ -1373,6 +1849,14 @@ bool GameLogicPluginPrivate::OnPoseFromArtifact(
   frame->add_value(subt::kArtifactOriginName);
 
   return result;
+}
+
+/////////////////////////////////////////////////
+void GameLogicPluginPrivate::LogEvent(const std::string &_event)
+{
+  std::lock_guard<std::mutex> lock(this->eventMutex);
+  this->eventStream << _event;
+  this->eventStream.flush();
 }
 
 /////////////////////////////////////////////////
