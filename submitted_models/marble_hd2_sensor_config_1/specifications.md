@@ -43,25 +43,38 @@ The following specific sensors are declared payloads of this vehicle:
 * Microstrain IMU: 3DM-GX5-25, modeled by imu_sensor plugin. Notes on modeling of the IMU are included in the model.sdf file.  (located under the 3D lidar, installed at same x,y location as 3D lidar)
 - RPLidar S1 Planar Lidar (under the 3D lidar), modeled by gpu_ray plugin
 - Vividia HTI-301 LWIR Camera (not modeled because thermal camera not yet supported in simulator) - located on the turret next to the D435i and light.  
+* 12 communication breadcrumbs are also available as a payload for this robot in sensor configuration 2.
 
 ### Control
 This MARBLE HD2 is controlled by the DiffDrive plugin.  It accepts twist inputs which drive the vehicle along the x-direction and around the z-axis.  We add additional pseudo-wheels where the HD2's treads are to better approximate a track vehicle.  Currently, we are not aware of a track-vehicle plugin for ignition-gazebo.  A TrackedVehicle plugin does exist in gazebo8+, but it is not straightforward to port to ignition-gazebo.  We hope to work with other SubT teams and possibly experts among the ignition-gazebo developers to address this in the future.  
 
-### Motion CharacteristicsBased on the tests specified in the DARPA SubT Challenge [Model PreparationGuide](https://subtchallenge.com/\<fix_me\>), this vehicle has the following motion constraint characteristics. 
+### Motion Characteristics
+Based on the tests specified in the DARPA SubT Challenge [Model Preparation Guide](https://subtchallenge.com/resources/Simulation_Model_Preparation_Guide.pdf), this vehicle has the following motion constraint characteristics:
+
+* _x_ velocity range from -1.0 m/s to 1.0 m/s
+* _x_ acceleration range from -3.0 m/s<sup>2</sup> to 3.0 m/s<sup>2</sup>
+
+The constraints can be found in the following locations within the simulation model package:
+
+* `spawner.rb`, lines 27-30
 
 This configuration has roughly the same motion characteristics as the COSTAR/MARBLE husky vehicles, except it also has a pan/tilt mechanism which has additional motion characteristics.  We have included a test script in this folder (test_gimbal.sh) which sends pan and tilt commands using ROS topics.  This script assumes you have named your vehicle X1.  
 
 At this time, we assume that the motion characteristics are the same as the COSTAR husky which has already been modeled.  We were unable to perform additional validation tests due to COVID-19 restrictions.  
 
 ### Endurance Characteristics
-This configuration has an endurance of approximately 2 hours.  We plan to carry out the endurance test characterization but have been prevented from doing so due to the coronavirus measures preventing us from visiting the lab space while preparing these models for simulation.  
+This configuration has an endurance of approximately 2 hours, but we have limited the model in simulation to have a 1 hour endurance.  We plan to carry out the endurance test characterization but have been prevented from doing so due to the coronavirus measures preventing us from visiting the lab space while preparing these models for simulation.  
 
 ### Diversions from Physical Hardware of MARBLE HD2
 Computers were installed in the payload area of the husky and these have been roughly modeled (the rail and computer bay are shown in the model.sdf model).  The MARBLE vehicle uses an AMD Ryzen processor (32-core) with 64 GB of RAM.  It has a cooling system as well which makes up part of the black bay seen in the sdf model.  
 
-## X4 Validation and Specification Links
+The endurance and motion characteristics above are approximated to match existing models until model validation data can be provided.
+
+The physical robot has 3 communication breadcrumbs. 12 breadcrumbs are included in sensor configuration 2, which is standardized to match other available models.
+
+## Validation and Specification Links
 * Vehicle Links:
-  * https://clearpathrobotics.com/husky-unmanned-ground-vehicle-robot/
+  * https://www.superdroidrobots.com/shop/item.aspx/hd2-treaded-atr-tank-robot-platform/789/
 
 * Sensor specification links:
   * Trossen ScorpionX MX-64 Robot Turret - https://www.trossenrobotics.com/p/ScorpionX-RX-64-robot-turret.aspx
@@ -70,7 +83,7 @@ Computers were installed in the payload area of the husky and these have been ro
   * RPLidar S1 Planar Lidar - https://www.slamtec.com/en/Lidar/S1Spec
   * Vividia HTI-301 LWIR Camera - https://www.oasisscientific.com/store/p504/Vividia_HTi_HT-301_Thermal_Imaging_Camera_for_Android_Phone_and_Tablet_with_IR_Resolution_384x288.html  
   * IMU: Microstrain 3DM-GX5-25 - datasheet: https://www.microstrain.com/sites/default/files/applications/files/3dm-gx5-25_datasheet_8400-0093_rev_n.pdf
-    * Explanation of sensor parameter derivations:
+    ~~* Explanation of sensor parameter derivations:
 	We derived the stddev terms as follows:
 
 	accelerometer noise density = 0.00002 g/sqrt(Hz) 
@@ -78,7 +91,8 @@ Computers were installed in the payload area of the husky and these have been ro
 	gyro noise density = 0.005 deg/s/sqrt(Hz)
 		=> convert to rad/sec => 8.72664e-5 radians
 
-	Other terms are difficult to extract from datasheet, so we used similar terms to previous IMU models proposed (of similar or worse quality) such as the ADIS 16448 (which has worse performance than this IMU). 
+	Other terms are difficult to extract from datasheet, so we used similar terms to previous IMU models proposed (of similar or worse quality) such as the ADIS 16448 (which has worse performance than this IMU). ~~
+    - IMU model is standardized to match other available models.
 
 * \<Validation Video Link(s), e.g.,https://youtu.be/xxxxxxxxx/\>
 * \<Validation Data Link(s), e.g., https://drive.google.com/file/xxxxxxxxx/\>
