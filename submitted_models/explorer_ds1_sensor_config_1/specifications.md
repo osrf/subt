@@ -48,7 +48,6 @@ endurance characteristics:
 Virtual DS1 is a faithful representation of real-world DS1 both in appearance and
 in physical properties. However, there are few diversions:
 * It does not model long-range Rajant communication of the real robot.
-* It does not model the exact dynamic model (mass, inertia, motion, and endurance characteristics) of real-world DS1, instead it's using the motion parameters of standard X3 UAV model for control perspective until validation data can be provided. 
 
 # <a name="validation_links"></a>DS1 Validation and Specification Links
 
