@@ -1,10 +1,10 @@
 # darpa_virtual_model_submit
-Simulation models to submit to Darpa | CERBERUS Aerial Scouts (Alpha/Bravo/Charlie)
+Simulation models to submit to Darpa | CERBERUS Aerial Scouts (Gagarin)
 
 ## workspace setup
 Follow these step to setup the Darpa Subt Virtual Environment: 
 
-https://bitbucket.org/osrf/subt/wiki/tutorials/SystemSetupInstall
+https://github.com/osrf/subt/wiki/Get%20Started
 
 ## add a new model
 
@@ -19,5 +19,5 @@ source install/setup.bash
 ```
 
 ## launch the simulation
-ign launch -v 4 src/subt/submitted_models/cerberus_gagarin_sensor_config_1/launch/gagarin_test.ign robotName:=gagarin modelName:=CERBERUS_GAGARIN_SENSOR_CONFIG_1 localModel:=true
+ign launch -v 4 tunnel_circuit_practice.ign worldName:=tunnel_circuit_practice_01 robotName1:=gagarin robotConfig1:=CERBERUS_GAGARIN_SENSOR_CONFIG_1 localModel:=true
 
