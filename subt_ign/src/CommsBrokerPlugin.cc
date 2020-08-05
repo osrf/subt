@@ -19,7 +19,6 @@
 
 #include <functional>
 #include <mutex>
-#include <tuple>
 
 #include <ignition/common/Console.hh>
 #include <ignition/common/Util.hh>
@@ -325,11 +324,13 @@ void CommsBrokerPlugin::UpdateIfNewBreadcrumbs()
   if (newBreadcrumbFound)
   {
     std::set<ignition::math::Vector3d> breadcrumbPoses;
+    #pragma GCC diagnostic Push
+    #pragma GCC diagnostic ignored "-Wunused-variable"
     for (const auto& [name, pose] : this->breadcrumbs)
     {
-      std::ignore = name
       breadcrumbPoses.insert(pose.Pos());
     }
+    #pragma GCC diagnostic pop
     this->visibilityModel->PopulateVisibilityInfo(breadcrumbPoses);
     ignmsg << "New breadcrumb detected, visibility graph updated" << std::endl;
   }
