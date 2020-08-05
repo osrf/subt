@@ -323,12 +323,9 @@ void CommsBrokerPlugin::UpdateIfNewBreadcrumbs()
   // Update the comms.
   if (newBreadcrumbFound)
   {
-    std::set<ignition::math::Vector3d> breadcrumbPoses;
-    #pragma GCC diagnostic push
-    #pragma GCC diagnostic ignored "-Wunused-variable"
-    for (const auto& [name, pose] : this->breadcrumbs)
+    std::set<ignition::math::Vector3d> breadcrumbPoses;  
+    for (const auto& it: this->breadcrumbs)
       breadcrumbPoses.insert(pose.Pos());
-    #pragma GCC diagnostic pop
     this->visibilityModel->PopulateVisibilityInfo(breadcrumbPoses);
     ignmsg << "New breadcrumb detected, visibility graph updated" << std::endl;
   }
