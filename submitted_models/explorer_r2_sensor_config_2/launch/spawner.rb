@@ -20,10 +20,10 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <wheel_separation>#{0.343 * 2.0 - 0.1125}</wheel_separation>
         <wheel_radius>0.31</wheel_radius>
         <topic>/model/#{_name}/cmd_vel_relay</topic>
-        <min_velocity>-2</min_velocity>
-        <max_velocity>2</max_velocity>
-        <min_acceleration>-10</min_acceleration>
-        <max_acceleration>10</max_acceleration>
+        <min_velocity>-1</min_velocity>
+        <max_velocity>1</max_velocity>
+	<min_acceleration>-1.24</min_acceleration>
+	<max_acceleration>1.16</max_acceleration>
       </plugin>
       <!-- Publish robot state information -->
       <plugin filename="libignition-gazebo-pose-publisher-system.so"
@@ -48,7 +48,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <capacity>78.4</capacity>
         <resistance>0.061523</resistance>
         <smooth_current_tau>1.9499</smooth_current_tau>
-        <power_load>6.6</power_load>
+        <power_load>9.9</power_load>
         <start_on_motion>true</start_on_motion>
       </plugin>
       <!-- Gas Sensor plugin -->

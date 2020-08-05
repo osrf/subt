@@ -242,6 +242,12 @@
   if defined?(websocketSSLKeyFile) && websocketSSLKeyFile != nil && !websocketSSLKeyFile.empty?
     $websocketSSLKeyFile = websocketSSLKeyFile
   end
+
+  $websocketMaxConnections = "-1"
+  if defined?(websocketMaxConnections) && websocketMaxConnections != nil && !websocketMaxConnections.empty?
+    $websocketMaxConnections = websocketMaxConnections
+  end
+
 %>
 
 <ignition version='1.0'>
@@ -257,6 +263,7 @@
     <port>9002</port>
     <authorization_key><%= $websocketAuthKey %></authorization_key>
     <admin_authorization_key><%= $websocketAdminAuthKey %></admin_authorization_key>
+    <max_connections><%= $websocketMaxConnections  %></max_connections>
     <ssl>
       <cert_file><%= $websocketSSLCertFile %></cert_file>
       <private_key_file><%= $websocketSSLKeyFile %></private_key_file>

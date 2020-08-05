@@ -3,7 +3,8 @@ DARPA Subterranean Challenge Technology Repository -->
 # Explorer - R2
 This specifications.md file is a description and proof of virtual model validation for
 Explorer's robot R2 with Sensor Configuration 1. This robot may be launched using
-a `roslaunch` command with the variable name `explorer_r2_sensor_config_1`.
+an `ign launch` command with the variable name `explorer_r2_sensor_config_1`.
+
 ## Description
 R2 is four wheels ground robot. It is designed for exploring various environments, such as tunnel, cave and so on.
 
@@ -29,9 +30,10 @@ Based on the tests specified in the DARPA SubT Challenge [Model Preparation
 Guide](https://subtchallenge.com/\<fix_me\>), this vehicle has the following motion
 constraint characteristics:
 
-* _x_ velocity range from ~~-2.0 m/s to 2.0 m/s~~, currently modeled as -1.0 m/s to 1.0 m/s until validation data can be provided
-* _x_ acceleration range from -10 m/s<sup>2</sup> to 10 m/s<sup>2</sup>
-* Turning radius of 0.6 m
+* _x_ velocity range from -1.0 m/s to 1.0 m/s
+* _x_ acceleration range from -1.24 m/s<sup>2</sup> to 1.16 m/s<sup>2</sup>
+* Angular velocity ranges from -0.95 rad/s to 0.99 rad/s.
+* Turning radius of 0.0 m (turns on the spot)
 * Rotation angle between two parts of the robot is limited to -30-30 degree
 * Spring reference is set to 0.1 and spring stiffness is set to 100 for joint Center Pivot
 
@@ -54,7 +56,7 @@ endurance characteristics:
 ## Diversions from Physical Hardware of R2
 Virtual R2 is a faithful representation of real-world R2 both in appearance and
 in physical properties. However, there are few diversions:
-* The endurance and motion characteristics above are approximated to match existing models until model validation data can be provided.
+* The endurance is approximated to match existing models until model validation data can be provided.
 * It does not model long-range Rajant wireless network of the real robot.
 * The physical robot has 9 communication breadcrumbs. 12 breadcrumbs are included in sensor configuration 2, which is standardized to match other available models.
 
@@ -63,3 +65,6 @@ in physical properties. However, there are few diversions:
 * https://www.intelrealsense.com/depth-camera-d435/
 * https://autonomoustuff.com/product/velodyne-puck-vlp-16/
 * https://www.mouser.com/datasheet/2/693/mti-100-series-1540263.pdf
+* \<Validation Motion Test Data Link, https://drive.google.com/file/d/1qYJwrIxDbc9ws_24e-gjssAYVMHUaC2m/view?usp=sharing/\>
+* \<Validation Motion Test Video Link, https://youtu.be/Nwp9QKcEdPM/\>
+* \<Validation Motion Test Video Link, https://youtu.be/MROm2FdUrwI/\>
