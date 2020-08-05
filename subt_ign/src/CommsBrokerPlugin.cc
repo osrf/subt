@@ -327,9 +327,7 @@ void CommsBrokerPlugin::UpdateIfNewBreadcrumbs()
     #pragma GCC diagnostic push
     #pragma GCC diagnostic ignored "-Wunused-variable"
     for (const auto& [name, pose] : this->breadcrumbs)
-    {
       breadcrumbPoses.insert(pose.Pos());
-    }
     #pragma GCC diagnostic pop
     this->visibilityModel->PopulateVisibilityInfo(breadcrumbPoses);
     ignmsg << "New breadcrumb detected, visibility graph updated" << std::endl;
