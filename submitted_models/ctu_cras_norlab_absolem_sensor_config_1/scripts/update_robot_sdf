@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -e
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+MODEL_DIR="${DIR}/.."
+
+source "${MODEL_DIR}/config/common.sh"
+source "${MODEL_DIR}/config/sdf.sh"
+
+rosrun xacro xacro "${MODEL_DIR}/urdf/nifti_robot.xacro" ${config} > "${MODEL_DIR}/nifti_robot.sdf.urdf"
+ign sdf -p "${MODEL_DIR}/nifti_robot.sdf.urdf" | "${DIR}/high_precision_constants.py" - > "${MODEL_DIR}/model.sdf"
+sed -i 's#model://ctu_cras_norlab_absolem_sensor_config_1/##g' "${MODEL_DIR}/model.sdf"
