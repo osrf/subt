@@ -24,6 +24,7 @@
 
 #include <algorithm>
 #include <chrono>
+#include <cmath>
 #include <map>
 #include <mutex>
 #include <utility>
@@ -48,6 +49,8 @@
 #include <ignition/common/Util.hh>
 #include <ignition/common/Time.hh>
 #include <ignition/math/Pose3.hh>
+#include <ignition/math/Quaternion.hh>
+#include <ignition/math/Vector3.hh>
 #include <ignition/transport/Node.hh>
 #include <sdf/sdf.hh>
 
@@ -1879,16 +1882,18 @@ std::ofstream &GameLogicPluginPrivate::Log()
 void GameLogicPluginPrivate::CheckRobotFlip(const std::string &_name,
                                             const ignition::math::Pose3d &_pose)
 {
-  // radian equivalents
-  static const double k170_deg = 2.96706;
-  static const double k190_deg = 3.316126;
+  // get the vehicle's z-axis in the world frame
+  ignition::math::Vector3d a = _pose.Rot() * ignition::math::Vector3d(0,0,1);
 
-  auto orientation = _pose.Rot().Euler();
-  auto roll = std::abs(orientation.X());
-  auto pitch = std::abs(orientation.Y());
+  // use dot product to get the angle between
+  // the vehicle's z-axis and the world's z-axis
+  // (I believe this simplifies to cos_theta = a.Z(),
+  // which makes sense since we only want the z component)
+  auto cos_theta = (a.X() * 0) + (a.Y() * 0) + (a.Z() * 1);
 
-  if ((roll >= k170_deg && roll <= k190_deg) ||
-      (pitch >= k170_deg && pitch <= k190_deg))
+  // cos_theta == -1 implies that the robot/world z-axis are in opposite directions,
+  // which probably means that the robot has flipped
+  if (std::abs(-1 - cos_theta) <= 0.1)
   {
     std::ostringstream stream;
     stream
