@@ -78,12 +78,36 @@
       <remap from="$(arg sensor_prefix)/front_laser/scan/points" to="front_laser/points"/>
     </node>
 
+    <!-- Top TOF -->
     <node
       pkg="ros_ign_bridge"
       type="parameter_bridge"
       name="ros_ign_bridge_picoflexx"
-      args="$(arg sensor_prefix)/picoflexx/scan/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
-      <remap from="$(arg sensor_prefix)/picoflexx/scan/points" to="picoflexx/points"/>
+      args="$(arg sensor_prefix)/picoflexx/depth_image/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
+      <remap from="$(arg sensor_prefix)/picoflexx/depth_image/points" to="picoflexx/depth/points"/>
+    </node>
+    <node
+      pkg="ros_ign_image"
+      type="image_bridge"
+      name="ros_ign_image_picoflexx"
+      args="$(arg sensor_prefix)/picoflexx/depth_image">
+      <remap from="$(arg sensor_prefix)/picoflexx/depth_image" to="picoflexx/depth"/>
+    </node>
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_picoflexx_info"
+      args="$(arg sensor_prefix)/picoflexx/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+      <remap from="$(arg sensor_prefix)/picoflexx/camera_info" to="picoflexx/camera_info"/>
+    </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_picoflexx_depth">
+      <remap from="input/image" to="picoflexx/depth" />
+      <remap from="output/image" to="picoflexx/optical/depth" />
+      <remap from="input/camera_info" to="picoflexx/camera_info" />
+      <remap from="output/camera_info" to="picoflexx/optical/camera_info" />
     </node>
 
     <!-- Gas sensor -->

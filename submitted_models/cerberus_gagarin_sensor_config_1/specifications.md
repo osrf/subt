@@ -41,7 +41,7 @@ The following specific sensors are declared payloads of this vehicle:
 * IMU - Generic, modeled by `imu` plugin
 * LIDAR - Ouster OS1-16, modeled by `gpu_ray` plugin
 * Color Camera - FLIR Blackfly S, modeled by `camera` plugin
-* Depth Sensor - Picoflexx, modeled by `gpu_ray` plugin
+* Depth Sensor - Picoflexx, modeled by `depth_camera` plugin
 
 ### Control
 This Aerial Scout is controlled by the default twist controller package inside the simulation environment.

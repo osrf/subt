@@ -281,38 +281,32 @@
                     </box>
                 </geometry>
             </visual>
-            <sensor name="picoflexx" type="gpu_ray">
+            <sensor name="picoflexx" type="depth_camera">
 				<!-- The laser is patterned off of the picoflexx sensor.-->
-                <pose>0 0 0.28 0 -1.5708 0</pose>
+                <pose>0 0 0.29 0 -1.5708 0</pose>
                 <update_rate>5</update_rate>
-                <lidar>
-                    <scan>
-                        <horizontal>
-                            <!-- Resolution can't be above 16k, see
-                            https://bitbucket.org/ignitionrobotics/ign-sensors/issues/8 -->
-                            <samples>224</samples>
-                            <resolution>1</resolution>
-                            <min_angle>-0.541052</min_angle>
-                            <max_angle>0.541052</max_angle>
-                        </horizontal>
-                        <vertical>
-                            <samples>171</samples>
-                            <resolution>1</resolution>
-                            <min_angle>-0.785398</min_angle>
-                            <max_angle>0.785398</max_angle>
-                        </vertical>
-                    </scan>
-                    <range>
-                        <min>0.50</min>
-                        <max>4.0</max>
-                        <resolution>0.01</resolution>
-                    </range>
-                    <noise>
-                        <type>gaussian</type>
-                        <mean>0</mean>
-                        <stddev>0.01</stddev>
-                    </noise>
-                </lidar>
+                <camera name="picoflexx">
+                    
+                    <horizondal_fov>1.0821</horizondal_fov>
+                    <image>
+                        <width>224</width>
+                        <height>171</height>
+                        <format>R8G8B8</format>
+                    </image>
+                    <clip>
+                        <near>0.1</near>
+                        <far>4.0</far>
+                    </clip>
+                    <depth_camera>
+                        <output>depths</output>
+                        <clip>
+                            <near>0.1</near>
+                            <far>4.0</far>
+                        </clip>
+                    </depth_camera>
+                </camera>
+                <always_on>1</always_on>
+                <visualize>0</visualize>
             </sensor>
         </link>
         <link name="rotor_0">
