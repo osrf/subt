@@ -28,6 +28,7 @@
 #include <mutex>
 #include <utility>
 
+#include <ignition/gazebo/components/DetachableJoint.hh>
 #include <ignition/gazebo/components/Model.hh>
 #include <ignition/gazebo/components/Name.hh>
 #include <ignition/gazebo/components/DepthCamera.hh>
@@ -416,6 +417,9 @@ class subt::GameLogicPluginPrivate
 
   /// \brief Event manager for pausing simulation
   public: EventManager *eventManager;
+
+  /// \brief The set of marsupial pairs.
+  public: std::map<std::string, std::string> marsupialPairs;
 };
 
 //////////////////////////////////////////////////
@@ -639,6 +643,31 @@ void GameLogicPlugin::PostUpdate(
     // Get an iterator to the base station's pose.
     std::map<std::string, ignition::math::Pose3d>::iterator baseIter =
       this->dataPtr->poses.find(subt::kBaseStationName);
+
+    _ecm.Each<gazebo::components::DetachableJoint>(
+        [&](const gazebo::Entity &,
+            const gazebo::components::DetachableJoint *_detach) -> bool
+        {
+          auto parentModel = _ecm.Component<gazebo::components::ParentEntity>(
+              _detach->Data().parentLink);
+          auto childModel = _ecm.Component<gazebo::components::ParentEntity>(
+              _detach->Data().childLink);
+
+          auto parentName = _ecm.Component<gazebo::components::Name>(
+              parentModel->Data());
+
+          auto childName = _ecm.Component<gazebo::components::Name>(
+              childModel->Data());
+          // Store the marsupial pairs, and handle the special case of
+          // "X1_platform"
+          if (parentName->Data() != "X1_platform" &&
+              childName->Data() != "X1_platform")
+          {
+            this->dataPtr->marsupialPairs[parentName->Data()] = childName->Data();
+          }
+
+          return true;
+        });
 
     _ecm.Each<gazebo::components::Sensor,
               gazebo::components::ParentEntity>(
@@ -1561,6 +1590,9 @@ std::chrono::steady_clock::time_point GameLogicPluginPrivate::UpdateScoreFiles()
 
   // Output a run summary
   std::ofstream summary(this->logPath + "/summary.yml", std::ios::out);
+  summary << "marsupials:\n";
+  for (auto const &pair : this->marsupialPairs)
+    summary << "  - \"" << pair.first << ":" << pair.second << "\"\n";
   summary << "was_started: " << this->started << std::endl;
   summary << "sim_time_duration_sec: " << simElapsed << std::endl;
   summary << "real_time_duration_sec: " << realElapsed << std::endl;
