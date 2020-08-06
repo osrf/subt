@@ -524,14 +524,31 @@
         </geometry>
       </visual>
       <visual name="base_link_fixed_joint_lump__realsense_holder_part2_visual_28">
-        <pose>0.088894 -0.073921 0.39452 -5e-06 -0.002418 1.57486</pose>
+        <pose>0.088894 -0.073921 0.3871 -5e-06 -0.002418 1.57486</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
             <uri>meshes/d435_holder_combined.stl</uri>
           </mesh>
         </geometry>
+        <material>
+          <diffuse>.5 0.5 0.5 1</diffuse>
+          <ambient>.1 0.1 0.1 1</ambient>
+        </material>
       </visual>
+      <visual name="base_link_fixed_joint_lump__realsense_visual">
+        <pose>0.133882 -0.000937 0.420959 2.07031 -0.013169 1.5633</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/realsense_d435.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>.5 0.5 0.5 1</diffuse>
+          <ambient>.1 0.1 0.1 1</ambient>
+        </material>
+      </visual>
+
       <visual name="base_link_fixed_joint_lump__camera_back_mounting_plane_visual_29">
         <pose>0.115312 -0.018929 0.4382 0.015 0.499467 -0.000319</pose>
         <geometry>
