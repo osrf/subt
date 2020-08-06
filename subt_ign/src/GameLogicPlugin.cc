@@ -29,6 +29,7 @@
 #include <utility>
 
 #include <ignition/gazebo/components/DetachableJoint.hh>
+#include <ignition/gazebo/components/Performer.hh>
 #include <ignition/gazebo/components/Model.hh>
 #include <ignition/gazebo/components/Name.hh>
 #include <ignition/gazebo/components/DepthCamera.hh>
@@ -653,19 +654,40 @@ void GameLogicPlugin::PostUpdate(
           auto childModel = _ecm.Component<gazebo::components::ParentEntity>(
               _detach->Data().childLink);
 
+          bool parentPerformer = false;
+          for (const auto &t :
+              _ecm.ChildrenByComponents(parentModel->Data(),
+                gazebo::components::Performer()))
+          {
+            parentPerformer = true;
+            break;
+          }
+
+          bool childPerformer = false;
+          for (const auto &t :
+              _ecm.ChildrenByComponents(childModel->Data(),
+                gazebo::components::Performer()))
+          {
+            childPerformer = true;
+            break;
+          }
+
           auto parentName = _ecm.Component<gazebo::components::Name>(
               parentModel->Data());
 
           auto childName = _ecm.Component<gazebo::components::Name>(
               childModel->Data());
-          // Store the marsupial pairs, and handle the special case of
-          // "X1_platform"
-          if (parentName->Data() != "X1_platform" &&
-              childName->Data() != "X1_platform")
-          {
-            this->dataPtr->marsupialPairs[parentName->Data()] = childName->Data();
-          }
 
+          if (parentPerformer && childPerformer)
+          {
+            auto parentName = _ecm.Component<gazebo::components::Name>(
+                parentModel->Data());
+
+            auto childName = _ecm.Component<gazebo::components::Name>(
+                childModel->Data());
+            this->dataPtr->marsupialPairs[parentName->Data()] =
+              childName->Data();
+          }
           return true;
         });
 
