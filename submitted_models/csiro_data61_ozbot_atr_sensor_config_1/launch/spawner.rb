@@ -1,10 +1,9 @@
 def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
   <<-HEREDOC
-  <plugin name="ignition::launch::GazeboFactory"
-          filename="libignition-launch-gazebo-factory.so">
+  <spawn name='#{_name}'>
     <name>#{_name}</name>
     <allow_renaming>false</allow_renaming>
-    <pose>#{_x} #{_y} #{_z + 0.2} #{_roll} #{_pitch} #{_yaw}</pose>
+    <pose>#{_x} #{_y} #{_z + 0.19} #{_roll} #{_pitch} #{_yaw}</pose>
     <world>#{_worldName}</world>
     <is_performer>true</is_performer>
     <sdf version='1.6'>
@@ -96,7 +95,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
 
     </include>
     </sdf>
-  </plugin>
+  </spawn>
   HEREDOC
 end
 
