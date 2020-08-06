@@ -70,6 +70,7 @@
       args="/model/$(arg name)/joint/front_left_flipper_j/cmd_pos@std_msgs/Float64]ignition.msgs.Double">
       <remap from="/model/$(arg name)/joint/front_left_flipper_j/cmd_pos" to="flippers_cmd_pos/front_left"/>
     </node>
+
     <node
       pkg="ros_ign_bridge"
       type="parameter_bridge"
@@ -80,6 +81,14 @@
     <node
       pkg="ros_ign_bridge"
       type="parameter_bridge"
+      name="ros_ign_bridge_front_right_flipper_pos"
+      args="/model/$(arg name)/joint/front_right_flipper_j/cmd_pos@std_msgs/Float64]ignition.msgs.Double">
+      <remap from="/model/$(arg name)/joint/front_right_flipper_j/cmd_pos" to="flippers_cmd_pos/front_right"/>
+    </node>
+
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
       name="ros_ign_bridge_rear_left_flipper"
       args="/model/$(arg name)/joint/rear_left_flipper_j/cmd_vel@std_msgs/Float64]ignition.msgs.Double">
       <remap from="/model/$(arg name)/joint/rear_left_flipper_j/cmd_vel" to="flippers_cmd_vel/rear_left"/>
@@ -87,11 +96,25 @@
     <node
       pkg="ros_ign_bridge"
       type="parameter_bridge"
+      name="ros_ign_bridge_rear_left_flipper_pos"
+      args="/model/$(arg name)/joint/rear_left_flipper_j/cmd_pos@std_msgs/Float64]ignition.msgs.Double">
+      <remap from="/model/$(arg name)/joint/rear_left_flipper_j/cmd_pos" to="flippers_cmd_pos/rear_left"/>
+    </node>
+
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
       name="ros_ign_bridge_rear_right_flipper"
       args="/model/$(arg name)/joint/rear_right_flipper_j/cmd_vel@std_msgs/Float64]ignition.msgs.Double">
       <remap from="/model/$(arg name)/joint/rear_right_flipper_j/cmd_vel" to="flippers_cmd_vel/rear_right"/>
     </node>
-    
+     <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_rear_right_flipper_pos"
+      args="/model/$(arg name)/joint/rear_right_flipper_j/cmd_pos@std_msgs/Float64]ignition.msgs.Double">
+      <remap from="/model/$(arg name)/joint/rear_right_flipper_j/cmd_pos" to="flippers_cmd_pos/rear_right"/>
+    </node>   
     <!-- Laser rotation control -->
     
     <node
