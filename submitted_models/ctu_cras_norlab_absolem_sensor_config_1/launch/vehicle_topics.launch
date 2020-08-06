@@ -140,7 +140,7 @@
       type="parameter_bridge"
       name="ros_ign_bridge_camera"
       args="$(arg link_prefix)/base_link/sensor/camera/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
-      <remap from="$(arg link_prefix)/base_link/sensor/camera/camera_info" to="camera/color/camera_info"/>
+      <remap from="$(arg link_prefix)/base_link/sensor/camera/camera_info" to="front/camera_info"/>
     </node>
     <node
       pkg="ros_ign_image"
@@ -148,21 +148,14 @@
       name="ros_ign_image_camera"
       respawn="true"
       args="$(arg link_prefix)/base_link/sensor/camera/image">
-      <remap from="$(arg link_prefix)/base_link/sensor/camera/image" to="camera/color/image_raw"/>
+      <remap from="$(arg link_prefix)/base_link/sensor/camera/image" to="front/image_raw"/>
     </node>
     <node
       pkg="ros_ign_bridge"
       type="parameter_bridge"
       name="ros_ign_bridge_rgbd"
       args="$(arg link_prefix)/base_link/sensor/camera/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
-      <remap from="$(arg link_prefix)/base_link/sensor/camera/points" to="camera/depth/points"/>
-    </node>
-    <node
-      pkg="ros_ign_bridge"
-      type="parameter_bridge"
-      name="ros_ign_bridge_depth"
-      args="$(arg link_prefix)/base_link/sensor/camera/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
-      <remap from="$(arg link_prefix)/base_link/sensor/camera/camera_info" to="camera/depth/camera_info"/>
+      <remap from="$(arg link_prefix)/base_link/sensor/camera/points" to="rgbd_camera/depth/points"/>
     </node>
     <node
       pkg="ros_ign_image"
@@ -170,26 +163,24 @@
       name="ros_ign_image_depth"
       respawn="true"
       args="$(arg link_prefix)/base_link/sensor/camera/depth_image">
-      <remap from="$(arg link_prefix)/base_link/sensor/camera/depth_image" to="camera/depth/image_rect_raw"/>
+      <remap from="$(arg link_prefix)/base_link/sensor/camera/depth_image" to="front/depth"/>
     </node>
     <node
       pkg="subt_ros"
       type="optical_frame_publisher"
       name="optical_frame_publisher_color">
-      <remap from="input/image" to="camera/color/image_raw" />
-      <remap from="output/image" to="camera/color/optical/image_raw" />
-      <remap from="input/camera_info" to="camera/color/camera_info" />
-      <remap from="output/camera_info" to="camera/color/optical/camera_info" />
+      <remap from="input/image" to="front/image_raw" />
+      <remap from="output/image" to="front/optical/image_raw" />
+      <remap from="input/camera_info" to="front/camera_info" />
+      <remap from="output/camera_info" to="front/optical/camera_info" />
     </node>
     <node
       pkg="subt_ros"
       type="optical_frame_publisher"
       name="optical_frame_publisher_depth"
       args="depth">
-      <remap from="input/image" to="camera/depth/image_rect_raw" />
-      <remap from="output/image" to="camera/depth/optical/image_rect_raw" />
-      <remap from="input/camera_info" to="camera/depth/camera_info" />
-      <remap from="output/camera_info" to="camera/depth/optical/camera_info" />
+      <remap from="input/image" to="front/depth" />
+      <remap from="output/image" to="front/optical/depth" />
     </node>
 
     <!-- Planar Laser -->
@@ -198,7 +189,7 @@
         type="parameter_bridge"
         name="ros_ign_bridge_gpu_lidar_planar_laser"
         args="$(arg link_prefix)/laser/sensor/laser/scan@sensor_msgs/LaserScan[ignition.msgs.LaserScan">
-      <remap from="$(arg link_prefix)/laser/sensor/laser/scan" to="scan"/>
+      <remap from="$(arg link_prefix)/laser/sensor/laser/scan" to="front_scan"/>
     </node>
 
     <!-- Omnicamera -->
