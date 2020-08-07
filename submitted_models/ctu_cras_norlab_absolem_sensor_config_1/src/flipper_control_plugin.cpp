@@ -102,44 +102,24 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
 
     auto pos = _ecm.Component<components::JointPosition>(this->joint);
     if (!pos)
+    {
       _ecm.CreateComponent(this->joint, components::JointPosition());
-
-    auto vel = _ecm.Component<components::JointVelocityCmd>(this->joint);
-    if (!vel)
-    {
-      _ecm.CreateComponent(this->joint, components::JointVelocityCmd({this->angularSpeed}));
-    }
-    else
-    {
-      *vel = components::JointVelocityCmd({this->angularSpeed});
+      pos = _ecm.Component<components::JointPosition>(this->joint);
     }
 
-    if (this->angularSpeed == 0.0)
-      this->correctStaticAnglePosition(this->joint, this->staticAngle, _ecm);
-  }
-
-  public: void PostUpdate(const UpdateInfo& _info, const EntityComponentManager& _ecm) override
-  {
     if (this->cmdVel.has_value())
     {
       const auto velocity = this->cmdVel.value();
-      if (this->joint != kNullEntity) {
-        if (this->angularSpeed != 0.0 && velocity == 0.0)
-        {
-          auto pos = _ecm.Component<components::JointPosition>(this->joint);
-          if (pos)
-          {
-            this->staticAngle = pos->Data()[0];
-          }
-        }
-        this->angularSpeed = velocity;
+      this->staticAngle.reset();
+      if (this->angularSpeed != 0.0 && velocity == 0.0)
+      {
+        this->staticAngle = pos->Data()[0];
       }
+      this->angularSpeed = velocity;
       this->cmdVel.reset();
     } else if (this->cmdPos.has_value()) {
       const auto position = this->cmdPos.value();
-      if (this->joint != kNullEntity) {
-        this->staticAngle = position;
-      }
+      this->staticAngle = position;
       this->cmdPos.reset();
     }
 
@@ -147,30 +127,39 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
       this->UpdateMaxTorque(this->cmdTorque.value(), _ecm);
       this->cmdTorque.reset();
     }
+
+    auto velocityCommand = this->angularSpeed;
+    if (this->staticAngle.has_value())
+      velocityCommand = this->correctStaticAnglePosition(this->joint, this->staticAngle.value(), _ecm);
+
+    auto vel = _ecm.Component<components::JointVelocityCmd>(this->joint);
+    if (!vel)
+    {
+      _ecm.CreateComponent(this->joint, components::JointVelocityCmd({velocityCommand}));
+    }
+    else
+    {
+      *vel = components::JointVelocityCmd({velocityCommand});
+    }
+  }
+
+  public: void PostUpdate(const UpdateInfo& _info, const EntityComponentManager& _ecm) override
+  {
+
   }
 
   // To mitigate integrating small velocity errors, if the flipper is said to be stationary, we check that its position
   // does not drift over time.
-  protected: void correctStaticAnglePosition(const Entity& joint, const math::Angle& staticPos, EntityComponentManager& _ecm) {
+  protected: double correctStaticAnglePosition(const Entity& joint, const math::Angle& staticPos, EntityComponentManager& _ecm) {
     auto pos = _ecm.Component<components::JointPosition>(this->joint);
-    if (!pos)
-      return;
-
     const math::Angle currentPos{pos->Data()[0]};
     if (fabs((currentPos - staticPos).Degree()) > 1.0)
     {
       const auto correctingVelocity = this->positionCorrectionGain * (staticPos - currentPos).Radian();
       const auto sanitizedVelocity = math::clamp(correctingVelocity, -this->maxAngularVelocity, this->maxAngularVelocity);
-      auto vel = _ecm.Component<components::JointVelocityCmd>(this->joint);
-      if (!vel)
-      {
-        _ecm.CreateComponent(this->joint, components::JointVelocityCmd({sanitizedVelocity}));
-      }
-      else
-      {
-        *vel = components::JointVelocityCmd({sanitizedVelocity});
-      }
+      return sanitizedVelocity;
     }
+    return 0.0;
   }
 
   protected: void UpdateMaxTorque(const double maxTorque, const EntityComponentManager& _ecm)
@@ -196,7 +185,7 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
   public: void Reset(EntityComponentManager& _ecm)
   {
     this->angularSpeed = 0;
-    this->staticAngle = ignition::math::Angle(0);
+    this->staticAngle.reset();
 
     if (this->joint != kNullEntity)
     {
@@ -223,10 +212,10 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
   protected: std::optional<double> cmdPos;
   protected: std::optional<double> cmdVel;
   protected: std::optional<double> cmdTorque;
-  protected: ignition::math::Angle staticAngle{0.0};
+  protected: std::optional<ignition::math::Angle> staticAngle{0.0};
   protected: double angularSpeed{0.0};
   protected: double maxTorque{30.0};
-  protected: double positionCorrectionGain{0.2};
+  protected: double positionCorrectionGain{20.0};
   protected: double maxAngularVelocity{0.5};
 };
 
