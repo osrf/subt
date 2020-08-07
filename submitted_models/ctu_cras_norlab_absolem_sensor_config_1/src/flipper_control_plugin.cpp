@@ -132,7 +132,8 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
             this->staticAngle = pos->Data()[0];
           }
         }
-        this->angularSpeed = velocity;
+        const auto sanitizedVelocity = math::clamp(velocity, -this->maxAngularVelocity, this->maxAngularVelocity);
+        this->angularSpeed = sanitizedVelocity;
       }
       this->cmdVel.reset();
     } else if (this->cmdPos.has_value()) {

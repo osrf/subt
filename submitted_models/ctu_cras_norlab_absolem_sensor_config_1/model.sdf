@@ -3640,15 +3640,19 @@
     </joint>
     <plugin name="cras::FlipperControlPlugin" filename="libflipper_control_plugin.so">
       <joint_name>front_left_flipper_j</joint_name>
+      <max_velocity>0.8</max_velocity>
     </plugin>
     <plugin name="cras::FlipperControlPlugin" filename="libflipper_control_plugin.so">
       <joint_name>front_right_flipper_j</joint_name>
+      <max_velocity>0.8</max_velocity>
     </plugin>
     <plugin name="cras::FlipperControlPlugin" filename="libflipper_control_plugin.so">
       <joint_name>rear_left_flipper_j</joint_name>
+      <max_velocity>0.8</max_velocity>
     </plugin>
     <plugin name="cras::FlipperControlPlugin" filename="libflipper_control_plugin.so">
       <joint_name>rear_right_flipper_j</joint_name>
+      <max_velocity>0.8</max_velocity>
     </plugin>
 
     <!--
