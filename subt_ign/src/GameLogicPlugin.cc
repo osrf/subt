@@ -24,6 +24,7 @@
 
 #include <algorithm>
 #include <chrono>
+#include <cmath>
 #include <map>
 #include <mutex>
 #include <utility>
@@ -51,6 +52,8 @@
 #include <ignition/common/Util.hh>
 #include <ignition/common/Time.hh>
 #include <ignition/math/Pose3.hh>
+#include <ignition/math/Quaternion.hh>
+#include <ignition/math/Vector3.hh>
 #include <ignition/transport/Node.hh>
 #include <sdf/sdf.hh>
 
@@ -207,6 +210,9 @@ class subt::GameLogicPluginPrivate
   public: bool OnFinishCall(const ignition::msgs::Boolean &_req,
                ignition::msgs::Boolean &_res);
 
+  /// \brief Checks if a robot has flipped.
+  public: void CheckRobotFlip();
+
   /// \brief Ignition Transport node.
   public: transport::Node node;
 
@@ -299,6 +305,11 @@ class subt::GameLogicPluginPrivate
 
   /// \brief A map of robot name and its previous pose
   public: std::map<std::string, ignition::math::Pose3d> robotPrevPose;
+
+  /// \brief A map of robot name to its flip information.
+  /// The value is a pair stating the sim time where the most recent flip started,
+  /// and if the robot is currently flipped.
+  public: std::map<std::string, std::pair<int64_t, bool>> robotFlipInfo;
 
   /// \brief Robot name with the max velocity
   public: std::pair<std::string, double> maxRobotVel = {"", 0};
@@ -1088,6 +1099,8 @@ void GameLogicPlugin::PostUpdate(
         this->dataPtr->reportCount);
     this->dataPtr->artifactReportPub.Publish(limitMsg);
   }
+
+  this->dataPtr->CheckRobotFlip();
 
   // Periodically update the score file.
   if (!this->dataPtr->finished && currentTime -
@@ -1957,4 +1970,47 @@ std::ofstream &GameLogicPluginPrivate::Log()
   this->logStream << this->simTime.sec()
                   << " " << this->simTime.nsec() << " ";
   return this->logStream;
+}
+
+/////////////////////////////////////////////////
+void GameLogicPluginPrivate::CheckRobotFlip()
+{
+  for (const auto &posePair : this->robotPrevPose)
+  {
+    auto name = posePair.first;
+    auto pose = posePair.second;
+
+    if (this->robotFlipInfo.find(name) == this->robotFlipInfo.end())
+    {
+      this->robotFlipInfo[name] = {this->simTime.sec(), false};
+      continue;
+    }
+
+    // Get cos(theta) between the world's z-axis and the robot's z-axis
+    // If they are in opposite directions (cos(theta) close to -1), robot is flipped
+    ignition::math::Vector3d a = pose.Rot() * ignition::math::Vector3d(0,0,1);
+    auto cos_theta = a.Z();
+    if (std::abs(-1 - cos_theta) <= 0.1 )
+    {
+      // make sure the robot has been flipped for a few seconds before logging a flip
+      // (avoid false positives)
+      auto simElapsed = this->simTime.sec() - this->robotFlipInfo[name].first;
+      if (!this->robotFlipInfo[name].second && (simElapsed >= 3))
+      {
+        this->robotFlipInfo[name].second = true;
+
+        std::ostringstream stream;
+        stream
+          << "- event:\n"
+          << "  type: flip\n"
+          << "  time_sec: " << this->simTime.sec() << "\n"
+          << "  robot:" << name << "\n";
+        this->LogEvent(stream.str());
+      }
+    }
+    else
+    {
+      this->robotFlipInfo[name] = {this->simTime.sec(), false};
+    }
+  }
 }
