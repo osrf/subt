@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<root xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:arg name="has_jetson" default="0" />
+    <xacro:arg name="jetson_shift_x" default="0.515" />
+    <xacro:arg name="jetson_shift_y" default="0.145" />
+    <xacro:arg name="jetson_yaw" default="0.0" />
+    <xacro:arg name="jetson_version" default="1" />
+
+    <xacro:property name="jetson_version" value="$(arg jetson_version)" />
+    <xacro:if value="$(arg has_jetson)">
+        <link name="$(arg prefix)jetson">
+            <visual>
+                <origin rpy="0 0 0" xyz="0 0 ${0.055/2}" />
+                <geometry>
+                    <xacro:if value="${jetson_version == 1}">
+                        <box size="0.05 0.088 0.055" />
+                    </xacro:if>
+                    <xacro:if value="${jetson_version == 2}">
+                        <box size="0.07 0.1 0.055" />
+                    </xacro:if>
+                </geometry>
+                <material name="aluminium">
+                    <color rgba="0.8 0.8 0.8 1"/>
+                </material>
+            </visual>
+            <collision>
+                <origin rpy="0 0 0" xyz="0 0 ${0.055/2}" />
+                <geometry>
+                    <xacro:if value="${jetson_version == 1}">
+                        <box size="0.05 0.088 0.055" />
+                    </xacro:if>
+                    <xacro:if value="${jetson_version == 2}">
+                        <box size="0.07 0.1 0.055" />
+                    </xacro:if>
+                </geometry>
+            </collision>
+        </link>
+        <joint name="jetson_j" type="fixed">
+            <parent link="$(arg prefix)rear_right_box"/>
+            <child link="$(arg prefix)jetson"/>
+            <origin xyz="$(arg jetson_shift_x) $(arg jetson_shift_y) 0" rpy="0 0 0"/>
+        </joint>
+    </xacro:if>
+
+</root>

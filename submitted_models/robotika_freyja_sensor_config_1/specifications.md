@@ -3,7 +3,8 @@ DARPA Subterranean Challenge Technology Repository -->
 # Robotika - Freyja
 This specifications.md file is a description and proof of virtual model validation for
 Robotika's robot Freyja with Sensor Configuration 1. This robot may be launched using
-a `roslaunch` command with the variable name `robotika_freyja_sensor_config_1`.
+a `ign launch` command with the variable name `robotika_freyja_sensor_config_1`.
+
 ## Description
 Freyja is a four-wheel all-terrain ground vehicle. With weight under 30 kg and its
 medium size, Freyja can be transported by a single person as a check-in baggage on an
@@ -34,11 +35,14 @@ plugins.
 * Wheel odometry - wheel encoders modelled by `pose-publisher`
 plugin.
 * Gas sensor &mdash; Winsen MH-Z19B, modeled by GasEmitterDetector plugin.
+* 6 communication breadcrumbs are also available as a payload for this robot in sensor configuration 2.
+
 ## Control
 Freyja is controlled by the open-source Osgar framework or by custom Erro framework.
+
 ## Motion Characteristics
 Based on the tests specified in the DARPA SubT Challenge [Model Preparation
-Guide](https://subtchallenge.com/\<fix_me\>), this vehicle has the following motion
+Guide](https://subtchallenge.com/resources/Simulation_Model_Preparation_Guide.pdf), this vehicle has the following motion
 constraint characteristics:
 
 * _x_ velocity range from -2.5 m/s to 2.5 m/s
@@ -50,18 +54,19 @@ package:
 
 * Front left wheel maximum velocity and torque &mdash; model.sdf, lines 1415 and 1417
 * Other wheels &mdash; just below Front Left wheel in the same file.
+* Velocity and acceleration limits applied to the `diff_drive` plugin in the `spawner.rb` file, lines 23-26
 
 ## Endurance Characteristics
-Based on the tests specified in the DARPA SubT Challenge [Model Preparation
-Guide](https://subtchallenge.com/\<fix_me\>), this vehicle has the following
-endurance characteristics:
-
-* Battery life of 14400 seconds
+This vehicle has a battery life of 14400 seconds, but the model has been limited to have 1 hour endurance until endurance validation data can be provided.
 
 ## Diversions from Physical Hardware of Freyja
 Virtual Freyja is a faithful representation of real-world Freya both in appearance and
 in physical properties. It does not model long-range low-bandwidth (LoRa) mesh
 communication of the real robot.
+
+The endurance characteristic above is approximated to match existing models until endurance validation data can be provided.
+
+The physical robot has 0 communication breadcrumbs. 6 breadcrumbs are included in sensor configuration 2 which is standardized to match other available models.
 
 # <a name="validation_links"></a>Freyja Validation and Specification Links
 

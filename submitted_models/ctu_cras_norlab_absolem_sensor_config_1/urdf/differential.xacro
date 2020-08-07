@@ -1,0 +1,157 @@
+<?xml version="1.0"?>
+<root xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <link name="$(arg prefix)differential">
+        <visual>
+            <origin xyz="0 0 0" rpy="${pi/2} 0 0" />
+            <geometry>
+                <cylinder radius="0.01" length="0.28"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="${pi/2} 0 0" />
+            <geometry>
+                <cylinder radius="0.01" length="0.28"/>
+            </geometry>
+        </collision>
+        <xacro:cylinder_inertial radius="0.01" length="0.28" mass="0.5">
+            <origin xyz="0 0 0" rpy="${pi/2} 0 0" />
+        </xacro:cylinder_inertial>
+        <selfCollide>false</selfCollide>
+    </link>
+
+    <joint name="differential_body_j" type="revolute">
+        <parent link="$(arg prefix)base_link" />
+        <child link="$(arg prefix)differential" />
+        <axis xyz="0 1 0" />
+        <origin xyz="0.07 0 0.14" rpy="0 0 0" />
+        <limit lower="-1" upper="1" effort="0" velocity="4" />
+        <gazebo><xacro:rigid_joint_tags/></gazebo>
+    </joint>
+
+    <link name="$(arg prefix)differential_hinge_l">
+        <visual>
+            <origin xyz="0.03 0.14 0" rpy="0 0 0" />
+            <geometry>
+                <box size="0.07 0.01 0.03" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0.03 0.14 0" rpy="0 0 0" />
+            <geometry>
+                <box size="0.07 0.01 0.03" />
+            </geometry>
+        </collision>
+        <xacro:box_inertial width="0.07" height="0.01" depth="0.03" mass="0.1">
+            <origin xyz="0.03 0.14 0" rpy="0 0 0" />
+        </xacro:box_inertial>
+        <selfCollide>false</selfCollide>
+    </link>
+    <xacro:fixed_joint name="differential_hinge_l_j" parent="$(arg prefix)differential" child="$(arg prefix)differential_hinge_l" xyz="0 0 0" rpy="0 0 0" />
+
+    <link name="$(arg prefix)differential_hinge_r">
+        <visual>
+            <origin xyz="-0.03 -0.14 0" rpy="0 0 0" />
+            <geometry>
+                <box size="0.07 0.01 0.03" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="-0.03 -0.14 0" rpy="0 0 0" />
+            <geometry>
+                <box size="0.07 0.01 0.03" />
+            </geometry>
+        </collision>
+        <xacro:box_inertial width="0.07" height="0.01" depth="0.03" mass="0.1">
+            <origin xyz="-0.03 -0.14 0" rpy="0 0 0" />
+        </xacro:box_inertial>
+        <selfCollide>false</selfCollide>
+    </link>
+    <xacro:fixed_joint name="differential_hinge_r_j" parent="$(arg prefix)differential" child="$(arg prefix)differential_hinge_r" xyz="0 0 0" rpy="0 0 0" />
+
+    <link name="$(arg prefix)differential_arm_l">
+        <visual>
+            <origin xyz="0 0 -0.075" rpy="0 0 0" />
+            <geometry>
+                <cylinder radius="0.005" length="0.155" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 -0.075" rpy="0 0 0" />
+            <geometry>
+                <cylinder radius="0.005" length="0.155" />
+            </geometry>
+        </collision>
+        <xacro:cylinder_inertial radius="0.005" length="0.155" mass="0.1">
+            <origin xyz="0 0 -0.075" rpy="0 0 0" />
+        </xacro:cylinder_inertial>
+        <selfCollide>false</selfCollide>
+    </link>
+    <joint name="differential_arm_l_j" type="revolute">
+        <parent link="$(arg prefix)differential_hinge_l" />
+        <child link="$(arg prefix)differential_arm_l" />
+        <axis xyz="0 1 0" />
+        <origin xyz="0.06 0.14 0" rpy="0 0.4 0" />
+        <limit lower="-1" upper="1" effort="0" velocity="4" />
+        <gazebo><xacro:rigid_joint_tags/></gazebo>
+    </joint>
+
+    <link name="$(arg prefix)differential_arm_r">
+        <visual>
+            <origin xyz="0 0 -0.075" rpy="0 0 0" />
+            <geometry>
+                <cylinder radius="0.005" length="0.155" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 -0.075" rpy="0 0 0" />
+            <geometry>
+                <cylinder radius="0.005" length="0.155" />
+            </geometry>
+        </collision>
+        <xacro:cylinder_inertial radius="0.005" length="0.155" mass="0.1">
+            <origin xyz="0 0 -0.075" rpy="0 0 0" />
+        </xacro:cylinder_inertial>
+        <selfCollide>false</selfCollide>
+    </link>
+    <joint name="differential_arm_r_j" type="revolute">
+        <parent link="$(arg prefix)differential_hinge_r" />
+        <child link="$(arg prefix)differential_arm_r" />
+        <axis xyz="0 1 0" />
+        <origin xyz="-0.06 -0.14 0" rpy="0 -0.4 0" />
+        <limit lower="-1" upper="1" effort="0" velocity="4" />
+        <gazebo><xacro:rigid_joint_tags/></gazebo>
+    </joint>
+
+    <!-- These joints cannot be a part of the URDF, since they close the kinematic loop and URDF doesn't suport
+         closed kinematic loops. -->
+    <gazebo>
+        <joint name="differential_track_l_j" type="revolute">
+            <parent>$(arg prefix)left_track</parent>
+            <child>$(arg prefix)differential_arm_l</child>
+            <pose>0 0 -0.155 0 0 0</pose>
+            <axis>
+                <xyz>0 1 0</xyz>
+                <limit>
+                    <lower>-1</lower>
+                    <upper>1</upper>
+                </limit>
+                <use_parent_model_frame>1</use_parent_model_frame>
+            </axis>
+            <xacro:rigid_joint_tags/>
+        </joint>
+        <joint name="differential_track_r_j" type="revolute">
+            <parent>$(arg prefix)right_track</parent>
+            <child>$(arg prefix)differential_arm_r</child>
+            <pose>0 0 -0.155 0 0 0</pose>
+            <axis>
+                <xyz>0 1 0</xyz>
+                <limit>
+                    <lower>-1</lower>
+                    <upper>1</upper>
+                </limit>
+                <use_parent_model_frame>1</use_parent_model_frame>
+            </axis>
+            <xacro:rigid_joint_tags/>
+        </joint>
+    </gazebo>
+</root>

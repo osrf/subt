@@ -22,8 +22,8 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <topic>/model/#{_name}/cmd_vel_relay</topic>
         <min_velocity>-1</min_velocity>
         <max_velocity>1</max_velocity>
-        <min_acceleration>-10</min_acceleration>
-        <max_acceleration>10</max_acceleration>
+        <min_acceleration>-1.24</min_acceleration>
+        <max_acceleration>1.16</max_acceleration>
       </plugin>
       <!-- Publish robot state information -->
       <plugin filename="libignition-gazebo-pose-publisher-system.so"

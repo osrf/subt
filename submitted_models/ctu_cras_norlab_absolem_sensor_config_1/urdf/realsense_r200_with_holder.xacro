@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<root xmlns:xacro="http://www.ros.org/wiki/xacro">    
+
+<xacro:include filename="$(find ctu_cras_norlab_absolem_sensor_config_1)/urdf/realsense_r200.xacro" />
+
+<xacro:macro name="realsense_r200_with_holder" params="camera_name tilt sensor_shift_y upside_down">
+
+    <xacro:realsense_r200 camera_name="${camera_name}" />
+
+    <link name="$(arg prefix)realsense_holder_part1">
+        <visual>
+            <origin rpy="3.14152 0 0" xyz="-0.068 -0.002 0"/>
+            <geometry>
+                <mesh scale="0.001 0.001 0.001"
+                      filename="package://ctu_cras_norlab_absolem_sensor_config_1/meshes/lb3_mount.dae"/>
+            </geometry>
+        </visual>
+
+        <visual>
+            <origin rpy="0 0 1.5707" xyz="-0.001 -0.017 0.005"/>
+            <geometry>
+                <mesh scale="0.001 0.001 0.001"
+                      filename="package://ctu_cras_norlab_absolem_sensor_config_1/meshes/r200_stand_chamfer.dae"/>
+            </geometry>
+        </visual>
+
+        <collision>
+            <origin rpy="0 0 0" xyz="-0.065 0 -0.015"/>
+            <geometry>
+                <cylinder radius="0.08" length="0.044"/>
+            </geometry>
+        </collision>
+
+        <collision>
+            <origin rpy="0 0 0" xyz="-0.015 0.0025 0.03"/>
+            <geometry>
+                <box size="0.035 0.045 0.05"/>
+            </geometry>
+        </collision>
+
+        <collision>
+            <origin rpy="0 0 0" xyz="0.01 0.018 0.045"/>
+            <geometry>
+                <box size="0.028 0.01 0.02"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint name="realsense_holder_part2_j" type="fixed">
+        <parent link="$(arg prefix)realsense_holder_part1"/>
+        <child link="$(arg prefix)realsense_holder_part2"/>
+        <xacro:unless value="${upside_down}">
+            <origin xyz="0.01 0.025 0.045" rpy="0 ${tilt} 0"/>
+        </xacro:unless>
+        <xacro:if value="${upside_down}">
+            <origin xyz="0.01 0.012 0.045" rpy="3.141592 ${tilt} 0"/>
+        </xacro:if>
+    </joint>
+
+    <link name="$(arg prefix)realsense_holder_part2">
+        <visual>
+            <origin rpy="1.5707 3.141592 1.5707" xyz="0.0117 0.008 0.0117"/>
+            <geometry>
+                <mesh scale="0.001 0.001 0.001"
+                      filename="package://ctu_cras_norlab_absolem_sensor_config_1/meshes/r200_mount1.dae"/>
+            </geometry>
+        </visual>
+
+        <collision>
+            <origin rpy="0 0 0" xyz="0.015 -0.018 -0.001"/>
+            <geometry>
+                <box size="0.008 0.05 0.025"/>
+            </geometry>
+        </collision>
+
+        <collision>
+            <origin rpy="0 0 0" xyz="0.005 0.004 0"/>
+            <geometry>
+                <box size="0.035 0.01 0.028"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint name="realsense_holder_cam_j" type="fixed">
+        <parent link="$(arg prefix)realsense_holder_part2"/>
+        <child link="$(arg prefix)${camera_name}_link"/>
+        <origin xyz="0.0225 ${sensor_shift_y-0.04} -0.00" rpy="0 0 0"/>
+    </joint>
+
+</xacro:macro>
+</root>
