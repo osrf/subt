@@ -131,7 +131,7 @@
       type="parameter_bridge"
       name="ros_ign_bridge_joint_state_publisher"
       args="/world/$(arg world_name)/model/$(arg name)/joint_state@sensor_msgs/JointState[ignition.msgs.Model">
-      <remap from="/world/$(arg world_name)/model/$(arg name)/joint_state" to="joint_states"/>
+      <remap from="/world/$(arg world_name)/model/$(arg name)/joint_state" to="joint_state"/>
     </node>
     
     <!-- Slightly downward looking RGBD camera -->
