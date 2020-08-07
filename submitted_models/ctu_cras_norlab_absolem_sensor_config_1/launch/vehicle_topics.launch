@@ -122,7 +122,7 @@
       type="parameter_bridge"
       name="ros_ign_bridge_laser"
       args="/model/$(arg name)/joint/laser_j/cmd_vel@std_msgs/Float64]ignition.msgs.Double">
-      <remap from="/model/$(arg name)/joint/laser_j/cmd_vel" to="scanning_speed_cmd"/>
+      <remap from="/model/$(arg name)/joint/laser_j/cmd_vel" to="lidar_gimbal/roll_rate_cmd_double"/>
     </node>
     
     <!-- Joint Publisher (Publishes to topic but doesn't control...)-->
