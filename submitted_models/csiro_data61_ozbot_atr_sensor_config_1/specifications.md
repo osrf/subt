@@ -28,6 +28,7 @@ The following specific sensors are declared payloads of this vehicle:
 * A Velodyne VLP-16 Lidar, modeled by the gpu_lidar plugin. (note this lidar is also mounted at 45 degrees on a rotating gimbal for to give a near-360 degree FOV)
 * ECON e-CAM130_CUXVR Quad Camera system with each camera mounted on one side of the payload. The version on the platform is a custom set of sensors run at a resolution of 2016x1512, hardware triggered at 15fps. They are modeled by the standard camera plugin
 * A Microstrain CV5-25 IMU, modeled by the standard imu plugin
+* 12 communication breadcrumbs are also available as a payload for this robot in sensor configuration 2.
 
 ### Control
 The platform is controlled by the standard diff-drive plugin for ignition gazebo, with twist inputs on "/<robotName>/cmd_vel", The robot has the following motion characteristics. Note there is also a gimbal for spinning the lidar, which is controlled on "/"<robotName>/lidar_gimbal/pan_rate_cmd_double"
