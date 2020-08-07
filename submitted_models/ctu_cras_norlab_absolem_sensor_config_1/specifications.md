@@ -9,7 +9,7 @@ This configuration is based BlueBotics Absolem tracked robot. The robot is equip
 ## Usage Instructions
 The robot motion is controlled via standard `cmd_vel` commands.
 
-Flippers can be velocity-controlled by publishing to topics `flippers_cmd_vel/front_left` (`front_right`, `rear_left`, `rear_right`) (`std_msgs/Float64`). We strongly suggest writing a positional controller. It should however respect the maximum velocity of `pi/4 rad/s`. The effort limits in the model were set so that the robot can support itself with the flippers, but cannot use them to lift itself on all four flippers. This is how the real flippers work. The current position of the flippers is published to `joint_states` as `front_left_flipper_j` etc. The flippers can continuously rotate.
+Flippers can be velocity-controlled by publishing to topics `flippers_cmd_vel/front_left` (`front_right`, `rear_left`, `rear_right`) (`std_msgs/Float64`) for velocity control or topics `flippers_cmd_pos/front_left`, etc. for position control. Maximum angular velocity of the flippers is `pi/4 rad/s`. The effort limits in the model were set so that the robot can support itself with the flippers, but cannot use them to lift itself on all four flippers. This is how the real flippers work. The current position of the flippers is published to `joint_states` as `front_left_flipper_j` etc. The flippers can continuously rotate.
 
 The laser rotation is velocity-controlled by publishing to topic `scanning_speed_cmd` (`std_msgs/Float64`). The laser has hard stops at `+-2.36 rad` and maximum rotation velocity is `1.2 rad/s`. The laser has an automatic controller that reverses the rotation direction at a given angle (currently ca. `1.6 rad`). The current position of the laser is published to `joint_states` as `laser_j`. The default (zero) position of the laser is such that the scanning plane is levelled with ground.
 
@@ -37,6 +37,7 @@ The following specific sensors are declared payloads of this vehicle:
   - 1x fixed, downward-facing at about 30 degrees (for examining terrain)
 * Sick LMS-151 2D lidar, modeled by `gpu_lidar` plugin
 * XSens MTI-G 710 IMU: modeled by `imu_sensor` plugin.
+* 12 communication breadcrumbs are also available as a payload for this robot in sensor configuration 2.
 
 ### Control
 This robot is controlled by the DiffDrive plugin.  It accepts twist inputs which drives the vehicle along the x-direction and around the z-axis. We add additional 8 pseudo-wheels where the robot's tracks are to better approximate a track vehicle (flippers are subdivided to 5 pseudo-wheels). Currently, we are not aware of a track-vehicle plugin for ignition-gazebo.  A TrackedVehicle plugin does exist in gazebo8+, but it is not straightforward to port to ignition-gazebo.  We hope to work with other SubT teams and possibly experts among the ignition-gazebo developers to address this in the future.
@@ -66,8 +67,6 @@ This configuration has an endurance of approximately 2 hours. The endurance test
 There is a little "tower" (or a "rod") to which we attach our communication device (Mobilicom MCU-30 Lite). This device is modeled just by the generic SubT comms plugin.
 
 The tracks and flippers have to be approximated by wheels, as DartSim/Ignition Gazebo have no support for tracked vehicles. There is a working model for ODE/Gazebo, but there is no straight way of transferring it to Ignition Gazebo. This approximation results in worse performance on obstacles, and it can even happen that a piece of terrain gets "stuck" right between two wheels and the robot would completely stop in a case that would not be a problem with real tracks. 
-
-The RGBD camera has no depth noise at all. That is a problem of Ignition Gazebo.
 
 ## Validation and Specification Links
 * Vehicle Links:
