@@ -866,7 +866,7 @@
 	
 	<xacro:macro name="flipper_fake_wheel" params="prefix1 prefix2 reflect_y do_inward_enlargement num_wheels wheel_num">
 			<link name="$(arg prefix)${prefix1}_${prefix2}_flipper_wheel${wheel_num}">
-					<collision name="${prefix1}_${prefix2}_flipper_collision_wheel${wheel_num}">
+					<collision name="${prefix1}_${prefix2}_flipper_wheel${wheel_num}_collision">
 							<origin rpy="${pi/2} 0 0" xyz="0 0 0"/>
 							<geometry>
 									<cylinder length="${$(arg rover_flipperWidth)+$(arg flipper_inward_enlargement)*do_inward_enlargement}" radius="${(0.029+($(arg rover_trackWheelRadius)-0.029)*(num_wheels-wheel_num)/(num_wheels-1)) * (1 + ($(arg flipper_inflation_ratio)-1)*do_inward_enlargement)}" />
@@ -1159,21 +1159,25 @@
         <kinematic>false</kinematic>
     </xacro:macro>
 
-    <xacro:macro name="gazebo_flipper_tags">
-        <selfCollide>true</selfCollide>
-    </xacro:macro>
-
     <xacro:macro name="track_base_surface">
         <surface>
-            <friction>
-                <ode>
-                    <mu>$(arg track_mu)</mu>
-                    <mu2>$(arg track_mu2)</mu2>
-                    <fdir1>0 1 0</fdir1> <!-- is overridden by the plugin -->
-                </ode>
-            </friction>
+			<contact>
+				<ode>
+					<kp>1e+07</kp>
+					<kd>1</kd>
+				</ode>
+			</contact>
+			<friction>
+				<ode>
+					<mu>$(arg track_mu)</mu>
+					<mu2>$(arg track_mu2)</mu2>
+					<slip1>0.035</slip1>
+					<slip2>0</slip2>
+					<fdir1>0 0 1</fdir1>
+				</ode>
+			</friction>
         </surface>
-        <max_contacts>20</max_contacts>
+<!--        <max_contacts>20</max_contacts>-->
     </xacro:macro>
 
     <xacro:macro name="flipper_surface">
@@ -1182,54 +1186,69 @@
     <xacro:macro name="track_surface">
     </xacro:macro>
 
-    <gazebo reference="$(arg prefix)left_track">
+	<xacro:macro name="gazebo_track_tags">
 		<xacro:gazebo_default_tags />
-        <collision>
-            <xacro:track_base_surface />
-            <xacro:track_surface />
-        </collision>
-	</gazebo>
-    <gazebo reference="$(arg prefix)right_track">
+		<collision>
+			<xacro:track_base_surface />
+			<xacro:track_surface />
+		</collision>
+	</xacro:macro>
+
+	<xacro:macro name="gazebo_flipper_tags">
 		<xacro:gazebo_default_tags />
-        <collision>
-            <xacro:track_base_surface />
-            <xacro:track_surface />
-        </collision>
-    </gazebo>
+		<selfCollide>true</selfCollide>
+		<collision>
+			<xacro:track_base_surface />
+			<xacro:flipper_surface />
+		</collision>
+	</xacro:macro>
+
+    <gazebo reference="$(arg prefix)left_track"><xacro:gazebo_track_tags /></gazebo>
+    <gazebo reference="$(arg prefix)right_track"><xacro:gazebo_track_tags /></gazebo>
+
+    <gazebo reference="$(arg prefix)left_track_wheel1"><xacro:gazebo_track_tags /></gazebo>
+    <gazebo reference="$(arg prefix)right_track_wheel1"><xacro:gazebo_track_tags /></gazebo>
+    <gazebo reference="$(arg prefix)left_track_wheel2"><xacro:gazebo_track_tags /></gazebo>
+    <gazebo reference="$(arg prefix)right_track_wheel2"><xacro:gazebo_track_tags /></gazebo>
+    <gazebo reference="$(arg prefix)left_track_wheel3"><xacro:gazebo_track_tags /></gazebo>
+    <gazebo reference="$(arg prefix)right_track_wheel3"><xacro:gazebo_track_tags /></gazebo>
+    <gazebo reference="$(arg prefix)left_track_wheel4"><xacro:gazebo_track_tags /></gazebo>
+    <gazebo reference="$(arg prefix)right_track_wheel4"><xacro:gazebo_track_tags /></gazebo>
+    <gazebo reference="$(arg prefix)left_track_wheel5"><xacro:gazebo_track_tags /></gazebo>
+    <gazebo reference="$(arg prefix)right_track_wheel5"><xacro:gazebo_track_tags /></gazebo>
+    <gazebo reference="$(arg prefix)left_track_wheel6"><xacro:gazebo_track_tags /></gazebo>
+    <gazebo reference="$(arg prefix)right_track_wheel6"><xacro:gazebo_track_tags /></gazebo>
+    <gazebo reference="$(arg prefix)left_track_wheel7"><xacro:gazebo_track_tags /></gazebo>
+    <gazebo reference="$(arg prefix)right_track_wheel7"><xacro:gazebo_track_tags /></gazebo>
+    <gazebo reference="$(arg prefix)left_track_wheel8"><xacro:gazebo_track_tags /></gazebo>
+    <gazebo reference="$(arg prefix)right_track_wheel8"><xacro:gazebo_track_tags /></gazebo>
 
     <xacro:if value="$(arg has_flippers)">
-        <gazebo reference="$(arg prefix)front_left_flipper">
-            <xacro:gazebo_default_tags />
-            <xacro:gazebo_flipper_tags />
-            <collision>
-                <xacro:track_base_surface />
-                <xacro:flipper_surface />
-            </collision>
-        </gazebo>
-        <gazebo reference="$(arg prefix)front_right_flipper">
-            <xacro:gazebo_default_tags />
-            <xacro:gazebo_flipper_tags />
-            <collision>
-                <xacro:track_base_surface />
-                <xacro:flipper_surface />
-            </collision>
-        </gazebo>
-        <gazebo reference="$(arg prefix)rear_left_flipper">
-            <xacro:gazebo_default_tags />
-            <xacro:gazebo_flipper_tags />
-            <collision>
-                <xacro:track_base_surface />
-                <xacro:flipper_surface />
-            </collision>
-        </gazebo>
-        <gazebo reference="$(arg prefix)rear_right_flipper">
-            <xacro:gazebo_default_tags />
-            <xacro:gazebo_flipper_tags />
-            <collision>
-                <xacro:track_base_surface />
-                <xacro:flipper_surface />
-            </collision>
-        </gazebo>
+        <gazebo reference="$(arg prefix)front_left_flipper"><xacro:gazebo_flipper_tags /></gazebo>
+        <gazebo reference="$(arg prefix)front_right_flipper"><xacro:gazebo_flipper_tags /></gazebo>
+        <gazebo reference="$(arg prefix)rear_left_flipper"><xacro:gazebo_flipper_tags /></gazebo>
+        <gazebo reference="$(arg prefix)rear_right_flipper"><xacro:gazebo_flipper_tags /></gazebo>
+
+        <gazebo reference="$(arg prefix)front_left_flipper_wheel1"><xacro:gazebo_flipper_tags /></gazebo>
+        <gazebo reference="$(arg prefix)front_right_flipper_wheel1"><xacro:gazebo_flipper_tags /></gazebo>
+        <gazebo reference="$(arg prefix)rear_left_flipper_wheel1"><xacro:gazebo_flipper_tags /></gazebo>
+        <gazebo reference="$(arg prefix)rear_right_flipper_wheel1"><xacro:gazebo_flipper_tags /></gazebo>
+        <gazebo reference="$(arg prefix)front_left_flipper_wheel2"><xacro:gazebo_flipper_tags /></gazebo>
+        <gazebo reference="$(arg prefix)front_right_flipper_wheel2"><xacro:gazebo_flipper_tags /></gazebo>
+        <gazebo reference="$(arg prefix)rear_left_flipper_wheel2"><xacro:gazebo_flipper_tags /></gazebo>
+        <gazebo reference="$(arg prefix)rear_right_flipper_wheel2"><xacro:gazebo_flipper_tags /></gazebo>
+        <gazebo reference="$(arg prefix)front_left_flipper_wheel3"><xacro:gazebo_flipper_tags /></gazebo>
+        <gazebo reference="$(arg prefix)front_right_flipper_wheel3"><xacro:gazebo_flipper_tags /></gazebo>
+        <gazebo reference="$(arg prefix)rear_left_flipper_wheel3"><xacro:gazebo_flipper_tags /></gazebo>
+        <gazebo reference="$(arg prefix)rear_right_flipper_wheel3"><xacro:gazebo_flipper_tags /></gazebo>
+        <gazebo reference="$(arg prefix)front_left_flipper_wheel4"><xacro:gazebo_flipper_tags /></gazebo>
+        <gazebo reference="$(arg prefix)front_right_flipper_wheel4"><xacro:gazebo_flipper_tags /></gazebo>
+        <gazebo reference="$(arg prefix)rear_left_flipper_wheel4"><xacro:gazebo_flipper_tags /></gazebo>
+        <gazebo reference="$(arg prefix)rear_right_flipper_wheel4"><xacro:gazebo_flipper_tags /></gazebo>
+        <gazebo reference="$(arg prefix)front_left_flipper_wheel5"><xacro:gazebo_flipper_tags /></gazebo>
+        <gazebo reference="$(arg prefix)front_right_flipper_wheel5"><xacro:gazebo_flipper_tags /></gazebo>
+        <gazebo reference="$(arg prefix)rear_left_flipper_wheel5"><xacro:gazebo_flipper_tags /></gazebo>
+        <gazebo reference="$(arg prefix)rear_right_flipper_wheel5"><xacro:gazebo_flipper_tags /></gazebo>
     </xacro:if>
 
     <xacro:if value="$(arg has_sick_lidar)">
@@ -1263,7 +1282,6 @@
 									  <!-- TODO -->
 <!--                <time_increment>2.77777780866e-05</time_increment>-->
 <!--                <scan_time>0.019999999553</scan_time>-->
-<!--                <angle_increment>0.00872664619237</angle_increment>-->
                 </sensor>
             </xacro:if>
         </gazebo>

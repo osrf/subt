@@ -42,12 +42,12 @@ This is the Gazebo URDF model for the Intel RealSense D435 camera
               <format>RGB_INT8</format>
             </image>
             <clip>
-              <near>0.01</near>
+              <near>0.1</near> <!-- not less, the image would be obstructed-->
               <far>100</far>
             </clip>
             <depth_camera>
               <clip>
-                <near>0.1</near>
+                <near>0.1</near> <!-- not less, the image would be obstructed-->
                 <far>10</far>
               </clip>
             </depth_camera>
@@ -61,5 +61,23 @@ This is the Gazebo URDF model for the Intel RealSense D435 camera
           <update_rate>$(arg realsense_fps)</update_rate>
           <pose frame="">0.0 0 0.0 0 0.0 0</pose>
         </sensor>
+    </gazebo>
+
+    <gazebo reference="$(arg prefix)realsense_holder_part2">
+      <visual>
+        <material>
+          <diffuse>.5 0.5 0.5 1</diffuse>
+          <ambient>.1 0.1 0.1 1</ambient>
+        </material>
+      </visual>
+    </gazebo>
+
+    <gazebo reference="$(arg prefix)$(arg realsense_name)_link">
+      <visual>
+        <material>
+          <diffuse>.5 0.5 0.5 1</diffuse>
+          <ambient>.1 0.1 0.1 1</ambient>
+        </material>
+      </visual>
     </gazebo>
 </robot>
