@@ -119,6 +119,13 @@
     "CSIRO_DATA61_OZBOT_ATR" => Vector3d.new(-0.15, 0, 0.528)
   }
 
+  MARSUPIAL_PARENT_ROBOT_ROTATION_OFFSETS = {
+    "X1" => AngularVector3d.new(0, 0, 0),
+    "EXPLORER_X1" => AngularVector3d.new(0, 0, 0),
+    "EXPLORER_R2" => AngularVector3d.new(0, 0, -3.1416),
+    "CSIRO_DATA61_OZBOT_ATR" => AngularVector3d.new(0, 0, -3.1416)
+  }
+  
   allExecutables = ""
 
   # key: parent, value: child
@@ -1366,7 +1373,9 @@
       robot.pos.x = parentRobot.pos.x + Math.cos(-spawnWorldYaw) * offsetX + Math.sin(-spawnWorldYaw) * offsetY
       robot.pos.y = parentRobot.pos.y - Math.sin(-spawnWorldYaw) * offsetX + Math.cos(-spawnWorldYaw) * offsetY
       robot.pos.z = parentRobot.pos.z + MARSUPIAL_PARENT_ROBOT_POSITION_OFFSETS[parentRobot.type].z
-      robot.rot = parentRobot.rot
+      robot.rot.roll = parentRobot.rot.roll + MARSUPIAL_PARENT_ROBOT_ROTATION_OFFSETS[parentRobot.type].roll
+      robot.rot.pitch = parentRobot.rot.pitch + MARSUPIAL_PARENT_ROBOT_ROTATION_OFFSETS[parentRobot.type].pitch
+      robot.rot.yaw = parentRobot.rot.yaw + MARSUPIAL_PARENT_ROBOT_ROTATION_OFFSETS[parentRobot.type].yaw
     else
       x = Math.cos(-spawnWorldYaw) * posX + Math.sin(-spawnWorldYaw) * posY
       y = -(Math.sin(-spawnWorldYaw)) * posX + Math.cos(-spawnWorldYaw) * posY
