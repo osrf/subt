@@ -112,7 +112,7 @@
     end
   end
 
-   MARSUPIAL_VALID_ROBOT_PAIRS = {
+  MARSUPIAL_VALID_ROBOT_PAIRS = {
     "X1" => ["X3", "MARBLE_QAV500", "CERBERUS_GAGARIN"],
     "EXPLORER_X1" =>["X3", "MARBLE_QAV500", "CERBERUS_GAGARIN"],
     "EXPLORER_R2" =>["X3", "X4", "SSCI_X4", "SOPHISTICATED_ENGINEERING_X4", "EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100", "CERBERUS_GAGARIN"],
@@ -1498,7 +1498,7 @@
       allExecutables += executables
     end
 
-    if marsupialParents.has_key?(name) && robots[name].type.include?("X1")
+    if marsupialParents.has_key?(name)
       childModelName = marsupialParents[name]
        detachableJointPlugin = REXML::Document.new <<-HEREDOC
          <plugin filename="libignition-gazebo-detachable-joint-system.so" name="ignition::gazebo::systems::DetachableJoint">
@@ -1510,15 +1510,36 @@
          </plugin>
        HEREDOC
 
+       platformJointPlugin = ""
+       platform = ""
+
        # This will be use to attach the drone platform to the base.
-       platformJointPlugin = REXML::Document.new <<-HEREDOC
-         <plugin filename="libignition-gazebo-detachable-joint-system.so" name="ignition::gazebo::systems::DetachableJoint">
-         <parent_link>base_link</parent_link>
-         <child_model>#{name}_platform</child_model>
-         <child_link>base_link</child_link>
-         <suppress_child_warning>true</suppress_child_warning>
-         </plugin>
-       HEREDOC
+       if robots[name].type.include?("X1")
+         platformJointPlugin = REXML::Document.new <<-HEREDOC
+           <plugin filename="libignition-gazebo-detachable-joint-system.so" name="ignition::gazebo::systems::DetachableJoint">
+           <parent_link>base_link</parent_link>
+           <child_model>#{name}_platform</child_model>
+           <child_link>base_link</child_link>
+           <suppress_child_warning>true</suppress_child_warning>
+           </plugin>
+         HEREDOC
+
+         # This will be used to spawn the drone platform.
+         platform = <<-HEREDOC
+           <spawn name="#{name}_platform">
+             <name>#{name}_platform</name>
+             <allow_renaming>false</allow_renaming>
+             <pose>#{robot.pos.x + 0.078} #{robot.pos.y} #{robot.pos.z-0.11} 0 0 0</pose>
+             <world>#{$worldName}</world>
+             <is_performer>false</is_performer>
+             <sdf version='1.6'>
+               <include>
+                 <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/DronePlatformX1</uri>
+               </include>
+             </sdf>
+           </spawn>
+         HEREDOC
+       end
 
        rosExecutable = <<-HEREDOC
          <executable name="#{childModelName}_marsupial">
@@ -1526,22 +1547,6 @@
          </executable>
        HEREDOC
        allExecutables += rosExecutable
-
-       # This will be used to spawn the drone platform.
-       platform = <<-HEREDOC
-         <spawn name="#{name}_platform">
-           <name>#{name}_platform</name>
-           <allow_renaming>false</allow_renaming>
-           <pose>#{robot.pos.x + 0.078} #{robot.pos.y} #{robot.pos.z-0.11} 0 0 0</pose>
-           <world>#{$worldName}</world>
-           <is_performer>false</is_performer>
-           <sdf version='1.6'>
-             <include>
-               <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/DronePlatformX1</uri>
-             </include>
-           </sdf>
-         </spawn>
-       HEREDOC
 
        # Wrap the temporary spawn string with a root element. This is needed
        # because the xml parser needs a root element. When we're adding the
@@ -1551,7 +1556,9 @@
        pluginElem = spawnXml.root.elements[search]
        includeElem = pluginElem.elements['sdf/include']
        includeElem.add_element(detachableJointPlugin.root)
-       includeElem.add_element(platformJointPlugin.root)
+       if platformJointPlugin != ""
+         includeElem.add_element(platformJointPlugin.root)
+       end
 
        spawnString = ""
        formatter = REXML::Formatters::Default.new
