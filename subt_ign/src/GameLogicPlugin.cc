@@ -202,10 +202,7 @@ class subt::GameLogicPluginPrivate
                ignition::msgs::Boolean &_res);
 
   /// \brief Checks if a robot has flipped.
-  /// \param[in] _name The robot's name.
-  /// \param[in] _pose The robot's pose.
-  public: void CheckRobotFlip(const std::string &_name,
-                              const ignition::math::Pose3d &_pose);
+  public: void CheckRobotFlip();
 
   /// \brief Ignition Transport node.
   public: transport::Node node;
@@ -786,9 +783,6 @@ void GameLogicPlugin::PostUpdate(
               std::chrono::duration_cast<std::chrono::steady_clock::duration>
               (std::chrono::seconds(s) + std::chrono::nanoseconds(ns));
 
-          // check if the robot has flipped
-          this->dataPtr->CheckRobotFlip(name, pose);
-
           // store robot pose and velocity data only if robot has traveled
           // more than 1 meter
           auto robotPoseDataIt = this->dataPtr->robotPoseData.find(name);
@@ -1013,6 +1007,8 @@ void GameLogicPlugin::PostUpdate(
     this->dataPtr->startPub.Publish(msg);
     this->dataPtr->lastStatusPubTime = currentTime;
   }
+
+  this->dataPtr->CheckRobotFlip();
 
   // Periodically update the score file.
   if (!this->dataPtr->finished && currentTime -
@@ -1879,22 +1875,24 @@ std::ofstream &GameLogicPluginPrivate::Log()
 }
 
 /////////////////////////////////////////////////
-void GameLogicPluginPrivate::CheckRobotFlip(const std::string &_name,
-                                            const ignition::math::Pose3d &_pose)
+void GameLogicPluginPrivate::CheckRobotFlip()
 {
-  // Get cos(theta) between the world's z-axis and the robot's z-axis
-  // If they are in opposite directions (cos(theta) close to -1), robot is flipped
-  ignition::math::Vector3d a = _pose.Rot() * ignition::math::Vector3d(0,0,1);
-  auto cos_theta = a.Z();
-
-  if (std::abs(-1 - cos_theta) <= 0.1)
+  for (const auto &posePair : this->robotPrevPose)
   {
-    std::ostringstream stream;
-    stream
-      << "- event:\n"
-      << "  type: flip\n"
-      << "  time_sec: " << this->simTime.sec() << "\n"
-      << "  robot:" << _name << "\n";
-    this->LogEvent(stream.str());
+    // Get cos(theta) between the world's z-axis and the robot's z-axis
+    // If they are in opposite directions (cos(theta) close to -1), robot is flipped
+    ignition::math::Vector3d a = posePair.second.Rot() * ignition::math::Vector3d(0,0,1);
+    auto cos_theta = a.Z();
+
+    if (std::abs(-1 - cos_theta) <= 0.1)
+    {
+      std::ostringstream stream;
+      stream
+        << "- event:\n"
+        << "  type: flip\n"
+        << "  time_sec: " << this->simTime.sec() << "\n"
+        << "  robot:" << posePair.first << "\n";
+      this->LogEvent(stream.str());
+    }
   }
 }
