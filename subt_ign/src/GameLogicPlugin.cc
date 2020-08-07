@@ -28,6 +28,7 @@
 #include <mutex>
 #include <utility>
 
+#include <ignition/gazebo/components/BatterySoC.hh>
 #include <ignition/gazebo/components/DetachableJoint.hh>
 #include <ignition/gazebo/components/Performer.hh>
 #include <ignition/gazebo/components/Model.hh>
@@ -177,6 +178,12 @@ class subt::GameLogicPluginPrivate
   /// \param[in] _msg Detach message.
   /// \param[in] _info Message information.
   public: void OnDetachEvent(const ignition::msgs::Empty &_msg,
+    const transport::MessageInfo &_info);
+
+  /// \brief Battery subscription callback.
+  /// \param[in] _msg Battery message.
+  /// \param[in] _info Message information.
+  public: void OnBatteryMsg(const ignition::msgs::BatteryState &_msg,
     const transport::MessageInfo &_info);
 
   private: bool PoseFromArtifactHelper(const std::string &_robot,
@@ -421,6 +428,9 @@ class subt::GameLogicPluginPrivate
 
   /// \brief The set of marsupial pairs.
   public: std::map<std::string, std::string> marsupialPairs;
+
+  /// \brief Models with dead batteries.
+  public: std::set<std::string> deadBatteries;
 };
 
 //////////////////////////////////////////////////
@@ -557,6 +567,38 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
   // Make sure that there are score files.
   this->dataPtr->UpdateScoreFiles();
 }
+
+//////////////////////////////////////////////////
+void GameLogicPluginPrivate::OnBatteryMsg(
+    const ignition::msgs::BatteryState &_msg,
+    const transport::MessageInfo &_info)
+{
+  if (_msg.percentage() <= 0)
+  {
+    std::vector<std::string> topicParts = common::split(_info.Topic(), "/");
+    std::string name = "_unknown_";
+
+    // Get the name of the model from the topic name, where the topic name
+    // look like '/model/{model_name}/detach'.
+    if (topicParts.size() > 1)
+      name = topicParts[1];
+
+    // Make sure the event is logged once.
+    if (this->deadBatteries.find(name) == this->deadBatteries.end())
+    {
+      this->deadBatteries.emplace(name);
+      std::ostringstream stream;
+      stream
+        << "- event:\n"
+        << "  type: dead_battery\n"
+        << "  time_sec: " << this->simTime.sec() << "\n"
+        << "  robot: " << name << std::endl;
+
+      this->LogEvent(stream.str());
+    }
+  }
+}
+
 
 //////////////////////////////////////////////////
 void GameLogicPluginPrivate::OnDetachEvent(
@@ -724,6 +766,12 @@ void GameLogicPlugin::PostUpdate(
                 mName->Data() + "/detach";
               this->dataPtr->node.Subscribe(detachTopic,
                   &GameLogicPluginPrivate::OnDetachEvent, this->dataPtr.get());
+
+              // Subscribe to battery state in order to log battery events.
+              std::string batteryTopic = std::string("/model/") +
+                mName->Data() + "/battery/linear_battery/state";
+              this->dataPtr->node.Subscribe(batteryTopic,
+                  &GameLogicPluginPrivate::OnBatteryMsg, this->dataPtr.get());
             }
           }
           return true;
