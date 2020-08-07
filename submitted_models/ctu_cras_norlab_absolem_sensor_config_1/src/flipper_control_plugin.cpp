@@ -35,7 +35,7 @@ namespace cras
 ///
 /// `{topic_vel}` (`ignition::msgs::Double`): The desired rotation velocity of the flipper.
 /// `{topic_pos}` (`ignition::msgs::Double`): The positional setpoint of the flipper.
-class FlipperControlPlugin : public System, public ISystemConfigure, public ISystemPreUpdate, public ISystemPostUpdate
+class FlipperControlPlugin : public System, public ISystemConfigure, public ISystemPreUpdate
 {
   public: void Configure(const Entity& _entity, const std::shared_ptr<const sdf::Element>& _sdf,
                          EntityComponentManager& _ecm, EventManager& _eventMgr) override
@@ -69,13 +69,18 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
       topicVel = _sdf->Get<std::string>("topic_vel");
     this->node.Subscribe(topicVel, &FlipperControlPlugin::OnCmdVel, this);
 
-    std::string topicPos {"/model/" + this->model.Name(_ecm) + "/joint/" + this->jointName + "/cmd_pos"};
-    if (_sdf->HasElement("topic_pos"))
-      topicPos = _sdf->Get<std::string>("topic_pos");
-    this->node.Subscribe(topicPos, &FlipperControlPlugin::OnCmdPos, this);
+    std::string topicPosAbs {"/model/" + this->model.Name(_ecm) + "/joint/" + this->jointName + "/cmd_pos"};
+    if (_sdf->HasElement("topic_pos_abs"))
+      topicPosAbs = _sdf->Get<std::string>("topic_pos_abs");
+    this->node.Subscribe(topicPosAbs, &FlipperControlPlugin::OnCmdPosAbs, this);
+
+    std::string topicPosRel {"/model/" + this->model.Name(_ecm) + "/joint/" + this->jointName + "/cmd_pos_rel"};
+    if (_sdf->HasElement("topic_pos_rel"))
+      topicPosRel = _sdf->Get<std::string>("topic_pos_rel");
+    this->node.Subscribe(topicPosRel, &FlipperControlPlugin::OnCmdPosRel, this);
 
     ignmsg << "FlipperControlPlugin subscribing to cmd_vel messages on [" << topicVel << "] and cmd_pos messages on ["
-      << topicPos << "]" << std::endl;
+           << topicPosAbs << "] and cmd_pos_rel messages on [" << topicPosRel << "]" << std::endl;
   }
 
   public: void PreUpdate(const UpdateInfo& _info, EntityComponentManager& _ecm) override
@@ -117,10 +122,14 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
       }
       this->angularSpeed = velocity;
       this->cmdVel.reset();
-    } else if (this->cmdPos.has_value()) {
-      const auto position = this->cmdPos.value();
+    } else if (this->cmdPosAbs.has_value()) {
+      const auto position = this->cmdPosAbs.value();
       this->staticAngle = position;
-      this->cmdPos.reset();
+      this->cmdPosAbs.reset();
+    } else if (this->cmdPosRel.has_value()) {
+      const auto position = pos->Data()[0] + this->cmdPosRel.value();
+      this->staticAngle = position;
+      this->cmdPosRel.reset();
     }
 
     if (this->cmdTorque.has_value()) {
@@ -141,11 +150,6 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
     {
       *vel = components::JointVelocityCmd({velocityCommand});
     }
-  }
-
-  public: void PostUpdate(const UpdateInfo& _info, const EntityComponentManager& _ecm) override
-  {
-
   }
 
   // To mitigate integrating small velocity errors, if the flipper is said to be stationary, we check that its position
@@ -177,9 +181,14 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
     this->cmdVel = _msg.data();
   }
 
-  public: void OnCmdPos(const msgs::Double &_msg)
+  public: void OnCmdPosAbs(const msgs::Double &_msg)
   {
-    this->cmdPos = _msg.data();
+    this->cmdPosAbs = _msg.data();
+  }
+
+  public: void OnCmdPosRel(const msgs::Double &_msg)
+  {
+    this->cmdPosRel = _msg.data();
   }
 
   public: void Reset(EntityComponentManager& _ecm)
@@ -209,7 +218,8 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
   protected: std::string jointName;
   protected: Entity joint{kNullEntity};
   protected: transport::Node node;
-  protected: std::optional<double> cmdPos;
+  protected: std::optional<double> cmdPosAbs;
+  protected: std::optional<double> cmdPosRel;
   protected: std::optional<double> cmdVel;
   protected: std::optional<double> cmdTorque;
   protected: std::optional<ignition::math::Angle> staticAngle{0.0};
@@ -224,7 +234,6 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
 IGNITION_ADD_PLUGIN(cras::FlipperControlPlugin,
                     System,
                     ISystemConfigure,
-                    ISystemPreUpdate,
-                    ISystemPostUpdate)
+                    ISystemPreUpdate)
 
 IGNITION_ADD_PLUGIN_ALIAS(cras::FlipperControlPlugin, "cras::FlipperControlPlugin")
