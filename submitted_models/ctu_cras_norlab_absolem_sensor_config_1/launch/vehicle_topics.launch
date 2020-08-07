@@ -199,7 +199,7 @@
       type="parameter_bridge"
       name="ros_ign_bridge_omnicam0"
       args="$(arg link_prefix)/base_link/sensor/omnicam_sensor0/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
-      <remap from="$(arg link_prefix)/base_link/sensor/omnicam_sensor0/camera_info" to="viz/camera_0/camera_info"/>
+      <remap from="$(arg link_prefix)/base_link/sensor/omnicam_sensor0/camera_info" to="omni/camera_0/camera_info"/>
     </node>
     <node
       pkg="ros_ign_image"
@@ -207,16 +207,16 @@
       name="ros_ign_image_omnicam0"
       respawn="true"
       args="$(arg link_prefix)/base_link/sensor/omnicam_sensor0/image">
-      <remap from="$(arg link_prefix)/base_link/sensor/omnicam_sensor0/image" to="viz/camera_0/image_raw"/>
+      <remap from="$(arg link_prefix)/base_link/sensor/omnicam_sensor0/image" to="omni/camera_0/image_raw"/>
     </node>
     <node
       pkg="subt_ros"
       type="optical_frame_publisher"
       name="optical_frame_publisher_omnicam0">
-      <remap from="input/image" to="viz/camera_0/image_raw" />
-      <remap from="output/image" to="viz/camera_0/optical/image_raw" />
-      <remap from="input/camera_info" to="viz/camera_0/camera_info" />
-      <remap from="output/camera_info" to="viz/camera_0/optical/camera_info" />
+      <remap from="input/image" to="omni/camera_0/image_raw" />
+      <remap from="output/image" to="omni/camera_0/optical/image_raw" />
+      <remap from="input/camera_info" to="omni/camera_0/camera_info" />
+      <remap from="output/camera_info" to="omni/camera_0/optical/camera_info" />
     </node>
     
     <node
@@ -224,7 +224,7 @@
       type="parameter_bridge"
       name="ros_ign_bridge_omnicam1"
       args="$(arg link_prefix)/base_link/sensor/omnicam_sensor1/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
-      <remap from="$(arg link_prefix)/base_link/sensor/omnicam_sensor1/camera_info" to="viz/camera_1/camera_info"/>
+      <remap from="$(arg link_prefix)/base_link/sensor/omnicam_sensor1/camera_info" to="omni/camera_1/camera_info"/>
     </node>
     <node
       pkg="ros_ign_image"
@@ -232,16 +232,16 @@
       name="ros_ign_image_omnicam1"
       respawn="true"
       args="$(arg link_prefix)/base_link/sensor/omnicam_sensor1/image">
-      <remap from="$(arg link_prefix)/base_link/sensor/omnicam_sensor1/image" to="viz/camera_1/image_raw"/>
+      <remap from="$(arg link_prefix)/base_link/sensor/omnicam_sensor1/image" to="omni/camera_1/image_raw"/>
     </node>
     <node
       pkg="subt_ros"
       type="optical_frame_publisher"
       name="optical_frame_publisher_omnicam1">
-      <remap from="input/image" to="viz/camera_1/image_raw" />
-      <remap from="output/image" to="viz/camera_1/optical/image_raw" />
-      <remap from="input/camera_info" to="viz/camera_1/camera_info" />
-      <remap from="output/camera_info" to="viz/camera_1/optical/camera_info" />
+      <remap from="input/image" to="omni/camera_1/image_raw" />
+      <remap from="output/image" to="omni/camera_1/optical/image_raw" />
+      <remap from="input/camera_info" to="omni/camera_1/camera_info" />
+      <remap from="output/camera_info" to="omni/camera_1/optical/camera_info" />
     </node>
 
     <node
@@ -249,7 +249,7 @@
       type="parameter_bridge"
       name="ros_ign_bridge_omnicam2"
       args="$(arg link_prefix)/base_link/sensor/omnicam_sensor2/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
-      <remap from="$(arg link_prefix)/base_link/sensor/omnicam_sensor2/camera_info" to="viz/camera_2/camera_info"/>
+      <remap from="$(arg link_prefix)/base_link/sensor/omnicam_sensor2/camera_info" to="omni/camera_2/camera_info"/>
     </node>
     <node
       pkg="ros_ign_image"
@@ -257,16 +257,16 @@
       name="ros_ign_image_omnicam2"
       respawn="true"
       args="$(arg link_prefix)/base_link/sensor/omnicam_sensor2/image">
-      <remap from="$(arg link_prefix)/base_link/sensor/omnicam_sensor2/image" to="viz/camera_2/image_raw"/>
+      <remap from="$(arg link_prefix)/base_link/sensor/omnicam_sensor2/image" to="omni/camera_2/image_raw"/>
     </node>
     <node
       pkg="subt_ros"
       type="optical_frame_publisher"
       name="optical_frame_publisher_omnicam2">
-      <remap from="input/image" to="viz/camera_2/image_raw" />
-      <remap from="output/image" to="viz/camera_2/optical/image_raw" />
-      <remap from="input/camera_info" to="viz/camera_2/camera_info" />
-      <remap from="output/camera_info" to="viz/camera_2/optical/camera_info" />
+      <remap from="input/image" to="omni/camera_2/image_raw" />
+      <remap from="output/image" to="omni/camera_2/optical/image_raw" />
+      <remap from="input/camera_info" to="omni/camera_2/camera_info" />
+      <remap from="output/camera_info" to="omni/camera_2/optical/camera_info" />
     </node>
 
     <node
@@ -275,23 +275,23 @@
       name="ros_ign_bridge_omnicam3"
       respawn="true"
       args="$(arg link_prefix)/base_link/sensor/omnicam_sensor3/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
-      <remap from="$(arg link_prefix)/base_link/sensor/omnicam_sensor3/camera_info" to="viz/camera_3/camera_info"/>
+      <remap from="$(arg link_prefix)/base_link/sensor/omnicam_sensor3/camera_info" to="omni/camera_3/camera_info"/>
     </node>
     <node
       pkg="ros_ign_image"
       type="image_bridge"
       name="ros_ign_image_omnicam3"
       args="$(arg link_prefix)/base_link/sensor/omnicam_sensor3/image">
-      <remap from="$(arg link_prefix)/base_link/sensor/omnicam_sensor3/image" to="viz/camera_3/image_raw"/>
+      <remap from="$(arg link_prefix)/base_link/sensor/omnicam_sensor3/image" to="omni/camera_3/image_raw"/>
     </node>
     <node
       pkg="subt_ros"
       type="optical_frame_publisher"
       name="optical_frame_publisher_omnicam3">
-      <remap from="input/image" to="viz/camera_3/image_raw" />
-      <remap from="output/image" to="viz/camera_3/optical/image_raw" />
-      <remap from="input/camera_info" to="viz/camera_3/camera_info" />
-      <remap from="output/camera_info" to="viz/camera_3/optical/camera_info" />
+      <remap from="input/image" to="omni/camera_3/image_raw" />
+      <remap from="output/image" to="omni/camera_3/optical/image_raw" />
+      <remap from="input/camera_info" to="omni/camera_3/camera_info" />
+      <remap from="output/camera_info" to="omni/camera_3/optical/camera_info" />
     </node>
 
     <node
@@ -299,7 +299,7 @@
       type="parameter_bridge"
       name="ros_ign_bridge_omnicam4"
       args="$(arg link_prefix)/base_link/sensor/omnicam_sensor4/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
-      <remap from="$(arg link_prefix)/base_link/sensor/omnicam_sensor4/camera_info" to="viz/camera_4/camera_info"/>
+      <remap from="$(arg link_prefix)/base_link/sensor/omnicam_sensor4/camera_info" to="omni/camera_4/camera_info"/>
     </node>
     <node
       pkg="ros_ign_image"
@@ -307,16 +307,16 @@
       name="ros_ign_image_omnicam4"
       respawn="true"
       args="$(arg link_prefix)/base_link/sensor/omnicam_sensor4/image">
-      <remap from="$(arg link_prefix)/base_link/sensor/omnicam_sensor4/image" to="viz/camera_4/image_raw"/>
+      <remap from="$(arg link_prefix)/base_link/sensor/omnicam_sensor4/image" to="omni/camera_4/image_raw"/>
     </node>
     <node
       pkg="subt_ros"
       type="optical_frame_publisher"
       name="optical_frame_publisher_omnicam4">
-      <remap from="input/image" to="viz/camera_4/image_raw" />
-      <remap from="output/image" to="viz/camera_4/optical/image_raw" />
-      <remap from="input/camera_info" to="viz/camera_4/camera_info" />
-      <remap from="output/camera_info" to="viz/camera_4/optical/camera_info" />
+      <remap from="input/image" to="omni/camera_4/image_raw" />
+      <remap from="output/image" to="omni/camera_4/optical/image_raw" />
+      <remap from="input/camera_info" to="omni/camera_4/camera_info" />
+      <remap from="output/camera_info" to="omni/camera_4/optical/camera_info" />
     </node>
 
     <node
@@ -324,7 +324,7 @@
       type="parameter_bridge"
       name="ros_ign_bridge_omnicam5"
       args="$(arg link_prefix)/base_link/sensor/omnicam_sensor5/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
-      <remap from="$(arg link_prefix)/base_link/sensor/omnicam_sensor5/camera_info" to="viz/camera_5/camera_info"/>
+      <remap from="$(arg link_prefix)/base_link/sensor/omnicam_sensor5/camera_info" to="omni/camera_5/camera_info"/>
     </node>
     <node
       pkg="ros_ign_image"
@@ -332,16 +332,16 @@
       name="ros_ign_image_omnicam5"
       respawn="true"
       args="$(arg link_prefix)/base_link/sensor/omnicam_sensor5/image">
-      <remap from="$(arg link_prefix)/base_link/sensor/omnicam_sensor5/image" to="viz/camera_5/image_raw"/>
+      <remap from="$(arg link_prefix)/base_link/sensor/omnicam_sensor5/image" to="omni/camera_5/image_raw"/>
     </node>
     <node
       pkg="subt_ros"
       type="optical_frame_publisher"
       name="optical_frame_publisher_omnicam5">
-      <remap from="input/image" to="viz/camera_5/image_raw" />
-      <remap from="output/image" to="viz/camera_5/optical/image_raw" />
-      <remap from="input/camera_info" to="viz/camera_5/camera_info" />
-      <remap from="output/camera_info" to="viz/camera_5/optical/camera_info" />
+      <remap from="input/image" to="omni/camera_5/image_raw" />
+      <remap from="output/image" to="omni/camera_5/optical/image_raw" />
+      <remap from="input/camera_info" to="omni/camera_5/camera_info" />
+      <remap from="output/camera_info" to="omni/camera_5/optical/camera_info" />
     </node>
 
     <!--IMU-->
