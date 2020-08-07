@@ -9,7 +9,6 @@
   <arg name="laser_scan" default="0"/>
   <arg name="top_scan" default="0"/>
   <arg name="bottom_scan" default="0"/>
-  <arg name="rgbd_cam" default="0"/>
   <arg name="lidar_3d" default="1"/>
   <group ns="$(arg name)">
     <!--Create multipe bridges so that it can run in parallel-->
@@ -50,24 +49,6 @@
       args="/model/$(arg name)/velocity_controller/enable@std_msgs/Bool]ignition.msgs.Boolean">
       <remap from="/model/$(arg name)/velocity_controller/enable" to="velocity_controller/enable"/>
     </node>
-
-    <!-- RGBD -->
-    <group if="$(arg rgbd_cam)">
-      <node
-        pkg="ros_ign_bridge"
-        type="parameter_bridge"
-        name="ros_ign_bridge_rgbd"
-        args="$(arg sensor_prefix)/camera_front/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
-        <remap from="$(arg sensor_prefix)/camera_front/points" to="rgbd_camera/depth/points"/>
-      </node>
-      <node
-        pkg="ros_ign_image"
-        type="image_bridge"
-        name="ros_ign_image_depth"
-        args="$(arg sensor_prefix)/camera_front/depth_image">
-        <remap from="$(arg sensor_prefix)/camera_front/depth_image" to="front/depth"/>
-      </node>
-    </group>
 
     <!-- 3D lidar -->
     <group if="$(arg lidar_3d)">

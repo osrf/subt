@@ -208,7 +208,7 @@ def rosExecutables(_name, _worldName)
       <command>roslaunch --wait cerberus_m100_sensor_config_1 description.launch world_name:=#{_worldName} name:=#{_name}</command>
     </executable>
     <executable name='m100_ros_ign_bridge'>
-      <command>roslaunch --wait cerberus_m100_sensor_config_1 vehicle_topics.launch world_name:=#{_worldName} name:=#{_name} uav:=1 lidar_3d:=1 laser_scan:=0 top_scan:=0 bottom_scan:=0 stereo_cam:=0 rgbd_cam:=0    </command>
+      <command>roslaunch --wait cerberus_m100_sensor_config_1 vehicle_topics.launch world_name:=#{_worldName} name:=#{_name} uav:=1 lidar_3d:=1 laser_scan:=0 top_scan:=0 bottom_scan:=0 stereo_cam:=0</command>
   </executable>
   HEREDOC
 end

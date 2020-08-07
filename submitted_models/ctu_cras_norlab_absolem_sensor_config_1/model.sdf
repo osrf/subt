@@ -976,7 +976,7 @@
             <center>0.5 0.5</center>
           </distortion>
           <image>
-            <width>848</width>
+            <width>640</width>
             <height>480</height>
             <format>RGB_INT8</format>
           </image>
@@ -999,7 +999,7 @@
         </camera>
         <always_on>1</always_on>
         <update_rate>6</update_rate>
-        <pose>0.125479 0.006527 0.435941 0.015 0.499467 -0.000319</pose>
+        <pose>0.136479 -0.016527 0.419441 0.015 0.499467 -0.000319</pose>
       </sensor>
     </link>
     <link name="laser">
@@ -3644,15 +3644,19 @@
     </joint>
     <plugin name="cras::FlipperControlPlugin" filename="libflipper_control_plugin.so">
       <joint_name>front_left_flipper_j</joint_name>
+      <max_velocity>0.8</max_velocity>
     </plugin>
     <plugin name="cras::FlipperControlPlugin" filename="libflipper_control_plugin.so">
       <joint_name>front_right_flipper_j</joint_name>
+      <max_velocity>0.8</max_velocity>
     </plugin>
     <plugin name="cras::FlipperControlPlugin" filename="libflipper_control_plugin.so">
       <joint_name>rear_left_flipper_j</joint_name>
+      <max_velocity>0.8</max_velocity>
     </plugin>
     <plugin name="cras::FlipperControlPlugin" filename="libflipper_control_plugin.so">
       <joint_name>rear_right_flipper_j</joint_name>
+      <max_velocity>0.8</max_velocity>
     </plugin>
 
     <!--
