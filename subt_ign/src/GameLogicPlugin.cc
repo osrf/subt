@@ -654,29 +654,11 @@ void GameLogicPlugin::PostUpdate(
           auto childModel = _ecm.Component<gazebo::components::ParentEntity>(
               _detach->Data().childLink);
 
-          bool parentPerformer = false;
-          for (const auto &t :
-              _ecm.ChildrenByComponents(parentModel->Data(),
-                gazebo::components::Performer()))
-          {
-            parentPerformer = true;
-            break;
-          }
-
-          bool childPerformer = false;
-          for (const auto &t :
-              _ecm.ChildrenByComponents(childModel->Data(),
-                gazebo::components::Performer()))
-          {
-            childPerformer = true;
-            break;
-          }
-
-          auto parentName = _ecm.Component<gazebo::components::Name>(
-              parentModel->Data());
-
-          auto childName = _ecm.Component<gazebo::components::Name>(
-              childModel->Data());
+          bool parentPerformer =
+            !_ecm.ChildrenByComponents(parentModel->Data(),
+                gazebo::components::Performer()).empty();
+          bool childPerformer = !_ecm.ChildrenByComponents(childModel->Data(),
+              gazebo::components::Performer()).empty();
 
           if (parentPerformer && childPerformer)
           {
@@ -1612,9 +1594,17 @@ std::chrono::steady_clock::time_point GameLogicPluginPrivate::UpdateScoreFiles()
 
   // Output a run summary
   std::ofstream summary(this->logPath + "/summary.yml", std::ios::out);
-  summary << "marsupials:\n";
-  for (auto const &pair : this->marsupialPairs)
-    summary << "  - \"" << pair.first << ":" << pair.second << "\"\n";
+  if (!this->marsupialPairs.empty())
+  {
+    summary << "marsupials:\n";
+    for (auto const &pair : this->marsupialPairs)
+      summary << "  - \"" << pair.first << ":" << pair.second << "\"\n";
+  }
+  else
+  {
+    summary << "marsupials: ~\n";
+  }
+
   summary << "was_started: " << this->started << std::endl;
   summary << "sim_time_duration_sec: " << simElapsed << std::endl;
   summary << "real_time_duration_sec: " << realElapsed << std::endl;
