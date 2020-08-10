@@ -4,6 +4,7 @@
   <arg name="name"/>
   <arg name="link_name" value="base_link"/>
   <arg name="sensor_prefix" value="/world/$(arg world_name)/model/$(arg name)/link/$(arg link_name)/sensor"/>
+  <arg name="breadcrumbs" default="0"/>
   <group ns="$(arg name)">
     <!--Create multipe bridges so that it can run in parallel-->
 
@@ -93,6 +94,24 @@
       args="$(arg sensor_prefix)/rgbd_front/image">
       <remap from="$(arg sensor_prefix)/rgbd_front/image" to="rgbd_front/image_raw"/>
     </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_rgbd_front_camera">
+      <remap from="input/image" to="rgbd_front/image_raw" />
+      <remap from="output/image" to="rgbd_front/optical/image_raw" />
+      <remap from="input/camera_info" to="rgbd_front/camera_info" />
+      <remap from="output/camera_info" to="rgbd_front/optical/camera_info" />
+    </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_rgbd_front_depth"
+      args="depth">
+      <remap from="input/image" to="rgbd_front/depth" />
+      <remap from="output/image" to="rgbd_front/optical/depth" />
+    </node>
+
 
     <!-- Rear RGBD -->
     <node
@@ -122,6 +141,23 @@
       name="ros_ign_image_rgbd_rear_camera"
       args="$(arg sensor_prefix)/rgbd_rear/image">
       <remap from="$(arg sensor_prefix)/rgbd_rear/image" to="rgbd_rear/image_raw"/>
+    </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_rgbd_rear_camera">
+      <remap from="input/image" to="rgbd_rear/image_raw" />
+      <remap from="output/image" to="rgbd_rear/optical/image_raw" />
+      <remap from="input/camera_info" to="rgbd_rear/camera_info" />
+      <remap from="output/camera_info" to="rgbd_rear/optical/camera_info" />
+    </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_rgbd_rear_depth"
+      args="depth">
+      <remap from="input/image" to="rgbd_rear/depth" />
+      <remap from="output/image" to="rgbd_rear/optical/depth" />
     </node>
 
     <!-- Front lidar scan -->
@@ -226,5 +262,15 @@
       pkg="subt_ros"
       type="pose_tf_broadcaster"
       name="pose_tf_broadcaster"/>
+
+    <group if="$(arg breadcrumbs)">
+      <node
+        pkg="ros_ign_bridge"
+        type="parameter_bridge"
+        name="ros_ign_bridge_breadcrumbs"
+        args="/model/$(arg name)/breadcrumb/deploy@std_msgs/Empty]ignition.msgs.Empty">
+        <remap from="/model/$(arg name)/breadcrumb/deploy" to="breadcrumb/deploy"/>
+      </node>
+    </group>
   </group>
 </launch>

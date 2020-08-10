@@ -5,6 +5,7 @@
   <arg name="link_name" value="base_link"/>
   <arg name="sensor_prefix" value="/world/$(arg world_name)/model/$(arg name)/link/$(arg link_name)/sensor"/>
   <arg name="gimbal_sensor_prefix" value="/world/$(arg world_name)/model/$(arg name)/link/tilt_gimbal_link/sensor"/>
+  <arg name="breadcrumbs" default="0"/>
   <group ns="$(arg name)">
     <!--Create multipe bridges so that it can run in parallel-->
     <node
@@ -50,23 +51,23 @@
       args="/model/$(arg name)/battery/linear_battery/state@sensor_msgs/BatteryState[ignition.msgs.BatteryState">
       <remap from="/model/$(arg name)/battery/linear_battery/state" to="battery_state"/>
     </node>
-    
+
     <node
       pkg="ros_ign_bridge"
       type="parameter_bridge"
       name="ros_ign_bridge_gimbal_pan"
-      args="/model/$(arg name)/joint/pan_gimbal_joint/cmd_force@std_msgs/Float64]ignition.msgs.Double">
-      <remap from="/model/$(arg name)/joint/pan_gimbal_joint/cmd_force" to="pan_tilt/pan_rate_cmd_double"/>
+      args="/model/$(arg name)/joint/pan_gimbal_joint/cmd_vel@std_msgs/Float64]ignition.msgs.Double">
+      <remap from="/model/$(arg name)/joint/pan_gimbal_joint/cmd_vel" to="pan_tilt/pan_rate_cmd_double"/>
     </node>
-    
+
     <node
       pkg="ros_ign_bridge"
       type="parameter_bridge"
       name="ros_ign_bridge_gimbal_tilt"
-      args="/model/$(arg name)/joint/tilt_gimbal_joint/cmd_force@std_msgs/Float64]ignition.msgs.Double">
-      <remap from="/model/$(arg name)/joint/tilt_gimbal_joint/cmd_force" to="pan_tilt/tilt_rate_cmd_double"/>
+      args="/model/$(arg name)/joint/tilt_gimbal_joint/cmd_vel@std_msgs/Float64]ignition.msgs.Double">
+      <remap from="/model/$(arg name)/joint/tilt_gimbal_joint/cmd_vel" to="pan_tilt/tilt_rate_cmd_double"/>
     </node>
-    
+
     <!-- Joint Publisher (Publishes to topic but doesn't control...)-->
     <node
       pkg="ros_ign_bridge"
@@ -254,5 +255,14 @@
       <remap from="/model/$(arg name)/gas_detected" to="gas_detected"/>
     </node>
 
+    <group if="$(arg breadcrumbs)">
+      <node
+        pkg="ros_ign_bridge"
+        type="parameter_bridge"
+        name="ros_ign_bridge_breadcrumbs"
+        args="/model/$(arg name)/breadcrumb/deploy@std_msgs/Empty]ignition.msgs.Empty">
+        <remap from="/model/$(arg name)/breadcrumb/deploy" to="breadcrumb/deploy"/>
+      </node>
+    </group>
   </group>
 </launch>

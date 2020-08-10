@@ -39,6 +39,7 @@ RUN apt-get update -qq \
         wget \
         net-tools \
         iputils-ping \
+        libyaml-cpp-dev \
  && apt-get clean -qq
 
 # Install AWS CLI. This is needed by cloudsim to capture ROS logs.

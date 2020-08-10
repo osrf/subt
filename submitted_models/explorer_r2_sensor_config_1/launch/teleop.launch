@@ -1,0 +1,5 @@
+<launch>
+<node pkg="teleop_twist_joy" name="teleop_twist_joy" type="teleop_node">
+        <remap from="/cmd_vel" to="X1/cmd_vel" />
+</node>
+</launch>

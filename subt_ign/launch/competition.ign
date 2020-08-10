@@ -102,13 +102,27 @@
     end
   end
 
-  MARSUPIAL_VALID_PARENT_ROBOT_TYPES = ["X1"]
-  MARSUPIAL_VALID_CHILD_ROBOT_TYPES = ["X3"]
-
-  MARSUPIAL_PARENT_ROBOT_POSITION_OFFSETS = {
-    "X1" => Vector3d.new(0, 0, 0.57)
+  MARSUPIAL_VALID_ROBOT_PAIRS = {
+    "X1" => ["X3", "MARBLE_QAV500", "CERBERUS_GAGARIN"],
+    "EXPLORER_X1" =>["X3", "MARBLE_QAV500", "CERBERUS_GAGARIN"],
+    "EXPLORER_R2" =>["X3", "X4", "SSCI_X4", "SOPHISTICATED_ENGINEERING_X4", "EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100", "CERBERUS_GAGARIN"],
+    "CSIRO_DATA61_OZBOT_ATR" =>["X3", "X4", "SSCI_X4", "SOPHISTICATED_ENGINEERING_X4","EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100", "CERBERUS_GAGARIN"]
   }
 
+  MARSUPIAL_PARENT_ROBOT_POSITION_OFFSETS = {
+    "X1" => Vector3d.new(0, 0, 0.717),
+    "EXPLORER_X1" => Vector3d.new(0, 0, 0.717),
+    "EXPLORER_R2" => Vector3d.new(-0.45, 0, 0.662),
+    "CSIRO_DATA61_OZBOT_ATR" => Vector3d.new(-0.15, 0, 0.528)
+  }
+
+  MARSUPIAL_PARENT_ROBOT_ROTATION_OFFSETS = {
+    "X1" => AngularVector3d.new(0, 0, 0),
+    "EXPLORER_X1" => AngularVector3d.new(0, 0, 0),
+    "EXPLORER_R2" => AngularVector3d.new(0, 0, -3.1416),
+    "CSIRO_DATA61_OZBOT_ATR" => AngularVector3d.new(0, 0, -3.1416)
+  }
+  
   allExecutables = ""
 
   # key: parent, value: child
@@ -118,8 +132,8 @@
   # * Check that parent names are unique
   # * Check that child names are unique
   # * Check that each parent and child robot is in the list of robots to be spawned
-  # * Check that parent robots are in the MARSUPIAL_VALID_PARENT_ROBOT_TYPES list
-  # * Check that child robots are in the MARSUPIAL_VALID_CHILD_ROBOT_TYPES list
+  # * Check that parent robots are in the MARSUPIAL_VALID_ROBOT_PAIRS list
+  # * Check that child robots are in the MARSUPIAL_VALID_ROBOT_PAIRS list
   # These criteria ensure that the robots specified in the "marsupial" variables are valid
   # and that there is a one-to-one relationship between parent and child robots
 
@@ -148,13 +162,14 @@
 
       parentType = robots[parent].type
       childType = robots[child].type
-      # Check that parent robots are in the MARSUPIAL_VALID_PARENT_ROBOT_TYPES list
-      unless MARSUPIAL_VALID_PARENT_ROBOT_TYPES.include?(parentType)
-        raise "Invalid marsupial configuration: The parent robot [#{parent}] with type [#{parentType}] is not in the list of robots allowed to be marsupial parents. The list is #{MARSUPIAL_VALID_PARENT_ROBOT_TYPES}"
+
+      # Check that parent robots are in the MARSUPIAL_VALID_ROBOT_PAIRS hash
+      unless MARSUPIAL_VALID_ROBOT_PAIRS.key?(parentType)
+        raise "Invalid marsupial configuration: The parent robot [#{parent}] with type [#{parentType}] is not in the list of robots allowed to be marsupial parents. The list is #{MARSUPIAL_VALID_ROBOT_PAIRS}"
       end
-      # Check that child robots are in the MARSUPIAL_VALID_CHILD_ROBOT_TYPES list
-      unless MARSUPIAL_VALID_CHILD_ROBOT_TYPES.include?(childType)
-        raise "Invalid marsupial configuration: The child robot [#{child}] with type [#{childType}] is not in the list of robots allowed to be marsupial children: The list is #{MARSUPIAL_VALID_CHILD_ROBOT_TYPES}"
+      # Check that child robots are in the MARSUPIAL_VALID_ROBOT_PARIS hash
+      unless MARSUPIAL_VALID_ROBOT_PAIRS[parentType].include?(childType)
+        raise "Invalid marsupial configuration: The child robot [#{child}] with type [#{childType}] is not in the list of robots allowed to be marsupial children: The list is #{MARSUPIAL_VALID_ROBOT_PAIRS}"
       end
 
       marsupialParents[parent] = child
@@ -842,7 +857,7 @@
       stereoCam=1
     end
 
-    z = _z + 0.2
+    z = _z + 0.053302
 
     spawn = <<-HEREDOC
     <spawn name='#{_name}'>
@@ -1047,7 +1062,7 @@
       stereoCam=1
     end
 
-    z = _z + 0.2
+    z = _z + 0.125
 
     spawn = <<-HEREDOC
     <spawn name='#{_name}'>
@@ -1355,7 +1370,9 @@
       robot.pos.x = parentRobot.pos.x + Math.cos(-spawnWorldYaw) * offsetX + Math.sin(-spawnWorldYaw) * offsetY
       robot.pos.y = parentRobot.pos.y - Math.sin(-spawnWorldYaw) * offsetX + Math.cos(-spawnWorldYaw) * offsetY
       robot.pos.z = parentRobot.pos.z + MARSUPIAL_PARENT_ROBOT_POSITION_OFFSETS[parentRobot.type].z
-      robot.rot = parentRobot.rot
+      robot.rot.roll = parentRobot.rot.roll + MARSUPIAL_PARENT_ROBOT_ROTATION_OFFSETS[parentRobot.type].roll
+      robot.rot.pitch = parentRobot.rot.pitch + MARSUPIAL_PARENT_ROBOT_ROTATION_OFFSETS[parentRobot.type].pitch
+      robot.rot.yaw = parentRobot.rot.yaw + MARSUPIAL_PARENT_ROBOT_ROTATION_OFFSETS[parentRobot.type].yaw
     else
       x = Math.cos(-spawnWorldYaw) * posX + Math.sin(-spawnWorldYaw) * posY
       y = -(Math.sin(-spawnWorldYaw)) * posX + Math.cos(-spawnWorldYaw) * posY
@@ -1449,15 +1466,36 @@
          </plugin>
        HEREDOC
 
+       platformJointPlugin = ""
+       platform = ""
+
        # This will be use to attach the drone platform to the base.
-       platformJointPlugin = REXML::Document.new <<-HEREDOC
-         <plugin filename="libignition-gazebo-detachable-joint-system.so" name="ignition::gazebo::systems::DetachableJoint">
-         <parent_link>base_link</parent_link>
-         <child_model>#{name}_platform</child_model>
-         <child_link>base_link</child_link>
-         <suppress_child_warning>true</suppress_child_warning>
-         </plugin>
-       HEREDOC
+       if robots[name].type.include?("X1")
+         platformJointPlugin = REXML::Document.new <<-HEREDOC
+           <plugin filename="libignition-gazebo-detachable-joint-system.so" name="ignition::gazebo::systems::DetachableJoint">
+           <parent_link>base_link</parent_link>
+           <child_model>#{name}_platform</child_model>
+           <child_link>base_link</child_link>
+           <suppress_child_warning>true</suppress_child_warning>
+           </plugin>
+         HEREDOC
+
+         # This will be used to spawn the drone platform.
+         platform = <<-HEREDOC
+           <spawn name="#{name}_platform">
+             <name>#{name}_platform</name>
+             <allow_renaming>false</allow_renaming>
+             <pose>#{robot.pos.x + 0.078} #{robot.pos.y} #{robot.pos.z-0.11} 0 0 0</pose>
+             <world>#{$worldName}</world>
+             <is_performer>false</is_performer>
+             <sdf version='1.6'>
+               <include>
+                 <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/DronePlatformX1</uri>
+               </include>
+             </sdf>
+           </spawn>
+         HEREDOC
+       end
 
        rosExecutable = <<-HEREDOC
          <executable name="#{childModelName}_marsupial">
@@ -1465,22 +1503,6 @@
          </executable>
        HEREDOC
        allExecutables += rosExecutable
-
-       # This will be used to spawn the drone platform.
-       platform = <<-HEREDOC
-         <spawn name="#{name}_platform">
-           <name>#{name}_platform</name>
-           <allow_renaming>false</allow_renaming>
-           <pose>#{robot.pos.x + 0.078} #{robot.pos.y} #{robot.pos.z-0.11} 0 0 0</pose>
-           <world>#{$worldName}</world>
-           <is_performer>false</is_performer>
-           <sdf version='1.6'>
-             <include>
-               <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/DronePlatformX1</uri>
-             </include>
-           </sdf>
-         </spawn>
-       HEREDOC
 
        # Wrap the temporary spawn string with a root element. This is needed
        # because the xml parser needs a root element. When we're adding the
@@ -1490,7 +1512,9 @@
        pluginElem = spawnXml.root.elements[search]
        includeElem = pluginElem.elements['sdf/include']
        includeElem.add_element(detachableJointPlugin.root)
-       includeElem.add_element(platformJointPlugin.root)
+       if platformJointPlugin != ""
+         includeElem.add_element(platformJointPlugin.root)
+       end
 
        spawnString = ""
        formatter = REXML::Formatters::Default.new

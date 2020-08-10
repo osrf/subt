@@ -33,6 +33,7 @@ find_package(ignition-transport8 REQUIRED)
 find_package(ignition-plugin1 REQUIRED COMPONENTS loader register)
 find_package(ignition-launch2 REQUIRED)
 find_package(sdformat9 REQUIRED)
+find_package(yaml-cpp REQUIRED)
 
 ###########
 ## Build ##
@@ -105,6 +106,7 @@ target_link_libraries(${game_logic_plugin_name}
     ignition-transport8::ignition-transport8
     ${catkin_LIBRARIES}
     ${protobuf_lib_name}
+    ${YAML_CPP_LIBRARIES}
 )
 install(TARGETS ${game_logic_plugin_name}
   ARCHIVE DESTINATION lib

@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<root xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<xacro:arg name="has_realsense" default="0" />
+<xacro:arg name="has_new_realsense" default="0" />
+<xacro:arg name="has_realsense_d435" default="0" />
+<xacro:arg name="realsense_holder_version" default="1" />
+<xacro:arg name="realsense_parent_link" default="omnicam" />
+<xacro:arg name="realsense_upside_down" default="0" />
+
+<!-- holder version less than 5 -->
+<xacro:arg name="realsense_tilt" default="0.5" />
+<xacro:arg name="realsense_shift_x" default="0.0" />
+<xacro:arg name="realsense_shift_y" default="0.0" />
+<xacro:arg name="realsense_shift_z" default="0.0" />
+<xacro:arg name="realsense_yaw" default="0.628318530" />
+<xacro:arg name="realsense_roll" default="0.0" />
+
+<!-- holder version 5+, calibrated joint -->
+<xacro:arg name="d435_pos_x" default="0.0" />
+<xacro:arg name="d435_pos_y" default="0.0" />
+<xacro:arg name="d435_pos_z" default="0.0" />
+<xacro:arg name="d435_rpy_r" default="0.0" />
+<xacro:arg name="d435_rpy_p" default="0.0" />
+<xacro:arg name="d435_rpy_y" default="0.0" />
+
+<!-- holder version 1 -->
+<xacro:if value="$(arg has_realsense)">
+    <xacro:include filename="$(find ctu_cras_norlab_absolem_sensor_config_1)/urdf/realsense_r200_with_holder.xacro" />
+    <xacro:realsense_r200_with_holder camera_name="camera" tilt="$(arg realsense_tilt)" sensor_shift_y="$(arg realsense_shift_y)" upside_down="$(arg realsense_upside_down)" />
+    <joint name="realsense_holder_part1_j" type="fixed">
+        <parent link="$(arg prefix)omnicam"/>
+        <child link="$(arg prefix)realsense_holder_part1"/>
+        <origin xyz="0.05 0.04 0.075" rpy="0 0 0.628318530"/>
+    </joint>
+</xacro:if>
+
+<!-- holder version 2-4 -->
+<xacro:if value="$(arg has_new_realsense)">
+    <xacro:include filename="$(find ctu_cras_norlab_absolem_sensor_config_1)/urdf/realsense_d435_with_holder.xacro" />
+    <xacro:realsense_d435_with_holder camera_name="camera" tilt="$(arg realsense_tilt)" holder_version="$(arg realsense_holder_version)" x="$(arg realsense_shift_x)" y="$(arg realsense_shift_y)" z="$(arg realsense_shift_z)" roll="$(arg realsense_roll)" yaw="$(arg realsense_yaw)" />
+    <joint name="realsense_holder_part1_j" type="fixed">
+        <child link="$(arg prefix)realsense_holder_part1"/>
+	<xacro:if value="${$(arg realsense_holder_version) &lt; 4}">
+            <parent link="$(arg prefix)$(arg realsense_parent_link)"/>
+	    <origin xyz="${0.05+$(arg realsense_shift_x)} ${0.04+$(arg realsense_shift_y)} ${0.075+$(arg realsense_shift_z)}" rpy="0 0 $(arg realsense_yaw)"/>
+	</xacro:if>
+	<xacro:if value="${$(arg realsense_holder_version) >= 4}">
+            <parent link="$(arg prefix)omnicam_top"/>
+	    <origin xyz="0.065 0.0 0.0" rpy="0 0 0"/>
+	</xacro:if>
+    </joint>
+</xacro:if>
+
+<!-- holder version 5+ -->
+<xacro:if value="$(arg has_realsense_d435)">
+    <xacro:include filename="$(find ctu_cras_norlab_absolem_sensor_config_1)/urdf/realsense_d435_with_holder.xacro" />
+    <xacro:realsense_d435_with_holder camera_name="camera" holder_version="$(arg realsense_holder_version)"
+                                      x="$(arg d435_pos_x)" y="$(arg d435_pos_y)" z="$(arg d435_pos_z)"
+                                      roll="$(arg d435_rpy_r)" tilt="$(arg d435_rpy_p)" yaw="$(arg d435_rpy_y)" />
+    <joint name="realsense_holder_part2_j" type="fixed">
+        <child link="$(arg prefix)realsense_holder_part2"/>
+        <parent link="$(arg prefix)$(arg realsense_parent_link)"/>
+        <origin xyz="0.091 0.0385 0.05" rpy="0 0.504467 0"/>
+    </joint>
+</xacro:if>
+
+</root>

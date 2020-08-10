@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+
+<!--
+This is the Gazebo URDF model for the Intel RealSense D435 camera
+-->
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <xacro:arg name="realsense_width" default="848" />
+    <xacro:arg name="realsense_height" default="480" />
+    <xacro:arg name="realsense_fps" default="6" />
+    <xacro:arg name="realsense_name" default="camera" />
+    <xacro:arg name="realsense_visualize" default="[]" />
+  
+    <xacro:property name="deg_to_rad" value="${pi/180}" />
+
+
+    <gazebo reference="$(arg prefix)$(arg realsense_name)_link">
+        <sensor name="$(arg realsense_name)" type="rgbd_camera">
+          <camera name="$(arg realsense_name)_camera">
+            <horizontal_fov>${69.4*deg_to_rad}</horizontal_fov>
+            <lens>
+              <intrinsics>
+                <fx>337.22195</fx>
+                <fy>337.22195</fy>
+                <cx>320.5</cx>
+                <cy>240.5</cy>
+                <s>0</s>
+              </intrinsics>
+            </lens>
+            <distortion>
+              <k1>0.0</k1>
+              <k2>0.0</k2>
+              <k3>0.0</k3>
+              <p1>0.0</p1>
+              <p2>0.0</p2>
+              <center>0.5 0.5</center>
+            </distortion>
+            <image>
+              <width>$(arg realsense_width)</width>
+              <height>$(arg realsense_height)</height>
+              <format>RGB_INT8</format>
+            </image>
+            <clip>
+              <near>0.01</near>
+              <far>100</far>
+            </clip>
+            <depth_camera>
+              <clip>
+                <near>0.1</near>
+                <far>10</far>
+              </clip>
+            </depth_camera>
+            <noise>
+              <type>gaussian</type>
+              <mean>0</mean>
+              <stddev>0.007</stddev>
+            </noise>
+          </camera>
+          <always_on>1</always_on>
+          <update_rate>$(arg realsense_fps)</update_rate>
+          <pose frame="">0.0 0 0.0 0 0.0 0</pose>
+        </sensor>
+    </gazebo>
+</robot>

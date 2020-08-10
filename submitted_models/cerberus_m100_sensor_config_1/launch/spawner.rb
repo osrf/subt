@@ -28,7 +28,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
     <spawn name="${_name}">
       <name>#{_name}</name>
       <allow_renaming>false</allow_renaming>
-      <pose>#{_x} #{_y} #{_z + 0.2} #{_roll} #{_pitch} #{_yaw}</pose>
+      <pose>#{_x} #{_y} #{_z + 0.187499} #{_roll} #{_pitch} #{_yaw}</pose>
       <world>#{_worldName}</world>
       <is_performer>true</is_performer>
       <sdf version='1.6'>
@@ -208,7 +208,7 @@ def rosExecutables(_name, _worldName)
       <command>roslaunch --wait cerberus_m100_sensor_config_1 description.launch world_name:=#{_worldName} name:=#{_name}</command>
     </executable>
     <executable name='m100_ros_ign_bridge'>
-      <command>roslaunch --wait cerberus_m100_sensor_config_1 vehicle_topics.launch world_name:=#{_worldName} name:=#{_name} uav:=1 lidar_3d:=1 laser_scan:=0 top_scan:=0 bottom_scan:=0 stereo_cam:=0 rgbd_cam:=0    </command>
+      <command>roslaunch --wait cerberus_m100_sensor_config_1 vehicle_topics.launch world_name:=#{_worldName} name:=#{_name} uav:=1 lidar_3d:=1 laser_scan:=0 top_scan:=0 bottom_scan:=0 stereo_cam:=0</command>
   </executable>
   HEREDOC
 end

@@ -62,6 +62,20 @@ ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/C
 ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/MARBLE_HUSKY_SENSOR_CONFIG_1" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/MARBLE_HD2_SENSOR_CONFIG_1" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/CERBERUS_M100_SENSOR_CONFIG_1" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/EXPLORER_R2_SENSOR_CONFIG_1" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/EXPLORER_DS1_SENSOR_CONFIG_1" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/CERBERUS_ANYMAL_B_SENSOR_CONFIG_2" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/MARBLE_HUSKY_SENSOR_CONFIG_2" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/MARBLE_HD2_SENSOR_CONFIG_2" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/ROBOTIKA_KLOUBAK_SENSOR_CONFIG_2" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/EXPLORER_R2_SENSOR_CONFIG_2" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/ROBOTIKA_FREYJA_SENSOR_CONFIG_2" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/Breadcrumb Node" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/CTU_CRAS_NORLAB_ABSOLEM_SENSOR_CONFIG_1" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/CTU_CRAS_NORLAB_ABSOLEM_SENSOR_CONFIG_2" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/CSIRO_DATA61_OZBOT_ATR_SENSOR_CONFIG_1" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/CSIRO_DATA61_OZBOT_ATR_SENSOR_CONFIG_2" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/CERBERUS_GAGARIN_SENSOR_CONFIG_1" -v 4
 
 # Download the tunnel circuit models
 ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/subt_tunnel_staging_area" -v 4
@@ -203,3 +217,5 @@ ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/F
 # Download cave circuit artifacts
 ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/Climbing Rope" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/Climbing Helmet With Light" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/Artifact Proximity Detector" -v 4
+

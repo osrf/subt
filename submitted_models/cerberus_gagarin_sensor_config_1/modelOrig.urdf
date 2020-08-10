@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name='GAGARIN'>
+  <link name='base_link'>
+    <inertial>
+      <origin xyz='0 0 0.01' rpy='0 -0 0'/>
+      <mass value='2.316'/>
+      <inertia ixx='0.017' ixy='0' ixz='0' iyy='0.018' iyz='0' izz='0.028'/>
+    </inertial>
+    <collision name='base_link_inertia_collision'>
+      <origin xyz='0 0 0.02' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://cerberus_gagarin_sensor_config_1/meshes/gagarin.stl' scale='1 1 1'/>
+      </geometry>
+    </collision>
+    <visual name='base_link_inertia_visual'>
+      <origin xyz='0 0 0.02' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://cerberus_gagarin_sensor_config_1/meshes/gagarin.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='left_flashlight_led'>
+      <origin xyz='0.17757 0.17757 0.227379' rpy='0 -0 2.35619'/>
+      <geometry>
+        <mesh filename='package://cerberus_gagarin_sensor_config_1/meshes/cree_xhp70.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='right_flashlight_led'>
+      <origin xyz='0.17757 -0.17757 0.227379' rpy='0 -0 0.785398'/>
+      <geometry>
+        <mesh filename='package://cerberus_gagarin_sensor_config_1/meshes/cree_xhp70.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='camera_visual'>
+      <origin xyz='0.22 0 0.274935' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.02 0.025 0.025'/>
+      </geometry>
+    </visual>
+    <visual name='laser_visual'>
+      <origin xyz='0 0 0.195' rpy='3.14159 -0 0'/>
+      <geometry>
+        <cylinder radius='0.04041' length='0.0735'/>
+      </geometry>
+    </visual>
+    <visual name='picoflexx_visual'>
+      <origin xyz='0 0 0.29' rpy='3.14159 -1.57079 3.14159'/>
+      <geometry>
+        <box size='0.01 0.02 0.08'/>
+      </geometry>
+    </visual>
+  </link>
+  <sensor name='imu_sensor' update_rate='200'>
+    <parent link='base_link'/>
+    <origin xyz='0 0 0' rpy='0 -0 0'/>
+  </sensor>
+  <sensor name='magnetometer' update_rate='20'>
+    <parent link='base_link'/>
+    <origin xyz='0 0 0' rpy='0 -0 0'/>
+  </sensor>
+  <sensor name='camera_front' update_rate='20'>
+    <parent link='base_link'/>
+    <origin xyz='0.23 0 0.264935' rpy='0 -0 0'/>
+    <camera>
+      <image width='1440' height='1080' format='R8G8B8' hfov='2.0944' near='0.02' far='100' />
+    </camera>
+  </sensor>
+  <sensor name='front_laser' update_rate='10'>
+    <parent link='base_link'/>
+    <origin xyz='0 0 0.185' rpy='3.14159 -0 0'/>
+  </sensor>
+  <sensor name='picoflexx' update_rate='5'>
+    <parent link='base_link'/>
+    <origin xyz='0 0 0.28' rpy='3.14159 -1.57079 3.14159'/>
+  </sensor>
+  <link name='rotor_0'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='0.005'/>
+      <inertia ixx='9.75e-07' ixy='0' ixz='0' iyy='8.13545e-05' iyz='0' izz='8.22545e-05'/>
+    </inertial>
+    <visual name='rotor_0_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://cerberus_gagarin_sensor_config_1/meshes/propeller_ccw.dae' scale='0.06 0.06 0.06'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='rotor_1'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='0.005'/>
+      <inertia ixx='9.75e-07' ixy='0' ixz='0' iyy='8.13545e-05' iyz='0' izz='8.22545e-05'/>
+    </inertial>
+    <visual name='rotor_1_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://cerberus_gagarin_sensor_config_1/meshes/propeller_ccw.dae' scale='0.06 0.06 0.06'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='rotor_2'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='0.005'/>
+      <inertia ixx='9.75e-07' ixy='0' ixz='0' iyy='8.13545e-05' iyz='0' izz='8.22545e-05'/>
+    </inertial>
+    <visual name='rotor_2_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://cerberus_gagarin_sensor_config_1/meshes/propeller_cw.dae' scale='0.06 0.06 0.06'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='rotor_3'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='0.005'/>
+      <inertia ixx='9.75e-07' ixy='0' ixz='0' iyy='8.13545e-05' iyz='0' izz='8.22545e-05'/>
+    </inertial>
+    <visual name='rotor_3_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://cerberus_gagarin_sensor_config_1/meshes/propeller_cw.dae' scale='0.06 0.06 0.06'/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name='rotor_0_joint' type='revolute'>
+    <origin xyz='0.1 -0.1 0.21' rpy='0 -0 0'/>
+    <parent link='base_link'/>
+    <child link='rotor_0'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 0 1'/>
+    <limit lower='-1e+16' upper='1e+16' effort='0' velocity='0'/>
+  </joint>
+  <joint name='rotor_1_joint' type='revolute'>
+    <origin xyz='-0.1 0.1 0.21' rpy='0 -0 0'/>
+    <parent link='base_link'/>
+    <child link='rotor_1'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 0 1'/>
+    <limit lower='-1e+16' upper='1e+16' effort='0' velocity='0'/>
+  </joint>
+  <joint name='rotor_2_joint' type='revolute'>
+    <origin xyz='0.1 0.1 0.21' rpy='0 -0 0'/>
+    <parent link='base_link'/>
+    <child link='rotor_2'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 0 1'/>
+    <limit lower='-1e+16' upper='1e+16' effort='0' velocity='0'/>
+  </joint>
+  <joint name='rotor_3_joint' type='revolute'>
+    <origin xyz='-0.1 -0.1 0.21' rpy='0 -0 0'/>
+    <parent link='base_link'/>
+    <child link='rotor_3'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 0 1'/>
+    <limit lower='-1e+16' upper='1e+16' effort='0' velocity='0'/>
+  </joint>
+</robot>

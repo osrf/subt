@@ -15,6 +15,16 @@ find_package(catkin REQUIRED COMPONENTS
   subt_communication_broker
 )
 
+add_message_files(
+  FILES
+  CompetitionClock.msg
+)
+
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+)
+
 find_package(ignition-common3 REQUIRED)
 find_package(ignition-math6 REQUIRED)
 find_package(ignition-msgs5 REQUIRED)
@@ -24,6 +34,7 @@ catkin_package(
   CATKIN_DEPENDS
     message_runtime
     subt_communication_broker
+    std_msgs
     topic_tools
   )
 

@@ -1094,13 +1094,22 @@
               </axis>
             </joint>
             <!-- Gimbal Joints Plugins -->
-            <plugin filename="libignition-gazebo-apply-joint-force-system.so" name="ignition::gazebo::systems::ApplyJointForce">
+            <plugin filename="libignition-gazebo-joint-controller-system.so" name="ignition::gazebo::systems::JointController">
               <joint_name>pan_gimbal_joint</joint_name>
+              <use_force_commands>true</use_force_commands>
+              <p_gain>0.4</p_gain>
+              <i_gain>10</i_gain>
             </plugin>
-            <plugin filename="libignition-gazebo-apply-joint-force-system.so" name="ignition::gazebo::systems::ApplyJointForce">
+            <plugin filename="libignition-gazebo-joint-controller-system.so" name="ignition::gazebo::systems::JointController">
+              <joint_name>tilt_gimbal_joint</joint_name>
+              <use_force_commands>true</use_force_commands>
+              <p_gain>0.4</p_gain>
+              <i_gain>10</i_gain>
+            </plugin>
+            <plugin filename="libignition-gazebo-joint-state-publisher-system.so" name="ignition::gazebo::systems::JointStatePublisher">
+              <joint_name>pan_gimbal_joint</joint_name>
               <joint_name>tilt_gimbal_joint</joint_name>
             </plugin>
-            <plugin filename="libignition-gazebo-joint-state-publisher-system.so" name="ignition::gazebo::systems::JointStatePublisher"/>
             <static>0</static>
           </model>
         </sdf>
