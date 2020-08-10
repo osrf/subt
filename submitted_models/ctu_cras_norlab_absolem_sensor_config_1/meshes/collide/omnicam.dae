@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+  <asset>
+    <contributor>
+      <author>Blender User</author>
+      <authoring_tool>Blender 2.70.0 commit date:2014-04-10, commit time:11:49, hash:f93bc76</authoring_tool>
+    </contributor>
+    <created>2014-07-29T12:00:26</created>
+    <modified>2014-07-29T12:00:26</modified>
+    <unit name="meter" meter="1"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  <library_images/>
+  <library_geometries>
+    <geometry id="Omnicam-mesh" name="Omnicam">
+      <mesh>
+        <source id="Omnicam-mesh-positions">
+          <float_array id="Omnicam-mesh-positions-array" count="30">0.4512919 0.6329926 0.3580349 0.4502776 0.6330545 -0.3247607 -0.1989831 0.6329926 0.5654597 -0.602527 0.6235191 0.01836109 -0.1978921 0.6329928 -0.5333946 0.4523839 -0.5710993 0.3569244 0.4558287 -0.5756039 -0.3263853 -0.2040951 -0.574025 0.5697655 -0.5994682 -0.5713183 0.02265387 -0.2044365 -0.5641755 -0.5534346</float_array>
+          <technique_common>
+            <accessor source="#Omnicam-mesh-positions-array" count="10" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Omnicam-mesh-normals">
+          <float_array id="Omnicam-mesh-normals-array" count="48">-1.24495e-4 1 9.07971e-5 0.3253716 0.01404821 -0.9454818 0.9999883 0.004594683 -0.00148499 -0.004470884 0.9998918 -0.01401633 0.999987 9.02315e-4 0.005035221 -0.8247295 0.0139721 -0.565355 -0.8047952 0.005525767 0.593527 -0.01174598 0.9998944 0.00855416 0.3063986 0.002686619 -0.9518996 0.3084024 0.002087235 0.9512536 0.3038941 -6.03073e-4 0.9527056 -0.8063539 -0.004189074 -0.5914185 -0.8105126 2.94644e-5 0.5857213 0.00231111 -0.9999755 -0.006617367 -0.01055335 -0.9997516 -0.01963222 -0.001883685 -0.9999766 0.006582617</float_array>
+          <technique_common>
+            <accessor source="#Omnicam-mesh-normals-array" count="16" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Omnicam-mesh-map-0">
+          <float_array id="Omnicam-mesh-map-0-array" count="96">0.1086423 0.5204885 0.4072975 0.5209936 0.01508867 0.8044569 0.7872263 0.5212769 0.7906591 0.9005969 0.5283375 0.5195216 0.5328459 0.8988827 0.7901296 0.5252001 0.7954707 0.8979454 0.5114818 0.8012148 0.257914 0.9835277 0.01508867 0.8044569 0.5342954 0.4824326 0.7901296 0.5252001 0.5328459 0.8988827 0.5307142 0.4813655 0.7883333 0.5289419 0.5312041 0.8982381 0.7939914 0.4817206 0.7861565 0.8997759 0.5483617 0.9923788 0.4072975 0.5209936 0.5114818 0.8012148 0.01508867 0.8044569 0.5370205 0.9977589 0.5283375 0.5195216 0.7906591 0.9005969 0.7825193 0.5257582 0.5273151 0.8986985 0.5299461 0.4794515 0.5273151 0.8986985 0.7825193 0.5257582 0.7923641 0.9086239 0.7883333 0.5289419 0.7857125 0.9004855 0.7957575 0.9948285 0.7939914 0.4817206 0.5483617 0.9923788 0.5328609 0.4807468 0.2578611 0.9822363 0.01434153 0.8043199 0.1084853 0.5208925 0.4176054 0.5075489 0.4992693 0.8072232 0.1084853 0.5208925 0.4992693 0.8072232 0.2578611 0.9822363 0.1084853 0.5208925</float_array>
+          <technique_common>
+            <accessor source="#Omnicam-mesh-map-0-array" count="48" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="Omnicam-mesh-vertices">
+          <input semantic="POSITION" source="#Omnicam-mesh-positions"/>
+        </vertices>
+        <polylist count="16">
+          <input semantic="VERTEX" source="#Omnicam-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#Omnicam-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#Omnicam-mesh-map-0" offset="2" set="0"/>
+          <vcount>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </vcount>
+          <p>1 0 0 4 0 1 0 0 2 9 1 3 4 1 4 6 1 5 0 2 6 6 2 7 1 2 8 3 3 9 2 3 10 0 3 11 5 4 12 6 4 13 0 4 14 9 5 15 8 5 16 4 5 17 7 6 18 2 6 19 3 6 20 4 7 21 3 7 22 0 7 23 1 8 24 6 8 25 4 8 26 5 9 27 2 9 28 7 9 29 2 10 30 5 10 31 0 10 32 8 11 33 3 11 34 4 11 35 7 12 36 3 12 37 8 12 38 5 13 39 7 13 40 8 13 41 9 14 42 6 14 43 8 14 44 6 15 45 5 15 46 8 15 47</p>
+        </polylist>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_controllers/>
+  <library_visual_scenes>
+    <visual_scene id="Scene" name="Scene">
+      <node id="Omnicam" name="Omnicam" type="NODE">
+        <matrix sid="transform">0.112947 0 0 0 0 -7.22587e-8 -0.112947 0 0 0.112947 -7.22587e-8 0 0 0 0 1</matrix>
+        <instance_geometry url="#Omnicam-mesh"/>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#Scene"/>
+  </scene>
+</COLLADA>
