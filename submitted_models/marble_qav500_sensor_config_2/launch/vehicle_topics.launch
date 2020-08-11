@@ -56,22 +56,46 @@
     <node
       pkg="ros_ign_bridge"
       type="parameter_bridge"
-      name="ros_ign_bridge_rgbd"
+      name="ros_ign_bridge_points_front"
       args="$(arg sensor_prefix)/camera_front/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
-      <remap from="$(arg sensor_prefix)/camera_front/points" to="rgbd_camera/depth/points"/>
+      <remap from="$(arg sensor_prefix)/camera_front/points" to="front/depth/points"/>
     </node>
     <node
       pkg="ros_ign_image"
       type="image_bridge"
-      name="ros_ign_image_depth"
+      name="ros_ign_depth_front"
       args="$(arg sensor_prefix)/camera_front/depth_image">
       <remap from="$(arg sensor_prefix)/camera_front/depth_image" to="front/depth"/>
     </node>
 
     <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_info_front"
+      args="$(arg sensor_prefix)/camera_front/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+      <remap from="$(arg sensor_prefix)/camera_front/camera_info" to="front/camera_info"/>
+    </node>
+    <node
+      pkg="ros_ign_image"
+      type="image_bridge"
+      name="ros_ign_image_image_front"
+      args="$(arg sensor_prefix)/camera_front/image">
+      <remap from="$(arg sensor_prefix)/camera_front/image" to="front/image_raw"/>
+    </node>
+    <node
       pkg="subt_ros"
       type="optical_frame_publisher"
-      name="optical_frame_publisher_depth"
+      name="optical_frame_publisher_optical_image_front">
+      <remap from="input/image" to="front/image_raw" />
+      <remap from="output/image" to="front/optical/image_raw" />
+      <remap from="input/camera_info" to="front/camera_info" />
+      <remap from="output/camera_info" to="front/optical/camera_info" />
+    </node>
+
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_optical_depth_front"
       args="depth">
       <remap from="input/image" to="front/depth" />
       <remap from="output/image" to="front/optical/depth" />
@@ -81,80 +105,98 @@
     <node
       pkg="ros_ign_bridge"
       type="parameter_bridge"
-      name="ros_ign_bridge_rgbd_left"
+      name="ros_ign_bridge_points_left"
       args="$(arg sensor_prefix)/camera_left/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
-      <remap from="$(arg sensor_prefix)/camera_left/points" to="rgbd_camera_left/depth/points"/>
+      <remap from="$(arg sensor_prefix)/camera_left/points" to="left/depth/points"/>
     </node>
     <node
       pkg="ros_ign_image"
       type="image_bridge"
-      name="ros_ign_image_depth_left"
+      name="ros_ign_depth_left"
       args="$(arg sensor_prefix)/camera_left/depth_image">
       <remap from="$(arg sensor_prefix)/camera_left/depth_image" to="left/depth"/>
     </node>
 
     <node
-      pkg="subt_ros"
-      type="optical_frame_publisher"
-      name="optical_frame_publisher_depth_left"
-      args="depth">
-      <remap from="input/image" to="left/depth" />
-      <remap from="output/image" to="left/optical/depth" />
-    </node>
-
-    <node
       pkg="ros_ign_bridge"
       type="parameter_bridge"
-      name="ros_ign_bridge_camera_left"
+      name="ros_ign_bridge_info_left"
       args="$(arg sensor_prefix)/camera_left/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
       <remap from="$(arg sensor_prefix)/camera_left/camera_info" to="left/camera_info"/>
     </node>
     <node
       pkg="ros_ign_image"
       type="image_bridge"
-      name="ros_ign_image_camera_left"
+      name="ros_ign_image_image_left"
       args="$(arg sensor_prefix)/camera_left/image">
       <remap from="$(arg sensor_prefix)/camera_left/image" to="left/image_raw"/>
+    </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_optical_image_left">
+      <remap from="input/image" to="left/image_raw" />
+      <remap from="output/image" to="left/optical/image_raw" />
+      <remap from="input/camera_info" to="left/camera_info" />
+      <remap from="output/camera_info" to="left/optical/camera_info" />
+    </node>
+
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_optical_depth_left"
+      args="depth">
+      <remap from="input/image" to="left/depth" />
+      <remap from="output/image" to="left/optical/depth" />
     </node>
 
     <!-- RGBD right -->
     <node
       pkg="ros_ign_bridge"
       type="parameter_bridge"
-      name="ros_ign_bridge_rgbd_right"
+      name="ros_ign_bridge_points_right"
       args="$(arg sensor_prefix)/camera_right/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
-      <remap from="$(arg sensor_prefix)/camera_right/points" to="rgbd_camera_right/depth/points"/>
+      <remap from="$(arg sensor_prefix)/camera_right/points" to="right/depth/points"/>
     </node>
     <node
       pkg="ros_ign_image"
       type="image_bridge"
-      name="ros_ign_image_depth_right"
+      name="ros_ign_depth_right"
       args="$(arg sensor_prefix)/camera_right/depth_image">
       <remap from="$(arg sensor_prefix)/camera_right/depth_image" to="right/depth"/>
     </node>
 
     <node
-      pkg="subt_ros"
-      type="optical_frame_publisher"
-      name="optical_frame_publisher_depth_right"
-      args="depth">
-      <remap from="input/image" to="right/depth" />
-      <remap from="output/image" to="right/optical/depth" />
-    </node>
-
-    <node
       pkg="ros_ign_bridge"
       type="parameter_bridge"
-      name="ros_ign_bridge_camera_right"
+      name="ros_ign_bridge_info_right"
       args="$(arg sensor_prefix)/camera_right/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
       <remap from="$(arg sensor_prefix)/camera_right/camera_info" to="right/camera_info"/>
     </node>
     <node
       pkg="ros_ign_image"
       type="image_bridge"
-      name="ros_ign_image_camera_right"
+      name="ros_ign_image_image_right"
       args="$(arg sensor_prefix)/camera_right/image">
       <remap from="$(arg sensor_prefix)/camera_right/image" to="right/image_raw"/>
+    </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_optical_image_right">
+      <remap from="input/image" to="right/image_raw" />
+      <remap from="output/image" to="right/optical/image_raw" />
+      <remap from="input/camera_info" to="right/camera_info" />
+      <remap from="output/camera_info" to="right/optical/camera_info" />
+    </node>
+
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_optical_depth_right"
+      args="depth">
+      <remap from="input/image" to="right/depth" />
+      <remap from="output/image" to="right/optical/depth" />
     </node>
 
     <!-- Top TOF -->
