@@ -152,19 +152,19 @@
         <material>
           <diffuse>1.0 1.0 1.0</diffuse>
           <specular>1.0 1.0 1.0</specular>
-          <!-- <pbr>
+          <pbr>
             <metal>
               <albedo_map>model://MARBLE_HD2_SENSOR_CONFIG_3/materials/textures/HD2_Albedo.png</albedo_map>
               <metalness_map>model://MARBLE_HD2_SENSOR_CONFIG_3/materials/textures/HD2_Metalness.png</metalness_map>
               <roughness_map>model://MARBLE_HD2_SENSOR_CONFIG_3/materials/textures/HD2_Roughness.png</roughness_map>
             </metal>
-          </pbr> -->
+          </pbr>
           <!-- fallback to script if no PBR support-->
-          <!-- <script>
+          <script>
             <uri>model://MARBLE_HD2_SENSOR_CONFIG_3/materials/scripts/</uri>
             <uri>model://MARBLE_HD2_SENSOR_CONFIG_3/materials/textures/</uri>
             <name>HD/HD2_Diffuse</name>
-          </script> -->
+          </script>
         </material>
       </visual>
 
@@ -576,6 +576,142 @@
                 </noise>
             </camera>
         </sensor>
+        <light name="front_cam_left_lamp_light" type="spot">
+          <pose frame="">0.1 0.03 0.013 3.14159 1.5708 0</pose>
+          <attenuation>
+            <range>50</range>
+            <linear>0</linear>
+            <constant>0.1</constant>
+            <quadratic>0.0025</quadratic>
+          </attenuation>
+          <diffuse>0.8 0.8 0.5 1</diffuse>
+          <specular>0.8 0.8 0.5 1</specular>
+          <spot>
+            <!-- The lights on the MARBLE ground vehicles are very wide angle, 100W LEDs -->
+            <inner_angle>2.8</inner_angle>
+            <outer_angle>2.9</outer_angle>
+            <falloff>1</falloff>
+          </spot>
+          <direction>0 0 -1</direction>
+        </light>
+        <visual name="front_cam_left_lamp_light_visual">
+          <pose>0.1 0.03 0.013 3.14159 1.5708 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.01</radius>
+              <length>0.002</length>
+            </cylinder>
+          </geometry>
+          <transparency>0</transparency>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+            <specular>1 1 1 1</specular>
+            <emissive>1 1 1 1</emissive>
+          </material>
+        </visual>
+        <light name="front_cam_right_lamp_light" type="spot">
+          <pose frame="">0.1 -0.03 0.013 3.14159 1.5708 0</pose>
+          <attenuation>
+            <range>50</range>
+            <linear>0</linear>
+            <constant>0.1</constant>
+            <quadratic>0.0025</quadratic>
+          </attenuation>
+          <diffuse>0.8 0.8 0.5 1</diffuse>
+          <specular>0.8 0.8 0.5 1</specular>
+          <spot>
+            <!-- The lights on the MARBLE ground vehicles are very wide angle, 100W LEDs -->
+            <inner_angle>2.8</inner_angle>
+            <outer_angle>2.9</outer_angle>
+            <falloff>1</falloff>
+          </spot>
+          <direction>0 0 -1</direction>
+        </light>
+        <visual name="front_cam_right_lamp_light_visual">
+          <pose>0.1 -0.03 0.013 3.14159 1.5708 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.01</radius>
+              <length>0.002</length>
+            </cylinder>
+          </geometry>
+          <transparency>0</transparency>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+            <specular>1 1 1 1</specular>
+            <emissive>1 1 1 1</emissive>
+          </material>
+        </visual>
+        <light name="back_cam_left_lamp_light" type="spot">
+          <pose frame="">-0.1 -0.03 0.013 0 1.5708 0</pose>
+          <attenuation>
+            <range>50</range>
+            <linear>0</linear>
+            <constant>0.1</constant>
+            <quadratic>0.0025</quadratic>
+          </attenuation>
+          <diffuse>0.8 0.8 0.5 1</diffuse>
+          <specular>0.8 0.8 0.5 1</specular>
+          <spot>
+            <!-- The lights on the MARBLE ground vehicles are very wide angle, 100W LEDs -->
+            <inner_angle>2.8</inner_angle>
+            <outer_angle>2.9</outer_angle>
+            <falloff>1</falloff>
+          </spot>
+          <direction>0 0 -1</direction>
+        </light>
+        <visual name="back_cam_left_lamp_light_visual">
+          <pose>-0.1 -0.03 0.013 0 1.5708 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.01</radius>
+              <length>0.002</length>
+            </cylinder>
+          </geometry>
+          <transparency>0</transparency>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+            <specular>1 1 1 1</specular>
+            <emissive>1 1 1 1</emissive>
+          </material>
+        </visual>
+        <light name="back_cam_right_lamp_light" type="spot">
+          <pose frame="">-0.1 0.03 0.013 0 1.5708 0</pose>
+          <attenuation>
+            <range>50</range>
+            <linear>0</linear>
+            <constant>0.1</constant>
+            <quadratic>0.0025</quadratic>
+          </attenuation>
+          <diffuse>0.8 0.8 0.5 1</diffuse>
+          <specular>0.8 0.8 0.5 1</specular>
+          <spot>
+            <!-- The lights on the MARBLE ground vehicles are very wide angle, 100W LEDs -->
+            <inner_angle>2.8</inner_angle>
+            <outer_angle>2.9</outer_angle>
+            <falloff>1</falloff>
+          </spot>
+          <direction>0 0 -1</direction>
+        </light>
+        <visual name="back_cam_right_lamp_light_visual">
+          <pose>-0.1 0.03 0.013 0 1.5708 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.01</radius>
+              <length>0.002</length>
+            </cylinder>
+          </geometry>
+          <transparency>0</transparency>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+            <specular>1 1 1 1</specular>
+            <emissive>1 1 1 1</emissive>
+          </material>
+        </visual>
     </link>
     <joint name="sensor_head_joint" type="fixed">
       <child>sensor_head_link</child>

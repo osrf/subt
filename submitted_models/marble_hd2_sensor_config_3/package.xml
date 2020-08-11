@@ -3,15 +3,14 @@
   <name>marble_hd2_sensor_config_3</name>
   <version>0.0.1</version>
   <description>The marble_hd2_sensor_config_3 track vehicle package
-    - Has two rgbd camera Realsense D435
-    - An RP Lidar S1
-    - OS1-64 3D Laser C
-    - IMU
-    - gas sensor
-    - A pan/tilt gimbal (Trossen Dynamixel MX-64) with a Realsense D435
-      and 100 W laser mounted on it
-    - A planar lidar (RPLidar S1)
-    - A microstrain 3DMGX5-25 IMU (AHRS)
+    - Forward facing HD Camera
+    - Backward facing HD Camera
+    - Downward tilted depth camera based on the Intel Realsense d435
+    - Horizontal OS1-64 3D Laser C
+    - Vertical OS1-64 3D Laser C
+    - Planar lidar (RPLidar S1)
+    - Microstrain 3DMGX5-25 IMU (AHRS)
+    - Gas sensor
     - Weight: about 75 lbs
   </description>
   <maintainer email="dvasquez@ssci.com">Derek Vasquez</maintainer>
