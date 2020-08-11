@@ -3700,6 +3700,8 @@
       <rotation_angular_limit>1.618994</rotation_angular_limit>
     </plugin>
     <plugin name="ignition::gazebo::systems::JointStatePublisher" filename="libignition-gazebo-joint-state-publisher-system.so">
+      <joint_name>left_track_j</joint_name>
+      <joint_name>right_track_j</joint_name>
       <joint_name>front_left_flipper_j</joint_name>
       <joint_name>front_right_flipper_j</joint_name>
       <joint_name>rear_left_flipper_j</joint_name>
