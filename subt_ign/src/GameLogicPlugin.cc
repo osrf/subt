@@ -673,7 +673,7 @@ void GameLogicPluginPrivate::OnEvent(const ignition::msgs::Pose &_msg)
     for (const auto &data : extraData)
     {
       stream << "    "
-        << data.first << ":" << data.second << std::endl;
+        << data.first << ": " << data.second << std::endl;
     }
   }
   this->LogEvent(stream.str());
@@ -2008,7 +2008,7 @@ void GameLogicPluginPrivate::CheckRobotFlip()
           << "- event:\n"
           << "  type: flip\n"
           << "  time_sec: " << this->simTime.sec() << "\n"
-          << "  robot:" << name << "\n";
+          << "  robot: " << name << "\n";
         this->LogEvent(stream.str());
       }
     }
