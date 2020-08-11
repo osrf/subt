@@ -4,28 +4,19 @@
 This specifications.md file is a description and proof of virtual model validation for the MARBLE Husky with Sensor Configuration 1. This robot may be launched using an ign launch command with the variable name `marble_husky_sensor_config_3`.
 
 ## Description
-This configuration is based on Clearpath Robotics Husky ground robot. The marble sensor suite is located at the front of the husky and includes stationary sensors and some sensors and a light on a pan/tilt mechanism.  
+This configuration is based on Clearpath Robotics Husky ground robot. The marble sensor suite is located at the front of the husky and includes stationary sensors and some sensors and two lights for forward and backward facing cameras.  
 
 ## Usage Instructions
-The robot can be used in the same manner as the COSTAR Husky robot.  It accepts twist messages on the cmd_vel topic.  The gimbal can be controlled using the test_gimbal.sh script (in this folder).  There are also scripts to print the current angles from the pan and tilt axes of the gimbal (pan_echo.sh and tilt_echo.sh).
-
-The gimbal can be controlled via the following topics:
-pan_tilt/pan_rate_cmd_double (send a std_msgs/Double message)
-pan_tilt/tilt_rate_cmd_double (send a std_msgs/Double message)
-
-The position of the pan and tilt axes can be accessed through the joint_state topic.  The name of each axis is available inside that message, but as of today the pan and tilt can be accessed as follows:
-Pan: joint_state/position[4]
-Tilt: joint_state/position[5]
-
+The robot can be used in the same manner as the COSTAR Husky robot.  It accepts twist messages on the cmd_vel topic. 
 ## Usage Rights
 The same Rights are granted for the configuration as for the COSTAR Husky. No additional restrictions have to be taken into account for this configuration.
 
 ### Cost and Scale
 The MARBLE Husky has the following estimate commercial cost components:
 * Base vehicle: $25,000
-* Sensor suite: $12,000
+* Sensor suite: $14,000
 * Compute/Support Electronics: $4,000
-* Total: ~ $41,000
+* Total: ~ $43,000
 
 Its weight is approximately 85 lbs (two-person heft).
 
@@ -34,22 +25,19 @@ This MARBLE Husky with sensor configuration 1 includes the following sensors. Th
 
 The following specific sensors are declared payloads of this vehicle:
 
-* Trossen ScorpionX MX-64 Robot Turret, modeled by JointStateController and JointStatePublisher plugins.
-* D435i RGBD Camera (x3), modeled by rgbd_camera plugin
-  - 1x fixed, forward-looking
-  - 1x fixed, downward-facing at about 45 degrees (for examining terrain)
-  - 1x gimballed (on the Trossen turret)
+* D435i RGBD Camera, modeled by rgbd_camera plugin
+  - fixed, downward-facing at about 45 degrees (for examining terrain)
 * Ouster 3D Lidar (64 Channel), modeled by gpu_lidar plugin
 * Microstrain IMU: 3DM-GX5-25, modeled by imu_sensor plugin. Notes on modeling of the IMU are included in the model.sdf file.  (located under the 3D lidar, installed at same x,y location as 3D lidar)
-- RPLidar S1 Planar Lidar (under the 3D lidar), modeled by gpu_ray plugin
-- Vividia HTI-301 LWIR Camera (not modeled because thermal camera not yet supported in simulator) - located on the turret next to the D435i and light.  
+* RPLidar S1 Planar Lidar (under the 3D lidar), modeled by gpu_ray plugin
+* HD MIPI Cameras - 720p (x2)
+  - (1x) forward facing on top of sensor tower
+  - (1x) rear facing on top of sensor tower
 
 ### Control
 This MARBLE Husky is controlled by the DiffDrive plugin.  It accepts twist inputs which drive the vehicle along the x-direction and around the z-axis.  
 
 ### Motion CharacteristicsBased on the tests specified in the DARPA SubT Challenge [Model PreparationGuide](https://subtchallenge.com/\<fix_me\>), this vehicle has the following motion constraint characteristics.
-
-This configuration has the same motion characteristics as the COSTAR husky, except it also has a pan/tilt mechanism which has additional motion characteristics.  We have included a test script in this folder (test_gimbal.sh) which sends pan and tilt commands using ROS topics.  This script assumes you have named your vehicle X1.  
 
 The motion characteristics are the same as the COSTAR husky which has already been modeled.  We were unable to perform additional validation tests due to COVID-19 restrictions.  
 
@@ -59,16 +47,14 @@ This configuration has an endurance of approximately 4 hours, but we have limite
 ### Diversions from Physical Hardware of MARBLE Husky
 Computers were installed in the payload area of the husky and these have been roughly modeled (the rail and computer bay are shown in the model.sdf model).  The MARBLE vehicle uses an AMD Ryzen processor (32-core) with 64 GB of RAM.  It has a cooling system as well.  
 
-## X4 Validation and Specification Links
+## Marble Husky Validation and Specification Links
 * Vehicle Links:
   * https://clearpathrobotics.com/husky-unmanned-ground-vehicle-robot/
 
 * Sensor specification links:
-  * Trossen ScorpionX MX-64 Robot Turret - https://www.trossenrobotics.com/p/ScorpionX-RX-64-robot-turret.aspx
   * D435i RGBD Camera - https://www.intelrealsense.com/depth-camera-d435i/
   * Ouster 3D Lidar (64 Channel) - https://ouster.com/products/os1-lidar-sensor/
-  * RPLidar S1 Planar Lidar - https://www.slamtec.com/en/Lidar/S1Spec
-  * Vividia HTI-301 LWIR Camera - https://www.oasisscientific.com/store/p504/Vividia_HTi_HT-301_Thermal_Imaging_Camera_for_Android_Phone_and_Tablet_with_IR_Resolution_384x288.html  
+  * RPLidar S1 Planar Lidar - https://www.slamtec.com/en/Lidar/S1Spec 
   * IMU: Microstrain 3DM-GX5-25 - datasheet: https://www.microstrain.com/sites/default/files/applications/files/3dm-gx5-25_datasheet_8400-0093_rev_n.pdf
     * Explanation of sensor parameter derivations:
 	We derived the stddev terms as follows:
