@@ -1372,7 +1372,7 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
     << "  reported_pose: " << observedObjectPose << "\n"
     << "  reported_artifact_type: " << this->kArtifactTypes.at(
         static_cast<std::size_t>(_type)).second << "\n"
-    << "  artifact: " << std::get<0>(minDistance) << "\n"
+    << "  closest_artifact_name: " << std::get<0>(minDistance) << "\n"
     << "  distance: " <<  outDist << "\n"
     << "  points_scored: " << score << "\n"
     << "  total_score: " << this->totalScore + score << std::endl;
