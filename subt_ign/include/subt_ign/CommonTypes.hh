@@ -66,8 +66,8 @@ namespace subt
   enum class ArtifactType : uint32_t
   {
     TYPE_BACKPACK = 0,
-    TYPE_DUCT,
     TYPE_DRILL,
+    TYPE_DUCT,
     TYPE_ELECTRICAL_BOX,
     TYPE_EXTINGUISHER,
     TYPE_PHONE,
