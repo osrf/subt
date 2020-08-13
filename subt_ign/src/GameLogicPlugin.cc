@@ -1362,6 +1362,8 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
     }
   }
 
+  auto outDist = std::isinf(std::get<2>(minDistance)) ? -1 :
+    std::get<2>(minDistance);
   std::ostringstream stream;
   stream
     << "- event:\n"
@@ -1371,7 +1373,7 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
     << "  reported_artifact_type: " << this->kArtifactTypes.at(
         static_cast<std::size_t>(_type)).second << "\n"
     << "  artifact: " << std::get<0>(minDistance) << "\n"
-    << "  distance: " << std::get<2>(minDistance) << "\n"
+    << "  distance: " <<  outDist << "\n"
     << "  points_scored: " << score << "\n"
     << "  total_score: " << this->totalScore + score << std::endl;
   this->LogEvent(stream.str());
