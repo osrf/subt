@@ -60,6 +60,7 @@
 #include "subt_ign/CommonTypes.hh"
 #include "subt_ign/GameLogicPlugin.hh"
 #include "subt_ign/protobuf/artifact.pb.h"
+#include "subt_ign/RobotPlatformTypes.hh"
 
 IGNITION_ADD_PLUGIN(
     subt::GameLogicPlugin,
@@ -381,9 +382,8 @@ class subt::GameLogicPluginPrivate
   /// \brief Names of the spawned robots.
   public: std::set<std::string> robotNames;
 
-  /// \brief Source file paths of the spawned robots.
-  /// For keeping track of unique robot models.
-  public: std::set<std::string> robotSourceFilePaths;
+  /// \brief Robot types for keeping track of unique robot platform types.
+  public: std::set<std::string> robotTypes;
 
   /// \brief The unique artifact reports received.
   public: std::vector<std::string> uniqueReports;
@@ -767,7 +767,13 @@ void GameLogicPlugin::PostUpdate(
               auto filePath =
                 _ecm.Component<gazebo::components::SourceFilePath>(
                 model->Data());
-              this->dataPtr->robotSourceFilePaths.insert(filePath->Data());
+
+              // Store unique robot platform information.
+              for (const std::string &type : robotPlatformTypes)
+              {
+                if (filePath->Data().find(type) != std::string::npos)
+                  this->dataPtr->robotTypes.insert(type);
+              }
 
               // Subscribe to detach topics. We are doing a blanket
               // subscribe even though a robot model may not be marsupial.
@@ -1805,7 +1811,7 @@ void GameLogicPluginPrivate::LogRobotArtifactData() const
   out << YAML::Key << "robot_count";
   out << YAML::Value << this->robotNames.size();
   out << YAML::Key << "unique_robot_count";
-  out << YAML::Value << this->robotSourceFilePaths.size();
+  out << YAML::Value << this->robotTypes.size();
   out << YAML::Key << "sim_time";
   out << YAML::Value << simElapsed;
   out << YAML::Key << "real_time";
