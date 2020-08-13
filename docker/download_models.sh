@@ -95,6 +95,26 @@ ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/R
 ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/Rough Tunnel Tile Ramp" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/Rough Tunnel Tile Vertical Shaft" -v 4
 
+# Download niosh models
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/NIOSH Staging Area" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/NIOSH Segment 01 Section 01" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/NIOSH Segment 01 Section 02" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/NIOSH Segment 01 Section 03" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/NIOSH Segment 01 Section 04" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/NIOSH Segment 01 Section 05" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/NIOSH Segment 01 Section 06" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/NIOSH Segment 01 Section 07" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/NIOSH Segment 01 Section 08" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/NIOSH Segment 01 Section 09" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/NIOSH Segment 01 Section 10" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/NIOSH Segment 01 Section 11" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/NIOSH Segment 02 Section 01" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/NIOSH Segment 02 Section 02" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/NIOSH Segment 02 Section 03" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/NIOSH Segment 02 Section 04" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/NIOSH Segment 02 Section 05" -v 4
+ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/NIOSH Segment 02 Section 06" -v 4
+
 # Download urban circuit tiles
 ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/Urban Superpose" -v 4
 ign fuel download --url "https://fuel.ignitionrobotics.org/OpenRobotics/models/Urban Service Room" -v 4
