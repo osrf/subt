@@ -25,17 +25,17 @@ const std::vector<std::string> robotPlatformTypes = {
   "X4",
   "HUSKY",
   "TEAMBASE",
-  "ANYMAL",
+  "ANYMAL_B",
   "M100",
   "FREYJA",
   "KLOUBAK",
   "HD2",
   "QAV500",
-  "EXPLORER_R2",
-  "EXPLORER_DS1",
-  "CSIRO_DATA61_OZBOT_ATR",
-  "CTU_CRAS_NORLAB_ABSOLEM",
-  "CERBERUS_GAGARIN"
+  "R2",
+  "DS1",
+  "OZBOT_ATR",
+  "ABSOLEM",
+  "GAGARIN"
 };
 
 #endif
