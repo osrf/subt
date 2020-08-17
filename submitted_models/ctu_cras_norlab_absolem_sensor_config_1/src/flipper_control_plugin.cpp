@@ -26,16 +26,21 @@ namespace cras
 /// `<topic_vel>`: Custom topic that this system will subscribe to in order to receive velocity commands messages.
 /// This element is optional, and the default value is `/model/{name_of_model}/joints/{joint_name}/cmd_vel`.
 ///
-/// `<topic_pos>`: Custom topic that this system will subscribe to in order to receive position commands messages.
+/// `<topic_pos_abs>`: Custom topic that this system will subscribe to in order to receive position commands messages.
 /// This element is optional, and the default value is `/model/{name_of_model}/joints/{joint_name}/cmd_pos`.
+///
+/// `<topic_pos_rel>`: Custom topic that this system will subscribe to in order to receive relative position commands
+/// messages. This element is optional, and the default value is
+/// `/model/{name_of_model}/joints/{joint_name}/cmd_pos_rel`.
 ///
 /// `<max_velocity>`: Maximum angular velocity of the flipper joint that is used in positional control.
 ///
 /// # Subscriptions
 ///
 /// `{topic_vel}` (`ignition::msgs::Double`): The desired rotation velocity of the flipper.
-/// `{topic_pos}` (`ignition::msgs::Double`): The positional setpoint of the flipper.
-class FlipperControlPlugin : public System, public ISystemConfigure, public ISystemPreUpdate, public ISystemPostUpdate
+/// `{topic_pos_abs}` (`ignition::msgs::Double`): The positional setpoint of the flipper.
+/// `{topic_pos_rel}` (`ignition::msgs::Double`): Relative positional setpoint of the flipper.
+class FlipperControlPlugin : public System, public ISystemConfigure, public ISystemPreUpdate
 {
   public: void Configure(const Entity& _entity, const std::shared_ptr<const sdf::Element>& _sdf,
                          EntityComponentManager& _ecm, EventManager& _eventMgr) override
@@ -69,13 +74,18 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
       topicVel = _sdf->Get<std::string>("topic_vel");
     this->node.Subscribe(topicVel, &FlipperControlPlugin::OnCmdVel, this);
 
-    std::string topicPos {"/model/" + this->model.Name(_ecm) + "/joint/" + this->jointName + "/cmd_pos"};
-    if (_sdf->HasElement("topic_pos"))
-      topicPos = _sdf->Get<std::string>("topic_pos");
-    this->node.Subscribe(topicPos, &FlipperControlPlugin::OnCmdPos, this);
+    std::string topicPosAbs {"/model/" + this->model.Name(_ecm) + "/joint/" + this->jointName + "/cmd_pos"};
+    if (_sdf->HasElement("topic_pos_abs"))
+      topicPosAbs = _sdf->Get<std::string>("topic_pos_abs");
+    this->node.Subscribe(topicPosAbs, &FlipperControlPlugin::OnCmdPosAbs, this);
+
+    std::string topicPosRel {"/model/" + this->model.Name(_ecm) + "/joint/" + this->jointName + "/cmd_pos_rel"};
+    if (_sdf->HasElement("topic_pos_rel"))
+      topicPosRel = _sdf->Get<std::string>("topic_pos_rel");
+    this->node.Subscribe(topicPosRel, &FlipperControlPlugin::OnCmdPosRel, this);
 
     ignmsg << "FlipperControlPlugin subscribing to cmd_vel messages on [" << topicVel << "] and cmd_pos messages on ["
-      << topicPos << "]" << std::endl;
+           << topicPosAbs << "] and cmd_pos_rel messages on [" << topicPosRel << "]" << std::endl;
   }
 
   public: void PreUpdate(const UpdateInfo& _info, EntityComponentManager& _ecm) override
@@ -102,76 +112,63 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
 
     auto pos = _ecm.Component<components::JointPosition>(this->joint);
     if (!pos)
+    {
       _ecm.CreateComponent(this->joint, components::JointPosition());
-
-    auto vel = _ecm.Component<components::JointVelocityCmd>(this->joint);
-    if (!vel)
-    {
-      _ecm.CreateComponent(this->joint, components::JointVelocityCmd({this->angularSpeed}));
-    }
-    else
-    {
-      *vel = components::JointVelocityCmd({this->angularSpeed});
+      pos = _ecm.Component<components::JointPosition>(this->joint);
     }
 
-    if (this->angularSpeed == 0.0)
-      this->correctStaticAnglePosition(this->joint, this->staticAngle, _ecm);
-  }
-
-  public: void PostUpdate(const UpdateInfo& _info, const EntityComponentManager& _ecm) override
-  {
     if (this->cmdVel.has_value())
     {
       const auto velocity = this->cmdVel.value();
-      if (this->joint != kNullEntity) {
-        if (this->angularSpeed != 0.0 && velocity == 0.0)
-        {
-          auto pos = _ecm.Component<components::JointPosition>(this->joint);
-          if (pos)
-          {
-            this->staticAngle = pos->Data()[0];
-          }
-        }
-        const auto sanitizedVelocity = math::clamp(velocity, -this->maxAngularVelocity, this->maxAngularVelocity);
-        this->angularSpeed = sanitizedVelocity;
+      this->staticAngle.reset();
+      if (this->angularSpeed != 0.0 && velocity == 0.0)
+      {
+        this->staticAngle = pos->Data()[0];
       }
+      this->angularSpeed = velocity;
       this->cmdVel.reset();
-    } else if (this->cmdPos.has_value()) {
-      const auto position = this->cmdPos.value();
-      if (this->joint != kNullEntity) {
-        this->staticAngle = position;
-      }
-      this->cmdPos.reset();
+    } else if (this->cmdPosAbs.has_value()) {
+      const auto position = this->cmdPosAbs.value();
+      this->staticAngle = position;
+      this->cmdPosAbs.reset();
+    } else if (this->cmdPosRel.has_value()) {
+      const auto position = pos->Data()[0] + this->cmdPosRel.value();
+      this->staticAngle = position;
+      this->cmdPosRel.reset();
     }
 
     if (this->cmdTorque.has_value()) {
       this->UpdateMaxTorque(this->cmdTorque.value(), _ecm);
       this->cmdTorque.reset();
     }
+
+    auto velocityCommand = this->angularSpeed;
+    if (this->staticAngle.has_value())
+      velocityCommand = this->correctStaticAnglePosition(this->joint, this->staticAngle.value(), _ecm);
+
+    auto vel = _ecm.Component<components::JointVelocityCmd>(this->joint);
+    if (!vel)
+    {
+      _ecm.CreateComponent(this->joint, components::JointVelocityCmd({velocityCommand}));
+    }
+    else
+    {
+      *vel = components::JointVelocityCmd({velocityCommand});
+    }
   }
 
   // To mitigate integrating small velocity errors, if the flipper is said to be stationary, we check that its position
   // does not drift over time.
-  protected: void correctStaticAnglePosition(const Entity& joint, const math::Angle& staticPos, EntityComponentManager& _ecm) {
+protected: double correctStaticAnglePosition(const Entity& joint, const math::Angle& staticPos, EntityComponentManager& _ecm) {
     auto pos = _ecm.Component<components::JointPosition>(this->joint);
-    if (!pos)
-      return;
-
     const math::Angle currentPos{pos->Data()[0]};
     if (fabs((currentPos - staticPos).Degree()) > 1.0)
     {
       const auto correctingVelocity = this->positionCorrectionGain * (staticPos - currentPos).Radian();
       const auto sanitizedVelocity = math::clamp(correctingVelocity, -this->maxAngularVelocity, this->maxAngularVelocity);
-      auto vel = _ecm.Component<components::JointVelocityCmd>(this->joint);
-      if (!vel)
-      {
-        _ecm.CreateComponent(this->joint, components::JointVelocityCmd({sanitizedVelocity}));
-      }
-      else
-      {
-        *vel = components::JointVelocityCmd({sanitizedVelocity});
-      }
+      return sanitizedVelocity;
     }
+    return 0.0;
   }
 
   protected: void UpdateMaxTorque(const double maxTorque, const EntityComponentManager& _ecm)
@@ -189,15 +186,20 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
     this->cmdVel = _msg.data();
   }
 
-  public: void OnCmdPos(const msgs::Double &_msg)
+  public: void OnCmdPosAbs(const msgs::Double &_msg)
   {
-    this->cmdPos = _msg.data();
+    this->cmdPosAbs = _msg.data();
+  }
+
+  public: void OnCmdPosRel(const msgs::Double &_msg)
+  {
+    this->cmdPosRel = _msg.data();
   }
 
   public: void Reset(EntityComponentManager& _ecm)
   {
     this->angularSpeed = 0;
-    this->staticAngle = ignition::math::Angle(0);
+    this->staticAngle.reset();
 
     if (this->joint != kNullEntity)
     {
@@ -221,13 +223,14 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
   protected: std::string jointName;
   protected: Entity joint{kNullEntity};
   protected: transport::Node node;
-  protected: std::optional<double> cmdPos;
+  protected: std::optional<double> cmdPosAbs;
+  protected: std::optional<double> cmdPosRel;
   protected: std::optional<double> cmdVel;
   protected: std::optional<double> cmdTorque;
-  protected: ignition::math::Angle staticAngle{0.0};
+  protected: std::optional<ignition::math::Angle> staticAngle{0.0};
   protected: double angularSpeed{0.0};
   protected: double maxTorque{30.0};
-  protected: double positionCorrectionGain{0.2};
+  protected: double positionCorrectionGain{20.0};
   protected: double maxAngularVelocity{0.5};
 };
 
@@ -236,7 +239,6 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
 IGNITION_ADD_PLUGIN(cras::FlipperControlPlugin,
                     System,
                     ISystemConfigure,
-                    ISystemPreUpdate,
-                    ISystemPostUpdate)
+                    ISystemPreUpdate)
 
 IGNITION_ADD_PLUGIN_ALIAS(cras::FlipperControlPlugin, "cras::FlipperControlPlugin")
