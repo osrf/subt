@@ -1432,7 +1432,8 @@
     </gazebo>
 
     <xacro:if value="${'$(arg rendering_target)' == 'sdf' and $(arg has_differential)}">
-        <xacro:include filename="$(find ctu_cras_norlab_absolem_sensor_config_1)/urdf/differential.xacro" />
+		<!-- No support for closed kinematic chains until https://github.com/ignitionrobotics/ign-physics/issues/25 is fixed -->
+        <!--xacro:include filename="$(find ctu_cras_norlab_absolem_sensor_config_1)/urdf/differential.xacro" /-->
     </xacro:if>
 
     <xacro:if value="$(arg has_flippers)">
