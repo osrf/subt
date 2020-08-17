@@ -771,7 +771,11 @@ void GameLogicPlugin::PostUpdate(
               // Store unique robot platform information.
               for (const std::string &type : robotPlatformTypes)
               {
-                if (filePath->Data().find(type) != std::string::npos)
+                std::string platformNameUpper = filePath->Data();
+                std::transform(platformNameUpper.begin(),
+                    platformNameUpper.end(),
+                    platformNameUpper.begin(), ::toupper);
+                if (platformNameUpper.find(type) != std::string::npos)
                   this->dataPtr->robotTypes.insert(type);
               }
 
