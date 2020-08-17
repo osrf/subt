@@ -36,12 +36,16 @@ namespace cras
 /// messages. This element is optional, and the default value is
 /// `/model/{name_of_model}/joints/{joint_name}/cmd_pos_rel`.
 ///
+/// `<topic_max_torque>`: Custom topic that this system will subscribe to in order to receive torque limit command
+/// messages. This element is optional, and the default value is
+/// `/model/{name_of_model}/joints/{joint_name}/cmd_max_torque`. This feature is not yet implemented.
+///
 /// `<max_velocity>`: Maximum angular velocity of the flipper joint that is used in positional and velocity control.
 /// Note that this velocity is also limited by the joint's <limit><velocity> setting. Default is 0.5 rad/s.
 ///
 /// `<max_torque>`: Maximum torque the flipper joint can use to reach the given positional or velocity setpoint (or to
 /// hold still in its position when stopped). Note that this torque is also limited by the joint's <limit><effort>
-/// setting. Default is 30 Nm.
+/// setting. Default is 30 Nm. This feature is not yet implemented.
 ///
 /// `<position_correction_gain>`: The gain used for positional control. The correcting velocity is computed as
 /// gain * (current_position - setpoint) and limited by <max_velocity>. The higher this gain is, the faster will the
@@ -56,6 +60,7 @@ namespace cras
 /// `{topic_vel}` (`ignition::msgs::Double`): The desired rotation velocity of the flipper.
 /// `{topic_pos_abs}` (`ignition::msgs::Double`): The positional setpoint of the flipper.
 /// `{topic_pos_rel}` (`ignition::msgs::Double`): Relative positional setpoint of the flipper.
+/// `{topic_max_torque}` (`ignition::msgs::Double`): Maximum torque allowed for the flipper.
 class FlipperControlPlugin : public System, public ISystemConfigure, public ISystemPreUpdate
 {
   public: void Configure(const Entity& _entity, const std::shared_ptr<const sdf::Element>& _sdf,
@@ -110,9 +115,9 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
         _sdf->Get<double>(
             "position_correction_tolerance", this->positionCorrectionTolerance.Radian()).first);
 
-    std::string topicTorque {"/model/" + this->model.Name(_ecm) + "/joint/" + this->jointName + "/cmd_torque"};
-    if (_sdf->HasElement("topic_torque"))
-      topicTorque = _sdf->Get<std::string>("topic_torque");
+    std::string topicTorque {"/model/" + this->model.Name(_ecm) + "/joint/" + this->jointName + "/cmd_max_torque"};
+    if (_sdf->HasElement("topic_max_torque"))
+      topicTorque = _sdf->Get<std::string>("topic_max_torque");
     this->node.Subscribe(topicTorque, &FlipperControlPlugin::OnCmdTorque, this);
 
     std::string topicVel {"/model/" + this->model.Name(_ecm) + "/joint/" + this->jointName + "/cmd_vel"};
@@ -207,9 +212,17 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
     return 0.0;
   }
 
-  protected: void UpdateMaxTorque(const double maxTorque, const EntityComponentManager& _ecm)
+  protected: void UpdateMaxTorque(const double maxTorqueCmd, EntityComponentManager& _ecm)
   {
-    // TODO
+    const auto torque = math::clamp(maxTorqueCmd, 0.0, this->maxTorque);
+    // TODO max effort cannot be changed during run time, waiting for resolution of
+    //  https://github.com/ignitionrobotics/ign-physics/issues/96
+    static bool informed{false};
+    if (!informed)
+    {
+      ignwarn << "FlipperControlPlugin: Max torque commands are not yet supported." << std::endl;
+      informed = true;
+    }
   }
 
   public: void OnCmdTorque(const msgs::Double &_msg)

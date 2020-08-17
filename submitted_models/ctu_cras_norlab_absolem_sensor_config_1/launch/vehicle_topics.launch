@@ -78,6 +78,13 @@
       args="/model/$(arg name)/joint/front_left_flipper_j/cmd_pos_rel@std_msgs/Float64]ignition.msgs.Double">
       <remap from="/model/$(arg name)/joint/front_left_flipper_j/cmd_pos_rel" to="flippers_cmd_pos_rel/front_left"/>
     </node>
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_front_left_flipper_torque"
+      args="/model/$(arg name)/joint/front_left_flipper_j/cmd_max_torque@std_msgs/Float64]ignition.msgs.Double">
+      <remap from="/model/$(arg name)/joint/front_left_flipper_j/cmd_max_torque" to="flippers_cmd_max_torque/front_left"/>
+    </node>
 
     <node
       pkg="ros_ign_bridge"
@@ -99,6 +106,13 @@
       name="ros_ign_bridge_front_right_flipper_pos_rel"
       args="/model/$(arg name)/joint/front_right_flipper_j/cmd_pos_rel@std_msgs/Float64]ignition.msgs.Double">
       <remap from="/model/$(arg name)/joint/front_right_flipper_j/cmd_pos_rel" to="flippers_cmd_pos_rel/front_right"/>
+    </node>
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_front_right_flipper_torque"
+      args="/model/$(arg name)/joint/front_right_flipper_j/cmd_max_torque@std_msgs/Float64]ignition.msgs.Double">
+      <remap from="/model/$(arg name)/joint/front_right_flipper_j/cmd_max_torque" to="flippers_cmd_max_torque/front_right"/>
     </node>
 
     <node
@@ -122,6 +136,13 @@
       args="/model/$(arg name)/joint/rear_left_flipper_j/cmd_pos_rel@std_msgs/Float64]ignition.msgs.Double">
       <remap from="/model/$(arg name)/joint/rear_left_flipper_j/cmd_pos_rel" to="flippers_cmd_pos_rel/rear_left"/>
     </node>
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_rear_left_flipper_torque"
+      args="/model/$(arg name)/joint/rear_left_flipper_j/cmd_max_torque@std_msgs/Float64]ignition.msgs.Double">
+      <remap from="/model/$(arg name)/joint/rear_left_flipper_j/cmd_max_torque" to="flippers_cmd_max_torque/rear_left"/>
+    </node>
 
     <node
       pkg="ros_ign_bridge"
@@ -143,6 +164,13 @@
       name="ros_ign_bridge_rear_right_flipper_pos_rel"
       args="/model/$(arg name)/joint/rear_right_flipper_j/cmd_pos_rel@std_msgs/Float64]ignition.msgs.Double">
       <remap from="/model/$(arg name)/joint/rear_right_flipper_j/cmd_pos_rel" to="flippers_cmd_pos_rel/rear_right"/>
+    </node>
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_rear_right_flipper_torque"
+      args="/model/$(arg name)/joint/rear_right_flipper_j/cmd_max_torque@std_msgs/Float64]ignition.msgs.Double">
+      <remap from="/model/$(arg name)/joint/rear_right_flipper_j/cmd_max_torque" to="flippers_cmd_max_torque/rear_right"/>
     </node>
 
     <!-- Laser rotation control -->
