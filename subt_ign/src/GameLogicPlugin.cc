@@ -183,6 +183,12 @@ class subt::GameLogicPluginPrivate
   public: void OnDetachEvent(const ignition::msgs::Empty &_msg,
     const transport::MessageInfo &_info);
 
+  /// \brief Breadcrumb deploy subscription callback.
+  /// \param[in] _msg Deploy message.
+  /// \param[in] _info Message information.
+  public: void OnBreadcrumbDeployEvent(const ignition::msgs::Empty &_msg,
+    const transport::MessageInfo &_info);
+
   /// \brief Battery subscription callback.
   /// \param[in] _msg Battery message.
   /// \param[in] _info Message information.
@@ -610,6 +616,28 @@ void GameLogicPluginPrivate::OnBatteryMsg(
   }
 }
 
+//////////////////////////////////////////////////
+void GameLogicPluginPrivate::OnBreadcrumbDeployEvent(
+    const ignition::msgs::Empty &/*_msg*/,
+    const transport::MessageInfo &_info)
+{
+  std::vector<std::string> topicParts = common::split(_info.Topic(), "/");
+  std::string name = "_unknown_";
+
+  // Get the name of the model from the topic name, where the topic name
+  // look like '/model/{model_name}/detach'.
+  if (topicParts.size() > 1)
+    name = topicParts[1];
+
+  std::ostringstream stream;
+  stream
+    << "- event:\n"
+    << "  type: breadcrumb_deploy\n"
+    << "  time_sec: " << this->simTime.sec() << "\n"
+    << "  robot: " << name << std::endl;
+
+  this->LogEvent(stream.str());
+}
 
 //////////////////////////////////////////////////
 void GameLogicPluginPrivate::OnDetachEvent(
@@ -777,6 +805,15 @@ void GameLogicPlugin::PostUpdate(
                 mName->Data() + "/detach";
               this->dataPtr->node.Subscribe(detachTopic,
                   &GameLogicPluginPrivate::OnDetachEvent, this->dataPtr.get());
+
+              // Subscribe to breadcrumb deploy topics. We are doing a blanket
+              // subscribe even though a robot model may not have
+              // breadcrumbs.
+              std::string deployTopic = std::string("/model/") +
+                mName->Data() + "/breadcrumb/deploy";
+              this->dataPtr->node.Subscribe(deployTopic,
+                  &GameLogicPluginPrivate::OnBreadcrumbDeployEvent,
+                  this->dataPtr.get());
 
               // Subscribe to battery state in order to log battery events.
               std::string batteryTopic = std::string("/model/") +
