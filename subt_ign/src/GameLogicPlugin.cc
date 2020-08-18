@@ -1655,16 +1655,6 @@ std::chrono::steady_clock::time_point GameLogicPluginPrivate::UpdateScoreFiles()
 
   // Output a run summary
   std::ofstream summary(this->logPath + "/summary.yml", std::ios::out);
-  if (!this->marsupialPairs.empty())
-  {
-    summary << "marsupials:\n";
-    for (auto const &pair : this->marsupialPairs)
-      summary << "  - \"" << pair.first << ":" << pair.second << "\"\n";
-  }
-  else
-  {
-    summary << "marsupials: ~\n";
-  }
 
   summary << "was_started: " << this->started << std::endl;
   summary << "sim_time_duration_sec: " << simElapsed << std::endl;
@@ -1798,6 +1788,12 @@ void GameLogicPluginPrivate::LogRobotArtifactData() const
 
   YAML::Emitter out;
   out << YAML::BeginMap;
+
+  out << YAML::Key << "marsupials";
+  out << YAML::Value << YAML::BeginMap;
+  for (auto const &pair : this->marsupialPairs)
+    out << YAML::Key << pair.first << YAML::Value << pair.second;
+  out << YAML::EndMap;
 
   // artifact data
   out << YAML::Key << "artifacts_found";
