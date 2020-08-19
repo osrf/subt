@@ -1,7 +1,7 @@
 <!---This is a Markdown description of a robot model submitted for inclusion in the DARPA Subterranean Challenge Technology Repository -->
 
 # MARBLE HD2 Sensor Config 3
-This specifications.md file is a description and proof of virtual model validation for the MARBLE HD2 with Sensor Configuration 1. This robot may be launched using an ign launch command with the variable name `marble_hd2_sensor_config_3`.
+This specifications.md file is a description and proof of virtual model validation for the MARBLE HD2 with Sensor Configuration 3. This robot may be launched using an ign launch command with the variable name `MARBLE_HD2_SENSOR_CONFIG_3`.
 
 ## Description
 This configuration is based on Superdroid HD2 ground robot. The marble sensor suite is located at the front of the HD2 chassis and includes stationary sensors (cameras, lidars, etc).  
@@ -50,7 +50,7 @@ This configuration has an endurance of approximately 2 hours.  We plan to carry 
 ### Diversions from Physical Hardware of MARBLE HD2
 Computers were installed in the payload area of the husky and these have been roughly modeled (the rail and computer bay are shown in the model.sdf model).  The MARBLE vehicle uses an AMD Ryzen processor (32-core) with 64 GB of RAM.  It has a cooling system as well which makes up part of the black bay seen in the sdf model.  
 
-## Marble HD2 Validation and Specification Links
+## Validation Links
 * Vehicle Links:
   * https://clearpathrobotics.com/husky-unmanned-ground-vehicle-robot/
 
