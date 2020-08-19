@@ -152,19 +152,19 @@
         <material>
           <diffuse>1.0 1.0 1.0</diffuse>
           <specular>1.0 1.0 1.0</specular>
-          <pbr>
+          <!-- <pbr>
             <metal>
               <albedo_map>model://MARBLE_HD2_SENSOR_CONFIG_3/materials/textures/HD2_Albedo.png</albedo_map>
               <metalness_map>model://MARBLE_HD2_SENSOR_CONFIG_3/materials/textures/HD2_Metalness.png</metalness_map>
               <roughness_map>model://MARBLE_HD2_SENSOR_CONFIG_3/materials/textures/HD2_Roughness.png</roughness_map>
             </metal>
-          </pbr>
+          </pbr> -->
           <!-- fallback to script if no PBR support-->
-          <script>
+          <!-- <script>
             <uri>model://MARBLE_HD2_SENSOR_CONFIG_3/materials/scripts/</uri>
             <uri>model://MARBLE_HD2_SENSOR_CONFIG_3/materials/textures/</uri>
             <name>HD/HD2_Diffuse</name>
-          </script>
+          </script> -->
         </material>
       </visual>
 

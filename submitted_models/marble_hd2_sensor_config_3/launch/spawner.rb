@@ -62,6 +62,22 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <update_rate>10</update_rate>
         <type>gas</type>
       </plugin>
+      <plugin filename="libignition-gazebo-breadcrumbs-system.so"
+            name="ignition::gazebo::systems::Breadcrumbs">
+        <topic>/model/#{_name}/breadcrumb/deploy</topic>
+        <max_deployments>12</max_deployments>
+        <disable_physics_time>3.0</disable_physics_time>
+        <breadcrumb>
+          <sdf version="1.6">
+            <model name="#{_name}__breadcrumb__">
+              <pose>-0.45 0 0 0 0 0</pose>
+              <include>
+                <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Breadcrumb Node</uri>
+             </include>
+           </model>
+         </sdf>
+       </breadcrumb>
+     </plugin>
     </include>
     </sdf>
   </spawn>
@@ -74,7 +90,7 @@ def rosExecutables(_name, _worldName)
     <command>roslaunch --wait marble_hd2_sensor_config_3 description.launch world_name:=#{_worldName} name:=#{_name}</command>
   </executable>
   <executable name='topics'>
-    <command>roslaunch --wait marble_hd2_sensor_config_3 vehicle_topics.launch world_name:=#{_worldName} name:=#{_name}</command>
+    <command>roslaunch --wait marble_hd2_sensor_config_3 vehicle_topics.launch world_name:=#{_worldName} name:=#{_name} breadcrumbs:=1</command>
   </executable>
   HEREDOC
 end
