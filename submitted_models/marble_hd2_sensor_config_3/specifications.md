@@ -26,14 +26,14 @@ This HD2 with sensor configuration 1 includes the following sensors. The specifi
 
 The following specific sensors are declared payloads of this vehicle:
 
-*D435i RGBD Camera, modeled by rgbd_camera plugin
-  -fixed, downward-facing at about 45 degrees (for examining terrain)
-*Ouster 3D Lidar (64 Channel), modeled by gpu_lidar plugin
-*Microstrain IMU: 3DM-GX5-25, modeled by imu_sensor plugin. Notes on modeling of the IMU are included in the model.sdf file. (located under the 3D lidar, installed at same x,y location as 3D lidar)
-*RPLidar S1 Planar Lidar (under the 3D lidar), modeled by gpu_ray plugin
-*HD MIPI Cameras - 720p (x2)
-  -(1x) forward facing on top of sensor tower
-  -(1x) rear facing on top of sensor tower
+* D435i RGBD Camera, modeled by rgbd_camera plugin
+    - fixed, downward-facing at about 45 degrees (for examining terrain)
+* Ouster 3D Lidar (64 Channel), modeled by gpu_lidar plugin
+* Microstrain IMU: 3DM-GX5-25, modeled by imu_sensor plugin. Notes on modeling of the IMU are included in the model.sdf file. (located under the 3D lidar, installed at same x,y location as 3D lidar)
+* RPLidar S1 Planar Lidar (under the 3D lidar), modeled by gpu_ray plugin
+* HD MIPI Cameras - 720p (x2)
+    - (1x) forward facing on top of sensor tower
+    - (1x) rear facing on top of sensor tower
 
 ### Control
 This MARBLE HD2 is controlled by the DiffDrive plugin.  It accepts twist inputs which drive the vehicle along the x-direction and around the z-axis.  We add additional pseudo-wheels where the HD2's treads are to better approximate a track vehicle.  Currently, we are not aware of a track-vehicle plugin for ignition-gazebo.  A TrackedVehicle plugin does exist in gazebo8+, but it is not straightforward to port to ignition-gazebo.  We hope to work with other SubT teams and possibly experts among the ignition-gazebo developers to address this in the future.  
