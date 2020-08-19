@@ -22,7 +22,7 @@ The MARBLE HD2 has the following estimated commercial costs:
 Its weight is approximately 75 lbs (possible, but heavy to heft with a single person). 
 
 ### Sensors
-This HD2 with sensor configuration 1 includes the following sensors. The specifications for these instruments are provided below in the [Validation Links](#validation_links) section.
+This HD2 with sensor configuration 3 includes the following sensors. The specifications for these instruments are provided below in the [Validation Links](#Validation-Links) section.
 
 The following specific sensors are declared payloads of this vehicle:
 
@@ -38,7 +38,7 @@ The following specific sensors are declared payloads of this vehicle:
 ### Control
 This MARBLE HD2 is controlled by the DiffDrive plugin.  It accepts twist inputs which drive the vehicle along the x-direction and around the z-axis.  We add additional pseudo-wheels where the HD2's treads are to better approximate a track vehicle.  Currently, we are not aware of a track-vehicle plugin for ignition-gazebo.  A TrackedVehicle plugin does exist in gazebo8+, but it is not straightforward to port to ignition-gazebo.  We hope to work with other SubT teams and possibly experts among the ignition-gazebo developers to address this in the future.  
 
-### Motion CharacteristicsBased on the tests specified in the DARPA SubT Challenge [Model PreparationGuide](https://subtchallenge.com/\<fix_me\>), this vehicle has the following motion constraint characteristics. 
+### Motion Characteristics Based on the tests specified in the DARPA SubT Challenge [Model Preparation Guide](https://github.com/osrf/subt/wiki/Model%20Submission%20Process), this vehicle has the following motion constraint characteristics. 
 
 This configuration has roughly the same motion characteristics as the COSTAR/MARBLE husky vehicles.
 
@@ -55,9 +55,8 @@ Computers were installed in the payload area of the husky and these have been ro
   * https://clearpathrobotics.com/husky-unmanned-ground-vehicle-robot/
 
 * Sensor specification links:
-  * Trossen ScorpionX MX-64 Robot Turret - https://www.trossenrobotics.com/p/ScorpionX-RX-64-robot-turret.aspx
   * D435i RGBD Camera - https://www.intelrealsense.com/depth-camera-d435i/
-  * Ouster 3D Lidar (64 Channel) - https://ouster.com/products/os1-lidar-sensor/
+  * (2x) Ouster 3D Lidar (64 Channel) - https://ouster.com/products/os1-lidar-sensor/ (one vertically oriented and another horizontally oriented)
   * RPLidar S1 Planar Lidar - https://www.slamtec.com/en/Lidar/S1Spec
   * IMU: Microstrain 3DM-GX5-25 - datasheet: https://www.microstrain.com/sites/default/files/applications/files/3dm-gx5-25_datasheet_8400-0093_rev_n.pdf
     * Explanation of sensor parameter derivations:
