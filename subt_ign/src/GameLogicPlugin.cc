@@ -1266,12 +1266,28 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
     return 0.0;
   }
 
+  // The teams are reporting the artifact poses relative to the fiducial located
+  // in the staging area. Now, we convert the reported pose to world coordinates
+  ignition::math::Pose3d artifactPose = ignition::msgs::Convert(_pose);
+  ignition::math::Pose3d pose = artifactPose + this->artifactOriginPose;
+  ignition::math::Vector3d observedObjectPose = pose.Pos();
+
   // Type converted into a string.
   std::string reportType;
   if (!this->StringFromArtifact(_type, reportType))
   {
     ignmsg << "Unknown artifact type" << std::endl;
     this->Log() << "Unkown artifact type reported" << std::endl;
+
+    std::ostringstream stream;
+    stream
+      << "- event:\n"
+      << "  type: unknown_artifact_type\n"
+      << "  time_sec: " << this->simTime.sec() << "\n"
+      << "  reported_pose: " << observedObjectPose << "\n"
+      << "  reported_artifact_type: " << reportType << "\n";
+    this->LogEvent(stream.str());
+
     return 0.0;
   }
 
@@ -1291,6 +1307,15 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
     ignmsg << "This report has been received before" << std::endl;
     this->Log() << "This report has been received before" << std::endl;
 
+    std::ostringstream stream;
+    stream
+      << "- event:\n"
+      << "  type: duplicate_artifact_report\n"
+      << "  time_sec: " << this->simTime.sec() << "\n"
+      << "  reported_pose: " << observedObjectPose << "\n"
+      << "  reported_artifact_type: " << reportType << "\n";
+    this->LogEvent(stream.str());
+
     this->duplicateReportCount++;
     return 0.0;
   }
@@ -1301,18 +1326,12 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
   // This is a unique report.
   this->reportCount++;
 
-  // The teams are reporting the artifact poses relative to the fiducial located
-  // in the staging area. Now, we convert the reported pose to world coordinates
-  ignition::math::Pose3d artifactPose = ignition::msgs::Convert(_pose);
-  ignition::math::Pose3d pose = artifactPose + this->artifactOriginPose;
-
   double score = 0.0;
   std::map<std::string, ignition::math::Pose3d> &potentialArtifacts =
     this->artifacts[_type];
 
   // From the list of potential artifacts, find out which one is
   // closer (Euclidean distance) to the located by this request.
-  ignition::math::Vector3d observedObjectPose = pose.Pos();
   std::tuple<std::string, ignition::math::Vector3d, double> minDistance =
     {"", ignition::math::Vector3d(), std::numeric_limits<double>::infinity()};
   for (const std::pair<std::string, ignition::math::Pose3d> &object :
@@ -1380,8 +1399,7 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
     << "  type: artifact_report_attempt\n"
     << "  time_sec: " << this->simTime.sec() << "\n"
     << "  reported_pose: " << observedObjectPose << "\n"
-    << "  reported_artifact_type: " << this->kArtifactTypes.at(
-        static_cast<std::size_t>(_type)).second << "\n"
+    << "  reported_artifact_type: " << reportType << "\n"
     << "  closest_artifact_name: " << std::get<0>(minDistance) << "\n"
     << "  distance: " <<  outDist << "\n"
     << "  points_scored: " << score << "\n"
