@@ -163,7 +163,7 @@ class Processor
   private: int markerId = 0;
 
   /// \brief Node that will display the visual markers.
-  private: ignition::transport::Node *markerNode;
+  private: std::unique_ptr<ignition::transport::Node> markerNode;
 
   /// \brief A mutex.
   private: std::mutex mutex;

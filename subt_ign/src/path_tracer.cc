@@ -24,7 +24,7 @@ Processor::Processor(const std::string &_path, int _stepSleepMs)
   // world.
   ignition::transport::NodeOptions opts;
   opts.SetPartition("PATH_TRACER");
-  this->markerNode = new ignition::transport::Node(opts);
+  this->markerNode = std::make_unique<ignition::transport::Node>(opts);
   this->ClearMarkers();
 
   // Subscribe to the artifact poses.
@@ -82,7 +82,7 @@ Processor::Processor(const std::string &_path, int _stepSleepMs)
       stream >> reportedPos;
 
       int sec = events[i]["time_sec"].as<int>();
-      std::unique_ptr<ReportData> data(new ReportData);
+      std::unique_ptr<ReportData> data = std::make_unique<ReportData>();
       data->type = REPORT;
       data->pos = reportedPos;
       data->score = events[i]["points_scored"].as<int>();
@@ -100,8 +100,6 @@ Processor::Processor(const std::string &_path, int _stepSleepMs)
 //////////////////////////////////////////////////
 Processor::~Processor()
 {
-  delete this->markerNode;
-  this->markerNode = nullptr;
 }
 
 //////////////////////////////////////////////////
@@ -125,9 +123,13 @@ void Processor::Playback(std::string _path)
   // Playback all topics
   const int64_t addTopicResult = player.AddTopic(std::regex(".*"));
   if (addTopicResult == 0)
+  {
     std::cerr << "No topics to play back\n";
+  }
   else if (addTopicResult < 0)
+  {
     std::cerr << "Failed to advertise topics: " << addTopicResult << "\n";
+  }
   else
   {
     // Begin playback
@@ -211,9 +213,9 @@ void Processor::DisplayPoses()
 /////////////////////////////////////////////////
 void Processor::DisplayArtifacts()
 {
-  for (const auto &[name, pose] : this->artifacts)
+  for (const auto &artifact : this->artifacts)
   {
-    this->SpawnMarker(this->colors[2], pose.Pos(),
+    this->SpawnMarker(this->colors[2], artifact.second.Pos(),
         ignition::msgs::Marker::SPHERE,
         ignition::math::Vector3d(8, 8, 8));
   }
