@@ -1193,14 +1193,6 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
     _resp.set_report_status("scored");
     this->totalScore += scoreDiff;
 
-    std::ostringstream stream;
-    stream
-      << "- event:\n"
-      << "  type: artifact_report_scored\n"
-      << "  time_sec: " << this->simTime.sec() << "\n"
-      << "  total_score: " << this->totalScore << std::endl;
-    this->LogEvent(stream.str());
-
     ignmsg << "Total score: " << this->totalScore << std::endl;
     this->Log() << "new_total_score " << this->totalScore << std::endl;
   }
@@ -1369,6 +1361,18 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
         this->firstReportTime = reportTime;
     }
   }
+
+  std::ostringstream stream;
+  stream
+    << "- event:\n"
+    << "  type: artifact_report_attempt\n"
+    << "  time_sec: " << this->simTime.sec() << "\n"
+    << "  reported_pose: " << observedObjectPose << "\n"
+    << "  artifact: " << std::get<0>(minDistance) << "\n"
+    << "  distance: " << std::get<2>(minDistance) << "\n"
+    << "  points_scored: " << score << "\n"
+    << "  total_score: " << this->totalScore + score << std::endl;
+  this->LogEvent(stream.str());
 
   this->Log() << "calculated_dist[" << std::get<2>(minDistance)
     << "] for artifact[" << std::get<0>(minDistance) << "] reported_pos["
@@ -1617,8 +1621,8 @@ void GameLogicPluginPrivate::Finish()
       << "- event:\n"
       << "  type: finished\n"
       << "  time_sec: " << this->simTime.sec() << "\n"
-      << "  elapsed_real_time " << realElapsed << "\n"
-      << "  elapsed_sim_time " << simElapsed << "\n"
+      << "  elapsed_real_time: " << realElapsed << "\n"
+      << "  elapsed_sim_time: " << simElapsed << "\n"
       << "  total_score: " << this->totalScore << std::endl;
     this->LogEvent(stream.str());
 

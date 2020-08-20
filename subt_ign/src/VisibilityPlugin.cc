@@ -86,7 +86,7 @@ void VisibilityPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
 //////////////////////////////////////////////////
 void VisibilityPlugin::PreUpdate(
     const ignition::gazebo::UpdateInfo &/*_info*/,
-    ignition::gazebo::EntityComponentManager &_ecm)
+    ignition::gazebo::EntityComponentManager &/*_ecm*/)
 {
   if (this->dataPtr->worldName.empty())
     return;
@@ -121,7 +121,7 @@ void VisibilityPlugin::PreUpdate(
 //////////////////////////////////////////////////
 void VisibilityPlugin::PostUpdate(
     const ignition::gazebo::UpdateInfo &_info,
-    const ignition::gazebo::EntityComponentManager &_ecm)
+    const ignition::gazebo::EntityComponentManager &/*_ecm*/)
 {
   if (this->dataPtr->worldName.empty())
     return;
