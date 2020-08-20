@@ -69,26 +69,61 @@ Processor::Processor(const std::string &_path, int _stepSleepMs)
   playbackThread.join();
 
   // Process the events log file.
-  YAML::Node events = YAML::LoadFile(_path + "/events.yml");
-  for (std::size_t i = 0; i < events.size(); ++i)
+  std::string eventsFilepath = _path + "/events.yml";
+  if (ignition::common::exists(eventsFilepath))
   {
-    if (events[i]["type"].as<std::string>() == "artifact_report_attempt")
+    YAML::Node events;
+    try
     {
-      ignition::math::Vector3d reportedPos;
-
-      // Read the reported pose.
-      std::stringstream stream;
-      stream << events[i]["reported_pose"].as<std::string>();
-      stream >> reportedPos;
-
-      int sec = events[i]["time_sec"].as<int>();
-      std::unique_ptr<ReportData> data = std::make_unique<ReportData>();
-      data->type = REPORT;
-      data->pos = reportedPos;
-      data->score = events[i]["points_scored"].as<int>();
-
-      this->logData[sec].push_back(std::move(data));
+      events = YAML::LoadFile(eventsFilepath);
     }
+    catch (...)
+    {
+      // There was a bug in the events.yml generation that will be fixed
+      // before Cave Circuit. The replaceAll can be removed after Cave Circuit,
+      // but leaving this code in place also shouldn't hurt anything.
+      std::ifstream t(eventsFilepath);
+      std::string ymlStr((std::istreambuf_iterator<char>(t)),
+          std::istreambuf_iterator<char>());
+      ignition::common::replaceAll(ymlStr, ymlStr,
+          "_time ", "_time: ");
+      try
+      {
+        events = YAML::Load(ymlStr);
+      }
+      catch (...)
+      {
+        std::cerr << "Error processing " << eventsFilepath
+          << ". Please check the the YAML file has correct syntax. "
+          << "There will be no artifact report visualization.\n";
+      }
+    }
+
+    for (std::size_t i = 0; i < events.size(); ++i)
+    {
+      if (events[i]["type"].as<std::string>() == "artifact_report_attempt")
+      {
+        ignition::math::Vector3d reportedPos;
+
+        // Read the reported pose.
+        std::stringstream stream;
+        stream << events[i]["reported_pose"].as<std::string>();
+        stream >> reportedPos;
+
+        int sec = events[i]["time_sec"].as<int>();
+        std::unique_ptr<ReportData> data = std::make_unique<ReportData>();
+        data->type = REPORT;
+        data->pos = reportedPos;
+        data->score = events[i]["points_scored"].as<int>();
+
+        this->logData[sec].push_back(std::move(data));
+      }
+    }
+  }
+  else
+  {
+    std::cerr << "Missing " << eventsFilepath
+      << ". There will be no artifact report visualization.\n";
   }
   // Display all of the artifacts using visual markers.
   this->DisplayArtifacts();
