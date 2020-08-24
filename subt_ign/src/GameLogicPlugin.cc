@@ -625,7 +625,7 @@ void GameLogicPluginPrivate::OnBreadcrumbDeployEvent(
   std::string name = "_unknown_";
 
   // Get the name of the model from the topic name, where the topic name
-  // look like '/model/{model_name}/detach'.
+  // look like '/model/{model_name}/deploy'.
   if (topicParts.size() > 1)
     name = topicParts[1];
 
