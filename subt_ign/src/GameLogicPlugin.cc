@@ -385,8 +385,8 @@ class subt::GameLogicPluginPrivate
   /// \brief Robot types for keeping track of unique robot platform types.
   public: std::set<std::string> robotTypes;
 
-  /// \brief The unique artifact reports received.
-  public: std::vector<std::string> uniqueReports;
+  /// \brief The unique artifact reports received, and the score it received.
+  public: std::map<std::string, double> uniqueReports;
 
   /// \brief Current state.
   public: std::string state="init";
@@ -1297,12 +1297,12 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
                            std::to_string(_pose.position().z());
 
   // Unique report Id: Type and pose combined into a string.
-  std::string uniqueReport = reportType + "_" + reportPose;
+  std::string uniqueReportStr = reportType + "_" + reportPose;
+
+  auto uniqueReport = this->uniqueReports.find(uniqueReportStr);
 
   // Check whether we received the same report before.
-  if (std::find(this->uniqueReports.begin(),
-                this->uniqueReports.end(),
-                uniqueReport) != this->uniqueReports.end())
+  if (uniqueReport != this->uniqueReports.end())
   {
     ignmsg << "This report has been received before" << std::endl;
     this->Log() << "This report has been received before" << std::endl;
@@ -1317,11 +1317,8 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
     this->LogEvent(stream.str());
 
     this->duplicateReportCount++;
-    return 0.0;
+    return uniqueReport->second;
   }
-
-  // This is a new unique report, let's save it.
-  this->uniqueReports.push_back(uniqueReport);
 
   // This is a unique report.
   this->reportCount++;
@@ -1390,6 +1387,9 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
         this->firstReportTime = reportTime;
     }
   }
+
+  // This is a new unique report, let's save it.
+  this->uniqueReports[uniqueReportStr] = score;
 
   auto outDist = std::isinf(std::get<2>(minDistance)) ? -1 :
     std::get<2>(minDistance);
