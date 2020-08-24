@@ -676,7 +676,7 @@ void GameLogicPluginPrivate::OnRockFallDeployRemainingEvent(
           << "- event:\n"
           << "  type: max_rock_falls\n"
           << "  time_sec: " << this->simTime.sec() << "\n"
-          << "  robot: " << name << std::endl;
+          << "  model: " << name << std::endl;
 
         this->LogEvent(stream.str());
       }
