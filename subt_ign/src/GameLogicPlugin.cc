@@ -187,6 +187,19 @@ class subt::GameLogicPluginPrivate
   public: void OnDetachEvent(const ignition::msgs::Empty &_msg,
     const transport::MessageInfo &_info);
 
+  /// \brief Breadcrumb deploy subscription callback.
+  /// \param[in] _msg Deploy message.
+  /// \param[in] _info Message information.
+  public: void OnBreadcrumbDeployEvent(const ignition::msgs::Empty &_msg,
+    const transport::MessageInfo &_info);
+
+  /// \brief Rock fall remaining subscription callback.
+  /// \param[in] _msg Remaining count.
+  /// \param[in] _info Message information.
+  public: void OnRockFallDeployRemainingEvent(
+    const ignition::msgs::Int32 &_msg,
+    const transport::MessageInfo &_info);
+
   /// \brief Battery subscription callback.
   /// \param[in] _msg Battery message.
   /// \param[in] _info Message information.
@@ -450,6 +463,11 @@ class subt::GameLogicPluginPrivate
 
   /// \brief Models with dead batteries.
   public: std::set<std::string> deadBatteries;
+
+  /// \brief Map of model name to {sim_time_sec, deployments_over_max}. This
+  /// map is ued to log when no more rock falls are possible for a rock
+  /// fall model.
+  public: std::map<std::string, std::pair<int, int>> rockFallsMax;
 };
 
 //////////////////////////////////////////////////
@@ -618,6 +636,64 @@ void GameLogicPluginPrivate::OnBatteryMsg(
   }
 }
 
+//////////////////////////////////////////////////
+void GameLogicPluginPrivate::OnBreadcrumbDeployEvent(
+    const ignition::msgs::Empty &/*_msg*/,
+    const transport::MessageInfo &_info)
+{
+  std::vector<std::string> topicParts = common::split(_info.Topic(), "/");
+  std::string name = "_unknown_";
+
+  // Get the name of the model from the topic name, where the topic name
+  // look like '/model/{model_name}/deploy'.
+  if (topicParts.size() > 1)
+    name = topicParts[1];
+
+  std::ostringstream stream;
+  stream
+    << "- event:\n"
+    << "  type: breadcrumb_deploy\n"
+    << "  time_sec: " << this->simTime.sec() << "\n"
+    << "  robot: " << name << std::endl;
+
+  this->LogEvent(stream.str());
+}
+
+//////////////////////////////////////////////////
+void GameLogicPluginPrivate::OnRockFallDeployRemainingEvent(
+    const ignition::msgs::Int32 &_msg,
+    const transport::MessageInfo &_info)
+{
+  if (_msg.data() == 0) {
+    std::vector<std::string> topicParts = common::split(_info.Topic(), "/");
+    std::string name = "_unknown_";
+
+    // Get the name of the model from the topic name, where the topic name
+    // look like '/model/{model_name}/deploy'.
+    if (topicParts.size() > 1)
+      name = topicParts[1];
+
+    // Sim time is used to make sure that we report only once per rock fall,
+    // and not once for every rock in the rock fall.
+    if (this->rockFallsMax[name].first != this->simTime.sec())
+    {
+      if (this->rockFallsMax[name].second > 0)
+      {
+        std::ostringstream stream;
+        stream
+          << "- event:\n"
+          << "  type: max_rock_falls\n"
+          << "  time_sec: " << this->simTime.sec() << "\n"
+          << "  model: " << name << std::endl;
+
+        this->LogEvent(stream.str());
+      }
+
+      this->rockFallsMax[name].second++;
+      this->rockFallsMax[name].first = this->simTime.sec();
+    }
+  }
+}
 
 //////////////////////////////////////////////////
 void GameLogicPluginPrivate::OnDetachEvent(
@@ -805,6 +881,15 @@ void GameLogicPlugin::PostUpdate(
               this->dataPtr->node.Subscribe(detachTopic,
                   &GameLogicPluginPrivate::OnDetachEvent, this->dataPtr.get());
 
+              // Subscribe to breadcrumb deploy topics. We are doing a blanket
+              // subscribe even though a robot model may not have
+              // breadcrumbs.
+              std::string deployTopic = std::string("/model/") +
+                mName->Data() + "/breadcrumb/deploy";
+              this->dataPtr->node.Subscribe(deployTopic,
+                  &GameLogicPluginPrivate::OnBreadcrumbDeployEvent,
+                  this->dataPtr.get());
+
               // Subscribe to battery state in order to log battery events.
               std::string batteryTopic = std::string("/model/") +
                 mName->Data() + "/battery/linear_battery/state";
@@ -833,6 +918,20 @@ void GameLogicPlugin::PostUpdate(
           const gazebo::components::Pose *_poseComp,
           const gazebo::components::Static *) -> bool
       {
+        // Subscribe to remaining rock fall deploy topics. We are doing a
+        // blanket subscribe even though a model in this function may not be
+        // a rock fall.
+        if (this->dataPtr->rockFallsMax.find(_nameComp->Data()) ==
+            this->dataPtr->rockFallsMax.end())
+        {
+          std::string deployRemainingTopic = std::string("/model/") +
+                  _nameComp->Data() + "/breadcrumbs/Rock/deploy/remaining";
+          this->dataPtr->rockFallsMax[_nameComp->Data()] = {0, 0};
+          this->dataPtr->node.Subscribe(deployRemainingTopic,
+              &GameLogicPluginPrivate::OnRockFallDeployRemainingEvent,
+              this->dataPtr.get());
+        }
+
         this->dataPtr->poses[_nameComp->Data()] = _poseComp->Data();
         for (std::pair<const subt::ArtifactType,
             std::map<std::string, ignition::math::Pose3d>> &artifactPair :
