@@ -388,6 +388,11 @@ class subt::GameLogicPluginPrivate
   /// \brief Robot types for keeping track of unique robot platform types.
   public: std::set<std::string> robotTypes;
 
+  /// \brief Map of robot name to {platform, config}. For example:
+  /// {"MY_ROBOT_NAME", {"X1", "X1 SENSOR CONFIG 1"}}.
+  public: std::map<std::string, std::pair<std::string, std::string>>
+          robotFullTypes;
+
   /// \brief The unique artifact reports received, and the score it received.
   public: std::map<std::string, double> uniqueReports;
 
@@ -779,7 +784,16 @@ void GameLogicPlugin::PostUpdate(
                     platformNameUpper.end(),
                     platformNameUpper.begin(), ::toupper);
                 if (platformNameUpper.find(type) != std::string::npos)
+                {
                   this->dataPtr->robotTypes.insert(type);
+
+                  // The full type is in the directory name, which is third
+                  // from the end (.../TYPE/VERSION/model.sdf).
+                  std::vector<std::string> pathParts =
+                    ignition::common::split(platformNameUpper, "/");
+                  this->dataPtr->robotFullTypes[mName->Data()] =
+                    {type, pathParts[pathParts.size()-3]};
+                }
               }
 
               // Subscribe to detach topics. We are doing a blanket
@@ -1828,9 +1842,22 @@ void GameLogicPluginPrivate::LogRobotArtifactData() const
   // 20. Total cumulative elevation loss by all the robots.
   // 21. Max elevation reached by a robot
   // 22. Min elevation reached by a robot
+  // 23. Robot configurations and marsupial pairs.
 
   YAML::Emitter out;
   out << YAML::BeginMap;
+
+  out << YAML::Key << "robots";
+  out << YAML::Value << YAML::BeginMap;
+  for (auto const &pair : this->robotFullTypes)
+  {
+    out << YAML::Key << pair.first;
+    out << YAML::Value << YAML::BeginMap;
+    out << YAML::Key << "platform" << YAML::Value << pair.second.first;
+    out << YAML::Key << "config" << YAML::Value << pair.second.second;
+    out << YAML::EndMap;
+  }
+  out << YAML::EndMap;
 
   out << YAML::Key << "marsupials";
   out << YAML::Value << YAML::BeginMap;
