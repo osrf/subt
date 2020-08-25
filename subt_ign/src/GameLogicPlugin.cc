@@ -112,9 +112,12 @@ class subt::GameLogicPluginPrivate
   /// \brief Calculate the score of a new artifact request.
   /// \param[in] _type The object type. See ArtifactType.
   /// \param[in] _pose The object pose.
-  /// \return The score obtained for this object.
-  public: double ScoreArtifact(const subt::ArtifactType &_type,
-                               const ignition::msgs::Pose &_pose);
+  /// \return A tuple where the first parameter is the score obtained for this
+  /// report, and the second parameter is true if the artifact report is a
+  /// duplicate and false otherwise.
+  public: std::tuple<double, bool> ScoreArtifact(
+              const subt::ArtifactType &_type,
+              const ignition::msgs::Pose &_pose);
 
   /// \brief Create an ArtifactType from an integer.
   //
@@ -390,8 +393,8 @@ class subt::GameLogicPluginPrivate
   public: std::map<std::string, std::pair<std::string, std::string>>
           robotFullTypes;
 
-  /// \brief The unique artifact reports received.
-  public: std::vector<std::string> uniqueReports;
+  /// \brief The unique artifact reports received, and the score it received.
+  public: std::map<std::string, double> uniqueReports;
 
   /// \brief Current state.
   public: std::string state="init";
@@ -1212,10 +1215,14 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
   else
   {
     std::lock_guard<std::mutex> lock(this->mutex);
-    auto scoreDiff = this->ScoreArtifact(artifactType, _req.pose());
+    auto [scoreDiff, duplicate] = this->ScoreArtifact(
+        artifactType, _req.pose());
+
     _resp.set_score_change(scoreDiff);
     _resp.set_report_status("scored");
-    this->totalScore += scoreDiff;
+
+    if (!duplicate)
+      this->totalScore += scoreDiff;
 
     ignmsg << "Total score: " << this->totalScore << std::endl;
     this->Log() << "new_total_score " << this->totalScore << std::endl;
@@ -1261,15 +1268,15 @@ bool GameLogicPluginPrivate::ArtifactFromInt(const uint32_t &_typeInt,
 }
 
 /////////////////////////////////////////////////
-double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
-  const ignition::msgs::Pose &_pose)
+std::tuple<double, bool> GameLogicPluginPrivate::ScoreArtifact(
+    const ArtifactType &_type, const ignition::msgs::Pose &_pose)
 {
   // Sanity check: Make sure that we have crossed the starting gate.
   if (!this->started)
   {
     ignmsg << "  The task hasn't started yet" << std::endl;
     this->Log() << "task_not_started" << std::endl;
-    return 0.0;
+    return {0.0, false};
   }
 
   // Sanity check: Make sure that we still have artifacts.
@@ -1277,7 +1284,7 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
   {
     ignmsg << "  No artifacts remaining" << std::endl;
     this->Log() << "no_remaining_artifacts_of_specified_type" << std::endl;
-    return 0.0;
+    return {0.0, false};
   }
 
   // The teams are reporting the artifact poses relative to the fiducial located
@@ -1302,7 +1309,7 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
       << "  reported_artifact_type: " << reportType << "\n";
     this->LogEvent(stream.str());
 
-    return 0.0;
+    return {0.0, false};
   }
 
   // Pose converted into a string.
@@ -1311,12 +1318,12 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
                            std::to_string(_pose.position().z());
 
   // Unique report Id: Type and pose combined into a string.
-  std::string uniqueReport = reportType + "_" + reportPose;
+  std::string uniqueReportStr = reportType + "_" + reportPose;
+
+  auto uniqueReport = this->uniqueReports.find(uniqueReportStr);
 
   // Check whether we received the same report before.
-  if (std::find(this->uniqueReports.begin(),
-                this->uniqueReports.end(),
-                uniqueReport) != this->uniqueReports.end())
+  if (uniqueReport != this->uniqueReports.end())
   {
     ignmsg << "This report has been received before" << std::endl;
     this->Log() << "This report has been received before" << std::endl;
@@ -1331,11 +1338,8 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
     this->LogEvent(stream.str());
 
     this->duplicateReportCount++;
-    return 0.0;
+    return {uniqueReport->second, true};
   }
-
-  // This is a new unique report, let's save it.
-  this->uniqueReports.push_back(uniqueReport);
 
   // This is a unique report.
   this->reportCount++;
@@ -1405,6 +1409,9 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
     }
   }
 
+  // This is a new unique report, let's save it.
+  this->uniqueReports[uniqueReportStr] = score;
+
   auto outDist = std::isinf(std::get<2>(minDistance)) ? -1 :
     std::get<2>(minDistance);
   std::ostringstream stream;
@@ -1427,7 +1434,7 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
   ignmsg << "  [Total]: " << score << std::endl;
   this->Log() << "modified_score " << score << std::endl;
 
-  return score;
+  return {score, false};
 }
 
 /////////////////////////////////////////////////
