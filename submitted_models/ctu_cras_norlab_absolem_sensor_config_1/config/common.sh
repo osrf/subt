@@ -9,4 +9,5 @@ config="big_collision_box_height:=0.5 big_collision_box_on_top:=1 big_collision_
   mobilicom_shift_y:=0.01 mobilicom_shift_z:=0.2 mobilicom_yaw:=3.14152 ptuxthermo_x_offset:=0.2 
   ptuxthermo_y_offset:=0.18 realsense_holder_version:=5 realsense_parent_link:=omnicam_sensor_mount 
   realsense_roll:=0.0 realsense_shift_x:=0.0 realsense_shift_y:=0.0 realsense_shift_z:=0.0 realsense_tilt:=-1.15 
-  realsense_upside_down:=0 realsense_yaw:=0.62831853 t265_parent_link:=rear_sensor_item top_box_j_x:=0.472"
+  realsense_upside_down:=0 realsense_width:=640 realsense_yaw:=0.62831853 t265_parent_link:=rear_sensor_item
+  top_box_j_x:=0.472"
