@@ -310,6 +310,12 @@
       <!-- This path is used by cloudsim, please do not change -->
       <path>/tmp/ign/logs</path>
       <overwrite>true</overwrite>
+      <record_topic>/logs/sdf</record_topic>
+      <record_topic>/world/<%= $worldName %>/changed_state</record_topic>
+      <record_topic>/world/<%= $worldName %>/dynamic_pose/info</record_topic>
+      <record_topic>/world/.*</record_topic>
+      <record_topic>/subt.*</record_topic>
+      <record_topic>/model/.*</record_topic>
     </record>
     <%if defined?(seed) && seed != nil && !seed.empty?%>
     <seed><%= seed %></seed>
