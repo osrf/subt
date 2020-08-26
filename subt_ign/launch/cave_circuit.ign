@@ -132,7 +132,7 @@
     "EXPLORER_R2" => AngularVector3d.new(0, 0, -3.1416),
     "CSIRO_DATA61_OZBOT_ATR" => AngularVector3d.new(0, 0, -3.1416)
   }
-  
+
   allExecutables = ""
 
   # key: parent, value: child
@@ -602,6 +602,8 @@
         <fading_exponent><%= $commsFadingExponent %></fading_exponent>
         <L0>40</L0>
         <sigma>10.0</sigma>
+        <scaling_factor>0.75</scaling_factor>
+        <range_per_hop>2.0</range_per_hop>
       </range_config>
 
       <visibility_config>

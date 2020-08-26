@@ -68,8 +68,8 @@ namespace subt
     /// \param[in] _from A 3D position.
     /// \param[in] _to A 3D position.
     /// \return The visibility cost from one point to the other.
-    public: double Cost(const ignition::math::Vector3d &_from,
-                        const ignition::math::Vector3d &_to) const;
+    public: VisibilityCost Cost(const ignition::math::Vector3d &_from,
+                                const ignition::math::Vector3d &_to) const;
 
     /// \brief Generate a binary .dat file containing a list of sample points
     /// that are within the explorable areas of the world. Each sample point
@@ -110,6 +110,10 @@ namespace subt
     ///  Cost(A, E):  4
     public: void PopulateVisibilityInfo(
                       const std::set<ignition::math::Vector3d> &_relayPoses);
+
+    /// \brief Print the visibility table containing all combination of pairs.
+    /// \param[in] _info The visibility table to print.
+    public: void PrintAll(const VisibilityInfo &_info) const;
 
     /// \brief Load a look up table from a file. It will try to load a file
     /// located in the same directory as the world file, with the same world
@@ -161,6 +165,17 @@ namespace subt
     /// \brief Generate the visibility LUT in disk.
     private: void WriteOutputFile();
 
+    /// \brief Calculate the greatest distance between a pair of breadcrumbs.
+    /// \param[in] _visibilityInfoWithRelays The visibility information known
+    /// at the moment.
+    /// \param[in] _relaySequence The sequence of breadcrumbs to traverse.
+    /// \param[in] _to Destination tile.
+    /// \return The maximum distance.
+    private: double MaxDistanceSingleHop(
+      const VisibilityInfo &_visibilityInfoWithRelays,
+      const std::vector<ignition::math::graph::VertexId> &_relaySequence,
+      const ignition::math::graph::VertexId &_to) const;
+
     /// \brief The graph modeling the connectivity.
     private: VisibilityGraph visibilityGraph;
 
@@ -194,6 +209,12 @@ namespace subt
 
     /// \brief The world name.
     private: std::string worldName;
+
+    /// \brief The map of breadcrumbs. The key is the tile Id where breadcrumbs
+    /// are located. The value is the vector of breadcrumb positions within that
+    /// tile.
+    private: std::map<uint64_t, std::vector<ignition::math::Vector3d>>
+      breadcrumbs;
   };
 }
 

@@ -56,7 +56,35 @@ rf_power log_normal_received_power(const double& tx_power,
   }
 
   double PL = config.L0 + 10 * config.fading_exponent * log10(range);
-  
+
+  return {tx_power - PL, config.sigma};
+}
+
+/////////////////////////////////////////////
+rf_power log_normal_v2_received_power(const double& tx_power,
+                                      const double& range,
+                                      const unsigned int& num_hops,
+                                      const rf_configuration& config)
+{
+  if(config.max_range > 0.0 &&
+     range > config.max_range) {
+    return {-std::numeric_limits<double>::infinity(), 0.0};
+  }
+
+  double adjusted_range = config.scaling_factor *
+    (range + num_hops * config.range_per_hop);
+
+  double PL = config.L0 + 10 * config.fading_exponent * log10(adjusted_range);
+
+  return {tx_power - PL, config.sigma};
+}
+
+/////////////////////////////////////////////
+rf_power visibility_only_received_power(const double& tx_power,
+                                        const rf_configuration& config)
+{
+  double PL = config.L0 + 10 * config.fading_exponent;
+
   return {tx_power - PL, config.sigma};
 }
 

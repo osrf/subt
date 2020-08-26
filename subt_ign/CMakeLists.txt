@@ -178,6 +178,18 @@ install(TARGETS validate_connections
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
 
+add_executable(validate_visibility_table
+  src/VisibilityTable.cc
+  src/SimpleDOTParser.cc)
+target_link_libraries(validate_visibility_table
+  PRIVATE
+    ignition-gazebo${IGN_GAZEBO_VER}::core
+    ${catkin_LIBRARIES}
+)
+install(TARGETS validate_visibility_table
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
 
 # Create the libCommsBrokerPlugin.so library.
 set(comms_broker_plugin_name CommsBrokerPlugin)

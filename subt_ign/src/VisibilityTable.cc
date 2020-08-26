@@ -16,6 +16,7 @@
 */
 
 #include <algorithm>
+#include <cstdint>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
@@ -145,7 +146,7 @@ bool VisibilityTable::LoadLUT()
 }
 
 //////////////////////////////////////////////////
-double VisibilityTable::Cost(const ignition::math::Vector3d &_from,
+VisibilityCost VisibilityTable::Cost(const ignition::math::Vector3d &_from,
   const ignition::math::Vector3d &_to) const
 {
   int32_t x = std::round(_from.X());
@@ -171,7 +172,9 @@ double VisibilityTable::Cost(const ignition::math::Vector3d &_from,
   auto key = std::make_pair(from, to);
   auto itVisibility = this->visibilityInfo.find(key);
   if (itVisibility == this->visibilityInfo.end())
-    return std::numeric_limits<double>::max();
+    return {std::numeric_limits<double>::max(),
+            {}, {}, {},
+            std::numeric_limits<double>::max()};
 
   // The cost.
   return itVisibility->second;
@@ -257,7 +260,7 @@ void VisibilityTable::PopulateVisibilityInfo()
     {
       auto id2 = to.first;
       double cost = to.second.first;
-      this->visibilityInfo[std::make_pair(id1, id2)] = cost;
+      this->visibilityInfo[std::make_pair(id1, id2)] = {cost, {}, {}, {}, 0};
     }
   }
 
@@ -279,7 +282,10 @@ void VisibilityTable::PopulateVisibilityInfo(
 
     auto it = this->vertices.find(vertexId);
     if (it != this->vertices.end())
+    {
       relays.insert(it->second);
+      this->breadcrumbs[it->second].push_back(pose);
+    }
   }
 
   // Compute the cost of all routes without considering relays.
@@ -287,7 +293,6 @@ void VisibilityTable::PopulateVisibilityInfo(
 
   // Update the cost of all routes considering relays.
   VisibilityInfo visibilityInfoWithRelays;
-  std::set<ignition::math::graph::VertexId> visited;
   auto vertexIds = this->visibilityGraph.Vertices();
   for (const auto from : vertexIds)
   {
@@ -295,13 +300,16 @@ void VisibilityTable::PopulateVisibilityInfo(
     for (const auto to : vertexIds)
     {
       auto id2 = to.first;
+      std::set<ignition::math::graph::VertexId> visited;
       this->PopulateVisibilityInfoHelper(
         relays, id1, id2, visited, visibilityInfoWithRelays);
-      visited = {};
     }
   }
 
   this->visibilityInfo = visibilityInfoWithRelays;
+
+  // Uncomment for debugging.
+  // this->PrintAll(this->visibilityInfo);
 }
 
 //////////////////////////////////////////////////
@@ -316,28 +324,43 @@ bool VisibilityTable::PopulateVisibilityInfoHelper(
   if (srcToDstCostIt == this->visibilityInfo.end())
     return false;
 
-  double srcToDstCost = srcToDstCostIt->second;
+  double srcToDstCost = srcToDstCostIt->second.cost;
   double bestRouteCost = std::numeric_limits<double>::max();
+  ignition::math::graph::VertexId bestRelay = math::graph::kNullId;
 
   if (_from != _to)
   {
+    unsigned int bestRouteNumRelaysCrossed = 0u;
+
     for (const auto i : _relays)
     {
-      if (_from == i || _to == i || _visited.find(i) != _visited.end())
+      if (_from == i || _to == i)
         continue;
 
-      // I can't reach the relay.
+      // The source can't reach the relay.
       auto srcToRelayIt = this->visibilityInfo.find(std::make_pair(_from, i));
       if (srcToRelayIt == this->visibilityInfo.end())
         continue;
 
-      // I can reach the relay with this cost.
-      double srcToRelayCost = srcToRelayIt->second;
+      // The relay can't reach destination.
+      auto relayToDstIt = this->visibilityInfo.find(std::make_pair(i, _to));
+      if (relayToDstIt == this->visibilityInfo.end())
+        continue;
 
-      // Route not cached.
-      auto relayToDstIt =
-        _visibilityInfoWithRelays.find(std::make_pair(i, _to));
-      if (relayToDstIt == _visibilityInfoWithRelays.end())
+      // The source can reach the relay with this cost without breadcrumbs.
+      double srcToRelayCost = srcToRelayIt->second.cost;
+
+      // The relay can reach the relay this this cost without breadcrumbs.
+      double relayToDstCost = relayToDstIt->second.cost;
+
+      // Num relays crossed from the relay i to destination.
+      unsigned int relayToDstNumRelaysCrossed = 0u;
+
+      bool visited = _visited.find(i) != _visited.end();
+
+      // Route not cached (with breadcrumbs).
+      relayToDstIt = _visibilityInfoWithRelays.find(std::make_pair(i, _to));
+      if (relayToDstIt == _visibilityInfoWithRelays.end() && !visited)
       {
         // Mark this relay as visited to avoid infinite recursion.
         _visited.insert(i);
@@ -348,27 +371,107 @@ bool VisibilityTable::PopulateVisibilityInfoHelper(
       }
 
       // Do we now have a route from the relay to the destination?
-      double relayToDstCost = std::numeric_limits<double>::max();
       relayToDstIt = _visibilityInfoWithRelays.find(std::make_pair(i, _to));
       if (relayToDstIt != _visibilityInfoWithRelays.end())
-        relayToDstCost = relayToDstIt->second;
+      {
+        relayToDstCost = relayToDstIt->second.cost;
+        relayToDstNumRelaysCrossed = relayToDstIt->second.route.size();
+      }
 
       // The cost of a route is the cost of its biggest hop.
       double currentRouteCost = std::max(srcToRelayCost, relayToDstCost);
 
       // Among all the routes found going through relays,
       // select the one with lowest cost.
-      bestRouteCost = std::min(bestRouteCost, currentRouteCost);
+      if ((currentRouteCost < bestRouteCost) ||
+          (currentRouteCost == bestRouteCost &&
+           relayToDstNumRelaysCrossed < bestRouteNumRelaysCrossed))
+      {
+        bestRouteCost = currentRouteCost;
+        bestRelay = i;
+        bestRouteNumRelaysCrossed = relayToDstNumRelaysCrossed;
+      }
     }
   }
 
   // Among all posible routes, select the one with lowest cost.
-  _visibilityInfoWithRelays[std::make_pair(_from, _to)] =
-    std::min(srcToDstCost, bestRouteCost);
+  if (srcToDstCost <= bestRouteCost)
+  {
+    _visibilityInfoWithRelays[std::make_pair(_from, _to)] =
+      {srcToDstCost, {}, {}, {}, 0};
+  }
+  else
+  {
+    std::vector<ignition::math::graph::VertexId> path;
+    ignition::math::graph::VertexId relay = bestRelay;
+    double maxDistance = 0;
+    ignition::math::Vector3d firstBreadcrumbPos =
+      ignition::math::Vector3d::Zero;
+    ignition::math::Vector3d lastBreadcrumbPos = ignition::math::Vector3d::Zero;
+
+    if (relay != math::graph::kNullId)
+    {
+      path.push_back(relay);
+      auto relayToDstIt = _visibilityInfoWithRelays.find(
+        std::make_pair(relay, _to));
+      if (relayToDstIt != _visibilityInfoWithRelays.end())
+      {
+        auto otherRelays = relayToDstIt->second.route;
+        path.insert(path.end(), otherRelays.begin(), otherRelays.end());
+
+        // Calculate the greatest distance single hop between breadcrumbs only.
+        maxDistance = this->MaxDistanceSingleHop(
+          _visibilityInfoWithRelays, path, _to);
+      }
+
+      // Update the first and last breadcrumb positions.
+      firstBreadcrumbPos = this->breadcrumbs.at(path.front()).front();
+      lastBreadcrumbPos = this->breadcrumbs.at(path.back()).front();
+    }
+
+    _visibilityInfoWithRelays[std::make_pair(_from, _to)] =
+      {bestRouteCost, path, firstBreadcrumbPos, lastBreadcrumbPos, maxDistance};
+  }
+
+  // Save the reverse route.
+  auto fromToEntry = _visibilityInfoWithRelays[std::make_pair(_from, _to)];
+  auto toFromPath = fromToEntry.route;
+  std::reverse(std::begin(toFromPath), std::end(toFromPath));
+
   _visibilityInfoWithRelays[std::make_pair(_to, _from)] =
-    std::min(srcToDstCost, bestRouteCost);
+    {fromToEntry.cost, toFromPath, fromToEntry.posLastBreadcrumb,
+     fromToEntry.posFirstBreadcrumb, fromToEntry.greatestDistanceSingleHop};
 
   return true;
+}
+
+//////////////////////////////////////////////////
+double VisibilityTable::MaxDistanceSingleHop(
+  const VisibilityInfo &_visibilityInfoWithRelays,
+  const std::vector<ignition::math::graph::VertexId> &_relaySequence,
+  const ignition::math::graph::VertexId &_to) const
+{
+  if (_relaySequence.size() < 2)
+    return 0;
+
+  auto firstBreadcrumb = _relaySequence.at(0);
+  auto secondBreadcrumb = _relaySequence.at(1);
+
+  // We only consider the first breadcrumb stored in the tile.
+  auto posFirstBreadcrumb = this->breadcrumbs.at(firstBreadcrumb).front();
+  auto posSecondBreadcrumb = this->breadcrumbs.at(secondBreadcrumb).front();
+
+  // Distance between the first and second breadcrumbs.
+  double distanceFirstHop = posFirstBreadcrumb.Distance(posSecondBreadcrumb);
+
+  // Max distance from the second breadcrumb to the destination.
+  double distanceNextHops = 0;
+  auto secondRelayToDstIt = _visibilityInfoWithRelays.find(
+    std::make_pair(secondBreadcrumb, _to));
+  if (secondRelayToDstIt != _visibilityInfoWithRelays.end())
+    distanceNextHops = secondRelayToDstIt->second.greatestDistanceSingleHop;
+
+  return std::max(distanceFirstHop, distanceNextHops);
 }
 
 //////////////////////////////////////////////////
@@ -468,4 +571,60 @@ void VisibilityTable::WriteOutputFile()
     out.write(reinterpret_cast<const char*>(&vertexId), sizeof(vertexId));
   }
   ignmsg << "File saved to: " << this->lutPath << std::endl;
+}
+
+//////////////////////////////////////////////////
+void VisibilityTable::PrintAll(const VisibilityInfo &_info) const
+{
+  // Get the list of vertices Id.
+  auto vertexIds = this->visibilityGraph.Vertices();
+
+  // Get the cost between all vertex pairs.
+  for (const auto from : vertexIds)
+  {
+    auto id1 = from.first;
+    for (const auto to : vertexIds)
+    {
+      auto id2 = to.first;
+      auto key = std::make_pair(id1, id2);
+      auto infoIter = _info.find(key);
+      // Found.
+      if (infoIter != _info.end())
+      {
+        auto info = infoIter->second;
+        std::cout << id1 << "->" << id2 << ":" << info.cost << " route [";
+
+        for (const auto &bc : info.route)
+          std::cout << bc << " ";
+        std::cout << "] Max distance: " << info.greatestDistanceSingleHop
+                  << " First bc: " << info.posFirstBreadcrumb
+                  << " Last bc: " << info.posLastBreadcrumb << std::endl;
+      }
+    }
+  }
+  std::cout << "---" << std::endl;
+}
+
+//////////////////////////////////////////////////
+int main(int argc, char **argv)
+{
+  if (argc != 2)
+  {
+    std::cerr << "Usage run_visibility_table <world>" << std::endl << std::endl;
+    std::cerr << "Example: ./run_visibility_table simple_cave_02" << std::endl;
+    return -1;
+  }
+
+  VisibilityTable visibilityTable;
+  visibilityTable.Load(argv[1], true);
+
+  // Add relays. E.g.:
+  // visibilityTable.PopulateVisibilityInfo(
+  // {
+  //   {26.67, 103.91, 1.2}, // #11
+  //   {50, 125, 2},         // #3
+  //   {100, 125, 0},        // #5
+  // });
+
+  return 0;
 }
