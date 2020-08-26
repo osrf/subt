@@ -111,7 +111,19 @@ RUN mkdir -p subt_ws/src \
  && git clone https://github.com/osrf/subt
 
 # Download the public models
-RUN ign fuel download -v 4 -j 16 -u "https://fuel.ignitionrobotics.org/OpenRobotics/collections/SubT Tech Repo"
+RUN ign fuel download -v 4 -j 8 -u "https://fuel.ignitionrobotics.org/OpenRobotics/collections/SubT Tech Repo"
+
+# Download niosh models, set 1.
+COPY download_niosh_1.sh ./
+RUN ./download_niosh_1.sh
+
+# Download niosh models, set 2.
+COPY download_niosh_2.sh ./
+RUN ./download_niosh_2.sh
+
+# Download niosh models, set 3.
+COPY download_niosh_3.sh ./
+RUN ./download_niosh_3.sh
 
 WORKDIR /home/$USERNAME/subt_ws
 
