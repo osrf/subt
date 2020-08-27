@@ -692,7 +692,7 @@ void GameLogicPluginPrivate::OnBreadcrumbDeployRemainingEvent(
         << "- event:\n"
         << "  type: max_breadcrumb_deploy\n"
         << "  time_sec: " << this->simTime.sec() << "\n"
-        << "  model: " << name << std::endl;
+        << "  robot: " << name << std::endl;
 
       this->LogEvent(stream.str());
     }
