@@ -392,6 +392,9 @@ class subt::GameLogicPluginPrivate
   /// \brief Ignition transport for the remaining artifact reports.
   public: transport::Node::Publisher artifactReportPub;
 
+  /// \brief Ignition transport that publishes robot name and type info.
+  public: transport::Node::Publisher robotPub;
+
   /// \brief Logpath.
   public: std::string logPath{"/dev/null"};
 
@@ -592,6 +595,9 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
 
   this->dataPtr->artifactReportPub =
     this->dataPtr->node.Advertise<ignition::msgs::Int32>("/subt/artifact_reports_remaining");
+
+  this->dataPtr->robotPub =
+    this->dataPtr->node.Advertise<ignition::msgs::Param_V>("/subt/robots");
 
   this->dataPtr->publishThread.reset(new std::thread(
         &GameLogicPluginPrivate::PublishScore, this->dataPtr.get()));
@@ -1224,6 +1230,30 @@ void GameLogicPlugin::PostUpdate(
     limitMsg.set_data(this->dataPtr->reportCountLimit -
         this->dataPtr->reportCount);
     this->dataPtr->artifactReportPub.Publish(limitMsg);
+
+    // Publish robot name and type information.
+    ignition::msgs::Param_V robotMsg;
+    for (const std::pair<std::string,
+         std::pair<std::string, std::string>> &robot :
+         this->dataPtr->robotFullTypes)
+    {
+      ignition::msgs::Param *param = robotMsg.add_param();
+      (*param->mutable_params())["name"].set_type(
+          ignition::msgs::Any::STRING);
+      (*param->mutable_params())["name"].set_string_value(
+          robot.first);
+
+      (*param->mutable_params())["config"].set_type(
+          ignition::msgs::Any::STRING);
+      (*param->mutable_params())["config"].set_string_value(
+          robot.second.first);
+
+      (*param->mutable_params())["platform"].set_type(
+          ignition::msgs::Any::STRING);
+      (*param->mutable_params())["platform"].set_string_value(
+          robot.second.second);
+    }
+    this->dataPtr->robotPub.Publish(robotMsg);
   }
 
   this->dataPtr->CheckRobotFlip();
