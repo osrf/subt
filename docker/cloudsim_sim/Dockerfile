@@ -111,8 +111,7 @@ RUN mkdir -p subt_ws/src \
  && git clone https://github.com/osrf/subt
 
 # Download the public models
-COPY download_models.sh ./
-RUN ./download_models.sh
+RUN ign fuel download -v 4 -j 16 -u "https://fuel.ignitionrobotics.org/OpenRobotics/collections/SubT Tech Repo"
 
 WORKDIR /home/$USERNAME/subt_ws
 

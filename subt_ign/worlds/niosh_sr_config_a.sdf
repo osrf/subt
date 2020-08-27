@@ -351,6 +351,1274 @@
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fire Extinguisher</uri>
     </include>
 
+    <model name="niosh_lights">
+      <static>true</static>
+      <pose>0.5 18.4 -2.17 0 0 -1.5708</pose>
+      <link name="link">
+
+      <light type="spot" name="Fspot001">
+        <pose>18.317 13.8166 4.45449 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot002">
+        <pose>18.317 24.2825 4.08008 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot003">
+        <pose>18.645 34.2822 4.51463 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot004">
+        <pose>18.317 44.282 4.96401 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot005">
+        <pose>18.317 54.2817 5.31043 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot006">
+        <pose>18.317 64.2814 5.45885 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot007">
+        <pose>18.317 72.522 5.26566 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot018">
+        <pose>28.4168 73.7332 5.25149 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot019">
+        <pose>38.5517 73.6952 5.20717 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot020">
+        <pose>48.7216 73.7214 5.23596 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot021">
+        <pose>58.8537 73.9669 5.26405 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot022">
+        <pose>69.1907 73.9669 5.31498 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot023">
+        <pose>79.2162 73.9669 5.43617 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot024">
+        <pose>89.5572 73.9669 5.31653 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot025">
+        <pose>99.9016 73.2902 4.88273 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot026">
+        <pose>110.018 73.2902 4.70352 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot027">
+        <pose>120.25 73.2902 4.60635 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot028">
+        <pose>130.392 73.0103 4.46171 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot029">
+        <pose>140.535 73.0103 4.5611 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot030">
+        <pose>147.552 73.6942 4.48051 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot031">
+        <pose>150.521 79.1355 4.46486 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot032">
+        <pose>154.032 84.7192 4.45248 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot033">
+        <pose>156.551 88.1169 4.56537 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot034">
+        <pose>167.006 88.0015 4.36163 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot035">
+        <pose>177.034 87.9169 4.24282 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot036">
+        <pose>185.329 87.9169 4.18645 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot037">
+        <pose>184.817 98.0385 4.27617 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot038">
+        <pose>183.626 108.101 4.20645 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot039">
+        <pose>146.233 88.1169 4.75288 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot040">
+        <pose>135.573 88.1169 4.56111 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot041">
+        <pose>125.177 88.1169 4.69112 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot042">
+        <pose>114.301 88.6785 4.83679 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot043">
+        <pose>104.005 88.6785 4.81658 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot044">
+        <pose>93.966 88.6785 5.06935 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot045">
+        <pose>83.7479 88.6785 5.27001 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot046">
+        <pose>73.4697 88.6785 5.25776 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot047">
+        <pose>62.8922 88.6785 5.22915 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot048">
+        <pose>48.5682 89.4235 4.90521 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot049">
+        <pose>48.5682 99.6582 4.68756 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot050">
+        <pose>48.231 109.921 4.62085 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot051">
+        <pose>48.231 118.143 4.59749 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot052">
+        <pose>48.231 128.178 4.78284 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot053">
+        <pose>48.6575 136.684 4.703 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot054">
+        <pose>38.6329 136.684 4.59291 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot055">
+        <pose>27.8405 136.684 4.56981 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot056">
+        <pose>16.8498 137.053 4.60273 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot057">
+        <pose>8.62229 137.268 4.56184 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot058">
+        <pose>37.7319 117.586 4.61159 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot059">
+        <pose>28.8 116.709 4.6807 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot060">
+        <pose>14.5894 115.912 5.01915 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot061">
+        <pose>3.94878 116.316 5.05071 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot062">
+        <pose>-4.453 116.801 5.03315 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot063">
+        <pose>-14.7778 116.204 4.99046 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot064">
+        <pose>-23.1419 116.204 4.99358 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot065">
+        <pose>-33.7558 116.89 4.92187 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot066">
+        <pose>29.4568 106.535 4.73849 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot067">
+        <pose>29.4568 98.222 4.75063 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot068">
+        <pose>49.7966 145.694 4.5432 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot069">
+        <pose>62.3201 144.531 4.57177 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot070">
+        <pose>63.4357 135.617 4.66968 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot071">
+        <pose>62.8036 125.627 4.64665 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot072">
+        <pose>62.8036 115.884 4.70915 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot073">
+        <pose>74.8747 144.531 4.36483 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot074">
+        <pose>74.8747 134.163 4.39196 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot075">
+        <pose>81.957 144.981 4.89763 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot076">
+        <pose>88.1527 144.61 4.87339 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot077">
+        <pose>88.4932 134.78 4.91624 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot079">
+        <pose>89.0952 165.92 4.4059 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot080">
+        <pose>75.4791 166.515 4.20351 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot081">
+        <pose>101.627 165.58 4.26837 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      </link>
+    </model>
+
     <wind>
       <linear_velocity>0.000000 0.000000 0.000000</linear_velocity>
     </wind>
