@@ -1246,12 +1246,27 @@ void GameLogicPlugin::PostUpdate(
       (*param->mutable_params())["config"].set_type(
           ignition::msgs::Any::STRING);
       (*param->mutable_params())["config"].set_string_value(
-          robot.second.first);
+          robot.second.second);
 
       (*param->mutable_params())["platform"].set_type(
           ignition::msgs::Any::STRING);
       (*param->mutable_params())["platform"].set_string_value(
-          robot.second.second);
+          robot.second.first);
+    }
+
+    // Add in marsupial pairs.
+    for (const std::pair<std::string, std::string> &pair :
+         this->dataPtr->marsupialPairs)
+    {
+      ignition::msgs::Param *param = robotMsg.add_param();
+      (*param->mutable_params())["marsupial_parent"].set_type(
+          ignition::msgs::Any::STRING);
+      (*param->mutable_params())["marsupial_parent"].set_string_value(
+          pair.first);
+      (*param->mutable_params())["marsupial_child"].set_type(
+          ignition::msgs::Any::STRING);
+      (*param->mutable_params())["marsupial_child"].set_string_value(
+          pair.second);
     }
     this->dataPtr->robotPub.Publish(robotMsg);
   }
