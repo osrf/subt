@@ -162,29 +162,52 @@ RUN git clone -b wheel_slip_system https://github.com/ignitionrobotics/ign-gazeb
   && cd ign-gazebo \
   && mkdir build && cd build && cmake .. && make && sudo make install
 
-# ignition-launch depends on ignition-gazebo, so we must install this AFTER building ignition-gazebo from source
-# (if we install if before building ignition-gazebo from source, it will automatically install the ignition-gazebo deb package dependencies)
-RUN sudo apt-get -qq update \
-  && sudo apt-get -y install \
-    libignition-launch-dev \
-  && sudo apt-get -qq clean
+# ignition-launch depends on ignition-gazebo (and ignition-physics), so we must install this from source as well
+# (if we install debian package, it will automatically install the debian package dependencies, overriding the source installs)
+WORKDIR /home/$USERNAME
+RUN git clone https://github.com/ignitionrobotics/ign-launch.git \
+  && cd ign-launch \
+  && git checkout ignition-launch_1.9.0 \
+  && mkdir build && cd build && cmake .. && make && sudo make install
 
 # install the ros to ign bridge
-RUN sudo apt-get update -qq \
- && sudo apt-get install -y -qq \
-    ros-melodic-ros-ign \
- && sudo apt-get clean -qq
+RUN mkdir -p /home/$USERNAME/ros_ign_ws/src
+WORKDIR /home/$USERNAME/ros_ign_ws/src
+RUN git clone https://github.com/ignitionrobotics/ros_ign.git \
+  && cd ros_ign \
+  && git checkout 0.9.3
+WORKDIR /home/$USERNAME/ros_ign_ws
+RUN rosdep install --from-paths src -i -y --rosdistro melodic \
+  --skip-keys=ignition-gazebo2 \
+  --skip-keys=ignition-gazebo3 \
+  --skip-keys=ignition-msgs4 \
+  --skip-keys=ignition-msgs5 \
+  --skip-keys=ignition-rendering2 \
+  --skip-keys=ignition-rendering3 \
+  --skip-keys=ignition-sensors2 \
+  --skip-keys=ignition-sensors3 \
+  --skip-keys=ignition-transport7 \
+  --skip-keys=ignition-transport8 \
+  && /bin/bash -c "source /opt/ros/melodic/setup.bash && catkin_make install"
 
 # Download the public models
-#WORKDIR /home/$USERNAME
-#RUN ign fuel download -v 4 -j 16 -u "https://fuel.ignitionrobotics.org/OpenRobotics/collections/SubT Tech Repo"
+WORKDIR /home/$USERNAME
+RUN ign fuel download -v 4 -j 16 -u "https://fuel.ignitionrobotics.org/OpenRobotics/collections/SubT Tech Repo"
 
-# build subt repo
+# manual teleop with keyboard
+RUN sudo apt-get -qq update \
+  && sudo apt-get -y install \
+    ros-melodic-teleop-twist-keyboard \
+  && sudo apt-get -qq clean
+
+# build subt repo (wheel slip fork)
 RUN mkdir -p /home/$USERNAME/subt_ws/src \
   && cd /home/$USERNAME/subt_ws/src \
   && git clone -b wheel_slip https://github.com/azeey/subt.git
 WORKDIR /home/$USERNAME/subt_ws
-RUN /bin/bash -c "source /opt/ros/melodic/setup.bash && catkin_make install" \
-  && echo "source /home/$USERNAME/subt_ws/install/setup.bash" >> /home/$USERNAME/.bashrc
+RUN /bin/bash -c "source /home/$USERNAME/ros_ign_ws/install/setup.bash && catkin_make install" \
+  && echo "source /home/$USERNAME/subt_ws/install/setup.bash" >> /home/$USERNAME/.bashrc \
+  # https://github.com/ignitionrobotics/ign-launch#known-issue-of-command-line-tools
+  && echo "export IGN_CONFIG_PATH=/usr/local/share/ignition" >> /home/$USERNAME/.bashrc
 
 CMD [ "bash" ]
