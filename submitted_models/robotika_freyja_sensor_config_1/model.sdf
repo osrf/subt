@@ -1078,7 +1078,7 @@
         </material>
       </visual>
       <light name="light_front" type="spot">
-        <pose>0.237 0 0.0425 0 0 0</pose>
+        <pose>0.251 0 0.0425 0 -1.5707963267948966 0</pose>
         <attenuation>
           <range>25</range>
           <linear>0</linear>
@@ -1109,7 +1109,7 @@
         </material>
       </visual>
       <light name="light_rear" type="spot">
-        <pose>-0.237 0 0.0425 0 0 0</pose>
+        <pose>-0.251 0 0.0425 0 1.5707963267948966 0</pose>
         <attenuation>
           <range>25</range>
           <linear>0</linear>
@@ -1123,7 +1123,7 @@
           <outer_angle>2.1</outer_angle>
           <falloff>1</falloff>
         </spot>
-        <direction>-1 0 0</direction>
+        <direction>1 0 0</direction>
         <cast_shadows>1</cast_shadows>
       </light>
       <visual name="light_left_visual">
@@ -1140,7 +1140,7 @@
         </material>
       </visual>
       <light name="light_left" type="spot">
-        <pose>0 0.22 0.0425 0 0 0</pose>
+        <pose>0 0.221 0.0425 1.5707963267948966 0 0</pose>
         <attenuation>
           <range>25</range>
           <linear>0</linear>
@@ -1154,7 +1154,7 @@
           <outer_angle>2.1</outer_angle>
           <falloff>1</falloff>
         </spot>
-        <direction>0 1 0</direction>
+        <direction>1 0 0</direction>
         <cast_shadows>1</cast_shadows>
       </light>
       <visual name="light_right_visual">
@@ -1171,7 +1171,7 @@
         </material>
       </visual>
       <light name="light_right" type="spot">
-        <pose>0 -0.22 0.0425 0 0 0</pose>
+        <pose>0 -0.221 0.0425 -1.5707963267948966 0 0</pose>
         <attenuation>
           <range>25</range>
           <linear>0</linear>
@@ -1185,7 +1185,7 @@
           <outer_angle>2.1</outer_angle>
           <falloff>1</falloff>
         </spot>
-        <direction>0 -1 0</direction>
+        <direction>1 0 0</direction>
         <cast_shadows>1</cast_shadows>
       </light>
     </link>
