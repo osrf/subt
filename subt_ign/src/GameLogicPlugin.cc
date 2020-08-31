@@ -193,6 +193,13 @@ class subt::GameLogicPluginPrivate
   public: void OnBreadcrumbDeployEvent(const ignition::msgs::Empty &_msg,
     const transport::MessageInfo &_info);
 
+  /// \brief Breadcrumb remaining subscription callback.
+  /// \param[in] _msg Remaining count.
+  /// \param[in] _info Message information.
+  public: void OnBreadcrumbDeployRemainingEvent(
+    const ignition::msgs::Int32 &_msg,
+    const transport::MessageInfo &_info);
+
   /// \brief Rock fall remaining subscription callback.
   /// \param[in] _msg Remaining count.
   /// \param[in] _info Message information.
@@ -465,9 +472,13 @@ class subt::GameLogicPluginPrivate
   public: std::set<std::string> deadBatteries;
 
   /// \brief Map of model name to {sim_time_sec, deployments_over_max}. This
-  /// map is ued to log when no more rock falls are possible for a rock
+  /// map is used to log when no more rock falls are possible for a rock
   /// fall model.
   public: std::map<std::string, std::pair<int, int>> rockFallsMax;
+
+  /// \brief Map of model name to deployments_over_max. This map
+  /// is used to log when no more breadcrumb deployments are possible.
+  public: std::map<std::string, int> breadcrumbsMax;
 };
 
 //////////////////////////////////////////////////
@@ -660,11 +671,43 @@ void GameLogicPluginPrivate::OnBreadcrumbDeployEvent(
 }
 
 //////////////////////////////////////////////////
+void GameLogicPluginPrivate::OnBreadcrumbDeployRemainingEvent(
+    const ignition::msgs::Int32 &_msg,
+    const transport::MessageInfo &_info)
+{
+  if (_msg.data() == 0)
+  {
+    std::vector<std::string> topicParts = common::split(_info.Topic(), "/");
+    std::string name = "_unknown_";
+
+    // Get the name of the model from the topic name, where the topic name
+    // look like '/model/{model_name}/deploy'.
+    if (topicParts.size() > 1)
+      name = topicParts[1];
+
+    if (this->breadcrumbsMax[name] > 0)
+    {
+      std::ostringstream stream;
+      stream
+        << "- event:\n"
+        << "  type: max_breadcrumb_deploy\n"
+        << "  time_sec: " << this->simTime.sec() << "\n"
+        << "  robot: " << name << std::endl;
+
+      this->LogEvent(stream.str());
+    }
+
+    this->breadcrumbsMax[name]++;
+  }
+}
+
+//////////////////////////////////////////////////
 void GameLogicPluginPrivate::OnRockFallDeployRemainingEvent(
     const ignition::msgs::Int32 &_msg,
     const transport::MessageInfo &_info)
 {
-  if (_msg.data() == 0) {
+  if (_msg.data() == 0)
+  {
     std::vector<std::string> topicParts = common::split(_info.Topic(), "/");
     std::string name = "_unknown_";
 
@@ -888,6 +931,12 @@ void GameLogicPlugin::PostUpdate(
                 mName->Data() + "/breadcrumb/deploy";
               this->dataPtr->node.Subscribe(deployTopic,
                   &GameLogicPluginPrivate::OnBreadcrumbDeployEvent,
+                  this->dataPtr.get());
+
+              std::string deployRemainingTopic = std::string("/model/") +
+                mName->Data() + "/breadcrumb/deploy/remaining";
+              this->dataPtr->node.Subscribe(deployRemainingTopic,
+                  &GameLogicPluginPrivate::OnBreadcrumbDeployRemainingEvent,
                   this->dataPtr.get());
 
               // Subscribe to battery state in order to log battery events.
