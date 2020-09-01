@@ -40,7 +40,12 @@ RUN apt-get update -qq \
         net-tools \
         iputils-ping \
         libyaml-cpp-dev \
+        g++-8 \
  && apt-get clean -qq
+
+RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 800 --slave /usr/bin/g++ g++ /usr/bin/g++-8 --slave /usr/bin/gcov gcov /usr/bin/gcov-8
+
+RUN gcc --version
 
 # Install AWS CLI. This is needed by cloudsim to capture ROS logs.
 RUN pip3 install --upgrade awscli=="1.16.220"
@@ -62,6 +67,7 @@ RUN /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu $(lsb
     ros-melodic-twist-mux \
     ros-melodic-rviz-imu-plugin \
     ros-melodic-rotors-control \
+    ros-melodic-theora-image-transport \
  && rosdep init \
  && apt-get clean
 
@@ -76,12 +82,6 @@ RUN /bin/sh -c 'echo "deb [trusted=yes] http://packages.osrfoundation.org/gazebo
 RUN apt-get update \
 &&  apt-get install -y \
     ignition-citadel \
- && apt-get clean
-
-# install the ros to ign bridge
-RUN apt-get update \
- && apt-get install -y \
-    ros-melodic-ros-ign \
  && apt-get clean
 
 # Add a user with the same user_id as the user outside the container
@@ -108,21 +108,16 @@ RUN rosdep update
 # docker is run
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
- && git clone https://github.com/osrf/subt -b citadel
+ && git clone https://github.com/osrf/subt -b citadel \
+ && git clone https://github.com/ignitionrobotics/ros_ign
+
+WORKDIR /home/$USERNAME/subt_ws
+RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && catkin_make install'
+RUN /bin/sh -c 'echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc' \
+ && /bin/sh -c 'echo ". ~/subt_ws/install/setup.sh" >> ~/.bashrc'
 
 # Download the public models
 RUN ign fuel download -v 4 -j 16 -u "https://fuel.ignitionrobotics.org/OpenRobotics/collections/SubT Tech Repo"
-
-WORKDIR /home/$USERNAME/subt_ws
-
-# Install Rotors
-# RUN wget https://s3.amazonaws.com/osrf-distributions/subt_robot_examples/releases/subt_robot_examples_latest.tgz
-# RUN tar xvf subt_robot_examples_latest.tgz
-
-RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && catkin_make install'
-
-RUN /bin/sh -c 'echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc' \
- && /bin/sh -c 'echo ". ~/subt_ws/install/setup.sh" >> ~/.bashrc'
 
 # Create a directory required by cloudsim
 RUN mkdir -p /tmp/ign
