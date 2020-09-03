@@ -195,6 +195,24 @@
 %>
 
 <%
+  # Check if robotNameX and robotConfigX exists
+  maxRobotCount = 20
+  robotNames = []
+  robotConfigs = []
+  for i in 1..maxRobotCount do
+    if (local_variables.include?(:"robotName#{i}") &&
+        local_variables.include?(:"robotConfig#{i}"))
+      robotName=eval "robotName#{i}"
+      robotConfig=eval "robotConfig#{i}"
+      robotNames.append(robotName)
+      robotConfigs.append(robotConfig)
+    end
+  end
+  fail ArgumentError, "missing robotNameX argument" if robotNames.nil? or robotNames.empty?
+  fail ArgumentError, "missing robotConfigX argument" if robotConfigs.nil? or robotConfigs.empty?
+%>
+
+<%
   # Check if worldName is not defined or is empty/nil
   if !defined?(worldName) || worldName == nil || worldName.empty?
     $worldName = 'simple_cave_01'
@@ -206,6 +224,12 @@
     $headless = false
   elsif headless == 'true' || headless == 'True' || headless == '1'
     $headless = true
+  end
+
+  if !defined?(ros) || ros == nil || ros.empty?
+    $ros = false
+  elsif ros == 'true' || ros == 'True' || ros == '1'
+    $ros = true
   end
 
   # Check if durationSec is not defined or is empty/nil. In this case, set
@@ -267,6 +291,12 @@
 %>
 
 <ignition version='1.0'>
+  <%if $ros %>
+  <executable name='ros'>
+    <command>roslaunch subt_ros cloudsim_init.launch world_name:=<%=$worldName%> enable_ground_truth:=<%=($enableGroundTruth)?"1":"0"%> robot_names:=<%= robotNames.join(",") %></command>
+  </executable>
+  <%end%>
+
   <env>
     <name>IGN_GAZEBO_SYSTEM_PLUGIN_PATH</name>
     <value>$LD_LIBRARY_PATH</value>
