@@ -17,8 +17,8 @@
 #include "path_tracer.hh"
 
 //////////////////////////////////////////////////
-Processor::Processor(const std::string &_path, int _stepSleepMs)
-  : stepSleepMs(_stepSleepMs)
+Processor::Processor(const std::string &_path, double _rtf)
+  : rtf(_rtf)
 {
   // Create the transport node with the partition used by simulation
   // world.
@@ -200,13 +200,21 @@ void Processor::ArtifactCb(const ignition::msgs::Pose_V &_msg)
 //////////////////////////////////////////////////
 void Processor::DisplayPoses()
 {
-  for (auto &stepData : this->logData)
+  for (std::map<int, std::vector<std::unique_ptr<Data>>>::iterator iter =
+       this->logData.begin(); iter != this->logData.end(); ++iter)
   {
-    for (std::unique_ptr<Data> &data : stepData.second)
+    for (std::unique_ptr<Data> &data : iter->second)
     {
       data->Render(this);
     }
-    std::this_thread::sleep_for(std::chrono::milliseconds(this->stepSleepMs));
+
+    // Get the next time stamp, and sleep the correct amount of time.
+    auto next = std::next(iter, 1);
+    if (next != this->logData.end())
+    {
+      int sleepTime = ((next->first - iter->first) / this->rtf)*1000;
+      std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
+    }
   }
 }
 
@@ -337,20 +345,26 @@ void ReportData::Render(Processor *_p)
 /////////////////////////////////////////////////
 int main(int _argc, char **_argv)
 {
-  int sleep = 20;
+  double rtf = 1;
   if (_argc > 2)
   {
     try
     {
-      sleep = std::stoi(_argv[2]);
+      rtf = std::stod(_argv[2]);
     }
     catch(...)
     {
-      std::cerr << "Invalid sleep time. Defaulting to 20ms\n";
+      std::cerr << "Invalid RTF. Defaulting to 1.0\n";
     }
   }
 
+  if (rtf <= 0)
+  {
+    std::cerr << "Invalid RTF of [" << rtf << "]. Defaulting to 1.0\n";
+    rtf = 1.0;
+  }
+
   // Create and run the processor.
-  Processor p(_argv[1], sleep);
+  Processor p(_argv[1], rtf);
   return 0;
 }

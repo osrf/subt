@@ -90,7 +90,8 @@ class Processor
   /// \brief Constructor, which also kicks off all of the data
   /// visualization.
   /// \param[in] _path Path to the directory containing the log files.
-  public: Processor(const std::string &_path, int _stepSleepMs);
+  /// \param[in] _rtf Real time factor for playback.
+  public: Processor(const std::string &_path, double _rtf);
 
   /// \brief Destructor
   public: ~Processor();
@@ -174,6 +175,6 @@ class Processor
   /// \brief All of the pose data.
   private: std::map<int, std::vector<std::unique_ptr<Data>>> logData;
 
-  /// \brief Number of milliseconds to sleep between log steps.
-  private: int stepSleepMs = 20;
+  /// \brief Realtime factor for playback.
+  private: double rtf = 1.0;
 };
