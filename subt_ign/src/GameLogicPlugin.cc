@@ -1385,6 +1385,8 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
       << "  time_sec: " << this->simTime.sec() << "\n"
       << "  total_score: " << this->totalScore << std::endl;
     this->LogEvent(stream.str());
+    this->Finish();
+    return true;
   }
   else if (!this->ArtifactFromInt(_req.type(), artifactType))
   {
