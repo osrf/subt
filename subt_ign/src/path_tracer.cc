@@ -17,9 +17,202 @@
 #include "path_tracer.hh"
 
 //////////////////////////////////////////////////
-Processor::Processor(const std::string &_path, double _rtf)
-  : rtf(_rtf)
+MarkerColor::MarkerColor(const YAML::Node &_node)
 {
+  if (_node["ambient"])
+  {
+    if (_node["ambient"]["r"])
+      this->ambient.R(_node["ambient"]["r"].as<double>());
+    else
+      this->ambient.R(1.0);
+
+    if (_node["ambient"]["g"])
+      this->ambient.G(_node["ambient"]["g"].as<double>());
+    else
+      this->ambient.G(1.0);
+
+    if (_node["ambient"]["b"])
+      this->ambient.B(_node["ambient"]["b"].as<double>());
+    else
+      this->ambient.B(1.0);
+
+    if (_node["ambient"]["a"])
+      this->ambient.A(_node["ambient"]["a"].as<double>());
+    else
+      this->ambient.A(1.0);
+  }
+
+  if (_node["diffuse"])
+  {
+    if (_node["diffuse"]["r"])
+      this->diffuse.R(_node["diffuse"]["r"].as<double>());
+    else
+      this->diffuse.R(1.0);
+
+    if (_node["diffuse"]["g"])
+      this->diffuse.G(_node["diffuse"]["g"].as<double>());
+    else
+      this->diffuse.G(1.0);
+
+    if (_node["diffuse"]["b"])
+      this->diffuse.B(_node["diffuse"]["b"].as<double>());
+    else
+      this->diffuse.B(1.0);
+
+    if (_node["diffuse"]["a"])
+      this->diffuse.A(_node["diffuse"]["a"].as<double>());
+    else
+      this->diffuse.A(1.0);
+  }
+
+  if (_node["emissive"])
+  {
+    if (_node["emissive"]["r"])
+      this->emissive.R(_node["emissive"]["r"].as<double>());
+    else
+      this->emissive.R(1.0);
+
+    if (_node["emissive"]["g"])
+      this->emissive.G(_node["emissive"]["g"].as<double>());
+    else
+      this->emissive.G(1.0);
+
+    if (_node["emissive"]["b"])
+      this->emissive.B(_node["emissive"]["b"].as<double>());
+    else
+      this->emissive.B(1.0);
+
+    if (_node["emissive"]["a"])
+      this->emissive.A(_node["emissive"]["a"].as<double>());
+    else
+      this->emissive.A(1.0);
+  }
+}
+
+//////////////////////////////////////////////////
+MarkerColor::MarkerColor(const MarkerColor &_clr)
+  :ambient(_clr.ambient), diffuse(_clr.diffuse), emissive(_clr.emissive)
+{
+}
+
+//////////////////////////////////////////////////
+MarkerColor::MarkerColor(const ignition::math::Color &_ambient,
+    const ignition::math::Color &_diffuse,
+    const ignition::math::Color &_emissive)
+  : ambient(_ambient), diffuse(_diffuse), emissive(_emissive)
+{
+}
+
+//////////////////////////////////////////////////
+Processor::Processor(const std::string &_path, const std::string &_configPath)
+{
+  YAML::Node cfg;
+  if (!_configPath.empty())
+  {
+    if (ignition::common::exists(_configPath))
+    {
+      try
+      {
+        cfg = YAML::LoadFile(_configPath);
+      }
+      catch (...)
+      {
+        std::cerr << "Unable to load configuration file["
+          << _configPath << "]\n";
+      }
+    }
+    else
+    {
+      std::cerr << "Configuration file[" << _configPath << "] doesn't exist\n";
+    }
+  }
+
+  // Set the RTF value
+  if (cfg && cfg["rtf"])
+    this->rtf = cfg["rtf"].as<double>();
+
+  // Color of incorrect reports.
+  if (cfg && cfg["incorrect_report_color"])
+  {
+    this->artifactColors["incorrect_report_color"] =
+      MarkerColor(cfg["incorrect_report_color"]);
+  }
+  else
+  {
+    this->artifactColors["incorrect_report_color"] =
+      MarkerColor({1.0, 0.0, 0.0, 0.5},
+                  {1.0, 0.0, 0.0, 0.5},
+                  {0.2, 0.0, 0.0, 0.1});
+  }
+
+  // Color of correct reports.
+  if (cfg && cfg["correct_report_color"])
+  {
+    this->artifactColors["correct_report_color"] =
+      MarkerColor(cfg["correct_report_color"]);
+  }
+  else
+  {
+    this->artifactColors["correct_report_color"] =
+      MarkerColor({0.0, 1.0, 0.0, 1.0},
+                  {0.0, 1.0, 0.0, 1.0},
+                  {0.0, 1.0, 0.0, 1.0});
+  }
+
+  // Color of artifact locations
+  if (cfg && cfg["artifact_location_color"])
+  {
+    this->artifactColors["artifact_location_color"] =
+      MarkerColor(cfg["artifact_location_color"]);
+  }
+  else
+  {
+    this->artifactColors["artifact_location_color"] =
+      MarkerColor({0.0, 1.0, 1.0, 0.5},
+                  {0.0, 1.0, 1.0, 0.5},
+                  {0.0, 0.2, 0.2, 0.5});
+  }
+
+  // Color of robot paths
+  if (cfg && cfg["robot_colors"])
+  {
+    for (std::size_t i = 0; i < cfg["robot_colors"].size(); ++i)
+    {
+      this->robotColors.push_back(MarkerColor(cfg["robot_colors"][i]));
+    }
+  }
+  else
+  {
+    this->robotColors.push_back(
+      MarkerColor({0.6, 0.0, 1.0, 1.0},
+                  {0.6, 0.0, 1.0, 1.0},
+                  {0.6, 0.0, 1.0, 1.0}));
+    this->robotColors.push_back(
+      MarkerColor({0.678, 0.2, 1.0, 1.0},
+                  {0.678, 0.2, 1.0, 1.0},
+                  {0.678, 0.2, 1.0, 1.0}));
+    this->robotColors.push_back(
+      MarkerColor({0.761, 0.4, 1.0, 1.0},
+                  {0.761, 0.4, 1.0, 1.0},
+                  {0.761, 0.4, 1.0, 1.0}));
+    this->robotColors.push_back(
+      MarkerColor({0.839, 0.6, 1.0, 1.0},
+                  {0.839, 0.6, 1.0, 1.0},
+                  {0.839, 0.6, 1.0, 1.0}));
+    this->robotColors.push_back(
+      MarkerColor({1.0, 0.6, 0.0, 1.0},
+                  {1.0, 0.6, 0.0, 1.0},
+                  {1.0, 0.6, 0.0, 1.0}));
+    this->robotColors.push_back(
+      MarkerColor({1.0, 0.678, 0.2, 1.0},
+                  {1.0, 0.678, 0.2, 1.0},
+                  {1.0, 0.678, 0.2, 1.0}));
+    this->robotColors.push_back(
+      MarkerColor({1.0, 0.761, 0.4, 1.0},
+                  {1.0, 0.761, 0.4, 1.0},
+                  {1.0, 0.761, 0.4, 1.0}));
+  }
+
   // Create the transport node with the partition used by simulation
   // world.
   ignition::transport::NodeOptions opts;
@@ -223,14 +416,15 @@ void Processor::DisplayArtifacts()
 {
   for (const auto &artifact : this->artifacts)
   {
-    this->SpawnMarker(this->colors[2], artifact.second.Pos(),
+    this->SpawnMarker(this->artifactColors["artifact_location_color"],
+        artifact.second.Pos(),
         ignition::msgs::Marker::SPHERE,
         ignition::math::Vector3d(8, 8, 8));
   }
 }
 
 //////////////////////////////////////////////////
-void Processor::SpawnMarker(ignition::math::Color &_color,
+void Processor::SpawnMarker(MarkerColor &_color,
     const ignition::math::Vector3d &_pos,
     ignition::msgs::Marker::Type _type,
     const ignition::math::Vector3d &_scale)
@@ -245,18 +439,18 @@ void Processor::SpawnMarker(ignition::math::Color &_color,
   markerMsg.set_visibility(ignition::msgs::Marker::GUI);
 
   // Set color
-  markerMsg.mutable_material()->mutable_ambient()->set_r(_color.R());
-  markerMsg.mutable_material()->mutable_ambient()->set_g(_color.G());
-  markerMsg.mutable_material()->mutable_ambient()->set_b(_color.B());
-  markerMsg.mutable_material()->mutable_ambient()->set_a(_color.A());
-  markerMsg.mutable_material()->mutable_diffuse()->set_r(_color.R());
-  markerMsg.mutable_material()->mutable_diffuse()->set_g(_color.G());
-  markerMsg.mutable_material()->mutable_diffuse()->set_b(_color.B());
-  markerMsg.mutable_material()->mutable_diffuse()->set_a(_color.A());
-  markerMsg.mutable_material()->mutable_emissive()->set_r(_color.R());
-  markerMsg.mutable_material()->mutable_emissive()->set_g(_color.G());
-  markerMsg.mutable_material()->mutable_emissive()->set_b(_color.B());
-  markerMsg.mutable_material()->mutable_emissive()->set_a(_color.A());
+  markerMsg.mutable_material()->mutable_ambient()->set_r(_color.ambient.R());
+  markerMsg.mutable_material()->mutable_ambient()->set_g(_color.ambient.G());
+  markerMsg.mutable_material()->mutable_ambient()->set_b(_color.ambient.B());
+  markerMsg.mutable_material()->mutable_ambient()->set_a(_color.ambient.A());
+  markerMsg.mutable_material()->mutable_diffuse()->set_r(_color.diffuse.R());
+  markerMsg.mutable_material()->mutable_diffuse()->set_g(_color.diffuse.G());
+  markerMsg.mutable_material()->mutable_diffuse()->set_b(_color.diffuse.B());
+  markerMsg.mutable_material()->mutable_diffuse()->set_a(_color.diffuse.A());
+  markerMsg.mutable_material()->mutable_emissive()->set_r(_color.emissive.R());
+  markerMsg.mutable_material()->mutable_emissive()->set_g(_color.emissive.G());
+  markerMsg.mutable_material()->mutable_emissive()->set_b(_color.emissive.B());
+  markerMsg.mutable_material()->mutable_emissive()->set_a(_color.emissive.A());
 
   ignition::msgs::Set(markerMsg.mutable_scale(), _scale);
 
@@ -287,7 +481,8 @@ void Processor::Cb(const ignition::msgs::Pose_V &_msg)
 
     if (this->robots.find(name) == this->robots.end())
     {
-      this->robots[name] = this->colors[this->robots.size()+3];
+      this->robots[name] = this->robotColors[
+        this->robots.size() % this->robotColors.size()];
       this->prevPose[name] = pose;
     }
 
@@ -330,13 +525,13 @@ void ReportData::Render(Processor *_p)
   // Otherwise render a red box.
   if (this->score > 0)
   {
-    _p->SpawnMarker(_p->colors[1], this->pos,
+    _p->SpawnMarker(_p->artifactColors["correct_report_color"], this->pos,
         ignition::msgs::Marker::SPHERE,
         ignition::math::Vector3d(4, 4, 4));
   }
   else
   {
-    _p->SpawnMarker(_p->colors[0], this->pos,
+    _p->SpawnMarker(_p->artifactColors["incorrect_report_color"], this->pos,
         ignition::msgs::Marker::BOX,
         ignition::math::Vector3d(4, 4, 4));
   }
@@ -345,26 +540,11 @@ void ReportData::Render(Processor *_p)
 /////////////////////////////////////////////////
 int main(int _argc, char **_argv)
 {
-  double rtf = 1;
-  if (_argc > 2)
-  {
-    try
-    {
-      rtf = std::stod(_argv[2]);
-    }
-    catch(...)
-    {
-      std::cerr << "Invalid RTF. Defaulting to 1.0\n";
-    }
-  }
-
-  if (rtf <= 0)
-  {
-    std::cerr << "Invalid RTF of [" << rtf << "]. Defaulting to 1.0\n";
-    rtf = 1.0;
-  }
-
   // Create and run the processor.
-  Processor p(_argv[1], rtf);
+  if (_argc > 2)
+    Processor p(_argv[1], _argv[2]);
+  else
+    Processor p(_argv[1]);
+
   return 0;
 }
