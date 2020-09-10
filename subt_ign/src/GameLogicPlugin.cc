@@ -58,8 +58,13 @@
 #include <ignition/transport/Node.hh>
 #include <sdf/sdf.hh>
 
-#include "subt_ros/RunStatistics.h"
+#include <geometry_msgs/PoseStamped.h>
+#include "subt_ros/ArtifactReport.h"
+#include "subt_ros/RegionEvent.h"
 #include "subt_ros/Robot.h"
+#include "subt_ros/RobotEvent.h"
+#include "subt_ros/RunStatistics.h"
+#include "subt_ros/RunStatus.h"
 #include "subt_ign/CommonTypes.hh"
 #include "subt_ign/GameLogicPlugin.hh"
 #include "subt_ign/protobuf/artifact.pb.h"
@@ -120,7 +125,8 @@ class subt::GameLogicPluginPrivate
   /// duplicate and false otherwise.
   public: std::tuple<double, bool> ScoreArtifact(
               const subt::ArtifactType &_type,
-              const ignition::msgs::Pose &_pose);
+              const ignition::msgs::Pose &_pose,
+              subt_ros::ArtifactReport &_artifactMsg);
 
   /// \brief Create an ArtifactType from an integer.
   //
@@ -183,6 +189,19 @@ class subt::GameLogicPluginPrivate
   /// \brief Log an event to the eventStream.
   /// \param[in] _event The event to log.
   public: void LogEvent(const std::string &_event);
+
+  /// \brief Publish a robot event.
+  /// \param[in] _type Event type.
+  /// \param[in] _robot Robot name.
+  public: void PublishRobotEvent(const std::string &_type,
+    const std::string &_robot);
+
+  /// \brief Publish a region event.
+  /// \param[in] _type Event type.
+  /// \param[in] _robot Robot name.
+  public: void PublishRegionEvent(const std::string &_type,
+    const std::string &_robot, const std::string &_detector);
+
 
   /// \brief Marsupial detach subscription callback.
   /// \param[in] _msg Detach message.
@@ -491,20 +510,18 @@ class subt::GameLogicPluginPrivate
   /// \brief The ROS node handler used for communications.
   public: std::unique_ptr<ros::NodeHandle> rosnode;
   public: ros::Publisher rosStatsPub;
+  public: ros::Publisher rosStatusPub;
+  public: ros::Publisher rosArtifactPub;
+  public: ros::Publisher rosRobotEventPub;
+  public: ros::Publisher rosRegionEventPub;
+  public: std::map<std::string, ros::Publisher> rosRobotPosePubs;
+  public: std::string prevPhase = "";
 };
 
 //////////////////////////////////////////////////
 GameLogicPlugin::GameLogicPlugin()
   : dataPtr(new GameLogicPluginPrivate)
 {
-  int argc = 0;
-  char **argv = nullptr;
-  ros::init(argc, argv, "subt_stats");
-  // Initialize the ROS node.
-  this->dataPtr->rosnode.reset(new ros::NodeHandle("subt"));
-  this->dataPtr->rosStatsPub =
-    this->dataPtr->rosnode->advertise<subt_ros::RunStatistics>(
-        "run_statistics", 1000);
 }
 
 //////////////////////////////////////////////////
@@ -535,6 +552,7 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
   const sdf::ElementPtr loggingElem =
     const_cast<sdf::Element*>(_sdf.get())->GetElement("logging");
 
+
   std::string filenamePrefix;
   if (loggingElem && loggingElem->HasElement("filename_prefix"))
   {
@@ -562,6 +580,36 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
       {
         this->dataPtr->logPath = homePath;
       }
+    }
+  }
+
+  const sdf::ElementPtr rosElem =
+    const_cast<sdf::Element*>(_sdf.get())->GetElement("ros");
+  if (rosElem)
+  {
+    std::string value = rosElem->Get<std::string>();
+    std::transform(value.begin(), value.end(), value.begin(), ::toupper);
+    if (value == "TRUE" || value == "1")
+    {
+      int argc = 0;
+      char **argv = nullptr;
+      ros::init(argc, argv, "subt_stats");
+      // Initialize the ROS node.
+      this->dataPtr->rosnode.reset(new ros::NodeHandle("subt"));
+      this->dataPtr->rosStatusPub =
+        this->dataPtr->rosnode->advertise<subt_ros::RunStatus>("status", 100, true);
+      this->dataPtr->rosStatsPub =
+        this->dataPtr->rosnode->advertise<subt_ros::RunStatistics>(
+            "run_statistics", 100);
+      this->dataPtr->rosArtifactPub =
+        this->dataPtr->rosnode->advertise<subt_ros::RunStatistics>(
+            "artifact_reports", 100);
+      this->dataPtr->rosRobotEventPub =
+        this->dataPtr->rosnode->advertise<subt_ros::RobotEvent>(
+            "robot_event", 100);
+      this->dataPtr->rosRegionEventPub =
+        this->dataPtr->rosnode->advertise<subt_ros::RegionEvent>(
+            "region_event", 100);
     }
   }
 
@@ -666,6 +714,7 @@ void GameLogicPluginPrivate::OnBatteryMsg(
         << "  robot: " << name << std::endl;
 
       this->LogEvent(stream.str());
+      this->PublishRobotEvent("dead_battery", name);
     }
   }
 }
@@ -691,6 +740,7 @@ void GameLogicPluginPrivate::OnBreadcrumbDeployEvent(
     << "  robot: " << name << std::endl;
 
   this->LogEvent(stream.str());
+  this->PublishRobotEvent("breadcrumb_deploy", name);
 }
 
 //////////////////////////////////////////////////
@@ -718,6 +768,7 @@ void GameLogicPluginPrivate::OnBreadcrumbDeployRemainingEvent(
         << "  robot: " << name << std::endl;
 
       this->LogEvent(stream.str());
+      this->PublishRobotEvent("max_breadcrumb_deploy", name);
     }
 
     this->breadcrumbsMax[name]++;
@@ -753,6 +804,7 @@ void GameLogicPluginPrivate::OnRockFallDeployRemainingEvent(
           << "  model: " << name << std::endl;
 
         this->LogEvent(stream.str());
+        this->PublishRobotEvent("max_rock_falls", name);
       }
 
       this->rockFallsMax[name].second++;
@@ -783,6 +835,7 @@ void GameLogicPluginPrivate::OnDetachEvent(
     << "  robot: " << name << std::endl;
 
   this->LogEvent(stream.str());
+  this->PublishRobotEvent("detach", name);
 }
 
 //////////////////////////////////////////////////
@@ -827,6 +880,7 @@ void GameLogicPluginPrivate::OnEvent(const ignition::msgs::Pose &_msg)
     }
   }
   this->LogEvent(stream.str());
+  this->PublishRegionEvent("detect", _msg.name(), frameId);
 }
 
 //////////////////////////////////////////////////
@@ -1082,6 +1136,13 @@ void GameLogicPlugin::PostUpdate(
             this->dataPtr->robotElevationGain[name] = 0.0;
             this->dataPtr->robotElevationLoss[name] = 0.0;
 
+            if (this->dataPtr->rosnode)
+            {
+              this->dataPtr->rosRobotPosePubs[name] =
+                this->dataPtr->rosnode->advertise<geometry_msgs::PoseStamped>(
+                    "poses/" + name, 1000);
+            }
+
             this->dataPtr->robotPrevPose[name] = pose;
             return true;
           }
@@ -1095,6 +1156,19 @@ void GameLogicPlugin::PostUpdate(
             // sim paused?
             if (dt <= 0)
               return true;
+            geometry_msgs::PoseStamped msg;
+            msg.header.stamp.sec = this->dataPtr->simTime.sec();
+            msg.header.stamp.nsec = this->dataPtr->simTime.nsec();
+            msg.pose.position.x = pose.Pos().X();
+            msg.pose.position.y = pose.Pos().Y();
+            msg.pose.position.z = pose.Pos().Z();
+            msg.pose.orientation.x = pose.Rot().X();
+            msg.pose.orientation.y = pose.Rot().Y();
+            msg.pose.orientation.z = pose.Rot().Z();
+            msg.pose.orientation.w = pose.Rot().W();
+
+            if (this->dataPtr->rosnode)
+              this->dataPtr->rosRobotPosePubs[name].publish(msg);
 
             // Consider only velocity in the xy plane.
             math::Vector3d p1 = pose.Pos();
@@ -1283,6 +1357,18 @@ void GameLogicPlugin::PostUpdate(
       mapData->add_value("finished");
     }
 
+    if (this->dataPtr->prevPhase != mapData->value(0))
+    {
+      subt_ros::RunStatus statusMsg;
+      statusMsg.status = mapData->value(0);
+      statusMsg.timestamp.sec = this->dataPtr->simTime.sec();
+      statusMsg.timestamp.nsec = this->dataPtr->simTime.nsec();
+
+      this->dataPtr->prevPhase = mapData->value(0);
+      if (this->dataPtr->rosnode)
+        this->dataPtr->rosStatusPub.publish(statusMsg);
+    }
+
     this->dataPtr->competitionClockPub.Publish(competitionClockMsg);
 
     ignition::msgs::StringMsg msg;
@@ -1370,6 +1456,10 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
 
   ArtifactType artifactType;
 
+  subt_ros::ArtifactReport artifactMsg;
+  artifactMsg.timestamp.sec = this->simTime.sec();
+  artifactMsg.timestamp.nsec = this->simTime.nsec();
+
   if (this->started && this->finished)
   {
     _resp.set_report_status("scoring finished");
@@ -1426,7 +1516,7 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
   {
     std::lock_guard<std::mutex> lock(this->mutex);
     auto [scoreDiff, duplicate] = this->ScoreArtifact(
-        artifactType, _req.pose());
+        artifactType, _req.pose(), artifactMsg);
 
     _resp.set_score_change(scoreDiff);
     _resp.set_report_status("scored");
@@ -1439,6 +1529,9 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
   }
 
   _resp.set_report_id(this->reportCount);
+
+  if (this->rosnode)
+    this->rosArtifactPub.publish(artifactMsg);
 
   // Finish if the maximum score has been reached, or if the maximum number
   // of artifact reports has been reached..
@@ -1479,7 +1572,8 @@ bool GameLogicPluginPrivate::ArtifactFromInt(const uint32_t &_typeInt,
 
 /////////////////////////////////////////////////
 std::tuple<double, bool> GameLogicPluginPrivate::ScoreArtifact(
-    const ArtifactType &_type, const ignition::msgs::Pose &_pose)
+    const ArtifactType &_type, const ignition::msgs::Pose &_pose,
+    subt_ros::ArtifactReport &_artifactMsg)
 {
   // Sanity check: Make sure that we have crossed the starting gate.
   if (!this->started)
@@ -1636,6 +1730,15 @@ std::tuple<double, bool> GameLogicPluginPrivate::ScoreArtifact(
     << "  points_scored: " << score << "\n"
     << "  total_score: " << this->totalScore + score << std::endl;
   this->LogEvent(stream.str());
+
+  _artifactMsg.reported_artifact_type = reportType;
+  _artifactMsg.reported_artifact_position.x = observedObjectPose.X();
+  _artifactMsg.reported_artifact_position.y = observedObjectPose.Y();
+  _artifactMsg.reported_artifact_position.z = observedObjectPose.Z();
+  _artifactMsg.closest_artifact_name = std::get<0>(minDistance);
+  _artifactMsg.distance = outDist;
+  _artifactMsg.points_scored = score;
+  _artifactMsg.total_score = this->totalScore + score;
 
   this->Log() << "calculated_dist[" << std::get<2>(minDistance)
     << "] for artifact[" << std::get<0>(minDistance) << "] reported_pos["
@@ -2056,6 +2159,9 @@ void GameLogicPluginPrivate::LogRobotArtifactData() const
 
   subt_ros::RunStatistics statsMsg;
 
+  statsMsg.timestamp.sec = this->simTime.sec();
+  statsMsg.timestamp.nsec = this->simTime.nsec();
+
   YAML::Emitter out;
   out << YAML::BeginMap;
 
@@ -2098,11 +2204,11 @@ void GameLogicPluginPrivate::LogRobotArtifactData() const
 
   out << YAML::Key << "sim_time";
   out << YAML::Value << simElapsed;
-  statsMsg.sim_time = simElapsed;
+  statsMsg.sim_time_elapsed = simElapsed;
 
   out << YAML::Key << "real_time";
   out << YAML::Value << realElapsed;
-  statsMsg.real_time = realElapsed;
+  statsMsg.real_time_elapsed = realElapsed;
 
   out << YAML::Key << "artifact_report_count";
   out << YAML::Value << this->reportCount;
@@ -2234,7 +2340,8 @@ void GameLogicPluginPrivate::LogRobotArtifactData() const
   logFile << out.c_str() << std::endl;
   logFile.flush();
 
-  this->rosStatsPub.publish(statsMsg);
+  if (this->rosnode)
+    this->rosStatsPub.publish(statsMsg);
 }
 
 /////////////////////////////////////////////////
@@ -2305,6 +2412,32 @@ void GameLogicPluginPrivate::LogEvent(const std::string &_event)
   this->eventStream.flush();
 }
 
+/////////////////////////////////////////////////
+void GameLogicPluginPrivate::PublishRobotEvent(const std::string &_type,
+    const std::string &_robot)
+{
+  subt_ros::RobotEvent msg;
+  msg.timestamp.sec = this->simTime.sec();
+  msg.timestamp.nsec = this->simTime.nsec();
+  msg.event_type = _type;
+  msg.robot_asset_id = _robot;
+  if (this->rosnode)
+    this->rosRobotEventPub.publish(msg);
+}
+
+/////////////////////////////////////////////////
+void GameLogicPluginPrivate::PublishRegionEvent(const std::string &_type,
+    const std::string &_robot, const std::string &_detector)
+{
+  subt_ros::RegionEvent msg;
+  msg.timestamp.sec = this->simTime.sec();
+  msg.timestamp.nsec = this->simTime.nsec();
+  msg.event_type = _type;
+  msg.robot_asset_id = _robot;
+  msg.detector = _detector;
+  if (this->rosnode)
+    this->rosRegionEventPub.publish(msg);
+}
 /////////////////////////////////////////////////
 std::ofstream &GameLogicPluginPrivate::Log()
 {

@@ -1,12 +1,13 @@
 # This message contains competition statistics
 
+time timestamp
 subt_ros/Robot[] robots
 # subt_ros/Marsupial[] marsupials
 int32 artifacts_found
 int32 robot_count
 int32 unique_robot_count
-int32 sim_time
-int32 real_time
+int32 sim_time_elapsed
+int32 real_time_elapsed
 int32 artifact_report_count
 int32 duplicate_report_count
 string closest_artifact_report_name

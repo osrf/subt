@@ -1,0 +1,7 @@
+time timestamp
+string reported_artifact_type
+geometry_msgs/Point reported_artifact_position
+string closest_artifact_name
+float64 distance
+int32 points_scored
+int32 total_score
