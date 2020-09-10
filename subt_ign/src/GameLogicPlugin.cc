@@ -58,7 +58,7 @@
 #include <ignition/transport/Node.hh>
 #include <sdf/sdf.hh>
 
-#include "subt_ros/CompetitionStats.h"
+#include "subt_ros/RunStatistics.h"
 #include "subt_ros/Robot.h"
 #include "subt_ign/CommonTypes.hh"
 #include "subt_ign/GameLogicPlugin.hh"
@@ -503,8 +503,8 @@ GameLogicPlugin::GameLogicPlugin()
   // Initialize the ROS node.
   this->dataPtr->rosnode.reset(new ros::NodeHandle("subt"));
   this->dataPtr->rosStatsPub =
-    this->dataPtr->rosnode->advertise<subt_ros::CompetitionStats>(
-        "stats", 1000);
+    this->dataPtr->rosnode->advertise<subt_ros::RunStatistics>(
+        "run_statistics", 1000);
 }
 
 //////////////////////////////////////////////////
@@ -2054,7 +2054,7 @@ void GameLogicPluginPrivate::LogRobotArtifactData() const
   // 22. Min elevation reached by a robot
   // 23. Robot configurations and marsupial pairs.
 
-  subt_ros::CompetitionStats statsMsg;
+  subt_ros::RunStatistics statsMsg;
 
   YAML::Emitter out;
   out << YAML::BeginMap;
@@ -2134,6 +2134,17 @@ void GameLogicPluginPrivate::LogRobotArtifactData() const
   out << YAML::Value << this->firstReportTime;
   out << YAML::Key << "last_artifact_report";
   out << YAML::Value << this->lastReportTime;
+  statsMsg.closest_artifact_report_name = std::get<0>(this->closestReport);
+  statsMsg.closest_artifact_report_type = std::get<1>(this->closestReport);
+  statsMsg.closest_artifact_report_true_pos.x = std::get<2>(this->closestReport).X();
+  statsMsg.closest_artifact_report_true_pos.y = std::get<2>(this->closestReport).Y();
+  statsMsg.closest_artifact_report_true_pos.z = std::get<2>(this->closestReport).Z();
+  statsMsg.closest_artifact_report_reported_pos.x = std::get<3>(this->closestReport).X();
+  statsMsg.closest_artifact_report_reported_pos.y = std::get<3>(this->closestReport).Y();
+  statsMsg.closest_artifact_report_reported_pos.z = std::get<3>(this->closestReport).Z();
+  statsMsg.closest_artifact_report_distance = std::get<4>(this->closestReport);
+  statsMsg.first_artifact_report_time = this->firstReportTime;
+  statsMsg.last_artifact_report_time = this->lastReportTime;
 
   double meanReportTime = 0;
   if (!this->foundArtifacts.empty())
@@ -2143,48 +2154,79 @@ void GameLogicPluginPrivate::LogRobotArtifactData() const
   }
   out << YAML::Key << "mean_time_between_successful_artifact_reports";
   out << YAML::Value << meanReportTime;
+  statsMsg.mean_time_between_successful_artifact_reports = meanReportTime;
 
   // robot distance traveled and vel data
   out << YAML::Key << "greatest_distance_traveled";
   out << YAML::Value << this->maxRobotDistance.second;
   out << YAML::Key << "greatest_distance_traveled_robot";
   out << YAML::Value << this->maxRobotDistance.first;
+  statsMsg.greatest_distance_traveled.name = this->maxRobotDistance.first;
+  statsMsg.greatest_distance_traveled.data = this->maxRobotDistance.second;
+
   out << YAML::Key << "greatest_euclidean_distance_from_start";
   out << YAML::Value << this->maxRobotEuclideanDistance.second;
   out << YAML::Key << "greatest_euclidean_distance_from_start_robot";
   out << YAML::Value << this->maxRobotEuclideanDistance.first;
+  statsMsg.greatest_euclidean_distance_from_start.name =
+    this->maxRobotEuclideanDistance.first;
+  statsMsg.greatest_euclidean_distance_from_start.data =
+    this->maxRobotEuclideanDistance.second;
+
   out << YAML::Key << "total_distance_traveled";
   out << YAML::Value << this->robotsTotalDistance;
+  statsMsg.total_distance_traveled =this->robotsTotalDistance;
+
   out << YAML::Key << "greatest_max_vel";
   out << YAML::Value << this->maxRobotVel.second;
   out << YAML::Key << "greatest_max_vel_robot";
   out << YAML::Value << this->maxRobotVel.first;
+  statsMsg.greatest_max_vel.name = this->maxRobotVel.first;
+  statsMsg.greatest_max_vel.data = this->maxRobotVel.second;
+
   out << YAML::Key << "greatest_avg_vel";
   out << YAML::Value << this->maxRobotAvgVel.second;
   out << YAML::Key << "greatest_avg_vel_robot";
   out << YAML::Value << this->maxRobotAvgVel.first;
+  statsMsg.greatest_avg_vel.name = this->maxRobotAvgVel.first;
+  statsMsg.greatest_avg_vel.data = this->maxRobotAvgVel.second;
 
   // robot elevation data
   out << YAML::Key << "greatest_elevation_gain";
   out << YAML::Value << this->maxRobotElevationGain.second;
   out << YAML::Key << "greatest_elevation_gain_robot";
   out << YAML::Value << this->maxRobotElevationGain.first;
+  statsMsg.greatest_elevation_gain.name = this->maxRobotElevationGain.first;
+  statsMsg.greatest_elevation_gain.data = this->maxRobotElevationGain.second;
+
   out << YAML::Key << "greatest_elevation_loss";
   out << YAML::Value << this->maxRobotElevationLoss.second;
   out << YAML::Key << "greatest_elevation_loss_robot";
   out << YAML::Value << this->maxRobotElevationLoss.first;
+  statsMsg.greatest_elevation_loss.name = this->maxRobotElevationLoss.first;
+  statsMsg.greatest_elevation_loss.data = this->maxRobotElevationLoss.second;
+
   out << YAML::Key << "total_elevation_gain";
   out << YAML::Value << this->robotsTotalElevationGain;
+  statsMsg.total_elevation_gain = this->robotsTotalElevationGain;
+
   out << YAML::Key << "total_elevation_loss";
   out << YAML::Value << this->robotsTotalElevationLoss;
+  statsMsg.total_elevation_loss = this->robotsTotalElevationLoss;
+
   out << YAML::Key << "max_elevation_reached";
   out << YAML::Value << this->maxRobotElevation.second;
   out << YAML::Key << "max_elevation_reached_robot";
   out << YAML::Value << this->maxRobotElevation.first;
+  statsMsg.max_elevation_reached.name = this->maxRobotElevation.first;
+  statsMsg.max_elevation_reached.data = this->maxRobotElevation.second;
+
   out << YAML::Key << "min_elevation_reached";
   out << YAML::Value << this->minRobotElevation.second;
   out << YAML::Key << "min_elevation_reached_robot";
   out << YAML::Value << this->minRobotElevation.first;
+  statsMsg.min_elevation_reached.name = this->minRobotElevation.first;
+  statsMsg.min_elevation_reached.data = this->minRobotElevation.second;
 
   out << YAML::EndMap;
 

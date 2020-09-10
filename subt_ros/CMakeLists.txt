@@ -18,14 +18,16 @@ find_package(catkin REQUIRED COMPONENTS
 add_message_files(
   FILES
   CompetitionClock.msg
-  CompetitionStats.msg
+  RunStatistics.msg
   Robot.msg
+  RobotMetric.msg
   Marsupial.msg
 )
 
 generate_messages(
   DEPENDENCIES
   std_msgs
+  geometry_msgs
 )
 
 find_package(ignition-common3 REQUIRED)

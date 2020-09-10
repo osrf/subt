@@ -1,0 +1,31 @@
+# This message contains competition statistics
+
+subt_ros/Robot[] robots
+# subt_ros/Marsupial[] marsupials
+int32 artifacts_found
+int32 robot_count
+int32 unique_robot_count
+int32 sim_time
+int32 real_time
+int32 artifact_report_count
+int32 duplicate_report_count
+string closest_artifact_report_name
+string closest_artifact_report_type
+geometry_msgs/Vector3 closest_artifact_report_true_pos
+geometry_msgs/Vector3 closest_artifact_report_reported_pos
+float64 closest_artifact_report_distance
+float64 first_artifact_report_time
+float64 last_artifact_report_time
+float64 mean_time_between_successful_artifact_reports
+subt_ros/RobotMetric greatest_distance_traveled
+subt_ros/RobotMetric greatest_euclidean_distance_from_start
+float64 total_distance_traveled
+subt_ros/RobotMetric greatest_max_vel
+subt_ros/RobotMetric greatest_avg_vel
+
+subt_ros/RobotMetric greatest_elevation_gain
+subt_ros/RobotMetric greatest_elevation_loss
+float64 total_elevation_gain
+float64 total_elevation_loss
+subt_ros/RobotMetric max_elevation_reached
+subt_ros/RobotMetric min_elevation_reached
