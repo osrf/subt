@@ -16,6 +16,7 @@
 */
 
 #include <yaml-cpp/yaml.h>
+#include <ros/ros.h>
 
 #include <ignition/msgs/boolean.pb.h>
 #include <ignition/msgs/float.pb.h>
@@ -57,6 +58,8 @@
 #include <ignition/transport/Node.hh>
 #include <sdf/sdf.hh>
 
+#include "subt_ros/CompetitionStats.h"
+#include "subt_ros/Robot.h"
 #include "subt_ign/CommonTypes.hh"
 #include "subt_ign/GameLogicPlugin.hh"
 #include "subt_ign/protobuf/artifact.pb.h"
@@ -482,12 +485,26 @@ class subt::GameLogicPluginPrivate
   /// \brief Map of model name to deployments_over_max. This map
   /// is used to log when no more breadcrumb deployments are possible.
   public: std::map<std::string, int> breadcrumbsMax;
+
+  public: double elevationThreshold = 5.0;
+
+  /// \brief The ROS node handler used for communications.
+  public: std::unique_ptr<ros::NodeHandle> rosnode;
+  public: ros::Publisher rosStatsPub;
 };
 
 //////////////////////////////////////////////////
 GameLogicPlugin::GameLogicPlugin()
   : dataPtr(new GameLogicPluginPrivate)
 {
+  int argc = 0;
+  char **argv = nullptr;
+  ros::init(argc, argv, "subt_stats");
+  // Initialize the ROS node.
+  this->dataPtr->rosnode.reset(new ros::NodeHandle("subt"));
+  this->dataPtr->rosStatsPub =
+    this->dataPtr->rosnode->advertise<subt_ros::CompetitionStats>(
+        "stats", 1000);
 }
 
 //////////////////////////////////////////////////
@@ -1145,7 +1162,7 @@ void GameLogicPlugin::PostUpdate(
 
           // greatest elevation gain / loss
           double elevationDiff =
-              pose.Pos().Z() -  this->dataPtr->robotPrevPose[name].Pos().Z();
+            pose.Pos().Z() -  this->dataPtr->robotPrevPose[name].Pos().Z();
           if (elevationDiff > 0)
           {
             double elevationGain = this->dataPtr->robotElevationGain[name]
@@ -2037,6 +2054,8 @@ void GameLogicPluginPrivate::LogRobotArtifactData() const
   // 22. Min elevation reached by a robot
   // 23. Robot configurations and marsupial pairs.
 
+  subt_ros::CompetitionStats statsMsg;
+
   YAML::Emitter out;
   out << YAML::BeginMap;
 
@@ -2044,6 +2063,12 @@ void GameLogicPluginPrivate::LogRobotArtifactData() const
   out << YAML::Value << YAML::BeginMap;
   for (auto const &pair : this->robotFullTypes)
   {
+    subt_ros::Robot robotMsg;
+    robotMsg.name = pair.first;
+    robotMsg.platform = pair.second.first;
+    robotMsg.type = pair.second.second;
+    statsMsg.robots.push_back(robotMsg);
+
     out << YAML::Key << pair.first;
     out << YAML::Value << YAML::BeginMap;
     out << YAML::Key << "platform" << YAML::Value << pair.second.first;
@@ -2061,18 +2086,31 @@ void GameLogicPluginPrivate::LogRobotArtifactData() const
   // artifact data
   out << YAML::Key << "artifacts_found";
   out << YAML::Value << this->foundArtifacts.size();
+  statsMsg.artifacts_found = this->foundArtifacts.size();
+
   out << YAML::Key << "robot_count";
   out << YAML::Value << this->robotNames.size();
+  statsMsg.robot_count = this->robotNames.size();
+
   out << YAML::Key << "unique_robot_count";
   out << YAML::Value << this->robotTypes.size();
+  statsMsg.unique_robot_count = this->robotTypes.size();
+
   out << YAML::Key << "sim_time";
   out << YAML::Value << simElapsed;
+  statsMsg.sim_time = simElapsed;
+
   out << YAML::Key << "real_time";
   out << YAML::Value << realElapsed;
+  statsMsg.real_time = realElapsed;
+
   out << YAML::Key << "artifact_report_count";
   out << YAML::Value << this->reportCount;
+  statsMsg.artifact_report_count = this->reportCount;
+
   out << YAML::Key << "duplicate_report_count";
   out << YAML::Value << this->duplicateReportCount;
+  statsMsg.duplicate_report_count = this->duplicateReportCount;
 
   std::stringstream artifactPos;
   artifactPos << std::get<2>(this->closestReport);
@@ -2153,6 +2191,8 @@ void GameLogicPluginPrivate::LogRobotArtifactData() const
   std::ofstream logFile(this->logPath + "/run.yml", std::ios::out);
   logFile << out.c_str() << std::endl;
   logFile.flush();
+
+  this->rosStatsPub.publish(statsMsg);
 }
 
 /////////////////////////////////////////////////

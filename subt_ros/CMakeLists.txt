@@ -18,6 +18,9 @@ find_package(catkin REQUIRED COMPONENTS
 add_message_files(
   FILES
   CompetitionClock.msg
+  CompetitionStats.msg
+  Robot.msg
+  Marsupial.msg
 )
 
 generate_messages(

@@ -19,6 +19,7 @@ find_package(catkin REQUIRED
     subt_rf_interface
     subt_communication_model
     subt_communication_broker
+    subt_msgs
 )
 
 find_package(ignition-gazebo2 2.1 QUIET REQUIRED)
