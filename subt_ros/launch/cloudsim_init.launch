@@ -16,5 +16,5 @@
     name="subt_ros_relay"/>
 
   <node pkg="rosbag" type="record" name="cloudsim_data"
-        args="record --split --size=1000 -O /tmp/ign/logs/cloudsim.bag -e '/.*'"/>
+    args="record --split --size=1000 -O /tmp/ign/logs/cloudsim.bag -e '/subt/.*'"/>
 </launch>
