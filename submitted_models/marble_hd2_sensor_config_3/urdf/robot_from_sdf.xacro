@@ -144,7 +144,7 @@
         <box size='0.02 0.02 0.02'/>
       </geometry>
     </visual>
-    <visual name='camera_back_visual'>
+    <visual name='camera_rear_visual'>
       <origin xyz='-0.1 0 0.013' rpy='0 -0 0'/>
       <geometry>
         <box size='0.02 0.02 0.02'/>
@@ -166,7 +166,7 @@
       <image width='1280' height='960' format='R8G8B8' hfov='1.0472' near='0.01' far='300' />
     </camera>
   </sensor>
-  <sensor name='camera_back' update_rate='15'>
+  <sensor name='camera_rear' update_rate='15'>
     <parent link='${robot_namespace}/sensor_head_link'/>
     <origin xyz='-0.12 0 0.013' rpy='0 -0 3.14159'/>
     <camera>

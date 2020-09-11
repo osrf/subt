@@ -524,7 +524,7 @@
             </camera>
         </sensor>
 
-        <visual name="camera_back_visual">
+        <visual name="camera_rear_visual">
             <pose>-0.10 0 0.013 0 0 0</pose>
             <geometry>
                 <box>
@@ -532,11 +532,11 @@
                 </box>
             </geometry>
         </visual>
-        <sensor name="camera_back" type="camera">
+        <sensor name="camera_rear" type="camera">
             <pose>-0.12 0.0 0.013 0 0 3.14159</pose>
             <always_on>1</always_on>
             <update_rate>15</update_rate>
-            <camera name="camera_back">
+            <camera name="camera_rear">
                 <!--<cameraInfoTopicName>camera_info</cameraInfoTopicName>-->
                 <!--<hackBaseline>0.07</hackBaseline>-->
                 <horizontal_fov>1.0472</horizontal_fov>
@@ -644,7 +644,7 @@
             <emissive>1 1 1 1</emissive>
           </material>
         </visual>
-        <light name="back_cam_left_lamp_light" type="spot">
+        <light name="rear_cam_left_lamp_light" type="spot">
           <pose frame="">-0.1 -0.03 0.013 0 1.5708 0</pose>
           <attenuation>
             <range>50</range>
@@ -662,7 +662,7 @@
           </spot>
           <direction>0 0 -1</direction>
         </light>
-        <visual name="back_cam_left_lamp_light_visual">
+        <visual name="rear_cam_left_lamp_light_visual">
           <pose>-0.1 -0.03 0.013 0 1.5708 0</pose>
           <geometry>
             <cylinder>
@@ -678,7 +678,7 @@
             <emissive>1 1 1 1</emissive>
           </material>
         </visual>
-        <light name="back_cam_right_lamp_light" type="spot">
+        <light name="rear_cam_right_lamp_light" type="spot">
           <pose frame="">-0.1 0.03 0.013 0 1.5708 0</pose>
           <attenuation>
             <range>50</range>
@@ -696,7 +696,7 @@
           </spot>
           <direction>0 0 -1</direction>
         </light>
-        <visual name="back_cam_right_lamp_light_visual">
+        <visual name="rear_cam_right_lamp_light_visual">
           <pose>-0.1 0.03 0.013 0 1.5708 0</pose>
           <geometry>
             <cylinder>
@@ -908,8 +908,8 @@
         <pose frame="">0 0 0 1.5707963267948966 -0 0</pose>
         <geometry>
           <cylinder>
-            <length>0.1143</length>
-            <radius>0.1651</radius>
+            <length>0.1</length>
+            <radius>0.129</radius>
           </cylinder>
         </geometry>
         <surface>
@@ -1137,8 +1137,8 @@
         <pose frame="">0 0 0 1.5707963267948966 -0 0</pose>
         <geometry>
           <cylinder>
-            <length>0.1143</length>
-            <radius>0.1651</radius>
+            <length>0.1</length>
+            <radius>0.129</radius>
           </cylinder>
         </geometry>
         <surface>

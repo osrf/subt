@@ -77,7 +77,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
            </model>
          </sdf>
        </breadcrumb>
-     </plugin>
+      </plugin>
     </include>
     </sdf>
   </spawn>
