@@ -214,6 +214,7 @@ ign service -s /connection/prev \
     <allow_renaming>false</allow_renaming>
     <pose>0 0 0 0 0 0</pose>
     <is_performer>true</is_performer>
+    <world><%= $worldName %></world>
     <sdf version='1.6'>
       <model name="validator">
         <static>true</static>
