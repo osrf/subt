@@ -1,7 +1,7 @@
 <!---This is a Markdown description of a robot model submitted for inclusion in the DARPA Subterranean Challenge Technology Repository -->
 
 # MARBLE Husky Sensor Config 3
-This specifications.md file is a description and proof of virtual model validation for the MARBLE Husky with Sensor Configuration 1. This robot may be launched using an ign launch command with the variable name `marble_husky_sensor_config_3`.
+This specifications.md file is a description and proof of virtual model validation for the MARBLE Husky with Sensor Configuration 3. This robot may be launched using an ign launch command with the variable name `marble_husky_sensor_config_3`.
 
 ## Description
 This configuration is based on Clearpath Robotics Husky ground robot. The marble sensor suite is located at the front of the husky and includes stationary sensors and some sensors and two lights for forward and backward facing cameras.  
