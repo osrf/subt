@@ -27,6 +27,8 @@
 #include <ignition/math/graph/Vertex.hh>
 #include <subt_ign/VisibilityTypes.hh>
 
+#include <fcl/narrowphase/collision_object.h>
+
 namespace subt
 {
   /// \brief This class stores the connectivity between pairs of sections of a
@@ -84,6 +86,12 @@ namespace subt
     /// \sa Generate
     public: void SetModelBoundingBoxes(
         const std::map<std::string, ignition::math::AxisAlignedBox> &_boxes);
+
+    /// \brief Set the collision objects of models. Used for generating LUT
+    /// \param[in] _collObjs Collision Objects of models.
+    /// \sa Generate
+    public: void SetModelCollisionObjects(
+        const std::map<std::string, std::shared_ptr<fcl::CollisionObjectf>> &_collObjs);
 
     /// \brief Get the collection of sampled 3D points and their associated
     /// vertex id.
@@ -197,11 +205,17 @@ namespace subt
     private: std::vector<
              std::pair<ignition::math::AxisAlignedBox, uint64_t>> worldSegments;
 
+    private: std::map<uint64_t, std::string> worldSegmentNames;
+
     /// \brief A map of model name to its bounding box. Used for generating LUT
     private: std::map<std::string, ignition::math::AxisAlignedBox> bboxes;
 
+    /// \brief A map of model name to its bounding box. Used for generating LUT
+    private: std::map<std::string, 
+             std::shared_ptr<fcl::CollisionObjectf>> collisionObjs;
+
     /// \brief A map that stores 3D points an the vertex id in which are located
-    private: std::map<std::tuple<int32_t, int32_t, int32_t>, uint64_t> vertices;
+    public : std::map<std::tuple<int32_t, int32_t, int32_t>, uint64_t> vertices;
 
     /// \brief The path where the Gazebo world is located.
     private: std::string worldPath;

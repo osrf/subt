@@ -31,6 +31,15 @@
 #include <subt_ign/SimpleDOTParser.hh>
 #include <subt_ign/VisibilityTable.hh>
 
+#include <fcl/common/types.h>
+#include <fcl/math/triangle.h>
+#include <fcl/math/geometry.h>
+#include <fcl/geometry/shape/box.h>
+
+#include <fcl/narrowphase/distance.h>
+#include <fcl/narrowphase/distance_request.h>
+#include <fcl/narrowphase/distance_result.h>
+
 using namespace ignition;
 using namespace subt;
 
@@ -199,6 +208,13 @@ void VisibilityTable::SetModelBoundingBoxes(
 }
 
 //////////////////////////////////////////////////
+void VisibilityTable::SetModelCollisionObjects(
+    const std::map<std::string, std::shared_ptr<fcl::CollisionObjectf>> &_collObjs)
+{
+  this->collisionObjs= _collObjs;
+}
+
+//////////////////////////////////////////////////
 const std::map<std::tuple<int32_t, int32_t, int32_t>, uint64_t>
   &VisibilityTable::Vertices() const
 {
@@ -219,10 +235,59 @@ uint64_t VisibilityTable::Index(const ignition::math::Vector3d &_position) const
   {
     const ignition::math::AxisAlignedBox &box = segment.first;
     if (box.Contains(_position))
-      return segment.second;
+      result.push_back(segment.second);
   }
 
-  return std::numeric_limits<uint64_t>::max();
+  if (result.empty())
+  {
+    return std::numeric_limits<uint64_t>::max();
+  }
+  else if (result.size() == 1)
+  {
+    return result.front();
+  }
+  else 
+  {
+    std::cerr << _position << " overlaps with tiles ";
+    for (auto const &id : result)
+      std::cerr << "[" << id << "], ";
+
+    // Fall back to using FCL to find the closest mesh.
+    auto box = std::make_shared<fcl::Box<float>>(0.01, 0.01, 0.01);
+    auto boxObj = std::make_shared<fcl::CollisionObjectf>(box,  
+      Eigen::Matrix3f::Identity(),
+      Eigen::Vector3f(_position.X(), _position.Y(), _position.Z()));
+
+    uint64_t closestIdx = 0;
+    float closestDist = 1e9;
+
+    for (const auto& resIdx: result)
+    {
+      // Look up name corresponding to world segment index
+      auto name = this->worldSegmentNames.find(resIdx);
+      if (name == this->worldSegmentNames.end())
+        continue;
+
+      // Look up fcl collision object corresponding to world
+      // segment via the name
+      auto meshIt = this->collisionObjs.find(name->second);
+      if (meshIt == this->collisionObjs.end())
+        continue;
+
+      fcl::DistanceRequestf request(true, true);
+      fcl::DistanceResultf fclResult;
+      fcl::distance(meshIt->second.get(), boxObj.get(), request, fclResult);
+
+      if (fclResult.min_distance < closestDist)
+      {
+        closestDist = fclResult.min_distance;
+        closestIdx = resIdx;
+      }
+    }
+
+    std::cerr << closestIdx << " " << closestDist << std::endl;
+    return closestIdx;
+  }
 }
 
 //////////////////////////////////////////////////
@@ -519,8 +584,9 @@ void VisibilityTable::CreateWorldSegments()
         continue;
       }
     }
-    this->worldSegments.push_back(
-        std::make_pair(bboxIt->second, from.first));
+
+    this->worldSegments.push_back( std::make_pair(bboxIt->second, from.first));
+    this->worldSegmentNames[from.first] = bboxIt->first;
   }
 }
 
@@ -528,26 +594,43 @@ void VisibilityTable::CreateWorldSegments()
 void VisibilityTable::BuildLUT()
 {
   auto zrange = this->kMaxZ - this->kMinZ;
-  int counter = 0;
-  for (auto z = this->kMinZ; z <= this->kMaxZ; ++z)
-  {
-    for (auto y = this->kMinY; y <= this->kMaxY; ++y)
-    {
-      for (auto x = this->kMinX; x <= this->kMaxX; ++x)
-      {
-        ignition::math::Vector3d position(x, y, z);
-        auto index = this->Index(position);
-        if (index != std::numeric_limits<uint64_t>::max())
-          this->vertices[std::make_tuple(x, y, z)] = index;
-      }
-    }
+  std::vector<std::thread> workers;
 
-    // Display the percentage.
-    std::cout << std::fixed << std::setprecision(0)
-              << std::min(100.0, 100.0 * ++counter / zrange) << " %\r";
-    std::cout.flush();
+  auto zstep = std::floor(zrange/10);
+
+  std::atomic<int> counter = 0;
+
+  auto functor = [&](auto zstart, auto zend) {
+      for(auto z = zstart; z <= zend; ++z)
+      {
+        for (auto y = this->kMinY; y <= this->kMaxY; ++y)
+        {
+          for (auto x = this->kMinX; x <= this->kMaxX; ++x)
+          {
+            ignition::math::Vector3d position(x, y, z);
+
+            auto index = this->Index(position);
+            if (index != std::numeric_limits<uint64_t>::max())
+              this->vertices[std::make_tuple(x, y, z)] = index;
+          }
+        }
+        counter++;
+      }
+  };
+
+  for (auto z = this->kMinZ; z <= this->kMaxZ; z += zstep)
+  {
+    workers.push_back(std::thread(functor, z, z + zstep));
   }
-  std::cout << std::endl;
+
+  while (counter <= zrange) {
+    std::cout << std::fixed << std::setprecision(0)
+              << std::min(100.0, 100.0 * counter / zrange) << " %\r";
+    std::cout.flush();
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+  };
+
+  std::for_each(workers.begin(), workers.end(), [](std::thread &t){ t.join(); });
 }
 
 //////////////////////////////////////////////////
@@ -610,28 +693,4 @@ void VisibilityTable::PrintAll(const VisibilityInfo &_info) const
     }
   }
   std::cout << "---" << std::endl;
-}
-
-//////////////////////////////////////////////////
-int main(int argc, char **argv)
-{
-  if (argc != 2)
-  {
-    std::cerr << "Usage run_visibility_table <world>" << std::endl << std::endl;
-    std::cerr << "Example: ./run_visibility_table simple_cave_02" << std::endl;
-    return -1;
-  }
-
-  VisibilityTable visibilityTable;
-  visibilityTable.Load(argv[1], true);
-
-  // Add relays. E.g.:
-  // visibilityTable.PopulateVisibilityInfo(
-  // {
-  //   {26.67, 103.91, 1.2}, // #11
-  //   {50, 125, 2},         // #3
-  //   {100, 125, 0},        // #5
-  // });
-
-  return 0;
 }
