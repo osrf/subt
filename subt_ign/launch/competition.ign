@@ -102,6 +102,13 @@
     end
   end
 
+  MARSUPIAL_PARENT_LINK_NAMES = {
+     "X1" => "base_link",
+     "EXPLORER_X1" => "base_link",
+     "EXPLORER_R2" => "Rear_Rocker_Link",
+     "CSIRO_DATA61_OZBOT_ATR" => "base_link"
+   }
+
   MARSUPIAL_VALID_ROBOT_PAIRS = {
     "X1" => ["X3", "MARBLE_QAV500", "CERBERUS_GAGARIN"],
     "EXPLORER_X1" =>["X3", "MARBLE_QAV500", "CERBERUS_GAGARIN"],
@@ -112,7 +119,7 @@
   MARSUPIAL_PARENT_ROBOT_POSITION_OFFSETS = {
     "X1" => Vector3d.new(0, 0, 0.717),
     "EXPLORER_X1" => Vector3d.new(0, 0, 0.717),
-    "EXPLORER_R2" => Vector3d.new(-0.45, 0, 0.662),
+    "EXPLORER_R2" => Vector3d.new(-0.402375, 0, 0.6874),
     "CSIRO_DATA61_OZBOT_ATR" => Vector3d.new(-0.15, 0, 0.528)
   }
 
@@ -714,6 +721,34 @@
               </sdf>
             </breadcrumb>
           </plugin>
+          <!-- Wheel plugin -->
+          <plugin filename="libignition-gazebo-wheel-slip-system.so"
+            name="ignition::gazebo::systems::WheelSlip">
+            <wheel link_name="front_left_wheel">
+              <slip_compliance_lateral>0.35</slip_compliance_lateral>
+              <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
+              <wheel_normal_force>138.767</wheel_normal_force>
+              <wheel_radius>0.1651</wheel_radius>
+            </wheel>
+            <wheel link_name="rear_left_wheel">
+              <slip_compliance_lateral>0.35</slip_compliance_lateral>
+              <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
+              <wheel_normal_force>138.767</wheel_normal_force>
+              <wheel_radius>0.1651</wheel_radius>
+            </wheel>
+            <wheel link_name="front_right_wheel">
+              <slip_compliance_lateral>0.35</slip_compliance_lateral>
+              <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
+              <wheel_normal_force>138.767</wheel_normal_force>
+              <wheel_radius>0.1651</wheel_radius>
+            </wheel>
+            <wheel link_name="rear_right_wheel">
+              <slip_compliance_lateral>0.35</slip_compliance_lateral>
+              <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
+              <wheel_normal_force>138.767</wheel_normal_force>
+              <wheel_radius>0.1651</wheel_radius>
+            </wheel>
+          </plugin>
         </include>
         </sdf>
       </spawn>
@@ -827,6 +862,34 @@
                 </model>
               </sdf>
             </breadcrumb>
+          </plugin>
+          <!-- Wheel plugin -->
+          <plugin filename="libignition-gazebo-wheel-slip-system.so"
+            name="ignition::gazebo::systems::WheelSlip">
+            <wheel link_name="front_left_wheel">
+              <slip_compliance_lateral>0.35</slip_compliance_lateral>
+              <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
+              <wheel_normal_force>45.20448</wheel_normal_force>
+              <wheel_radius>0.098</wheel_radius>
+            </wheel>
+            <wheel link_name="rear_left_wheel">
+              <slip_compliance_lateral>0.35</slip_compliance_lateral>
+              <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
+              <wheel_normal_force>45.20448</wheel_normal_force>
+              <wheel_radius>0.098</wheel_radius>
+            </wheel>
+            <wheel link_name="front_right_wheel">
+              <slip_compliance_lateral>0.35</slip_compliance_lateral>
+              <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
+              <wheel_normal_force>45.20448</wheel_normal_force>
+              <wheel_radius>0.098</wheel_radius>
+            </wheel>
+            <wheel link_name="rear_right_wheel">
+              <slip_compliance_lateral>0.35</slip_compliance_lateral>
+              <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
+              <wheel_normal_force>45.20448</wheel_normal_force>
+              <wheel_radius>0.098</wheel_radius>
+            </wheel>
           </plugin>
         </include>
         </sdf>
@@ -1456,9 +1519,10 @@
 
     if marsupialParents.has_key?(name)
       childModelName = marsupialParents[name]
-       detachableJointPlugin = REXML::Document.new <<-HEREDOC
+      parentModelName = marsupialChildren[childModelName]
+      detachableJointPlugin = REXML::Document.new <<-HEREDOC
          <plugin filename="libignition-gazebo-detachable-joint-system.so" name="ignition::gazebo::systems::DetachableJoint">
-         <parent_link>base_link</parent_link>
+           <parent_link>#{MARSUPIAL_PARENT_LINK_NAMES[robots[parentModelName].type]}</parent_link>
          <child_model>#{childModelName}</child_model>
          <child_link>base_link</child_link>
          <topic>/model/#{childModelName}/detach</topic>

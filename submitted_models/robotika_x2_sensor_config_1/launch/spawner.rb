@@ -1,93 +1,95 @@
 def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
-  "<spawn name=\"#{_name}\">\n"\
-  "  <name>#{_name}</name>\n"\
-  "  <allow_renaming>false</allow_renaming>\n"\
-  "  <pose>#{_x} #{_y} #{_z+0.063494} #{_roll} #{_pitch} #{_yaw}</pose>\n"\
-  "  <world>#{$worldName}</world>\n"\
-  "  <is_performer>true</is_performer>\n"\
-  "  <sdf version='1.6'>\n"\
-  "  <include>\n"\
-  "    <name>#{_name}</name>\n"\
-  "    <uri>#{_modelURI}</uri>\n"\
-  "    <!-- Diff drive -->\n"\
-  "    <plugin filename=\"libignition-gazebo-diff-drive-system.so\"\n"\
-  "            name=\"ignition::gazebo::systems::DiffDrive\">\n"\
-  "      <left_joint>front_left_wheel_joint</left_joint>\n"\
-  "      <left_joint>rear_left_wheel_joint</left_joint>\n"\
-  "      <right_joint>front_right_wheel_joint</right_joint>\n"\
-  "      <right_joint>rear_right_wheel_joint</right_joint>\n"\
-  "      <wheel_separation>#{0.33559 * 1.23}</wheel_separation>\n"\
-  "      <wheel_radius>0.098</wheel_radius>\n"\
-  "      <topic>/model/#{_name}/cmd_vel_relay</topic>\n"\
-  "      <min_velocity>-2</min_velocity>\n"\
-  "      <max_velocity>2</max_velocity>\n"\
-  "      <min_acceleration>-6</min_acceleration>\n"\
-  "      <max_acceleration>6</max_acceleration>\n"\
-  "    </plugin>\n"\
-  "    <!-- Publish robot state information -->\n"\
-  "    <plugin filename=\"libignition-gazebo-pose-publisher-system.so\"\n"\
-  "      name=\"ignition::gazebo::systems::PosePublisher\">\n"\
-  "      <publish_link_pose>true</publish_link_pose>\n"\
-  "      <publish_sensor_pose>true</publish_sensor_pose>\n"\
-  "      <publish_collision_pose>false</publish_collision_pose>\n"\
-  "      <publish_visual_pose>false</publish_visual_pose>\n"\
-  "      <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>\n"\
-  "      <use_pose_vector_msg>true</use_pose_vector_msg>\n"\
-  "      <static_publisher>true</static_publisher>\n"\
-  "      <static_update_frequency>1</static_update_frequency>\n"\
-  "    </plugin>\n"\
-  "    <!-- Battery plugin -->\n"\
-  "    <plugin filename=\"libignition-gazebo-linearbatteryplugin-system.so\"\n"\
-  "      name=\"ignition::gazebo::systems::LinearBatteryPlugin\">\n"\
-  "      <battery_name>linear_battery</battery_name>\n"\
-  "      <voltage>12.694</voltage>\n"\
-  "      <open_circuit_voltage_constant_coef>12.694</open_circuit_voltage_constant_coef>\n"\
-  "      <open_circuit_voltage_linear_coef>-3.1424</open_circuit_voltage_linear_coef>\n"\
-  "      <initial_charge>78.4</initial_charge>\n"\
-  "      <capacity>78.4</capacity>\n"\
-  "      <resistance>0.061523</resistance>\n"\
-  "      <smooth_current_tau>1.9499</smooth_current_tau>\n"\
-  "      <power_load>6.6</power_load>\n"\
-  "      <start_on_motion>true</start_on_motion>\n"\
-  "    </plugin>\n"\
-  "    <!-- Gas Sensor plugin -->\n"\
-  "    <plugin filename=\"libGasEmitterDetectorPlugin.so\"\n"\
-  "      name=\"subt::GasDetector\">\n"\
-  "      <topic>/model/#{_name}/gas_detected</topic>\n"\
-  "      <update_rate>10</update_rate>\n"\
-  "      <type>gas</type>\n"\
-  "    </plugin>\n"\
-  "      <!-- Wheel slip -->\n"\
-  "      <plugin filename=\"libignition-gazebo-wheel-slip-system.so\"\n"\
-  "        name=\"ignition::gazebo::systems::WheelSlip\">\n"\
-  "        <wheel link_name=\"front_left_wheel\">\n"\
-  "          <slip_compliance_lateral>0.35</slip_compliance_lateral>\n"\
-  "          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>\n"\
-  "          <wheel_normal_force>45.20448</wheel_normal_force>\n"\
-  "          <wheel_radius>0.098</wheel_radius>\n"\
-  "        </wheel>\n"\
-  "        <wheel link_name=\"rear_left_wheel\">\n"\
-  "          <slip_compliance_lateral>0.35</slip_compliance_lateral>\n"\
-  "          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>\n"\
-  "          <wheel_normal_force>45.20448</wheel_normal_force>\n"\
-  "          <wheel_radius>0.098</wheel_radius>\n"\
-  "        </wheel>\n"\
-  "        <wheel link_name=\"front_right_wheel\">\n"\
-  "          <slip_compliance_lateral>0.35</slip_compliance_lateral>\n"\
-  "          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>\n"\
-  "          <wheel_normal_force>45.20448</wheel_normal_force>\n"\
-  "          <wheel_radius>0.098</wheel_radius>\n"\
-  "        </wheel>\n"\
-  "        <wheel link_name=\"rear_right_wheel\">\n"\
-  "          <slip_compliance_lateral>0.35</slip_compliance_lateral>\n"\
-  "          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>\n"\
-  "          <wheel_normal_force>45.20448</wheel_normal_force>\n"\
-  "          <wheel_radius>0.098</wheel_radius>\n"\
-  "        </wheel>\n"\
-  "      </plugin>\n"\
-  "  </include>\n"\
-  "  </sdf>\n"\
-  "</spawn>\n"\
+  <<-HEREDOC
+  <spawn name='#{_name}'>
+    <name>#{_name}</name>
+    <allow_renaming>false</allow_renaming>
+    <pose>#{_x} #{_y} #{_z+0.063494} #{_roll} #{_pitch} #{_yaw}</pose>
+    <world>#{_worldName}</world>
+    <is_performer>true</is_performer>
+    <sdf version='1.6'>
+    <include>
+      <name>#{_name}</name>
+      <uri>#{_modelURI}</uri>
+      <!-- Diff drive -->
+      <plugin filename="libignition-gazebo-diff-drive-system.so"
+              name="ignition::gazebo::systems::DiffDrive">
+        <left_joint>front_left_wheel_joint</left_joint>
+        <left_joint>rear_left_wheel_joint</left_joint>
+        <right_joint>front_right_wheel_joint</right_joint>
+        <right_joint>rear_right_wheel_joint</right_joint>
+        <wheel_separation>#{0.33559 * 1.23}</wheel_separation>
+        <wheel_radius>0.098</wheel_radius>
+        <topic>/model/#{_name}/cmd_vel_relay</topic>
+        <min_velocity>-2</min_velocity>
+        <max_velocity>2</max_velocity>
+        <min_acceleration>-6</min_acceleration>
+        <max_acceleration>6</max_acceleration>
+      </plugin>
+      <!-- Publish robot state information -->
+      <plugin filename="libignition-gazebo-pose-publisher-system.so"
+        name="ignition::gazebo::systems::PosePublisher">
+        <publish_link_pose>true</publish_link_pose>
+        <publish_sensor_pose>true</publish_sensor_pose>
+        <publish_collision_pose>false</publish_collision_pose>
+        <publish_visual_pose>false</publish_visual_pose>
+        <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>
+        <use_pose_vector_msg>true</use_pose_vector_msg>
+        <static_publisher>true</static_publisher>
+        <static_update_frequency>1</static_update_frequency>
+      </plugin>
+      <!-- Battery plugin -->
+      <plugin filename="libignition-gazebo-linearbatteryplugin-system.so"
+        name="ignition::gazebo::systems::LinearBatteryPlugin">
+        <battery_name>linear_battery</battery_name>
+        <voltage>12.694</voltage>
+        <open_circuit_voltage_constant_coef>12.694</open_circuit_voltage_constant_coef>
+        <open_circuit_voltage_linear_coef>-3.1424</open_circuit_voltage_linear_coef>
+        <initial_charge>78.4</initial_charge>
+        <capacity>78.4</capacity>
+        <resistance>0.061523</resistance>
+        <smooth_current_tau>1.9499</smooth_current_tau>
+        <power_load>6.6</power_load>
+        <start_on_motion>true</start_on_motion>
+      </plugin>
+      <!-- Gas Sensor plugin -->
+      <plugin filename="libGasEmitterDetectorPlugin.so"
+        name="subt::GasDetector">
+        <topic>/model/#{_name}/gas_detected</topic>
+        <update_rate>10</update_rate>
+        <type>gas</type>
+      </plugin>
+      <!-- Wheel slip -->
+      <plugin filename='libignition-gazebo-wheel-slip-system.so'
+        name='ignition::gazebo::systems::WheelSlip'>
+        <wheel link_name='front_left_wheel'>
+          <slip_compliance_lateral>0.35</slip_compliance_lateral>
+          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
+          <wheel_normal_force>45.20448</wheel_normal_force>
+          <wheel_radius>0.098</wheel_radius>
+        </wheel>
+        <wheel link_name='rear_left_wheel'>
+          <slip_compliance_lateral>0.35</slip_compliance_lateral>
+          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
+          <wheel_normal_force>45.20448</wheel_normal_force>
+          <wheel_radius>0.098</wheel_radius>
+        </wheel>
+        <wheel link_name='front_right_wheel'>
+          <slip_compliance_lateral>0.35</slip_compliance_lateral>
+          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
+          <wheel_normal_force>45.20448</wheel_normal_force>
+          <wheel_radius>0.098</wheel_radius>
+        </wheel>
+        <wheel link_name='rear_right_wheel'>
+          <slip_compliance_lateral>0.35</slip_compliance_lateral>
+          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
+          <wheel_normal_force>45.20448</wheel_normal_force>
+          <wheel_radius>0.098</wheel_radius>
+        </wheel>
+      </plugin>
+    </include>
+    </sdf>
+  </spawn>
+  HEREDOC
 end
 
 def rosExecutables(_name, _worldName)

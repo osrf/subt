@@ -112,9 +112,12 @@ class subt::GameLogicPluginPrivate
   /// \brief Calculate the score of a new artifact request.
   /// \param[in] _type The object type. See ArtifactType.
   /// \param[in] _pose The object pose.
-  /// \return The score obtained for this object.
-  public: double ScoreArtifact(const subt::ArtifactType &_type,
-                               const ignition::msgs::Pose &_pose);
+  /// \return A tuple where the first parameter is the score obtained for this
+  /// report, and the second parameter is true if the artifact report is a
+  /// duplicate and false otherwise.
+  public: std::tuple<double, bool> ScoreArtifact(
+              const subt::ArtifactType &_type,
+              const ignition::msgs::Pose &_pose);
 
   /// \brief Create an ArtifactType from an integer.
   //
@@ -182,6 +185,19 @@ class subt::GameLogicPluginPrivate
   /// \param[in] _msg Detach message.
   /// \param[in] _info Message information.
   public: void OnDetachEvent(const ignition::msgs::Empty &_msg,
+    const transport::MessageInfo &_info);
+
+  /// \brief Breadcrumb deploy subscription callback.
+  /// \param[in] _msg Deploy message.
+  /// \param[in] _info Message information.
+  public: void OnBreadcrumbDeployEvent(const ignition::msgs::Empty &_msg,
+    const transport::MessageInfo &_info);
+
+  /// \brief Rock fall remaining subscription callback.
+  /// \param[in] _msg Remaining count.
+  /// \param[in] _info Message information.
+  public: void OnRockFallDeployRemainingEvent(
+    const ignition::msgs::Int32 &_msg,
     const transport::MessageInfo &_info);
 
   /// \brief Battery subscription callback.
@@ -385,8 +401,13 @@ class subt::GameLogicPluginPrivate
   /// \brief Robot types for keeping track of unique robot platform types.
   public: std::set<std::string> robotTypes;
 
-  /// \brief The unique artifact reports received.
-  public: std::vector<std::string> uniqueReports;
+  /// \brief Map of robot name to {platform, config}. For example:
+  /// {"MY_ROBOT_NAME", {"X1", "X1 SENSOR CONFIG 1"}}.
+  public: std::map<std::string, std::pair<std::string, std::string>>
+          robotFullTypes;
+
+  /// \brief The unique artifact reports received, and the score it received.
+  public: std::map<std::string, double> uniqueReports;
 
   /// \brief Current state.
   public: std::string state="init";
@@ -442,6 +463,11 @@ class subt::GameLogicPluginPrivate
 
   /// \brief Models with dead batteries.
   public: std::set<std::string> deadBatteries;
+
+  /// \brief Map of model name to {sim_time_sec, deployments_over_max}. This
+  /// map is ued to log when no more rock falls are possible for a rock
+  /// fall model.
+  public: std::map<std::string, std::pair<int, int>> rockFallsMax;
 };
 
 //////////////////////////////////////////////////
@@ -610,6 +636,64 @@ void GameLogicPluginPrivate::OnBatteryMsg(
   }
 }
 
+//////////////////////////////////////////////////
+void GameLogicPluginPrivate::OnBreadcrumbDeployEvent(
+    const ignition::msgs::Empty &/*_msg*/,
+    const transport::MessageInfo &_info)
+{
+  std::vector<std::string> topicParts = common::split(_info.Topic(), "/");
+  std::string name = "_unknown_";
+
+  // Get the name of the model from the topic name, where the topic name
+  // look like '/model/{model_name}/deploy'.
+  if (topicParts.size() > 1)
+    name = topicParts[1];
+
+  std::ostringstream stream;
+  stream
+    << "- event:\n"
+    << "  type: breadcrumb_deploy\n"
+    << "  time_sec: " << this->simTime.sec() << "\n"
+    << "  robot: " << name << std::endl;
+
+  this->LogEvent(stream.str());
+}
+
+//////////////////////////////////////////////////
+void GameLogicPluginPrivate::OnRockFallDeployRemainingEvent(
+    const ignition::msgs::Int32 &_msg,
+    const transport::MessageInfo &_info)
+{
+  if (_msg.data() == 0) {
+    std::vector<std::string> topicParts = common::split(_info.Topic(), "/");
+    std::string name = "_unknown_";
+
+    // Get the name of the model from the topic name, where the topic name
+    // look like '/model/{model_name}/deploy'.
+    if (topicParts.size() > 1)
+      name = topicParts[1];
+
+    // Sim time is used to make sure that we report only once per rock fall,
+    // and not once for every rock in the rock fall.
+    if (this->rockFallsMax[name].first != this->simTime.sec())
+    {
+      if (this->rockFallsMax[name].second > 0)
+      {
+        std::ostringstream stream;
+        stream
+          << "- event:\n"
+          << "  type: max_rock_falls\n"
+          << "  time_sec: " << this->simTime.sec() << "\n"
+          << "  model: " << name << std::endl;
+
+        this->LogEvent(stream.str());
+      }
+
+      this->rockFallsMax[name].second++;
+      this->rockFallsMax[name].first = this->simTime.sec();
+    }
+  }
+}
 
 //////////////////////////////////////////////////
 void GameLogicPluginPrivate::OnDetachEvent(
@@ -776,7 +860,16 @@ void GameLogicPlugin::PostUpdate(
                     platformNameUpper.end(),
                     platformNameUpper.begin(), ::toupper);
                 if (platformNameUpper.find(type) != std::string::npos)
+                {
                   this->dataPtr->robotTypes.insert(type);
+
+                  // The full type is in the directory name, which is third
+                  // from the end (.../TYPE/VERSION/model.sdf).
+                  std::vector<std::string> pathParts =
+                    ignition::common::split(platformNameUpper, "/");
+                  this->dataPtr->robotFullTypes[mName->Data()] =
+                    {type, pathParts[pathParts.size()-3]};
+                }
               }
 
               // Subscribe to detach topics. We are doing a blanket
@@ -787,6 +880,15 @@ void GameLogicPlugin::PostUpdate(
                 mName->Data() + "/detach";
               this->dataPtr->node.Subscribe(detachTopic,
                   &GameLogicPluginPrivate::OnDetachEvent, this->dataPtr.get());
+
+              // Subscribe to breadcrumb deploy topics. We are doing a blanket
+              // subscribe even though a robot model may not have
+              // breadcrumbs.
+              std::string deployTopic = std::string("/model/") +
+                mName->Data() + "/breadcrumb/deploy";
+              this->dataPtr->node.Subscribe(deployTopic,
+                  &GameLogicPluginPrivate::OnBreadcrumbDeployEvent,
+                  this->dataPtr.get());
 
               // Subscribe to battery state in order to log battery events.
               std::string batteryTopic = std::string("/model/") +
@@ -816,6 +918,20 @@ void GameLogicPlugin::PostUpdate(
           const gazebo::components::Pose *_poseComp,
           const gazebo::components::Static *) -> bool
       {
+        // Subscribe to remaining rock fall deploy topics. We are doing a
+        // blanket subscribe even though a model in this function may not be
+        // a rock fall.
+        if (this->dataPtr->rockFallsMax.find(_nameComp->Data()) ==
+            this->dataPtr->rockFallsMax.end())
+        {
+          std::string deployRemainingTopic = std::string("/model/") +
+                  _nameComp->Data() + "/breadcrumbs/Rock/deploy/remaining";
+          this->dataPtr->rockFallsMax[_nameComp->Data()] = {0, 0};
+          this->dataPtr->node.Subscribe(deployRemainingTopic,
+              &GameLogicPluginPrivate::OnRockFallDeployRemainingEvent,
+              this->dataPtr.get());
+        }
+
         this->dataPtr->poses[_nameComp->Data()] = _poseComp->Data();
         for (std::pair<const subt::ArtifactType,
             std::map<std::string, ignition::math::Pose3d>> &artifactPair :
@@ -1198,10 +1314,14 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
   else
   {
     std::lock_guard<std::mutex> lock(this->mutex);
-    auto scoreDiff = this->ScoreArtifact(artifactType, _req.pose());
+    auto [scoreDiff, duplicate] = this->ScoreArtifact(
+        artifactType, _req.pose());
+
     _resp.set_score_change(scoreDiff);
     _resp.set_report_status("scored");
-    this->totalScore += scoreDiff;
+
+    if (!duplicate)
+      this->totalScore += scoreDiff;
 
     ignmsg << "Total score: " << this->totalScore << std::endl;
     this->Log() << "new_total_score " << this->totalScore << std::endl;
@@ -1247,15 +1367,15 @@ bool GameLogicPluginPrivate::ArtifactFromInt(const uint32_t &_typeInt,
 }
 
 /////////////////////////////////////////////////
-double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
-  const ignition::msgs::Pose &_pose)
+std::tuple<double, bool> GameLogicPluginPrivate::ScoreArtifact(
+    const ArtifactType &_type, const ignition::msgs::Pose &_pose)
 {
   // Sanity check: Make sure that we have crossed the starting gate.
   if (!this->started)
   {
     ignmsg << "  The task hasn't started yet" << std::endl;
     this->Log() << "task_not_started" << std::endl;
-    return 0.0;
+    return {0.0, false};
   }
 
   // Sanity check: Make sure that we still have artifacts.
@@ -1263,7 +1383,7 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
   {
     ignmsg << "  No artifacts remaining" << std::endl;
     this->Log() << "no_remaining_artifacts_of_specified_type" << std::endl;
-    return 0.0;
+    return {0.0, false};
   }
 
   // The teams are reporting the artifact poses relative to the fiducial located
@@ -1288,7 +1408,7 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
       << "  reported_artifact_type: " << reportType << "\n";
     this->LogEvent(stream.str());
 
-    return 0.0;
+    return {0.0, false};
   }
 
   // Pose converted into a string.
@@ -1297,12 +1417,12 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
                            std::to_string(_pose.position().z());
 
   // Unique report Id: Type and pose combined into a string.
-  std::string uniqueReport = reportType + "_" + reportPose;
+  std::string uniqueReportStr = reportType + "_" + reportPose;
+
+  auto uniqueReport = this->uniqueReports.find(uniqueReportStr);
 
   // Check whether we received the same report before.
-  if (std::find(this->uniqueReports.begin(),
-                this->uniqueReports.end(),
-                uniqueReport) != this->uniqueReports.end())
+  if (uniqueReport != this->uniqueReports.end())
   {
     ignmsg << "This report has been received before" << std::endl;
     this->Log() << "This report has been received before" << std::endl;
@@ -1317,11 +1437,8 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
     this->LogEvent(stream.str());
 
     this->duplicateReportCount++;
-    return 0.0;
+    return {uniqueReport->second, true};
   }
-
-  // This is a new unique report, let's save it.
-  this->uniqueReports.push_back(uniqueReport);
 
   // This is a unique report.
   this->reportCount++;
@@ -1391,6 +1508,9 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
     }
   }
 
+  // This is a new unique report, let's save it.
+  this->uniqueReports[uniqueReportStr] = score;
+
   auto outDist = std::isinf(std::get<2>(minDistance)) ? -1 :
     std::get<2>(minDistance);
   std::ostringstream stream;
@@ -1413,7 +1533,7 @@ double GameLogicPluginPrivate::ScoreArtifact(const ArtifactType &_type,
   ignmsg << "  [Total]: " << score << std::endl;
   this->Log() << "modified_score " << score << std::endl;
 
-  return score;
+  return {score, false};
 }
 
 /////////////////////////////////////////////////
@@ -1821,9 +1941,22 @@ void GameLogicPluginPrivate::LogRobotArtifactData() const
   // 20. Total cumulative elevation loss by all the robots.
   // 21. Max elevation reached by a robot
   // 22. Min elevation reached by a robot
+  // 23. Robot configurations and marsupial pairs.
 
   YAML::Emitter out;
   out << YAML::BeginMap;
+
+  out << YAML::Key << "robots";
+  out << YAML::Value << YAML::BeginMap;
+  for (auto const &pair : this->robotFullTypes)
+  {
+    out << YAML::Key << pair.first;
+    out << YAML::Value << YAML::BeginMap;
+    out << YAML::Key << "platform" << YAML::Value << pair.second.first;
+    out << YAML::Key << "config" << YAML::Value << pair.second.second;
+    out << YAML::EndMap;
+  }
+  out << YAML::EndMap;
 
   out << YAML::Key << "marsupials";
   out << YAML::Value << YAML::BeginMap;
