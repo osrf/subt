@@ -96,6 +96,33 @@ rf_power VisibilityModel::ComputeReceivedPower(const double &_txPower,
       _txState.pose.Pos().Distance(visibilityCost.posFirstBreadcrumb);
     double distLastBreadcrumbToDestination =
       visibilityCost.posLastBreadcrumb.Distance(_rxState.pose.Pos());
+
+    // This block considers breadcrumbs located in the tile of the destination
+    // robot. Note that this breadcrumb is not included in the route but it
+    // will be used for computing ranges.
+    {
+      double distLastMile = 0;
+      int32_t x = std::round(_rxState.pose.Pos().X());
+      int32_t y = std::round(_rxState.pose.Pos().Y());
+      int32_t z = std::round(_rxState.pose.Pos().Z());
+      auto vertexId = std::make_tuple(x, y, z);
+
+      auto const &vertices = this->visibilityTable.Vertices();
+      auto it = vertices.find(vertexId);
+      if (it != vertices.end())
+      {
+        auto tileId = it->second;
+        auto const &breadcrumbs = this->visibilityTable.Breadcrumbs();
+        auto breadcrumbIt = breadcrumbs.find(tileId);
+        if (breadcrumbIt != breadcrumbs.end())
+        {
+          auto poseLastBc = breadcrumbIt->second.front();
+          distLastMile = poseLastBc.Distance(_rxState.pose.Pos());
+          distLastBreadcrumbToDestination = distLastMile;
+        }
+      }
+    }
+
     range = std::max(distSourceToFirstBreadcrumb,
                      std::max(visibilityCost.greatestDistanceSingleHop,
                               distLastBreadcrumbToDestination));

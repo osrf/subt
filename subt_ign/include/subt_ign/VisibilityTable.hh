@@ -91,6 +91,11 @@ namespace subt
     public: const std::map<std::tuple<int32_t, int32_t, int32_t>, uint64_t>
       &Vertices() const;
 
+    /// \brief Get the collection of breadcrumbs and their locations.
+    /// \return the collection.
+    public: const std::map<uint64_t, std::vector<ignition::math::Vector3d>>
+      &Breadcrumbs() const;
+
     /// \brief Populate the visibility information in memory.
     /// \param[in] _relays Set of vertices containing breadcrumb robots.
     /// You should call this function when the breadcrumbs are updated.

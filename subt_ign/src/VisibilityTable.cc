@@ -206,6 +206,13 @@ const std::map<std::tuple<int32_t, int32_t, int32_t>, uint64_t>
 }
 
 //////////////////////////////////////////////////
+const std::map<uint64_t, std::vector<ignition::math::Vector3d>>
+  &VisibilityTable::Breadcrumbs() const
+{
+  return this->breadcrumbs;
+}
+
+//////////////////////////////////////////////////
 uint64_t VisibilityTable::Index(const ignition::math::Vector3d &_position) const
 {
   for (auto const segment : this->worldSegments)
