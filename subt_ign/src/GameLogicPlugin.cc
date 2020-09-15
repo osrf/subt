@@ -193,6 +193,13 @@ class subt::GameLogicPluginPrivate
   public: void OnBreadcrumbDeployEvent(const ignition::msgs::Empty &_msg,
     const transport::MessageInfo &_info);
 
+  /// \brief Breadcrumb remaining subscription callback.
+  /// \param[in] _msg Remaining count.
+  /// \param[in] _info Message information.
+  public: void OnBreadcrumbDeployRemainingEvent(
+    const ignition::msgs::Int32 &_msg,
+    const transport::MessageInfo &_info);
+
   /// \brief Rock fall remaining subscription callback.
   /// \param[in] _msg Remaining count.
   /// \param[in] _info Message information.
@@ -392,6 +399,9 @@ class subt::GameLogicPluginPrivate
   /// \brief Ignition transport for the remaining artifact reports.
   public: transport::Node::Publisher artifactReportPub;
 
+  /// \brief Ignition transport that publishes robot name and type info.
+  public: transport::Node::Publisher robotPub;
+
   /// \brief Logpath.
   public: std::string logPath{"/dev/null"};
 
@@ -465,9 +475,13 @@ class subt::GameLogicPluginPrivate
   public: std::set<std::string> deadBatteries;
 
   /// \brief Map of model name to {sim_time_sec, deployments_over_max}. This
-  /// map is ued to log when no more rock falls are possible for a rock
+  /// map is used to log when no more rock falls are possible for a rock
   /// fall model.
   public: std::map<std::string, std::pair<int, int>> rockFallsMax;
+
+  /// \brief Map of model name to deployments_over_max. This map
+  /// is used to log when no more breadcrumb deployments are possible.
+  public: std::map<std::string, int> breadcrumbsMax;
 };
 
 //////////////////////////////////////////////////
@@ -593,6 +607,9 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
   this->dataPtr->artifactReportPub =
     this->dataPtr->node.Advertise<ignition::msgs::Int32>("/subt/artifact_reports_remaining");
 
+  this->dataPtr->robotPub =
+    this->dataPtr->node.Advertise<ignition::msgs::Param_V>("/subt/robots");
+
   this->dataPtr->publishThread.reset(new std::thread(
         &GameLogicPluginPrivate::PublishScore, this->dataPtr.get()));
 
@@ -660,11 +677,43 @@ void GameLogicPluginPrivate::OnBreadcrumbDeployEvent(
 }
 
 //////////////////////////////////////////////////
+void GameLogicPluginPrivate::OnBreadcrumbDeployRemainingEvent(
+    const ignition::msgs::Int32 &_msg,
+    const transport::MessageInfo &_info)
+{
+  if (_msg.data() == 0)
+  {
+    std::vector<std::string> topicParts = common::split(_info.Topic(), "/");
+    std::string name = "_unknown_";
+
+    // Get the name of the model from the topic name, where the topic name
+    // look like '/model/{model_name}/deploy'.
+    if (topicParts.size() > 1)
+      name = topicParts[1];
+
+    if (this->breadcrumbsMax[name] > 0)
+    {
+      std::ostringstream stream;
+      stream
+        << "- event:\n"
+        << "  type: max_breadcrumb_deploy\n"
+        << "  time_sec: " << this->simTime.sec() << "\n"
+        << "  robot: " << name << std::endl;
+
+      this->LogEvent(stream.str());
+    }
+
+    this->breadcrumbsMax[name]++;
+  }
+}
+
+//////////////////////////////////////////////////
 void GameLogicPluginPrivate::OnRockFallDeployRemainingEvent(
     const ignition::msgs::Int32 &_msg,
     const transport::MessageInfo &_info)
 {
-  if (_msg.data() == 0) {
+  if (_msg.data() == 0)
+  {
     std::vector<std::string> topicParts = common::split(_info.Topic(), "/");
     std::string name = "_unknown_";
 
@@ -888,6 +937,12 @@ void GameLogicPlugin::PostUpdate(
                 mName->Data() + "/breadcrumb/deploy";
               this->dataPtr->node.Subscribe(deployTopic,
                   &GameLogicPluginPrivate::OnBreadcrumbDeployEvent,
+                  this->dataPtr.get());
+
+              std::string deployRemainingTopic = std::string("/model/") +
+                mName->Data() + "/breadcrumb/deploy/remaining";
+              this->dataPtr->node.Subscribe(deployRemainingTopic,
+                  &GameLogicPluginPrivate::OnBreadcrumbDeployRemainingEvent,
                   this->dataPtr.get());
 
               // Subscribe to battery state in order to log battery events.
@@ -1224,6 +1279,45 @@ void GameLogicPlugin::PostUpdate(
     limitMsg.set_data(this->dataPtr->reportCountLimit -
         this->dataPtr->reportCount);
     this->dataPtr->artifactReportPub.Publish(limitMsg);
+
+    // Publish robot name and type information.
+    ignition::msgs::Param_V robotMsg;
+    for (const std::pair<std::string,
+         std::pair<std::string, std::string>> &robot :
+         this->dataPtr->robotFullTypes)
+    {
+      ignition::msgs::Param *param = robotMsg.add_param();
+      (*param->mutable_params())["name"].set_type(
+          ignition::msgs::Any::STRING);
+      (*param->mutable_params())["name"].set_string_value(
+          robot.first);
+
+      (*param->mutable_params())["config"].set_type(
+          ignition::msgs::Any::STRING);
+      (*param->mutable_params())["config"].set_string_value(
+          robot.second.second);
+
+      (*param->mutable_params())["platform"].set_type(
+          ignition::msgs::Any::STRING);
+      (*param->mutable_params())["platform"].set_string_value(
+          robot.second.first);
+    }
+
+    // Add in marsupial pairs.
+    for (const std::pair<std::string, std::string> &pair :
+         this->dataPtr->marsupialPairs)
+    {
+      ignition::msgs::Param *param = robotMsg.add_param();
+      (*param->mutable_params())["marsupial_parent"].set_type(
+          ignition::msgs::Any::STRING);
+      (*param->mutable_params())["marsupial_parent"].set_string_value(
+          pair.first);
+      (*param->mutable_params())["marsupial_child"].set_type(
+          ignition::msgs::Any::STRING);
+      (*param->mutable_params())["marsupial_child"].set_string_value(
+          pair.second);
+    }
+    this->dataPtr->robotPub.Publish(robotMsg);
   }
 
   this->dataPtr->CheckRobotFlip();
