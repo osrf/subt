@@ -238,6 +238,7 @@ void Processor::DisplayPoses()
   for (std::map<int, std::vector<std::unique_ptr<Data>>>::iterator iter =
        this->logData.begin(); iter != this->logData.end(); ++iter)
   {
+    auto start = std::chrono::steady_clock::now();
     printf("\r %ds/%ds (%06.2f%%)", iter->first, this->logData.rbegin()->first,
         static_cast<double>(iter->first) / this->logData.rbegin()->first * 100);
     fflush(stdout);
@@ -251,8 +252,11 @@ void Processor::DisplayPoses()
     auto next = std::next(iter, 1);
     if (next != this->logData.end())
     {
-      int sleepTime = ((next->first - iter->first) / this->rtf)*1000;
-      std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
+      int sleepTime = (((next->first - iter->first) / this->rtf)*1000);
+      auto duration = std::chrono::steady_clock::now() - start;
+      std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime)  -
+          std::chrono::duration_cast<std::chrono::nanoseconds>(
+            duration));
     }
   }
 }
