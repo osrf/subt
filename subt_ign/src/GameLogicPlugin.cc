@@ -237,6 +237,13 @@ class subt::GameLogicPluginPrivate
   /// \brief Checks if a robot has flipped.
   public: void CheckRobotFlip();
 
+  /// \brief Round input number n down to the nearest mulitple of m
+  /// \param[in] _n input number
+  /// \param[in] _m the input number will be rounded down to the nearest
+  /// multiple of this number.
+  /// \return Result
+  public: double FloorMultiple(double _n, double _m);
+
   /// \brief Ignition Transport node.
   public: transport::Node node;
 
@@ -314,6 +321,9 @@ class subt::GameLogicPluginPrivate
 
   /// \brief A map of robot name and distance traveled
   public: std::map<std::string, double> robotDistance;
+
+  /// \brief Step size for elevation gain / loss
+  public: double elevationStepSize = 5.0;
 
   /// \brief A map of robot name and elevation gain (cumulative)
   public: std::map<std::string, double> robotElevationGain;
@@ -545,6 +555,15 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
       {
         this->dataPtr->logPath = homePath;
       }
+    }
+    // Read elevation step size. Elevation data will be discretized and
+    // rounded down to the nearest multiple of the input step size
+    // during logging
+    if (loggingElem->HasElement("elevation_step_size"))
+    {
+      this->dataPtr->elevationStepSize =
+          loggingElem->Get<double>("elevation_step_size",
+          this->dataPtr->elevationStepSize).first;
     }
   }
 
@@ -1144,8 +1163,14 @@ void GameLogicPlugin::PostUpdate(
           this->dataPtr->robotsTotalDistance += distanceDiff;
 
           // greatest elevation gain / loss
-          double elevationDiff =
-              pose.Pos().Z() -  this->dataPtr->robotPrevPose[name].Pos().Z();
+          // Elevations are rounded down to nearest mulitple of the elevation
+          // step size
+          double elevationDiff = this->dataPtr->FloorMultiple(
+               pose.Pos().Z(), this->dataPtr->elevationStepSize) -
+               this->dataPtr->FloorMultiple(
+               this->dataPtr->robotPrevPose[name].Pos().Z(),
+               this->dataPtr->elevationStepSize);
+
           if (elevationDiff > 0)
           {
             double elevationGain = this->dataPtr->robotElevationGain[name]
@@ -1174,7 +1199,8 @@ void GameLogicPlugin::PostUpdate(
           }
 
           // min / max elevation reached
-          double elevation = pose.Pos().Z();
+          double elevation = this->dataPtr->FloorMultiple(pose.Pos().Z(),
+              this->dataPtr->elevationStepSize);
           if (elevation > this->dataPtr->maxRobotElevation.second ||
               this->dataPtr->maxRobotElevation.first.empty())
           {
@@ -2283,4 +2309,13 @@ void GameLogicPluginPrivate::CheckRobotFlip()
       this->robotFlipInfo[name] = {this->simTime.sec(), false};
     }
   }
+}
+
+/////////////////////////////////////////////////
+double GameLogicPluginPrivate::FloorMultiple(double _n, double _m)
+{
+  double out = _n - fmod(_n, _m);
+  if (_n < 0)
+    out -= _m;
+  return out;
 }
