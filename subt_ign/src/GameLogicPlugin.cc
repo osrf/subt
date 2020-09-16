@@ -1385,6 +1385,8 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
       << "  time_sec: " << this->simTime.sec() << "\n"
       << "  total_score: " << this->totalScore << std::endl;
     this->LogEvent(stream.str());
+    this->Finish();
+    return true;
   }
   else if (!this->ArtifactFromInt(_req.type(), artifactType))
   {
@@ -1432,11 +1434,20 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
     return true;
   }
 
-  if (!this->finished && this->reportCount > this->reportCountLimit)
+  if (!this->finished && this->reportCount >= this->reportCountLimit)
   {
-    _resp.set_report_status("report limit exceeded");
-    this->Log() << "report_limit_exceeded" << std::endl;
-    ignmsg << "Report limit exceed." << std::endl;
+    _resp.set_report_status("report limit reached");
+    this->Log() << "report_limit_reached" << std::endl;
+    ignmsg << "Report limit reached." << std::endl;
+
+    std::ostringstream stream;
+    stream
+      << "- event:\n"
+      << "  type: artifact_report_limit_reached\n"
+      << "  time_sec: " << this->simTime.sec() << "\n"
+      << "  total_score: " << this->totalScore << std::endl;
+    this->LogEvent(stream.str());
+
     this->Finish();
     return true;
   }
