@@ -16,7 +16,7 @@ namespace subt
 {
 
 std::shared_ptr<Model> 
-convert_to_fcl(const ignition::common::Mesh& mesh)
+convert_to_fcl(const ignition::common::Mesh &_mesh)
 {
   auto ret = std::make_shared<Model>();
 
@@ -25,8 +25,6 @@ convert_to_fcl(const ignition::common::Mesh& mesh)
   for (auto ii = 0u; ii < mesh.SubMeshCount(); ++ii)
   {
     auto submesh = mesh.SubMeshByIndex(ii).lock();
-    std::cout << submesh->VertexCount() << " " << submesh->IndexCount() << std::endl;
-
     std::vector<fcl::Vector3f> vertices;
     std::vector<fcl::Triangle> triangles;
 
@@ -58,8 +56,8 @@ convert_to_fcl(const ignition::common::Mesh& mesh)
 }
 
 std::shared_ptr<fcl::CollisionObjectf>
-convert_to_fcl(const ignition::common::Mesh& mesh,
-               const ignition::math::Pose3d& pose)
+convert_to_fcl(const ignition::common::Mesh &_mesh,
+               const ignition::math::Pose3d &_pose)
 {
   auto model = convert_to_fcl(mesh);
 
@@ -77,4 +75,4 @@ convert_to_fcl(const ignition::common::Mesh& mesh,
   return obj;
 }
 
-}
+}  // namespace subt

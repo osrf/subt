@@ -248,10 +248,6 @@ uint64_t VisibilityTable::Index(const ignition::math::Vector3d &_position) const
   }
   else 
   {
-    std::cerr << _position << " overlaps with tiles ";
-    for (auto const &id : result)
-      std::cerr << "[" << id << "], ";
-
     // Fall back to using FCL to find the closest mesh.
     auto box = std::make_shared<fcl::Box<float>>(0.01, 0.01, 0.01);
     auto boxObj = std::make_shared<fcl::CollisionObjectf>(box,  
@@ -285,7 +281,6 @@ uint64_t VisibilityTable::Index(const ignition::math::Vector3d &_position) const
       }
     }
 
-    std::cerr << closestIdx << " " << closestDist << std::endl;
     return closestIdx;
   }
 }
@@ -620,6 +615,7 @@ void VisibilityTable::BuildLUT()
 
   for (auto z = this->kMinZ; z <= this->kMaxZ; z += zstep)
   {
+    ignmsg << "Spawning worker thread: " << z << "-" << z+zstep << std::endl;
     workers.push_back(std::thread(functor, z, z + zstep));
   }
 

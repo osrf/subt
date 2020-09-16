@@ -13,17 +13,33 @@
 namespace subt
 {
 
+/// \brief Convenience alias for the type of fcl model that is
+/// being used.  
+/// BVH = Bounding Volume Heirarchy
+/// OBB = Oriented Bounding Box
+/// RSS = Rectange Swept Sphere
 using Model = fcl::BVHModel<fcl::OBBRSSf>;
 
+/// \brief Create an fcl model from an ignition mesh.
+///
+/// Note that only triangle meshes are currently supported.
+///
+/// \param[in] _mesh mesh to convert to fcl model.
+/// \return model when successfully converted otherwise nullptr
 std::shared_ptr<Model> 
-convert_to_fcl(const ignition::common::Mesh& mesh);
+convert_to_fcl(const ignition::common::Mesh &_mesh);
 
+/// \brief Create an fcl CollisionObject from an ignition mesh+pose
+///
+/// Note that only triangle meshes are currently supported.
+///
+/// \param[in] _mesh mesh to convert to fcl model.
+/// \param[in] _pose world pose of the model.
+/// \return collision object when successfully converted otherwise nullptr
 std::shared_ptr<fcl::CollisionObjectf>
-convert_to_fcl(const ignition::common::Mesh& mesh,
-               const ignition::math::Pose3d& pose);
+convert_to_fcl(const ignition::common::Mesh &_mesh,
+               const ignition::math::Pose3d &_pose);
 
-}
+}  // namespace subt
 
-
-
-#endif
+#endif  // IGN_TO_FCL_HH_

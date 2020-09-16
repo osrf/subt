@@ -181,6 +181,7 @@ install(TARGETS validate_connections
   RUNTIME DESTINATION bin)
 
 add_library(Visibility
+  STATIC
   src/ign_to_fcl.cc
   src/SimpleDOTParser.cc
   src/VisibilityRfModel.cc
