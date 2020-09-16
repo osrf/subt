@@ -401,6 +401,7 @@
              The HOME path is used by default -->
         <path>/tmp/ign/logs</path>
         <filename_prefix>subt_<%= $circuit %></filename_prefix>
+        <elevation_step_size>5</elevation_step_size>
       </logging>
 
       <artifact>

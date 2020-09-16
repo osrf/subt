@@ -337,6 +337,9 @@ class subt::GameLogicPluginPrivate
   /// \brief A map of robot name and distance traveled
   public: std::map<std::string, double> robotDistance;
 
+  /// \brief Step size for elevation gain / loss
+  public: double elevationStepSize = 5.0;
+
   /// \brief A map of robot name and elevation gain (cumulative)
   public: std::map<std::string, double> robotElevationGain;
 
@@ -505,8 +508,6 @@ class subt::GameLogicPluginPrivate
   /// is used to log when no more breadcrumb deployments are possible.
   public: std::map<std::string, int> breadcrumbsMax;
 
-  public: double elevationThreshold = 5.0;
-
   /// \brief The ROS node handler used for communications.
   public: std::unique_ptr<ros::NodeHandle> rosnode;
   public: ros::Publisher rosStatsPub;
@@ -552,7 +553,6 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
   const sdf::ElementPtr loggingElem =
     const_cast<sdf::Element*>(_sdf.get())->GetElement("logging");
 
-
   std::string filenamePrefix;
   if (loggingElem && loggingElem->HasElement("filename_prefix"))
   {
@@ -580,6 +580,15 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
       {
         this->dataPtr->logPath = homePath;
       }
+    }
+    // Read elevation step size. Elevation data will be discretized and
+    // rounded down to the nearest multiple of the input step size
+    // during logging
+    if (loggingElem->HasElement("elevation_step_size"))
+    {
+      this->dataPtr->elevationStepSize =
+          loggingElem->Get<double>("elevation_step_size",
+          this->dataPtr->elevationStepSize).first;
     }
   }
 
@@ -1235,8 +1244,14 @@ void GameLogicPlugin::PostUpdate(
           this->dataPtr->robotsTotalDistance += distanceDiff;
 
           // greatest elevation gain / loss
-          double elevationDiff =
-            pose.Pos().Z() -  this->dataPtr->robotPrevPose[name].Pos().Z();
+          // Elevations are rounded down to nearest mulitple of the elevation
+          // step size
+          double elevationDiff = this->dataPtr->FloorMultiple(
+               pose.Pos().Z(), this->dataPtr->elevationStepSize) -
+               this->dataPtr->FloorMultiple(
+               this->dataPtr->robotPrevPose[name].Pos().Z(),
+               this->dataPtr->elevationStepSize);
+
           if (elevationDiff > 0)
           {
             double elevationGain = this->dataPtr->robotElevationGain[name]
@@ -1265,7 +1280,8 @@ void GameLogicPlugin::PostUpdate(
           }
 
           // min / max elevation reached
-          double elevation = pose.Pos().Z();
+          double elevation = this->dataPtr->FloorMultiple(pose.Pos().Z(),
+              this->dataPtr->elevationStepSize);
           if (elevation > this->dataPtr->maxRobotElevation.second ||
               this->dataPtr->maxRobotElevation.first.empty())
           {
@@ -1492,6 +1508,7 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
       << "  time_sec: " << this->simTime.sec() << "\n"
       << "  total_score: " << this->totalScore << std::endl;
     this->LogEvent(stream.str());
+    this->Finish();
   }
   else if (!this->ArtifactFromInt(_req.type(), artifactType))
   {
@@ -1542,11 +1559,20 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
     return true;
   }
 
-  if (!this->finished && this->reportCount > this->reportCountLimit)
+  if (!this->finished && this->reportCount >= this->reportCountLimit)
   {
-    _resp.set_report_status("report limit exceeded");
-    this->Log() << "report_limit_exceeded" << std::endl;
-    ignmsg << "Report limit exceed." << std::endl;
+    _resp.set_report_status("report limit reached");
+    this->Log() << "report_limit_reached" << std::endl;
+    ignmsg << "Report limit reached." << std::endl;
+
+    std::ostringstream stream;
+    stream
+      << "- event:\n"
+      << "  type: artifact_report_limit_reached\n"
+      << "  time_sec: " << this->simTime.sec() << "\n"
+      << "  total_score: " << this->totalScore << std::endl;
+    this->LogEvent(stream.str());
+
     this->Finish();
     return true;
   }
@@ -2487,4 +2513,13 @@ void GameLogicPluginPrivate::CheckRobotFlip()
       this->robotFlipInfo[name] = {this->simTime.sec(), false};
     }
   }
+}
+
+/////////////////////////////////////////////////
+double GameLogicPluginPrivate::FloorMultiple(double _n, double _m)
+{
+  double out = _n - fmod(_n, _m);
+  if (_n < 0)
+    out -= _m;
+  return out;
 }
