@@ -1414,13 +1414,8 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
     _resp.set_score_change(scoreDiff);
     _resp.set_report_status("scored");
 
-    std::ostringstream stream;
-    stream
-      << "- event:\n"
-      << "  type: artifact_report_scored\n"
-      << "  time_sec: " << this->simTime.sec() << "\n"
-      << "  total_score: " << this->totalScore << std::endl;
-    this->LogEvent(stream.str());
+    if (!duplicate)
+      this->totalScore += scoreDiff;
 
     ignmsg << "Total score: " << this->totalScore << std::endl;
     this->Log() << "new_total_score " << this->totalScore << std::endl;
