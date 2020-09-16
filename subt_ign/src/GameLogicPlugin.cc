@@ -259,6 +259,13 @@ class subt::GameLogicPluginPrivate
   /// \brief Checks if a robot has flipped.
   public: void CheckRobotFlip();
 
+  /// \brief Round input number n down to the nearest mulitple of m
+  /// \param[in] _n input number
+  /// \param[in] _m the input number will be rounded down to the nearest
+  /// multiple of this number.
+  /// \return Result
+  public: double FloorMultiple(double _n, double _m);
+
   /// \brief Ignition Transport node.
   public: transport::Node node;
 
@@ -1475,6 +1482,8 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
   subt_ros::ArtifactReport artifactMsg;
   artifactMsg.timestamp.sec = this->simTime.sec();
   artifactMsg.timestamp.nsec = this->simTime.nsec();
+  artifactMsg.points_scored = 0;
+  artifactMsg.total_score = this->totalScore;
 
   if (this->started && this->finished)
   {
@@ -1552,7 +1561,7 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
 
   // Finish if the maximum score has been reached, or if the maximum number
   // of artifact reports has been reached..
-  if (this->totalScore >= this->artifactCount)
+  if (!this->finished && this->totalScore >= this->artifactCount)
   {
     ignmsg << "Max score has been reached. Congratulations!" << std::endl;
     this->Finish();
