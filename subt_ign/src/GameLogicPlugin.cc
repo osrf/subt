@@ -618,7 +618,7 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
         this->dataPtr->rosnode->advertise<subt_ros::RunStatistics>(
             "run_statistics", 100);
       this->dataPtr->rosArtifactPub =
-        this->dataPtr->rosnode->advertise<subt_ros::RunStatistics>(
+        this->dataPtr->rosnode->advertise<subt_ros::ArtifactReport>(
             "artifact_reports", 100);
       this->dataPtr->rosRobotEventPub =
         this->dataPtr->rosnode->advertise<subt_ros::RobotEvent>(
