@@ -245,6 +245,7 @@
     <command>roslaunch subt_ros competition_init.launch world_name:=<%=$worldName%> vehicle_topics:=<%=(robots.empty?)?"1":"0"%> enable_ground_truth:=<%=($enableGroundTruth)?"1":"0"%> robot_names:=<%= robots.keys.join(",") %></command>
   </executable>
 
+
   <plugin name="ignition::launch::GazeboServer"
           filename="libignition-launch-gazebo.so">
     <% if $worldName.include?('tunnel_circuit_') &&
@@ -321,6 +322,7 @@
             name="subt::GameLogicPlugin">
       <!-- The collection of artifacts to locate -->
       <world_name><%= $worldName %></world_name>
+      <ros>true</ros>
 
       <duration_seconds><%= $durationSec %></duration_seconds>
 
