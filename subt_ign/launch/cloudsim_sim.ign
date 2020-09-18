@@ -228,8 +228,10 @@
 
   if !defined?(ros) || ros == nil || ros.empty?
     $ros = false
-  elsif ros == 'true' || ros == 'True' || ros == '1'
+  elsif ros.upcase == 'TRUE' || ros == '1'
     $ros = true
+  else
+    $ros = false
   end
 
   # Check if durationSec is not defined or is empty/nil. In this case, set
