@@ -80,7 +80,7 @@ target_link_libraries(subt_ros_relay
     ignition-transport7::ignition-transport7
     ${catkin_LIBRARIES}
 )
-add_dependencies(subt_ros_relay ${catkin_EXPORTED_TARGETS})
+add_dependencies(subt_ros_relay ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 add_executable(set_pose_relay src/SetPoseRelay.cc)
 target_include_directories(set_pose_relay

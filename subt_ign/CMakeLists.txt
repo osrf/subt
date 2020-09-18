@@ -27,7 +27,8 @@ set(IGN_GAZEBO_VER ${ignition-gazebo2_VERSION_MAJOR})
 
 file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include)
 
-find_package(ignition-common3 REQUIRED)
+find_package(ignition-common3 REQUIRED COMPONENTS graphics)
+find_package(ignition-fuel_tools3 REQUIRED)
 find_package(ignition-math6 REQUIRED)
 find_package(ignition-msgs4 REQUIRED)
 find_package(ignition-transport7 REQUIRED)
@@ -322,6 +323,17 @@ target_link_libraries(level_generator
 target_include_directories(level_generator
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 install(TARGETS level_generator
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+
+add_executable(world_generator_cave src/world_generator_cave.cc src/ConnectionHelper.cc)
+target_link_libraries(world_generator_cave
+  ignition-math6::ignition-math6
+  ignition-common3::requested
+  ignition-fuel_tools3::ignition-fuel_tools3
+  sdformat8::sdformat8)
+target_include_directories(world_generator_cave
+  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
+install(TARGETS world_generator_cave
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 
 
