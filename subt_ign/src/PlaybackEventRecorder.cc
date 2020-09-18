@@ -180,6 +180,9 @@ class subt::PlaybackEventRecorderPrivate
 
   /// \brief A map of event type to its start and end recording time
   public: std::map<std::string, std::pair<double, double>> eventRecordDuration;
+
+  /// \brief A list of unique detectors
+  public: std::set<std::string> detectors;
 };
 
 /////////////////////////////////////////////
@@ -197,8 +200,14 @@ PlaybackEventRecorder::PlaybackEventRecorder()
   this->dataPtr->eventRecordDuration["detach"] = std::make_pair(60, 120);
   this->dataPtr->eventRecordDuration["breadcrumb_deploy"] = std::make_pair(60, 120);
   this->dataPtr->eventRecordDuration["detect"] = std::make_pair(60, 60);
-  // this->dataPtr->eventRecordDuration["artifact"] = std::make_pair(60, 60);
   this->dataPtr->eventRecordDuration["flip"] = std::make_pair(120, 60);
+
+  this->dataPtr->detectors.insert("staging_area");
+  this->dataPtr->detectors.insert("backpack");
+  this->dataPtr->detectors.insert("phone");
+  this->dataPtr->detectors.insert("rescue_randy");
+  this->dataPtr->detectors.insert("rope");
+  this->dataPtr->detectors.insert("helmet");
 }
 
 /////////////////////////////////////////////
@@ -263,6 +272,8 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity & /*_entity
     Event e;
     e.type = type;
 
+    // check for detect event type
+    // and record videos only for detectors that we are interested in.
     if (type == "detect")
     {
       std::string detector;
@@ -270,7 +281,16 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity & /*_entity
       if (auto detectorParam = n["detector"])
       {
         detector = detectorParam.as<std::string>();
-        if (detector != "staging_area")
+        bool validDetector = false;
+        for (const auto &d : this->dataPtr->detectors)
+        {
+          if (detector.find(d) != std::string::npos)
+          {
+            validDetector = true;
+            break;
+          }
+        }
+        if (!validDetector)
           continue;
       }
       else
@@ -291,7 +311,8 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity & /*_entity
     e.startRecordTime = std::max(e.time - it->second.first, 0.0);
     e.endRecordTime = e.time + it->second.second;
     this->dataPtr->events.push_back(e);
-   //  std::cerr << n["type"] << " " << n["robot"] << " " << n["time_sec"] << std::endl;
+    std::cerr << e.type << " " << e.robot << " " << e.detector << " "
+              << e.state << " " << e.time << std::endl;
   }
 
   // don't do anything if there are not events
