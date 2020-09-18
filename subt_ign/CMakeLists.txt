@@ -308,6 +308,35 @@ install(TARGETS ${gas_emitter_detector_plugin_name}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
+# Create the libPlaybackEventRecorder.so library.
+set(playback_event_recorder_name PlaybackEventRecorder)
+add_library(${playback_event_recorder_name} SHARED
+  src/PlaybackEventRecorder.cc
+  src/PlaybackEventRecorder.cc
+)
+
+target_include_directories(${playback_event_recorder_name}
+  PRIVATE
+    ${CATKIN_DEVEL_PREFIX}/include)
+target_link_libraries(${playback_event_recorder_name}
+  PRIVATE
+    ignition-gazebo${IGN_GAZEBO_VER}::core
+    ignition-common3::ignition-common3
+    ignition-launch2::ignition-launch2
+    ignition-math6::ignition-math6
+    ignition-msgs5::ignition-msgs5
+    ignition-plugin1::loader
+    ignition-transport8::ignition-transport8
+    sdformat9::sdformat9
+    ${catkin_LIBRARIES}
+    ${YAML_CPP_LIBRARIES}
+)
+
+install(TARGETS ${playback_event_recorder_name}
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+
 # Create log_checker executable.
 add_executable(log_checker src/LogChecker.cc)
 target_link_libraries(log_checker

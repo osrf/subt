@@ -1,0 +1,29 @@
+<?xml version='1.0'?>
+<!--
+  Playback event recorder.
+
+  This world is to be used with the playback event recorder system.
+  Videos will be created in the directory where ign gazebo is run.
+-->
+
+<sdf version='1.6'>
+  <world name='default'>
+    <plugin filename='ignition-gazebo-scene-broadcaster-system'
+            name='ignition::gazebo::systems::SceneBroadcaster'>
+    </plugin>
+    <plugin
+      filename='ignition-gazebo-log-system'
+      name='ignition::gazebo::systems::LogPlayback'>
+      <path>tmp_record</path>
+    </plugin>
+
+    <plugin
+        filename="libPlaybackEventRecorder.so"
+        name="subt::PlaybackEventRecorder">
+      <world_name>default</world_name>
+      <log_path>tmp_record</log_path>
+      <exit_on_finish>true</exit_on_finish>
+    </plugin>
+  </world>
+</sdf>
+
