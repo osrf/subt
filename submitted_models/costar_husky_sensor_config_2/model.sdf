@@ -4,7 +4,7 @@
     <link name="base_link">
       <pose frame="">0 0 0 0 -0 0</pose>
       <inertial>
-        <pose frame="">-0.000543 -0.084945 0.062329 0 -0 0</pose>
+        <pose frame="">0 0 0.062329 0 -0 0</pose>
         <mass>46.064</mass>
         <inertia>
           <ixx>0.615397</ixx>
@@ -449,9 +449,9 @@
           </contact>
           <friction>
             <ode>
-              <mu>1</mu>
+              <mu>0.5</mu>
               <mu2>1</mu2>
-              <slip1>0.035</slip1>
+              <slip1>0.00062</slip1>
               <slip2>0</slip2>
               <fdir1>0 0 1</fdir1>
             </ode>
@@ -517,9 +517,9 @@
           </contact>
           <friction>
             <ode>
-              <mu>1</mu>
+              <mu>0.5</mu>
               <mu2>1</mu2>
-              <slip1>0.035</slip1>
+              <slip1>0.00062</slip1>
               <slip2>0</slip2>
               <fdir1>0 0 1</fdir1>
             </ode>
@@ -585,9 +585,9 @@
           </contact>
           <friction>
             <ode>
-              <mu>1</mu>
+              <mu>0.5</mu>
               <mu2>1</mu2>
-              <slip1>0.035</slip1>
+              <slip1>0.00062</slip1>
               <slip2>0</slip2>
               <fdir1>0 0 1</fdir1>
             </ode>
@@ -653,9 +653,9 @@
           </contact>
           <friction>
             <ode>
-              <mu>1</mu>
+              <mu>0.5</mu>
               <mu2>1</mu2>
-              <slip1>0.035</slip1>
+              <slip1>0.00062</slip1>
               <slip2>0</slip2>
               <fdir1>0 0 1</fdir1>
             </ode>
