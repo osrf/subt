@@ -2455,7 +2455,7 @@ void GameLogicPluginPrivate::PublishRobotEvent(const std::string &_type,
   msg.timestamp.sec = this->simTime.sec();
   msg.timestamp.nsec = this->simTime.nsec();
   msg.event_type = _type;
-  msg.robot_asset_id = _robot;
+  msg.robot_name = _robot;
   if (this->rosnode)
     this->rosRobotEventPub.publish(msg);
 }
@@ -2468,7 +2468,7 @@ void GameLogicPluginPrivate::PublishRegionEvent(const std::string &_type,
   msg.timestamp.sec = this->simTime.sec();
   msg.timestamp.nsec = this->simTime.nsec();
   msg.event_type = _type;
-  msg.robot_asset_id = _robot;
+  msg.robot_name = _robot;
   msg.detector = _detector;
   if (this->rosnode)
     this->rosRegionEventPub.publish(msg);
