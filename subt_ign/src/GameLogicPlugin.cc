@@ -60,6 +60,7 @@
 
 #include <geometry_msgs/PoseStamped.h>
 #include "subt_ros/ArtifactReport.h"
+#include "subt_ros/KinematicStates.h"
 #include "subt_ros/RegionEvent.h"
 #include "subt_ros/Robot.h"
 #include "subt_ros/RobotEvent.h"
@@ -523,6 +524,7 @@ class subt::GameLogicPluginPrivate
   public: ros::Publisher rosRobotEventPub;
   public: ros::Publisher rosRegionEventPub;
   public: std::map<std::string, ros::Publisher> rosRobotPosePubs;
+  public: std::map<std::string, ros::Publisher> rosRobotKinematicPubs;
   public: std::string prevPhase = "";
 };
 
@@ -1157,6 +1159,9 @@ void GameLogicPlugin::PostUpdate(
               this->dataPtr->rosRobotPosePubs[name] =
                 this->dataPtr->rosnode->advertise<geometry_msgs::PoseStamped>(
                     "poses/" + name, 1000);
+	       this->dataPtr->rosRobotKinematicPubs[name] =	
+	        this->dataPtr->rosnode->advertise<subt_ros::KinematicStates>(
+		    "kinematic_states/" + name, 1000);
             }
 
             this->dataPtr->robotPrevPose[name] = pose;
@@ -1175,6 +1180,7 @@ void GameLogicPlugin::PostUpdate(
             geometry_msgs::PoseStamped msg;
             msg.header.stamp.sec = this->dataPtr->simTime.sec();
             msg.header.stamp.nsec = this->dataPtr->simTime.nsec();
+	    msg.header.frame_id = "world"; // TODO: Convert to artifact_origin
             msg.pose.position.x = pose.Pos().X();
             msg.pose.position.y = pose.Pos().Y();
             msg.pose.position.z = pose.Pos().Z();
@@ -1186,12 +1192,36 @@ void GameLogicPlugin::PostUpdate(
             if (this->dataPtr->rosnode)
               this->dataPtr->rosRobotPosePubs[name].publish(msg);
 
-            // Consider only velocity in the xy plane.
+	    // calculate robot velocity and speed
             math::Vector3d p1 = pose.Pos();
             math::Vector3d p2 = robotPoseDataIt->second.back().second;
-            double dist = sqrt(std::pow(p2.X() - p1.X(), 2) +
-                std::pow(p2.Y() - p1.Y(), 2));
+	    double dx = p1.X() - p2.X();
+	    double dy = p1.Y() - p2.Y();
+	    double dz = p1.Z() - p2.Z();
+            double dist = sqrt(std::pow(dx, 2) +
+                std::pow(dy, 2) +
+		std::pow(dz, 2));
             double vel = dist / dt;
+
+	    // publish the pose, velocity, and speed
+	    subt_ros::KinematicStates kmsg;
+	    kmsg.header.stamp.sec = this->dataPtr->simTime.sec();
+            kmsg.header.stamp.nsec = this->dataPtr->simTime.nsec();
+	    kmsg.header.frame_id = "world"; // TODO: convert to artifact_origin
+            kmsg.pose.position.x = pose.Pos().X();
+            kmsg.pose.position.y = pose.Pos().Y();
+            kmsg.pose.position.z = pose.Pos().Z();
+            kmsg.pose.orientation.x = pose.Rot().X();
+            kmsg.pose.orientation.y = pose.Rot().Y();
+            kmsg.pose.orientation.z = pose.Rot().Z();
+            kmsg.pose.orientation.w = pose.Rot().W();
+	    kmsg.velocity.x = dx / dt;
+	    kmsg.velocity.y = dy / dt;
+	    kmsg.velocity.z = dz / dt;
+	    kmsg.speed = vel;
+
+	    if (this->dataPtr->rosnode)
+	      this->dataPtr->rosRobotKinematicPubs[name].publish(kmsg);
 
             // greatest max velocity by a robot
             if (vel > this->dataPtr->maxRobotVel.second)
@@ -2398,7 +2428,7 @@ bool GameLogicPluginPrivate::PoseFromArtifactHelper(const std::string &_robot,
   std::map<std::string, ignition::math::Pose3d>::iterator baseIter =
     this->poses.find(subt::kBaseStationName);
 
-  // Sanity check: Make sure that the robot is in the stagging area, as this
+  // Sanity check: Make sure that the robot is in the staging area, as this
   // service is only available in that zone.
   if (baseIter == this->poses.end())
   {

@@ -19,6 +19,7 @@ add_message_files(
   FILES
   ArtifactReport.msg
   CompetitionClock.msg
+  KinematicStates.msg
   Marsupial.msg
   RegionEvent.msg
   Robot.msg
