@@ -201,7 +201,8 @@ class subt::GameLogicPluginPrivate
   /// \param[in] _type Event type.
   /// \param[in] _robot Robot name.
   public: void PublishRegionEvent(const std::string &_type,
-    const std::string &_robot, const std::string &_detector);
+    const std::string &_robot, const std::string &_detector, 
+    const std::string &_state);
 
 
   /// \brief Marsupial detach subscription callback.
@@ -898,7 +899,7 @@ void GameLogicPluginPrivate::OnEvent(const ignition::msgs::Pose &_msg)
     }
   }
   this->LogEvent(stream.str());
-  this->PublishRegionEvent("detect", _msg.name(), frameId);
+  this->PublishRegionEvent("detect", _msg.name(), frameId, state);
 }
 
 //////////////////////////////////////////////////
@@ -2492,7 +2493,8 @@ void GameLogicPluginPrivate::PublishRobotEvent(const std::string &_type,
 
 /////////////////////////////////////////////////
 void GameLogicPluginPrivate::PublishRegionEvent(const std::string &_type,
-    const std::string &_robot, const std::string &_detector)
+    const std::string &_robot, const std::string &_detector, 
+    const std::string &_state)
 {
   subt_ros::RegionEvent msg;
   msg.timestamp.sec = this->simTime.sec();
@@ -2500,6 +2502,7 @@ void GameLogicPluginPrivate::PublishRegionEvent(const std::string &_type,
   msg.event_type = _type;
   msg.robot_name = _robot;
   msg.detector = _detector;
+  msg.state = _state;
   if (this->rosnode)
     this->rosRegionEventPub.publish(msg);
 }
