@@ -17,76 +17,40 @@
 #include "path_tracer.hh"
 
 //////////////////////////////////////////////////
+// Load a color from YAML helper function.
+// \param[in] _node YAML node that contains color information
+// \param[in] _def Default color value that is used if a color property is
+// missing.
+ignition::math::Color loadColor(const YAML::Node &_node, double _def = 1.0)
+{
+  ignition::math::Color clr(_def, _def, _def, _def);
+
+  if (_node["r"])
+    clr.R(_node["r"].as<double>());
+
+  if (_node["g"])
+    clr.G(_node["g"].as<double>());
+
+  if (_node["b"])
+    clr.B(_node["b"].as<double>());
+
+  if (_node["a"])
+    clr.A(_node["a"].as<double>());
+
+  return clr;
+}
+
+//////////////////////////////////////////////////
 MarkerColor::MarkerColor(const YAML::Node &_node)
 {
   if (_node["ambient"])
-  {
-    if (_node["ambient"]["r"])
-      this->ambient.R(_node["ambient"]["r"].as<double>());
-    else
-      this->ambient.R(1.0);
-
-    if (_node["ambient"]["g"])
-      this->ambient.G(_node["ambient"]["g"].as<double>());
-    else
-      this->ambient.G(1.0);
-
-    if (_node["ambient"]["b"])
-      this->ambient.B(_node["ambient"]["b"].as<double>());
-    else
-      this->ambient.B(1.0);
-
-    if (_node["ambient"]["a"])
-      this->ambient.A(_node["ambient"]["a"].as<double>());
-    else
-      this->ambient.A(1.0);
-  }
+    this->ambient = loadColor(_node["ambient"]);
 
   if (_node["diffuse"])
-  {
-    if (_node["diffuse"]["r"])
-      this->diffuse.R(_node["diffuse"]["r"].as<double>());
-    else
-      this->diffuse.R(1.0);
-
-    if (_node["diffuse"]["g"])
-      this->diffuse.G(_node["diffuse"]["g"].as<double>());
-    else
-      this->diffuse.G(1.0);
-
-    if (_node["diffuse"]["b"])
-      this->diffuse.B(_node["diffuse"]["b"].as<double>());
-    else
-      this->diffuse.B(1.0);
-
-    if (_node["diffuse"]["a"])
-      this->diffuse.A(_node["diffuse"]["a"].as<double>());
-    else
-      this->diffuse.A(1.0);
-  }
+    this->diffuse = loadColor(_node["diffuse"]);
 
   if (_node["emissive"])
-  {
-    if (_node["emissive"]["r"])
-      this->emissive.R(_node["emissive"]["r"].as<double>());
-    else
-      this->emissive.R(1.0);
-
-    if (_node["emissive"]["g"])
-      this->emissive.G(_node["emissive"]["g"].as<double>());
-    else
-      this->emissive.G(1.0);
-
-    if (_node["emissive"]["b"])
-      this->emissive.B(_node["emissive"]["b"].as<double>());
-    else
-      this->emissive.B(1.0);
-
-    if (_node["emissive"]["a"])
-      this->emissive.A(_node["emissive"]["a"].as<double>());
-    else
-      this->emissive.A(1.0);
-  }
+    this->emissive = loadColor(_node["emissive"]);
 }
 
 //////////////////////////////////////////////////
