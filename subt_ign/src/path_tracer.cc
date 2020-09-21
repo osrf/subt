@@ -79,10 +79,12 @@ Processor::Processor(const std::string &_path, const std::string &_configPath)
       {
         cfg = YAML::LoadFile(_configPath);
       }
-      catch (...)
+      catch (YAML::Exception &ex)
       {
         std::cerr << "Unable to load configuration file["
-          << _configPath << "]\n";
+          << _configPath << "]: "
+          << "error at line " << ex.mark.line + 1 << ", column "
+          << ex.mark.column + 1 << ": " << ex.msg << "\n";
       }
     }
     else
