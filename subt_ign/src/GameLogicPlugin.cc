@@ -1578,17 +1578,17 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
     _resp.set_score_change(scoreDiff);
     _resp.set_report_status("scored");
 
-    if (!duplicate)
+    if (!duplicate) {
       this->totalScore += scoreDiff;
+      if (this->rosnode)
+        this->rosArtifactPub.publish(artifactMsg);
+    }
 
     ignmsg << "Total score: " << this->totalScore << std::endl;
     this->Log() << "new_total_score " << this->totalScore << std::endl;
   }
 
   _resp.set_report_id(this->reportCount);
-
-  if (this->rosnode)
-    this->rosArtifactPub.publish(artifactMsg);
 
   // Finish if the maximum score has been reached, or if the maximum number
   // of artifact reports has been reached..
