@@ -102,7 +102,7 @@ rf_power log_normal_received_power(const double& tx_power,
 /// distribution.
 ///
 /// @param tx_power Transmit power (dBm)
-/// @param range Greatest distance in a single hope (m)
+/// @param range Greatest distance in a single hop (m)
 /// @param num_hops Number of breadcrumbs crossed
 /// @param config Physical-layer configuration
 rf_power log_normal_v2_received_power(const double& tx_power,
