@@ -811,21 +811,21 @@ void GameLogicPluginPrivate::OnRockFallDeployRemainingEvent(
     const ignition::msgs::Int32 &_msg,
     const transport::MessageInfo &_info)
 {
+  std::vector<std::string> topicParts = common::split(_info.Topic(), "/");
+  std::string name = "_unknown_";
+
+  // Get the name of the model from the topic name, where the topic name
+  // look like '/model/{model_name}/deploy'.
+  if (topicParts.size() > 1)
+    name = topicParts[1];
+
   if (_msg.data() == 0)
   {
-    std::vector<std::string> topicParts = common::split(_info.Topic(), "/");
-    std::string name = "_unknown_";
-
-    // Get the name of the model from the topic name, where the topic name
-    // look like '/model/{model_name}/deploy'.
-    if (topicParts.size() > 1)
-      name = topicParts[1];
-
     // Sim time is used to make sure that we report only once per rock fall,
     // and not once for every rock in the rock fall.
     if (this->rockFallsMax[name].first != this->simTime.sec())
     {
-      if (this->rockFallsMax[name].second > 0)
+      if (this->rockFallsMax[name].second == 1)
       {
         std::ostringstream stream;
         stream
@@ -835,6 +835,7 @@ void GameLogicPluginPrivate::OnRockFallDeployRemainingEvent(
           << "  model: " << name << std::endl;
 
         this->LogEvent(stream.str());
+
         this->PublishRegionEvent("max_rock_falls", "n/a", name,
             "max_rock_falls");
       }
@@ -842,6 +843,18 @@ void GameLogicPluginPrivate::OnRockFallDeployRemainingEvent(
       this->rockFallsMax[name].second++;
       this->rockFallsMax[name].first = this->simTime.sec();
     }
+  }
+  else
+  {
+    std::ostringstream stream;
+    stream
+      << "- event:\n"
+      << "  type: rock_fall\n"
+      << "  time_sec: " << this->simTime.sec() << "\n"
+      << "  model: " << name << std::endl;
+
+    this->LogEvent(stream.str());
+    this->PublishRegionEvent("rock_fall", "n/a", name, "rock_fall");
   }
 }
 
