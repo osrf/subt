@@ -365,11 +365,11 @@ void PlaybackEventRecorder::PostUpdate(
     }
 
     // start playing the log if paused
-    if (_info.paused)
-    {
-      this->dataPtr->eventManager->Emit<events::Pause>(false);
-      return;
-    }
+    // if (_info.paused)
+    // {
+    //   this->dataPtr->eventManager->Emit<events::Pause>(false);
+    //   return;
+    // }
     // get next event to record
     this->dataPtr->event = this->dataPtr->events.front();
     this->dataPtr->events.pop_front();
