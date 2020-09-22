@@ -31,14 +31,11 @@
 #include <subt_ign/SimpleDOTParser.hh>
 #include <subt_ign/VisibilityTable.hh>
 
-#include <fcl/common/types.h>
-#include <fcl/math/triangle.h>
-#include <fcl/math/geometry.h>
-#include <fcl/geometry/shape/box.h>
+#include <fcl/config.h>
+#include <fcl/data_types.h>
+#include <fcl/shape/geometric_shapes.h>
 
-#include <fcl/narrowphase/distance.h>
-#include <fcl/narrowphase/distance_request.h>
-#include <fcl/narrowphase/distance_result.h>
+#include <fcl/distance.h>
 
 using namespace ignition;
 using namespace subt;
@@ -209,7 +206,7 @@ void VisibilityTable::SetModelBoundingBoxes(
 
 //////////////////////////////////////////////////
 void VisibilityTable::SetModelCollisionObjects(
-    const std::map<std::string, std::shared_ptr<fcl::CollisionObjectf>> &_collObjs)
+    const std::map<std::string, std::shared_ptr<fcl::CollisionObject>> &_collObjs)
 {
   this->collisionObjs= _collObjs;
 }
@@ -231,6 +228,8 @@ const std::map<uint64_t, std::vector<ignition::math::Vector3d>>
 //////////////////////////////////////////////////
 uint64_t VisibilityTable::Index(const ignition::math::Vector3d &_position) const
 {
+  std::vector<uint64_t> result;
+
   for (auto const segment : this->worldSegments)
   {
     const ignition::math::AxisAlignedBox &box = segment.first;
@@ -249,10 +248,10 @@ uint64_t VisibilityTable::Index(const ignition::math::Vector3d &_position) const
   else 
   {
     // Fall back to using FCL to find the closest mesh.
-    auto box = std::make_shared<fcl::Box<float>>(0.01, 0.01, 0.01);
-    auto boxObj = std::make_shared<fcl::CollisionObjectf>(box,  
-      Eigen::Matrix3f::Identity(),
-      Eigen::Vector3f(_position.X(), _position.Y(), _position.Z()));
+    auto box = std::make_shared<fcl::Box>(0.01, 0.01, 0.01);
+    auto boxObj = std::make_shared<fcl::CollisionObject>(box,  
+      fcl::Matrix3f::getIdentity(),
+      fcl::Vec3f(_position.X(), _position.Y(), _position.Z()));
 
     uint64_t closestIdx = 0;
     float closestDist = 1e9;
@@ -270,8 +269,8 @@ uint64_t VisibilityTable::Index(const ignition::math::Vector3d &_position) const
       if (meshIt == this->collisionObjs.end())
         continue;
 
-      fcl::DistanceRequestf request(true, true);
-      fcl::DistanceResultf fclResult;
+      fcl::DistanceRequest request(true, true);
+      fcl::DistanceResult fclResult;
       fcl::distance(meshIt->second.get(), boxObj.get(), request, fclResult);
 
       if (fclResult.min_distance < closestDist)

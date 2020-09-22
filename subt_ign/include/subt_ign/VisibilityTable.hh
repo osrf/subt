@@ -27,7 +27,10 @@
 #include <ignition/math/graph/Vertex.hh>
 #include <subt_ign/VisibilityTypes.hh>
 
-#include <fcl/narrowphase/collision_object.h>
+namespace fcl
+{
+  class CollisionObject;
+}
 
 namespace subt
 {
@@ -91,7 +94,7 @@ namespace subt
     /// \param[in] _collObjs Collision Objects of models.
     /// \sa Generate
     public: void SetModelCollisionObjects(
-        const std::map<std::string, std::shared_ptr<fcl::CollisionObjectf>> &_collObjs);
+        const std::map<std::string, std::shared_ptr<fcl::CollisionObject>> &_collObjs);
 
     /// \brief Get the collection of sampled 3D points and their associated
     /// vertex id.
@@ -212,7 +215,7 @@ namespace subt
 
     /// \brief A map of model name to its bounding box. Used for generating LUT
     private: std::map<std::string, 
-             std::shared_ptr<fcl::CollisionObjectf>> collisionObjs;
+             std::shared_ptr<fcl::CollisionObject>> collisionObjs;
 
     /// \brief A map that stores 3D points an the vertex id in which are located
     public : std::map<std::tuple<int32_t, int32_t, int32_t>, uint64_t> vertices;

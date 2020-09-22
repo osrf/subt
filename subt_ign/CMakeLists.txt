@@ -35,7 +35,11 @@ find_package(ignition-launch1 REQUIRED)
 find_package(sdformat8 REQUIRED)
 find_package(yaml-cpp REQUIRED)
 
-find_package(FCL REQUIRED)
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(LIBFCL_PC REQUIRED fcl)
+# find *absolute* paths to LIBFCL_INCLUDE_DIRS and LIBFCL_LIBRARIES
+find_path(LIBFCL_INCLUDE_DIRS fcl/config.h HINTS ${LIBFCL_PC_INCLUDE_DIR} ${LIBFCL_PC_INCLUDE_DIRS})
+find_library(LIBFCL_LIBRARIES fcl HINTS ${LIBFCL_PC_LIBRARY_DIRS})
 
 ###########
 ## Build ##
@@ -47,6 +51,8 @@ include_directories(
   ${PROJECT_BINARY_DIR}/include
   ${CATKIN_DEVEL_PREFIX}/include
 )
+
+message(STATUS ${LIBFCL_INCLUDE_DIRS})
 
 link_directories()
 
@@ -189,18 +195,16 @@ add_library(Visibility
 )
 target_include_directories(Visibility
   PUBLIC
-  ${FCL_INCLUDE_DIRS}
   ${catkin_INCLUDE_DIRS}
+  ${LIBFCL_INCLUDE_DIRS}
 )
 target_link_libraries(
   Visibility
   PUBLIC
   ignition-gazebo${IGN_GAZEBO_VER}::core
-  ${FCL_LIBRARIES}
+  ${LIBFCL_LIBRARIES}
   ${catkin_LIBRARIES}
 )
-
-message(STATUS ${FCL_INCLUDE_DIRS})
 
 add_executable(validate_visibility_table
   src/validate_visibility_table.cc)

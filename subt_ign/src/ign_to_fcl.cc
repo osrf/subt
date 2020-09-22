@@ -1,9 +1,9 @@
 #include "ign_to_fcl.hh"
 
-#include <fcl/common/types.h>
-
-#include <fcl/math/triangle.h>
-#include <fcl/math/geometry.h>
+#include <fcl/config.h>
+#include <fcl/data_types.h>
+#include <fcl/math/matrix_3f.h>
+#include <fcl/math/vec_3f.h>
 
 #include <ignition/common/Mesh.hh>
 #include <ignition/common/SubMesh.hh>
@@ -22,10 +22,10 @@ convert_to_fcl(const ignition::common::Mesh &_mesh)
 
   ret->beginModel();
 
-  for (auto ii = 0u; ii < mesh.SubMeshCount(); ++ii)
+  for (auto ii = 0u; ii < _mesh.SubMeshCount(); ++ii)
   {
-    auto submesh = mesh.SubMeshByIndex(ii).lock();
-    std::vector<fcl::Vector3f> vertices;
+    auto submesh = _mesh.SubMeshByIndex(ii).lock();
+    std::vector<fcl::Vec3f> vertices;
     std::vector<fcl::Triangle> triangles;
 
     vertices.reserve(submesh->VertexCount());
@@ -33,7 +33,7 @@ convert_to_fcl(const ignition::common::Mesh &_mesh)
 
     for(size_t jj = 0; jj < submesh->VertexCount(); ++jj)
     {
-      vertices.push_back(fcl::Vector3f(
+      vertices.push_back(fcl::Vec3f(
             submesh->Vertex(jj).X(),
             submesh->Vertex(jj).Y(),
             submesh->Vertex(jj).Z()));
@@ -55,23 +55,23 @@ convert_to_fcl(const ignition::common::Mesh &_mesh)
   return ret;
 }
 
-std::shared_ptr<fcl::CollisionObjectf>
+std::shared_ptr<fcl::CollisionObject>
 convert_to_fcl(const ignition::common::Mesh &_mesh,
                const ignition::math::Pose3d &_pose)
 {
-  auto model = convert_to_fcl(mesh);
+  auto model = convert_to_fcl(_mesh);
 
-  Eigen::Matrix3f rot;
+  fcl::Matrix3f rot;
   for(size_t ii = 0; ii < 3; ++ii)
   {
     for(size_t jj = 0; jj < 3; ++jj)
     {
-      rot(ii, jj) = ignition::math::Matrix3d(pose.Rot())(ii, jj);
+      rot(ii, jj) = ignition::math::Matrix3d(_pose.Rot())(ii, jj);
     }
   }
 
-  auto obj = std::make_shared<fcl::CollisionObjectf>(model, rot, 
-      Eigen::Vector3f(pose.Pos().X(), pose.Pos().Y(), pose.Pos().Z()));
+  auto obj = std::make_shared<fcl::CollisionObject>(model, rot, 
+      fcl::Vec3f(_pose.Pos().X(), _pose.Pos().Y(), _pose.Pos().Z()));
   return obj;
 }
 

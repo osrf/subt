@@ -60,7 +60,7 @@ class subt::VisibilityPluginPrivate
   /// \brief A map of model name ot its bounding box
   public: std::map<std::string, ignition::math::AxisAlignedBox> bboxes;
 
-  public: std::map<std::string, std::shared_ptr<fcl::CollisionObjectf>> fclObjs;
+  public: std::map<std::string, std::shared_ptr<fcl::CollisionObject>> fclObjs;
 
   /// \brief Name of the world
   public: std::string worldName;
@@ -145,20 +145,14 @@ void VisibilityPlugin::PostUpdate(
 
   _ecm.Each<gazebo::components::Collision,
             gazebo::components::Name,
-            gazebo::components::Pose,
             gazebo::components::Geometry,
-            gazebo::components::CollisionElement,
             gazebo::components::ParentEntity>(
-      [&](const Entity &_entity,
+      [&](const Entity &,
           const components::Collision *,
           const components::Name *_name,
-          const components::Pose *_pose,
           const components::Geometry *_geom,
-          const components::CollisionElement *_collElement,
           const components::ParentEntity *_parent) -> bool
       {
-        const sdf::Collision& collision = _collElement->Data();
-
         if (_geom->Data().Type() == sdf::GeometryType::MESH)
         {
           const sdf::Mesh *meshSdf = _geom->Data().MeshShape();
@@ -214,7 +208,9 @@ void VisibilityPlugin::PostUpdate(
         auto fclAABB = it->second->getAABB();
 
         std::cout << _nameComp->Data() << std::endl;
-        std::cout << fclAABB.center()(0) << " " << fclAABB.center()(1) << " " << fclAABB.center()(2) << std::endl;
+        std::cout << fclAABB.center()[0] << " " 
+                  << fclAABB.center()[1] << " " 
+                  << fclAABB.center()[2] << std::endl;
         std::cout << _aabb->Data().Center().X() << " " << _aabb->Data().Center().Y()  << " " << _aabb->Data().Center().Z() << std::endl;
 
         return true;

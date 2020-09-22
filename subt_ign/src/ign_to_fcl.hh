@@ -1,9 +1,9 @@
 #ifndef IGN_TO_FCL_HH_
 #define IGN_TO_FCL_HH_
 
-#include <fcl/narrowphase/collision_object.h>
-#include <fcl/geometry/bvh/BVH_model.h>
-#include <fcl/math/bv/OBBRSS.h>
+#include <fcl/collision_object.h>
+#include <fcl/BVH/BVH_model.h>
+#include <fcl/BV/OBBRSS.h>
 
 #include <ignition/common/Mesh.hh>
 #include <ignition/math/Pose3.hh>
@@ -18,7 +18,7 @@ namespace subt
 /// BVH = Bounding Volume Heirarchy
 /// OBB = Oriented Bounding Box
 /// RSS = Rectange Swept Sphere
-using Model = fcl::BVHModel<fcl::OBBRSSf>;
+using Model = fcl::BVHModel<fcl::OBBRSS>;
 
 /// \brief Create an fcl model from an ignition mesh.
 ///
@@ -36,7 +36,7 @@ convert_to_fcl(const ignition::common::Mesh &_mesh);
 /// \param[in] _mesh mesh to convert to fcl model.
 /// \param[in] _pose world pose of the model.
 /// \return collision object when successfully converted otherwise nullptr
-std::shared_ptr<fcl::CollisionObjectf>
+std::shared_ptr<fcl::CollisionObject>
 convert_to_fcl(const ignition::common::Mesh &_mesh,
                const ignition::math::Pose3d &_pose);
 
