@@ -34,8 +34,9 @@ class VisibilityCost
   /// \brief The cost from one tile to another tile.
   public: double cost;
 
-  /// \brief The best route connecting source and destination. No that route
-  /// only contains the sequence of breadcrumbs.
+  /// \brief The best route connecting source and destination. Note that the
+  /// route only contains the sequence of breadcrumbs
+  /// (no source or destination).
   public: std::vector<ignition::math::graph::VertexId> route;
 
   /// \brief The position of the first breadcrumb in the route. This value
