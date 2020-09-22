@@ -117,11 +117,17 @@ class subt::PlaybackEventRecorderPrivate
   /// \param[in] _record True to start, false to stop
   public: void Record(bool _record);
 
+  /// \brief Spawn a light
+  public: void SpawnLight();
+
   /// \brief Ignition Transport node.
   public: transport::Node node;
 
-  /// \brief Name of the world
-  public: std::string worldName;
+  /// \brief Name of the world stored in the log
+  public: std::string logWorldName;
+
+  /// \brief True to spawn light on playback
+  public: bool spawnLight = false;
 
   /// \brief Time when system is loaded
   public: std::chrono::time_point<std::chrono::system_clock> loadTime;
@@ -232,16 +238,6 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity & /*_entity
     return;
   }
 
-  if (!_sdf->HasElement("world_name"))
-  {
-    this->dataPtr->worldName = "default";
-  }
-  else
-  {
-    const sdf::ElementPtr worldNameElem = ptr->GetElement("world_name");
-    this->dataPtr->worldName= worldNameElem->Get<std::string>();
-  }
-
   if (_sdf->HasElement("exit_on_finish"))
   {
     this->dataPtr->exitOnFinish = ptr->Get<bool>("exit_on_finish");
@@ -252,6 +248,11 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity & /*_entity
     ignerr << "Unable to record playback video. "
            << "Please specify 'log_path'." << std::endl;
     return;
+  }
+
+  if (_sdf->HasElement("spawn_light"))
+  {
+    this->dataPtr->spawnLight = ptr->Get<bool>("spawn_light");
   }
 
   const sdf::ElementPtr logPathElem = ptr->GetElement("log_path");
@@ -345,6 +346,20 @@ void PlaybackEventRecorder::PostUpdate(
     const ignition::gazebo::UpdateInfo &_info,
     const ignition::gazebo::EntityComponentManager &_ecm)
 {
+
+  if (this->dataPtr->logWorldName.empty())
+  {
+    // Get world name recorded in log
+    _ecm.Each<components::World, components::Name>(
+        [&](const Entity & /*_entity*/,
+          const components::World *,
+          const components::Name *_name)->bool
+        {
+          this->dataPtr->logWorldName = _name->Data();
+          return true;
+        });
+  }
+
   // play for a few seconds before doing anything
   std::chrono::time_point<std::chrono::system_clock> t =
       std::chrono::system_clock::now();
@@ -402,6 +417,7 @@ void PlaybackEventRecorder::PostUpdate(
         this->dataPtr->waiting = true;
         this->dataPtr->waitStartTime = std::chrono::system_clock::now();
         std::cerr << "  arrived at seek event, waiting for 2s " << std::endl;
+
         return;
         // this->waitDuration = _seconds;
       }
@@ -467,6 +483,7 @@ void PlaybackEventRecorder::PostUpdate(
         this->dataPtr->waiting = true;
         this->dataPtr->waitStartTime = std::chrono::system_clock::now();
         std::cerr << "  arrived at seek begin, waiting for 2s " << std::endl;
+
         return;
       }
       else if (t - this->dataPtr->waitStartTime > std::chrono::seconds(2))
@@ -478,6 +495,11 @@ void PlaybackEventRecorder::PostUpdate(
       {
         return;
       }
+      // spawn a light if needed
+      // we need to spawn a light on every seek event because new entities
+      // that get spawned in playback are removed when jumping back in time
+      if (this->dataPtr->spawnLight)
+        this->dataPtr->SpawnLight();
 
       // start video recording
       this->dataPtr->Record(true);
@@ -591,7 +613,7 @@ void PlaybackEventRecorderPrivate::Seek(double _timeSec)
   playbackMsg.mutable_seek()->set_nsec(0.0);
   playbackMsg.set_pause(false);
   if (this->node.Request(
-      "/world/" + this->worldName + "/playback/control",
+      "/world/default/playback/control",
       playbackMsg, cb))
   {
     igndbg << "Seek to time: " << _timeSec << std::endl;
@@ -624,4 +646,29 @@ void PlaybackEventRecorderPrivate::Record(bool _record)
     req.set_stop(true);
   }
   this->node.Request(this->videoRecordService, req, cb);
+}
+
+//////////////////////////////////////////////////
+void PlaybackEventRecorderPrivate::SpawnLight()
+{
+  std::function<void(const ignition::msgs::Boolean &, const bool)> cb =
+      [](const ignition::msgs::Boolean &/*_rep*/, const bool _result)
+  {
+    if (!_result)
+      ignerr << "Error sending record request" << std::endl;
+  };
+
+  ignition::msgs::EntityFactory req;
+  std::string spawnStr = "<?xml version=\"1.0\" ?>" \
+      "<sdf version=\"1.6\">"\
+      "<light name=\"spawned_light\" type=\"directional\">"\
+      "<pose>0 0 10 0 0 0</pose>"\
+      "</light>"\
+      "</sdf>";
+  req.set_sdf(spawnStr);
+  req.set_allow_renaming(false);
+  // for factory service requests
+  std::string createService = "/world/" + this->logWorldName
+      + "/create";
+  this->node.Request(createService, req, cb);
 }

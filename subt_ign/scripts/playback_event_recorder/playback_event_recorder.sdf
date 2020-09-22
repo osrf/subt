@@ -18,11 +18,16 @@
     </plugin>
 
     <plugin
+      filename="ignition-gazebo-user-commands-system"
+      name="ignition::gazebo::systems::UserCommands">
+    </plugin>
+
+    <plugin
         filename="libPlaybackEventRecorder.so"
         name="subt::PlaybackEventRecorder">
-      <world_name>default</world_name>
       <log_path>tmp_record</log_path>
       <exit_on_finish>true</exit_on_finish>
+      <spawn_light>true</spawn_light>
     </plugin>
   </world>
 </sdf>
