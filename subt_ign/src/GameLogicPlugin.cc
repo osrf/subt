@@ -201,7 +201,7 @@ class subt::GameLogicPluginPrivate
   /// \param[in] _type Event type.
   /// \param[in] _robot Robot name.
   public: void PublishRegionEvent(const std::string &_type,
-    const std::string &_robot, const std::string &_detector, 
+    const std::string &_robot, const std::string &_detector,
     const std::string &_state);
 
 
@@ -267,6 +267,12 @@ class subt::GameLogicPluginPrivate
   /// multiple of this number.
   /// \return Result
   public: double FloorMultiple(double _n, double _m);
+
+  /// \brief Convert a world pose to be in the artifact origin frame.
+  /// \param[in] _pose Pose to convert.
+  /// \return Pose in the artifact origin frame.
+  public: ignition::math::Pose3d ConvertToArtifactOrigin(
+    const ignition::math::Pose3d &_pose) const;
 
   /// \brief Ignition Transport node.
   public: transport::Node node;
@@ -337,7 +343,7 @@ class subt::GameLogicPluginPrivate
 
   /// \brief A map of robot name and a vector of timestamped position data
   public: std::map<std::string, std::vector<std::pair<
-      std::chrono::steady_clock::duration, ignition::math::Vector3d>>>
+      std::chrono::steady_clock::duration, ignition::math::Pose3d>>>
       robotPoseData;
 
   /// \brief A map of robot name and its starting pose
@@ -823,7 +829,8 @@ void GameLogicPluginPrivate::OnRockFallDeployRemainingEvent(
           << "  model: " << name << std::endl;
 
         this->LogEvent(stream.str());
-        this->PublishRobotEvent("max_rock_falls", name);
+        this->PublishRegionEvent("max_rock_falls", "n/a", name,
+            "max_rock_falls");
       }
 
       this->rockFallsMax[name].second++;
@@ -881,6 +888,7 @@ void GameLogicPluginPrivate::OnEvent(const ignition::msgs::Pose &_msg)
     }
   }
 
+  std::string regionEventType;
   std::ostringstream stream;
   stream
     << "- event:\n"
@@ -894,12 +902,18 @@ void GameLogicPluginPrivate::OnEvent(const ignition::msgs::Pose &_msg)
     stream << "  extra:\n";
     for (const auto &data : extraData)
     {
+      // there should be only 1 key-value pair. Just in case, we will grab
+      // only the first. The key is currently always "type", which we can
+      // ignore when sending the ROS message.
+      if (regionEventType.empty())
+        regionEventType = data.second;
+
       stream << "    "
         << data.first << ": " << data.second << std::endl;
     }
   }
   this->LogEvent(stream.str());
-  this->PublishRegionEvent("detect", _msg.name(), frameId, state);
+  this->PublishRegionEvent(regionEventType, _msg.name(), frameId, state);
 }
 
 //////////////////////////////////////////////////
@@ -1146,7 +1160,7 @@ void GameLogicPlugin::PostUpdate(
           if (robotPoseDataIt == this->dataPtr->robotPoseData.end())
           {
             this->dataPtr->robotPoseData[name].push_back(
-                std::make_pair(tDur, pose.Pos()));
+                std::make_pair(tDur, pose));
 
             this->dataPtr->robotStartPose[name] = pose;
             this->dataPtr->robotDistance[name] = 0.0;
@@ -1160,16 +1174,16 @@ void GameLogicPlugin::PostUpdate(
               this->dataPtr->rosRobotPosePubs[name] =
                 this->dataPtr->rosnode->advertise<geometry_msgs::PoseStamped>(
                     "poses/" + name, 1000);
-	       this->dataPtr->rosRobotKinematicPubs[name] =	
-	        this->dataPtr->rosnode->advertise<subt_ros::KinematicStates>(
-		    "kinematic_states/" + name, 1000);
+         this->dataPtr->rosRobotKinematicPubs[name] =
+          this->dataPtr->rosnode->advertise<subt_ros::KinematicStates>(
+        "kinematic_states/" + name, 1000);
             }
 
             this->dataPtr->robotPrevPose[name] = pose;
             return true;
           }
-          else if (robotPoseDataIt->second.back().second.Distance(pose.Pos())
-              > 1.0)
+          else if (robotPoseDataIt->second.back().second.Pos().Distance(
+                pose.Pos()) > 1.0)
           {
             //  time passed since last pose sample
             double prevT = robotPoseDataIt->second.back().first.count() * 1e-9;
@@ -1181,48 +1195,50 @@ void GameLogicPlugin::PostUpdate(
             geometry_msgs::PoseStamped msg;
             msg.header.stamp.sec = this->dataPtr->simTime.sec();
             msg.header.stamp.nsec = this->dataPtr->simTime.nsec();
-	    msg.header.frame_id = "world"; // TODO: Convert to artifact_origin
-            msg.pose.position.x = pose.Pos().X();
-            msg.pose.position.y = pose.Pos().Y();
-            msg.pose.position.z = pose.Pos().Z();
-            msg.pose.orientation.x = pose.Rot().X();
-            msg.pose.orientation.y = pose.Rot().Y();
-            msg.pose.orientation.z = pose.Rot().Z();
-            msg.pose.orientation.w = pose.Rot().W();
+            msg.header.frame_id = "artifact_origin";
+            ignition::math::Pose3d p = this->dataPtr->ConvertToArtifactOrigin(
+                pose);
+            msg.pose.position.x = p.Pos().X();
+            msg.pose.position.y = p.Pos().Y();
+            msg.pose.position.z = p.Pos().Z();
+            msg.pose.orientation.x = p.Rot().X();
+            msg.pose.orientation.y = p.Rot().Y();
+            msg.pose.orientation.z = p.Rot().Z();
+            msg.pose.orientation.w = p.Rot().W();
 
             if (this->dataPtr->rosnode)
               this->dataPtr->rosRobotPosePubs[name].publish(msg);
 
-	    // calculate robot velocity and speed
-            math::Vector3d p1 = pose.Pos();
-            math::Vector3d p2 = robotPoseDataIt->second.back().second;
-	    double dx = p1.X() - p2.X();
-	    double dy = p1.Y() - p2.Y();
-	    double dz = p1.Z() - p2.Z();
-            double dist = sqrt(std::pow(dx, 2) +
-                std::pow(dy, 2) +
-		std::pow(dz, 2));
+            // calculate robot velocity and speed
+            math::Vector3d p1 = p.Pos();
+            math::Vector3d p2 = this->dataPtr->ConvertToArtifactOrigin(
+                robotPoseDataIt->second.back().second).Pos();
+            double dx = p1.X() - p2.X();
+            double dy = p1.Y() - p2.Y();
+            double dz = p1.Z() - p2.Z();
+            double dist = sqrt(std::pow(dx, 2) + std::pow(dy, 2) +
+                std::pow(dz, 2));
             double vel = dist / dt;
 
-	    // publish the pose, velocity, and speed
-	    subt_ros::KinematicStates kmsg;
-	    kmsg.header.stamp.sec = this->dataPtr->simTime.sec();
+            // publish the pose, velocity, and speed
+            subt_ros::KinematicStates kmsg;
+            kmsg.header.stamp.sec = this->dataPtr->simTime.sec();
             kmsg.header.stamp.nsec = this->dataPtr->simTime.nsec();
-	    kmsg.header.frame_id = "world"; // TODO: convert to artifact_origin
-            kmsg.pose.position.x = pose.Pos().X();
-            kmsg.pose.position.y = pose.Pos().Y();
-            kmsg.pose.position.z = pose.Pos().Z();
-            kmsg.pose.orientation.x = pose.Rot().X();
-            kmsg.pose.orientation.y = pose.Rot().Y();
-            kmsg.pose.orientation.z = pose.Rot().Z();
-            kmsg.pose.orientation.w = pose.Rot().W();
-	    kmsg.velocity.x = dx / dt;
-	    kmsg.velocity.y = dy / dt;
-	    kmsg.velocity.z = dz / dt;
-	    kmsg.speed = vel;
+            kmsg.header.frame_id = "artifact_origin";
+            kmsg.pose.position.x = p.Pos().X();
+            kmsg.pose.position.y = p.Pos().Y();
+            kmsg.pose.position.z = p.Pos().Z();
+            kmsg.pose.orientation.x = p.Rot().X();
+            kmsg.pose.orientation.y = p.Rot().Y();
+            kmsg.pose.orientation.z = p.Rot().Z();
+            kmsg.pose.orientation.w = p.Rot().W();
+            kmsg.velocity.x = dx / dt;
+            kmsg.velocity.y = dy / dt;
+            kmsg.velocity.z = dz / dt;
+            kmsg.speed = vel;
 
-	    if (this->dataPtr->rosnode)
-	      this->dataPtr->rosRobotKinematicPubs[name].publish(kmsg);
+      if (this->dataPtr->rosnode)
+        this->dataPtr->rosRobotKinematicPubs[name].publish(kmsg);
 
             // greatest max velocity by a robot
             if (vel > this->dataPtr->maxRobotVel.second)
@@ -1245,7 +1261,7 @@ void GameLogicPlugin::PostUpdate(
               this->dataPtr->maxRobotAvgVel.second = avgVel;
             }
 
-            robotPoseDataIt->second.push_back(std::make_pair(tDur, pose.Pos()));
+            robotPoseDataIt->second.push_back(std::make_pair(tDur, pose));
           }
 
           // compute and log greatest / total distance traveled and
@@ -1510,12 +1526,6 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
 
   ArtifactType artifactType;
 
-  subt_ros::ArtifactReport artifactMsg;
-  artifactMsg.timestamp.sec = this->simTime.sec();
-  artifactMsg.timestamp.nsec = this->simTime.nsec();
-  artifactMsg.points_scored = 0;
-  artifactMsg.total_score = this->totalScore;
-
   if (this->started && this->finished)
   {
     _resp.set_report_status("scoring finished");
@@ -1571,6 +1581,12 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
   }
   else
   {
+    subt_ros::ArtifactReport artifactMsg;
+    artifactMsg.timestamp.sec = this->simTime.sec();
+    artifactMsg.timestamp.nsec = this->simTime.nsec();
+    artifactMsg.points_scored = 0;
+    artifactMsg.total_score = this->totalScore;
+
     std::lock_guard<std::mutex> lock(this->mutex);
     auto [scoreDiff, duplicate] = this->ScoreArtifact(
         artifactType, _req.pose(), artifactMsg);
@@ -1634,6 +1650,13 @@ bool GameLogicPluginPrivate::ArtifactFromInt(const uint32_t &_typeInt,
 
   _type = static_cast<ArtifactType>(_typeInt);
   return true;
+}
+
+/////////////////////////////////////////////////
+ignition::math::Pose3d GameLogicPluginPrivate::ConvertToArtifactOrigin(
+    const ignition::math::Pose3d &_pose) const
+{
+  return _pose + this->artifactOriginPose;
 }
 
 /////////////////////////////////////////////////
@@ -2166,7 +2189,7 @@ void GameLogicPluginPrivate::LogRobotPosData()
         auto t = posIt->first;
         int64_t s, ns;
         std::tie(s, ns) = ignition::math::durationToSecNsec(posIt->first);
-        math::Vector3d pos = posIt->second;
+        math::Vector3d pos = posIt->second.Pos();
         // sec nsec x y z
         *posStream << s << " " << ns << " " << pos << std::endl;
       }
@@ -2493,7 +2516,7 @@ void GameLogicPluginPrivate::PublishRobotEvent(const std::string &_type,
 
 /////////////////////////////////////////////////
 void GameLogicPluginPrivate::PublishRegionEvent(const std::string &_type,
-    const std::string &_robot, const std::string &_detector, 
+    const std::string &_robot, const std::string &_detector,
     const std::string &_state)
 {
   subt_ros::RegionEvent msg;
@@ -2506,6 +2529,7 @@ void GameLogicPluginPrivate::PublishRegionEvent(const std::string &_type,
   if (this->rosnode)
     this->rosRegionEventPub.publish(msg);
 }
+
 /////////////////////////////////////////////////
 std::ofstream &GameLogicPluginPrivate::Log()
 {
