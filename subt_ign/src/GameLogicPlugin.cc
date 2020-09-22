@@ -839,12 +839,26 @@ void GameLogicPluginPrivate::OnRockFallDeployRemainingEvent(
         this->PublishRegionEvent("max_rock_falls", "n/a", name,
             "max_rock_falls");
       }
+      else if (this->rockFallsMax[name].second == 0)
+      {
+        std::ostringstream stream;
+        stream
+          << "- event:\n"
+          << "  type: rock_fall\n"
+          << "  time_sec: " << this->simTime.sec() << "\n"
+          << "  model: " << name << std::endl;
+
+        this->LogEvent(stream.str());
+        this->PublishRegionEvent("rock_fall", "n/a", name, "0");
+      }
 
       this->rockFallsMax[name].second++;
       this->rockFallsMax[name].first = this->simTime.sec();
     }
   }
-  else
+  // Sim time is used to make sure that we report only once per rock fall,
+  // and not once for every rock in the rock fall.
+  else if (this->rockFallsMax[name].first != this->simTime.sec())
   {
     std::ostringstream stream;
     stream
@@ -855,6 +869,7 @@ void GameLogicPluginPrivate::OnRockFallDeployRemainingEvent(
 
     this->LogEvent(stream.str());
     this->PublishRegionEvent("rock_fall", "n/a", name, "rock_fall");
+    this->rockFallsMax[name].first = this->simTime.sec();
   }
 }
 
