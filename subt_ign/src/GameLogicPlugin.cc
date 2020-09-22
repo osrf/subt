@@ -2311,7 +2311,13 @@ void GameLogicPluginPrivate::LogRobotArtifactData() const
   out << YAML::Key << "marsupials";
   out << YAML::Value << YAML::BeginMap;
   for (auto const &pair : this->marsupialPairs)
+  {
     out << YAML::Key << pair.first << YAML::Value << pair.second;
+    subt_ros::Marsupial marsupialMsg;
+    marsupialMsg.parent = pair.first;
+    marsupialMsg.child = pair.second;
+    statsMsg.marsupials.push_back(marsupialMsg);
+  }
   out << YAML::EndMap;
 
   // artifact data

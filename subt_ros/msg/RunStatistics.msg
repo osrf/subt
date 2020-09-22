@@ -2,7 +2,7 @@
 
 time timestamp
 subt_ros/Robot[] robots
-# subt_ros/Marsupial[] marsupials
+subt_ros/Marsupial[] marsupials
 int32 artifacts_found
 int32 robot_count
 int32 unique_robot_count
