@@ -765,7 +765,13 @@ void GameLogicPluginPrivate::OnBreadcrumbDeployEvent(
     << "  robot: " << name << std::endl;
 
   this->LogEvent(stream.str());
-  this->PublishRobotEvent("breadcrumb_deploy", name);
+
+  // Only publish if max breadcrumbs has not been reached.
+  if (this->breadcrumbsMax.find(name) == this->breadcrumbsMax.end() ||
+      this->breadcrumbsMax[name] <= 0)
+  {
+    this->PublishRobotEvent("breadcrumb_deploy", name);
+  }
 }
 
 //////////////////////////////////////////////////
