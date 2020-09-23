@@ -2338,10 +2338,13 @@ void GameLogicPluginPrivate::LogRobotArtifactData(
 
   statsMsg.timestamp.sec = _simTime.sec();
   statsMsg.timestamp.nsec = _simTime.nsec();
+  statsMsg.world_name = this->worldName;
 
   YAML::Emitter out;
   out << YAML::BeginMap;
 
+  out << YAML::Key << "world_name";
+  out << YAML::Value  << this->worldName;
   out << YAML::Key << "robots";
   out << YAML::Value << YAML::BeginMap;
   for (auto const &pair : this->robotFullTypes)

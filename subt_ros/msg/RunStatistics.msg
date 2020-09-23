@@ -2,6 +2,7 @@
 
 time timestamp						# time since sim bootup
 
+string world_name			# name of the simulation world
 subt_ros/Robot[] robots					# list of robot names, platforms, types
 subt_ros/Marsupial[] marsupials				# list of marsupial robot pairs
 int32 artifacts_found					# number of artifacts successfully scored (aka current score)
