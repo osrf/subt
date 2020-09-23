@@ -820,9 +820,9 @@ void GameLogicPluginPrivate::OnBreadcrumbDeployRemainingEvent(
         << "  robot: " << name << std::endl;
 
       this->LogEvent(stream.str());
-      // Only publish once.
-      if (this->breadcrumbsMax[name] == 1)
-        this->PublishRobotEvent(localSimTime, "max_breadcrumb_deploy", name);
+      // Do not publish if max breadcrumbs have already been deployed
+      // if (this->breadcrumbsMax[name] == 1)
+      //  this->PublishRobotEvent(localSimTime, "max_breadcrumb_deploy", name);
     }
 
     this->breadcrumbsMax[name]++;
@@ -2674,14 +2674,16 @@ void GameLogicPluginPrivate::CheckRobotFlip()
       if (!this->robotFlipInfo[name].second && (simElapsed >= 3))
       {
         this->robotFlipInfo[name].second = true;
+  	ignition::msgs::Time localSimTime(this->simTime);
 
         std::ostringstream stream;
         stream
           << "- event:\n"
           << "  type: flip\n"
-          << "  time_sec: " << this->simTime.sec() << "\n"
+          << "  time_sec: " << localSimTime.sec() << "\n"
           << "  robot: " << name << "\n";
         this->LogEvent(stream.str());
+    	this->PublishRobotEvent(localSimTime, "flip", name);
       }
     }
     else
