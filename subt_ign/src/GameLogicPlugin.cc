@@ -562,10 +562,12 @@ GameLogicPlugin::GameLogicPlugin()
 //////////////////////////////////////////////////
 GameLogicPlugin::~GameLogicPlugin()
 {
+  std::cout << "Delete game logic plugin\n\n";
   this->dataPtr->Finish(this->dataPtr->simTime);
   this->dataPtr->finished = true;
   if (this->dataPtr->publishThread)
     this->dataPtr->publishThread->join();
+  std::cout << "DONE !!! Delete game logic plugin\n\n";
 }
 
 //////////////////////////////////////////////////
@@ -640,7 +642,8 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
       // Initialize the ROS node.
       this->dataPtr->rosnode.reset(new ros::NodeHandle("subt"));
       this->dataPtr->rosStatusPub =
-        this->dataPtr->rosnode->advertise<subt_ros::RunStatus>("status", 100, true);
+        this->dataPtr->rosnode->advertise<subt_ros::RunStatus>(
+            "status", 100, true);
       this->dataPtr->rosStatsPub =
         this->dataPtr->rosnode->advertise<subt_ros::RunStatistics>(
             "run_statistics", 100);
@@ -2100,6 +2103,16 @@ bool GameLogicPluginPrivate::Start(const ignition::msgs::Time &_simTime)
       << "  type: started\n"
       << "  time_sec: " << _simTime.sec() << std::endl;
     this->LogEvent(stream.str());
+
+    if (this->rosnode)
+    {
+      this->prevPhase = "started";
+      subt_ros::RunStatus statusMsg;
+      statusMsg.status = "started";
+      statusMsg.timestamp.sec = _simTime.sec();
+      statusMsg.timestamp.nsec = _simTime.nsec();
+      this->rosStatusPub.publish(statusMsg);
+    }
   }
 
   // Update files when scoring has started.
@@ -2165,6 +2178,16 @@ void GameLogicPluginPrivate::Finish(const ignition::msgs::Time &_simTime)
     this->state = "finished";
     this->startPub.Publish(msg);
     this->lastStatusPubTime = std::chrono::steady_clock::now();
+
+    if (this->rosnode)
+    {
+      this->prevPhase = "finished";
+      subt_ros::RunStatus statusMsg;
+      statusMsg.status = "finished";
+      statusMsg.timestamp.sec = _simTime.sec();
+      statusMsg.timestamp.nsec = _simTime.nsec();
+      this->rosStatusPub.publish(statusMsg);
+    }
   }
 
   this->finished = true;
