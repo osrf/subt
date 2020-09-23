@@ -860,8 +860,9 @@ void GameLogicPluginPrivate::OnRockFallDeployRemainingEvent(
 
         this->LogEvent(stream.str());
 
-        this->PublishRegionEvent(localSimTime, "max_rock_falls", "n/a", name,
-            "max_rock_falls");
+        // Don't publish this event.
+        // this->PublishRegionEvent(localSimTime, "max_rock_falls", "n/a", name,
+        //   "max_rock_falls");
       }
       else if (this->rockFallsMax[name].second == 0)
       {
@@ -873,7 +874,8 @@ void GameLogicPluginPrivate::OnRockFallDeployRemainingEvent(
           << "  model: " << name << std::endl;
 
         this->LogEvent(stream.str());
-        this->PublishRegionEvent(localSimTime, "rock_fall", "n/a", name, "0");
+        this->PublishRegionEvent(localSimTime, "rock_fall", "n/a", name,
+            "rock_fall");
       }
 
       this->rockFallsMax[name].second++;
