@@ -1210,9 +1210,9 @@ void GameLogicPlugin::PostUpdate(
               this->dataPtr->rosRobotPosePubs[name] =
                 this->dataPtr->rosnode->advertise<geometry_msgs::PoseStamped>(
                     "poses/" + name, 1000);
-         this->dataPtr->rosRobotKinematicPubs[name] =
-          this->dataPtr->rosnode->advertise<subt_ros::KinematicStates>(
-        "kinematic_states/" + name, 1000);
+              this->dataPtr->rosRobotKinematicPubs[name] =
+                this->dataPtr->rosnode->advertise<subt_ros::KinematicStates>(
+                    "kinematic_states/" + name, 1000);
             }
 
             this->dataPtr->robotPrevPose[name] = pose;
@@ -1273,8 +1273,8 @@ void GameLogicPlugin::PostUpdate(
             kmsg.velocity.z = dz / dt;
             kmsg.speed = vel;
 
-      if (this->dataPtr->rosnode)
-        this->dataPtr->rosRobotKinematicPubs[name].publish(kmsg);
+            if (this->dataPtr->rosnode)
+              this->dataPtr->rosRobotKinematicPubs[name].publish(kmsg);
 
             // greatest max velocity by a robot
             if (vel > this->dataPtr->maxRobotVel.second)
