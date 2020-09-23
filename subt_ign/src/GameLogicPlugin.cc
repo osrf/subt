@@ -1724,7 +1724,7 @@ bool GameLogicPluginPrivate::ArtifactFromInt(const uint32_t &_typeInt,
 ignition::math::Pose3d GameLogicPluginPrivate::ConvertToArtifactOrigin(
     const ignition::math::Pose3d &_pose) const
 {
-  return _pose + this->artifactOriginPose;
+  return _pose - this->artifactOriginPose;
 }
 
 /////////////////////////////////////////////////
