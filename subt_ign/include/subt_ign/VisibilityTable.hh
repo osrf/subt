@@ -208,6 +208,8 @@ namespace subt
     private: std::vector<
              std::pair<ignition::math::AxisAlignedBox, uint64_t>> worldSegments;
 
+    /// \brief A map between each segment's id and the corresponding name.
+    /// This is used for looking up the corresponding names in generating LUT.
     private: std::map<uint64_t, std::string> worldSegmentNames;
 
     /// \brief A map of model name to its bounding box. Used for generating LUT
@@ -218,7 +220,7 @@ namespace subt
              std::shared_ptr<fcl::CollisionObject>> collisionObjs;
 
     /// \brief A map that stores 3D points an the vertex id in which are located
-    public : std::map<std::tuple<int32_t, int32_t, int32_t>, uint64_t> vertices;
+    private: std::map<std::tuple<int32_t, int32_t, int32_t>, uint64_t> vertices;
 
     /// \brief The path where the Gazebo world is located.
     private: std::string worldPath;

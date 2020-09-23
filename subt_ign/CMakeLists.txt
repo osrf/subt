@@ -26,7 +26,7 @@ set(IGN_GAZEBO_VER ${ignition-gazebo2_VERSION_MAJOR})
 
 file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include)
 
-find_package(ignition-common3 REQUIRED)
+find_package(ignition-common3 REQUIRED COMPONENTS graphics)
 find_package(ignition-math6 REQUIRED)
 find_package(ignition-msgs4 REQUIRED)
 find_package(ignition-transport7 REQUIRED)
@@ -202,6 +202,8 @@ target_link_libraries(
   Visibility
   PUBLIC
   ignition-gazebo${IGN_GAZEBO_VER}::core
+  ignition-common3::ignition-common3
+  ignition-common3::graphics
   ${LIBFCL_LIBRARIES}
   ${catkin_LIBRARIES}
 )
