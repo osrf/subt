@@ -20,10 +20,40 @@
 #include <map>
 #include <string>
 #include <utility>
+#include <vector>
 #include <ignition/math/graph/Graph.hh>
+#include <ignition/math/Vector3.hh>
 
 namespace subt
 {
+
+/// \brief A class that contains some information about the cost of
+/// communicating two robots.
+class VisibilityCost
+{
+  /// \brief The cost from one tile to another tile.
+  public: double cost;
+
+  /// \brief The best route connecting source and destination. Note that the
+  /// route only contains the sequence of breadcrumbs
+  /// (no source or destination).
+  public: std::vector<ignition::math::graph::VertexId> route;
+
+  /// \brief The position of the first breadcrumb in the route. This value
+  /// should be ignored if route is empty (no breadcrumbs).
+  public: ignition::math::Vector3d posFirstBreadcrumb;
+
+  /// \brief The position of the last breadcrumb in the route. This value
+  /// should be ignored if route is empty (no breadcrumbs).
+  public: ignition::math::Vector3d posLastBreadcrumb;
+
+  /// \brief A path from source to destination can traverse 0-N breadcrumbs.
+  /// This field stores the maximum distance between a pair of breadcrumbs.
+  /// E.g.: source->A->B->C->destination. Let's assume the next
+  /// Euclidean distances: dist(A, B): 2; dist(B, C): 3. This field stores a 3.
+  public: double greatestDistanceSingleHop;
+};
+
 /// \def VisibilityGraph
 /// \brief An undirected graph to represent communication visibility between
 /// different areas of the world.
@@ -36,6 +66,6 @@ using VisibilityGraph =
 using VisibilityInfo =
     std::map<std::pair<ignition::math::graph::VertexId,
                        ignition::math::graph::VertexId>,
-             double>;
+             VisibilityCost>;
 }
 #endif
