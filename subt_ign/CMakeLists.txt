@@ -26,7 +26,8 @@ set(IGN_GAZEBO_VER ${ignition-gazebo3_VERSION_MAJOR})
 
 file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include)
 
-find_package(ignition-common3 REQUIRED)
+find_package(ignition-common3 REQUIRED COMPONENTS graphics)
+find_package(ignition-fuel_tools4 REQUIRED)
 find_package(ignition-math6 REQUIRED)
 find_package(ignition-msgs5 REQUIRED)
 find_package(ignition-transport8 REQUIRED)
@@ -34,6 +35,12 @@ find_package(ignition-plugin1 REQUIRED COMPONENTS loader register)
 find_package(ignition-launch2 REQUIRED)
 find_package(sdformat9 REQUIRED)
 find_package(yaml-cpp REQUIRED)
+
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(LIBFCL_PC REQUIRED fcl)
+# find *absolute* paths to LIBFCL_INCLUDE_DIRS and LIBFCL_LIBRARIES
+find_path(LIBFCL_INCLUDE_DIRS fcl/config.h HINTS ${LIBFCL_PC_INCLUDE_DIR} ${LIBFCL_PC_INCLUDE_DIRS})
+find_library(LIBFCL_LIBRARIES fcl HINTS ${LIBFCL_PC_LIBRARY_DIRS})
 
 ###########
 ## Build ##
@@ -45,6 +52,8 @@ include_directories(
   ${PROJECT_BINARY_DIR}/include
   ${CATKIN_DEVEL_PREFIX}/include
 )
+
+message(STATUS ${LIBFCL_INCLUDE_DIRS})
 
 link_directories()
 
@@ -191,14 +200,43 @@ install(TARGETS path_tracer
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
 
+add_library(Visibility
+  STATIC
+  src/ign_to_fcl.cc
+  src/SimpleDOTParser.cc
+  src/VisibilityRfModel.cc
+  src/VisibilityTable.cc
+)
+target_include_directories(Visibility
+  PUBLIC
+  ${catkin_INCLUDE_DIRS}
+  ${LIBFCL_INCLUDE_DIRS}
+)
+target_link_libraries(
+  Visibility
+  PUBLIC
+  ignition-gazebo${IGN_GAZEBO_VER}::core
+  ignition-common3::ignition-common3
+  ignition-common3::graphics
+  ${LIBFCL_LIBRARIES}
+  ${catkin_LIBRARIES}
+)
+
+add_executable(validate_visibility_table
+  src/validate_visibility_table.cc)
+target_link_libraries(validate_visibility_table
+  PRIVATE 
+  Visibility
+)
+install(TARGETS validate_visibility_table
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
 
 # Create the libCommsBrokerPlugin.so library.
 set(comms_broker_plugin_name CommsBrokerPlugin)
 add_library(${comms_broker_plugin_name}
   src/CommsBrokerPlugin.cc
-  src/VisibilityRfModel.cc
-  src/VisibilityTable.cc
-  src/SimpleDOTParser.cc
 )
 target_include_directories(${comms_broker_plugin_name}
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
@@ -212,7 +250,7 @@ target_link_libraries(${comms_broker_plugin_name}
   ignition-transport8::ignition-transport8
   sdformat9::sdformat9
   ${protobuf_lib_name}
-  ${catkin_LIBRARIES}
+  Visibility
 )
 install(TARGETS ${comms_broker_plugin_name}
   ARCHIVE DESTINATION lib
@@ -223,14 +261,9 @@ install(TARGETS ${comms_broker_plugin_name}
 set(visibility_plugin_name VisibilityPlugin)
 add_library(${visibility_plugin_name} SHARED
   src/VisibilityPlugin.cc
-  src/VisibilityTable.cc
-  src/SimpleDOTParser.cc
 )
-target_include_directories(${visibility_plugin_name}
-  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 target_link_libraries(${visibility_plugin_name}
   PRIVATE
-  ignition-gazebo${IGN_GAZEBO_VER}::core
   ignition-common3::ignition-common3
   ignition-math6::ignition-math6
   ignition-msgs5::ignition-msgs5
@@ -239,7 +272,7 @@ target_link_libraries(${visibility_plugin_name}
   ignition-transport8::ignition-transport8
   sdformat9::sdformat9
   ${protobuf_lib_name}
-  ${catkin_LIBRARIES}
+  Visibility
 )
 install(TARGETS ${visibility_plugin_name}
   ARCHIVE DESTINATION lib
@@ -363,6 +396,17 @@ target_link_libraries(level_generator
 target_include_directories(level_generator
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 install(TARGETS level_generator
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+
+add_executable(world_generator_cave src/world_generator_cave.cc src/ConnectionHelper.cc)
+target_link_libraries(world_generator_cave
+  ignition-math6::ignition-math6
+  ignition-common3::requested
+  ignition-fuel_tools4::ignition-fuel_tools4
+  sdformat9::sdformat9)
+target_include_directories(world_generator_cave
+  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
+install(TARGETS world_generator_cave
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 
 
