@@ -11,7 +11,9 @@ RUN apt-get update -qq \
         gdb \
         git \
         libbluetooth-dev \
+        libccd-dev \
         libcwiid-dev \
+        libfcl-dev \
         libgoogle-glog-dev \
         libspnav-dev \
         libusb-dev \
