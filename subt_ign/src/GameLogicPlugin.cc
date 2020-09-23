@@ -951,7 +951,7 @@ void GameLogicPluginPrivate::OnEvent(const ignition::msgs::Pose &_msg)
   }
 
   // Default to detect
-  std::string regionEventType = "detect";
+  std::string regionEventType;
   std::ostringstream stream;
   stream
     << "- event:\n"
@@ -981,6 +981,9 @@ void GameLogicPluginPrivate::OnEvent(const ignition::msgs::Pose &_msg)
         << data.first << ": " << data.second << std::endl;
     }
   }
+  // Default to "detect" if not set.
+  if (regionEventType.empty())
+    regionEventType = "detect";
   this->LogEvent(stream.str());
   this->PublishRegionEvent(localSimTime,
       regionEventType, _msg.name(), frameId, state);
@@ -2674,7 +2677,7 @@ void GameLogicPluginPrivate::CheckRobotFlip()
       if (!this->robotFlipInfo[name].second && (simElapsed >= 3))
       {
         this->robotFlipInfo[name].second = true;
-  	ignition::msgs::Time localSimTime(this->simTime);
+    ignition::msgs::Time localSimTime(this->simTime);
 
         std::ostringstream stream;
         stream
@@ -2683,7 +2686,7 @@ void GameLogicPluginPrivate::CheckRobotFlip()
           << "  time_sec: " << localSimTime.sec() << "\n"
           << "  robot: " << name << "\n";
         this->LogEvent(stream.str());
-    	this->PublishRobotEvent(localSimTime, "flip", name);
+        this->PublishRobotEvent(localSimTime, "flip", name);
       }
     }
     else
