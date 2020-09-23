@@ -874,7 +874,7 @@ void GameLogicPluginPrivate::OnRockFallDeployRemainingEvent(
           << "  model: " << name << std::endl;
 
         this->LogEvent(stream.str());
-        this->PublishRegionEvent(localSimTime, "rock_fall", "n/a", name,
+        this->PublishRegionEvent(localSimTime, "rock_fall", "", name,
             "rock_fall");
       }
 
@@ -894,8 +894,7 @@ void GameLogicPluginPrivate::OnRockFallDeployRemainingEvent(
       << "  model: " << name << std::endl;
 
     this->LogEvent(stream.str());
-    this->PublishRegionEvent(localSimTime,
-        "rock_fall", "n/a", name, "rock_fall");
+    this->PublishRegionEvent(localSimTime, "rock_fall", "", name, "rock_fall");
     this->rockFallsMax[name].first = localSimTime.sec();
   }
 }
@@ -951,7 +950,8 @@ void GameLogicPluginPrivate::OnEvent(const ignition::msgs::Pose &_msg)
     }
   }
 
-  std::string regionEventType;
+  // Default to detect
+  std::string regionEventType = "detect";
   std::ostringstream stream;
   stream
     << "- event:\n"
@@ -969,7 +969,13 @@ void GameLogicPluginPrivate::OnEvent(const ignition::msgs::Pose &_msg)
       // only the first. The key is currently always "type", which we can
       // ignore when sending the ROS message.
       if (regionEventType.empty())
-        regionEventType = data.second;
+      {
+        if (data.second.find("performer_detector_rockfall") ==
+            std::string::npos)
+        {
+          regionEventType = data.second;
+        }
+      }
 
       stream << "    "
         << data.first << ": " << data.second << std::endl;
