@@ -107,9 +107,10 @@ class subt::GameLogicPluginPrivate
       };
 
   /// \brief Write a simulation timestamp to a logfile.
+  /// \param[in] _simTime Current sim time.
   /// \return A file stream that can be used to write additional
   /// information to the logfile.
-  public: std::ofstream &Log();
+  public: std::ofstream &Log(const ignition::msgs::Time &_simTime);
 
   /// \brief Create an ArtifactType from a string.
   /// \param[in] _name The artifact in string format.
@@ -189,8 +190,10 @@ class subt::GameLogicPluginPrivate
   /// returns the time point used to calculate the elapsed real time. By
   /// returning this time point, we can make sure that the ::Finish function
   /// uses the same time point.
+  /// \param[in] _simTime Current sim time.
   /// \return The time point used to calculate the elapsed real time.
-  public: std::chrono::steady_clock::time_point UpdateScoreFiles();
+  public: std::chrono::steady_clock::time_point UpdateScoreFiles(
+              const ignition::msgs::Time &_simTime);
 
   /// \brief Performer detector subscription callback.
   /// \param[in] _msg Pose message of the event.
@@ -559,7 +562,7 @@ GameLogicPlugin::GameLogicPlugin()
 //////////////////////////////////////////////////
 GameLogicPlugin::~GameLogicPlugin()
 {
-  this->dataPtr->Finish(this->simTime);
+  this->dataPtr->Finish(this->dataPtr->simTime);
   this->dataPtr->finished = true;
   if (this->dataPtr->publishThread)
     this->dataPtr->publishThread->join();
@@ -724,7 +727,7 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
   ignmsg << "Starting SubT" << std::endl;
 
   // Make sure that there are score files.
-  this->dataPtr->UpdateScoreFiles();
+  this->dataPtr->UpdateScoreFiles(this->dataPtr->simTime);
 }
 
 //////////////////////////////////////////////////
@@ -1457,7 +1460,7 @@ void GameLogicPlugin::PostUpdate(
   {
     ignmsg << "Time limit[" <<  this->dataPtr->runDuration.count()
       << "s] reached.\n";
-    this->dataPtr->Finish(this->simTime);
+    this->dataPtr->Finish(this->dataPtr->simTime);
   }
 
   auto currentTime = std::chrono::steady_clock::now();
@@ -1558,7 +1561,7 @@ void GameLogicPlugin::PostUpdate(
   if (!this->dataPtr->finished && currentTime -
       this->dataPtr->lastUpdateScoresTime > std::chrono::seconds(30))
   {
-    this->dataPtr->UpdateScoreFiles();
+    this->dataPtr->UpdateScoreFiles(this->dataPtr->simTime);
   }
 }
 
@@ -1724,7 +1727,7 @@ ignition::math::Pose3d GameLogicPluginPrivate::ConvertToArtifactOrigin(
 
 /////////////////////////////////////////////////
 std::tuple<double, bool> GameLogicPluginPrivate::ScoreArtifact(
-    const ignition::msgs::Time _simTime,
+    const ignition::msgs::Time &_simTime,
     const ArtifactType &_type, const ignition::msgs::Pose &_pose,
     subt_ros::ArtifactReport &_artifactMsg)
 {
@@ -2047,7 +2050,7 @@ bool GameLogicPluginPrivate::OnFinishCall(const ignition::msgs::Boolean &_req,
   ignition::msgs::Time localSimTime(this->simTime);
   if (this->started && _req.data() && !this->finished)
   {
-    this->Finish(localSimeTime);
+    this->Finish(localSimTime);
     _res.set_data(true);
   }
   else
@@ -2106,7 +2109,7 @@ bool GameLogicPluginPrivate::Start(const ignition::msgs::Time &_simTime)
 }
 
 /////////////////////////////////////////////////
-void GameLogicPluginPrivate::Finish(const ignition::msgs::Time _simTime)
+void GameLogicPluginPrivate::Finish(const ignition::msgs::Time &_simTime)
 {
   // Pause simulation when finished. Always send this request, just to be
   // safe.
