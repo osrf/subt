@@ -562,12 +562,10 @@ GameLogicPlugin::GameLogicPlugin()
 //////////////////////////////////////////////////
 GameLogicPlugin::~GameLogicPlugin()
 {
-  std::cout << "Delete game logic plugin\n\n";
   this->dataPtr->Finish(this->dataPtr->simTime);
   this->dataPtr->finished = true;
   if (this->dataPtr->publishThread)
     this->dataPtr->publishThread->join();
-  std::cout << "DONE !!! Delete game logic plugin\n\n";
 }
 
 //////////////////////////////////////////////////
@@ -636,9 +634,8 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
     std::transform(value.begin(), value.end(), value.begin(), ::toupper);
     if (value == "TRUE" || value == "1")
     {
-      int argc = 0;
-      char **argv = nullptr;
-      ros::init(argc, argv, "subt_stats");
+      std::map<std::string, std::string> args;
+      ros::init(args, "subt_stats", ros::init_options::NoSigintHandler);
       // Initialize the ROS node.
       this->dataPtr->rosnode.reset(new ros::NodeHandle("subt"));
       this->dataPtr->rosStatusPub =
