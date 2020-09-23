@@ -193,6 +193,13 @@ class subt::GameLogicPluginPrivate
   public: void OnBreadcrumbDeployEvent(const ignition::msgs::Empty &_msg,
     const transport::MessageInfo &_info);
 
+  /// \brief Breadcrumb remaining subscription callback.
+  /// \param[in] _msg Remaining count.
+  /// \param[in] _info Message information.
+  public: void OnBreadcrumbDeployRemainingEvent(
+    const ignition::msgs::Int32 &_msg,
+    const transport::MessageInfo &_info);
+
   /// \brief Rock fall remaining subscription callback.
   /// \param[in] _msg Remaining count.
   /// \param[in] _info Message information.
@@ -229,6 +236,13 @@ class subt::GameLogicPluginPrivate
 
   /// \brief Checks if a robot has flipped.
   public: void CheckRobotFlip();
+
+  /// \brief Round input number n down to the nearest mulitple of m
+  /// \param[in] _n input number
+  /// \param[in] _m the input number will be rounded down to the nearest
+  /// multiple of this number.
+  /// \return Result
+  public: double FloorMultiple(double _n, double _m);
 
   /// \brief Ignition Transport node.
   public: transport::Node node;
@@ -307,6 +321,9 @@ class subt::GameLogicPluginPrivate
 
   /// \brief A map of robot name and distance traveled
   public: std::map<std::string, double> robotDistance;
+
+  /// \brief Step size for elevation gain / loss
+  public: double elevationStepSize = 5.0;
 
   /// \brief A map of robot name and elevation gain (cumulative)
   public: std::map<std::string, double> robotElevationGain;
@@ -392,6 +409,9 @@ class subt::GameLogicPluginPrivate
   /// \brief Ignition transport for the remaining artifact reports.
   public: transport::Node::Publisher artifactReportPub;
 
+  /// \brief Ignition transport that publishes robot name and type info.
+  public: transport::Node::Publisher robotPub;
+
   /// \brief Logpath.
   public: std::string logPath{"/dev/null"};
 
@@ -465,9 +485,13 @@ class subt::GameLogicPluginPrivate
   public: std::set<std::string> deadBatteries;
 
   /// \brief Map of model name to {sim_time_sec, deployments_over_max}. This
-  /// map is ued to log when no more rock falls are possible for a rock
+  /// map is used to log when no more rock falls are possible for a rock
   /// fall model.
   public: std::map<std::string, std::pair<int, int>> rockFallsMax;
+
+  /// \brief Map of model name to deployments_over_max. This map
+  /// is used to log when no more breadcrumb deployments are possible.
+  public: std::map<std::string, int> breadcrumbsMax;
 };
 
 //////////////////////////////////////////////////
@@ -532,6 +556,15 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
         this->dataPtr->logPath = homePath;
       }
     }
+    // Read elevation step size. Elevation data will be discretized and
+    // rounded down to the nearest multiple of the input step size
+    // during logging
+    if (loggingElem->HasElement("elevation_step_size"))
+    {
+      this->dataPtr->elevationStepSize =
+          loggingElem->Get<double>("elevation_step_size",
+          this->dataPtr->elevationStepSize).first;
+    }
   }
 
   // Open the log file.
@@ -592,6 +625,9 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
 
   this->dataPtr->artifactReportPub =
     this->dataPtr->node.Advertise<ignition::msgs::Int32>("/subt/artifact_reports_remaining");
+
+  this->dataPtr->robotPub =
+    this->dataPtr->node.Advertise<ignition::msgs::Param_V>("/subt/robots");
 
   this->dataPtr->publishThread.reset(new std::thread(
         &GameLogicPluginPrivate::PublishScore, this->dataPtr.get()));
@@ -660,11 +696,43 @@ void GameLogicPluginPrivate::OnBreadcrumbDeployEvent(
 }
 
 //////////////////////////////////////////////////
+void GameLogicPluginPrivate::OnBreadcrumbDeployRemainingEvent(
+    const ignition::msgs::Int32 &_msg,
+    const transport::MessageInfo &_info)
+{
+  if (_msg.data() == 0)
+  {
+    std::vector<std::string> topicParts = common::split(_info.Topic(), "/");
+    std::string name = "_unknown_";
+
+    // Get the name of the model from the topic name, where the topic name
+    // look like '/model/{model_name}/deploy'.
+    if (topicParts.size() > 1)
+      name = topicParts[1];
+
+    if (this->breadcrumbsMax[name] > 0)
+    {
+      std::ostringstream stream;
+      stream
+        << "- event:\n"
+        << "  type: max_breadcrumb_deploy\n"
+        << "  time_sec: " << this->simTime.sec() << "\n"
+        << "  robot: " << name << std::endl;
+
+      this->LogEvent(stream.str());
+    }
+
+    this->breadcrumbsMax[name]++;
+  }
+}
+
+//////////////////////////////////////////////////
 void GameLogicPluginPrivate::OnRockFallDeployRemainingEvent(
     const ignition::msgs::Int32 &_msg,
     const transport::MessageInfo &_info)
 {
-  if (_msg.data() == 0) {
+  if (_msg.data() == 0)
+  {
     std::vector<std::string> topicParts = common::split(_info.Topic(), "/");
     std::string name = "_unknown_";
 
@@ -890,6 +958,12 @@ void GameLogicPlugin::PostUpdate(
                   &GameLogicPluginPrivate::OnBreadcrumbDeployEvent,
                   this->dataPtr.get());
 
+              std::string deployRemainingTopic = std::string("/model/") +
+                mName->Data() + "/breadcrumb/deploy/remaining";
+              this->dataPtr->node.Subscribe(deployRemainingTopic,
+                  &GameLogicPluginPrivate::OnBreadcrumbDeployRemainingEvent,
+                  this->dataPtr.get());
+
               // Subscribe to battery state in order to log battery events.
               std::string batteryTopic = std::string("/model/") +
                 mName->Data() + "/battery/linear_battery/state";
@@ -1089,8 +1163,14 @@ void GameLogicPlugin::PostUpdate(
           this->dataPtr->robotsTotalDistance += distanceDiff;
 
           // greatest elevation gain / loss
-          double elevationDiff =
-              pose.Pos().Z() -  this->dataPtr->robotPrevPose[name].Pos().Z();
+          // Elevations are rounded down to nearest mulitple of the elevation
+          // step size
+          double elevationDiff = this->dataPtr->FloorMultiple(
+               pose.Pos().Z(), this->dataPtr->elevationStepSize) -
+               this->dataPtr->FloorMultiple(
+               this->dataPtr->robotPrevPose[name].Pos().Z(),
+               this->dataPtr->elevationStepSize);
+
           if (elevationDiff > 0)
           {
             double elevationGain = this->dataPtr->robotElevationGain[name]
@@ -1119,7 +1199,8 @@ void GameLogicPlugin::PostUpdate(
           }
 
           // min / max elevation reached
-          double elevation = pose.Pos().Z();
+          double elevation = this->dataPtr->FloorMultiple(pose.Pos().Z(),
+              this->dataPtr->elevationStepSize);
           if (elevation > this->dataPtr->maxRobotElevation.second ||
               this->dataPtr->maxRobotElevation.first.empty())
           {
@@ -1224,6 +1305,45 @@ void GameLogicPlugin::PostUpdate(
     limitMsg.set_data(this->dataPtr->reportCountLimit -
         this->dataPtr->reportCount);
     this->dataPtr->artifactReportPub.Publish(limitMsg);
+
+    // Publish robot name and type information.
+    ignition::msgs::Param_V robotMsg;
+    for (const std::pair<std::string,
+         std::pair<std::string, std::string>> &robot :
+         this->dataPtr->robotFullTypes)
+    {
+      ignition::msgs::Param *param = robotMsg.add_param();
+      (*param->mutable_params())["name"].set_type(
+          ignition::msgs::Any::STRING);
+      (*param->mutable_params())["name"].set_string_value(
+          robot.first);
+
+      (*param->mutable_params())["config"].set_type(
+          ignition::msgs::Any::STRING);
+      (*param->mutable_params())["config"].set_string_value(
+          robot.second.second);
+
+      (*param->mutable_params())["platform"].set_type(
+          ignition::msgs::Any::STRING);
+      (*param->mutable_params())["platform"].set_string_value(
+          robot.second.first);
+    }
+
+    // Add in marsupial pairs.
+    for (const std::pair<std::string, std::string> &pair :
+         this->dataPtr->marsupialPairs)
+    {
+      ignition::msgs::Param *param = robotMsg.add_param();
+      (*param->mutable_params())["marsupial_parent"].set_type(
+          ignition::msgs::Any::STRING);
+      (*param->mutable_params())["marsupial_parent"].set_string_value(
+          pair.first);
+      (*param->mutable_params())["marsupial_child"].set_type(
+          ignition::msgs::Any::STRING);
+      (*param->mutable_params())["marsupial_child"].set_string_value(
+          pair.second);
+    }
+    this->dataPtr->robotPub.Publish(robotMsg);
   }
 
   this->dataPtr->CheckRobotFlip();
@@ -1291,6 +1411,8 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
       << "  time_sec: " << this->simTime.sec() << "\n"
       << "  total_score: " << this->totalScore << std::endl;
     this->LogEvent(stream.str());
+    this->Finish();
+    return true;
   }
   else if (!this->ArtifactFromInt(_req.type(), artifactType))
   {
@@ -1338,11 +1460,20 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
     return true;
   }
 
-  if (!this->finished && this->reportCount > this->reportCountLimit)
+  if (!this->finished && this->reportCount >= this->reportCountLimit)
   {
-    _resp.set_report_status("report limit exceeded");
-    this->Log() << "report_limit_exceeded" << std::endl;
-    ignmsg << "Report limit exceed." << std::endl;
+    _resp.set_report_status("report limit reached");
+    this->Log() << "report_limit_reached" << std::endl;
+    ignmsg << "Report limit reached." << std::endl;
+
+    std::ostringstream stream;
+    stream
+      << "- event:\n"
+      << "  type: artifact_report_limit_reached\n"
+      << "  time_sec: " << this->simTime.sec() << "\n"
+      << "  total_score: " << this->totalScore << std::endl;
+    this->LogEvent(stream.str());
+
     this->Finish();
     return true;
   }
@@ -2178,4 +2309,13 @@ void GameLogicPluginPrivate::CheckRobotFlip()
       this->robotFlipInfo[name] = {this->simTime.sec(), false};
     }
   }
+}
+
+/////////////////////////////////////////////////
+double GameLogicPluginPrivate::FloorMultiple(double _n, double _m)
+{
+  double out = _n - fmod(_n, _m);
+  if (_n < 0)
+    out -= _m;
+  return out;
 }
