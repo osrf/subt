@@ -1670,7 +1670,8 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
     _resp.set_score_change(scoreDiff);
     _resp.set_report_status("scored");
 
-    if (!duplicate) {
+    if (!duplicate)
+    {
       this->totalScore += scoreDiff;
       if (this->rosnode)
         this->rosArtifactPub.publish(artifactMsg);
