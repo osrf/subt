@@ -2115,9 +2115,9 @@ bool GameLogicPluginPrivate::Start(const ignition::msgs::Time &_simTime)
 
     if (this->rosnode)
     {
-      this->prevPhase = "started";
+      this->prevPhase = "run";
       subt_ros::RunStatus statusMsg;
-      statusMsg.status = "started";
+      statusMsg.status = "run";
       statusMsg.timestamp.sec = _simTime.sec();
       statusMsg.timestamp.nsec = _simTime.nsec();
       this->rosStatusPub.publish(statusMsg);
