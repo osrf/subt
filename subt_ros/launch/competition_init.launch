@@ -43,7 +43,7 @@
   <!-- rosbag a /robot_data topic which can be used by a team to record
        custom data -->
   <node pkg="rosbag" type="record" name="rosbag_robot_data"
-        args="record --split --size=1000 --max-splits=20 -O $(env HOME)/.ros/robot_data.bag -e '/robot_data(.*)'"/>
+        args="record --split --size=1000 --max-splits=2 -O $(env HOME)/.ros/robot_data.bag -e '/robot_data(.*)'"/>
 
   <node pkg="tf2_ros" type="static_transform_publisher" name="tf_world_static" args="0 0 0 0 0 0 world $(arg world_name)"/>
 
