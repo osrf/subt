@@ -207,6 +207,7 @@ class subt::GameLogicPluginPrivate
   /// \param[in] _simTime Current sim time.
   /// \param[in] _type Event type.
   /// \param[in] _robot Robot name.
+  /// \param[in] _eventId Unique ID of the event.
   public: void PublishRobotEvent(
     const ignition::msgs::Time &_simTime,
     const std::string &_type,
@@ -217,6 +218,7 @@ class subt::GameLogicPluginPrivate
   /// \param[in] _simTime Current sim time.
   /// \param[in] _type Event type.
   /// \param[in] _robot Robot name.
+  /// \param[in] _eventId Unique ID of the event.
   public: void PublishRegionEvent(
     const ignition::msgs::Time &_simTime,
     const std::string &_type,
