@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="world_name"/>
+  <arg name="robot_names" default=""/>
+
+  <param name="/use_sim_time" value="true"/>
+  <param name="/world_name" value="$(arg world_name)"/>
+  <rosparam param="/robot_names" subst_value='true'>$(arg robot_names)</rosparam>
+
+  <node pkg="ros_ign_bridge" type="parameter_bridge" name="$(anon ros_ign_bridge)" args="/clock@rosgraph_msgs/Clock[ignition.msgs.Clock">
+  </node>
+
+  <node
+    pkg="subt_ros"
+    type="subt_ros_relay"
+    name="subt_ros_relay"/>
+
+  <node pkg="rosbag" type="record" name="cloudsim_data"
+    args="record --split --size=1000 -O /tmp/ign/logs/cloudsim.bag -e '/subt/.*'"/>
+</launch>

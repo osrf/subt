@@ -318,6 +318,7 @@
             name="subt::GameLogicPlugin">
       <!-- The collection of artifacts to locate -->
       <world_name><%= $worldName %></world_name>
+      <ros>false</ros>
 
       <duration_seconds><%= $durationSec %></duration_seconds>
 

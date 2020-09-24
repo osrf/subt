@@ -17,12 +17,22 @@ find_package(catkin REQUIRED COMPONENTS
 
 add_message_files(
   FILES
+  ArtifactReport.msg
   CompetitionClock.msg
+  KinematicStates.msg
+  Marsupial.msg
+  RegionEvent.msg
+  Robot.msg
+  RobotEvent.msg
+  RobotMetric.msg
+  RunStatistics.msg
+  RunStatus.msg
 )
 
 generate_messages(
   DEPENDENCIES
   std_msgs
+  geometry_msgs
 )
 
 find_package(ignition-common3 REQUIRED)

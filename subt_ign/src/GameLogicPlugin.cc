@@ -16,6 +16,7 @@
 */
 
 #include <yaml-cpp/yaml.h>
+#include <ros/ros.h>
 
 #include <ignition/msgs/boolean.pb.h>
 #include <ignition/msgs/float.pb.h>
@@ -57,6 +58,14 @@
 #include <ignition/transport/Node.hh>
 #include <sdf/sdf.hh>
 
+#include <geometry_msgs/PoseStamped.h>
+#include "subt_ros/ArtifactReport.h"
+#include "subt_ros/KinematicStates.h"
+#include "subt_ros/RegionEvent.h"
+#include "subt_ros/Robot.h"
+#include "subt_ros/RobotEvent.h"
+#include "subt_ros/RunStatistics.h"
+#include "subt_ros/RunStatus.h"
 #include "subt_ign/CommonTypes.hh"
 #include "subt_ign/GameLogicPlugin.hh"
 #include "subt_ign/protobuf/artifact.pb.h"
@@ -98,9 +107,10 @@ class subt::GameLogicPluginPrivate
       };
 
   /// \brief Write a simulation timestamp to a logfile.
+  /// \param[in] _simTime Current sim time.
   /// \return A file stream that can be used to write additional
   /// information to the logfile.
-  public: std::ofstream &Log();
+  public: std::ofstream &Log(const ignition::msgs::Time &_simTime);
 
   /// \brief Create an ArtifactType from a string.
   /// \param[in] _name The artifact in string format.
@@ -110,14 +120,17 @@ class subt::GameLogicPluginPrivate
                                   subt::ArtifactType &_type);
 
   /// \brief Calculate the score of a new artifact request.
+  /// \param[in] _simTime Simulation time.
   /// \param[in] _type The object type. See ArtifactType.
   /// \param[in] _pose The object pose.
   /// \return A tuple where the first parameter is the score obtained for this
   /// report, and the second parameter is true if the artifact report is a
   /// duplicate and false otherwise.
   public: std::tuple<double, bool> ScoreArtifact(
+              const ignition::msgs::Time &_simTime,
               const subt::ArtifactType &_type,
-              const ignition::msgs::Pose &_pose);
+              const ignition::msgs::Pose &_pose,
+              subt_ros::ArtifactReport &_artifactMsg);
 
   /// \brief Create an ArtifactType from an integer.
   //
@@ -153,10 +166,17 @@ class subt::GameLogicPluginPrivate
   public: void LogRobotPosData();
 
   /// \brief Log robot and artifact data
-  public: void LogRobotArtifactData() const;
+  /// \param[in] _simTime Current sim time.
+  /// \param[in] _realElapsed Elapsed real time in seconds.
+  /// \param[in] _simElapsed Elapsed sim time in seconds.
+  public: void LogRobotArtifactData(
+              const ignition::msgs::Time &_simTime,
+              int _realElapsed,
+              int _simElapsed) const;
 
   /// \brief Finish game and generate log files
-  public: void Finish();
+  /// \param[in] _simTime Simulation time.
+  public: void Finish(const ignition::msgs::Time &_simTime);
 
   /// \brief Ignition service callback triggered when the service is called.
   /// \param[in]  _req The message containing the robot name.
@@ -170,8 +190,10 @@ class subt::GameLogicPluginPrivate
   /// returns the time point used to calculate the elapsed real time. By
   /// returning this time point, we can make sure that the ::Finish function
   /// uses the same time point.
+  /// \param[in] _simTime Current sim time.
   /// \return The time point used to calculate the elapsed real time.
-  public: std::chrono::steady_clock::time_point UpdateScoreFiles();
+  public: std::chrono::steady_clock::time_point UpdateScoreFiles(
+              const ignition::msgs::Time &_simTime);
 
   /// \brief Performer detector subscription callback.
   /// \param[in] _msg Pose message of the event.
@@ -180,6 +202,25 @@ class subt::GameLogicPluginPrivate
   /// \brief Log an event to the eventStream.
   /// \param[in] _event The event to log.
   public: void LogEvent(const std::string &_event);
+
+  /// \brief Publish a robot event.
+  /// \param[in] _simTime Current sim time.
+  /// \param[in] _type Event type.
+  /// \param[in] _robot Robot name.
+  public: void PublishRobotEvent(
+    const ignition::msgs::Time &_simTime,
+    const std::string &_type,
+    const std::string &_robot);
+
+  /// \brief Publish a region event.
+  /// \param[in] _simTime Current sim time.
+  /// \param[in] _type Event type.
+  /// \param[in] _robot Robot name.
+  public: void PublishRegionEvent(
+    const ignition::msgs::Time &_simTime,
+    const std::string &_type,
+    const std::string &_robot, const std::string &_detector,
+    const std::string &_state);
 
   /// \brief Marsupial detach subscription callback.
   /// \param[in] _msg Detach message.
@@ -224,8 +265,9 @@ class subt::GameLogicPluginPrivate
                             ignition::msgs::Boolean &_res);
 
   /// \brief Helper function to start the competition.
+  /// \param[in] _simTime Simulation time.
   /// \return True if the run was started.
-  public: bool Start();
+  public: bool Start(const ignition::msgs::Time &_simTime);
 
   /// \brief Ignition service callback triggered when the service is called.
   /// \param[in] _req The message containing a flag telling if the game is to
@@ -243,6 +285,12 @@ class subt::GameLogicPluginPrivate
   /// multiple of this number.
   /// \return Result
   public: double FloorMultiple(double _n, double _m);
+
+  /// \brief Convert a world pose to be in the artifact origin frame.
+  /// \param[in] _pose Pose to convert.
+  /// \return Pose in the artifact origin frame.
+  public: ignition::math::Pose3d ConvertToArtifactOrigin(
+    const ignition::math::Pose3d &_pose) const;
 
   /// \brief Ignition Transport node.
   public: transport::Node node;
@@ -313,7 +361,7 @@ class subt::GameLogicPluginPrivate
 
   /// \brief A map of robot name and a vector of timestamped position data
   public: std::map<std::string, std::vector<std::pair<
-      std::chrono::steady_clock::duration, ignition::math::Vector3d>>>
+      std::chrono::steady_clock::duration, ignition::math::Pose3d>>>
       robotPoseData;
 
   /// \brief A map of robot name and its starting pose
@@ -492,6 +540,17 @@ class subt::GameLogicPluginPrivate
   /// \brief Map of model name to deployments_over_max. This map
   /// is used to log when no more breadcrumb deployments are possible.
   public: std::map<std::string, int> breadcrumbsMax;
+
+  /// \brief The ROS node handler used for communications.
+  public: std::unique_ptr<ros::NodeHandle> rosnode;
+  public: ros::Publisher rosStatsPub;
+  public: ros::Publisher rosStatusPub;
+  public: ros::Publisher rosArtifactPub;
+  public: ros::Publisher rosRobotEventPub;
+  public: ros::Publisher rosRegionEventPub;
+  public: std::map<std::string, ros::Publisher> rosRobotPosePubs;
+  public: std::map<std::string, ros::Publisher> rosRobotKinematicPubs;
+  public: std::string prevPhase = "";
 };
 
 //////////////////////////////////////////////////
@@ -503,7 +562,7 @@ GameLogicPlugin::GameLogicPlugin()
 //////////////////////////////////////////////////
 GameLogicPlugin::~GameLogicPlugin()
 {
-  this->dataPtr->Finish();
+  this->dataPtr->Finish(this->dataPtr->simTime);
   this->dataPtr->finished = true;
   if (this->dataPtr->publishThread)
     this->dataPtr->publishThread->join();
@@ -564,6 +623,36 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
       this->dataPtr->elevationStepSize =
           loggingElem->Get<double>("elevation_step_size",
           this->dataPtr->elevationStepSize).first;
+    }
+  }
+
+  const sdf::ElementPtr rosElem =
+    const_cast<sdf::Element*>(_sdf.get())->GetElement("ros");
+  if (rosElem)
+  {
+    std::string value = rosElem->Get<std::string>();
+    std::transform(value.begin(), value.end(), value.begin(), ::toupper);
+    if (value == "TRUE" || value == "1")
+    {
+      std::map<std::string, std::string> args;
+      ros::init(args, "subt_stats", ros::init_options::NoSigintHandler);
+      // Initialize the ROS node.
+      this->dataPtr->rosnode.reset(new ros::NodeHandle("subt"));
+      this->dataPtr->rosStatusPub =
+        this->dataPtr->rosnode->advertise<subt_ros::RunStatus>(
+            "status", 100, true);
+      this->dataPtr->rosStatsPub =
+        this->dataPtr->rosnode->advertise<subt_ros::RunStatistics>(
+            "run_statistics", 100);
+      this->dataPtr->rosArtifactPub =
+        this->dataPtr->rosnode->advertise<subt_ros::ArtifactReport>(
+            "artifact_reports", 100);
+      this->dataPtr->rosRobotEventPub =
+        this->dataPtr->rosnode->advertise<subt_ros::RobotEvent>(
+            "robot_event", 100);
+      this->dataPtr->rosRegionEventPub =
+        this->dataPtr->rosnode->advertise<subt_ros::RegionEvent>(
+            "region_event", 100);
     }
   }
 
@@ -638,7 +727,7 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
   ignmsg << "Starting SubT" << std::endl;
 
   // Make sure that there are score files.
-  this->dataPtr->UpdateScoreFiles();
+  this->dataPtr->UpdateScoreFiles(this->dataPtr->simTime);
 }
 
 //////////////////////////////////////////////////
@@ -646,6 +735,7 @@ void GameLogicPluginPrivate::OnBatteryMsg(
     const ignition::msgs::BatteryState &_msg,
     const transport::MessageInfo &_info)
 {
+  ignition::msgs::Time localSimTime(this->simTime);
   if (_msg.percentage() <= 0)
   {
     std::vector<std::string> topicParts = common::split(_info.Topic(), "/");
@@ -664,10 +754,11 @@ void GameLogicPluginPrivate::OnBatteryMsg(
       stream
         << "- event:\n"
         << "  type: dead_battery\n"
-        << "  time_sec: " << this->simTime.sec() << "\n"
+        << "  time_sec: " << localSimTime.sec() << "\n"
         << "  robot: " << name << std::endl;
 
       this->LogEvent(stream.str());
+      this->PublishRobotEvent(localSimTime, "dead_battery", name);
     }
   }
 }
@@ -677,6 +768,7 @@ void GameLogicPluginPrivate::OnBreadcrumbDeployEvent(
     const ignition::msgs::Empty &/*_msg*/,
     const transport::MessageInfo &_info)
 {
+  ignition::msgs::Time localSimTime(this->simTime);
   std::vector<std::string> topicParts = common::split(_info.Topic(), "/");
   std::string name = "_unknown_";
 
@@ -689,10 +781,17 @@ void GameLogicPluginPrivate::OnBreadcrumbDeployEvent(
   stream
     << "- event:\n"
     << "  type: breadcrumb_deploy\n"
-    << "  time_sec: " << this->simTime.sec() << "\n"
+    << "  time_sec: " << localSimTime.sec() << "\n"
     << "  robot: " << name << std::endl;
 
   this->LogEvent(stream.str());
+
+  // Only publish if max breadcrumbs has not been reached.
+  if (this->breadcrumbsMax.find(name) == this->breadcrumbsMax.end() ||
+      this->breadcrumbsMax[name] <= 0)
+  {
+    this->PublishRobotEvent(localSimTime, "breadcrumb_deploy", name);
+  }
 }
 
 //////////////////////////////////////////////////
@@ -700,6 +799,7 @@ void GameLogicPluginPrivate::OnBreadcrumbDeployRemainingEvent(
     const ignition::msgs::Int32 &_msg,
     const transport::MessageInfo &_info)
 {
+  ignition::msgs::Time localSimTime(this->simTime);
   if (_msg.data() == 0)
   {
     std::vector<std::string> topicParts = common::split(_info.Topic(), "/");
@@ -716,10 +816,13 @@ void GameLogicPluginPrivate::OnBreadcrumbDeployRemainingEvent(
       stream
         << "- event:\n"
         << "  type: max_breadcrumb_deploy\n"
-        << "  time_sec: " << this->simTime.sec() << "\n"
+        << "  time_sec: " << localSimTime.sec() << "\n"
         << "  robot: " << name << std::endl;
 
       this->LogEvent(stream.str());
+      // Do not publish if max breadcrumbs have already been deployed
+      // if (this->breadcrumbsMax[name] == 1)
+      //  this->PublishRobotEvent(localSimTime, "max_breadcrumb_deploy", name);
     }
 
     this->breadcrumbsMax[name]++;
@@ -731,35 +834,68 @@ void GameLogicPluginPrivate::OnRockFallDeployRemainingEvent(
     const ignition::msgs::Int32 &_msg,
     const transport::MessageInfo &_info)
 {
+  ignition::msgs::Time localSimTime(this->simTime);
+  std::vector<std::string> topicParts = common::split(_info.Topic(), "/");
+  std::string name = "_unknown_";
+
+  // Get the name of the model from the topic name, where the topic name
+  // look like '/model/{model_name}/deploy'.
+  if (topicParts.size() > 1)
+    name = topicParts[1];
+
   if (_msg.data() == 0)
   {
-    std::vector<std::string> topicParts = common::split(_info.Topic(), "/");
-    std::string name = "_unknown_";
-
-    // Get the name of the model from the topic name, where the topic name
-    // look like '/model/{model_name}/deploy'.
-    if (topicParts.size() > 1)
-      name = topicParts[1];
-
     // Sim time is used to make sure that we report only once per rock fall,
     // and not once for every rock in the rock fall.
-    if (this->rockFallsMax[name].first != this->simTime.sec())
+    if (this->rockFallsMax[name].first != localSimTime.sec())
     {
-      if (this->rockFallsMax[name].second > 0)
+      if (this->rockFallsMax[name].second == 1)
       {
         std::ostringstream stream;
         stream
           << "- event:\n"
           << "  type: max_rock_falls\n"
-          << "  time_sec: " << this->simTime.sec() << "\n"
+          << "  time_sec: " << localSimTime.sec() << "\n"
           << "  model: " << name << std::endl;
 
         this->LogEvent(stream.str());
+
+        // Don't publish this event.
+        // this->PublishRegionEvent(localSimTime, "max_rock_falls", "n/a", name,
+        //   "max_rock_falls");
+      }
+      else if (this->rockFallsMax[name].second == 0)
+      {
+        std::ostringstream stream;
+        stream
+          << "- event:\n"
+          << "  type: rock_fall\n"
+          << "  time_sec: " << localSimTime.sec() << "\n"
+          << "  model: " << name << std::endl;
+
+        this->LogEvent(stream.str());
+        this->PublishRegionEvent(localSimTime, "rock_fall", "", name,
+            "rock_fall");
       }
 
       this->rockFallsMax[name].second++;
-      this->rockFallsMax[name].first = this->simTime.sec();
+      this->rockFallsMax[name].first = localSimTime.sec();
     }
+  }
+  // Sim time is used to make sure that we report only once per rock fall,
+  // and not once for every rock in the rock fall.
+  else if (this->rockFallsMax[name].first != localSimTime.sec())
+  {
+    std::ostringstream stream;
+    stream
+      << "- event:\n"
+      << "  type: rock_fall\n"
+      << "  time_sec: " << localSimTime.sec() << "\n"
+      << "  model: " << name << std::endl;
+
+    this->LogEvent(stream.str());
+    this->PublishRegionEvent(localSimTime, "rock_fall", "", name, "rock_fall");
+    this->rockFallsMax[name].first = localSimTime.sec();
   }
 }
 
@@ -768,6 +904,7 @@ void GameLogicPluginPrivate::OnDetachEvent(
     const ignition::msgs::Empty &/*_msg*/,
     const transport::MessageInfo &_info)
 {
+  ignition::msgs::Time localSimTime(this->simTime);
   std::vector<std::string> topicParts = common::split(_info.Topic(), "/");
   std::string name = "_unknown_";
 
@@ -781,15 +918,17 @@ void GameLogicPluginPrivate::OnDetachEvent(
   stream
     << "- event:\n"
     << "  type: detach\n"
-    << "  time_sec: " << this->simTime.sec() << "\n"
+    << "  time_sec: " << localSimTime.sec() << "\n"
     << "  robot: " << name << std::endl;
 
   this->LogEvent(stream.str());
+  this->PublishRobotEvent(localSimTime, "detach", name);
 }
 
 //////////////////////////////////////////////////
 void GameLogicPluginPrivate::OnEvent(const ignition::msgs::Pose &_msg)
 {
+  ignition::msgs::Time localSimTime(this->simTime);
   std::string frameId = "nil";
   std::string state = "nil";
   std::map<std::string, std::string> extraData;
@@ -811,6 +950,8 @@ void GameLogicPluginPrivate::OnEvent(const ignition::msgs::Pose &_msg)
     }
   }
 
+  // Default to detect
+  std::string regionEventType;
   std::ostringstream stream;
   stream
     << "- event:\n"
@@ -824,11 +965,28 @@ void GameLogicPluginPrivate::OnEvent(const ignition::msgs::Pose &_msg)
     stream << "  extra:\n";
     for (const auto &data : extraData)
     {
+      // there should be only 1 key-value pair. Just in case, we will grab
+      // only the first. The key is currently always "type", which we can
+      // ignore when sending the ROS message.
+      if (regionEventType.empty())
+      {
+        if (data.second.find("performer_detector_rockfall") ==
+            std::string::npos)
+        {
+          regionEventType = data.second;
+        }
+      }
+
       stream << "    "
         << data.first << ": " << data.second << std::endl;
     }
   }
+  // Default to "detect" if not set.
+  if (regionEventType.empty())
+    regionEventType = "detect";
   this->LogEvent(stream.str());
+  this->PublishRegionEvent(localSimTime,
+      regionEventType, _msg.name(), frameId, state);
 }
 
 //////////////////////////////////////////////////
@@ -977,7 +1135,7 @@ void GameLogicPlugin::PostUpdate(
     // Start automatically if warmup time has elapsed.
     if (this->dataPtr->simTime.sec() >= this->dataPtr->warmupTimeSec)
     {
-      this->dataPtr->Start();
+      this->dataPtr->Start(this->dataPtr->simTime);
     }
   }
 
@@ -1075,7 +1233,7 @@ void GameLogicPlugin::PostUpdate(
           if (robotPoseDataIt == this->dataPtr->robotPoseData.end())
           {
             this->dataPtr->robotPoseData[name].push_back(
-                std::make_pair(tDur, pose.Pos()));
+                std::make_pair(tDur, pose));
 
             this->dataPtr->robotStartPose[name] = pose;
             this->dataPtr->robotDistance[name] = 0.0;
@@ -1084,11 +1242,21 @@ void GameLogicPlugin::PostUpdate(
             this->dataPtr->robotElevationGain[name] = 0.0;
             this->dataPtr->robotElevationLoss[name] = 0.0;
 
+            if (this->dataPtr->rosnode)
+            {
+              this->dataPtr->rosRobotPosePubs[name] =
+                this->dataPtr->rosnode->advertise<geometry_msgs::PoseStamped>(
+                    "poses/" + name, 1000);
+              this->dataPtr->rosRobotKinematicPubs[name] =
+                this->dataPtr->rosnode->advertise<subt_ros::KinematicStates>(
+                    "kinematic_states/" + name, 1000);
+            }
+
             this->dataPtr->robotPrevPose[name] = pose;
             return true;
           }
-          else if (robotPoseDataIt->second.back().second.Distance(pose.Pos())
-              > 1.0)
+          else if (robotPoseDataIt->second.back().second.Pos().Distance(
+                pose.Pos()) > 1.0)
           {
             //  time passed since last pose sample
             double prevT = robotPoseDataIt->second.back().first.count() * 1e-9;
@@ -1097,13 +1265,53 @@ void GameLogicPlugin::PostUpdate(
             // sim paused?
             if (dt <= 0)
               return true;
+            geometry_msgs::PoseStamped msg;
+            msg.header.stamp.sec = this->dataPtr->simTime.sec();
+            msg.header.stamp.nsec = this->dataPtr->simTime.nsec();
+            msg.header.frame_id = "artifact_origin";
+            ignition::math::Pose3d p = this->dataPtr->ConvertToArtifactOrigin(
+                pose);
+            msg.pose.position.x = p.Pos().X();
+            msg.pose.position.y = p.Pos().Y();
+            msg.pose.position.z = p.Pos().Z();
+            msg.pose.orientation.x = p.Rot().X();
+            msg.pose.orientation.y = p.Rot().Y();
+            msg.pose.orientation.z = p.Rot().Z();
+            msg.pose.orientation.w = p.Rot().W();
 
-            // Consider only velocity in the xy plane.
-            math::Vector3d p1 = pose.Pos();
-            math::Vector3d p2 = robotPoseDataIt->second.back().second;
-            double dist = sqrt(std::pow(p2.X() - p1.X(), 2) +
-                std::pow(p2.Y() - p1.Y(), 2));
+            if (this->dataPtr->rosnode)
+              this->dataPtr->rosRobotPosePubs[name].publish(msg);
+
+            // calculate robot velocity and speed
+            math::Vector3d p1 = p.Pos();
+            math::Vector3d p2 = this->dataPtr->ConvertToArtifactOrigin(
+                robotPoseDataIt->second.back().second).Pos();
+            double dx = p1.X() - p2.X();
+            double dy = p1.Y() - p2.Y();
+            double dz = p1.Z() - p2.Z();
+            double dist = sqrt(std::pow(dx, 2) + std::pow(dy, 2) +
+                std::pow(dz, 2));
             double vel = dist / dt;
+
+            // publish the pose, velocity, and speed
+            subt_ros::KinematicStates kmsg;
+            kmsg.header.stamp.sec = this->dataPtr->simTime.sec();
+            kmsg.header.stamp.nsec = this->dataPtr->simTime.nsec();
+            kmsg.header.frame_id = "artifact_origin";
+            kmsg.pose.position.x = p.Pos().X();
+            kmsg.pose.position.y = p.Pos().Y();
+            kmsg.pose.position.z = p.Pos().Z();
+            kmsg.pose.orientation.x = p.Rot().X();
+            kmsg.pose.orientation.y = p.Rot().Y();
+            kmsg.pose.orientation.z = p.Rot().Z();
+            kmsg.pose.orientation.w = p.Rot().W();
+            kmsg.velocity.x = dx / dt;
+            kmsg.velocity.y = dy / dt;
+            kmsg.velocity.z = dz / dt;
+            kmsg.speed = vel;
+
+            if (this->dataPtr->rosnode)
+              this->dataPtr->rosRobotKinematicPubs[name].publish(kmsg);
 
             // greatest max velocity by a robot
             if (vel > this->dataPtr->maxRobotVel.second)
@@ -1126,7 +1334,7 @@ void GameLogicPlugin::PostUpdate(
               this->dataPtr->maxRobotAvgVel.second = avgVel;
             }
 
-            robotPoseDataIt->second.push_back(std::make_pair(tDur, pose.Pos()));
+            robotPoseDataIt->second.push_back(std::make_pair(tDur, pose));
           }
 
           // compute and log greatest / total distance traveled and
@@ -1263,7 +1471,7 @@ void GameLogicPlugin::PostUpdate(
   {
     ignmsg << "Time limit[" <<  this->dataPtr->runDuration.count()
       << "s] reached.\n";
-    this->dataPtr->Finish();
+    this->dataPtr->Finish(this->dataPtr->simTime);
   }
 
   auto currentTime = std::chrono::steady_clock::now();
@@ -1290,6 +1498,18 @@ void GameLogicPlugin::PostUpdate(
     {
       // It's possible for a team to call Finish before starting.
       mapData->add_value("finished");
+    }
+
+    if (this->dataPtr->prevPhase != mapData->value(0))
+    {
+      subt_ros::RunStatus statusMsg;
+      statusMsg.status = mapData->value(0);
+      statusMsg.timestamp.sec = this->dataPtr->simTime.sec();
+      statusMsg.timestamp.nsec = this->dataPtr->simTime.nsec();
+
+      this->dataPtr->prevPhase = mapData->value(0);
+      if (this->dataPtr->rosnode)
+        this->dataPtr->rosStatusPub.publish(statusMsg);
     }
 
     this->dataPtr->competitionClockPub.Publish(competitionClockMsg);
@@ -1352,7 +1572,7 @@ void GameLogicPlugin::PostUpdate(
   if (!this->dataPtr->finished && currentTime -
       this->dataPtr->lastUpdateScoresTime > std::chrono::seconds(30))
   {
-    this->dataPtr->UpdateScoreFiles();
+    this->dataPtr->UpdateScoreFiles(this->dataPtr->simTime);
   }
 }
 
@@ -1360,8 +1580,10 @@ void GameLogicPlugin::PostUpdate(
 bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
                                            subt::msgs::ArtifactScore &_resp)
 {
-  this->Log() << "new_artifact_reported" << std::endl;
-  ignmsg << "SimTime[" << this->simTime.sec() << " " << this->simTime.nsec()
+  ignition::msgs::Time localSimTime(this->simTime);
+
+  this->Log(localSimTime) << "new_artifact_reported" << std::endl;
+  ignmsg << "SimTime[" << localSimTime.sec() << " " << localSimTime.nsec()
          << "] OnNewArtifact Msg=" << _req.DebugString() << std::endl;
 
   auto realTime = std::chrono::steady_clock::now().time_since_epoch();
@@ -1372,7 +1594,7 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
 
   _resp.mutable_submitted_datetime()->set_sec(s.count());
   _resp.mutable_submitted_datetime()->set_nsec(ns.count());
-  *_resp.mutable_sim_time() = this->simTime;
+  *_resp.mutable_sim_time() = localSimTime;
 
   // TODO(anyone) Where does run information come from?
   _resp.set_run(1);
@@ -1386,7 +1608,7 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
     stream
       << "- event:\n"
       << "  type: artifact_report_score_finished\n"
-      << "  time_sec: " << this->simTime.sec() << "\n"
+      << "  time_sec: " << localSimTime.sec() << "\n"
       << "  total_score: " << this->totalScore << std::endl;
     this->LogEvent(stream.str());
   }
@@ -1397,7 +1619,7 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
     stream
       << "- event:\n"
       << "  type: artifact_report_not_started\n"
-      << "  time_sec: " << this->simTime.sec() << "\n"
+      << "  time_sec: " << localSimTime.sec() << "\n"
       << "  total_score: " << this->totalScore << std::endl;
     this->LogEvent(stream.str());
   }
@@ -1408,11 +1630,10 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
     stream
       << "- event:\n"
       << "  type: artifact_report_limit_exceeded\n"
-      << "  time_sec: " << this->simTime.sec() << "\n"
+      << "  time_sec: " << localSimTime.sec() << "\n"
       << "  total_score: " << this->totalScore << std::endl;
     this->LogEvent(stream.str());
-    this->Finish();
-    return true;
+    this->Finish(localSimTime);
   }
   else if (!this->ArtifactFromInt(_req.type(), artifactType))
   {
@@ -1420,7 +1641,7 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
     stream
       << "- event:\n"
       << "  type: artifact_report_unknown_artifact\n"
-      << "  time_sec: " << this->simTime.sec() << "\n"
+      << "  time_sec: " << localSimTime.sec() << "\n"
       << "  total_score: " << this->totalScore << std::endl;
     this->LogEvent(stream.str());
 
@@ -1428,60 +1649,72 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
           << this->kArtifactTypes.size() - 1 << " but we received "
           << _req.type() << std::endl;
 
-    this->Log() << "error Unknown artifact code. The number should be between "
-                << "0 and " << this->kArtifactTypes.size() - 1
-                << " but we received " << _req.type() << std::endl;
+    this->Log(localSimTime)
+      <<"error Unknown artifact code. The number should be between "
+      << "0 and " << this->kArtifactTypes.size() - 1
+      << " but we received " << _req.type() << std::endl;
     _resp.set_report_status("scored");
   }
   else
   {
+    subt_ros::ArtifactReport artifactMsg;
+    artifactMsg.timestamp.sec = localSimTime.sec();
+    artifactMsg.timestamp.nsec = localSimTime.nsec();
+    artifactMsg.points_scored = 0;
+    artifactMsg.total_score = this->totalScore;
+
     std::lock_guard<std::mutex> lock(this->mutex);
-    auto [scoreDiff, duplicate] = this->ScoreArtifact(
-        artifactType, _req.pose());
+    auto [scoreDiff, duplicate] = this->ScoreArtifact(localSimTime,
+        artifactType, _req.pose(), artifactMsg);
 
     _resp.set_score_change(scoreDiff);
     _resp.set_report_status("scored");
 
     if (!duplicate)
+    {
       this->totalScore += scoreDiff;
+      if (this->rosnode)
+        this->rosArtifactPub.publish(artifactMsg);
+    }
 
     ignmsg << "Total score: " << this->totalScore << std::endl;
-    this->Log() << "new_total_score " << this->totalScore << std::endl;
+    this->Log(localSimTime)
+      << "new_total_score " << this->totalScore << std::endl;
   }
 
   _resp.set_report_id(this->reportCount);
 
   // Finish if the maximum score has been reached, or if the maximum number
   // of artifact reports has been reached..
-  if (this->totalScore >= this->artifactCount)
+  if (!this->finished && this->totalScore >= this->artifactCount)
   {
     ignmsg << "Max score has been reached. Congratulations!" << std::endl;
-    this->Finish();
+    this->Finish(localSimTime);
     return true;
   }
 
   if (!this->finished && this->reportCount >= this->reportCountLimit)
   {
     _resp.set_report_status("report limit reached");
-    this->Log() << "report_limit_reached" << std::endl;
+    this->Log(localSimTime) << "report_limit_reached" << std::endl;
     ignmsg << "Report limit reached." << std::endl;
 
     std::ostringstream stream;
     stream
       << "- event:\n"
       << "  type: artifact_report_limit_reached\n"
-      << "  time_sec: " << this->simTime.sec() << "\n"
+      << "  time_sec: " << localSimTime.sec() << "\n"
       << "  total_score: " << this->totalScore << std::endl;
     this->LogEvent(stream.str());
 
-    this->Finish();
+    this->Finish(localSimTime);
     return true;
   }
 
   // Update the score files, in case something bad happens.
   // The ::Finish functions, used above, will also call the UpdateScoreFiles
   // function.
-  this->UpdateScoreFiles();
+  this->UpdateScoreFiles(localSimTime);
 
   return true;
 }
@@ -1498,14 +1731,23 @@ bool GameLogicPluginPrivate::ArtifactFromInt(const uint32_t &_typeInt,
 }
 
 /////////////////////////////////////////////////
+ignition::math::Pose3d GameLogicPluginPrivate::ConvertToArtifactOrigin(
+    const ignition::math::Pose3d &_pose) const
+{
+  return _pose - this->artifactOriginPose;
+}
+
+/////////////////////////////////////////////////
 std::tuple<double, bool> GameLogicPluginPrivate::ScoreArtifact(
-    const ArtifactType &_type, const ignition::msgs::Pose &_pose)
+    const ignition::msgs::Time &_simTime,
+    const ArtifactType &_type, const ignition::msgs::Pose &_pose,
+    subt_ros::ArtifactReport &_artifactMsg)
 {
   // Sanity check: Make sure that we have crossed the starting gate.
   if (!this->started)
   {
     ignmsg << "  The task hasn't started yet" << std::endl;
-    this->Log() << "task_not_started" << std::endl;
+    this->Log(_simTime) << "task_not_started" << std::endl;
     return {0.0, false};
   }
 
@@ -1513,7 +1755,8 @@ std::tuple<double, bool> GameLogicPluginPrivate::ScoreArtifact(
   if (this->foundArtifacts.size() >= this->artifactCount)
   {
     ignmsg << "  No artifacts remaining" << std::endl;
-    this->Log() << "no_remaining_artifacts_of_specified_type" << std::endl;
+    this->Log(_simTime) << "no_remaining_artifacts_of_specified_type"
+      << std::endl;
     return {0.0, false};
   }
 
@@ -1528,13 +1771,13 @@ std::tuple<double, bool> GameLogicPluginPrivate::ScoreArtifact(
   if (!this->StringFromArtifact(_type, reportType))
   {
     ignmsg << "Unknown artifact type" << std::endl;
-    this->Log() << "Unkown artifact type reported" << std::endl;
+    this->Log(_simTime) << "Unkown artifact type reported" << std::endl;
 
     std::ostringstream stream;
     stream
       << "- event:\n"
       << "  type: unknown_artifact_type\n"
-      << "  time_sec: " << this->simTime.sec() << "\n"
+      << "  time_sec: " << _simTime.sec() << "\n"
       << "  reported_pose: " << observedObjectPose << "\n"
       << "  reported_artifact_type: " << reportType << "\n";
     this->LogEvent(stream.str());
@@ -1556,13 +1799,13 @@ std::tuple<double, bool> GameLogicPluginPrivate::ScoreArtifact(
   if (uniqueReport != this->uniqueReports.end())
   {
     ignmsg << "This report has been received before" << std::endl;
-    this->Log() << "This report has been received before" << std::endl;
+    this->Log(_simTime) << "This report has been received before" << std::endl;
 
     std::ostringstream stream;
     stream
       << "- event:\n"
       << "  type: duplicate_artifact_report\n"
-      << "  time_sec: " << this->simTime.sec() << "\n"
+      << "  time_sec: " << _simTime.sec() << "\n"
       << "  reported_pose: " << observedObjectPose << "\n"
       << "  reported_artifact_type: " << reportType << "\n";
     this->LogEvent(stream.str());
@@ -1614,7 +1857,8 @@ std::tuple<double, bool> GameLogicPluginPrivate::ScoreArtifact(
 
       // Keep track of the artifacts that were found.
       this->foundArtifacts.insert(artifactName);
-      this->Log() << "found_artifact " << std::get<0>(minDistance) << std::endl;
+      this->Log(_simTime) << "found_artifact "
+        << std::get<0>(minDistance) << std::endl;
 
       // collect artifact report data for logging
       // update closest artifact reported so far
@@ -1632,7 +1876,7 @@ std::tuple<double, bool> GameLogicPluginPrivate::ScoreArtifact(
         std::get<4>(this->closestReport) = std::get<2>(minDistance);
       }
       // compute sim time of this report
-      double reportTime = this->simTime.sec() + this->simTime.nsec() * 1e-9;
+      double reportTime = _simTime.sec() + _simTime.nsec() * 1e-9;
       this->lastReportTime = reportTime;
       if (this->firstReportTime < 0)
         this->firstReportTime = reportTime;
@@ -1648,7 +1892,7 @@ std::tuple<double, bool> GameLogicPluginPrivate::ScoreArtifact(
   stream
     << "- event:\n"
     << "  type: artifact_report_attempt\n"
-    << "  time_sec: " << this->simTime.sec() << "\n"
+    << "  time_sec: " << _simTime.sec() << "\n"
     << "  reported_pose: " << observedObjectPose << "\n"
     << "  reported_artifact_type: " << reportType << "\n"
     << "  closest_artifact_name: " << std::get<0>(minDistance) << "\n"
@@ -1657,12 +1901,21 @@ std::tuple<double, bool> GameLogicPluginPrivate::ScoreArtifact(
     << "  total_score: " << this->totalScore + score << std::endl;
   this->LogEvent(stream.str());
 
-  this->Log() << "calculated_dist[" << std::get<2>(minDistance)
+  _artifactMsg.reported_artifact_type = reportType;
+  _artifactMsg.reported_artifact_position.x = observedObjectPose.X();
+  _artifactMsg.reported_artifact_position.y = observedObjectPose.Y();
+  _artifactMsg.reported_artifact_position.z = observedObjectPose.Z();
+  _artifactMsg.closest_artifact_name = std::get<0>(minDistance);
+  _artifactMsg.distance = outDist;
+  _artifactMsg.points_scored = score;
+  _artifactMsg.total_score = this->totalScore + score;
+
+  this->Log(_simTime) << "calculated_dist[" << std::get<2>(minDistance)
     << "] for artifact[" << std::get<0>(minDistance) << "] reported_pos["
     << observedObjectPose << "]" << std::endl;
 
   ignmsg << "  [Total]: " << score << std::endl;
-  this->Log() << "modified_score " << score << std::endl;
+  this->Log(_simTime) << "modified_score " << score << std::endl;
 
   return {score, false};
 }
@@ -1709,6 +1962,8 @@ bool GameLogicPluginPrivate::StringFromArtifact(const ArtifactType &_type,
 void GameLogicPluginPrivate::ParseArtifacts(
     const std::shared_ptr<const sdf::Element> &_sdf)
 {
+  ignition::msgs::Time localSimTime(this->simTime);
+
   sdf::ElementPtr artifactElem = const_cast<sdf::Element*>(
       _sdf.get())->GetElement("artifact");
 
@@ -1719,8 +1974,9 @@ void GameLogicPluginPrivate::ParseArtifacts(
     {
       ignerr << "[GameLogicPlugin]: Parameter <name> not found. Ignoring this "
             << "artifact" << std::endl;
-      this->Log() << "error Parameter <name> not found. Ignoring this artifact"
-                  << std::endl;
+      this->Log(localSimTime)
+        << "error Parameter <name> not found. Ignoring this artifact"
+        << std::endl;
       artifactElem = artifactElem->GetNextElement("artifact");
       continue;
     }
@@ -1732,8 +1988,9 @@ void GameLogicPluginPrivate::ParseArtifacts(
     {
       ignerr << "[GameLogicPlugin]: Parameter <type> not found. Ignoring this "
         << "artifact" << std::endl;
-      this->Log() << "error Parameter <type> not found. Ignoring this artifact"
-                  << std::endl;
+      this->Log(localSimTime)
+        << "error Parameter <type> not found. Ignoring this artifact"
+        << std::endl;
 
       artifactElem = artifactElem->GetNextElement("artifact");
       continue;
@@ -1747,7 +2004,7 @@ void GameLogicPluginPrivate::ParseArtifacts(
     {
       ignerr << "[GameLogicPlugin]: Unknown artifact type ["
         << modelTypeStr << "]. Ignoring artifact" << std::endl;
-      this->Log() << "error Unknown artifact type ["
+      this->Log(localSimTime) << "error Unknown artifact type ["
                   << modelTypeStr << "]. Ignoring artifact" << std::endl;
       artifactElem = artifactElem->GetNextElement("artifact");
       continue;
@@ -1763,7 +2020,7 @@ void GameLogicPluginPrivate::ParseArtifacts(
       {
         ignerr << "[GameLogicPlugin]: Repeated model with name ["
           << modelName << "]. Ignoring artifact" << std::endl;
-        this->Log() << "error Repeated model with name ["
+        this->Log(localSimTime) << "error Repeated model with name ["
                     << modelName << "]. Ignoring artifact" << std::endl;
         artifactElem = artifactElem->GetNextElement("artifact");
         continue;
@@ -1802,9 +2059,10 @@ void GameLogicPluginPrivate::PublishScore()
 bool GameLogicPluginPrivate::OnFinishCall(const ignition::msgs::Boolean &_req,
   ignition::msgs::Boolean &_res)
 {
+  ignition::msgs::Time localSimTime(this->simTime);
   if (this->started && _req.data() && !this->finished)
   {
-    this->Finish();
+    this->Finish(localSimTime);
     _res.set_data(true);
   }
   else
@@ -1818,8 +2076,9 @@ bool GameLogicPluginPrivate::OnFinishCall(const ignition::msgs::Boolean &_req,
 bool GameLogicPluginPrivate::OnStartCall(const ignition::msgs::Boolean &_req,
   ignition::msgs::Boolean &_res)
 {
+  ignition::msgs::Time localSimTime(this->simTime);
   if (_req.data())
-    _res.set_data(this->Start());
+    _res.set_data(this->Start(localSimTime));
   else
     _res.set_data(false);
 
@@ -1827,7 +2086,7 @@ bool GameLogicPluginPrivate::OnStartCall(const ignition::msgs::Boolean &_req,
 }
 
 /////////////////////////////////////////////////
-bool GameLogicPluginPrivate::Start()
+bool GameLogicPluginPrivate::Start(const ignition::msgs::Time &_simTime)
 {
   bool result = false;
 
@@ -1836,12 +2095,12 @@ bool GameLogicPluginPrivate::Start()
     result = true;
     this->started = true;
     this->startTime = std::chrono::steady_clock::now();
-    this->startSimTime = this->simTime;
+    this->startSimTime = _simTime;
     ignmsg << "Scoring has Started" << std::endl;
-    this->Log() << "scoring_started" << std::endl;
+    this->Log(_simTime) << "scoring_started" << std::endl;
 
     ignition::msgs::StringMsg msg;
-    msg.mutable_header()->mutable_stamp()->CopyFrom(this->simTime);
+    msg.mutable_header()->mutable_stamp()->CopyFrom(_simTime);
     msg.set_data("started");
     this->state = "started";
     this->startPub.Publish(msg);
@@ -1851,18 +2110,28 @@ bool GameLogicPluginPrivate::Start()
     stream
       << "- event:\n"
       << "  type: started\n"
-      << "  time_sec: " << this->simTime.sec() << std::endl;
+      << "  time_sec: " << _simTime.sec() << std::endl;
     this->LogEvent(stream.str());
+
+    if (this->rosnode)
+    {
+      this->prevPhase = "run";
+      subt_ros::RunStatus statusMsg;
+      statusMsg.status = "run";
+      statusMsg.timestamp.sec = _simTime.sec();
+      statusMsg.timestamp.nsec = _simTime.nsec();
+      this->rosStatusPub.publish(statusMsg);
+    }
   }
 
   // Update files when scoring has started.
-  this->UpdateScoreFiles();
+  this->UpdateScoreFiles(_simTime);
 
   return result;
 }
 
 /////////////////////////////////////////////////
-void GameLogicPluginPrivate::Finish()
+void GameLogicPluginPrivate::Finish(const ignition::msgs::Time &_simTime)
 {
   // Pause simulation when finished. Always send this request, just to be
   // safe.
@@ -1879,31 +2148,32 @@ void GameLogicPluginPrivate::Finish()
   // returns the time point used to calculate the elapsed real time. By
   // returning this time point, we can make sure that this function (the
   // ::Finish function) uses the same time point.
-  std::chrono::steady_clock::time_point currTime = this->UpdateScoreFiles();
+  std::chrono::steady_clock::time_point currTime =
+    this->UpdateScoreFiles(_simTime);
 
   if (this->started)
   {
     realElapsed = std::chrono::duration_cast<std::chrono::seconds>(
         currTime - this->startTime).count();
 
-    simElapsed = this->simTime.sec() - this->startSimTime.sec();
+    simElapsed = _simTime.sec() - this->startSimTime.sec();
 
     ignmsg << "Scoring has finished. Elapsed real time: "
           << realElapsed << " seconds. Elapsed sim time: "
           << simElapsed << " seconds. " << std::endl;
 
-    this->Log() << "finished_elapsed_real_time " << realElapsed
+    this->Log(_simTime) << "finished_elapsed_real_time " << realElapsed
       << " s." << std::endl;
-    this->Log() << "finished_elapsed_sim_time " << simElapsed
+    this->Log(_simTime) << "finished_elapsed_sim_time " << simElapsed
       << " s." << std::endl;
-    this->Log() << "finished_score " << this->totalScore << std::endl;
+    this->Log(_simTime) << "finished_score " << this->totalScore << std::endl;
     this->logStream.flush();
 
     std::ostringstream stream;
     stream
       << "- event:\n"
       << "  type: finished\n"
-      << "  time_sec: " << this->simTime.sec() << "\n"
+      << "  time_sec: " << _simTime.sec() << "\n"
       << "  elapsed_real_time: " << realElapsed << "\n"
       << "  elapsed_sim_time: " << simElapsed << "\n"
       << "  total_score: " << this->totalScore << std::endl;
@@ -1912,18 +2182,29 @@ void GameLogicPluginPrivate::Finish()
     // \todo(nkoenig) After the tunnel circuit, change the /subt/start topic
     // to /sub/status.
     ignition::msgs::StringMsg msg;
-    msg.mutable_header()->mutable_stamp()->CopyFrom(this->simTime);
+    msg.mutable_header()->mutable_stamp()->CopyFrom(_simTime);
     msg.set_data("finished");
     this->state = "finished";
     this->startPub.Publish(msg);
     this->lastStatusPubTime = std::chrono::steady_clock::now();
+
+    if (this->rosnode)
+    {
+      this->prevPhase = "finished";
+      subt_ros::RunStatus statusMsg;
+      statusMsg.status = "finished";
+      statusMsg.timestamp.sec = _simTime.sec();
+      statusMsg.timestamp.nsec = _simTime.nsec();
+      this->rosStatusPub.publish(statusMsg);
+    }
   }
 
   this->finished = true;
 }
 
 /////////////////////////////////////////////////
-std::chrono::steady_clock::time_point GameLogicPluginPrivate::UpdateScoreFiles()
+std::chrono::steady_clock::time_point GameLogicPluginPrivate::UpdateScoreFiles(
+    const ignition::msgs::Time &_simTime)
 {
   std::lock_guard<std::mutex> lock(this->logMutex);
 
@@ -1935,7 +2216,7 @@ std::chrono::steady_clock::time_point GameLogicPluginPrivate::UpdateScoreFiles()
 
   if (this->started)
   {
-    simElapsed = this->simTime.sec() - this->startSimTime.sec();
+    simElapsed = _simTime.sec() - this->startSimTime.sec();
     realElapsed = std::chrono::duration_cast<std::chrono::seconds>(
         currTime - this->startTime).count();
   }
@@ -1955,7 +2236,7 @@ std::chrono::steady_clock::time_point GameLogicPluginPrivate::UpdateScoreFiles()
   score.flush();
 
   this->LogRobotPosData();
-  this->LogRobotArtifactData();
+  this->LogRobotArtifactData(_simTime, realElapsed, simElapsed);
 
   this->lastUpdateScoresTime = currTime;
   return currTime;
@@ -2017,7 +2298,7 @@ void GameLogicPluginPrivate::LogRobotPosData()
         auto t = posIt->first;
         int64_t s, ns;
         std::tie(s, ns) = ignition::math::durationToSecNsec(posIt->first);
-        math::Vector3d pos = posIt->second;
+        math::Vector3d pos = posIt->second.Pos();
         // sec nsec x y z
         *posStream << s << " " << ns << " " << pos << std::endl;
       }
@@ -2030,20 +2311,11 @@ void GameLogicPluginPrivate::LogRobotPosData()
 }
 
 /////////////////////////////////////////////////
-void GameLogicPluginPrivate::LogRobotArtifactData() const
+void GameLogicPluginPrivate::LogRobotArtifactData(
+    const ignition::msgs::Time &_simTime,
+    int _realElapsed,
+    int _simElapsed) const
 {
-  int realElapsed = 0;
-  int simElapsed = 0;
-  std::chrono::steady_clock::time_point currTime =
-    std::chrono::steady_clock::now();
-
-  if (this->started)
-  {
-    simElapsed = this->simTime.sec() - this->startSimTime.sec();
-    realElapsed = std::chrono::duration_cast<std::chrono::seconds>(
-        currTime - this->startTime).count();
-  }
-
   // output robot and artifact data to a yml file
   // 1. Number of artifacts found.
   // 2. Robot count
@@ -2074,13 +2346,27 @@ void GameLogicPluginPrivate::LogRobotArtifactData() const
   // 22. Min elevation reached by a robot
   // 23. Robot configurations and marsupial pairs.
 
+  subt_ros::RunStatistics statsMsg;
+
+  statsMsg.timestamp.sec = _simTime.sec();
+  statsMsg.timestamp.nsec = _simTime.nsec();
+  statsMsg.world_name = this->worldName;
+
   YAML::Emitter out;
   out << YAML::BeginMap;
 
+  out << YAML::Key << "world_name";
+  out << YAML::Value  << this->worldName;
   out << YAML::Key << "robots";
   out << YAML::Value << YAML::BeginMap;
   for (auto const &pair : this->robotFullTypes)
   {
+    subt_ros::Robot robotMsg;
+    robotMsg.name = pair.first;
+    robotMsg.platform = pair.second.first;
+    robotMsg.type = pair.second.second;
+    statsMsg.robots.push_back(robotMsg);
+
     out << YAML::Key << pair.first;
     out << YAML::Value << YAML::BeginMap;
     out << YAML::Key << "platform" << YAML::Value << pair.second.first;
@@ -2092,24 +2378,43 @@ void GameLogicPluginPrivate::LogRobotArtifactData() const
   out << YAML::Key << "marsupials";
   out << YAML::Value << YAML::BeginMap;
   for (auto const &pair : this->marsupialPairs)
+  {
     out << YAML::Key << pair.first << YAML::Value << pair.second;
+    subt_ros::Marsupial marsupialMsg;
+    marsupialMsg.parent = pair.first;
+    marsupialMsg.child = pair.second;
+    statsMsg.marsupials.push_back(marsupialMsg);
+  }
   out << YAML::EndMap;
 
   // artifact data
   out << YAML::Key << "artifacts_found";
   out << YAML::Value << this->foundArtifacts.size();
+  statsMsg.artifacts_found = this->foundArtifacts.size();
+
   out << YAML::Key << "robot_count";
   out << YAML::Value << this->robotNames.size();
+  statsMsg.robot_count = this->robotNames.size();
+
   out << YAML::Key << "unique_robot_count";
   out << YAML::Value << this->robotTypes.size();
+  statsMsg.unique_robot_count = this->robotTypes.size();
+
   out << YAML::Key << "sim_time";
-  out << YAML::Value << simElapsed;
+  out << YAML::Value << _simElapsed;
+  statsMsg.sim_time_elapsed = _simElapsed;
+
   out << YAML::Key << "real_time";
-  out << YAML::Value << realElapsed;
+  out << YAML::Value << _realElapsed;
+  statsMsg.real_time_elapsed = _realElapsed;
+
   out << YAML::Key << "artifact_report_count";
   out << YAML::Value << this->reportCount;
+  statsMsg.artifact_report_count = this->reportCount;
+
   out << YAML::Key << "duplicate_report_count";
   out << YAML::Value << this->duplicateReportCount;
+  statsMsg.duplicate_report_count = this->duplicateReportCount;
 
   std::stringstream artifactPos;
   artifactPos << std::get<2>(this->closestReport);
@@ -2133,6 +2438,17 @@ void GameLogicPluginPrivate::LogRobotArtifactData() const
   out << YAML::Value << this->firstReportTime;
   out << YAML::Key << "last_artifact_report";
   out << YAML::Value << this->lastReportTime;
+  statsMsg.closest_artifact_report_name = std::get<0>(this->closestReport);
+  statsMsg.closest_artifact_report_type = std::get<1>(this->closestReport);
+  statsMsg.closest_artifact_report_true_pos.x = std::get<2>(this->closestReport).X();
+  statsMsg.closest_artifact_report_true_pos.y = std::get<2>(this->closestReport).Y();
+  statsMsg.closest_artifact_report_true_pos.z = std::get<2>(this->closestReport).Z();
+  statsMsg.closest_artifact_report_reported_pos.x = std::get<3>(this->closestReport).X();
+  statsMsg.closest_artifact_report_reported_pos.y = std::get<3>(this->closestReport).Y();
+  statsMsg.closest_artifact_report_reported_pos.z = std::get<3>(this->closestReport).Z();
+  statsMsg.closest_artifact_report_distance = std::get<4>(this->closestReport);
+  statsMsg.first_artifact_report_time = this->firstReportTime;
+  statsMsg.last_artifact_report_time = this->lastReportTime;
 
   double meanReportTime = 0;
   if (!this->foundArtifacts.empty())
@@ -2142,54 +2458,88 @@ void GameLogicPluginPrivate::LogRobotArtifactData() const
   }
   out << YAML::Key << "mean_time_between_successful_artifact_reports";
   out << YAML::Value << meanReportTime;
+  statsMsg.mean_time_between_successful_artifact_reports = meanReportTime;
 
   // robot distance traveled and vel data
   out << YAML::Key << "greatest_distance_traveled";
   out << YAML::Value << this->maxRobotDistance.second;
   out << YAML::Key << "greatest_distance_traveled_robot";
   out << YAML::Value << this->maxRobotDistance.first;
+  statsMsg.greatest_distance_traveled.name = this->maxRobotDistance.first;
+  statsMsg.greatest_distance_traveled.data = this->maxRobotDistance.second;
+
   out << YAML::Key << "greatest_euclidean_distance_from_start";
   out << YAML::Value << this->maxRobotEuclideanDistance.second;
   out << YAML::Key << "greatest_euclidean_distance_from_start_robot";
   out << YAML::Value << this->maxRobotEuclideanDistance.first;
+  statsMsg.greatest_euclidean_distance_from_start.name =
+    this->maxRobotEuclideanDistance.first;
+  statsMsg.greatest_euclidean_distance_from_start.data =
+    this->maxRobotEuclideanDistance.second;
+
   out << YAML::Key << "total_distance_traveled";
   out << YAML::Value << this->robotsTotalDistance;
+  statsMsg.total_distance_traveled =this->robotsTotalDistance;
+
   out << YAML::Key << "greatest_max_vel";
   out << YAML::Value << this->maxRobotVel.second;
   out << YAML::Key << "greatest_max_vel_robot";
   out << YAML::Value << this->maxRobotVel.first;
+  statsMsg.greatest_max_vel.name = this->maxRobotVel.first;
+  statsMsg.greatest_max_vel.data = this->maxRobotVel.second;
+
   out << YAML::Key << "greatest_avg_vel";
   out << YAML::Value << this->maxRobotAvgVel.second;
   out << YAML::Key << "greatest_avg_vel_robot";
   out << YAML::Value << this->maxRobotAvgVel.first;
+  statsMsg.greatest_avg_vel.name = this->maxRobotAvgVel.first;
+  statsMsg.greatest_avg_vel.data = this->maxRobotAvgVel.second;
 
   // robot elevation data
   out << YAML::Key << "greatest_elevation_gain";
   out << YAML::Value << this->maxRobotElevationGain.second;
   out << YAML::Key << "greatest_elevation_gain_robot";
   out << YAML::Value << this->maxRobotElevationGain.first;
+  statsMsg.greatest_elevation_gain.name = this->maxRobotElevationGain.first;
+  statsMsg.greatest_elevation_gain.data = this->maxRobotElevationGain.second;
+
   out << YAML::Key << "greatest_elevation_loss";
   out << YAML::Value << this->maxRobotElevationLoss.second;
   out << YAML::Key << "greatest_elevation_loss_robot";
   out << YAML::Value << this->maxRobotElevationLoss.first;
+  statsMsg.greatest_elevation_loss.name = this->maxRobotElevationLoss.first;
+  statsMsg.greatest_elevation_loss.data = this->maxRobotElevationLoss.second;
+
   out << YAML::Key << "total_elevation_gain";
   out << YAML::Value << this->robotsTotalElevationGain;
+  statsMsg.total_elevation_gain = this->robotsTotalElevationGain;
+
   out << YAML::Key << "total_elevation_loss";
   out << YAML::Value << this->robotsTotalElevationLoss;
+  statsMsg.total_elevation_loss = this->robotsTotalElevationLoss;
+
   out << YAML::Key << "max_elevation_reached";
   out << YAML::Value << this->maxRobotElevation.second;
   out << YAML::Key << "max_elevation_reached_robot";
   out << YAML::Value << this->maxRobotElevation.first;
+  statsMsg.max_elevation_reached.name = this->maxRobotElevation.first;
+  statsMsg.max_elevation_reached.data = this->maxRobotElevation.second;
+
   out << YAML::Key << "min_elevation_reached";
   out << YAML::Value << this->minRobotElevation.second;
   out << YAML::Key << "min_elevation_reached_robot";
   out << YAML::Value << this->minRobotElevation.first;
+  statsMsg.min_elevation_reached.name = this->minRobotElevation.first;
+  statsMsg.min_elevation_reached.data = this->minRobotElevation.second;
 
   out << YAML::EndMap;
 
   std::ofstream logFile(this->logPath + "/run.yml", std::ios::out);
   logFile << out.c_str() << std::endl;
   logFile.flush();
+
+  if (this->rosnode)
+    this->rosStatsPub.publish(statsMsg);
 }
 
 /////////////////////////////////////////////////
@@ -2211,7 +2561,7 @@ bool GameLogicPluginPrivate::PoseFromArtifactHelper(const std::string &_robot,
   std::map<std::string, ignition::math::Pose3d>::iterator baseIter =
     this->poses.find(subt::kBaseStationName);
 
-  // Sanity check: Make sure that the robot is in the stagging area, as this
+  // Sanity check: Make sure that the robot is in the staging area, as this
   // service is only available in that zone.
   if (baseIter == this->poses.end())
   {
@@ -2261,10 +2611,44 @@ void GameLogicPluginPrivate::LogEvent(const std::string &_event)
 }
 
 /////////////////////////////////////////////////
-std::ofstream &GameLogicPluginPrivate::Log()
+void GameLogicPluginPrivate::PublishRobotEvent(
+    const ignition::msgs::Time &_simTime,
+    const std::string &_type,
+    const std::string &_robot)
 {
-  this->logStream << this->simTime.sec()
-                  << " " << this->simTime.nsec() << " ";
+  subt_ros::RobotEvent msg;
+  msg.timestamp.sec = _simTime.sec();
+  msg.timestamp.nsec = _simTime.nsec();
+  msg.event_type = _type;
+  msg.robot_name = _robot;
+  if (this->rosnode)
+    this->rosRobotEventPub.publish(msg);
+}
+
+/////////////////////////////////////////////////
+void GameLogicPluginPrivate::PublishRegionEvent(
+    const ignition::msgs::Time &_simTime,
+    const std::string &_type,
+    const std::string &_robot, const std::string &_detector,
+    const std::string &_state)
+{
+  subt_ros::RegionEvent msg;
+  msg.timestamp.sec = _simTime.sec();
+  msg.timestamp.nsec = _simTime.nsec();
+  msg.event_type = _type;
+  msg.robot_name = _robot;
+  msg.detector = _detector;
+  msg.state = _state;
+  if (this->rosnode)
+    this->rosRegionEventPub.publish(msg);
+}
+
+/////////////////////////////////////////////////
+std::ofstream &GameLogicPluginPrivate::Log(
+    const ignition::msgs::Time &_simTime)
+{
+  this->logStream << _simTime.sec()
+                  << " " << _simTime.nsec() << " ";
   return this->logStream;
 }
 
@@ -2294,14 +2678,16 @@ void GameLogicPluginPrivate::CheckRobotFlip()
       if (!this->robotFlipInfo[name].second && (simElapsed >= 3))
       {
         this->robotFlipInfo[name].second = true;
+    ignition::msgs::Time localSimTime(this->simTime);
 
         std::ostringstream stream;
         stream
           << "- event:\n"
           << "  type: flip\n"
-          << "  time_sec: " << this->simTime.sec() << "\n"
+          << "  time_sec: " << localSimTime.sec() << "\n"
           << "  robot: " << name << "\n";
         this->LogEvent(stream.str());
+        this->PublishRobotEvent(localSimTime, "flip", name);
       }
     }
     else
