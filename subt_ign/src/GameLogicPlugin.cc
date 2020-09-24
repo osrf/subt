@@ -210,7 +210,8 @@ class subt::GameLogicPluginPrivate
   public: void PublishRobotEvent(
     const ignition::msgs::Time &_simTime,
     const std::string &_type,
-    const std::string &_robot);
+    const std::string &_robot,
+    int _eventId);
 
   /// \brief Publish a region event.
   /// \param[in] _simTime Current sim time.
@@ -220,7 +221,8 @@ class subt::GameLogicPluginPrivate
     const ignition::msgs::Time &_simTime,
     const std::string &_type,
     const std::string &_robot, const std::string &_detector,
-    const std::string &_state);
+    const std::string &_state,
+    int _eventId);
 
   /// \brief Marsupial detach subscription callback.
   /// \param[in] _msg Detach message.
@@ -551,6 +553,12 @@ class subt::GameLogicPluginPrivate
   public: std::map<std::string, ros::Publisher> rosRobotPosePubs;
   public: std::map<std::string, ros::Publisher> rosRobotKinematicPubs;
   public: std::string prevPhase = "";
+
+  /// \brief Counter to create unique id for events
+  public: int eventCounter = 0;
+
+  /// \brief Mutex to protect the eventCounter.
+  public: std::mutex eventCounterMutex;
 };
 
 //////////////////////////////////////////////////
@@ -750,15 +758,21 @@ void GameLogicPluginPrivate::OnBatteryMsg(
     if (this->deadBatteries.find(name) == this->deadBatteries.end())
     {
       this->deadBatteries.emplace(name);
-      std::ostringstream stream;
-      stream
-        << "- event:\n"
-        << "  type: dead_battery\n"
-        << "  time_sec: " << localSimTime.sec() << "\n"
-        << "  robot: " << name << std::endl;
+      {
+        std::lock_guard<std::mutex> lock(this->eventCounterMutex);
+        std::ostringstream stream;
+        stream
+          << "- event:\n"
+          << "  id: " << this->eventCounter << "\n"
+          << "  type: dead_battery\n"
+          << "  time_sec: " << localSimTime.sec() << "\n"
+          << "  robot: " << name << std::endl;
 
-      this->LogEvent(stream.str());
-      this->PublishRobotEvent(localSimTime, "dead_battery", name);
+        this->LogEvent(stream.str());
+        this->PublishRobotEvent(localSimTime, "dead_battery", name,
+            this->eventCounter);
+        this->eventCounter++;
+      }
     }
   }
 }
@@ -777,20 +791,26 @@ void GameLogicPluginPrivate::OnBreadcrumbDeployEvent(
   if (topicParts.size() > 1)
     name = topicParts[1];
 
-  std::ostringstream stream;
-  stream
-    << "- event:\n"
-    << "  type: breadcrumb_deploy\n"
-    << "  time_sec: " << localSimTime.sec() << "\n"
-    << "  robot: " << name << std::endl;
-
-  this->LogEvent(stream.str());
-
-  // Only publish if max breadcrumbs has not been reached.
-  if (this->breadcrumbsMax.find(name) == this->breadcrumbsMax.end() ||
-      this->breadcrumbsMax[name] <= 0)
   {
-    this->PublishRobotEvent(localSimTime, "breadcrumb_deploy", name);
+    std::lock_guard<std::mutex> lock(this->eventCounterMutex);
+    std::ostringstream stream;
+    stream
+      << "- event:\n"
+      << "  id: " << this->eventCounter << "\n"
+      << "  type: breadcrumb_deploy\n"
+      << "  time_sec: " << localSimTime.sec() << "\n"
+      << "  robot: " << name << std::endl;
+
+    this->LogEvent(stream.str());
+
+    // Only publish if max breadcrumbs has not been reached.
+    if (this->breadcrumbsMax.find(name) == this->breadcrumbsMax.end() ||
+        this->breadcrumbsMax[name] <= 0)
+    {
+      this->PublishRobotEvent(localSimTime, "breadcrumb_deploy", name,
+          this->eventCounter);
+    }
+    this->eventCounter++;
   }
 }
 
@@ -812,9 +832,11 @@ void GameLogicPluginPrivate::OnBreadcrumbDeployRemainingEvent(
 
     if (this->breadcrumbsMax[name] > 0)
     {
+      std::lock_guard<std::mutex> lock(this->eventCounterMutex);
       std::ostringstream stream;
       stream
         << "- event:\n"
+        << "  id: " << this->eventCounter++ << "\n"
         << "  type: max_breadcrumb_deploy\n"
         << "  time_sec: " << localSimTime.sec() << "\n"
         << "  robot: " << name << std::endl;
@@ -851,9 +873,11 @@ void GameLogicPluginPrivate::OnRockFallDeployRemainingEvent(
     {
       if (this->rockFallsMax[name].second == 1)
       {
+        std::lock_guard<std::mutex> lock(this->eventCounterMutex);
         std::ostringstream stream;
         stream
           << "- event:\n"
+          << "  id: " << this->eventCounter++ << "\n"
           << "  type: max_rock_falls\n"
           << "  time_sec: " << localSimTime.sec() << "\n"
           << "  model: " << name << std::endl;
@@ -866,16 +890,19 @@ void GameLogicPluginPrivate::OnRockFallDeployRemainingEvent(
       }
       else if (this->rockFallsMax[name].second == 0)
       {
+        std::lock_guard<std::mutex> lock(this->eventCounterMutex);
         std::ostringstream stream;
         stream
           << "- event:\n"
+          << "  id: " << this->eventCounter << "\n"
           << "  type: rock_fall\n"
           << "  time_sec: " << localSimTime.sec() << "\n"
           << "  model: " << name << std::endl;
 
         this->LogEvent(stream.str());
         this->PublishRegionEvent(localSimTime, "rock_fall", "", name,
-            "rock_fall");
+            "rock_fall", this->eventCounter);
+        this->eventCounter++;
       }
 
       this->rockFallsMax[name].second++;
@@ -886,15 +913,19 @@ void GameLogicPluginPrivate::OnRockFallDeployRemainingEvent(
   // and not once for every rock in the rock fall.
   else if (this->rockFallsMax[name].first != localSimTime.sec())
   {
+    std::lock_guard<std::mutex> lock(this->eventCounterMutex);
     std::ostringstream stream;
     stream
       << "- event:\n"
+      << "  id: " << this->eventCounter << "\n"
       << "  type: rock_fall\n"
       << "  time_sec: " << localSimTime.sec() << "\n"
       << "  model: " << name << std::endl;
 
     this->LogEvent(stream.str());
-    this->PublishRegionEvent(localSimTime, "rock_fall", "", name, "rock_fall");
+    this->PublishRegionEvent(localSimTime, "rock_fall", "", name, "rock_fall",
+        this->eventCounter);
+    this->eventCounter++;
     this->rockFallsMax[name].first = localSimTime.sec();
   }
 }
@@ -913,16 +944,20 @@ void GameLogicPluginPrivate::OnDetachEvent(
   if (topicParts.size() > 1)
     name = topicParts[1];
 
+  {
+    std::lock_guard<std::mutex> lock(this->eventCounterMutex);
+    std::ostringstream stream;
+    stream
+      << "- event:\n"
+      << "  id: " << this->eventCounter << "\n"
+      << "  type: detach\n"
+      << "  time_sec: " << localSimTime.sec() << "\n"
+      << "  robot: " << name << std::endl;
 
-  std::ostringstream stream;
-  stream
-    << "- event:\n"
-    << "  type: detach\n"
-    << "  time_sec: " << localSimTime.sec() << "\n"
-    << "  robot: " << name << std::endl;
-
-  this->LogEvent(stream.str());
-  this->PublishRobotEvent(localSimTime, "detach", name);
+    this->LogEvent(stream.str());
+    this->PublishRobotEvent(localSimTime, "detach", name, this->eventCounter);
+    this->eventCounter++;
+  }
 }
 
 //////////////////////////////////////////////////
@@ -950,43 +985,48 @@ void GameLogicPluginPrivate::OnEvent(const ignition::msgs::Pose &_msg)
     }
   }
 
-  // Default to detect
-  std::string regionEventType;
-  std::ostringstream stream;
-  stream
-    << "- event:\n"
-    << "  type: detect\n"
-    << "  time_sec: " << _msg.header().stamp().sec() << "\n"
-    << "  detector: " << frameId << "\n"
-    << "  robot: " << _msg.name() << "\n"
-    << "  state: " << state << std::endl;
-  if (!extraData.empty())
   {
-    stream << "  extra:\n";
-    for (const auto &data : extraData)
+    std::lock_guard<std::mutex> lock(this->eventCounterMutex);
+    // Default to detect
+    std::string regionEventType;
+    std::ostringstream stream;
+    stream
+      << "- event:\n"
+      << "  id: " << this->eventCounter << "\n"
+      << "  type: detect\n"
+      << "  time_sec: " << _msg.header().stamp().sec() << "\n"
+      << "  detector: " << frameId << "\n"
+      << "  robot: " << _msg.name() << "\n"
+      << "  state: " << state << std::endl;
+    if (!extraData.empty())
     {
-      // there should be only 1 key-value pair. Just in case, we will grab
-      // only the first. The key is currently always "type", which we can
-      // ignore when sending the ROS message.
-      if (regionEventType.empty())
+      stream << "  extra:\n";
+      for (const auto &data : extraData)
       {
-        if (data.second.find("performer_detector_rockfall") ==
-            std::string::npos)
+        // there should be only 1 key-value pair. Just in case, we will grab
+        // only the first. The key is currently always "type", which we can
+        // ignore when sending the ROS message.
+        if (regionEventType.empty())
         {
-          regionEventType = data.second;
+          if (data.second.find("performer_detector_rockfall") ==
+              std::string::npos)
+          {
+            regionEventType = data.second;
+          }
         }
-      }
 
-      stream << "    "
-        << data.first << ": " << data.second << std::endl;
+        stream << "    "
+          << data.first << ": " << data.second << std::endl;
+      }
     }
+    // Default to "detect" if not set.
+    if (regionEventType.empty())
+      regionEventType = "detect";
+    this->LogEvent(stream.str());
+    this->PublishRegionEvent(localSimTime,
+        regionEventType, _msg.name(), frameId, state, this->eventCounter);
+    this->eventCounter++;
   }
-  // Default to "detect" if not set.
-  if (regionEventType.empty())
-    regionEventType = "detect";
-  this->LogEvent(stream.str());
-  this->PublishRegionEvent(localSimTime,
-      regionEventType, _msg.name(), frameId, state);
 }
 
 //////////////////////////////////////////////////
@@ -1603,10 +1643,12 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
 
   if (this->started && this->finished)
   {
+    std::lock_guard<std::mutex> lock(this->eventCounterMutex);
     _resp.set_report_status("scoring finished");
     std::ostringstream stream;
     stream
       << "- event:\n"
+      << "  id: " << this->eventCounter++ << "\n"
       << "  type: artifact_report_score_finished\n"
       << "  time_sec: " << localSimTime.sec() << "\n"
       << "  total_score: " << this->totalScore << std::endl;
@@ -1614,10 +1656,12 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
   }
   else if (!this->started && !this->finished)
   {
+    std::lock_guard<std::mutex> lock(this->eventCounterMutex);
     _resp.set_report_status("run not started");
     std::ostringstream stream;
     stream
       << "- event:\n"
+      << "  id: " << this->eventCounter++ << "\n"
       << "  type: artifact_report_not_started\n"
       << "  time_sec: " << localSimTime.sec() << "\n"
       << "  total_score: " << this->totalScore << std::endl;
@@ -1625,21 +1669,27 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
   }
   else if (this->reportCount >= this->reportCountLimit)
   {
-    _resp.set_report_status("report limit exceeded");
-    std::ostringstream stream;
-    stream
-      << "- event:\n"
-      << "  type: artifact_report_limit_exceeded\n"
-      << "  time_sec: " << localSimTime.sec() << "\n"
-      << "  total_score: " << this->totalScore << std::endl;
-    this->LogEvent(stream.str());
+    {
+      std::lock_guard<std::mutex> lock(this->eventCounterMutex);
+      _resp.set_report_status("report limit exceeded");
+      std::ostringstream stream;
+      stream
+        << "- event:\n"
+        << "  id: " << this->eventCounter++ << "\n"
+        << "  type: artifact_report_limit_exceeded\n"
+        << "  time_sec: " << localSimTime.sec() << "\n"
+        << "  total_score: " << this->totalScore << std::endl;
+      this->LogEvent(stream.str());
+    }
     this->Finish(localSimTime);
   }
   else if (!this->ArtifactFromInt(_req.type(), artifactType))
   {
+    std::lock_guard<std::mutex> lock(this->eventCounterMutex);
     std::ostringstream stream;
     stream
       << "- event:\n"
+      << "  id: " << this->eventCounter++ << "\n"
       << "  type: artifact_report_unknown_artifact\n"
       << "  time_sec: " << localSimTime.sec() << "\n"
       << "  total_score: " << this->totalScore << std::endl;
@@ -1699,13 +1749,17 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
     this->Log(localSimTime) << "report_limit_reached" << std::endl;
     ignmsg << "Report limit reached." << std::endl;
 
-    std::ostringstream stream;
-    stream
-      << "- event:\n"
-      << "  type: artifact_report_limit_reached\n"
-      << "  time_sec: " << localSimTime.sec() << "\n"
-      << "  total_score: " << this->totalScore << std::endl;
-    this->LogEvent(stream.str());
+    {
+      std::lock_guard<std::mutex> lock(this->eventCounterMutex);
+      std::ostringstream stream;
+      stream
+        << "- event:\n"
+        << "  id: " << this->eventCounter++ << "\n"
+        << "  type: artifact_report_limit_reached\n"
+        << "  time_sec: " << localSimTime.sec() << "\n"
+        << "  total_score: " << this->totalScore << std::endl;
+      this->LogEvent(stream.str());
+    }
 
     this->Finish(localSimTime);
     return true;
@@ -1773,14 +1827,18 @@ std::tuple<double, bool> GameLogicPluginPrivate::ScoreArtifact(
     ignmsg << "Unknown artifact type" << std::endl;
     this->Log(_simTime) << "Unkown artifact type reported" << std::endl;
 
-    std::ostringstream stream;
-    stream
-      << "- event:\n"
-      << "  type: unknown_artifact_type\n"
-      << "  time_sec: " << _simTime.sec() << "\n"
-      << "  reported_pose: " << observedObjectPose << "\n"
-      << "  reported_artifact_type: " << reportType << "\n";
-    this->LogEvent(stream.str());
+    {
+      std::lock_guard<std::mutex> lock(this->eventCounterMutex);
+      std::ostringstream stream;
+      stream
+        << "- event:\n"
+        << "  id: " << this->eventCounter++ << "\n"
+        << "  type: unknown_artifact_type\n"
+        << "  time_sec: " << _simTime.sec() << "\n"
+        << "  reported_pose: " << observedObjectPose << "\n"
+        << "  reported_artifact_type: " << reportType << "\n";
+      this->LogEvent(stream.str());
+    }
 
     return {0.0, false};
   }
@@ -1801,14 +1859,18 @@ std::tuple<double, bool> GameLogicPluginPrivate::ScoreArtifact(
     ignmsg << "This report has been received before" << std::endl;
     this->Log(_simTime) << "This report has been received before" << std::endl;
 
-    std::ostringstream stream;
-    stream
-      << "- event:\n"
-      << "  type: duplicate_artifact_report\n"
-      << "  time_sec: " << _simTime.sec() << "\n"
-      << "  reported_pose: " << observedObjectPose << "\n"
-      << "  reported_artifact_type: " << reportType << "\n";
-    this->LogEvent(stream.str());
+    {
+      std::lock_guard<std::mutex> lock(this->eventCounterMutex);
+      std::ostringstream stream;
+      stream
+        << "- event:\n"
+        << "  id: " << this->eventCounter++ << "\n"
+        << "  type: duplicate_artifact_report\n"
+        << "  time_sec: " << _simTime.sec() << "\n"
+        << "  reported_pose: " << observedObjectPose << "\n"
+        << "  reported_artifact_type: " << reportType << "\n";
+      this->LogEvent(stream.str());
+    }
 
     this->duplicateReportCount++;
     return {uniqueReport->second, true};
@@ -1888,18 +1950,23 @@ std::tuple<double, bool> GameLogicPluginPrivate::ScoreArtifact(
 
   auto outDist = std::isinf(std::get<2>(minDistance)) ? -1 :
     std::get<2>(minDistance);
-  std::ostringstream stream;
-  stream
-    << "- event:\n"
-    << "  type: artifact_report_attempt\n"
-    << "  time_sec: " << _simTime.sec() << "\n"
-    << "  reported_pose: " << observedObjectPose << "\n"
-    << "  reported_artifact_type: " << reportType << "\n"
-    << "  closest_artifact_name: " << std::get<0>(minDistance) << "\n"
-    << "  distance: " <<  outDist << "\n"
-    << "  points_scored: " << score << "\n"
-    << "  total_score: " << this->totalScore + score << std::endl;
-  this->LogEvent(stream.str());
+
+  {
+    std::lock_guard<std::mutex> lock(this->eventCounterMutex);
+    std::ostringstream stream;
+    stream
+      << "- event:\n"
+      << "  id: " << this->eventCounter++ << "\n"
+      << "  type: artifact_report_attempt\n"
+      << "  time_sec: " << _simTime.sec() << "\n"
+      << "  reported_pose: " << observedObjectPose << "\n"
+      << "  reported_artifact_type: " << reportType << "\n"
+      << "  closest_artifact_name: " << std::get<0>(minDistance) << "\n"
+      << "  distance: " <<  outDist << "\n"
+      << "  points_scored: " << score << "\n"
+      << "  total_score: " << this->totalScore + score << std::endl;
+    this->LogEvent(stream.str());
+  }
 
   _artifactMsg.reported_artifact_type = reportType;
   _artifactMsg.reported_artifact_position.x = observedObjectPose.X();
@@ -2106,21 +2173,26 @@ bool GameLogicPluginPrivate::Start(const ignition::msgs::Time &_simTime)
     this->startPub.Publish(msg);
     this->lastStatusPubTime = std::chrono::steady_clock::now();
 
-    std::ostringstream stream;
-    stream
-      << "- event:\n"
-      << "  type: started\n"
-      << "  time_sec: " << _simTime.sec() << std::endl;
-    this->LogEvent(stream.str());
-
-    if (this->rosnode)
     {
-      this->prevPhase = "run";
-      subt_ros::RunStatus statusMsg;
-      statusMsg.status = "run";
-      statusMsg.timestamp.sec = _simTime.sec();
-      statusMsg.timestamp.nsec = _simTime.nsec();
-      this->rosStatusPub.publish(statusMsg);
+      std::lock_guard<std::mutex> lock(this->eventCounterMutex);
+      std::ostringstream stream;
+      stream
+        << "- event:\n"
+        << "  id: " << this->eventCounter << "\n"
+        << "  type: started\n"
+        << "  time_sec: " << _simTime.sec() << std::endl;
+      this->LogEvent(stream.str());
+
+      if (this->rosnode)
+      {
+        this->prevPhase = "run";
+        subt_ros::RunStatus statusMsg;
+        statusMsg.status = "run";
+        statusMsg.timestamp.sec = _simTime.sec();
+        statusMsg.timestamp.nsec = _simTime.nsec();
+        this->rosStatusPub.publish(statusMsg);
+      }
+      this->eventCounter++;
     }
   }
 
@@ -2169,33 +2241,38 @@ void GameLogicPluginPrivate::Finish(const ignition::msgs::Time &_simTime)
     this->Log(_simTime) << "finished_score " << this->totalScore << std::endl;
     this->logStream.flush();
 
-    std::ostringstream stream;
-    stream
-      << "- event:\n"
-      << "  type: finished\n"
-      << "  time_sec: " << _simTime.sec() << "\n"
-      << "  elapsed_real_time: " << realElapsed << "\n"
-      << "  elapsed_sim_time: " << simElapsed << "\n"
-      << "  total_score: " << this->totalScore << std::endl;
-    this->LogEvent(stream.str());
-
-    // \todo(nkoenig) After the tunnel circuit, change the /subt/start topic
-    // to /sub/status.
-    ignition::msgs::StringMsg msg;
-    msg.mutable_header()->mutable_stamp()->CopyFrom(_simTime);
-    msg.set_data("finished");
-    this->state = "finished";
-    this->startPub.Publish(msg);
-    this->lastStatusPubTime = std::chrono::steady_clock::now();
-
-    if (this->rosnode)
     {
-      this->prevPhase = "finished";
-      subt_ros::RunStatus statusMsg;
-      statusMsg.status = "finished";
-      statusMsg.timestamp.sec = _simTime.sec();
-      statusMsg.timestamp.nsec = _simTime.nsec();
-      this->rosStatusPub.publish(statusMsg);
+      std::lock_guard<std::mutex> lock(this->eventCounterMutex);
+      std::ostringstream stream;
+      stream
+        << "- event:\n"
+        << "  id: " << this->eventCounter << "\n"
+        << "  type: finished\n"
+        << "  time_sec: " << _simTime.sec() << "\n"
+        << "  elapsed_real_time: " << realElapsed << "\n"
+        << "  elapsed_sim_time: " << simElapsed << "\n"
+        << "  total_score: " << this->totalScore << std::endl;
+      this->LogEvent(stream.str());
+
+      // \todo(nkoenig) After the tunnel circuit, change the /subt/start topic
+      // to /sub/status.
+      ignition::msgs::StringMsg msg;
+      msg.mutable_header()->mutable_stamp()->CopyFrom(_simTime);
+      msg.set_data("finished");
+      this->state = "finished";
+      this->startPub.Publish(msg);
+      this->lastStatusPubTime = std::chrono::steady_clock::now();
+
+      if (this->rosnode)
+      {
+        this->prevPhase = "finished";
+        subt_ros::RunStatus statusMsg;
+        statusMsg.status = "finished";
+        statusMsg.timestamp.sec = _simTime.sec();
+        statusMsg.timestamp.nsec = _simTime.nsec();
+        this->rosStatusPub.publish(statusMsg);
+      }
+      this->eventCounter++;
     }
   }
 
@@ -2614,13 +2691,15 @@ void GameLogicPluginPrivate::LogEvent(const std::string &_event)
 void GameLogicPluginPrivate::PublishRobotEvent(
     const ignition::msgs::Time &_simTime,
     const std::string &_type,
-    const std::string &_robot)
+    const std::string &_robot,
+    int _eventId)
 {
   subt_ros::RobotEvent msg;
   msg.timestamp.sec = _simTime.sec();
   msg.timestamp.nsec = _simTime.nsec();
   msg.event_type = _type;
   msg.robot_name = _robot;
+  msg.event_id = _eventId;
   if (this->rosnode)
     this->rosRobotEventPub.publish(msg);
 }
@@ -2630,7 +2709,8 @@ void GameLogicPluginPrivate::PublishRegionEvent(
     const ignition::msgs::Time &_simTime,
     const std::string &_type,
     const std::string &_robot, const std::string &_detector,
-    const std::string &_state)
+    const std::string &_state,
+    int _eventId)
 {
   subt_ros::RegionEvent msg;
   msg.timestamp.sec = _simTime.sec();
@@ -2639,6 +2719,7 @@ void GameLogicPluginPrivate::PublishRegionEvent(
   msg.robot_name = _robot;
   msg.detector = _detector;
   msg.state = _state;
+  msg.event_id = _eventId;
   if (this->rosnode)
     this->rosRegionEventPub.publish(msg);
 }
@@ -2678,16 +2759,22 @@ void GameLogicPluginPrivate::CheckRobotFlip()
       if (!this->robotFlipInfo[name].second && (simElapsed >= 3))
       {
         this->robotFlipInfo[name].second = true;
-    ignition::msgs::Time localSimTime(this->simTime);
+        ignition::msgs::Time localSimTime(this->simTime);
 
-        std::ostringstream stream;
-        stream
-          << "- event:\n"
-          << "  type: flip\n"
-          << "  time_sec: " << localSimTime.sec() << "\n"
-          << "  robot: " << name << "\n";
-        this->LogEvent(stream.str());
-        this->PublishRobotEvent(localSimTime, "flip", name);
+        {
+          std::lock_guard<std::mutex> lock(this->eventCounterMutex);
+          std::ostringstream stream;
+          stream
+            << "- event:\n"
+            << "  id: " << this->eventCounter << "\n"
+            << "  type: flip\n"
+            << "  time_sec: " << localSimTime.sec() << "\n"
+            << "  robot: " << name << "\n";
+          this->LogEvent(stream.str());
+          this->PublishRobotEvent(localSimTime, "flip", name,
+              this->eventCounter);
+          this->eventCounter++;
+        }
       }
     }
     else
