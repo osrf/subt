@@ -53,7 +53,7 @@ Computers were installed in the payload area of the husky and these have been ro
 
 * Sensor specification links:
   * D435i RGBD Camera - https://www.intelrealsense.com/depth-camera-d435i/
-  * FLIR Blackfly Camera - https://www.edmundoptics.com/p/bfly-pge-05s2c-cs-13-blackflyreg-poe-gige-color-camera/30315/
+  * FLIR Blackfly Camera (HD MIPI Cameras) - https://www.edmundoptics.com/p/bfly-pge-05s2c-cs-13-blackflyreg-poe-gige-color-camera/30315/
     - With lens: https://www.bhphotovideo.com/c/product/414239-REG/Tamron_13FM28IR_13FM28IR_2_8_mm_f_1_2.html
   * Ouster 3D Lidar (64 Channel) - https://ouster.com/products/os1-lidar-sensor/
   * RPLidar S1 Planar Lidar - https://www.slamtec.com/en/Lidar/S1Spec 
