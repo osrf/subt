@@ -70,23 +70,89 @@ rf_power VisibilityModel::ComputeReceivedPower(const double &_txPower,
 {
   // Use this->visibilityTable.Cost(_txState, _rxState) to compute
   // pathloss and thus, received power
-  double visibilityCost = this->visibilityTable.Cost(_txState.pose.Pos(),
-      _rxState.pose.Pos());
+  VisibilityCost visibilityCost =
+    this->visibilityTable.Cost(_txState.pose.Pos(), _rxState.pose.Pos());
+
+  if (visibilityCost.cost > this->visibilityConfig.commsCostMax)
+    return {-std::numeric_limits<double>::infinity(), 0.0};
 
   range_model::rf_configuration localConfig = this->defaultRangeConfig;
 
   // Augment fading exponent based on visibility cost
   localConfig.fading_exponent +=
-  this->visibilityConfig.visibilityCostToFadingExponent * visibilityCost;
+    this->visibilityConfig.visibilityCostToFadingExponent * visibilityCost.cost;
 
-  double range = _txState.pose.Pos().Distance(_rxState.pose.Pos());
+  // Calculate the range.
+  double range;
+  if (visibilityCost.route.empty())
+  {
+    // No breadcrumbs in the route
+    range = _txState.pose.Pos().Distance(_rxState.pose.Pos());
+  }
+  else
+  {
+    // One or more breadcrumbs to cross.
+    double distSourceToFirstBreadcrumb =
+      _txState.pose.Pos().Distance(visibilityCost.posFirstBreadcrumb);
+    double distLastBreadcrumbToDestination =
+      visibilityCost.posLastBreadcrumb.Distance(_rxState.pose.Pos());
 
-  rf_power rx = range_model::log_normal_received_power(_txPower,
-                                                       _txState,
-                                                       _rxState,
-                                                       localConfig);
+    // This block considers breadcrumbs located in the tile of the destination
+    // robot. Note that this breadcrumb is not included in the route but it
+    // will be used for computing ranges.
+    {
+      double distLastMile = 0;
+      int32_t x = std::round(_rxState.pose.Pos().X());
+      int32_t y = std::round(_rxState.pose.Pos().Y());
+      int32_t z = std::round(_rxState.pose.Pos().Z());
+      auto vertexId = std::make_tuple(x, y, z);
+
+      auto const &vertices = this->visibilityTable.Vertices();
+      auto it = vertices.find(vertexId);
+      if (it != vertices.end())
+      {
+        auto tileId = it->second;
+        auto const &breadcrumbs = this->visibilityTable.Breadcrumbs();
+        auto breadcrumbIt = breadcrumbs.find(tileId);
+        if (breadcrumbIt != breadcrumbs.end())
+        {
+          auto poseLastBc = breadcrumbIt->second.front();
+          distLastMile = poseLastBc.Distance(_rxState.pose.Pos());
+          distLastBreadcrumbToDestination = distLastMile;
+        }
+      }
+    }
+
+    range = std::max(distSourceToFirstBreadcrumb,
+                     std::max(visibilityCost.greatestDistanceSingleHop,
+                              distLastBreadcrumbToDestination));
+  }
+
+  // Option 1: Using log_normal_v2_received_power.
+  rf_power rx = range_model::log_normal_v2_received_power(
+    _txPower, range, visibilityCost.route.size(), localConfig);
   igndbg << "Range: " << range << ", Exp: " << localConfig.fading_exponent
-    << ", TX: " << _txPower << ", RX: " << rx.mean << std::endl;
+         << ", Num hops: " << visibilityCost.route.size()
+         << ", TX: " << _txPower << ", RX: " << rx.mean << std::endl;
+  // End option 1.
+
+  // Option 2: Using log_normal_received_power.
+  // range = _txState.pose.Pos().Distance(_rxState.pose.Pos());
+
+  // rf_power rx = range_model::log_normal_received_power(_txPower,
+  //                                                      _txState,
+  //                                                      _rxState,
+  //                                                      localConfig);
+  // igndbg << "Range: " << range << ", Exp: " << localConfig.fading_exponent
+  //   << ", TX: " << _txPower << ", RX: " << rx.mean << std::endl;
+  // End option 2.
+
+  // Option 3: Using visibility_only_received_power.
+  // rf_power rx = range_model::visibility_only_received_power(_txPower,
+  //                                                           localConfig);
+  // igndbg << "Exp: " << localConfig.fading_exponent
+  //        << ", TX: " << _txPower << ", RX: " << rx.mean << std::endl;
+  // End option 3.
 
   return std::move(rx);
 }
@@ -159,10 +225,9 @@ bool VisibilityModel::VisualizeVisibility(const ignition::msgs::StringMsg &_req,
     const auto &toTuple = entry.first;
     ignition::math::Vector3d to = ignition::math::Vector3d(
       std::get<0>(toTuple), std::get<1>(toTuple), std::get<2>(toTuple));
-    double cost = this->visibilityTable.Cost(from, to);
-    if (cost <= this->visibilityConfig.commsCostMax)
+    VisibilityCost visibilityCost = this->visibilityTable.Cost(from, to);
+    if (visibilityCost.cost <= this->visibilityConfig.commsCostMax)
     {
-    
       /// Calculations from subt_communication_model/src/subt_communication_model.cpp
       double txPower = 20.0; // Hardcoded from cave_circuit.ign
       double noise_floor = -90.0; // Hardcoded from cave_circuit.ign
@@ -177,8 +242,7 @@ bool VisibilityModel::VisualizeVisibility(const ignition::msgs::StringMsg &_req,
       double packet_drop_prob = 1.0 - exp(num_bytes*log(1-ber));
       // Scale packet drop probability to align with the color scheme
       int pdp = floor(packet_drop_prob*5.00001);
-      ///
-  
+
       auto m = perCostMarkers.find(static_cast<int>(pdp));
 
       if (m == perCostMarkers.end())
@@ -200,7 +264,6 @@ bool VisibilityModel::VisualizeVisibility(const ignition::msgs::StringMsg &_req,
   this->node.Request("/marker", perCostMarkers[4]);
 
   _rep.set_data(true);
-
   return true;
 }
 
