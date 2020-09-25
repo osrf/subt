@@ -42,6 +42,7 @@ RUN apt-get update -qq \
         net-tools \
         iputils-ping \
         libyaml-cpp-dev \
+        xvfb \
         g++-8 \
  && apt-get clean -qq
 
