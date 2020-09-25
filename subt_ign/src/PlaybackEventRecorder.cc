@@ -132,6 +132,9 @@ class subt::PlaybackEventRecorderPrivate
   /// \brief Time when system is loaded
   public: std::chrono::time_point<std::chrono::system_clock> loadTime;
 
+  /// \brief If scene has been initialized
+  public: bool started = false;
+
   /// \brief Indicate if the system requested to wait for certain amount of
   /// time (real time) before continuing to the playback recording process.
   /// This is needed for example to wait until the gui camera has arrived at
@@ -360,7 +363,7 @@ void PlaybackEventRecorder::PostUpdate(
         });
   }
 
-  // play for a few seconds before doing anything
+  // wait for a few seconds before doing anything
   std::chrono::time_point<std::chrono::system_clock> t =
       std::chrono::system_clock::now();
   if (t - this->dataPtr->loadTime < std::chrono::seconds(5))
@@ -368,6 +371,16 @@ void PlaybackEventRecorder::PostUpdate(
 
   int64_t s, ns;
   std::tie(s, ns) = ignition::math::durationToSecNsec(_info.simTime);
+
+  // step the sim for a few seconds for scene to load on gui side
+  if (!this->dataPtr->started)
+  {
+    if (_info.paused)
+      this->dataPtr->eventManager->Emit<events::Pause>(false);
+    if (s < 10)
+      return;
+    this->dataPtr->started = true;
+  }
 
   // idle state - get next event
   if (this->dataPtr->state == IDLE)
