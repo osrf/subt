@@ -111,7 +111,7 @@ RUN rosdep update
 # docker is run
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
- && git clone https://github.com/osrf/subt
+ && git clone https://github.com/osrf/subt -b distance_segfault
 
 # Download the public models
 RUN ign fuel download -v 4 -j 8 -u "https://fuel.ignitionrobotics.org/OpenRobotics/collections/SubT Tech Repo"

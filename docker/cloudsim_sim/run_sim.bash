@@ -13,4 +13,6 @@ bwm-ng -o csv -c 0 -t 1000 -T rate -I eth0 >> $FILE &
 # atop process monitoring
 atop -R -w /tmp/ign/logs/atop_log &
 
+export ROS_LOG_DIR=/tmp/ign/logs/ros
+rosbag record --split --size=1000 -O /tmp/ign/logs/cloudsim.bag -e '/subt/.*'
 ign launch -v 4 $@
