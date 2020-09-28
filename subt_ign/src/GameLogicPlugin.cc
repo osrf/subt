@@ -1099,7 +1099,8 @@ void GameLogicPlugin::PostUpdate(
               auto mPose =
                 _ecm.Component<gazebo::components::Pose>(model->Data());
               // Execute the start logic if a robot has moved into the tunnel.
-              if (baseIter->second.Pos().Distance(mPose->Data().Pos()) >
+              if (mPose &&
+                  baseIter->second.Pos().Distance(mPose->Data().Pos()) >
                   this->dataPtr->allowedDistanceFromBase)
               {
                 ignition::msgs::Boolean req, res;
