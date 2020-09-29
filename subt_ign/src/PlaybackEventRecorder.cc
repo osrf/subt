@@ -113,6 +113,10 @@ class subt::PlaybackEventRecorderPrivate
   /// \param[in] _entity Entity to move to
   public: void MoveTo(const std::string &_entity);
 
+  /// \brief Move gui camera to follow entity
+  /// \param[in] _entity Entity to follow
+  public: void Follow(const std::string &_entity);
+
   /// \brief Start/stop video recording
   /// \param[in] _record True to start, false to stop
   public: void Record(bool _record);
@@ -128,6 +132,17 @@ class subt::PlaybackEventRecorderPrivate
 
   /// \brief True to spawn light on playback
   public: bool spawnLight = false;
+
+  /// \brief True to make camera follow robot instead of staying in fixed
+  /// position
+  public: bool cameraFollow = false;
+
+  /// \brief True if camera is currently following the target
+  public: bool cameraFollowing = false;
+
+  /// \brief True if entity (that the camera is asked to follow) exists in
+  /// the world
+  public: bool entityExists = false;
 
   /// \brief Time when system is loaded
   public: std::chrono::time_point<std::chrono::system_clock> loadTime;
@@ -164,6 +179,9 @@ class subt::PlaybackEventRecorderPrivate
 
   /// \brief Move to service name
   public: std::string moveToService;
+
+  /// \brief Move to service name
+  public: std::string followService;
 
   /// \brief Seek service name
   public: std::string seekService;
@@ -258,6 +276,11 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity & /*_entity
     this->dataPtr->spawnLight = ptr->Get<bool>("spawn_light");
   }
 
+  if (_sdf->HasElement("camera_follow"))
+  {
+    this->dataPtr->cameraFollow = ptr->Get<bool>("camera_follow");
+  }
+
   const sdf::ElementPtr logPathElem = ptr->GetElement("log_path");
   this->dataPtr->logPath = logPathElem->Get<std::string>();
 
@@ -315,8 +338,6 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity & /*_entity
     e.startRecordTime = std::max(e.time - it->second.first, 0.0);
     e.endRecordTime = e.time + it->second.second;
     this->dataPtr->events.push_back(e);
-    std::cerr << e.type << " " << e.robot << " " << e.detector << " "
-              << e.state << " " << e.time << std::endl;
   }
 
   // don't do anything if there are not events
@@ -330,6 +351,9 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity & /*_entity
   // For move to service requests
   this->dataPtr->moveToPoseService = "/gui/move_to/pose";
   this->dataPtr->moveToService = "/gui/move_to";
+
+  // For follow service requests
+  this->dataPtr->followService = "/gui/follow";
 
   // For video record requests
   this->dataPtr->videoRecordService = "/gui/record_video";
@@ -392,34 +416,24 @@ void PlaybackEventRecorder::PostUpdate(
       return;
     }
 
-    // start playing the log if paused
-    // if (_info.paused)
-    // {
-    //   this->dataPtr->eventManager->Emit<events::Pause>(false);
-    //   return;
-    // }
     // get next event to record
     this->dataPtr->event = this->dataPtr->events.front();
     this->dataPtr->events.pop_front();
+
+    ignmsg << "Playing event: " << this->dataPtr->event.robot << ": "
+           << this->dataPtr->event.type << std::endl;
 
     // seek to time when event occurred
     double t = this->dataPtr->event.time;
     this->dataPtr->Seek(t);
     this->dataPtr->state = SEEK_EVENT;
-    std::cerr << "SEEK EVENT ===== " << this->dataPtr->events.size() <<  std::endl;
-
-    std::cerr << "  event: " << this->dataPtr->event.type << " "
-              << this->dataPtr->event.detector << " "
-              << this->dataPtr->event.state << " "
-              << this->dataPtr->event.robot << " "
-              << this->dataPtr->event.time << std::endl;
+    ignmsg << "State: Transitioning to SEEK_EVENT" <<  std::endl;
   }
 
   // seek event state - seek to time of event and get robot pose so we can
   // move camera to a pose where the event occurred
   if (this->dataPtr->state == SEEK_EVENT)
   {
-    // std::cerr << "  t: " << s << " vs " << this->dataPtr->event.time << std::endl;
     // time of event - find robot and set up camera
     if (s == static_cast<int>(this->dataPtr->event.time))
     {
@@ -429,10 +443,7 @@ void PlaybackEventRecorder::PostUpdate(
         this->dataPtr->eventManager->Emit<events::Pause>(true);
         this->dataPtr->waiting = true;
         this->dataPtr->waitStartTime = std::chrono::system_clock::now();
-        std::cerr << "  arrived at seek event, waiting for 2s " << std::endl;
-
         return;
-        // this->waitDuration = _seconds;
       }
       else if (t - this->dataPtr->waitStartTime > std::chrono::seconds(2))
       {
@@ -467,14 +478,14 @@ void PlaybackEventRecorder::PostUpdate(
 
       math::Pose3d pose = poseComp->Data();
 
-      // TODO get closest static camera or move gui camera to preset pose?
+      // \todo(anyone) get closest static camera or move gui camera to preset pose?
       // move gui camera to robot for now
       this->dataPtr->MoveTo(this->dataPtr->event.robot);
 
       // seek to a time x min before the event.
       this->dataPtr->Seek(this->dataPtr->event.startRecordTime);
       this->dataPtr->state = SEEK_BEGIN;
-    std::cerr << "SEEK BEGIN ===== " << std::endl;
+      ignmsg << "State: Transitioning to SEEK_BEGIN" <<  std::endl;
     }
 
     return;
@@ -484,8 +495,6 @@ void PlaybackEventRecorder::PostUpdate(
   // recording
   if (this->dataPtr->state == SEEK_BEGIN)
   {
-    // TODO wait until the camera moved to specified pose?
-
     // make a service request to start video recording
     if (s == static_cast<int>(this->dataPtr->event.startRecordTime))
     {
@@ -495,8 +504,6 @@ void PlaybackEventRecorder::PostUpdate(
         this->dataPtr->eventManager->Emit<events::Pause>(true);
         this->dataPtr->waiting = true;
         this->dataPtr->waitStartTime = std::chrono::system_clock::now();
-        std::cerr << "  arrived at seek begin, waiting for 2s " << std::endl;
-
         return;
       }
       else if (t - this->dataPtr->waitStartTime > std::chrono::seconds(2))
@@ -508,32 +515,85 @@ void PlaybackEventRecorder::PostUpdate(
       {
         return;
       }
+
       // spawn a light if needed
       // we need to spawn a light on every seek event because new entities
       // that get spawned in playback are removed when jumping back in time
       if (this->dataPtr->spawnLight)
         this->dataPtr->SpawnLight();
 
+      // if in camera follow mode, reset entity exists values so we can do
+      // check to make sure the entity exists first before asking the gui
+      // camera to follow it
+      if (this->dataPtr->cameraFollow)
+      {
+        this->dataPtr->entityExists = false;
+        this->dataPtr->cameraFollowing = false;
+      }
+
       // start video recording
       this->dataPtr->Record(true);
       this->dataPtr->state = RECORDING;
-      std::cerr << "RECORDING ===== " << std::endl;
+      ignmsg << "State: Transitioning to RECORDING" <<  std::endl;
     }
   }
 
   // recording state - record video to disk until y min after time of event
   if (this->dataPtr->state == RECORDING)
   {
-    // std::cerr << "RECORDING ===== " << std::endl;
-    // std::cerr << "  t: " << s << " vs " << this->dataPtr->event.endRecordTime << std::endl;
+    // catch edge case. If we seek to a time in playback that the robot has
+    // not been spawned yet, e.g. beginning of sim, then we need to wait
+    // for robot to spawn before sending the follow cmd
+    if (this->dataPtr->cameraFollow)
+    {
+      if (!this->dataPtr->entityExists)
+      {
+        // check if robot exists
+        _ecm.Each<components::Model, components::Name>(
+            [&](const Entity & /*_entity*/,
+              const components::Model *,
+              const components::Name *_name)->bool
+            {
+              if (_name->Data() == this->dataPtr->event.robot)
+                this->dataPtr->entityExists = true;
+              return true;
+            });
+      }
+      else if (!this->dataPtr->cameraFollowing)
+      {
+        // wait for 2 real time seconds for the robot entity data to be ready on
+        // gui side
+        if (!this->dataPtr->waiting)
+        {
+          this->dataPtr->waiting = true;
+          this->dataPtr->waitStartTime = std::chrono::system_clock::now();
+          return;
+        }
+        else if (t - this->dataPtr->waitStartTime > std::chrono::seconds(2))
+        {
+          this->dataPtr->waiting = false;
+          this->dataPtr->Follow(this->dataPtr->event.robot);
+          this->dataPtr->cameraFollowing = true;
+        }
+      }
+    }
+
     // wait until we reached end record time or end of playback (indicated by info.pause)
     if (!this->dataPtr->recordStopRequested &&
       (_info.paused || s == static_cast<int>(this->dataPtr->event.endRecordTime)))
     {
-      std::cerr << "  recording done! " << std::endl;
+      // stop recording
       this->dataPtr->Record(false);
       this->dataPtr->recordStopRequested = true;
       this->dataPtr->recordStopTime = std::chrono::system_clock::now();
+
+      // disable camera following
+      if (this->dataPtr->cameraFollow)
+      {
+        this->dataPtr->Follow(std::string());
+        this->dataPtr->cameraFollowing = false;
+      }
+
       return;
     }
 
@@ -559,7 +619,7 @@ void PlaybackEventRecorder::PostUpdate(
             + "." + this->dataPtr->videoFormat;
         common::moveFile(this->dataPtr->tmpVideoFilename, filename);
 
-        std::cerr << "  saving file to  " << filename <<  std::endl;
+        ignmsg << "Saving recording video to:  " << filename <<  std::endl;
 
         // Remove old temp file, if it exists.
         std::remove(this->dataPtr->tmpVideoFilename.c_str());
@@ -567,7 +627,7 @@ void PlaybackEventRecorder::PostUpdate(
       this->dataPtr->recordStopRequested = false;
 
       this->dataPtr->state = IDLE;
-      std::cerr << "IDLE ===== " << std::endl;
+      ignmsg << "State: Transitioning to IDLE" << std::endl;
       return;
     }
   }
@@ -598,7 +658,7 @@ void PlaybackEventRecorderPrivate::MoveTo(const std::string &_entity)
       [](const ignition::msgs::Boolean &/*_rep*/, const bool _result)
   {
     if (!_result)
-      ignerr << "Error sending follow request" << std::endl;
+      ignerr << "Error sending move to request" << std::endl;
   };
 
   ignition::msgs::StringMsg req;
@@ -609,6 +669,23 @@ void PlaybackEventRecorderPrivate::MoveTo(const std::string &_entity)
   }
 }
 
+//////////////////////////////////////////////////
+void PlaybackEventRecorderPrivate::Follow(const std::string &_entity)
+{
+  std::function<void(const ignition::msgs::Boolean &, const bool)> cb =
+      [](const ignition::msgs::Boolean &/*_rep*/, const bool _result)
+  {
+    if (!_result)
+      ignerr << "Error sending follow request" << std::endl;
+  };
+
+  ignition::msgs::StringMsg req;
+  req.set_data(_entity);
+  if (this->node.Request(this->followService, req, cb))
+  {
+    igndbg << "Follow entity: " << _entity << std::endl;
+  }
+}
 
 //////////////////////////////////////////////////
 void PlaybackEventRecorderPrivate::Seek(double _timeSec)
