@@ -1,8 +1,14 @@
 #!/bin/bash
 
+# The playback event recorder creates videos for events that are stored
+# in the events.yml log file in the state log directory. The script launches
+# ign gazebo in playback mode and creates videos using the gui camera video
+# recording feature. For each event, it seeks playback to some time before the
+# event, moves the camera to the desired location, and starts recording until
+# some time after the event.
 
 echo "==================================="
-echo "Staring Playback Events Recorder"
+echo "Staring Playback Event Recorder"
 echo "==================================="
 
 if [ -z "$1" ]; then

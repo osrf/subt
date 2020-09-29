@@ -2,8 +2,15 @@
 <!--
   Playback event recorder.
 
-  This world is to be used with the playback event recorder system.
-  Videos will be created in the directory where ign gazebo is run.
+  This world is used by the record_playback_events.bash script.
+  Videos will be saved to a timestamped directory inside the directory
+  where the bash script is run.
+
+  To set whether or not the gui camera should follow the entity
+  during video recording, change the <camera_follow> sdf parameter in the
+  PlaybackEventRecorder plugin to either true or false.
+
+  Usage: bash record_playback_events.bash <path_to_log_dir>
 -->
 
 <sdf version='1.6'>
