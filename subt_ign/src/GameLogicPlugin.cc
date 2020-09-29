@@ -439,6 +439,8 @@ class subt::GameLogicPluginPrivate
   /// \brief A mutex.
   public: std::mutex mutex;
 
+  public: std::mutex posesMutex;
+
   /// \brief Log file output stream.
   public: std::ofstream logStream;
 
@@ -1207,7 +1209,11 @@ void GameLogicPlugin::PostUpdate(
               this->dataPtr.get());
         }
 
-        this->dataPtr->poses[_nameComp->Data()] = _poseComp->Data();
+        {
+          std::lock_guard<std::mutex> lock(this->dataPtr->posesMutex);
+          this->dataPtr->poses[_nameComp->Data()] = _poseComp->Data();
+        }
+
         for (std::pair<const subt::ArtifactType,
             std::map<std::string, ignition::math::Pose3d>> &artifactPair :
             this->dataPtr->artifacts)
@@ -1298,7 +1304,8 @@ void GameLogicPlugin::PostUpdate(
             this->dataPtr->robotPrevPose[name] = pose;
             return true;
           }
-          else if (robotPoseDataIt->second.back().second.Pos().Distance(
+          else if (!robotPoseDataIt->second.empty() &&
+              robotPoseDataIt->second.back().second.Pos().Distance(
                 pose.Pos()) > 1.0)
           {
             //  time passed since last pose sample
@@ -1476,6 +1483,7 @@ void GameLogicPlugin::PostUpdate(
   {
     static bool errorSent = false;
 
+    std::lock_guard<std::mutex> lock(this->dataPtr->posesMutex);
     // Get the artifact origin's pose.
     std::map<std::string, ignition::math::Pose3d>::iterator originIter =
       this->dataPtr->poses.find(subt::kArtifactOriginName);
@@ -2626,32 +2634,40 @@ void GameLogicPluginPrivate::LogRobotArtifactData(
 bool GameLogicPluginPrivate::PoseFromArtifactHelper(const std::string &_robot,
     ignition::math::Pose3d &_result)
 {
-  // Get an iterator to the robot's pose.
-  std::map<std::string, ignition::math::Pose3d>::iterator robotIter =
-    this->poses.find(_robot);
+  ignition::math::Pose3d robotPose, basePose;
 
-  if (robotIter == this->poses.end())
   {
-    ignerr << "[GameLogicPlugin]: Unable to find robot with name ["
-           << _robot << "]. Ignoring PoseFromArtifact request" << std::endl;
-    return false;
+    std::lock_guard<std::mutex> lock(this->posesMutex);
+    // Get an iterator to the robot's pose.
+    std::map<std::string, ignition::math::Pose3d>::iterator robotIter =
+      this->poses.find(_robot);
+
+    if (robotIter == this->poses.end())
+    {
+      ignerr << "[GameLogicPlugin]: Unable to find robot with name ["
+        << _robot << "]. Ignoring PoseFromArtifact request" << std::endl;
+      return false;
+    }
+    robotPose = robotIter->second;
+
+    // Get an iterator to the base station's pose.
+    std::map<std::string, ignition::math::Pose3d>::iterator baseIter =
+      this->poses.find(subt::kBaseStationName);
+
+    // Sanity check: Make sure that the robot is in the staging area, as this
+    // service is only available in that zone.
+    if (baseIter == this->poses.end())
+    {
+      ignerr << "[GameLogicPlugin]: Unable to find the staging area  ["
+        << subt::kBaseStationName
+        << "]. Ignoring PoseFromArtifact request" << std::endl;
+      return false;
+    }
+
+    basePose = baseIter->second;
   }
 
-  // Get an iterator to the base station's pose.
-  std::map<std::string, ignition::math::Pose3d>::iterator baseIter =
-    this->poses.find(subt::kBaseStationName);
-
-  // Sanity check: Make sure that the robot is in the staging area, as this
-  // service is only available in that zone.
-  if (baseIter == this->poses.end())
-  {
-    ignerr << "[GameLogicPlugin]: Unable to find the staging area  ["
-      << subt::kBaseStationName
-      << "]. Ignoring PoseFromArtifact request" << std::endl;
-    return false;
-  }
-
-  if (baseIter->second.Pos().Distance(robotIter->second.Pos()) >
+  if (basePose.Pos().Distance(robotPose.Pos()) >
       this->allowedDistanceFromBase)
   {
     ignerr << "[GameLogicPlugin]: Robot [" << _robot << "] is too far from the "
@@ -2659,9 +2675,8 @@ bool GameLogicPluginPrivate::PoseFromArtifactHelper(const std::string &_robot,
     return false;
   }
 
-
   // Pose.
-  _result = robotIter->second - this->artifactOriginPose;
+  _result = robotPose - this->artifactOriginPose;
   return true;
 }
 
