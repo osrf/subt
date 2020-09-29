@@ -18,6 +18,7 @@
 #define SUBT_IGN_VISIBILITYTABLE_HH_
 
 #include <map>
+#include <memory>
 #include <set>
 #include <string>
 #include <utility>
@@ -216,7 +217,7 @@ namespace subt
     private: std::map<std::string, ignition::math::AxisAlignedBox> bboxes;
 
     /// \brief A map of model name to its bounding box. Used for generating LUT
-    private: std::map<std::string, 
+    private: std::map<std::string,
              std::shared_ptr<fcl::CollisionObject>> collisionObjs;
 
     /// \brief A map that stores 3D points an the vertex id in which are located
