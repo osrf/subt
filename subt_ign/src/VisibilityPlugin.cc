@@ -217,19 +217,32 @@ void VisibilityPlugin::PostUpdate(
         return true;
       });
 
+  // A list of models to ignore when computing tile dimensions because these
+  // models are not included in levels
+  const std::set<std::string> modelsToIgnore = {"staging_area", "base_station",
+                                                "artifact_origin"};
   using MapElement = std::pair<std::string, ignition::math::AxisAlignedBox>;
+  std::map<std::string, ignition::math::AxisAlignedBox> bboxesFiltered;
+  std::copy_if(this->dataPtr->bboxes.begin(), this->dataPtr->bboxes.end(),
+               std::inserter(bboxesFiltered, bboxesFiltered.begin()),
+               [&modelsToIgnore](const MapElement &_elem)
+               {
+                 return modelsToIgnore.find(_elem.first) ==
+                        modelsToIgnore.end();
+               });
+
   auto dimCompare = [](int _dim){
     return [_dim](const MapElement &_a, const MapElement &_b)
     {
       return _a.second.Size()[_dim] < _b.second.Size()[_dim];
     };
   };
-  auto maxX = std::max_element(this->dataPtr->bboxes.begin(),
-                               this->dataPtr->bboxes.end(), dimCompare(0));
-  auto maxY = std::max_element(this->dataPtr->bboxes.begin(),
-                               this->dataPtr->bboxes.end(), dimCompare(1));
-  auto maxZ = std::max_element(this->dataPtr->bboxes.begin(),
-                               this->dataPtr->bboxes.end(), dimCompare(2));
+  auto maxX = std::max_element(bboxesFiltered.begin(), bboxesFiltered.end(),
+                               dimCompare(0));
+  auto maxY = std::max_element(bboxesFiltered.begin(), bboxesFiltered.end(),
+                               dimCompare(1));
+  auto maxZ = std::max_element(bboxesFiltered.begin(), bboxesFiltered.end(),
+                               dimCompare(2));
 
   std::cout << "Max tile dimensions: X = " << maxX->second.Size()[0] << " ("
             << maxX->first << ") Y = " << maxY->second.Size()[1] << " ("
