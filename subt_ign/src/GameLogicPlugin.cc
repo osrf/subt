@@ -17,6 +17,7 @@
 
 #include <yaml-cpp/yaml.h>
 #include <ros/ros.h>
+#include <rosbag/recorder.h>
 
 #include <ignition/msgs/boolean.pb.h>
 #include <ignition/msgs/float.pb.h>
@@ -161,6 +162,7 @@ class subt::GameLogicPluginPrivate
   /// \brief Publish the score.
   /// \param[in] _event Unused.
   public: void PublishScore();
+  public: void RosBag();
 
   /// \brief Log robot pos data
   public: void LogRobotPosData();
@@ -313,6 +315,9 @@ class subt::GameLogicPluginPrivate
 
   /// \brief Thread on which scores are published
   public: std::unique_ptr<std::thread> publishThread = nullptr;
+
+  /// \brief Thread on which scores are published
+  public: std::unique_ptr<std::thread> bagThread = nullptr;
 
   /// \brief Whether the task has started.
   public: bool started = false;
@@ -556,6 +561,7 @@ class subt::GameLogicPluginPrivate
   public: ros::Publisher rosRegionEventPub;
   public: std::map<std::string, ros::Publisher> rosRobotPosePubs;
   public: std::map<std::string, ros::Publisher> rosRobotKinematicPubs;
+  public: rosbag::Recorder *rosRecorder;
   public: std::string prevPhase = "";
 
   /// \brief Counter to create unique id for events
@@ -578,6 +584,11 @@ GameLogicPlugin::~GameLogicPlugin()
   this->dataPtr->finished = true;
   if (this->dataPtr->publishThread)
     this->dataPtr->publishThread->join();
+
+  // Shutdown ros
+  ros::shutdown();
+  if (this->dataPtr->bagThread)
+    this->dataPtr->bagThread->join();
 }
 
 //////////////////////////////////////////////////
@@ -665,6 +676,17 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
       this->dataPtr->rosRegionEventPub =
         this->dataPtr->rosnode->advertise<subt_ros::RegionEvent>(
             "region_event", 100);
+
+      // Setup a ros bag recorder.
+      rosbag::RecorderOptions recorderOptions;
+      recorderOptions.append_date=false;
+      recorderOptions.prefix="/tmp/ign/logs/cloudsim";
+      recorderOptions.regex=true;
+      recorderOptions.topics.push_back("/subt/.*");
+
+      this->dataPtr->rosRecorder = new rosbag::Recorder(recorderOptions);
+      this->dataPtr->bagThread.reset(new std::thread(
+        &GameLogicPluginPrivate::RosBag, this->dataPtr.get()));
     }
   }
 
@@ -2115,6 +2137,14 @@ void GameLogicPluginPrivate::ParseArtifacts(
     // Helper variable that is the total number of artifacts.
     this->artifactCount++;
   }
+}
+
+/////////////////////////////////////////////////
+void GameLogicPluginPrivate::RosBag()
+{
+  this->rosRecorder->run();
+  delete this->rosRecorder;
+  this->rosRecorder = nullptr;
 }
 
 /////////////////////////////////////////////////

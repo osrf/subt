@@ -20,6 +20,7 @@ find_package(catkin REQUIRED
     subt_communication_model
     subt_communication_broker
     subt_ros
+    rosbag
 )
 
 find_package(ignition-gazebo2 2.1 QUIET REQUIRED)
