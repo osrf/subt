@@ -14,6 +14,7 @@
  * limitations under the License.
  *
 */
+#include <algorithm>
 #include <ignition/common/Console.hh>
 #include <ignition/plugin/Register.hh>
 
@@ -23,7 +24,7 @@
 #include <ignition/gazebo/components/Collision.hh>
 #include <ignition/gazebo/components/Model.hh>
 #include <ignition/gazebo/components/Name.hh>
-#include <ignition/gazebo/components/Geometry.hh> 
+#include <ignition/gazebo/components/Geometry.hh>
 #include <ignition/gazebo/components/ParentEntity.hh>
 #include <ignition/gazebo/components/Pose.hh>
 #include <ignition/gazebo/components/Static.hh>
@@ -176,7 +177,7 @@ void VisibilityPlugin::PostUpdate(
           auto gP = _ecm.Component<gazebo::components::ParentEntity>(_parent->Data())->Data();
           auto parentPose = _ecm.Component<gazebo::components::Pose>(gP)->Data();
           auto parentName = _ecm.Component<gazebo::components::Name>(gP)->Data();
-          auto collisionObj = convert_to_fcl(*mesh, parentPose); 
+          auto collisionObj = convert_to_fcl(*mesh, parentPose);
           collisionObj->computeAABB();
           this->dataPtr->fclObjs[parentName] = collisionObj;
         }
@@ -208,14 +209,32 @@ void VisibilityPlugin::PostUpdate(
         auto fclAABB = it->second->getAABB();
 
         std::cout << _nameComp->Data() << std::endl;
-        std::cout << fclAABB.center()[0] << " " 
-                  << fclAABB.center()[1] << " " 
+        std::cout << fclAABB.center()[0] << " "
+                  << fclAABB.center()[1] << " "
                   << fclAABB.center()[2] << std::endl;
         std::cout << _aabb->Data().Center().X() << " " << _aabb->Data().Center().Y()  << " " << _aabb->Data().Center().Z() << std::endl;
 
         return true;
       });
 
+  using MapElement = std::pair<std::string, ignition::math::AxisAlignedBox>;
+  auto dimCompare = [](int _dim){
+    return [_dim](const MapElement &_a, const MapElement &_b)
+    {
+      return _a.second.Size()[_dim] < _b.second.Size()[_dim];
+    };
+  };
+  auto maxX = std::max_element(this->dataPtr->bboxes.begin(),
+                               this->dataPtr->bboxes.end(), dimCompare(0));
+  auto maxY = std::max_element(this->dataPtr->bboxes.begin(),
+                               this->dataPtr->bboxes.end(), dimCompare(1));
+  auto maxZ = std::max_element(this->dataPtr->bboxes.begin(),
+                               this->dataPtr->bboxes.end(), dimCompare(2));
+
+  std::cout << "Max tile dimensions: X = " << maxX->second.Size()[0] << " ("
+            << maxX->first << ") Y = " << maxY->second.Size()[1] << " ("
+            << maxY->first << ") Z = " << maxZ->second.Size()[2] << " ("
+            << maxZ->first << ")" << std::endl;
   // generate the LUT
   subt::VisibilityTable table;
   table.Load(this->dataPtr->worldName, false);
