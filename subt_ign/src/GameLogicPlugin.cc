@@ -585,10 +585,12 @@ GameLogicPlugin::~GameLogicPlugin()
   if (this->dataPtr->publishThread)
     this->dataPtr->publishThread->join();
 
-  // Shutdown ros
-  ros::shutdown();
   if (this->dataPtr->bagThread)
+  {
+    // Shutdown ros
+    ros::shutdown();
     this->dataPtr->bagThread->join();
+  }
 }
 
 //////////////////////////////////////////////////
@@ -2312,6 +2314,14 @@ void GameLogicPluginPrivate::Finish(const ignition::msgs::Time &_simTime)
         statusMsg.timestamp.sec = _simTime.sec();
         statusMsg.timestamp.nsec = _simTime.nsec();
         this->rosStatusPub.publish(statusMsg);
+
+        if (this->dataPtr->bagThread)
+        {
+          // Shutdown ros
+          ros::shutdown();
+          this->dataPtr->bagThread->join();
+        }
+
       }
       this->eventCounter++;
     }
