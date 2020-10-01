@@ -163,9 +163,6 @@ class subt::GameLogicPluginPrivate
   /// \param[in] _event Unused.
   public: void PublishScore();
 
-  /// \brief Function that runs the ROS bag recorder.
-  public: void RosBag();
-
   /// \brief Log robot pos data
   public: void LogRobotPosData();
 
@@ -587,16 +584,9 @@ GameLogicPlugin::GameLogicPlugin()
 GameLogicPlugin::~GameLogicPlugin()
 {
   this->dataPtr->Finish(this->dataPtr->simTime);
-  this->dataPtr->finished = true;
+
   if (this->dataPtr->publishThread)
     this->dataPtr->publishThread->join();
-
-  if (this->dataPtr->bagThread)
-  {
-    // Shutdown ros. this makes the ROS bag recorder stop.
-    ros::shutdown();
-    this->dataPtr->bagThread->join();
-  }
 }
 
 //////////////////////////////////////////////////
@@ -692,9 +682,11 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
       recorderOptions.regex=true;
       recorderOptions.topics.push_back("/subt/.*");
 
+      // Spawn thread for recording /subt/ data to rosbag.
       this->dataPtr->rosRecorder.reset(new rosbag::Recorder(recorderOptions));
-      this->dataPtr->bagThread.reset(new std::thread(
-        &GameLogicPluginPrivate::RosBag, this->dataPtr.get()));
+      this->dataPtr->bagThread.reset(new std::thread([&](){
+        this->dataPtr->rosRecorder->run();
+      }));
     }
   }
 
@@ -2148,12 +2140,6 @@ void GameLogicPluginPrivate::ParseArtifacts(
 }
 
 /////////////////////////////////////////////////
-void GameLogicPluginPrivate::RosBag()
-{
-  this->rosRecorder->run();
-}
-
-/////////////////////////////////////////////////
 void GameLogicPluginPrivate::PublishScore()
 {
   transport::Node::Publisher scorePub =
@@ -2319,13 +2305,12 @@ void GameLogicPluginPrivate::Finish(const ignition::msgs::Time &_simTime)
         statusMsg.timestamp.nsec = _simTime.nsec();
         this->rosStatusPub.publish(statusMsg);
 
-        if (this->bagThread)
+        if (this->bagThread && this->bagThread->joinable())
         {
           // Shutdown ros. this makes the ROS bag recorder stop.
           ros::shutdown();
           this->bagThread->join();
         }
-
       }
 
       // Send the recording_complete message after ROS has shutdown, if ROS
