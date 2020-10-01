@@ -2320,15 +2320,18 @@ void GameLogicPluginPrivate::Finish(const ignition::msgs::Time &_simTime)
           // Shutdown ros
           ros::shutdown();
           this->bagThread->join();
-
-          ignition::msgs::StringMsg completeMsg;
-          completeMsg.mutable_header()->mutable_stamp()->CopyFrom(
-              this->simTime);
-          completeMsg.set_data("recording_complete");
-          this->startPub.Publish(completeMsg);
         }
 
       }
+
+      // Send the recording_complete message after ROS has shutdown, if ROS
+      // has been enabled.
+      ignition::msgs::StringMsg completeMsg;
+      completeMsg.mutable_header()->mutable_stamp()->CopyFrom(
+          this->simTime);
+      completeMsg.set_data("recording_complete");
+      this->startPub.Publish(completeMsg);
+
       this->eventCounter++;
     }
   }
