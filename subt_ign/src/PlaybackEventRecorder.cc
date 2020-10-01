@@ -308,6 +308,7 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity & /*_entity
       std::string state;
       if (auto detectorParam = n["detector"])
       {
+        // filter detector events to the list defined in this->dataPtr->detector
         detector = detectorParam.as<std::string>();
         bool validDetector = false;
         for (const auto &d : this->dataPtr->detectors)
@@ -333,8 +334,29 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity & /*_entity
       e.state = state;
     }
 
-    e.robot = n["robot"].as<std::string>();
-    e.time = n["time_sec"].as<double>();
+    // for rock fall events, we need to check the corresponding performer
+    // detector events to get the robot associated with this event
+    if (type == "rock_fall")
+    {
+      std::string model = n["model"].as<std::string>();
+      std::string suffix = model.substr(model.rfind("_"));
+      for (const auto &ev : node)
+      {
+        if (ev["type"].as<std::string>() == "detect" &&
+            ev["detector"].as<std::string>().find("rockfall" + suffix)
+            != std::string::npos)
+        {
+          e.robot = ev["robot"].as<std::string>();
+          e.time = ev["time_sec"].as<double>();
+          break;
+        }
+      }
+    }
+    else
+    {
+      e.robot = n["robot"].as<std::string>();
+      e.time = n["time_sec"].as<double>();
+    }
 
     e.startRecordTime = std::max(e.time - it->second.first, 0.0);
     e.endRecordTime = e.time + it->second.second;
@@ -344,7 +366,20 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity & /*_entity
   // don't do anything if there are not events
   if (this->dataPtr->events.empty())
   {
+    std::cout << "No events to record: " << std::endl;
     return;
+  }
+  std::cout << "Events to record: " << std::endl;
+  for (const auto &e : this->dataPtr->events)
+  {
+    std::cout << "Event: " << std::endl;
+    std::cout << "  type: " << e.type << std::endl;
+    std::cout << "  robot: " << e.robot << std::endl;
+    std::cout << "  time: " << e.time << std::endl;
+    std::cout << "  detector: " << ((e.detector.empty()) ? "N/A" : e.detector)
+              << std::endl;
+    std::cout << "  state: " << ((e.state.empty()) ? "N/A" : e.state)
+              << std::endl;
   }
 
   this->dataPtr->eventManager = &_eventMgr;
@@ -374,6 +409,12 @@ void PlaybackEventRecorder::PostUpdate(
     const ignition::gazebo::UpdateInfo &_info,
     const ignition::gazebo::EntityComponentManager &_ecm)
 {
+  if (this->dataPtr->events.empty())
+  {
+    if (this->dataPtr->exitOnFinish)
+      exit(0);
+    return;
+  }
 
   if (this->dataPtr->logWorldName.empty())
   {
