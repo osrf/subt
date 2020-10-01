@@ -2320,6 +2320,12 @@ void GameLogicPluginPrivate::Finish(const ignition::msgs::Time &_simTime)
           // Shutdown ros
           ros::shutdown();
           this->bagThread->join();
+
+          ignition::msgs::StringMsg completeMsg;
+          completeMsg.mutable_header()->mutable_stamp()->CopyFrom(
+              this->simTime);
+          completeMsg.set_data("recording_complete");
+          this->startPub.Publish(completeMsg);
         }
 
       }
