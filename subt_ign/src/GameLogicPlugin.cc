@@ -162,6 +162,8 @@ class subt::GameLogicPluginPrivate
   /// \brief Publish the score.
   /// \param[in] _event Unused.
   public: void PublishScore();
+
+  /// \brief Function that runs the ROS bag recorder.
   public: void RosBag();
 
   /// \brief Log robot pos data
@@ -316,7 +318,7 @@ class subt::GameLogicPluginPrivate
   /// \brief Thread on which scores are published
   public: std::unique_ptr<std::thread> publishThread = nullptr;
 
-  /// \brief Thread on which scores are published
+  /// \brief Thread on which the ROS bag recorder runs.
   public: std::unique_ptr<std::thread> bagThread = nullptr;
 
   /// \brief Whether the task has started.
@@ -444,6 +446,7 @@ class subt::GameLogicPluginPrivate
   /// \brief A mutex.
   public: std::mutex mutex;
 
+  /// \brief Mutex to protect the poses data structure.
   public: std::mutex posesMutex;
 
   /// \brief Log file output stream.
@@ -561,7 +564,10 @@ class subt::GameLogicPluginPrivate
   public: ros::Publisher rosRegionEventPub;
   public: std::map<std::string, ros::Publisher> rosRobotPosePubs;
   public: std::map<std::string, ros::Publisher> rosRobotKinematicPubs;
-  public: rosbag::Recorder *rosRecorder;
+
+  /// \brief Pointer to the ROS bag recorder.
+  public: std::unique_ptr<rosbag::Recorder> rosRecorder;
+
   public: std::string prevPhase = "";
 
   /// \brief Counter to create unique id for events
@@ -587,7 +593,7 @@ GameLogicPlugin::~GameLogicPlugin()
 
   if (this->dataPtr->bagThread)
   {
-    // Shutdown ros
+    // Shutdown ros. this makes the ROS bag recorder stop.
     ros::shutdown();
     this->dataPtr->bagThread->join();
   }
@@ -686,7 +692,7 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
       recorderOptions.regex=true;
       recorderOptions.topics.push_back("/subt/.*");
 
-      this->dataPtr->rosRecorder = new rosbag::Recorder(recorderOptions);
+      this->dataPtr->rosRecorder.reset(new rosbag::Recorder(recorderOptions));
       this->dataPtr->bagThread.reset(new std::thread(
         &GameLogicPluginPrivate::RosBag, this->dataPtr.get()));
     }
@@ -2145,8 +2151,6 @@ void GameLogicPluginPrivate::ParseArtifacts(
 void GameLogicPluginPrivate::RosBag()
 {
   this->rosRecorder->run();
-  delete this->rosRecorder;
-  this->rosRecorder = nullptr;
 }
 
 /////////////////////////////////////////////////
@@ -2317,7 +2321,7 @@ void GameLogicPluginPrivate::Finish(const ignition::msgs::Time &_simTime)
 
         if (this->bagThread)
         {
-          // Shutdown ros
+          // Shutdown ros. this makes the ROS bag recorder stop.
           ros::shutdown();
           this->bagThread->join();
         }

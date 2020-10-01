@@ -15,8 +15,5 @@
     type="subt_ros_relay"
     name="subt_ros_relay"/>
 
-  <!--
-  <node pkg="rosbag" type="record" name="cloudsim_data"
-    args="record -split -size=1000 -O /tmp/ign/logs/cloudsim.bag -e '/subt/.*'"/>
--->
+  <!-- A rosbag recorder is in the subt_ign/src/GameLogicPlugin. -->
 </launch>
