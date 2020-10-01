@@ -2315,11 +2315,11 @@ void GameLogicPluginPrivate::Finish(const ignition::msgs::Time &_simTime)
         statusMsg.timestamp.nsec = _simTime.nsec();
         this->rosStatusPub.publish(statusMsg);
 
-        if (this->dataPtr->bagThread)
+        if (this->bagThread)
         {
           // Shutdown ros
           ros::shutdown();
-          this->dataPtr->bagThread->join();
+          this->bagThread->join();
         }
 
       }
