@@ -228,6 +228,7 @@ PlaybackEventRecorder::PlaybackEventRecorder()
   this->dataPtr->eventRecordDuration["breadcrumb_deploy"] = std::make_pair(60, 120);
   this->dataPtr->eventRecordDuration["detect"] = std::make_pair(60, 60);
   this->dataPtr->eventRecordDuration["flip"] = std::make_pair(120, 60);
+  this->dataPtr->eventRecordDuration["rock_fall"] = std::make_pair(60, 60);
 
   this->dataPtr->detectors.insert("staging_area");
   this->dataPtr->detectors.insert("backpack");
