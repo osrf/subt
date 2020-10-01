@@ -17,13 +17,16 @@
 
 #include <yaml-cpp/yaml.h>
 
-#include <ignition/common/Console.hh>
-#include <ignition/plugin/Register.hh>
 #include <ignition/msgs/boolean.pb.h>
 #include <ignition/msgs/pose.pb.h>
 #include <ignition/msgs/stringmsg.pb.h>
 #include <ignition/msgs/Utility.hh>
 
+#include <list>
+#include <set>
+
+#include <ignition/common/Console.hh>
+#include <ignition/plugin/Register.hh>
 
 #include <ignition/gazebo/components/Model.hh>
 #include <ignition/gazebo/components/Name.hh>
@@ -31,7 +34,7 @@
 #include <ignition/gazebo/components/World.hh>
 #include <ignition/gazebo/Conversions.hh>
 #include <ignition/gazebo/EntityComponentManager.hh>
-#include "ignition/gazebo/Events.hh"
+#include <ignition/gazebo/Events.hh>
 #include <ignition/gazebo/Util.hh>
 
 #include <ignition/transport/Node.hh>
@@ -51,6 +54,9 @@ namespace subt
   /// \brief Data structure to store event info
   class Event
   {
+    /// \brief Event id
+    public: unsigned int id;
+
     /// \brief Type of event
     public: std::string type;
 
@@ -225,7 +231,8 @@ PlaybackEventRecorder::PlaybackEventRecorder()
   //     1min after exit)
   //   * robot flipped (record 2 min before to 30sec after)
   this->dataPtr->eventRecordDuration["detach"] = std::make_pair(60, 120);
-  this->dataPtr->eventRecordDuration["breadcrumb_deploy"] = std::make_pair(60, 120);
+  this->dataPtr->eventRecordDuration["breadcrumb_deploy"] =
+      std::make_pair(60, 120);
   this->dataPtr->eventRecordDuration["detect"] = std::make_pair(60, 60);
   this->dataPtr->eventRecordDuration["flip"] = std::make_pair(120, 60);
   this->dataPtr->eventRecordDuration["rock_fall"] = std::make_pair(60, 60);
@@ -244,7 +251,7 @@ PlaybackEventRecorder::~PlaybackEventRecorder()
 }
 
 //////////////////////////////////////////////////
-void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity & /*_entity*/,
+void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity &,
                            const std::shared_ptr<const sdf::Element> &_sdf,
                            ignition::gazebo::EntityComponentManager &/*_ecm*/,
                            ignition::gazebo::EventManager &_eventMgr)
@@ -358,10 +365,50 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity & /*_entity
       e.time = n["time_sec"].as<double>();
     }
 
+    if (n["id"])
+      e.id = n["id"].as<unsigned int>();
+    else
+      e.id = this->dataPtr->events.size();
+
     e.startRecordTime = std::max(e.time - it->second.first, 0.0);
     e.endRecordTime = e.time + it->second.second;
     this->dataPtr->events.push_back(e);
   }
+
+  // merge detector events
+  double maxTimeDiff = 60.0;
+  std::set<unsigned int> toRemove;
+  for (auto it = this->dataPtr->events.begin();
+      it != this->dataPtr->events.end(); ++it)
+  {
+    auto &e = *it;
+    if (toRemove.find(e.id) != toRemove.end())
+      continue;
+
+    if (e.type != "detect")
+      continue;
+
+    // merge current event with other detector events for the same robots
+    // time difference between the two is less than maxTimeDiff
+    for (auto it2 = std::next(it, 1); it2 != this->dataPtr->events.end(); ++it2)
+    {
+      auto &e2 = *it2;
+      if (e2.type == "detect" && e2.robot == e.robot &&
+          e2.detector == e.detector)
+      {
+        double dt = e2.startRecordTime - e.startRecordTime;
+        if (dt < maxTimeDiff && dt >= 0)
+        {
+          e.endRecordTime = e2.endRecordTime;
+          toRemove.insert(e2.id);
+        }
+      }
+    }
+  }
+
+  // remove events that were merged and marked for removal
+  this->dataPtr->events.remove_if(
+      [&toRemove](Event &e) {return  toRemove.find(e.id) != toRemove.end();});
 
   // don't do anything if there are not events
   if (this->dataPtr->events.empty())
@@ -520,7 +567,8 @@ void PlaybackEventRecorder::PostUpdate(
 
       math::Pose3d pose = poseComp->Data();
 
-      // \todo(anyone) get closest static camera or move gui camera to preset pose?
+      // \todo(anyone) get closest static camera or move gui camera to
+      // preset pose?
       // move gui camera to robot for now
       this->dataPtr->MoveTo(this->dataPtr->event.robot);
 
@@ -620,9 +668,11 @@ void PlaybackEventRecorder::PostUpdate(
       }
     }
 
-    // wait until we reached end record time or end of playback (indicated by info.pause)
+    // wait until we reached end record time or end of playback
+    // (indicated by info.pause)
     if (!this->dataPtr->recordStopRequested &&
-      (_info.paused || s == static_cast<int>(this->dataPtr->event.endRecordTime)))
+        (_info.paused ||
+        s == static_cast<int>(this->dataPtr->event.endRecordTime)))
     {
       // stop recording
       this->dataPtr->Record(false);
