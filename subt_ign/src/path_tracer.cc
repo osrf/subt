@@ -536,7 +536,7 @@ void ReportData::Render(Processor *_p)
   {
     _p->SpawnMarker(_p->artifactColors["correct_report_color"], this->pos,
         ignition::msgs::Marker::SPHERE,
-        ignition::math::Vector3d(4, 4, 4));
+        ignition::math::Vector3d(10, 10, 10));
   }
   else
   {
