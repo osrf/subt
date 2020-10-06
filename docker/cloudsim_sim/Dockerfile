@@ -107,12 +107,6 @@ WORKDIR /home/$USERNAME
 
 RUN rosdep update
 
-# Clone all the subt models so that you don't download them every time
-# docker is run
-RUN mkdir -p subt_ws/src \
- && cd subt_ws/src \
- && git clone https://github.com/osrf/subt
-
 # Download the public models
 RUN ign fuel download -v 4 -j 8 -u "https://fuel.ignitionrobotics.org/OpenRobotics/collections/SubT Tech Repo"
 
@@ -127,6 +121,12 @@ RUN ./download_niosh_2.sh
 # Download niosh models, set 3.
 COPY download_niosh_3.sh ./
 RUN ./download_niosh_3.sh
+
+# Clone all the subt models so that you don't download them every time
+# docker is run
+RUN mkdir -p subt_ws/src \
+ && cd subt_ws/src \
+ && git clone https://github.com/osrf/subt -b distance_segfault
 
 WORKDIR /home/$USERNAME/subt_ws
 
