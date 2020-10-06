@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<ignition version='1.0'>
+  <plugin name="ignition::launch::GazeboFactory"
+    filename="libignition-launch-gazebo-factory.so">
+    <spawn>
+      <allow_renaming>true</allow_renaming>
+      <sdf version='1.6'>
+        <light type="directional" name="sun">
+          <cast_shadows>false</cast_shadows>
+          <pose>0 0 200 0 0 0</pose>
+          <diffuse>1.0 1.0 1.0 1</diffuse>
+          <specular>1.0 1.0 1.0 1</specular>
+          <attenuation>
+            <range>1000</range>
+            <constant>0.0</constant>
+            <linear>0.0</linear>
+            <quadratic>0.0</quadratic>
+          </attenuation>
+          <direction>-0.5 0.1 -0.9</direction>
+        </light>
+      </sdf>
+    </spawn>
+  </plugin>
+</ignition>

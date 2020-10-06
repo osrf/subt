@@ -19,6 +19,7 @@ find_package(catkin REQUIRED
     subt_rf_interface
     subt_communication_model
     subt_communication_broker
+    subt_ros
 )
 
 find_package(ignition-gazebo3 REQUIRED)

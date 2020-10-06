@@ -23,8 +23,8 @@ require 'tempfile'
 # Example JSON.
 example_json=<<EOF
 {
-  "circuit": "urban",
-  "world": "simple_urban_01",
+  "circuit": "cave",
+  "world": "simple_cave_01",
   "headless": "false",
   "robots":
   [
@@ -184,11 +184,12 @@ submission['robots'].each_with_index do |robot, index|
 end
 
 marsupialChildren = []
-submission['marsupials'].each_with_index do |(parent, child), index|
-  robotStr += "marsupial#{index+1}:=#{parent}:#{child} "
-  marsupialChildren.append(child)
+if submission.key?('marsupials')
+  submission['marsupials'].each_with_index do |(parent, child), index|
+    robotStr += "marsupial#{index+1}:=#{parent}:#{child} "
+    marsupialChildren.append(child)
+  end
 end
-
 
 # Set where the output is going
 if options['run']

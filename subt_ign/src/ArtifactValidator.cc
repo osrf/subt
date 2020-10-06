@@ -389,6 +389,11 @@ void ArtifactValidator::Configure(const ignition::gazebo::Entity & /*_entity*/,
   {
     worldName = "urban_circuit/" + worldNum + "/" + worldName + ".sdf";
   }
+  else if (worldName.find("cave_circuit_") != std::string::npos &&
+             worldName.find("practice") == std::string::npos)
+  {
+    worldName = "cave_circuit/" + worldNum + "/" + worldName + ".sdf";
+  }
   else
   {
     worldName = worldName + ".sdf";
