@@ -46,8 +46,6 @@ add_executable(teleop_node src/teleop_node.cc)
 add_dependencies(teleop_node ${catkin_EXPORTED_TARGETS})
 target_link_libraries(teleop_node ${catkin_LIBRARIES})
 
-#add_subdirectory(src/truth_controller)
-
 
 ###########
 ## Tests ##
