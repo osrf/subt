@@ -677,7 +677,7 @@ void PlaybackEventRecorder::PostUpdate(
         if (it != this->dataPtr->rockModelPose.end())
         {
           math::Pose3d p = it->second;
-          p.Pos().Z() += 10.0;
+          p.Pos().Z() += 5.0;
           p.Rot() = math::Quaterniond(0, IGN_PI/2.0, 0);
           this->dataPtr->MoveTo(p);
         }
@@ -691,7 +691,7 @@ void PlaybackEventRecorder::PostUpdate(
       else if (this->dataPtr->event.type == "detect" &&
           this->dataPtr->event.detector == "staging_area")
       {
-        math::Pose3d p(-8, 0, 25, 0, 1.1, 0);
+        math::Pose3d p(-3.5, 0, 5, 0, 0.4, 0);
         this->dataPtr->MoveTo(p);
       }
       // all other events: move gui camera to robot for now
