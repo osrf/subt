@@ -226,7 +226,7 @@ target_link_libraries(
 add_executable(validate_visibility_table
   src/validate_visibility_table.cc)
 target_link_libraries(validate_visibility_table
-  PRIVATE 
+  PRIVATE
   Visibility
 )
 install(TARGETS validate_visibility_table
