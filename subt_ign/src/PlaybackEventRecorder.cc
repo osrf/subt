@@ -31,6 +31,7 @@
 #include <ignition/gazebo/components/Model.hh>
 #include <ignition/gazebo/components/Name.hh>
 #include <ignition/gazebo/components/Pose.hh>
+#include <ignition/gazebo/components/Static.hh>
 #include <ignition/gazebo/components/World.hh>
 #include <ignition/gazebo/Conversions.hh>
 #include <ignition/gazebo/EntityComponentManager.hh>
@@ -73,6 +74,9 @@ namespace subt
     /// e.g. enter / exit
     public: std::string state;
 
+    /// \brief Model associated with this event
+    public: std::string model;
+
     /// \brief Start time for recording video
     public: double startRecordTime = 0;
 
@@ -80,8 +84,7 @@ namespace subt
     public: double endRecordTime = 0;
   };
 
-
-  // Playback recording state
+  /// \brief Playback recording state
   enum State
   {
     /// \brief Idle
@@ -97,6 +100,15 @@ namespace subt
     RECORDING = 3,
   };
 
+  /// \brief Camera modes when recording
+  enum CameraMode
+  {
+    /// \brief Static camera pose
+    STATIC_CAMERA = 0,
+
+    /// \brief Camera follows robot
+    FOLLOW_CAMERA = 1
+  };
 }
 
 using namespace ignition;
@@ -214,6 +226,15 @@ class subt::PlaybackEventRecorderPrivate
   /// \brief A map of event type to its start and end recording time
   public: std::map<std::string, std::pair<double, double>> eventRecordDuration;
 
+  /// \brief A map of event type to the camera mode
+  public: std::map<std::string, CameraMode> eventCameraMode;
+
+  /// \brief Unique dynamic rock models
+  public: std::set<std::string> uniqueRockModels;
+
+  /// \brief Dynamic rock pose
+  public: std::map<std::string, math::Pose3d> rockModelPose;
+
   /// \brief A list of unique detectors
   public: std::set<std::string> detectors;
 };
@@ -223,26 +244,30 @@ PlaybackEventRecorder::PlaybackEventRecorder()
   : dataPtr(new PlaybackEventRecorderPrivate)
 {
   // set up event types and recording duration:
-  //   * robot deployed a marsupial child (record 1min before to 2min after)
-  //   * robot deployed a breadcrumb (record 1min before to 2min after)
-  //   * robot entered/exited staging area (record ~1min before entry to 1min
-  //     after exit)
-  //   * robot entered/exited artifact proximity (record ~1min before entry and
-  //     1min after exit)
-  //   * robot flipped (record 2 min before to 30sec after)
+  //   * robot deployed a marsupial child (follow camera)
+  //   * robot exited staging area (static camera)
+  //   * robot triggered rock fall (static camera)
   this->dataPtr->eventRecordDuration["detach"] = std::make_pair(60, 120);
-  this->dataPtr->eventRecordDuration["breadcrumb_deploy"] =
-      std::make_pair(60, 120);
   this->dataPtr->eventRecordDuration["detect"] = std::make_pair(60, 60);
-  this->dataPtr->eventRecordDuration["flip"] = std::make_pair(120, 60);
-  this->dataPtr->eventRecordDuration["rock_fall"] = std::make_pair(60, 60);
+  this->dataPtr->eventRecordDuration["rock_fall"] = std::make_pair(60, 120);
+
+  this->dataPtr->eventCameraMode["detach"] = FOLLOW_CAMERA;
+  this->dataPtr->eventCameraMode["detect"] = STATIC_CAMERA;
+  this->dataPtr->eventCameraMode["rock_fall"] = STATIC_CAMERA;
+
+  // breadcrumb and flip events no longer needed
+  // this->dataPtr->eventRecordDuration["breadcrumb_deploy"] =
+  //     std::make_pair(60, 120);
+  // this->dataPtr->eventRecordDuration["flip"] = std::make_pair(120, 60);
 
   this->dataPtr->detectors.insert("staging_area");
-  this->dataPtr->detectors.insert("backpack");
-  this->dataPtr->detectors.insert("phone");
-  this->dataPtr->detectors.insert("rescue_randy");
-  this->dataPtr->detectors.insert("rope");
-  this->dataPtr->detectors.insert("helmet");
+
+  // artifact proximity events no longer needed
+  // this->dataPtr->detectors.insert("backpack");
+  // this->dataPtr->detectors.insert("phone");
+  // this->dataPtr->detectors.insert("rescue_randy");
+  // this->dataPtr->detectors.insert("rope");
+  // this->dataPtr->detectors.insert("helmet");
 }
 
 /////////////////////////////////////////////
@@ -284,17 +309,30 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity &,
     this->dataPtr->spawnLight = ptr->Get<bool>("spawn_light");
   }
 
-  if (_sdf->HasElement("camera_follow"))
-  {
-    this->dataPtr->cameraFollow = ptr->Get<bool>("camera_follow");
-  }
-
   const sdf::ElementPtr logPathElem = ptr->GetElement("log_path");
   this->dataPtr->logPath = logPathElem->Get<std::string>();
+
+  // load run.yml
+  YAML::Node runNode = YAML::LoadFile(
+      common::joinPaths(this->dataPtr->logPath, "run.yml"));
+
+  // parse number of robots
+  unsigned int robotCount = runNode["robot_count"].as<unsigned int>();
 
   // load events.yml
   YAML::Node node = YAML::LoadFile(
       common::joinPaths(this->dataPtr->logPath, "events.yml"));
+
+  // staging area event - there should be one in each playback
+  // record video until last robot exists staging area
+  Event stagingAreaEvent;
+  stagingAreaEvent.type = "detect";
+  stagingAreaEvent.detector = "staging_area";
+  stagingAreaEvent.time = 0;
+  stagingAreaEvent.state = "exit";
+  stagingAreaEvent.startRecordTime = 0;
+  stagingAreaEvent.endRecordTime = 60;
+  std::map<std::string, double> stagingAreaEventTime;
 
   // parse and store the list of events
   for (const auto &n : node)
@@ -306,9 +344,11 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity &,
 
     Event e;
     e.type = type;
+    e.time = n["time_sec"].as<double>();
 
-    // check for detect event type
-    // and record videos only for detectors that we are interested in.
+    // check for detect event type and record videos only for detectors that we
+    // are interested in.
+    // Currently only interested in staging area event
     if (type == "detect")
     {
       std::string detector;
@@ -333,12 +373,35 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity &,
         continue;
 
       if (auto stateParam = n["state"])
+      {
         state = stateParam.as<std::string>();
+      }
       else
         continue;
 
-      e.detector = detector;
-      e.state = state;
+      // Get the time when the last robot exits the staging area
+      // take into accout that some robots may never leave, in which case
+      // record until the last unique robot exit event
+      if (detector == "staging_area" && state == "exit" &&
+          stagingAreaEventTime.size() < robotCount)
+      {
+        std::string robot = n["robot"].as<std::string>();
+        double time = n["time_sec"].as<double>();
+        if (stagingAreaEventTime.find(robot) == stagingAreaEventTime.end())
+        {
+          stagingAreaEventTime[robot] = time;
+          if (time > stagingAreaEvent.time)
+          {
+            stagingAreaEvent.time = time;
+            stagingAreaEvent.robot = robot;
+            stagingAreaEvent.endRecordTime = time + it->second.second;
+          }
+        }
+      }
+      // continue because we don't need to store every staging area detector
+      // event in the list. There should only be one, which we manually push
+      // into the events list later
+      continue;
     }
 
     // for rock fall events, we need to check the corresponding performer
@@ -350,11 +413,13 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity &,
       for (const auto &ev : node)
       {
         if (ev["type"].as<std::string>() == "detect" &&
+            math::equal(ev["time_sec"].as<double>(), e.time) &&
             ev["detector"].as<std::string>().find("rockfall" + suffix)
             != std::string::npos)
         {
           e.robot = ev["robot"].as<std::string>();
-          e.time = ev["time_sec"].as<double>();
+          e.model = model;
+          this->dataPtr->uniqueRockModels.insert(model);
           break;
         }
       }
@@ -362,7 +427,6 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity &,
     else
     {
       e.robot = n["robot"].as<std::string>();
-      e.time = n["time_sec"].as<double>();
     }
 
     if (n["id"])
@@ -375,40 +439,44 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity &,
     this->dataPtr->events.push_back(e);
   }
 
+  // add the staging area event
+  this->dataPtr->events.push_front(stagingAreaEvent);
+
   // merge detector events
-  double maxTimeDiff = 60.0;
-  std::set<unsigned int> toRemove;
-  for (auto it = this->dataPtr->events.begin();
-      it != this->dataPtr->events.end(); ++it)
-  {
-    auto &e = *it;
-    if (toRemove.find(e.id) != toRemove.end())
-      continue;
-
-    if (e.type != "detect")
-      continue;
-
-    // merge current event with other detector events for the same robots
-    // time difference between the two is less than maxTimeDiff
-    for (auto it2 = std::next(it, 1); it2 != this->dataPtr->events.end(); ++it2)
-    {
-      auto &e2 = *it2;
-      if (e2.type == "detect" && e2.robot == e.robot &&
-          e2.detector == e.detector)
-      {
-        double dt = e2.startRecordTime - e.startRecordTime;
-        if (dt < maxTimeDiff && dt >= 0)
-        {
-          e.endRecordTime = e2.endRecordTime;
-          toRemove.insert(e2.id);
-        }
-      }
-    }
-  }
-
-  // remove events that were merged and marked for removal
-  this->dataPtr->events.remove_if(
-      [&toRemove](Event &e) {return  toRemove.find(e.id) != toRemove.end();});
+  // \todo(anyone) The code is commented out as the artifact proximity events
+  // are not currently being recorded. We are now only recording
+  // one detector event capturing the robots exiting the staging area
+  // double maxTimeDiff = 60.0;
+  // std::set<unsigned int> toRemove;
+  // for (auto it = this->dataPtr->events.begin();
+  //     it != this->dataPtr->events.end(); ++it)
+  // {
+  //   auto &e = *it;
+  //   if (toRemove.find(e.id) != toRemove.end())
+  //     continue;
+  //   if (e.type != "detect")
+  //     continue;
+  //   // merge current event with other detector events for the same robots
+  //   // time difference between the two is less than maxTimeDiff
+  //   for (auto it2 = std::next(it, 1); it2 != this->dataPtr->events.end();
+  //       ++it2)
+  //   {
+  //     auto &e2 = *it2;
+  //     if (e2.type == "detect" && e2.robot == e.robot &&
+  //         e2.detector == e.detector)
+  //     {
+  //       double dt = e2.startRecordTime - e.startRecordTime;
+  //       if (dt < maxTimeDiff && dt >= 0)
+  //       {
+  //         e.endRecordTime = e2.endRecordTime;
+  //         toRemove.insert(e2.id);
+  //       }
+  //     }
+  //   }
+  // }
+  // // remove events that were merged and marked for removal
+  // this->dataPtr->events.remove_if(
+  //     [&toRemove](Event &e) {return toRemove.find(e.id) != toRemove.end();});
 
   // don't do anything if there are not events
   if (this->dataPtr->events.empty())
@@ -427,6 +495,11 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity &,
               << std::endl;
     std::cout << "  state: " << ((e.state.empty()) ? "N/A" : e.state)
               << std::endl;
+    std::cout << "  model: " << ((e.model.empty()) ? "N/A" : e.model)
+              << std::endl;
+    std::cout << "  start time: " << e.startRecordTime << std::endl;
+    std::cout << "  end time: " << e.endRecordTime << std::endl;
+
   }
 
   this->dataPtr->eventManager = &_eventMgr;
@@ -456,22 +529,46 @@ void PlaybackEventRecorder::PostUpdate(
     const ignition::gazebo::UpdateInfo &_info,
     const ignition::gazebo::EntityComponentManager &_ecm)
 {
-  if (this->dataPtr->events.empty())
+  if (this->dataPtr->state == IDLE &&
+      this->dataPtr->events.empty())
   {
     if (this->dataPtr->exitOnFinish)
       exit(0);
     return;
   }
 
+  // Get world name recorded in log
   if (this->dataPtr->logWorldName.empty())
   {
-    // Get world name recorded in log
     _ecm.Each<components::World, components::Name>(
         [&](const Entity & /*_entity*/,
           const components::World *,
           const components::Name *_name)->bool
         {
           this->dataPtr->logWorldName = _name->Data();
+          return true;
+        });
+  }
+
+  // Get rock fall model pose. Stop looking once we have the pose
+  // for all unique dynamic rocks models
+  if (this->dataPtr->rockModelPose.size() <
+      this->dataPtr->uniqueRockModels.size())
+  {
+    _ecm.Each<components::Model, components::Name, components::Pose,
+        components::Static>(
+        [&](const Entity & /*_entity*/,
+          const components::Model *,
+          const components::Name *_name,
+          const components::Pose *_pose,
+          const components::Static *)->bool
+        {
+          std::string rockName = _name->Data();
+          if (this->dataPtr->rockModelPose.find(rockName)
+              == this->dataPtr->rockModelPose.end())
+          {
+            this->dataPtr->rockModelPose[rockName] = _pose->Data();
+          }
           return true;
         });
   }
@@ -509,8 +606,13 @@ void PlaybackEventRecorder::PostUpdate(
     this->dataPtr->event = this->dataPtr->events.front();
     this->dataPtr->events.pop_front();
 
-    ignmsg << "Playing event: " << this->dataPtr->event.robot << ": "
-           << this->dataPtr->event.type << std::endl;
+    // set camera mode
+    auto cameraMode = this->dataPtr->eventCameraMode[this->dataPtr->event.type];
+    this->dataPtr->cameraFollow = (cameraMode == FOLLOW_CAMERA);
+
+    ignmsg << "Playing event: " << this->dataPtr->event.robot << ", "
+           << this->dataPtr->event.type << ", " << this->dataPtr->event.time
+           << std::endl;
 
     // seek to time when event occurred
     double t = this->dataPtr->event.time;
@@ -567,10 +669,36 @@ void PlaybackEventRecorder::PostUpdate(
 
       math::Pose3d pose = poseComp->Data();
 
-      // \todo(anyone) get closest static camera or move gui camera to
-      // preset pose?
-      // move gui camera to robot for now
-      this->dataPtr->MoveTo(this->dataPtr->event.robot);
+      // rock fall event: move camera to some offset above rock fall model and
+      // orient it to face down
+      if (this->dataPtr->event.type == "rock_fall")
+      {
+        auto it = this->dataPtr->rockModelPose.find(this->dataPtr->event.model);
+        if (it != this->dataPtr->rockModelPose.end())
+        {
+          math::Pose3d p = it->second;
+          p.Pos().Z() += 10.0;
+          p.Rot() = math::Quaterniond(0, IGN_PI/2.0, 0);
+          this->dataPtr->MoveTo(p);
+        }
+        else
+        {
+          this->dataPtr->MoveTo(this->dataPtr->event.robot);
+        }
+      }
+      // staging area event: move camera to somewhere above the staging area
+      // looking down at all the robots
+      else if (this->dataPtr->event.type == "detect" &&
+          this->dataPtr->event.detector == "staging_area")
+      {
+        math::Pose3d p(-8, 0, 25, 0, 1.1, 0);
+        this->dataPtr->MoveTo(p);
+      }
+      // all other events: move gui camera to robot for now
+      else
+      {
+        this->dataPtr->MoveTo(this->dataPtr->event.robot);
+      }
 
       // seek to a time x min before the event.
       this->dataPtr->Seek(this->dataPtr->event.startRecordTime);
@@ -684,6 +812,7 @@ void PlaybackEventRecorder::PostUpdate(
       {
         this->dataPtr->Follow(std::string());
         this->dataPtr->cameraFollowing = false;
+        this->dataPtr->cameraFollow = false;
       }
 
       return;
@@ -735,8 +864,8 @@ void PlaybackEventRecorderPrivate::MoveTo(const math::Pose3d &_pose)
       ignerr << "Error sending move to request" << std::endl;
   };
 
-  ignition::msgs::Pose req;
-  req = msgs::Convert(_pose);
+  ignition::msgs::GUICamera req;
+  msgs::Set(req.mutable_pose(), _pose);
   if (this->node.Request(this->moveToPoseService, req, cb))
   {
     igndbg << "Move to pose: " << _pose << std::endl;
