@@ -17,6 +17,7 @@
 
 #include <yaml-cpp/yaml.h>
 #include <ros/ros.h>
+#include <rosbag/recorder.h>
 
 #include <ignition/msgs/boolean.pb.h>
 #include <ignition/msgs/float.pb.h>
@@ -314,6 +315,9 @@ class subt::GameLogicPluginPrivate
   /// \brief Thread on which scores are published
   public: std::unique_ptr<std::thread> publishThread = nullptr;
 
+  /// \brief Thread on which the ROS bag recorder runs.
+  public: std::unique_ptr<std::thread> bagThread = nullptr;
+
   /// \brief Whether the task has started.
   public: bool started = false;
 
@@ -439,6 +443,9 @@ class subt::GameLogicPluginPrivate
   /// \brief A mutex.
   public: std::mutex mutex;
 
+  /// \brief Mutex to protect the poses data structure.
+  public: std::mutex posesMutex;
+
   /// \brief Log file output stream.
   public: std::ofstream logStream;
 
@@ -554,6 +561,10 @@ class subt::GameLogicPluginPrivate
   public: ros::Publisher rosRegionEventPub;
   public: std::map<std::string, ros::Publisher> rosRobotPosePubs;
   public: std::map<std::string, ros::Publisher> rosRobotKinematicPubs;
+
+  /// \brief Pointer to the ROS bag recorder.
+  public: std::unique_ptr<rosbag::Recorder> rosRecorder;
+
   public: std::string prevPhase = "";
 
   /// \brief Counter to create unique id for events
@@ -573,7 +584,7 @@ GameLogicPlugin::GameLogicPlugin()
 GameLogicPlugin::~GameLogicPlugin()
 {
   this->dataPtr->Finish(this->dataPtr->simTime);
-  this->dataPtr->finished = true;
+
   if (this->dataPtr->publishThread)
     this->dataPtr->publishThread->join();
 }
@@ -663,6 +674,19 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
       this->dataPtr->rosRegionEventPub =
         this->dataPtr->rosnode->advertise<subt_ros::RegionEvent>(
             "region_event", 100);
+
+      // Setup a ros bag recorder.
+      rosbag::RecorderOptions recorderOptions;
+      recorderOptions.append_date=false;
+      recorderOptions.prefix="/tmp/ign/logs/cloudsim";
+      recorderOptions.regex=true;
+      recorderOptions.topics.push_back("/subt/.*");
+
+      // Spawn thread for recording /subt/ data to rosbag.
+      this->dataPtr->rosRecorder.reset(new rosbag::Recorder(recorderOptions));
+      this->dataPtr->bagThread.reset(new std::thread([&](){
+        this->dataPtr->rosRecorder->run();
+      }));
     }
   }
 
@@ -1099,7 +1123,8 @@ void GameLogicPlugin::PostUpdate(
               auto mPose =
                 _ecm.Component<gazebo::components::Pose>(model->Data());
               // Execute the start logic if a robot has moved into the tunnel.
-              if (baseIter->second.Pos().Distance(mPose->Data().Pos()) >
+              if (mPose &&
+                  baseIter->second.Pos().Distance(mPose->Data().Pos()) >
                   this->dataPtr->allowedDistanceFromBase)
               {
                 ignition::msgs::Boolean req, res;
@@ -1206,7 +1231,11 @@ void GameLogicPlugin::PostUpdate(
               this->dataPtr.get());
         }
 
-        this->dataPtr->poses[_nameComp->Data()] = _poseComp->Data();
+        {
+          std::lock_guard<std::mutex> lock(this->dataPtr->posesMutex);
+          this->dataPtr->poses[_nameComp->Data()] = _poseComp->Data();
+        }
+
         for (std::pair<const subt::ArtifactType,
             std::map<std::string, ignition::math::Pose3d>> &artifactPair :
             this->dataPtr->artifacts)
@@ -1297,7 +1326,8 @@ void GameLogicPlugin::PostUpdate(
             this->dataPtr->robotPrevPose[name] = pose;
             return true;
           }
-          else if (robotPoseDataIt->second.back().second.Pos().Distance(
+          else if (!robotPoseDataIt->second.empty() &&
+              robotPoseDataIt->second.back().second.Pos().Distance(
                 pose.Pos()) > 1.0)
           {
             //  time passed since last pose sample
@@ -1475,6 +1505,7 @@ void GameLogicPlugin::PostUpdate(
   {
     static bool errorSent = false;
 
+    std::lock_guard<std::mutex> lock(this->dataPtr->posesMutex);
     // Get the artifact origin's pose.
     std::map<std::string, ignition::math::Pose3d>::iterator originIter =
       this->dataPtr->poses.find(subt::kArtifactOriginName);
@@ -2273,7 +2304,23 @@ void GameLogicPluginPrivate::Finish(const ignition::msgs::Time &_simTime)
         statusMsg.timestamp.sec = _simTime.sec();
         statusMsg.timestamp.nsec = _simTime.nsec();
         this->rosStatusPub.publish(statusMsg);
+
+        if (this->bagThread && this->bagThread->joinable())
+        {
+          // Shutdown ros. this makes the ROS bag recorder stop.
+          ros::shutdown();
+          this->bagThread->join();
+        }
       }
+
+      // Send the recording_complete message after ROS has shutdown, if ROS
+      // has been enabled.
+      ignition::msgs::StringMsg completeMsg;
+      completeMsg.mutable_header()->mutable_stamp()->CopyFrom(
+          this->simTime);
+      completeMsg.set_data("recording_complete");
+      this->startPub.Publish(completeMsg);
+
       this->eventCounter++;
     }
   }
@@ -2625,32 +2672,40 @@ void GameLogicPluginPrivate::LogRobotArtifactData(
 bool GameLogicPluginPrivate::PoseFromArtifactHelper(const std::string &_robot,
     ignition::math::Pose3d &_result)
 {
-  // Get an iterator to the robot's pose.
-  std::map<std::string, ignition::math::Pose3d>::iterator robotIter =
-    this->poses.find(_robot);
+  ignition::math::Pose3d robotPose, basePose;
 
-  if (robotIter == this->poses.end())
   {
-    ignerr << "[GameLogicPlugin]: Unable to find robot with name ["
-           << _robot << "]. Ignoring PoseFromArtifact request" << std::endl;
-    return false;
+    std::lock_guard<std::mutex> lock(this->posesMutex);
+    // Get an iterator to the robot's pose.
+    std::map<std::string, ignition::math::Pose3d>::iterator robotIter =
+      this->poses.find(_robot);
+
+    if (robotIter == this->poses.end())
+    {
+      ignerr << "[GameLogicPlugin]: Unable to find robot with name ["
+        << _robot << "]. Ignoring PoseFromArtifact request" << std::endl;
+      return false;
+    }
+    robotPose = robotIter->second;
+
+    // Get an iterator to the base station's pose.
+    std::map<std::string, ignition::math::Pose3d>::iterator baseIter =
+      this->poses.find(subt::kBaseStationName);
+
+    // Sanity check: Make sure that the robot is in the staging area, as this
+    // service is only available in that zone.
+    if (baseIter == this->poses.end())
+    {
+      ignerr << "[GameLogicPlugin]: Unable to find the staging area  ["
+        << subt::kBaseStationName
+        << "]. Ignoring PoseFromArtifact request" << std::endl;
+      return false;
+    }
+
+    basePose = baseIter->second;
   }
 
-  // Get an iterator to the base station's pose.
-  std::map<std::string, ignition::math::Pose3d>::iterator baseIter =
-    this->poses.find(subt::kBaseStationName);
-
-  // Sanity check: Make sure that the robot is in the staging area, as this
-  // service is only available in that zone.
-  if (baseIter == this->poses.end())
-  {
-    ignerr << "[GameLogicPlugin]: Unable to find the staging area  ["
-      << subt::kBaseStationName
-      << "]. Ignoring PoseFromArtifact request" << std::endl;
-    return false;
-  }
-
-  if (baseIter->second.Pos().Distance(robotIter->second.Pos()) >
+  if (basePose.Pos().Distance(robotPose.Pos()) >
       this->allowedDistanceFromBase)
   {
     ignerr << "[GameLogicPlugin]: Robot [" << _robot << "] is too far from the "
@@ -2658,9 +2713,8 @@ bool GameLogicPluginPrivate::PoseFromArtifactHelper(const std::string &_robot,
     return false;
   }
 
-
   // Pose.
-  _result = robotIter->second - this->artifactOriginPose;
+  _result = robotPose - this->artifactOriginPose;
   return true;
 }
 
