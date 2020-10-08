@@ -677,8 +677,8 @@ void PlaybackEventRecorder::PostUpdate(
         if (it != this->dataPtr->rockModelPose.end())
         {
           math::Pose3d p = it->second;
-          p.Pos().Z() += 5.0;
-          p.Rot() = math::Quaterniond(0, IGN_PI/2.0, 0);
+          p.Pos() += math::Vector3d(-12.5, -12.5, 5.5);
+          p.Rot() = math::Quaterniond(0, 0.4, IGN_PI/4.0);
           this->dataPtr->MoveTo(p);
         }
         else
