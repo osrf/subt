@@ -209,7 +209,7 @@ services:
   # In this example, two robots are started with the names X1 and X2.
   sim:
     image: #{options['sim_image']}
-    command: cloudsim_sim.ign headless:=#{submission['headless']} circuit:=#{submission['circuit']} worldName:=#{submission['world']} #{robotStr}
+    command: cloudsim_sim.ign headless:=#{submission['headless']} circuit:=#{submission['circuit']} ros:=true worldName:=#{submission['world']} #{robotStr}
     networks:
       sim_net:
         ipv4_address: 172.28.1.1
