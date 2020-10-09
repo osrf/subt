@@ -829,16 +829,16 @@ void PlaybackEventRecorder::PostUpdate(
 
       if (common::exists(this->dataPtr->tmpVideoFilename))
       {
-        std::string filename = this->dataPtr->event.robot + "_" +
-            this->dataPtr->event.type + "_";
+        std::string filename = std::to_string(static_cast<int>(this->dataPtr->event.startRecordTime)) + "-" +
+            this->dataPtr->event.type;
         if (!this->dataPtr->event.detector.empty())
         {
-          filename += this->dataPtr->event.detector + "_" +
-            this->dataPtr->event.state + "_";
+          filename += "_" + this->dataPtr->event.detector + "_" +
+            this->dataPtr->event.state;
         }
-        filename += std::to_string(static_cast<int>(this->dataPtr->event.time))
-            + "." + this->dataPtr->videoFormat;
-        common::moveFile(this->dataPtr->tmpVideoFilename, filename);
+        filename += "-" + this->dataPtr->event.robot + 
+	    "." + this->dataPtr->videoFormat;
+	common::moveFile(this->dataPtr->tmpVideoFilename, filename);
 
         ignmsg << "Saving recording video to:  " << filename <<  std::endl;
 
