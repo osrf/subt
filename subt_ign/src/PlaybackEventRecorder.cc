@@ -245,21 +245,27 @@ PlaybackEventRecorder::PlaybackEventRecorder()
 {
   // set up event types and recording duration:
   //   * robot deployed a marsupial child (follow camera)
+  //   * robot deployed a breadcrumb (follow camera)
+  //   * robot flipped over (follow camera)
+  //   * robot enter proximity of artifact (follow camera)
   //   * robot exited staging area (static camera)
   //   * robot triggered rock fall (static camera)
   this->dataPtr->eventRecordDuration["detach"] = std::make_pair(60, 120);
+  this->dataPtr->eventRecordDuration["breadcrumb_deploy"] =
+      std::make_pair(60, 120);
+  this->dataPtr->eventRecordDuration["flip"] = std::make_pair(120, 30);
   this->dataPtr->eventRecordDuration["detect"] = std::make_pair(60, 60);
   this->dataPtr->eventRecordDuration["rock_fall"] = std::make_pair(60, 120);
 
   this->dataPtr->eventCameraMode["detach"] = FOLLOW_CAMERA;
-  this->dataPtr->eventCameraMode["detect"] = STATIC_CAMERA;
+  this->dataPtr->eventCameraMode["breadcrumb_deploy"] = FOLLOW_CAMERA;
+  this->dataPtr->eventCameraMode["flip"] = FOLLOW_CAMERA;
+  // detect event type - follow for artifacts
+  // There is a special check added later to use static camera for staging area
+  this->dataPtr->eventCameraMode["detect"] = FOLLOW_CAMERA;
   this->dataPtr->eventCameraMode["rock_fall"] = STATIC_CAMERA;
 
   // breadcrumb and flip events no longer needed
-  // this->dataPtr->eventRecordDuration["breadcrumb_deploy"] =
-  //     std::make_pair(60, 120);
-  // this->dataPtr->eventRecordDuration["flip"] = std::make_pair(120, 60);
-
   this->dataPtr->detectors.insert("staging_area");
 
   // artifact proximity events no longer needed
@@ -439,46 +445,46 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity &,
     this->dataPtr->events.push_back(e);
   }
 
+  // merge artifact proximity detector events
+  // we don't want to record mulitple videos for each artifact detector event
+  // If mulitple events occurred for the same robot and artifact within some
+  // time period, then merge the events
+  double maxTimeDiff = 60.0;
+  std::set<unsigned int> toRemove;
+  for (auto it = this->dataPtr->events.begin();
+      it != this->dataPtr->events.end(); ++it)
+  {
+    auto &e = *it;
+    if (toRemove.find(e.id) != toRemove.end())
+      continue;
+    if (e.type != "detect")
+      continue;
+    // merge current event with other detector events for the same robot
+    // if time difference between the two is less than maxTimeDiff
+    for (auto it2 = std::next(it, 1); it2 != this->dataPtr->events.end();
+        ++it2)
+    {
+      auto &e2 = *it2;
+      if (e2.type == "detect" && e2.robot == e.robot &&
+          e2.detector == e.detector)
+      {
+        double dt = e2.startRecordTime - e.startRecordTime;
+        if (dt < maxTimeDiff && dt >= 0)
+        {
+          e.endRecordTime = e2.endRecordTime;
+          toRemove.insert(e2.id);
+        }
+      }
+    }
+  }
+  // remove events that were merged and marked for removal
+  this->dataPtr->events.remove_if(
+      [&toRemove](Event &e) {return toRemove.find(e.id) != toRemove.end();});
+
   // add the staging area event
   this->dataPtr->events.push_front(stagingAreaEvent);
 
-  // merge detector events
-  // \todo(anyone) The code is commented out as the artifact proximity events
-  // are not currently being recorded. We are now only recording
-  // one detector event capturing the robots exiting the staging area
-  // double maxTimeDiff = 60.0;
-  // std::set<unsigned int> toRemove;
-  // for (auto it = this->dataPtr->events.begin();
-  //     it != this->dataPtr->events.end(); ++it)
-  // {
-  //   auto &e = *it;
-  //   if (toRemove.find(e.id) != toRemove.end())
-  //     continue;
-  //   if (e.type != "detect")
-  //     continue;
-  //   // merge current event with other detector events for the same robots
-  //   // time difference between the two is less than maxTimeDiff
-  //   for (auto it2 = std::next(it, 1); it2 != this->dataPtr->events.end();
-  //       ++it2)
-  //   {
-  //     auto &e2 = *it2;
-  //     if (e2.type == "detect" && e2.robot == e.robot &&
-  //         e2.detector == e.detector)
-  //     {
-  //       double dt = e2.startRecordTime - e.startRecordTime;
-  //       if (dt < maxTimeDiff && dt >= 0)
-  //       {
-  //         e.endRecordTime = e2.endRecordTime;
-  //         toRemove.insert(e2.id);
-  //       }
-  //     }
-  //   }
-  // }
-  // // remove events that were merged and marked for removal
-  // this->dataPtr->events.remove_if(
-  //     [&toRemove](Event &e) {return toRemove.find(e.id) != toRemove.end();});
-
-  // don't do anything if there are not events
+  // don't do anything if there are no events
   if (this->dataPtr->events.empty())
   {
     std::cout << "No events to record: " << std::endl;
@@ -608,106 +614,112 @@ void PlaybackEventRecorder::PostUpdate(
 
     // set camera mode
     auto cameraMode = this->dataPtr->eventCameraMode[this->dataPtr->event.type];
-    this->dataPtr->cameraFollow = (cameraMode == FOLLOW_CAMERA);
+    this->dataPtr->cameraFollow = (cameraMode == FOLLOW_CAMERA) &&
+        (this->dataPtr->event.detector != "staging_area");
 
     ignmsg << "Playing event: " << this->dataPtr->event.robot << ", "
            << this->dataPtr->event.type << ", " << this->dataPtr->event.time
            << std::endl;
 
     // seek to time when event occurred
-    double t = this->dataPtr->event.time;
-    this->dataPtr->Seek(t);
-    this->dataPtr->state = SEEK_EVENT;
-    ignmsg << "State: Transitioning to SEEK_EVENT" <<  std::endl;
+    // double t = this->dataPtr->event.time;
+    // this->dataPtr->Seek(t);
+    // this->dataPtr->state = SEEK_EVENT;
+    /// ignmsg << "State: Transitioning to SEEK_EVENT" <<  std::endl;
+
+    this->dataPtr->Seek(this->dataPtr->event.startRecordTime);
+    this->dataPtr->state = SEEK_BEGIN;
+    ignmsg << "State: Transitioning to SEEK_BEGIN" <<  std::endl;
+    return;
   }
 
   // seek event state - seek to time of event and get robot pose so we can
   // move camera to a pose where the event occurred
-  if (this->dataPtr->state == SEEK_EVENT)
-  {
-    // time of event - find robot and set up camera
-    if (s == static_cast<int>(this->dataPtr->event.time))
-    {
-      // wait for a few real time seconds after arriving at time of event
-      if (!this->dataPtr->waiting)
-      {
-        this->dataPtr->eventManager->Emit<events::Pause>(true);
-        this->dataPtr->waiting = true;
-        this->dataPtr->waitStartTime = std::chrono::system_clock::now();
-        return;
-      }
-      else if (t - this->dataPtr->waitStartTime > std::chrono::seconds(5))
-      {
-        this->dataPtr->waiting = false;
-        this->dataPtr->eventManager->Emit<events::Pause>(false);
-      }
-      else
-      {
-        return;
-      }
-
-      // get pose of robot for the current event
-      auto entity = _ecm.EntityByComponents(
-          components::Name(this->dataPtr->event.robot),
-          components::Model());
-      if (entity == kNullEntity)
-      {
-        ignerr << "Unable to record event. Failed to get robot with name: "
-               << this->dataPtr->event.robot << std::endl;
-        this->dataPtr->state = IDLE;
-        return;
-      }
-
-      auto poseComp = _ecm.Component<components::Pose>(entity);
-      if (!poseComp)
-      {
-        ignerr << "Unable to record event. Failed to get pose for robot: "
-               << this->dataPtr->event.robot << std::endl;
-        this->dataPtr->state = IDLE;
-        return;
-      }
-
-      math::Pose3d pose = poseComp->Data();
-
-      // rock fall event: move camera to some offset above rock fall model and
-      // orient it to face down
-      if (this->dataPtr->event.type == "rock_fall")
-      {
-        auto it = this->dataPtr->rockModelPose.find(this->dataPtr->event.model);
-        if (it != this->dataPtr->rockModelPose.end())
-        {
-          math::Pose3d p = it->second;
-          p.Pos() += math::Vector3d(-12.5, -12.5, 5.5);
-          p.Rot() = math::Quaterniond(0, 0.4, IGN_PI/4.0);
-          this->dataPtr->MoveTo(p);
-        }
-        else
-        {
-          this->dataPtr->MoveTo(this->dataPtr->event.robot);
-        }
-      }
-      // staging area event: move camera to somewhere above the staging area
-      // looking down at all the robots
-      else if (this->dataPtr->event.type == "detect" &&
-          this->dataPtr->event.detector == "staging_area")
-      {
-        math::Pose3d p(-3.5, 0, 5, 0, 0.4, 0);
-        this->dataPtr->MoveTo(p);
-      }
-      // all other events: move gui camera to robot for now
-      else
-      {
-        this->dataPtr->MoveTo(this->dataPtr->event.robot);
-      }
-
-      // seek to a time x min before the event.
-      this->dataPtr->Seek(this->dataPtr->event.startRecordTime);
-      this->dataPtr->state = SEEK_BEGIN;
-      ignmsg << "State: Transitioning to SEEK_BEGIN" <<  std::endl;
-    }
-
-    return;
-  }
+//   if (this->dataPtr->state == SEEK_EVENT)
+//   {
+//     // time of event - find robot and set up camera
+//     if (s == static_cast<int>(this->dataPtr->event.time))
+//     {
+//       // wait for a few real time seconds after arriving at time of event
+//       if (!this->dataPtr->waiting)
+//       {
+//         this->dataPtr->eventManager->Emit<events::Pause>(true);
+//         this->dataPtr->waiting = true;
+//         this->dataPtr->waitStartTime = std::chrono::system_clock::now();
+//         return;
+//       }
+//       else if (t - this->dataPtr->waitStartTime > std::chrono::seconds(5))
+//       {
+//         this->dataPtr->waiting = false;
+//         this->dataPtr->eventManager->Emit<events::Pause>(false);
+//       }
+//       else
+//       {
+//         return;
+//       }
+//
+//       // get pose of robot for the current event
+//       auto entity = _ecm.EntityByComponents(
+//           components::Name(this->dataPtr->event.robot),
+//           components::Model());
+//       if (entity == kNullEntity)
+//       {
+//         ignerr << "Unable to record event. Failed to get robot with name: "
+//                << this->dataPtr->event.robot << std::endl;
+//         this->dataPtr->state = IDLE;
+//         return;
+//       }
+//
+//       auto poseComp = _ecm.Component<components::Pose>(entity);
+//       if (!poseComp)
+//       {
+//         ignerr << "Unable to record event. Failed to get pose for robot: "
+//                << this->dataPtr->event.robot << std::endl;
+//         this->dataPtr->state = IDLE;
+//         return;
+//       }
+//
+//       math::Pose3d pose = poseComp->Data();
+//
+//       // rock fall event: move camera to some offset above rock fall model and
+//       // orient it to face down
+//       if (this->dataPtr->event.type == "rock_fall")
+//       {
+//         auto it = this->dataPtr->rockModelPose.find(this->dataPtr->event.model);
+//         if (it != this->dataPtr->rockModelPose.end())
+//         {
+//           math::Pose3d p = it->second;
+//           p.Pos() += math::Vector3d(-12.5, -12.5, 5.5);
+//           p.Rot() = math::Quaterniond(0, 0.4, IGN_PI/4.0);
+//           this->dataPtr->MoveTo(p);
+//         }
+//         else
+//         {
+//           this->dataPtr->MoveTo(this->dataPtr->event.robot);
+//         }
+//       }
+//       // staging area event: move camera to somewhere above the staging area
+//       // looking down at all the robots
+//       else if (this->dataPtr->event.type == "detect" &&
+//           this->dataPtr->event.detector == "staging_area")
+//       {
+//         math::Pose3d p(-3.5, 0, 5, 0, 0.4, 0);
+//         this->dataPtr->MoveTo(p);
+//       }
+//       // all other events: move gui camera to robot for now
+//       else
+//       {
+//         this->dataPtr->MoveTo(this->dataPtr->event.robot);
+//       }
+//
+//       // seek to a time x min before the event.
+//       this->dataPtr->Seek(this->dataPtr->event.startRecordTime);
+//       this->dataPtr->state = SEEK_BEGIN;
+//       ignmsg << "State: Transitioning to SEEK_BEGIN" <<  std::endl;
+//     }
+//
+//     return;
+//   }
 
   // seek begin state - seek playback to x min before the event and start
   // recording
@@ -738,7 +750,12 @@ void PlaybackEventRecorder::PostUpdate(
       // we need to spawn a light on every seek event because new entities
       // that get spawned in playback are removed when jumping back in time
       if (this->dataPtr->spawnLight)
-        this->dataPtr->SpawnLight();
+      {
+        auto lightEntity = _ecm.EntityByComponents(
+            components::Name("spawned_light"));
+        if (lightEntity == kNullEntity)
+          this->dataPtr->SpawnLight();
+      }
 
       // if in camera follow mode, reset entity exists values so we can do
       // check to make sure the entity exists first before asking the gui
@@ -747,6 +764,36 @@ void PlaybackEventRecorder::PostUpdate(
       {
         this->dataPtr->entityExists = false;
         this->dataPtr->cameraFollowing = false;
+      }
+      // static camera mode
+      else
+      {
+        // rock fall event: move camera to some offset above rock fall model and
+        // orient it to face down
+        if (this->dataPtr->event.type == "rock_fall")
+        {
+          auto it = this->dataPtr->rockModelPose.find(this->dataPtr->event.model);
+          if (it != this->dataPtr->rockModelPose.end())
+          {
+            math::Pose3d p = it->second;
+            p.Pos() += math::Vector3d(-12.5, -12.5, 5.5);
+            p.Rot() = math::Quaterniond(0, 0.4, IGN_PI/4.0);
+            this->dataPtr->MoveTo(p);
+          }
+          else
+          {
+            ignerr << "Unable to move camera to dynamic rock model: "
+                   << this->dataPtr->event.model << std::endl;
+          }
+        }
+        // staging area event: move camera to somewhere above the staging area
+        // looking down at all the robots
+        else if (this->dataPtr->event.type == "detect" &&
+            this->dataPtr->event.detector == "staging_area")
+        {
+          math::Pose3d p(-3.5, 0, 5, 0, 0.4, 0);
+          this->dataPtr->MoveTo(p);
+        }
       }
 
       // start video recording
@@ -767,15 +814,14 @@ void PlaybackEventRecorder::PostUpdate(
       if (!this->dataPtr->entityExists)
       {
         // check if robot exists
-        _ecm.Each<components::Model, components::Name>(
-            [&](const Entity & /*_entity*/,
-              const components::Model *,
-              const components::Name *_name)->bool
-            {
-              if (_name->Data() == this->dataPtr->event.robot)
-                this->dataPtr->entityExists = true;
-              return true;
-            });
+        auto entity = _ecm.EntityByComponents(
+            components::Name(this->dataPtr->event.robot),
+            components::Model());
+        if (entity != kNullEntity)
+        {
+          this->dataPtr->entityExists = true;
+          this->dataPtr->Follow(this->dataPtr->event.robot);
+        }
       }
       else if (!this->dataPtr->cameraFollowing)
       {
@@ -787,7 +833,7 @@ void PlaybackEventRecorder::PostUpdate(
           this->dataPtr->waitStartTime = std::chrono::system_clock::now();
           return;
         }
-        else if (t - this->dataPtr->waitStartTime > std::chrono::seconds(5))
+        else if (t - this->dataPtr->waitStartTime > std::chrono::seconds(15))
         {
           this->dataPtr->waiting = false;
           this->dataPtr->Follow(this->dataPtr->event.robot);
@@ -829,16 +875,17 @@ void PlaybackEventRecorder::PostUpdate(
 
       if (common::exists(this->dataPtr->tmpVideoFilename))
       {
-        std::string filename = std::to_string(static_cast<int>(this->dataPtr->event.startRecordTime)) + "-" +
+        std::string filename = std::to_string(
+            static_cast<int>(this->dataPtr->event.startRecordTime)) + "-" +
             this->dataPtr->event.type;
         if (!this->dataPtr->event.detector.empty())
         {
           filename += "_" + this->dataPtr->event.detector + "_" +
             this->dataPtr->event.state;
         }
-        filename += "-" + this->dataPtr->event.robot + 
-	    "." + this->dataPtr->videoFormat;
-	common::moveFile(this->dataPtr->tmpVideoFilename, filename);
+        filename += "-" + this->dataPtr->event.robot +
+            "." + this->dataPtr->videoFormat;
+        common::moveFile(this->dataPtr->tmpVideoFilename, filename);
 
         ignmsg << "Saving recording video to:  " << filename <<  std::endl;
 
