@@ -628,7 +628,7 @@ void PlaybackEventRecorder::PostUpdate(
     // time of event - find robot and set up camera
     if (s == static_cast<int>(this->dataPtr->event.time))
     {
-      // wait for 2 real time seconds after arriving at time of event
+      // wait for a few real time seconds after arriving at time of event
       if (!this->dataPtr->waiting)
       {
         this->dataPtr->eventManager->Emit<events::Pause>(true);
@@ -636,7 +636,7 @@ void PlaybackEventRecorder::PostUpdate(
         this->dataPtr->waitStartTime = std::chrono::system_clock::now();
         return;
       }
-      else if (t - this->dataPtr->waitStartTime > std::chrono::seconds(2))
+      else if (t - this->dataPtr->waitStartTime > std::chrono::seconds(5))
       {
         this->dataPtr->waiting = false;
         this->dataPtr->eventManager->Emit<events::Pause>(false);
@@ -716,7 +716,7 @@ void PlaybackEventRecorder::PostUpdate(
     // make a service request to start video recording
     if (s == static_cast<int>(this->dataPtr->event.startRecordTime))
     {
-      // wait for 2 real time seconds after arriving at time before event
+      // wait for a few real time seconds after arriving at time before event
       if (!this->dataPtr->waiting)
       {
         this->dataPtr->eventManager->Emit<events::Pause>(true);
@@ -724,7 +724,7 @@ void PlaybackEventRecorder::PostUpdate(
         this->dataPtr->waitStartTime = std::chrono::system_clock::now();
         return;
       }
-      else if (t - this->dataPtr->waitStartTime > std::chrono::seconds(2))
+      else if (t - this->dataPtr->waitStartTime > std::chrono::seconds(5))
       {
         this->dataPtr->waiting = false;
         this->dataPtr->eventManager->Emit<events::Pause>(false);
@@ -779,7 +779,7 @@ void PlaybackEventRecorder::PostUpdate(
       }
       else if (!this->dataPtr->cameraFollowing)
       {
-        // wait for 2 real time seconds for the robot entity data to be ready on
+        // wait for a few real time seconds for the robot entity data to be ready on
         // gui side
         if (!this->dataPtr->waiting)
         {
@@ -787,7 +787,7 @@ void PlaybackEventRecorder::PostUpdate(
           this->dataPtr->waitStartTime = std::chrono::system_clock::now();
           return;
         }
-        else if (t - this->dataPtr->waitStartTime > std::chrono::seconds(2))
+        else if (t - this->dataPtr->waitStartTime > std::chrono::seconds(5))
         {
           this->dataPtr->waiting = false;
           this->dataPtr->Follow(this->dataPtr->event.robot);
