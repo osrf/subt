@@ -880,8 +880,8 @@ void PlaybackEventRecorder::PostUpdate(
       this->dataPtr->Record(false);
       this->dataPtr->recordStopRequested = true;
       this->dataPtr->recordStopTime = std::chrono::system_clock::now();
-      ignmsg << "Recording stoped: " << s << "s (real time), "
-             << rs << "s (sim time)" << std::endl;
+      ignmsg << "Recording stopped: " << s << "s (sim time), "
+             << rs << "s (real time)" << std::endl;
 
       // disable camera following
       if (this->dataPtr->cameraFollow)
