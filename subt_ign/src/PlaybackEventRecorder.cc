@@ -413,6 +413,7 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity &,
         // into the events list later
         continue;
       }
+      e.detector = detector;
     }
 
     // for rock fall events, we need to check the corresponding performer
