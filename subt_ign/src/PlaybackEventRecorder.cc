@@ -174,6 +174,9 @@ class subt::PlaybackEventRecorderPrivate
   /// the specified pose
   public: bool waiting = false;
 
+  /// \brief Wait for scene to be created on the gui side
+  public: bool waitForScene = false;
+
   /// \brief Start of wait time in wall clock time
   public: std::chrono::time_point<std::chrono::system_clock> waitStartTime;
 
@@ -269,11 +272,11 @@ PlaybackEventRecorder::PlaybackEventRecorder()
   this->dataPtr->detectors.insert("staging_area");
 
   // artifact proximity events no longer needed
-  // this->dataPtr->detectors.insert("backpack");
-  // this->dataPtr->detectors.insert("phone");
-  // this->dataPtr->detectors.insert("rescue_randy");
-  // this->dataPtr->detectors.insert("rope");
-  // this->dataPtr->detectors.insert("helmet");
+  this->dataPtr->detectors.insert("backpack");
+  this->dataPtr->detectors.insert("phone");
+  this->dataPtr->detectors.insert("rescue_randy");
+  this->dataPtr->detectors.insert("rope");
+  this->dataPtr->detectors.insert("helmet");
 }
 
 /////////////////////////////////////////////
@@ -388,26 +391,28 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity &,
       // Get the time when the last robot exits the staging area
       // take into accout that some robots may never leave, in which case
       // record until the last unique robot exit event
-      if (detector == "staging_area" && state == "exit" &&
-          stagingAreaEventTime.size() < robotCount)
+      if (detector == "staging_area")
       {
-        std::string robot = n["robot"].as<std::string>();
-        double time = n["time_sec"].as<double>();
-        if (stagingAreaEventTime.find(robot) == stagingAreaEventTime.end())
+        if (state == "exit" && stagingAreaEventTime.size() < robotCount)
         {
-          stagingAreaEventTime[robot] = time;
-          if (time > stagingAreaEvent.time)
+          std::string robot = n["robot"].as<std::string>();
+          double time = n["time_sec"].as<double>();
+          if (stagingAreaEventTime.find(robot) == stagingAreaEventTime.end())
           {
-            stagingAreaEvent.time = time;
-            stagingAreaEvent.robot = robot;
-            stagingAreaEvent.endRecordTime = time + it->second.second;
+            stagingAreaEventTime[robot] = time;
+            if (time > stagingAreaEvent.time)
+            {
+              stagingAreaEvent.time = time;
+              stagingAreaEvent.robot = robot;
+              stagingAreaEvent.endRecordTime = time + it->second.second;
+            }
           }
         }
+        // continue because we don't need to store every staging area detector
+        // event in the list. There should only be one, which we manually push
+        // into the events list later
+        continue;
       }
-      // continue because we don't need to store every staging area detector
-      // event in the list. There should only be one, which we manually push
-      // into the events list later
-      continue;
     }
 
     // for rock fall events, we need to check the corresponding performer
@@ -587,6 +592,9 @@ void PlaybackEventRecorder::PostUpdate(
 
   int64_t s, ns;
   std::tie(s, ns) = ignition::math::durationToSecNsec(_info.simTime);
+
+  int64_t rs, rns;
+  std::tie(rs, rns) = ignition::math::durationToSecNsec(_info.realTime);
 
   // step the sim for a few seconds for scene to load on gui side
   if (!this->dataPtr->started)
@@ -796,8 +804,7 @@ void PlaybackEventRecorder::PostUpdate(
         }
       }
 
-      // start video recording
-      this->dataPtr->Record(true);
+      this->dataPtr->waitForScene = true;
       this->dataPtr->state = RECORDING;
       ignmsg << "State: Transitioning to RECORDING" <<  std::endl;
     }
@@ -806,6 +813,27 @@ void PlaybackEventRecorder::PostUpdate(
   // recording state - record video to disk until y min after time of event
   if (this->dataPtr->state == RECORDING)
   {
+    if (this->dataPtr->waitForScene)
+    {
+      if (!this->dataPtr->waiting)
+      {
+        this->dataPtr->eventManager->Emit<events::Pause>(true);
+        this->dataPtr->waitStartTime = t;
+        this->dataPtr->waiting = true;
+      }
+      else if (t - this->dataPtr->waitStartTime > std::chrono::seconds(5))
+      {
+        this->dataPtr->eventManager->Emit<events::Pause>(false);
+        this->dataPtr->waiting = false;
+        // start video recording
+        this->dataPtr->Record(true);
+        this->dataPtr->waitForScene = false;
+        ignmsg << "Recording started: " << s << "s (sim time), "
+               << rs << "s (real time)" << std::endl;
+      }
+      return;
+    }
+
     // catch edge case. If we seek to a time in playback that the robot has
     // not been spawned yet, e.g. beginning of sim, then we need to wait
     // for robot to spawn before sending the follow cmd
@@ -852,6 +880,8 @@ void PlaybackEventRecorder::PostUpdate(
       this->dataPtr->Record(false);
       this->dataPtr->recordStopRequested = true;
       this->dataPtr->recordStopTime = std::chrono::system_clock::now();
+      ignmsg << "Recording stoped: " << s << "s (real time), "
+             << rs << "s (sim time)" << std::endl;
 
       // disable camera following
       if (this->dataPtr->cameraFollow)
