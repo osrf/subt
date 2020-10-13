@@ -630,12 +630,6 @@ void PlaybackEventRecorder::PostUpdate(
            << this->dataPtr->event.type << ", " << this->dataPtr->event.time
            << std::endl;
 
-    // seek to time when event occurred
-    // double t = this->dataPtr->event.time;
-    // this->dataPtr->Seek(t);
-    // this->dataPtr->state = SEEK_EVENT;
-    /// ignmsg << "State: Transitioning to SEEK_EVENT" <<  std::endl;
-
     this->dataPtr->Seek(this->dataPtr->event.startRecordTime);
     this->dataPtr->state = SEEK_BEGIN;
     ignmsg << "State: Transitioning to SEEK_BEGIN" <<  std::endl;
@@ -734,7 +728,6 @@ void PlaybackEventRecorder::PostUpdate(
   // recording
   if (this->dataPtr->state == SEEK_BEGIN)
   {
-    // make a service request to start video recording
     if (s == static_cast<int>(this->dataPtr->event.startRecordTime))
     {
       // wait for a few real time seconds after arriving at time before event
@@ -814,23 +807,29 @@ void PlaybackEventRecorder::PostUpdate(
   // recording state - record video to disk until y min after time of event
   if (this->dataPtr->state == RECORDING)
   {
+    // pause and wait a few seconds for scene to initialize on gui
     if (this->dataPtr->waitForScene)
     {
       if (!this->dataPtr->waiting)
       {
-        this->dataPtr->eventManager->Emit<events::Pause>(true);
         this->dataPtr->waitStartTime = t;
         this->dataPtr->waiting = true;
       }
-      else if (t - this->dataPtr->waitStartTime > std::chrono::seconds(5))
+      // play for a small period of time to get scene state msg over to gui
+      else if (t - this->dataPtr->waitStartTime > std::chrono::milliseconds(100))
       {
-        this->dataPtr->eventManager->Emit<events::Pause>(false);
-        this->dataPtr->waiting = false;
-        // start video recording
-        this->dataPtr->Record(true);
-        this->dataPtr->waitForScene = false;
-        ignmsg << "Recording started: " << s << "s (sim time), "
-               << rs << "s (real time)" << std::endl;
+        // pause and wait for scene to initialize on gui
+        this->dataPtr->eventManager->Emit<events::Pause>(true);
+        if (t - this->dataPtr->waitStartTime > std::chrono::seconds(15))
+        {
+          this->dataPtr->eventManager->Emit<events::Pause>(false);
+          this->dataPtr->waiting = false;
+          // start video recording
+          this->dataPtr->Record(true);
+          this->dataPtr->waitForScene = false;
+          ignmsg << "Recording started: " << s << "s (sim time), "
+                 << rs << "s (real time)" << std::endl;
+        }
       }
       return;
     }
@@ -862,7 +861,7 @@ void PlaybackEventRecorder::PostUpdate(
           this->dataPtr->waitStartTime = std::chrono::system_clock::now();
           return;
         }
-        else if (t - this->dataPtr->waitStartTime > std::chrono::seconds(15))
+        else if (t - this->dataPtr->waitStartTime > std::chrono::seconds(10))
         {
           this->dataPtr->waiting = false;
           this->dataPtr->Follow(this->dataPtr->event.robot);
@@ -871,7 +870,7 @@ void PlaybackEventRecorder::PostUpdate(
       }
     }
 
-    // wait until we reached end record time or end of playback
+    // record until we reached the end record time or end of playback
     // (indicated by info.pause)
     if (!this->dataPtr->recordStopRequested &&
         (_info.paused ||
@@ -911,8 +910,7 @@ void PlaybackEventRecorder::PostUpdate(
             this->dataPtr->event.type;
         if (!this->dataPtr->event.detector.empty())
         {
-          filename += "_" + this->dataPtr->event.detector + "_" +
-            this->dataPtr->event.state;
+          filename += "-" + this->dataPtr->event.detector;
         }
         filename += "-" + this->dataPtr->event.robot +
             "." + this->dataPtr->videoFormat;
