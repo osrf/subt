@@ -912,11 +912,15 @@ void PlaybackEventRecorder::PostUpdate(
         {
           filename += "-" + this->dataPtr->event.detector;
         }
+        if (!this->dataPtr->event.model.empty())
+        {
+          filename += "-" + this->dataPtr->event.model;
+        }
         filename += "-" + this->dataPtr->event.robot +
             "." + this->dataPtr->videoFormat;
         common::moveFile(this->dataPtr->tmpVideoFilename, filename);
 
-        ignmsg << "Saving recording video to:  " << filename <<  std::endl;
+        ignmsg << "Saving video recording to:  " << filename <<  std::endl;
 
         // Remove old temp file, if it exists.
         std::remove(this->dataPtr->tmpVideoFilename.c_str());
