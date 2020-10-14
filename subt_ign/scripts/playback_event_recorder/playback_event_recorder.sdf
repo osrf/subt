@@ -16,8 +16,8 @@
 <sdf version='1.6'>
 
   <world name='default'>
+<!--
     <gui fullscreen="0">
-    <!-- 3D scene -->
     <plugin filename="GzScene3D" name="3D View">
       <ignition-gui>
         <title>3D View</title>
@@ -31,7 +31,6 @@
       <camera_pose>6 0 6 0 0.5 3.14</camera_pose>
     </plugin>
 
-    <!-- Play / pause / step -->
     <plugin filename="WorldControl" name="World control">
       <ignition-gui>
         <title>World control</title>
@@ -53,7 +52,6 @@
       <start_paused>true</start_paused>
     </plugin>
 
-    <!-- Time / RTF -->
     <plugin filename="WorldStats" name="World stats">
       <ignition-gui>
         <title>World stats</title>
@@ -76,6 +74,7 @@
       <iterations>true</iterations>
     </plugin>
     </gui>
+-->
 
     <plugin filename='ignition-gazebo-scene-broadcaster-system'
             name='ignition::gazebo::systems::SceneBroadcaster'>
