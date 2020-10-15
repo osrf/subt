@@ -77,6 +77,9 @@ namespace subt
     /// \brief Model associated with this event
     public: std::string model;
 
+    /// \brief Extra typpe info associate with event
+    public: std::string extra;
+
     /// \brief Start time for recording video
     public: double startRecordTime = 0;
 
@@ -277,6 +280,9 @@ PlaybackEventRecorder::PlaybackEventRecorder()
   this->dataPtr->detectors.insert("rescue_randy");
   this->dataPtr->detectors.insert("rope");
   this->dataPtr->detectors.insert("helmet");
+
+  // region of interest events - decision, vertical, elevation
+  this->dataPtr->detectors.insert("tile");
 }
 
 /////////////////////////////////////////////
@@ -386,7 +392,9 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity &,
         state = stateParam.as<std::string>();
       }
       else
+      {
         continue;
+      }
 
       // Get the time when the last robot exits the staging area
       // take into accout that some robots may never leave, in which case
@@ -413,6 +421,15 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity &,
         // into the events list later
         continue;
       }
+
+      if (auto extraParam = n["extra"])
+      {
+        if (auto extraTypeParam = extraParam["type"])
+        {
+          e.extra = extraTypeParam.as<std::string>();
+        }
+      }
+
       e.detector = detector;
     }
 
@@ -508,6 +525,8 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity &,
     std::cout << "  state: " << ((e.state.empty()) ? "N/A" : e.state)
               << std::endl;
     std::cout << "  model: " << ((e.model.empty()) ? "N/A" : e.model)
+              << std::endl;
+    std::cout << "  extra: " << ((e.extra.empty()) ? "N/A" : e.extra)
               << std::endl;
     std::cout << "  start time: " << e.startRecordTime << std::endl;
     std::cout << "  end time: " << e.endRecordTime << std::endl;
@@ -626,9 +645,15 @@ void PlaybackEventRecorder::PostUpdate(
     this->dataPtr->cameraFollow = (cameraMode == FOLLOW_CAMERA) &&
         (this->dataPtr->event.detector != "staging_area");
 
-    ignmsg << "Playing event: " << this->dataPtr->event.robot << ", "
-           << this->dataPtr->event.type << ", " << this->dataPtr->event.time
-           << std::endl;
+    ignmsg << "Playing event: " << this->dataPtr->event.startRecordTime << " "
+           << this->dataPtr->event.type << " ";
+    if (!this->dataPtr->event.detector.empty())
+      ignmsg << this->dataPtr->event.detector << " ";
+    if (!this->dataPtr->event.model.empty())
+      ignmsg << this->dataPtr->event.model << " ";
+    if (!this->dataPtr->event.extra.empty())
+      ignmsg << this->dataPtr->event.extra << " ";
+    ignmsg << this->dataPtr->event.robot<< std::endl;
 
     this->dataPtr->Seek(this->dataPtr->event.startRecordTime);
     this->dataPtr->state = SEEK_BEGIN;
@@ -915,6 +940,10 @@ void PlaybackEventRecorder::PostUpdate(
         if (!this->dataPtr->event.model.empty())
         {
           filename += "-" + this->dataPtr->event.model;
+        }
+        if (!this->dataPtr->event.extra.empty())
+        {
+          filename += "-" + this->dataPtr->event.extra;
         }
         filename += "-" + this->dataPtr->event.robot +
             "." + this->dataPtr->videoFormat;
