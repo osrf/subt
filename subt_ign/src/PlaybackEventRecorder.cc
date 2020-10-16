@@ -489,7 +489,7 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity &,
     {
       auto &e2 = *it2;
       if (e2.type == "detect" && e2.robot == e.robot &&
-          e2.detector == e.detector)
+          e2.detector == e.detector && e2.extra == e.extra)
       {
         double dt = e2.startRecordTime - e.startRecordTime;
         if (dt < maxTimeDiff && dt >= 0)
