@@ -646,14 +646,14 @@ void PlaybackEventRecorder::PostUpdate(
         (this->dataPtr->event.detector != "staging_area");
 
     ignmsg << "Playing event: " << this->dataPtr->event.startRecordTime << " "
-           << this->dataPtr->event.type << " ";
-    if (!this->dataPtr->event.detector.empty())
-      ignmsg << this->dataPtr->event.detector << " ";
-    if (!this->dataPtr->event.model.empty())
-      ignmsg << this->dataPtr->event.model << " ";
-    if (!this->dataPtr->event.extra.empty())
-      ignmsg << this->dataPtr->event.extra << " ";
-    ignmsg << this->dataPtr->event.robot<< std::endl;
+           << this->dataPtr->event.type << " "
+           << (this->dataPtr->event.detector.empty() ?
+               "" : this->dataPtr->event.detector) << " "
+           << (this->dataPtr->event.model.empty() ?
+               "" : this->dataPtr->event.model) << " "
+           << (this->dataPtr->event.extra.empty() ?
+               "" : this->dataPtr->event.extra) << " "
+           << this->dataPtr->event.robot<< std::endl;
 
     this->dataPtr->Seek(this->dataPtr->event.startRecordTime);
     this->dataPtr->state = SEEK_BEGIN;
@@ -841,7 +841,7 @@ void PlaybackEventRecorder::PostUpdate(
         this->dataPtr->waiting = true;
       }
       // play for a small period of time to get scene state msg over to gui
-      else if (t - this->dataPtr->waitStartTime > std::chrono::milliseconds(100))
+      else if (t - this->dataPtr->waitStartTime > std::chrono::milliseconds(10))
       {
         // pause and wait for scene to initialize on gui
         this->dataPtr->eventManager->Emit<events::Pause>(true);
