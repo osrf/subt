@@ -78,6 +78,7 @@
 
     <plugin filename='ignition-gazebo-scene-broadcaster-system'
             name='ignition::gazebo::systems::SceneBroadcaster'>
+      <state_hertz>30</state_hertz>
     </plugin>
     <plugin
       filename='ignition-gazebo-log-system'
