@@ -254,6 +254,9 @@ class subt::PlaybackEventRecorderPrivate
 
   /// \brief Time when all robots have been spawned
   public: double robotsSpawnTime = 0;
+
+  /// \brief Time to append to the end of record time
+  public: double endTimeBuffer = 10;
 };
 
 /////////////////////////////////////////////
@@ -515,6 +518,11 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity &,
   // remove events that were merged and marked for removal
   this->dataPtr->events.remove_if(
       [&toRemove](Event &e) {return toRemove.find(e.id) != toRemove.end();});
+
+  // append buffer time to the end
+  for (auto &e : this->dataPtr->events)
+    e.endRecordTime += this->dataPtr->endTimeBuffer;
+  stagingAreaEvent.endRecordTime += this->dataPtr->endTimeBuffer;
 
   // add the staging area event
   if (!stagingAreaEventTime.empty())
