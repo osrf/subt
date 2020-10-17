@@ -30,7 +30,9 @@
 
 #include <ignition/gazebo/components/Model.hh>
 #include <ignition/gazebo/components/Name.hh>
+#include <ignition/gazebo/components/ParentEntity.hh>
 #include <ignition/gazebo/components/Pose.hh>
+#include <ignition/gazebo/components/Sensor.hh>
 #include <ignition/gazebo/components/Static.hh>
 #include <ignition/gazebo/components/World.hh>
 #include <ignition/gazebo/Conversions.hh>
@@ -243,6 +245,15 @@ class subt::PlaybackEventRecorderPrivate
 
   /// \brief A list of unique detectors
   public: std::set<std::string> detectors;
+
+  /// \brief A list of unique robots
+  public: std::set<std::string> robotNames;
+
+  /// \brief Number of robots
+  public: unsigned int robotCount = 0;
+
+  /// \brief Time when all robots have been spawned
+  public: double robotsSpawnTime = 0;
 };
 
 /////////////////////////////////////////////
@@ -332,7 +343,7 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity &,
       common::joinPaths(this->dataPtr->logPath, "run.yml"));
 
   // parse number of robots
-  unsigned int robotCount = runNode["robot_count"].as<unsigned int>();
+  this->dataPtr->robotCount = runNode["robot_count"].as<unsigned int>();
 
   // load events.yml
   YAML::Node node = YAML::LoadFile(
@@ -401,7 +412,8 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity &,
       // record until the last unique robot exit event
       if (detector == "staging_area")
       {
-        if (state == "exit" && stagingAreaEventTime.size() < robotCount)
+        if (state == "exit" && stagingAreaEventTime.size() <
+            this->dataPtr->robotCount)
         {
           std::string robot = n["robot"].as<std::string>();
           double time = n["time_sec"].as<double>();
@@ -505,7 +517,8 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity &,
       [&toRemove](Event &e) {return toRemove.find(e.id) != toRemove.end();});
 
   // add the staging area event
-  this->dataPtr->events.push_front(stagingAreaEvent);
+  if (!stagingAreaEventTime.empty())
+    this->dataPtr->events.push_front(stagingAreaEvent);
 
   // don't do anything if there are no events
   if (this->dataPtr->events.empty())
@@ -621,8 +634,61 @@ void PlaybackEventRecorder::PostUpdate(
   {
     if (_info.paused)
       this->dataPtr->eventManager->Emit<events::Pause>(false);
-    if (s < 10)
+
+    // look for robots
+    _ecm.Each<gazebo::components::Sensor,
+              gazebo::components::ParentEntity>(
+        [&](const gazebo::Entity &,
+            const gazebo::components::Sensor *,
+            const gazebo::components::ParentEntity *_parent) -> bool
+        {
+
+          // Get the model. We are assuming that a sensor is attached to
+          // a link.
+          auto model = _ecm.Component<gazebo::components::ParentEntity>(
+              _parent->Data());
+
+          if (model)
+          {
+            auto mName =
+              _ecm.Component<gazebo::components::Name>(model->Data());
+            if (this->dataPtr->robotNames.find(mName->Data()) ==
+                this->dataPtr->robotNames.end())
+              this->dataPtr->robotNames.insert(mName->Data());
+          }
+
+          return true;
+        });
+
+    // wait for robots to spawn
+    if (s < 60 && this->dataPtr->robotNames.size() < this->dataPtr->robotCount)
+    {
+      static bool informed = false;
+      if (!informed)
+      {
+        ignmsg << "Waiting for robots to spawn" << std::endl;
+        informed = true;
+      }
       return;
+    }
+    else if (this->dataPtr->robotsSpawnTime <= 0)
+    {
+      this->dataPtr->robotsSpawnTime = s;
+    }
+
+    // robots have spawned, now wait for the initial levels to load
+    if (s < this->dataPtr->robotsSpawnTime + 15.0)
+    {
+      static bool informed = false;
+      if (!informed)
+      {
+        ignmsg << "Waiting for levels to load" << std::endl;
+        informed = true;
+      }
+
+      return;
+    }
+
     this->dataPtr->started = true;
   }
 

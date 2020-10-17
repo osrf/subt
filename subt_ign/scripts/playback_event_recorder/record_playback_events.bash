@@ -38,7 +38,7 @@ echo "Starting log playback and video recording"
 
 export IGN_GAZEBO_SYSTEM_PLUGIN_PATH=$LD_LIBRARY_PATH
 sdfName="playback_event_recorder"
-ign gazebo -v 4 $sdfName.sdf
+ign gazebo -v 4 -z 800 $sdfName.sdf
 
 echo "Video recording ended. Shutting down playback"
 
