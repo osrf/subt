@@ -17,8 +17,8 @@ int32 duplicate_report_count				# number of duplicate artifact reports received
 # the successfully scored artifact report with the least positional error
 string closest_artifact_report_name			# artifact model name (e.g., backpack_4)
 string closest_artifact_report_type			# artifact type (e.g., TYPE_BACKPACK)
-geometry_msgs/Vector3 closest_artifact_report_true_pos	# true position of the artifact, xyz [m]
-geometry_msgs/Vector3 closest_artifact_report_reported_pos # reported position of the artifact [m]
+geometry_msgs/Vector3 closest_artifact_report_true_pos	# true position of the artifact, xyz in world coordinates [m]
+geometry_msgs/Vector3 closest_artifact_report_reported_pos # reported position of the artifact, xyz in world coordinates [m]
 float64 closest_artifact_report_distance		# distance error between true and reported positions [m]
 
 # time of the first and last successfully scored artifact reports (sim time since bootup)

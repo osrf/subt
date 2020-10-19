@@ -2,7 +2,7 @@
 
 time timestamp 					# time since sim bootup
 string reported_artifact_type			# artifact type from the report
-geometry_msgs/Point reported_artifact_position	# artifact position from the report
+geometry_msgs/Point reported_artifact_position	# artifact position from the report, converted from artifact to world coords
 string closest_artifact_name			# model name of the nearest artifact, e.g., backpack_4
 float64 distance				# distance to nearest artifact [m]
 int32 points_scored				# points scored in this attempt
