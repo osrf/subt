@@ -20,9 +20,11 @@
 #include <ignition/msgs/boolean.pb.h>
 #include <ignition/msgs/pose.pb.h>
 #include <ignition/msgs/stringmsg.pb.h>
+#include <ignition/msgs/time.pb.h>
 #include <ignition/msgs/Utility.hh>
 
 #include <list>
+#include <mutex>
 #include <set>
 
 #include <ignition/common/Console.hh>
@@ -147,6 +149,16 @@ class subt::PlaybackEventRecorderPrivate
   /// \brief Spawn a light
   public: void SpawnLight();
 
+  /// \brief Callback for a video recorder stats msg
+  /// \param[in] _msg Message containing video recorder stats
+  public: void OnRecorderStats(const msgs::Time &_msg);
+
+  /// \brief Recorder stats msg.
+  public: msgs::Time recorderStatsMsg;
+
+  /// \brief Mutex to protect recorder stats msg.
+  public: std::mutex recorderStatsMutex;
+
   /// \brief Ignition Transport node.
   public: transport::Node node;
 
@@ -256,7 +268,7 @@ class subt::PlaybackEventRecorderPrivate
   public: double robotsSpawnTime = 0;
 
   /// \brief Time to append to the end of record time
-  public: double endTimeBuffer = 10;
+  public: double endTimeBuffer = 0;
 };
 
 /////////////////////////////////////////////
@@ -565,6 +577,10 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity &,
 
   // For video record requests
   this->dataPtr->videoRecordService = "/gui/record_video";
+
+  this->dataPtr->node.Subscribe("/gui/record_video/stats",
+      &PlaybackEventRecorderPrivate::OnRecorderStats, this->dataPtr.get());
+
 
   this->dataPtr->loadTime = std::chrono::system_clock::now();
 }
@@ -923,6 +939,7 @@ void PlaybackEventRecorder::PostUpdate(
         {
           this->dataPtr->eventManager->Emit<events::Pause>(false);
           this->dataPtr->waiting = false;
+          this->dataPtr->recorderStatsMsg.Clear();
           // start video recording
           this->dataPtr->Record(true);
           this->dataPtr->waitForScene = false;
@@ -970,27 +987,47 @@ void PlaybackEventRecorder::PostUpdate(
     }
 
     // record until we reached the end record time or end of playback
-    // (indicated by info.pause)
-    if (!this->dataPtr->recordStopRequested &&
-        (_info.paused ||
-        s == static_cast<int>(this->dataPtr->event.endRecordTime)))
+    msgs::Time recorderStats;
     {
-      // stop recording
-      this->dataPtr->Record(false);
-      this->dataPtr->recordStopRequested = true;
-      this->dataPtr->recordStopTime = std::chrono::system_clock::now();
-      ignmsg << "Recording stopped: " << s << "s (sim time), "
-             << rs << "s (real time)" << std::endl;
+      std::lock_guard<std::mutex> lock(this->dataPtr->recorderStatsMutex);
+      recorderStats = this->dataPtr->recorderStatsMsg;
 
-      // disable camera following
-      if (this->dataPtr->cameraFollow)
+    }
+    if (!this->dataPtr->recordStopRequested)
+    {
+      bool endOfPlayback = false;
+      if (_info.paused)
       {
-        this->dataPtr->Follow(std::string());
-        this->dataPtr->cameraFollowing = false;
-        this->dataPtr->cameraFollow = false;
+        int dt = s - this->dataPtr->event.startRecordTime;
+        if (recorderStats.sec() >= dt - 1)
+        {
+          endOfPlayback = true;
+          ignmsg << "Possible end of Playback reached. Stopping video recorder"
+                 << std::endl;
+        }
       }
 
-      return;
+      if (endOfPlayback || recorderStats.sec() >=
+          static_cast<int>(this->dataPtr->event.endRecordTime -
+          this->dataPtr->event.startRecordTime))
+      {
+        // stop recording
+        this->dataPtr->Record(false);
+        this->dataPtr->recordStopRequested = true;
+        this->dataPtr->recordStopTime = std::chrono::system_clock::now();
+        ignmsg << "Recording stopped: " << recorderStats.sec()
+               << "s (sim time), " << rs << "s (real time)" << std::endl;
+
+        // disable camera following
+        if (this->dataPtr->cameraFollow)
+        {
+          this->dataPtr->Follow(std::string());
+          this->dataPtr->cameraFollowing = false;
+          this->dataPtr->cameraFollow = false;
+        }
+
+        return;
+      }
     }
 
     // Video recording stopped. We need to save a copy of the video file
@@ -1165,4 +1202,11 @@ void PlaybackEventRecorderPrivate::SpawnLight()
   std::string createService = "/world/" + this->logWorldName
       + "/create";
   this->node.Request(createService, req, cb);
+}
+
+//////////////////////////////////////////////////
+void PlaybackEventRecorderPrivate::OnRecorderStats(const msgs::Time &_msg)
+{
+  std::lock_guard<std::mutex> lock(this->recorderStatsMutex);
+  this->recorderStatsMsg = _msg;
 }
