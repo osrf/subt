@@ -1036,20 +1036,20 @@ void PlaybackEventRecorder::PostUpdate(
             recorderStats.sec();
         if (!this->dataPtr->catchupOnRecording)
         {
-          if (recorderStats.sec() != 0 && lag > 45)
+          if (recorderStats.sec() != 0 && lag > 10)
           {
             this->dataPtr->eventManager->Emit<events::Pause>(true);
             this->dataPtr->catchupOnRecording = true;
-            ignmsg << "Pausing to catch up on recording " << std::endl;
+            ignmsg << "Recording Video: " << recorderStats.sec()
+                   << "s (sim time)" << std::endl;
           }
         }
         else
         {
-          if (lag < 15)
+          if (lag < 5)
           {
             this->dataPtr->eventManager->Emit<events::Pause>(false);
             this->dataPtr->catchupOnRecording = false;
-            ignmsg << "Unpausing after catching up on recording " << std::endl;
           }
         }
       }
