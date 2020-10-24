@@ -23,6 +23,8 @@
 #include <ignition/msgs/time.pb.h>
 #include <ignition/msgs/Utility.hh>
 
+#include <ignition/transport/log/Log.hh>
+
 #include <list>
 #include <mutex>
 #include <set>
@@ -264,11 +266,18 @@ class subt::PlaybackEventRecorderPrivate
   /// \brief Number of robots
   public: unsigned int robotCount = 0;
 
+  /// \brief total duration of the run in sim time
+  public: unsigned int logEndTime = 0;
+
   /// \brief Time when all robots have been spawned
   public: double robotsSpawnTime = 0;
 
   /// \brief Time to append to the end of record time
   public: double endTimeBuffer = 0;
+
+  /// \brief True if recorder needs to catch up on recording so it
+  /// does not lag behind too much
+  public: bool catchupOnRecording = false;
 };
 
 /////////////////////////////////////////////
@@ -359,6 +368,19 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity &,
 
   // parse number of robots
   this->dataPtr->robotCount = runNode["robot_count"].as<unsigned int>();
+
+  // get total duration of log
+  std::unique_ptr<transport::log::Log> log =
+      std::make_unique<transport::log::Log>();
+  std::string dbPath =
+      common::joinPaths(this->dataPtr->logPath, "state.tlog");
+  if (!log->Open(dbPath))
+  {
+    ignerr << "Failed to open log file [" << dbPath << "]" << std::endl;
+  }
+  this->dataPtr->logEndTime =
+      std::chrono::duration_cast<std::chrono::seconds>(
+      log->EndTime()).count();
 
   // load events.yml
   YAML::Node node = YAML::LoadFile(
@@ -940,6 +962,7 @@ void PlaybackEventRecorder::PostUpdate(
           this->dataPtr->eventManager->Emit<events::Pause>(false);
           this->dataPtr->waiting = false;
           this->dataPtr->recorderStatsMsg.Clear();
+          this->dataPtr->catchupOnRecording = false;
           // start video recording
           this->dataPtr->Record(true);
           this->dataPtr->waitForScene = false;
@@ -995,15 +1018,39 @@ void PlaybackEventRecorder::PostUpdate(
     }
     if (!this->dataPtr->recordStopRequested)
     {
+      // check for end of playback, indicated by paused state and
+      // also double check against log end time
       bool endOfPlayback = false;
-      if (_info.paused)
+      if (_info.paused && recorderStats.sec() >=
+          (this->dataPtr->logEndTime -
+           this->dataPtr->event.startRecordTime))
       {
-        int dt = s - this->dataPtr->event.startRecordTime;
-        if (recorderStats.sec() >= dt - 1)
+        endOfPlayback = true;
+        ignmsg << "Possible end of Playback reached. Stopping video recorder"
+               << std::endl;
+      }
+      else
+      {
+        // check if we need to catch up on recordiing
+        int lag = (s - this->dataPtr->event.startRecordTime) -
+            recorderStats.sec();
+        if (!this->dataPtr->catchupOnRecording)
         {
-          endOfPlayback = true;
-          ignmsg << "Possible end of Playback reached. Stopping video recorder"
-                 << std::endl;
+          if (recorderStats.sec() != 0 && lag > 45)
+          {
+            this->dataPtr->eventManager->Emit<events::Pause>(true);
+            this->dataPtr->catchupOnRecording = true;
+            ignmsg << "Pausing to catch up on recording " << std::endl;
+          }
+        }
+        else
+        {
+          if (lag < 15)
+          {
+            this->dataPtr->eventManager->Emit<events::Pause>(false);
+            this->dataPtr->catchupOnRecording = false;
+            ignmsg << "Unpausing after catching up on recording " << std::endl;
+          }
         }
       }
 
