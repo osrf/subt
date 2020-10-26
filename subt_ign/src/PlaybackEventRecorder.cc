@@ -560,7 +560,7 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity &,
 
   // add the staging area event
   if (!stagingAreaEventTime.empty())
-    this->dataPtr->events.push_front(stagingAreaEvent);
+    this->dataPtr->events.push_back(stagingAreaEvent);
 
   // don't do anything if there are no events
   if (this->dataPtr->events.empty())
@@ -1023,7 +1023,7 @@ void PlaybackEventRecorder::PostUpdate(
       bool endOfPlayback = false;
       if (_info.paused && recorderStats.sec() >=
           (this->dataPtr->logEndTime -
-           this->dataPtr->event.startRecordTime))
+           this->dataPtr->event.startRecordTime - 1.0))
       {
         endOfPlayback = true;
         ignmsg << "Possible end of Playback reached. Stopping video recorder"
