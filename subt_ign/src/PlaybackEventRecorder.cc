@@ -640,10 +640,7 @@ void PlaybackEventRecorder::PostUpdate(
         });
   }
 
-  // Get rock fall model pose. Stop looking once we have the pose
-  // for all unique dynamic rocks models
-  if (this->dataPtr->rockModelPose.size() <
-      this->dataPtr->uniqueRockModels.size())
+  // Get rock fall model pose.
   {
     _ecm.Each<components::Model, components::Name, components::Pose,
         components::Static>(
@@ -655,7 +652,8 @@ void PlaybackEventRecorder::PostUpdate(
         {
           std::string rockName = _name->Data();
           if (this->dataPtr->rockModelPose.find(rockName)
-              == this->dataPtr->rockModelPose.end())
+              == this->dataPtr->rockModelPose.end() &&
+              rockName.find("dynamic_rocks") != std::string::npos)
           {
             this->dataPtr->rockModelPose[rockName] = _pose->Data();
           }
