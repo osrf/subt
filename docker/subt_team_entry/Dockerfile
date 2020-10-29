@@ -113,7 +113,7 @@ WORKDIR /home/$USERNAME/subt_ws
 # RUN wget https://s3.amazonaws.com/osrf-distributions/subt_robot_examples/releases/subt_robot_examples_latest.tgz
 # RUN tar xvf subt_robot_examples_latest.tgz
 
-RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && catkin_make install'
+RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && catkin_make -DCMAKE_BUILD_TYPE=Release install'
 
 RUN /bin/sh -c 'echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc' \
  && /bin/sh -c 'echo ". ~/subt_ws/install/setup.sh" >> ~/.bashrc'
