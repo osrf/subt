@@ -52,7 +52,7 @@
     </camera>
   </sensor>
 
-  <sensor name='front_laser' update_rate='15'>
+  <sensor name='front_laser' update_rate='10'>
     <parent link='${robot_namespace}/base_link'/>
     <origin xyz='0 0 0.12' rpy='0 -0 0'/>
   </sensor>
