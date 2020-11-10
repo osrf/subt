@@ -1,10 +1,10 @@
 <?xml version="1.0" ?>
 <!--
   Generated with the /data/ws/sim/subt_ws_host/src/subt/subt_gazebo/worlds/tile_tsv_private.py script:
-    /data/ws/sim/subt_ws_host/src/subt/subt_gazebo/worlds/tile_tsv_private.py 07/tunnel_circuit_07.tsv -\-world-file 07/tunnel_circuit_07_gz.world -\-world-name tunnel_circuit_07 -\-y0 300
+    /data/ws/sim/subt_ws_host/src/subt/subt_gazebo/worlds/tile_tsv_private.py 02/tunnel_circuit_02.tsv -\-world-file 02/tunnel_circuit_02_gz.world -\-world-name tunnel_circuit_02 -\-y0 300
 -->
 <sdf version="1.6">
-  <world name="tunnel_circuit_07">
+  <world name="tunnel_circuit_02">
 
     <gui fullscreen='0'>
       <camera name='user_camera'>
@@ -2171,7 +2171,7 @@
     <!-- The SubT challenge logic plugin -->
     <plugin name="game_logic_plugin" filename="libGameLogicPlugin.so">
       <logging>
-        <filename_prefix>subt_tunnel_circuit_07</filename_prefix>
+        <filename_prefix>subt_tunnel_circuit_02</filename_prefix>
       </logging>
       <!-- The collection of artifacts to locate -->
 

@@ -1,10 +1,10 @@
 <?xml version="1.0" ?>
 <!--
   Generated with the tile_tsv.py script:
-    tile_tsv.py 12/tunnel_circuit_12.tsv -\-world-name tunnel_circuit_12 -\-world-file 12/tunnel_circuit_12_gz.world -\-y0 160
+    tile_tsv.py 03/tunnel_circuit_03.tsv -\-world-name tunnel_circuit_03 -\-world-file 03/tunnel_circuit_03_gz.world -\-y0 160
 -->
 <sdf version="1.6">
-  <world name="tunnel_circuit_12">
+  <world name="tunnel_circuit_03">
 
     <gui fullscreen='0'>
       <camera name='user_camera'>
@@ -3071,7 +3071,7 @@
     <!-- The SubT challenge logic plugin -->
     <plugin name="game_logic_plugin" filename="libGameLogicPlugin.so">
       <logging>
-        <filename_prefix>subt_tunnel_circuit_12</filename_prefix>
+        <filename_prefix>subt_tunnel_circuit_03</filename_prefix>
       </logging>
       <!-- The collection of artifacts to locate -->
 
