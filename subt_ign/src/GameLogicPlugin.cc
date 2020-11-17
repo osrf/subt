@@ -85,6 +85,7 @@ using namespace subt;
 
 class subt::GameLogicPluginPrivate
 {
+  /// \brief Mapping between artifact model names and types.
   public: const std::array<
           const std::pair<std::string, subt::ArtifactType>, 14> kArtifactNames
   {
