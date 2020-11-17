@@ -108,7 +108,7 @@ WORKDIR /home/$USERNAME
 RUN rosdep update
 
 # Download the public models
-RUN ign fuel download -v 4 -j 8 -u "https://fuel.ignitionrobotics.org/OpenRobotics/collections/SubT Tech Repo"
+RUN ign fuel download -v 4 -j 16 -u "https://fuel.ignitionrobotics.org/OpenRobotics/collections/SubT Tech Repo"
 
 # Download niosh models, set 1.
 COPY download_niosh_1.sh ./

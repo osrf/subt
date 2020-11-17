@@ -966,7 +966,7 @@ void WorldGenerator::LoadTiles()
   fuel_tools::ClientConfig config;
   auto fuelClient = std::make_unique<fuel_tools::FuelClient>(config);
 
-  std::string baseUri = "https://fuel.ignitionrobotics.org/openrobotics/models";
+  std::string baseUri = "https://fuel.ignitionrobotics.org/OpenRobotics/models";
 
   for (const auto &t : tileConnectionPoints)
   {
