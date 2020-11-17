@@ -31,6 +31,7 @@
 #include <subt_communication_broker/protobuf/datagram.pb.h>
 #include <subt_communication_broker/common_types.h>
 #include <subt_ros/CompetitionClock.h>
+#include <rosbag/recorder.h>
 
 #include <ignition/transport/Node.hh>
 
@@ -166,6 +167,12 @@ class SubtRosRelay
 
   /// \brief Name of the robot this relay is associated with.
   public: std::vector<std::string> robotNames;
+
+  /// \brief Thread on which the ROS bag recorder runs.
+  public: std::unique_ptr<std::thread> bagThread = nullptr;
+
+  /// \brief Pointer to the ROS bag recorder.
+  public: std::unique_ptr<rosbag::Recorder> rosRecorder;
 };
 
 //////////////////////////////////////////////////
@@ -222,6 +229,22 @@ SubtRosRelay::SubtRosRelay()
     this->rosnode->advertise<std_msgs::Int32>("score", 1000);
   this->rosCompetitionClockPub =
     this->rosnode->advertise<subt_ros::CompetitionClock>("run_clock", 1000);
+
+  // Setup a ros bag recorder.
+  rosbag::RecorderOptions recorderOptions;
+  recorderOptions.append_date=false;
+  recorderOptions.split=true;
+  recorderOptions.limit=2;
+  recorderOptions.max_size=1000;
+  recorderOptions.prefix="robot_data";
+  recorderOptions.regex=true;
+  recorderOptions.topics.push_back("/robot_data(.*)");
+
+  // Spawn thread for recording /subt/ data to rosbag.
+  this->rosRecorder.reset(new rosbag::Recorder(recorderOptions));
+  this->bagThread.reset(new std::thread([&](){
+        this->rosRecorder->run();
+  }));
 }
 
 //////////////////////////////////////////////////
@@ -271,6 +294,13 @@ bool SubtRosRelay::OnFinishCall(std_srvs::SetBool::Request &_req,
   // Pass the request onto ignition transport
   this->node.Request("/subt/finish", req, timeout, rep, result);
   _res.success = rep.data();
+
+  if (this->bagThread && this->bagThread->joinable())
+  {
+    // Shutdown ros. this makes the ROS bag recorder stop.
+    ros::shutdown();
+    this->bagThread->join();
+  }
 
   return result;
 }
