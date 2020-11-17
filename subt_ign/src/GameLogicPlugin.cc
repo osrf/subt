@@ -2580,7 +2580,7 @@ void GameLogicPluginPrivate::LogRobotArtifactData(
   if (!this->foundArtifacts.empty())
   {
     meanReportTime = (this->lastReportTime-this->firstReportTime) /
-        this->foundArtifacts.size();
+        (this->foundArtifacts.size() - 1);
   }
   out << YAML::Key << "mean_time_between_successful_artifact_reports";
   out << YAML::Value << meanReportTime;
