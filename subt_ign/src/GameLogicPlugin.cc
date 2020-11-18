@@ -2577,7 +2577,7 @@ void GameLogicPluginPrivate::LogRobotArtifactData(
   statsMsg.last_artifact_report_time = this->lastReportTime;
 
   double meanReportTime = 0;
-  if (!this->foundArtifacts.empty())
+  if (this->foundArtifacts.size() > 1)
   {
     meanReportTime = (this->lastReportTime-this->firstReportTime) /
         (this->foundArtifacts.size() - 1);
