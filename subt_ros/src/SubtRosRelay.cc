@@ -234,8 +234,12 @@ SubtRosRelay::SubtRosRelay()
   rosbag::RecorderOptions recorderOptions;
   recorderOptions.append_date=false;
   recorderOptions.split=true;
-  recorderOptions.limit=2;
-  recorderOptions.max_size=1000;
+  recorderOptions.max_splits=1;
+
+  // This equation is sourced from line 133 in
+  // http://docs.ros.org/en/noetic/api/rosbag/html/c++/record_8cpp_source.html
+  recorderOptions.max_size=1048576 * 1000;
+
   recorderOptions.prefix="robot_data";
   recorderOptions.regex=true;
   recorderOptions.topics.push_back("/robot_data(.*)");
