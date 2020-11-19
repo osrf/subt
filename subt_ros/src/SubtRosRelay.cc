@@ -278,6 +278,16 @@ void SubtRosRelay::OnCompetitionClock(const ignition::msgs::Clock &_msg)
   clockMsg.data.sec = _msg.sim().sec();
   clockMsg.data.nsec = _msg.sim().nsec();
   this->rosCompetitionClockPub.publish(clockMsg);
+
+  // Shutdown when the phase == finished. This makes sure that the rosbag
+  // ends cleanly.
+  if (clockMsg.phase == "finished" &&
+      this->bagThread && this->bagThread->joinable())
+  {
+    // Shutdown ros. this makes the ROS bag recorder stop.
+    ros::shutdown();
+    this->bagThread->join();
+  }
 }
 
 /////////////////////////////////////////////////
@@ -294,13 +304,6 @@ bool SubtRosRelay::OnFinishCall(std_srvs::SetBool::Request &_req,
   // Pass the request onto ignition transport
   this->node.Request("/subt/finish", req, timeout, rep, result);
   _res.success = rep.data();
-
-  if (this->bagThread && this->bagThread->joinable())
-  {
-    // Shutdown ros. this makes the ROS bag recorder stop.
-    ros::shutdown();
-    this->bagThread->join();
-  }
 
   return result;
 }
