@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   topic_tools
   subt_msgs
   subt_communication_broker
+  rosbag
 )
 
 add_message_files(
