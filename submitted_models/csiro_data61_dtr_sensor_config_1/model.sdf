@@ -144,16 +144,16 @@
           </mesh>
         </geometry>
         <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
+          <ambient>0.1 0.1 0.1 1</ambient>
+          <diffuse>0.1 0.1 0.1 1</diffuse>
+          <specular>1.0 1.0 1.0 1</specular>
         </material>
       </visual>
       <visual name="base_link_fixed_joint_lump__light0_visual_1">
         <pose>0.29 0 0.48 0 -0 0</pose>
         <geometry>
           <box>
-            <size>0.01 0.05 0.02</size>
+            <size>0.01 0.01 0.01</size>
           </box>
         </geometry>
       </visual>
@@ -161,7 +161,7 @@
         <pose>0.25 0.04 0.48 0 -0 1.5707963267948966</pose>
         <geometry>
           <box>
-            <size>0.01 0.05 0.02</size>
+            <size>0.01 0.01 0.01</size>
           </box>
         </geometry>
       </visual>
@@ -169,7 +169,7 @@
         <pose>0.21 0 0.48 0 -0 3.14</pose>
         <geometry>
           <box>
-            <size>0.01 0.05 0.02</size>
+            <size>0.01 0.01 0.01</size>
           </box>
         </geometry>
       </visual>
@@ -177,7 +177,7 @@
         <pose>0.25 -0.04 0.48 0 0 -1.5707963267948966</pose>
         <geometry>
           <box>
-            <size>0.01 0.05 0.02</size>
+            <size>0.01 0.01 0.01</size>
           </box>
         </geometry>
       </visual>
@@ -190,9 +190,10 @@
           </mesh>
         </geometry>
         <material>
-          <ambient>1 0.5 0.0 1</ambient>
-          <diffuse>1 0.5 0.0 1</diffuse>
-          <specular>1 0.5 0.0 1</specular>
+          <ambient>0 1.0 0.0 1</ambient>
+          <diffuse>0 1.0 0.0 1</diffuse>
+          <specular>0.0 1.0 0.0 1</specular>
+          <emissive>0.0 0.2 0.0 1</emissive>
         </material>
       </visual>
       <visual name="base_link_fixed_joint_lump__pumpkin_track_visual_visual_6">
@@ -204,9 +205,9 @@
           </mesh>
         </geometry>
         <material>
-          <ambient>0.0 0.0 0.0 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
+          <ambient>0.05 0.05 0.05 1</ambient>
+          <diffuse>0.05 0.05 0.05 1</diffuse>
+          <specular>1.0 1.0 1.0 1</specular>
         </material>
       </visual>
       <visual name="base_link_fixed_joint_lump__pumpkin_track_visual_visual_7">
@@ -218,9 +219,9 @@
           </mesh>
         </geometry>
         <material>
-          <ambient>0.0 0.0 0.0 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
+          <ambient>0.05 0.05 0.05 1</ambient>
+          <diffuse>0.05 0.05 0.05 1</diffuse>
+          <specular>1.0 1.0 1.0 1</specular>
         </material>
       </visual>
       <velocity_decay/>
@@ -351,9 +352,9 @@
           </mesh>
         </geometry>
         <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
+          <ambient>0.1 0.1 0.1 1</ambient>
+          <diffuse>0.1 0.1 0.1 1</diffuse>
+          <specular>1.0 1.0 1.0 1</specular>
         </material>
       </visual>
       <visual name="encoder_rotating_link_fixed_joint_lump__nav_velodyne_base_link_visual_1">
