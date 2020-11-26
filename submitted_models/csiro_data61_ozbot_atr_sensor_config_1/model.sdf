@@ -173,6 +173,34 @@
           <specular>1 0.5 0.0 1</specular>
         </material>
       </visual>
+      <visual name="base_link_fixed_joint_lump__left_track_visual_6">
+        <pose>0.80292 0.369 -0.17875 1.5707963267948966 0 -1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.0011 0.00118</scale>
+            <uri>meshes/Track_Assembly.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>0 0.0 0.0 1</ambient>
+          <diffuse>0 0.0 0.0 1</diffuse>
+          <specular>1.0 1.0 1.0 1</specular>
+        </material>
+      </visual>
+      <visual name="base_link_fixed_joint_lump__right_track_visual_6">
+        <pose>0.80292 -0.169 -0.17875 1.5707963267948966 0 -1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.0011 0.00118</scale>
+            <uri>meshes/Track_Assembly.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>0 0.0 0.0 1</ambient>
+          <diffuse>0 0.0 0.0 1</diffuse>
+          <specular>1.0 1.0 1.0 1</specular>
+        </material>
+      </visual>
       <velocity_decay/>
       <velocity_decay/>
       <light name="light0_source" type="spot">
@@ -750,20 +778,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="left_10_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -825,20 +839,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="left_11_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -900,20 +900,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="left_1_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -975,20 +961,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="left_2_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -1050,20 +1022,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="left_3_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -1125,20 +1083,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="left_4_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -1200,20 +1144,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="left_5_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -1275,20 +1205,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="left_6_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -1350,20 +1266,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="left_7_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -1425,20 +1327,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="left_8_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -1500,20 +1388,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="left_9_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -1575,20 +1449,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="right_10_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -1650,20 +1510,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="right_11_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -1725,20 +1571,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="right_1_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -1800,20 +1632,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="right_2_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -1875,20 +1693,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="right_3_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -1950,20 +1754,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="right_4_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -2025,20 +1815,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="right_5_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -2100,20 +1876,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="right_6_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -2175,20 +1937,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="right_7_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -2250,20 +1998,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="right_8_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -2325,20 +2059,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="right_9_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
