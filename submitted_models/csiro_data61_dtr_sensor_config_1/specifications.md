@@ -46,16 +46,15 @@ this vehicle has the following motion constraint characteristics.
 * Turning radius of 0m, can turn on the spot
 
 ### Endurance Characteristics
-Due to operational restrictions, a full drain test of the battery onboard was not able to be performed. However, the expected drain time for the robot, based on experimentally obtained current draw data, is approximately 6700 seconds of continuous driving. This value is thus used until a full test can be performed.
+Due to operational restrictions, a full drain test of the battery onboard was not able to be performed. Thus the endurance has been set at 60 minutes until such time as the endurance is validated.
 
 ### Diversions from Physical Hardware of DTR
 * Currently the model does not have an accurate collision body of the track system, as diff-drive control currently requires the use of simulated multi-wheel systems. The multi-wheel system on the sim model is intended to provide a reasonable approximation of the track contact geometry for driving.
 * The physical version of the robot features a complex suspension system for the tracks, this is not feasible to model in the simulation and thus in simulation the robot is completely rigid.
 
 ## DTR Validation and Specification Links
-* [BIA5](https://bia5.com/)
-* [Validation video](https://youtu.be/U0o8-M2kiaE)
-* [Validation Data](https://drive.google.com/file/d/1DWd2lvQOATFQ2wIntZEg7R6HxGG7bK9k/view?usp=sharing)
+* [Validation video](https://youtu.be/mn4ddq0abGg)
+* [Validation Data](https://drive.google.com/file/d/1wX8Gb1ggkL-l686XKJ47P9bc2NSvp3Cv/view?usp=sharing)
 * [LIDAR - Velodyne VLP-16](https://velodynelidar.com/products/puck/)
 * [IMU - Microstrain CV5-25](https://www.microstrain.com/inertial/3dm-cv5-25)
 * [Cameras - ECON e-CAM130_CUXVR ](https://www.e-consystems.com/nvidia-cameras/jetson-agx-xavier-cameras/four-synchronized-4k-cameras.asp)
