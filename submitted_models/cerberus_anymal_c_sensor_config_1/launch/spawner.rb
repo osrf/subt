@@ -12,7 +12,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
       <uri>#{_modelURI}</uri>
 
       <!-- ANYmal control -->
-      <plugin filename="libAnymalBControlPlugin1.so"
+      <plugin filename="libAnymalCControlPlugin1.so"
               name="ignition::gazebo::systems::AnymalControlPlugin">
         <jointNames>
           <LF_HAA>LF_HAA</LF_HAA>
@@ -31,11 +31,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <desired_joint_positions_topic>/model/#{_name}/desired_joint_positions_relay</desired_joint_positions_topic>
         <robot_base_twist_topic>/model/#{_name}/robot_base_twist</robot_base_twist_topic>
         <controller_update_frequency>500.0</controller_update_frequency>
-        <!-- Noise parameters -->
-        <linear_velocity_noise_mean>0 0 0.05</linear_velocity_noise_mean>
-        <linear_velocity_noise_std_dev>0.05 0.05 0.00947</linear_velocity_noise_std_dev>
-        <angular_velocity_noise_mean>0 0 0</angular_velocity_noise_mean>
-        <angular_velocity_noise_std_dev>0.004 0.004 0.004</angular_velocity_noise_std_dev>
+        <!-- TODO Noise parameters -->
       </plugin>
 
       <!-- Publish robot state information -->
@@ -54,7 +50,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         name="ignition::gazebo::systems::JointStatePublisher">
       </plugin>
 
-      <!-- Battery plugin -->
+      <!-- TODO Battery plugin -->
       <plugin filename="libignition-gazebo-linearbatteryplugin-system.so"
         name="ignition::gazebo::systems::LinearBatteryPlugin">
         <battery_name>linear_battery</battery_name>
@@ -85,10 +81,10 @@ end
 def rosExecutables(_name, _worldName)
   <<-HEREDOC
   <executable name='robot_description'>
-    <command>roslaunch --wait cerberus_anymal_b_sensor_config_1 description.launch world_name:=#{_worldName} name:=#{_name}</command>
+    <command>roslaunch --wait cerberus_anymal_c_sensor_config_1 description.launch world_name:=#{_worldName} name:=#{_name}</command>
   </executable>
   <executable name='topics'>
-    <command>roslaunch --wait cerberus_anymal_b_sensor_config_1 vehicle_topics.launch world_name:=#{_worldName} name:=#{_name}</command>
+    <command>roslaunch --wait cerberus_anymal_c_sensor_config_1 vehicle_topics.launch world_name:=#{_worldName} name:=#{_name}</command>
   </executable>
   HEREDOC
 end

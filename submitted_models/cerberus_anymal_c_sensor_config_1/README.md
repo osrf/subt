@@ -9,7 +9,7 @@ This package contains a virtual model validation for the CERBERUS ANYmal C with 
 
 **Affiliation:** [Robotic Systems Lab - ETH Zurich](https://rsl.ethz.ch/the-lab.html)
 
-[![CERBERUS ANYmal](doc/TODO.jpg)](doc/TODO.jpg) 
+[![CERBERUS ANYmal](doc/TODO.jpg)](doc/TODO.jpg)
 
 ## License
 This software is released under a [BSD 3-Clause license](LICENSE).
@@ -17,11 +17,11 @@ This software is released under a [BSD 3-Clause license](LICENSE).
 ## Publications
 If you use this work in an academic context, please cite the following publications:
 
-> Joonho Lee  Jemin Hwangbo  Lorenz Wellhausen  Vladlen Koltun  Marco Hutter
+> Joonho Lee,  Jemin Hwangbo,  Lorenz Wellhausen,  Vladlen Koltun and Marco Hutter
 > **"Learning quadrupedal locomotion over challenging terrain"**,
 > in Science Robotics, 21.10, 2020 ([DOI](https://robotics.sciencemag.org/content/5/47/eabc5986))
 
-  @article {Leeeabc5986,
+  @article{Leeeabc5986,
   	author = {Lee, Joonho and Hwangbo, Jemin and Wellhausen, Lorenz and Koltun, Vladlen and Hutter, Marco},
   	title = {Learning quadrupedal locomotion over challenging terrain},
   	volume = {5},
@@ -35,7 +35,7 @@ If you use this work in an academic context, please cite the following publicati
   	journal = {Science Robotics}
   }
 
-> C. D. Bellicoso  M. Bjelonic  L. Wellhausen  K. Holtmann  F. Günther  M. Tranzatto  P. Fankhauser  M. Hutter
+> C. D. Bellicoso,  M. Bjelonic,  L. Wellhausen,  K. Holtmann,  F. Günther,  M. Tranzatto,  P. Fankhauser and  M. Hutter
 > **"Advances in real‐world applications for legged robots“**,
 > in Journal of Field Robotics, 35.8, 2018. ([DOI](https://doi.org/10.1002/rob.21839))
 
