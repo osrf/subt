@@ -1,0 +1,200 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="world_name"/>
+  <arg name="name"/>
+  <arg name="link_name"       value="base"/>
+  <arg name="sensor_prefix"   value="/world/$(arg world_name)/model/$(arg name)/link/$(arg link_name)/sensor"/>
+  <arg name="breadcrumbs" default="0"/>
+
+  <group ns="$(arg name)">
+    <!-- Robot's state -->
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_pose"
+      args="/model/$(arg name)/pose@tf2_msgs/TFMessage[ignition.msgs.Pose_V">
+      <remap from="/model/$(arg name)/pose" to="pose"/>
+    </node>
+
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_pose_static"
+      args="/model/$(arg name)/pose_static@tf2_msgs/TFMessage[ignition.msgs.Pose_V">
+      <remap from="/model/$(arg name)/pose_static" to="pose_static"/>
+    </node>
+
+    <node
+      pkg="subt_ros"
+      type="pose_tf_broadcaster"
+      name="pose_tf_broadcaster"/>
+
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_robot_base_twist"
+      args="/model/$(arg name)/robot_base_twist@geometry_msgs/Twist[ignition.msgs.Twist">
+      <remap from="/model/$(arg name)/robot_base_twist" to="robot_base_twist"/>
+    </node>
+
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_joint_state"
+      args="/world/$(arg world_name)/model/$(arg name)/joint_state@sensor_msgs/JointState[ignition.msgs.Model">
+      <remap from="/world/$(arg world_name)/model/$(arg name)/joint_state" to="joint_state"/>
+    </node>
+
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_battery_state"
+      args="/model/$(arg name)/battery/linear_battery/state@sensor_msgs/BatteryState[ignition.msgs.BatteryState">
+      <remap from="/model/$(arg name)/battery/linear_battery/state" to="battery_state"/>
+    </node>
+
+    <!-- Control Commands -->
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_desired_joint_positions"
+      args="/model/$(arg name)/desired_joint_positions_relay@mav_msgs/Actuators]ignition.msgs.Actuators">
+      <remap from="/model/$(arg name)/desired_joint_positions_relay" to="desired_joint_positions"/>
+    </node>
+
+    <!-- Downward RGBD camera -->
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_camera"
+      args="$(arg sensor_prefix)/downward_realsense/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+      <remap from="$(arg sensor_prefix)/downward_realsense/camera_info" to="downward_realsense/camera_info"/>
+    </node>
+    <node
+      pkg="ros_ign_image"
+      type="image_bridge"
+      name="ros_ign_image_camera"
+      args="$(arg sensor_prefix)/downward_realsense/image">
+      <remap from="$(arg sensor_prefix)/downward_realsense/image" to="downward_realsense/image_raw"/>
+    </node>
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_rgbd"
+      args="$(arg sensor_prefix)/downward_realsense/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
+      <remap from="$(arg sensor_prefix)/downward_realsense/points" to="downward_realsense/points"/>
+    </node>
+    <node
+      pkg="ros_ign_image"
+      type="image_bridge"
+      name="ros_ign_image_depth"
+      args="$(arg sensor_prefix)/downward_realsense/depth_image">
+      <remap from="$(arg sensor_prefix)/downward_realsense/depth_image" to="downward_realsense/depth"/>
+    </node>
+
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher">
+      <remap from="input/image" to="downward_realsense/image_raw" />
+      <remap from="output/image" to="downward_realsense/optical/image_raw" />
+      <remap from="input/camera_info" to="downward_realsense/camera_info" />
+      <remap from="output/camera_info" to="downward_realsense/optical/camera_info" />
+    </node>
+
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_depth"
+      args="depth">
+      <remap from="input/image" to="downward_realsense/depth" />
+      <remap from="output/image" to="downward_realsense/optical/depth" />
+    </node>
+
+    <!-- Front Camera -->
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_front_camera"
+      args="$(arg sensor_prefix)/camera_front/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+      <remap from="$(arg sensor_prefix)/camera_front/camera_info" to="front/camera_info"/>
+    </node>
+    <node
+      pkg="ros_ign_image"
+      type="image_bridge"
+      name="ros_ign_image_front_camera"
+      args="$(arg sensor_prefix)/camera_front/image">
+      <remap from="$(arg sensor_prefix)/camera_front/image" to="front/image_raw"/>
+    </node>
+
+    <!--Front Laser-->
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_lidar3d"
+      args="$(arg sensor_prefix)/front_laser/scan/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
+      <remap from="$(arg sensor_prefix)/front_laser/scan/points" to="front_laser/points"/>
+    </node>
+
+    <!-- Back Right Camera -->
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_back_right_camera"
+      args="$(arg sensor_prefix)/camera_back_right/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+      <remap from="$(arg sensor_prefix)/camera_back_right/camera_info" to="back_right/camera_info"/>
+    </node>
+    <node
+      pkg="ros_ign_image"
+      type="image_bridge"
+      name="ros_ign_image_back_right_camera"
+      args="$(arg sensor_prefix)/camera_back_right/image">
+      <remap from="$(arg sensor_prefix)/camera_back_right/image" to="back_right/image_raw"/>
+    </node>
+
+    <!-- Back Left Camera -->
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_left_right_camera"
+      args="$(arg sensor_prefix)/camera_back_left/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+      <remap from="$(arg sensor_prefix)/camera_back_left/camera_info" to="back_left/camera_info"/>
+    </node>
+    <node
+      pkg="ros_ign_image"
+      type="image_bridge"
+      name="ros_ign_image_left_right_camera"
+      args="$(arg sensor_prefix)/camera_back_left/image">
+      <remap from="$(arg sensor_prefix)/camera_back_left/image" to="back_left/image_raw"/>
+    </node>
+
+    <!--IMU-->
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_imu"
+      args="$(arg sensor_prefix)/imu_sensor/imu@sensor_msgs/Imu[ignition.msgs.IMU">
+      <remap from="$(arg sensor_prefix)/imu_sensor/imu" to="imu/data"/>
+    </node>
+
+    <!-- Gas sensor -->
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_gas"
+      args="/model/$(arg name)/gas_detected@std_msgs/Bool[ignition.msgs.Boolean">
+      <remap from="/model/$(arg name)/gas_detected" to="gas_detected"/>
+    </node>
+
+    <group if="$(arg breadcrumbs)">
+      <node
+        pkg="ros_ign_bridge"
+        type="parameter_bridge"
+        name="ros_ign_bridge_breadcrumbs"
+        args="/model/$(arg name)/breadcrumb/deploy@std_msgs/Empty]ignition.msgs.Empty">
+        <remap from="/model/$(arg name)/breadcrumb/deploy" to="breadcrumb/deploy"/>
+      </node>
+    </group>
+
+  </group>
+</launch>
