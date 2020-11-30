@@ -1487,7 +1487,7 @@
       robotSpawned += 1
       if !teamBaseSpawned
         teamBaseSpawned = true
-        spawnStringTmp, executables = spawnTeamBase(name, posX, posY, spawnWorldZPos, spawnWorldYaw)
+        spawnStringTmp, executables = spawnTeamBase(name, robot.pos.x, robot.pos.y, robot.pos.z, robot.rot.yaw)
       else
         puts "Error: Only 1 teambase is allows. Skpping[%s]." % [name]
       end
