@@ -30,7 +30,7 @@ This image should be used in conjunction with `cloudsim_bridge`.
 
 ### `cloudsim_bridge`
 
-This is the docker image that with run the cloudsim bridge. Refer to:
+This is the docker image that will run the cloudsim bridge. Refer to:
 https://github.com/osrf/subt/wiki/Cloudsim%20Architecture.
 
 This image should be used in conjunction with `cloudsim_sim`.
@@ -90,5 +90,5 @@ Use this directory to build a Docker image that will run an installed launch fil
    file.
 
 ```
-./run.bash subt_sim_entry tunne_circuit_practice.ign
+./run.bash subt_sim_entry tunnel_circuit_practice.ign
 ```

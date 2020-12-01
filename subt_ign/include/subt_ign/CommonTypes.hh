@@ -22,6 +22,7 @@
 #include <string>
 #include <utility>
 #include <ignition/math/graph/Graph.hh>
+#include <subt_ign/VisibilityTypes.hh>
 
 namespace subt
 {
@@ -41,7 +42,7 @@ namespace subt
   using VisibilityInfo =
     std::map<std::pair<ignition::math::graph::VertexId,
                        ignition::math::graph::VertexId>,
-             double>;
+             VisibilityCost>;
 
   /// \brief Class used to store information about a member of the team.
   class TeamMember

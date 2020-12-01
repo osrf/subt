@@ -19,6 +19,8 @@ find_package(catkin REQUIRED
     subt_rf_interface
     subt_communication_model
     subt_communication_broker
+    subt_ros
+    rosbag
 )
 
 find_package(ignition-gazebo2 2.1 QUIET REQUIRED)
@@ -26,7 +28,8 @@ set(IGN_GAZEBO_VER ${ignition-gazebo2_VERSION_MAJOR})
 
 file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include)
 
-find_package(ignition-common3 REQUIRED)
+find_package(ignition-common3 REQUIRED COMPONENTS graphics)
+find_package(ignition-fuel_tools3 REQUIRED)
 find_package(ignition-math6 REQUIRED)
 find_package(ignition-msgs4 REQUIRED)
 find_package(ignition-transport7 REQUIRED)
@@ -34,6 +37,12 @@ find_package(ignition-plugin1 REQUIRED COMPONENTS loader register)
 find_package(ignition-launch1 REQUIRED)
 find_package(sdformat8 REQUIRED)
 find_package(yaml-cpp REQUIRED)
+
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(LIBFCL_PC REQUIRED fcl)
+# find *absolute* paths to LIBFCL_INCLUDE_DIRS and LIBFCL_LIBRARIES
+find_path(LIBFCL_INCLUDE_DIRS fcl/config.h HINTS ${LIBFCL_PC_INCLUDE_DIR} ${LIBFCL_PC_INCLUDE_DIRS})
+find_library(LIBFCL_LIBRARIES fcl HINTS ${LIBFCL_PC_LIBRARY_DIRS})
 
 ###########
 ## Build ##
@@ -45,6 +54,8 @@ include_directories(
   ${PROJECT_BINARY_DIR}/include
   ${CATKIN_DEVEL_PREFIX}/include
 )
+
+message(STATUS ${LIBFCL_INCLUDE_DIRS})
 
 link_directories()
 
@@ -178,14 +189,43 @@ install(TARGETS validate_connections
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
 
+add_library(Visibility
+  STATIC
+  src/ign_to_fcl.cc
+  src/SimpleDOTParser.cc
+  src/VisibilityRfModel.cc
+  src/VisibilityTable.cc
+)
+target_include_directories(Visibility
+  PUBLIC
+  ${catkin_INCLUDE_DIRS}
+  ${LIBFCL_INCLUDE_DIRS}
+)
+target_link_libraries(
+  Visibility
+  PUBLIC
+  ignition-gazebo${IGN_GAZEBO_VER}::core
+  ignition-common3::ignition-common3
+  ignition-common3::graphics
+  ${LIBFCL_LIBRARIES}
+  ${catkin_LIBRARIES}
+)
+
+add_executable(validate_visibility_table
+  src/validate_visibility_table.cc)
+target_link_libraries(validate_visibility_table
+  PRIVATE
+  Visibility
+)
+install(TARGETS validate_visibility_table
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
 
 # Create the libCommsBrokerPlugin.so library.
 set(comms_broker_plugin_name CommsBrokerPlugin)
 add_library(${comms_broker_plugin_name}
   src/CommsBrokerPlugin.cc
-  src/VisibilityRfModel.cc
-  src/VisibilityTable.cc
-  src/SimpleDOTParser.cc
 )
 target_include_directories(${comms_broker_plugin_name}
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
@@ -199,7 +239,7 @@ target_link_libraries(${comms_broker_plugin_name}
   ignition-transport7::ignition-transport7
   sdformat8::sdformat8
   ${protobuf_lib_name}
-  ${catkin_LIBRARIES}
+  Visibility
 )
 install(TARGETS ${comms_broker_plugin_name}
   ARCHIVE DESTINATION lib
@@ -210,14 +250,9 @@ install(TARGETS ${comms_broker_plugin_name}
 set(visibility_plugin_name VisibilityPlugin)
 add_library(${visibility_plugin_name} SHARED
   src/VisibilityPlugin.cc
-  src/VisibilityTable.cc
-  src/SimpleDOTParser.cc
 )
-target_include_directories(${visibility_plugin_name}
-  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 target_link_libraries(${visibility_plugin_name}
   PRIVATE
-  ignition-gazebo${IGN_GAZEBO_VER}::core
   ignition-common3::ignition-common3
   ignition-math6::ignition-math6
   ignition-msgs4::ignition-msgs4
@@ -226,7 +261,7 @@ target_link_libraries(${visibility_plugin_name}
   ignition-transport7::ignition-transport7
   sdformat8::sdformat8
   ${protobuf_lib_name}
-  ${catkin_LIBRARIES}
+  Visibility
 )
 install(TARGETS ${visibility_plugin_name}
   ARCHIVE DESTINATION lib
@@ -323,6 +358,17 @@ target_include_directories(level_generator
 install(TARGETS level_generator
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 
+add_executable(world_generator_cave src/world_generator_cave.cc src/ConnectionHelper.cc)
+target_link_libraries(world_generator_cave
+  ignition-math6::ignition-math6
+  ignition-common3::requested
+  ignition-fuel_tools3::ignition-fuel_tools3
+  sdformat8::sdformat8)
+target_include_directories(world_generator_cave
+  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
+install(TARGETS world_generator_cave
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+
 
 ###########
 ## Tests ##
@@ -398,6 +444,39 @@ add_custom_command(TARGET unzip_dat PRE_BUILD
   COMMAND ${CMAKE_COMMAND} -E tar xvf cave_circuit_practice_02.dat.zip
   DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/worlds/cave_circuit_practice_02.dat.zip
 COMMENT "Unpacking cave_circuit_practice_02.dat.zip"
+VERBATIM)
+
+# Unzip the cave_circuit_03.dat.zip file
+add_custom_command(TARGET unzip_dat PRE_BUILD
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/worlds/cave_circuit/03
+  COMMAND ${CMAKE_COMMAND} -E tar xvf cave_circuit_03.dat.zip
+  DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/worlds/cave_circuit/03/cave_circuit_03.dat.zip
+COMMENT "Unpacking cave_circuit_03.dat.zip"
+VERBATIM)
+
+# Unzip the cave_circuit_04.dat.zip file
+add_custom_command(TARGET unzip_dat PRE_BUILD
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/worlds/cave_circuit/04
+  COMMAND ${CMAKE_COMMAND} -E tar xvf cave_circuit_04.dat.zip
+  DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/worlds/cave_circuit/04/cave_circuit_04.dat.zip
+COMMENT "Unpacking cave_circuit_04.dat.zip"
+VERBATIM)
+
+# Unzip the cave_circuit_07.dat.zip file
+add_custom_command(TARGET unzip_dat PRE_BUILD
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/worlds/cave_circuit/07/
+  COMMAND ${CMAKE_COMMAND} -E tar xvf cave_circuit_07.dat.zip
+  DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/worlds/cave_circuit/07/cave_circuit_07.dat.zip
+  BYPRODUCTS ${CMAKE_CURRENT_SOURCE_DIR}/worlds/cave_circuit/07/cave_circuit_07.dat
+COMMENT "Unpacking cave_circuit_07.dat.zip"
+VERBATIM)
+
+# Unzip the cave_circuit_08.dat.zip file
+add_custom_command(TARGET unzip_dat PRE_BUILD
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/worlds/cave_circuit/08
+  COMMAND ${CMAKE_COMMAND} -E tar xvf cave_circuit_08.dat.zip
+  DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/worlds/cave_circuit/08/cave_circuit_08.dat.zip
+COMMENT "Unpacking cave_circuit_08.dat.zip"
 VERBATIM)
 
 install(PROGRAMS

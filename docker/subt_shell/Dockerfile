@@ -11,7 +11,9 @@ RUN apt-get update -qq \
         gdb \
         git \
         libbluetooth-dev \
+        libccd-dev \
         libcwiid-dev \
+        libfcl-dev \
         libgoogle-glog-dev \
         libspnav-dev \
         libusb-dev \
@@ -61,6 +63,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 
 # install ROS and required packages
 RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' \
+ && sudo /bin/sh -c 'apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654' \
  && sudo apt-get update -qq \
  && sudo apt-get install -y -qq \
     python-catkin-tools \

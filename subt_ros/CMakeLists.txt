@@ -13,16 +13,27 @@ find_package(catkin REQUIRED COMPONENTS
   topic_tools
   subt_msgs
   subt_communication_broker
+  rosbag
 )
 
 add_message_files(
   FILES
+  ArtifactReport.msg
   CompetitionClock.msg
+  KinematicStates.msg
+  Marsupial.msg
+  RegionEvent.msg
+  Robot.msg
+  RobotEvent.msg
+  RobotMetric.msg
+  RunStatistics.msg
+  RunStatus.msg
 )
 
 generate_messages(
   DEPENDENCIES
   std_msgs
+  geometry_msgs
 )
 
 find_package(ignition-common3 REQUIRED)
@@ -71,7 +82,7 @@ target_link_libraries(subt_ros_relay
     ignition-transport7::ignition-transport7
     ${catkin_LIBRARIES}
 )
-add_dependencies(subt_ros_relay ${catkin_EXPORTED_TARGETS})
+add_dependencies(subt_ros_relay ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 add_executable(set_pose_relay src/SetPoseRelay.cc)
 target_include_directories(set_pose_relay
