@@ -100,7 +100,7 @@ RUN rosdep update
 # Install subt sim
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
- && git clone https://github.com/osrf/subt subt_ws/src/subt
+ && git clone https://github.com/osrf/subt
 
 WORKDIR /home/$USERNAME/subt_ws
 

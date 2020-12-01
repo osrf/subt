@@ -32,7 +32,6 @@ RUN sudo apt-get update -qq \
         libyaml-cpp-dev \
  && sudo apt-get clean -qq
 
-
 # install ROS and required packages
 RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' \
  && sudo apt-get update -qq \
@@ -49,7 +48,6 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu 
     ros-melodic-twist-mux \
     ros-melodic-rviz-imu-plugin \
     ros-melodic-rotors-control \
-    ros-melodic-ros-ign \
  && sudo rosdep init \
  && sudo apt-get clean -qq
 
@@ -65,10 +63,30 @@ WORKDIR /home/$USERNAME
 
 RUN rosdep update
 
+# sdformat8-sdf conflicts with sdformat-sdf installed from gazebo
+# so we need to workaround this using a force overwrite
+# Do this before installing ign-gazebo
+RUN /bin/sh -c 'echo "deb [trusted=yes] http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list' \
+ && /bin/sh -c 'wget http://packages.osrfoundation.org/gazebo.key -O - | apt-key add -' \
+ && /bin/sh -c 'apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654'
+
+# install ign-blueprint
+RUN apt-get update \
+&&  apt-get install -y \
+    ignition-blueprint \
+ && apt-get clean
+
+# install the ros to ign bridge
+RUN apt-get update \
+ && apt-get install -y \
+    ros-melodic-ros-ign \
+ && apt-get clean -qq
+
 # Clone all the subt models so that you don't download them every time
 # docker is run
 RUN mkdir -p subt_ws/src \
- && git clone https://github.com/osrf/subt subt_ws/src/subt
+ && cd subt_ws/src \
+ && git clone https://github.com/osrf/subt
 
 # Download niosh models, set 1.
 COPY download_niosh_1.sh ./
