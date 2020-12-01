@@ -1,6 +1,6 @@
-<sdf version="1.6">
-  <model name="cerberus_anymal_c_sensor_config_1">
-    <link name="base">
+<sdf version='1.6'>
+  <model name='anymal'>
+    <link name='base'>
       <pose>0 0 0 0 -0 0</pose>
       <inertial>
         <pose>-0.02203 -0.000162 0.009216 0 -0 0</pose>
@@ -14,7 +14,7 @@
           <izz>2.09006</izz>
         </inertia>
       </inertial>
-      <collision name="base_collision">
+      <collision name='base_collision'>
         <pose>0 0 0 0 -0 0</pose>
         <geometry>
           <box>
@@ -22,7 +22,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_collision_1">
+      <collision name='base_collision_1'>
         <pose>0.2175 0.07 0 0 1.5708 0</pose>
         <geometry>
           <cylinder>
@@ -31,7 +31,7 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name="base_collision_2">
+      <collision name='base_collision_2'>
         <pose>-0.2175 0.07 0 0 1.5708 0</pose>
         <geometry>
           <cylinder>
@@ -40,7 +40,7 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name="base_collision_3">
+      <collision name='base_collision_3'>
         <pose>0.2175 -0.07 0 0 1.5708 0</pose>
         <geometry>
           <cylinder>
@@ -49,7 +49,7 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name="base_collision_4">
+      <collision name='base_collision_4'>
         <pose>-0.2175 -0.07 0 0 1.5708 0</pose>
         <geometry>
           <cylinder>
@@ -58,7 +58,7 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name="base_fixed_joint_lump__alphasense_mesh_collision_5">
+      <collision name='base_fixed_joint_lump__alphasense_mesh_collision_5'>
         <pose>-0.349598 0 0.235 0 -0 0</pose>
         <geometry>
           <box>
@@ -66,7 +66,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_fixed_joint_lump__bpearl_front_collision_6">
+      <collision name='base_fixed_joint_lump__bpearl_front_collision_6'>
         <pose>0.501547 0 -0.010053 -2.85388 -0.54666 -0.517507</pose>
         <geometry>
           <box>
@@ -74,7 +74,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_fixed_joint_lump__bpearl_front_protection_bars_collision_collision_7">
+      <collision name='base_fixed_joint_lump__bpearl_front_protection_bars_collision_collision_7'>
         <pose>0.438876 0 -0.07746 3.14159 0.893609 3.14159</pose>
         <geometry>
           <box>
@@ -82,7 +82,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_fixed_joint_lump__bpearl_front_protection_bars_collision_collision_8">
+      <collision name='base_fixed_joint_lump__bpearl_front_protection_bars_collision_collision_8'>
         <pose>0.50696 0 -0.118904 1e-06 1.52542 1e-06</pose>
         <geometry>
           <box>
@@ -90,7 +90,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_fixed_joint_lump__bpearl_front_protection_bars_collision_collision_9">
+      <collision name='base_fixed_joint_lump__bpearl_front_protection_bars_collision_collision_9'>
         <pose>0.559988 -0.068944 0.007343 -2.68278 -0.125844 -0.83529</pose>
         <geometry>
           <box>
@@ -98,7 +98,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_fixed_joint_lump__bpearl_front_protection_bars_collision_collision_10">
+      <collision name='base_fixed_joint_lump__bpearl_front_protection_bars_collision_collision_10'>
         <pose>0.58501 -0.044431 -0.064253 -2.61177 0.516776 -0.491692</pose>
         <geometry>
           <box>
@@ -106,7 +106,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_fixed_joint_lump__bpearl_front_protection_bars_collision_collision_11">
+      <collision name='base_fixed_joint_lump__bpearl_front_protection_bars_collision_collision_11'>
         <pose>0.556968 0.071877 0.005228 2.66301 -0.103127 0.880443</pose>
         <geometry>
           <box>
@@ -114,7 +114,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_fixed_joint_lump__bpearl_front_protection_bars_collision_collision_12">
+      <collision name='base_fixed_joint_lump__bpearl_front_protection_bars_collision_collision_12'>
         <pose>0.583063 0.046321 -0.065616 2.58142 0.531321 0.5194</pose>
         <geometry>
           <box>
@@ -122,7 +122,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_fixed_joint_lump__bpearl_rear_collision_13">
+      <collision name='base_fixed_joint_lump__bpearl_rear_collision_13'>
         <pose>-0.501547 -0 -0.010053 -2.85388 -0.54666 2.62409</pose>
         <geometry>
           <box>
@@ -130,7 +130,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_fixed_joint_lump__bpearl_rear_protection_bars_collision_collision_14">
+      <collision name='base_fixed_joint_lump__bpearl_rear_protection_bars_collision_collision_14'>
         <pose>-0.438876 -0 -0.07746 3.14159 0.893609 -0</pose>
         <geometry>
           <box>
@@ -138,7 +138,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_fixed_joint_lump__bpearl_rear_protection_bars_collision_collision_15">
+      <collision name='base_fixed_joint_lump__bpearl_rear_protection_bars_collision_collision_15'>
         <pose>-0.50696 -0 -0.118904 1e-06 1.52542 -3.14159</pose>
         <geometry>
           <box>
@@ -146,7 +146,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_fixed_joint_lump__bpearl_rear_protection_bars_collision_collision_16">
+      <collision name='base_fixed_joint_lump__bpearl_rear_protection_bars_collision_collision_16'>
         <pose>-0.565632 0.062519 0.011295 -2.72553 -0.168473 2.39838</pose>
         <geometry>
           <box>
@@ -154,7 +154,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_fixed_joint_lump__bpearl_rear_protection_bars_collision_collision_17">
+      <collision name='base_fixed_joint_lump__bpearl_rear_protection_bars_collision_collision_17'>
         <pose>-0.588647 0.04029 -0.061706 -2.67308 0.489917 2.70612</pose>
         <geometry>
           <box>
@@ -162,7 +162,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_fixed_joint_lump__bpearl_rear_protection_bars_collision_collision_18">
+      <collision name='base_fixed_joint_lump__bpearl_rear_protection_bars_collision_collision_18'>
         <pose>-0.553825 -0.074613 0.003028 2.64433 -0.079552 -2.21655</pose>
         <geometry>
           <box>
@@ -170,7 +170,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_fixed_joint_lump__bpearl_rear_protection_bars_collision_collision_19">
+      <collision name='base_fixed_joint_lump__bpearl_rear_protection_bars_collision_collision_19'>
         <pose>-0.581038 -0.048084 -0.067034 2.55129 0.546584 -2.59477</pose>
         <geometry>
           <box>
@@ -178,7 +178,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_fixed_joint_lump__perception_head_cage_collision_20">
+      <collision name='base_fixed_joint_lump__perception_head_cage_collision_20'>
         <pose>-0.355957 0 0.1614 0 -0 0</pose>
         <geometry>
           <box>
@@ -186,7 +186,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_fixed_joint_lump__imu_link_collision_21">
+      <collision name='base_fixed_joint_lump__imu_link_collision_21'>
         <pose>0.2488 0.00835 0.05128 0 -0 1.5708</pose>
         <geometry>
           <box>
@@ -194,174 +194,169 @@
           </box>
         </geometry>
       </collision>
-      <visual name="base_visual">
+      <visual name='base_visual'>
         <pose>0 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/base.dae</uri>
+            <uri>model://anymal_c_simple_description/meshes/base.dae</uri>
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_fixed_joint_lump__LF_HAA_visual_1">
+      <visual name='base_fixed_joint_lump__LF_HAA_visual_1'>
         <pose>0.2999 0.104 0 2.61799 -0 0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/drive.dae</uri>
+            <uri>model://anymal_c_simple_description/meshes/drive.dae</uri>
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_fixed_joint_lump__LH_HAA_visual_2">
+      <visual name='base_fixed_joint_lump__LH_HAA_visual_2'>
         <pose>-0.2999 0.104 0 -2.61799 -0 3.14159</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/drive.dae</uri>
+            <uri>model://anymal_c_simple_description/meshes/drive.dae</uri>
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_fixed_joint_lump__RF_HAA_visual_3">
+      <visual name='base_fixed_joint_lump__RF_HAA_visual_3'>
         <pose>0.2999 -0.104 0 -2.61799 0 0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/drive.dae</uri>
+            <uri>model://anymal_c_simple_description/meshes/drive.dae</uri>
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_fixed_joint_lump__RH_HAA_visual_4">
+      <visual name='base_fixed_joint_lump__RH_HAA_visual_4'>
         <pose>-0.2999 -0.104 0 2.61799 0 3.14159</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/drive.dae</uri>
+            <uri>model://anymal_c_simple_description/meshes/drive.dae</uri>
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_fixed_joint_lump__battery_visual_5">
+      <visual name='base_fixed_joint_lump__battery_visual_5'>
         <pose>0 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/battery.dae</uri>
+            <uri>model://anymal_c_simple_description/meshes/battery.dae</uri>
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_fixed_joint_lump__bottom_shell_visual_6">
+      <visual name='base_fixed_joint_lump__bottom_shell_visual_6'>
         <pose>0 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/bottom_shell.dae</uri>
+            <uri>model://anymal_c_simple_description/meshes/bottom_shell.dae</uri>
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_fixed_joint_lump__handle_visual_7">
+      <visual name='base_fixed_joint_lump__handle_visual_7'>
         <pose>0 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/handle.dae</uri>
+            <uri>model://anymal_c_simple_description/meshes/handle.dae</uri>
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_fixed_joint_lump__hatch_visual_8">
+      <visual name='base_fixed_joint_lump__hatch_visual_8'>
         <pose>0.116 0 0.073 0 -0 0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/hatch.dae</uri>
+            <uri>model://anymal_c_simple_description/meshes/hatch.dae</uri>
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_fixed_joint_lump__remote_visual_9">
+      <visual name='base_fixed_joint_lump__remote_visual_9'>
         <pose>0 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/remote.dae</uri>
+            <uri>model://anymal_c_simple_description/meshes/remote.dae</uri>
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_fixed_joint_lump__alphasense_mesh_visual_10">
+      <visual name='base_fixed_joint_lump__alphasense_mesh_visual_10'>
         <pose>-0.364 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>meshes/alphasense.stl</uri>
+            <uri>model://anymal_c_simple_description/meshes/alphasense.stl</uri>
           </mesh>
         </geometry>
-        <material>
-          <ambient>0.5 0.5 0.5 1</ambient>
-          <diffuse>0.5 0.5 0.5 1</diffuse>
-          <specular>0.5 0.5 0.5 1</specular>
-        </material>
       </visual>
-      <visual name="base_fixed_joint_lump__bpearl_front_visual_11">
+      <visual name='base_fixed_joint_lump__bpearl_front_visual_11'>
         <pose>0.47 0 0.035 -2.85388 -0.54666 -0.517507</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>meshes/rslidar_bpearl.stl</uri>
+            <uri>model://anymal_c_simple_description/meshes/rslidar_bpearl.stl</uri>
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_fixed_joint_lump__bpearl_front_protection_bars_visual_12">
+      <visual name='base_fixed_joint_lump__bpearl_front_protection_bars_visual_12'>
         <pose>0.414495 0 0 0 0 -3.14159</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>meshes/bpearl_protection_bars.stl</uri>
+            <uri>model://anymal_c_simple_description/meshes/bpearl_protection_bars.stl</uri>
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_fixed_joint_lump__bpearl_rear_visual_13">
+      <visual name='base_fixed_joint_lump__bpearl_rear_visual_13'>
         <pose>-0.47 0 0.035 -2.85388 -0.54666 2.62409</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>meshes/rslidar_bpearl.stl</uri>
+            <uri>model://anymal_c_simple_description/meshes/rslidar_bpearl.stl</uri>
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_fixed_joint_lump__bpearl_rear_protection_bars_visual_14">
+      <visual name='base_fixed_joint_lump__bpearl_rear_protection_bars_visual_14'>
         <pose>-0.414495 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>meshes/bpearl_protection_bars.stl</uri>
+            <uri>model://anymal_c_simple_description/meshes/bpearl_protection_bars.stl</uri>
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_fixed_joint_lump__perception_head_cage_visual_15">
+      <visual name='base_fixed_joint_lump__perception_head_cage_visual_15'>
         <pose>-0.364 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>meshes/perception_head.stl</uri>
+            <uri>model://anymal_c_simple_description/meshes/perception_head.stl</uri>
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_fixed_joint_lump__lidar_visual_16">
+      <visual name='base_fixed_joint_lump__lidar_visual_16'>
         <pose>-0.364 0 0.1422 0 0 -1.5708</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/lidar.dae</uri>
+            <uri>model://anymal_c_simple_description/meshes/lidar.dae</uri>
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_fixed_joint_lump__top_shell_visual_17">
+      <visual name='base_fixed_joint_lump__top_shell_visual_17'>
         <pose>0 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/top_shell.dae</uri>
+            <uri>model://anymal_c_simple_description/meshes/top_shell.dae</uri>
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_fixed_joint_lump__imu_link_visual_18">
+      <visual name='base_fixed_joint_lump__imu_link_visual_18'>
         <pose>0.2488 0.00835 0.05128 0 -0 1.5708</pose>
         <geometry>
           <box>
@@ -369,401 +364,8 @@
           </box>
         </geometry>
       </visual>
-      <!-- Sensors -->
-      <sensor name="imu_sensor" type="imu">
-        <always_on>1</always_on>
-        <update_rate>400</update_rate>
-        <imu>
-          <angular_velocity>
-            <x>
-              <noise type="gaussian">
-                <mean>0</mean>
-                <stddev>2e-4</stddev>
-                <bias_mean>0.0000075</bias_mean>
-                <bias_stddev>0.0000008</bias_stddev>
-                <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
-                <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
-              </noise>
-            </x>
-            <y>
-              <noise type="gaussian">
-                <mean>0</mean>
-                <stddev>2e-4</stddev>
-                <bias_mean>0.0000075</bias_mean>
-                <bias_stddev>0.0000008</bias_stddev>
-                <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
-                <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
-              </noise>
-            </y>
-            <z>
-              <noise type="gaussian">
-                <mean>0</mean>
-                <stddev>2e-4</stddev>
-                <bias_mean>0.0000075</bias_mean>
-                <bias_stddev>0.0000008</bias_stddev>
-                <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
-                <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
-              </noise>
-            </z>
-          </angular_velocity>
-          <linear_acceleration>
-            <x>
-              <noise type="gaussian">
-                <mean>0</mean>
-                <stddev>1e-2</stddev>
-                <bias_mean>0.1</bias_mean>
-                <bias_stddev>0.001</bias_stddev>
-                <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
-                <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
-              </noise>
-            </x>
-            <y>
-              <noise type="gaussian">
-                <mean>0</mean>
-                <stddev>1e-2</stddev>
-                <bias_mean>0.1</bias_mean>
-                <bias_stddev>0.001</bias_stddev>
-                <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
-                <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
-              </noise>
-            </y>
-            <z>
-              <noise type="gaussian">
-                <mean>0</mean>
-                <stddev>1e-2</stddev>
-                <bias_mean>0.1</bias_mean>
-                <bias_stddev>0.001</bias_stddev>
-                <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
-                <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
-              </noise>
-            </z>
-          </linear_acceleration>
-        </imu>
-        <pose frame="">0.249 0.008 0.046 0.000 -0.000 1.571</pose>
-      </sensor>
-      <sensor name="perception_head_imu_sensor" type="imu">
-        <always_on>1</always_on>
-        <update_rate>200</update_rate>
-        <imu>
-          <angular_velocity>
-            <x>
-              <noise type="gaussian">
-                <mean>0</mean>
-                <stddev>2e-4</stddev>
-                <bias_mean>0.0000075</bias_mean>
-                <bias_stddev>0.0000008</bias_stddev>
-                <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
-                <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
-              </noise>
-            </x>
-            <y>
-              <noise type="gaussian">
-                <mean>0</mean>
-                <stddev>2e-4</stddev>
-                <bias_mean>0.0000075</bias_mean>
-                <bias_stddev>0.0000008</bias_stddev>
-                <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
-                <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
-              </noise>
-            </y>
-            <z>
-              <noise type="gaussian">
-                <mean>0</mean>
-                <stddev>2e-4</stddev>
-                <bias_mean>0.0000075</bias_mean>
-                <bias_stddev>0.0000008</bias_stddev>
-                <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
-                <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
-              </noise>
-            </z>
-          </angular_velocity>
-          <linear_acceleration>
-            <x>
-              <noise type="gaussian">
-                <mean>0</mean>
-                <stddev>1e-2</stddev>
-                <bias_mean>0.1</bias_mean>
-                <bias_stddev>0.001</bias_stddev>
-                <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
-                <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
-              </noise>
-            </x>
-            <y>
-              <noise type="gaussian">
-                <mean>0</mean>
-                <stddev>1e-2</stddev>
-                <bias_mean>0.1</bias_mean>
-                <bias_stddev>0.001</bias_stddev>
-                <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
-                <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
-              </noise>
-            </y>
-            <z>
-              <noise type="gaussian">
-                <mean>0</mean>
-                <stddev>1e-2</stddev>
-                <bias_mean>0.1</bias_mean>
-                <bias_stddev>0.001</bias_stddev>
-                <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
-                <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
-              </noise>
-            </z>
-          </linear_acceleration>
-        </imu>
-        <pose frame="">-0.327 -0.005 0.206 0.000 0.000 -1.571</pose>
-      </sensor>
-      <sensor name="front_laser" type="gpu_lidar">
-        <visualize>0</visualize>
-        <update_rate>10</update_rate>
-        <lidar>
-          <scan>
-            <horizontal>
-              <!-- Resolution can't be above 16k, see
-              https://bitbucket.org/ignitionrobotics/ign-sensors/issues/8 -->
-              <samples>10000</samples>
-              <resolution>0.1</resolution>
-              <min_angle>-3.1459</min_angle>
-              <max_angle>3.1459</max_angle>
-            </horizontal>
-            <vertical>
-              <samples>16</samples>
-              <resolution>1</resolution>
-              <min_angle>-0.261799</min_angle>
-              <max_angle>0.261799</max_angle>
-            </vertical>
-          </scan>
-          <range>
-            <min>0.05</min>
-            <max>100</max>
-            <resolution>0.01</resolution>
-          </range>
-          <noise>
-            <type>gaussian</type>
-            <mean>0</mean>
-            <stddev>0.01</stddev>
-          </noise>
-        </lidar>
-        <pose frame="">-0.364 0.000 0.142 0.000 0.000 -1.571</pose>
-      </sensor>
-      <sensor name="front_bpearl" type="gpu_lidar">
-        <visualize>0</visualize>
-        <update_rate>10</update_rate>
-        <lidar>
-          <scan>
-            <horizontal>
-              <samples>440</samples>
-              <resolution>1</resolution>
-              <min_angle>-3.1459</min_angle>
-              <max_angle>3.1459</max_angle>
-            </horizontal>
-            <vertical>
-              <samples>32</samples>
-              <resolution>1</resolution>
-              <min_angle>0.040360739</min_angle>
-              <max_angle>1.562069681</max_angle>
-            </vertical>
-          </scan>
-          <range>
-            <min>0.3</min>
-            <max>31</max>
-            <resolution>0.001</resolution>
-          </range>
-          <noise>
-            <type>gaussian</type>
-            <mean>0</mean>
-            <stddev>0.008</stddev>
-          </noise>
-        </lidar>
-        <pose frame="">0.524 0.000 -0.042 -2.576 0.245 -1.936</pose>
-      </sensor>
-      <sensor name="rear_bpearl" type="gpu_lidar">
-        <visualize>0</visualize>
-        <update_rate>10</update_rate>
-        <lidar>
-          <scan>
-            <horizontal>
-              <samples>440</samples>
-              <resolution>1</resolution>
-              <min_angle>-3.1459</min_angle>
-              <max_angle>3.1459</max_angle>
-            </horizontal>
-            <vertical>
-              <samples>32</samples>
-              <resolution>1</resolution>
-              <min_angle>0.040360739</min_angle>
-              <max_angle>1.562069681</max_angle>
-            </vertical>
-          </scan>
-          <range>
-            <min>0.3</min>
-            <max>31</max>
-            <resolution>0.001</resolution>
-          </range>
-          <noise>
-            <type>gaussian</type>
-            <mean>0</mean>
-            <stddev>0.008</stddev>
-          </noise>
-        </lidar>
-        <pose frame="">-0.524 -0.000 -0.042 -2.576 0.245 1.206</pose>
-      </sensor>
-      <sensor name="camera_0" type="camera">
-        <always_on>1</always_on>
-        <update_rate>20</update_rate>
-        <pose frame="">-0.400 -0.050 0.229 -0.006 0.011 3.133</pose>
-        <camera name="camera_0">
-          <horizontal_fov>2.19911</horizontal_fov>
-          <image>
-            <width>728</width>
-            <height>544</height>
-            <format>L8</format>
-          </image>
-          <clip>
-            <near>0.02</near>
-            <far>100</far>
-          </clip>
-            <noise>
-            <type>gaussian</type>
-              <mean>0</mean>
-              <stddev>0.007</stddev>
-            </noise>
-        </camera>
-      </sensor>
-      <sensor name="camera_1" type="camera">
-        <always_on>1</always_on>
-        <update_rate>20</update_rate>
-        <pose frame="">-0.400 0.049 0.229 -0.006 0.0 3.139</pose>
-        <camera name="camera_1">
-          <horizontal_fov>2.19911</horizontal_fov>
-          <image>
-            <width>728</width>
-            <height>544</height>
-            <format>L8</format>
-          </image>
-          <clip>
-            <near>0.02</near>
-            <far>100</far>
-          </clip>
-            <noise>
-            <type>gaussian</type>
-              <mean>0</mean>
-              <stddev>0.007</stddev>
-            </noise>
-        </camera>
-      </sensor>
-      <sensor name="camera_2" type="camera">
-        <always_on>1</always_on>
-        <update_rate>20</update_rate>
-        <pose frame="">-0.379 -0.050 0.265 -0.009 -1.572 -0.004</pose>
-        <camera name="camera_2">
-          <horizontal_fov>2.19911</horizontal_fov>
-          <image>
-            <width>728</width>
-            <height>544</height>
-            <format>L8</format>
-          </image>
-          <clip>
-            <near>0.02</near>
-            <far>100</far>
-          </clip>
-            <noise>
-            <type>gaussian</type>
-              <mean>0</mean>
-              <stddev>0.007</stddev>
-            </noise>
-        </camera>
-      </sensor>
-      <sensor name="camera_3" type="camera">
-        <always_on>1</always_on>
-        <update_rate>20</update_rate>
-        <pose frame="">-0.348 -0.073 0.237 0.004 -0.172 -1.575</pose>
-        <camera name="camera_3">
-          <horizontal_fov>2.19911</horizontal_fov>
-          <image>
-            <width>728</width>
-            <height>544</height>
-            <format>L8</format>
-          </image>
-          <clip>
-            <near>0.02</near>
-            <far>100</far>
-          </clip>
-            <noise>
-            <type>gaussian</type>
-              <mean>0</mean>
-              <stddev>0.007</stddev>
-            </noise>
-        </camera>
-      </sensor>
-      <sensor name="camera_4" type="camera">
-        <always_on>1</always_on>
-        <update_rate>20</update_rate>
-        <pose frame="">-0.399 -0.000 0.228 -0.009 -0.002 3.136</pose>
-        <camera name="camera_4">
-          <horizontal_fov>2.19911</horizontal_fov>
-          <image>
-            <width>728</width>
-            <height>544</height>
-            <format>L8</format>
-          </image>
-          <clip>
-            <near>0.02</near>
-            <far>100</far>
-          </clip>
-            <noise>
-            <type>gaussian</type>
-              <mean>0</mean>
-              <stddev>0.007</stddev>
-            </noise>
-        </camera>
-      </sensor>
-      <sensor name="camera_5" type="camera">
-        <always_on>1</always_on>
-        <update_rate>20</update_rate>
-        <pose frame="">-0.347 0.072 0.236 -0.012 -0.171 1.569</pose>
-        <camera name="camera_5">
-          <horizontal_fov>2.19911</horizontal_fov>
-          <image>
-            <width>728</width>
-            <height>544</height>
-            <format>L8</format>
-          </image>
-          <clip>
-            <near>0.02</near>
-            <far>100</far>
-          </clip>
-            <noise>
-            <type>gaussian</type>
-              <mean>0</mean>
-              <stddev>0.007</stddev>
-            </noise>
-        </camera>
-      </sensor>
-      <sensor name="camera_6" type="camera">
-        <always_on>1</always_on>
-        <update_rate>20</update_rate>
-        <pose frame="">-0.379 0.050 0.265 -0.009 -1.572 -0.004</pose>
-        <camera name="camera_6">
-          <horizontal_fov>2.19911</horizontal_fov>
-          <image>
-            <width>728</width>
-            <height>544</height>
-            <format>L8</format>
-          </image>
-          <clip>
-            <near>0.02</near>
-            <far>100</far>
-          </clip>
-            <noise>
-            <type>gaussian</type>
-              <mean>0</mean>
-              <stddev>0.007</stddev>
-            </noise>
-        </camera>
-      </sensor>
-      <!-- Lights -->
     </link>
-    <link name="LF_HIP">
+    <link name='LF_HIP'>
       <pose>0.2999 0.104 0 2.61799 -0 0</pose>
       <inertial>
         <pose>0.056661 -0.015294 -0.008298 0 -0 0</pose>
@@ -777,7 +379,7 @@
           <izz>0.0057269</izz>
         </inertia>
       </inertial>
-      <collision name="LF_HIP_fixed_joint_lump__LF_HFE_collision">
+      <collision name='LF_HIP_fixed_joint_lump__LF_HFE_collision'>
         <pose>0.0599 -0.01196 -0.006905 -3.14159 -1.0472 -1.5708</pose>
         <geometry>
           <cylinder>
@@ -786,26 +388,26 @@
           </cylinder>
         </geometry>
       </collision>
-      <visual name="LF_HIP_fixed_joint_lump__LF_hip_fixed_visual">
+      <visual name='LF_HIP_fixed_joint_lump__LF_hip_fixed_visual'>
         <pose>0 0 0 -2.61799 0 0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/hip_l.dae</uri>
+            <uri>model://anymal_c_simple_description/meshes/hip_l.dae</uri>
           </mesh>
         </geometry>
       </visual>
-      <visual name="LF_HIP_fixed_joint_lump__LF_HFE_visual_1">
+      <visual name='LF_HIP_fixed_joint_lump__LF_HFE_visual_1'>
         <pose>0.0599 -0.072582 -0.041905 -3.14159 0.523599 -1.5708</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/drive.dae</uri>
+            <uri>model://anymal_c_simple_description/meshes/drive.dae</uri>
           </mesh>
         </geometry>
       </visual>
     </link>
-    <joint name="LF_HAA" type="revolute">
+    <joint name='LF_HAA' type='revolute'>
       <child>LF_HIP</child>
       <parent>base</parent>
       <axis>
@@ -825,7 +427,7 @@
         <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="LF_THIGH">
+    <link name='LF_THIGH'>
       <pose>0.3598 0.18781 0 0 -0 1.5708</pose>
       <inertial>
         <pose>0.030815 4.6e-05 -0.245696 0 -0 0</pose>
@@ -839,7 +441,7 @@
           <izz>0.00486108</izz>
         </inertia>
       </inertial>
-      <collision name="LF_THIGH_fixed_joint_lump__LF_thigh_fixed_collision">
+      <collision name='LF_THIGH_fixed_joint_lump__LF_thigh_fixed_collision'>
         <pose>0.04 0 0 1.5708 0 -1.5708</pose>
         <geometry>
           <cylinder>
@@ -848,7 +450,7 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name="LF_THIGH_fixed_joint_lump__LF_thigh_fixed_collision_1">
+      <collision name='LF_THIGH_fixed_joint_lump__LF_thigh_fixed_collision_1'>
         <pose>0.03 0 -0.141314 0 0 -1.5708</pose>
         <geometry>
           <box>
@@ -856,7 +458,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="LF_THIGH_fixed_joint_lump__LF_KFE_collision_2">
+      <collision name='LF_THIGH_fixed_joint_lump__LF_KFE_collision_2'>
         <pose>0.0303 0 -0.285 0 1.5708 0</pose>
         <geometry>
           <cylinder>
@@ -865,26 +467,26 @@
           </cylinder>
         </geometry>
       </collision>
-      <visual name="LF_THIGH_fixed_joint_lump__LF_thigh_fixed_visual">
+      <visual name='LF_THIGH_fixed_joint_lump__LF_thigh_fixed_visual'>
         <pose>0 0 0 0 0 -1.5708</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/thigh.dae</uri>
+            <uri>model://anymal_c_simple_description/meshes/thigh.dae</uri>
           </mesh>
         </geometry>
       </visual>
-      <visual name="LF_THIGH_fixed_joint_lump__LF_KFE_visual_1">
+      <visual name='LF_THIGH_fixed_joint_lump__LF_KFE_visual_1'>
         <pose>0.1003 0 -0.285 0 -0 0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/drive.dae</uri>
+            <uri>model://anymal_c_simple_description/meshes/drive.dae</uri>
           </mesh>
         </geometry>
       </visual>
     </link>
-    <joint name="LF_HFE" type="revolute">
+    <joint name='LF_HFE' type='revolute'>
       <child>LF_THIGH</child>
       <parent>LF_HIP</parent>
       <axis>
@@ -904,7 +506,7 @@
         <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="LF_SHANK">
+    <link name='LF_SHANK'>
       <pose>0.3598 0.28811 -0.285 0 -0 1.5708</pose>
       <inertial>
         <pose>0.005462 -0.061253 -0.08066 0 -0 0</pose>
@@ -918,7 +520,7 @@
           <izz>0.00154978</izz>
         </inertia>
       </inertial>
-      <collision name="LF_SHANK_fixed_joint_lump__LF_shank_fixed_collision">
+      <collision name='LF_SHANK_fixed_joint_lump__LF_shank_fixed_collision'>
         <pose>0.02 0 0 1.5708 0 -1.5708</pose>
         <geometry>
           <cylinder>
@@ -927,7 +529,7 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name="LF_SHANK_fixed_joint_lump__LF_shank_fixed_collision_1">
+      <collision name='LF_SHANK_fixed_joint_lump__LF_shank_fixed_collision_1'>
         <pose>0.02 -0.057499 0 1.5708 0 -1.5708</pose>
         <geometry>
           <box>
@@ -935,7 +537,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="LF_SHANK_fixed_joint_lump__LF_FOOT_collision_2">
+      <collision name='LF_SHANK_fixed_joint_lump__LF_FOOT_collision_2'>
         <pose>0.01305 -0.08795 -0.168985 0 0 -1.5708</pose>
         <geometry>
           <cylinder>
@@ -944,7 +546,7 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name="LF_SHANK_fixed_joint_lump__LF_FOOT_collision_3">
+      <collision name='LF_SHANK_fixed_joint_lump__LF_FOOT_collision_3'>
         <pose>0.01305 -0.08795 -0.31547 0 0 -1.5708</pose>
         <geometry>
           <sphere>
@@ -952,26 +554,26 @@
           </sphere>
         </geometry>
       </collision>
-      <visual name="LF_SHANK_fixed_joint_lump__LF_shank_fixed_visual">
+      <visual name='LF_SHANK_fixed_joint_lump__LF_shank_fixed_visual'>
         <pose>0 0 0 0 0 -1.5708</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/shank_l.dae</uri>
+            <uri>model://anymal_c_simple_description/meshes/shank_l.dae</uri>
           </mesh>
         </geometry>
       </visual>
-      <visual name="LF_SHANK_fixed_joint_lump__LF_FOOT_visual_1">
+      <visual name='LF_SHANK_fixed_joint_lump__LF_FOOT_visual_1'>
         <pose>0.01305 -0.08795 -0.33797 0 0 -2.35619</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/foot.dae</uri>
+            <uri>model://anymal_c_simple_description/meshes/foot.dae</uri>
           </mesh>
         </geometry>
       </visual>
     </link>
-    <joint name="LF_KFE" type="revolute">
+    <joint name='LF_KFE' type='revolute'>
       <child>LF_SHANK</child>
       <parent>LF_THIGH</parent>
       <axis>
@@ -991,7 +593,7 @@
         <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="LH_HIP">
+    <link name='LH_HIP'>
       <pose>-0.2999 0.104 0 -2.61799 -0 3.14159</pose>
       <inertial>
         <pose>0.056763 0.015294 -0.008298 0 -0 0</pose>
@@ -1005,7 +607,7 @@
           <izz>0.00572872</izz>
         </inertia>
       </inertial>
-      <collision name="LH_HIP_fixed_joint_lump__LH_HFE_collision">
+      <collision name='LH_HIP_fixed_joint_lump__LH_HFE_collision'>
         <pose>0.0599 0.01196 -0.006905 -3.14159 -1.0472 1.5708</pose>
         <geometry>
           <cylinder>
@@ -1014,26 +616,26 @@
           </cylinder>
         </geometry>
       </collision>
-      <visual name="LH_HIP_fixed_joint_lump__LH_hip_fixed_visual">
+      <visual name='LH_HIP_fixed_joint_lump__LH_hip_fixed_visual'>
         <pose>0 0 0 2.61799 0 -0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/hip_r.dae</uri>
+            <uri>model://anymal_c_simple_description/meshes/hip_r.dae</uri>
           </mesh>
         </geometry>
       </visual>
-      <visual name="LH_HIP_fixed_joint_lump__LH_HFE_visual_1">
+      <visual name='LH_HIP_fixed_joint_lump__LH_HFE_visual_1'>
         <pose>0.0599 0.072582 -0.041905 -3.14159 0.523599 1.5708</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/drive.dae</uri>
+            <uri>model://anymal_c_simple_description/meshes/drive.dae</uri>
           </mesh>
         </geometry>
       </visual>
     </link>
-    <joint name="LH_HAA" type="revolute">
+    <joint name='LH_HAA' type='revolute'>
       <child>LH_HIP</child>
       <parent>base</parent>
       <axis>
@@ -1053,7 +655,7 @@
         <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="LH_THIGH">
+    <link name='LH_THIGH'>
       <pose>-0.3598 0.18781 0 0 0 1.5708</pose>
       <inertial>
         <pose>0.030815 4.6e-05 -0.245696 0 -0 0</pose>
@@ -1067,7 +669,7 @@
           <izz>0.00486108</izz>
         </inertia>
       </inertial>
-      <collision name="LH_THIGH_fixed_joint_lump__LH_thigh_fixed_collision">
+      <collision name='LH_THIGH_fixed_joint_lump__LH_thigh_fixed_collision'>
         <pose>0.04 0 0 1.5708 0 -1.5708</pose>
         <geometry>
           <cylinder>
@@ -1076,7 +678,7 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name="LH_THIGH_fixed_joint_lump__LH_thigh_fixed_collision_1">
+      <collision name='LH_THIGH_fixed_joint_lump__LH_thigh_fixed_collision_1'>
         <pose>0.03 0 -0.141314 0 0 -1.5708</pose>
         <geometry>
           <box>
@@ -1084,7 +686,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="LH_THIGH_fixed_joint_lump__LH_KFE_collision_2">
+      <collision name='LH_THIGH_fixed_joint_lump__LH_KFE_collision_2'>
         <pose>0.0303 0 -0.285 0 1.5708 0</pose>
         <geometry>
           <cylinder>
@@ -1093,26 +695,26 @@
           </cylinder>
         </geometry>
       </collision>
-      <visual name="LH_THIGH_fixed_joint_lump__LH_thigh_fixed_visual">
+      <visual name='LH_THIGH_fixed_joint_lump__LH_thigh_fixed_visual'>
         <pose>0 0 0 0 0 -1.5708</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/thigh.dae</uri>
+            <uri>model://anymal_c_simple_description/meshes/thigh.dae</uri>
           </mesh>
         </geometry>
       </visual>
-      <visual name="LH_THIGH_fixed_joint_lump__LH_KFE_visual_1">
+      <visual name='LH_THIGH_fixed_joint_lump__LH_KFE_visual_1'>
         <pose>0.1003 0 -0.285 0 -0 0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/drive.dae</uri>
+            <uri>model://anymal_c_simple_description/meshes/drive.dae</uri>
           </mesh>
         </geometry>
       </visual>
     </link>
-    <joint name="LH_HFE" type="revolute">
+    <joint name='LH_HFE' type='revolute'>
       <child>LH_THIGH</child>
       <parent>LH_HIP</parent>
       <axis>
@@ -1132,7 +734,7 @@
         <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="LH_SHANK">
+    <link name='LH_SHANK'>
       <pose>-0.3598 0.28811 -0.285 0 0 1.5708</pose>
       <inertial>
         <pose>0.005462 0.061253 -0.08066 0 -0 0</pose>
@@ -1146,7 +748,7 @@
           <izz>0.00154978</izz>
         </inertia>
       </inertial>
-      <collision name="LH_SHANK_fixed_joint_lump__LH_shank_fixed_collision">
+      <collision name='LH_SHANK_fixed_joint_lump__LH_shank_fixed_collision'>
         <pose>0.02 0 0 1.5708 0 -1.5708</pose>
         <geometry>
           <cylinder>
@@ -1155,7 +757,7 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name="LH_SHANK_fixed_joint_lump__LH_shank_fixed_collision_1">
+      <collision name='LH_SHANK_fixed_joint_lump__LH_shank_fixed_collision_1'>
         <pose>0.02 0.057499 0 1.5708 0 -1.5708</pose>
         <geometry>
           <box>
@@ -1163,7 +765,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="LH_SHANK_fixed_joint_lump__LH_FOOT_collision_2">
+      <collision name='LH_SHANK_fixed_joint_lump__LH_FOOT_collision_2'>
         <pose>0.01305 0.08795 -0.168985 0 0 -1.5708</pose>
         <geometry>
           <cylinder>
@@ -1172,7 +774,7 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name="LH_SHANK_fixed_joint_lump__LH_FOOT_collision_3">
+      <collision name='LH_SHANK_fixed_joint_lump__LH_FOOT_collision_3'>
         <pose>0.01305 0.08795 -0.31547 0 0 -1.5708</pose>
         <geometry>
           <sphere>
@@ -1180,26 +782,26 @@
           </sphere>
         </geometry>
       </collision>
-      <visual name="LH_SHANK_fixed_joint_lump__LH_shank_fixed_visual">
+      <visual name='LH_SHANK_fixed_joint_lump__LH_shank_fixed_visual'>
         <pose>0 0 0 0 -0 1.5708</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/shank_r.dae</uri>
+            <uri>model://anymal_c_simple_description/meshes/shank_r.dae</uri>
           </mesh>
         </geometry>
       </visual>
-      <visual name="LH_SHANK_fixed_joint_lump__LH_FOOT_visual_1">
+      <visual name='LH_SHANK_fixed_joint_lump__LH_FOOT_visual_1'>
         <pose>0.01305 0.08795 -0.33797 0 -0 2.35619</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/foot.dae</uri>
+            <uri>model://anymal_c_simple_description/meshes/foot.dae</uri>
           </mesh>
         </geometry>
       </visual>
     </link>
-    <joint name="LH_KFE" type="revolute">
+    <joint name='LH_KFE' type='revolute'>
       <child>LH_SHANK</child>
       <parent>LH_THIGH</parent>
       <axis>
@@ -1219,7 +821,7 @@
         <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="RF_HIP">
+    <link name='RF_HIP'>
       <pose>0.2999 -0.104 0 -2.61799 0 0</pose>
       <inertial>
         <pose>0.056763 0.015294 -0.008298 0 -0 0</pose>
@@ -1233,7 +835,7 @@
           <izz>0.00572872</izz>
         </inertia>
       </inertial>
-      <collision name="RF_HIP_fixed_joint_lump__RF_HFE_collision">
+      <collision name='RF_HIP_fixed_joint_lump__RF_HFE_collision'>
         <pose>0.0599 0.01196 -0.006905 3.14159 -1.0472 1.5708</pose>
         <geometry>
           <cylinder>
@@ -1242,26 +844,26 @@
           </cylinder>
         </geometry>
       </collision>
-      <visual name="RF_HIP_fixed_joint_lump__RF_hip_fixed_visual">
+      <visual name='RF_HIP_fixed_joint_lump__RF_hip_fixed_visual'>
         <pose>0 0 0 2.61799 -0 0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/hip_r.dae</uri>
+            <uri>model://anymal_c_simple_description/meshes/hip_r.dae</uri>
           </mesh>
         </geometry>
       </visual>
-      <visual name="RF_HIP_fixed_joint_lump__RF_HFE_visual_1">
+      <visual name='RF_HIP_fixed_joint_lump__RF_HFE_visual_1'>
         <pose>0.0599 0.072582 -0.041905 3.14159 0.523599 1.5708</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/drive.dae</uri>
+            <uri>model://anymal_c_simple_description/meshes/drive.dae</uri>
           </mesh>
         </geometry>
       </visual>
     </link>
-    <joint name="RF_HAA" type="revolute">
+    <joint name='RF_HAA' type='revolute'>
       <child>RF_HIP</child>
       <parent>base</parent>
       <axis>
@@ -1281,7 +883,7 @@
         <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="RF_THIGH">
+    <link name='RF_THIGH'>
       <pose>0.3598 -0.18781 0 0 0 -1.5708</pose>
       <inertial>
         <pose>0.030815 4.6e-05 -0.245696 0 -0 0</pose>
@@ -1295,7 +897,7 @@
           <izz>0.00486108</izz>
         </inertia>
       </inertial>
-      <collision name="RF_THIGH_fixed_joint_lump__RF_thigh_fixed_collision">
+      <collision name='RF_THIGH_fixed_joint_lump__RF_thigh_fixed_collision'>
         <pose>0.04 -0 0 1.5708 -0 1.5708</pose>
         <geometry>
           <cylinder>
@@ -1304,7 +906,7 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name="RF_THIGH_fixed_joint_lump__RF_thigh_fixed_collision_1">
+      <collision name='RF_THIGH_fixed_joint_lump__RF_thigh_fixed_collision_1'>
         <pose>0.03 -0 -0.141314 0 -0 1.5708</pose>
         <geometry>
           <box>
@@ -1312,7 +914,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="RF_THIGH_fixed_joint_lump__RF_KFE_collision_2">
+      <collision name='RF_THIGH_fixed_joint_lump__RF_KFE_collision_2'>
         <pose>0.0303 -0 -0.285 0 1.5708 0</pose>
         <geometry>
           <cylinder>
@@ -1321,26 +923,26 @@
           </cylinder>
         </geometry>
       </collision>
-      <visual name="RF_THIGH_fixed_joint_lump__RF_thigh_fixed_visual">
+      <visual name='RF_THIGH_fixed_joint_lump__RF_thigh_fixed_visual'>
         <pose>0 0 0 0 0 -1.5708</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/thigh.dae</uri>
+            <uri>model://anymal_c_simple_description/meshes/thigh.dae</uri>
           </mesh>
         </geometry>
       </visual>
-      <visual name="RF_THIGH_fixed_joint_lump__RF_KFE_visual_1">
+      <visual name='RF_THIGH_fixed_joint_lump__RF_KFE_visual_1'>
         <pose>0.1003 -0 -0.285 0 -0 0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/drive.dae</uri>
+            <uri>model://anymal_c_simple_description/meshes/drive.dae</uri>
           </mesh>
         </geometry>
       </visual>
     </link>
-    <joint name="RF_HFE" type="revolute">
+    <joint name='RF_HFE' type='revolute'>
       <child>RF_THIGH</child>
       <parent>RF_HIP</parent>
       <axis>
@@ -1360,7 +962,7 @@
         <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="RF_SHANK">
+    <link name='RF_SHANK'>
       <pose>0.3598 -0.28811 -0.285 0 0 -1.5708</pose>
       <inertial>
         <pose>0.005462 0.061253 -0.08066 0 -0 0</pose>
@@ -1374,7 +976,7 @@
           <izz>0.00154978</izz>
         </inertia>
       </inertial>
-      <collision name="RF_SHANK_fixed_joint_lump__RF_shank_fixed_collision">
+      <collision name='RF_SHANK_fixed_joint_lump__RF_shank_fixed_collision'>
         <pose>0.02 -0 0 1.5708 -0 1.5708</pose>
         <geometry>
           <cylinder>
@@ -1383,7 +985,7 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name="RF_SHANK_fixed_joint_lump__RF_shank_fixed_collision_1">
+      <collision name='RF_SHANK_fixed_joint_lump__RF_shank_fixed_collision_1'>
         <pose>0.02 0.057499 0 1.5708 -0 1.5708</pose>
         <geometry>
           <box>
@@ -1391,7 +993,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="RF_SHANK_fixed_joint_lump__RF_FOOT_collision_2">
+      <collision name='RF_SHANK_fixed_joint_lump__RF_FOOT_collision_2'>
         <pose>0.01305 0.08795 -0.168985 0 -0 1.5708</pose>
         <geometry>
           <cylinder>
@@ -1400,7 +1002,7 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name="RF_SHANK_fixed_joint_lump__RF_FOOT_collision_3">
+      <collision name='RF_SHANK_fixed_joint_lump__RF_FOOT_collision_3'>
         <pose>0.01305 0.08795 -0.31547 0 -0 1.5708</pose>
         <geometry>
           <sphere>
@@ -1408,26 +1010,26 @@
           </sphere>
         </geometry>
       </collision>
-      <visual name="RF_SHANK_fixed_joint_lump__RF_shank_fixed_visual">
+      <visual name='RF_SHANK_fixed_joint_lump__RF_shank_fixed_visual'>
         <pose>0 0 0 0 -0 1.5708</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/shank_r.dae</uri>
+            <uri>model://anymal_c_simple_description/meshes/shank_r.dae</uri>
           </mesh>
         </geometry>
       </visual>
-      <visual name="RF_SHANK_fixed_joint_lump__RF_FOOT_visual_1">
+      <visual name='RF_SHANK_fixed_joint_lump__RF_FOOT_visual_1'>
         <pose>0.01305 0.08795 -0.33797 0 -0 2.35619</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/foot.dae</uri>
+            <uri>model://anymal_c_simple_description/meshes/foot.dae</uri>
           </mesh>
         </geometry>
       </visual>
     </link>
-    <joint name="RF_KFE" type="revolute">
+    <joint name='RF_KFE' type='revolute'>
       <child>RF_SHANK</child>
       <parent>RF_THIGH</parent>
       <axis>
@@ -1447,7 +1049,7 @@
         <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="RH_HIP">
+    <link name='RH_HIP'>
       <pose>-0.2999 -0.104 0 2.61799 0 3.14159</pose>
       <inertial>
         <pose>0.056661 -0.015294 -0.008298 0 -0 0</pose>
@@ -1461,7 +1063,7 @@
           <izz>0.0057269</izz>
         </inertia>
       </inertial>
-      <collision name="RH_HIP_fixed_joint_lump__RH_HFE_collision">
+      <collision name='RH_HIP_fixed_joint_lump__RH_HFE_collision'>
         <pose>0.0599 -0.01196 -0.006905 3.14159 -1.0472 -1.5708</pose>
         <geometry>
           <cylinder>
@@ -1470,26 +1072,26 @@
           </cylinder>
         </geometry>
       </collision>
-      <visual name="RH_HIP_fixed_joint_lump__RH_hip_fixed_visual">
+      <visual name='RH_HIP_fixed_joint_lump__RH_hip_fixed_visual'>
         <pose>0 0 0 -2.61799 -0 -0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/hip_l.dae</uri>
+            <uri>model://anymal_c_simple_description/meshes/hip_l.dae</uri>
           </mesh>
         </geometry>
       </visual>
-      <visual name="RH_HIP_fixed_joint_lump__RH_HFE_visual_1">
+      <visual name='RH_HIP_fixed_joint_lump__RH_HFE_visual_1'>
         <pose>0.0599 -0.072582 -0.041905 3.14159 0.523599 -1.5708</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/drive.dae</uri>
+            <uri>model://anymal_c_simple_description/meshes/drive.dae</uri>
           </mesh>
         </geometry>
       </visual>
     </link>
-    <joint name="RH_HAA" type="revolute">
+    <joint name='RH_HAA' type='revolute'>
       <child>RH_HIP</child>
       <parent>base</parent>
       <axis>
@@ -1509,7 +1111,7 @@
         <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="RH_THIGH">
+    <link name='RH_THIGH'>
       <pose>-0.3598 -0.18781 -0 0 -0 -1.5708</pose>
       <inertial>
         <pose>0.030815 4.6e-05 -0.245696 0 -0 0</pose>
@@ -1523,7 +1125,7 @@
           <izz>0.00486108</izz>
         </inertia>
       </inertial>
-      <collision name="RH_THIGH_fixed_joint_lump__RH_thigh_fixed_collision">
+      <collision name='RH_THIGH_fixed_joint_lump__RH_thigh_fixed_collision'>
         <pose>0.04 -0 0 1.5708 -0 1.5708</pose>
         <geometry>
           <cylinder>
@@ -1532,7 +1134,7 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name="RH_THIGH_fixed_joint_lump__RH_thigh_fixed_collision_1">
+      <collision name='RH_THIGH_fixed_joint_lump__RH_thigh_fixed_collision_1'>
         <pose>0.03 -0 -0.141314 0 -0 1.5708</pose>
         <geometry>
           <box>
@@ -1540,7 +1142,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="RH_THIGH_fixed_joint_lump__RH_KFE_collision_2">
+      <collision name='RH_THIGH_fixed_joint_lump__RH_KFE_collision_2'>
         <pose>0.0303 -0 -0.285 0 1.5708 0</pose>
         <geometry>
           <cylinder>
@@ -1549,26 +1151,26 @@
           </cylinder>
         </geometry>
       </collision>
-      <visual name="RH_THIGH_fixed_joint_lump__RH_thigh_fixed_visual">
+      <visual name='RH_THIGH_fixed_joint_lump__RH_thigh_fixed_visual'>
         <pose>0 0 0 0 0 -1.5708</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/thigh.dae</uri>
+            <uri>model://anymal_c_simple_description/meshes/thigh.dae</uri>
           </mesh>
         </geometry>
       </visual>
-      <visual name="RH_THIGH_fixed_joint_lump__RH_KFE_visual_1">
+      <visual name='RH_THIGH_fixed_joint_lump__RH_KFE_visual_1'>
         <pose>0.1003 -0 -0.285 0 -0 0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/drive.dae</uri>
+            <uri>model://anymal_c_simple_description/meshes/drive.dae</uri>
           </mesh>
         </geometry>
       </visual>
     </link>
-    <joint name="RH_HFE" type="revolute">
+    <joint name='RH_HFE' type='revolute'>
       <child>RH_THIGH</child>
       <parent>RH_HIP</parent>
       <axis>
@@ -1588,7 +1190,7 @@
         <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="RH_SHANK">
+    <link name='RH_SHANK'>
       <pose>-0.3598 -0.28811 -0.285 0 -0 -1.5708</pose>
       <inertial>
         <pose>0.005462 -0.061253 -0.08066 0 -0 0</pose>
@@ -1602,7 +1204,7 @@
           <izz>0.00154978</izz>
         </inertia>
       </inertial>
-      <collision name="RH_SHANK_fixed_joint_lump__RH_shank_fixed_collision">
+      <collision name='RH_SHANK_fixed_joint_lump__RH_shank_fixed_collision'>
         <pose>0.02 -0 0 1.5708 -0 1.5708</pose>
         <geometry>
           <cylinder>
@@ -1611,7 +1213,7 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name="RH_SHANK_fixed_joint_lump__RH_shank_fixed_collision_1">
+      <collision name='RH_SHANK_fixed_joint_lump__RH_shank_fixed_collision_1'>
         <pose>0.02 -0.057499 0 1.5708 -0 1.5708</pose>
         <geometry>
           <box>
@@ -1619,7 +1221,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="RH_SHANK_fixed_joint_lump__RH_FOOT_collision_2">
+      <collision name='RH_SHANK_fixed_joint_lump__RH_FOOT_collision_2'>
         <pose>0.01305 -0.08795 -0.168985 0 -0 1.5708</pose>
         <geometry>
           <cylinder>
@@ -1628,7 +1230,7 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name="RH_SHANK_fixed_joint_lump__RH_FOOT_collision_3">
+      <collision name='RH_SHANK_fixed_joint_lump__RH_FOOT_collision_3'>
         <pose>0.01305 -0.08795 -0.31547 0 -0 1.5708</pose>
         <geometry>
           <sphere>
@@ -1636,26 +1238,26 @@
           </sphere>
         </geometry>
       </collision>
-      <visual name="RH_SHANK_fixed_joint_lump__RH_shank_fixed_visual">
+      <visual name='RH_SHANK_fixed_joint_lump__RH_shank_fixed_visual'>
         <pose>0 0 0 0 0 -1.5708</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/shank_l.dae</uri>
+            <uri>model://anymal_c_simple_description/meshes/shank_l.dae</uri>
           </mesh>
         </geometry>
       </visual>
-      <visual name="RH_SHANK_fixed_joint_lump__RH_FOOT_visual_1">
+      <visual name='RH_SHANK_fixed_joint_lump__RH_FOOT_visual_1'>
         <pose>0.01305 -0.08795 -0.33797 0 0 -2.35619</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/foot.dae</uri>
+            <uri>model://anymal_c_simple_description/meshes/foot.dae</uri>
           </mesh>
         </geometry>
       </visual>
     </link>
-    <joint name="RH_KFE" type="revolute">
+    <joint name='RH_KFE' type='revolute'>
       <child>RH_SHANK</child>
       <parent>RH_THIGH</parent>
       <axis>

@@ -66,29 +66,43 @@
     <node
       pkg="ros_ign_bridge"
       type="parameter_bridge"
-      name="ros_ign_bridge_lidar3d"
+      name="ros_ign_bridge_lidar3d_front_laser"
       args="$(arg sensor_prefix)/front_laser/scan/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
       <remap from="$(arg sensor_prefix)/front_laser/scan/points" to="front_laser/points"/>
     </node>
 
     <!-- Front BPearl -->
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_lidar3d_front_bpearl"
+      args="$(arg sensor_prefix)/front_bpearl/scan/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
+      <remap from="$(arg sensor_prefix)/front_bpearl/scan/points" to="front_bpearl/points"/>
+    </node>
 
     <!-- Rear BPearl -->
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_lidar3d_rear_bpearl"
+      args="$(arg sensor_prefix)/rear_bpearl/scan/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
+      <remap from="$(arg sensor_prefix)/rear_bpearl/scan/points" to="rear_bpearl/points"/>
+    </node>
 
     <!-- Perception Head -->
     <!-- Camera 0, monochrome forward left -->
     <node
       pkg="ros_ign_bridge"
       type="parameter_bridge"
-      name="ros_ign_bridge_back_right_camera"
-      args="$(arg sensor_prefix)/camera_back_right/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+      name="ros_ign_bridge_camera_0"
+      args="$(arg sensor_prefix)/camera_0/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
       <remap from="$(arg sensor_prefix)/camera_0/camera_info" to="camera_0/camera_info"/>
     </node>
     <node
       pkg="ros_ign_image"
       type="image_bridge"
-      name="ros_ign_image_back_right_camera"
-      args="$(arg sensor_prefix)/camera_back_right/image">
+      name="ros_ign_image_camera_0"
+      args="$(arg sensor_prefix)/camera_0/image">
       <remap from="$(arg sensor_prefix)/camera_0/image" to="camera_0/image_raw"/>
     </node>
 
@@ -96,15 +110,15 @@
     <node
       pkg="ros_ign_bridge"
       type="parameter_bridge"
-      name="ros_ign_bridge_back_right_camera"
-      args="$(arg sensor_prefix)/camera_back_right/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+      name="ros_ign_bridge_camera_1"
+      args="$(arg sensor_prefix)/camera_1/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
       <remap from="$(arg sensor_prefix)/camera_1/camera_info" to="camera_1/camera_info"/>
     </node>
     <node
       pkg="ros_ign_image"
       type="image_bridge"
-      name="ros_ign_image_back_right_camera"
-      args="$(arg sensor_prefix)/camera_back_right/image">
+      name="ros_ign_image_camera_1"
+      args="$(arg sensor_prefix)/camera_1/image">
       <remap from="$(arg sensor_prefix)/camera_1/image" to="camera_1/image_raw"/>
     </node>
 
@@ -112,15 +126,15 @@
     <node
       pkg="ros_ign_bridge"
       type="parameter_bridge"
-      name="ros_ign_bridge_back_right_camera"
-      args="$(arg sensor_prefix)/camera_back_right/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+      name="ros_ign_bridge_camera_2"
+      args="$(arg sensor_prefix)/camera_2/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
       <remap from="$(arg sensor_prefix)/camera_2/camera_info" to="camera_2/camera_info"/>
     </node>
     <node
       pkg="ros_ign_image"
       type="image_bridge"
-      name="ros_ign_image_back_right_camera"
-      args="$(arg sensor_prefix)/camera_back_right/image">
+      name="ros_ign_image_camera_2"
+      args="$(arg sensor_prefix)/camera_2/image">
       <remap from="$(arg sensor_prefix)/camera_2/image" to="camera_2/image_raw"/>
     </node>
 
@@ -128,15 +142,15 @@
     <node
       pkg="ros_ign_bridge"
       type="parameter_bridge"
-      name="ros_ign_bridge_back_right_camera"
-      args="$(arg sensor_prefix)/camera_back_right/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+      name="ros_ign_bridge_camera_3"
+      args="$(arg sensor_prefix)/camera_3/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
       <remap from="$(arg sensor_prefix)/camera_3/camera_info" to="camera_3/camera_info"/>
     </node>
     <node
       pkg="ros_ign_image"
       type="image_bridge"
-      name="ros_ign_image_back_right_camera"
-      args="$(arg sensor_prefix)/camera_back_right/image">
+      name="ros_ign_image_camera_3"
+      args="$(arg sensor_prefix)/camera_3/image">
       <remap from="$(arg sensor_prefix)/camera_3/image" to="camera_3/image_raw"/>
     </node>
 
@@ -144,15 +158,15 @@
     <node
       pkg="ros_ign_bridge"
       type="parameter_bridge"
-      name="ros_ign_bridge_back_right_camera"
-      args="$(arg sensor_prefix)/camera_back_right/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+      name="ros_ign_bridge_camera_4"
+      args="$(arg sensor_prefix)/camera_4/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
       <remap from="$(arg sensor_prefix)/camera_4/camera_info" to="camera_4/camera_info"/>
     </node>
     <node
       pkg="ros_ign_image"
       type="image_bridge"
-      name="ros_ign_image_back_right_camera"
-      args="$(arg sensor_prefix)/camera_back_right/image">
+      name="ros_ign_image_camera_4"
+      args="$(arg sensor_prefix)/camera_4/image">
       <remap from="$(arg sensor_prefix)/camera_4/image" to="camera_4/image_raw"/>
     </node>
 
@@ -160,15 +174,15 @@
     <node
       pkg="ros_ign_bridge"
       type="parameter_bridge"
-      name="ros_ign_bridge_back_right_camera"
-      args="$(arg sensor_prefix)/camera_back_right/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+      name="ros_ign_bridge_camera_5"
+      args="$(arg sensor_prefix)/camera_5/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
       <remap from="$(arg sensor_prefix)/camera_5/camera_info" to="camera_5/camera_info"/>
     </node>
     <node
       pkg="ros_ign_image"
       type="image_bridge"
-      name="ros_ign_image_back_right_camera"
-      args="$(arg sensor_prefix)/camera_back_right/image">
+      name="ros_ign_image_camera_5"
+      args="$(arg sensor_prefix)/camera_5/image">
       <remap from="$(arg sensor_prefix)/camera_5/image" to="camera_5/image_raw"/>
     </node>
 
@@ -176,15 +190,15 @@
     <node
       pkg="ros_ign_bridge"
       type="parameter_bridge"
-      name="ros_ign_bridge_back_right_camera"
-      args="$(arg sensor_prefix)/camera_back_right/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+      name="ros_ign_bridge_camera_6"
+      args="$(arg sensor_prefix)/camera_6/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
       <remap from="$(arg sensor_prefix)/camera_6/camera_info" to="camera_6/camera_info"/>
     </node>
     <node
       pkg="ros_ign_image"
       type="image_bridge"
-      name="ros_ign_image_back_right_camera"
-      args="$(arg sensor_prefix)/camera_back_right/image">
+      name="ros_ign_image_camera_6"
+      args="$(arg sensor_prefix)/camera_6/image">
       <remap from="$(arg sensor_prefix)/camera_6/image" to="camera_6/image_raw"/>
     </node>
 
@@ -192,7 +206,7 @@
     <node
       pkg="ros_ign_bridge"
       type="parameter_bridge"
-      name="ros_ign_bridge_imu"
+      name="ros_ign_bridge_perception_head_imu"
       args="$(arg sensor_prefix)/perception_head_imu_sensor/imu@sensor_msgs/Imu[ignition.msgs.IMU">
       <remap from="$(arg sensor_prefix)/perception_head_imu_sensor/imu" to="perception_head_imu/data"/>
     </node>
