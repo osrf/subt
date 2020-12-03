@@ -44,7 +44,7 @@ The software included in this package is released under a [BSD 3-Clause license]
 ANYmal model is adapted from [anymal_c_simple_description](https://github.com/ANYbotics/anymal_c_simple_description) repository, released under BSD 3-Clause license.
 
 ### Cost and Scale
-The CERBERUS ANYmal robot is a research platform and its cost is not publicly available at the moment. It weighs approximately TODO kg.
+The CERBERUS ANYmal robot is a research platform and its cost is not publicly available at the moment. It weighs approximately 55 kg.
 
 ### Sensors
 This ANYmal with sensor configuration 1 includes the following sensors. The specifications for these instruments are provided below in the [Validation Links](#markdown-header-anymal-validation-and-specification-links) section.
@@ -63,18 +63,18 @@ TODO what does it do
 ### Motion Characteristics
 Based on the tests specified in the DARPA SubT Challenge [Model Preparation Guide](https://subtchallenge.com/resources/Simulation_Model_Preparation_Guide.pdf), this vehicle has the following motion constraint characteristics.
 
-*  _x_ velocity range from TODO m/s to TODO m/s
-*  _y_ velocity range from TODO m/s to TODO m/s
+*  _x_ velocity range from -0.709 m/s to 0.704 m/s
+*  _y_ velocity range from -0.716 m/s to 0.715 m/s
 *  _z_ velocity range from 0 m/s to 0 m/s
-*  _x_ acceleration range from TODO m/(s*s) to TODO m/(s*s)
-*  _y_ acceleration range from TODO m/(s*s) to TODO m/(s*s)
+*  _x_ acceleration range from -0.756 m/(s*s) to 0.903 m/(s*s)
+*  _y_ acceleration range from -0.736 m/(s*s) to 0.953 m/(s*s)
 *  _z_ acceleration range from 0 m/(s*s) to 0 m/(s*s)
 *  Turning radius of 0 m (can rotate on the spot)
 
 ### Endurance Characteristics
 Based on the tests specified in the DARPA SubT Challenge [Model Preparation Guide](https://subtchallenge.com/resources/Simulation_Model_Preparation_Guide.pdf), this vehicle has the following endurance characteristics.
 
-* Battery life of TODO seconds
+* Battery life of 4200 seconds
 
 ### Diversions from Physical Hardware of ANYmal
 The following points highlight the differences between the submitted virtual model and its hardware counterpart.
@@ -87,7 +87,7 @@ The following points highlight the differences between the submitted virtual mod
 * [ANYbotics](https://www.anybotics.com/)
 * [Real World telemetry data]() TODO
 * [Real World telemetry data video]() TODO
-* [ANYmal weigth]() TODO
+* [ANYmal weigth](https://drive.google.com/file/d/1zJPQx23A_2rpEeE7_yEe7X13pZEPaJBG/view?usp=sharing)
 * [TODO IMU]
 * [LIDAR - Velodyne VLP-16](https://velodynelidar.com/products/puck/)
 * [LIDAR - Robosense RS-Bpearl](https://www.robosense.ai/rslidar/rs-bpearl)
