@@ -52,7 +52,7 @@ This ANYmal with sensor configuration 1 includes the following sensors. The spec
 * Onboard IMU - TODO, modeled by `imu` plugin
 * LIDAR - Velodyne VLP-16, modeled by `gpu_lidar` plugin
 * LIDAR - Robosense RS-Bpearl, modeled by `gpu_lidar` plugin
-* Perception Head - Alphasense, modeled by `imu` and `camera` plugin
+* VIO Perception Head - Alphasense, modeled by `imu` and `camera` plugin
 * 12 communication breadcrumbs are also available as a payload for this robot in sensor configuration 2.
 
 ### Control
@@ -72,13 +72,14 @@ Based on the tests specified in the DARPA SubT Challenge [Model Preparation Guid
 *  Turning radius of 0 m (can rotate on the spot)
 
 ### Endurance Characteristics
-Based on the tests specified in the DARPA SubT Challenge, this vehicle has the following endurance characteristics.
+Based on the tests specified in the DARPA SubT Challenge [Model Preparation Guide](https://subtchallenge.com/resources/Simulation_Model_Preparation_Guide.pdf), this vehicle has the following endurance characteristics.
 
 * Battery life of TODO seconds
 
 ### Diversions from Physical Hardware of ANYmal
 The following points highlight the differences between the submitted virtual model and its hardware counterpart.
 
+* The perception head features 3 gray scale and 4 color cameras. These cameras are modeled as color cameras only.
 * The physical robot carries 4 communication breadcrumbs. 12 breadcrumbs are included in sensor configuration 2, which is standardized to match other available models.
 
 ## ANYmal Validation and Specification Links
@@ -87,6 +88,7 @@ The following points highlight the differences between the submitted virtual mod
 * [Real World telemetry data]() TODO
 * [Real World telemetry data video]() TODO
 * [ANYmal weigth]() TODO
+* [TODO IMU]
 * [LIDAR - Velodyne VLP-16](https://velodynelidar.com/products/puck/)
 * [LIDAR - Robosense RS-Bpearl](https://www.robosense.ai/rslidar/rs-bpearl)
-* [Perception Head - Alphasense](https://github.com/sevensense-robotics/alphasense_core_manual)
+* [VIO Perception Head - Alphasense](https://github.com/sevensense-robotics/alphasense_core_manual)
