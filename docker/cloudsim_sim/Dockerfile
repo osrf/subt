@@ -77,18 +77,6 @@ RUN apt-get update \
     ros-melodic-ros-ign \
  && apt-get clean -qq
 
-# Add a user with the same user_id as the user outside the container
-# Requires a docker build argument `user_id`
-ARG user_id
-ENV USERNAME developer
-RUN useradd -U --uid ${user_id} -ms /bin/bash $USERNAME \
- && echo "$USERNAME:$USERNAME" | chpasswd \
- && adduser $USERNAME sudo \
- && echo "$USERNAME ALL=NOPASSWD: ALL" >> /etc/sudoers.d/$USERNAME
-
-# Commands below run as the developer user
-USER $USERNAME
-
 # Make a couple folders for organizing docker volumes
 RUN mkdir ~/workspaces ~/other
 

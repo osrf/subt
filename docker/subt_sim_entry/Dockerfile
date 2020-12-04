@@ -51,10 +51,6 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu 
  && sudo rosdep init \
  && sudo apt-get clean -qq
 
-ARG user_id
-ENV USERNAME developer
-USER $USERNAME
-
 # Make a couple folders for organizing docker volumes
 RUN mkdir ~/workspaces ~/other
 

@@ -20,10 +20,10 @@ RUN /bin/sh -c 'echo "deb [trusted=yes] http://packages.osrfoundation.org/gazebo
  && /bin/sh -c 'wget http://packages.osrfoundation.org/gazebo.key -O - | apt-key add -' \
  && /bin/sh -c 'apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654'
 
-# install ign-blueprint
+# install ign-citadel
 RUN apt-get update \
 &&  apt-get install -y \
-    ignition-blueprint \
+    ignition-citadel \
  && apt-get clean
 
 # Add a user with the same user_id as the user outside the container
@@ -42,7 +42,7 @@ USER $USERNAME
 WORKDIR /home/$USERNAME
 
 # Download the public models
-RUN ign fuel download -v 4 -j 16 -u "https://fuel.ignitionrobotics.org/OpenRobotics/collections/SubT Tech Repo"
+RUN ign fuel download -v 4 -j 4 --type model -u "https://fuel.ignitionrobotics.org/OpenRobotics/collections/SubT Tech Repo"
 
 # Download niosh models, set 1.
 COPY download_niosh_1.sh ./
@@ -55,3 +55,7 @@ RUN ./download_niosh_2.sh
 # Download niosh models, set 3.
 COPY download_niosh_3.sh ./
 RUN ./download_niosh_3.sh
+
+# Cleanup ignition
+RUN apt-get remove ignition-citadel \
+ && apt-get clean
