@@ -42,20 +42,8 @@ USER $USERNAME
 WORKDIR /home/$USERNAME
 
 # Download the public models
-RUN ign fuel download -v 4 -j 4 --type model -u "https://fuel.ignitionrobotics.org/OpenRobotics/collections/SubT Tech Repo"
-
-# Download niosh models, set 1.
-COPY download_niosh_1.sh ./
-RUN ./download_niosh_1.sh
-
-# Download niosh models, set 2.
-COPY download_niosh_2.sh ./
-RUN ./download_niosh_2.sh
-
-# Download niosh models, set 3.
-COPY download_niosh_3.sh ./
-RUN ./download_niosh_3.sh
+RUN ign fuel download -v 4 -j 8 --type model -u "https://fuel.ignitionrobotics.org/OpenRobotics/collections/SubT Tech Repo"
 
 # Cleanup ignition
-RUN apt-get remove ignition-citadel \
+RUN subt apt-get remove ignition-citadel \
  && apt-get clean
