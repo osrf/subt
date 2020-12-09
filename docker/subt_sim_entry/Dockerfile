@@ -62,39 +62,27 @@ RUN rosdep update
 # sdformat8-sdf conflicts with sdformat-sdf installed from gazebo
 # so we need to workaround this using a force overwrite
 # Do this before installing ign-gazebo
-RUN /bin/sh -c 'echo "deb [trusted=yes] http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list' \
- && /bin/sh -c 'wget http://packages.osrfoundation.org/gazebo.key -O - | apt-key add -' \
- && /bin/sh -c 'apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654'
+RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list' \
+ && sudo /bin/sh -c 'wget http://packages.osrfoundation.org/gazebo.key -O - | apt-key add -' \
+ && sudo /bin/sh -c 'apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654'
 
 # install ign-blueprint
-RUN apt-get update \
-&&  apt-get install -y \
+RUN sudo apt-get update \
+&&  sudo apt-get install -y \
     ignition-blueprint \
- && apt-get clean
+ && sudo apt-get clean
 
 # install the ros to ign bridge
-RUN apt-get update \
- && apt-get install -y \
+RUN sudo apt-get update \
+ && sudo apt-get install -y \
     ros-melodic-ros-ign \
- && apt-get clean -qq
+ && sudo apt-get clean -qq
 
 # Clone all the subt models so that you don't download them every time
 # docker is run
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
  && git clone https://github.com/osrf/subt
-
-# Download niosh models, set 1.
-COPY download_niosh_1.sh ./
-RUN ./download_niosh_1.sh
-
-# Download niosh models, set 2.
-COPY download_niosh_2.sh ./
-RUN ./download_niosh_2.sh
-
-# Download niosh models, set 3.
-COPY download_niosh_3.sh ./
-RUN ./download_niosh_3.sh
 
 WORKDIR /home/$USERNAME/subt_ws
 
