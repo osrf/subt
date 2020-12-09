@@ -85,6 +85,28 @@ using namespace subt;
 
 class subt::GameLogicPluginPrivate
 {
+  /// \brief Mapping between artifact model names and types.
+  public: const std::array<
+          const std::pair<std::string, subt::ArtifactType>, 14> kArtifactNames
+  {
+    {
+      {"backpack",           subt::ArtifactType::TYPE_BACKPACK},
+      {"drill",              subt::ArtifactType::TYPE_DRILL},
+      {"duct",               subt::ArtifactType::TYPE_DUCT},
+      {"electrical_box",     subt::ArtifactType::TYPE_ELECTRICAL_BOX},
+      {"extinguisher",       subt::ArtifactType::TYPE_EXTINGUISHER},
+      {"phone",              subt::ArtifactType::TYPE_PHONE},
+      {"radio",              subt::ArtifactType::TYPE_RADIO},
+      {"rescue_randy",       subt::ArtifactType::TYPE_RESCUE_RANDY},
+      {"toolbox",            subt::ArtifactType::TYPE_TOOLBOX},
+      {"valve",              subt::ArtifactType::TYPE_VALVE},
+      {"vent",               subt::ArtifactType::TYPE_VENT},
+      {"gas",                subt::ArtifactType::TYPE_GAS},
+      {"helmet",             subt::ArtifactType::TYPE_HELMET},
+      {"rope",               subt::ArtifactType::TYPE_ROPE}
+    }
+  };
+
   /// \brief Mapping between enum types and strings.
   public: const std::array<
       const std::pair<subt::ArtifactType, std::string>, 14> kArtifactTypes
@@ -154,10 +176,6 @@ class subt::GameLogicPluginPrivate
   /// \param[in] _req The service request.
   public: bool OnNewArtifact(const subt::msgs::Artifact &_req,
                              subt::msgs::ArtifactScore &_resp);
-
-  /// \brief Parse all the artifacts.
-  /// \param[in] _sdf The SDF element containing the artifacts.
-  public: void ParseArtifacts(const std::shared_ptr<const sdf::Element> &_sdf);
 
   /// \brief Publish the score.
   /// \param[in] _event Unused.
@@ -708,8 +726,6 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
   this->dataPtr->node.Advertise(kNewArtifactSrv,
     &GameLogicPluginPrivate::OnNewArtifact, this->dataPtr.get(), opts);
 
-  this->dataPtr->ParseArtifacts(_sdf);
-
   // Get the duration seconds.
   if (_sdf->HasElement("duration_seconds"))
   {
@@ -1234,6 +1250,51 @@ void GameLogicPlugin::PostUpdate(
         {
           std::lock_guard<std::mutex> lock(this->dataPtr->posesMutex);
           this->dataPtr->poses[_nameComp->Data()] = _poseComp->Data();
+        }
+
+        // Iterate over possible artifact names
+        for (size_t kArtifactNamesIdx = 0;
+             kArtifactNamesIdx < this->dataPtr->kArtifactNames.size();
+             ++kArtifactNamesIdx)
+        {
+          // If the name of the model is a possible artifact, then add it to
+          // our list of artifacts.
+          if (_nameComp->Data().find(
+                this->dataPtr->kArtifactNames[kArtifactNamesIdx].first) == 0)
+          {
+            bool add = true;
+            // Check to make sure the artifact has not already been added.
+            for (const std::pair<std::string, ignition::math::Pose3d>
+                &artifactPair : this->dataPtr->artifacts[
+                this->dataPtr->kArtifactNames[kArtifactNamesIdx].second])
+            {
+              if (artifactPair.first == _nameComp->Data())
+              {
+                add = false;
+                break;
+              }
+            }
+
+            if (add)
+            {
+              ignmsg << "Adding artifact name[" << _nameComp->Data()
+                << "] type string["
+                << this->dataPtr->kArtifactTypes[kArtifactNamesIdx].second
+                << "] typeid["
+                << static_cast<int>(
+                    this->dataPtr->kArtifactNames[kArtifactNamesIdx].second)
+                << "]\n";
+
+              this->dataPtr->artifacts[
+                this->dataPtr->kArtifactNames[
+                  kArtifactNamesIdx].second][_nameComp->Data()] =
+                    ignition::math::Pose3d(ignition::math::INF_D,
+                        ignition::math::INF_D, ignition::math::INF_D, 0, 0, 0);
+
+              // Helper variable that is the total number of artifacts.
+              this->dataPtr->artifactCount++;
+            }
+          }
         }
 
         for (std::pair<const subt::ArtifactType,
@@ -2056,87 +2117,6 @@ bool GameLogicPluginPrivate::StringFromArtifact(const ArtifactType &_type,
 
   _strType = std::get<1>(*pos);
   return true;
-}
-
-/////////////////////////////////////////////////
-void GameLogicPluginPrivate::ParseArtifacts(
-    const std::shared_ptr<const sdf::Element> &_sdf)
-{
-  ignition::msgs::Time localSimTime(this->simTime);
-
-  sdf::ElementPtr artifactElem = const_cast<sdf::Element*>(
-      _sdf.get())->GetElement("artifact");
-
-  while (artifactElem)
-  {
-    // Sanity check: "Name" is required.
-    if (!artifactElem->HasElement("name"))
-    {
-      ignerr << "[GameLogicPlugin]: Parameter <name> not found. Ignoring this "
-            << "artifact" << std::endl;
-      this->Log(localSimTime)
-        << "error Parameter <name> not found. Ignoring this artifact"
-        << std::endl;
-      artifactElem = artifactElem->GetNextElement("artifact");
-      continue;
-    }
-    std::string modelName = artifactElem->Get<std::string>("name",
-        "name").first;
-
-    // Sanity check: "Type" is required.
-    if (!artifactElem->HasElement("type"))
-    {
-      ignerr << "[GameLogicPlugin]: Parameter <type> not found. Ignoring this "
-        << "artifact" << std::endl;
-      this->Log(localSimTime)
-        << "error Parameter <type> not found. Ignoring this artifact"
-        << std::endl;
-
-      artifactElem = artifactElem->GetNextElement("artifact");
-      continue;
-    }
-
-    // Sanity check: Make sure that the artifact type is supported.
-    std::string modelTypeStr = artifactElem->Get<std::string>("type",
-        "type").first;
-    ArtifactType modelType;
-    if (!this->ArtifactFromString(modelTypeStr, modelType))
-    {
-      ignerr << "[GameLogicPlugin]: Unknown artifact type ["
-        << modelTypeStr << "]. Ignoring artifact" << std::endl;
-      this->Log(localSimTime) << "error Unknown artifact type ["
-                  << modelTypeStr << "]. Ignoring artifact" << std::endl;
-      artifactElem = artifactElem->GetNextElement("artifact");
-      continue;
-    }
-
-    // Sanity check: The artifact shouldn't be repeated.
-    if (this->artifacts.find(modelType) != this->artifacts.end())
-    {
-      const std::map<std::string, ignition::math::Pose3d> &modelNames =
-        this->artifacts[modelType];
-
-      if (modelNames.find(modelName) != modelNames.end())
-      {
-        ignerr << "[GameLogicPlugin]: Repeated model with name ["
-          << modelName << "]. Ignoring artifact" << std::endl;
-        this->Log(localSimTime) << "error Repeated model with name ["
-                    << modelName << "]. Ignoring artifact" << std::endl;
-        artifactElem = artifactElem->GetNextElement("artifact");
-        continue;
-      }
-    }
-
-    ignmsg << "Adding artifact name[" << modelName << "] type string["
-      << modelTypeStr << "] typeid[" << static_cast<int>(modelType) << "]\n";
-    this->artifacts[modelType][modelName] =
-        ignition::math::Pose3d(ignition::math::INF_D, ignition::math::INF_D,
-            ignition::math::INF_D, 0, 0, 0);
-        artifactElem = artifactElem->GetNextElement("artifact");
-
-    // Helper variable that is the total number of artifacts.
-    this->artifactCount++;
-  }
 }
 
 /////////////////////////////////////////////////
