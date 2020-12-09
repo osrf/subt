@@ -1,5 +1,5 @@
 # Ubuntu 18.04 with nvidia-docker2 beta opengl support
-FROM nvidia/opengl:1.0-glvnd-devel-ubuntu18.04
+FROM osrf/subt-virtual-testbed:models_latest
 
 # Tools I find useful during development
 RUN apt-get update -qq \
@@ -88,38 +88,18 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.osrfoundation.org/g
  && sudo /bin/sh -c 'wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -' \
  && sudo /bin/sh -c 'apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654'
 
-# install ign-citadel
+# install ign-dome
 RUN sudo apt-get update -qq \
  && sudo apt-get install -y -qq \
-    ignition-citadel \
- && sudo apt-get clean -qq
-
-# install the ros to ign bridge
-RUN sudo apt-get update -qq \
- && sudo apt-get install -y -qq \
-    ros-melodic-ros-ign \
+    ignition-dome \
  && sudo apt-get clean -qq
 
 # Clone all the subt models so that you don't download them every time
 # docker is run
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
- && git clone https://github.com/osrf/subt -b citadel
-
-# Download the public models
-RUN ign fuel download -v 4 -j 16 -u "https://fuel.ignitionrobotics.org/OpenRobotics/collections/SubT Tech Repo"
-
-# Download niosh models, set 1.
-COPY download_niosh_1.sh ./
-RUN ./download_niosh_1.sh
-
-# Download niosh models, set 2.
-COPY download_niosh_2.sh ./
-RUN ./download_niosh_2.sh
-
-# Download niosh models, set 3.
-COPY download_niosh_3.sh ./
-RUN ./download_niosh_3.sh
+ && git clone https://github.com/ignitionrobotics/ros_ign -b melodic \
+ && git clone https://github.com/osrf/subt -b dome
 
 WORKDIR /home/$USERNAME/subt_ws
 

@@ -1,5 +1,5 @@
 # Ubuntu 18.04 with nvidia-docker2 beta opengl support
-FROM nvidia/opengl:1.0-glvnd-devel-ubuntu18.04
+FROM osrf/subt-virtual-testbed:models_latest
 
 RUN export DEBIAN_FRONTEND=noninteractive \
  && apt-get update \
@@ -73,11 +73,10 @@ RUN /bin/sh -c 'echo "deb [trusted=yes] http://packages.osrfoundation.org/gazebo
  && /bin/sh -c 'wget http://packages.osrfoundation.org/gazebo.key -O - | apt-key add -' \
  && /bin/sh -c 'apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654'
 
-# install ign-citadel and the ign-bridge
+# install ign-dome and the ign-bridge
 RUN apt-get update \
 &&  apt-get install -y \
-    ignition-citadel \
-    ros-melodic-ros-ign \
+    ignition-dome \
  && apt-get clean
 
 # Add a user with the same user_id as the user outside the container
@@ -104,13 +103,10 @@ RUN rosdep update
 # docker is run
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
- && git clone https://github.com/osrf/subt -b citadel
+ && git clone https://github.com/ignitionrobotics/ros_ign -b melodic \
+ && git clone https://github.com/osrf/subt -b dome
 
 WORKDIR /home/$USERNAME/subt_ws
-
-# Install Rotors
-# RUN wget https://s3.amazonaws.com/osrf-distributions/subt_robot_examples/releases/subt_robot_examples_latest.tgz
-# RUN tar xvf subt_robot_examples_latest.tgz
 
 RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && catkin_make install'
 

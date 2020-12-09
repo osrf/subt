@@ -81,10 +81,10 @@ RUN /bin/sh -c 'echo "deb [trusted=yes] http://packages.osrfoundation.org/gazebo
  && /bin/sh -c 'wget http://packages.osrfoundation.org/gazebo.key -O - | apt-key add -' \
  && /bin/sh -c 'apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654'
 
-# install ign-citadel
+# install ign-dome
 RUN apt-get update \
 &&  apt-get install -y \
-    ignition-citadel \
+    ignition-dome \
  && apt-get clean
 
 # Add a user with the same user_id as the user outside the container
@@ -111,16 +111,12 @@ RUN rosdep update
 # docker is run
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
- && git clone https://github.com/osrf/subt -b citadel \
- && git clone https://github.com/ignitionrobotics/ros_ign
+ && git clone https://github.com/osrf/subt -b dome
 
 WORKDIR /home/$USERNAME/subt_ws
 RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && catkin_make install'
 RUN /bin/sh -c 'echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc' \
  && /bin/sh -c 'echo ". ~/subt_ws/install/setup.sh" >> ~/.bashrc'
-
-# Download the public models
-RUN ign fuel download -v 4 -j 8 --type model -u "https://fuel.ignitionrobotics.org/OpenRobotics/collections/SubT Tech Repo"
 
 # Create a directory required by cloudsim
 RUN mkdir -p /tmp/ign
