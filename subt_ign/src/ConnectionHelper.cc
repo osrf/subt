@@ -137,7 +137,19 @@ std::map<std::string, std::vector<ignition::math::Vector3d>>
     {"Cave U Turn Elevation Lights Type A", {{-50.0, -25.0, 0.0}, {0.0, -25.0, 25.0}}},
     {"Cave Vertical Shaft Straight Bottom Lights Type A", {{0.0, 0.0, 10.0}, {0.0, 25.0, 0.0}, {0.0, -25.0, 0.0}}},
     {"Cave Transition Type A to and from Type B", {{0.0, 25.0, 0.0}, {0.0, -25.0, 0.0}}},
-    {"Cave Transition Type A to and from Type B Lights", {{0.0, 25.0, 0.0}, {0.0, -25.0, 0.0}}}
+    {"Cave Transition Type A to and from Type B Lights", {{0.0, 25.0, 0.0}, {0.0, -25.0, 0.0}}},
+
+    {"Jenolan Section 01", {{401.144, 13.2017, 63.5658}}},
+    {"Jenolan Section 02", {{401.144, 13.2017, 63.5658}, {231.676, 5.12208, 83.5523}}},
+    {"Jenolan Section 03", {{231.676, 5.12208, 83.5523}, {193.48, 39.2667, 62.0974}, {173.354, 3.1715, 83.8528}, {175.939, 15.8454, 74.7845}}},
+    {"Jenolan Section 04", {{193.48, 39.2667, 62.0974}, {173.354, 3.1715, 83.8528}, {175.939, 15.8454, 74.7845}, {108.945, -.808552, 117.401}, {102.694, -4.59171, 47.6574}}},
+    {"Jenolan Section 05", {{43.2806, -4.87545, 130.876}, {108.945, -.808552, 117.401}, {102.694, -4.59171, 47.6574}, {0, 0, 12.5}}},
+    {"Jenolan Section 06", {{95.93, 26.3732, 146.106}, {90.7982, -7.84003, 167.789}, {-16.465, 17.3448, 159.529}, {43.2806, -4.87545, 130.876}}},
+    {"Jenolan Section 07", {{95.93, 26.3732, 146.106}, {90.7982, -7.84003, 167.789}}},
+    {"Jenolan Section 08", {{-82.6196, 39.5982, 140.961}, {-76.3975, 30.5907, 134.982}, {-71.9846, 10.5912, 139.379}, {-16.465, 17.3448, 159.529}}},
+    {"Jenolan Section 09", {{-194.72, -9.770950, 132.04}, {-82.6196, 39.5982, 140.961}, {-76.3975, 30.5907, 134.982}, {-71.9846, 10.5912, 139.379}}},
+    {"Jenolan Section 10", {{-264.458, 25.7639, 43.2923}, {-241.489, -6.8719, 112.301}, {-194.72, -9.770950, 132.04}}},
+    {"Jenolan Section 11", {{-264.458, 25.7639, 43.2923}, {-241.489, -6.8719, 112.301}}}
   };
 
 std::map<std::string, subt::ConnectionHelper::ConnectionType>
@@ -248,7 +260,19 @@ std::map<std::string, subt::ConnectionHelper::ConnectionType>
     {"Cave U Turn Elevation Lights Type A", subt::ConnectionHelper::TURN},
     {"Cave Vertical Shaft Straight Bottom Lights Type A", subt::ConnectionHelper::TURN},
     {"Cave Transition Type A to and from Type B", subt::ConnectionHelper::STRAIGHT},
-    {"Cave Transition Type A to and from Type B Lights", subt::ConnectionHelper::STRAIGHT}
+    {"Cave Transition Type A to and from Type B Lights", subt::ConnectionHelper::STRAIGHT},
+
+    {"Jenolan Section 01", subt::ConnectionHelper::TURN},
+    {"Jenolan Section 02", subt::ConnectionHelper::TURN},
+    {"Jenolan Section 03", subt::ConnectionHelper::TURN},
+    {"Jenolan Section 04", subt::ConnectionHelper::TURN},
+    {"Jenolan Section 05", subt::ConnectionHelper::TURN},
+    {"Jenolan Section 06", subt::ConnectionHelper::TURN},
+    {"Jenolan Section 07", subt::ConnectionHelper::TURN},
+    {"Jenolan Section 08", subt::ConnectionHelper::TURN},
+    {"Jenolan Section 09", subt::ConnectionHelper::TURN},
+    {"Jenolan Section 10", subt::ConnectionHelper::TURN},
+    {"Jenolan Section 11", subt::ConnectionHelper::TURN}
   };
 
 using namespace ignition;
