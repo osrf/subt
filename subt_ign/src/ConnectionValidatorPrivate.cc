@@ -98,10 +98,6 @@ bool ConnectionValidatorPrivate::LoadSdf(const std::string &_fpath)
   fuel_tools::ClientConfig config;
   fuel_tools::FuelClient fuelClient(config);
 
-  sdf::setFindCallback([&](const std::string &_uri) {
-      return fuel_tools::fetchResourceWithClient(_uri, fuelClient);
-  });
-
   igndbg << "Parsing [" << _fpath << "]" << std::endl;
 
   auto errors = sdfRoot.Load(_fpath);

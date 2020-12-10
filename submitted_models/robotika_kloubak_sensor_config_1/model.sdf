@@ -222,7 +222,7 @@
             </geometry>
         </collision>
         <light name="light_front" type="spot">
-            <pose>0.16 0 0.29 0 0 0</pose>
+            <pose>0.16 0 0.29 0 -1.5707963267948966 0</pose>
             <attenuation>
                 <range>25</range>
                 <linear>0</linear>
@@ -547,7 +547,7 @@
             </geometry>
         </collision>
        <light name="light_back" type="spot">
-            <pose>-0.17 0 0.35 0 0 3.1415927</pose>
+            <pose>-0.17 0 0.35 0 1.5707963267948966 0</pose>
             <attenuation>
                 <range>25</range>
                 <linear>0</linear>
