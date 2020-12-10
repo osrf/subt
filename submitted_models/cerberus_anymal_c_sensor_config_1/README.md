@@ -9,7 +9,7 @@ This package contains a virtual model validation for the CERBERUS ANYmal C with 
 
 **Affiliation:** [Robotic Systems Lab - ETH Zurich](https://rsl.ethz.ch/the-lab.html)
 
-[![CERBERUS ANYmal](doc/TODO.jpg)](doc/TODO.jpg)
+[![CERBERUS ANYmal](doc/anymal_c.png)](doc/anymal_c.png)
 
 ## License
 This software is released under a [BSD 3-Clause license](LICENSE).
