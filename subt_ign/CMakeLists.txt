@@ -23,19 +23,19 @@ find_package(catkin REQUIRED
     rosbag
 )
 
-find_package(ignition-gazebo3 REQUIRED)
-set(IGN_GAZEBO_VER ${ignition-gazebo3_VERSION_MAJOR})
+find_package(ignition-gazebo5 REQUIRED)
+set(IGN_GAZEBO_VER ${ignition-gazebo5_VERSION_MAJOR})
 
 file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include)
 
 find_package(ignition-common3 REQUIRED COMPONENTS graphics)
-find_package(ignition-fuel_tools4 REQUIRED)
+find_package(ignition-fuel_tools5 REQUIRED)
 find_package(ignition-math6 REQUIRED)
-find_package(ignition-msgs5 REQUIRED)
-find_package(ignition-transport8 REQUIRED)
+find_package(ignition-msgs7 REQUIRED)
+find_package(ignition-transport9 REQUIRED)
 find_package(ignition-plugin1 REQUIRED COMPONENTS loader register)
-find_package(ignition-launch2 REQUIRED)
-find_package(sdformat9 REQUIRED)
+find_package(ignition-launch4 REQUIRED)
+find_package(sdformat10 REQUIRED)
 find_package(yaml-cpp REQUIRED)
 
 find_package(PkgConfig REQUIRED)
@@ -84,7 +84,7 @@ set_target_properties(${protobuf_lib_name}
   PROPERTIES POSITION_INDEPENDENT_CODE ON COMPILE_FLAGS "-Wno-unused-parameter" )
 target_link_libraries(${protobuf_lib_name}
   PRIVATE
-  ignition-msgs5::ignition-msgs5
+  ignition-msgs7::ignition-msgs7
 )
 install(TARGETS ${protobuf_lib_name}
   ARCHIVE DESTINATION lib
@@ -110,11 +110,11 @@ target_link_libraries(${game_logic_plugin_name}
   PRIVATE
     ignition-gazebo${IGN_GAZEBO_VER}::core
     ignition-common3::ignition-common3
-    ignition-launch2::ignition-launch2
+    ignition-launch4::ignition-launch4
     ignition-math6::ignition-math6
-    ignition-msgs5::ignition-msgs5
+    ignition-msgs7::ignition-msgs7
     ignition-plugin1::loader
-    ignition-transport8::ignition-transport8
+    ignition-transport9::ignition-transport9
     ${catkin_LIBRARIES}
     ${protobuf_lib_name}
     ${YAML_CPP_LIBRARIES}
@@ -130,11 +130,11 @@ target_link_libraries(${artifact_validator_name}
   PRIVATE
     ignition-gazebo${IGN_GAZEBO_VER}::core
     ignition-common3::ignition-common3
-    ignition-launch2::ignition-launch2
+    ignition-launch4::ignition-launch4
     ignition-math6::ignition-math6
-    ignition-msgs5::ignition-msgs5
+    ignition-msgs7::ignition-msgs7
     ignition-plugin1::loader
-    ignition-transport8::ignition-transport8
+    ignition-transport9::ignition-transport9
     ${catkin_LIBRARIES}
     ${protobuf_lib_name}
 )
@@ -153,11 +153,11 @@ target_link_libraries(${connection_validator_name}
   PRIVATE
     ignition-gazebo${IGN_GAZEBO_VER}::core
     ignition-common3::ignition-common3
-    ignition-launch2::ignition-launch2
+    ignition-launch4::ignition-launch4
     ignition-math6::ignition-math6
-    ignition-msgs5::ignition-msgs5
+    ignition-msgs7::ignition-msgs7
     ignition-plugin1::loader
-    ignition-transport8::ignition-transport8
+    ignition-transport9::ignition-transport9
     ${catkin_LIBRARIES}
     ${protobuf_lib_name}
 )
@@ -176,11 +176,11 @@ target_link_libraries(validate_connections
   PRIVATE
     ignition-gazebo${IGN_GAZEBO_VER}::core
     ignition-common3::ignition-common3
-    ignition-launch2::ignition-launch2
+    ignition-launch4::ignition-launch4
     ignition-math6::ignition-math6
-    ignition-msgs5::ignition-msgs5
+    ignition-msgs7::ignition-msgs7
     ignition-plugin1::loader
-    ignition-transport8::ignition-transport8
+    ignition-transport9::ignition-transport9
     ${catkin_LIBRARIES}
     ${protobuf_lib_name}
 )
@@ -246,11 +246,11 @@ target_link_libraries(${comms_broker_plugin_name}
   PUBLIC
   ignition-common3::ignition-common3
   ignition-math6::ignition-math6
-  ignition-msgs5::ignition-msgs5
+  ignition-msgs7::ignition-msgs7
   ignition-plugin1::loader
-  ignition-launch2::ignition-launch2
-  ignition-transport8::ignition-transport8
-  sdformat9::sdformat9
+  ignition-launch4::ignition-launch4
+  ignition-transport9::ignition-transport9
+  sdformat10::sdformat10
   ${protobuf_lib_name}
   Visibility
 )
@@ -268,11 +268,11 @@ target_link_libraries(${visibility_plugin_name}
   PRIVATE
   ignition-common3::ignition-common3
   ignition-math6::ignition-math6
-  ignition-msgs5::ignition-msgs5
+  ignition-msgs7::ignition-msgs7
   ignition-plugin1::loader
-  ignition-launch2::ignition-launch2
-  ignition-transport8::ignition-transport8
-  sdformat9::sdformat9
+  ignition-launch4::ignition-launch4
+  ignition-transport9::ignition-transport9
+  sdformat10::sdformat10
   ${protobuf_lib_name}
   Visibility
 )
@@ -289,9 +289,9 @@ target_include_directories(${base_station_plugin_name}
  target_link_libraries(${base_station_plugin_name}
    ignition-common3::ignition-common3
    ignition-plugin1::loader
-   ignition-launch2::ignition-launch2
-   ignition-transport8::ignition-transport8
-   sdformat9::sdformat9
+   ignition-launch4::ignition-launch4
+   ignition-transport9::ignition-transport9
+   sdformat10::sdformat10
    ${catkin_LIBRARIES}
    ${protobuf_lib_name}
  )
@@ -308,9 +308,9 @@ target_include_directories(${controller_plugin_name}
  target_link_libraries(${controller_plugin_name}
    ignition-common3::ignition-common3
    ignition-plugin1::loader
-   ignition-launch2::ignition-launch2
-   ignition-transport8::ignition-transport8
-   sdformat9::sdformat9
+   ignition-launch4::ignition-launch4
+   ignition-transport9::ignition-transport9
+   sdformat10::sdformat10
    ${catkin_LIBRARIES}
    ${protobuf_lib_name}
  )
@@ -330,11 +330,11 @@ target_link_libraries(${gas_emitter_detector_plugin_name}
   PRIVATE
     ignition-gazebo${IGN_GAZEBO_VER}::core
     ignition-common3::ignition-common3
-    ignition-launch2::ignition-launch2
+    ignition-launch4::ignition-launch4
     ignition-math6::ignition-math6
-    ignition-msgs5::ignition-msgs5
+    ignition-msgs7::ignition-msgs7
     ignition-plugin1::loader
-    ignition-transport8::ignition-transport8
+    ignition-transport9::ignition-transport9
     ${catkin_LIBRARIES}
     ${protobuf_lib_name}
 )
@@ -375,8 +375,8 @@ install(TARGETS ${playback_event_recorder_name}
 # Create log_checker executable.
 add_executable(log_checker src/LogChecker.cc)
 target_link_libraries(log_checker
-  ignition-transport8::ignition-transport8
-  ignition-transport8::ignition-transport8-log)
+  ignition-transport9::ignition-transport9
+  ignition-transport9::ignition-transport9-log)
 install(TARGETS log_checker
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
@@ -384,7 +384,7 @@ add_executable(dot_generator src/dot_generator.cc src/ConnectionHelper.cc src/Sd
 target_link_libraries(dot_generator
   ignition-math6::ignition-math6
   ignition-common3::ignition-common3
-  sdformat9::sdformat9)
+  sdformat10::sdformat10)
 target_include_directories(dot_generator
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 install(TARGETS dot_generator
@@ -394,7 +394,7 @@ add_executable(level_generator src/level_generator.cc src/ConnectionHelper.cc sr
 target_link_libraries(level_generator
   ignition-math6::ignition-math6
   ignition-common3::ignition-common3
-  sdformat9::sdformat9)
+  sdformat10::sdformat10)
 target_include_directories(level_generator
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 install(TARGETS level_generator
@@ -404,8 +404,8 @@ add_executable(world_generator_cave src/world_generator_cave.cc src/ConnectionHe
 target_link_libraries(world_generator_cave
   ignition-math6::ignition-math6
   ignition-common3::requested
-  ignition-fuel_tools4::ignition-fuel_tools4
-  sdformat9::sdformat9)
+  ignition-fuel_tools5::ignition-fuel_tools5
+  sdformat10::sdformat10)
 target_include_directories(world_generator_cave
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 install(TARGETS world_generator_cave

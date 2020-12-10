@@ -1,9 +1,9 @@
 # Ubuntu 18.04 with nvidia-docker2 beta opengl support
-FROM nvidia/opengl:1.0-glvnd-devel-ubuntu18.04
+FROM osrf/subt-virtual-testbed:models_latest
 
 # Tools I find useful during development
-RUN apt-get update -qq \
- && apt-get install -y -qq \
+RUN sudo apt-get update -qq \
+ && sudo apt-get install --no-install-recommends -y -qq \
         build-essential \
         cmake \
         cppcheck \
@@ -26,38 +26,10 @@ RUN apt-get update -qq \
         ruby2.5 \
         ruby2.5-dev \
         software-properties-common \
-        sudo \
         vim \
-        wget \
         net-tools \
         iputils-ping \
         libyaml-cpp-dev \
- && apt-get clean -qq
-
-# Add a user with the same user_id as the user outside the container
-# Requires a docker build argument `user_id`
-ARG user_id
-ENV USERNAME developer
-RUN useradd -U --uid ${user_id} -ms /bin/bash $USERNAME \
- && echo "$USERNAME:$USERNAME" | chpasswd \
- && adduser $USERNAME sudo \
- && echo "$USERNAME ALL=NOPASSWD: ALL" >> /etc/sudoers.d/$USERNAME
-
-# Commands below run as the developer user
-USER $USERNAME
-
-# Make a couple folders for organizing docker volumes
-RUN mkdir ~/workspaces ~/other
-
-# When running a container start in the developer's home folder
-WORKDIR /home/$USERNAME
-
-RUN export DEBIAN_FRONTEND=noninteractive \
- && sudo apt-get update -qq \
- && sudo -E apt-get install -y -qq \
-    tzdata \
- && sudo ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime \
- && sudo dpkg-reconfigure --frontend noninteractive tzdata \
  && sudo apt-get clean -qq
 
 # install ROS and required packages
@@ -76,8 +48,15 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu 
     ros-melodic-twist-mux \
     ros-melodic-rviz-imu-plugin \
     ros-melodic-rotors-control \
+    ros-melodic-theora-image-transport \
  && sudo rosdep init \
  && sudo apt-get clean -qq
+
+# Make a couple folders for organizing docker volumes
+RUN mkdir ~/workspaces ~/other
+
+# When running a container start in the developer's home folder
+WORKDIR /home/$USERNAME
 
 RUN rosdep update
 
@@ -85,47 +64,23 @@ RUN rosdep update
 # so we need to workaround this using a force overwrite
 # Do this before installing ign-gazebo
 RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list' \
- && sudo /bin/sh -c 'wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -' \
+ && sudo /bin/sh -c 'wget http://packages.osrfoundation.org/gazebo.key -O - | apt-key add -' \
  && sudo /bin/sh -c 'apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654'
 
-# install ign-citadel
+# install ign-dome
 RUN sudo apt-get update -qq \
  && sudo apt-get install -y -qq \
-    ignition-citadel \
- && sudo apt-get clean -qq
-
-# install the ros to ign bridge
-RUN sudo apt-get update -qq \
- && sudo apt-get install -y -qq \
-    ros-melodic-ros-ign \
+    ignition-dome \
  && sudo apt-get clean -qq
 
 # Clone all the subt models so that you don't download them every time
 # docker is run
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
- && git clone https://github.com/osrf/subt -b citadel
-
-# Download the public models
-RUN ign fuel download -v 4 -j 16 -u "https://fuel.ignitionrobotics.org/OpenRobotics/collections/SubT Tech Repo"
-
-# Download niosh models, set 1.
-COPY download_niosh_1.sh ./
-RUN ./download_niosh_1.sh
-
-# Download niosh models, set 2.
-COPY download_niosh_2.sh ./
-RUN ./download_niosh_2.sh
-
-# Download niosh models, set 3.
-COPY download_niosh_3.sh ./
-RUN ./download_niosh_3.sh
+ && git clone https://github.com/ignitionrobotics/ros_ign -b melodic \
+ && git clone https://github.com/osrf/subt -b dome
 
 WORKDIR /home/$USERNAME/subt_ws
-
-# Install Rotors
-# RUN wget https://s3.amazonaws.com/osrf-distributions/subt_robot_examples/releases/subt_robot_examples_latest.tgz
-# RUN tar xvf subt_robot_examples_latest.tgz
 
 RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && catkin_make install'
 

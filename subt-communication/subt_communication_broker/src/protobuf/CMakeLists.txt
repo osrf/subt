@@ -18,7 +18,7 @@ protobuf_generate_cpp_with_descriptor(
   PROTO_HEADERS
   PROTO_DESCRIPTORS
   IMPORT_DIRS
-    ${ignition-msgs5_INCLUDE_DIRS}
+    ${ignition-msgs7_INCLUDE_DIRS}
   DESTINATION
     ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_INCLUDE_DESTINATION}/protobuf
   ${PROTO_MESSAGES}
