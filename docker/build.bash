@@ -41,6 +41,6 @@ image_plus_tag=$image_name:latest-$(date +%Y_%b_%d_%H%M)
 shift
 
 docker build --rm -t $image_plus_tag --build-arg user_id=$user_id "$@" -f $DIR/$image_name/Dockerfile .
-docker tag $image_plus_tag $image_name:citadel
+docker tag $image_plus_tag $image_name:latest
 
-echo "Built $image_plus_tag and tagged as $image_name:citadel"
+echo "Built $image_plus_tag and tagged as $image_name:latest"

@@ -11,6 +11,7 @@ RUN sudo apt-get update -qq \
         cppcheck \
         gdb \
         git \
+        gnutls-bin \
         libbluetooth-dev \
         libccd-dev \
         libcwiid-dev \
@@ -88,6 +89,7 @@ RUN rosdep update
 # Install subt sim
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
+ && git config --global http.postBuffer 1048576000 \
  && git clone https://github.com/osrf/subt -b dome
 
 WORKDIR /home/$USERNAME/subt_ws

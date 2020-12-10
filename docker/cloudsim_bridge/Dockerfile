@@ -11,6 +11,7 @@ RUN sudo apt-get update -qq \
         cppcheck \
         gdb \
         git \
+        gnutls-bin \
         libbluetooth-dev \
         libccd-dev \
         libcwiid-dev \
@@ -55,6 +56,7 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu 
     ros-melodic-twist-mux \
     ros-melodic-rviz-imu-plugin \
     ros-melodic-rotors-control \
+    ros-melodic-theora-image-transport \
  && sudo rosdep init \
  && sudo apt-get clean
 
@@ -83,6 +85,7 @@ RUN rosdep update
 # docker is run
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
+ && git config --global http.postBuffer 1048576000 \
  && git clone https://github.com/ignitionrobotics/ros_ign -b melodic \
  && git clone https://github.com/osrf/subt -b dome
 
