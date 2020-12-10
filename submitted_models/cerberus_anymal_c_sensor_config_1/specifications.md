@@ -35,7 +35,6 @@ angular:
   z: 0.0"
 ```
 
-TODO What do we have here?
 Note that the vehicle moves with a constant forward and angular velocity. This is a design choice and cannot be changed. Therefore the input twist is used only to determine in which direction the vehicle should move. See [Control](#markdown-header-control) for more information.
 
 ## Usage Rights
@@ -58,7 +57,7 @@ This ANYmal with sensor configuration 1 includes the following sensors. The spec
 ### Control
 This ANYmal is controlled by the custom `cerberus_anymal_c_control_1` package, available in the repository [cerberus_anymal_locomotion](https://github.com/leggedrobotics/cerberus_anymal_locomotion).
 
-TODO what does it do
+This controller makes the robot moving at a fixed velocity, in any direction. The input twist is used only to determine the orientation of movement. The bearing angle between X-axis and the orientation specified by the linear part of the twist vector indicates the direction of motion; The positive or negative value of the yaw rate of the twist vector sets the direction of rotation around the Z-axis.
 
 ### Motion Characteristics
 Based on the tests specified in the DARPA SubT Challenge [Model Preparation Guide](https://subtchallenge.com/resources/Simulation_Model_Preparation_Guide.pdf), this vehicle has the following motion constraint characteristics.

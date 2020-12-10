@@ -54,7 +54,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         name="ignition::gazebo::systems::JointStatePublisher">
       </plugin>
 
-      <!-- TODO Battery plugin -->
+      <!-- Battery plugin -->
       <plugin filename="libignition-gazebo-linearbatteryplugin-system.so"
         name="ignition::gazebo::systems::LinearBatteryPlugin">
         <battery_name>linear_battery</battery_name>

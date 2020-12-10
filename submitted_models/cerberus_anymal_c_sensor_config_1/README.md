@@ -21,19 +21,19 @@ If you use this work in an academic context, please cite the following publicati
 > **"Learning quadrupedal locomotion over challenging terrain"**,
 > in Science Robotics, 21.10, 2020 ([DOI](https://robotics.sciencemag.org/content/5/47/eabc5986))
 
-  @article{Leeeabc5986,
-  	author = {Lee, Joonho and Hwangbo, Jemin and Wellhausen, Lorenz and Koltun, Vladlen and Hutter, Marco},
-  	title = {Learning quadrupedal locomotion over challenging terrain},
-  	volume = {5},
-  	number = {47},
-  	elocation-id = {eabc5986},
-  	year = {2020},
-  	doi = {10.1126/scirobotics.abc5986},
-  	publisher = {Science Robotics},
-  	URL = {https://robotics.sciencemag.org/content/5/47/eabc5986},
-  	eprint = {https://robotics.sciencemag.org/content/5/47/eabc5986.full.pdf},
-  	journal = {Science Robotics}
-  }
+    @article{Leeeabc5986,
+  	    author = {Lee, Joonho and Hwangbo, Jemin and Wellhausen, Lorenz and Koltun, Vladlen and Hutter, Marco},
+      	title = {Learning quadrupedal locomotion over challenging terrain},
+      	volume = {5},
+      	number = {47},
+      	elocation-id = {eabc5986},
+      	year = {2020},
+      	doi = {10.1126/scirobotics.abc5986},
+      	publisher = {Science Robotics},
+      	URL = {https://robotics.sciencemag.org/content/5/47/eabc5986},
+      	eprint = {https://robotics.sciencemag.org/content/5/47/eabc5986.full.pdf},
+      	journal = {Science Robotics}
+    }
 
 > C. D. Bellicoso,  M. Bjelonic,  L. Wellhausen,  K. Holtmann,  F. Günther,  M. Tranzatto,  P. Fankhauser and  M. Hutter
 > **"Advances in real‐world applications for legged robots“**,
