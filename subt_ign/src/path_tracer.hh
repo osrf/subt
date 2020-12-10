@@ -216,6 +216,10 @@ class Processor
   /// visualization.
   /// \param[in] _path Path to the directory containing the log files.
   /// \param[in] _configPath Path to the configuration file, or empty string.
+  /// \param[in] _partition Ignition transport partition.
+  /// \param[in] _cameraPose Initial camera pose.
+  /// \param[in] _worldName Name of the world.
+  /// \param[in] _onlyCheck True to only check, anot make a video.
   public: Processor(const std::string &_path,
                     const std::string &_configPath,
                     const std::string &_partition,
@@ -258,9 +262,20 @@ class Processor
   /// \brief This callback is triggered on every pose message in the log file.
   public: void Cb(const ignition::msgs::Pose_V &_msg);
 
+  /// \brief Callback for the clock message.
+  /// \param[in] _msg Clock message
   public: void ClockCb(const ignition::msgs::Clock &_msg);
+
+  /// \brief Recorder stats callback.
+  /// \param[in] _msg Recorder stats message.
   public: void RecorderStatsCb(const ignition::msgs::Time &_msg);
+
+  /// \brief Step simulation to a specific time.
+  /// \param[in] _sec Simulation seconds.
   public: void StepUntil(int _sec);
+
+  /// \brief Pause simulation.
+  /// \param[in] _pause True to pause simulation.
   public: void Pause(bool _pause);
 
   /// \brief Mapping of robot name to color
