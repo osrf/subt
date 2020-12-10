@@ -357,12 +357,12 @@ target_link_libraries(${playback_event_recorder_name}
   PRIVATE
     ignition-gazebo${IGN_GAZEBO_VER}::core
     ignition-common3::ignition-common3
-    ignition-launch2::ignition-launch2
+    ignition-launch4::ignition-launch4
     ignition-math6::ignition-math6
-    ignition-msgs5::ignition-msgs5
+    ignition-msgs7::ignition-msgs7
     ignition-plugin1::loader
-    ignition-transport8::ignition-transport8
-    sdformat9::sdformat9
+    ignition-transport9::ignition-transport9
+    sdformat10::sdformat10
     ${catkin_LIBRARIES}
     ${YAML_CPP_LIBRARIES}
 )

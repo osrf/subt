@@ -609,7 +609,7 @@ void Processor::StepUntil(int _sec)
   bool result;
   result = false;
 
-  msg.mutable_run_to_time()->set_sec(_sec);
+  msg.mutable_run_to_sim_time()->set_sec(_sec);
 
   std::unique_lock<std::mutex> lock(this->stepMutex);
   this->markerNode->Request(
@@ -640,7 +640,8 @@ void Processor::DisplayPoses()
       this->nextSimTime = next->first + this->startSimTime;
 
       // Debug output
-      printf("%ds/%ds (%06.2f%%) start=%d currDelta=%d nextDelta=%d next=%d curr=%ld\n",
+      printf("%ds/%ds (%06.2f%%) start=%d currDelta=%d \
+nextDelta=%d next=%d curr=%ld\n",
           iter->first, this->logData.rbegin()->first,
           static_cast<double>(iter->first) / this->logData.rbegin()->first*100,
           this->startSimTime, iter->first, next->first, this->nextSimTime,
