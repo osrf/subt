@@ -49,7 +49,7 @@ The CERBERUS ANYmal robot is a research platform and its cost is not publicly av
 ### Sensors
 This ANYmal with sensor configuration 1 includes the following sensors. The specifications for these instruments are provided below in the [Validation Links](#markdown-header-anymal-validation-and-specification-links) section.
 
-* Onboard IMU - TODO, modeled by `imu` plugin
+* Onboard IMU - N/A, modeled by `imu` plugin
 * LIDAR - Velodyne VLP-16, modeled by `gpu_lidar` plugin
 * LIDAR - Robosense RS-Bpearl, modeled by `gpu_lidar` plugin
 * VIO Perception Head - Alphasense, modeled by `imu` and `camera` plugin
@@ -85,10 +85,8 @@ The following points highlight the differences between the submitted virtual mod
 ## ANYmal Validation and Specification Links
 * [ANYmal specification link](https://researchfeatures.com/2018/05/01/anymal-unique-quadruped-robot-conquering-harsh-environments/#)
 * [ANYbotics](https://www.anybotics.com/)
-* [Real World telemetry data]() TODO
-* [Real World telemetry data video]() TODO
+* [Real World telemetry data/video](https://drive.google.com/drive/folders/1DlhimLBMShALMtkspDM-va2piQx8fRKq?usp=sharing)
 * [ANYmal weigth](https://drive.google.com/file/d/1zJPQx23A_2rpEeE7_yEe7X13pZEPaJBG/view?usp=sharing)
-* [TODO IMU]
 * [LIDAR - Velodyne VLP-16](https://velodynelidar.com/products/puck/)
 * [LIDAR - Robosense RS-Bpearl](https://www.robosense.ai/rslidar/rs-bpearl)
 * [VIO Perception Head - Alphasense](https://github.com/sevensense-robotics/alphasense_core_manual)
