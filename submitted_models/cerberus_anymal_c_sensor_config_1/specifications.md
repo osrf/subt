@@ -73,7 +73,7 @@ Based on the tests specified in the DARPA SubT Challenge [Model Preparation Guid
 ### Endurance Characteristics
 Based on the tests specified in the DARPA SubT Challenge [Model Preparation Guide](https://subtchallenge.com/resources/Simulation_Model_Preparation_Guide.pdf), this vehicle has the following endurance characteristics.
 
-* Battery life of 4200 seconds
+* Battery life of 4269 seconds
 
 ### Diversions from Physical Hardware of ANYmal
 The following points highlight the differences between the submitted virtual model and its hardware counterpart.
