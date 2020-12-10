@@ -48,6 +48,7 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu 
     ros-melodic-twist-mux \
     ros-melodic-rviz-imu-plugin \
     ros-melodic-rotors-control \
+    ros-melodic-theora-image-transport \
  && sudo rosdep init \
  && sudo apt-get clean -qq
 
