@@ -132,7 +132,8 @@ class Processor;
 enum DataType
 {
   ROBOT  = 0,
-  REPORT = 1
+  REPORT = 1,
+  PHASE = 2
 };
 
 /// \brief Color properties for a marker.
@@ -202,6 +203,12 @@ class ReportData : public Data
   public: void Render(Processor *_p);
 };
 
+/// \brief Phase change data
+class PhaseData : public Data
+{
+  public: void Render(Processor *_p);
+};
+
 /// \brief The log file processor.
 class Processor
 {
@@ -210,7 +217,11 @@ class Processor
   /// \param[in] _path Path to the directory containing the log files.
   /// \param[in] _configPath Path to the configuration file, or empty string.
   public: Processor(const std::string &_path,
-                    const std::string &_configPath = "");
+                    const std::string &_configPath,
+                    const std::string &_partition,
+                    const std::string &_cameraPose,
+                    const std::string &_worldName,
+                    bool _onlyCheck);
 
   /// \brief Destructor
   public: ~Processor();
@@ -247,6 +258,11 @@ class Processor
   /// \brief This callback is triggered on every pose message in the log file.
   public: void Cb(const ignition::msgs::Pose_V &_msg);
 
+  public: void ClockCb(const ignition::msgs::Clock &_msg);
+  public: void RecorderStatsCb(const ignition::msgs::Time &_msg);
+  public: void StepUntil(int _sec);
+  public: void Pause(bool _pause);
+
   /// \brief Mapping of robot name to color
   public: std::map<std::string, MarkerColor> robots;
 
@@ -279,4 +295,20 @@ class Processor
 
   /// \brief Realtime factor for playback.
   private: double rtf = 1.0;
+
+  private: std::vector<int> scoreTimes;
+
+  private: int simTime;
+  private: int startSimTime = 0;
+  private: int nextSimTime = -1;
+  private: std::mutex stepMutex;
+  private: std::condition_variable stepCv;
+  private: std::string worldName;
+
+  /// \brief Recorder stats msg.
+  public: ignition::msgs::Time recorderStatsMsg;
+
+
+  /// \brief Mutex to protect recorder stats msg.
+  public: std::mutex recorderStatsMutex;
 };

@@ -61,6 +61,20 @@ namespace subt
   /// \brief Data structure to store event info
   class Event
   {
+    public: void GenerateFilename(const std::string &_format)
+    {
+      this->filename = std::to_string(
+          static_cast<int>(this->startRecordTime)) + "-" + this->type;
+      if (!this->detector.empty())
+        this->filename += "-" + this->detector;
+      if (!this->model.empty())
+        this->filename += "-" + this->model;
+      if (!this->extra.empty())
+        this->filename += "-" + this->extra;
+      this->filename += "-" + this->robot +
+        + "-" + std::to_string(this->id) +"." + _format;
+    }
+
     /// \brief Event id
     public: unsigned int id;
 
@@ -91,6 +105,9 @@ namespace subt
 
     /// \brief End time for recording video
     public: double endRecordTime = 0;
+
+    /// \brief Name of the output file.
+    public: std::string filename;
   };
 
   /// \brief Playback recording state
@@ -278,6 +295,9 @@ class subt::PlaybackEventRecorderPrivate
   /// \brief True if recorder needs to catch up on recording so it
   /// does not lag behind too much
   public: bool catchupOnRecording = false;
+
+  /// \brief Status log
+  public: std::ofstream statusLog;
 };
 
 /////////////////////////////////////////////
@@ -335,13 +355,6 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity &,
   // function and _sdf is a const shared pointer to a const sdf::Element.
   auto ptr = const_cast<sdf::Element *>(_sdf.get());
 
-  if (!_sdf->HasElement("log_path"))
-  {
-    ignerr << "Unable to load events.yml file. <log_path> not specified."
-           << std::endl;
-    return;
-  }
-
   if (_sdf->HasElement("exit_on_finish"))
   {
     this->dataPtr->exitOnFinish = ptr->Get<bool>("exit_on_finish");
@@ -382,9 +395,16 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity &,
       std::chrono::duration_cast<std::chrono::seconds>(
       log->EndTime()).count();
 
-  // load events.yml
+
+  std::string eventFilename = "filtered_events.yaml";
+  if (!common::exists(common::joinPaths(this->dataPtr->logPath, eventFilename)))
+    eventFilename = "events.yml";
+
+  this->dataPtr->statusLog.open("record_status.log", std::ofstream::app);
+
+  // load filtered_events.yml
   YAML::Node node = YAML::LoadFile(
-      common::joinPaths(this->dataPtr->logPath, "events.yml"));
+      common::joinPaths(this->dataPtr->logPath, eventFilename));
 
   // staging area event - there should be one in each playback
   // record video until last robot exists staging area
@@ -462,6 +482,7 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity &,
               stagingAreaEvent.time = time;
               stagingAreaEvent.robot = robot;
               stagingAreaEvent.endRecordTime = time + it->second.second;
+              stagingAreaEvent.id = n["id"].as<int>();
             }
           }
         }
@@ -514,7 +535,16 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity &,
 
     e.startRecordTime = std::max(e.time - it->second.first, 0.0);
     e.endRecordTime = e.time + it->second.second;
-    this->dataPtr->events.push_back(e);
+    e.GenerateFilename(this->dataPtr->videoFormat);
+    if (!ignition::common::exists(this->dataPtr->logPath + "/" + e.filename))
+      this->dataPtr->events.push_back(e);
+    else
+    {
+      std::cout << e.filename << " exists, skipping\n";
+      auto now = std::chrono::steady_clock::now();
+      this->dataPtr->statusLog << ignition::math::timePointToString(now)
+        << " " << e.filename << " exists, skipping" << std::endl;
+    }
   }
 
   // merge artifact proximity detector events
@@ -560,7 +590,21 @@ void PlaybackEventRecorder::Configure(const ignition::gazebo::Entity &,
 
   // add the staging area event
   if (!stagingAreaEventTime.empty())
-    this->dataPtr->events.push_back(stagingAreaEvent);
+  {
+    stagingAreaEvent.GenerateFilename(this->dataPtr->videoFormat);
+    if (!ignition::common::exists(this->dataPtr->logPath + "/" +
+          stagingAreaEvent.filename))
+    {
+      // this->dataPtr->events.push_back(stagingAreaEvent);
+    }
+    else
+    {
+      std::cout << stagingAreaEvent.filename << " exists, skipping\n";
+      auto now = std::chrono::steady_clock::now();
+      this->dataPtr->statusLog << ignition::math::timePointToString(now)
+        << " " << stagingAreaEvent.filename << " exists, skipping" << std::endl;
+    }
+  }
 
   // don't do anything if there are no events
   if (this->dataPtr->events.empty())
@@ -749,6 +793,11 @@ void PlaybackEventRecorder::PostUpdate(
     // get next event to record
     this->dataPtr->event = this->dataPtr->events.front();
     this->dataPtr->events.pop_front();
+
+    auto now = std::chrono::steady_clock::now();
+    this->dataPtr->statusLog << ignition::math::timePointToString(now)
+        << " " << this->dataPtr->event.filename << " starting. "
+        << this->dataPtr->events.size() <<  " remaining." << std::endl;
 
     // set camera mode
     auto cameraMode = this->dataPtr->eventCameraMode[this->dataPtr->event.type];
@@ -1086,26 +1135,16 @@ void PlaybackEventRecorder::PostUpdate(
 
       if (common::exists(this->dataPtr->tmpVideoFilename))
       {
-        std::string filename = std::to_string(
-            static_cast<int>(this->dataPtr->event.startRecordTime)) + "-" +
-            this->dataPtr->event.type;
-        if (!this->dataPtr->event.detector.empty())
-        {
-          filename += "-" + this->dataPtr->event.detector;
-        }
-        if (!this->dataPtr->event.model.empty())
-        {
-          filename += "-" + this->dataPtr->event.model;
-        }
-        if (!this->dataPtr->event.extra.empty())
-        {
-          filename += "-" + this->dataPtr->event.extra;
-        }
-        filename += "-" + this->dataPtr->event.robot +
-            "." + this->dataPtr->videoFormat;
-        common::moveFile(this->dataPtr->tmpVideoFilename, filename);
+        common::moveFile(this->dataPtr->tmpVideoFilename,
+            this->dataPtr->event.filename);
 
-        ignmsg << "Saving video recording to:  " << filename <<  std::endl;
+        ignmsg << "Saving video recording to:  "
+          << this->dataPtr->event.filename <<  std::endl;
+
+        auto now = std::chrono::steady_clock::now();
+        this->dataPtr->statusLog << ignition::math::timePointToString(now)
+          << " Saving video recording to:  "
+          << this->dataPtr->event.filename <<  std::endl;
 
         // Remove old temp file, if it exists.
         std::remove(this->dataPtr->tmpVideoFilename.c_str());
