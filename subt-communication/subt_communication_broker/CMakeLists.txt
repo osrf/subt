@@ -18,7 +18,7 @@ set(RUN_DEPENDS
 find_package(catkin REQUIRED ${BUILD_DEPENDS})
 
 find_package(ignition-common3 REQUIRED)
-find_package(ignition-msgs6 REQUIRED)
+find_package(ignition-msgs7 REQUIRED)
 find_package(ignition-transport9 REQUIRED)
 
 include_directories(
@@ -26,14 +26,14 @@ include_directories(
   ${CATKIN_DEVEL_PREFIX}/include
   ${catkin_INCLUDE_DIRS}
   ${ignition-transport9_INCLUDE_DIRS}
-  ${ignition-msgs6_INCLUDE_DIRS}
+  ${ignition-msgs7_INCLUDE_DIRS}
   ${ignition-common3_INCLUDE_DIRS}
   )
 
 set(project_libs
   ${catkin_LIBRARIES}
   ${ignition-transport9_LIBRARIES}
-  ${ignition-msgs6_LIBRARIES}
+  ${ignition-msgs7_LIBRARIES}
   ${ignition-common3_LIBRARIES})
 
 #######################################
