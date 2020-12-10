@@ -108,7 +108,7 @@ WORKDIR /home/$USERNAME
 RUN rosdep update
 
 # Download the public models
-RUN ign fuel download -v 4 -j 8 -u "https://fuel.ignitionrobotics.org/OpenRobotics/collections/SubT Tech Repo"
+RUN ign fuel download -v 4 -j 8 --type model -u "https://fuel.ignitionrobotics.org/OpenRobotics/collections/SubT Tech Repo"
 
 # Download niosh models, set 1.
 COPY download_niosh_1.sh ./
@@ -126,7 +126,7 @@ RUN ./download_niosh_3.sh
 # docker is run
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
- && git clone https://github.com/osrf/subt -b distance_segfault
+ && git clone https://github.com/osrf/subt -b cave_circuit_compeition_worlds
 
 WORKDIR /home/$USERNAME/subt_ws
 
