@@ -3,8 +3,8 @@ This package contains an Ignition Gazebo Plugin that can be used to control the 
 
 **Authors & Maintainers**:
 
-*  Marco Tranzatto
 *  Samuel Zimmermann
+*  Marco Tranzatto
 *  Timon Homberger
 
 **Affiliation:** [Robotic Systems Lab - ETH Zurich](https://rsl.ethz.ch/the-lab.html)
