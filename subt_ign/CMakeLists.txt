@@ -358,16 +358,42 @@ target_include_directories(level_generator
 install(TARGETS level_generator
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 
-add_executable(world_generator_cave src/world_generator_cave.cc src/ConnectionHelper.cc)
-target_link_libraries(world_generator_cave
+add_executable(cave_generator src/cave_generator.cc src/world_generator_base.cc src/world_generator_utils.cc src/ConnectionHelper.cc)
+add_dependencies(cave_generator ${catkin_EXPORTED_TARGETS})
+target_link_libraries(cave_generator 
   ignition-math6::ignition-math6
   ignition-common3::requested
   ignition-fuel_tools3::ignition-fuel_tools3
-  sdformat8::sdformat8)
-target_include_directories(world_generator_cave
+  sdformat8::sdformat8  
+  ${catkin_LIBRARIES})
+target_include_directories(cave_generator
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
-install(TARGETS world_generator_cave
+install(TARGETS cave_generator
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+
+add_executable(urban_generator src/urban_generator.cc src/world_generator_base.cc src/world_generator_utils.cc src/ConnectionHelper.cc)
+add_dependencies(cave_generator ${catkin_EXPORTED_TARGETS})
+target_link_libraries(urban_generator 
+  ignition-math6::ignition-math6
+  ignition-common3::requested
+  ignition-fuel_tools3::ignition-fuel_tools3
+  sdformat8::sdformat8  
+  ${catkin_LIBRARIES})
+target_include_directories(urban_generator
+  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
+install(TARGETS urban_generator
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+
+#add_executable(world_generator_cave src/world_generator_cave.cc src/ConnectionHelper.cc)
+#target_link_libraries(world_generator_cave
+#  ignition-math6::ignition-math6
+#  ignition-common3::requested
+#  ignition-fuel_tools3::ignition-fuel_tools3
+#  sdformat8::sdformat8)
+#target_include_directories(world_generator_cave
+#  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
+#install(TARGETS world_generator_cave
+#  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 
 
 ###########
