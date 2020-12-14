@@ -32,6 +32,7 @@ std::map<std::string, std::vector<ignition::math::Vector3d>>
     {"Tunnel Intersection", {{0, 0, 0}, {7.5, 7.5, 0}, {-7.5, 7.5, 0}, {0, 15, 0}}},
     {"Tunnel Intersection T", {{0, 0, 0}, {7.5, 7.5, 0}, {-7.5, 7.5, 0}}},
     {"Tunnel Straight", {{0, 0, 0}, {0, 5, 0}}},
+    {"subt_tunnel_staging_area", {{10, 0, 0}}},
     {"Tunnel Tile 1", {{0.0, 10.0, 0.0}, {10.0, 0.0, 0.0}, {0.0, -10.0, 0.0}, {010.0, 0.0, 0.0}}},
     {"Tunnel Tile 2", {{10, 0, 0}, {0, -10, 0}}},
     {"Tunnel Tile 3", {{0.0, 10.0, 0.0}, {10.0, 0.0, 0.0}, {0.0, -10.0, 0.0}, {010.0, 0.0, 0.0}}},
