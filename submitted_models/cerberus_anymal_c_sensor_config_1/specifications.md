@@ -43,7 +43,7 @@ The software included in this package is released under a [BSD 3-Clause license]
 ANYmal model is adapted from [anymal_c_simple_description](https://github.com/ANYbotics/anymal_c_simple_description) repository, released under BSD 3-Clause license.
 
 ### Cost and Scale
-The CERBERUS ANYmal robot is a research platform and its cost is not publicly available at the moment. It weighs approximately 55 kg.
+The CERBERUS ANYmal robot is a research platform and its cost is not publicly available at the moment. It weighs approximately 55 kg and is based on ANYbotics ANYmal C which is available on their website: [ANYbotics](https://www.anybotics.com/anymal-legged-robot/).
 
 ### Sensors
 This ANYmal with sensor configuration 1 includes the following sensors. The specifications for these instruments are provided below in the [Validation Links](#markdown-header-anymal-validation-and-specification-links) section.
@@ -82,7 +82,6 @@ The following points highlight the differences between the submitted virtual mod
 * The physical robot carries 4 communication breadcrumbs. 12 breadcrumbs are included in sensor configuration 2, which is standardized to match other available models.
 
 ## ANYmal Validation and Specification Links
-* [ANYmal specification link](https://researchfeatures.com/2018/05/01/anymal-unique-quadruped-robot-conquering-harsh-environments/#)
 * [ANYbotics](https://www.anybotics.com/)
 * [Real World telemetry data/video](https://drive.google.com/drive/folders/1DlhimLBMShALMtkspDM-va2piQx8fRKq?usp=sharing)
 * [ANYmal weigth](https://drive.google.com/file/d/1zJPQx23A_2rpEeE7_yEe7X13pZEPaJBG/view?usp=sharing)
