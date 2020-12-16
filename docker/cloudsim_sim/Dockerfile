@@ -96,7 +96,7 @@ RUN rosdep update
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
  && git config --global http.postBuffer 1048576000 \
- && git clone https://github.com/osrf/subt -b dome
+ && git clone https://github.com/osrf/subt
 
 WORKDIR /home/$USERNAME/subt_ws
 
