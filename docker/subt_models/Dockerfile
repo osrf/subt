@@ -45,5 +45,5 @@ WORKDIR /home/$USERNAME
 RUN ign fuel download -v 4 -j 8 --type model -u "https://fuel.ignitionrobotics.org/OpenRobotics/collections/SubT Tech Repo"
 
 # Cleanup ignition
-RUN subt apt-get remove ignition-citadel \
- && apt-get clean
+RUN sudo apt-get remove ignition-citadel -y \
+ && sudo apt-get clean
