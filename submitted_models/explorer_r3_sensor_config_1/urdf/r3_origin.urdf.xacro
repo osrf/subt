@@ -1,0 +1,443 @@
+<?xml version="1.0"?>
+<robot name="r3" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:property name="mesh_path" value="package://r3/meshes" />
+  <xacro:property name="wheel_length" value="0.0765" />
+  <xacro:property name="wheel_radius" value="0.246" />
+  <xacro:property name="M_PI" value="3.14159"/>
+  <xacro:property name="joint_damping" value="10.0" />
+  <xacro:property name="joint_friction" value="0.1" />
+  <xacro:property name="wheel_ground_contact_stiffness" value="10000000.0" />
+  <xacro:property name="wheel_ground_contact_damping" value="0.0001" />
+  <xacro:property name="namespace" value="" />
+
+
+  <xacro:include filename="$(find r3)/urdf/3d_lidar.urdf.xacro" />
+  <xacro:include filename="$(find r3)/urdf/rgbd_camera.urdf.xacro" />
+
+
+  <xacro:macro name="geometry_mesh" params="filename">
+  	<geometry>
+	  <mesh filename="${mesh_path}/${filename}" />
+    </geometry>
+  </xacro:macro>
+
+  <xacro:macro name="default_collision" params="filename">
+  	<collision>
+      <origin xyz="0 0 0" rpy="0 0 1.5708" />
+      <xacro:geometry_mesh filename="${filename}" />
+    </collision>
+  </xacro:macro>
+
+  <xacro:macro name="wheel_collision" params="filename">
+  	<collision>
+                <origin xyz="0 0 -0.039" rpy="0 0 0" />
+		<geometry>
+      		<cylinder length="${wheel_length}" radius="${wheel_radius}" />
+		</geometry>
+  	</collision>
+  </xacro:macro>
+
+  <xacro:macro name="material_color" params="rgba">
+    <material name="">
+      <color rgba="${rgba}" />
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="gazebo_material" params="ref color">
+    <gazebo reference="${ref}">
+      <material>Gazebo/${color}</material>
+    </gazebo>
+  </xacro:macro>
+
+  <xacro:macro name="wheel_ground_contact_parameters" params="wheel_link">
+  	<gazebo reference="${wheel_link}">
+		<kp value="${wheel_ground_contact_stiffness}" />
+		<kd value="${wheel_ground_contact_damping}" />
+		<collision>
+		  <surface>
+		    <friction>
+		      <ode>
+		        <mu>1.0</mu>
+		        <mu2>1.0</mu2>
+		        <fdir1>0 0 1</fdir1>
+		        <slip1>1e-3</slip1>
+		        <slip2>0</slip2>
+		       	<max_vel>10</max_vel>
+		        <min_depth>0.1</min_depth>
+		      </ode>
+		    </friction>
+		  </surface>
+		</collision>
+    </gazebo>
+  </xacro:macro>
+
+
+  <link name="base_link">
+    <inertial>
+      <origin
+        xyz="-1.1565E-17 0.044176 0.086368"
+        rpy="0 0 0" />
+      <mass
+        value="55.50075" />
+      <inertia
+        ixx="4.4310240660959"
+        ixy="0.00177949851092048"
+        ixz="-0.00175257857601579"
+        iyy="2.42782927668064"
+        iyz="-0.39242059748848"
+        izz="5.54496680440692" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 1.5708" />
+      <xacro:geometry_mesh filename="base_link.STL" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 1.5708" />
+      <xacro:geometry_mesh filename="base_link.STL" />
+    </collision>
+  </link>
+
+  <link
+    name="Rear_Rocker_Link">
+    <inertial>
+      <origin
+        xyz="0.101306027754078 -0.0502566315308366 0.228473"
+        rpy="0 0 0" />
+      <mass
+        value="21.41965" />
+      <inertia
+        ixx="0.848992292337387"
+        ixy="0.00301841593778525"
+        ixz="5.2178752701003E-06"
+        iyy="1.03049493804274"
+        iyz="1.21709858827846E-07"
+        izz="0.436789924755462" />
+    </inertial>
+    <visual>
+      <origin xyz="-0.31979 0.0 -0.22847" rpy="0 0 0" />
+      <xacro:geometry_mesh filename="Center Pivot.STL" />
+    </visual>
+    <collision>
+      <origin xyz="-0.31979 0.0 -0.22847" rpy="0 0 0" />
+      <xacro:geometry_mesh filename="Center Pivot.STL" />
+    </collision>
+  </link>
+  <joint
+    name="Center Pivot"
+    type="revolute">
+    <origin
+      xyz="-0.0 0.0 -0.092278"
+      rpy="-1.5708 0 -0" />
+    <parent
+      link="base_link" />
+    <child
+      link="Rear_Rocker_Link" />
+    <limit effort="30" velocity="1.0" lower="-0.5585" upper="0.5585" />
+    <axis
+      xyz="-1 0 0" />
+  </joint>
+
+
+  <link name="sensor_payload_link">
+    <inertial>
+      <origin
+        xyz="4.32900927266888E-05 0.072569130795944 -0.0921360274406024"
+        rpy="0 0 0" />
+      <mass
+        value="0.41481449791151" />
+      <inertia
+        ixx="0.00208947621670912"
+        ixy="-3.66162905680016E-07"
+        ixz="-3.19229505004623E-07"
+        iyy="0.00056264622462507"
+        iyz="-2.41791699054797E-07"
+        izz="0.00152683275984506" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <xacro:geometry_mesh filename="payload_cube.stl" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <xacro:geometry_mesh filename="payload_cube.stl" />
+    </collision>
+  </link>
+
+  <joint name="sensor_payload_base_joint" type="fixed">
+    <origin
+      xyz="0.31054 -0.0903 0.23288"
+      rpy="1.5708 6.123E-17 0" />
+    <parent link="base_link" />
+    <child link="sensor_payload_link" />
+    <axis xyz="0 0 0" />
+  </joint>
+
+  <link name="left_rear_wheel_link">
+    <inertial>
+      <origin
+        xyz="-3.5667E-06 4.4318E-08 -0.038479"
+        rpy="0 0 0" />
+      <mass
+        value="5.5398" />
+      <inertia
+        ixx="0.127931752943703"
+        ixy="6.41777184216616E-06"
+        ixz="2.4027118765741E-06"
+        iyy="0.0695644678223955"
+        iyz="1.35438803038459E-09"
+        izz="0.069564341275897" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <xacro:geometry_mesh filename="rl_wheel.STL" />
+    </visual>
+    <xacro:wheel_collision filename="rl_wheel.STL" />
+  </link>
+
+  <joint name="left_rear_wheel" type="continuous">
+    <origin
+      xyz="-0.31979 0.0 0.22844"
+      rpy="3.142 0.0 1.771" />
+    <parent link="Rear_Rocker_Link" />
+    <child link="left_rear_wheel_link" />
+    <axis xyz="0 0 -1" />
+    <dynamics damping="${joint_damping}" friction="${joint_friction}"/>
+  </joint>
+
+
+  <link name="right_rear_wheel_link">
+    <inertial>
+      <origin
+        xyz="3.5667E-06 4.4318E-08 -0.038479"
+        rpy="0 0 0" />
+      <mass
+        value="5.5398" />
+      <inertia
+        ixx="0.127931752943703"
+        ixy="6.41777184772096E-06"
+        ixz="2.40271185774561E-06"
+        iyy="0.0695644678228964"
+        iyz="1.35438804973759E-09"
+        izz="0.0695643412763979" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <xacro:geometry_mesh filename="rr_wheel.STL" />
+    </visual>
+    <xacro:wheel_collision filename="rr_wheel.STL" />
+  </link>
+
+  <joint name="right_rear_wheel" type="continuous">
+    <origin
+      xyz="-0.31979 0.0 -0.22844"
+      rpy="-0 0 -0" />
+    <parent link="Rear_Rocker_Link" />
+    <child link="right_rear_wheel_link" />
+    <axis xyz="0 0 1" />
+    <dynamics damping="${joint_damping}" friction="${joint_friction}"/>
+  </joint>
+
+
+  <link name="left_front_wheel_link">
+    <inertial>
+      <origin
+        xyz="3.5667E-06 -4.4318E-08 -0.038006"
+        rpy="0 0 0" />
+      <mass
+        value="5.5398" />
+      <inertia
+        ixx="0.127931752943703"
+        ixy="6.41777188154299E-06"
+        ixz="2.40271183447247E-06"
+        iyy="0.0695644678227324"
+        iyz="1.35438809933984E-09"
+        izz="0.069564341276234" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <xacro:geometry_mesh filename="fl_wheel.STL" />
+    </visual>
+    <xacro:wheel_collision filename="fl_wheel.STL" />
+  </link>
+
+  <joint name="left_front_wheel" type="continuous">
+    <origin
+    xyz=" 0.31064 0.22844 -0.092278"
+    rpy="-1.5708 1.3703 3.14159" />
+    <parent link="base_link" />
+    <child link="left_front_wheel_link" />
+    <axis xyz="0 0 -1" />
+    <dynamics damping="${joint_damping}" friction="${joint_friction}"/>
+  </joint>
+
+
+  <link name="right_front_wheel_link">
+    <inertial>
+      <origin
+        xyz="3.5667E-06 4.4318E-08 -0.038479"
+        rpy="0 0 0" />
+      <mass
+        value="5.5398" />
+      <inertia
+        ixx="0.127931752943703"
+        ixy="6.41777180284833E-06"
+        ixz="2.40271190443607E-06"
+        iyy="0.0695644678226199"
+        iyz="1.35438796820559E-09"
+        izz="0.0695643412761212" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <xacro:geometry_mesh filename="fr_wheel.STL" />
+    </visual>
+    <xacro:wheel_collision filename="fr_wheel.STL" />
+  </link>
+
+  <joint name="right_front_wheel" type="continuous">
+    <origin
+      xyz="0.31064 -0.22847 -0.092278"
+      rpy="-1.5708 0 0" />
+    <parent link="base_link" />
+    <child link="right_front_wheel_link" />
+    <axis xyz="0 0 1" />
+    <dynamics damping="${joint_damping}" friction="${joint_friction}"/>
+  </joint>
+
+
+  <xacro:wheel_ground_contact_parameters wheel_link="left_rear_wheel_link"/>
+  <xacro:wheel_ground_contact_parameters wheel_link="right_rear_wheel_link"/>
+  <xacro:wheel_ground_contact_parameters wheel_link="left_front_wheel_link"/>
+  <xacro:wheel_ground_contact_parameters wheel_link="right_front_wheel_link"/>
+
+  <xacro:gazebo_material ref="base_link"        color="Red" />
+  <xacro:gazebo_material ref="Rear_Rocker_Link" color="Red" />
+  <xacro:gazebo_material ref="left_front_wheel_link" color="Black" />
+  <xacro:gazebo_material ref="left_rear_wheel_link"  color="Black" />
+  <xacro:gazebo_material ref="right_front_wheel_link" color="Black" />
+  <xacro:gazebo_material ref="right_rear_wheel_link"  color="Black" />
+  <xacro:gazebo_material ref="sensor_payload_link" color="Blue"/>
+
+  <xacro:macro name="define_transmission" params="name joint actuator">
+    <transmission name="${name}">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${joint}">
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="${actuator}">
+        <mechanicalReduction>1</mechanicalReduction>
+        <!--hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface-->
+      </actuator>
+    </transmission> 
+  </xacro:macro>
+
+  <xacro:define_transmission name="left_front_wheel_trans" joint="left_front_wheel" actuator="left_front_wheel_motor" />
+  <xacro:define_transmission name="right_front_wheel_trans" joint="right_front_wheel" actuator="right_front_wheel_motor" />
+  <xacro:define_transmission name="left_rear_wheel_trans" joint="left_rear_wheel" actuator="left_rear_wheel_motor" />
+  <xacro:define_transmission name="right_rear_wheel_trans" joint="right_rear_wheel" actuator="right_rear_wheel_motor" />
+
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+    </plugin>
+  </gazebo>
+
+
+  <gazebo>
+    <plugin name="imu_controller" filename="libhector_gazebo_ros_imu.so">
+      <updateRate>50.0</updateRate>
+      <!--TODO: The frame id and body name need the namespace-->
+      <frameId>base_link</frameId>
+      <bodyName>base_link</bodyName>
+      <topicName>/X1/imu/data</topicName>
+      <accelDrift>0.005 0.005 0.005</accelDrift>
+      <accelGaussianNoise>0.005 0.005 0.005</accelGaussianNoise>
+      <rateDrift>0.005 0.005 0.005 </rateDrift>
+      <rateGaussianNoise>0.005 0.005 0.005 </rateGaussianNoise>
+      <headingDrift>0.005</headingDrift>
+      <headingGaussianNoise>0.005</headingGaussianNoise>
+    </plugin>
+  </gazebo>
+
+  <xacro:macro name="velodyne_long_range_lidar_and_mount">
+    <velodyne_lidar
+      name="front_laser"
+      topic="/X1/points"
+      max_range="100"
+      update_rate="10"
+    />
+
+    <joint name="front_laser_mount_joint" type="fixed">
+      <origin xyz="4.32900927266888E-05 0.215 -0.0921360274406024" rpy="-${M_PI/2} 0 0" />
+      <parent link="sensor_payload_link" />
+      <child link="front_laser" />
+    </joint>
+  </xacro:macro>
+
+  <xacro:velodyne_long_range_lidar_and_mount/>
+
+
+  <xacro:macro name="front_depth_camera_and_mount">
+    <rgbd_camera
+      name="rs_front"
+      roll="${M_PI/2}"
+    />
+
+    <joint name="rs_front_mount_joint" type="fixed">
+      <origin xyz="0.09 0.157 -0.055" rpy="-${M_PI/2} 0 0" />
+      <parent link="sensor_payload_link" />
+      <child link="rs_front_link" />
+    </joint>
+  </xacro:macro>
+
+  <xacro:front_depth_camera_and_mount/>
+
+
+  <xacro:macro name="rear_depth_camera_and_mount">
+    <rgbd_camera
+      name="rs_back"
+      roll="${M_PI/2}"
+    />
+
+    <joint name="rs_back_mount_joint" type="fixed">
+      <origin xyz="-0.09 0.157 -0.1275" rpy="-${M_PI/2} ${M_PI} 0" />
+      <parent link="sensor_payload_link" />
+      <child link="rs_back_link" />
+    </joint>
+  </xacro:macro>
+
+  <xacro:rear_depth_camera_and_mount/>
+
+
+  <xacro:macro name="left_depth_camera_and_mount">
+    <rgbd_camera
+      name="rs_left"
+      roll="${M_PI/2}"
+    />
+
+    <joint name="rs_left_mount_joint" type="fixed">
+      <origin xyz="0.038 0.157 -0.182" rpy="-${M_PI/2} ${M_PI/2} 0" />
+      <parent link="sensor_payload_link" />
+      <child link="rs_left_link" />
+    </joint>
+  </xacro:macro>
+
+  <xacro:left_depth_camera_and_mount/>
+
+
+  <xacro:macro name="right_depth_camera_and_mount">
+    <rgbd_camera
+      name="rs_right"
+      roll="${M_PI/2}"
+      yaw="${M_PI}"
+    />
+
+    <joint name="rs_right_mount_joint" type="fixed">
+      <origin xyz="-0.038 0.157 0" rpy="-${M_PI/2} ${1.5*M_PI} 0" />
+      <parent link="sensor_payload_link" />
+      <child link="rs_right_link" />
+    </joint>
+  </xacro:macro>
+
+  <xacro:right_depth_camera_and_mount/>
+
+</robot>
