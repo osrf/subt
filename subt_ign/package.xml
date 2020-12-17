@@ -8,14 +8,20 @@
   <buildtool_depend>catkin</buildtool_depend>
 
   <depend>ignition-common3</depend>
-  <depend>ignition-launch1</depend>
+  <depend>ignition-launch2</depend>
   <depend>ignition-math6</depend>
-  <depend>ignition-msgs4</depend>
+  <depend>ignition-msgs6</depend>
   <depend>ignition-plugin1</depend>
-  <depend>ignition-transport7</depend>
+  <depend>ignition-transport9</depend>
 
   <depend>subt_rf_interface</depend>
   <depend>subt_communication_model</depend>
   <depend>subt_communication_broker</depend>
+  <depend>subt_ros</depend>
+
+  <depend>libccd-dev</depend>
+  <depend>libfcl-dev</depend>
+  <depend>rosbag</depend>
+
   <test_depend>rostest</test_depend>
 </package>

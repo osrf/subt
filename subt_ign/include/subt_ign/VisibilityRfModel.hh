@@ -121,6 +121,8 @@ namespace subt
         private: void OnPose(const ignition::msgs::Pose_V &_msg);
 
         /// \brief Transport node
+        private: ignition::transport::Node n2;
+
         private: ignition::transport::Node node;
         private: subt::VisibilityTable visibilityTable;
         private: visibilityModel::RfConfiguration visibilityConfig;

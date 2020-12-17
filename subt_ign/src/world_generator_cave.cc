@@ -316,7 +316,7 @@ WorldSection WorldGenerator::CreateWorldSectionFromTile(const std::string &_type
 
   VertexData t;
   t.tileType = _type;
-  t.model.SetPose(math::Pose3d(_rot * -_entry, _rot));
+  t.model.SetRawPose(math::Pose3d(_rot * -_entry, _rot));
   s.tiles.push_back(t);
 
   for (const auto &o : it->second)
@@ -363,27 +363,27 @@ void WorldGenerator::CreateTypeAWorldSections()
 
     VertexData t;
     t.tileType = "Cave Vertical Shaft Straight Bottom Type A";
-    t.model.SetPose(math::Pose3d(25, 0, 0, 0, 0, -1.5708));
+    t.model.SetRawPose(math::Pose3d(25, 0, 0, 0, 0, -1.5708));
     s.tiles.push_back(t);
 
     t.tileType = "Cave Vertical Shaft Cantilevered Type A";
-    t.model.SetPose(math::Pose3d(25, 0, 0, 0, 0, -1.5708));
+    t.model.SetRawPose(math::Pose3d(25, 0, 0, 0, 0, -1.5708));
     s.tiles.push_back(t);
 
     t.tileType = "Cave Vertical Shaft Straight Top Type A";
-    t.model.SetPose(math::Pose3d(75, 0, 25, 0, 0, -1.5708));
+    t.model.SetRawPose(math::Pose3d(75, 0, 25, 0, 0, -1.5708));
     s.tiles.push_back(t);
 
     t.tileType = "Cave 3 Way Elevation 02 Type A";
-    t.model.SetPose(math::Pose3d(100, 0, 0, 0, 0, 1.5708));
+    t.model.SetRawPose(math::Pose3d(100, 0, 0, 0, 0, 1.5708));
     s.tiles.push_back(t);
 
     t.tileType = "Cave Elevation 02 Type A";
-    t.model.SetPose(math::Pose3d(150, 0, 25, 0, 0, -3.14159));
+    t.model.SetRawPose(math::Pose3d(150, 0, 25, 0, 0, -3.14159));
     s.tiles.push_back(t);
 
     t.tileType = "Cave Cap Type A";
-    t.model.SetPose(math::Pose3d(50, 0, 25, 0, 0, 1.5708));
+    t.model.SetRawPose(math::Pose3d(50, 0, 25, 0, 0, 1.5708));
     s.tiles.push_back(t);
 
     s.connectionPoints.push_back(std::make_pair(
@@ -405,24 +405,24 @@ void WorldGenerator::CreateTypeAWorldSections()
 
     VertexData t;
     t.tileType = "Cave 3 Way 01 Type A";
-    t.model.SetPose(math::Pose3d(25, 0, 0, 0, 0, -1.5708));
+    t.model.SetRawPose(math::Pose3d(25, 0, 0, 0, 0, -1.5708));
     s.tiles.push_back(t);
 
     t.tileType = "Cave Elevation Straight Type A";
-    t.model.SetPose(math::Pose3d(75, 75, -25, 0, 0, -3.14159));
+    t.model.SetRawPose(math::Pose3d(75, 75, -25, 0, 0, -3.14159));
     s.tiles.push_back(t);
 
 
     t.tileType = "Cave Corner 03 Type A";
-    t.model.SetPose(math::Pose3d(75, 150, -25, 0, 0, 1.5708));
+    t.model.SetRawPose(math::Pose3d(75, 150, -25, 0, 0, 1.5708));
     s.tiles.push_back(t);
 
     t.tileType = "Cave 3 Way 01 Type A";
-    t.model.SetPose(math::Pose3d(75, -100, 0, 0, 0, 0));
+    t.model.SetRawPose(math::Pose3d(75, -100, 0, 0, 0, 0));
     s.tiles.push_back(t);
 
     t.tileType = "Cave U Turn Elevation Type A";
-    t.model.SetPose(math::Pose3d(175, -50, 0, 0, 0, 0));
+    t.model.SetRawPose(math::Pose3d(175, -50, 0, 0, 0, 0));
     s.tiles.push_back(t);
 
     s.connectionPoints.push_back(std::make_pair(
@@ -443,31 +443,31 @@ void WorldGenerator::CreateTypeAWorldSections()
 
     VertexData t;
     t.tileType = "Cave Straight Type A";
-    t.model.SetPose(math::Pose3d(25, 0, 0, 0, 0, -1.5708));
+    t.model.SetRawPose(math::Pose3d(25, 0, 0, 0, 0, -1.5708));
     s.tiles.push_back(t);
 
     t.tileType = "Cave 4 Way 01 Type A";
-    t.model.SetPose(math::Pose3d(75, 0, 0, 0, 0, 0));
+    t.model.SetRawPose(math::Pose3d(75, 0, 0, 0, 0, 0));
     s.tiles.push_back(t);
 
     t.tileType = "Cave 3 Way 01 Type A";
-    t.model.SetPose(math::Pose3d(75, -50, 0, 0, 0, 3.14159));
+    t.model.SetRawPose(math::Pose3d(75, -50, 0, 0, 0, 3.14159));
     s.tiles.push_back(t);
 
     t.tileType = "Cave Straight Shift Type A";
-    t.model.SetPose(math::Pose3d(50, -100, 0, 0, 0, 3.14159));
+    t.model.SetRawPose(math::Pose3d(50, -100, 0, 0, 0, 3.14159));
     s.tiles.push_back(t);
 
     t.tileType = "Cave 2 Way 01 Type A";
-    t.model.SetPose(math::Pose3d(100, -125, 0, 0, 0, 3.14159));
+    t.model.SetRawPose(math::Pose3d(100, -125, 0, 0, 0, 3.14159));
     s.tiles.push_back(t);
 
     t.tileType = "Cave 4 Way 01 Type A";
-    t.model.SetPose(math::Pose3d(125, -100, 0, 0, 0, 1.5708));
+    t.model.SetRawPose(math::Pose3d(125, -100, 0, 0, 0, 1.5708));
     s.tiles.push_back(t);
 
     t.tileType = "Cave Corner 02 Type A";
-    t.model.SetPose(math::Pose3d(125, -50, 0, 0, 0, 3.14159));
+    t.model.SetRawPose(math::Pose3d(125, -50, 0, 0, 0, 3.14159));
     s.tiles.push_back(t);
 
     s.connectionPoints.push_back(std::make_pair(
@@ -486,11 +486,11 @@ void WorldGenerator::CreateTypeAWorldSections()
 
     VertexData t;
     t.tileType = "Cave Elevation Straight Type A";
-    t.model.SetPose(math::Pose3d(50, 0, 0, 0, 0, -1.5708));
+    t.model.SetRawPose(math::Pose3d(50, 0, 0, 0, 0, -1.5708));
     s.tiles.push_back(t);
 
     t.tileType = "Cave 3 Way Elevation 03 Type A";
-    t.model.SetPose(math::Pose3d(150, 0, 75, 0, 0, 3.14159));
+    t.model.SetRawPose(math::Pose3d(150, 0, 75, 0, 0, 3.14159));
     s.tiles.push_back(t);
 
     s.connectionPoints.push_back(std::make_pair(
@@ -509,15 +509,15 @@ void WorldGenerator::CreateTypeAWorldSections()
 
     VertexData t;
     t.tileType = "Cave Straight Type A";
-    t.model.SetPose(math::Pose3d(25, 0, 0, 0, 0, -1.5708));
+    t.model.SetRawPose(math::Pose3d(25, 0, 0, 0, 0, -1.5708));
     s.tiles.push_back(t);
 
     t.tileType = "Cave Cavern Type A";
-    t.model.SetPose(math::Pose3d(75, 0, -25, 0, 0, 3.14159));
+    t.model.SetRawPose(math::Pose3d(75, 0, -25, 0, 0, 3.14159));
     s.tiles.push_back(t);
 
     t.tileType = "Cave 3 Way 02 Type A";
-    t.model.SetPose(math::Pose3d(125, 0, 0, 0, 0, -1.5708));
+    t.model.SetRawPose(math::Pose3d(125, 0, 0, 0, 0, -1.5708));
     s.tiles.push_back(t);
 
     s.connectionPoints.push_back(std::make_pair(
@@ -540,19 +540,19 @@ void WorldGenerator::CreateTypeAWorldSections()
 
     VertexData t;
     t.tileType = "Cave 3 Way Elevation 01 Type A";
-    t.model.SetPose(math::Pose3d(50, 0, 0, 0, 0, 1.5708));
+    t.model.SetRawPose(math::Pose3d(50, 0, 0, 0, 0, 1.5708));
     s.tiles.push_back(t);
 
     t.tileType = "Cave Straight Shift Type A";
-    t.model.SetPose(math::Pose3d(125, -75, -25, 0, 0, 1.5708));
+    t.model.SetRawPose(math::Pose3d(125, -75, -25, 0, 0, 1.5708));
     s.tiles.push_back(t);
 
     t.tileType = "Cave Straight Type A";
-    t.model.SetPose(math::Pose3d(125, 0, -25, 0, 0, 1.5708));
+    t.model.SetRawPose(math::Pose3d(125, 0, -25, 0, 0, 1.5708));
     s.tiles.push_back(t);
 
     t.tileType = "Cave U Turn 01 Type A";
-    t.model.SetPose(math::Pose3d(175, -25, -25, 0, 0, -1.5708));
+    t.model.SetRawPose(math::Pose3d(175, -25, -25, 0, 0, -1.5708));
     s.tiles.push_back(t);
 
     this->worldSectionsTypeA.push_back(s);
@@ -566,27 +566,27 @@ void WorldGenerator::CreateTypeAWorldSections()
 
     VertexData t;
     t.tileType = "Cave 3 Way Elevation 01 Type A";
-    t.model.SetPose(math::Pose3d(50, 0, 0, 0, 0, 1.5708));
+    t.model.SetRawPose(math::Pose3d(50, 0, 0, 0, 0, 1.5708));
     s.tiles.push_back(t);
 
     t.tileType = "Cave Straight Shift Type A";
-    t.model.SetPose(math::Pose3d(125, 25, -25, 0, 0, -1.5708));
+    t.model.SetRawPose(math::Pose3d(125, 25, -25, 0, 0, -1.5708));
     s.tiles.push_back(t);
 
     t.tileType = "Cave Straight Shift Type A";
-    t.model.SetPose(math::Pose3d(125, -75, -25, 0, 0, -1.5708));
+    t.model.SetRawPose(math::Pose3d(125, -75, -25, 0, 0, -1.5708));
     s.tiles.push_back(t);
 
     t.tileType = "Cave Corner 01 Type A";
-    t.model.SetPose(math::Pose3d(175, 50, -25, 0, 0, -1.5708));
+    t.model.SetRawPose(math::Pose3d(175, 50, -25, 0, 0, -1.5708));
     s.tiles.push_back(t);
 
     t.tileType = "Cave 3 Way 02 Type A";
-    t.model.SetPose(math::Pose3d(225, 0, -25, 0, 0, 1.5708));
+    t.model.SetRawPose(math::Pose3d(225, 0, -25, 0, 0, 1.5708));
     s.tiles.push_back(t);
 
     t.tileType = "Cave Straight Type A";
-    t.model.SetPose(math::Pose3d(175, -50, -25, 0, 0, 1.5708));
+    t.model.SetRawPose(math::Pose3d(175, -50, -25, 0, 0, 1.5708));
     s.tiles.push_back(t);
 
     s.connectionPoints.push_back(std::make_pair(
@@ -770,11 +770,11 @@ void WorldGenerator::CreateTypeBWorldSections()
 
     VertexData t;
     t.tileType = "Cave Cavern Split 02 Type B";
-    t.model.SetPose(math::Pose3d(halfTileSize, 0, 0, 0, 0, 0));
+    t.model.SetRawPose(math::Pose3d(halfTileSize, 0, 0, 0, 0, 0));
     s.tiles.push_back(t);
 
     t.tileType = "Cave Cavern Split 01 Type B";
-    t.model.SetPose(math::Pose3d(halfTileSize + tileSize, 0, 0, 0, 0, 0));
+    t.model.SetRawPose(math::Pose3d(halfTileSize + tileSize, 0, 0, 0, 0, 0));
     s.tiles.push_back(t);
 
     s.connectionPoints.push_back(std::make_pair(
@@ -966,7 +966,7 @@ void WorldGenerator::LoadTiles()
   fuel_tools::ClientConfig config;
   auto fuelClient = std::make_unique<fuel_tools::FuelClient>(config);
 
-  std::string baseUri = "https://fuel.ignitionrobotics.org/openrobotics/models";
+  std::string baseUri = "https://fuel.ignitionrobotics.org/OpenRobotics/models";
 
   for (const auto &t : tileConnectionPoints)
   {
@@ -1075,7 +1075,7 @@ bool WorldGenerator::IntersectionCheck(WorldSection &_section,
   // section against all tiles that have been added to the world
   for (const auto &tile : _section.tiles)
   {
-    math::Pose3d pose = tile.model.Pose() + _pose;
+    math::Pose3d pose = tile.model.RawPose() + _pose;
     math::AxisAlignedBox box = this->tileBoundingBoxes[tile.tileType];
     box = transformAxisAlignedBox(box, pose);
     // save the bounding box in case we do use this section so that we don't
@@ -1272,8 +1272,8 @@ void WorldGenerator::Generate()
         if (tileType == CAVE_TYPE_A)
         {
           auto &transitionTile = s.tiles[0].model;
-          transitionTile.SetPose(math::Pose3d(transitionTile.Pose().Pos(),
-              math::Quaterniond(0, 0, IGN_PI) * transitionTile.Pose().Rot()));
+          transitionTile.SetRawPose(math::Pose3d(transitionTile.RawPose().Pos(),
+              math::Quaterniond(0, 0, IGN_PI) * transitionTile.RawPose().Rot()));
           flip = true;
         }
       }
@@ -1337,7 +1337,7 @@ void WorldGenerator::Generate()
       std::string name = "tile_" + std::to_string(++tileNo);
 
       // convert tile pose to world coordinates
-      math::Pose3d pose = t.model.Pose() + s.pose;
+      math::Pose3d pose = t.model.RawPose() + s.pose;
       std::string uri =
           "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/" +
           t.tileType;

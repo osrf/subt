@@ -1,17 +1,9 @@
 # Ubuntu 18.04 with nvidia-docker2 beta opengl support
-FROM nvidia/opengl:1.0-glvnd-devel-ubuntu18.04
-
-RUN export DEBIAN_FRONTEND=noninteractive \
- && apt-get update \
- && apt-get install -y \
-    tzdata \
- && ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime \
- && dpkg-reconfigure --frontend noninteractive tzdata \
- && apt-get clean
+FROM osrf/subt-virtual-testbed:models_latest
 
 # Tools I find useful during development
-RUN apt-get update -qq \
- && apt-get install --no-install-recommends -y -qq \
+RUN sudo apt-get update -qq \
+ && sudo apt-get install --no-install-recommends -y -qq \
         build-essential \
         bwm-ng \
         atop \
@@ -19,8 +11,11 @@ RUN apt-get update -qq \
         cppcheck \
         gdb \
         git \
+        gnutls-bin \
         libbluetooth-dev \
+        libccd-dev \
         libcwiid-dev \
+        libfcl-dev \
         libgoogle-glog-dev \
         libspnav-dev \
         libusb-dev \
@@ -34,22 +29,26 @@ RUN apt-get update -qq \
         ruby2.5 \
         ruby2.5-dev \
         software-properties-common \
-        sudo \
         vim \
-        wget \
         net-tools \
         iputils-ping \
         libyaml-cpp-dev \
- && apt-get clean -qq
+        xvfb \
+        g++-8 \
+ && sudo apt-get clean -qq
+
+RUN sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 800 --slave /usr/bin/g++ g++ /usr/bin/g++-8 --slave /usr/bin/gcov gcov /usr/bin/gcov-8
+
+RUN gcc --version
 
 # Install AWS CLI. This is needed by cloudsim to capture ROS logs.
 RUN pip3 install --upgrade awscli=="1.16.220"
 VOLUME /root/.aws
 
 # install ROS and required packages
-RUN /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' \
- && apt-get update \
- && apt-get install -y \
+RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' \
+ && sudo apt-get update -qq \
+ && sudo apt-get install -y -qq \
     python-catkin-tools \
     python-rosdep \
     python-rosinstall \
@@ -62,39 +61,28 @@ RUN /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu $(lsb
     ros-melodic-twist-mux \
     ros-melodic-rviz-imu-plugin \
     ros-melodic-rotors-control \
- && rosdep init \
- && apt-get clean
+    ros-melodic-theora-image-transport \
+ && sudo rosdep init \
+ && sudo apt-get clean
 
 # sdformat8-sdf conflicts with sdformat-sdf installed from gazebo
 # so we need to workaround this using a force overwrite
 # Do this before installing ign-gazebo
-RUN /bin/sh -c 'echo "deb [trusted=yes] http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list' \
- && /bin/sh -c 'wget http://packages.osrfoundation.org/gazebo.key -O - | apt-key add -' \
- && /bin/sh -c 'apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654'
+RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list' \
+ && sudo /bin/sh -c 'wget http://packages.osrfoundation.org/gazebo.key -O - | apt-key add -' \
+ && sudo /bin/sh -c 'apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654'
 
-# install ign-blueprint
-RUN apt-get update \
-&&  apt-get install -y \
-    ignition-blueprint \
- && apt-get clean
+# install ign-dome
+RUN sudo apt-get update \
+&&  sudo apt-get install -y \
+    ignition-dome \
+ && sudo apt-get clean
 
 # install the ros to ign bridge
-RUN apt-get update \
- && apt-get install -y \
+RUN sudo apt-get update \
+ && sudo apt-get install -y \
     ros-melodic-ros-ign \
- && apt-get clean
-
-# Add a user with the same user_id as the user outside the container
-# Requires a docker build argument `user_id`
-ARG user_id
-ENV USERNAME developer
-RUN useradd -U --uid ${user_id} -ms /bin/bash $USERNAME \
- && echo "$USERNAME:$USERNAME" | chpasswd \
- && adduser $USERNAME sudo \
- && echo "$USERNAME ALL=NOPASSWD: ALL" >> /etc/sudoers.d/$USERNAME
-
-# Commands below run as the developer user
-USER $USERNAME
+ && sudo apt-get clean -qq
 
 # Make a couple folders for organizing docker volumes
 RUN mkdir ~/workspaces ~/other
@@ -104,35 +92,15 @@ WORKDIR /home/$USERNAME
 
 RUN rosdep update
 
-# Clone all the subt models so that you don't download them every time
-# docker is run
+# Install subt sim
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
+ && git config --global http.postBuffer 1048576000 \
  && git clone https://github.com/osrf/subt
-
-# Download the public models
-RUN ign fuel download -v 4 -j 8 -u "https://fuel.ignitionrobotics.org/OpenRobotics/collections/SubT Tech Repo"
-
-# Download niosh models, set 1.
-COPY download_niosh_1.sh ./
-RUN ./download_niosh_1.sh
-
-# Download niosh models, set 2.
-COPY download_niosh_2.sh ./
-RUN ./download_niosh_2.sh
-
-# Download niosh models, set 3.
-COPY download_niosh_3.sh ./
-RUN ./download_niosh_3.sh
 
 WORKDIR /home/$USERNAME/subt_ws
 
-# Install Rotors
-# RUN wget https://s3.amazonaws.com/osrf-distributions/subt_robot_examples/releases/subt_robot_examples_latest.tgz
-# RUN tar xvf subt_robot_examples_latest.tgz
-
 RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && catkin_make install'
-
 RUN /bin/sh -c 'echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc' \
  && /bin/sh -c 'echo ". ~/subt_ws/install/setup.sh" >> ~/.bashrc'
 

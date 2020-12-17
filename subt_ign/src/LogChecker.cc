@@ -193,7 +193,7 @@ class LogChecker
       return 1;
 
     // Begin playback as fast as possible.
-    const auto handle = this->player->Start(std::chrono::seconds(1), false);
+    const auto handle = this->player->Start(std::chrono::seconds(1));
     if (!handle)
     {
       std::cerr << "Failed to start playback" << std::endl;

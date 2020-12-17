@@ -132,7 +132,7 @@
     "EXPLORER_R2" => AngularVector3d.new(0, 0, -3.1416),
     "CSIRO_DATA61_OZBOT_ATR" => AngularVector3d.new(0, 0, -3.1416)
   }
-  
+
   allExecutables = ""
 
   # key: parent, value: child
@@ -321,6 +321,7 @@
             name="subt::GameLogicPlugin">
       <!-- The collection of artifacts to locate -->
       <world_name><%= $worldName %></world_name>
+      <ros>false</ros>
 
       <duration_seconds><%= $durationSec %></duration_seconds>
 
@@ -369,6 +370,10 @@
         <name>drill_4</name>
         <type>TYPE_DRILL</type>
       </artifact>
+      <artifact>
+        <name>drill_5</name>
+        <type>TYPE_DRILL</type>
+      </artifact>
 
       <artifact>
         <name>extinguisher_1</name>
@@ -384,6 +389,10 @@
       </artifact>
       <artifact>
         <name>extinguisher_4</name>
+        <type>TYPE_EXTINGUISHER</type>
+      </artifact>
+      <artifact>
+        <name>extinguisher_5</name>
         <type>TYPE_EXTINGUISHER</type>
       </artifact>
 
@@ -449,6 +458,10 @@
         <name>vent_4</name>
         <type>TYPE_VENT</type>
       </artifact>
+      <artifact>
+        <name>vent_5</name>
+        <type>TYPE_VENT</type>
+      </artifact>
 
       <artifact>
         <name>gas_1</name>
@@ -487,6 +500,10 @@
         <name>helmet_4</name>
         <type>TYPE_HELMET</type>
       </artifact>
+      <artifact>
+        <name>helmet_5</name>
+        <type>TYPE_HELMET</type>
+      </artifact>
 
       <artifact>
         <name>rope_1</name>
@@ -504,6 +521,11 @@
         <name>rope_4</name>
         <type>TYPE_ROPE</type>
       </artifact>
+      <artifact>
+        <name>rope_5</name>
+        <type>TYPE_ROPE</type>
+      </artifact>
+
     </plugin>
   </plugin>
 
@@ -603,6 +625,8 @@
         <fading_exponent><%= $commsFadingExponent %></fading_exponent>
         <L0>40</L0>
         <sigma>10.0</sigma>
+        <scaling_factor>0.55</scaling_factor>
+        <range_per_hop>2.0</range_per_hop>
       </range_config>
 
       <visibility_config>
@@ -725,6 +749,34 @@
               </sdf>
             </breadcrumb>
           </plugin>
+          <!-- Wheel plugin -->
+          <plugin filename="libignition-gazebo-wheel-slip-system.so"
+            name="ignition::gazebo::systems::WheelSlip">
+            <wheel link_name="front_left_wheel">
+              <slip_compliance_lateral>0.172</slip_compliance_lateral>
+              <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
+              <wheel_normal_force>138.767</wheel_normal_force>
+              <wheel_radius>0.1651</wheel_radius>
+            </wheel>
+            <wheel link_name="rear_left_wheel">
+              <slip_compliance_lateral>0.172</slip_compliance_lateral>
+              <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
+              <wheel_normal_force>138.767</wheel_normal_force>
+              <wheel_radius>0.1651</wheel_radius>
+            </wheel>
+            <wheel link_name="front_right_wheel">
+              <slip_compliance_lateral>0.172</slip_compliance_lateral>
+              <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
+              <wheel_normal_force>138.767</wheel_normal_force>
+              <wheel_radius>0.1651</wheel_radius>
+            </wheel>
+            <wheel link_name="rear_right_wheel">
+              <slip_compliance_lateral>0.172</slip_compliance_lateral>
+              <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
+              <wheel_normal_force>138.767</wheel_normal_force>
+              <wheel_radius>0.1651</wheel_radius>
+            </wheel>
+          </plugin>
         </include>
         </sdf>
       </spawn>
@@ -838,6 +890,34 @@
                 </model>
               </sdf>
             </breadcrumb>
+          </plugin>
+          <!-- Wheel plugin -->
+          <plugin filename="libignition-gazebo-wheel-slip-system.so"
+            name="ignition::gazebo::systems::WheelSlip">
+            <wheel link_name="front_left_wheel">
+              <slip_compliance_lateral>0.116</slip_compliance_lateral>
+              <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
+              <wheel_normal_force>45.20448</wheel_normal_force>
+              <wheel_radius>0.098</wheel_radius>
+            </wheel>
+            <wheel link_name="rear_left_wheel">
+              <slip_compliance_lateral>0.116</slip_compliance_lateral>
+              <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
+              <wheel_normal_force>45.20448</wheel_normal_force>
+              <wheel_radius>0.098</wheel_radius>
+            </wheel>
+            <wheel link_name="front_right_wheel">
+              <slip_compliance_lateral>0.116</slip_compliance_lateral>
+              <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
+              <wheel_normal_force>45.20448</wheel_normal_force>
+              <wheel_radius>0.098</wheel_radius>
+            </wheel>
+            <wheel link_name="rear_right_wheel">
+              <slip_compliance_lateral>0.116</slip_compliance_lateral>
+              <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
+              <wheel_normal_force>45.20448</wheel_normal_force>
+              <wheel_radius>0.098</wheel_radius>
+            </wheel>
           </plugin>
         </include>
         </sdf>
@@ -1413,7 +1493,7 @@
       robotSpawned += 1
       if !teamBaseSpawned
         teamBaseSpawned = true
-        spawnStringTmp, executables = spawnTeamBase(name, posX, posY, spawnWorldZPos, spawnWorldYaw)
+        spawnStringTmp, executables = spawnTeamBase(name, robot.pos.x, robot.pos.y, robot.pos.z, robot.rot.yaw)
       else
         puts "Error: Only 1 teambase is allows. Skpping[%s]." % [name]
       end
