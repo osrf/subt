@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.5.1 FATAL_ERROR)
 project(subt_ros)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
@@ -38,8 +38,8 @@ generate_messages(
 
 find_package(ignition-common3 REQUIRED)
 find_package(ignition-math6 REQUIRED)
-find_package(ignition-msgs4 REQUIRED)
-find_package(ignition-transport7 REQUIRED)
+find_package(ignition-msgs6 REQUIRED)
+find_package(ignition-transport9 REQUIRED)
 
 catkin_package(
   CATKIN_DEPENDS
@@ -78,8 +78,8 @@ target_link_libraries(subt_ros_relay
   PUBLIC
     ignition-common3::ignition-common3
     ignition-math6::ignition-math6
-    ignition-msgs4::ignition-msgs4
-    ignition-transport7::ignition-transport7
+    ignition-msgs6::ignition-msgs6
+    ignition-transport9::ignition-transport9
     ${catkin_LIBRARIES}
 )
 add_dependencies(subt_ros_relay ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
@@ -91,8 +91,8 @@ target_link_libraries(set_pose_relay
   PUBLIC
     ignition-common3::ignition-common3
     ignition-math6::ignition-math6
-    ignition-msgs4::ignition-msgs4
-    ignition-transport7::ignition-transport7
+    ignition-msgs6::ignition-msgs6
+    ignition-transport9::ignition-transport9
     ${catkin_LIBRARIES}
 )
 add_dependencies(set_pose_relay ${catkin_EXPORTED_TARGETS})

@@ -11,6 +11,7 @@ RUN sudo apt-get update -qq \
         cppcheck \
         gdb \
         git \
+        gnutls-bin \
         libbluetooth-dev \
         libccd-dev \
         libcwiid-dev \
@@ -33,7 +34,12 @@ RUN sudo apt-get update -qq \
         iputils-ping \
         libyaml-cpp-dev \
         xvfb \
+        g++-8 \
  && sudo apt-get clean -qq
+
+RUN sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 800 --slave /usr/bin/g++ g++ /usr/bin/g++-8 --slave /usr/bin/gcov gcov /usr/bin/gcov-8
+
+RUN gcc --version
 
 # Install AWS CLI. This is needed by cloudsim to capture ROS logs.
 RUN pip3 install --upgrade awscli=="1.16.220"
@@ -55,6 +61,7 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu 
     ros-melodic-twist-mux \
     ros-melodic-rviz-imu-plugin \
     ros-melodic-rotors-control \
+    ros-melodic-theora-image-transport \
  && sudo rosdep init \
  && sudo apt-get clean
 
@@ -65,10 +72,10 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.osrfoundation.org/g
  && sudo /bin/sh -c 'wget http://packages.osrfoundation.org/gazebo.key -O - | apt-key add -' \
  && sudo /bin/sh -c 'apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654'
 
-# install ign-blueprint
+# install ign-dome
 RUN sudo apt-get update \
 &&  sudo apt-get install -y \
-    ignition-blueprint \
+    ignition-dome \
  && sudo apt-get clean
 
 # install the ros to ign bridge
@@ -88,12 +95,12 @@ RUN rosdep update
 # Install subt sim
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
+ && git config --global http.postBuffer 1048576000 \
  && git clone https://github.com/osrf/subt
 
 WORKDIR /home/$USERNAME/subt_ws
 
 RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && catkin_make install'
-
 RUN /bin/sh -c 'echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc' \
  && /bin/sh -c 'echo ". ~/subt_ws/install/setup.sh" >> ~/.bashrc'
 

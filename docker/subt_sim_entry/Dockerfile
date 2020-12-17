@@ -48,6 +48,7 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu 
     ros-melodic-twist-mux \
     ros-melodic-rviz-imu-plugin \
     ros-melodic-rotors-control \
+    ros-melodic-theora-image-transport \
  && sudo rosdep init \
  && sudo apt-get clean -qq
 
@@ -66,10 +67,10 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.osrfoundation.org/g
  && sudo /bin/sh -c 'wget http://packages.osrfoundation.org/gazebo.key -O - | apt-key add -' \
  && sudo /bin/sh -c 'apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654'
 
-# install ign-blueprint
-RUN sudo apt-get update \
-&&  sudo apt-get install -y \
-    ignition-blueprint \
+# install ign-dome
+RUN sudo apt-get update -qq \
+ && sudo apt-get install -y -qq \
+    ignition-dome \
  && sudo apt-get clean
 
 # install the ros to ign bridge
@@ -82,7 +83,7 @@ RUN sudo apt-get update \
 # docker is run
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
- && git clone https://github.com/osrf/subt
+ && git clone https://github.com/osrf/subt -b dome
 
 WORKDIR /home/$USERNAME/subt_ws
 
