@@ -34,7 +34,12 @@ RUN sudo apt-get update -qq \
         wget \
         net-tools \
         iputils-ping \
+        g++-8 \
  && sudo apt-get clean -qq
+
+RUN sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 800 --slave /usr/bin/g++ g++ /usr/bin/g++-8 --slave /usr/bin/gcov gcov /usr/bin/gcov-8
+
+RUN gcc --version
 
 # Install AWS CLI. This is needed by cloudsim to capture ROS logs.
 RUN pip3 install --upgrade awscli=="1.16.220"
