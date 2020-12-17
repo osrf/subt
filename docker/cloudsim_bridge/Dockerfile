@@ -34,7 +34,12 @@ RUN sudo apt-get update -qq \
         wget \
         net-tools \
         iputils-ping \
+        g++-8 \
  && sudo apt-get clean -qq
+
+RUN sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 800 --slave /usr/bin/g++ g++ /usr/bin/g++-8 --slave /usr/bin/gcov gcov /usr/bin/gcov-8
+
+RUN gcc --version
 
 # Install AWS CLI. This is needed by cloudsim to capture ROS logs.
 RUN pip3 install --upgrade awscli=="1.16.220"
@@ -73,6 +78,12 @@ RUN sudo apt-get update \
     ignition-dome \
  && sudo apt-get clean
 
+# install the ros to ign bridge
+RUN sudo apt-get update \
+ && sudo apt-get install -y \
+    ros-melodic-ros-ign \
+ && sudo apt-get clean -qq
+
 # Make a couple folders for organizing docker volumes
 RUN mkdir ~/workspaces ~/other
 
@@ -86,7 +97,6 @@ RUN rosdep update
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
  && git config --global http.postBuffer 1048576000 \
- && git clone https://github.com/ignitionrobotics/ros_ign -b melodic \
  && git clone https://github.com/osrf/subt
 
 WORKDIR /home/$USERNAME/subt_ws
