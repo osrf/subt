@@ -49,57 +49,6 @@ void WorldGeneratorBase::SetSubWorldType(SubWorldType _subWorldType)
 }
 
 //////////////////////////////////////////////////
-WorldSection WorldGeneratorBase::CreateWorldSectionFromTile(const std::string &_type, 
-    const math::Vector3d &_entry, const math::Quaterniond &_rot, 
-    TileType _tileType)
-{
-  WorldSection s;
-  auto it = subt::ConnectionHelper::connectionPoints.find(_type);
-  if (it == subt::ConnectionHelper::connectionPoints.end())
-  {
-    std::cerr << "Unable to find tile type: " << _type << std::endl;
-    return s;
-  }
-
-  VertexData t;
-  t.tileType = _type;
-  t.model.SetPose(math::Pose3d(_rot * -_entry, _rot));
-  s.tiles.push_back(t);
-
-  for (const auto &o : it->second)
-  {
-    // ignore the connection point at zero that we use to connect to previous
-    // world section.
-    // TODO Check if conditionals for different tileTypes is necessary
-    if (o != _entry)
-    {
-      math::Vector3d pt = _rot * (-_entry + o);
-      math::Quaterniond rot = math::Quaterniond::Identity;
-      if (_tileType == CAVE_TYPE_B)
-      {
-        if (!math::equal(pt.Y(), 0.0))
-        {
-          if (pt.Y() > 0.0)
-            rot = math::Quaterniond(0, 0, IGN_PI * 0.5);
-          else
-            rot = math::Quaterniond(0, 0, -IGN_PI * 0.5);
-        }
-        else if (!math::equal(pt.X(), 0.0))
-        {
-          if (pt.X() < 0.0)
-            rot = math::Quaterniond(0, 0, -IGN_PI);
-        }
-      }
-
-      s.connectionPoints.push_back(std::make_pair(
-          pt, rot));
-
-    }
-  }
-  return s;
-}
-
-//////////////////////////////////////////////////
 bool WorldGeneratorBase::IntersectionCheck(WorldSection &_section,
     const math::Pose3d _pose,
     const std::vector<WorldSection> &_addedSections)
@@ -261,24 +210,6 @@ bool WorldGeneratorBase::CorrectTransitionWorldPose(WorldSection &_s, TileType &
 }
 
 //////////////////////////////////////////////////
-void WorldGeneratorBase::AdjustOpeningTileType(WorldSection &_s, ConnectionOpening &_op, bool adjust)
-{
-  // mark the tile type for the opening of the transition tile
-  // based on the tile type the opening connects to.
-  if (_s.tileType == CAVE_TYPE_TRANSITION)
-  {
-    if (adjust)
-      _op.tileType = CAVE_TYPE_B;
-    else
-      _op.tileType = CAVE_TYPE_A;
-  }
-  else
-  {
-    _op.tileType = _s.tileType;
-  }
-}
-
-//////////////////////////////////////////////////
 void WorldGenerator::SetSeed(int _seed)
 {
   this->seed = _seed;
@@ -415,18 +346,18 @@ void WorldGeneratorDebug::SetTileName(const std::string &_tile)
 }
 
 //////////////////////////////////////////////////
-// TODO FIX TO LOAD ONLY ONE TILE
 void WorldGeneratorDebug::LoadTiles()
 {
   // filter tiles
   for (const auto &t : subt::ConnectionHelper::connectionPoints)
   {
-    // Ignore all but specific tile
-    if (t.first == this->tileName)
-    { 
-      std::cout << "Loading: " << t.first << std::endl;
-      this->tileConnectionPoints[t.first] = t.second;
-    }
+    // Ignore all other sub-domains
+    if (t.first.find(this->worldType) == std::string::npos)
+      continue;
+     
+    std::cout << "Loading: " << t.first << std::endl;
+    this->tileConnectionPoints[t.first] = t.second;
+
     // Cave/Urban Starting area
     if (t.first.find("Starting") != std::string::npos && t.first.find(this->worldType) != std::string::npos)
     {
@@ -508,8 +439,13 @@ void WorldGeneratorDebug::LoadTiles()
 //////////////////////////////////////////////////
 WorldSection WorldGeneratorDebug::SelectWorldSection(TileType &_tileType)
 {
-  WorldSection s = this->worldSections[this->tileName];
+  WorldSection s;
+  for (const auto &_s : this->worldSections)
+  {
+    if (_s.tiles[0].tileType == this->tileName)
+      s = std::move(_s);
+  }
   if (s.tileType != _tileType)
-    std::cout << "WARNING: Mis-matching TileType\t" << s.tileType << " != " << _tileType << std::endl;
+    std::cout << "WARNING: Mis-matching TileType\t" << _tileType << " != " << s.tileType << std::endl;
   return s;
 }

@@ -39,7 +39,10 @@ enum SubWorldType
 {
   CAVE_ANASTOMOTIC = 1,
   CAVE_CURVILINEAR = 2,
-  CAVE_RECTILINEAR = 3
+  CAVE_RECTILINEAR = 3,
+  URBAN_SUBWAY = 4,
+  URBAN_BUILDING = 5,
+  URBAN_MIXED_STRUCTURE = 6
 };
 
 enum TileType 
@@ -47,7 +50,11 @@ enum TileType
   NONE = 0, // Expand to sub-domains if meshes types vary in tunnel/urban
   CAVE_TYPE_A = 1,
   CAVE_TYPE_B = 2,
-  CAVE_TYPE_TRANSITION = 3
+  CAVE_TYPE_TRANSITION = 3,
+  URBAN_S = 4,
+  URBAN_B = 5,
+  URBAN_MS = 6
+  
 };
 
 /// \brief A connection opening
@@ -111,17 +118,6 @@ class WorldGeneratorBase
   /// \param[in] _subWorldType Sub-world type
   public: void SetSubWorldType(SubWorldType _subWorldType);
 
-  /// \brief Helper function to create a world section from an individual file
-  /// \param[in] _type Type of tile
-  /// \param[in] _entry Entry position of this tile. This should be one of the
-  /// connection points of the tile
-  /// \param[in] _rot Rotation to be applied to tile so that its entry point is
-  /// in +X direction
-  /// \param[in] _tileType Type of tile
-  public: virtual WorldSection CreateWorldSectionFromTile(const std::string &_type,
-      const math::Vector3d &_entry, const math::Quaterniond &_rot,
-      TileType _tileType);
-
   /// \brief Preprocess all tiles from the ConnectionHelper class to filter
   /// out only the tiles needed for this world generator class. In addtion,
   /// we also generate bounding box data for each tile.
@@ -150,9 +146,6 @@ class WorldGeneratorBase
   /// \brief Verify the correct orientation of a transition WorldSection
   protected: virtual bool CorrectTransitionWorldPose(WorldSection &_s, TileType &_type);
 
-  /// \brief Adjust the opening tile type if transition tiles are considered
-  protected: virtual void AdjustOpeningTileType(WorldSection &_s, ConnectionOpening &_op, bool adjust);
-
   /// \brief A list of connection points for tiles used by this world generator
   protected: std::map<std::string, std::vector<ignition::math::Vector3d>>
       tileConnectionPoints;
@@ -175,6 +168,9 @@ class WorldGeneratorBase
 
   /// \brief Potential type of structure to generated world
   protected: SubWorldType subWorldType;
+
+  /// \brief A collection of prefab world sections made of tile
+  protected: std::vector<WorldSection> worldSections;
 
 };
 
@@ -201,9 +197,6 @@ class WorldGenerator : public WorldGeneratorBase
   /// \brief Set the min number of tiles to include in the generated world
   /// \param-in] _tileCount Min number of tiles
   public: void SetMinTileCount(int _tileCount);
-
-  /// \brief A collection of prefab world sections made of tile
-  protected: std::vector<WorldSection> worldSections;
 
   /// \brief A reference of prefab world sections chosen for world
   protected: std::vector<WorldSection> addedWorldSections;
@@ -234,9 +227,6 @@ class WorldGeneratorDebug : public WorldGeneratorBase
   /// \brief Set the tile names
   /// \param[in] _tiles Name of tile to generate worlds from
   public: void SetTileName(const std::string &_tile);
-
-  /// \brief A collection of prefab world sections made of tile
-  protected: std::map<std::string, WorldSection> worldSections;
 
   /// \brief Name of tile of interest
   protected: std::string tileName = "";
