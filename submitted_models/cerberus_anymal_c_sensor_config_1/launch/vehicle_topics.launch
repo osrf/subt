@@ -105,6 +105,15 @@
       args="$(arg sensor_prefix)/camera_0/image">
       <remap from="$(arg sensor_prefix)/camera_0/image" to="camera_0/image_raw"/>
     </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_camera_0">
+      <remap from="input/image" to="camera_0/image_raw" />
+      <remap from="output/image" to="camera_0/optical/image_raw" />
+      <remap from="input/camera_info" to="camera_0/camera_info" />
+      <remap from="output/camera_info" to="camera_0/optical/camera_info" />
+    </node>
 
     <!-- Camera 1, monochrome forward right -->
     <node
@@ -120,6 +129,15 @@
       name="ros_ign_image_camera_1"
       args="$(arg sensor_prefix)/camera_1/image">
       <remap from="$(arg sensor_prefix)/camera_1/image" to="camera_1/image_raw"/>
+    </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_camera_1">
+      <remap from="input/image" to="camera_1/image_raw" />
+      <remap from="output/image" to="camera_1/optical/image_raw" />
+      <remap from="input/camera_info" to="camera_1/camera_info" />
+      <remap from="output/camera_info" to="camera_1/optical/camera_info" />
     </node>
 
     <!-- Camera 2, monochrome upward left -->
@@ -137,6 +155,15 @@
       args="$(arg sensor_prefix)/camera_2/image">
       <remap from="$(arg sensor_prefix)/camera_2/image" to="camera_2/image_raw"/>
     </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_camera_2">
+      <remap from="input/image" to="camera_2/image_raw" />
+      <remap from="output/image" to="camera_2/optical/image_raw" />
+      <remap from="input/camera_info" to="camera_2/camera_info" />
+      <remap from="output/camera_info" to="camera_2/optical/camera_info" />
+    </node>
 
     <!-- Camera 3, color left -->
     <node
@@ -152,6 +179,15 @@
       name="ros_ign_image_camera_3"
       args="$(arg sensor_prefix)/camera_3/image">
       <remap from="$(arg sensor_prefix)/camera_3/image" to="camera_3/image_raw"/>
+    </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_camera_3">
+      <remap from="input/image" to="camera_3/image_raw" />
+      <remap from="output/image" to="camera_3/optical/image_raw" />
+      <remap from="input/camera_info" to="camera_3/camera_info" />
+      <remap from="output/camera_info" to="camera_3/optical/camera_info" />
     </node>
 
     <!-- Camera 4, color forward center -->
@@ -169,6 +205,15 @@
       args="$(arg sensor_prefix)/camera_4/image">
       <remap from="$(arg sensor_prefix)/camera_4/image" to="camera_4/image_raw"/>
     </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_camera_4">
+      <remap from="input/image" to="camera_4/image_raw" />
+      <remap from="output/image" to="camera_4/optical/image_raw" />
+      <remap from="input/camera_info" to="camera_4/camera_info" />
+      <remap from="output/camera_info" to="camera_4/optical/camera_info" />
+    </node>
 
     <!-- Camera 5, color right -->
     <node
@@ -185,6 +230,15 @@
       args="$(arg sensor_prefix)/camera_5/image">
       <remap from="$(arg sensor_prefix)/camera_5/image" to="camera_5/image_raw"/>
     </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_camera_5">
+      <remap from="input/image" to="camera_5/image_raw" />
+      <remap from="output/image" to="camera_5/optical/image_raw" />
+      <remap from="input/camera_info" to="camera_5/camera_info" />
+      <remap from="output/camera_info" to="camera_5/optical/camera_info" />
+    </node>
 
     <!-- Camera 6, color upward right -->
     <node
@@ -200,6 +254,15 @@
       name="ros_ign_image_camera_6"
       args="$(arg sensor_prefix)/camera_6/image">
       <remap from="$(arg sensor_prefix)/camera_6/image" to="camera_6/image_raw"/>
+    </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_camera_6">
+      <remap from="input/image" to="camera_6/image_raw" />
+      <remap from="output/image" to="camera_6/optical/image_raw" />
+      <remap from="input/camera_info" to="camera_6/camera_info" />
+      <remap from="output/camera_info" to="camera_6/optical/camera_info" />
     </node>
 
     <!-- Perception Head IMU -->
