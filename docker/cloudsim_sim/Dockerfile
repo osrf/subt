@@ -78,6 +78,12 @@ RUN sudo apt-get update \
     ignition-dome \
  && sudo apt-get clean
 
+# install the ros to ign bridge
+RUN sudo apt-get update \
+ && sudo apt-get install -y \
+    ros-melodic-ros-ign \
+ && sudo apt-get clean -qq
+
 # Make a couple folders for organizing docker volumes
 RUN mkdir ~/workspaces ~/other
 
@@ -90,10 +96,10 @@ RUN rosdep update
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
  && git config --global http.postBuffer 1048576000 \
- && git clone https://github.com/ignitionrobotics/ros_ign -b melodic \
- && git clone https://github.com/osrf/subt -b dome
+ && git clone https://github.com/osrf/subt
 
 WORKDIR /home/$USERNAME/subt_ws
+
 RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && catkin_make install'
 RUN /bin/sh -c 'echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc' \
  && /bin/sh -c 'echo ". ~/subt_ws/install/setup.sh" >> ~/.bashrc'

@@ -71,13 +71,18 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.osrfoundation.org/g
 RUN sudo apt-get update -qq \
  && sudo apt-get install -y -qq \
     ignition-dome \
+ && sudo apt-get clean
+
+# install the ros to ign bridge
+RUN sudo apt-get update \
+ && sudo apt-get install -y \
+    ros-melodic-ros-ign \
  && sudo apt-get clean -qq
 
 # Clone all the subt models so that you don't download them every time
 # docker is run
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
- && git clone https://github.com/ignitionrobotics/ros_ign -b melodic \
  && git clone https://github.com/osrf/subt -b dome
 
 WORKDIR /home/$USERNAME/subt_ws

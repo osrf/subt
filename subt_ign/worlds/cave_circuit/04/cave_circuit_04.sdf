@@ -175,12 +175,6 @@
     <gravity>0 0 -9.8</gravity>
     <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
     <atmosphere type='adiabatic'/>
-    <plugin name='ignition::gazebo::systems::LogRecord' filename='libignition-gazebo2-log-system.so'>
-      <path>/tmp/ign/logs</path>
-      <record_resources>0</record_resources>
-      <compress>0</compress>
-      <compress_path/>
-    </plugin>
     <include>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Starting Area Type B</uri>
       <name>staging_area</name>
