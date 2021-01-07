@@ -1387,9 +1387,12 @@ void GameLogicPlugin::PostUpdate(
             this->dataPtr->robotPrevPose[name] = pose;
             return true;
           }
+          // Send robot pose information if the robot has traveled more then
+          // 1m or 1second of simulation time has elapsed.
           else if (!robotPoseDataIt->second.empty() &&
-              robotPoseDataIt->second.back().second.Pos().Distance(
-                pose.Pos()) > 1.0)
+              (robotPoseDataIt->second.back().second.Pos().Distance(
+                pose.Pos()) > 1.0 ||
+               t - robotPoseDataIt->second.back().first.count() * 1e-9 > 1.0))
           {
             //  time passed since last pose sample
             double prevT = robotPoseDataIt->second.back().first.count() * 1e-9;
