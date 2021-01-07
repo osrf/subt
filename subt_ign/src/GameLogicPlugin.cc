@@ -1929,7 +1929,8 @@ std::tuple<double, bool> GameLogicPluginPrivate::ScoreArtifact(
         << "  id: " << this->eventCounter++ << "\n"
         << "  type: unknown_artifact_type\n"
         << "  time_sec: " << _simTime.sec() << "\n"
-        << "  reported_pose: " << observedObjectPose << "\n"
+        << "  reported_pose_world_frame: " << observedObjectPose << "\n"
+        << "  reported_pose_artifact_frame: " << artifactPose.Pos() << "\n"
         << "  reported_artifact_type: " << reportType << "\n";
       this->LogEvent(stream.str());
     }
@@ -1961,7 +1962,8 @@ std::tuple<double, bool> GameLogicPluginPrivate::ScoreArtifact(
         << "  id: " << this->eventCounter++ << "\n"
         << "  type: duplicate_artifact_report\n"
         << "  time_sec: " << _simTime.sec() << "\n"
-        << "  reported_pose: " << observedObjectPose << "\n"
+        << "  reported_pose_world_frame: " << observedObjectPose << "\n"
+        << "  reported_pose_artifact_frame: " << artifactPose.Pos() << "\n"
         << "  reported_artifact_type: " << reportType << "\n";
       this->LogEvent(stream.str());
     }
@@ -2053,7 +2055,8 @@ std::tuple<double, bool> GameLogicPluginPrivate::ScoreArtifact(
       << "  id: " << this->eventCounter++ << "\n"
       << "  type: artifact_report_attempt\n"
       << "  time_sec: " << _simTime.sec() << "\n"
-      << "  reported_pose: " << observedObjectPose << "\n"
+      << "  reported_pose_world_frame: " << observedObjectPose << "\n"
+      << "  reported_pose_artifact_frame: " << artifactPose.Pos() << "\n"
       << "  reported_artifact_type: " << reportType << "\n"
       << "  closest_artifact_name: " << std::get<0>(minDistance) << "\n"
       << "  distance: " <<  outDist << "\n"
@@ -2063,9 +2066,9 @@ std::tuple<double, bool> GameLogicPluginPrivate::ScoreArtifact(
   }
 
   _artifactMsg.reported_artifact_type = reportType;
-  _artifactMsg.reported_artifact_position.x = observedObjectPose.X();
-  _artifactMsg.reported_artifact_position.y = observedObjectPose.Y();
-  _artifactMsg.reported_artifact_position.z = observedObjectPose.Z();
+  _artifactMsg.reported_artifact_position.x = artifactPose.Pos().X();
+  _artifactMsg.reported_artifact_position.y = artifactPose.Pos().Y();
+  _artifactMsg.reported_artifact_position.z = artifactPose.Pos().Z();
   _artifactMsg.closest_artifact_name = std::get<0>(minDistance);
   _artifactMsg.distance = outDist;
   _artifactMsg.points_scored = score;
@@ -2073,7 +2076,7 @@ std::tuple<double, bool> GameLogicPluginPrivate::ScoreArtifact(
 
   this->Log(_simTime) << "calculated_dist[" << std::get<2>(minDistance)
     << "] for artifact[" << std::get<0>(minDistance) << "] reported_pos["
-    << observedObjectPose << "]" << std::endl;
+    << artifactPose.Pos() << "]" << std::endl;
 
   ignmsg << "  [Total]: " << score << std::endl;
   this->Log(_simTime) << "modified_score " << score << std::endl;
