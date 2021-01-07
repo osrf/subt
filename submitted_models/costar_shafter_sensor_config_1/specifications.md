@@ -2,12 +2,10 @@
 DARPA Subterranean Challenge Technology Repository -->
 
 # COSTAR Shafter Sensor Config 1
-<div style="text-align: justify">
-This specifications.md file is a description and proof of virtual model validation for the COSTAR Shafter with Sensor Configuration 1. This robot may be launched using an `ign launch` command with the variable name `costar_shafter_sensor_config_1`. </div>
+This specifications.md file is a description and proof of virtual model validation for the COSTAR Shafter with Sensor Configuration 1. This robot may be launched using an `ign launch` command with the variable name `costar_shafter_sensor_config_1`. 
 
 ## Description
-<div style="text-align: justify">
-The shafter aerial platform is an autonomous system capable of being deployed in an unknown environment and proceeding for its mapping up to the point of automatic return to home. It performs localization, planning, control, mapping and artifact localization tasks based on the onboard sensing and algorithm design. In this configuration, the platform is equipped with the following sensors: 3D LIDAR, forward facing RGBD camera and an IMU. </div>
+The shafter aerial platform is an autonomous system capable of being deployed in an unknown environment and proceeding for its mapping up to the point of automatic return to home. It performs localization, planning, control, mapping and artifact localization tasks based on the onboard sensing and algorithm design. In this configuration, the platform is equipped with the following sensors: 3D LIDAR, forward facing RGBD camera and an IMU.
 
 ## Usage Instructions
 To launch the aerial platform in the simulation environment use the following commands:
@@ -16,13 +14,13 @@ cd (path to package)/launch
 ign launch -v 4 example.ign robotName:=shafter modelName:=costar_shafter_sensor_config_1
 ```
 
-The robot can be controlled by sending Twist commands to the vehicle_name/cmd_vel ROS topic.
+The robot can be controlled by sending Twist commands to the `vehicle_name/cmd_vel` ROS topic.
 
 ## Usage Rights
 No additional restrictions have to be taken into account for this configuration.
 
 ### Cost and Scale
-The COSTAR Shafter robot has an estimated cost of $8.000 and weighs around 3.1 kg.
+The COSTAR Shafter robot has an estimated cost of $10,000 and weighs around 3.1 kg.
 
 ### Sensors
 This COSTAR Shafter with sensor configuration 1 includes the following sensors. 
@@ -35,16 +33,15 @@ This COSTAR Shafter with sensor configuration 1 includes the following sensors.
 This COSTAR Shafter platform is controlled by the default twist controller package inside the simulation environment.
 
 ### Motion Characteristics
-<div style="text-align: justify">
-Based on the tests specified in the DARPA SubT Challenge [Model Preparation Guide](https://subtchallenge.com/resources/Simulation_Model_Preparation_Guide.pdf), this vehicle has the following motion constraint characteristics. </div>
+Based on the tests specified in the DARPA SubT Challenge [Model Preparation Guide](https://subtchallenge.com/resources/Simulation_Model_Preparation_Guide.pdf), this vehicle has the following motion constraint characteristics.
 
-* _x_ linear velocity range from -2.0 m/s to 2.0 m/s
+* _x_ linear velocity range from -2.04 m/s to 2.04 m/s
 * _y_ linear velocity range from -1.95 m/s to 1.95 m/s
-* _z_ linear velocity range from -1.0 m/s to 1.0 m/s
+* _z_ linear velocity range from -1.05 m/s to 1.05 m/s
 * _x_ linear acceleration range from -3.57 m/s<sup>2</sup> to 3.57 m/s<sup>2</sup>
 * _y_ linear acceleration range from -3.66 m/s<sup>2</sup> to 3.66 m/s<sup>2</sup>
-* _z_ linear acceleration range from -1.5 m/s<sup>2</sup> to 1.5 m/s<sup>2</sup>
-* _x_ angular velocity range from -5.0 rad/s to 5.0 rad/s
+* _z_ linear acceleration range from -1.49 m/s<sup>2</sup> to 1.49 m/s<sup>2</sup>
+* _x_ angular velocity range from -5.02 rad/s to 5.02 rad/s
 * _y_ angular velocity range from -4.55 rad/s to 4.55 rad/s
 * _z_ angular velocity range from -3.6 rad/s to 3.6 rad/s
 
@@ -53,8 +50,7 @@ The constraints can be found in the following locations within the simulation mo
 * spawner.rb, lines 112-114
 
 ### Endurance Characteristics
-<div style="text-align: justify">
-Based on the tests specified in the DARPA SubT Challenge [Model Preparation Guide](https://subtchallenge.com/resources/Simulation_Model_Preparation_Guide.pdf), this vehicle has the following endurance characteristics. </div>
+Based on the tests specified in the DARPA SubT Challenge [Model Preparation Guide](https://subtchallenge.com/resources/Simulation_Model_Preparation_Guide.pdf), this vehicle has the following endurance characteristics.
 
 * Battery life of 600 seconds
 

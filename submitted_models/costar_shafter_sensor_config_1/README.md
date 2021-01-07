@@ -13,7 +13,7 @@ cd (path to package)/launch
 ign launch -v 4 example.ign robotName:=shafter modelName:=costar_shafter_sensor_config_1
 ```
 
-The robot can be controlled by sending Twist commands to the vehicle_name/cmd_vel ROS topic.
+The robot can be controlled by sending Twist commands to the `vehicle_name/cmd_vel ROS topic`.
 
 ## Usage Rights
 No additional restrictions have to be taken into account for this configuration.
