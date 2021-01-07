@@ -10,6 +10,7 @@ RUN apt-get update -qq \
         cppcheck \
         gdb \
         git \
+        g++-8 \
         libbluetooth-dev \
         libccd-dev \
         libcwiid-dev \
@@ -81,17 +82,12 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu 
 
 RUN rosdep update
 
-# sdformat8-sdf conflicts with sdformat-sdf installed from gazebo
-# so we need to workaround this using a force overwrite
-# Do this before installing ign-gazebo
+# install ign-dome
 RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list' \
  && sudo /bin/sh -c 'wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -' \
- && sudo /bin/sh -c 'apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654'
-
-# install ign-blueprint
-RUN sudo apt-get update -qq \
+ && sudo apt-get update -qq \
  && sudo apt-get install -y -qq \
-    ignition-blueprint \
+    ignition-dome \
  && sudo apt-get clean -qq
 
 # install the ros to ign bridge
@@ -115,6 +111,8 @@ WORKDIR /home/$USERNAME/subt_ws
 # RUN wget https://s3.amazonaws.com/osrf-distributions/subt_robot_examples/releases/subt_robot_examples_latest.tgz
 # RUN tar xvf subt_robot_examples_latest.tgz
 
+# build the subt tech repo (set gcc to version 8 first)
+RUN sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 800 --slave /usr/bin/g++ g++ /usr/bin/g++-8 --slave /usr/bin/gcov gcov /usr/bin/gcov-8
 RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && catkin_make install'
 
 RUN /bin/sh -c 'echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc' \
