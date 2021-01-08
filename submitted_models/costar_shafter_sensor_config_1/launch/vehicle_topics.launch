@@ -144,7 +144,7 @@
         type="parameter_bridge"
         name="ros_ign_bridge_rgbd"
         args="$(arg sensor_prefix)/realsense_front/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
-        <remap from="$(arg sensor_prefix)/realsense_front/points" to="rgbd_camera/depth/points"/>
+        <remap from="$(arg sensor_prefix)/realsense_front/points" to="rgbd_camera/depth_points"/>
       </node>
       <node
         pkg="ros_ign_bridge"
