@@ -57,7 +57,7 @@ bool WorldGeneratorBase::IntersectionCheck(WorldSection &_section,
   // section against all tiles that have been added to the world
   for (const auto &tile : _section.tiles)
   {
-    math::Pose3d pose = tile.model.Pose() + _pose;
+    math::Pose3d pose = tile.model.RawPose() + _pose;
     math::AxisAlignedBox box = this->tileBoundingBoxes[tile.tileType];
     box = transformAxisAlignedBox(box, pose);
     // save the bounding box in case we do use this section so that we don't

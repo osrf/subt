@@ -4,7 +4,7 @@ project(subt_ign)
 configure_file (${PROJECT_SOURCE_DIR}/include/subt_ign/Config.hh.in ${PROJECT_BINARY_DIR}/include/subt_ign/Config.hh)
 
 if(NOT WIN32)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -Wall -Wextra")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -Wall -Wextra -g")
 endif()
 
 set (SUBT_MAJOR_VERSION 0)
@@ -376,8 +376,8 @@ add_dependencies(cave_generator ${catkin_EXPORTED_TARGETS})
 target_link_libraries(cave_generator 
   ignition-math6::ignition-math6
   ignition-common3::requested
-  ignition-fuel_tools3::ignition-fuel_tools3
-  sdformat8::sdformat8  
+  ignition-fuel_tools5::ignition-fuel_tools5
+  sdformat10::sdformat10  
   ${catkin_LIBRARIES})
 target_include_directories(cave_generator
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
@@ -389,8 +389,8 @@ add_dependencies(cave_generator ${catkin_EXPORTED_TARGETS})
 target_link_libraries(urban_generator 
   ignition-math6::ignition-math6
   ignition-common3::requested
-  ignition-fuel_tools3::ignition-fuel_tools3
-  sdformat8::sdformat8  
+  ignition-fuel_tools5::ignition-fuel_tools5
+  sdformat10::sdformat10  
   ${catkin_LIBRARIES})
 target_include_directories(urban_generator
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
@@ -401,8 +401,8 @@ install(TARGETS urban_generator
 #target_link_libraries(world_generator_cave
 #  ignition-math6::ignition-math6
 #  ignition-common3::requested
-#  ignition-fuel_tools3::ignition-fuel_tools3
-#  sdformat8::sdformat8)
+#  ignition-fuel_tools5::ignition-fuel_tools5
+#  sdformat10::sdformat10)
 #target_include_directories(world_generator_cave
 #  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 #install(TARGETS world_generator_cave

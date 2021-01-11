@@ -65,57 +65,6 @@ math::AxisAlignedBox transformAxisAlignedBox(
 }
 
 //////////////////////////////////////////////////
-WorldSection CreateWorldSectionFromTile(const std::string &_type, 
-    const math::Vector3d &_entry, const math::Quaterniond &_rot, 
-    TileType _tileType)
-{
-  WorldSection s;
-  auto it = subt::ConnectionHelper::connectionPoints.find(_type);
-  if (it == subt::ConnectionHelper::connectionPoints.end())
-  {
-    std::cerr << "Unable to find tile type: " << _type << std::endl;
-    return s;
-  }
-
-  VertexData t;
-  t.tileType = _type;
-  t.model.SetPose(math::Pose3d(_rot * -_entry, _rot));
-  s.tiles.push_back(t);
-
-  for (const auto &o : it->second)
-  {
-    // ignore the connection point at zero that we use to connect to previous
-    // world section.
-    // TODO Check if conditionals for different tileTypes is necessary
-    if (o != _entry)
-    {
-      math::Vector3d pt = _rot * (-_entry + o);
-      math::Quaterniond rot = math::Quaterniond::Identity;
-      if (_tileType == subt::TileType::CAVE_TYPE_B)
-      {
-        if (!math::equal(pt.Y(), 0.0))
-        {
-          if (pt.Y() > 0.0)
-            rot = math::Quaterniond(0, 0, IGN_PI * 0.5);
-          else
-            rot = math::Quaterniond(0, 0, -IGN_PI * 0.5);
-        }
-        else if (!math::equal(pt.X(), 0.0))
-        {
-          if (pt.X() < 0.0)
-            rot = math::Quaterniond(0, 0, -IGN_PI);
-        }
-      }
-
-      s.connectionPoints.push_back(std::make_pair(
-          pt, rot));
-
-    }
-  }
-  return s;
-}
-
-//////////////////////////////////////////////////
 std::string WorldTopStr(const std::string &_worldType, std::string outputFile, std::string worldName, bool gui)
 {
   if (_worldType == "Tunnel")
@@ -273,4 +222,55 @@ std::string WorldTopStr(const std::string &_worldType, std::string outputFile, s
 
     return ss.str();
   }
+}
+
+//////////////////////////////////////////////////
+WorldSection CreateWorldSectionFromTile(const std::string &_type, 
+    const math::Vector3d &_entry, const math::Quaterniond &_rot, 
+    TileType _tileType)
+{
+  WorldSection s;
+  auto it = subt::ConnectionHelper::connectionPoints.find(_type);
+  if (it == subt::ConnectionHelper::connectionPoints.end())
+  {
+    std::cerr << "Unable to find tile type: " << _type << std::endl;
+    return s;
+  }
+
+  VertexData t;
+  t.tileType = _type;
+  t.model.SetRawPose(math::Pose3d(_rot * -_entry, _rot));
+  s.tiles.push_back(t);
+
+  for (const auto &o : it->second)
+  {
+    // ignore the connection point at zero that we use to connect to previous
+    // world section.
+    // TODO Check if conditionals for different tileTypes is necessary
+    if (o != _entry)
+    {
+      math::Vector3d pt = _rot * (-_entry + o);
+      math::Quaterniond rot = math::Quaterniond::Identity;
+      if (_tileType == subt::TileType::CAVE_TYPE_B)
+      {
+        if (!math::equal(pt.Y(), 0.0))
+        {
+          if (pt.Y() > 0.0)
+            rot = math::Quaterniond(0, 0, IGN_PI * 0.5);
+          else
+            rot = math::Quaterniond(0, 0, -IGN_PI * 0.5);
+        }
+        else if (!math::equal(pt.X(), 0.0))
+        {
+          if (pt.X() < 0.0)
+            rot = math::Quaterniond(0, 0, -IGN_PI);
+        }
+      }
+
+      s.connectionPoints.push_back(std::make_pair(
+          pt, rot));
+
+    }
+  }
+  return s;
 }
