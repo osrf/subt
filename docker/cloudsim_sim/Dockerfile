@@ -79,7 +79,8 @@ WORKDIR /home/$USERNAME
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
  && git config --global http.postBuffer 1048576000 \
- && git clone --depth 1 https://github.com/osrf/subt
+ && git clone --depth 1 https://github.com/osrf/subt \
+ && rm -rf subt/.git
 
 RUN . /opt/ros/melodic/setup.sh \
  && rosdep update \
