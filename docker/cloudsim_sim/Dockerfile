@@ -52,7 +52,7 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu 
     python-catkin-tools \
     python-rosdep \
     python-rosinstall \
-    ros-melodic-desktop \
+    ros-melodic-ros-base \
  && sudo rosdep init \
  && sudo apt-get clean
 
@@ -69,12 +69,6 @@ RUN sudo apt-get update \
     ignition-dome \
  && sudo apt-get clean
 
-# install the ros to ign bridge
-RUN sudo apt-get update \
- && sudo apt-get install -y \
-    ros-melodic-ros-ign \
- && sudo apt-get clean -qq
-
 # Make a couple folders for organizing docker volumes
 RUN mkdir ~/workspaces ~/other
 
@@ -85,7 +79,7 @@ WORKDIR /home/$USERNAME
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
  && git config --global http.postBuffer 1048576000 \
- && git clone https://github.com/osrf/subt
+ && git clone --depth 1 https://github.com/osrf/subt
 
 RUN . /opt/ros/melodic/setup.sh \
  && rosdep update \
@@ -94,7 +88,7 @@ RUN . /opt/ros/melodic/setup.sh \
 
 WORKDIR /home/$USERNAME/subt_ws
 
-RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && catkin_make install'
+RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && catkin_make -DCMAKE_BUILD_TYPE=Release install && rm -rf build devel'
 RUN /bin/sh -c 'echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc' \
  && /bin/sh -c 'echo ". ~/subt_ws/install/setup.sh" >> ~/.bashrc'
 
