@@ -2,23 +2,17 @@
 #include "world_generator_utils.hh"
 
 namespace subt {
+
 //////////////////////////////////////////////////
-class TunnelGenerator : public WorldGenerator
+class TunnelGeneratorBase
 {
-  /// \brief Generate the world sdf
-  public: void Generate();
-
-  /// \brief Preprocess all tiles from the ConnectionHelper class to filter
-  /// out only the tiles needed for this world generator class. In addtion,
-  /// we also generate bounding box data for each tile.
-  protected: void LoadTiles() override;
-
   /// \brief Create world sections from all the individual tiles
-  private: void CreateWorldSections();
+  protected: std::vector<WorldSection> CreateWorldSections(std::map<std::string, std::vector<ignition::math::Vector3d>>
+      &_tileConnectionPoints);
 };
 
 //////////////////////////////////////////////////
-class TunnelGeneratorDebug : public WorldGeneratorDebug
+class TunnelGenerator : TunnelGeneratorBase, public WorldGenerator
 {
   /// \brief Generate the world sdf
   public: void Generate();
@@ -27,30 +21,41 @@ class TunnelGeneratorDebug : public WorldGeneratorDebug
   /// out only the tiles needed for this world generator class. In addtion,
   /// we also generate bounding box data for each tile.
   protected: void LoadTiles() override;
+};
 
-  /// \brief Create world sections from all the individual tiles
-  private: void CreateWorldSections();
+//////////////////////////////////////////////////
+class TunnelGeneratorDebug : TunnelGeneratorBase, public WorldGeneratorDebug
+{
+  /// \brief Generate the world sdf
+  public: void Generate();
+
+  /// \brief Preprocess all tiles from the ConnectionHelper class to filter
+  /// out only the tiles needed for this world generator class. In addtion,
+  /// we also generate bounding box data for each tile.
+  protected: void LoadTiles() override;
 };
 }
 
 //////////////////////////////////////////////////
-void TunnelGenerator::CreateWorldSections()
+std::vector<WorldSection> TunnelGeneratorBase::CreateWorldSections(std::map<std::string, std::vector<ignition::math::Vector3d>>
+      &_tileConnectionPoints)
 {
   static size_t nextId = 0u;
+  std::vector<WorldSection> worldSections;
   double tileSize = 10;
   double halfTileSize = tileSize/2;
-  for (const auto &t : this->tileConnectionPoints)
+  for (const auto &t : _tileConnectionPoints)
   {
     if (t.first.find("Rough") != std::string::npos)
     {
       WorldSection s = std::move(
-        this->CreateWorldSectionFromTile(t.first,
+        CreateWorldSectionFromTile(t.first,
         math::Vector3d(0, -tileSize, 0),
         math::Quaterniond(0, 0, -IGN_PI/2),
         NONE));
       s.tileType = NONE;
       s.id = nextId++;
-      this->worldSections.push_back(s);
+      worldSections.push_back(s);
     }
     else if (t.first.find("1") != std::string::npos || t.first.find("2") != std::string::npos ||
              t.first.find("3") != std::string::npos || t.first.find("4") != std::string::npos ||
@@ -58,88 +63,89 @@ void TunnelGenerator::CreateWorldSections()
              t.first.find("7") != std::string::npos)
     {
       WorldSection s = std::move(
-        this->CreateWorldSectionFromTile(t.first,
+        CreateWorldSectionFromTile(t.first,
         math::Vector3d(0, -tileSize, 0),
         math::Quaterniond(0, 0, -IGN_PI/2),
         NONE));
       s.tileType = NONE;
       s.id = nextId++;
-      this->worldSections.push_back(s);
+      worldSections.push_back(s);
     }
     else if (t.first.find("Elevation") != std::string::npos)
     {
       WorldSection s = std::move(
-        this->CreateWorldSectionFromTile(t.first,
+        CreateWorldSectionFromTile(t.first,
         math::Vector3d(0, -tileSize, 5),
         math::Quaterniond(0, 0, -IGN_PI/2),
         NONE));
       s.tileType = NONE;
       s.id = nextId++;
-      this->worldSections.push_back(s);
+      worldSections.push_back(s);
     }
     else if (t.first.find("Straight") != std::string::npos)
     {
       WorldSection s = std::move(
-        this->CreateWorldSectionFromTile(t.first,
+        CreateWorldSectionFromTile(t.first,
         math::Vector3d(0, -halfTileSize, 0),
         math::Quaterniond(0, 0, -IGN_PI/2),
         NONE));
       s.tileType = NONE;
       s.id = nextId++;
-      this->worldSections.push_back(s);
+      worldSections.push_back(s);
     }
     else if (t.first.find("Corner") != std::string::npos)
     {
       WorldSection s = std::move(
-        this->CreateWorldSectionFromTile(t.first,
+        CreateWorldSectionFromTile(t.first,
         math::Vector3d(0, 0, 0),
         math::Quaterniond::Identity,
         NONE));
       s.tileType = NONE;
       s.id = nextId++;
-      this->worldSections.push_back(s);
+      worldSections.push_back(s);
     }
     else if (t.first.find("Bend") != std::string::npos)
     {
       WorldSection s = std::move(
-        this->CreateWorldSectionFromTile(t.first,
+        CreateWorldSectionFromTile(t.first,
         math::Vector3d(0, 0, 0),
         math::Quaterniond::Identity,
         NONE));
       s.tileType = NONE;
       s.id = nextId++;
-      this->worldSections.push_back(s);
+      worldSections.push_back(s);
     }
     else if (t.first.find("Intersection") != std::string::npos)
     {
       WorldSection s = std::move(
-        this->CreateWorldSectionFromTile(t.first,
+        CreateWorldSectionFromTile(t.first,
         math::Vector3d(0, -(tileSize + halfTileSize), 0),
         math::Quaterniond(0, 0, IGN_PI/2),
         NONE));
       s.tileType = NONE;
       s.id = nextId++;
-      this->worldSections.push_back(s);
+      worldSections.push_back(s);
     }
     else if (t.first.find("Intersection T") != std::string::npos)
     {
       WorldSection s = std::move(
-        this->CreateWorldSectionFromTile(t.first,
+        CreateWorldSectionFromTile(t.first,
         math::Vector3d(0, 0, 0),
         math::Quaterniond::Identity,
         NONE));
       s.tileType = NONE;
       s.id = nextId++;
-      this->worldSections.push_back(s);
+      worldSections.push_back(s);
     }
   }
+  return worldSections;
 }
 
 //////////////////////////////////////////////////
 void TunnelGenerator::LoadTiles()
 {
   WorldGenerator::LoadTiles();
-  this->CreateWorldSections();
+  this->worldSections = this->CreateWorldSections(this->tileConnectionPoints);
 }
 
 //////////////////////////////////////////////////
@@ -252,7 +258,7 @@ void TunnelGenerator::Generate()
       std::string name = "tile_" + std::to_string(++tileNo);
 
       // convert tile pose to world coordinates
-      math::Pose3d pose = t.model.Pose() + s.pose;
+      math::Pose3d pose = t.model.RawPose() + s.pose;
       std::string uri =
           "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/" +
           t.tileType;
@@ -319,112 +325,10 @@ void TunnelGenerator::Generate()
 }
 
 //////////////////////////////////////////////////
-void TunnelGeneratorDebug::CreateWorldSections()
-{
-  static size_t nextId = 0u;
-  double tileSize = 10;
-  double halfTileSize = tileSize/2;
-  for (const auto &t : this->tileConnectionPoints)
-  {
-    if (t.first.find("Rough") != std::string::npos)
-    {
-      WorldSection s = std::move(
-        this->CreateWorldSectionFromTile(t.first,
-        math::Vector3d(0, -tileSize, 0),
-        math::Quaterniond(0, 0, -IGN_PI/2),
-        NONE));
-      s.tileType = NONE;
-      s.id = nextId++;
-      this->worldSections.emplace(t.first, s);
-    }
-    else if (t.first.find("1") != std::string::npos || t.first.find("2") != std::string::npos ||
-             t.first.find("3") != std::string::npos || t.first.find("4") != std::string::npos ||
-             t.first.find("5") != std::string::npos || t.first.find("6") != std::string::npos ||
-             t.first.find("7") != std::string::npos)
-    {
-      WorldSection s = std::move(
-        this->CreateWorldSectionFromTile(t.first,
-        math::Vector3d(0, -tileSize, 0),
-        math::Quaterniond(0, 0, -IGN_PI/2),
-        NONE));
-      s.tileType = NONE;
-      s.id = nextId++;
-      this->worldSections.emplace(t.first, s);
-    }
-    else if (t.first.find("Elevation") != std::string::npos)
-    {
-      WorldSection s = std::move(
-        this->CreateWorldSectionFromTile(t.first,
-        math::Vector3d(0, -tileSize, 5),
-        math::Quaterniond(0, 0, -IGN_PI/2),
-        NONE));
-      s.tileType = NONE;
-      s.id = nextId++;
-      this->worldSections.emplace(t.first, s);
-    }
-    else if (t.first.find("Straight") != std::string::npos)
-    {
-      WorldSection s = std::move(
-        this->CreateWorldSectionFromTile(t.first,
-        math::Vector3d(0, -halfTileSize, 0),
-        math::Quaterniond(0, 0, -IGN_PI/2),
-        NONE));
-      s.tileType = NONE;
-      s.id = nextId++;
-      this->worldSections.emplace(t.first, s);
-    }
-    else if (t.first.find("Corner") != std::string::npos)
-    {
-      WorldSection s = std::move(
-        this->CreateWorldSectionFromTile(t.first,
-        math::Vector3d(0, 0, 0),
-        math::Quaterniond::Identity,
-        NONE));
-      s.tileType = NONE;
-      s.id = nextId++;
-      this->worldSections.emplace(t.first, s);
-    }
-    else if (t.first.find("Bend") != std::string::npos)
-    {
-      WorldSection s = std::move(
-        this->CreateWorldSectionFromTile(t.first,
-        math::Vector3d(0, 0, 0),
-        math::Quaterniond::Identity,
-        NONE));
-      s.tileType = NONE;
-      s.id = nextId++;
-      this->worldSections.emplace(t.first, s);
-    }
-    else if (t.first.find("Intersection") != std::string::npos)
-    {
-      WorldSection s = std::move(
-        this->CreateWorldSectionFromTile(t.first,
-        math::Vector3d(0, -(tileSize + halfTileSize), 0),
-        math::Quaterniond(0, 0, IGN_PI/2),
-        NONE));
-      s.tileType = NONE;
-      s.id = nextId++;
-      this->worldSections.emplace(t.first, s);
-    }
-    else if (t.first.find("Intersection T") != std::string::npos)
-    {
-      WorldSection s = std::move(
-        this->CreateWorldSectionFromTile(t.first,
-        math::Vector3d(0, 0, 0),
-        math::Quaterniond::Identity,
-        NONE));
-      s.tileType = NONE;
-      s.id = nextId++;
-      this->worldSections.emplace(t.first, s);
-    }
-  }
-}
-
-//////////////////////////////////////////////////
 void TunnelGeneratorDebug::LoadTiles()
 {
   WorldGeneratorDebug::LoadTiles();
-  this->CreateWorldSections();
+  this->worldSections = this->CreateWorldSections(this->tileConnectionPoints);
 }
 
 //////////////////////////////////////////////////
@@ -538,7 +442,7 @@ void TunnelGeneratorDebug::Generate()
       std::string name = "tile_" + std::to_string(++tileNo);
 
       // convert tile pose to world coordinates
-      math::Pose3d pose = t.model.Pose() + s.pose;
+      math::Pose3d pose = t.model.RawPose() + s.pose;
       std::string uri =
           "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/" +
           t.tileType;
@@ -609,8 +513,8 @@ void printUsage()
 {
   std::string usage;
   usage += "Usage: urban_generator [world_type] [options]\n";
-  usage += "Example Generate: urban_generator -g -c 60 -n urban_test -s 25 -o urban_test.sdf\n";
-  usage += "Example Debug: urban_generator -g -d \"Urban Straight\" -n urban_straight -o urban_straight.sdf\n";
+  usage += "Example Generate: tunnel_generator -g -c 60 -n tunnel_test -s 25 -o tunnel_test.sdf\n";
+  usage += "Example Debug: tunnel_generator -g -d \"Tunnel Straight\" -n tunnel_straight -o tunnel_straight.sdf\n";
   usage += "Options:\n";
   usage += "    -h\t\t Print this help message\n";
   usage += "    -d <tile>\t Generate world from tile for debugging\n";

@@ -385,7 +385,7 @@ install(TARGETS cave_generator
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 
 add_executable(urban_generator src/urban_generator.cc src/world_generator_base.cc src/world_generator_utils.cc src/ConnectionHelper.cc)
-add_dependencies(cave_generator ${catkin_EXPORTED_TARGETS})
+add_dependencies(urban_generator ${catkin_EXPORTED_TARGETS})
 target_link_libraries(urban_generator 
   ignition-math6::ignition-math6
   ignition-common3::requested
@@ -395,6 +395,19 @@ target_link_libraries(urban_generator
 target_include_directories(urban_generator
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 install(TARGETS urban_generator
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+
+add_executable(tunnel_generator src/tunnel_generator.cc src/world_generator_base.cc src/world_generator_utils.cc src/ConnectionHelper.cc)
+add_dependencies(tunnel_generator ${catkin_EXPORTED_TARGETS})
+target_link_libraries(tunnel_generator 
+  ignition-math6::ignition-math6
+  ignition-common3::requested
+  ignition-fuel_tools5::ignition-fuel_tools5
+  sdformat10::sdformat10  
+  ${catkin_LIBRARIES})
+target_include_directories(tunnel_generator
+  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
+install(TARGETS tunnel_generator
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 
 #add_executable(world_generator_cave src/world_generator_cave.cc src/ConnectionHelper.cc)
