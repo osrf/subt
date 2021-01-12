@@ -90,14 +90,17 @@ RUN mkdir ~/workspaces ~/other
 # When running a container start in the developer's home folder
 WORKDIR /home/$USERNAME
 
-RUN rosdep update
-
 # Clone all the subt models so that you don't download them every time
 # docker is run
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
  && git config --global http.postBuffer 1048576000 \
  && git clone https://github.com/osrf/subt
+
+RUN . /opt/ros/melodic/setup.sh \
+ && rosdep update \
+ && rosdep install -y --from-paths . --ignore-src -r \
+ && sudo apt-get clean -qq
 
 WORKDIR /home/$USERNAME/subt_ws
 
