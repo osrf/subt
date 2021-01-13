@@ -23,6 +23,29 @@
 std::map<std::string, std::vector<ignition::math::Vector3d>>
   subt::ConnectionHelper::connectionPoints =
   {
+    {"Constrained Tunnel Tile Short", {{0, -10, 0}, {0, 10, 0}}},
+    {"Constrained Tunnel Tile Tall", {{0, -10, 0}, {0, 10, 0}}},
+    {"Tunnel Bend Right", {{0, 0, 0}, {17.5, 25, 0}}},
+    {"Tunnel Corner Left", {{0, 0, 0}, {-10, 10, 0}}},
+    {"Tunnel Corner Right", {{0, 0, 0}, {10, 10, 0}}},
+    {"Tunnel Elevation", {{0, 0, 0}, {0, 10, 5}}},
+    {"Tunnel Intersection", {{0, 0, 0}, {7.5, 7.5, 0}, {-7.5, 7.5, 0}, {0, 15, 0}}},
+    {"Tunnel Intersection T", {{0, 0, 0}, {7.5, 7.5, 0}, {-7.5, 7.5, 0}}},
+    {"Tunnel Straight", {{0, 0, 0}, {0, 5, 0}}},
+    {"subt_tunnel_staging_area", {{10, 0, 0}}},
+    {"Tunnel Tile 1", {{0.0, 10.0, 0.0}, {10.0, 0.0, 0.0}, {0.0, -10.0, 0.0}, {-10.0, 0.0, 0.0}}},
+    {"Tunnel Tile 2", {{10, 0, 0}, {0, -10, 0}}},
+    {"Tunnel Tile 3", {{0.0, 10.0, 0.0}, {10.0, 0.0, 0.0}, {0.0, -10.0, 0.0}, {-10.0, 0.0, 0.0}}},
+    {"Tunnel Tile 4", {{0.0, 10.0, 0.0}, {10.0, 0.0, 0.0}, {0.0, -10.0, 0.0}, {-10.0, 0.0, 0.0}}},
+    {"Tunnel Tile 5", {{0, -10, 0}, {0, 10, 0}}},
+    {"Tunnel Tile 6", {{0, -10, 0}, {0, 10, 5}}},
+    {"Tunnel Tile 7", {{0, -10, 0}, {0, 10, 5}}},
+    {"Rough Tunnel Tile 90-degree Turn", {{0, -10, 0}, {10, 0, 0}}},
+    {"Rough Tunnel Tile Ramp", {{0, -10, 0}, {0, 10, 5}}},
+    {"Rough Tunnel Tile Straight", {{0, -10, 0}, {0, 10, 0}}},
+    {"Rough Tunnel Tile Vertical Shaft", {{0, -10, 0}, {0, 10, 5}}},
+    {"Rough Tunnel Tile 4-way Intersection", {{0, -10, 0}, {0, 10, 0}, {10, 0, 0}, {-10, 0, 0}}},
+
     {"Urban Straight", {{0, 20, 0}, {0, -20, 0}}},
     {"Urban Straight Lights", {{0, 20, 0}, {0, -20, 0}}},
     {"Urban Bend Right", {{0, -20, 0}, {20, 0, 0}}},
@@ -298,10 +321,10 @@ bool ConnectionHelper::ComputePoint(VertexData *_tile1, VertexData *_tile2,
 
   for (const auto& pt1 : ConnectionHelper::connectionPoints[_tile1->tileType])
   {
-    auto pt1tf = _tile1->model.Pose().CoordPositionAdd(pt1);
+    auto pt1tf = _tile1->model.RawPose().CoordPositionAdd(pt1);
     for (const auto& pt2 : ConnectionHelper::connectionPoints[_tile2->tileType])
     {
-      auto pt2tf = _tile2->model.Pose().CoordPositionAdd(pt2);
+      auto pt2tf = _tile2->model.RawPose().CoordPositionAdd(pt2);
       if (pt1tf.Equal(pt2tf, 1))
       {
         _pt = pt1tf;
@@ -315,14 +338,14 @@ bool ConnectionHelper::ComputePoint(VertexData *_tile1, VertexData *_tile2,
 
   for (const auto& pt1 : ConnectionHelper::connectionPoints[_tile1->tileType])
   {
-    auto pt1tf = _tile1->model.Pose().CoordPositionAdd(pt1);
+    auto pt1tf = _tile1->model.RawPose().CoordPositionAdd(pt1);
     for (const auto& pt2 :
         ConnectionHelper::connectionPoints[_tile2->tileType])
     {
-      auto pt2tf = _tile2->model.Pose().CoordPositionAdd(pt2);
+      auto pt2tf = _tile2->model.RawPose().CoordPositionAdd(pt2);
       igndbg <<
-        _tile1->tileType << " [" << _tile1->model.Pose() << "] -- " <<
-        _tile2->tileType << " [" << _tile2->model.Pose() << "]"
+        _tile1->tileType << " [" << _tile1->model.RawPose() << "] -- " <<
+        _tile2->tileType << " [" << _tile2->model.RawPose() << "]"
                          << " [" <<  pt1tf << "] [" << pt2tf << "]"
                          << std::endl;
     }
@@ -345,7 +368,7 @@ std::vector<ignition::math::Vector3d> ConnectionHelper::GetConnectionPoints(Vert
   {
     for (const auto& pt1 : ConnectionHelper::connectionPoints[_tile1->tileType])
     {
-      auto pt1tf = _tile1->model.Pose().CoordPositionAdd(pt1);
+      auto pt1tf = _tile1->model.RawPose().CoordPositionAdd(pt1);
       ret.push_back(pt1tf);
     }
   }
