@@ -35,6 +35,8 @@ angular:
   z: 0.0"
 ```
 
+The forward direction for ANYmal is in negative x-direction due to positioning of the mounted sensors. That means one has to command negative x-velocity to move the robot in forward direction.
+
 Note that the vehicle moves with a constant forward and angular velocity. This is a design choice and cannot be changed. Therefore the input twist is used only to determine in which direction the vehicle should move. See [Control](#markdown-header-control) for more information.
 
 ## Usage Rights
