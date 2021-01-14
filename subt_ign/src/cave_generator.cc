@@ -821,7 +821,7 @@ void CaveGeneratorDebug::CreateTypeAWorldSections()
         CAVE_TYPE_A));
     s.tileType = CAVE_TYPE_A;
     s.id = nextId++;
-    this->worldSections.push_back( s);
+    this->worldSections.push_back(s);
   }
 
   {
@@ -831,7 +831,7 @@ void CaveGeneratorDebug::CreateTypeAWorldSections()
         CAVE_TYPE_A));
     s.tileType = CAVE_TYPE_A;
     s.id = nextId++;
-    this->worldSections.push_back( s);
+    this->worldSections.push_back(s);
   }
 
   {
@@ -841,7 +841,7 @@ void CaveGeneratorDebug::CreateTypeAWorldSections()
         CAVE_TYPE_A));
     s.tileType = CAVE_TYPE_A;
     s.id = nextId++;
-    this->worldSections.push_back( s);
+    this->worldSections.push_back(s);
   }
 
   {
@@ -851,7 +851,7 @@ void CaveGeneratorDebug::CreateTypeAWorldSections()
         CAVE_TYPE_A));
     s.tileType = CAVE_TYPE_A;
     s.id = nextId++;
-    this->worldSections.push_back( s);
+    this->worldSections.push_back(s);
   }
   {
     WorldSection s = std::move(

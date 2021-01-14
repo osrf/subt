@@ -251,7 +251,7 @@ void WorldGenerator::LoadTiles()
   fuel_tools::ClientConfig config;
   auto fuelClient = std::make_unique<fuel_tools::FuelClient>(config);
 
-  std::string baseUri = "https://fuel.ignitionrobotics.org/openrobotics/models";
+  std::string baseUri = "https://fuel.ignitionrobotics.org/OpenRobotics/models";
 
   for (const auto &t : tileConnectionPoints)
   {
@@ -328,12 +328,14 @@ void WorldGenerator::LoadTiles()
 WorldSection WorldGenerator::SelectWorldSection(TileType &_tileType)
 {
   int r = rand() % this->worldSections.size();
+  // TODO remove maxAttempts <- while loop should almost surely not be infinitely recursive 
+  int maxAttempts = 10;
   WorldSection s = this->worldSections[r];
 
-  while(s.tileType != _tileType)
+  while(s.tileType != _tileType && maxAttempts-- > 0)
   {
     r = rand() % this->worldSections.size();
-    s = this->worldSections[r];  
+    s = this->worldSections[r];
   }
   
   return s; 

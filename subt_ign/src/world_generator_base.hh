@@ -47,7 +47,7 @@ enum SubWorldType
 
 enum TileType 
 {
-  NONE = 0, // Expand to sub-domains if meshes types vary in tunnel/urban
+  NONE = 0, // Expand to sub-domains if meshes types vary in tunnel
   CAVE_TYPE_A = 1,
   CAVE_TYPE_B = 2,
   CAVE_TYPE_TRANSITION = 3,

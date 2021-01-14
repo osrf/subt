@@ -4,7 +4,7 @@ project(subt_ign)
 configure_file (${PROJECT_SOURCE_DIR}/include/subt_ign/Config.hh.in ${PROJECT_BINARY_DIR}/include/subt_ign/Config.hh)
 
 if(NOT WIN32)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -Wall -Wextra -g")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -Wall -Wextra")
 endif()
 
 set (SUBT_MAJOR_VERSION 0)
@@ -409,18 +409,6 @@ target_include_directories(tunnel_generator
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 install(TARGETS tunnel_generator
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
-
-#add_executable(world_generator_cave src/world_generator_cave.cc src/ConnectionHelper.cc)
-#target_link_libraries(world_generator_cave
-#  ignition-math6::ignition-math6
-#  ignition-common3::requested
-#  ignition-fuel_tools5::ignition-fuel_tools5
-#  sdformat10::sdformat10)
-#target_include_directories(world_generator_cave
-#  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
-#install(TARGETS world_generator_cave
-#  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
-
 
 ###########
 ## Tests ##
