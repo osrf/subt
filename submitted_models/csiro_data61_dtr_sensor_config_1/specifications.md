@@ -22,10 +22,10 @@ The DTR platform used by CSIRO_DATA61 is an in-house custom built platform and s
 
 ### Sensors
 The CSIRO_DATA61 DTR with sensor configuration 1, includes the following sensors. The specifications for these instruments are provided below in
-the [Validation Links](#markdown-header-dtr-validation-and-specification-links)) section.
+the [Validation and Specification Links](#markdown-header-dtr-validation-and-specification-links)) section.
 The following specific sensors are declared payloads of this vehicle:
 
-* A Velodyne VLP-16 Lidar, modeled by the gpu_lidar plugin. (note this lidar is also mounted at 45 degrees on a rotating gimbal for to give a near-360 degree FOV)
+* A Velodyne VLP-16 Lidar, modeled by the gpu_lidar plugin. (note this lidar is also mounted at 45 degrees on a rotating gimbal to give a near-360 degree FOV)
 * ECON e-CAM130_CUXVR Quad Camera system with each camera mounted on one side of the payload. The version on the platform is a custom set of sensors run at a resolution of 2016x1512, hardware triggered at 15fps. They are modeled by the standard camera plugin
 * A Microstrain CV5-25 IMU, modeled by the standard imu plugin
 
