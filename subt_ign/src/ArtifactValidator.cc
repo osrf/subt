@@ -63,7 +63,7 @@ ign service -s /artifact/move_to \
 #include <sdf/Model.hh>
 #include <sdf/World.hh>
 
-#include "subt_ign/CommonTypes.hh"
+#include "subt_ign/Common.hh"
 
 IGNITION_ADD_PLUGIN(
   subt::ArtifactValidator,
@@ -77,68 +77,9 @@ using namespace gazebo;
 using namespace systems;
 using namespace subt;
 
-/// \brief Simple structure to represent an artifact
-struct Artifact
-{
-  /// \brief Artifact name
-  std::string name;
-
-  /// \brief Artifact type
-  subt::ArtifactType type;
-
-  /// \brief Artifact type as a string
-  std::string typeStr;
-
-  /// \brief Artifact pose
-  ignition::math::Pose3d pose;
-
-  /// \brief Return a string representation of the artifact
-  std::string String() const
-  {
-    std::stringstream ss;
-    ss << "<Artifact:"
-       << " name=" << this->name
-       << " type=" << this->typeStr
-       << " pose=(" << this->pose << ")"
-       << ">";
-    return ss.str();
-  }
-};
-
 /// \brief Private data for the artifact validator.
 class subt::ArtifactValidatorPrivate
 {
-  /// \brief Map of artifact types to string representations.
-  public: const std::array<
-      const std::pair<subt::ArtifactType, std::string>, 14> kArtifactTypes
-      {
-        {
-          {subt::ArtifactType::TYPE_BACKPACK      , "TYPE_BACKPACK"},
-          {subt::ArtifactType::TYPE_DRILL         , "TYPE_DRILL"},
-          {subt::ArtifactType::TYPE_DUCT          , "TYPE_DUCT"},
-          {subt::ArtifactType::TYPE_ELECTRICAL_BOX, "TYPE_ELECTRICAL_BOX"},
-          {subt::ArtifactType::TYPE_EXTINGUISHER  , "TYPE_EXTINGUISHER"},
-          {subt::ArtifactType::TYPE_PHONE         , "TYPE_PHONE"},
-          {subt::ArtifactType::TYPE_RADIO         , "TYPE_RADIO"},
-          {subt::ArtifactType::TYPE_RESCUE_RANDY  , "TYPE_RESCUE_RANDY"},
-          {subt::ArtifactType::TYPE_TOOLBOX       , "TYPE_TOOLBOX"},
-          {subt::ArtifactType::TYPE_VALVE         , "TYPE_VALVE"},
-          {subt::ArtifactType::TYPE_VENT          , "TYPE_VENT"},
-          {subt::ArtifactType::TYPE_GAS           , "TYPE_GAS"},
-          {subt::ArtifactType::TYPE_HELMET        , "TYPE_HELMET"},
-          {subt::ArtifactType::TYPE_ROPE          , "TYPE_ROPE"}
-        }
-      };
-
-  /// \brief Get the artifact enumeration from the string value.
-  /// \param[in] _name - string representation of artifact
-  /// \param[out] _type - enumeration representation of artifact
-  public: bool ArtifactFromString(
-              const std::string &_name, ArtifactType &_type);
-
-  public: bool StringFromArtifact(const ArtifactType &_type,
-              std::string &_typeStr);
-
   /// \brief Parse artifacts from the SDF root.
   public: void ParseArtifacts();
 
@@ -253,64 +194,8 @@ bool ArtifactValidatorPrivate::OnPrev(const ignition::msgs::StringMsg& /*_req*/,
 }
 
 /////////////////////////////////////////////////
-bool ArtifactValidatorPrivate::ArtifactFromString(const std::string &_name,
-    ArtifactType &_type)
-{
-  auto pos = std::find_if(
-    std::begin(this->kArtifactTypes),
-    std::end(this->kArtifactTypes),
-    [&_name](const typename std::pair<ArtifactType, std::string> &_pair)
-    {
-      return (std::get<1>(_pair) == _name);
-    });
-
-  if (pos == std::end(this->kArtifactTypes))
-    return false;
-
-  _type = std::get<0>(*pos);
-  return true;
-}
-
-/////////////////////////////////////////////////
-bool ArtifactValidatorPrivate::StringFromArtifact(const ArtifactType &_type,
-    std::string &_typeStr)
-{
-  auto pos = std::find_if(
-    std::begin(this->kArtifactTypes),
-    std::end(this->kArtifactTypes),
-    [&_type](const typename std::pair<ArtifactType, std::string> &_pair)
-    {
-      return (std::get<0>(_pair) == _type);
-    });
-
-  if (pos == std::end(this->kArtifactTypes))
-    return false;
-
-  _typeStr = std::get<1>(*pos);
-  return true;
-}
-
-
-/////////////////////////////////////////////////
 void ArtifactValidatorPrivate::ParseArtifacts()
 {
-  std::map<std::string, subt::ArtifactType> sdfToType = {
-    { "backpack", subt::ArtifactType::TYPE_BACKPACK },
-    { "drill", subt::ArtifactType::TYPE_DRILL},
-    { "duct", subt::ArtifactType::TYPE_DUCT},
-    { "electrical_box", subt::ArtifactType::TYPE_ELECTRICAL_BOX},
-    { "extinguisher", subt::ArtifactType::TYPE_EXTINGUISHER},
-    { "phone", subt::ArtifactType::TYPE_PHONE},
-    { "radio", subt::ArtifactType::TYPE_RADIO},
-    { "rescue_randy", subt::ArtifactType::TYPE_RESCUE_RANDY },
-    { "toolbox", subt::ArtifactType::TYPE_TOOLBOX },
-    { "valve", subt::ArtifactType::TYPE_VALVE},
-    { "vent", subt::ArtifactType::TYPE_VENT},
-    { "gas", subt::ArtifactType::TYPE_GAS},
-    { "helmet", subt::ArtifactType::TYPE_HELMET},
-    { "rope", subt::ArtifactType::TYPE_ROPE}
-  };
-
   // Assuming 1 world per SDF, which is true for SubT.
   auto world = this->sdfRoot.WorldByIndex(0);
 
@@ -328,7 +213,7 @@ void ArtifactValidatorPrivate::ParseArtifacts()
       artifacts[name] = newArtifact;
     }
 
-    for (auto [str, type] : sdfToType)
+    for (auto [str, type] : kArtifactNames)
     {
       if (name.find(str) != std::string::npos)
       {
