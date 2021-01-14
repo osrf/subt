@@ -95,11 +95,12 @@ catkin_add_env_hooks(ign SHELLS zsh
 
 add_library(SubtCommon
   SHARED
+  src/Common.cc
   src/ConnectionValidatorPrivate.cc
   src/ConnectionHelper.cc
-  src/SimpleDOTParser.cc
   src/ign_to_fcl.cc
   src/SdfParser.cc
+  src/SimpleDOTParser.cc
   src/VisibilityRfModel.cc
   src/VisibilityTable.cc
 )
@@ -193,9 +194,14 @@ if (CATKIN_ENABLE_TESTING)
   add_dependencies(max_test_score GameLogicPlugin)
 
   # GasEmitterDetector Test
-  catkin_add_gtest(gas_emitter_detector test/gas_emitter_detector.cc)
-  target_include_directories(gas_emitter_detector PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
-  target_link_libraries(gas_emitter_detector SubtCommon)
+  catkin_add_gtest(gas_emitter_detector_TEST test/gas_emitter_detector.cc)
+  target_include_directories(gas_emitter_detector_TEST PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+  target_link_libraries(gas_emitter_detector_TEST SubtCommon)
+
+  # Common Test
+  catkin_add_gtest(common_TEST test/Common_TEST.cc)
+  target_include_directories(common_TEST PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+  target_link_libraries(common_TEST SubtCommon)
 endif()
 
 
