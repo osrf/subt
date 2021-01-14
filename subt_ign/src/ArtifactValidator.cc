@@ -261,33 +261,14 @@ void ArtifactValidator::Configure(const ignition::gazebo::Entity & /*_entity*/,
   }
 
   this->dataPtr->worldName = worldName;
-  auto vals = ignition::common::Split(worldName, '_');
-  auto worldNum = vals.back();
 
-  if (worldName.find("tunnel_circuit_") != std::string::npos &&
-      worldName.find("practice") == std::string::npos)
-  {
-    worldName = "tunnel_circuit/" + worldNum + "/" + worldName +".sdf";
-  }
-  else if (worldName.find("urban_circuit_") != std::string::npos &&
-             worldName.find("practice") == std::string::npos)
-  {
-    worldName = "urban_circuit/" + worldNum + "/" + worldName + ".sdf";
-  }
-  else if (worldName.find("cave_circuit_") != std::string::npos &&
-             worldName.find("practice") == std::string::npos)
-  {
-    worldName = "cave_circuit/" + worldNum + "/" + worldName + ".sdf";
-  }
-  else
-  {
-    worldName = worldName + ".sdf";
-  }
+  std::string fullPath;
+  subt::FullWorldPath(worldName, fullPath);
 
   common::SystemPaths systemPaths;
   systemPaths.SetFilePathEnv("IGN_GAZEBO_RESOURCE_PATH");
   systemPaths.AddFilePaths(IGN_GAZEBO_WORLD_INSTALL_DIR);
-  std::string filePath = systemPaths.FindFile(worldName);
+  std::string filePath = systemPaths.FindFile(fullPath);
   ignmsg << "Loading SDF world file[" << filePath << "].\n";
 
   auto errors = this->dataPtr->sdfRoot.Load(filePath);
