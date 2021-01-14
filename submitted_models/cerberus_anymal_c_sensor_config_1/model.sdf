@@ -638,6 +638,18 @@
         <pose frame="">-0.400 -0.050 0.229 -0.006 0.011 3.133</pose>
         <camera name="camera_0">
           <horizontal_fov>2.19911</horizontal_fov>
+          <lens>
+            <intrinsics>
+              <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+              <fx>183.43</fx>
+              <fy>183.43</fy>
+              <!-- cx = ( width + 1 ) / 2 -->
+              <cx>360.5</cx>
+              <!-- cy = ( height + 1 ) / 2 -->
+              <cy>270.5</cy>
+              <s>0</s>
+            </intrinsics>
+          </lens>
           <image>
             <width>720</width>
             <height>540</height>
@@ -659,6 +671,18 @@
         <pose frame="">-0.400 0.049 0.229 -0.006 0.0 3.139</pose>
         <camera name="camera_1">
           <horizontal_fov>2.19911</horizontal_fov>
+          <lens>
+            <intrinsics>
+              <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+              <fx>183.43</fx>
+              <fy>183.43</fy>
+              <!-- cx = ( width + 1 ) / 2 -->
+              <cx>360.5</cx>
+              <!-- cy = ( height + 1 ) / 2 -->
+              <cy>270.5</cy>
+              <s>0</s>
+            </intrinsics>
+          </lens>
           <image>
             <width>728</width>
             <height>544</height>
@@ -680,6 +704,18 @@
         <pose frame="">-0.379 -0.050 0.265 -0.009 -1.572 -0.004</pose>
         <camera name="camera_2">
           <horizontal_fov>2.19911</horizontal_fov>
+          <lens>
+            <intrinsics>
+              <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+              <fx>183.43</fx>
+              <fy>183.43</fy>
+              <!-- cx = ( width + 1 ) / 2 -->
+              <cx>360.5</cx>
+              <!-- cy = ( height + 1 ) / 2 -->
+              <cy>270.5</cy>
+              <s>0</s>
+            </intrinsics>
+          </lens>
           <image>
             <width>720</width>
             <height>540</height>
@@ -701,6 +737,18 @@
         <pose frame="">-0.348 -0.073 0.237 0.004 -0.172 -1.575</pose>
         <camera name="camera_3">
           <horizontal_fov>2.19911</horizontal_fov>
+          <lens>
+            <intrinsics>
+              <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+              <fx>183.43</fx>
+              <fy>183.43</fy>
+              <!-- cx = ( width + 1 ) / 2 -->
+              <cx>360.5</cx>
+              <!-- cy = ( height + 1 ) / 2 -->
+              <cy>270.5</cy>
+              <s>0</s>
+            </intrinsics>
+          </lens>
           <image>
             <width>720</width>
             <height>540</height>
@@ -722,6 +770,18 @@
         <pose frame="">-0.399 -0.000 0.228 -0.009 -0.002 3.136</pose>
         <camera name="camera_4">
           <horizontal_fov>2.19911</horizontal_fov>
+          <lens>
+            <intrinsics>
+              <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+              <fx>183.43</fx>
+              <fy>183.43</fy>
+              <!-- cx = ( width + 1 ) / 2 -->
+              <cx>360.5</cx>
+              <!-- cy = ( height + 1 ) / 2 -->
+              <cy>270.5</cy>
+              <s>0</s>
+            </intrinsics>
+          </lens>
           <image>
             <width>720</width>
             <height>540</height>
@@ -743,6 +803,18 @@
         <pose frame="">-0.347 0.072 0.236 -0.012 -0.171 1.569</pose>
         <camera name="camera_5">
           <horizontal_fov>2.19911</horizontal_fov>
+          <lens>
+            <intrinsics>
+              <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+              <fx>183.43</fx>
+              <fy>183.43</fy>
+              <!-- cx = ( width + 1 ) / 2 -->
+              <cx>360.5</cx>
+              <!-- cy = ( height + 1 ) / 2 -->
+              <cy>270.5</cy>
+              <s>0</s>
+            </intrinsics>
+          </lens>
           <image>
             <width>720</width>
             <height>540</height>
@@ -764,6 +836,18 @@
         <pose frame="">-0.379 0.050 0.265 -0.009 -1.572 -0.004</pose>
         <camera name="camera_6">
           <horizontal_fov>2.19911</horizontal_fov>
+          <lens>
+            <intrinsics>
+              <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+              <fx>183.43</fx>
+              <fy>183.43</fy>
+              <!-- cx = ( width + 1 ) / 2 -->
+              <cx>360.5</cx>
+              <!-- cy = ( height + 1 ) / 2 -->
+              <cy>270.5</cy>
+              <s>0</s>
+            </intrinsics>
+          </lens>
           <image>
             <width>720</width>
             <height>540</height>
