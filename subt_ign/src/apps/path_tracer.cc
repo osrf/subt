@@ -54,12 +54,6 @@ MarkerColor::MarkerColor(const YAML::Node &_node)
 }
 
 //////////////////////////////////////////////////
-MarkerColor::MarkerColor(const MarkerColor &_clr)
-  :ambient(_clr.ambient), diffuse(_clr.diffuse), emissive(_clr.emissive)
-{
-}
-
-//////////////////////////////////////////////////
 MarkerColor::MarkerColor(const ignition::math::Color &_ambient,
     const ignition::math::Color &_diffuse,
     const ignition::math::Color &_emissive)

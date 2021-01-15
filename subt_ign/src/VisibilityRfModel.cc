@@ -154,7 +154,7 @@ rf_power VisibilityModel::ComputeReceivedPower(const double &_txPower,
   //        << ", TX: " << _txPower << ", RX: " << rx.mean << std::endl;
   // End option 3.
 
-  return std::move(rx);
+  return rx;
 }
 
 /////////////////////////////////////////////
