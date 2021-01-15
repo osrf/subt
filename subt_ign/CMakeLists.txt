@@ -105,6 +105,11 @@ add_library(SubtCommon
   src/VisibilityTable.cc
 )
 
+target_include_directories(SubtCommon
+  PUBLIC
+  ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
+
 target_link_libraries(SubtCommon
   PUBLIC
   ignition-gazebo${IGN_GAZEBO_VER}::core
@@ -141,26 +146,26 @@ install(
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
-add_executable(validate_connections src/validate_connections.cc)
+add_executable(validate_connections src/apps/validate_connections.cc)
 target_link_libraries(validate_connections ConnectionValidator)
 
-add_executable(path_tracer src/path_tracer.cc)
+add_executable(path_tracer src/apps/path_tracer.cc)
 target_link_libraries(path_tracer SubtCommon)
 
-add_executable(validate_visibility_table src/validate_visibility_table.cc)
+add_executable(validate_visibility_table src/apps/validate_visibility_table.cc)
 target_link_libraries(validate_visibility_table SubtCommon)
 
 # Create log_checker executable.
-add_executable(log_checker src/LogChecker.cc)
+add_executable(log_checker src/apps/LogChecker.cc)
 target_link_libraries(log_checker SubtCommon)
 
-add_executable(dot_generator src/dot_generator.cc)
+add_executable(dot_generator src/apps/dot_generator.cc)
 target_link_libraries(dot_generator SubtCommon)
 
-add_executable(level_generator src/level_generator.cc)
+add_executable(level_generator src/apps/level_generator.cc)
 target_link_libraries(level_generator SubtCommon)
 
-add_executable(world_generator_cave src/world_generator_cave.cc)
+add_executable(world_generator_cave src/apps/world_generator_cave.cc)
 target_link_libraries(world_generator_cave SubtCommon)
 
 install(
