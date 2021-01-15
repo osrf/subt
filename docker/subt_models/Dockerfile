@@ -20,12 +20,6 @@ RUN /bin/sh -c 'echo "deb [trusted=yes] http://packages.osrfoundation.org/gazebo
  && /bin/sh -c 'wget http://packages.osrfoundation.org/gazebo.key -O - | apt-key add -' \
  && /bin/sh -c 'apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654'
 
-# install ign-citadel
-RUN apt-get update \
-&&  apt-get install -y \
-    ignition-citadel \
- && apt-get clean
-
 # Add a user with the same user_id as the user outside the container
 # Requires a docker build argument `user_id`
 ARG user_id
@@ -41,9 +35,11 @@ USER $USERNAME
 # When running a container start in the developer's home folder
 WORKDIR /home/$USERNAME
 
-# Download the public models
-RUN ign fuel download -v 4 -j 8 --type model -u "https://fuel.ignitionrobotics.org/OpenRobotics/collections/SubT Tech Repo"
-
-# Cleanup ignition
-RUN sudo apt-get remove ignition-citadel -y \
+# install ign-dome, download the public models, and uninstall ign-dome again to keep the image smaller
+RUN sudo apt-get update \
+ && sudo apt-get install -y \
+    libignition-fuel-tools5-dev \
+ && ign fuel download -v 4 -j 8 --type model -u "https://fuel.ignitionrobotics.org/OpenRobotics/collections/SubT Tech Repo" \
+ && sudo apt-get remove libignition-fuel-tools5-dev -y \
+ && sudo apt-get autoremove -y \
  && sudo apt-get clean
