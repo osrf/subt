@@ -696,7 +696,8 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
       // Setup a ros bag recorder.
       rosbag::RecorderOptions recorderOptions;
       recorderOptions.append_date=false;
-      recorderOptions.prefix="/tmp/ign/logs/cloudsim";
+      recorderOptions.prefix = ignition::common::joinPaths(
+        this->dataPtr->logPath, "cloudsim");
       recorderOptions.regex=true;
       recorderOptions.topics.push_back("/subt/.*");
 
