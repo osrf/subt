@@ -126,15 +126,15 @@ void BridgeLogger::Update(const ros::TimerEvent &)
     {
       return std::find(parts.begin(), parts.end(), _part) != parts.end();
     };
-    if (EndsWith(info.name, "front_scan") ||
-        EndsWith(info.name, "points") ||
-        EndsWith(info.name, "image_raw") ||
-        EndsWith(info.name, "depth") ||
-        EndsWith(info.name, "depth/image") ||  // explorer_r2
+    if (EndsWith(info.name, "/front_scan") ||
+        EndsWith(info.name, "/points") ||
+        EndsWith(info.name, "/image_raw") ||
+        EndsWith(info.name, "/depth") ||
+        EndsWith(info.name, "/depth/image") ||  // explorer_r2
         (HasPart("imu") && HasPart("data")) ||
         HasPart("magnetic_field") ||
-        EndsWith(info.name, "air_pressure") ||
-        EndsWith(info.name, "battery_state"))
+        EndsWith(info.name, "/air_pressure") ||
+        EndsWith(info.name, "/battery_state"))
     {
       boost::function<
         void(const topic_tools::ShapeShifter::ConstPtr&)> callback;
