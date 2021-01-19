@@ -32,6 +32,7 @@
 #include <subt_communication_broker/common_types.h>
 #include <subt_ros/CompetitionClock.h>
 #include <rosbag/recorder.h>
+#include <tf2_ros/static_transform_broadcaster.h>
 
 #include <ignition/transport/Node.hh>
 
@@ -149,6 +150,9 @@ class SubtRosRelay
   /// the origin artifact.
   public: ros::ServiceServer poseFromArtifactService;
 
+  /// \brief Static TF broadcaster to publish world->artifact_origin transform.
+  public: tf2_ros::StaticTransformBroadcaster staticTfBroadcaster;
+
   /// \brief The set of bound address. This is bookkeeping that helps
   /// to reduce erroneous error output in the ::Bind function.
   public: std::set<std::string> boundAddresses;
@@ -173,6 +177,9 @@ class SubtRosRelay
 
   /// \brief Pointer to the ROS bag recorder.
   public: std::unique_ptr<rosbag::Recorder> rosRecorder;
+
+  /// \bried Timer that tries to read the position of artifact origin in world.
+  public: ros::Timer artifactOriginPoseTimer;
 };
 
 //////////////////////////////////////////////////
@@ -249,6 +256,45 @@ SubtRosRelay::SubtRosRelay()
   this->bagThread.reset(new std::thread([&](){
         this->rosRecorder->run();
   }));
+
+  // publish static transformation from world to artifact origin and other
+  // staging area objects
+  auto cb = [this] (const ros::TimerEvent&) {
+    ignition::msgs::StringMsg req;
+    const int timeout = 300; // ms
+    ignition::msgs::Pose pose;
+    bool successAll = true;
+
+    for (const auto& frame : {"artifact_origin", "base_station", "staging_area"})
+    {
+      req.set_data(frame);
+      bool success = false;
+
+      this->node.Request("/subt/pose_from_world", req, timeout, pose, success);
+
+      successAll = successAll && success;
+      if (!success)
+        continue;
+
+      geometry_msgs::TransformStamped t;
+      t.header.frame_id = pose.header().data(0).value(0);
+      t.child_frame_id = frame;
+      t.header.stamp.sec = pose.header().stamp().sec();
+      t.header.stamp.nsec = pose.header().stamp().nsec();
+      t.transform.translation.x = pose.position().x();
+      t.transform.translation.y = pose.position().y();
+      t.transform.translation.z = pose.position().z();
+      t.transform.rotation.x = pose.orientation().x();
+      t.transform.rotation.y = pose.orientation().y();
+      t.transform.rotation.z = pose.orientation().z();
+      t.transform.rotation.w = pose.orientation().w();
+      this->staticTfBroadcaster.sendTransform(t);
+    }
+
+    if (successAll)
+      this->artifactOriginPoseTimer.stop();
+  };
+  this->artifactOriginPoseTimer = n.createTimer(ros::Duration(1), cb);
 }
 
 //////////////////////////////////////////////////
