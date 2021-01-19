@@ -34,22 +34,33 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
           <wheel_separation>#{0.33559 * 1.23}</wheel_separation>
           <wheel_radius>0.098</wheel_radius>
           <topic>/model/#{_name}/cmd_vel_relay</topic>
-	  <min_velocity>-2</min_velocity>
+          <min_velocity>-2</min_velocity>
           <max_velocity>2</max_velocity>
           <min_acceleration>-6</min_acceleration>
           <max_acceleration>6</max_acceleration>
         </plugin>
         <!-- Publish robot state information -->
-        <plugin filename=\"libignition-gazebo-pose-publisher-system.so\"
-          name=\"ignition::gazebo::systems::PosePublisher\">
+        <plugin filename="libignition-gazebo-pose-publisher-system.so"
+          name="ignition::gazebo::systems::PosePublisher">
           <publish_link_pose>true</publish_link_pose>
           <publish_sensor_pose>true</publish_sensor_pose>
           <publish_collision_pose>false</publish_collision_pose>
           <publish_visual_pose>false</publish_visual_pose>
-          <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>
+          <publish_nested_model_pose>false</publish_nested_model_pose>
           <use_pose_vector_msg>true</use_pose_vector_msg>
           <static_publisher>true</static_publisher>
           <static_update_frequency>1</static_update_frequency>
+        </plugin>
+        <!-- Publish ground truth information if specified by user -->
+        <plugin filename="libignition-gazebo-pose-publisher-system.so"
+          name="ignition::gazebo::systems::PosePublisher">
+          <publish_link_pose>false</publish_link_pose>
+          <publish_sensor_pose>false</publish_sensor_pose>
+          <publish_collision_pose>false</publish_collision_pose>
+          <publish_visual_pose>false</publish_visual_pose>
+          <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>
+          <use_pose_vector_msg>true</use_pose_vector_msg>
+          <static_publisher>false</static_publisher>
         </plugin>
         <!-- Battery plugin -->
         <plugin filename=\"libignition-gazebo-linearbatteryplugin-system.so\"
