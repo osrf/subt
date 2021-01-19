@@ -117,6 +117,10 @@ void BridgeLogger::Update(const ros::TimerEvent &)
     if (this->streams.find(info.name) != this->streams.end())
       continue;
 
+    // These data are recorded in a bagfile, so no need to log them here.
+    if (StartsWith(info.name, "/robot_data/"))
+      continue;
+
     const auto parts = Split(info.name, '/');
     auto HasPart = [&parts](const std::string& _part) -> bool
     {
