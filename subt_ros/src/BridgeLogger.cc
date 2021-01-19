@@ -26,10 +26,12 @@
 #include <sensor_msgs/Imu.h>
 #include <sensor_msgs/LaserScan.h>
 #include <sensor_msgs/LaserScan.h>
+#include <sensor_msgs/MagneticField.h>
 #include <sensor_msgs/PointCloud2.h>
 #include <theora_image_transport/Packet.h>
 #include <rosgraph_msgs/Clock.h>
 #include <topic_tools/shape_shifter.h>
+#include <ignition/common/StringUtils.hh>
 
 
 // The BridgeLogger logs sensor message sequence numbers and simulation time
@@ -103,33 +105,32 @@ void BridgeLogger::Update(const ros::TimerEvent &)
   ros::master::V_TopicInfo masterTopics;
   ros::master::getTopics(masterTopics);
 
+  using namespace ignition::common;
+
   // Subscribe to some of the sensor messages.
   for (ros::master::V_TopicInfo::iterator it = masterTopics.begin();
       it != masterTopics.end(); ++it)
   {
     const ros::master::TopicInfo &info = *it;
 
-    // Skip if the topic has already been added to `this->streams` or if
-    // the topic is one that we don't monitor, such as parameter updates.
-    if (this->streams.find(info.name) != this->streams.end() ||
-        info.name.find("parameter_descriptions") != std::string::npos ||
-        info.name.find("parameter_updates") != std::string::npos ||
-        info.name.find("local_control_points") != std::string::npos ||
-        info.name.find("compressed") != std::string::npos ||
-        info.name.find("theora") != std::string::npos)
-    {
+    // Skip if the topic has already been added to `this->streams`.
+    if (this->streams.find(info.name) != this->streams.end())
       continue;
-    }
 
-    if (info.name.find("front_scan") != std::string::npos ||
-        info.name.find("points") != std::string::npos ||
-        info.name.find("image_raw") != std::string::npos ||
-        info.name.find("depth") != std::string::npos ||
-        info.name.find("imu") != std::string::npos ||
-        info.name.find("magnetic_field") != std::string::npos ||
-        info.name.find("air_pressure") != std::string::npos ||
-        info.name.find("battery_state") != std::string::npos ||
-        info.name.find("imu") != std::string::npos)
+    const auto parts = Split(info.name, '/');
+    auto HasPart = [&parts](const std::string& _part) -> bool
+    {
+      return std::find(parts.begin(), parts.end(), _part) != parts.end();
+    };
+    if (EndsWith(info.name, "front_scan") ||
+        EndsWith(info.name, "points") ||
+        EndsWith(info.name, "image_raw") ||
+        EndsWith(info.name, "depth") ||
+        EndsWith(info.name, "depth/image") ||  // explorer_r2
+        (HasPart("imu") && HasPart("data")) ||
+        HasPart("magnetic_field") ||
+        EndsWith(info.name, "air_pressure") ||
+        EndsWith(info.name, "battery_state"))
     {
       boost::function<
         void(const topic_tools::ShapeShifter::ConstPtr&)> callback;
@@ -216,6 +217,11 @@ void BridgeLogger::OnSensorMsg(const topic_tools::ShapeShifter::ConstPtr &_msg,
   else if (_msg->getDataType() == "theora_image_transport/Packet")
   {
     const auto msg = _msg->instantiate<theora_image_transport::Packet>();
+    seq = msg->header.seq;
+  }
+  else if (_msg->getDataType() == "sensor_msgs/MagneticField")
+  {
+    const auto msg = _msg->instantiate<sensor_msgs::MagneticField>();
     seq = msg->header.seq;
   }
   else
