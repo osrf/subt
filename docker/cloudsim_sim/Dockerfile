@@ -100,7 +100,7 @@ RUN mkdir -p subt_ws/src \
 
 WORKDIR /home/$USERNAME/subt_ws
 
-RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && catkin_make install'
+RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && catkin_make -DCMAKE_BUILD_TYPE=Release install'
 RUN /bin/sh -c 'echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc' \
  && /bin/sh -c 'echo ". ~/subt_ws/install/setup.sh" >> ~/.bashrc'
 
