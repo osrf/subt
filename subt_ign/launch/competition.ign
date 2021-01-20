@@ -70,9 +70,7 @@
   $commsFadingExponent = 2.5
   $commsScalingFactor = 1.0
   $commsRangePerHop = 2.0
-  if $circuit == "tunnel"
-    $commsFadingExponent = 1.5
-  elsif $circuit == "cave"
+  if $circuit == "cave"
     $commsFadingExponent = 1.5
     $commsScalingFactor = 0.55
     $commsRangePerHop = 2.0
