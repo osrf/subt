@@ -329,7 +329,7 @@
                           <stddev>0.03</stddev>
                         </noise>
                       </lidar>
-                      <pose frame="">0.403 0 0.36 0 -0 </pose>
+                      <pose frame="">0.403 0 0.36 0 -0 0</pose>
                     </sensor>
                     <sensor name="imu_sensor" type="imu">
                       <always_on>1</always_on>
@@ -434,9 +434,9 @@
                         </contact>
                         <friction>
                           <ode>
-                            <mu>1</mu>
+                            <mu>0.5</mu>
                             <mu2>1</mu2>
-                            <slip1>0.035</slip1>
+                            <slip1>0.001</slip1>
                             <slip2>0</slip2>
                             <fdir1>0 0 1</fdir1>
                           </ode>
@@ -491,9 +491,9 @@
                         </contact>
                         <friction>
                           <ode>
-                            <mu>1</mu>
+                            <mu>0.5</mu>
                             <mu2>1</mu2>
-                            <slip1>0.035</slip1>
+                            <slip1>0.001</slip1>
                             <slip2>0</slip2>
                             <fdir1>0 0 1</fdir1>
                           </ode>
@@ -548,9 +548,9 @@
                         </contact>
                         <friction>
                           <ode>
-                            <mu>1</mu>
+                            <mu>0.5</mu>
                             <mu2>1</mu2>
-                            <slip1>0.035</slip1>
+                            <slip1>0.001</slip1>
                             <slip2>0</slip2>
                             <fdir1>0 0 1</fdir1>
                           </ode>
@@ -592,8 +592,8 @@
                       <pose frame="">0 0 0 1.5707963267948966 -0 0</pose>
                       <geometry>
                         <cylinder>
-                          <length>0.1143</length>
-                          <radius>0.1651</radius>
+                          <length>0.1</length>
+                          <radius>0.129</radius>
                         </cylinder>
                       </geometry>
                       <surface>
@@ -605,9 +605,9 @@
                         </contact>
                         <friction>
                           <ode>
-                            <mu>1</mu>
+                            <mu>0.5</mu>
                             <mu2>1</mu2>
-                            <slip1>0.035</slip1>
+                            <slip1>0.001</slip1>
                             <slip2>0</slip2>
                             <fdir1>0 0 1</fdir1>
                           </ode>
@@ -663,9 +663,9 @@
                         </contact>
                         <friction>
                           <ode>
-                            <mu>1</mu>
+                            <mu>0.5</mu>
                             <mu2>1</mu2>
-                            <slip1>0.035</slip1>
+                            <slip1>0.001</slip1>
                             <slip2>0</slip2>
                             <fdir1>0 0 1</fdir1>
                           </ode>
@@ -720,9 +720,9 @@
                         </contact>
                         <friction>
                           <ode>
-                            <mu>1</mu>
+                            <mu>0.5</mu>
                             <mu2>1</mu2>
-                            <slip1>0.035</slip1>
+                            <slip1>0.001</slip1>
                             <slip2>0</slip2>
                             <fdir1>0 0 1</fdir1>
                           </ode>
@@ -777,9 +777,9 @@
                         </contact>
                         <friction>
                           <ode>
-                            <mu>1</mu>
+                            <mu>0.5</mu>
                             <mu2>1</mu2>
-                            <slip1>0.035</slip1>
+                            <slip1>0.001</slip1>
                             <slip2>0</slip2>
                             <fdir1>0 0 1</fdir1>
                           </ode>
@@ -821,8 +821,8 @@
                       <pose frame="">0 0 0 1.5707963267948966 -0 0</pose>
                       <geometry>
                         <cylinder>
-                          <length>0.1143</length>
-                          <radius>0.1651</radius>
+                          <length>0.1</length>
+                          <radius>0.129</radius>
                         </cylinder>
                       </geometry>
                       <surface>
@@ -834,9 +834,9 @@
                         </contact>
                         <friction>
                           <ode>
-                            <mu>1</mu>
+                            <mu>0.5</mu>
                             <mu2>1</mu2>
-                            <slip1>0.035</slip1>
+                            <slip1>0.001</slip1>
                             <slip2>0</slip2>
                             <fdir1>0 0 1</fdir1>
                           </ode>
@@ -1094,11 +1094,17 @@
               </axis>
             </joint>
             <!-- Gimbal Joints Plugins -->
-            <plugin filename="libignition-gazebo-apply-joint-force-system.so" name="ignition::gazebo::systems::ApplyJointForce">
+            <plugin filename="libignition-gazebo-joint-controller-system.so" name="ignition::gazebo::systems::JointController">
               <joint_name>pan_gimbal_joint</joint_name>
+              <use_force_commands>true</use_force_commands>
+              <p_gain>0.4</p_gain>
+              <i_gain>10</i_gain>
             </plugin>
-            <plugin filename="libignition-gazebo-apply-joint-force-system.so" name="ignition::gazebo::systems::ApplyJointForce">
+            <plugin filename="libignition-gazebo-joint-controller-system.so" name="ignition::gazebo::systems::JointController">
               <joint_name>tilt_gimbal_joint</joint_name>
+              <use_force_commands>true</use_force_commands>
+              <p_gain>0.4</p_gain>
+              <i_gain>10</i_gain>
             </plugin>
             <plugin filename="libignition-gazebo-joint-state-publisher-system.so" name="ignition::gazebo::systems::JointStatePublisher">
               <joint_name>pan_gimbal_joint</joint_name>

@@ -1,0 +1,227 @@
+<?xml version="1.0"?>
+<root xmlns:xacro="http://www.ros.org/wiki/xacro">    
+
+<xacro:include filename="$(find ctu_cras_norlab_absolem_sensor_config_1)/urdf/realsense_d435.xacro" />
+
+<xacro:macro name="realsense_d435_with_holder" params="camera_name tilt holder_version x y z roll yaw">
+
+    <xacro:realsense_d435 camera_name="${camera_name}" />
+
+    <xacro:if value="${holder_version &lt; 5}">
+        <link name="$(arg prefix)realsense_holder_part1">
+            <visual>
+                <origin rpy="3.14152 0 0" xyz="-0.068 -0.002 0"/>
+                <geometry>
+                    <mesh scale="0.001 0.001 0.001"
+                          filename="package://ctu_cras_norlab_absolem_sensor_config_1/meshes/lb3_mount.dae"/>
+                </geometry>
+            </visual>
+
+            <collision>
+                <origin rpy="0 0 0" xyz="-0.065 0 -0.015"/>
+                <geometry>
+                    <cylinder radius="0.08" length="0.044"/>
+                </geometry>
+            </collision>
+
+        <xacro:if value="${holder_version &lt; 3}">
+            <visual>
+                <origin rpy="0 0 1.5707" xyz="-0.001 -0.017 0.005"/>
+                <geometry>
+                    <mesh scale="0.001 0.001 0.001"
+                          filename="package://ctu_cras_norlab_absolem_sensor_config_1/meshes/r200_stand_chamfer.dae"/>
+                </geometry>
+            </visual>
+
+        <collision>
+                <origin rpy="0 0 0" xyz="-0.015 0.0025 0.03"/>
+                <geometry>
+                    <box size="0.035 0.045 0.05"/>
+                </geometry>
+            </collision>
+
+            <collision>
+                <origin rpy="0 0 0" xyz="0.01 0.018 0.045"/>
+                <geometry>
+                    <box size="0.028 0.01 0.02"/>
+                </geometry>
+            </collision>
+        </xacro:if>
+
+        <xacro:if value="${holder_version>=3}">
+            <visual>
+                <origin rpy="0 0 1.5707" xyz="-0.001 -0.017 0.005"/>
+                <geometry>
+                    <mesh scale="0.001 0.001 0.001"
+                          filename="package://ctu_cras_norlab_absolem_sensor_config_1/meshes/d435_stand_chamfer.dae"/>
+                </geometry>
+            </visual>
+
+        <collision>
+                <origin rpy="0 0 0" xyz="-0.015 0.0025 0.03"/>
+                <geometry>
+                    <box size="0.035 0.045 0.073"/>
+                </geometry>
+            </collision>
+
+            <collision>
+                <origin rpy="0 0 0" xyz="0.01 0.018 0.0565"/>
+                <geometry>
+                    <box size="0.022 0.01 0.02"/>
+                </geometry>
+            </collision>
+        </xacro:if>
+        </link>
+        <joint name="realsense_holder_part2_j" type="fixed">
+            <parent link="$(arg prefix)realsense_holder_part1"/>
+            <child link="$(arg prefix)realsense_holder_part2"/>
+            <xacro:if value="${holder_version==1}">
+                <origin xyz="0.01 0.025 0.045" rpy="0 ${tilt} 0"/>
+            </xacro:if>
+            <xacro:if value="${holder_version==2}">
+                <origin xyz="0.01 0.025 0.045" rpy="0 ${tilt+pi/2} 0"/>
+            </xacro:if>
+        <xacro:if value="${holder_version==3}">
+                <origin xyz="0.01 0.025 0.0565" rpy="0 ${tilt+pi/2} 0"/>
+            </xacro:if>
+        <xacro:if value="${holder_version==4}">
+            <origin xyz="${x} ${y} ${z}" rpy="${roll} ${tilt} ${yaw}"/>
+            </xacro:if>
+        </joint>
+
+        <xacro:if value="${holder_version==1}">
+        <link name="$(arg prefix)realsense_holder_part2">
+            <visual>
+                <origin rpy="0 1.5708 0" xyz="0.015 -0.022 -0.001"/>
+                <geometry>
+                    <cylinder radius="0.01" length="0.03"/>
+                </geometry>
+                <material name="gold">
+                    <color rgba="1 0.549 0 1"/>
+                </material>
+            </visual>
+
+            <visual>
+                <origin rpy="1.5707 3.141592 1.5707" xyz="0.0117 0.008 0.0117"/>
+                <geometry>
+                   <mesh scale="1 1 1"
+                          filename="package://ctu_cras_norlab_absolem_sensor_config_1/meshes/d435_holder.dae"/>
+                </geometry>
+            </visual>
+
+            <collision>
+                <origin rpy="0 0 0" xyz="0.015 -0.018 -0.001"/>
+                <geometry>
+                    <box size="0.008 0.05 0.025"/>
+                </geometry>
+            </collision>
+
+            <collision>
+                <origin rpy="0 0 0" xyz="0.005 0.004 0"/>
+                <geometry>
+                    <box size="0.035 0.01 0.028"/>
+                </geometry>
+            </collision>
+            <collision>
+                <origin rpy="0 1.5708 0" xyz="0.015 -0.022 -0.001"/>
+                <geometry>
+                    <cylinder radius="0.01" length="0.03"/>
+                </geometry>
+            </collision>
+        </link>
+        <joint name="realsense_holder_cam_j" type="fixed">
+            <parent link="$(arg prefix)realsense_holder_part2"/>
+            <child link="$(arg prefix)${camera_name}_tripod_screw_link"/>
+            <origin xyz="0.0325 -0.022 0.0" rpy="0 1.5708 0"/>
+        </joint>
+        </xacro:if>
+
+        <xacro:if value="${holder_version>=2}">
+        <link name="$(arg prefix)realsense_holder_part2">
+            <visual>
+                <origin rpy="1.5707 3.141592 1.5707" xyz="0.0117 0.008 0.0117"/>
+                <geometry>
+                    <mesh scale="0.001 0.001 0.001"
+                          filename="package://ctu_cras_norlab_absolem_sensor_config_1/meshes/d435_holder_2_screws_from_back.dae"/>
+                </geometry>
+            </visual>
+
+            <collision>
+                <origin rpy="0 0 0" xyz="0.015 -0.008 -0.001"/>
+                <geometry>
+                    <box size="0.008 0.075 0.025"/>
+                </geometry>
+            </collision>
+
+            <collision>
+                <origin rpy="0 0 0" xyz="0.005 0.004 0"/>
+                <geometry>
+                    <box size="0.035 0.01 0.028"/>
+                </geometry>
+            </collision>
+        </link>
+        <joint name="realsense_holder_cam_j" type="fixed">
+            <parent link="$(arg prefix)realsense_holder_part2"/>
+            <child link="$(arg prefix)${camera_name}_tripod_screw_link"/>
+            <origin xyz="0.027 0.0 -0.011" rpy="0 0 0"/>
+        </joint>
+        </xacro:if>
+    </xacro:if>
+    <xacro:if value="${holder_version>=5}">
+        <link name="$(arg prefix)realsense_holder_part2">
+            <visual>
+                <xacro:if value="${'$(arg rendering_target)' == 'sdf'}">
+                    <origin rpy="-0.504467 0 1.5758" xyz="0.001 -0.055 -0.058"/>
+                </xacro:if>
+                <xacro:unless value="${'$(arg rendering_target)' == 'sdf'}">
+                    <origin rpy="-0.504467 0 1.5758" xyz="-0.002 -0.055 -0.051"/>
+                </xacro:unless>
+
+                <geometry>
+                    <mesh scale="0.001 0.001 0.001"
+                          filename="package://ctu_cras_norlab_absolem_sensor_config_1/meshes/d435_holder_combined.stl"/>
+                </geometry>
+                <material name="realsense_holder_black">
+                    <color rgba="0.1 0.1 0.1 1" />
+                </material>
+            </visual>
+
+            <collision>
+                <origin rpy="0 0 0" xyz="-0.004 0.0 0.0"/>
+                <geometry>
+                    <box size="0.008 0.075 0.025"/>
+                </geometry>
+            </collision>
+
+            <collision>
+                <origin rpy="0 0 0" xyz="-0.018 -0.01 0"/>
+                <geometry>
+                    <box size="0.035 0.01 0.028"/>
+                </geometry>
+            </collision>
+
+            <collision>
+                <origin rpy="0 -0.5 0" xyz="-0.025 -0.025 -0.04"/>
+                <geometry>
+                    <box size="0.035 0.045 0.073"/>
+                </geometry>
+            </collision>
+        </link>
+
+        <joint name="realsense_holder_cam_j" type="fixed">
+            <parent link="$(arg prefix)realsense_holder_part2"/>
+            <child link="$(arg prefix)${camera_name}_back_mounting_plane"/>
+            <origin xyz="${x} ${y} ${z}" rpy="${roll} ${tilt} ${yaw}"/>
+        </joint>
+
+        <xacro:empty_link name="$(arg prefix)${camera_name}_back_mounting_plane" />
+        <joint name="realsense_back_to_tripod_j" type="fixed">
+            <parent link="$(arg prefix)${camera_name}_back_mounting_plane"/>
+            <child link="$(arg prefix)${camera_name}_tripod_screw_link"/>
+            <origin xyz="0.01 0.008 -0.01" rpy="0 0 0"/>
+        </joint>
+
+    </xacro:if>
+
+</xacro:macro>
+</root>

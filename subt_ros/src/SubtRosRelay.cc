@@ -18,6 +18,7 @@
 #include <ros/ros.h>
 #include <std_srvs/SetBool.h>
 #include <std_msgs/Int32.h>
+#include <std_msgs/Time.h>
 #include <ignition/common/Util.hh>
 #include <ignition/msgs/boolean.pb.h>
 #include <ignition/msgs/float.pb.h>
@@ -29,6 +30,8 @@
 #include <subt_msgs/Unregister.h>
 #include <subt_communication_broker/protobuf/datagram.pb.h>
 #include <subt_communication_broker/common_types.h>
+#include <subt_ros/CompetitionClock.h>
+#include <rosbag/recorder.h>
 
 #include <ignition/transport/Node.hh>
 
@@ -43,6 +46,11 @@ class SubtRosRelay
   /// \brief Ign callback for score topic and the data is republished to ROS
   /// \param[in] _msg Score msg
   public: void OnScore(const ignition::msgs::Float &_msg);
+
+  /// \brief Ign callback for competition clock and the data is republished
+  /// to ROS
+  /// \param[in] _msg Clock msg
+  public: void OnCompetitionClock(const ignition::msgs::Clock &_msg);
 
   /// \brief ROS service callback triggered when the service is called.
   /// \param[in]  _req The message containing a flag telling if the game
@@ -134,6 +142,9 @@ class SubtRosRelay
   /// \brief ROS publisher to publish score data
   public: ros::Publisher rosScorePub;
 
+  /// \brief ROS publisher for competition clock data.
+  public: ros::Publisher rosCompetitionClockPub;
+
   /// \brief ROS service server to receive the location of a robot relative to
   /// the origin artifact.
   public: ros::ServiceServer poseFromArtifactService;
@@ -156,6 +167,12 @@ class SubtRosRelay
 
   /// \brief Name of the robot this relay is associated with.
   public: std::vector<std::string> robotNames;
+
+  /// \brief Thread on which the ROS bag recorder runs.
+  public: std::unique_ptr<std::thread> bagThread = nullptr;
+
+  /// \brief Pointer to the ROS bag recorder.
+  public: std::unique_ptr<rosbag::Recorder> rosRecorder;
 };
 
 //////////////////////////////////////////////////
@@ -205,8 +222,33 @@ SubtRosRelay::SubtRosRelay()
 
   this->node.Subscribe("/subt/score", &SubtRosRelay::OnScore, this);
 
+  this->node.Subscribe("/subt/run_clock",
+      &SubtRosRelay::OnCompetitionClock, this);
+
   this->rosScorePub =
     this->rosnode->advertise<std_msgs::Int32>("score", 1000);
+  this->rosCompetitionClockPub =
+    this->rosnode->advertise<subt_ros::CompetitionClock>("run_clock", 1000);
+
+  // Setup a ros bag recorder.
+  rosbag::RecorderOptions recorderOptions;
+  recorderOptions.append_date=false;
+  recorderOptions.split=true;
+  recorderOptions.max_splits=1;
+
+  // This equation is sourced from line 133 in
+  // http://docs.ros.org/en/noetic/api/rosbag/html/c++/record_8cpp_source.html
+  recorderOptions.max_size=1048576 * 1000;
+
+  recorderOptions.prefix="robot_data";
+  recorderOptions.regex=true;
+  recorderOptions.topics.push_back("/robot_data(.*)");
+
+  // Spawn thread for recording /subt/ data to rosbag.
+  this->rosRecorder.reset(new rosbag::Recorder(recorderOptions));
+  this->bagThread.reset(new std::thread([&](){
+        this->rosRecorder->run();
+  }));
 }
 
 //////////////////////////////////////////////////
@@ -220,6 +262,36 @@ void SubtRosRelay::OnScore(const ignition::msgs::Float &_msg)
   std_msgs::Int32 rosMsg;
   rosMsg.data = _msg.data();
   this->rosScorePub.publish(rosMsg);
+}
+
+/////////////////////////////////////////////////
+void SubtRosRelay::OnCompetitionClock(const ignition::msgs::Clock &_msg)
+{
+  subt_ros::CompetitionClock clockMsg;
+  if (_msg.has_header() && _msg.header().data_size() > 0)
+  {
+    for (int i = 0; i < _msg.header().data_size(); ++i)
+    {
+      if (_msg.header().data(i).key() == "phase" &&
+          _msg.header().data(i).value_size() > 0)
+      {
+        clockMsg.phase = _msg.header().data(i).value(0);
+      }
+    }
+  }
+  clockMsg.data.sec = _msg.sim().sec();
+  clockMsg.data.nsec = _msg.sim().nsec();
+  this->rosCompetitionClockPub.publish(clockMsg);
+
+  // Shutdown when the phase == finished. This makes sure that the rosbag
+  // ends cleanly.
+  if (clockMsg.phase == "finished" &&
+      this->bagThread && this->bagThread->joinable())
+  {
+    // Shutdown ros. this makes the ROS bag recorder stop.
+    ros::shutdown();
+    this->bagThread->join();
+  }
 }
 
 /////////////////////////////////////////////////

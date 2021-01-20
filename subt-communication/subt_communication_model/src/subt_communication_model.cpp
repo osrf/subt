@@ -75,8 +75,7 @@ attempt_send(const radio_configuration& radio,
   tx_state.bytes_sent.push_back(std::make_pair(now, num_bytes));
   tx_state.bytes_sent_this_epoch += num_bytes;
 
-  // Get the received power based on TX power and position of each
-  // node
+  // Get the received power based on TX power and position of each node
   auto rx_power_dist = radio.pathloss_f(radio.default_tx_power,
                                         tx_state,
                                         rx_state);

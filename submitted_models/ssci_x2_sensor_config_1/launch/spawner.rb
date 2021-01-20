@@ -34,6 +34,10 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
           <wheel_separation>#{0.33559 * 1.23}</wheel_separation>
           <wheel_radius>0.098</wheel_radius>
           <topic>/model/#{_name}/cmd_vel_relay</topic>
+	  <min_velocity>-2</min_velocity>
+          <max_velocity>2</max_velocity>
+          <min_acceleration>-6</min_acceleration>
+          <max_acceleration>6</max_acceleration>
         </plugin>
         <!-- Publish robot state information -->
         <plugin filename=\"libignition-gazebo-pose-publisher-system.so\"
@@ -68,6 +72,34 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
          <update_rate>10</update_rate>
          <type>gas</type>
        </plugin>
+        <!-- Wheel slip -->
+        <plugin filename="libignition-gazebo-wheel-slip-system.so"
+          name="ignition::gazebo::systems::WheelSlip">
+          <wheel link_name="front_left_wheel">
+            <slip_compliance_lateral>0.116</slip_compliance_lateral>
+            <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
+            <wheel_normal_force>45.20448</wheel_normal_force>
+            <wheel_radius>0.098</wheel_radius>
+          </wheel>
+          <wheel link_name="rear_left_wheel">
+            <slip_compliance_lateral>0.116</slip_compliance_lateral>
+            <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
+            <wheel_normal_force>45.20448</wheel_normal_force>
+            <wheel_radius>0.098</wheel_radius>
+          </wheel>
+          <wheel link_name="front_right_wheel">
+            <slip_compliance_lateral>0.116</slip_compliance_lateral>
+            <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
+            <wheel_normal_force>45.20448</wheel_normal_force>
+            <wheel_radius>0.098</wheel_radius>
+          </wheel>
+          <wheel link_name="rear_right_wheel">
+            <slip_compliance_lateral>0.116</slip_compliance_lateral>
+            <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
+            <wheel_normal_force>45.20448</wheel_normal_force>
+            <wheel_radius>0.098</wheel_radius>
+          </wheel>
+        </plugin>
         </include>
       </sdf>
     </spawn>

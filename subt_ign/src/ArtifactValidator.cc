@@ -317,7 +317,7 @@ void ArtifactValidatorPrivate::ParseArtifacts()
   for (uint64_t modelIndex = 0; modelIndex < world->ModelCount(); ++modelIndex)
   {
     auto model = world->ModelByIndex(modelIndex);
-    auto pose = model->Pose();
+    auto pose = model->RawPose();
     auto name = model->Name();
 
     if (name == "artifact_origin")
@@ -388,6 +388,11 @@ void ArtifactValidator::Configure(const ignition::gazebo::Entity & /*_entity*/,
              worldName.find("practice") == std::string::npos)
   {
     worldName = "urban_circuit/" + worldNum + "/" + worldName + ".sdf";
+  }
+  else if (worldName.find("cave_circuit_") != std::string::npos &&
+             worldName.find("practice") == std::string::npos)
+  {
+    worldName = "cave_circuit/" + worldNum + "/" + worldName + ".sdf";
   }
   else
   {

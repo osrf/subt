@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.5.1 FATAL_ERROR)
 project(subt_ros)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
@@ -13,17 +13,39 @@ find_package(catkin REQUIRED COMPONENTS
   topic_tools
   subt_msgs
   subt_communication_broker
+  rosbag
+)
+
+add_message_files(
+  FILES
+  ArtifactReport.msg
+  CompetitionClock.msg
+  KinematicStates.msg
+  Marsupial.msg
+  RegionEvent.msg
+  Robot.msg
+  RobotEvent.msg
+  RobotMetric.msg
+  RunStatistics.msg
+  RunStatus.msg
+)
+
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+  geometry_msgs
 )
 
 find_package(ignition-common3 REQUIRED)
 find_package(ignition-math6 REQUIRED)
-find_package(ignition-msgs4 REQUIRED)
-find_package(ignition-transport7 REQUIRED)
+find_package(ignition-msgs6 REQUIRED)
+find_package(ignition-transport9 REQUIRED)
 
 catkin_package(
   CATKIN_DEPENDS
     message_runtime
     subt_communication_broker
+    std_msgs
     topic_tools
   )
 
@@ -56,11 +78,11 @@ target_link_libraries(subt_ros_relay
   PUBLIC
     ignition-common3::ignition-common3
     ignition-math6::ignition-math6
-    ignition-msgs4::ignition-msgs4
-    ignition-transport7::ignition-transport7
+    ignition-msgs6::ignition-msgs6
+    ignition-transport9::ignition-transport9
     ${catkin_LIBRARIES}
 )
-add_dependencies(subt_ros_relay ${catkin_EXPORTED_TARGETS})
+add_dependencies(subt_ros_relay ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 add_executable(set_pose_relay src/SetPoseRelay.cc)
 target_include_directories(set_pose_relay
@@ -69,8 +91,8 @@ target_link_libraries(set_pose_relay
   PUBLIC
     ignition-common3::ignition-common3
     ignition-math6::ignition-math6
-    ignition-msgs4::ignition-msgs4
-    ignition-transport7::ignition-transport7
+    ignition-msgs6::ignition-msgs6
+    ignition-transport9::ignition-transport9
     ${catkin_LIBRARIES}
 )
 add_dependencies(set_pose_relay ${catkin_EXPORTED_TARGETS})

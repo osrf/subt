@@ -32,26 +32,33 @@ The following specific sensors are declared payloads of this vehicle:
 ### Control
 This vehicle is controlled by the Twist ROS topic cmd_vel
 
-### Motion CharacteristicsBased on the tests specified in the DARPA SubT Challenge [Model PreparationGuide](https://subtchallenge.com/\<fix_me\>), this vehicle has the following motion constraint characteristics.
+### Motion Characteristics
+Based on the tests specified in the DARPA SubT Challenge [Model Preparation Guide](https://subtchallenge.com/resources/Simulation_Model_Preparation_Guide.pdf), this vehicle has the following motion constraint characteristics:
 
-This configuration has the similar motion characteristics as the X4 vehicle due to the size, except it also has different mass characteristics. More detailed characteristics are not available due to the coroavirus crisis.
+* _x_, _y_, and _z_ velocity range from -4.0 m/s to 4.0 m/s
+* _x_ and _y_ acceleration range from -5.0 m/s<sup>2</sup> to 5.0 m/s<sup>2</sup>
+* _z_ acceleration range from -3.0 m/s<sup>2</sup> to 3.0 m/s<sup>2</sup>
+
+This configuration has the similar motion characteristics as the X4 vehicle due to the size, except it also has different mass characteristics. More detailed characteristics are not available due to the coronavirus crisis.
 
 ### Endurance Characteristics
-This configuration has an endurance of approximately 12 minutes or 720 seconds  We plan to carry out the endurance test characterization but have been prevented from doing so due to the coronavirus measures preventing us from visiting the lab space while preparing these models for simulation.
+This configuration has an endurance of approximately 12 minutes or 720 seconds, but we have limited the model in simulation to have 10 minute endurance. We plan to carry out the endurance test characterization but have been prevented from doing so due to the coronavirus measures preventing us from visiting the lab space while preparing these models for simulation.
 
-### Diversions from Physical Hardware of \<Robot Name\> <Explanation of Diversions\>
+### Diversions from Physical Hardware of MARBLE QAV500
 Computers were installed in the payload area of the QAV500 and these have been roughly modeled.  The MARBLE vehicle uses an Intel Nuc with Core i7-8650U processor.
 
-## <a name="validation_links"></a>X4 Validation and Specification Links
+The endurance and motion characteristics above are approximated to match existing models until model validation data can be provided.
+
+## <a name="validation_links"></a>Validation and Specification Links
 * Vehicle Links:
-  * https://clearpathrobotics.com/husky-unmanned-ground-vehicle-robot/
+  * https://www.getfpv.com/qav500-v2-fpv-quadcopter.html
 
 * Sensor specification links:
   * D435i RGBD Camera - https://www.intelrealsense.com/depth-camera-d435i/
   * Ouster 3D Lidar (64 Channel) - https://ouster.com/products/os1-lidar-sensor/
   * Picoflexx TOF camera (depth image and point cloud) - https://pmdtec.com/picofamily/wp-content/uploads/2018/03/PMD_DevKit_Brief_CB_pico_flexx_CE_V0218-1.pdf
   * IMU: Microstrain 3DM-GX5-15 - datasheet: https://www.microstrain.com/sites/default/files/applications/files/3dm-gx5-15_datasheet_8400-0094_rev_m.pdf
-    * Explanation of sensor parameter derivations:
+    ~~* Explanation of sensor parameter derivations:
 	We derived the stddev terms as follows:
 
 	accelerometer noise density = 0.00002 g/sqrt(Hz)
@@ -59,7 +66,8 @@ Computers were installed in the payload area of the QAV500 and these have been r
 	gyro noise density = 0.005 deg/s/sqrt(Hz)
 		=> convert to rad/sec => 8.72664e-5 radians
 
-	Other terms are difficult to extract from datasheet, so we used similar terms to previous IMU models proposed (of similar or worse quality) such as the ADIS 16448 (which has worse performance than this IMU).
+	Other terms are difficult to extract from datasheet, so we used similar terms to previous IMU models proposed (of similar or worse quality) such as the ADIS 16448 (which has worse performance than this IMU).~~
+    - IMU model is standardized to match other available models.
 
 * \<Validation Video Link(s), e.g.,https://youtu.be/xxxxxxxxx/\>
 * \<Validation Data Link(s), e.g., https://drive.google.com/file/xxxxxxxxx/\>

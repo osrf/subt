@@ -1,5 +1,5 @@
 # ANYmal
-This specifications.md file is a description and proof of virtual model validation for the CERBERUS ANYmal B with Sensor Configuration 1. This robot may be launched using a `roslaunch` command with the variable name `cerberus_anymal_b_sensor_config_1`.
+This specifications.md file is a description and proof of virtual model validation for the CERBERUS ANYmal B with Sensor Configuration 1. This robot may be launched using a `ign launch` command with the variable name `cerberus_anymal_b_sensor_config_1`.
 
 ## Description
 ANYmal is a highly sophisticated four-legged robot, designed to tackle the challenges of harsh search and rescue operations, inspections, and other surveillance duties.
@@ -11,7 +11,7 @@ To be able to control this robot model you need a few additional packages. Pleas
 ## Usage Instructions
 The vehicle can be launched with the following command:
 ```
-ign launch -v 4 competition.ign robotName1:=anymal_b robotConfig1:=CERBERUS_ANYMAL_B_SENSOR_CONFIG_1 localModel:=true
+ign launch -v 4 competition.ign robotName1:=anymal_b robotConfig1:=CERBERUS_ANYMAL_B_SENSOR_CONFIG_1
 ```
 
 In another terminal you can source the "anymal_locomotion_ws" workspace (see [Dependencies](#markdown-header-dependencies)) to start the locomotion controller node:
@@ -52,6 +52,7 @@ This ANYmal with sensor configuration 1 includes the following sensors. The spec
 * Depth Camera - Intel Realsense D435, modeled by `rgbd_camera` plugin
 * Color Camera - FLIR Blackfly S Model ##BFS-U3-16S2C-CS , modeled by `camera` plugin
 * Synchronization Board - Autonomous Systems Lab, ETH Zurich - VersaVIS, there is not (yet) an Ignition-Gazebo plugin
+* 12 communication breadcrumbs are also available as a payload for this robot in sensor configuration 2.
 
 ### Control
 This ANYmal is controlled by the custom `cerberus_anymal_b_control_1` package, available in the repository [cerberus_anymal_locomotion](https://github.com/leggedrobotics/cerberus_anymal_locomotion).
@@ -59,7 +60,7 @@ This ANYmal is controlled by the custom `cerberus_anymal_b_control_1` package, a
 This controller makes the robot moving at a fixed velocity, in any direction. The input twist is used only to determine the orientation of movement. The bearing angle between X-axis and the orientation specified by the linear part of the twist vector indicates the direction of motion; The positive or negative value of the yaw rate of the twist vector sets the direction of rotation around the Z-axis.
 
 ### Motion Characteristics
-Based on the tests specified in the DARPA SubT Challenge, this vehicle has the following motion constraint characteristics.
+Based on the tests specified in the DARPA SubT Challenge [Model Preparation Guide](https://subtchallenge.com/resources/Simulation_Model_Preparation_Guide.pdf), this vehicle has the following motion constraint characteristics.
 
 *  _x_ velocity range from -0.45 m/s to 0.45 m/s
 *  _y_ velocity range from -0.45 m/s to 0.45 m/s
@@ -79,6 +80,8 @@ The following points highlight the differences between the submitted virtual mod
 
 * Robosense RS-Bpearl LIDAR is not present in simulation since its Ignition-Gazebo plugin does not exist yet. A downward Intel Realsense is used as a replacement in simulation.
 * VersaVIS board is used to time synchronize a camera with an IMU for Visual-Inertial Odometry purposes. At the moment there is no plan to develop an Ignition-Gazebo plugin for that and therefore this board is not included in simulation.
+
+* The physical robot carries 4 communication breadcrumbs. 12 breadcrumbs are included in sensor configuration 2, which is standardized to match other available models.
 
 ## ANYmal Validation and Specification Links
 * [ANYmal specification link](https://researchfeatures.com/2018/05/01/anymal-unique-quadruped-robot-conquering-harsh-environments/#)

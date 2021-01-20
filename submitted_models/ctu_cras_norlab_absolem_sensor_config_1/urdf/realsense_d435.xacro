@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<root xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<xacro:arg name="realsense_tf_from_urdf" default="false" />
+
+<xacro:macro name="realsense_d435" params="camera_name">
+
+    <xacro:empty_link name="$(arg prefix)${camera_name}_tripod_screw_link"/>
+
+    <xacro:if value="$(arg realsense_tf_from_urdf)">
+        <xacro:include filename="$(find ctu_cras_norlab_absolem_sensor_config_1)/urdf/_d435.xacro" />
+        <xacro:sensor_d435 name="${camera_name}" parent="$(arg prefix)${camera_name}_tripod_screw_link">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:sensor_d435>
+    </xacro:if>
+
+    <xacro:unless value="$(arg realsense_tf_from_urdf)">
+        <link name="$(arg prefix)${camera_name}_link">
+            <visual>
+                <origin rpy="1.5708 0 1.5708" xyz="0 0 0"/>
+                <geometry>
+                    <mesh scale="1 1 1"
+                        filename="package://ctu_cras_norlab_absolem_sensor_config_1/meshes/realsense_d435.dae"/>
+                </geometry>
+            </visual>
+
+            <collision>
+                <origin rpy="0 0 0" xyz="-0.01 -0.017 0"/>
+                <geometry>
+                    <box size="0.15 0.2 0.05"/>
+                </geometry>
+            </collision>
+            
+            <xacro:default_inertial />
+        </link>
+
+        <!-- camera depth joints and links -->
+        <joint name="camera_tripod_screw_joint" type="fixed">
+          <origin xyz="0.011 0.01 0.01" rpy="0 0 0"/>  <!-- Values taken from _d435.urdf.xacro in realsense2_camera -->
+          <parent link="$(arg prefix)${camera_name}_tripod_screw_link"/>
+          <child link="$(arg prefix)${camera_name}_link" />
+        </joint>
+    </xacro:unless>
+
+</xacro:macro>
+</root>
+

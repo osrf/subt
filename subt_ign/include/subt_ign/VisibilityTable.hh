@@ -18,6 +18,7 @@
 #define SUBT_IGN_VISIBILITYTABLE_HH_
 
 #include <map>
+#include <memory>
 #include <set>
 #include <string>
 #include <utility>
@@ -26,6 +27,11 @@
 #include <ignition/math/Vector3.hh>
 #include <ignition/math/graph/Vertex.hh>
 #include <subt_ign/VisibilityTypes.hh>
+
+namespace fcl
+{
+  class CollisionObject;
+}
 
 namespace subt
 {
@@ -68,8 +74,8 @@ namespace subt
     /// \param[in] _from A 3D position.
     /// \param[in] _to A 3D position.
     /// \return The visibility cost from one point to the other.
-    public: double Cost(const ignition::math::Vector3d &_from,
-                        const ignition::math::Vector3d &_to) const;
+    public: VisibilityCost Cost(const ignition::math::Vector3d &_from,
+                                const ignition::math::Vector3d &_to) const;
 
     /// \brief Generate a binary .dat file containing a list of sample points
     /// that are within the explorable areas of the world. Each sample point
@@ -85,11 +91,22 @@ namespace subt
     public: void SetModelBoundingBoxes(
         const std::map<std::string, ignition::math::AxisAlignedBox> &_boxes);
 
+    /// \brief Set the collision objects of models. Used for generating LUT
+    /// \param[in] _collObjs Collision Objects of models.
+    /// \sa Generate
+    public: void SetModelCollisionObjects(
+        const std::map<std::string, std::shared_ptr<fcl::CollisionObject>> &_collObjs);
+
     /// \brief Get the collection of sampled 3D points and their associated
     /// vertex id.
     /// \return the collection.
     public: const std::map<std::tuple<int32_t, int32_t, int32_t>, uint64_t>
       &Vertices() const;
+
+    /// \brief Get the collection of breadcrumbs and their locations.
+    /// \return the collection.
+    public: const std::map<uint64_t, std::vector<ignition::math::Vector3d>>
+      &Breadcrumbs() const;
 
     /// \brief Populate the visibility information in memory.
     /// \param[in] _relays Set of vertices containing breadcrumb robots.
@@ -110,6 +127,10 @@ namespace subt
     ///  Cost(A, E):  4
     public: void PopulateVisibilityInfo(
                       const std::set<ignition::math::Vector3d> &_relayPoses);
+
+    /// \brief Print the visibility table containing all combination of pairs.
+    /// \param[in] _info The visibility table to print.
+    public: void PrintAll(const VisibilityInfo &_info) const;
 
     /// \brief Load a look up table from a file. It will try to load a file
     /// located in the same directory as the world file, with the same world
@@ -161,6 +182,17 @@ namespace subt
     /// \brief Generate the visibility LUT in disk.
     private: void WriteOutputFile();
 
+    /// \brief Calculate the greatest distance between a pair of breadcrumbs.
+    /// \param[in] _visibilityInfoWithRelays The visibility information known
+    /// at the moment.
+    /// \param[in] _relaySequence The sequence of breadcrumbs to traverse.
+    /// \param[in] _to Destination tile.
+    /// \return The maximum distance.
+    private: double MaxDistanceSingleHop(
+      const VisibilityInfo &_visibilityInfoWithRelays,
+      const std::vector<ignition::math::graph::VertexId> &_relaySequence,
+      const ignition::math::graph::VertexId &_to) const;
+
     /// \brief The graph modeling the connectivity.
     private: VisibilityGraph visibilityGraph;
 
@@ -177,8 +209,16 @@ namespace subt
     private: std::vector<
              std::pair<ignition::math::AxisAlignedBox, uint64_t>> worldSegments;
 
+    /// \brief A map between each segment's id and the corresponding name.
+    /// This is used for looking up the corresponding names in generating LUT.
+    private: std::map<uint64_t, std::string> worldSegmentNames;
+
     /// \brief A map of model name to its bounding box. Used for generating LUT
     private: std::map<std::string, ignition::math::AxisAlignedBox> bboxes;
+
+    /// \brief A map of model name to its bounding box. Used for generating LUT
+    private: std::map<std::string,
+             std::shared_ptr<fcl::CollisionObject>> collisionObjs;
 
     /// \brief A map that stores 3D points an the vertex id in which are located
     private: std::map<std::tuple<int32_t, int32_t, int32_t>, uint64_t> vertices;
@@ -194,6 +234,12 @@ namespace subt
 
     /// \brief The world name.
     private: std::string worldName;
+
+    /// \brief The map of breadcrumbs. The key is the tile Id where breadcrumbs
+    /// are located. The value is the vector of breadcrumb positions within that
+    /// tile.
+    private: std::map<uint64_t, std::vector<ignition::math::Vector3d>>
+      breadcrumbs;
   };
 }
 

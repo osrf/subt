@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5.1)
+cmake_minimum_required(VERSION 3.5.1 FATAL_ERROR)
 project(subt_example)
 
 if(NOT WIN32)
@@ -11,6 +11,12 @@ find_package(catkin REQUIRED
   subt_ign
   message_generation
   subt_communication_broker
+  geometry_msgs
+  nav_msgs
+  angles
+  tf2
+  tf2_ros
+  eigen_conversions
 )
 
 add_service_files(DIRECTORY srv
@@ -39,6 +45,9 @@ target_link_libraries(subt_example_node ${catkin_LIBRARIES})
 add_executable(teleop_node src/teleop_node.cc)
 add_dependencies(teleop_node ${catkin_EXPORTED_TARGETS})
 target_link_libraries(teleop_node ${catkin_LIBRARIES})
+
+# add_subdirectory(src/truth_controller)
+
 
 ###########
 ## Tests ##

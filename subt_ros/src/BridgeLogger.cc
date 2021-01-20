@@ -248,7 +248,7 @@ void BridgeLogger::CheckHeartbeat()
   // check heartbeat
   using namespace std::chrono_literals;
   double heartbeatCheckPeriod = 5.0;
-  while (ros::ok)
+  while (ros::ok())
   {
     std::this_thread::sleep_for(5s);
     auto systemTime = std::chrono::steady_clock::now();
