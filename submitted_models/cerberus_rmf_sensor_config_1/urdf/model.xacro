@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name="RMF" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:arg name="name" default="RMF"/>
+  <xacro:property name="name" value="$(arg name)"/>
+  <link name='${name}/base_link'>
+    <inertial>
+      <origin xyz='0 0 0.01' rpy='0 -0 0'/>
+      <mass value='0.524'/>
+      <inertia ixx='0.017' ixy='0' ixz='0' iyy='0.018' iyz='0' izz='0.028'/>
+    </inertial>
+    <collision name='base_link_inertia_collision'>
+      <origin xyz='0 0 0.02' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://cerberus_rmf_sensor_config_1/meshes/rmf.stl' scale='1 1 1'/>
+      </geometry>
+    </collision>
+    <visual name='base_link_inertia_visual'>
+      <origin xyz='0 0 0.02' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://cerberus_rmf_sensor_config_1/meshes/rmf.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='left_flashlight_led'>
+      <origin xyz='0.12 0.12 0.12' rpy='0 -0 2.35619'/>
+      <geometry>
+        <mesh filename='package://cerberus_rmf_sensor_config_1/meshes/cree_xhp70.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='right_flashlight_led'>
+      <origin xyz='0.12 -0.12 0.12' rpy='0 -0 0.785398'/>
+      <geometry>
+        <mesh filename='package://cerberus_rmf_sensor_config_1/meshes/cree_xhp70.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+  </link>
+  <sensor name='imu_sensor' update_rate='200'>
+    <parent link='${name}/base_link'/>
+    <origin xyz='0 0 0' rpy='0 -0 0'/>
+  </sensor>
+  <sensor name='air_pressure' update_rate='20'>
+    <parent link='${name}/base_link'/>
+    <origin xyz='0 0 0' rpy='0 -0 0'/>
+  </sensor>
+  <sensor name='magnetometer' update_rate='20'>
+    <parent link='${name}/base_link'/>
+    <origin xyz='0 0 0' rpy='0 -0 0'/>
+  </sensor>
+  <sensor name='camera_front_right' update_rate='30'>
+    <parent link='${name}/base_link'/>
+    <origin xyz='0.08 -0.032 0.1' rpy='0 -0.261799 0'/>
+    <camera>
+      <image width='848' height='800' format='R8G8B8' hfov='2.8' near='0.02' far='100' />
+    </camera>
+  </sensor>
+  <sensor name='camera_front_left' update_rate='30'>
+    <parent link='${name}/base_link'/>
+    <origin xyz='0.08 0.032 0.1' rpy='0 -0.261799 0'/>
+    <camera>
+      <image width='848' height='800' format='R8G8B8' hfov='2.8' near='0.02' far='100' />
+    </camera>
+  </sensor>
+  <sensor name='front_right_laser' update_rate='50'>
+    <parent link='${name}/base_link'/>
+    <origin xyz='0.13 -0.13 0.08' rpy='0 0 -0.785398'/>
+  </sensor>
+  <sensor name='back_right_laser' update_rate='50'>
+    <parent link='${name}/base_link'/>
+    <origin xyz='-0.13 -0.13 0.08' rpy='0 0 -2.35619'/>
+  </sensor>
+  <sensor name='back_left_laser' update_rate='50'>
+    <parent link='${name}/base_link'/>
+    <origin xyz='-0.13 0.13 0.08' rpy='0 -0 2.35619'/>
+  </sensor>
+  <sensor name='front_left_laser' update_rate='50'>
+    <parent link='${name}/base_link'/>
+    <origin xyz='0.13 0.13 0.08' rpy='0 -0 0.785398'/>
+  </sensor>
+  <link name='${name}/rotor_0'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='0.005'/>
+      <inertia ixx='9.75e-07' ixy='0' ixz='0' iyy='8.13545e-05' iyz='0' izz='8.22545e-05'/>
+    </inertial>
+    <visual name='rotor_0_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://cerberus_rmf_sensor_config_1/meshes/propeller_ccw.dae' scale='0.05 0.05 0.05'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${name}/rotor_1'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='0.005'/>
+      <inertia ixx='9.75e-07' ixy='0' ixz='0' iyy='8.13545e-05' iyz='0' izz='8.22545e-05'/>
+    </inertial>
+    <visual name='rotor_1_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://cerberus_rmf_sensor_config_1/meshes/propeller_ccw.dae' scale='0.05 0.05 0.05'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${name}/rotor_2'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='0.005'/>
+      <inertia ixx='9.75e-07' ixy='0' ixz='0' iyy='8.13545e-05' iyz='0' izz='8.22545e-05'/>
+    </inertial>
+    <visual name='rotor_2_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://cerberus_rmf_sensor_config_1/meshes/propeller_cw.dae' scale='0.05 0.05 0.05'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${name}/rotor_3'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='0.005'/>
+      <inertia ixx='9.75e-07' ixy='0' ixz='0' iyy='8.13545e-05' iyz='0' izz='8.22545e-05'/>
+    </inertial>
+    <visual name='rotor_3_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://cerberus_rmf_sensor_config_1/meshes/propeller_cw.dae' scale='0.05 0.05 0.05'/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name='rotor_0_joint' type='revolute'>
+    <origin xyz='0.071 -0.071 0.067' rpy='0 -0 0'/>
+    <parent link='${name}/base_link'/>
+    <child link='${name}/rotor_0'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 0 1'/>
+    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+  </joint>
+  <joint name='rotor_1_joint' type='revolute'>
+    <origin xyz='-0.071 0.071 0.067' rpy='0 -0 0'/>
+    <parent link='${name}/base_link'/>
+    <child link='${name}/rotor_1'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 0 1'/>
+    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+  </joint>
+  <joint name='rotor_2_joint' type='revolute'>
+    <origin xyz='0.071 0.071 0.067' rpy='0 -0 0'/>
+    <parent link='${name}/base_link'/>
+    <child link='${name}/rotor_2'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 0 1'/>
+    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+  </joint>
+  <joint name='rotor_3_joint' type='revolute'>
+    <origin xyz='-0.071 -0.071 0.067' rpy='0 -0 0'/>
+    <parent link='${name}/base_link'/>
+    <child link='${name}/rotor_3'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 0 1'/>
+    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+  </joint>
+</robot>
