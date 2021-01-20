@@ -61,8 +61,9 @@ in physical properties. However, there are few diversions:
 # <a name="validation_links"></a>R3 Validation and Specification Links
 
 * https://www.intelrealsense.com/depth-camera-d435/
-* https://autonomoustuff.com/product/velodyne-puck-vlp-16/
-* https://www.mouser.com/datasheet/2/693/mti-100-series-1540263.pdf
+* https://www.mapix.com/wp-content/uploads/2018/07/63-9229_Rev-H_Puck-_Datasheet_Web-1.pdf
+* https://www.mouser.com/datasheet/2/693/mti_100_series-1540263.pdf
 * \<Validation Motion Test Data Link, https://drive.google.com/file/d/1qYJwrIxDbc9ws_24e-gjssAYVMHUaC2m/view?usp=sharing/\>
 * \<Validation Motion Test Video Link, https://youtu.be/Nwp9QKcEdPM/\>
 * \<Validation Motion Test Video Link, https://youtu.be/MROm2FdUrwI/\>
+
