@@ -696,7 +696,8 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
       // Setup a ros bag recorder.
       rosbag::RecorderOptions recorderOptions;
       recorderOptions.append_date=false;
-      recorderOptions.prefix="/tmp/ign/logs/cloudsim";
+      recorderOptions.prefix = ignition::common::joinPaths(
+        this->dataPtr->logPath, "cloudsim");
       recorderOptions.regex=true;
       recorderOptions.topics.push_back("/subt/.*");
 
@@ -1387,9 +1388,12 @@ void GameLogicPlugin::PostUpdate(
             this->dataPtr->robotPrevPose[name] = pose;
             return true;
           }
+          // Send robot pose information if the robot has traveled more then
+          // 1m or 1second of simulation time has elapsed.
           else if (!robotPoseDataIt->second.empty() &&
-              robotPoseDataIt->second.back().second.Pos().Distance(
-                pose.Pos()) > 1.0)
+              (robotPoseDataIt->second.back().second.Pos().Distance(
+                pose.Pos()) > 1.0 ||
+               t - robotPoseDataIt->second.back().first.count() * 1e-9 > 1.0))
           {
             //  time passed since last pose sample
             double prevT = robotPoseDataIt->second.back().first.count() * 1e-9;
@@ -1468,95 +1472,94 @@ void GameLogicPlugin::PostUpdate(
             }
 
             robotPoseDataIt->second.push_back(std::make_pair(tDur, pose));
-          }
 
-          // compute and log greatest / total distance traveled and
-          // elevation changes
+            // compute and log greatest / total distance traveled and
+            // elevation changes
 
-          // distance traveled by this robot
-          double distanceDiff =
-              this->dataPtr->robotPrevPose[name].Pos().Distance(pose.Pos());
-          double distanceTraveled = this->dataPtr->robotDistance[name] +
-              distanceDiff;
-          this->dataPtr->robotDistance[name] = distanceTraveled;
+            // distance traveled by this robot
+            double distanceDiff =
+                this->dataPtr->robotPrevPose[name].Pos().Distance(pose.Pos());
+            double distanceTraveled = this->dataPtr->robotDistance[name] +
+                distanceDiff;
+            this->dataPtr->robotDistance[name] = distanceTraveled;
 
-          // greatest distance traveled by a robot
-          if (distanceTraveled > this->dataPtr->maxRobotDistance.second)
-          {
-            this->dataPtr->maxRobotDistance.first = name;
-            this->dataPtr->maxRobotDistance.second = distanceTraveled;
-          }
-
-          // max euclidean from starting pose for this robot
-          double euclideanDist =
-              pose.Pos().Distance(this->dataPtr->robotStartPose[name].Pos());
-          if (euclideanDist > this->dataPtr->robotMaxEuclideanDistance[name])
-              this->dataPtr->robotMaxEuclideanDistance[name] = euclideanDist;
-
-          // greatest euclidean distance traveled by a robot
-          if (euclideanDist > this->dataPtr->maxRobotEuclideanDistance.second)
-          {
-            this->dataPtr->maxRobotEuclideanDistance.first = name;
-            this->dataPtr->maxRobotEuclideanDistance.second = euclideanDist;
-          }
-
-          // total distance traveled by all robots
-          this->dataPtr->robotsTotalDistance += distanceDiff;
-
-          // greatest elevation gain / loss
-          // Elevations are rounded down to nearest mulitple of the elevation
-          // step size
-          double elevationDiff = this->dataPtr->FloorMultiple(
-               pose.Pos().Z(), this->dataPtr->elevationStepSize) -
-               this->dataPtr->FloorMultiple(
-               this->dataPtr->robotPrevPose[name].Pos().Z(),
-               this->dataPtr->elevationStepSize);
-
-          if (elevationDiff > 0)
-          {
-            double elevationGain = this->dataPtr->robotElevationGain[name]
-                + elevationDiff;
-            this->dataPtr->robotElevationGain[name] = elevationGain;
-            if (elevationGain > this->dataPtr->maxRobotElevationGain.second)
+            // greatest distance traveled by a robot
+            if (distanceTraveled > this->dataPtr->maxRobotDistance.second)
             {
-              this->dataPtr->maxRobotElevationGain.first = name;
-              this->dataPtr->maxRobotElevationGain.second = elevationGain;
+              this->dataPtr->maxRobotDistance.first = name;
+              this->dataPtr->maxRobotDistance.second = distanceTraveled;
             }
-            // total elevation gain by all robots
-            this->dataPtr->robotsTotalElevationGain += elevationDiff;
-          }
-          else
-          {
-            double elevationLoss = this->dataPtr->robotElevationLoss[name]
-                + elevationDiff;
-            this->dataPtr->robotElevationLoss[name] = elevationLoss;
-            if (elevationLoss < this->dataPtr->maxRobotElevationLoss.second)
+
+            // max euclidean from starting pose for this robot
+            double euclideanDist =
+                pose.Pos().Distance(this->dataPtr->robotStartPose[name].Pos());
+            if (euclideanDist > this->dataPtr->robotMaxEuclideanDistance[name])
+                this->dataPtr->robotMaxEuclideanDistance[name] = euclideanDist;
+
+            // greatest euclidean distance traveled by a robot
+            if (euclideanDist > this->dataPtr->maxRobotEuclideanDistance.second)
             {
-              this->dataPtr->maxRobotElevationLoss.first = name;
-              this->dataPtr->maxRobotElevationLoss.second = elevationLoss;
+              this->dataPtr->maxRobotEuclideanDistance.first = name;
+              this->dataPtr->maxRobotEuclideanDistance.second = euclideanDist;
             }
-            // total elevation loss by all robots
-            this->dataPtr->robotsTotalElevationLoss += elevationDiff;
-          }
 
-          // min / max elevation reached
-          double elevation = this->dataPtr->FloorMultiple(pose.Pos().Z(),
-              this->dataPtr->elevationStepSize);
-          if (elevation > this->dataPtr->maxRobotElevation.second ||
-              this->dataPtr->maxRobotElevation.first.empty())
-          {
-            this->dataPtr->maxRobotElevation.first = name;
-            this->dataPtr->maxRobotElevation.second = elevation;
-          }
+            // total distance traveled by all robots
+            this->dataPtr->robotsTotalDistance += distanceDiff;
 
-          if (elevation < this->dataPtr->minRobotElevation.second ||
-              this->dataPtr->minRobotElevation.first.empty())
-          {
-            this->dataPtr->minRobotElevation.first = name;
-            this->dataPtr->minRobotElevation.second = elevation;
-          }
+            // greatest elevation gain / loss
+            // Elevations are rounded down to nearest mulitple of the elevation
+            // step size
+            double elevationDiff = this->dataPtr->FloorMultiple(
+                 pose.Pos().Z(), this->dataPtr->elevationStepSize) -
+                 this->dataPtr->FloorMultiple(
+                 this->dataPtr->robotPrevPose[name].Pos().Z(),
+                 this->dataPtr->elevationStepSize);
 
-          this->dataPtr->robotPrevPose[name] = pose;
+            if (elevationDiff > 0)
+            {
+              double elevationGain = this->dataPtr->robotElevationGain[name]
+                  + elevationDiff;
+              this->dataPtr->robotElevationGain[name] = elevationGain;
+              if (elevationGain > this->dataPtr->maxRobotElevationGain.second)
+              {
+                this->dataPtr->maxRobotElevationGain.first = name;
+                this->dataPtr->maxRobotElevationGain.second = elevationGain;
+              }
+              // total elevation gain by all robots
+              this->dataPtr->robotsTotalElevationGain += elevationDiff;
+            }
+            else
+            {
+              double elevationLoss = this->dataPtr->robotElevationLoss[name]
+                  + elevationDiff;
+              this->dataPtr->robotElevationLoss[name] = elevationLoss;
+              if (elevationLoss < this->dataPtr->maxRobotElevationLoss.second)
+              {
+                this->dataPtr->maxRobotElevationLoss.first = name;
+                this->dataPtr->maxRobotElevationLoss.second = elevationLoss;
+              }
+              // total elevation loss by all robots
+              this->dataPtr->robotsTotalElevationLoss += elevationDiff;
+            }
+
+            // min / max elevation reached
+            double elevation = this->dataPtr->FloorMultiple(pose.Pos().Z(),
+                this->dataPtr->elevationStepSize);
+            if (elevation > this->dataPtr->maxRobotElevation.second ||
+                this->dataPtr->maxRobotElevation.first.empty())
+            {
+              this->dataPtr->maxRobotElevation.first = name;
+              this->dataPtr->maxRobotElevation.second = elevation;
+            }
+
+            if (elevation < this->dataPtr->minRobotElevation.second ||
+                this->dataPtr->minRobotElevation.first.empty())
+            {
+              this->dataPtr->minRobotElevation.first = name;
+              this->dataPtr->minRobotElevation.second = elevation;
+            }
+            this->dataPtr->robotPrevPose[name] = pose;
+          }
           return true;
         });
 
@@ -1929,7 +1932,8 @@ std::tuple<double, bool> GameLogicPluginPrivate::ScoreArtifact(
         << "  id: " << this->eventCounter++ << "\n"
         << "  type: unknown_artifact_type\n"
         << "  time_sec: " << _simTime.sec() << "\n"
-        << "  reported_pose: " << observedObjectPose << "\n"
+        << "  reported_pose_world_frame: " << observedObjectPose << "\n"
+        << "  reported_pose_artifact_frame: " << artifactPose.Pos() << "\n"
         << "  reported_artifact_type: " << reportType << "\n";
       this->LogEvent(stream.str());
     }
@@ -1961,7 +1965,8 @@ std::tuple<double, bool> GameLogicPluginPrivate::ScoreArtifact(
         << "  id: " << this->eventCounter++ << "\n"
         << "  type: duplicate_artifact_report\n"
         << "  time_sec: " << _simTime.sec() << "\n"
-        << "  reported_pose: " << observedObjectPose << "\n"
+        << "  reported_pose_world_frame: " << observedObjectPose << "\n"
+        << "  reported_pose_artifact_frame: " << artifactPose.Pos() << "\n"
         << "  reported_artifact_type: " << reportType << "\n";
       this->LogEvent(stream.str());
     }
@@ -2053,7 +2058,8 @@ std::tuple<double, bool> GameLogicPluginPrivate::ScoreArtifact(
       << "  id: " << this->eventCounter++ << "\n"
       << "  type: artifact_report_attempt\n"
       << "  time_sec: " << _simTime.sec() << "\n"
-      << "  reported_pose: " << observedObjectPose << "\n"
+      << "  reported_pose_world_frame: " << observedObjectPose << "\n"
+      << "  reported_pose_artifact_frame: " << artifactPose.Pos() << "\n"
       << "  reported_artifact_type: " << reportType << "\n"
       << "  closest_artifact_name: " << std::get<0>(minDistance) << "\n"
       << "  distance: " <<  outDist << "\n"
@@ -2063,9 +2069,9 @@ std::tuple<double, bool> GameLogicPluginPrivate::ScoreArtifact(
   }
 
   _artifactMsg.reported_artifact_type = reportType;
-  _artifactMsg.reported_artifact_position.x = observedObjectPose.X();
-  _artifactMsg.reported_artifact_position.y = observedObjectPose.Y();
-  _artifactMsg.reported_artifact_position.z = observedObjectPose.Z();
+  _artifactMsg.reported_artifact_position.x = artifactPose.Pos().X();
+  _artifactMsg.reported_artifact_position.y = artifactPose.Pos().Y();
+  _artifactMsg.reported_artifact_position.z = artifactPose.Pos().Z();
   _artifactMsg.closest_artifact_name = std::get<0>(minDistance);
   _artifactMsg.distance = outDist;
   _artifactMsg.points_scored = score;
@@ -2073,7 +2079,7 @@ std::tuple<double, bool> GameLogicPluginPrivate::ScoreArtifact(
 
   this->Log(_simTime) << "calculated_dist[" << std::get<2>(minDistance)
     << "] for artifact[" << std::get<0>(minDistance) << "] reported_pos["
-    << observedObjectPose << "]" << std::endl;
+    << artifactPose.Pos() << "]" << std::endl;
 
   ignmsg << "  [Total]: " << score << std::endl;
   this->Log(_simTime) << "modified_score " << score << std::endl;

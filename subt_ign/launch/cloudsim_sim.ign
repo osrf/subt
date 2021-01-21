@@ -46,6 +46,12 @@
   else
     $circuit = circuit
   end
+
+  if !defined?(logPath) || logPath == nil || logPath.empty?
+    $logPath = '/tmp/ign/logs'
+  else
+    $logPath = logPath
+  end
 %>
 
 <%
@@ -340,7 +346,7 @@
     <record>
       <enabled>true</enabled>
       <!-- This path is used by cloudsim, please do not change -->
-      <path>/tmp/ign/logs</path>
+      <path><%= $logPath %></path>
       <overwrite>true</overwrite>
     </record>
     <%if defined?(seed) && seed != nil && !seed.empty?%>
@@ -401,7 +407,7 @@
       <logging>
         <!-- Use the <path> element to control where to record the log file.
              The HOME path is used by default -->
-        <path>/tmp/ign/logs</path>
+        <path><%= $logPath %></path>
         <filename_prefix>subt_<%= $circuit %></filename_prefix>
         <elevation_step_size>5</elevation_step_size>
       </logging>

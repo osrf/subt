@@ -87,9 +87,17 @@ RUN . /opt/ros/melodic/setup.sh \
  && rosdep install -y --from-paths . --ignore-src -r \
  && sudo apt-get clean -qq
 
+# Install dependencies
+RUN . /opt/ros/melodic/setup.sh \
+ && rosdep update \
+ && sudo apt-get update \
+ && rosdep install -y --from-paths . --ignore-src -r \
+ && sudo apt-get clean -qq
+
 WORKDIR /home/$USERNAME/subt_ws
 
 RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && catkin_make -DCMAKE_BUILD_TYPE=Release install && rm -rf build devel'
+
 RUN /bin/sh -c 'echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc' \
  && /bin/sh -c 'echo ". ~/subt_ws/install/setup.sh" >> ~/.bashrc'
 
