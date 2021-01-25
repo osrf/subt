@@ -1,0 +1,548 @@
+<sdf version='1.6'>
+    <model name='shafter'>
+        <link name='base_link'>
+            <pose> 0.000 -0.000 -0.0 0 -0 0</pose>
+            <inertial>
+                <pose>0 0 0 0 -0 0</pose>
+                <mass>3.06</mass>
+                <inertia>
+                    <ixx>0.026434293</ixx>
+                    <ixy>0</ixy>
+                    <ixz>0</ixz>
+                    <iyy>0.022128819</iyy>
+                    <iyz>0</iyz>
+                    <izz>0.037886594</izz>
+                </inertia>
+            </inertial>
+            <collision name='base_link_collision'>
+                <pose>0 0 0 0 -0 0</pose>
+                <geometry>
+                    <mesh>
+                        <scale>1 1 1</scale>
+                        <uri>meshes/sh_base_link_geometry_v2.dae</uri>
+                    </mesh>
+                </geometry>
+            </collision>
+            <visual name='base_link_visual'>
+                <pose>0 0 0 0 -0 0</pose>
+                <geometry>
+                    <mesh>
+                        <scale>1 1 1</scale>
+                        <uri>meshes/shafter_body_V2.dae</uri>
+                    </mesh>
+                </geometry>
+            </visual>
+             <visual name="front_led">
+                <pose frame="">0.165 0.0 0.007 0 1.57079632679 0.0</pose>
+                <geometry>
+                    <mesh>
+                        <scale>0.5 0.5 0.5</scale>
+                        <uri>meshes/led.dae</uri>
+                    </mesh>
+                </geometry>
+            </visual>
+           <light name="front_left_flashlight_source" type="spot">
+                <pose frame="">0.165 0.0 0.018 0 -1.57079632679 -0.0</pose>
+                <attenuation>
+                    <range>15</range>
+                    <linear>0</linear>
+                    <constant>0.1</constant>
+                    <quadratic>0.0025</quadratic>
+                </attenuation>
+                <diffuse>0.8 0.8 0.5 1</diffuse>
+                <specular>0.8 0.8 0.5 1</specular>
+                <spot>
+                    <inner_angle>1.5</inner_angle>
+                    <outer_angle>1.8</outer_angle>
+                    <falloff>1</falloff>
+                </spot>
+                <direction>0 0 -1</direction>
+                <cast_shadows>1</cast_shadows>
+            </light>  
+  	    <sensor name="imu_sensor" type="imu">
+                <always_on>1</always_on>
+                <update_rate>200</update_rate>
+                <imu>
+                    <angular_velocity>
+                        <x>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>2e-4</stddev>
+                                <bias_mean>0.0000075</bias_mean>
+                                <bias_stddev>0.0000008</bias_stddev>
+                                <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
+                            </noise>
+                        </x>
+                        <y>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>2e-4</stddev>
+                                <bias_mean>0.0000075</bias_mean>
+                                <bias_stddev>0.0000008</bias_stddev>
+                                <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
+                            </noise>
+                        </y>
+                        <z>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>2e-4</stddev>
+                                <bias_mean>0.0000075</bias_mean>
+                                <bias_stddev>0.0000008</bias_stddev>
+                                <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
+                            </noise>
+                        </z>
+                    </angular_velocity>
+                    <linear_acceleration>
+                        <x>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>1e-2</stddev>
+                                <bias_mean>0.1</bias_mean>
+                                <bias_stddev>0.001</bias_stddev>
+                                <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
+                            </noise>
+                        </x>
+                        <y>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>1e-2</stddev>
+                                <bias_mean>0.1</bias_mean>
+                                <bias_stddev>0.001</bias_stddev>
+                                <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
+                            </noise>
+                        </y>
+                        <z>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>1e-2</stddev>
+                                <bias_mean>0.1</bias_mean>
+                                <bias_stddev>0.001</bias_stddev>
+                                <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
+                            </noise>
+                        </z>
+                    </linear_acceleration>
+                </imu>
+	    </sensor>
+	    <sensor name="air_pressure" type="air_pressure">
+                <always_on>1</always_on>
+                <update_rate>20</update_rate>
+                <air_pressure>
+                    <reference_altitude>0</reference_altitude>
+                    <noise type="gaussian">
+                        <mean>0.00000008</mean>
+                    </noise>
+                </air_pressure>
+            </sensor>
+            <sensor name="magnetometer" type="magnetometer">
+                <always_on>1</always_on>
+                <update_rate>20</update_rate>
+                <magnetometer>
+                    <x>
+                        <noise type="gaussian">
+                            <mean>0.000000080</mean>
+                            <bias_mean>0.000000400</bias_mean>
+                        </noise>
+                    </x>
+                    <y>
+                        <noise type="gaussian">
+                            <mean>0.000000080</mean>
+                            <bias_mean>0.000000400</bias_mean>
+                        </noise>
+                    </y>
+                    <z>
+                        <noise type="gaussian">
+                            <mean>0.000000080</mean>
+                            <bias_mean>0.000000400</bias_mean>
+                        </noise>
+                    </z>
+                </magnetometer>
+            </sensor>
+
+            <visual name="realsense_front_visual">
+                <pose frame="">0.15 0.0 -0.003 -1.57079632679 0 -1.57079632679</pose>
+                <geometry>
+                    <mesh>
+                        <uri>meshes/zr300.dae</uri>
+                    </mesh>
+                </geometry>
+            </visual>
+          
+            <sensor name="realsense_front" type="rgbd_camera">
+                <pose>0.17 0.0 -0.003 0 0 0</pose>
+                <always_on>1</always_on>
+                <update_rate>30</update_rate>
+                <camera name="realsense_front">
+                    <horizontal_fov>1.18682</horizontal_fov>
+                    <lens>
+                        <intrinsics>
+                            <fx>355.815</fx>
+                            <fy>355.815</fy>
+                            <cx>240.5</cx>
+                            <cy>180.5</cy>
+                            <s>0</s>
+                        </intrinsics>
+                    </lens>
+                    <distortion>
+                        <k1>0.0</k1>
+                        <k2>0.0</k2>
+                        <k3>0.0</k3>
+                        <p1>0.0</p1>
+                        <p2>0.0</p2>
+                    </distortion>
+                    <image>
+                        <width>480</width>
+                        <height>360</height>
+                        <format>R8G8B8</format>
+                    </image>
+                    <clip>
+                        <near>0.01</near>
+                        <far>300</far>
+                    </clip>
+                    <depth_camera>
+                      <clip>
+                        <near>0.55</near>
+                        <far>2.8</far>
+                      </clip>
+                    </depth_camera>
+                    <noise>
+                        <type>gaussian</type>
+                        <mean>0</mean>
+                        <stddev>0.007</stddev>
+                    </noise>
+                </camera>
+            </sensor>
+
+            <visual name="laser_visual_base_1">
+                <pose>0.01 0 0.0772 0 0 0</pose>
+                <geometry>
+                    <mesh>
+            	        <scale>1 1 1</scale>
+            	        <uri>meshes/VLP16_base_1.dae</uri>
+             	    </mesh>
+                </geometry>
+            </visual>
+ 	    <visual name="laser_visual_base_2">
+                <pose>0.01 0 0.0772 0 0 0</pose>
+                <geometry>
+                    <mesh>
+            	        <scale>1 1 1</scale>
+            	        <uri>meshes/VLP16_base_2.dae</uri>
+          	    </mesh>
+                </geometry>
+            </visual>
+            <visual name="laser_visual_scan">
+                <pose>0.01 0 0.0772 0 0 0</pose>
+                <geometry>
+                    <mesh>
+            	        <scale>1 1 1</scale>
+            	        <uri>meshes/VLP16_scan.dae</uri>
+          	    </mesh>
+                </geometry>
+            </visual>
+            <sensor name="front_laser" type="gpu_ray">
+                <pose>0 0 0.12 0 0 0</pose>
+                <update_rate>10</update_rate>
+                <lidar>
+                    <scan>
+                        <horizontal>
+                            <samples>1800</samples>
+                            <resolution>1.0</resolution>
+                            <min_angle>-3.1459</min_angle>
+                            <max_angle>3.1459</max_angle>
+                        </horizontal>
+                        <vertical>
+                            <samples>16</samples>
+                            <resolution>1</resolution>
+                            <min_angle>-0.261799</min_angle>
+                            <max_angle>0.261799</max_angle>
+                        </vertical>
+                    </scan>
+                    <range>
+                        <min>0.05</min>
+                        <max>100</max>
+                        <resolution>0.01</resolution>
+                    </range>
+                    <noise>
+                        <type>gaussian</type>
+                        <mean>0</mean>
+                        <stddev>0.03</stddev>
+                    </noise>
+                </lidar>
+            </sensor>
+        </link>
+        <link name='ShArm_1_link'>
+            <pose>0.139618 -0.236291 0.014912 -0 0 0</pose>
+            <inertial>
+                <pose>0 0 0 0 -0 0</pose>
+                <mass>0.015</mass>
+                <inertia>
+                    <ixx>5.41e-07</ixx>
+                    <ixy>0</ixy>
+                    <ixz>0</ixz>
+                    <iyy>0.000090882</iyy>
+                    <iyz>0</iyz>
+                    <izz>0.000091336</izz>
+                </inertia>
+      	    </inertial>
+           <collision name="rotor_0_collision">
+                <pose frame="">0 0 0 0 -0 0</pose>
+                <geometry>
+                    <cylinder>
+                        <length>0.005</length>
+                        <radius>0.1524</radius>
+                    </cylinder>
+                </geometry>
+                <surface>
+                    <contact>
+                        <ode/>
+                    </contact>
+                    <friction>
+                        <ode/>
+                    </friction>
+                </surface>
+            </collision>
+      	    <visual name='ShArm_1_link_visual'>
+                <pose>0 0 0 0 -0 0</pose>
+                <geometry>
+          	    <mesh>
+                        <scale>1 1 1</scale>
+                        <uri>meshes/shafter_rotor_ccw_V2.dae</uri>
+                    </mesh>
+        	</geometry>
+                <material>
+                    <diffuse>0 0 0 1</diffuse>
+                    <script>
+                        <name>Gazebo/Black</name>
+                        <uri>file://media/materials/scripts/gazebo.material</uri>
+                    </script>
+                </material>
+                <cast_shadows>0</cast_shadows>
+            </visual>
+            <gravity>1</gravity>
+            <velocity_decay/>
+        </link>
+        <joint name='ShBody_1_ShArm_1_joint' type='revolute'>
+            <child>ShArm_1_link</child>
+            <parent>base_link</parent>
+            <axis>
+                <xyz>0 0 1</xyz>
+                <limit>
+                    <lower>-1e+16</lower>
+                    <upper>1e+16</upper>
+                </limit>
+                <dynamics>
+                    <spring_reference>0</spring_reference>
+                    <spring_stiffness>0</spring_stiffness>
+        	</dynamics>
+        	<use_parent_model_frame>1</use_parent_model_frame>
+      	    </axis>
+        </joint>
+        <link name='ShArm_2_link'>
+            <pose>-0.194827 -0.193358 0.014912 -0 0 0</pose>
+            <inertial>
+                <pose>0 0 0 0 -0 0</pose>
+                <mass>0.015</mass>
+                <inertia>
+                    <ixx>5.41e-07</ixx>
+                    <ixy>0</ixy>
+                    <ixz>0</ixz>
+                    <iyy>0.000090882</iyy>
+                    <iyz>0</iyz>
+                    <izz>0.000091336</izz>
+                </inertia>
+            </inertial>
+           <collision name="rotor_0_collision">
+                <pose frame="">0 0 0 0 -0 0</pose>
+                <geometry>
+                    <cylinder>
+                        <length>0.005</length>
+                        <radius>0.1524</radius>
+                    </cylinder>
+                </geometry>
+                <surface>
+                    <contact>
+                        <ode/>
+                    </contact>
+                    <friction>
+                        <ode/>
+                    </friction>
+                </surface>
+            </collision>
+      	    <visual name='ShArm_2_link_visual'>
+                <pose>0 0 0 0 -0 0</pose>
+        	<geometry>
+          	    <mesh>
+                        <scale>1 1 1</scale>
+                        <uri>meshes/shafter_rotor_cw_V2.dae</uri>
+                    </mesh>
+        	</geometry>
+   		<material>
+                    <diffuse>0 0 0 1</diffuse>
+                    <script>
+                        <name>Gazebo/Black</name>
+                        <uri>file://media/materials/scripts/gazebo.material</uri>
+                    </script>
+                </material>
+                <cast_shadows>0</cast_shadows>
+      	    </visual>
+	    <gravity>1</gravity>
+            <velocity_decay/>
+        </link>
+        <joint name='ShBody_1_ShArm_2_joint' type='revolute'>
+            <child>ShArm_2_link</child>
+            <parent>base_link</parent>
+      	    <axis>
+                <xyz>0 0 1</xyz>
+        	<limit>
+         	    <lower>-1e+16</lower>
+                    <upper>1e+16</upper>
+        	</limit>
+        	<dynamics>
+          	    <spring_reference>0</spring_reference>
+            	    <spring_stiffness>0</spring_stiffness>
+        	</dynamics>
+        	<use_parent_model_frame>1</use_parent_model_frame>
+      	    </axis>
+        </joint>
+        <link name='ShArm_3_link'>
+            <pose>-0.194827 0.193358 0.014912 -0 0 0</pose>
+            <inertial>
+                <pose>0 0 0 0 -0 0</pose>
+                <mass>0.015</mass>
+                <inertia>
+                    <ixx>5.41e-07</ixx>
+                    <ixy>0</ixy>
+                    <ixz>0</ixz>
+                    <iyy>0.000090882</iyy>
+                    <iyz>0</iyz>
+                    <izz>0.000091336</izz>
+                </inertia>
+      	    </inertial>
+      	    <collision name="rotor_0_collision">
+                <pose frame="">0 0 0 0 -0 0</pose>
+                <geometry>
+                    <cylinder>
+                        <length>0.005</length>
+                        <radius>0.1524</radius>
+                    </cylinder>
+                </geometry>
+                <surface>
+                    <contact>
+                        <ode/>
+                    </contact>
+                    <friction>
+                        <ode/>
+                    </friction>
+                </surface>
+            </collision>
+      	    <visual name='ShArm_3_link_visual'>
+                <pose>0 0 0 0 -0 0</pose>
+        	<geometry>
+          	    <mesh>
+                        <scale>1 1 1</scale>
+                        <uri>meshes/shafter_rotor_ccw_V2.dae</uri>
+                    </mesh>
+        	</geometry>
+   		<material>
+                    <diffuse>0 0 0 1</diffuse>
+                    <script>
+                        <name>Gazebo/Black</name>
+                        <uri>file://media/materials/scripts/gazebo.material</uri>
+                    </script>
+                </material>
+                <cast_shadows>0</cast_shadows>
+      	    </visual>
+	    <gravity>1</gravity>
+            <velocity_decay/>
+        </link>
+        <joint name='ShBody_1_ShArm_3_joint' type='revolute'>
+            <child>ShArm_3_link</child>
+            <parent>base_link</parent>
+      	    <axis>
+                <xyz>0 0 1</xyz>
+        	<limit>
+          	    <lower>-1e+16</lower>
+                    <upper>1e+16</upper>
+        	</limit>
+        	<dynamics>
+          	    <spring_reference>0</spring_reference>
+          	    <spring_stiffness>0</spring_stiffness>
+        	</dynamics>
+        	<use_parent_model_frame>1</use_parent_model_frame>
+            </axis>
+        </joint>
+    	<link name='ShArm_4_link'>
+            <pose>0.139618 0.236291 0.014912 -0 0 0</pose>
+      	    <inertial>
+                <pose>0 0 0 0 -0 0</pose>
+                <mass>0.015</mass>
+                <inertia>
+                    <ixx>5.41e-07</ixx>
+                    <ixy>0</ixy>
+                    <ixz>0</ixz>
+                    <iyy>0.000090882</iyy>
+                    <iyz>0</iyz>
+                    <izz>0.000091336</izz>
+                </inertia>
+      	    </inertial>
+      	    <collision name="rotor_0_collision">
+                <pose frame="">0 0 0 0 -0 0</pose>
+                <geometry>
+                    <cylinder>
+                        <length>0.005</length>
+                        <radius>0.1524</radius>
+                    </cylinder>
+                </geometry>
+                <surface>
+                    <contact>
+                        <ode/>
+                    </contact>
+                    <friction>
+                        <ode/>
+                    </friction>
+                </surface>
+            </collision>
+      	    <visual name='ShArm_4_link_visual'>
+                <pose>0 0 0 0 -0 0</pose>
+        	<geometry>
+          	    <mesh>
+                        <scale>1 1 1</scale>
+                        <uri>meshes/shafter_rotor_cw_V2.dae</uri>
+                    </mesh>
+        	</geometry>
+   		<material>
+                    <diffuse>0 0 0 1</diffuse>
+                    <script>
+                        <name>Gazebo/Black</name>
+                        <uri>file://media/materials/scripts/gazebo.material</uri>
+                    </script>
+                </material>
+                <cast_shadows>0</cast_shadows>
+      	    </visual>
+	    <gravity>1</gravity>
+            <velocity_decay/>
+        </link>
+        <joint name='ShBody_1_ShArm_4_joint' type='revolute'>
+            <child>ShArm_4_link</child>
+      	    <parent>base_link</parent>
+      	    <axis>
+                <xyz>0 0 1</xyz>
+        	<limit>
+          	    <lower>-1e+16</lower>
+          	    <upper>1e+16</upper>
+        	</limit>
+        	<dynamics>
+          	    <spring_reference>0</spring_reference>
+          	    <spring_stiffness>0</spring_stiffness>
+        	</dynamics>
+        	<use_parent_model_frame>1</use_parent_model_frame>
+      	    </axis>
+        </joint>
+    </model>
+</sdf>
