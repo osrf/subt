@@ -2272,7 +2272,10 @@ void GameLogicPluginPrivate::Finish(const ignition::msgs::Time &_simTime)
         << "  elapsed_sim_time: " << simElapsed << "\n"
         << "  total_score: " << this->totalScore << std::endl;
       this->LogEvent(stream.str());
+      this->eventCounter++;
+    }
 
+    {
       // \todo(nkoenig) After the tunnel circuit, change the /subt/start topic
       // to /sub/status.
       ignition::msgs::StringMsg msg;
@@ -2284,6 +2287,9 @@ void GameLogicPluginPrivate::Finish(const ignition::msgs::Time &_simTime)
 
       if (this->rosnode)
       {
+        this->Log(_simTime) << "ROS node exists, time to shutdown."
+          << std::endl;
+
         this->prevPhase = "finished";
         subt_ros::RunStatus statusMsg;
         statusMsg.status = "finished";
@@ -2293,10 +2299,14 @@ void GameLogicPluginPrivate::Finish(const ignition::msgs::Time &_simTime)
 
         if (this->bagThread && this->bagThread->joinable())
         {
+          this->Log(_simTime) << "Calling ros::shutdown." << std::endl;
+
           // Shutdown ros. this makes the ROS bag recorder stop.
           ros::shutdown();
           this->bagThread->join();
         }
+
+        this->Log(_simTime) << "ROS has been shutdown." << std::endl;
       }
 
       // Send the recording_complete message after ROS has shutdown, if ROS
@@ -2307,6 +2317,17 @@ void GameLogicPluginPrivate::Finish(const ignition::msgs::Time &_simTime)
       completeMsg.set_data("recording_complete");
       this->startPub.Publish(completeMsg);
 
+      std::lock_guard<std::mutex> lock(this->eventCounterMutex);
+      std::ostringstream stream;
+      stream
+        << "- event:\n"
+        << "  id: " << this->eventCounter << "\n"
+        << "  type: recording_complete\n"
+        << "  time_sec: " << _simTime.sec() << "\n"
+        << "  elapsed_real_time: " << realElapsed << "\n"
+        << "  elapsed_sim_time: " << simElapsed << "\n"
+        << "  total_score: " << this->totalScore << std::endl;
+      this->LogEvent(stream.str());
       this->eventCounter++;
     }
   }
