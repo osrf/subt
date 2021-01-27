@@ -16,7 +16,7 @@
         </inertia>
       </inertial>
       <collision name="base_link_fixed_joint_lump__nav_base_link_collision">
-        <pose>0.25 0 0.24 0 -0 0</pose>
+        <pose>0.245 0 0.285 0 -0 0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -33,7 +33,7 @@
         </surface>
       </collision>
       <collision name="base_link_fixed_joint_lump__light0_collision_1">
-        <pose>0.29 0 0.48 0 -0 0</pose>
+        <pose>0.285 0 0.53 0 -0 0</pose>
         <geometry>
           <box>
             <size>0.01 0.05 0.02</size>
@@ -49,7 +49,7 @@
         </surface>
       </collision>
       <collision name="base_link_fixed_joint_lump__light1_collision_2">
-        <pose>0.25 0.04 0.48 0 -0 1.5707963267948966</pose>
+        <pose>0.245 0.04 0.53 0 -0 1.5707963267948966</pose>
         <geometry>
           <box>
             <size>0.01 0.05 0.02</size>
@@ -65,7 +65,7 @@
         </surface>
       </collision>
       <collision name="base_link_fixed_joint_lump__light2_collision_3">
-        <pose>0.21 0 0.48 0 -0 3.14</pose>
+        <pose>0.205 0 0.53 0 -0 3.14</pose>
         <geometry>
           <box>
             <size>0.01 0.05 0.02</size>
@@ -81,7 +81,7 @@
         </surface>
       </collision>
       <collision name="base_link_fixed_joint_lump__light3_collision_4">
-        <pose>0.25 -0.04 0.48 0 0 -1.5707963267948966</pose>
+        <pose>0.245 -0.04 0.53 0 0 -1.5707963267948966</pose>
         <geometry>
           <box>
             <size>0.01 0.05 0.02</size>
@@ -136,7 +136,7 @@
         </surface>
       </collision>
       <visual name="base_link_fixed_joint_lump__nav_base_link_visual">
-        <pose>0.25 0 0.24 0 -0 0</pose>
+        <pose>0.245 0 0.285 0 -0 0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -150,7 +150,7 @@
         </material>
       </visual>
       <visual name="base_link_fixed_joint_lump__light0_visual_1">
-        <pose>0.29 0 0.48 0 -0 0</pose>
+        <pose>0.285 0 0.53 0 -0 0</pose>
         <geometry>
           <box>
             <size>0.01 0.01 0.01</size>
@@ -158,7 +158,7 @@
         </geometry>
       </visual>
       <visual name="base_link_fixed_joint_lump__light1_visual_2">
-        <pose>0.25 0.04 0.48 0 -0 1.5707963267948966</pose>
+        <pose>0.245 0.04 0.53 0 -0 1.5707963267948966</pose>
         <geometry>
           <box>
             <size>0.01 0.01 0.01</size>
@@ -166,7 +166,7 @@
         </geometry>
       </visual>
       <visual name="base_link_fixed_joint_lump__light2_visual_3">
-        <pose>0.21 0 0.48 0 -0 3.14</pose>
+        <pose>0.205 0 0.53 0 -0 3.14</pose>
         <geometry>
           <box>
             <size>0.01 0.01 0.01</size>
@@ -174,7 +174,7 @@
         </geometry>
       </visual>
       <visual name="base_link_fixed_joint_lump__light3_visual_4">
-        <pose>0.25 -0.04 0.48 0 0 -1.5707963267948966</pose>
+        <pose>0.245 -0.04 0.53 0 0 -1.5707963267948966</pose>
         <geometry>
           <box>
             <size>0.01 0.01 0.01</size>
@@ -227,7 +227,7 @@
       <velocity_decay/>
       <velocity_decay/>
       <light name="light0_source" type="spot">
-        <pose>0.29 0 0.48 3.1415926535897931 -1.5707963267948966 3.1415926535897931</pose>
+        <pose>0.285 0 0.53 3.1415926535897931 -1.5707963267948966 3.1415926535897931</pose>
         <attenuation>
           <range>50</range>
           <linear>0.05</linear>
@@ -245,7 +245,7 @@
       </light>
       <velocity_decay/>
       <light name="light1_source" type="spot">
-        <pose>0.25 0.04 0.48 3.1415926535897931 -1.5707963267948966 -1.5707963267948966</pose>
+        <pose>0.245 0.04 0.53 3.1415926535897931 -1.5707963267948966 -1.5707963267948966</pose>
         <attenuation>
           <range>50</range>
           <linear>0.05</linear>
@@ -263,7 +263,7 @@
       </light>
       <velocity_decay/>
       <light name="light2_source" type="spot">
-        <pose>0.21 0 0.48 -3.1415926535897931 -1.5707963267948966 -0.001593</pose>
+        <pose>0.205 0 0.53 -3.1415926535897931 -1.5707963267948966 -0.001593</pose>
         <attenuation>
           <range>50</range>
           <linear>0.05</linear>
@@ -281,7 +281,7 @@
       </light>
       <velocity_decay/>
       <light name="light3_source" type="spot">
-        <pose>0.25 -0.04 0.48 3.1415926535897931 -1.5707963267948966 1.5707963267948966</pose>
+        <pose>0.245 -0.04 0.53 3.1415926535897931 -1.5707963267948966 1.5707963267948966</pose>
         <attenuation>
           <range>50</range>
           <linear>0.05</linear>
@@ -304,7 +304,7 @@
       <self_collide>0</self_collide>
     </link>
     <link name="encoder_rotating_link">
-      <pose>0.25 0 0.270797 0 -0 0</pose>
+      <pose>0.245 0 0.315797 0 -0 0</pose>
       <inertial>
         <pose>0.004659 -0 0.061904 0 -0 0</pose>
         <mass>1.328</mass>
@@ -440,7 +440,7 @@
       </axis>
     </joint>
     <link name="nav_imu">
-      <pose>0.243909 -0.005178 0.24 0 -0 0</pose>
+      <pose>0.243909 -0.005178 0.285 0 -0 0</pose>
       <inertial>
         <pose>0.004061 0.003452 0.012413 0 -0 0</pose>
         <mass>0.3</mass>
