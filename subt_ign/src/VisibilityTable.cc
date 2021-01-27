@@ -27,6 +27,7 @@
 #include <ignition/msgs.hh>
 #include <ignition/transport/Node.hh>
 
+#include <subt_ign/Common.hh>
 #include <subt_ign/Config.hh>
 #include <subt_ign/SimpleDOTParser.hh>
 #include <subt_ign/VisibilityTable.hh>
@@ -51,55 +52,12 @@ bool VisibilityTable::Load(const std::string &_worldName, bool _loadLUT)
   std::string worldsDirectory = SUBT_INSTALL_WORLD_DIR;
   this->worldName = _worldName;
 
-  // Modifications for the tunnel circuit.
-  const std::string tunnelPrefix = "tunnel_circuit_";
-  const std::string urbanPrefix = "urban_circuit_";
-  const std::string cavePrefix = "cave_circuit_";
-  if (0 == this->worldName.compare(0, tunnelPrefix.size(), tunnelPrefix))
-  {
-    std::string suffix = this->worldName.substr(tunnelPrefix.size());
-    // don't use a subfolder for practice worlds
-    if (0 != suffix.compare(0, 9, "practice_"))
-    {
-      worldsDirectory = ignition::common::joinPaths(worldsDirectory,
-          "tunnel_circuit", suffix);
-    }
-  }
-  else if (this->worldName.find(urbanPrefix) != std::string::npos)
-  {
-    std::string suffix = this->worldName.substr(urbanPrefix.size());
-    // don't use a subfolder for practice worlds
-    if (0 != suffix.compare(0, 9, "practice_"))
-    {
-      worldsDirectory = ignition::common::joinPaths(worldsDirectory,
-          "urban_circuit", suffix);
-    }
-  }
-  else if (this->worldName.find(cavePrefix) != std::string::npos)
-  {
-    std::string suffix = this->worldName.substr(cavePrefix.size());
-    // don't use a subfolder for practice worlds
-    if (0 != suffix.compare(0, 9, "practice_"))
-    {
-      worldsDirectory = ignition::common::joinPaths(worldsDirectory,
-          "cave_circuit", suffix);
-    }
-  }
-  else if (this->worldName.find("simple") == std::string::npos &&
-           this->worldName.find("_qual") == std::string::npos)
-  {
-    ignerr << "Unable to determine circuit number from["
-      << this->worldName << "].\n";
-  }
+  std::string fullPath;
+  subt::FullWorldPath(this->worldName, fullPath);
 
-  this->worldPath = ignition::common::joinPaths(
-    worldsDirectory, _worldName + ".sdf");
-
-  this->graphPath = ignition::common::joinPaths(
-    worldsDirectory, _worldName + ".dot");
-
-  this->lutPath = ignition::common::joinPaths(
-    worldsDirectory, _worldName + ".dat");
+  this->worldPath = fullPath + ".sdf";
+  this->graphPath = fullPath + ".dot";
+  this->lutPath = fullPath + ".dat"; 
 
   // Parse the .dot file and populate the world graph.
   if (!this->PopulateVisibilityGraph(graphPath))

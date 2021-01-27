@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <asset>
+    <contributor>
+      <author>Blender User</author>
+      <authoring_tool>Blender 2.82.7 commit date:2020-03-12, commit time:05:06, hash:375c7dc4caf4</authoring_tool>
+    </contributor>
+    <created>2020-09-16T15:56:08</created>
+    <modified>2020-09-16T15:56:08</modified>
+    <unit name="meter" meter="1"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  <library_images/>
+  <library_geometries>
+    <geometry id="Nexa-body-simple-V2-mesh" name="Nexa-body-simple-V2">
+      <mesh>
+        <source id="Nexa-body-simple-V2-mesh-positions">
+          <float_array id="Nexa-body-simple-V2-mesh-positions-array" count="120">121.5179 -98 0 165.7364 -250.6983 0 121.5179 -98 -10 165.7364 -250.6983 -10 125.2017 -262.4364 0 125.2017 -262.4364 -10 77.5841 -98 -10 77.5841 -98 0 -98.94583 -98 0 -190.2143 -222.8854 0 -98.94583 -98 -10 -190.2143 -222.8854 -10 -100 -27.92215 -10 -224.2854 -197.9857 -10 -100 -27.92215 0 -224.2854 -197.9857 0 -100 -98 -10 173 -98 0 173 -98 -90.5 -100 -98 -90.5 -100 27.92215 -10 -100 98 -90.5 -100 98 -10 -100 27.92215 0 121.5179 98 -10 165.7364 250.6983 -10 121.5179 98 0 165.7364 250.6983 0 77.5841 98 -10 125.2017 262.4364 -10 77.5841 98 0 125.2017 262.4364 0 -98.94583 98 -10 -190.2143 222.8854 -10 -98.94583 98 0 -190.2143 222.8854 0 -224.2854 197.9857 0 -224.2854 197.9857 -10 173 98 0 173 98 -90.5</float_array>
+          <technique_common>
+            <accessor source="#Nexa-body-simple-V2-mesh-positions-array" count="40" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Nexa-body-simple-V2-mesh-normals">
+          <float_array id="Nexa-body-simple-V2-mesh-normals-array" count="93">0.9605368 0.2781529 0 0.9605368 0.2781531 0 0.2781525 -0.960537 0 0.2781527 -0.9605369 0 -0.9605368 -0.2781529 0 -0.9605368 -0.278153 0 0 0 -1 0.8073725 -0.5900422 0 -0.8073725 0.5900421 0 -0.5900425 -0.8073723 0 -0.5900419 -0.8073726 0 0 -1 0 0 -1 2.76125e-7 0 -1 2.74882e-7 -1 0 0 0.9605368 -0.2781529 0 0.9605368 -0.2781531 0 -0.9605368 0.2781529 0 -0.9605368 0.278153 0 0.2781527 0.9605369 0 0.2781525 0.960537 0 0.8073725 0.5900422 0 -0.8073725 -0.5900421 0 -0.5900419 0.8073726 0 -0.5900425 0.8073723 0 0 0 -1 0 0 1 0 1 0 0 1 5.5225e-7 0 1 1.78244e-7 1 0 0</float_array>
+          <technique_common>
+            <accessor source="#Nexa-body-simple-V2-mesh-normals-array" count="31" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="Nexa-body-simple-V2-mesh-vertices">
+          <input semantic="POSITION" source="#Nexa-body-simple-V2-mesh-positions"/>
+        </vertices>
+        <triangles count="76">
+          <input semantic="VERTEX" source="#Nexa-body-simple-V2-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#Nexa-body-simple-V2-mesh-normals" offset="1"/>
+          <p>0 0 1 0 2 0 2 1 1 1 3 1 1 2 4 2 3 2 3 3 4 3 5 3 6 4 5 4 7 4 7 5 5 5 4 5 6 6 2 6 5 6 5 6 2 6 3 6 8 7 9 7 10 7 10 7 9 7 11 7 12 8 13 8 14 8 14 8 13 8 15 8 9 9 15 9 11 9 11 10 15 10 13 10 10 6 11 6 16 6 16 6 11 6 13 6 16 6 13 6 12 6 0 11 2 11 17 11 17 11 2 11 18 11 18 12 2 12 6 12 18 11 6 11 19 11 19 13 6 13 10 13 19 11 10 11 16 11 7 11 8 11 6 11 6 11 8 11 10 11 16 14 12 14 19 14 19 14 12 14 20 14 19 14 20 14 21 14 21 14 20 14 22 14 14 14 23 14 12 14 12 14 23 14 20 14 24 15 25 15 26 15 26 16 25 16 27 16 28 6 29 6 24 6 24 6 29 6 25 6 30 17 31 17 28 17 28 18 31 18 29 18 31 19 27 19 29 19 29 20 27 20 25 20 32 21 33 21 34 21 34 21 33 21 35 21 23 22 36 22 20 22 20 22 36 22 37 22 36 23 35 23 37 23 37 24 35 24 33 24 20 25 37 25 22 25 22 6 37 6 33 6 22 6 33 6 32 6 17 26 26 26 0 26 0 26 26 26 30 26 0 26 30 26 7 26 7 26 30 26 14 26 7 26 14 26 8 26 8 26 14 26 15 26 8 26 15 26 9 26 17 26 38 26 26 26 27 26 31 26 26 26 26 26 31 26 30 26 14 26 30 26 23 26 23 26 30 26 34 26 23 26 34 26 36 26 36 26 34 26 35 26 7 26 4 26 0 26 0 26 4 26 1 26 26 27 38 27 24 27 24 27 38 27 39 27 24 28 39 28 28 28 28 27 39 27 21 27 28 29 21 29 32 29 32 27 21 27 22 27 34 27 30 27 32 27 32 27 30 27 28 27 38 30 17 30 39 30 39 30 17 30 18 30 18 6 19 6 39 6 39 6 19 6 21 6</p>
+        </triangles>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_visual_scenes>
+    <visual_scene id="Scene" name="Scene">
+      <node id="Nexa-body-simple-V2" name="Nexa-body-simple-V2" type="NODE">
+        <matrix sid="transform">9.99987e-4 0 0 0 0 9.99987e-4 0 0 0 0 9.99987e-4 0 0 0 0 1</matrix>
+        <instance_geometry url="#Nexa-body-simple-V2-mesh" name="Nexa-body-simple-V2"/>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#Scene"/>
+  </scene>
+</COLLADA>

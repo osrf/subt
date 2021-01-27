@@ -1,15 +1,16 @@
 <?xml version="1.0"?>
-<!-- Usage: ign launch competition.ign
-            [robotName1:=<robotName> robotConfig1:=<robotConfig>
+<!-- Usage: ign launch competition.ign circuit:=<circuitName> worldName:=<worldName>
+             [robotName1:=<robotName> robotConfig1:=<robotConfig>
              robotName2:=<robotName> robotConfig2:=<robotConfig>
              marsupial1:=<robotName>:<robotName>
              ... ]
 
+    circuitName should be one of {cave, tunnel, urban}
     The [robotNameX] command line argument is optional, where X can be 1 to 20
 
-    Example that loads tunnel qual world with an X2 robot with configuration 3
+    Example that loads cave circuit world with an X2 robot with configuration 3
 
-      ign launch competition.ign
+      ign launch competition.ign circuit:=cave worldName:=simple_cave_01
           robotName1:=X2_3 robotConfig1:=X2_SENSOR_CONFIG_3
 -->
 
@@ -31,10 +32,14 @@
   end
 
   # Check if circuit is not defined or is empty/nil
+  # Also make sure the given circuit name is valid
+  validCircuits = ["cave", "tunnel", "urban"]
   if !defined?(circuit) || circuit == nil || circuit.empty?
-    $circuit = 'cave'
-  else
+    abort("circuit was not defined, exiting now")
+  elsif validCircuits.include?(circuit)
     $circuit = circuit
+  else
+    abort("circuit given is not valid. Please choose from #{validCircuits}")
   end
 %>
 
@@ -60,9 +65,15 @@
     end
   end
 
+  # CommsBrokerPlugin parameters
+  # (default parameters can be found in subt_rf_model.h)
   $commsFadingExponent = 2.5
+  $commsScalingFactor = 1.0
+  $commsRangePerHop = 2.0
   if $circuit == "cave"
     $commsFadingExponent = 1.5
+    $commsScalingFactor = 0.55
+    $commsRangePerHop = 2.0
   end
 
   # spawn world offset
@@ -110,10 +121,10 @@
    }
 
   MARSUPIAL_VALID_ROBOT_PAIRS = {
-    "X1" => ["X3", "MARBLE_QAV500", "CERBERUS_GAGARIN"],
-    "EXPLORER_X1" =>["X3", "MARBLE_QAV500", "CERBERUS_GAGARIN"],
-    "EXPLORER_R2" =>["X3", "X4", "SSCI_X4", "SOPHISTICATED_ENGINEERING_X4", "EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100", "CERBERUS_GAGARIN"],
-    "CSIRO_DATA61_OZBOT_ATR" =>["X3", "X4", "SSCI_X4", "SOPHISTICATED_ENGINEERING_X4","EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100", "CERBERUS_GAGARIN"]
+    "X1" => ["X3", "MARBLE_QAV500", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER"],
+    "EXPLORER_X1" =>["X3", "MARBLE_QAV500", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER"],
+    "EXPLORER_R2" =>["X3", "X4", "SSCI_X4", "SOPHISTICATED_ENGINEERING_X4", "EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER"],
+    "CSIRO_DATA61_OZBOT_ATR" =>["X3", "X4", "SSCI_X4", "SOPHISTICATED_ENGINEERING_X4","EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER"]
   }
 
   MARSUPIAL_PARENT_ROBOT_POSITION_OFFSETS = {
@@ -129,7 +140,7 @@
     "EXPLORER_R2" => AngularVector3d.new(0, 0, -3.1416),
     "CSIRO_DATA61_OZBOT_ATR" => AngularVector3d.new(0, 0, -3.1416)
   }
-  
+
   allExecutables = ""
 
   # key: parent, value: child
@@ -187,7 +198,7 @@
 <%
   # Check if worldName is not defined or is empty/nil
   if !defined?(worldName) || worldName == nil || worldName.empty?
-    $worldName = 'simple_cave_01'
+    abort("worldName was not defined, exiting now")
   else
     $worldName = worldName
   end
@@ -221,7 +232,7 @@
 <%
   # disable levels for simple cave worlds
   $levels = "true"
-  if $worldName.include?('simple_cave_')
+  if $worldName.include?('simple_cave_') || $worldName.include?('cave_qual')
     $levels = "false"
   end
 
@@ -428,6 +439,8 @@
         <fading_exponent><%= $commsFadingExponent %></fading_exponent>
         <L0>40</L0>
         <sigma>10.0</sigma>
+        <scaling_factor><%= $commsScalingFactor %></scaling_factor>
+        <range_per_hop><%= $commsRangePerHop %></range_per_hop>
       </range_config>
 
       <visibility_config>
