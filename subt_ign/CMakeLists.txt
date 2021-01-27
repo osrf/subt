@@ -165,14 +165,14 @@ target_link_libraries(dot_generator SubtCommon)
 add_executable(level_generator src/apps/level_generator.cc)
 target_link_libraries(level_generator SubtCommon)
 
-add_executable(cave_generator src/apps/cave_generator.cc src/apps/world_generator_base.cc src/apps/world_generator_utils.cc src/apps/ConnectionHelper.cc)
-target_link_libraries(world_generator_cave SubtCommon)
+add_executable(cave_generator src/apps/cave_generator.cc src/apps/world_generator_base.cc src/apps/world_generator_utils.cc)
+target_link_libraries(cave_generator SubtCommon)
 
-add_executable(urban_generator src/apps/urban_generator.cc src/apps/world_generator_base.cc src/apps/world_generator_utils.cc src/apps/ConnectionHelper.cc)
-target_link_libraries(world_generator_cave SubtCommon)
+add_executable(urban_generator src/apps/urban_generator.cc src/apps/world_generator_base.cc src/apps/world_generator_utils.cc)
+target_link_libraries(urban_generator SubtCommon)
 
-add_executable(tunnel_generator src/apps/tunnel_generator.cc src/apps/world_generator_base.cc src/apps/world_generator_utils.cc src/apps/ConnectionHelper.cc)
-target_link_libraries(world_generator_cave SubtCommon)
+add_executable(tunnel_generator src/apps/tunnel_generator.cc src/apps/world_generator_base.cc src/apps/world_generator_utils.cc)
+target_link_libraries(tunnel_generator SubtCommon)
 
 ###########
 ## Tests ##
