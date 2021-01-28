@@ -16,6 +16,7 @@
  */
 
 #include <subt_ign/Common.hh>
+#include <subt_ign/Config.hh>
 #include <ignition/common/Util.hh>
 
 namespace subt
@@ -98,7 +99,7 @@ bool FullWorldPath(const std::string &_worldName,
     return false;
   }
 
-  std::string worldsDirectory;
+  std::string worldsDirectory = SUBT_INSTALL_WORLD_DIR;
 
   const std::string tunnelPrefix = "tunnel_circuit_";
   const std::string urbanPrefix = "urban_circuit_";
@@ -140,6 +141,7 @@ bool FullWorldPath(const std::string &_worldName,
   }
 
   _worldPath = ignition::common::joinPaths(worldsDirectory, _worldName);
+
   return true;
 }
 

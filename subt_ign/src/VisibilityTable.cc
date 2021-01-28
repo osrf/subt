@@ -49,15 +49,18 @@ VisibilityTable::VisibilityTable()
 //////////////////////////////////////////////////
 bool VisibilityTable::Load(const std::string &_worldName, bool _loadLUT)
 {
-  std::string worldsDirectory = SUBT_INSTALL_WORLD_DIR;
   this->worldName = _worldName;
 
   std::string fullPath;
-  subt::FullWorldPath(this->worldName, fullPath);
+  if (!subt::FullWorldPath(this->worldName, fullPath))
+  {
+    ignerr << "Unable to find full path for[" << this->worldName << "]\n";
+    return false;
+  }
 
   this->worldPath = fullPath + ".sdf";
   this->graphPath = fullPath + ".dot";
-  this->lutPath = fullPath + ".dat"; 
+  this->lutPath = fullPath + ".dat";
 
   // Parse the .dot file and populate the world graph.
   if (!this->PopulateVisibilityGraph(graphPath))
@@ -203,11 +206,11 @@ uint64_t VisibilityTable::Index(const ignition::math::Vector3d &_position) const
   {
     return result.front();
   }
-  else 
+  else
   {
     // Fall back to using FCL to find the closest mesh.
     auto box = std::make_shared<fcl::Box>(0.01, 0.01, 0.01);
-    auto boxObj = std::make_shared<fcl::CollisionObject>(box,  
+    auto boxObj = std::make_shared<fcl::CollisionObject>(box,
       fcl::Matrix3f::getIdentity(),
       fcl::Vec3f(_position.X(), _position.Y(), _position.Z()));
 
