@@ -52,6 +52,7 @@ include_directories(
   include
   ${catkin_INCLUDE_DIRS}
   ${PROJECT_BINARY_DIR}/include
+  ${CATKIN_DEVEL_PREFIX}/include
 )
 
 catkin_package(
@@ -61,6 +62,7 @@ catkin_package(
     subt_communication_broker
   INCLUDE_DIRS
     include
+    ${CATKIN_DEVEL_PREFIX}/include
   LIBRARIES
     SubtProtobuf
   CFG_EXTRAS
