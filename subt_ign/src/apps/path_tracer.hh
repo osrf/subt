@@ -145,10 +145,6 @@ class MarkerColor
   /// \param[in] _node YAML node.
   public: MarkerColor(const YAML::Node &_node);
 
-  /// \brief Copy constructor
-  /// \param[in] _clr MarkerColor to copy.
-  public: MarkerColor(const MarkerColor &_clr);
-
   /// \brief Constructor
   /// \param[in] _ambient Ambient color
   /// \param[in] _diffuse Diffuse color

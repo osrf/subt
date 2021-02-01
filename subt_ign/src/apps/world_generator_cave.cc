@@ -1526,13 +1526,24 @@ int main(int argc, char **argv)
 
   WorldGenerator::WorldType wt;
   if (worldType == "a" || worldType == "anastomotic")
+  {
     wt = WorldGenerator::WorldType::CAVE_ANASTOMOTIC;
+  }
   else if (worldType == "c" || worldType == "curvilinear")
+  {
     wt = WorldGenerator::WorldType::CAVE_CURVILINEAR;
+  }
   else if (worldType == "r" || worldType == "rectilinear")
+  {
     wt = WorldGenerator::WorldType::CAVE_RECTILINEAR;
-  wg.SetWorldType(wt);
+  }
+  else
+  {
+    std::cerr << "One world type in [anastomoatic, curvilinear, rectilinear] must be specified\n";
+    return 1;
+  }
 
+  wg.SetWorldType(wt);
   wg.Generate();
 
   return 0;

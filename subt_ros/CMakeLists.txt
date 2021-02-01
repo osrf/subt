@@ -69,7 +69,12 @@ target_link_libraries(optical_frame_publisher
 
 add_executable(bridge_logger src/BridgeLogger.cc)
 add_dependencies(bridge_logger ${catkin_EXPORTED_TARGETS})
-target_link_libraries(bridge_logger ${catkin_LIBRARIES})
+target_link_libraries(bridge_logger
+  PUBLIC
+    ${catkin_LIBRARIES}
+  PRIVATE
+    ignition-common3::ignition-common3
+)
 
 add_executable(subt_ros_relay src/SubtRosRelay.cc)
 target_include_directories(subt_ros_relay
