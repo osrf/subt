@@ -30,10 +30,221 @@ namespace subt
 namespace communication_broker
 {
 
+/// \brief Helper class for managing bidirectional mapping of client IDs and
+/// addresses. The class is not thread-safe, so callers must ensure that none
+/// of the public methods get called simultaneously.
+struct ClientIDs
+{
+  /// \brief Number of active clients for each address. This structure can be
+  /// accessed by outer code for reading, but not for modification.
+  std::unordered_map<std::string, size_t> numActiveClients;
+
+  /// \brief Map of client IDs to addresses. This structure can be accessed by
+  /// outer code for reading, but not for modification.
+  std::unordered_map<ClientID, std::string> idToAddress;
+
+  /// \brief Add a new client and generate its ID.
+  /// \param _address Address of the client.
+  /// \return ID of the client. This method should always succeed and return
+  /// an ID different from invalidClientID.
+  ClientID Add(const std::string& _address)
+  {
+    const auto clientId = this->NextID();
+    this->idToAddress[clientId] = _address;
+    if (this->numActiveClients.find(_address) == this->numActiveClients.end())
+      this->numActiveClients[_address] = 0;
+    this->numActiveClients[_address]++;
+    return clientId;
+  }
+
+  /// \brief Unregister a client.
+  /// \param _id ID of the client.
+  /// \return Success of the unregistration. The method can fail e.g. when
+  /// trying to unregister a client which has not been registered.
+  bool Remove(const ClientID _id)
+  {
+    if (!this->Valid(_id))
+      return false;
+    this->numActiveClients[this->idToAddress[_id]]--;
+    this->idToAddress.erase(_id);
+    return true;
+  }
+
+  /// \brief Clear/reset the structure to be able to work as new.
+  /// \note This cancels all registrations of all clients and resets the client
+  /// ID numbering, so it is not valid to mix IDs of clients obtained before and
+  /// after a Clear() call.
+  void Clear()
+  {
+    this->numActiveClients.clear();
+    this->idToAddress.clear();
+    this->lastId = invalidClientId;
+  }
+
+  /// \brief Check validity of a client ID.
+  /// \param _id ID to check.
+  /// \return Whether a client with the given ID has been registered.
+  bool Valid(const ClientID _id) const
+  {
+    return _id != invalidClientId &&
+      this->idToAddress.find(_id) != this->idToAddress.end();
+  }
+
+  /// \brief Return an ID for a new client.
+  /// \return The ID.
+  private: ClientID NextID()
+  {
+    return ++this->lastId;
+  }
+
+  /// \brief Last ID given to a client.
+  private: ClientID lastId {invalidClientId};
+};
+
+/// \brief Helper class for managing mappings between endpoint names, their IDs,
+/// related clients and so on. The class is not thread-safe, so callers must
+/// ensure that none of the public methods get called simultaneously.
+struct EndpointIDs
+{
+  /// \brief Maps endpoint IDs to endpoint names. This structure can be accessed
+  /// by outer code for reading, but not for modification.
+  std::unordered_map<EndpointID, std::string> idToEndpoint;
+
+  /// \brief Maps endpoint names to related clients. Each client ID stores
+  /// information about the number of "connections" of this client ID to the
+  /// endpoint. This structure can be accessed by outer code for reading, but
+  /// not for modification.
+  std::unordered_map<std::string, std::unordered_map<ClientID, size_t>>
+  endpointToClientIds;
+
+  /// \brief Maps endpoint IDs to their related client IDs. This structure can
+  /// be accessed by outer code for reading, but not for modification.
+  std::unordered_map<EndpointID, ClientID> endpointIdToClientId;
+
+  /// \brief Maps client IDs to all their endpoint IDs. This structure can be
+  /// accessed by outer code for reading, but not for modification.
+  std::unordered_map<ClientID, std::unordered_set<EndpointID>>
+  clientIdToEndpointIds;
+
+  /// \brief Add new endpoint related to the given client ID.
+  /// \param _endpoint Endpoint name.
+  /// \param _clientId Client ID. This method does no validation of the IDs.
+  /// \return ID of the new endpoint. Should always succeed and return an ID
+  /// not equal to invalidEndpointID.
+  EndpointID Add(const std::string& _endpoint, const ClientID _clientId)
+  {
+    const auto endpointId = this->NextID();
+
+    this->idToEndpoint[endpointId] = _endpoint;
+    this->endpointIdToClientId[endpointId] = _clientId;
+
+    if (this->endpointToClientIds[_endpoint].find(_clientId) ==
+      this->endpointToClientIds[_endpoint].end())
+        this->endpointToClientIds[_endpoint][_clientId] = 0;
+    this->endpointToClientIds[_endpoint][_clientId]++;
+
+    this->clientIdToEndpointIds[_clientId].insert(endpointId);
+
+    return endpointId;
+  }
+
+  /// \brief Remove the given endpoint ID from this structure.
+  /// \param _id ID of the endpoint to remove.
+  /// \return Whether the removal succeeded or not. It may fail e.g. when the
+  /// removed endpoint doesn't exist.
+  bool Remove(const EndpointID _id)
+  {
+    if (!this->Valid(_id))
+      return false;
+
+    const auto endpointName = this->idToEndpoint[_id];
+
+    if (this->endpointIdToClientId.find(_id) ==
+      this->endpointIdToClientId.end())
+        return false;
+
+    const auto clientId = this->endpointIdToClientId[_id];
+    this->endpointIdToClientId.erase(_id);
+
+    if (this->endpointToClientIds.find(endpointName) ==
+      this->endpointToClientIds.end())
+        return false;
+
+    if (this->endpointToClientIds[endpointName].find(clientId) ==
+      this->endpointToClientIds[endpointName].end())
+        return false;
+
+    this->endpointToClientIds[endpointName][clientId]--;
+    if (this->endpointToClientIds[endpointName][clientId] == 0u)
+      this->endpointToClientIds[endpointName].erase(clientId);
+
+    if (this->clientIdToEndpointIds.find(clientId) ==
+      this->clientIdToEndpointIds.end())
+        return false;
+
+    if (this->clientIdToEndpointIds[clientId].find(_id) ==
+      this->clientIdToEndpointIds[clientId].end())
+        return false;
+
+    this->clientIdToEndpointIds[clientId].erase(_id);
+
+    return true;
+  }
+
+  /// \brief Clear/reset the structure to be able to work as new.
+  /// \note This cancels all registrations of all endpoints and resets the
+  /// endpoint ID numbering, so it is not valid to mix IDs of endpoints obtained
+  /// before and after a Clear() call.
+  void Clear()
+  {
+    this->idToEndpoint.clear();
+    this->clientIdToEndpointIds.clear();
+    this->endpointToClientIds.clear();
+    this->endpointIdToClientId.clear();
+    this->lastId = invalidEndpointId;
+  }
+
+  /// \brief Check validity of an endpoint ID.
+  /// \param _id ID to check.
+  /// \return Whether an endpoint with the given ID has been registered.
+  bool Valid(const EndpointID _id) const
+  {
+    return _id != invalidEndpointId &&
+      this->idToEndpoint.find(_id) != this->idToEndpoint.end();
+  }
+
+  /// \brief Return an ID for a new client.
+  /// \return The ID.
+  private: EndpointID NextID()
+  {
+    return ++this->lastId;
+  }
+
+  /// \brief Last ID given to a client.
+  private: EndpointID lastId {invalidEndpointId};
+};
+
+/// \brief PIMPL structure.
+struct BrokerPrivate
+{
+  /// \brief IDs of registered clients.
+  ClientIDs clientIDs;
+
+  /// \brief IDs of registered endpoints.
+  EndpointIDs endpointIDs;
+};
+
 //////////////////////////////////////////////////
 Broker::Broker()
-    : team(std::make_shared<TeamMembership_M>())
+    : team(std::make_shared<TeamMembership_M>()),
+      dataPtr(std::make_unique<BrokerPrivate>())
 {
+}
+
+//////////////////////////////////////////////////
+Broker::~Broker()
+{
+  // cannot use default destructor because of dataPtr
 }
 
 //////////////////////////////////////////////////
@@ -66,6 +277,15 @@ void Broker::Start()
     return;
   }
 
+  // Advertise the service for unregistering end points.
+  if (!this->node.Advertise(kEndPointUnregistrationSrv,
+                            &Broker::OnEndPointUnregistration, this))
+  {
+    std::cerr << "Error advertising srv [" << kEndPointUnregistrationSrv << "]"
+              << std::endl;
+    return;
+  }
+
   // Advertise a oneway service for centralizing all message requests.
   if (!this->node.Advertise(kBrokerSrv, &Broker::OnMessage, this))
   {
@@ -82,6 +302,9 @@ void Broker::Start()
               << std::endl;
     return;
   }
+
+  std::cout << "Started communication broker in Ignition partition "
+            << this->IgnPartition() << std::endl;
 }
 
 //////////////////////////////////////////////////
@@ -90,6 +313,9 @@ void Broker::Reset()
   std::lock_guard<std::mutex> lk(this->mutex);
   this->incomingMsgs.clear();
   this->endpoints.clear();
+  this->team->clear();
+  this->dataPtr->clientIDs.Clear();
+  this->dataPtr->endpointIDs.Clear();
 }
 
 //////////////////////////////////////////////////
@@ -124,12 +350,12 @@ void Broker::NotifyNeighbors()
 }
 
 //////////////////////////////////////////////////
-void Broker::DispatchMessages()
+bool Broker::DispatchMessages()
 {
   std::lock_guard<std::mutex> lk(this->mutex);
 
   if(this->incomingMsgs.empty())
-    return;
+    return true;
 
   // Cannot dispatch messages if we don't have function handles for
   // pathloss and communication
@@ -137,14 +363,14 @@ void Broker::DispatchMessages()
   {
     std::cerr << "[Broker::DispatchMessages()] Missing function handle for "
       << "communication" << std::endl;
-    return;
+    return false;
   }
 
   if(!pose_update_f)
   {
     std::cerr << "[Broker::DispatchMessages()]: Missing function for updating "
       << "pose" << std::endl;
-    return;
+    return false;
   }
 
   // Update state for all members in team (only do this for members
@@ -160,10 +386,11 @@ void Broker::DispatchMessages()
     {
       std::cerr << "Problem getting state for " << t.second->name
                 << ", skipping DispatchMessages()" << std::endl;
-      return;
+      return false;
     }
   }
 
+  bool allSucceeded = true;
   while (!this->incomingMsgs.empty())
   {
     // Get the next message to dispatch.
@@ -177,6 +404,7 @@ void Broker::DispatchMessages()
       std::cerr << "Broker::DispatchMessages(): Discarding message. Robot ["
                 << msg.src_address() << "] is not registered as a member of the"
                 << " team" << std::endl;
+      allSucceeded = false;
       continue;
     }
 
@@ -202,6 +430,7 @@ void Broker::DispatchMessages()
             << "Robot [" << client.address
             << "] is not registered as a member of the"
             << " team" << std::endl;
+          allSucceeded = false;
           continue;
         }
 
@@ -211,6 +440,7 @@ void Broker::DispatchMessages()
         {
           std::cerr << "No pathloss function defined for "
                     << msg.src_address() << std::endl;
+          allSucceeded = false;
           continue;
         }
 
@@ -231,6 +461,7 @@ void Broker::DispatchMessages()
             std::cerr << "[CommsBrokerPlugin::DispatchMessages()]: Error "
                       << "sending message to [" << client.address << "]"
                       << std::endl;
+            allSucceeded = false;
           }
         }
       }
@@ -239,138 +470,221 @@ void Broker::DispatchMessages()
     {
       std::cerr << "[Broker::DispatchMessages()]: Could not find endpoint "
         << dstEndPoint << std::endl;
+      allSucceeded = false;
     }
   }
+  return allSucceeded;
 }
 
 //////////////////////////////////////////////////
-bool Broker::Bind(const std::string &_clientAddress,
-                  const std::string &_endpoint)
+EndpointID Broker::Bind(const ClientID _clientId, const std::string &_endpoint)
 {
   std::lock_guard<std::mutex> lk(this->mutex);
-  // Make sure that the same client didn't bind the same end point before.
+
+  if (!this->dataPtr->clientIDs.Valid(_clientId))
+  {
+    std::cerr << "Broker::Bind() error: Client ID [" << _clientId
+              << "] is invalid." << std::endl;
+    return invalidEndpointId;
+  }
+
+  const auto& clientAddress = this->dataPtr->clientIDs.idToAddress[_clientId];
+
+  auto clientFound = false;
+
   if (this->endpoints.find(_endpoint) != this->endpoints.end())
   {
     const auto &clientsV = this->endpoints[_endpoint];
     for (const auto &client : clientsV)
     {
-      if (client.address == _clientAddress)
+      if (client.address == clientAddress)
       {
-        std::cerr << "Broker::Bind() error: Address [" << _clientAddress
-                  << "] already used in a previous Bind()" << std::endl;
-        return false;
+        clientFound = true;
+        break;
       }
     }
   }
 
-  BrokerClientInfo clientInfo;
-  clientInfo.address = _clientAddress;
-  this->endpoints[_endpoint].push_back(clientInfo);
+  if (!clientFound)
+  {
+    BrokerClientInfo clientInfo;
+    clientInfo.address = clientAddress;
+    this->endpoints[_endpoint].push_back(clientInfo);
+  }
 
-  return true;
+  const auto endpointId = this->dataPtr->endpointIDs.Add(_endpoint, _clientId);
+
+  return endpointId;
 }
 
 //////////////////////////////////////////////////
-bool Broker::Register(const std::string &_id)
+bool Broker::Unbind(EndpointID _endpointId)
 {
   std::lock_guard<std::mutex> lk(this->mutex);
-  auto kvp = this->team->find(_id);
-  if (kvp != this->team->end())
-  {
-    std::cerr << "Broker::Register() warning: ID [" << _id << "] already exists"
-              << std::endl;
-  }
-  else
-  {
-    auto newMember = std::make_shared<TeamMember>();
 
-    // Name and address are the same in SubT.
-    newMember->address = _id;
-    newMember->name = _id;
-
-    newMember->radio = default_radio_configuration;
-    (*this->team)[_id] = newMember;
-  }
-
-  return true;
-}
-
-//////////////////////////////////////////////////
-bool Broker::Unregister(const std::string &_id)
-{
-  std::lock_guard<std::mutex> lk(this->mutex);
-  // Sanity check: Make sure that the ID exists.
-  if (this->team->find(_id) == this->team->end())
-  {
-    std::cerr << "Broker::Unregister() error: ID [" << _id << "] doesn't exist"
-              << std::endl;
+  if (!this->dataPtr->endpointIDs.Valid(_endpointId))
     return false;
+
+  const auto endpointName =
+    this->dataPtr->endpointIDs.idToEndpoint[_endpointId];
+
+  const auto clientId =
+    this->dataPtr->endpointIDs.endpointIdToClientId[_endpointId];
+  const auto clientAddress = this->dataPtr->clientIDs.idToAddress[clientId];
+
+  if (this->endpoints.find(endpointName) == this->endpoints.end())
+    return false;
+
+  bool success = this->dataPtr->endpointIDs.Remove(_endpointId);
+  if (!success)
+    return false;
+
+  if (this->dataPtr->endpointIDs.endpointToClientIds.find(endpointName) ==
+    this->dataPtr->endpointIDs.endpointToClientIds.end())
+      return false;
+
+  bool hasOtherClientsOnTheSameAddress = false;
+  for (const auto clientKV :
+    this->dataPtr->endpointIDs.endpointToClientIds[endpointName])
+  {
+    if (this->dataPtr->clientIDs.idToAddress[clientKV.first] == clientAddress &&
+      clientKV.second > 0u)
+    {
+      hasOtherClientsOnTheSameAddress = true;
+      break;
+    }
   }
 
-  this->team->erase(_id);
+  if (hasOtherClientsOnTheSameAddress)
+    return true;
 
-  // Unbind.
-  for (auto &endpointKv : this->endpoints)
+  auto& clientsV = this->endpoints[endpointName];
+
+  auto i = std::begin(clientsV);
+  while (i != std::end(clientsV))
   {
-    auto &clientsV = endpointKv.second;
-
-    auto i = std::begin(clientsV);
-    while (i != std::end(clientsV))
+    if (i->address == clientAddress)
     {
-      if (i->address == _id)
-        i = clientsV.erase(i);
-      else
-        ++i;
+      clientsV.erase(i);
+      break;
+    }
+    else
+    {
+      ++i;
     }
   }
 
   return true;
 }
 
-/////////////////////////////////////////////////
-bool Broker::OnAddrRegistration(const ignition::msgs::StringMsg &_req,
-                                ignition::msgs::Boolean &_rep)
+//////////////////////////////////////////////////
+ClientID Broker::Register(const std::string &_clientAddress)
 {
-  std::string address = _req.data();
-  bool result;
-
-  result = this->Register(address);
-
-  _rep.set_data(result);
-
-  return result;
-}
-
-/////////////////////////////////////////////////
-bool Broker::OnAddrUnregistration(const ignition::msgs::StringMsg &_req,
-                                  ignition::msgs::Boolean &_rep)
-{
-  std::string address = _req.data();
-  bool result;
-
-  result = this->Unregister(address);
-
-  _rep.set_data(result);
-
-  return result;
-}
-
-/////////////////////////////////////////////////
-bool Broker::OnEndPointRegistration(const ignition::msgs::StringMsg_V &_req,
-                                    ignition::msgs::Boolean &_rep)
-{
-  if (_req.data().size() != 2)
+  std::lock_guard<std::mutex> lk(this->mutex);
+  auto kvp = this->team->find(_clientAddress);
+  if (kvp == this->team->end())
   {
-    std::cerr << "[Broker::OnEndPointRegistration()] Expected two strings and "
-              << "got " << _req.data().size() << " instead" << std::endl;
+    auto newMember = std::make_shared<TeamMember>();
+
+    // Name and address are the same in SubT.
+    newMember->address = _clientAddress;
+    newMember->name = _clientAddress;
+
+    newMember->radio = default_radio_configuration;
+    (*this->team)[_clientAddress] = newMember;
+  }
+
+  const auto clientId = this->dataPtr->clientIDs.Add(_clientAddress);
+
+  return clientId;
+}
+
+//////////////////////////////////////////////////
+bool Broker::Unregister(const ClientID _clientId)
+{
+  if (!this->dataPtr->clientIDs.Valid(_clientId))
+  {
+    std::cerr << "Broker::Unregister() error: Client ID [" << _clientId
+              << "] is invalid." << std::endl;
     return false;
   }
 
-  bool result;
-  std::string clientAddress = _req.data(0);
-  std::string endpoint = _req.data(1);
+  bool success = true;
 
-  result = this->Bind(clientAddress, endpoint);
+  std::unordered_set<subt::communication_broker::EndpointID> endpointIds;
+  {
+    // make a copy because Unbind() calls will alter the structure
+    std::lock_guard<std::mutex> lk(this->mutex);
+    endpointIds = this->dataPtr->endpointIDs.clientIdToEndpointIds[_clientId];
+  }
+
+  for (const auto endpointId : endpointIds)
+    success = success && this->Unbind(endpointId);
+
+  {
+    std::lock_guard<std::mutex> lk(this->mutex);
+
+    const auto& clientAddress = this->dataPtr->clientIDs.idToAddress[_clientId];
+    success = success && this->dataPtr->clientIDs.Remove(_clientId);
+
+    if (this->dataPtr->clientIDs.numActiveClients[clientAddress] == 0u)
+      this->team->erase(clientAddress);
+  }
+
+  return success;
+}
+
+/////////////////////////////////////////////////
+bool Broker::OnAddrRegistration(const ignition::msgs::StringMsg &_req,
+                                ignition::msgs::UInt32 &_rep)
+{
+  const auto& address = _req.data();
+
+  const ClientID result = this->Register(address);
+
+  _rep.set_data(result);
+
+  return result != invalidClientId;
+}
+
+/////////////////////////////////////////////////
+bool Broker::OnAddrUnregistration(const ignition::msgs::UInt32 &_req,
+                                  ignition::msgs::Boolean &_rep)
+{
+  uint32_t clientId = _req.data();
+
+  bool result;
+
+  result = this->Unregister(clientId);
+
+  _rep.set_data(result);
+
+  return result;
+}
+
+/////////////////////////////////////////////////
+bool Broker::OnEndPointRegistration(
+  const subt::msgs::EndpointRegistration &_req,
+  ignition::msgs::UInt32 &_rep)
+{
+  ClientID clientId = _req.client_id();
+  const auto& endpoint = _req.endpoint();
+
+  EndpointID result = this->Bind(clientId, endpoint);
+
+  _rep.set_data(result);
+
+  return result != invalidEndpointId;
+}
+
+/////////////////////////////////////////////////
+bool Broker::OnEndPointUnregistration(
+  const ignition::msgs::UInt32 &_req,
+  ignition::msgs::Boolean &_rep)
+{
+  const EndpointID endpointId = _req.data();
+
+  bool result = this->Unbind(endpointId);
 
   _rep.set_data(result);
 
@@ -387,6 +701,7 @@ void Broker::OnMessage(const subt::msgs::Datagram &_req)
   this->incomingMsgs.push_back(_req);
 }
 
+//////////////////////////////////////////////////
 void Broker::SetRadioConfiguration(const std::string& address,
                                    communication_model::radio_configuration config)
 {
@@ -431,6 +746,12 @@ void Broker::SetPoseUpdateFunction(pose_update_function f)
 {
   std::lock_guard<std::mutex> lk(this->mutex);
   pose_update_f = f;
+}
+
+//////////////////////////////////////////////////
+const std::string& Broker::IgnPartition() const
+{
+  return this->node.Options().Partition();
 }
 
 }

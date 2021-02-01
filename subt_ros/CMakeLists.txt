@@ -108,3 +108,39 @@ install(DIRECTORY launch
 install(PROGRAMS scripts/rostopic_stats_logger.sh
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
+
+if(CATKIN_ENABLE_TESTING)
+  add_executable(test_broker test/test_broker.cc)
+  target_link_libraries(test_broker ${catkin_LIBRARIES} ignition-msgs6)
+  add_dependencies(tests test_broker)
+
+  find_package(rostest REQUIRED)
+  find_package(rosgraph_msgs REQUIRED)
+  include_directories(${rosgraph_msgs_INCLUDE_DIRS})
+  include_directories(${GTEST_INCLUDE_DIRS})
+
+  # we do not use add_rostest_gtest() because that doesn't allow for multiple
+  # independent targets/binaries to be built... and it is desirable that the
+  # tests are in separate binaries, because then rostest tears down all the
+  # helper nodes between switching to the other test node... on the other hand,
+  # keeping them all under one rostest command serializes the execution of the
+  # tests (while three separate rostests would run in parallel).
+  set(comms_types unicast multicast broadcast)
+  set(comms_targets "")
+  foreach(comms_type IN LISTS comms_types)
+    set(target test_comms_client_${comms_type})
+    add_executable(${target} EXCLUDE_FROM_ALL test/comms_relay_${comms_type}.cc)
+    target_link_libraries(${target}
+      ${catkin_LIBRARIES}
+      ${rosgraph_msgs_LIBRARIES}
+      ${GTEST_LIBRARIES}
+      ignition-common3::ignition-common3
+    )
+    add_dependencies(tests ${target})
+    list(APPEND comms_targets ${target})
+  endforeach()
+
+  add_rostest(test/comms_relay.test
+    DEPENDENCIES subt_ros_relay test_broker ${comms_targets}
+  )
+endif()
