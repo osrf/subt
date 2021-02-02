@@ -462,29 +462,34 @@ bool SubtRosRelay::OnBind(subt_msgs::Bind::Request &_req,
   if (executed && result)
     _res.endpoint_id = rep.data();
 
-  if (executed && result &&
+  {
+    std::unique_lock<std::mutex> lock(this->clientsMutex);
+
+    if (executed && result &&
       // Only establish the Ignition service once per client.
       this->boundAddresses.find(address) == this->boundAddresses.end())
-  {
-    std::function<void(const subt::msgs::Datagram&)> cb =
-      [this, address] (const subt::msgs::Datagram& _msg)
+    {
+      std::function<void(const subt::msgs::Datagram&)> cb =
+        [this, address](const subt::msgs::Datagram& _msg)
+        {
+          this->OnMessage(_msg, address);
+        };
+
+      if (!this->node.Advertise<subt::msgs::Datagram>(address, cb))
       {
-        this->OnMessage(_msg, address);
-      };
+        ROS_ERROR_STREAM("Bind Error: could not advertise " << address <<
+          " while binding " << _req.endpoint);
+        return false;
+      }
+      else
+      {
+        this->boundAddresses.insert(address);
 
-    if (!this->node.Advertise<subt::msgs::Datagram>(address, cb))
-    {
-      std::cerr << "Bind Error: could not advertise " << address << std::endl;
-      return false;
-    }
-    else
-    {
-      this->boundAddresses.insert(address);
-
-      // Prepare the ROS comms publisher
-      this->commsPublishers[address] =
-        this->rosnode->advertise<subt_msgs::DatagramRos::Request>(
-          "/" + address + "/comms", 1000);
+        // Prepare the ROS comms publisher
+        this->commsPublishers[address] =
+          this->rosnode->advertise<subt_msgs::DatagramRos::Request>(
+            "/" + address + "/comms", 1000);
+      }
     }
   }
 

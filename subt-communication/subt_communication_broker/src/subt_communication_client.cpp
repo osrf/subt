@@ -241,6 +241,8 @@ CommsClient::Bind(std::function<void(const std::string &_srcAddress,
 
   if (this->useIgnition)
   {
+    std::lock_guard<std::mutex> lock(this->mutex);
+
     // Ignition transport registers a datagram receive service, so we have to
     // make sure we only advertise it once
     if (!this->advertised)
@@ -254,7 +256,7 @@ CommsClient::Bind(std::function<void(const std::string &_srcAddress,
       if (!this->node.Advertise(address, &CommsClient::OnMessage, this, opts))
       {
         std::cerr << "[" << this->Host() << "] Bind Error: could not advertise "
-          << address << std::endl;
+          << address << " when binding " << unicastEndPoint << std::endl;
 
         // if we cannot advertise but we have already bound the endpoints,
         // we need to unbind them before exiting with error
@@ -267,9 +269,8 @@ CommsClient::Bind(std::function<void(const std::string &_srcAddress,
         endpoints.clear();
         return endpoints;
       }
+      this->advertised = true;
     }
-
-    this->advertised = true;
   }
 
   // Register the callbacks.
@@ -361,8 +362,8 @@ bool CommsClient::SendTo(const std::string &_data,
   // Sanity check: Make sure that the communications are enabled.
   if (!this->enabled || this->clientId == invalidClientId)
   {
-    std::cerr << "[" << this->localAddress << "] CommsClient::SendTo:"
-              << "Calling Unregister() before registering the client."
+    std::cerr << "[" << this->localAddress << "] CommsClient::SendTo: "
+              << "Calling SendTo() before registering the client."
               << std::endl;
     return false;
   }
