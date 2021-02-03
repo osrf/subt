@@ -180,12 +180,12 @@
       <sensor name="thermal_camera" type="thermal">
         <pose>0.435 -.01 0.125 0 0 0</pose>
         <camera name="thermal_camera">
-          <horizontal_fov>1.047</horizontal_fov>
+          <horizontal_fov>0.4922</horizontal_fov>
           <lens>
             <intrinsics>
               <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
-              <fx>332.62963</fx>
-              <fy>332.62963</fy>
+              <fx>764.35630</fx>
+              <fy>764.35630</fy>
               <!-- cx = ( width + 1 ) / 2 -->
               <cx>192.5</cx>
               <!-- cy = ( height + 1 ) / 2 -->
