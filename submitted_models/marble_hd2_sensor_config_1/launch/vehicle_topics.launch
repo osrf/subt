@@ -7,6 +7,7 @@
   <arg name="sensor_prefix" value="/world/$(arg world_name)/model/$(arg name)/link/$(arg link_name)/sensor"/>
   <arg name="gimbal_sensor_prefix" value="/world/$(arg world_name)/model/$(arg name)/link/tilt_gimbal_link/sensor"/>
   <arg name="breadcrumbs" default="0"/>
+  <arg name="thermal" default="0"/>
   <group ns="$(arg name)">
     <!--Create multipe bridges so that it can run in parallel-->
     <node
