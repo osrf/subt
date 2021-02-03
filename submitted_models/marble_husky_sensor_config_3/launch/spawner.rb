@@ -95,10 +95,10 @@ end
 def rosExecutables(_name, _worldName)
   <<-HEREDOC
   <executable name='robot_description'>
-    <command>roslaunch --wait marble_husky_sensor_config_3 description.launch world_name:=#{_worldName} name:=#{_name}</command>
+    <command>roslaunch --wait marble_husky_sensor_config_1 description.launch world_name:=#{_worldName} name:=#{_name}</command>
   </executable>
   <executable name='topics'>
-    <command>roslaunch --wait marble_husky_sensor_config_3 vehicle_topics.launch world_name:=#{_worldName} name:=#{_name}</command>
+    <command>roslaunch --wait marble_husky_sensor_config_1 vehicle_topics.launch world_name:=#{_worldName} name:=#{_name} thermal:=1</command>
   </executable>
   HEREDOC
 end

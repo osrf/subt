@@ -270,6 +270,44 @@
       <enable_wind>0</enable_wind>
       <kinematic>0</kinematic>
 
+      <!-- thermal camera -->
+      <visual name="thermal_camera_visual">
+        <pose >0.485 0 0.169 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.02 0.025 0.025</size>
+          </box>
+        </geometry>
+      </visual>
+      <sensor name="thermal_camera" type="thermal">
+        <pose >0.485 0 0.169 0 0 0</pose>
+        <camera name="thermal_camera">
+          <horizontal_fov>0.4922</horizontal_fov>
+          <lens>
+            <intrinsics>
+              <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+              <fx>764.35630</fx>
+              <fy>764.35630</fy>
+              <!-- cx = ( width + 1 ) / 2 -->
+              <cx>192.5</cx>
+              <!-- cy = ( height + 1 ) / 2 -->
+              <cy>144.5</cy>
+              <s>0</s>
+            </intrinsics>
+          </lens>
+          <image>
+            <width>384</width>
+            <height>288</height>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>100</far>
+          </clip>
+        </camera>
+        <always_on>1</always_on>
+        <update_rate>25</update_rate>
+      </sensor>
+
       <!-- Based on Intel realsense D435 (intrinsics and distortion not modeled)-->
       <sensor name="camera_front" type="rgbd_camera">
         <camera name="camera_front">
