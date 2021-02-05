@@ -93,11 +93,13 @@ bool StringFromArtifact(const ArtifactType &_type,
 bool FullWorldPath(const std::string &_worldName,
                    std::string &_worldPath)
 {
+  std::cerr << "1\n";
   _worldPath = "";
   if (_worldName.empty())
   {
     return false;
   }
+  std::cerr << "2\n";
 
   std::string worldsDirectory = SUBT_INSTALL_WORLD_DIR;
 
@@ -106,6 +108,7 @@ bool FullWorldPath(const std::string &_worldName,
   const std::string cavePrefix = "cave_circuit_";
   if (0 == _worldName.compare(0, tunnelPrefix.size(), tunnelPrefix))
   {
+  std::cerr << "3\n";
     std::string suffix = _worldName.substr(tunnelPrefix.size());
     // don't use a subfolder for practice worlds
     if (0 != suffix.compare(0, 9, "practice_"))
@@ -116,6 +119,7 @@ bool FullWorldPath(const std::string &_worldName,
   }
   else if (_worldName.find(urbanPrefix) != std::string::npos)
   {
+  std::cerr << "4\n";
     std::string suffix = _worldName.substr(urbanPrefix.size());
     // don't use a subfolder for practice worlds
     if (0 != suffix.compare(0, 9, "practice_"))
@@ -126,6 +130,7 @@ bool FullWorldPath(const std::string &_worldName,
   }
   else if (_worldName.find(cavePrefix) != std::string::npos)
   {
+  std::cerr << "5\n";
     std::string suffix = _worldName.substr(cavePrefix.size());
     // don't use a subfolder for practice worlds
     if (0 != suffix.compare(0, 9, "practice_"))
@@ -135,8 +140,10 @@ bool FullWorldPath(const std::string &_worldName,
     }
   }
   else if (_worldName.find("simple") == std::string::npos &&
-           _worldName.find("_qual") == std::string::npos)
+           _worldName.find("_qual") == std::string::npos &&
+           _worldName.find("_stix") == std::string::npos)
   {
+  std::cerr << "6[" << _worldName << "]\n";
     return false;
   }
 
