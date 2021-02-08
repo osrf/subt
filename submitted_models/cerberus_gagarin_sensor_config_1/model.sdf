@@ -257,8 +257,6 @@
                 <lidar>
                     <scan>
                         <horizontal>
-                            <!-- Resolution can't be above 16k, see
-                            https://bitbucket.org/ignitionrobotics/ign-sensors/issues/8 -->
                             <samples>512</samples>
                             <resolution>1</resolution>
                             <min_angle>-3.14159</min_angle>

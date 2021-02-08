@@ -1,0 +1,166 @@
+<?xml version="1.0" ?>
+<robot name="shafter" xmlns:xacro='http://ros.org/wiki/xacro'>
+  <xacro:arg name="name" default="shafter"/>
+  <xacro:property name="robot_namespace" value="$(arg name)"/>
+  <link name="${robot_namespace}/base_link">
+    <inertial>
+      <mass value="3.06"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="0.028276852" ixy="0" ixz="0" iyy="0.023963104" iyz="0" izz="0.037878321"/>
+    </inertial>
+    <collision name="base_link_collision">
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://costar_shafter_sensor_config_1/meshes/sh_base_link_geometry_v2.dae" scale="1 1 1"/>
+      </geometry>
+    </collision>
+    <visual name="base_link_visual">
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://costar_shafter_sensor_config_1/meshes/shafter_body_V2.dae" scale="1 1 1"/>
+      </geometry>
+    </visual>
+    <visual name="realsense_front_visual">
+      <origin rpy="-1.57079 0 -1.57079" xyz="0.15 0 -0.003"/>
+      <geometry>
+        <mesh filename="package://costar_shafter_sensor_config_1/meshes/zr300.dae" scale="1.0 1.0 1.0"/>
+      </geometry>
+    </visual>
+    <visual name="laser_visual">
+      <origin rpy="0 0 0" xyz="0 0 0.12"/>
+      <geometry>
+        <cylinder length="0.1" radius="0.03"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <sensor name='imu_sensor' update_rate='200'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0 0 0' rpy='0 -0 0'/>
+  </sensor>
+  
+  <sensor name='magnetometer' update_rate='20'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0 0 0' rpy='0 -0 0'/>
+  </sensor>
+
+  <sensor name='realsense_front' update_rate='20'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0.17 0.0 -0.003' rpy='0 -0 0'/>
+    <camera>
+      <image width='640' height='480' format='R8G8B8' hfov='1.18682' near='0.01' far='300' />
+    </camera>
+  </sensor>
+
+  <sensor name='front_laser' update_rate='10'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0 0 0.12' rpy='0 -0 0'/>
+  </sensor>
+
+
+  <link name="${robot_namespace}/ShArm_1_link">
+    <inertial>
+      <mass value="0.015"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="0.000012634" ixy="0" ixz="0" iyy="0.000102634" iyz="0" izz="0.000091336"/>
+    </inertial>
+    <collision name="ShArm_1_link_collision">
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://costar_shafter_sensor_config_1/meshes/sh_arm_link_geometry.dae" scale="1 1 1"/>
+      </geometry>
+    </collision>
+    <visual name="ShArm_1_link_visual">
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://costar_shafter_sensor_config_1/meshes/shafter_rotor_ccw_V2.dae" scale="1 1 1"/>
+      </geometry>
+    </visual>
+  </link>
+  <link name="${robot_namespace}/ShArm_2_link">
+    <inertial>
+      <mass value="0.015"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="0.000012634" ixy="0" ixz="0" iyy="0.000102634" iyz="0" izz="0.000091336"/>
+    </inertial>
+    <collision name="ShArm_2_link_collision">
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://costar_shafter_sensor_config_1/meshes/sh_arm_link_geometry.dae" scale="1 1 1"/>
+      </geometry>
+    </collision>
+    <visual name="ShArm_2_link_visual">
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://costar_shafter_sensor_config_1/meshes/shafter_rotor_cw_V2.dae" scale="1 1 1"/>
+      </geometry>
+    </visual>
+  </link>
+  <link name="${robot_namespace}/ShArm_3_link">
+    <inertial>
+      <mass value="0.015"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="0.000012634" ixy="0" ixz="0" iyy="0.000102634" iyz="0" izz="0.000091336"/>
+    </inertial>
+    <collision name="ShArm_3_link_collision">
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://costar_shafter_sensor_config_1/meshes/sh_arm_link_geometry.dae" scale="1 1 1"/>
+      </geometry>
+    </collision>
+    <visual name="ShArm_3_link_visual">
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://costar_shafter_sensor_config_1/meshes/shafter_rotor_ccw_V2.dae" scale="1 1 1"/>
+      </geometry>
+    </visual>
+  </link>
+  <link name="${robot_namespace}/ShArm_4_link">
+    <inertial>
+      <mass value="0.015"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="0.000012634" ixy="0" ixz="0" iyy="0.000102634" iyz="0" izz="0.000091336"/>
+    </inertial>
+    <collision name="ShArm_4_link_collision">
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://costar_shafter_sensor_config_1/meshes/sh_arm_link_geometry.dae" scale="1 1 1"/>
+      </geometry>
+    </collision>
+    <visual name="ShArm_4_link_visual">
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://costar_shafter_sensor_config_1/meshes/shafter_rotor_cw_V2.dae" scale="1 1 1"/>
+      </geometry>
+    </visual>
+  </link>
+ <joint name="ShBody_1_ShArm_1_joint" type="revolute">
+    <parent link="${robot_namespace}/base_link"/>
+    <child link="${robot_namespace}/ShArm_1_link"/>
+    <origin rpy="-0.08377 -0.02443 0" xyz="0.13961 -0.23629 0.01291"/>
+    <axis xyz="0.02443 -0.08365  0.99619"/>
+    <limit effort="0.0" lower="-1e+16" upper="1e+16" velocity="0.0"/>
+  </joint>
+  <joint name="ShBody_1_ShArm_2_joint" type="revolute">
+    <parent link="${robot_namespace}/base_link"/>
+    <child link="${robot_namespace}/ShArm_2_link"/>
+    <origin rpy="-0.06754 0.05532 0" xyz="-0.19482 -0.19335 0.01291"/>
+    <axis xyz="-0.05529 -0.06738 0.99619"/>
+    <limit effort="0.0" lower="-1e+16" upper="1e+16" velocity="0.0"/>
+  </joint>
+  <joint name="ShBody_1_ShArm_3_joint" type="revolute">
+    <parent link="${robot_namespace}/base_link"/>
+    <child link="${robot_namespace}/ShArm_3_link"/>
+    <origin rpy="0.06754 0.05532 0" xyz="-0.19482 0.19335 0.01291"/>
+    <axis xyz="-0.05529 0.06738 0.99619"/>
+    <limit effort="0.0" lower="-1e+16" upper="1e+16" velocity="0.0"/>
+  </joint>
+  <joint name="ShBody_1_ShArm_4_joint" type="revolute">
+    <parent link="${robot_namespace}/base_link"/>
+    <child link="${robot_namespace}/ShArm_4_link"/>
+    <origin rpy="0 -0.02443 0" xyz="0.13961 0.23629 0.01291"/>
+    <axis xyz="0.02443 0 0.9997"/>
+    <limit effort="0.0" lower="-1e+16" upper="1e+16" velocity="0.0"/>
+  </joint>
+
+</robot>

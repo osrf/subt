@@ -79,7 +79,8 @@ namespace subt
     TYPE_VENT,
     TYPE_GAS,
     TYPE_HELMET,
-    TYPE_ROPE
+    TYPE_ROPE,
+    Count
   };
 
   /// \def TeamMemberPtr

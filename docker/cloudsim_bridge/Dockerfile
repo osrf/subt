@@ -1,5 +1,33 @@
 # Ubuntu 18.04 with nvidia-docker2 beta opengl support
-FROM osrf/subt-virtual-testbed:models_latest
+#FROM osrf/subt-virtual-testbed:models_latest
+FROM nvidia/opengl:1.0-glvnd-devel-ubuntu18.04
+
+RUN export DEBIAN_FRONTEND=noninteractive \
+ && apt-get update \
+ && apt-get install --no-install-recommends -y \
+    tzdata \
+    sudo \
+    wget \
+    gnupg \
+    lsb-release \
+ && ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime \
+ && dpkg-reconfigure --frontend noninteractive tzdata \
+ && apt-get clean
+
+# Add a user with the same user_id as the user outside the container
+# Requires a docker build argument `user_id`
+ARG user_id
+ENV USERNAME developer
+RUN useradd -U --uid ${user_id} -ms /bin/bash $USERNAME \
+ && echo "$USERNAME:$USERNAME" | chpasswd \
+ && adduser $USERNAME sudo \
+ && echo "$USERNAME ALL=NOPASSWD: ALL" >> /etc/sudoers.d/$USERNAME
+
+# Commands below run as the developer user
+USER $USERNAME
+
+# When running a container start in the developer's home folder
+WORKDIR /home/$USERNAME
 
 # Tools I find useful during development
 RUN sudo apt-get update -qq \
@@ -90,8 +118,6 @@ RUN mkdir ~/workspaces ~/other
 # When running a container start in the developer's home folder
 WORKDIR /home/$USERNAME
 
-RUN rosdep update
-
 # Clone all the subt models so that you don't download them every time
 # docker is run
 RUN mkdir -p subt_ws/src \
@@ -99,9 +125,22 @@ RUN mkdir -p subt_ws/src \
  && git config --global http.postBuffer 1048576000 \
  && git clone https://github.com/osrf/subt
 
+# Install dependencies
+RUN . /opt/ros/melodic/setup.sh \
+ && rosdep update \
+ && sudo apt-get update \
+ && rosdep install -y --from-paths . --ignore-src -r \
+    --skip-keys=ignition-transport9 \
+    --skip-keys=ignition-math6 \
+    --skip-keys=ignition-msgs6 \
+    --skip-keys=ignition-plugin1 \
+    --skip-keys=ignition-common3 \
+    --skip-keys=ignition-launch2 \
+ && sudo apt-get clean -qq
+
 WORKDIR /home/$USERNAME/subt_ws
 
-RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && catkin_make install'
+RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && catkin_make -DCMAKE_BUILD_TYPE=Release install'
 RUN /bin/sh -c 'echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc' \
  && /bin/sh -c 'echo ". ~/subt_ws/install/setup.sh" >> ~/.bashrc'
 

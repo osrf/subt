@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <launch>
+  <env name="IGN_TRANSPORT_TOPIC_STATISTICS" value="1"/>
   <arg name="world_name"/>
   <arg name="name"/>
   <arg name="model_prefix" value="/world/$(arg world_name)/model/$(arg name)"/>
