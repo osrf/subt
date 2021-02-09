@@ -42,6 +42,8 @@ package:
 
 * Left wheel spring coefficients &mdash; model.sdf, line 636 and 637
 * Other wheels &mdash; just below Left front wheel in the same file.
+* Rotation angle limit &mdash; model.sdf, line 553 to 556
+* Spring coefficients &mdash; model.sdf, line 559 and 560
 * `diff_drive` controller limits in `spawner.rb`, lines 23-26
 
 ## Endurance Characteristics
@@ -56,7 +58,7 @@ Virtual R3 is a faithful representation of real-world R3 both in appearance and
 in physical properties. However, there are few diversions:
 * The endurance is approximated to match existing models until model validation data can be provided.
 * It does not model long-range Rajant wireless network of the real robot.
-* The physical robot has 9 communication breadcrumbs.
+* The physical robot has 9 communication breadcrumbs. 12 breadcrumbs are included in sensor configuration 2, which is standardized to match other available models.
 
 # <a name="validation_links"></a>R3 Validation and Specification Links
 

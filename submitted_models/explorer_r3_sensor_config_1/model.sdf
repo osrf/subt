@@ -1,3 +1,4 @@
+<?xml version='1.0'?>
 <sdf version="1.6">
   <model name="explorer_r3_sensor_config_1">
     <link name="base_link">
@@ -61,28 +62,12 @@
             <diffuse>1 0 0 1</diffuse>
             <specular>1 0 0 0</specular>
         </material>
-        <!--material>
-            <diffuse>1.0 1.0 1.0</diffuse>
-            <specular>1.0 1.0 1.0</specular>
-            <pbr>
-                <metal>
-                  <albedo_map>materials/textures/R2_Albedo.png</albedo_map>
-                  <metalness_map>materials/textures/R2_Metalness.png</metalness_map>
-                  <roughness_map>materials/textures/R2_Roughness.png</roughness_map>
-                </metal>
-            </pbr>
-            <script>
-                <uri>materials/scripts/</uri>
-                <uri>materials/textures/</uri>
-                <name>UrbanTile/R2_Diffuse</name>
-            </script>
-        </material-->
       </visual>
       <visual name="base_link_fixed_joint_lump__sensor_payload_link_visual_1">
-        <pose>0.31054 -0.0903 0.23288 1.5707963267948966 0 -0</pose>
+        <pose>0.31054 -0.0903 0.19088 1.5707963267948966 0 -0</pose>
         <geometry>
           <mesh>
-            <scale>1 1 1</scale>
+            <scale>1 1.3 1</scale>
             <uri>meshes/payload_cube.stl</uri>
           </mesh>
         </geometry>
@@ -101,7 +86,7 @@
           </cylinder>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__rs_rear_link_visual_3">
+      <visual name="base_link_fixed_joint_lump__rear_link_visual_3">
         <pose>0.22054 0.037199 0.38988 1.5707963267948966 -0 3.1415926535897931</pose>
         <geometry>
           <cylinder>
@@ -110,7 +95,7 @@
           </cylinder>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__rs_front_link_visual_4">
+      <visual name="base_link_fixed_joint_lump__front_link_visual_4">
         <pose>0.40054 -0.035301 0.38988 1.5707963267948966 0 -0</pose>
         <geometry>
           <cylinder>
@@ -119,7 +104,7 @@
           </cylinder>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__rs_left_link_visual_5">
+      <visual name="base_link_fixed_joint_lump__left_link_visual_5">
         <pose>0.34854 0.091699 0.389881 1.5707963267948966 -4e-06 1.5707963267948966</pose>
         <geometry>
           <cylinder>
@@ -128,7 +113,7 @@
           </cylinder>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__rs_right_link_visual_6">
+      <visual name="base_link_fixed_joint_lump__right_link_visual_6">
         <pose>0.27254 -0.090301 0.38988 1.5707963267948966 -4e-06 1.5707963267948966</pose>
         <geometry>
           <cylinder>
@@ -242,11 +227,11 @@
               </ray>
       </sensor>
       <velocity_decay/>
-      <sensor name="rs_rear" type="rgbd_camera">
+      <sensor name="rear_camera" type="rgbd_camera">
               <pose>0.22054 0.037199 0.38988 -2e-06 -0 3.1415926535897931</pose>
               <always_on>1</always_on>
               <update_rate>15</update_rate>
-              <camera name="camera_rear">
+              <camera name="rear_camera">
                 <horizontal_fov>1.0472</horizontal_fov>
                 <lens>
                   <intrinsics>
@@ -291,11 +276,11 @@
               </camera>
       </sensor>
       <velocity_decay/>
-      <sensor name="rs_front" type="rgbd_camera">
+      <sensor name="front_camera" type="rgbd_camera">
               <pose>0.40054 -0.035301 0.38988 5e-06 0 -0</pose>
               <always_on>1</always_on>
               <update_rate>15</update_rate>
-              <camera name="camera_front">
+              <camera name="front_camera">
                 <horizontal_fov>1.0472</horizontal_fov>
                 <lens>
                   <intrinsics>
@@ -340,11 +325,11 @@
               </camera>
       </sensor>
       <velocity_decay/>
-      <sensor name="rs_left" type="rgbd_camera">
+      <sensor name="left_camera" type="rgbd_camera">
               <pose>0.34854 0.091699 0.389881 1e-06 -4e-06 1.5707963267948966</pose>
               <always_on>1</always_on>
               <update_rate>15</update_rate>
-              <camera name="camera_left">
+              <camera name="left_camera">
                 <horizontal_fov>1.0472</horizontal_fov>
                 <lens>
                   <intrinsics>
@@ -390,11 +375,11 @@
       </sensor>
       <gravity>1</gravity>
       <velocity_decay/>
-      <sensor name="rs_right" type="rgbd_camera">
+      <sensor name="right_camera" type="rgbd_camera">
               <pose>0.27254 -0.090301 0.38988 1e-06 4e-06 -1.5707963267948966</pose>
               <always_on>1</always_on>
               <update_rate>15</update_rate>
-              <camera name="camera_right">
+              <camera name="right_camera">
                 <horizontal_fov>1.0472</horizontal_fov>
                 <lens>
                   <intrinsics>
@@ -555,22 +540,6 @@
             <diffuse>1 0 0 1</diffuse>
             <specular>0 0 0 0</specular>
         </material>
-        <!--material>
-          <diffuse>1.0 1.0 1.0</diffuse>
-          <specular>1.0 1.0 1.0</specular>
-          <pbr>
-            <metal>
-              <albedo_map>materials/textures/R2_Albedo.png</albedo_map>
-              <metalness_map>materials/textures/R2_Metalness.png</metalness_map>
-              <roughness_map>materials/textures/R2_Roughness.png</roughness_map>
-            </metal>
-          </pbr>
-          <script>
-            <uri>materials/scripts/</uri>
-            <uri>materials/textures/</uri>
-            <name>UrbanTile/R2_Diffuse</name>
-          </script>
-        </material-->
       </visual>
       <gravity>1</gravity>
       <velocity_decay/>
@@ -608,7 +577,6 @@
         </inertia>
       </inertial>
       <collision name="left_rear_wheel_link_collision">
-        <!--pose>0 0 -0.039 0 -0 0</pose-->
         <pose>0 0 0 0 -0 0</pose>
         <geometry>
            <cylinder>
@@ -619,10 +587,10 @@
         <surface>
           <friction>
             <ode>
-              <mu>1</mu>
+              <mu>0.5</mu>
               <mu2>1</mu2>
               <fdir1>0 0 1</fdir1>
-              <slip1>0.001</slip1>
+              <slip1>0.00001</slip1>
               <slip2>0</slip2>
               <max_vel>10</max_vel>
               <min_depth>0.1</min_depth>
@@ -649,22 +617,6 @@
             <diffuse>0 0 0 1</diffuse>
             <specular>0 0 0 0</specular>
         </material>
-        <!--material>
-            <diffuse>1.0 1.0 1.0</diffuse>
-            <specular>1.0 1.0 1.0</specular>
-            <pbr>
-                <metal>
-                    <albedo_map>materials/textures/R2_Albedo.png</albedo_map>
-                    <metalness_map>materials/textures/R2_Metalness.png</metalness_map>
-                    <roughness_map>materials/textures/R2_Roughness.png</roughness_map>
-                </metal>
-            </pbr>
-            <script>
-                <uri>materials/scripts/</uri>
-                <uri>materials/textures/</uri>
-                <name>UrbanTile/R2_Diffuse</name>
-            </script>
-        </material-->
       </visual>
       <velocity_decay/>
       <gravity>1</gravity>
@@ -703,7 +655,6 @@
         </inertia>
       </inertial>
       <collision name="right_rear_wheel_link_collision">
-        <!--pose>0 0 -0.039 0 -0 0</pose-->
         <pose>0 0 0 0 -0 0</pose>
         <geometry>
           <cylinder>
@@ -714,10 +665,10 @@
         <surface>
           <friction>
             <ode>
-              <mu>1</mu>
+              <mu>0.5</mu>
               <mu2>1</mu2>
               <fdir1>0 0 1</fdir1>
-              <slip1>0.001</slip1>
+              <slip1>0.00001</slip1>
               <slip2>0</slip2>
               <max_vel>10</max_vel>
               <min_depth>0.1</min_depth>
@@ -744,22 +695,6 @@
             <diffuse>0 0 0 1</diffuse>
             <specular>0 0 0 0</specular>
         </material>
-        <!--material>
-            <diffuse>1.0 1.0 1.0</diffuse>
-            <specular>1.0 1.0 1.0</specular>
-            <pbr>
-                <metal>
-                    <albedo_map>materials/textures/R2_Albedo.png</albedo_map>
-                    <metalness_map>materials/textures/R2_Metalness.png</metalness_map>
-                    <roughness_map>materials/textures/R2_Roughness.png</roughness_map>
-                </metal>
-            </pbr>
-            <script>
-                <uri>materials/scripts/</uri>
-                <uri>materials/textures/</uri>
-                <name>UrbanTile/R2_Diffuse</name>
-            </script>
-        </material-->
       </visual>
       <velocity_decay/>
       <gravity>1</gravity>
@@ -798,7 +733,6 @@
         </inertia>
       </inertial>
       <collision name="left_front_wheel_link_collision">
-        <!--pose>0 0 -0.039 0 -0 0</pose-->
         <pose>0 0 0 0 -0 0</pose>
         <geometry>
           <cylinder>
@@ -809,10 +743,10 @@
         <surface>
           <friction>
             <ode>
-              <mu>1</mu>
+              <mu>0.5</mu>
               <mu2>1</mu2>
               <fdir1>0 0 1</fdir1>
-              <slip1>0.001</slip1>
+              <slip1>0.00001</slip1>
               <slip2>0</slip2>
               <max_vel>10</max_vel>
               <min_depth>0.1</min_depth>
@@ -839,22 +773,6 @@
             <diffuse>0 0 0 1</diffuse>
             <specular>0 0 0 0</specular>
         </material>
-        <!--material>
-            <diffuse>1.0 1.0 1.0</diffuse>
-            <specular>1.0 1.0 1.0</specular>
-            <pbr>
-                <metal>
-                    <albedo_map>materials/textures/R2_Albedo.png</albedo_map>
-                    <metalness_map>materials/textures/R2_Metalness.png</metalness_map>
-                    <roughness_map>materials/textures/R2_Roughness.png</roughness_map>
-                </metal>
-            </pbr>
-            <script>
-                <uri>materials/scripts/</uri>
-                <uri>materials/textures/</uri>
-                <name>UrbanTile/R2_Diffuse</name>
-            </script>
-        </material-->
       </visual>
       <velocity_decay/>
       <gravity>1</gravity>
@@ -893,7 +811,6 @@
         </inertia>
       </inertial>
       <collision name="right_front_wheel_link_collision">
-        <!--pose>0 0 -0.039 0 -0 0</pose-->
         <pose>0 0 0 0 -0 0</pose>
         <geometry>
           <cylinder>
@@ -904,10 +821,10 @@
         <surface>
           <friction>
             <ode>
-              <mu>1</mu>
+              <mu>0.5</mu>
               <mu2>1</mu2>
               <fdir1>0 0 1</fdir1>
-              <slip1>0.001</slip1>
+              <slip1>0.00001</slip1>
               <slip2>0</slip2>
               <max_vel>10</max_vel>
               <min_depth>0.1</min_depth>
@@ -934,22 +851,6 @@
             <diffuse>0 0 0 1</diffuse>
             <specular>0 0 0 0</specular>
         </material>
-        <!--material>
-            <diffuse>1.0 1.0 1.0</diffuse>
-            <specular>1.0 1.0 1.0</specular>
-            <pbr>
-                <metal>
-                    <albedo_map>materials/textures/R2_Albedo.png</albedo_map>
-                    <metalness_map>materials/textures/R2_Metalness.png</metalness_map>
-                    <roughness_map>materials/textures/R2_Roughness.png</roughness_map>
-                </metal>
-            </pbr>
-            <script>
-                <uri>materials/scripts/</uri>
-                <uri>materials/textures/</uri>
-                <name>UrbanTile/R2_Diffuse</name>
-            </script>
-        </material-->
       </visual>
       <velocity_decay/>
       <gravity>1</gravity>
@@ -976,5 +877,3 @@
     <static>0</static>
   </model>
 </sdf>
-
-
