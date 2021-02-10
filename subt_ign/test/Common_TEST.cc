@@ -17,6 +17,9 @@
 
 #include <gtest/gtest.h>
 
+#include <ignition/common/Filesystem.hh>
+
+#include <subt_ign/Config.hh>
 #include <subt_ign/Common.hh>
 #include <subt_ign/CommonTypes.hh>
 
@@ -26,7 +29,7 @@ TEST(subt_ign_Common, ArtifactTypes){
   //
   // It is expected that these tests will fail when artifacts
   // are added or removed, and should be adjusted as such.
-  auto num_artifacts = static_cast<uint32_t>(subt::ArtifactType::Count); 
+  auto num_artifacts = static_cast<uint32_t>(subt::ArtifactType::Count);
   ASSERT_EQ(14u, num_artifacts);
   ASSERT_EQ(num_artifacts, subt::kArtifactNames.size());
   ASSERT_EQ(num_artifacts, subt::kArtifactTypes.size());
@@ -138,27 +141,29 @@ TEST(subt_ign_Common, StringFromArtifact) {
 /////////////////////////////////////////////////
 TEST(subt_ign_Common, FullWorldPath) {
   std::vector<std::pair<std::string, std::string>> expected = {
-    {"simple_cave_01", "/simple_cave_01"},
-    {"cave_qual", "/cave_qual"},
-    {"cave_circuit_practice_01", "/cave_circuit_practice_01"},
-    {"cave_circuit_01", "/cave_circuit/01/cave_circuit_01"},
+    {"simple_cave_01", "simple_cave_01"},
+    {"cave_qual", "cave_qual"},
+    {"cave_circuit_practice_01", "cave_circuit_practice_01"},
+    {"cave_circuit_01", "cave_circuit/01/cave_circuit_01"},
 
-    {"simple_tunnel_02", "/simple_tunnel_02"},
-    {"tunnel_circuit_practice_02", "/tunnel_circuit_practice_02"},
-    {"tunnel_qual_ign", "/tunnel_qual_ign"},
-    {"tunnel_circuit_02", "/tunnel_circuit/02/tunnel_circuit_02"},
+    {"simple_tunnel_02", "simple_tunnel_02"},
+    {"tunnel_circuit_practice_02", "tunnel_circuit_practice_02"},
+    {"tunnel_qual_ign", "tunnel_qual_ign"},
+    {"tunnel_circuit_02", "tunnel_circuit/02/tunnel_circuit_02"},
 
-    {"simple_urban_03", "/simple_urban_03"},
-    {"urban_circuit_practice_03", "/urban_circuit_practice_03"},
-    {"urban_qual", "/urban_qual"},
-    {"urban_circuit_03", "/urban_circuit/03/urban_circuit_03"},
+    {"simple_urban_03", "simple_urban_03"},
+    {"urban_circuit_practice_03", "urban_circuit_practice_03"},
+    {"urban_qual", "urban_qual"},
+    {"urban_circuit_03", "urban_circuit/03/urban_circuit_03"},
   };
 
   for (const auto &[input, expected_out] : expected)
   {
     std::string worldPath;
     EXPECT_TRUE(subt::FullWorldPath(input, worldPath));
-    EXPECT_EQ(expected_out, worldPath);
+    EXPECT_EQ(
+        ignition::common::joinPaths(SUBT_INSTALL_WORLD_DIR, expected_out), 
+        worldPath);
   }
 
   {
