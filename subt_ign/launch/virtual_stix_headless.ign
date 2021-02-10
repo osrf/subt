@@ -305,10 +305,20 @@
     "      <publish_sensor_pose>true</publish_sensor_pose>\n"\
     "      <publish_collision_pose>false</publish_collision_pose>\n"\
     "      <publish_visual_pose>false</publish_visual_pose>\n"\
-    "      <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>\n"\
+    "      <publish_nested_model_pose>false</publish_nested_model_pose>\n"\
     "      <use_pose_vector_msg>true</use_pose_vector_msg>\n"\
     "      <static_publisher>true</static_publisher>\n"\
     "      <static_update_frequency>1</static_update_frequency>\n"\
+    "    </plugin>\n"\
+    "    <plugin filename=\"libignition-gazebo-pose-publisher-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::PosePublisher\">\n"\
+    "      <publish_link_pose>false</publish_link_pose>\n"\
+    "      <publish_sensor_pose>false</publish_sensor_pose>\n"\
+    "      <publish_collision_pose>false</publish_collision_pose>\n"\
+    "      <publish_visual_pose>false</publish_visual_pose>\n"\
+    "      <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>\n"\
+    "      <use_pose_vector_msg>true</use_pose_vector_msg>\n"\
+    "      <static_publisher>false</static_publisher>\n"\
     "    </plugin>\n"\
     "    <!-- Battery plugin -->\n"\
     "    <plugin filename=\"libignition-gazebo-linearbatteryplugin-system.so\"\n"\
@@ -378,10 +388,20 @@
     "      <publish_sensor_pose>true</publish_sensor_pose>\n"\
     "      <publish_collision_pose>false</publish_collision_pose>\n"\
     "      <publish_visual_pose>false</publish_visual_pose>\n"\
-    "      <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>\n"\
+    "      <publish_nested_model_pose>false</publish_nested_model_pose>\n"\
     "      <use_pose_vector_msg>true</use_pose_vector_msg>\n"\
     "      <static_publisher>true</static_publisher>\n"\
     "      <static_update_frequency>1</static_update_frequency>\n"\
+    "    </plugin>\n"\
+    "    <plugin filename=\"libignition-gazebo-pose-publisher-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::PosePublisher\">\n"\
+    "      <publish_link_pose>false</publish_link_pose>\n"\
+    "      <publish_sensor_pose>false</publish_sensor_pose>\n"\
+    "      <publish_collision_pose>false</publish_collision_pose>\n"\
+    "      <publish_visual_pose>false</publish_visual_pose>\n"\
+    "      <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>\n"\
+    "      <use_pose_vector_msg>true</use_pose_vector_msg>\n"\
+    "      <static_publisher>false</static_publisher>\n"\
     "    </plugin>\n"\
     "    <!-- Battery plugin -->\n"\
     "    <plugin filename=\"libignition-gazebo-linearbatteryplugin-system.so\"\n"\
@@ -437,10 +457,20 @@
     "      <publish_sensor_pose>true</publish_sensor_pose>\n"\
     "      <publish_collision_pose>false</publish_collision_pose>\n"\
     "      <publish_visual_pose>false</publish_visual_pose>\n"\
-    "      <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>\n"\
+    "      <publish_nested_model_pose>false</publish_nested_model_pose>\n"\
     "      <use_pose_vector_msg>true</use_pose_vector_msg>\n"\
     "      <static_publisher>true</static_publisher>\n"\
     "      <static_update_frequency>1</static_update_frequency>\n"\
+    "    </plugin>\n"\
+    "    <plugin filename=\"libignition-gazebo-pose-publisher-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::PosePublisher\">\n"\
+    "      <publish_link_pose>false</publish_link_pose>\n"\
+    "      <publish_sensor_pose>false</publish_sensor_pose>\n"\
+    "      <publish_collision_pose>false</publish_collision_pose>\n"\
+    "      <publish_visual_pose>false</publish_visual_pose>\n"\
+    "      <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>\n"\
+    "      <use_pose_vector_msg>true</use_pose_vector_msg>\n"\
+    "      <static_publisher>false</static_publisher>\n"\
     "    </plugin>\n"\
     "    <plugin filename=\"libignition-gazebo-multicopter-motor-model-system.so\"\n"\
     "      name=\"ignition::gazebo::systems::MulticopterMotorModel\">\n"\
@@ -626,10 +656,20 @@
     "      <publish_sensor_pose>true</publish_sensor_pose>\n"\
     "      <publish_collision_pose>false</publish_collision_pose>\n"\
     "      <publish_visual_pose>false</publish_visual_pose>\n"\
-    "      <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>\n"\
+    "      <publish_nested_model_pose>false</publish_nested_model_pose>\n"\
     "      <use_pose_vector_msg>true</use_pose_vector_msg>\n"\
     "      <static_publisher>true</static_publisher>\n"\
     "      <static_update_frequency>1</static_update_frequency>\n"\
+    "    </plugin>\n"\
+    "    <plugin filename=\"libignition-gazebo-pose-publisher-system.so\"\n"\
+    "      name=\"ignition::gazebo::systems::PosePublisher\">\n"\
+    "      <publish_link_pose>false</publish_link_pose>\n"\
+    "      <publish_sensor_pose>false</publish_sensor_pose>\n"\
+    "      <publish_collision_pose>false</publish_collision_pose>\n"\
+    "      <publish_visual_pose>false</publish_visual_pose>\n"\
+    "      <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>\n"\
+    "      <use_pose_vector_msg>true</use_pose_vector_msg>\n"\
+    "      <static_publisher>false</static_publisher>\n"\
     "    </plugin>\n"\
     "    <plugin filename=\"libignition-gazebo-multicopter-motor-model-system.so\"\n"\
     "      name=\"ignition::gazebo::systems::MulticopterMotorModel\">\n"\

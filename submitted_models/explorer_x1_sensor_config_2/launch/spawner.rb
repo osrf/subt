@@ -1,4 +1,9 @@
+# Library of functions for robots
+require `rospack find subt_ign`.chomp + "/launch/robot_common_defs.rb"
+
 def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
+  config = File.dirname(File.dirname(__FILE__)).upcase
+  robot = Robot.new(_name, config)
   <<-HEREDOC
   <spawn name='#{_name}'>
     <name>#{_name}</name>
@@ -25,18 +30,10 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <min_acceleration>-3</min_acceleration>
         <max_acceleration>3</max_acceleration>
       </plugin>
-      <!-- Publish robot state information -->
-      <plugin filename="libignition-gazebo-pose-publisher-system.so"
-        name="ignition::gazebo::systems::PosePublisher">
-        <publish_link_pose>true</publish_link_pose>
-        <publish_sensor_pose>true</publish_sensor_pose>
-        <publish_collision_pose>false</publish_collision_pose>
-        <publish_visual_pose>false</publish_visual_pose>
-        <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>
-        <use_pose_vector_msg>true</use_pose_vector_msg>
-        <static_publisher>true</static_publisher>
-        <static_update_frequency>1</static_update_frequency>
-      </plugin>
+
+      <!-- Plugins common to all robots -->
+      #{robot.commonPlugins($enableGroundTruth)}
+
       <!-- Battery plugin -->
       <plugin filename="libignition-gazebo-linearbatteryplugin-system.so"
         name="ignition::gazebo::systems::LinearBatteryPlugin">
@@ -51,30 +48,10 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <power_load>6.6</power_load>
         <start_on_motion>true</start_on_motion>
       </plugin>
-      <!-- Gas Sensor plugin -->"
-      <plugin filename="libGasEmitterDetectorPlugin.so"
-        name="subt::GasDetector">
-        <topic>/model/#{_name}/gas_detected</topic>
-        <update_rate>10</update_rate>
-        <type>gas</type>
-      </plugin>
-      <plugin filename="libignition-gazebo-breadcrumbs-system.so"
-        name="ignition::gazebo::systems::Breadcrumbs">
-        <topic>/model/#{_name}/breadcrumb/deploy</topic>
-        <max_deployments>12</max_deployments>"
-        <disable_physics_time>3.0</disable_physics_time>
-        <topic_statistics>true</topic_statistics>
-        <breadcrumb>"
-          <sdf version="1.6">
-            <model name="#{_name}__breadcrumb__">
-              <pose>-0.45 0 0 0 0 0</pose>
-              <include>
-                <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Breadcrumb Node</uri>
-              </include>
-            </model>
-          </sdf>
-        </breadcrumb>
-      </plugin>
+
+      <!-- Breadcrumbs -->
+      #{robot.breadcrumbsPlugins(12, '-0.45 0 0 0 0 0')}
+
       <!-- Wheel slip -->
       <plugin filename="libignition-gazebo-wheel-slip-system.so"
         name="ignition::gazebo::systems::WheelSlip">
