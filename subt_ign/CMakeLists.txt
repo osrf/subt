@@ -167,20 +167,14 @@ target_link_libraries(dot_generator SubtCommon)
 add_executable(level_generator src/apps/level_generator.cc)
 target_link_libraries(level_generator SubtCommon)
 
-add_executable(world_generator_cave src/apps/world_generator_cave.cc)
-target_link_libraries(world_generator_cave SubtCommon)
+add_executable(cave_generator src/apps/cave_generator.cc src/apps/world_generator_base.cc src/apps/world_generator_utils.cc)
+target_link_libraries(cave_generator SubtCommon)
 
-install(
-  TARGETS
-    validate_connections
-    path_tracer
-    validate_visibility_table
-    log_checker
-    dot_generator
-    level_generator
-    world_generator_cave
-  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
+add_executable(urban_generator src/apps/urban_generator.cc src/apps/world_generator_base.cc src/apps/world_generator_utils.cc)
+target_link_libraries(urban_generator SubtCommon)
+
+add_executable(tunnel_generator src/apps/tunnel_generator.cc src/apps/world_generator_base.cc src/apps/world_generator_utils.cc)
+target_link_libraries(tunnel_generator SubtCommon)
 
 ###########
 ## Tests ##
@@ -215,6 +209,20 @@ endif()
 #############
 ## Install ##
 #############
+
+install(
+  TARGETS
+    validate_connections
+    path_tracer
+    validate_visibility_table
+    log_checker
+    dot_generator
+    level_generator
+    cave_generator
+    tunnel_generator
+    urban_generator
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
 
 # Unzip the cave_circuit_practice_02.dat.zip file
 add_custom_target(unzip_dat ALL)
