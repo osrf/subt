@@ -12,6 +12,8 @@
 
 #include <sdf/JointAxis.hh>
 
+#include "ecm_helper.hh"
+
 using namespace ignition;
 using namespace gazebo;
 using namespace systems;
@@ -89,8 +91,7 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
       return;
     }
 
-    const auto jointAxisComponent = _ecm.Component<components::JointAxis>(this->joint);
-    const auto jointAxis = jointAxisComponent->Data();
+    const auto jointAxis = _ecm.Component<components::JointAxis>(this->joint)->Data();
 
     const auto defaultAngularVelocity = jointAxis.MaxVelocity() > 0 ? jointAxis.MaxVelocity() : this->maxAngularVelocity;
     this->maxAngularVelocity = _sdf->Get<double>("max_velocity", defaultAngularVelocity).first;
@@ -135,6 +136,9 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
       topicPosRel = _sdf->Get<std::string>("topic_pos_rel");
     this->node.Subscribe(topicPosRel, &FlipperControlPlugin::OnCmdPosRel, this);
 
+    // cached command for flipper joint velocity; the joint has 1 axis, so this vector needs to hold 1 item
+    this->velocityCommand.push_back(0.0);
+
     ignmsg << "FlipperControlPlugin subscribing to cmd_vel messages on [" << topicVel << "] and cmd_pos messages on ["
            << topicPosAbs << "] and cmd_pos_rel messages on [" << topicPosRel << "]. Maximum joint velocity is "
            << this->maxAngularVelocity << " rad/s, maximum joint torque is " << this->maxTorque << " Nm." << std::endl;
@@ -151,12 +155,7 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
       return;
     }
 
-    auto pos = _ecm.Component<components::JointPosition>(this->joint);
-    if (!pos)
-    {
-      _ecm.CreateComponent(this->joint, components::JointPosition());
-      pos = _ecm.Component<components::JointPosition>(this->joint);
-    }
+    const auto& angle = ComponentDefault<components::JointPosition>(_ecm, this->joint)->Data()[0];
 
     if (this->cmdVel.has_value())
     {
@@ -164,7 +163,7 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
       this->staticAngle.reset();
       if (this->angularSpeed != 0.0 && velocity == 0.0)
       {
-        this->staticAngle = pos->Data()[0];
+        this->staticAngle = angle;
       }
       this->angularSpeed = velocity;
       this->cmdVel.reset();
@@ -173,7 +172,7 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
       this->staticAngle = position;
       this->cmdPosAbs.reset();
     } else if (this->cmdPosRel.has_value()) {
-      const auto position = pos->Data()[0] + this->cmdPosRel.value();
+      const auto position = angle + this->cmdPosRel.value();
       this->staticAngle = position;
       this->cmdPosRel.reset();
     }
@@ -183,20 +182,12 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
       this->cmdTorque.reset();
     }
 
-    auto velocityCommand = this->angularSpeed;
+    this->velocityCommand[0] = this->angularSpeed;
     if (this->staticAngle.has_value())
-      velocityCommand = this->correctStaticAnglePosition(this->joint, this->staticAngle.value(), _ecm);
-    velocityCommand = math::clamp(velocityCommand, -this->maxAngularVelocity, this->maxAngularVelocity);
+      this->velocityCommand[0] = this->correctStaticAnglePosition(this->joint, this->staticAngle.value(), _ecm);
+    this->velocityCommand[0] = math::clamp(this->velocityCommand[0], -this->maxAngularVelocity, this->maxAngularVelocity);
 
-    auto vel = _ecm.Component<components::JointVelocityCmd>(this->joint);
-    if (!vel)
-    {
-      _ecm.CreateComponent(this->joint, components::JointVelocityCmd({velocityCommand}));
-    }
-    else
-    {
-      *vel = components::JointVelocityCmd({velocityCommand});
-    }
+    _ecm.SetComponentData<components::JointVelocityCmd>(this->joint, this->velocityCommand);
   }
 
   // To mitigate integrating small velocity errors, if the flipper is said to be stationary, we check that its position
@@ -252,17 +243,8 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
 
     if (this->joint != kNullEntity)
     {
-      auto pos = _ecm.Component<components::JointPosition>(this->joint);
-      if (pos)
-      {
-        *pos = components::JointPosition({0.0});
-      }
-
-      auto vel = _ecm.Component<components::JointVelocityCmd>(this->joint);
-      if (vel)
-      {
-        *vel = components::JointVelocityCmd({0.0});
-      }
+      _ecm.SetComponentData<components::JointPosition>(this->joint, {0.0});
+      _ecm.SetComponentData<components::JointVelocityCmd>(this->joint, {0.0});
     }
 
     this->UpdateMaxTorque(this->maxTorque, _ecm);
@@ -282,6 +264,7 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
   protected: double positionCorrectionGain{20.0};
   protected: math::Angle positionCorrectionTolerance{math::Angle::Pi / 180.0};  // 1 degree
   protected: double maxAngularVelocity{0.5};
+  protected: std::vector<double> velocityCommand;
 };
 
 }
