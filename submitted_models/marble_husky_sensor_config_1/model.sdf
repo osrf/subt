@@ -408,8 +408,6 @@
         <lidar>
           <scan>
             <horizontal>
-              <!-- Resolution can't be above 16k, see
-              https://bitbucket.org/ignitionrobotics/ign-sensors/issues/8 -->
               <samples>1024</samples>
               <resolution>1</resolution>
               <min_angle>-3.1459</min_angle>
@@ -539,9 +537,9 @@
           </contact>
           <friction>
             <ode>
-              <mu>1</mu>
+              <mu>0.5</mu>
               <mu2>1</mu2>
-              <slip1>0.035</slip1>
+              <slip1>0.00062</slip1>
               <slip2>0</slip2>
               <fdir1>0 0 1</fdir1>
             </ode>
@@ -607,9 +605,9 @@
           </contact>
           <friction>
             <ode>
-              <mu>1</mu>
+              <mu>0.5</mu>
               <mu2>1</mu2>
-              <slip1>0.035</slip1>
+              <slip1>0.00062</slip1>
               <slip2>0</slip2>
               <fdir1>0 0 1</fdir1>
             </ode>
@@ -675,9 +673,9 @@
           </contact>
           <friction>
             <ode>
-              <mu>1</mu>
+              <mu>0.5</mu>
               <mu2>1</mu2>
-              <slip1>0.035</slip1>
+              <slip1>0.00062</slip1>
               <slip2>0</slip2>
               <fdir1>0 0 1</fdir1>
             </ode>
@@ -743,9 +741,9 @@
           </contact>
           <friction>
             <ode>
-              <mu>1</mu>
+              <mu>0.5</mu>
               <mu2>1</mu2>
-              <slip1>0.035</slip1>
+              <slip1>0.00062</slip1>
               <slip2>0</slip2>
               <fdir1>0 0 1</fdir1>
             </ode>
