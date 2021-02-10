@@ -62,7 +62,7 @@ void BaseStationPlugin::OnArtifact(const std::string &_srcAddress,
   subt::msgs::Artifact artifact;
   if (!artifact.ParseFromString(_data))
   {
-    ignerr << "Error parsing artifact" << std::endl;
+    ignerr << "Error parsing artifact with data[" << _data << "]" << std::endl;
     return;
   }
 

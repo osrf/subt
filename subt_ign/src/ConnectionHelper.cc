@@ -23,6 +23,29 @@
 std::map<std::string, std::vector<ignition::math::Vector3d>>
   subt::ConnectionHelper::connectionPoints =
   {
+    {"Constrained Tunnel Tile Short", {{0, -10, 0}, {0, 10, 0}}},
+    {"Constrained Tunnel Tile Tall", {{0, -10, 0}, {0, 10, 0}}},
+    {"Tunnel Bend Right", {{0, 0, 0}, {17.5, 25, 0}}},
+    {"Tunnel Corner Left", {{0, 0, 0}, {-10, 10, 0}}},
+    {"Tunnel Corner Right", {{0, 0, 0}, {10, 10, 0}}},
+    {"Tunnel Elevation", {{0, 0, 0}, {0, 10, 5}}},
+    {"Tunnel Intersection", {{0, 0, 0}, {7.5, 7.5, 0}, {-7.5, 7.5, 0}, {0, 15, 0}}},
+    {"Tunnel Intersection T", {{0, 0, 0}, {7.5, 7.5, 0}, {-7.5, 7.5, 0}}},
+    {"Tunnel Straight", {{0, 0, 0}, {0, 5, 0}}},
+    {"subt_tunnel_staging_area", {{10, 0, 0}}},
+    {"Tunnel Tile 1", {{0.0, 10.0, 0.0}, {10.0, 0.0, 0.0}, {0.0, -10.0, 0.0}, {-10.0, 0.0, 0.0}}},
+    {"Tunnel Tile 2", {{10, 0, 0}, {0, -10, 0}}},
+    {"Tunnel Tile 3", {{0.0, 10.0, 0.0}, {10.0, 0.0, 0.0}, {0.0, -10.0, 0.0}, {-10.0, 0.0, 0.0}}},
+    {"Tunnel Tile 4", {{0.0, 10.0, 0.0}, {10.0, 0.0, 0.0}, {0.0, -10.0, 0.0}, {-10.0, 0.0, 0.0}}},
+    {"Tunnel Tile 5", {{0, -10, 0}, {0, 10, 0}}},
+    {"Tunnel Tile 6", {{0, -10, 0}, {0, 10, 5}}},
+    {"Tunnel Tile 7", {{0, -10, 0}, {0, 10, 5}}},
+    {"Rough Tunnel Tile 90-degree Turn", {{0, -10, 0}, {10, 0, 0}}},
+    {"Rough Tunnel Tile Ramp", {{0, -10, 0}, {0, 10, 5}}},
+    {"Rough Tunnel Tile Straight", {{0, -10, 0}, {0, 10, 0}}},
+    {"Rough Tunnel Tile Vertical Shaft", {{0, -10, 0}, {0, 10, 5}}},
+    {"Rough Tunnel Tile 4-way Intersection", {{0, -10, 0}, {0, 10, 0}, {10, 0, 0}, {-10, 0, 0}}},
+
     {"Urban Straight", {{0, 20, 0}, {0, -20, 0}}},
     {"Urban Straight Lights", {{0, 20, 0}, {0, -20, 0}}},
     {"Urban Bend Right", {{0, -20, 0}, {20, 0, 0}}},
@@ -137,7 +160,19 @@ std::map<std::string, std::vector<ignition::math::Vector3d>>
     {"Cave U Turn Elevation Lights Type A", {{-50.0, -25.0, 0.0}, {0.0, -25.0, 25.0}}},
     {"Cave Vertical Shaft Straight Bottom Lights Type A", {{0.0, 0.0, 10.0}, {0.0, 25.0, 0.0}, {0.0, -25.0, 0.0}}},
     {"Cave Transition Type A to and from Type B", {{0.0, 25.0, 0.0}, {0.0, -25.0, 0.0}}},
-    {"Cave Transition Type A to and from Type B Lights", {{0.0, 25.0, 0.0}, {0.0, -25.0, 0.0}}}
+    {"Cave Transition Type A to and from Type B Lights", {{0.0, 25.0, 0.0}, {0.0, -25.0, 0.0}}},
+
+    {"Jenolan Section 01", {{401.144, 13.2017, 63.5658}}},
+    {"Jenolan Section 02", {{401.144, 13.2017, 63.5658}, {231.676, 5.12208, 83.5523}}},
+    {"Jenolan Section 03", {{231.676, 5.12208, 83.5523}, {193.48, 39.2667, 62.0974}, {173.354, 3.1715, 83.8528}, {175.939, 15.8454, 74.7845}}},
+    {"Jenolan Section 04", {{193.48, 39.2667, 62.0974}, {173.354, 3.1715, 83.8528}, {175.939, 15.8454, 74.7845}, {108.945, -.808552, 117.401}, {102.694, -4.59171, 47.6574}}},
+    {"Jenolan Section 05", {{43.2806, -4.87545, 130.876}, {108.945, -.808552, 117.401}, {102.694, -4.59171, 47.6574}, {0, 0, 12.5}}},
+    {"Jenolan Section 06", {{95.93, 26.3732, 146.106}, {90.7982, -7.84003, 167.789}, {-16.465, 17.3448, 159.529}, {43.2806, -4.87545, 130.876}}},
+    {"Jenolan Section 07", {{95.93, 26.3732, 146.106}, {90.7982, -7.84003, 167.789}}},
+    {"Jenolan Section 08", {{-82.6196, 39.5982, 140.961}, {-76.3975, 30.5907, 134.982}, {-71.9846, 10.5912, 139.379}, {-16.465, 17.3448, 159.529}}},
+    {"Jenolan Section 09", {{-194.72, -9.770950, 132.04}, {-82.6196, 39.5982, 140.961}, {-76.3975, 30.5907, 134.982}, {-71.9846, 10.5912, 139.379}}},
+    {"Jenolan Section 10", {{-264.458, 25.7639, 43.2923}, {-241.489, -6.8719, 112.301}, {-194.72, -9.770950, 132.04}}},
+    {"Jenolan Section 11", {{-264.458, 25.7639, 43.2923}, {-241.489, -6.8719, 112.301}}}
   };
 
 std::map<std::string, subt::ConnectionHelper::ConnectionType>
@@ -248,7 +283,19 @@ std::map<std::string, subt::ConnectionHelper::ConnectionType>
     {"Cave U Turn Elevation Lights Type A", subt::ConnectionHelper::TURN},
     {"Cave Vertical Shaft Straight Bottom Lights Type A", subt::ConnectionHelper::TURN},
     {"Cave Transition Type A to and from Type B", subt::ConnectionHelper::STRAIGHT},
-    {"Cave Transition Type A to and from Type B Lights", subt::ConnectionHelper::STRAIGHT}
+    {"Cave Transition Type A to and from Type B Lights", subt::ConnectionHelper::STRAIGHT},
+
+    {"Jenolan Section 01", subt::ConnectionHelper::TURN},
+    {"Jenolan Section 02", subt::ConnectionHelper::TURN},
+    {"Jenolan Section 03", subt::ConnectionHelper::TURN},
+    {"Jenolan Section 04", subt::ConnectionHelper::TURN},
+    {"Jenolan Section 05", subt::ConnectionHelper::TURN},
+    {"Jenolan Section 06", subt::ConnectionHelper::TURN},
+    {"Jenolan Section 07", subt::ConnectionHelper::TURN},
+    {"Jenolan Section 08", subt::ConnectionHelper::TURN},
+    {"Jenolan Section 09", subt::ConnectionHelper::TURN},
+    {"Jenolan Section 10", subt::ConnectionHelper::TURN},
+    {"Jenolan Section 11", subt::ConnectionHelper::TURN}
   };
 
 using namespace ignition;
@@ -274,10 +321,10 @@ bool ConnectionHelper::ComputePoint(VertexData *_tile1, VertexData *_tile2,
 
   for (const auto& pt1 : ConnectionHelper::connectionPoints[_tile1->tileType])
   {
-    auto pt1tf = _tile1->model.Pose().CoordPositionAdd(pt1);
+    auto pt1tf = _tile1->model.RawPose().CoordPositionAdd(pt1);
     for (const auto& pt2 : ConnectionHelper::connectionPoints[_tile2->tileType])
     {
-      auto pt2tf = _tile2->model.Pose().CoordPositionAdd(pt2);
+      auto pt2tf = _tile2->model.RawPose().CoordPositionAdd(pt2);
       if (pt1tf.Equal(pt2tf, 1))
       {
         _pt = pt1tf;
@@ -291,14 +338,14 @@ bool ConnectionHelper::ComputePoint(VertexData *_tile1, VertexData *_tile2,
 
   for (const auto& pt1 : ConnectionHelper::connectionPoints[_tile1->tileType])
   {
-    auto pt1tf = _tile1->model.Pose().CoordPositionAdd(pt1);
+    auto pt1tf = _tile1->model.RawPose().CoordPositionAdd(pt1);
     for (const auto& pt2 :
         ConnectionHelper::connectionPoints[_tile2->tileType])
     {
-      auto pt2tf = _tile2->model.Pose().CoordPositionAdd(pt2);
+      auto pt2tf = _tile2->model.RawPose().CoordPositionAdd(pt2);
       igndbg <<
-        _tile1->tileType << " [" << _tile1->model.Pose() << "] -- " <<
-        _tile2->tileType << " [" << _tile2->model.Pose() << "]"
+        _tile1->tileType << " [" << _tile1->model.RawPose() << "] -- " <<
+        _tile2->tileType << " [" << _tile2->model.RawPose() << "]"
                          << " [" <<  pt1tf << "] [" << pt2tf << "]"
                          << std::endl;
     }
@@ -321,7 +368,7 @@ std::vector<ignition::math::Vector3d> ConnectionHelper::GetConnectionPoints(Vert
   {
     for (const auto& pt1 : ConnectionHelper::connectionPoints[_tile1->tileType])
     {
-      auto pt1tf = _tile1->model.Pose().CoordPositionAdd(pt1);
+      auto pt1tf = _tile1->model.RawPose().CoordPositionAdd(pt1);
       ret.push_back(pt1tf);
     }
   }

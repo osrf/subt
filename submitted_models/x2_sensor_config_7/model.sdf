@@ -279,14 +279,12 @@
             </visual>
             <sensor name="front_laser" type="gpu_ray">
                 <pose>0.0 0 0.27 0 -0 0</pose>
-                <update_rate>15</update_rate>
+                <update_rate>10</update_rate>
                 <lidar>
                     <scan>
                         <horizontal>
-                            <!-- Resolution can't be above 16k, see
-                            https://bitbucket.org/ignitionrobotics/ign-sensors/issues/8 -->
-                            <samples>10000</samples>
-                            <resolution>0.1</resolution>
+                            <samples>1800</samples>
+                            <resolution>1</resolution>
                             <min_angle>-3.1459</min_angle>
                             <max_angle>3.1459</max_angle>
                         </horizontal>
@@ -384,7 +382,7 @@
                         <ode>
                             <mu>1</mu>
                             <mu2>1</mu2>
-                            <slip1>0.0475</slip1>
+                            <slip1>0.0026</slip1>
                             <slip2>0</slip2>
                             <fdir1>0 0 1</fdir1>
                         </ode>
@@ -426,7 +424,7 @@
                         <ode>
                             <mu>1</mu>
                             <mu2>1</mu2>
-                            <slip1>0.0475</slip1>
+                            <slip1>0.0026</slip1>
                             <slip2>0</slip2>
                             <fdir1>0 0 1</fdir1>
                         </ode>
@@ -468,7 +466,7 @@
                         <ode>
                             <mu>1</mu>
                             <mu2>1</mu2>
-                            <slip1>0.0475</slip1>
+                            <slip1>0.0026</slip1>
                             <slip2>0</slip2>
                             <fdir1>0 0 1</fdir1>
                         </ode>
@@ -510,7 +508,7 @@
                         <ode>
                             <mu>1</mu>
                             <mu2>1</mu2>
-                            <slip1>0.0475</slip1>
+                            <slip1>0.0026</slip1>
                             <slip2>0</slip2>
                             <fdir1>0 0 1</fdir1>
                         </ode>

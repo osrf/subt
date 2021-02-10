@@ -87,6 +87,14 @@ bool CommsBrokerPlugin::Load(const tinyxml2::XMLElement *_elem)
       if (elem)
         rangeConfig.sigma = std::stod(elem->GetText());
 
+      elem = rfConfigElem->FirstChildElement("scaling_factor");
+      if (elem)
+        rangeConfig.scaling_factor = std::stod(elem->GetText());
+
+      elem = rfConfigElem->FirstChildElement("range_per_hop");
+      if (elem)
+        rangeConfig.range_per_hop = std::stod(elem->GetText());
+
       igndbg << "Loading range_config from SDF: \n" << rangeConfig << std::endl;
     }
 
@@ -324,7 +332,7 @@ void CommsBrokerPlugin::UpdateIfNewBreadcrumbs()
   if (newBreadcrumbFound)
   {
     std::set<ignition::math::Vector3d> breadcrumbPoses;
-    for (const auto& it: this->breadcrumbs)
+    for (const auto& it : this->breadcrumbs)
       breadcrumbPoses.insert(it.second.Pos());
     this->visibilityModel->PopulateVisibilityInfo(breadcrumbPoses);
     ignmsg << "New breadcrumb detected, visibility graph updated" << std::endl;
