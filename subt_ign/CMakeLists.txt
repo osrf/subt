@@ -132,6 +132,7 @@ list(APPEND SUBT_IGN_PLUGINS
   ControllerPlugin
   GameLogicPlugin
   GasEmitterDetectorPlugin
+  VisibilityPlugin
 )
 
 foreach(PLUGIN ${SUBT_IGN_PLUGINS})

@@ -32,7 +32,7 @@ awsVersion=`aws --version`
 if [[ "$awsVersion" == *"aws-cli/1"* ]]; then
   $(aws ecr get-login --no-include-email --region us-east-1)
 elif [[ "$awsVersion" == *"aws-cli/2"* ]]; then
-  eval 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 200670743174.dkr.ecr.us-east-1.amazonaws.com'
+  eval 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 138467776890.dkr.ecr.us-east-1.amazonaws.com'
 else
   echo "Unsupported aws cli version $awsVersion"
   exit
@@ -45,10 +45,10 @@ fi
 
 # Tag the docker file
 echo "Tagging image $image:$local_tag with $upstream_tag"
-docker tag $image:$local_tag 200670743174.dkr.ecr.us-east-1.amazonaws.com/subt/$team:$upstream_tag
+docker tag $image:$local_tag 138467776890.dkr.ecr.us-east-1.amazonaws.com/subt/$team:$upstream_tag
 
 # Docker push
 echo "Pushing to docker repository"
-docker push 200670743174.dkr.ecr.us-east-1.amazonaws.com/subt/$team:$upstream_tag
+docker push 138467776890.dkr.ecr.us-east-1.amazonaws.com/subt/$team:$upstream_tag
 
-echo "Docker image URL: 200670743174.dkr.ecr.us-east-1.amazonaws.com/subt/$team:$upstream_tag"
+echo "Docker image URL: 138467776890.dkr.ecr.us-east-1.amazonaws.com/subt/$team:$upstream_tag"
