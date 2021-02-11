@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>marble_hd2_sensor_config_3</name>
+  <version>0.0.1</version>
+  <description>The marble_hd2_sensor_config_3 track vehicle package
+    - Has two rgbd camera Realsense D435
+    - An RP Lidar S1
+    - OS1-64 3D Laser C
+    - IMU
+    - gas sensor
+    - A pan/tilt gimbal (Trossen Dynamixel MX-64) with a Realsense D435
+      and 100 W laser mounted on it
+    - A planar lidar (RPLidar S1)
+    - A microstrain 3DMGX5-25 IMU (AHRS)
+    - Vividia HTI-301 LWIR Camera (thermal camera)
+    - Weight: about 75 lbs
+  </description>
+  <maintainer email="dvasquez@ssci.com">Derek Vasquez</maintainer>
+  <author email="dvasquez@ssci.com">Derek Vasquez</author>
+  <author email="njohnson@ssci.com">Neil Johnson</author>
+  <author email="hescobar@ssci.com">Hector Escobar</author>
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roslaunch</build_depend>
+  <exec_depend>lms1xx</exec_depend>
+  <exec_depend>urdf</exec_depend>
+  <exec_depend>xacro</exec_depend>
+
+</package>
