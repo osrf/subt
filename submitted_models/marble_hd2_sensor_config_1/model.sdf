@@ -142,7 +142,7 @@
         <pose>0 0 -0.135 0 0 1.57</pose>
         <geometry>
           <mesh>
-            <uri>model://MARBLE_HD2_SENSOR_CONFIG_1/meshes/hd2.dae</uri>
+            <uri>meshes/hd2.dae</uri>
             <submesh>
               <name>Body</name>
               <center>false</center>
@@ -154,15 +154,15 @@
           <specular>1.0 1.0 1.0</specular>
           <pbr>
             <metal>
-              <albedo_map>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/HD2_Albedo.png</albedo_map>
-              <metalness_map>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/HD2_Metalness.png</metalness_map>
-              <roughness_map>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/HD2_Roughness.png</roughness_map>
+              <albedo_map>materials/textures/HD2_Albedo.png</albedo_map>
+              <metalness_map>materials/textures/HD2_Metalness.png</metalness_map>
+              <roughness_map>materials/textures/HD2_Roughness.png</roughness_map>
             </metal>
           </pbr>
           <!-- fallback to script if no PBR support-->
           <script>
-            <uri>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/scripts/</uri>
-            <uri>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/</uri>
+            <uri>materials/scripts/</uri>
+            <uri>materials/textures/</uri>
             <name>HD/HD2_Diffuse</name>
           </script>
         </material>
@@ -895,7 +895,7 @@
                       <pose>0 0 0 0 0 1.57</pose>
                       <geometry>
                         <mesh>
-                          <uri>model://MARBLE_HD2_SENSOR_CONFIG_1/meshes/hd2.dae</uri>
+                          <uri>meshes/hd2.dae</uri>
                           <submesh>
                             <name>CameraPivot</name>
                             <center>true</center>
@@ -907,14 +907,14 @@
                         <specular>1.0 1.0 1.0</specular>
                         <pbr>
                           <metal>
-                            <albedo_map>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/HD2_Albedo.png</albedo_map>
-                            <metalness_map>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/HD2_Metalness.png</metalness_map>
-                            <roughness_map>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/HD2_Roughness.png</roughness_map>
+                            <albedo_map>materials/textures/HD2_Albedo.png</albedo_map>
+                            <metalness_map>materials/textures/HD2_Metalness.png</metalness_map>
+                            <roughness_map>materials/textures/HD2_Roughness.png</roughness_map>
                           </metal>
                         </pbr>
                         <script>
-                          <uri>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/scripts/</uri>
-                          <uri>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/</uri>
+                          <uri>materials/scripts/</uri>
+                          <uri>materials/textures/</uri>
                           <name>HD2/HD2_Diffuse</name>
                         </script>
                       </material>
@@ -957,7 +957,7 @@
                       <pose>0.005 0.015 0.038 0 0 -1.570796</pose>
                       <geometry>
                         <mesh>
-                          <uri>model://MARBLE_HD2_SENSOR_CONFIG_1/meshes/hd2.dae</uri>
+                          <uri>meshes/hd2.dae</uri>
                           <submesh>
                             <name>CameraTilt</name>
                             <center>true</center>
@@ -969,15 +969,15 @@
                         <specular>1.0 1.0 1.0</specular>
                         <pbr>
                           <metal>
-                            <albedo_map>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/HD2_Albedo.png</albedo_map>
-                            <metalness_map>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/HD2_Metalness.png</metalness_map>
-                            <roughness_map>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/HD2_Roughness.png</roughness_map>
+                            <albedo_map>materials/textures/HD2_Albedo.png</albedo_map>
+                            <metalness_map>materials/textures/HD2_Metalness.png</metalness_map>
+                            <roughness_map>materials/textures/HD2_Roughness.png</roughness_map>
                           </metal>
                         </pbr>
                         <!-- fallback to script if no PBR support-->
                         <script>
-                          <uri>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/scripts/</uri>
-                          <uri>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/</uri>
+                          <uri>materials/scripts/</uri>
+                          <uri>materials/textures/</uri>
                           <name>HD/HD2_Diffuse</name>
                         </script>
                       </material>
