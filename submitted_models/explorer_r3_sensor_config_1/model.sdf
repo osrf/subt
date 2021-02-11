@@ -577,7 +577,7 @@
         </inertia>
       </inertial>
       <collision name="left_rear_wheel_link_collision">
-        <pose>0 0 0 0 -0 0</pose>
+        <pose>0 0 -0.0375 0 0 0</pose>
         <geometry>
            <cylinder>
             <length>0.0765</length>
@@ -655,7 +655,7 @@
         </inertia>
       </inertial>
       <collision name="right_rear_wheel_link_collision">
-        <pose>0 0 0 0 -0 0</pose>
+        <pose>0 0 -0.0375 0 0 0</pose>
         <geometry>
           <cylinder>
             <length>0.0765</length>
@@ -733,7 +733,7 @@
         </inertia>
       </inertial>
       <collision name="left_front_wheel_link_collision">
-        <pose>0 0 0 0 -0 0</pose>
+        <pose>0 0 -0.0375 0 0 0</pose>
         <geometry>
           <cylinder>
             <length>0.0765</length>
@@ -811,7 +811,7 @@
         </inertia>
       </inertial>
       <collision name="right_front_wheel_link_collision">
-        <pose>0 0 0 0 -0 0</pose>
+        <pose>0 0 -0.0375 0 0 0</pose>
         <geometry>
           <cylinder>
             <length>0.0765</length>
