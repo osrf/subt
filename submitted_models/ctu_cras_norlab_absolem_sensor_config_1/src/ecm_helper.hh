@@ -7,6 +7,7 @@ namespace cras
 {
 
 // This is a helper meant to be upstreamed to ign-gazebo
+// TODO(peci1) remove this once https://github.com/ignitionrobotics/ign-gazebo/pull/629 is merged
 template<typename ComponentTypeT>
 ComponentTypeT* ComponentDefault(
   ignition::gazebo::EntityComponentManager& _ecm,
