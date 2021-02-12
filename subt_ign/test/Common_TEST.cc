@@ -23,6 +23,8 @@
 #include <subt_ign/Common.hh>
 #include <subt_ign/CommonTypes.hh>
 
+#include <ros/package.h>
+
 /////////////////////////////////////////////////
 TEST(subt_ign_Common, ArtifactTypes){
   // Tests to make sure all of our types are consistent
@@ -157,12 +159,14 @@ TEST(subt_ign_Common, FullWorldPath) {
     {"urban_circuit_03", "urban_circuit/03/urban_circuit_03"},
   };
 
+  std::string worldsDirectory = ignition::common::joinPaths(
+    ros::package::getPath("subt_ign"), "worlds");
   for (const auto &[input, expected_out] : expected)
   {
     std::string worldPath;
     EXPECT_TRUE(subt::FullWorldPath(input, worldPath));
     EXPECT_EQ(
-        ignition::common::joinPaths(SUBT_INSTALL_WORLD_DIR, expected_out), 
+        ignition::common::joinPaths(worldsDirectory, expected_out), 
         worldPath);
   }
 

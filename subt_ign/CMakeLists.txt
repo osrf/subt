@@ -15,6 +15,7 @@ set (SUBT_VERSION_FULL
 
 find_package(catkin REQUIRED
   COMPONENTS
+    roslib
     rostest
     subt_rf_interface
     subt_communication_model
