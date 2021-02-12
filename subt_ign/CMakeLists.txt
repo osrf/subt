@@ -90,9 +90,7 @@ install(DIRECTORY ${CATKIN_DEVEL_PREFIX}/include/${PROJECT_NAME}/protobuf/
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}/protobuf
   FILES_MATCHING PATTERN "*.h")
 
-catkin_add_env_hooks(ign SHELLS bash
-  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/env-hooks)
-catkin_add_env_hooks(ign SHELLS zsh
+catkin_add_env_hooks(30.subt_ign SHELLS bash zsh
   DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/env-hooks)
 
 add_library(SubtCommon
