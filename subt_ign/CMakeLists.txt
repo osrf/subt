@@ -15,6 +15,7 @@ set (SUBT_VERSION_FULL
 
 find_package(catkin REQUIRED
   COMPONENTS
+    roslib
     rostest
     subt_rf_interface
     subt_communication_model
@@ -52,6 +53,7 @@ include_directories(
   include
   ${catkin_INCLUDE_DIRS}
   ${PROJECT_BINARY_DIR}/include
+  ${CATKIN_DEVEL_PREFIX}/include
 )
 
 catkin_package(
@@ -61,6 +63,7 @@ catkin_package(
     subt_communication_broker
   INCLUDE_DIRS
     include
+    ${CATKIN_DEVEL_PREFIX}/include
   LIBRARIES
     SubtProtobuf
   CFG_EXTRAS
@@ -88,9 +91,7 @@ install(DIRECTORY ${CATKIN_DEVEL_PREFIX}/include/${PROJECT_NAME}/protobuf/
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}/protobuf
   FILES_MATCHING PATTERN "*.h")
 
-catkin_add_env_hooks(ign SHELLS bash
-  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/env-hooks)
-catkin_add_env_hooks(ign SHELLS zsh
+catkin_add_env_hooks(30.subt_ign SHELLS bash zsh
   DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/env-hooks)
 
 add_library(SubtCommon
