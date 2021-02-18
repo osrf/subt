@@ -131,6 +131,9 @@ bool WorldGeneratorBase::IntersectionCheck(WorldSection &_section,
               double maxOverlapVolume = 1000;
               if (section.tileType == CAVE_TYPE_B)
                 maxOverlapVolume = 1800;
+              if (section.tileType == NONE)
+                maxOverlapVolume = 700;
+              // TODO for Urban circuit
               if (volume < maxOverlapVolume)
               {
                 overlapAtConnection = true;
@@ -228,13 +231,12 @@ void WorldGenerator::LoadTiles()
   for (const auto &t : subt::ConnectionHelper::connectionPoints)
   {
     // Add starting area if tunnel circuit
-    if (this->worldType == "Tunnel" && t.first.find("tunnel"))
+    if (this->worldType == "Tunnel" && t.first.find("tunnel") != std::string::npos)
+    {
       this->tileConnectionPoints[t.first] = t.second;
-
-    // Ignore all tiles not from world type
-    if (t.first.find(this->worldType) == std::string::npos)
       continue;
-    
+    }
+
     // ignore lights
     if (t.first.find("Lights") != std::string::npos)
       continue;
@@ -243,7 +245,16 @@ void WorldGenerator::LoadTiles()
     if (t.first.find("30") != std::string::npos)
       continue;
 
-    this->tileConnectionPoints[t.first] = t.second;
+    // Ignore disjointed tunnel tiles
+    if (t.first.find("Tunnel Tile 3") != std::string::npos)
+      continue;
+
+    if (t.first.find("Tunnel Tile 4") != std::string::npos)
+      continue;
+
+    // Ignore all tiles not from world type
+    if (t.first.find(this->worldType) != std::string::npos)
+      this->tileConnectionPoints[t.first] = t.second;
   }
 
   // fetch model and find the mesh file so we can load it and compute
@@ -291,6 +302,10 @@ void WorldGenerator::LoadTiles()
     {
       std::string current(*file);
       if (current.substr(current.size() - 4) == ".dae")
+      {
+        resourcePath = current;
+      }
+      else if (current.substr(current.size() - 4) == ".obj")
       {
         resourcePath = current;
       }

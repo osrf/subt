@@ -251,20 +251,18 @@ WorldSection CreateWorldSectionFromTile(const std::string &_type,
     {
       math::Vector3d pt = _rot * (-_entry + o);
       math::Quaterniond rot = math::Quaterniond::Identity;
-      if (_tileType == subt::TileType::CAVE_TYPE_B)
+      
+      if (!math::equal(pt.Y(), 0.0))
       {
-        if (!math::equal(pt.Y(), 0.0))
-        {
-          if (pt.Y() > 0.0)
-            rot = math::Quaterniond(0, 0, IGN_PI * 0.5);
-          else
-            rot = math::Quaterniond(0, 0, -IGN_PI * 0.5);
-        }
-        else if (!math::equal(pt.X(), 0.0))
-        {
-          if (pt.X() < 0.0)
-            rot = math::Quaterniond(0, 0, -IGN_PI);
-        }
+        if (pt.Y() > 0.0)
+          rot = math::Quaterniond(0, 0, IGN_PI * 0.5);
+        else
+          rot = math::Quaterniond(0, 0, -IGN_PI * 0.5);
+      }
+      else if (!math::equal(pt.X(), 0.0))
+      {
+        if (pt.X() < 0.0)
+          rot = math::Quaterniond(0, 0, -IGN_PI);
       }
 
       s.connectionPoints.push_back(std::make_pair(

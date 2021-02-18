@@ -50,8 +50,8 @@ std::vector<WorldSection> TunnelGeneratorBase::CreateWorldSections(std::map<std:
     {
       WorldSection s = std::move(
         CreateWorldSectionFromTile(t.first,
-        math::Vector3d(0, -tileSize, 0),
-        math::Quaterniond::Identity,
+        math::Vector3d(0, tileSize, 0),
+        math::Quaterniond(0, 0, IGN_PI/2),
         NONE));
       s.tileType = NONE;
       s.id = nextId++;
@@ -62,7 +62,7 @@ std::vector<WorldSection> TunnelGeneratorBase::CreateWorldSections(std::map<std:
       WorldSection s = std::move(
         CreateWorldSectionFromTile(t.first,
         math::Vector3d(0, -tileSize, 0),
-        math::Quaterniond::Identity,
+        math::Quaterniond(0, 0, -IGN_PI/2),
         NONE));
       s.tileType = NONE;
       s.id = nextId++;
@@ -76,7 +76,7 @@ std::vector<WorldSection> TunnelGeneratorBase::CreateWorldSections(std::map<std:
       WorldSection s = std::move(
         CreateWorldSectionFromTile(t.first,
         math::Vector3d(0, -tileSize, 0),
-        math::Quaterniond::Identity,
+        math::Quaterniond(0, 0, -IGN_PI/2),
         NONE));
       s.tileType = NONE;
       s.id = nextId++;
@@ -87,7 +87,7 @@ std::vector<WorldSection> TunnelGeneratorBase::CreateWorldSections(std::map<std:
       WorldSection s = std::move(
         CreateWorldSectionFromTile(t.first,
         math::Vector3d(0, 0, 0),
-        math::Quaterniond::Identity,
+        math::Quaterniond(0, 0, -IGN_PI/2),
         NONE));
       s.tileType = NONE;
       s.id = nextId++;
@@ -97,19 +97,30 @@ std::vector<WorldSection> TunnelGeneratorBase::CreateWorldSections(std::map<std:
     {
       WorldSection s = std::move(
         CreateWorldSectionFromTile(t.first,
-        math::Vector3d(0, 0, 0),
-        math::Quaterniond::Identity,
+        math::Vector3d(0, -halfTileSize * 0.5, 0),
+        math::Quaterniond(0, 0, -IGN_PI/2),
         NONE));
       s.tileType = NONE;
       s.id = nextId++;
       worldSections.push_back(s);
     }
-    else if (t.first.find("Corner") != std::string::npos)
+    else if (t.first.find("Corner Right") != std::string::npos)
     {
       WorldSection s = std::move(
         CreateWorldSectionFromTile(t.first,
         math::Vector3d(0, 0, 0),
-        math::Quaterniond::Identity,
+        math::Quaterniond(0, 0, -IGN_PI/2),
+        NONE));
+      s.tileType = NONE;
+      s.id = nextId++;
+      worldSections.push_back(s);
+    }
+    else if (t.first.find("Corner Left") != std::string::npos)
+    {
+      WorldSection s = std::move(
+        CreateWorldSectionFromTile(t.first,
+        math::Vector3d(0, 0, 0),
+        math::Quaterniond(0, 0, IGN_PI/2),
         NONE));
       s.tileType = NONE;
       s.id = nextId++;
@@ -119,8 +130,8 @@ std::vector<WorldSection> TunnelGeneratorBase::CreateWorldSections(std::map<std:
     {
       WorldSection s = std::move(
         CreateWorldSectionFromTile(t.first,
-        math::Vector3d(0, 0, 0),
-        math::Quaterniond::Identity,
+        math::Vector3d(0, 25, 0),
+        math::Quaterniond(0, 0, IGN_PI/2),
         NONE));
       s.tileType = NONE;
       s.id = nextId++;
@@ -130,24 +141,13 @@ std::vector<WorldSection> TunnelGeneratorBase::CreateWorldSections(std::map<std:
     {
       WorldSection s = std::move(
         CreateWorldSectionFromTile(t.first,
-        math::Vector3d(0, 0, 0),
+        math::Vector3d(7.5, 0, 0),
         math::Quaterniond::Identity,
         NONE));
       s.tileType = NONE;
       s.id = nextId++;
       worldSections.push_back(s);
-    }
-    else if (t.first.find("Intersection T") != std::string::npos)
-    {
-      WorldSection s = std::move(
-        CreateWorldSectionFromTile(t.first,
-        math::Vector3d(0, 0, 0),
-        math::Quaterniond::Identity,
-        NONE));
-      s.tileType = NONE;
-      s.id = nextId++;
-      worldSections.push_back(s);
-    }
+    } 
   }
   return worldSections;
 }
@@ -169,7 +169,7 @@ void TunnelGenerator::Generate()
 
   // first connection opening is at entrance pos in staging area
   ConnectionOpening op;
-  op.rot = math::Quaterniond(0, 0, -IGN_PI/2);
+  op.rot = math::Quaterniond::Identity;
   op.pos += math::Vector3d(10, 0, 0);
   op.tileType = NONE;
   openings.push_back(op);
@@ -194,7 +194,7 @@ void TunnelGenerator::Generate()
     // point before giving up. Failure to add a tile is mostly due to
     // intersection with existing tiles in the world.
     int attempt = 0;
-    int maxAttempt = 2;
+    int maxAttempt = 20;
     while (!selected && attempt++ < maxAttempt)
     {
       // Select the world section generated from the tile
@@ -354,7 +354,7 @@ void TunnelGeneratorDebug::Generate()
 
   // first connection opening is at entrance pos in staging area
   ConnectionOpening op;
-  op.rot = math::Quaterniond(0, 0, -IGN_PI/2);
+  op.rot = math::Quaterniond::Identity;
   op.pos += math::Vector3d(10, 0, 0);
   op.tileType = NONE;
   openings.push_back(op);
