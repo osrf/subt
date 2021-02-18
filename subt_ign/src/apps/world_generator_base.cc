@@ -227,10 +227,14 @@ void WorldGenerator::LoadTiles()
   // filter tiles
   for (const auto &t : subt::ConnectionHelper::connectionPoints)
   {
+    // Add starting area if tunnel circuit
+    if (this->worldType == "Tunnel" && t.first.find("tunnel"))
+      this->tileConnectionPoints[t.first] = t.second;
+
     // Ignore all tiles not from world type
     if (t.first.find(this->worldType) == std::string::npos)
       continue;
-
+    
     // ignore lights
     if (t.first.find("Lights") != std::string::npos)
       continue;
@@ -251,7 +255,7 @@ void WorldGenerator::LoadTiles()
   fuel_tools::ClientConfig config;
   auto fuelClient = std::make_unique<fuel_tools::FuelClient>(config);
 
-  std::string baseUri = "https://fuel.ignitionrobotics.org/OpenRobotics/models";
+  std::string baseUri = "https://fuel.ignitionrobotics.org/openrobotics/models";
 
   for (const auto &t : tileConnectionPoints)
   {
@@ -353,24 +357,29 @@ void WorldGeneratorDebug::LoadTiles()
   // filter tiles
   for (const auto &t : subt::ConnectionHelper::connectionPoints)
   {
-    // Ignore all other sub-domains
-    if (t.first.find(this->worldType) == std::string::npos)
-      continue;
-     
-    std::cout << "Loading: " << t.first << std::endl;
-    this->tileConnectionPoints[t.first] = t.second;
-
-    // Cave/Urban Starting area
-    if (t.first.find("Starting") != std::string::npos && t.first.find(this->worldType) != std::string::npos)
+    // Add starting area if tunnel circuit
+    if (this->worldType == "Tunnel" && t.first.find("tunnel") != std::string::npos)
     {
       std::cout << "Loading: " << t.first << std::endl;
       this->tileConnectionPoints[t.first] = t.second;
     }
-    if (t.first.find("staging") != std::string::npos && t.first.find(this->worldType) != std::string::npos)
+
+    // If Cave Type A tile add transition tile
+    if (this->tileName.find("Type A") != std::string::npos && t.first.find("Transition") != std::string::npos)
     {
       std::cout << "Loading: " << t.first << std::endl;
       this->tileConnectionPoints[t.first] = t.second;
-    }  
+    }
+
+    // If Urban Subway tile add transition tile
+    // TODO
+    // if (this->worldType == "Urban" && t.first.find(""))
+    // Ignore all tiles except needed tile name
+    if (this->tileName.find(t.first) == std::string::npos)
+      continue;
+
+    std::cout << "Loading: " << t.first << std::endl;
+    this->tileConnectionPoints[t.first] = t.second; 
   }
 
   // fetch model and find the mesh file so we can load it and compute
@@ -421,6 +430,10 @@ void WorldGeneratorDebug::LoadTiles()
       {
         resourcePath = current;
       }
+      else if (current.substr(current.size() - 4) == ".obj")
+      {
+        resourcePath = current;
+      }
     }
     if (resourcePath.empty())
     {
@@ -433,6 +446,24 @@ void WorldGeneratorDebug::LoadTiles()
     common::MeshManager *meshManager = common::MeshManager::Instance();
     const common::Mesh *mesh = meshManager->Load(resourcePath);
     math::AxisAlignedBox bbox = math::AxisAlignedBox(mesh->Min(), mesh->Max());
+
+    // special case for starting area
+    if (tileType == "Cave Starting Area Type B")
+    {
+      bbox = transformAxisAlignedBox(
+          bbox, math::Pose3d(0, 0, 0, 0, 0, IGN_PI/2));
+    }
+    // TODO VERIFY
+    if (tileType == "Urban Starting Area")
+    {
+      bbox = transformAxisAlignedBox(
+          bbox, math::Pose3d(0, 0, 0, 0, 0, IGN_PI/2));
+    }
+    if (tileType == "subt_tunnel_staging_area")
+    {
+      bbox = transformAxisAlignedBox(
+          bbox, math::Pose3d(0, 0, 0, 0, 0, IGN_PI/2));
+    }
 
     this->tileBoundingBoxes[tileType] = bbox;
   }

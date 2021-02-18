@@ -46,12 +46,23 @@ std::vector<WorldSection> TunnelGeneratorBase::CreateWorldSections(std::map<std:
   double halfTileSize = tileSize/2;
   for (const auto &t : _tileConnectionPoints)
   {
+    if (t.first.find("Constrained") != std::string::npos)
+    {
+      WorldSection s = std::move(
+        CreateWorldSectionFromTile(t.first,
+        math::Vector3d(0, -tileSize, 0),
+        math::Quaterniond::Identity,
+        NONE));
+      s.tileType = NONE;
+      s.id = nextId++;
+      worldSections.push_back(s);
+    }
     if (t.first.find("Rough") != std::string::npos)
     {
       WorldSection s = std::move(
         CreateWorldSectionFromTile(t.first,
         math::Vector3d(0, -tileSize, 0),
-        math::Quaterniond(0, 0, -IGN_PI/2),
+        math::Quaterniond::Identity,
         NONE));
       s.tileType = NONE;
       s.id = nextId++;
@@ -65,7 +76,7 @@ std::vector<WorldSection> TunnelGeneratorBase::CreateWorldSections(std::map<std:
       WorldSection s = std::move(
         CreateWorldSectionFromTile(t.first,
         math::Vector3d(0, -tileSize, 0),
-        math::Quaterniond(0, 0, -IGN_PI/2),
+        math::Quaterniond::Identity,
         NONE));
       s.tileType = NONE;
       s.id = nextId++;
@@ -75,8 +86,8 @@ std::vector<WorldSection> TunnelGeneratorBase::CreateWorldSections(std::map<std:
     {
       WorldSection s = std::move(
         CreateWorldSectionFromTile(t.first,
-        math::Vector3d(0, -tileSize, 5),
-        math::Quaterniond(0, 0, -IGN_PI/2),
+        math::Vector3d(0, 0, 0),
+        math::Quaterniond::Identity,
         NONE));
       s.tileType = NONE;
       s.id = nextId++;
@@ -86,8 +97,8 @@ std::vector<WorldSection> TunnelGeneratorBase::CreateWorldSections(std::map<std:
     {
       WorldSection s = std::move(
         CreateWorldSectionFromTile(t.first,
-        math::Vector3d(0, -halfTileSize, 0),
-        math::Quaterniond(0, 0, -IGN_PI/2),
+        math::Vector3d(0, 0, 0),
+        math::Quaterniond::Identity,
         NONE));
       s.tileType = NONE;
       s.id = nextId++;
@@ -119,8 +130,8 @@ std::vector<WorldSection> TunnelGeneratorBase::CreateWorldSections(std::map<std:
     {
       WorldSection s = std::move(
         CreateWorldSectionFromTile(t.first,
-        math::Vector3d(0, -(tileSize + halfTileSize), 0),
-        math::Quaterniond(0, 0, IGN_PI/2),
+        math::Vector3d(0, 0, 0),
+        math::Quaterniond::Identity,
         NONE));
       s.tileType = NONE;
       s.id = nextId++;
@@ -159,7 +170,7 @@ void TunnelGenerator::Generate()
   // first connection opening is at entrance pos in staging area
   ConnectionOpening op;
   op.rot = math::Quaterniond(0, 0, -IGN_PI/2);
-  op.pos += math::Vector3d(-16.021, 3.94, 0.919);
+  op.pos += math::Vector3d(10, 0, 0);
   op.tileType = NONE;
   openings.push_back(op);
   int tileCount = this->minTileCount;
@@ -289,7 +300,8 @@ void TunnelGenerator::Generate()
     math::Quaterniond rot = uf.rot;
     std::string name = "cap_" + std::to_string(capNo++);
     // TODO Verify where the cap needs to be placed
-    math::Pose3d pose = math::Pose3d(pos, math::Quaterniond(0, 0, -IGN_PI/2)*rot);
+    // Offset tile based on connection tile
+    math::Pose3d pose = math::Pose3d(pos, math::Quaterniond(0, 0, IGN_PI/2)*rot);
 
     ss << "    <include>\n";
     ss << "      <static>true</static>\n";
@@ -343,7 +355,7 @@ void TunnelGeneratorDebug::Generate()
   // first connection opening is at entrance pos in staging area
   ConnectionOpening op;
   op.rot = math::Quaterniond(0, 0, -IGN_PI/2);
-  op.pos += math::Vector3d(-16.021, 3.94, 0.919);
+  op.pos += math::Vector3d(10, 0, 0);
   op.tileType = NONE;
   openings.push_back(op);
   int tileCount = 1;
@@ -466,14 +478,46 @@ void TunnelGeneratorDebug::Generate()
       "https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/";
   std::string uri = capUri + "Tunnel Tile Blocker";
 
+  math::Pose3d pose;
+
   for (const auto & uf : unfilledOpenings)
   {
     // convert cap pose to world coordinates
     math::Vector3d pos = uf.pos;
     math::Quaterniond rot = uf.rot;
     std::string name = "cap_" + std::to_string(capNo++);
-    // TODO Adjust cap pose
-    math::Pose3d pose = math::Pose3d(pos, math::Quaterniond(0, 0, -IGN_PI/2)*rot);
+
+    // Adjust cap offset
+    if (this->tileName.find("Straight") != std::string::npos ||
+        this->tileName.find("Constrained") != std::string::npos)
+    {
+          pose = math::Pose3d(pos + rot*math::Vector3d(0, 2.5, 0),
+            math::Quaterniond(0, 0, IGN_PI/2)*rot);
+    }
+    else if (this->tileName.find("Bend Right") != std::string::npos)
+    {
+      pose = math::Pose3d(pos + rot*math::Vector3d(-2.5, 2.5, 0),
+          math::Quaterniond(0, 0, IGN_PI/2)*rot);
+    }
+    else if (this->tileName.find("Corner") != std::string::npos)
+    {
+      pose = math::Pose3d(pos + rot*math::Vector3d(0, 5, 0),
+          math::Quaterniond(0, 0, IGN_PI/2)*rot);
+    }
+    else if (this->tileName.find("Elevation") != std::string::npos)
+    {
+      pose = math::Pose3d(pos + rot*math::Vector3d(2.5, 10, 0),
+          math::Quaterniond(0, 0, IGN_PI/2)*rot);
+    }
+    else if (this->tileName.find("Rough") != std::string::npos)
+    {
+      pose = math::Pose3d(pos, math::Quaterniond(0, 0, IGN_PI/2)*rot);
+    }
+    else
+    {
+      pose = math::Pose3d(pos, math::Quaterniond(0, 0, IGN_PI/2)*rot);
+    }
+    
 
     ss << "    <include>\n";
     ss << "      <static>true</static>\n";
