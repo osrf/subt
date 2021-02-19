@@ -132,7 +132,7 @@ bool WorldGeneratorBase::IntersectionCheck(WorldSection &_section,
               if (section.tileType == CAVE_TYPE_B)
                 maxOverlapVolume = 1800;
               if (section.tileType == NONE)
-                maxOverlapVolume = 700;
+                maxOverlapVolume = 100;
               // TODO for Urban circuit
               if (volume < maxOverlapVolume)
               {

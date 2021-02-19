@@ -1214,6 +1214,8 @@ int main(int argc, char **argv)
     }
   }
 
+  srand(seed);
+  
   if(debug)
   {
     CaveGeneratorDebug cgdb;

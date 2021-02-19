@@ -43,7 +43,6 @@ std::vector<WorldSection> TunnelGeneratorBase::CreateWorldSections(std::map<std:
   static size_t nextId = 0u;
   std::vector<WorldSection> worldSections;
   double tileSize = 10;
-  double halfTileSize = tileSize/2;
   for (const auto &t : _tileConnectionPoints)
   {
     if (t.first.find("Constrained") != std::string::npos)
@@ -57,7 +56,7 @@ std::vector<WorldSection> TunnelGeneratorBase::CreateWorldSections(std::map<std:
       s.id = nextId++;
       worldSections.push_back(s);
     }
-    if (t.first.find("Rough") != std::string::npos)
+    else if (t.first.find("Rough") != std::string::npos)
     {
       WorldSection s = std::move(
         CreateWorldSectionFromTile(t.first,
@@ -97,8 +96,8 @@ std::vector<WorldSection> TunnelGeneratorBase::CreateWorldSections(std::map<std:
     {
       WorldSection s = std::move(
         CreateWorldSectionFromTile(t.first,
-        math::Vector3d(0, -halfTileSize * 0.5, 0),
-        math::Quaterniond(0, 0, -IGN_PI/2),
+        math::Vector3d(0, 5, 0),
+        math::Quaterniond(0, 0, IGN_PI/2),
         NONE));
       s.tileType = NONE;
       s.id = nextId++;
@@ -130,24 +129,36 @@ std::vector<WorldSection> TunnelGeneratorBase::CreateWorldSections(std::map<std:
     {
       WorldSection s = std::move(
         CreateWorldSectionFromTile(t.first,
-        math::Vector3d(0, 25, 0),
+        math::Vector3d(0, 0, 0),
         math::Quaterniond(0, 0, IGN_PI/2),
         NONE));
       s.tileType = NONE;
       s.id = nextId++;
       worldSections.push_back(s);
     }
-    else if (t.first.find("Intersection") != std::string::npos)
+    else if (t.first.find("Intersection T") != std::string::npos)
     {
       WorldSection s = std::move(
         CreateWorldSectionFromTile(t.first,
-        math::Vector3d(7.5, 0, 0),
-        math::Quaterniond::Identity,
+        math::Vector3d(0, 0, 0),
+        math::Quaterniond(0, 0, IGN_PI/2),
         NONE));
       s.tileType = NONE;
       s.id = nextId++;
       worldSections.push_back(s);
     } 
+    else if (t.first.find("Intersection") != std::string::npos)
+    {
+      WorldSection s = std::move(
+        CreateWorldSectionFromTile(t.first,
+        math::Vector3d(0, 15, 0),
+        math::Quaterniond(0, 0, IGN_PI/2),
+        NONE));
+      s.tileType = NONE;
+      s.id = nextId++;
+      worldSections.push_back(s);
+    }
+    
   }
   return worldSections;
 }
@@ -301,7 +312,8 @@ void TunnelGenerator::Generate()
     std::string name = "cap_" + std::to_string(capNo++);
     // TODO Verify where the cap needs to be placed
     // Offset tile based on connection tile
-    math::Pose3d pose = math::Pose3d(pos, math::Quaterniond(0, 0, IGN_PI/2)*rot);
+    math::Pose3d pose = math::Pose3d(pos + rot*math::Vector3d(2.5, 0, 0), 
+                      math::Quaterniond(0, 0, IGN_PI/2)*rot);
 
     ss << "    <include>\n";
     ss << "      <static>true</static>\n";
@@ -488,10 +500,15 @@ void TunnelGeneratorDebug::Generate()
     std::string name = "cap_" + std::to_string(capNo++);
 
     // Adjust cap offset
-    if (this->tileName.find("Straight") != std::string::npos ||
+    if (this->tileName.find("Rough") != std::string::npos)
+    {
+      pose = math::Pose3d(pos + rot*math::Vector3d(2.5, 0, 0),
+           math::Quaterniond(0, 0, IGN_PI/2)*rot);
+    }
+    else if (this->tileName.find("Straight") != std::string::npos ||
         this->tileName.find("Constrained") != std::string::npos)
     {
-          pose = math::Pose3d(pos + rot*math::Vector3d(0, 2.5, 0),
+          pose = math::Pose3d(pos + rot*math::Vector3d(2.5, 0, 0),
             math::Quaterniond(0, 0, IGN_PI/2)*rot);
     }
     else if (this->tileName.find("Bend Right") != std::string::npos)
@@ -501,23 +518,18 @@ void TunnelGeneratorDebug::Generate()
     }
     else if (this->tileName.find("Corner") != std::string::npos)
     {
-      pose = math::Pose3d(pos + rot*math::Vector3d(0, 5, 0),
+      pose = math::Pose3d(pos + rot*math::Vector3d(5, 0, 0),
           math::Quaterniond(0, 0, IGN_PI/2)*rot);
     }
     else if (this->tileName.find("Elevation") != std::string::npos)
     {
-      pose = math::Pose3d(pos + rot*math::Vector3d(2.5, 10, 0),
+      pose = math::Pose3d(pos + rot*math::Vector3d(2.5, 0, 0),
           math::Quaterniond(0, 0, IGN_PI/2)*rot);
-    }
-    else if (this->tileName.find("Rough") != std::string::npos)
-    {
-      pose = math::Pose3d(pos, math::Quaterniond(0, 0, IGN_PI/2)*rot);
     }
     else
     {
-      pose = math::Pose3d(pos, math::Quaterniond(0, 0, IGN_PI/2)*rot);
+      pose = math::Pose3d(pos + rot*math::Vector3d(2.5, 0, 0), math::Quaterniond(0, 0, IGN_PI/2)*rot);
     }
-    
 
     ss << "    <include>\n";
     ss << "      <static>true</static>\n";
@@ -643,6 +655,8 @@ int main(int argc, char **argv)
         return -1;
     }
   }
+
+  srand(seed);
 
   if(debug)
   {
