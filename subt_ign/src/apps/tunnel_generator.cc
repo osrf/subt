@@ -568,8 +568,8 @@ void TunnelGeneratorDebug::Generate()
 void printUsage()
 {
   std::string usage;
-  usage += "Usage: urban_generator [world_type] [options]\n";
-  usage += "Example Generate: tunnel_generator -g -c 60 -n tunnel_test -s 25 -o tunnel_test.sdf\n";
+  usage += "Usage: tunnel_generator [options]\n";
+  usage += "Example Generate: tunnel_generator -g -c 200 -n tunnel_test -s 11 -o tunnel_test.sdf\n";
   usage += "Example Debug: tunnel_generator -g -d \"Tunnel Straight\" -n tunnel_straight -o tunnel_straight.sdf\n";
   usage += "Options:\n";
   usage += "    -h\t\t Print this help message\n";
