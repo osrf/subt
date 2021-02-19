@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot name="nasa_perseverance_sensor_config_1" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:arg name="name" default="" />
+
+  <xacro:if value="${len('$(arg name)') == 0}">
+    <xacro:arg name="prefix" default="" />
+  </xacro:if>
+  <xacro:unless value="${len('$(arg name)') == 0}">
+    <xacro:arg name="prefix" default="$(arg name)/" />
+  </xacro:unless>
+
+  <link name="$(arg prefix)base_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://nasa_perseverance_sensor_config_1/resources/perseverance.dae" scale="1.0 1.0 1.0"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://nasa_perseverance_sensor_config_1/resources/perseverance.dae" scale="1.0 1.0 1.0"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0.8"/>
+      <mass value="1025.0"/>
+      <inertia ixx="0.0069904" ixy="0.00012271" ixz="-4.2725e-05" iyy="0.02129" iyz="-0.00010522" izz="0.025519"/>
+    </inertial>
+  </link>
+  <link name="$(arg prefix)left_wheel1">
+    <collision>
+      <origin rpy="0 1.57079632679 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.33" radius="0.27"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="10"/>
+      <inertia ixx="0.002731" ixy="0.0" ixz="0.0" iyy="0.032554" iyz="1.5e-05" izz="0.031391"/>
+    </inertial>
+  </link>
+  <joint name="left_wheel1_j" type="continuous">
+    <parent link="$(arg prefix)base_link"/>
+    <child link="$(arg prefix)left_wheel1"/>
+    <axis xyz="0 1 0"/>
+    <origin rpy="0 0 0" xyz="1.07 1.14 0.26"/>
+  </joint>
+  <link name="$(arg prefix)left_wheel2">
+    <collision>
+      <origin rpy="0 1.57079632679 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.33" radius="0.27"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="10"/>
+      <inertia ixx="0.002731" ixy="0.0" ixz="0.0" iyy="0.032554" iyz="1.5e-05" izz="0.031391"/>
+    </inertial>
+  </link>
+  <joint name="left_wheel2_j" type="continuous">
+    <parent link="$(arg prefix)base_link"/>
+    <child link="$(arg prefix)left_wheel2"/>
+    <axis xyz="0 1 0"/>
+    <origin rpy="0 0 0" xyz="1.2 -0.08 0.26"/>
+  </joint>
+  <link name="$(arg prefix)left_wheel3">
+    <collision>
+      <origin rpy="0 1.57079632679 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.33" radius="0.27"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="10"/>
+      <inertia ixx="0.002731" ixy="0.0" ixz="0.0" iyy="0.032554" iyz="1.5e-05" izz="0.031391"/>
+    </inertial>
+  </link>
+  <joint name="left_wheel3_j" type="continuous">
+    <parent link="$(arg prefix)base_link"/>
+    <child link="$(arg prefix)left_wheel3"/>
+    <axis xyz="0 1 0"/>
+    <origin rpy="0 0 0" xyz="1.07 -1.07 0.26"/>
+  </joint>
+  <link name="$(arg prefix)right_wheel1">
+    <collision>
+      <origin rpy="0 1.57079632679 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.33" radius="0.27"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="10"/>
+      <inertia ixx="0.002731" ixy="0.0" ixz="0.0" iyy="0.032554" iyz="1.5e-05" izz="0.031391"/>
+    </inertial>
+  </link>
+  <joint name="right_wheel1_j" type="continuous">
+    <parent link="$(arg prefix)base_link"/>
+    <child link="$(arg prefix)right_wheel1"/>
+    <axis xyz="0 -1 0"/>
+    <origin rpy="0 0 0" xyz="-1.07 1.14 0.26"/>
+  </joint>
+  <link name="$(arg prefix)right_wheel2">
+    <collision>
+      <origin rpy="0 1.57079632679 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.33" radius="0.27"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="10"/>
+      <inertia ixx="0.002731" ixy="0.0" ixz="0.0" iyy="0.032554" iyz="1.5e-05" izz="0.031391"/>
+    </inertial>
+  </link>
+  <joint name="right_wheel2_j" type="continuous">
+    <parent link="$(arg prefix)base_link"/>
+    <child link="$(arg prefix)right_wheel2"/>
+    <axis xyz="0 -1 0"/>
+    <origin rpy="0 0 0" xyz="-1.2 -0.08 0.26"/>
+  </joint>
+  <link name="$(arg prefix)right_wheel3">
+    <collision>
+      <origin rpy="0 1.57079632679 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.33" radius="0.27"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="10"/>
+      <inertia ixx="0.002731" ixy="0.0" ixz="0.0" iyy="0.032554" iyz="1.5e-05" izz="0.031391"/>
+    </inertial>
+  </link>
+  <joint name="right_wheel3_j" type="continuous">
+    <parent link="$(arg prefix)base_link"/>
+    <child link="$(arg prefix)right_wheel3"/>
+    <axis xyz="0 -1 0"/>
+    <origin rpy="0 0 0" xyz="-1.07 -1.07 0.26"/>
+  </joint>
+</robot>
+
