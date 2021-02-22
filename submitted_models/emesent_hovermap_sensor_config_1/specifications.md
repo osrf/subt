@@ -4,7 +4,7 @@
 This specifications.md file is a description and proof of virtual model validation for the Emesent Hovermap with Sensor Configuration 1. This robot may be launched using an `ign launch` command with the variable name `EMESENT_HOVERMAP_SENSOR_CONFIG_1`.
 
 ## Description
-
+The Emesent Hovermap is an autonomous ssystem capable of being deployed in an unknown environment. It has a standardised perception payload mounted on the bottom of the vehicle including a gimbal mounted lidar and a gimbal mounted camera system.
 
 ## Usage Instructions
 The robot accepts standard twist commands on the `cmd_vel` topic.
@@ -15,15 +15,30 @@ The gimbal for the lidar can be controlled on the following topic:
 The gimbal controlling camera pose can be controlled on the following topic where each component of the angualr velocity is used to control the roll, pitch and yaw respectively:
 * `gimbal/cmd_vel` (geometry_msgs/Twist)
 
+The vehicle can be launched with the following command:
+```
+ign launch -v 4 src/subt/submitted_models/emesent_hovermap_sensor_config_1/launch/example.ign robotName:=hm
+```
+The velocity of the robot can be controlled with following command:
+```
+rostopic pub /m100/cmd_vel geometry_msgs/Twist "linear:
+  x: -0.1
+  y: 0.1
+  z: 0.1
+angular:
+  x: 0.0
+  y: 0.0
+  z: 0.1"
+```
 
 ## Usage Rights
 This software is released under a [BSD 3-Clause license](LICENSE).
 
 ### Cost and Scale
 The Emesent Hovermap has the following estimate commercial cost components:
-* Base vehicle: $?
-* Sensor suite: $?
-* Total: ~ $?
+* Base vehicle: $12,000
+* Sensor suite: $15,000
+* Total: ~ $27,000
 
 Its weight is approximately 5.7 kg. 
 
@@ -31,9 +46,9 @@ Its weight is approximately 5.7 kg.
 This Emesent Hovermap with sensor configuration 1 includes the following sensors. The specifications for these instruments are provided below in the [Validation Links](#validation_links) section.
 
 The following specific sensors are declared payloads of this vehicle:
-* IMU - ?, modeled by `imu` plugin
+* IMU - Microstrain 3DM-CV5-25 AHRS, modeled by `imu` plugin
 * LIDAR - Velodyne VLP-16, modeled by `gpu_lidar` plugin
-* IMU - ?, modeled by `imu` plugin
+* IMU - BaseCam IMU Rev.B, modeled by `imu` plugin
 * Color Camera - FLIR Blackfly S, modeled by `camera` plugin
 
 ### Control
@@ -78,6 +93,6 @@ Based on the tests specified in the DARPA SubTChallenge [Model PreparationGuide]
 
 * Sensor Specification Links:
   * [LIDAR - Velodyne PuckLITE](https://velodynelidar.com/products/puck-lite/)
-  * [IMU - ]()
-  * [Gimbal IMU - ]()
+  * [IMU - MicroStrain 3DM-CV5-25 AHRS](https://www.microstrain.com/inertial/3dm-cv5-25)
+  * [Gimbal IMU - Basecam I2C IMU Rev.B](https://www.basecamelectronics.com/i2c_imu/)
   * [Camera - FLIR BFS-U3-88S6C-C](https://www.flir.com.au/products/blackfly-s-usb3/?model=BFS-U3-88S6C-C)
