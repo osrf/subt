@@ -31,13 +31,16 @@
 #include <subt_ign/Config.hh>
 #include <subt_ign/SimpleDOTParser.hh>
 
+#include <ros/package.h>
+
 using namespace subt;
 using namespace ignition;
 
 /////////////////////////////////////////////////
 bool ConnectionValidatorPrivate::Load(const std::string &_worldName)
 {
-  std::string worldsDirectory = SUBT_INSTALL_WORLD_DIR;
+  std::string worldsDirectory = ignition::common::joinPaths(
+		      ros::package::getPath("subt_ign"), "worlds");
 
   std::string fullPath;
   subt::FullWorldPath(_worldName, fullPath);
