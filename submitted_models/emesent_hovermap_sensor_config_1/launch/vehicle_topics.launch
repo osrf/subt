@@ -112,6 +112,13 @@
             args="/model/$(arg name)/gimbal/cmd_vel@geometry_msgs/Twist]ignition.msgs.Twist">
             <remap from="/model/$(arg name)/gimbal/cmd_vel" to="gimbal/cmd_vel"/>
         </node>
+        <node
+            pkg="ros_ign_bridge"
+            type="parameter_bridge"
+            name="ros_ign_bridge_gimbal_enable"
+            args="/model/$(arg name)/gimbal/enable@std_msgs/Bool]ignition.msgs.Boolean">
+            <remap from="/model/$(arg name)/gimbal/enable" to="gimbal/enable"/>
+        </node>
 
         <node
             pkg="ros_ign_bridge"

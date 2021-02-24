@@ -30,25 +30,37 @@ namespace hovermap
 ///
 /// # Parameters
 ///
-/// `<pan>`: Name of the link linking the pan link to its parent link
+/// `<pan>`, `<roll>`, `<tilt>`: Joint parameters header
 ///
-/// `<roll>`: Name of the link linking the roll link to its parent link
+///     `<joint>`: Name of the Joint linking to its parent link
 ///
-/// `<tilt>`: Name of the link linking the tilt link to its parent link
+///     `<limit>`: Limit on the movement of the joint (rad)
 ///
-/// `<pan_limit>`: Name of the link linking the pan link to its parent link
+///     `<p_gain>`: Proprtional parameter for joint PID controller
 ///
-/// `<roll_limit>`: Name of the link linking the roll link to its parent link
+///     `<i_gain>`: Integral parameter for joint PID controller
 ///
-/// `<tilt_limit>`: Name of the link linking the tilt link to its parent link
+///     `<d_gain>`: Derivative parameter for joint PID controller
+///
+///     `<i_max>`: The integral upper limit of the PID
+///
+///     `<i_min>`: The integral lower limit of the PID
+///
+///     `<cmd_max>`: Output max value of the PID
+///
+///     `<cmd_min>`: Output min value of the PID
 ///
 /// `<imu>`: imu topic name on the balance point of the gimbal
+///
+/// `<topic_js>`: Topic to recieve joint state parameter (Only yaw joint is required to be published for controller to work)
 ///
 /// `<topic_cmd>`: Topic to receive commands from the gimbal system
 /// This element is optional, and the default value is `/model/{name_of_model}/gimbal/cmd_vel`.
 ///
 /// `<topic_enable>`: Topic to enable and disable the gimbal system
-/// This element is optional, and the default value is `/model/{name_of_model}/velocity_controller/enable`.
+/// This element is optional, and the default value is `/model/{name_of_model}/gimbal/enable`.
+///
+
 
 class IGNGimbalControlPlugin: 
                 public System, 
@@ -109,20 +121,18 @@ class IGNGimbalControlPlugin:
         std::string imuTopic = _sdf->Get<std::string>("imu");
         this->node.Subscribe(imuTopic, &IGNGimbalControlPlugin::OnImuCB, this);
 
+        std::string topicJS = _sdf->Get<std::string>("topic_js");
+        this->node.Subscribe(topicJS, &IGNGimbalControlPlugin::OnJointCB, this);
+
         std::string topicVelCmd {"/model/" + this->model.Name(_ecm) + "/gimbal/cmd_vel"};
         if (_sdf->HasElement("topic_cmd"))
             topicVelCmd = _sdf->Get<std::string>("topic_cmd");
         this->node.Subscribe(topicVelCmd, &IGNGimbalControlPlugin::OnCmdCB, this);
         
-        std::string topicEnable {"/model/" + this->model.Name(_ecm) + "/velocity_controller/enable"};
+        std::string topicEnable {"/model/" + this->model.Name(_ecm) + "/gimbal/enable"};
         if (_sdf->HasElement("topic_enable"))
             topicEnable = _sdf->Get<std::string>("topic_enable");
         this->node.Subscribe(topicEnable, &IGNGimbalControlPlugin::EnableCB, this);
-
-        std::string topicJS {"/world/example/model/HM/joint_state"};
-        if (_sdf->HasElement("topic_js"))
-            topicJS = _sdf->Get<std::string>("topic_js");
-        this->node.Subscribe(topicJS, &IGNGimbalControlPlugin::OnJointCB, this);
 
         ignmsg  << "IGNGimbalControl subscribing to cmd_vel messages on [" << topicVelCmd << "]" << std::endl;
 

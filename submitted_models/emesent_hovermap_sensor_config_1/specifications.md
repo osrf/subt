@@ -17,11 +17,24 @@ The gimbal controlling camera pose can be controlled on the following topic wher
 
 The vehicle can be launched with the following command:
 ```
-ign launch -v 4 src/subt/submitted_models/emesent_hovermap_sensor_config_1/launch/example.ign robotName:=HM
+ign launch -v 4 competition.ign worldName:=simple_cave_01 circuit:=cave robotName1:=HM robotConfig1:=EMESENT_HOVERMAP_SENSOR_CONFIG_1 localModel:=true
 ```
+
 The velocity of the robot can be controlled with following command:
 ```
 rostopic pub /HM/cmd_vel geometry_msgs/Twist "linear:
+  x: -0.1
+  y: 0.1
+  z: 0.1
+angular:
+  x: 0.0
+  y: 0.0
+  z: 0.1"
+```
+To arm and control the gimbal use the following commands: (Only needs to be armed once)
+```
+rostopic pub /HM/gimbal/enable std_msgs/Bool true 
+rostopic pub /HM/gimbal/cmd_vel geometry_msgs/Twist "linear:
   x: -0.1
   y: 0.1
   z: 0.1

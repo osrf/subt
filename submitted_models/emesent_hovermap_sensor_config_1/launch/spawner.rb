@@ -205,6 +205,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         </tilt>
         <imu>world/#{_worldName}/model/#{_name}/link/gimbal_tilt/sensor/gimbal_imu/imu</imu>
         <topic_js>world/#{_worldName}/model/#{_name}/joint_state</topic_js>
+        <topic_enable>/model/#{_name}/gimbal/enable</topic_enable>
       </plugin>
 
       <plugin
