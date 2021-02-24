@@ -35,12 +35,12 @@ To arm and control the gimbal use the following commands: (Only needs to be arme
 ```
 rostopic pub /HM/gimbal/enable std_msgs/Bool true 
 rostopic pub /HM/gimbal/cmd_vel geometry_msgs/Twist "linear:
-  x: -0.1
-  y: 0.1
-  z: 0.1
-angular:
   x: 0.0
   y: 0.0
+  z: 0.0
+angular:
+  x: 0.0
+  y: 0.1
   z: 0.1"
 ```
 
