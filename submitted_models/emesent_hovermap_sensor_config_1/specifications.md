@@ -4,7 +4,7 @@
 This specifications.md file is a description and proof of virtual model validation for the Emesent Hovermap with Sensor Configuration 1. This robot may be launched using an `ign launch` command with the variable name `EMESENT_HOVERMAP_SENSOR_CONFIG_1`.
 
 ## Description
-The Emesent Hovermap is an autonomous ssystem capable of being deployed in an unknown environment. It has a standardised perception payload mounted on the bottom of the vehicle including a gimbal mounted lidar and a gimbal mounted camera system.
+The Emesent Hovermap is an autonomous system capable of being deployed in an unknown environment. It has a standardised perception payload mounted on the bottom of the vehicle including a gimbal mounted lidar and a gimbal mounted camera system.
 
 ## Usage Instructions
 The robot accepts standard twist commands on the `cmd_vel` topic.
@@ -17,11 +17,11 @@ The gimbal controlling camera pose can be controlled on the following topic wher
 
 The vehicle can be launched with the following command:
 ```
-ign launch -v 4 src/subt/submitted_models/emesent_hovermap_sensor_config_1/launch/example.ign robotName:=hm
+ign launch -v 4 src/subt/submitted_models/emesent_hovermap_sensor_config_1/launch/example.ign robotName:=HM
 ```
 The velocity of the robot can be controlled with following command:
 ```
-rostopic pub /m100/cmd_vel geometry_msgs/Twist "linear:
+rostopic pub /HM/cmd_vel geometry_msgs/Twist "linear:
   x: -0.1
   y: 0.1
   z: 0.1
@@ -73,13 +73,13 @@ Based on the tests specified in the DARPA SubT Challenge [Model Preparation Guid
 The constraints can be found in the following locations within the simulation model
 package ignition::gazebo::systems::MulticopterVelocityControl (file src/subt/submitted_models/emesent_hovermap_sensor_config_1/launch/spawner.rb)
 * Linear acceleration - <maximumLinearAcceleration>4 4 5</maximumLinearAcceleration>
-* Linear velocity - <maximumLinearVelocity>3 3 2.8</maximumLinearVelocity>
+* Linear velocity - <maximumLinearVelocity>5 5 2.8</maximumLinearVelocity>
 * Angular velocity - <maximumAngularVelocity>3 3 2.1</maximumAngularVelocity>
 
-We were unable to perform additional validation tests due to COVID-19 restrictions.  
+We were unable to perform additional validation tests due to access restrictions.
 
 ### Endurance Characteristics
-Based on the tests specified in the DARPA SubTChallenge [Model PreparationGuide](https://subtchallenge.comresources/Simulation_Model_Preparation_Guide.pdf), this vehicle has the following endurance characteristics. 
+Based on the tests specified in the DARPA SubTChallenge [Model Preparation Guide](https://subtchallenge.comresources/Simulation_Model_Preparation_Guide.pdf), this vehicle has the following endurance characteristics. 
 * Battery life of 1200 seconds 
 
 ### Diversions from Physical Hardware of Emesent Hovermap

@@ -77,34 +77,18 @@ class IGNGimbalControlPlugin:
             ignerr << "GimbalControlPlugin has missing or incorrect parameters <PAN> <ROLL> <TILT> <imu>" <<std::endl;
             return;
         }
+        this->_jointName[static_cast<int>(link::yaw)] = _sdf->Get<std::string>("pan");
+        this->_jointName[static_cast<int>(link::roll)] = _sdf->Get<std::string>("roll");
+        this->_jointName[static_cast<int>(link::pitch)] = _sdf->Get<std::string>("tilt");
 
-        auto sdfClone = _sdf->Clone();
+        if (_sdf->HasElement("pan_limit"))
+            this->_limit[static_cast<int>(link::yaw)] = _sdf->Get<double>("pan_limit");
 
-        sdf::ElementPtr joints[static_cast<int>(link::links)];
-
-        joints[static_cast<int>(link::yaw)] = sdfClone->GetElement("pan");
-        joints[static_cast<int>(link::roll)] = sdfClone->GetElement("roll");
-        joints[static_cast<int>(link::pitch)] = sdfClone->GetElement("tilt");
-
-        for(int i=0; i<static_cast<int>(link::links); i++)
-        {
-            this->_jointName[i] = joints[i]->Get<std::string>("joint");
-            this->_limit[i] = joints[i]->Get<double>("limit");
-
-            double p = joints[i]->Get<double>("p_gain");
-            double in = joints[i]->Get<double>("i_gain");
-            double d = joints[i]->Get<double>("d_gain");
-            double i_max = joints[i]->Get<double>("i_max");
-            double i_min = joints[i]->Get<double>("i_min");
-            double cmd_max = joints[i]->Get<double>("cmd_max");
-            double cmd_min = joints[i]->Get<double>("cmd_min");
-            _pid[i] = ignition::math::PID(p, in, d, i_max, i_min, cmd_max, cmd_min, 0);
-
-            this->_jointPub[i] = this->node.Advertise<ignition::msgs::Double>("/model/" + this->model.Name(_ecm) + "/joint/" + _jointName[i] + "/cmd_vel");
-            this->_setPoint[i]=0;
-            this->_speed[i]=0;
-            this->_currState[i]=0;
-        }
+        if (_sdf->HasElement("roll_limit"))
+            this->_limit[static_cast<int>(link::roll)] = _sdf->Get<double>("roll_limit");
+        
+        if (_sdf->HasElement("tilt_limit"))
+            this->_limit[static_cast<int>(link::pitch)] = _sdf->Get<double>("tilt_limit");
 
         std::string imuTopic = _sdf->Get<std::string>("imu");
         this->node.Subscribe(imuTopic, &IGNGimbalControlPlugin::OnImuCB, this);
@@ -114,15 +98,17 @@ class IGNGimbalControlPlugin:
             topicVelCmd = _sdf->Get<std::string>("topic_cmd");
         this->node.Subscribe(topicVelCmd, &IGNGimbalControlPlugin::OnCmdCB, this);
         
-        std::string topicEnable {"/model/" + this->model.Name(_ecm) + "/velocity_controller/enable"};
-        if (_sdf->HasElement("topic_enable"))
-            topicEnable = _sdf->Get<std::string>("topic_enable");
-        this->node.Subscribe(topicEnable, &IGNGimbalControlPlugin::EnableCB, this);
+        // std::string topicEnable {"/model/" + this->model.Name(_ecm) + "/velocity_controller/enable"};
+        // if (_sdf->HasElement("topic_enable"))
+        //     topicEnable = _sdf->Get<std::string>("topic_enable");
+        // this->node.Subscribe(topicEnable, &IGNGimbalControlPlugin::EnableCB, this);
 
-        std::string topicJS {"/world/example/model/HM/joint_state"};
-        if (_sdf->HasElement("topic_js"))
-            topicJS = _sdf->Get<std::string>("topic_js");
-        this->node.Subscribe(topicJS, &IGNGimbalControlPlugin::OnJointCB, this);
+        for(int i=0; i<static_cast<int>(link::links); i++){
+            this->_jointPub[i] = this->node.Advertise<ignition::msgs::Double>("/model/" + this->model.Name(_ecm) + "/joint/" + _jointName[i] + "/0/cmd_pos");
+            this->_setPoint[i]=0;
+            this->_speed[i]=0;
+            this->_currState[i]=0;
+        }
 
         ignmsg  << "IGNGimbalControl subscribing to cmd_vel messages on [" << topicVelCmd << "]" << std::endl;
 
@@ -139,38 +125,30 @@ class IGNGimbalControlPlugin:
             return;
         }
 
-        if(_armed){
+        //if(_active){
+        this->_currState[static_cast<int>(link::roll)] = -_rpy.Roll();
+        this->_currState[static_cast<int>(link::pitch)] = -_rpy.Pitch();
+
+        double dt = std::chrono::duration<double>(_info.dt).count();
+
+        for(int i = 0; i < static_cast<int>(link::links); i++)
+        {
+            this->_setPoint[i] += dt*_speed[i];
             
-            this->_currState[static_cast<int>(link::roll)] = _rpy.Roll();
-            this->_currState[static_cast<int>(link::pitch)] = _rpy.Pitch();
+            if(_limit[i]>0.0001 && abs(this->_setPoint[i])>this->_limit[i])
+                this->_setPoint[i] = _limit[i]*((this->_setPoint[i]<0)?-1:1);
 
-            double dt = std::chrono::duration<double>(_info.dt).count();
-
-            double force;
-            double error;
-
-            for(int i = 0; i < static_cast<int>(link::links); i++)
-            {
-
-                this->_setPoint[i] += dt*_speed[i];
-                
-                if(_limit[i]>0.0001 && abs(this->_setPoint[i])>this->_limit[i])
-                    this->_setPoint[i] = _limit[i]*((this->_setPoint[i]<0)?-1:1);
-
-                error = this->_currState[i] + this->_setPoint[i];
-                force = _pid[i].Update(error,_info.dt);
-
-                ignition::msgs::Double _msg;
-                _msg.set_data(force);
-                this->_jointPub[i].Publish(_msg);
-            }
+            ignition::msgs::Double _msg;
+            _msg.set_data(this->_setPoint[i]+_currState[i]);
+            this->_jointPub[i].Publish(_msg);
         }
+        //}
     }
 
-    public: void EnableCB(const msgs::Boolean &_msg)
-    {
-        this->_armed=_msg.data();
-    }
+    // public: void EnableCB(const msgs::Boolean &_msg)
+    // {
+    //     this->_active=_msg.data();
+    // }
 
     public: void OnImuCB(const msgs::IMU &_msg)
     {
@@ -184,17 +162,6 @@ class IGNGimbalControlPlugin:
         this->_speed[static_cast<int>(link::pitch)] = _msg.angular().y();
         this->_speed[static_cast<int>(link::yaw)] = _msg.angular().z();
     }
-
-    public: void OnJointCB(const msgs::Model &_msg)
-    {
-        for(auto joint : _msg.joint())
-        {
-            if(joint.name().compare(_jointName[static_cast<int>(link::yaw)])==0){
-                this->_currState[static_cast<int>(link::yaw)] = joint.axis1().position();
-                return;
-            }
-        }
-    }
     
     protected: enum class link{roll,pitch,yaw,links};
     
@@ -205,12 +172,12 @@ class IGNGimbalControlPlugin:
     protected: ignition::transport::Node node;
     protected: ignition::transport::Node::Publisher _jointPub[static_cast<int>(link::links)];
 
-    protected: bool _armed=false;
+    // protected: bool _active=false;
     protected: double _currState[static_cast<int>(link::links)];
     protected: double _setPoint[static_cast<int>(link::links)];
     protected: double _speed[static_cast<int>(link::links)];
     protected: double _limit[static_cast<int>(link::links)];
-    protected: ignition::math::PID _pid[static_cast<int>(link::links)];
+    
 };
 
 }

@@ -3,7 +3,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
   <spawn name='#{_name}'>
       <name>#{_name}</name>
       <allow_renaming>false</allow_renaming>
-      <pose>#{_x} #{_y} #{_z + 0.2} #{_roll} #{_pitch} #{_yaw}</pose>
+      <pose>#{_x} #{_y} #{_z + 0.3} #{_roll} #{_pitch} #{_yaw}</pose>
       <world>#{_worldName}</world>
       <is_performer>true</is_performer>
       <sdf version='1.6'>
@@ -170,50 +170,57 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
 
       <plugin filename="libGimbalControlPlugin.so"
               name="emesent::hovermap::GimbalControlPlugin">
-        <pan>gimbal_pan_joint</pan>
-        <roll>gimbal_roll_joint</roll>
-        <tilt>gimbal_tilt_joint</tilt>
-        <pan_limit>1.5707</pan_limit>
-        <roll_limit>0.78539</roll_limit>
-        <tilt_limit>0.78539</tilt_limit>
+        <pan>
+          <joint>gimbal_pan_joint</joint>
+          <limit>1.5707</limit>
+          <p_gain>20</p_gain>
+          <i_gain>1.5</i_gain>
+          <d_gain>0.8</d_gain>
+          <i_max>1</i_max>
+          <i_min>-1</i_min>
+          <cmd_max>20</cmd_max>
+          <cmd_min>-20</cmd_min>
+        </pan>
+        <roll>
+          <joint>gimbal_roll_joint</joint>
+          <limit>0.78539</limit>
+          <p_gain>20</p_gain>
+          <i_gain>0.6</i_gain>
+          <d_gain>0.07</d_gain>
+          <i_max>1</i_max>
+          <i_min>-1</i_min>
+          <cmd_max>20</cmd_max>
+          <cmd_min>-20</cmd_min>
+        </roll>
+        <tilt>
+          <joint>gimbal_tilt_joint</joint>
+          <limit>0.78539</limit>
+          <p_gain>10</p_gain>
+          <i_gain>0.5</i_gain>
+          <d_gain>0.03</d_gain>
+          <i_max>1</i_max>
+          <i_min>-1</i_min>
+          <cmd_max>20</cmd_max>
+          <cmd_min>-20</cmd_min>
+        </tilt>
         <imu>world/#{_worldName}/model/#{_name}/link/gimbal_tilt/sensor/gimbal_imu/imu</imu>
+        <topic_js>world/#{_worldName}/model/#{_name}/joint_state</topic_js>
       </plugin>
 
       <plugin
-        filename="libignition-gazebo-joint-position-controller-system.so"
-        name="ignition::gazebo::systems::JointPositionController">
+        filename="libignition-gazebo-joint-controller-system.so"
+        name="ignition::gazebo::systems::JointController">
         <joint_name>gimbal_pan_joint</joint_name>
-        <p_gain>20</p_gain>
-        <i_gain>1.5</i_gain>
-        <d_gain>0.8</d_gain>
-        <i_max>1</i_max>
-        <i_min>-1</i_min>
-        <cmd_max>20</cmd_max>
-        <cmd_min>-20</cmd_min>
       </plugin>
       <plugin
-        filename="libignition-gazebo-joint-position-controller-system.so"
-        name="ignition::gazebo::systems::JointPositionController">
+        filename="libignition-gazebo-joint-controller-system.so"
+        name="ignition::gazebo::systems::JointController">
         <joint_name>gimbal_roll_joint</joint_name>
-        <p_gain>20</p_gain>
-        <i_gain>0.6</i_gain>
-        <d_gain>0.07</d_gain>
-        <i_max>1</i_max>
-        <i_min>-1</i_min>
-        <cmd_max>20</cmd_max>
-        <cmd_min>-20</cmd_min>
       </plugin>
       <plugin
-        filename="libignition-gazebo-joint-position-controller-system.so"
-        name="ignition::gazebo::systems::JointPositionController">
+        filename="libignition-gazebo-joint-controller-system.so"
+        name="ignition::gazebo::systems::JointController">
         <joint_name>gimbal_tilt_joint</joint_name>
-        <p_gain>10</p_gain>
-        <i_gain>0.5</i_gain>
-        <d_gain>0.03</d_gain>
-        <i_max>1</i_max>
-        <i_min>-1</i_min>
-        <cmd_max>20</cmd_max>
-        <cmd_min>-20</cmd_min>
       </plugin>
 
       <plugin
