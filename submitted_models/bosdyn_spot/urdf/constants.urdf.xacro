@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:property name="base_to_hip_x" value="0.29785" />
+    <xacro:property name="base_to_hip_y" value="0.05500" />
+    <xacro:property name="hip_to_upper_leg_y" value="0.110945" />
+    <xacro:property name="upper_leg_to_lower_leg_x" value="0.025" />
+    <xacro:property name="upper_leg_to_lower_leg_z" value="0.3205" />
+    <xacro:property name="lower_leg_to_foot_z" value="0.37" />
+
+    <xacro:property name="base_mass" value="16.0" />
+    <xacro:property name="base_length" value="0.86" />
+    <xacro:property name="base_width" value="0.21" />
+    <xacro:property name="base_height" value="0.17" />
+
+    <xacro:property name="hip_mass" value="2.0" />
+    <xacro:property name="hip_length" value="0.13" />
+    <xacro:property name="hip_width" value="0.09" />
+    <xacro:property name="hip_height" value="0.09" />
+
+    <xacro:property name="upper_leg_mass" value="1.0" />
+    <xacro:property name="upper_leg_length" value="0.076" />
+    <xacro:property name="upper_leg_width" value="0.076" />
+    <xacro:property name="upper_leg_height" value="0.425" />
+
+    <xacro:property name="lower_leg_mass" value="0.5" />
+    <xacro:property name="lower_leg_length" value="0.035" />
+    <xacro:property name="lower_leg_width" value="0.045" />
+    <xacro:property name="lower_leg_height" value="0.42" />
+</robot>

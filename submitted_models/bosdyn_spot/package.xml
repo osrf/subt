@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>bosdyn_spot</name>
+  <version>0.0.1</version>
+  <description>Base of Boston Dynamics Spot with just the builtin sensors.
+    - 5 grayscale depth cameras
+    - IMU
+    - Weight: about 30 kg
+  </description>
+  <maintainer email="peckama2@fel.cvut.cz">Martin Pecka</maintainer>
+  <author email="peckama2@fel.cvut.cz">Martin Pecka</author>
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>ignition-gazebo4</build_depend>
+  <exec_depend>ignition-gazebo4</exec_depend>
+
+  <exec_depend>ros_ign_bridge</exec_depend>
+  <exec_depend>ros_ign_image</exec_depend>
+  <exec_depend>roslaunch</exec_depend>
+  <exec_depend>subt_ros</exec_depend>
+  <exec_depend>xacro</exec_depend>
+
+</package>

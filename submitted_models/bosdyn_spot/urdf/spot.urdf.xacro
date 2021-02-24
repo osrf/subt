@@ -1,0 +1,141 @@
+<?xml version="1.0" ?>
+<robot name="bosdyn_spot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:arg name="name" default=""/>
+    <xacro:if value="${len('$(arg name)') == 0}">
+        <xacro:arg name="prefix" default=""/>
+    </xacro:if>
+    <xacro:unless value="${len('$(arg name)') == 0}">
+        <xacro:arg name="prefix" default="$(arg name)/"/>
+    </xacro:unless>
+
+    <!-- Pass either "urdf" or "sdf" to tell the parser what is the desired target format. -->
+    <xacro:arg name="rendering_target" default="urdf"/>
+    <xacro:arg name="simulate_cameras" default="True"/>
+    <xacro:arg name="simulate_imu" default="True"/>
+
+    <xacro:include filename="utils.xacro"/>
+    <xacro:include filename="constants.urdf.xacro" />
+    <xacro:include filename="spot_leg.urdf.xacro" />
+
+    <link name="$(arg prefix)base_link">
+        <visual>
+            <geometry>
+                <mesh filename="package://bosdyn_spot/meshes/body.dae" />
+            </geometry>
+        </visual>
+        <collision>
+            <geometry>
+                <mesh filename="package://bosdyn_spot/meshes/body_collision.stl" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="${base_mass}"/>
+            <inertia ixx="${(1/12) * base_mass * (base_width * base_width + base_height * base_height)}" ixy="0.0" ixz="0.0"
+                     iyy="${(1/12) * base_mass * (base_length * base_length + base_height * base_height)}" iyz="0.0"
+                     izz="${(1/12) * base_mass * (base_length * base_length + base_width * base_width)}" />
+        </inertial>
+    </link>
+
+    <link name="$(arg prefix)front_rail"/>
+    <joint name="front_rail_joint" type="fixed">
+        <origin xyz="0.223 0 0.0805" rpy="0 0 0" />
+        <parent link="$(arg prefix)base_link" />
+        <child link="$(arg prefix)front_rail" />
+    </joint>
+
+    <link name="$(arg prefix)rear_rail"/>
+    <joint name="rear_rail_joint" type="fixed">
+        <origin xyz="-0.223 0 0.0805" rpy="0 0 0" />
+        <parent link="$(arg prefix)base_link" />
+        <child link="$(arg prefix)rear_rail" />
+    </joint>
+
+    <xacro:spot_leg leg_name="front_left" prefix="$(arg prefix)" />
+    <xacro:spot_leg leg_name="front_right" prefix="$(arg prefix)" />
+    <xacro:spot_leg leg_name="rear_left" prefix="$(arg prefix)" />
+    <xacro:spot_leg leg_name="rear_right" prefix="$(arg prefix)" />
+
+    <!-- virtual link to specify IMU position -->
+    <xacro:empty_link name="$(arg prefix)imu"/>
+    <xacro:fixed_joint name="imu_j"
+      parent="$(arg prefix)base_link" child="$(arg prefix)imu"
+      xyz="0 0 0" rpy="0 0 0"/>
+
+    <gazebo reference="$(arg prefix)imu">
+        <xacro:if value="$(arg simulate_imu)">
+            <sensor name="imu" type="imu">
+                <always_on>1</always_on>
+                <update_rate>50</update_rate>
+                <imu>
+                    <angular_velocity>
+                        <x>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>2e-4</stddev>
+                                <bias_mean>0.0000075</bias_mean>
+                                <bias_stddev>0.0000008</bias_stddev>
+                                <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>1000.0
+                                </dynamic_bias_correlation_time>
+                            </noise>
+                        </x>
+                        <y>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>2e-4</stddev>
+                                <bias_mean>0.0000075</bias_mean>
+                                <bias_stddev>0.0000008</bias_stddev>
+                                <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>1000.0
+                                </dynamic_bias_correlation_time>
+                            </noise>
+                        </y>
+                        <z>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>2e-4</stddev>
+                                <bias_mean>0.0000075</bias_mean>
+                                <bias_stddev>0.0000008</bias_stddev>
+                                <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>1000.0
+                                </dynamic_bias_correlation_time>
+                            </noise>
+                        </z>
+                    </angular_velocity>
+                    <linear_acceleration>
+                        <x>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>1e-2</stddev>
+                                <bias_mean>0.1</bias_mean>
+                                <bias_stddev>0.001</bias_stddev>
+                                <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
+                            </noise>
+                        </x>
+                        <y>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>1e-2</stddev>
+                                <bias_mean>0.1</bias_mean>
+                                <bias_stddev>0.001</bias_stddev>
+                                <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
+                            </noise>
+                        </y>
+                        <z>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>1e-2</stddev>
+                                <bias_mean>0.1</bias_mean>
+                                <bias_stddev>0.001</bias_stddev>
+                                <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
+                            </noise>
+                        </z>
+                    </linear_acceleration>
+                </imu>
+            </sensor>
+        </xacro:if>
+    </gazebo>
+</robot>

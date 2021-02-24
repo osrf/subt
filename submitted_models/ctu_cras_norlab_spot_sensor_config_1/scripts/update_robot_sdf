@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -e
+
+# This script re-generates the model.sdf file in the root of this package based on the Xacro files.
+# This script is only intended to be run from the source space and is intentionally not a part of
+# the installed package.
+
+# If you want to test some local changes, you can pass arguments to this script and it will relay
+# them to the Xacro call (usually the key:=value pairs for setting xacro args).
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+MODEL_DIR="${DIR}/.."
+
+xacro_config="rendering_target:=sdf $*"
+
+# Create URDF
+rosrun xacro xacro "${MODEL_DIR}/urdf/spot.urdf.xacro" ${xacro_config} > "${MODEL_DIR}/spot.sdf.urdf"
+
+# Create SDF
+ign sdf -p "${MODEL_DIR}/spot.sdf.urdf" > "${MODEL_DIR}/model.sdf"
+
+# Fix references to resources
+# This model uses a custom texture. Because COLLADA meshes resolve
+# paths to referenced textures relative to the location of the mesh file, we created symlinks
+# to the bosdyn_spot meshes, and added the changed texture to this package. Only visual meshes
+# need to be handled this way. By accident, it happens that all visual meshes are dae and all
+# collision meshes are STL, so the following substitution works.
+sed -i \
+  -e 's#model://bosdyn_spot/\(.*\.dae\)#\1#g' \
+  -e 's#model://bosdyn_spot/#../bosdyn_spot/#g' \
+  "${MODEL_DIR}/model.sdf"
+
+# Clean the SDF
+rosrun bosdyn_spot clean_sdf "${MODEL_DIR}/model.sdf"
+

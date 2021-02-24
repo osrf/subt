@@ -1,0 +1,18 @@
+<launch>
+    <arg name="world_name"/>
+    <arg name="name"/>
+    <arg name="link_prefix" value="/world/$(arg world_name)/model/$(arg name)/link"/>
+    <arg name="joint_prefix" value="/model/$(arg name)/joint"/>
+    <arg name="breadcrumbs" default="0"/>
+
+    <!-- Include default Spot topics. -->
+    <include file="$(find bosdyn_spot)/launch/vehicle_topics.launch">
+        <arg name="world_name" value="$(arg world_name)"/>
+        <arg name="name" value="$(arg name)"/>
+        <arg name="breadcrumbs" value="$(arg breadcrumbs)"/>
+    </include>
+
+    <group ns="$(arg name)">
+        <!-- Custom vehicle topics just for this sensor config. -->
+    </group>
+</launch>
