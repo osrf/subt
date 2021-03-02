@@ -80,7 +80,7 @@ private:
 
   // | --- subscribing to the special control reference topic --- |
 
-  void                                            callbackControlReference(const marble_qav500_sensor_config_1::ControlReference::ConstPtr &msg);
+  void                                            callbackControlReference(const marble_qav500_sensor_config_1::ControlReferenceConstPtr &msg);
   ros::Subscriber                                 subscriber_control_reference_;
   bool                                            got_control_reference_ = false;
   marble_qav500_sensor_config_1::ControlReference control_reference_;

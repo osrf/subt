@@ -258,6 +258,8 @@ void MRSMultirotorController::PreUpdate(const ignition::gazebo::UpdateInfo &_inf
     return;
   }
 
+  ros::spinOnce();
+
   if (_info.dt < std::chrono::steady_clock::duration::zero()) {
     ignwarn << "Detected jump back in time [" << std::chrono::duration_cast<std::chrono::seconds>(_info.dt).count() << "s]. System may not work properly."
             << std::endl;
@@ -371,13 +373,17 @@ void MRSMultirotorController::PublishRotorVelocities(ignition::gazebo::EntityCom
 
 /* callbackControlReference() //{ */
 
-void MRSMultirotorController::callbackControlReference(const marble_qav500_sensor_config_1::ControlReference::ConstPtr &msg) {
+void MRSMultirotorController::callbackControlReference(const marble_qav500_sensor_config_1::ControlReferenceConstPtr &msg) {
 
-  if (!initialized) {
+  if (!this->initialized) {
     return;
   }
 
-  ROS_INFO_THROTTLE(1.0, "[%s]: getting the control reference", ros::this_node::getName().c_str());
+  got_control_reference_ = true;
+
+  control_reference_ = *msg;
+
+  ROS_INFO_THROTTLE(5.0, "[%s]: getting the control reference", ros::this_node::getName().c_str());
 }
 
 //}
