@@ -16,6 +16,10 @@
 #include "Common.hh"
 #include "LeeVelocityController.hh"
 
+#include <ros/package.h>
+#include <ros/ros.h>
+#include <marble_qav500_sensor_config_1/ControlReference.h>
+
 //}
 
 namespace ignition
@@ -73,6 +77,13 @@ private:
   bool initialized{false};
 
   std::atomic<bool> controllerActive{true};
+
+  // | --- subscribing to the special control reference topic --- |
+
+  void                                            callbackControlReference(const marble_qav500_sensor_config_1::ControlReference::ConstPtr &msg);
+  ros::Subscriber                                 subscriber_control_reference_;
+  bool                                            got_control_reference_ = false;
+  marble_qav500_sensor_config_1::ControlReference control_reference_;
 };
 
 }  // namespace systems

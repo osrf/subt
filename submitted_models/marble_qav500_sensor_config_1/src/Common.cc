@@ -230,6 +230,9 @@ std::optional<FrameData> getFrameData(const EntityComponentManager &_ecm, const 
   auto frameData = std::make_optional<FrameData>(
       {math::eigen3::convert(poseComp->Data()), math::eigen3::convert(velComp->Data()), math::eigen3::convert(angVelComp->Data())});
 
+  // --------------------------------------------------------------
+  // |         add noise to the ideal simulated UAV states        |
+  // --------------------------------------------------------------
   applyNoise(frameData->linearVelocityWorld, _noise.linearVelocityMean, _noise.linearVelocityStdDev);
   applyNoise(frameData->angularVelocityBody, _noise.angularVelocityMean, _noise.angularVelocityStdDev);
 

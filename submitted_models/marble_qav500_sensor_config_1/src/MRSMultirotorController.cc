@@ -41,10 +41,18 @@ using namespace multicopter_control;
 
 // | -------------------- plugin interface -------------------- |
 
-/* configure() //{ */
+/* Configure() //{ */
 
-void MRSMultirotorController::Configure(const Entity &_entity, const std::shared_ptr<const sdf::Element> &_sdf, EntityComponentManager &_ecm,
-                                        EventManager & /*_eventMgr*/) {
+void MRSMultirotorController::Configure(const Entity &_entity, const std::shared_ptr<const sdf::Element> &_sdf, EntityComponentManager &_ecm, EventManager &) {
+
+  // init ros node
+  int    argc = 0;
+  char **argv = NULL;
+  ros::init(argc, argv, "mrs_multirotor_controller", ros::init_options::NoSigintHandler);
+  ros::NodeHandle ros_nh = ros::NodeHandle("~");
+
+  ROS_INFO("[%s]: initializing", ros::this_node::getName().c_str());
+
   this->model = Model(_entity);
 
   if (!this->model.Valid(_ecm)) {
@@ -91,18 +99,9 @@ void MRSMultirotorController::Configure(const Entity &_entity, const std::shared
 
   vehicleParams.mass    = vehicleInertial.MassMatrix().Mass();
   vehicleParams.inertia = math::eigen3::convert(vehicleInertial.Moi());
+
   if (sdfClone->HasElement("rotorConfiguration")) {
     vehicleParams.rotorConfiguration = loadRotorConfiguration(_ecm, sdfClone->GetElement("rotorConfiguration"), this->model, this->comLinkEntity);
-    // DEBUG
-    // std::cout << "Found "
-    //           << vehicleParams.rotorConfiguration.size()
-    //           << " rotors" << std::endl;
-    // for (const auto &rotor : vehicleParams.rotorConfiguration)
-    // {
-    //   std::cout << rotor.angle << " "
-    //             << rotor.armLength << " " << rotor.forceConstant << " "
-    //             << rotor.momentConstant << " " << rotor.direction << "\n\n";
-    // }
   } else {
     ignerr << "Please specify rotorConfiguration.\n";
   }
@@ -231,7 +230,20 @@ void MRSMultirotorController::Configure(const Entity &_entity, const std::shared
 
   _ecm.CreateComponent(this->model.Entity(), components::Actuators(this->rotorVelocitiesMsg));
 
+  // --------------------------------------------------------------
+  // |                   custom ROS subscribers                   |
+  // --------------------------------------------------------------
+
+  std::string robot_name = this->model.Name(_ecm);
+
+  subscriber_control_reference_ =
+      ros_nh.subscribe(robot_name + "/control_reference", 10, &MRSMultirotorController::callbackControlReference, this, ros::TransportHints().tcpNoDelay());
+
+  // | ---------------- finish the initialization --------------- |
+
   this->initialized = true;
+
+  ROS_INFO("[%s]: initialized", ros::this_node::getName().c_str());
 }
 
 //}
@@ -246,7 +258,6 @@ void MRSMultirotorController::PreUpdate(const ignition::gazebo::UpdateInfo &_inf
     return;
   }
 
-  // \TODO(anyone) Support rewind
   if (_info.dt < std::chrono::steady_clock::duration::zero()) {
     ignwarn << "Detected jump back in time [" << std::chrono::duration_cast<std::chrono::seconds>(_info.dt).count() << "s]. System may not work properly."
             << std::endl;
@@ -258,6 +269,7 @@ void MRSMultirotorController::PreUpdate(const ignition::gazebo::UpdateInfo &_inf
   }
 
   if (!this->controllerActive) {
+
     // If the last published rotor velocities were not 0, publish zero
     // velocities
     if (this->rotorVelocities.squaredNorm() > 0) {
@@ -278,7 +290,7 @@ void MRSMultirotorController::PreUpdate(const ignition::gazebo::UpdateInfo &_inf
       return;
     }
 
-    // Clip with max linear velocity
+    // clip with max linear velocity
     math::Vector3d linear = msgs::Convert(this->cmdVelMsg->linear());
     linear.Min(this->maximumLinearVelocity);
     linear.Max(-this->maximumLinearVelocity);
@@ -292,8 +304,8 @@ void MRSMultirotorController::PreUpdate(const ignition::gazebo::UpdateInfo &_inf
   }
 
   std::optional<FrameData> frameData = getFrameData(_ecm, this->comLinkEntity, this->noiseParameters);
+
   if (!frameData.has_value()) {
-    // Errors would have already been printed
     return;
   }
 
@@ -307,10 +319,11 @@ void MRSMultirotorController::PreUpdate(const ignition::gazebo::UpdateInfo &_inf
 /* OnTwist() //{ */
 
 void MRSMultirotorController::OnTwist(const msgs::Twist &_msg) {
+
   std::lock_guard<std::mutex> lock(this->cmdVelMsgMutex);
   this->cmdVelMsg = _msg;
 
-  printf("PEEEEEES\n");
+  ROS_INFO_THROTTLE(1.0, "[%s]: MRS controller at work", ros::this_node::getName().c_str());
 }
 
 //}
@@ -318,6 +331,7 @@ void MRSMultirotorController::OnTwist(const msgs::Twist &_msg) {
 /* OnEnabled() //{ */
 
 void MRSMultirotorController::OnEnable(const msgs::Boolean &_msg) {
+
   this->controllerActive = _msg.data();
 }
 
@@ -349,6 +363,21 @@ void MRSMultirotorController::PublishRotorVelocities(ignition::gazebo::EntityCom
   } else {
     _ecm.CreateComponent(this->model.Entity(), components::Actuators(this->rotorVelocitiesMsg));
   }
+}
+
+//}
+
+// | ------------------- custom MRS routines ------------------ |
+
+/* callbackControlReference() //{ */
+
+void MRSMultirotorController::callbackControlReference(const marble_qav500_sensor_config_1::ControlReference::ConstPtr &msg) {
+
+  if (!initialized) {
+    return;
+  }
+
+  ROS_INFO_THROTTLE(1.0, "[%s]: getting the control reference", ros::this_node::getName().c_str());
 }
 
 //}

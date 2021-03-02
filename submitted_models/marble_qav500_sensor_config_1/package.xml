@@ -24,4 +24,10 @@
   <buildtool_depend>urdf</buildtool_depend>
   <buildtool_depend>xacro</buildtool_depend>
 
+  <depend>roscpp</depend>
+  <depend>message_generation</depend>
+  <depend>message_runtime</depend>
+  <depend>std_msgs</depend>
+  <depend>geometry_msgs</depend>
+
 </package>

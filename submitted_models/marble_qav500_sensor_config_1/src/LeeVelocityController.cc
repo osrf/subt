@@ -16,8 +16,7 @@ namespace multicopter_control
 
 std::unique_ptr<LeeVelocityController> LeeVelocityController::MakeController(const LeeVelocityControllerParameters &_controllerParams,
                                                                              const VehicleParameters &              _vehicleParams) {
-  // auto controller = std::make_unique<LeeVelocityController>();
-  // Can't use make_unique here because the constructor is private
+
   std::unique_ptr<LeeVelocityController> controller(new LeeVelocityController());
 
   controller->controllerParameters = _controllerParams;
@@ -54,10 +53,11 @@ bool LeeVelocityController::InitializeParameters() {
   moi(3, 3)             = 1;
 
   this->angularAccToRotorVelocities.resize(this->vehicleParameters.rotorConfiguration.size(), 4);
+
+  const auto &aMat = *allocationMatrix;
+
   // Calculate the pseude-inverse A^{ \dagger} and then multiply by the inertia
   // matrix I. A^{ \dagger} = A^T*(A*A^T)^{-1}
-  //
-  const auto &aMat                  = *allocationMatrix;
   this->angularAccToRotorVelocities = aMat.transpose() * (aMat * aMat.transpose()).inverse() * moi;
 
   return true;
@@ -92,6 +92,7 @@ void LeeVelocityController::CalculateRotorVelocities(const FrameData &_frameData
 /* ComputeDesiredAcceleration() //{ */
 
 Eigen::Vector3d LeeVelocityController::ComputeDesiredAcceleration(const FrameData &_frameData, const EigenTwist &_cmdVel) const {
+
   Eigen::Vector3d velocityError = _frameData.linearVelocityWorld - _frameData.pose.linear() * _cmdVel.linear;
 
   Eigen::Vector3d accelCommand = velocityError.cwiseProduct(this->controllerParameters.velocityGain) / this->vehicleParameters.mass;
