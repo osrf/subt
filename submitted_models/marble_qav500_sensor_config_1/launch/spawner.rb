@@ -100,8 +100,8 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
       </plugin>
       <!-- MulticopterVelocityControl plugin -->
       <plugin
-        filename="libignition-gazebo-multicopter-control-system.so"
-        name="ignition::gazebo::systems::MulticopterVelocityControl">
+        filename="libMRSMultirotorController.so"
+        name="ignition::gazebo::systems::MRSMultirotorController">
         <robotNamespace>model/#{_name}</robotNamespace>
         <commandSubTopic>cmd_vel</commandSubTopic>
         <motorControlPubTopic>command/motor_speed</motorControlPubTopic>
