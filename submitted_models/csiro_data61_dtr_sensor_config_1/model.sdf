@@ -1,0 +1,1835 @@
+<?xml version='1.0' encoding='utf-8'?>
+<sdf version="1.6">
+  <model name="csiro_data61_dtr_sensor_config_1">
+    <link name="base_link">
+      <pose>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0.074656 0 0.092426 0 -0 0</pose>
+        <mass>16.1585</mass>
+        <inertia>
+          <ixx>0.2409</ixx>
+          <ixy>-1.38499e-06</ixy>
+          <ixz>-0.0277823</ixz>
+          <iyy>0.623647</iyy>
+          <iyz>0</iyz>
+          <izz>0.605949</izz>
+        </inertia>
+      </inertial>
+      <collision name="base_link_fixed_joint_lump__nav_base_link_collision">
+        <pose>0.245 0 0.285 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/PPV4_Sim_Base.STL</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <collision name="base_link_fixed_joint_lump__light0_collision_1">
+        <pose>0.285 0 0.53 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.01 0.05 0.02</size>
+          </box>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <collision name="base_link_fixed_joint_lump__light1_collision_2">
+        <pose>0.245 0.04 0.53 0 -0 1.5707963267948966</pose>
+        <geometry>
+          <box>
+            <size>0.01 0.05 0.02</size>
+          </box>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <collision name="base_link_fixed_joint_lump__light2_collision_3">
+        <pose>0.205 0 0.53 0 -0 3.14</pose>
+        <geometry>
+          <box>
+            <size>0.01 0.05 0.02</size>
+          </box>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <collision name="base_link_fixed_joint_lump__light3_collision_4">
+        <pose>0.245 -0.04 0.53 0 0 -1.5707963267948966</pose>
+        <geometry>
+          <box>
+            <size>0.01 0.05 0.02</size>
+          </box>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <collision name="base_link_fixed_joint_lump__pumpkin_chassis_collision_5">
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/base_link_collision_body.STL</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode>
+              <kp>1e+07</kp>
+              <kd>1</kd>
+            </ode>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <collision name="base_link_fixed_joint_lump__pumpkin_track_visual_collision_6">
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.02</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <ode>
+              <kp>1e+07</kp>
+              <kd>1</kd>
+            </ode>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <visual name="base_link_fixed_joint_lump__nav_base_link_visual">
+        <pose>0.245 0 0.285 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/PPV4_Sim_Base.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>0.1 0.1 0.1 1</ambient>
+          <diffuse>0.1 0.1 0.1 1</diffuse>
+          <specular>1.0 1.0 1.0 1</specular>
+        </material>
+      </visual>
+      <visual name="base_link_fixed_joint_lump__light0_visual_1">
+        <pose>0.285 0 0.53 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.01 0.01 0.01</size>
+          </box>
+        </geometry>
+      </visual>
+      <visual name="base_link_fixed_joint_lump__light1_visual_2">
+        <pose>0.245 0.04 0.53 0 -0 1.5707963267948966</pose>
+        <geometry>
+          <box>
+            <size>0.01 0.01 0.01</size>
+          </box>
+        </geometry>
+      </visual>
+      <visual name="base_link_fixed_joint_lump__light2_visual_3">
+        <pose>0.205 0 0.53 0 -0 3.14</pose>
+        <geometry>
+          <box>
+            <size>0.01 0.01 0.01</size>
+          </box>
+        </geometry>
+      </visual>
+      <visual name="base_link_fixed_joint_lump__light3_visual_4">
+        <pose>0.245 -0.04 0.53 0 0 -1.5707963267948966</pose>
+        <geometry>
+          <box>
+            <size>0.01 0.01 0.01</size>
+          </box>
+        </geometry>
+      </visual>
+      <visual name="base_link_fixed_joint_lump__pumpkin_chassis_visual_5">
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/base_link_collision_body.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>0 1.0 0.0 1</ambient>
+          <diffuse>0 1.0 0.0 1</diffuse>
+          <specular>0.0 1.0 0.0 1</specular>
+          <emissive>0.0 0.2 0.0 1</emissive>
+        </material>
+      </visual>
+      <visual name="base_link_fixed_joint_lump__pumpkin_track_visual_visual_6">
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/track_assembly_left.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>0.05 0.05 0.05 1</ambient>
+          <diffuse>0.05 0.05 0.05 1</diffuse>
+          <specular>1.0 1.0 1.0 1</specular>
+        </material>
+      </visual>
+      <visual name="base_link_fixed_joint_lump__pumpkin_track_visual_visual_7">
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/track_assembly_right.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>0.05 0.05 0.05 1</ambient>
+          <diffuse>0.05 0.05 0.05 1</diffuse>
+          <specular>1.0 1.0 1.0 1</specular>
+        </material>
+      </visual>
+      <velocity_decay/>
+      <velocity_decay/>
+      <light name="light0_source" type="spot">
+        <pose>0.285 0 0.53 3.1415926535897931 -1.5707963267948966 3.1415926535897931</pose>
+        <attenuation>
+          <range>50</range>
+          <linear>0.05</linear>
+          <constant>0.1</constant>
+          <quadratic>0.0025</quadratic>
+        </attenuation>
+        <diffuse>0.8 0.8 0.5 1</diffuse>
+        <specular>0.8 0.8 0.5 1</specular>
+        <spot>
+          <inner_angle>2</inner_angle>
+          <outer_angle>2</outer_angle>
+          <falloff>1</falloff>
+        </spot>
+        <direction>0 0 -1</direction>
+      </light>
+      <velocity_decay/>
+      <light name="light1_source" type="spot">
+        <pose>0.245 0.04 0.53 3.1415926535897931 -1.5707963267948966 -1.5707963267948966</pose>
+        <attenuation>
+          <range>50</range>
+          <linear>0.05</linear>
+          <constant>0.1</constant>
+          <quadratic>0.0025</quadratic>
+        </attenuation>
+        <diffuse>0.8 0.8 0.5 1</diffuse>
+        <specular>0.8 0.8 0.5 1</specular>
+        <spot>
+          <inner_angle>2</inner_angle>
+          <outer_angle>2</outer_angle>
+          <falloff>1</falloff>
+        </spot>
+        <direction>0 0 -1</direction>
+      </light>
+      <velocity_decay/>
+      <light name="light2_source" type="spot">
+        <pose>0.205 0 0.53 -3.1415926535897931 -1.5707963267948966 -0.001593</pose>
+        <attenuation>
+          <range>50</range>
+          <linear>0.05</linear>
+          <constant>0.1</constant>
+          <quadratic>0.0025</quadratic>
+        </attenuation>
+        <diffuse>0.8 0.8 0.5 1</diffuse>
+        <specular>0.8 0.8 0.5 1</specular>
+        <spot>
+          <inner_angle>2</inner_angle>
+          <outer_angle>2</outer_angle>
+          <falloff>1</falloff>
+        </spot>
+        <direction>0 0 -1</direction>
+      </light>
+      <velocity_decay/>
+      <light name="light3_source" type="spot">
+        <pose>0.245 -0.04 0.53 3.1415926535897931 -1.5707963267948966 1.5707963267948966</pose>
+        <attenuation>
+          <range>50</range>
+          <linear>0.05</linear>
+          <constant>0.1</constant>
+          <quadratic>0.0025</quadratic>
+        </attenuation>
+        <diffuse>0.8 0.8 0.5 1</diffuse>
+        <specular>0.8 0.8 0.5 1</specular>
+        <spot>
+          <inner_angle>2</inner_angle>
+          <outer_angle>2</outer_angle>
+          <falloff>1</falloff>
+        </spot>
+        <direction>0 0 -1</direction>
+      </light>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <self_collide>0</self_collide>
+    </link>
+    <link name="encoder_rotating_link">
+      <pose>0.245 0 0.315797 0 -0 0</pose>
+      <inertial>
+        <pose>0.004659 -0 0.061904 0 -0 0</pose>
+        <mass>1.328</mass>
+        <inertia>
+          <ixx>0.00515062</ixx>
+          <ixy>-8.36136e-15</ixy>
+          <ixz>-0.000124068</ixz>
+          <iyy>0.00506893</iyy>
+          <iyz>1.36976e-13</iyz>
+          <izz>0.00258497</izz>
+        </inertia>
+      </inertial>
+      <collision name="encoder_rotating_link_collision">
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/PPV4_Sim_Laser_Assembly.STL</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <collision name="encoder_rotating_link_fixed_joint_lump__nav_velodyne_base_link_collision_1">
+        <pose>0.00735 -0 0.097852 -0.785398 -0 -1.5707963267948966</pose>
+        <geometry>
+          <cylinder>
+            <length>0.0717</length>
+            <radius>0.0516</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name="encoder_rotating_link_visual">
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/PPV4_Sim_Laser_Assembly.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>0.1 0.1 0.1 1</ambient>
+          <diffuse>0.1 0.1 0.1 1</diffuse>
+          <specular>1.0 1.0 1.0 1</specular>
+        </material>
+      </visual>
+      <visual name="encoder_rotating_link_fixed_joint_lump__nav_velodyne_base_link_visual_1">
+        <pose>-0.018 0 0.072503 -0.785398 -0 -1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/VLP16_base_1.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="encoder_rotating_link_fixed_joint_lump__nav_velodyne_base_link_visual_2">
+        <pose>-0.018 0 0.072503 -0.785398 -0 -1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/VLP16_base_2.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="encoder_rotating_link_fixed_joint_lump__nav_velodyne_visual_3">
+        <pose>-0.018 0 0.072503 -0.785398 -0 -1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/VLP16_scan.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <velocity_decay/>
+      <self_collide>0</self_collide>
+      <gravity>1</gravity>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <sensor name="gpu_lidar" type="gpu_lidar">
+        <update_rate>20</update_rate>
+        <lidar>
+          <scan>
+            <horizontal>
+              <samples>900</samples>
+              <resolution>1</resolution>
+              <min_angle>-3.1415926535897931</min_angle>
+              <max_angle>3.1415926535897931</max_angle>
+            </horizontal>
+            <vertical>
+              <samples>16</samples>
+              <resolution>1</resolution>
+              <min_angle>-0.261799</min_angle>
+              <max_angle>0.261799</max_angle>
+            </vertical>
+          </scan>
+          <range>
+            <min>0.3</min>
+            <max>100</max>
+            <resolution>0.001</resolution>
+          </range>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.01</stddev>
+          </noise>
+        </lidar>
+        <alwaysOn>1</alwaysOn>
+        <visualize>true</visualize>
+        <pose>0.008658 -0 0.099161 -0.785398 0 -1.5707963267948966</pose>
+      </sensor>
+    </link>
+    <joint name="lidar_gimbal" type="revolute">
+      <child>encoder_rotating_link</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+          <velocity>3.1415926535897931</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name="nav_imu">
+      <pose>0.243909 -0.005178 0.285 0 -0 0</pose>
+      <inertial>
+        <pose>0.004061 0.003452 0.012413 0 -0 0</pose>
+        <mass>0.3</mass>
+        <inertia>
+          <ixx>0.000467046</ixx>
+          <ixy>-2.1049e-06</ixy>
+          <ixz>-7.55989e-06</ixz>
+          <iyy>0.000467732</iyy>
+          <iyz>-6.42649e-06</iyz>
+          <izz>0.000874443</izz>
+        </inertia>
+      </inertial>
+      <collision name="nav_imu_collision">
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.01 0.01 0.01</size>
+          </box>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <collision name="nav_imu_fixed_joint_lump__camera_front_link_collision_1">
+        <pose>0.071718 0.005178 0.01862 0 -0.261799 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.02 0.02</size>
+          </box>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <collision name="nav_imu_fixed_joint_lump__camera_left_link_collision_2">
+        <pose>0.006091 0.070805 0.01862 -0 -0.261799 1.5707963267948966</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.02 0.02</size>
+          </box>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <collision name="nav_imu_fixed_joint_lump__camera_rear_link_collision_3">
+        <pose>-0.059536 0.005178 0.01862 0 -0.261799 3.14</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.02 0.02</size>
+          </box>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <collision name="nav_imu_fixed_joint_lump__camera_right_link_collision_4">
+        <pose>0.006091 -0.06045 0.01862 0 -0.261799 -1.5707963267948966</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.02 0.02</size>
+          </box>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <visual name="nav_imu_visual">
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.01 0.01 0.01</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.0 1.0 0.0 1</ambient>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+          <specular>0.0 0.5 0.0 1</specular>
+        </material>
+      </visual>
+      <visual name="nav_imu_fixed_joint_lump__camera_front_link_visual_1">
+        <pose>0.071718 0.005178 0.01862 0 -0.261799 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.02 0.02</size>
+          </box>
+        </geometry>
+      </visual>
+      <visual name="nav_imu_fixed_joint_lump__camera_left_link_visual_2">
+        <pose>0.006091 0.070805 0.01862 -0 -0.261799 1.5707963267948966</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.02 0.02</size>
+          </box>
+        </geometry>
+      </visual>
+      <visual name="nav_imu_fixed_joint_lump__camera_rear_link_visual_3">
+        <pose>-0.059536 0.005178 0.01862 0 -0.261799 3.14</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.02 0.02</size>
+          </box>
+        </geometry>
+      </visual>
+      <visual name="nav_imu_fixed_joint_lump__camera_right_link_visual_4">
+        <pose>0.006091 -0.06045 0.01862 0 -0.261799 -1.5707963267948966</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.02 0.02</size>
+          </box>
+        </geometry>
+      </visual>
+      <velocity_decay/>
+      <self_collide>0</self_collide>
+      <velocity_decay/>
+      <sensor name="camera_front" type="camera">
+        <update_rate>15</update_rate>
+        <visualize>0</visualize>
+        <camera name="camera_front_sensor">
+          <image>
+            <width>2016</width>
+            <height>1512</height>
+          </image>
+          <clip>
+            <near>0.02</near>
+            <far>300</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+          <horizontal_fov>1.5707963267948966</horizontal_fov>
+          <aspect_ratio>1.333333333333</aspect_ratio>
+        </camera>
+        <pose>0.071718 0.005178 0.01862 0 -0.261799 0</pose>
+      </sensor>
+      <velocity_decay/>
+      <sensor name="camera_left" type="camera">
+        <update_rate>15</update_rate>
+        <visualize>0</visualize>
+        <camera name="camera_left_sensor">
+          <image>
+            <width>2016</width>
+            <height>1512</height>
+          </image>
+          <clip>
+            <near>0.02</near>
+            <far>300</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+          <horizontal_fov>1.5707963267948966</horizontal_fov>
+          <aspect_ratio>1.333333333333</aspect_ratio>
+        </camera>
+        <pose>0.006091 0.070805 0.01862 -0 -0.261799 1.5707963267948966</pose>
+      </sensor>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <sensor name="camera_rear" type="camera">
+        <update_rate>15</update_rate>
+        <visualize>0</visualize>
+        <camera name="camera_rear_sensor">
+          <image>
+            <width>2016</width>
+            <height>1512</height>
+          </image>
+          <clip>
+            <near>0.02</near>
+            <far>300</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+          <horizontal_fov>1.5707963267948966</horizontal_fov>
+          <aspect_ratio>1.333333333333</aspect_ratio>
+        </camera>
+        <pose>-0.059537 0.005178 0.01862 -0 -0.261799 -3.1415926535897931</pose>
+      </sensor>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <sensor name="camera_right" type="camera">
+        <update_rate>15</update_rate>
+        <visualize>0</visualize>
+        <camera name="camera_right_sensor">
+          <image>
+            <width>2016</width>
+            <height>1512</height>
+          </image>
+          <clip>
+            <near>0.02</near>
+            <far>300</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+          <horizontal_fov>1.5707963267948966</horizontal_fov>
+          <aspect_ratio>1.333333333333</aspect_ratio>
+        </camera>
+        <pose>0.006091 -0.06045 0.01862 0 -0.261799 -1.5707963267948966</pose>
+      </sensor>
+      <sensor name="imu" type="imu">
+        <always_on>1</always_on>
+        <update_rate>100</update_rate>
+        <imu>
+                    <angular_velocity>
+                        <x>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>0.009</stddev>
+                                <bias_mean>0.00075</bias_mean>
+                                <bias_stddev>0.005</bias_stddev>
+                                <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                                <precision>0.00025</precision>
+                            </noise>
+                        </x>
+                        <y>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>0.009</stddev>
+                                <bias_mean>0.00075</bias_mean>
+                                <bias_stddev>0.005</bias_stddev>
+                                <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                                <precision>0.00025</precision>
+                            </noise>
+                        </y>
+                        <z>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>0.009</stddev>
+                                <bias_mean>0.00075</bias_mean>
+                                <bias_stddev>0.005</bias_stddev>
+                                <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                                <precision>0.00025</precision>
+                            </noise>
+                        </z>
+                    </angular_velocity>
+                    <linear_acceleration>
+                        <x>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>0.021</stddev>
+                                <bias_mean>0.05</bias_mean>
+                                <bias_stddev>0.0075</bias_stddev>
+                                <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                                <precision>0.005</precision>
+                            </noise>
+                        </x>
+                        <y>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>0.021</stddev>
+                                <bias_mean>0.05</bias_mean>
+                                <bias_stddev>0.0075</bias_stddev>
+                                <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                                <precision>0.005</precision>
+                            </noise>
+                        </y>
+                        <z>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>0.021</stddev>
+                                <bias_mean>0.05</bias_mean>
+                                <bias_stddev>0.0075</bias_stddev>
+                                <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                                <precision>0.005</precision>
+                            </noise>
+                        </z>
+                    </linear_acceleration>
+                </imu>
+      </sensor>
+    </link>
+    <joint name="nav_base_link_to_imu" type="revolute">
+      <child>nav_imu</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>0</lower>
+          <upper>0</upper>
+          <effort>0</effort>
+          <velocity>0</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name="left_00_wheel">
+      <pose>0 0.2 -0.04 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.00185733</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.00185733</iyy>
+          <iyz>0</iyz>
+          <izz>0.002048</izz>
+        </inertia>
+      </inertial>
+      <collision name="left_00_wheel_collision">
+        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1</length>
+            <radius>0.064</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <self_collide>0</self_collide>
+    </link>
+    <joint name="left_00_wheel_joint" type="revolute">
+      <child>left_00_wheel</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name="left_01_wheel">
+      <pose>0.089375 0.2 -0.04 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.00185733</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.00185733</iyy>
+          <iyz>0</iyz>
+          <izz>0.002048</izz>
+        </inertia>
+      </inertial>
+      <collision name="left_01_wheel_collision">
+        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1</length>
+            <radius>0.064</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <self_collide>0</self_collide>
+    </link>
+    <joint name="left_01_wheel_joint" type="revolute">
+      <child>left_01_wheel</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name="left_02_wheel">
+      <pose>0.17875 0.2 -0.04 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.00185733</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.00185733</iyy>
+          <iyz>0</iyz>
+          <izz>0.002048</izz>
+        </inertia>
+      </inertial>
+      <collision name="left_02_wheel_collision">
+        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1</length>
+            <radius>0.064</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <self_collide>0</self_collide>
+    </link>
+    <joint name="left_02_wheel_joint" type="revolute">
+      <child>left_02_wheel</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name="left_03_wheel">
+      <pose>0.251875 0.2 0.01 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.00185733</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.00185733</iyy>
+          <iyz>0</iyz>
+          <izz>0.002048</izz>
+        </inertia>
+      </inertial>
+      <collision name="left_03_wheel_collision">
+        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1</length>
+            <radius>0.064</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <self_collide>0</self_collide>
+    </link>
+    <joint name="left_03_wheel_joint" type="revolute">
+      <child>left_03_wheel</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name="left_04_wheel">
+      <pose>0.296563 0.2 0.06 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.00185733</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.00185733</iyy>
+          <iyz>0</iyz>
+          <izz>0.002048</izz>
+        </inertia>
+      </inertial>
+      <collision name="left_04_wheel_collision">
+        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1</length>
+            <radius>0.064</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <self_collide>0</self_collide>
+    </link>
+    <joint name="left_04_wheel_joint" type="revolute">
+      <child>left_04_wheel</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name="left_05_wheel">
+      <pose>0.34125 0.2 0.11 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.00185733</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.00185733</iyy>
+          <iyz>0</iyz>
+          <izz>0.002048</izz>
+        </inertia>
+      </inertial>
+      <collision name="left_05_wheel_collision">
+        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1</length>
+            <radius>0.064</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <self_collide>0</self_collide>
+    </link>
+    <joint name="left_05_wheel_joint" type="revolute">
+      <child>left_05_wheel</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name="left_11_wheel">
+      <pose>-0.08125 0.2 -0.04 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.00185733</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.00185733</iyy>
+          <iyz>0</iyz>
+          <izz>0.002048</izz>
+        </inertia>
+      </inertial>
+      <collision name="left_11_wheel_collision">
+        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1</length>
+            <radius>0.064</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <self_collide>0</self_collide>
+    </link>
+    <joint name="left_11_wheel_joint" type="revolute">
+      <child>left_11_wheel</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name="left_12_wheel">
+      <pose>-0.1625 0.2 -0.04 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.00185733</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.00185733</iyy>
+          <iyz>0</iyz>
+          <izz>0.002048</izz>
+        </inertia>
+      </inertial>
+      <collision name="left_12_wheel_collision">
+        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1</length>
+            <radius>0.064</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <self_collide>0</self_collide>
+    </link>
+    <joint name="left_12_wheel_joint" type="revolute">
+      <child>left_12_wheel</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name="left_13_wheel">
+      <pose>-0.24375 0.2 -0.04 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.00185733</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.00185733</iyy>
+          <iyz>0</iyz>
+          <izz>0.002048</izz>
+        </inertia>
+      </inertial>
+      <collision name="left_13_wheel_collision">
+        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1</length>
+            <radius>0.064</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <self_collide>0</self_collide>
+    </link>
+    <joint name="left_13_wheel_joint" type="revolute">
+      <child>left_13_wheel</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name="left_14_wheel">
+      <pose>-0.325 0.2 -0.04 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.00185733</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.00185733</iyy>
+          <iyz>0</iyz>
+          <izz>0.002048</izz>
+        </inertia>
+      </inertial>
+      <collision name="left_14_wheel_collision">
+        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1</length>
+            <radius>0.064</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <self_collide>0</self_collide>
+    </link>
+    <joint name="left_14_wheel_joint" type="revolute">
+      <child>left_14_wheel</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name="right_00_wheel">
+      <pose>0 -0.2 -0.04 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.00185733</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.00185733</iyy>
+          <iyz>0</iyz>
+          <izz>0.002048</izz>
+        </inertia>
+      </inertial>
+      <collision name="right_00_wheel_collision">
+        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1</length>
+            <radius>0.064</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <self_collide>0</self_collide>
+    </link>
+    <joint name="right_00_wheel_joint" type="revolute">
+      <child>right_00_wheel</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name="right_01_wheel">
+      <pose>0.089375 -0.2 -0.04 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.00185733</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.00185733</iyy>
+          <iyz>0</iyz>
+          <izz>0.002048</izz>
+        </inertia>
+      </inertial>
+      <collision name="right_01_wheel_collision">
+        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1</length>
+            <radius>0.064</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <self_collide>0</self_collide>
+    </link>
+    <joint name="right_01_wheel_joint" type="revolute">
+      <child>right_01_wheel</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name="right_02_wheel">
+      <pose>0.17875 -0.2 -0.04 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.00185733</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.00185733</iyy>
+          <iyz>0</iyz>
+          <izz>0.002048</izz>
+        </inertia>
+      </inertial>
+      <collision name="right_02_wheel_collision">
+        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1</length>
+            <radius>0.064</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <self_collide>0</self_collide>
+    </link>
+    <joint name="right_02_wheel_joint" type="revolute">
+      <child>right_02_wheel</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name="right_03_wheel">
+      <pose>0.251875 -0.2 0.01 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.00185733</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.00185733</iyy>
+          <iyz>0</iyz>
+          <izz>0.002048</izz>
+        </inertia>
+      </inertial>
+      <collision name="right_03_wheel_collision">
+        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1</length>
+            <radius>0.064</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <self_collide>0</self_collide>
+    </link>
+    <joint name="right_03_wheel_joint" type="revolute">
+      <child>right_03_wheel</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name="right_04_wheel">
+      <pose>0.296563 -0.2 0.06 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.00185733</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.00185733</iyy>
+          <iyz>0</iyz>
+          <izz>0.002048</izz>
+        </inertia>
+      </inertial>
+      <collision name="right_04_wheel_collision">
+        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1</length>
+            <radius>0.064</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <self_collide>0</self_collide>
+    </link>
+    <joint name="right_04_wheel_joint" type="revolute">
+      <child>right_04_wheel</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name="right_05_wheel">
+      <pose>0.34125 -0.2 0.11 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.00185733</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.00185733</iyy>
+          <iyz>0</iyz>
+          <izz>0.002048</izz>
+        </inertia>
+      </inertial>
+      <collision name="right_05_wheel_collision">
+        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1</length>
+            <radius>0.064</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <self_collide>0</self_collide>
+    </link>
+    <joint name="right_05_wheel_joint" type="revolute">
+      <child>right_05_wheel</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name="right_11_wheel">
+      <pose>-0.08125 -0.2 -0.04 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.00185733</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.00185733</iyy>
+          <iyz>0</iyz>
+          <izz>0.002048</izz>
+        </inertia>
+      </inertial>
+      <collision name="right_11_wheel_collision">
+        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1</length>
+            <radius>0.064</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <self_collide>0</self_collide>
+    </link>
+    <joint name="right_11_wheel_joint" type="revolute">
+      <child>right_11_wheel</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name="right_12_wheel">
+      <pose>-0.1625 -0.2 -0.04 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.00185733</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.00185733</iyy>
+          <iyz>0</iyz>
+          <izz>0.002048</izz>
+        </inertia>
+      </inertial>
+      <collision name="right_12_wheel_collision">
+        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1</length>
+            <radius>0.064</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <self_collide>0</self_collide>
+    </link>
+    <joint name="right_12_wheel_joint" type="revolute">
+      <child>right_12_wheel</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name="right_13_wheel">
+      <pose>-0.24375 -0.2 -0.04 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.00185733</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.00185733</iyy>
+          <iyz>0</iyz>
+          <izz>0.002048</izz>
+        </inertia>
+      </inertial>
+      <collision name="right_13_wheel_collision">
+        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1</length>
+            <radius>0.064</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <self_collide>0</self_collide>
+    </link>
+    <joint name="right_13_wheel_joint" type="revolute">
+      <child>right_13_wheel</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name="right_14_wheel">
+      <pose>-0.325 -0.2 -0.04 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.00185733</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.00185733</iyy>
+          <iyz>0</iyz>
+          <izz>0.002048</izz>
+        </inertia>
+      </inertial>
+      <collision name="right_14_wheel_collision">
+        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1</length>
+            <radius>0.064</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <self_collide>0</self_collide>
+    </link>
+    <joint name="right_14_wheel_joint" type="revolute">
+      <child>right_14_wheel</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <static>0</static>
+  </model>
+</sdf>
+

@@ -12,6 +12,7 @@ add_service_files(
     DatagramRos.srv
     Bind.srv
     SetPose.srv
+    SetRate.srv
     PoseFromArtifact.srv
     Register.srv
     Unregister.srv

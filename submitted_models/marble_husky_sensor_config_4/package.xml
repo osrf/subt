@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>marble_husky_sensor_config_4</name>
+  <version>0.1.0</version>
+  <description>The marble_husky_sensor_config_4 package
+    - Has two rgbd camera Realsense D435
+    - An RP Lidar S1
+    - OS1-64 3D Laser C
+    - IMU
+    - gas sensor
+    - A pan/tilt gimbal (Trossen Dynamixel MX-64) with a Realsense D435
+      and 100 W laser mounted on it
+    - A planar lidar (RPLidar S1)
+    - A microstrain 3DMGX5-25 IMU (AHRS)
+    - 12 breadcrumbs
+    - A Vividia HTI-301 LWIR thermal camera
+    - Weight: about 85 lbs
+  </description>
+  <maintainer email="fotheringhambrett@gmail.com">Brett A. Fotheringham</maintainer>
+  <author email="dvasquez@ssci.com">Derek Vasquez</author>
+  <author email="njohnson@ssci.com">Neil Johnson</author>
+  <author email="hescobar@ssci.com">Hector Escobar</author>
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <exec_depend>roslaunch</exec_depend>
+
+</package>

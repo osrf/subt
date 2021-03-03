@@ -710,6 +710,11 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
 
   ignmsg << "Starting SubT" << std::endl;
 
+  // Set the report limit to 25 for final worlds.
+  this->dataPtr->reportCountLimit =
+    this->dataPtr->worldName.find("final") != std::string::npos ? 25 :
+    this->dataPtr->reportCountLimit;
+
   // Make sure that there are score files.
   this->dataPtr->UpdateScoreFiles(this->dataPtr->simTime);
 }
@@ -2374,6 +2379,8 @@ void GameLogicPluginPrivate::LogRobotArtifactData(
 
   out << YAML::Key << "world_name";
   out << YAML::Value  << this->worldName;
+  out << YAML::Key << "report_count_limit";
+  out << YAML::Value  << this->reportCountLimit;
   out << YAML::Key << "robots";
   out << YAML::Value << YAML::BeginMap;
   for (auto const &pair : this->robotFullTypes)
