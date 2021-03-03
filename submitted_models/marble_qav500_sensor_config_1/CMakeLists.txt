@@ -32,6 +32,7 @@ catkin_package(
 )
 
 include_directories(
+  src
   ${catkin_INCLUDE_DIRS}
 )
 
@@ -39,6 +40,7 @@ add_library(MRSMultirotorController SHARED
   src/MRSMultirotorController.cc
   src/Common.cc
   src/LeeVelocityController.cc
+  src/BacaSE3Controller.cc
 )
 
 target_link_libraries(MRSMultirotorController

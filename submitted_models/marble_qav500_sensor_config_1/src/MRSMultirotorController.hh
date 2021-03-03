@@ -13,12 +13,13 @@
 #include "ignition/gazebo/Link.hh"
 #include "ignition/gazebo/Model.hh"
 
-#include "Common.hh"
-#include "LeeVelocityController.hh"
+#include <Common.hh>
 
 #include <ros/package.h>
 #include <ros/ros.h>
 #include <marble_qav500_sensor_config_1/ControlReference.h>
+
+#include <BacaSE3Controller.hh>
 
 //}
 
@@ -36,51 +37,61 @@ class IGNITION_GAZEBO_VISIBLE MRSMultirotorController : public System, public IS
 public:
   MRSMultirotorController() = default;
 
-  void Configure(const Entity &_entity, const std::shared_ptr<const sdf::Element> &_sdf, EntityComponentManager &_ecm, EventManager &_eventMgr) override;
+  void Configure(const Entity &_entity, const std::shared_ptr<const sdf::Element> &_sdf, EntityComponentManager &ecm, EventManager &_eventMgr) override;
 
-  void PreUpdate(const ignition::gazebo::UpdateInfo &_info, ignition::gazebo::EntityComponentManager &_ecm) override;
+  void PreUpdate(const ignition::gazebo::UpdateInfo &_info, ignition::gazebo::EntityComponentManager &ecm) override;
 
 private:
+
+  bool is_initialized_ = false;
+
+  // | ----------------------- parameters ----------------------- |
+
+  math::Vector3d _maximum_linear_velocity_;
+  math::Vector3d _maximum_angular_velocity_;
+
+  std::string _robot_namespace_;
+  std::string _cmd_vel_topic_{"cmd_vel"};
+  std::string _enable_topic_{"enable"};
+
+  std::string _gazebo_model_entity_name_;
+
+  // noise parameters
+  // noise to be added to the UAV states received from the simulator
+  multicopter_control::NoiseParameters _noise_parameters_;
+
   // | -------------------- plugin interface -------------------- |
 
-  void OnTwist(const msgs::Twist &_msg);
-  void OnEnable(const msgs::Boolean &_msg);
-  void PublishRotorVelocities(ignition::gazebo::EntityComponentManager &_ecm, const Eigen::VectorXd &_vels);
+  void OnTwist(const msgs::Twist &msg);
+  void OnEnable(const msgs::Boolean &msg);
+  void PublishRotorVelocities(ignition::gazebo::EntityComponentManager &ecm, const Eigen::VectorXd &vels);
 
-  Model  model{kNullEntity};
-  Entity comLinkEntity;
+  // gazebo links and models
+  Model  _gazebo_model_{kNullEntity};
+  Entity _gazebo_model_entity_;
 
-  std::string comLinkName;
+  transport::Node ignition_node_;
 
-  std::string robotNamespace;
-  std::string commandSubTopic{"cmd_vel"};
-  std::string enableSubTopic{"enable"};
+  Eigen::VectorXd rotor_velocities_;
+  msgs::Actuators rotor_velocities_msg_;
 
-  transport::Node node;
+  std::unique_ptr<multicopter_control::BacaSE3Controller> multirotor_controller_ptr_;
 
-  Eigen::VectorXd rotorVelocities;
+  std::atomic<bool> is_active_{true};
 
-  std::unique_ptr<multicopter_control::LeeVelocityController> velocityController;
+  // --------------------------------------------------------------
+  // |               subscriber to velocity command               |
+  // --------------------------------------------------------------
 
-  multicopter_control::NoiseParameters noiseParameters;
+  std::optional<msgs::Twist> cmd_vel_;
+  std::mutex                 mutex_cmd_vel_;
 
-  std::optional<msgs::Twist> cmdVelMsg;
+  // --------------------------------------------------------------
+  // |            subscriber for feedforward reference            |
+  // --------------------------------------------------------------
 
-  math::Vector3d maximumLinearVelocity;
+  void callbackControlReference(const marble_qav500_sensor_config_1::ControlReferenceConstPtr &msg);
 
-  math::Vector3d maximumAngularVelocity;
-
-  std::mutex cmdVelMsgMutex;
-
-  msgs::Actuators rotorVelocitiesMsg;
-
-  bool initialized{false};
-
-  std::atomic<bool> controllerActive{true};
-
-  // | --- subscribing to the special control reference topic --- |
-
-  void                                            callbackControlReference(const marble_qav500_sensor_config_1::ControlReferenceConstPtr &msg);
   ros::Subscriber                                 subscriber_control_reference_;
   bool                                            got_control_reference_ = false;
   marble_qav500_sensor_config_1::ControlReference control_reference_;
