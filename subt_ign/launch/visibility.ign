@@ -13,7 +13,7 @@
 <%
   # Check if circuit is not defined or is empty/nil
   if !defined?(circuit) || circuit == nil || circuit.empty?
-    $circuit = 'tunnel'
+    $circuit = 'finals'
   else
     $circuit = circuit
   end
@@ -87,7 +87,10 @@
       <world_file>urban_circuit/<%= worldNumber %>/<%= $worldName %>.sdf</world_file>
     <% elsif $worldName.include?('cave_circuit_') &&
           !$worldName.include?('practice') %>
-      <world_file>cave_circuit/<%= worldNumber %>/<%= $worldName %>.sdf</world_file>
+	  <world_file>cave_circuit/<%= worldNumber %>/<%= $worldName %>.sdf</world_file>
+    <% elsif $worldName.include?('final_event') &&
+          !$worldName.include?('practice') %>
+      	  <world_file>final_event/<%= worldNumber %>/<%= $worldName %>.sdf</world_file>
     <% else %>
       <world_file><%= $worldName %>.sdf</world_file>
     <% end %>

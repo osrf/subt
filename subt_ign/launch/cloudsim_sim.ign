@@ -14,8 +14,7 @@
              ... ]
 
     The [worldName] command line argument is optional,
-          defaults to tunnel_circuit_practice_01 if not specified
-    The [robotNameX] command line argument is optional, where X can be 1 to 20
+          defaults to finals_qual if not specified
 
     Example that loads tunnel circuit practice world with an X2 robot with configuration 3
 
@@ -42,7 +41,7 @@
 
   # Check if circuit is not defined or is empty/nil
   if !defined?(circuit) || circuit == nil || circuit.empty?
-    $circuit = 'cave'
+    $circuit = 'finals'
   else
     $circuit = circuit
   end
@@ -77,7 +76,7 @@
   end
 
   $commsFadingExponent = 2.5
-  if $circuit == "cave"
+  if $circuit == "cave" || $circuit == "finals"
     $commsFadingExponent = 1.5
   end
 
@@ -88,6 +87,12 @@
     spawnWorldZPos = 7.5
     spawnWorldYaw = 0
     guiCameraPose = "-2.0 27 15 0 0.868 0"
+  elsif $circuit == "finals"
+    spawnWorldXPos = -18.0
+    spawnWorldYPos = -1 
+    spawnWorldZPos = 0
+    spawnWorldYaw = 0
+    guiCameraPose = "-20 0 2.5 0 0.268 0"
   else
     spawnWorldXPos = 0
     spawnWorldYPos = 0
@@ -214,14 +219,14 @@
       robotConfigs.append(robotConfig)
     end
   end
-  fail ArgumentError, "missing robotNameX argument" if robotNames.nil? or robotNames.empty?
-  fail ArgumentError, "missing robotConfigX argument" if robotConfigs.nil? or robotConfigs.empty?
+  # fail ArgumentError, "missing robotNameX argument" if robotNames.nil? or robotNames.empty?
+  # fail ArgumentError, "missing robotConfigX argument" if robotConfigs.nil? or robotConfigs.empty?
 %>
 
 <%
   # Check if worldName is not defined or is empty/nil
   if !defined?(worldName) || worldName == nil || worldName.empty?
-    $worldName = 'simple_cave_01'
+    $worldName = 'finals_qual'
   else
     $worldName = worldName
   end
@@ -340,6 +345,9 @@
     <% elsif $worldName.include?('cave_circuit_') &&
           !$worldName.include?('practice') %>
       <world_file>cave_circuit/<%= worldNumber %>/<%= $worldName %>.sdf</world_file>
+    <% elsif $worldName.include?('final_event') &&
+          !$worldName.include?('practice') %>
+      <world_file>final_event/<%= worldNumber %>/<%= $worldName %>.sdf</world_file>
     <% else %>
       <world_file><%= $worldName %>.sdf</world_file>
     <% end %>
