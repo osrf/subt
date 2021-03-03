@@ -117,11 +117,6 @@ RUN mkdir -p subt_ws/src \
  && git clone --depth 1 https://github.com/osrf/subt \
  && rm -rf subt/.git
 
-RUN . /opt/ros/melodic/setup.sh \
- && rosdep update \
- && rosdep install -y --from-paths . --ignore-src -r \
- && sudo apt-get clean -qq
-
 # Install dependencies
 RUN . /opt/ros/melodic/setup.sh \
  && rosdep update \
@@ -133,6 +128,7 @@ RUN . /opt/ros/melodic/setup.sh \
     --skip-keys=ignition-plugin1 \
     --skip-keys=ignition-common3 \
     --skip-keys=ignition-launch2 \
+    --skip-keys=ignition-gazebo4 \
  && sudo apt-get clean -qq
 
 WORKDIR /home/$USERNAME/subt_ws

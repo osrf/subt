@@ -82,11 +82,6 @@ RUN mkdir -p subt_ws/src \
  && git clone --depth 1 https://github.com/osrf/subt \
  && rm -rf subt/.git
 
-RUN . /opt/ros/melodic/setup.sh \
- && rosdep update \
- && rosdep install -y --from-paths . --ignore-src -r \
- && sudo apt-get clean -qq
-
 # Install dependencies
 RUN . /opt/ros/melodic/setup.sh \
  && rosdep update \
@@ -98,7 +93,11 @@ RUN . /opt/ros/melodic/setup.sh \
     --skip-keys=ignition-plugin1 \
     --skip-keys=ignition-common3 \
     --skip-keys=ignition-launch2 \
+    --skip-keys=ignition-gazebo4 \
+    --skip-keys=ros_ign_image \
+    --skip-keys=ros_ign_bridge \
  && sudo apt-get clean -qq
+ # ros_ign_* are exec_depend of subt_ros, but not needed in cloudsim_sim
 
 WORKDIR /home/$USERNAME/subt_ws
 
