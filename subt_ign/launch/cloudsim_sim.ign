@@ -14,8 +14,7 @@
              ... ]
 
     The [worldName] command line argument is optional,
-          defaults to tunnel_circuit_practice_01 if not specified
-    The [robotNameX] command line argument is optional, where X can be 1 to 20
+          defaults to finals_qual if not specified
 
     Example that loads tunnel circuit practice world with an X2 robot with configuration 3
 
@@ -42,9 +41,15 @@
 
   # Check if circuit is not defined or is empty/nil
   if !defined?(circuit) || circuit == nil || circuit.empty?
-    $circuit = 'cave'
+    $circuit = 'finals'
   else
     $circuit = circuit
+  end
+
+  if !defined?(logPath) || logPath == nil || logPath.empty?
+    $logPath = '/tmp/ign/logs'
+  else
+    $logPath = logPath
   end
 %>
 
@@ -71,7 +76,7 @@
   end
 
   $commsFadingExponent = 2.5
-  if $circuit == "cave"
+  if $circuit == "cave" || $circuit == "finals"
     $commsFadingExponent = 1.5
   end
 
@@ -82,6 +87,12 @@
     spawnWorldZPos = 7.5
     spawnWorldYaw = 0
     guiCameraPose = "-2.0 27 15 0 0.868 0"
+  elsif $circuit == "finals"
+    spawnWorldXPos = -18.0
+    spawnWorldYPos = -1 
+    spawnWorldZPos = 0
+    spawnWorldYaw = 0
+    guiCameraPose = "-20 0 2.5 0 0.268 0"
   else
     spawnWorldXPos = 0
     spawnWorldYPos = 0
@@ -120,10 +131,10 @@
    }
 
   MARSUPIAL_VALID_ROBOT_PAIRS = {
-    "X1" => ["X3", "MARBLE_QAV500", "CERBERUS_GAGARIN"],
-    "EXPLORER_X1" =>["X3", "MARBLE_QAV500", "CERBERUS_GAGARIN"],
-    "EXPLORER_R2" =>["X3", "X4", "SSCI_X4", "SOPHISTICATED_ENGINEERING_X4", "EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100", "CERBERUS_GAGARIN"],
-    "CSIRO_DATA61_OZBOT_ATR" =>["X3", "X4", "SSCI_X4", "SOPHISTICATED_ENGINEERING_X4","EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100", "CERBERUS_GAGARIN"]
+    "X1" => ["X3", "MARBLE_QAV500", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER"],
+    "EXPLORER_X1" =>["X3", "MARBLE_QAV500", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER"],
+    "EXPLORER_R2" =>["X3", "X4", "SSCI_X4", "SOPHISTICATED_ENGINEERING_X4", "EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER"],
+    "CSIRO_DATA61_OZBOT_ATR" =>["X3", "X4", "SSCI_X4", "SOPHISTICATED_ENGINEERING_X4","EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER"]
   }
 
   MARSUPIAL_PARENT_ROBOT_POSITION_OFFSETS = {
@@ -208,14 +219,14 @@
       robotConfigs.append(robotConfig)
     end
   end
-  fail ArgumentError, "missing robotNameX argument" if robotNames.nil? or robotNames.empty?
-  fail ArgumentError, "missing robotConfigX argument" if robotConfigs.nil? or robotConfigs.empty?
+  # fail ArgumentError, "missing robotNameX argument" if robotNames.nil? or robotNames.empty?
+  # fail ArgumentError, "missing robotConfigX argument" if robotConfigs.nil? or robotConfigs.empty?
 %>
 
 <%
   # Check if worldName is not defined or is empty/nil
   if !defined?(worldName) || worldName == nil || worldName.empty?
-    $worldName = 'simple_cave_01'
+    $worldName = 'finals_qual'
   else
     $worldName = worldName
   end
@@ -304,6 +315,11 @@
     <value>$LD_LIBRARY_PATH</value>
   </env>
 
+  <env>
+    <name>IGN_TRANSPORT_TOPIC_STATISTICS</name>
+    <value>1</value>
+  </env>
+
   <!-- Run the websocket server -->
   <plugin name="ignition::launch::WebsocketServer"
           filename="libignition-launch-websocket-server.so">
@@ -329,6 +345,9 @@
     <% elsif $worldName.include?('cave_circuit_') &&
           !$worldName.include?('practice') %>
       <world_file>cave_circuit/<%= worldNumber %>/<%= $worldName %>.sdf</world_file>
+    <% elsif $worldName.include?('final_event') &&
+          !$worldName.include?('practice') %>
+      <world_file>final_event/<%= worldNumber %>/<%= $worldName %>.sdf</world_file>
     <% else %>
       <world_file><%= $worldName %>.sdf</world_file>
     <% end %>
@@ -340,7 +359,7 @@
     <record>
       <enabled>true</enabled>
       <!-- This path is used by cloudsim, please do not change -->
-      <path>/tmp/ign/logs</path>
+      <path><%= $logPath %></path>
       <overwrite>true</overwrite>
     </record>
     <%if defined?(seed) && seed != nil && !seed.empty?%>
@@ -401,7 +420,7 @@
       <logging>
         <!-- Use the <path> element to control where to record the log file.
              The HOME path is used by default -->
-        <path>/tmp/ign/logs</path>
+        <path><%= $logPath %></path>
         <filename_prefix>subt_<%= $circuit %></filename_prefix>
         <elevation_step_size>5</elevation_step_size>
       </logging>
@@ -615,6 +634,7 @@
             <topic>/model/#{_name}/breadcrumb/deploy</topic>
             <max_deployments>#{max_breadcrumbs}</max_deployments>
             <disable_physics_time>3.0</disable_physics_time>
+            <topic_statistics>true</topic_statistics>
             <breadcrumb>
               <sdf version="1.6">
                 <model name="#{_name}__breadcrumb__">
@@ -757,6 +777,7 @@
             <topic>/model/#{_name}/breadcrumb/deploy</topic>
             <max_deployments>#{max_breadcrumbs}</max_deployments>
             <disable_physics_time>3.0</disable_physics_time>
+            <topic_statistics>true</topic_statistics>
             <breadcrumb>
               <sdf version="1.6">
                 <model name="#{_name}__breadcrumb__">

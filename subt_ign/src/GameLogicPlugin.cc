@@ -67,7 +67,7 @@
 #include "subt_ros/RobotEvent.h"
 #include "subt_ros/RunStatistics.h"
 #include "subt_ros/RunStatus.h"
-#include "subt_ign/CommonTypes.hh"
+#include "subt_ign/Common.hh"
 #include "subt_ign/GameLogicPlugin.hh"
 #include "subt_ign/protobuf/artifact.pb.h"
 #include "subt_ign/RobotPlatformTypes.hh"
@@ -85,62 +85,11 @@ using namespace subt;
 
 class subt::GameLogicPluginPrivate
 {
-  /// \brief Mapping between artifact model names and types.
-  public: const std::array<
-          const std::pair<std::string, subt::ArtifactType>, 14> kArtifactNames
-  {
-    {
-      {"backpack",           subt::ArtifactType::TYPE_BACKPACK},
-      {"drill",              subt::ArtifactType::TYPE_DRILL},
-      {"duct",               subt::ArtifactType::TYPE_DUCT},
-      {"electrical_box",     subt::ArtifactType::TYPE_ELECTRICAL_BOX},
-      {"extinguisher",       subt::ArtifactType::TYPE_EXTINGUISHER},
-      {"phone",              subt::ArtifactType::TYPE_PHONE},
-      {"radio",              subt::ArtifactType::TYPE_RADIO},
-      {"rescue_randy",       subt::ArtifactType::TYPE_RESCUE_RANDY},
-      {"toolbox",            subt::ArtifactType::TYPE_TOOLBOX},
-      {"valve",              subt::ArtifactType::TYPE_VALVE},
-      {"vent",               subt::ArtifactType::TYPE_VENT},
-      {"gas",                subt::ArtifactType::TYPE_GAS},
-      {"helmet",             subt::ArtifactType::TYPE_HELMET},
-      {"rope",               subt::ArtifactType::TYPE_ROPE}
-    }
-  };
-
-  /// \brief Mapping between enum types and strings.
-  public: const std::array<
-      const std::pair<subt::ArtifactType, std::string>, 14> kArtifactTypes
-      {
-        {
-          {subt::ArtifactType::TYPE_BACKPACK      , "TYPE_BACKPACK"},
-          {subt::ArtifactType::TYPE_DRILL         , "TYPE_DRILL"},
-          {subt::ArtifactType::TYPE_DUCT          , "TYPE_DUCT"},
-          {subt::ArtifactType::TYPE_ELECTRICAL_BOX, "TYPE_ELECTRICAL_BOX"},
-          {subt::ArtifactType::TYPE_EXTINGUISHER  , "TYPE_EXTINGUISHER"},
-          {subt::ArtifactType::TYPE_PHONE         , "TYPE_PHONE"},
-          {subt::ArtifactType::TYPE_RADIO         , "TYPE_RADIO"},
-          {subt::ArtifactType::TYPE_RESCUE_RANDY  , "TYPE_RESCUE_RANDY"},
-          {subt::ArtifactType::TYPE_TOOLBOX       , "TYPE_TOOLBOX"},
-          {subt::ArtifactType::TYPE_VALVE         , "TYPE_VALVE"},
-          {subt::ArtifactType::TYPE_VENT          , "TYPE_VENT"},
-          {subt::ArtifactType::TYPE_GAS           , "TYPE_GAS"},
-          {subt::ArtifactType::TYPE_HELMET        , "TYPE_HELMET"},
-          {subt::ArtifactType::TYPE_ROPE          , "TYPE_ROPE"}
-        }
-      };
-
   /// \brief Write a simulation timestamp to a logfile.
   /// \param[in] _simTime Current sim time.
   /// \return A file stream that can be used to write additional
   /// information to the logfile.
   public: std::ofstream &Log(const ignition::msgs::Time &_simTime);
-
-  /// \brief Create an ArtifactType from a string.
-  /// \param[in] _name The artifact in string format.
-  /// \param[out] _type The artifact type.
-  /// \return True when the conversion succeed or false otherwise.
-  public: bool ArtifactFromString(const std::string &_name,
-                                  subt::ArtifactType &_type);
 
   /// \brief Calculate the score of a new artifact request.
   /// \param[in] _simTime Simulation time.
@@ -154,22 +103,6 @@ class subt::GameLogicPluginPrivate
               const subt::ArtifactType &_type,
               const ignition::msgs::Pose &_pose,
               subt_ros::ArtifactReport &_artifactMsg);
-
-  /// \brief Create an ArtifactType from an integer.
-  //
-  /// \param[in] _typeInt The artifact in int format.
-  /// \param[out] _type The artifact type.
-  /// \return True when the conversion succeed or false otherwise.
-  public: bool ArtifactFromInt(const uint32_t &_typeInt,
-                               subt::ArtifactType &_type);
-
-  /// \brief Create a string from ArtifactType.
-  //
-  /// \param[in] _type The artifact type.
-  /// \param[out] _strType The artifact string.
-  /// \return True when the conversion succeed or false otherwise.
-  public: bool StringFromArtifact(const subt::ArtifactType &_type,
-                                  std::string &_strType);
 
   /// \brief Callback executed to process a new artifact request
   /// sent by a team.
@@ -704,7 +637,8 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
       // Setup a ros bag recorder.
       rosbag::RecorderOptions recorderOptions;
       recorderOptions.append_date=false;
-      recorderOptions.prefix="/tmp/ign/logs/cloudsim";
+      recorderOptions.prefix = ignition::common::joinPaths(
+        this->dataPtr->logPath, "cloudsim");
       recorderOptions.regex=true;
       recorderOptions.topics.push_back("/subt/.*");
 
@@ -786,6 +720,11 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
       &GameLogicPluginPrivate::OnEvent, this->dataPtr.get());
 
   ignmsg << "Starting SubT" << std::endl;
+
+  // Set the report limit to 25 for final worlds.
+  this->dataPtr->reportCountLimit =
+    this->dataPtr->worldName.find("final") != std::string::npos ? 25 :
+    this->dataPtr->reportCountLimit;
 
   // Make sure that there are score files.
   this->dataPtr->UpdateScoreFiles(this->dataPtr->simTime);
@@ -1265,19 +1204,19 @@ void GameLogicPlugin::PostUpdate(
 
         // Iterate over possible artifact names
         for (size_t kArtifactNamesIdx = 0;
-             kArtifactNamesIdx < this->dataPtr->kArtifactNames.size();
+             kArtifactNamesIdx < kArtifactNames.size();
              ++kArtifactNamesIdx)
         {
           // If the name of the model is a possible artifact, then add it to
           // our list of artifacts.
           if (_nameComp->Data().find(
-                this->dataPtr->kArtifactNames[kArtifactNamesIdx].first) == 0)
+                kArtifactNames[kArtifactNamesIdx].first) == 0)
           {
             bool add = true;
             // Check to make sure the artifact has not already been added.
             for (const std::pair<std::string, ignition::math::Pose3d>
                 &artifactPair : this->dataPtr->artifacts[
-                this->dataPtr->kArtifactNames[kArtifactNamesIdx].second])
+                kArtifactNames[kArtifactNamesIdx].second])
             {
               if (artifactPair.first == _nameComp->Data())
               {
@@ -1290,14 +1229,14 @@ void GameLogicPlugin::PostUpdate(
             {
               ignmsg << "Adding artifact name[" << _nameComp->Data()
                 << "] type string["
-                << this->dataPtr->kArtifactTypes[kArtifactNamesIdx].second
+                << kArtifactTypes[kArtifactNamesIdx].second
                 << "] typeid["
                 << static_cast<int>(
-                    this->dataPtr->kArtifactNames[kArtifactNamesIdx].second)
+                    kArtifactNames[kArtifactNamesIdx].second)
                 << "]\n";
 
               this->dataPtr->artifacts[
-                this->dataPtr->kArtifactNames[
+                kArtifactNames[
                   kArtifactNamesIdx].second][_nameComp->Data()] =
                     ignition::math::Pose3d(ignition::math::INF_D,
                         ignition::math::INF_D, ignition::math::INF_D, 0, 0, 0);
@@ -1790,7 +1729,7 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
     }
     this->Finish(localSimTime);
   }
-  else if (!this->ArtifactFromInt(_req.type(), artifactType))
+  else if (!ArtifactFromInt(_req.type(), artifactType))
   {
     std::lock_guard<std::mutex> lock(this->eventCounterMutex);
     std::ostringstream stream;
@@ -1803,12 +1742,12 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
     this->LogEvent(stream.str());
 
     ignerr << "Unknown artifact code. The number should be between 0 and "
-          << this->kArtifactTypes.size() - 1 << " but we received "
+          << kArtifactTypes.size() - 1 << " but we received "
           << _req.type() << std::endl;
 
     this->Log(localSimTime)
       <<"error Unknown artifact code. The number should be between "
-      << "0 and " << this->kArtifactTypes.size() - 1
+      << "0 and " << kArtifactTypes.size() - 1
       << " but we received " << _req.type() << std::endl;
     _resp.set_report_status("scored");
   }
@@ -1881,17 +1820,6 @@ bool GameLogicPluginPrivate::OnNewArtifact(const subt::msgs::Artifact &_req,
 }
 
 /////////////////////////////////////////////////
-bool GameLogicPluginPrivate::ArtifactFromInt(const uint32_t &_typeInt,
-    ArtifactType &_type)
-{
-  if (_typeInt > this->kArtifactTypes.size())
-    return false;
-
-  _type = static_cast<ArtifactType>(_typeInt);
-  return true;
-}
-
-/////////////////////////////////////////////////
 ignition::math::Pose3d GameLogicPluginPrivate::ConvertToArtifactOrigin(
     const ignition::math::Pose3d &_pose) const
 {
@@ -1929,7 +1857,7 @@ std::tuple<double, bool> GameLogicPluginPrivate::ScoreArtifact(
 
   // Type converted into a string.
   std::string reportType;
-  if (!this->StringFromArtifact(_type, reportType))
+  if (!StringFromArtifact(_type, reportType))
   {
     ignmsg << "Unknown artifact type" << std::endl;
     this->Log(_simTime) << "Unkown artifact type reported" << std::endl;
@@ -1942,7 +1870,8 @@ std::tuple<double, bool> GameLogicPluginPrivate::ScoreArtifact(
         << "  id: " << this->eventCounter++ << "\n"
         << "  type: unknown_artifact_type\n"
         << "  time_sec: " << _simTime.sec() << "\n"
-        << "  reported_pose: " << observedObjectPose << "\n"
+        << "  reported_pose_world_frame: " << observedObjectPose << "\n"
+        << "  reported_pose_artifact_frame: " << artifactPose.Pos() << "\n"
         << "  reported_artifact_type: " << reportType << "\n";
       this->LogEvent(stream.str());
     }
@@ -1974,7 +1903,8 @@ std::tuple<double, bool> GameLogicPluginPrivate::ScoreArtifact(
         << "  id: " << this->eventCounter++ << "\n"
         << "  type: duplicate_artifact_report\n"
         << "  time_sec: " << _simTime.sec() << "\n"
-        << "  reported_pose: " << observedObjectPose << "\n"
+        << "  reported_pose_world_frame: " << observedObjectPose << "\n"
+        << "  reported_pose_artifact_frame: " << artifactPose.Pos() << "\n"
         << "  reported_artifact_type: " << reportType << "\n";
       this->LogEvent(stream.str());
     }
@@ -2035,7 +1965,7 @@ std::tuple<double, bool> GameLogicPluginPrivate::ScoreArtifact(
       if (closestDist < 0.0 || distToArtifact < closestDist)
       {
         std::string artifactType;
-        if (!this->StringFromArtifact(_type, artifactType))
+        if (!StringFromArtifact(_type, artifactType))
           artifactType = "";
         // the elements are name, type, true pos, reported pos, dist
         std::get<0>(this->closestReport) = artifactName;
@@ -2066,7 +1996,8 @@ std::tuple<double, bool> GameLogicPluginPrivate::ScoreArtifact(
       << "  id: " << this->eventCounter++ << "\n"
       << "  type: artifact_report_attempt\n"
       << "  time_sec: " << _simTime.sec() << "\n"
-      << "  reported_pose: " << observedObjectPose << "\n"
+      << "  reported_pose_world_frame: " << observedObjectPose << "\n"
+      << "  reported_pose_artifact_frame: " << artifactPose.Pos() << "\n"
       << "  reported_artifact_type: " << reportType << "\n"
       << "  closest_artifact_name: " << std::get<0>(minDistance) << "\n"
       << "  distance: " <<  outDist << "\n"
@@ -2076,9 +2007,9 @@ std::tuple<double, bool> GameLogicPluginPrivate::ScoreArtifact(
   }
 
   _artifactMsg.reported_artifact_type = reportType;
-  _artifactMsg.reported_artifact_position.x = observedObjectPose.X();
-  _artifactMsg.reported_artifact_position.y = observedObjectPose.Y();
-  _artifactMsg.reported_artifact_position.z = observedObjectPose.Z();
+  _artifactMsg.reported_artifact_position.x = artifactPose.Pos().X();
+  _artifactMsg.reported_artifact_position.y = artifactPose.Pos().Y();
+  _artifactMsg.reported_artifact_position.z = artifactPose.Pos().Z();
   _artifactMsg.closest_artifact_name = std::get<0>(minDistance);
   _artifactMsg.distance = outDist;
   _artifactMsg.points_scored = score;
@@ -2086,50 +2017,12 @@ std::tuple<double, bool> GameLogicPluginPrivate::ScoreArtifact(
 
   this->Log(_simTime) << "calculated_dist[" << std::get<2>(minDistance)
     << "] for artifact[" << std::get<0>(minDistance) << "] reported_pos["
-    << observedObjectPose << "]" << std::endl;
+    << artifactPose.Pos() << "]" << std::endl;
 
   ignmsg << "  [Total]: " << score << std::endl;
   this->Log(_simTime) << "modified_score " << score << std::endl;
 
   return {score, false};
-}
-
-/////////////////////////////////////////////////
-bool GameLogicPluginPrivate::ArtifactFromString(const std::string &_name,
-    ArtifactType &_type)
-{
-  auto pos = std::find_if(
-    std::begin(this->kArtifactTypes),
-    std::end(this->kArtifactTypes),
-    [&_name](const typename std::pair<ArtifactType, std::string> &_pair)
-    {
-      return (std::get<1>(_pair) == _name);
-    });
-
-  if (pos == std::end(this->kArtifactTypes))
-    return false;
-
-  _type = std::get<0>(*pos);
-  return true;
-}
-
-/////////////////////////////////////////////////
-bool GameLogicPluginPrivate::StringFromArtifact(const ArtifactType &_type,
-    std::string &_strType)
-{
-  auto pos = std::find_if(
-    std::begin(this->kArtifactTypes),
-    std::end(this->kArtifactTypes),
-    [&_type](const typename std::pair<ArtifactType, std::string> &_pair)
-    {
-      return (std::get<0>(_pair) == _type);
-    });
-
-  if (pos == std::end(this->kArtifactTypes))
-    return false;
-
-  _strType = std::get<1>(*pos);
-  return true;
 }
 
 /////////////////////////////////////////////////
@@ -2279,7 +2172,10 @@ void GameLogicPluginPrivate::Finish(const ignition::msgs::Time &_simTime)
         << "  elapsed_sim_time: " << simElapsed << "\n"
         << "  total_score: " << this->totalScore << std::endl;
       this->LogEvent(stream.str());
+      this->eventCounter++;
+    }
 
+    {
       // \todo(nkoenig) After the tunnel circuit, change the /subt/start topic
       // to /sub/status.
       ignition::msgs::StringMsg msg;
@@ -2291,6 +2187,9 @@ void GameLogicPluginPrivate::Finish(const ignition::msgs::Time &_simTime)
 
       if (this->rosnode)
       {
+        this->Log(_simTime) << "ROS node exists, time to shutdown."
+          << std::endl;
+
         this->prevPhase = "finished";
         subt_ros::RunStatus statusMsg;
         statusMsg.status = "finished";
@@ -2300,10 +2199,14 @@ void GameLogicPluginPrivate::Finish(const ignition::msgs::Time &_simTime)
 
         if (this->bagThread && this->bagThread->joinable())
         {
+          this->Log(_simTime) << "Calling ros::shutdown." << std::endl;
+
           // Shutdown ros. this makes the ROS bag recorder stop.
           ros::shutdown();
           this->bagThread->join();
         }
+
+        this->Log(_simTime) << "ROS has been shutdown." << std::endl;
       }
 
       // Send the recording_complete message after ROS has shutdown, if ROS
@@ -2314,6 +2217,17 @@ void GameLogicPluginPrivate::Finish(const ignition::msgs::Time &_simTime)
       completeMsg.set_data("recording_complete");
       this->startPub.Publish(completeMsg);
 
+      std::lock_guard<std::mutex> lock(this->eventCounterMutex);
+      std::ostringstream stream;
+      stream
+        << "- event:\n"
+        << "  id: " << this->eventCounter << "\n"
+        << "  type: recording_complete\n"
+        << "  time_sec: " << _simTime.sec() << "\n"
+        << "  elapsed_real_time: " << realElapsed << "\n"
+        << "  elapsed_sim_time: " << simElapsed << "\n"
+        << "  total_score: " << this->totalScore << std::endl;
+      this->LogEvent(stream.str());
       this->eventCounter++;
     }
   }
@@ -2476,6 +2390,8 @@ void GameLogicPluginPrivate::LogRobotArtifactData(
 
   out << YAML::Key << "world_name";
   out << YAML::Value  << this->worldName;
+  out << YAML::Key << "report_count_limit";
+  out << YAML::Value  << this->reportCountLimit;
   out << YAML::Key << "robots";
   out << YAML::Value << YAML::BeginMap;
   for (auto const &pair : this->robotFullTypes)

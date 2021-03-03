@@ -27,6 +27,7 @@
 #include <ignition/msgs.hh>
 #include <ignition/transport/Node.hh>
 
+#include <subt_ign/Common.hh>
 #include <subt_ign/Config.hh>
 #include <subt_ign/SimpleDOTParser.hh>
 #include <subt_ign/VisibilityTable.hh>
@@ -48,58 +49,18 @@ VisibilityTable::VisibilityTable()
 //////////////////////////////////////////////////
 bool VisibilityTable::Load(const std::string &_worldName, bool _loadLUT)
 {
-  std::string worldsDirectory = SUBT_INSTALL_WORLD_DIR;
   this->worldName = _worldName;
 
-  // Modifications for the tunnel circuit.
-  const std::string tunnelPrefix = "tunnel_circuit_";
-  const std::string urbanPrefix = "urban_circuit_";
-  const std::string cavePrefix = "cave_circuit_";
-  if (0 == this->worldName.compare(0, tunnelPrefix.size(), tunnelPrefix))
+  std::string fullPath;
+  if (!subt::FullWorldPath(this->worldName, fullPath))
   {
-    std::string suffix = this->worldName.substr(tunnelPrefix.size());
-    // don't use a subfolder for practice worlds
-    if (0 != suffix.compare(0, 9, "practice_"))
-    {
-      worldsDirectory = ignition::common::joinPaths(worldsDirectory,
-          "tunnel_circuit", suffix);
-    }
-  }
-  else if (this->worldName.find(urbanPrefix) != std::string::npos)
-  {
-    std::string suffix = this->worldName.substr(urbanPrefix.size());
-    // don't use a subfolder for practice worlds
-    if (0 != suffix.compare(0, 9, "practice_"))
-    {
-      worldsDirectory = ignition::common::joinPaths(worldsDirectory,
-          "urban_circuit", suffix);
-    }
-  }
-  else if (this->worldName.find(cavePrefix) != std::string::npos)
-  {
-    std::string suffix = this->worldName.substr(cavePrefix.size());
-    // don't use a subfolder for practice worlds
-    if (0 != suffix.compare(0, 9, "practice_"))
-    {
-      worldsDirectory = ignition::common::joinPaths(worldsDirectory,
-          "cave_circuit", suffix);
-    }
-  }
-  else if (this->worldName.find("simple") == std::string::npos &&
-           this->worldName.find("_qual") == std::string::npos)
-  {
-    ignerr << "Unable to determine circuit number from["
-      << this->worldName << "].\n";
+    ignerr << "Unable to find full path for[" << this->worldName << "]\n";
+    return false;
   }
 
-  this->worldPath = ignition::common::joinPaths(
-    worldsDirectory, _worldName + ".sdf");
-
-  this->graphPath = ignition::common::joinPaths(
-    worldsDirectory, _worldName + ".dot");
-
-  this->lutPath = ignition::common::joinPaths(
-    worldsDirectory, _worldName + ".dat");
+  this->worldPath = fullPath + ".sdf";
+  this->graphPath = fullPath + ".dot";
+  this->lutPath = fullPath + ".dat";
 
   // Parse the .dot file and populate the world graph.
   if (!this->PopulateVisibilityGraph(graphPath))
@@ -245,11 +206,11 @@ uint64_t VisibilityTable::Index(const ignition::math::Vector3d &_position) const
   {
     return result.front();
   }
-  else 
+  else
   {
     // Fall back to using FCL to find the closest mesh.
     auto box = std::make_shared<fcl::Box>(0.01, 0.01, 0.01);
-    auto boxObj = std::make_shared<fcl::CollisionObject>(box,  
+    auto boxObj = std::make_shared<fcl::CollisionObject>(box,
       fcl::Matrix3f::getIdentity(),
       fcl::Vec3f(_position.X(), _position.Y(), _position.Z()));
 

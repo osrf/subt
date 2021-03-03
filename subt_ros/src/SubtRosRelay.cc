@@ -247,7 +247,17 @@ SubtRosRelay::SubtRosRelay()
   // http://docs.ros.org/en/noetic/api/rosbag/html/c++/record_8cpp_source.html
   recorderOptions.max_size=1048576 * 1000;
 
+  // Prefix the rosbag file(s) name with a prefix composed of robot_data, the
+  // IGN_PARTITION (if set), and the list of robots that generate this data.
+  // This allows running multiple simulations of multiple robots even on
+  // local catkin workspace.
+  std::string part;
+  ignition::common::env("IGN_PARTITION", part);
   recorderOptions.prefix="robot_data";
+  if (!part.empty())
+    recorderOptions.prefix += "_" + part;
+  recorderOptions.prefix += "_" + stringNames;
+
   recorderOptions.regex=true;
   recorderOptions.topics.push_back("/robot_data(.*)");
 

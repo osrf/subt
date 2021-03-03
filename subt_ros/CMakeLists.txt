@@ -69,7 +69,12 @@ target_link_libraries(optical_frame_publisher
 
 add_executable(bridge_logger src/BridgeLogger.cc)
 add_dependencies(bridge_logger ${catkin_EXPORTED_TARGETS})
-target_link_libraries(bridge_logger ${catkin_LIBRARIES})
+target_link_libraries(bridge_logger
+  PUBLIC
+    ${catkin_LIBRARIES}
+  PRIVATE
+    ignition-common3::ignition-common3
+)
 
 add_executable(subt_ros_relay src/SubtRosRelay.cc)
 target_include_directories(subt_ros_relay
@@ -97,8 +102,20 @@ target_link_libraries(set_pose_relay
 )
 add_dependencies(set_pose_relay ${catkin_EXPORTED_TARGETS})
 
+add_executable(set_rate_relay src/SetRateRelay.cc)
+target_include_directories(set_rate_relay
+  PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
+target_link_libraries(set_rate_relay
+  PUBLIC
+    ignition-common3::ignition-common3
+    ignition-msgs6::ignition-msgs6
+    ignition-transport9::ignition-transport9
+    ${catkin_LIBRARIES}
+)
+add_dependencies(set_rate_relay ${catkin_EXPORTED_TARGETS})
+
 install(TARGETS pose_tf_broadcaster subt_ros_relay set_pose_relay bridge_logger
-  optical_frame_publisher
+  optical_frame_publisher set_rate_relay
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 install(DIRECTORY launch

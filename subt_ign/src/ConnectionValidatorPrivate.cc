@@ -27,8 +27,11 @@
 #include <sdf/World.hh>
 #include <sdf/Model.hh>
 
+#include <subt_ign/Common.hh>
 #include <subt_ign/Config.hh>
 #include <subt_ign/SimpleDOTParser.hh>
+
+#include <ros/package.h>
 
 using namespace subt;
 using namespace ignition;
@@ -36,54 +39,13 @@ using namespace ignition;
 /////////////////////////////////////////////////
 bool ConnectionValidatorPrivate::Load(const std::string &_worldName)
 {
-  std::string worldsDirectory = SUBT_INSTALL_WORLD_DIR;
+  std::string worldsDirectory = ignition::common::joinPaths(
+		      ros::package::getPath("subt_ign"), "worlds");
 
-  // Modifications for the tunnel circuit.
-  const std::string tunnelPrefix = "tunnel_circuit_";
-  const std::string urbanPrefix = "urban_circuit_";
-  const std::string cavePrefix = "cave_circuit_";
-  if (0 == _worldName.compare(0, tunnelPrefix.size(), tunnelPrefix))
-  {
-    std::string suffix = _worldName.substr(tunnelPrefix.size());
-    // don't use a subfolder for practice worlds
-    if (0 != suffix.compare(0, 9, "practice_"))
-    {
-      worldsDirectory = ignition::common::joinPaths(worldsDirectory,
-          "tunnel_circuit", suffix);
-    }
-  }
-  else if (0 == _worldName.compare(0, urbanPrefix.size(), urbanPrefix))
-  {
-    std::string suffix = _worldName.substr(urbanPrefix.size());
-    // don't use a subfolder for practice worlds
-    if (0 != suffix.compare(0, 9, "practice_"))
-    {
-      worldsDirectory = ignition::common::joinPaths(worldsDirectory,
-          "urban_circuit", suffix);
-    }
-  }
-  else if (0 == _worldName.compare(0, cavePrefix.size(), cavePrefix))
-  {
-    std::string suffix = _worldName.substr(cavePrefix.size());
-    // don't use a subfolder for practice worlds
-    if (0 != suffix.compare(0, 9, "practice_"))
-    {
-      worldsDirectory = ignition::common::joinPaths(worldsDirectory,
-          "cave_circuit", suffix);
-    }
-  }
-  else if (_worldName.find("simple") == std::string::npos &&
-           _worldName.find("_qual") == std::string::npos)
-  {
-    ignwarn << "Unable to determine circuit number from["
-      << _worldName << "].\n";
-  }
-
-  std::string worldPath = common::joinPaths(
-      worldsDirectory, _worldName + ".sdf");
-
-  std::string graphPath = common::joinPaths(
-      worldsDirectory, _worldName + ".dot");
+  std::string fullPath;
+  subt::FullWorldPath(_worldName, fullPath);
+  std::string worldPath = fullPath + ".sdf";
+  std::string graphPath = fullPath + ".dot";
 
   auto ret = LoadSdf(worldPath) && LoadDot(graphPath);
   if (ret)

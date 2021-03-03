@@ -14,6 +14,11 @@
       <origin_visual>false</origin_visual>
     </scene>
 
+    <atmosphere type="adiabatic">
+       <temperature>288</temperature>
+       <temperature_gradient>0.4</temperature_gradient>
+    </atmosphere>
+
     <!-- START ROCK FALL 1: Global obstacle -->
     <!--Performer detector at Rock Fall #1-->
     <model name="performer_detector_rockfall_1">

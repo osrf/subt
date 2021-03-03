@@ -90,17 +90,28 @@ RUN mkdir ~/workspaces ~/other
 # When running a container start in the developer's home folder
 WORKDIR /home/$USERNAME
 
-RUN rosdep update
-
 # Install subt sim
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
  && git config --global http.postBuffer 1048576000 \
  && git clone https://github.com/osrf/subt
 
+# Install dependencies
+RUN . /opt/ros/melodic/setup.sh \
+ && rosdep update \
+ && sudo apt-get update \
+ && rosdep install -y --from-paths . --ignore-src -r \
+    --skip-keys=ignition-transport9 \
+    --skip-keys=ignition-math6 \
+    --skip-keys=ignition-msgs6 \
+    --skip-keys=ignition-plugin1 \
+    --skip-keys=ignition-common3 \
+    --skip-keys=ignition-launch2 \
+ && sudo apt-get clean -qq
+
 WORKDIR /home/$USERNAME/subt_ws
 
-RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && catkin_make install'
+RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && catkin_make -DCMAKE_BUILD_TYPE=Release install'
 RUN /bin/sh -c 'echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc' \
  && /bin/sh -c 'echo ". ~/subt_ws/install/setup.sh" >> ~/.bashrc'
 

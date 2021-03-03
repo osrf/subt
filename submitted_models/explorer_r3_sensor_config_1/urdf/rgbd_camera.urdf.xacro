@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<!--
+Copyright (C) 2018 Open Source Robotics Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="rgbd_camera">
+  <!-- Macro to insert a RGBD camera with ROS integration.
+    name: Name of the link associated to the sensor.
+    robot_namespace: The robot namespace.
+    width: Width image resolution.
+    height: Height image resolution.
+    update_rate: Camera frame rate (Hz).
+    min_distance: minimum distance for an object to be detected by the camera.
+    max_distance: maximum distance for an object to be detected by the camera.
+    pointCloudCutoff: Minimum distance for points.
+    pointCloudCutoffMax: Maximum distance for points.
+  -->
+  <xacro:macro name="rgbd_camera"
+               params="name:=camera
+                       robot_namespace:=/
+                       width:=320
+                       height:=240
+                       update_rate:=15.0
+                       min_distance:=0.05
+                       max_distance:=25.0
+                       pointCloudCutoff:=0.6
+                       pointCloudCutoffMax:=8
+                       roll:=0
+                       pitch:=0
+                       yaw:=0">
+
+    <link name="${name}_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="${roll} ${pitch} ${yaw}"/>
+        <geometry>
+          <cylinder radius="0.01" length="0.09"/>
+        </geometry>
+      </visual>
+    </link>
+
+    <joint name="${name}_optical_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="-${M_PI/2} 0 -${M_PI/2}"/>
+      <parent link="${name}_link"/>
+      <child link="${name}_frame_optical"/>
+    </joint>
+
+    <link name="${name}_frame_optical"/>
+
+    <gazebo reference="${name}_link">
+      <sensor type="depth" name="${name}">
+        <always_on>true</always_on>
+        <update_rate>${update_rate}</update_rate>
+        <camera>
+          <horizontal_fov>${60.0*M_PI/180.0}</horizontal_fov>
+          <image>
+            <format>R8G8B8</format>
+            <width>${width}</width>
+            <height>${height}</height>
+          </image>
+          <clip>
+            <near>${min_distance}</near>
+            <far>${max_distance}</far>
+          </clip>
+        </camera>
+        <plugin name="rgbd_${name}_controller" filename="libgazebo_ros_openni_kinect.so">
+          <cameraName>${name}</cameraName>
+          <alwaysOn>true</alwaysOn>
+          <updateRate>${update_rate}</updateRate>
+          <imageTopicName>color/image</imageTopicName>
+          <depthImageTopicName>depth/image</depthImageTopicName>
+          <pointCloudTopicName>depth/points</pointCloudTopicName>
+          <cameraInfoTopicName>color/camera_info</cameraInfoTopicName>
+          <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
+          <frameName>${name}_frame_optical</frameName>
+          <baseline>0.1</baseline>
+          <distortion_k1>0.0</distortion_k1>
+          <distortion_k2>0.0</distortion_k2>
+          <distortion_k3>0.0</distortion_k3>
+          <distortion_t1>0.0</distortion_t1>
+          <distortion_t2>0.0</distortion_t2>
+          <pointCloudCutoff>${pointCloudCutoff}</pointCloudCutoff>
+          <pointCloudCutoffMax>${pointCloudCutoffMax}</pointCloudCutoffMax>
+          <robotNamespace>${robot_namespace}</robotNamespace>
+        </plugin>
+      </sensor>
+    </gazebo>
+  </xacro:macro>
+</robot>
