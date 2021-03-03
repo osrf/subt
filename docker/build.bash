@@ -36,7 +36,7 @@ fi
 
 user_id=$(id -u)
 image_name=$(basename $1)
-image_plus_tag=$image_name:latest-$(date +%Y_%b_%d_%H%M)
+image_plus_tag=$image_name:latest-$(date +%F_%H%M)
 
 shift
 

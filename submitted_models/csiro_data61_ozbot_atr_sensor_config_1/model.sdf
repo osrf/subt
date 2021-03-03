@@ -173,6 +173,34 @@
           <specular>1 0.5 0.0 1</specular>
         </material>
       </visual>
+      <visual name="base_link_fixed_joint_lump__left_track_visual_6">
+        <pose>0.80292 0.369 -0.17875 1.5707963267948966 0 -1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.0011 0.00118</scale>
+            <uri>meshes/Track_Assembly.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>0 0.0 0.0 1</ambient>
+          <diffuse>0 0.0 0.0 1</diffuse>
+          <specular>1.0 1.0 1.0 1</specular>
+        </material>
+      </visual>
+      <visual name="base_link_fixed_joint_lump__right_track_visual_6">
+        <pose>0.80292 -0.169 -0.17875 1.5707963267948966 0 -1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.0011 0.00118</scale>
+            <uri>meshes/Track_Assembly.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>0 0.0 0.0 1</ambient>
+          <diffuse>0 0.0 0.0 1</diffuse>
+          <specular>1.0 1.0 1.0 1</specular>
+        </material>
+      </visual>
       <velocity_decay/>
       <velocity_decay/>
       <light name="light0_source" type="spot">
@@ -626,71 +654,77 @@
         <always_on>1</always_on>
         <update_rate>100</update_rate>
         <imu>
-          <angular_velocity>
-            <x>
-              <noise type="gaussian">
-                <mean>0</mean>
-                <stddev>2e-4</stddev>
-                <bias_mean>0.0000075</bias_mean>
-                <bias_stddev>0.0000008</bias_stddev>
-                <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
-                <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
-              </noise>
-            </x>
-            <y>
-              <noise type="gaussian">
-                <mean>0</mean>
-                <stddev>2e-4</stddev>
-                <bias_mean>0.0000075</bias_mean>
-                <bias_stddev>0.0000008</bias_stddev>
-                <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
-                <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
-              </noise>
-            </y>
-            <z>
-              <noise type="gaussian">
-                <mean>0</mean>
-                <stddev>2e-4</stddev>
-                <bias_mean>0.0000075</bias_mean>
-                <bias_stddev>0.0000008</bias_stddev>
-                <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
-                <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
-              </noise>
-            </z>
-          </angular_velocity>
-          <linear_acceleration>
-            <x>
-              <noise type="gaussian">
-                <mean>0</mean>
-                <stddev>1e-2</stddev>
-                <bias_mean>0.1</bias_mean>
-                <bias_stddev>0.001</bias_stddev>
-                <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
-                <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
-              </noise>
-            </x>
-            <y>
-              <noise type="gaussian">
-                <mean>0</mean>
-                <stddev>1e-2</stddev>
-                <bias_mean>0.1</bias_mean>
-                <bias_stddev>0.001</bias_stddev>
-                <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
-                <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
-              </noise>
-            </y>
-            <z>
-              <noise type="gaussian">
-                <mean>0</mean>
-                <stddev>1e-2</stddev>
-                <bias_mean>0.1</bias_mean>
-                <bias_stddev>0.001</bias_stddev>
-                <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
-                <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
-              </noise>
-            </z>
-          </linear_acceleration>
-        </imu>
+                    <angular_velocity>
+                        <x>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>0.009</stddev>
+                                <bias_mean>0.00075</bias_mean>
+                                <bias_stddev>0.005</bias_stddev>
+                                <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                                <precision>0.00025</precision>
+                            </noise>
+                        </x>
+                        <y>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>0.009</stddev>
+                                <bias_mean>0.00075</bias_mean>
+                                <bias_stddev>0.005</bias_stddev>
+                                <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                                <precision>0.00025</precision>
+                            </noise>
+                        </y>
+                        <z>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>0.009</stddev>
+                                <bias_mean>0.00075</bias_mean>
+                                <bias_stddev>0.005</bias_stddev>
+                                <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                                <precision>0.00025</precision>
+                            </noise>
+                        </z>
+                    </angular_velocity>
+                    <linear_acceleration>
+                        <x>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>0.021</stddev>
+                                <bias_mean>0.05</bias_mean>
+                                <bias_stddev>0.0075</bias_stddev>
+                                <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                                <precision>0.005</precision>
+                            </noise>
+                        </x>
+                        <y>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>0.021</stddev>
+                                <bias_mean>0.05</bias_mean>
+                                <bias_stddev>0.0075</bias_stddev>
+                                <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                                <precision>0.005</precision>
+                            </noise>
+                        </y>
+                        <z>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>0.021</stddev>
+                                <bias_mean>0.05</bias_mean>
+                                <bias_stddev>0.0075</bias_stddev>
+                                <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                                <precision>0.005</precision>
+                            </noise>
+                        </z>
+                    </linear_acceleration>
+                </imu>
       </sensor>
     </link>
     <joint name="nav_base_link_to_imu" type="revolute">
@@ -750,20 +784,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="left_10_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -825,20 +845,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="left_11_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -900,20 +906,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="left_1_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -975,20 +967,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="left_2_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -1050,20 +1028,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="left_3_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -1125,20 +1089,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="left_4_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -1200,20 +1150,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="left_5_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -1275,20 +1211,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="left_6_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -1350,20 +1272,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="left_7_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -1425,20 +1333,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="left_8_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -1500,20 +1394,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="left_9_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -1575,20 +1455,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="right_10_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -1650,20 +1516,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="right_11_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -1725,20 +1577,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="right_1_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -1800,20 +1638,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="right_2_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -1875,20 +1699,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="right_3_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -1950,20 +1760,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="right_4_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -2025,20 +1821,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="right_5_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -2100,20 +1882,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="right_6_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -2175,20 +1943,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="right_7_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -2250,20 +2004,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="right_8_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -2325,20 +2065,6 @@
           </contact>
         </surface>
       </collision>
-      <visual name="right_9_wheel_visual">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.2</length>
-            <radius>0.14</radius>
-          </cylinder>
-        </geometry>
-        <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
-          <specular>0.1 0.1 0.1 1</specular>
-        </material>
-      </visual>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
