@@ -13,6 +13,11 @@
       <origin_visual>false</origin_visual>
     </scene>
 
+   <atmosphere type="adiabatic">
+      <temperature>288</temperature>
+      <temperature_gradient>0.3</temperature_gradient>
+   </atmosphere>
+
    <light type="directional" name="sun">
       <cast_shadows>true</cast_shadows>
       <pose>0 0 10 0 0 0</pose>

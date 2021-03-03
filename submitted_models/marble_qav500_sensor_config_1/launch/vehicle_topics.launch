@@ -102,6 +102,11 @@
       <remap from="input/image" to="front/depth" />
       <remap from="output/image" to="front/optical/depth" />
     </node>
+    <include file="$(find subt_ros)/launch/models_common/set_rate_relay.launch">
+      <arg name="name" value="ros_ign_bridge_rgbd_set_rate" />
+      <arg name="ign_service" value="$(arg sensor_prefix)/camera_front/set_rate" />
+      <arg name="ros_service" value="front/set_rate" />
+    </include>
 
     <!-- Top TOF -->
     <node
@@ -134,6 +139,11 @@
       <remap from="input/camera_info" to="tof_top/camera_info" />
       <remap from="output/camera_info" to="tof_top/optical/camera_info" />
     </node>
+    <include file="$(find subt_ros)/launch/models_common/set_rate_relay.launch">
+      <arg name="name" value="ros_ign_bridge_tof_top_set_rate" />
+      <arg name="ign_service" value="$(arg sensor_prefix)/tof_top/depth_image/set_rate" />
+      <arg name="ros_service" value="tof_top/set_rate" />
+    </include>
 
     <!-- Bottom TOF -->
     <node
@@ -166,6 +176,11 @@
       <remap from="input/camera_info" to="tof_bottom/camera_info" />
       <remap from="output/camera_info" to="tof_bottom/optical/camera_info" />
     </node>
+    <include file="$(find subt_ros)/launch/models_common/set_rate_relay.launch">
+      <arg name="name" value="ros_ign_bridge_tof_bottom_set_rate" />
+      <arg name="ign_service" value="$(arg sensor_prefix)/tof_bottom/depth_image/set_rate" />
+      <arg name="ros_service" value="tof_bottom/set_rate" />
+    </include>
 
     <!-- 3D lidar -->
     <node
@@ -175,6 +190,11 @@
       args="$(arg sensor_prefix)/front_laser/scan/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
       <remap from="$(arg sensor_prefix)/front_laser/scan/points" to="points"/>
     </node>
+    <include file="$(find subt_ros)/launch/models_common/set_rate_relay.launch">
+      <arg name="name" value="ros_ign_bridge_lidar3d_set_rate" />
+      <arg name="ign_service" value="$(arg sensor_prefix)/front_laser/scan/set_rate" />
+      <arg name="ros_service" value="points/set_rate" />
+    </include>
 
     <node
       pkg="ros_ign_bridge"
