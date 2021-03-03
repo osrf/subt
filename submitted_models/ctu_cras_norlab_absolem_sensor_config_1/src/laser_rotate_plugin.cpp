@@ -8,8 +8,6 @@
 #include "ignition/gazebo/components/JointVelocityCmd.hh"
 #include "ignition/gazebo/Model.hh"
 
-#include "ecm_helper.hh"
-
 using namespace ignition;
 using namespace gazebo;
 using namespace systems;
@@ -91,7 +89,7 @@ class LaserRotatePlugin : public System, public ISystemConfigure, public ISystem
       }
     }
 
-    auto& jointPosition = ComponentDefault<components::JointPosition>(_ecm, this->joint)->Data().at(0);
+    auto& jointPosition = _ecm.ComponentDefault<components::JointPosition>(this->joint)->Data().at(0);
 
     if (this->rotationVelocitySigned == 0.0)
     {

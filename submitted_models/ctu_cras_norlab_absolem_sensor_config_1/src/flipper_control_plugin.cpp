@@ -12,8 +12,6 @@
 
 #include <sdf/JointAxis.hh>
 
-#include "ecm_helper.hh"
-
 using namespace ignition;
 using namespace gazebo;
 using namespace systems;
@@ -155,7 +153,7 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
       return;
     }
 
-    const auto& angle = ComponentDefault<components::JointPosition>(_ecm, this->joint)->Data()[0];
+    const auto& angle = _ecm.ComponentDefault<components::JointPosition>(this->joint)->Data()[0];
 
     if (this->cmdVel.has_value())
     {
