@@ -40,7 +40,8 @@ void printGraph(std::vector<VertexData> &_vertexData)
     std::string name = vd.tileName;
     std::string type = vd.tileType;
     if (type == "Cave Starting Area Type B" ||
-        type == "Urban Starting Area")
+        type == "Urban Starting Area" ||
+        type == "Finals Staging Area")
     {
       type = "base_station";
       name = "BaseStation";
@@ -57,48 +58,52 @@ void printGraph(std::vector<VertexData> &_vertexData)
 
   out << "\n  /* ==== Edges ==== */\n\n";
 
-  for (unsigned int i = 0u; i < _vertexData.size() -1; ++i)
+  if (!_vertexData.empty())
   {
-    for (unsigned int j = i+1; j < _vertexData.size(); ++j)
+    for (unsigned int i = 0u; i < _vertexData.size() -1; ++i)
     {
-      math::Vector3d point;
-      if (subt::ConnectionHelper::ComputePoint(
-          &_vertexData[i], &_vertexData[j], point))
+      for (unsigned int j = i+1; j < _vertexData.size(); ++j)
       {
-        int cost = 1;
-        auto tp1 =
+        math::Vector3d point;
+        if (subt::ConnectionHelper::ComputePoint(
+              &_vertexData[i], &_vertexData[j], point))
+        {
+          int cost = 1;
+          auto tp1 =
             subt::ConnectionHelper::connectionTypes[_vertexData[i].tileType];
-        auto tp2 =
+          auto tp2 =
             subt::ConnectionHelper::connectionTypes[_vertexData[j].tileType];
 
-        // Is one of the tile a starting area? If so, the cost should be 1.
-        bool connectsToStaging =
-          _vertexData[i].tileType == "Cave Starting Area Type B" ||
-          _vertexData[i].tileType == "Urban Starting Area" ||
-          _vertexData[j].tileType == "Cave Starting Area Type B" ||
-          _vertexData[j].tileType == "Urban Starting Area";
+          // Is one of the tile a starting area? If so, the cost should be 1.
+          bool connectsToStaging =
+            _vertexData[i].tileType == "Cave Starting Area Type B" ||
+            _vertexData[i].tileType == "Urban Starting Area" ||
+            _vertexData[j].tileType == "Cave Starting Area Type B" ||
+            _vertexData[j].tileType == "Urban Starting Area" ||
+            _vertexData[j].tileType == "Finals Staging Area";
 
-        if ((tp1 == subt::ConnectionHelper::STRAIGHT &&
-            tp2 == subt::ConnectionHelper::STRAIGHT) || connectsToStaging)
-          cost = 1;
-        else if (tp1 == subt::ConnectionHelper::TURN &&
-            tp2 == subt::ConnectionHelper::STRAIGHT)
-          cost = 3;
-        else if (tp1 == subt::ConnectionHelper::STRAIGHT &&
-            tp2 == subt::ConnectionHelper::TURN)
-          cost = 3;
-        else
-          cost = 6;
+          if ((tp1 == subt::ConnectionHelper::STRAIGHT &&
+                tp2 == subt::ConnectionHelper::STRAIGHT) || connectsToStaging)
+            cost = 1;
+          else if (tp1 == subt::ConnectionHelper::TURN &&
+              tp2 == subt::ConnectionHelper::STRAIGHT)
+            cost = 3;
+          else if (tp1 == subt::ConnectionHelper::STRAIGHT &&
+              tp2 == subt::ConnectionHelper::TURN)
+            cost = 3;
+          else
+            cost = 6;
 
-        if (connectsToStaging)
-          out << "  /* Base station */\n";
-        out << "  " << _vertexData[i].id;
-        if (_vertexData[i].id < 10)
-         out <<  " ";
-        out << " -- " << _vertexData[j].id;
-        if (_vertexData[j].id < 10)
-         out <<  " ";
-        out << "  " << "[label=" << cost << "];\n";
+          if (connectsToStaging)
+            out << "  /* Base station */\n";
+          out << "  " << _vertexData[i].id;
+          if (_vertexData[i].id < 10)
+            out <<  " ";
+          out << " -- " << _vertexData[j].id;
+          if (_vertexData[j].id < 10)
+            out <<  " ";
+          out << "  " << "[label=" << cost << "];\n";
+        }
       }
     }
   }

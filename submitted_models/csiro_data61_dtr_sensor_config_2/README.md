@@ -1,0 +1,1 @@
+This model is identical to the csiro_data61_dtr_sensor_config_1, with the inclusion of deployable breadcrumb nodes (deployabled on /<robotName>/breadcrumb/deploy). All other usage is preserved.
