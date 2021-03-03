@@ -14,6 +14,11 @@
       <origin_visual>false</origin_visual>
     </scene>
 
+    <atmosphere type="adiabatic">
+      <temperature>288</temperature>
+      <temperature_gradient>0.2</temperature_gradient>
+    </atmosphere>
+
     <!-- The staging area -->
     <include>
       <static>true</static>

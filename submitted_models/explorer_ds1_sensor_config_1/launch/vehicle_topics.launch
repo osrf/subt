@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <launch>
+  <env name="IGN_TRANSPORT_TOPIC_STATISTICS" value="1"/>
   <arg name="world_name"/>
   <arg name="name"/>
   <arg name="link_name" value="base_link"/>
@@ -121,6 +122,11 @@
         <remap from="input/camera_info" to="depth/camera_info" />
         <remap from="output/camera_info" to="optical/depth/camera_info" />
       </node>
+      <include file="$(find subt_ros)/launch/models_common/set_rate_relay.launch">
+        <arg name="name" value="ros_ign_bridge_camera_set_rate" />
+        <arg name="ign_service" value="$(arg sensor_prefix)/rs_up/set_rate" />
+        <arg name="ros_service" value="set_rate" />
+      </include>
     </group>
 
     <!--DOWN RGBD camera -->
@@ -178,6 +184,11 @@
         <remap from="input/camera_info" to="depth/camera_info" />
         <remap from="output/camera_info" to="optical/depth/camera_info" />
       </node>
+      <include file="$(find subt_ros)/launch/models_common/set_rate_relay.launch">
+        <arg name="name" value="ros_ign_bridge_camera_set_rate" />
+        <arg name="ign_service" value="$(arg sensor_prefix)/rs_down/set_rate" />
+        <arg name="ros_service" value="set_rate" />
+      </include>
     </group>
 
     <!--Front RGBD camera -->
@@ -235,6 +246,11 @@
         <remap from="input/camera_info" to="depth/camera_info" />
         <remap from="output/camera_info" to="optical/depth/camera_info" />
       </node>
+      <include file="$(find subt_ros)/launch/models_common/set_rate_relay.launch">
+        <arg name="name" value="ros_ign_bridge_camera_set_rate" />
+        <arg name="ign_service" value="$(arg sensor_prefix)/rs_front/set_rate" />
+        <arg name="ros_service" value="set_rate" />
+      </include>
     </group>
 
     <!-- 3D lidar -->
@@ -246,6 +262,11 @@
         args="$(arg sensor_prefix)/front_laser/scan/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
         <remap from="$(arg sensor_prefix)/front_laser/scan/points" to="points"/>
       </node>
+      <include file="$(find subt_ros)/launch/models_common/set_rate_relay.launch">
+        <arg name="name" value="ros_ign_bridge_lidar3d_set_rate" />
+        <arg name="ign_service" value="$(arg sensor_prefix)/front_laser/scan/set_rate" />
+        <arg name="ros_service" value="points/set_rate" />
+      </include>
     </group>
 
     <!-- UAV -->

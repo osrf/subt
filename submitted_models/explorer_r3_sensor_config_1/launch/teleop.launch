@@ -1,0 +1,6 @@
+<launch>
+  <include file="$(find ps3joy)/launch/ps3.launch"/>
+  <node pkg="teleop_twist_joy" name="teleop_twist_joy" type="teleop_node">
+        <remap from="/cmd_vel" to="/r3/cmd_vel" />
+</node>
+</launch>

@@ -24,7 +24,7 @@
   # This is useful for debugging purposes, but will not be available during
   # competition scoring.
 
-  # Check if enableGroundTruith is not defined or is empty/nil
+  # Check if enableGroundTruth is not defined or is empty/nil
   if !defined?(enableGroundTruth) || enableGroundTruth == nil || enableGroundTruth.empty?
     $enableGroundTruth = false
   else
@@ -33,7 +33,7 @@
 
   # Check if circuit is not defined or is empty/nil
   # Also make sure the given circuit name is valid
-  validCircuits = ["cave", "tunnel", "urban"]
+  validCircuits = ["cave", "tunnel", "urban", "finals"]
   if !defined?(circuit) || circuit == nil || circuit.empty?
     abort("circuit was not defined, exiting now")
   elsif validCircuits.include?(circuit)
@@ -70,7 +70,7 @@
   $commsFadingExponent = 2.5
   $commsScalingFactor = 1.0
   $commsRangePerHop = 2.0
-  if $circuit == "cave"
+  if $circuit == "cave" || $circuit == "finals"
     $commsFadingExponent = 1.5
     $commsScalingFactor = 0.55
     $commsRangePerHop = 2.0
@@ -83,6 +83,12 @@
     spawnWorldZPos = 7.5
     spawnWorldYaw = 0
     guiCameraPose = "-2.0 27 15 0 0.868 0"
+  elsif $circuit == "finals"
+    spawnWorldXPos = -18
+    spawnWorldYPos = -1
+    spawnWorldZPos = 0
+    spawnWorldYaw = 0
+    guiCameraPose = "-20 0 2.5 0 0.268 0"
   else
     spawnWorldXPos = 0
     spawnWorldYPos = 0
@@ -121,10 +127,10 @@
    }
 
   MARSUPIAL_VALID_ROBOT_PAIRS = {
-    "X1" => ["X3", "MARBLE_QAV500", "CERBERUS_GAGARIN"],
-    "EXPLORER_X1" =>["X3", "MARBLE_QAV500", "CERBERUS_GAGARIN"],
-    "EXPLORER_R2" =>["X3", "X4", "SSCI_X4", "SOPHISTICATED_ENGINEERING_X4", "EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100", "CERBERUS_GAGARIN"],
-    "CSIRO_DATA61_OZBOT_ATR" =>["X3", "X4", "SSCI_X4", "SOPHISTICATED_ENGINEERING_X4","EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100", "CERBERUS_GAGARIN"]
+    "X1" => ["X3", "MARBLE_QAV500", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER"],
+    "EXPLORER_X1" =>["X3", "MARBLE_QAV500", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER"],
+    "EXPLORER_R2" =>["X3", "X4", "SSCI_X4", "SOPHISTICATED_ENGINEERING_X4", "EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER"],
+    "CSIRO_DATA61_OZBOT_ATR" =>["X3", "X4", "SSCI_X4", "SOPHISTICATED_ENGINEERING_X4","EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER"]
   }
 
   MARSUPIAL_PARENT_ROBOT_POSITION_OFFSETS = {
@@ -247,6 +253,11 @@
     <value>$LD_LIBRARY_PATH</value>
   </env>
 
+  <env>
+    <name>IGN_TRANSPORT_TOPIC_STATISTICS</name>
+    <value>1</value>
+  </env>
+
   <!-- Start ROS first. This is a bit hacky for now. -->
   <!-- Make sure to source /opt/ros/melodic/setup.bash -->
   <executable name='ros'>
@@ -264,6 +275,9 @@
     <% elsif $worldName.include?('cave_circuit_') &&
           !$worldName.include?('practice') %>
       <world_file>cave_circuit/<%= worldNumber %>/<%= $worldName %>.sdf</world_file>
+    <% elsif $worldName.include?('final_event') &&
+          !$worldName.include?('practice') %>
+      <world_file>final_event/<%= worldNumber %>/<%= $worldName %>.sdf</world_file>
     <% else %>
       <world_file><%= $worldName %>.sdf</world_file>
     <% end %>
@@ -552,6 +566,7 @@
             <topic>/model/#{_name}/breadcrumb/deploy</topic>
             <max_deployments>#{max_breadcrumbs}</max_deployments>
             <disable_physics_time>3.0</disable_physics_time>
+            <topic_statistics>true</topic_statistics>
             <breadcrumb>
               <sdf version="1.6">
                 <model name="#{_name}__breadcrumb__">
@@ -694,6 +709,7 @@
             <topic>/model/#{_name}/breadcrumb/deploy</topic>
             <max_deployments>#{max_breadcrumbs}</max_deployments>
             <disable_physics_time>3.0</disable_physics_time>
+            <topic_statistics>true</topic_statistics>
             <breadcrumb>
               <sdf version="1.6">
                 <model name="#{_name}__breadcrumb__">
