@@ -127,7 +127,7 @@ Eigen::Vector3d BacaSE3Controller::ComputeDesiredAcceleration(const FrameData &s
   // --------------------------------------------------------------
   des_accel = des_accel.cwiseAbs().cwiseMin(_controller_parameters_.max_linear_acceleration).cwiseProduct(des_accel.cwiseSign());
 
-  std::cout << "des_accel " << std::endl << des_accel[0] << " ff " << acc_ref[0] << std::endl;
+  /* std::cout << "des_accel " << std::endl << des_accel[0] << " ff " << acc_ref[0] << std::endl; */
 
   // + gravity compensation
   return des_accel - _vehicle_parameters_.gravity;
@@ -171,7 +171,7 @@ Eigen::Vector3d BacaSE3Controller::SO3Controller(const FrameData &simulator_mode
   // orientation error vector
   Eigen::Vector3d R_e_vec = vectorFromSkewMatrix(R_e);
 
-  std::cout << "R_e_vec " << std::endl << R_e_vec << std::endl;
+  /* std::cout << "R_e_vec " << std::endl << R_e_vec << std::endl; */
 
   // | -------------------- jerk feedforward -------------------- |
 
