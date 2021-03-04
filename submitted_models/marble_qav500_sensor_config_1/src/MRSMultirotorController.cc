@@ -136,42 +136,42 @@ void MRSMultirotorController::Configure(const Entity &entity, const std::shared_
   BacaSE3ControllerParameters controller_parameters;
 
   if (sdf_clone->HasElement("velocityGain")) {
-    controller_parameters.velocityGain = math::eigen3::convert(sdf_clone->Get<math::Vector3d>("velocityGain"));
+    controller_parameters.velocity_gain = math::eigen3::convert(sdf_clone->Get<math::Vector3d>("velocityGain"));
   } else {
     ignerr << "Please specify velocityGain for MRSMultirotorController.\n";
     return;
   }
 
   if (sdf_clone->HasElement("attitudeGain")) {
-    controller_parameters.attitudeGain = math::eigen3::convert(sdf_clone->Get<math::Vector3d>("attitudeGain"));
+    controller_parameters.attitude_gain = math::eigen3::convert(sdf_clone->Get<math::Vector3d>("attitudeGain"));
   } else {
     ignerr << "Please specify attitudeGain for MRSMultirotorController.\n";
     return;
   }
 
   if (sdf_clone->HasElement("angularRateGain")) {
-    controller_parameters.angularRateGain = math::eigen3::convert(sdf_clone->Get<math::Vector3d>("angularRateGain"));
+    controller_parameters.angular_rate_gain = math::eigen3::convert(sdf_clone->Get<math::Vector3d>("angularRateGain"));
   } else {
     ignerr << "Please specify angularRateGain MRSMultirotorController.\n";
     return;
   }
 
   if (sdf_clone->HasElement("maximumLinearAcceleration")) {
-    controller_parameters.maxLinearAcceleration = math::eigen3::convert(sdf_clone->Get<math::Vector3d>("maximumLinearAcceleration"));
+    controller_parameters.max_linear_acceleration = math::eigen3::convert(sdf_clone->Get<math::Vector3d>("maximumLinearAcceleration"));
   } else {
-    controller_parameters.maxLinearAcceleration.setConstant(std::numeric_limits<double>::max());
+    controller_parameters.max_linear_acceleration.setConstant(std::numeric_limits<double>::max());
   }
 
   if (sdf_clone->HasElement("_maximum_linear_velocity_")) {
-    this->_maximum_linear_velocity_ = sdf_clone->Get<math::Vector3d>("_maximum_linear_velocity_").Abs();
+    _maximum_linear_velocity_ = sdf_clone->Get<math::Vector3d>("_maximum_linear_velocity_").Abs();
   } else {
-    this->_maximum_linear_velocity_.Set(std::numeric_limits<double>::max(), std::numeric_limits<double>::max(), std::numeric_limits<double>::max());
+    _maximum_linear_velocity_.Set(std::numeric_limits<double>::max(), std::numeric_limits<double>::max(), std::numeric_limits<double>::max());
   }
 
   if (sdf_clone->HasElement("_maximum_angular_velocity_")) {
-    this->_maximum_angular_velocity_ = sdf_clone->Get<math::Vector3d>("_maximum_angular_velocity_").Abs();
+    _maximum_angular_velocity_ = sdf_clone->Get<math::Vector3d>("_maximum_angular_velocity_").Abs();
   } else {
-    this->_maximum_angular_velocity_.Set(std::numeric_limits<double>::max(), std::numeric_limits<double>::max(), std::numeric_limits<double>::max());
+    _maximum_angular_velocity_.Set(std::numeric_limits<double>::max(), std::numeric_limits<double>::max(), std::numeric_limits<double>::max());
   }
 
   multirotor_controller_ptr_ = std::make_unique<multicopter_control::BacaSE3Controller>(controller_parameters, vehicleParams);
@@ -244,8 +244,8 @@ void MRSMultirotorController::Configure(const Entity &entity, const std::shared_
 
   std::string robot_name = _gazebo_model_.Name(ecm);
 
-  subscriber_control_reference_ =
-      ros_nh.subscribe(robot_name + "/control_reference", 1, &MRSMultirotorController::callbackControlReference, this, ros::TransportHints().tcpNoDelay());
+  subscriber_feedforward_ =
+      ros_nh.subscribe(robot_name + "/feedforward", 1, &MRSMultirotorController::callbackFeedForward, this, ros::TransportHints().tcpNoDelay());
 
   // | ---------------- finish the initialization --------------- |
 
@@ -278,6 +278,17 @@ void MRSMultirotorController::PreUpdate(const ignition::gazebo::UpdateInfo &_inf
     cmd_vel = cmd_vel_.value();
   }
 
+  marble_qav500_sensor_config_1::ControlReference feedforward;
+
+  {
+    std::scoped_lock lock(mutex_feedforward_);
+
+    if (feedforward_.has_value()) {
+      feedforward = feedforward_.value();
+      ROS_INFO_THROTTLE(5.0, "[%s]: using the feedforward for control", ros::this_node::getName().c_str());
+    }
+  }
+
   // | ---------------------- spin the ROS ---------------------- |
   ros::spinOnce();
 
@@ -306,21 +317,36 @@ void MRSMultirotorController::PreUpdate(const ignition::gazebo::UpdateInfo &_inf
     return;
   }
 
+  // | ------------- prepare the velocity reference ------------- |
+
   EigenTwist cmd_vel_eigen;
 
-  {
-    // clip with max linear velocity
-    math::Vector3d linear = msgs::Convert(cmd_vel.linear());
-    linear.Min(_maximum_linear_velocity_);
-    linear.Max(-_maximum_linear_velocity_);
+  // saturate to maximum allowed velocity
+  math::Vector3d linear = msgs::Convert(cmd_vel.linear());
+  linear.Min(_maximum_linear_velocity_);
+  linear.Max(-_maximum_linear_velocity_);
 
-    math::Vector3d angular = msgs::Convert(cmd_vel.angular());
-    angular.Min(_maximum_angular_velocity_);
-    angular.Max(-_maximum_angular_velocity_);
+  // saturate to maximum allowed angular velocity
+  math::Vector3d angular = msgs::Convert(cmd_vel.angular());
+  angular.Min(_maximum_angular_velocity_);
+  angular.Max(-_maximum_angular_velocity_);
 
-    cmd_vel_eigen.linear  = math::eigen3::convert(linear);
-    cmd_vel_eigen.angular = math::eigen3::convert(angular);
-  }
+  cmd_vel_eigen.linear  = math::eigen3::convert(linear);
+  cmd_vel_eigen.angular = math::eigen3::convert(angular);
+
+  // | ------------ prepare the feedforward reference ----------- |
+
+  BacaSE3ControllerFeedforward cmd_feedforward;
+
+  cmd_feedforward.acceleration[0] = feedforward.acceleration.x;
+  cmd_feedforward.acceleration[1] = feedforward.acceleration.y;
+  cmd_feedforward.acceleration[2] = feedforward.acceleration.z;
+
+  cmd_feedforward.jerk[0] = feedforward.jerk.x;
+  cmd_feedforward.jerk[1] = feedforward.jerk.y;
+  cmd_feedforward.jerk[2] = feedforward.jerk.z;
+
+  // | ------------ get the UAV model simulator data ------------ |
 
   std::optional<FrameData> frameData = getFrameData(ecm, _gazebo_model_entity_, _noise_parameters_);
 
@@ -328,9 +354,12 @@ void MRSMultirotorController::PreUpdate(const ignition::gazebo::UpdateInfo &_inf
     return;
   }
 
-  rotor_velocities_ = multirotor_controller_ptr_->CalculateRotorVelocities(frameData.value(), cmd_vel_eigen);
+  // | -------------- calculate the control action -------------- |
 
-  this->PublishRotorVelocities(ecm, rotor_velocities_);
+  rotor_velocities_ = multirotor_controller_ptr_->CalculateRotorVelocities(frameData.value(), cmd_vel_eigen, cmd_feedforward);
+
+  // publish the control action
+  PublishRotorVelocities(ecm, rotor_velocities_);
 }
 
 //}
@@ -341,6 +370,7 @@ void MRSMultirotorController::OnTwist(const msgs::Twist &msg) {
 
   {
     std::scoped_lock lock(mutex_cmd_vel_);
+
     cmd_vel_ = msg;
   }
 
@@ -368,7 +398,7 @@ void MRSMultirotorController::PublishRotorVelocities(ignition::gazebo::EntityCom
   }
 
   // fill in the velocities
-  for (int i = 0; i < rotor_velocities_.size(); ++i) {
+  for (int i = 0; i < vels.size(); ++i) {
     rotor_velocities_msg_.set_velocity(i, vels(i));
   }
 
@@ -395,19 +425,21 @@ void MRSMultirotorController::PublishRotorVelocities(ignition::gazebo::EntityCom
 
 // | ------------------- custom MRS routines ------------------ |
 
-/* callbackControlReference() //{ */
+/* callbackFeedForward() //{ */
 
-void MRSMultirotorController::callbackControlReference(const marble_qav500_sensor_config_1::ControlReferenceConstPtr &msg) {
+void MRSMultirotorController::callbackFeedForward(const marble_qav500_sensor_config_1::ControlReferenceConstPtr &msg) {
 
   if (!is_initialized_) {
     return;
   }
 
-  got_control_reference_ = true;
+  {
+    std::scoped_lock lock(mutex_feedforward_);
 
-  control_reference_ = *msg;
+    feedforward_ = *msg;
+  }
 
-  ROS_INFO_THROTTLE(5.0, "[%s]: getting the control reference", ros::this_node::getName().c_str());
+  ROS_INFO_THROTTLE(5.0, "[%s]: getting feedforward reference", ros::this_node::getName().c_str());
 }
 
 //}

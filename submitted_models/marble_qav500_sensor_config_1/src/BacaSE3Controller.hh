@@ -19,10 +19,16 @@ namespace multicopter_control
 
 struct BacaSE3ControllerParameters
 {
-  Eigen::Vector3d velocityGain;
-  Eigen::Vector3d attitudeGain;
-  Eigen::Vector3d angularRateGain;
-  Eigen::Vector3d maxLinearAcceleration;
+  Eigen::Vector3d velocity_gain;
+  Eigen::Vector3d attitude_gain;
+  Eigen::Vector3d angular_rate_gain;
+  Eigen::Vector3d max_linear_acceleration;
+};
+
+struct BacaSE3ControllerFeedforward
+{
+  Eigen::Vector3d acceleration;
+  Eigen::Vector3d jerk;
 };
 
 class BacaSE3Controller {
@@ -31,7 +37,8 @@ public:
   BacaSE3Controller(const BacaSE3ControllerParameters &controller_parameters, const VehicleParameters &vehicle_parameters);
 
   // the main function that returns the result
-  Eigen::VectorXd CalculateRotorVelocities(const FrameData &simulator_model_data, const EigenTwist &control_command) const;
+  Eigen::VectorXd CalculateRotorVelocities(const FrameData &simulator_model_data, const EigenTwist &control_command,
+                                           const BacaSE3ControllerFeedforward &feedforward_command) const;
 
 private:
   // | ----------------------- parameters ----------------------- |
@@ -48,8 +55,9 @@ private:
 
   // | -------------------- internal methods -------------------- |
 
-  Eigen::Vector3d ComputeDesiredAcceleration(const FrameData &simulator_model_data, const EigenTwist &control_command) const;
-  Eigen::Vector3d SO3Controller(const FrameData &simulator_model_data, const EigenTwist &control_command, const Eigen::Vector3d &_acceleration) const;
+  Eigen::Vector3d ComputeDesiredAcceleration(const FrameData &simulator_model_data, const Eigen::Vector3d &vel_ref, const Eigen::Vector3d &acc_ref) const;
+  Eigen::Vector3d SO3Controller(const FrameData &simulator_model_data, const Eigen::Vector3d &des_acceleration, const Eigen::Vector3d &des_jerk,
+                                const double &des_yaw_rate) const;
 };
 
 }  // namespace multicopter_control

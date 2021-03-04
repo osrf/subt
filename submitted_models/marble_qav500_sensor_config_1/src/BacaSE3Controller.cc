@@ -31,14 +31,27 @@ BacaSE3Controller::BacaSE3Controller(const BacaSE3ControllerParameters &controll
 
 /* CalculateRotorVelocities() //{ */
 
-Eigen::VectorXd BacaSE3Controller::CalculateRotorVelocities(const FrameData &simulator_model_data, const EigenTwist &control_command) const {
+Eigen::VectorXd BacaSE3Controller::CalculateRotorVelocities(const FrameData &simulator_model_data, const EigenTwist &control_command,
+                                                            const BacaSE3ControllerFeedforward &feedforward_command) const {
 
-  Eigen::Vector3d des_acceleration = this->ComputeDesiredAcceleration(simulator_model_data, control_command);
+  // | ----- transform the stuff from the body to the world ----- |
 
-  Eigen::Vector3d des_angular_acceleration = this->SO3Controller(simulator_model_data, control_command, des_acceleration);
+  // rotation from the body to the world
+  Eigen::Matrix3d R = simulator_model_data.pose.linear();
 
-  // Project thrust onto body z axis.
-  double thrust = -_vehicle_parameters_.mass * des_acceleration.dot(simulator_model_data.pose.linear().col(2));
+  Eigen::Vector3d vel_ref  = R * control_command.linear;
+  Eigen::Vector3d acc_ref  = R * feedforward_command.acceleration;
+  Eigen::Vector3d jerk_ref = R * feedforward_command.jerk;
+
+  // desired acceleration: proportional control of velocity + acceleration feedforward
+  Eigen::Vector3d des_acceleration = ComputeDesiredAcceleration(simulator_model_data, vel_ref, acc_ref);
+
+  const double des_yaw_rate = control_command.angular[2];
+
+  Eigen::Vector3d des_angular_acceleration = SO3Controller(simulator_model_data, des_acceleration, jerk_ref, des_yaw_rate);
+
+  // project thrust onto body z axis.
+  double thrust = _vehicle_parameters_.mass * des_acceleration.dot(simulator_model_data.pose.linear().col(2));
 
   Eigen::Vector4d angularAccelerationThrust;
 
@@ -69,10 +82,10 @@ bool BacaSE3Controller::InitializeParameters() {
   }
 
   // make inertia-independent attitude gain
-  normalized_attitude_gain_ = _controller_parameters_.attitudeGain.transpose() * _vehicle_parameters_.inertia.inverse();
+  normalized_attitude_gain_ = _controller_parameters_.attitude_gain.transpose() * _vehicle_parameters_.inertia.inverse();
 
   // make inertia-independent attitude rate gain
-  normalized_angular_rate_gain_ = _controller_parameters_.angularRateGain.transpose() * _vehicle_parameters_.inertia.inverse();
+  normalized_angular_rate_gain_ = _controller_parameters_.angular_rate_gain.transpose() * _vehicle_parameters_.inertia.inverse();
 
   {  // TODO check what this really does and where it comes from
 
@@ -97,86 +110,88 @@ bool BacaSE3Controller::InitializeParameters() {
 
 /* ComputeDesiredAcceleration() //{ */
 
-Eigen::Vector3d BacaSE3Controller::ComputeDesiredAcceleration(const FrameData &simulator_model_data, const EigenTwist &control_command) const {
+Eigen::Vector3d BacaSE3Controller::ComputeDesiredAcceleration(const FrameData &simulator_model_data, const Eigen::Vector3d &vel_ref,
+                                                              const Eigen::Vector3d &acc_ref) const {
 
-  Eigen::Vector3d velocityError = simulator_model_data.linearVelocityWorld - simulator_model_data.pose.linear() * control_command.linear;
+  // the velocity error
+  Eigen::Vector3d velocity_error = vel_ref - simulator_model_data.linearVelocityWorld;
 
-  Eigen::Vector3d accelCommand = velocityError.cwiseProduct(_controller_parameters_.velocityGain) / _vehicle_parameters_.mass;
+  // feedback on velocity through acceleration
+  Eigen::Vector3d feedback_a = velocity_error.cwiseProduct(_controller_parameters_.velocity_gain) / _vehicle_parameters_.mass;
 
-  accelCommand = accelCommand.cwiseAbs().cwiseMin(_controller_parameters_.maxLinearAcceleration).cwiseProduct(accelCommand.cwiseSign());
+  // sum up the individual components: feedback + feedforward
+  Eigen::Vector3d des_accel = feedback_a + acc_ref;
 
-  return accelCommand + _vehicle_parameters_.gravity;
+  // --------------------------------------------------------------
+  // |       limit the acceleration the the allowed maximum       |
+  // --------------------------------------------------------------
+  des_accel = des_accel.cwiseAbs().cwiseMin(_controller_parameters_.max_linear_acceleration).cwiseProduct(des_accel.cwiseSign());
+
+  std::cout << "des_accel " << std::endl << des_accel[0] << " ff " << acc_ref[0] << std::endl;
+
+  // + gravity compensation
+  return des_accel - _vehicle_parameters_.gravity;
 }
 
 //}
 
 /* SO3Controller() //{ */
 
-Eigen::Vector3d BacaSE3Controller::SO3Controller(const FrameData &simulator_model_data, const EigenTwist &control_command,
-                                                 const Eigen::Vector3d &_acceleration) const {
+Eigen::Vector3d BacaSE3Controller::SO3Controller(const FrameData &simulator_model_data, const Eigen::Vector3d &des_acceleration,
+                                                 const Eigen::Vector3d &des_jerk, const double &des_yaw_rate) const {
 
-  const Eigen::Matrix3d &rot = simulator_model_data.pose.linear();
+  // current orientation
+  const Eigen::Matrix3d &R = simulator_model_data.pose.linear();
 
-  // Get the desired rotation matrix.
-  Eigen::Vector3d b1Des = rot.col(0);
+  // desired force acting on the UAV
+  Eigen::Vector3d des_f      = des_acceleration * _vehicle_parameters_.mass;
+  Eigen::Vector3d des_f_norm = des_f.normalized();
 
-  Eigen::Vector3d b3Des;
-  b3Des = -_acceleration / _acceleration.norm();
+  // | ------- constructing the desired orientation matrix ------ |
 
-  // Check if b1 and b3 are parallel. If so, choose a different b1 vector. This
-  // could happen if the UAV is rotated by 90 degrees w.r.t the horizontal
-  // plane.
-  const double tol = 1e-3;
-  if (b1Des.cross(b3Des).squaredNorm() < tol) {
-    // acceleration and b1 are parallel. Choose a different vector
-    b1Des = rot.col(1);
+  // desired orientation
+  Eigen::Matrix3d Rd;
 
-    if (b1Des.cross(b3Des).squaredNorm() < tol) {
-      b1Des = rot.col(2);
-    }
-  }
+  // b3 will will be equal to the desired force vector
+  Eigen::Vector3d b3_des = des_f_norm;
 
-  Eigen::Vector3d b2Des;
-  b2Des = b3Des.cross(b1Des);
-  b2Des.normalize();
+  // since we don't control for desired yaw/heading, we care about maintaning the current one
+  // this can be, e.g., approximately achieved by requiring the b1 vector to stay as it is
+  Eigen::Vector3d b1_des = R.col(0);
 
-  Eigen::Matrix3d rotDes;
-  rotDes.col(0) = b2Des.cross(b3Des);
-  rotDes.col(1) = b2Des;
-  rotDes.col(2) = b3Des;
+  Rd.col(2) = b3_des;
+  Rd.col(1) = Rd.col(2).cross(b1_des);
+  Rd.col(1).normalize();
+  Rd.col(0) = Rd.col(1).cross(b3_des);
+  Rd.col(0).normalize();
 
-  // Angle error according to lee et al.
-  Eigen::Matrix3d angleErrorMatrix = 0.5 * (rotDes.transpose() * rot - rot.transpose() * rotDes);
-  Eigen::Vector3d angleError       = vectorFromSkewMatrix(angleErrorMatrix);
+  // orientation error
+  Eigen::Matrix3d R_e = 0.5 * (Rd.transpose() * R - R.transpose() * Rd);
+
+  // orientation error vector
+  Eigen::Vector3d R_e_vec = vectorFromSkewMatrix(R_e);
+
+  std::cout << "R_e_vec " << std::endl << R_e_vec << std::endl;
+
+  // | -------------------- jerk feedforward -------------------- |
+
+  Eigen::Vector3d q_feedforward = Eigen::Vector3d(0, 0, 0);
+
+  Eigen::Matrix3d I;
+  I << 0, 1, 0, -1, 0, 0, 0, 0, 0;
+  Eigen::Vector3d desired_jerk = Eigen::Vector3d(des_jerk[0], des_jerk[1], des_jerk[2]);
+  q_feedforward                = (I.transpose() * Rd.transpose() * desired_jerk) / (des_acceleration.dot(R.col(2)));
 
   // | ------------------ angular rate control ------------------ |
 
-  Eigen::Vector3d des_angular_rate(Eigen::Vector3d::Zero());
+  // des angular rate from the control command
+  Eigen::Vector3d des_angular_rate;
+  des_angular_rate = Eigen::Vector3d(0, 0, des_yaw_rate) + q_feedforward;
 
-  des_angular_rate[2] = control_command.angular[2];  // set the 'yaw rate' from the control command
+  // angular rate error
+  Eigen::Vector3d w_e = simulator_model_data.angularVelocityBody - R.transpose() * Rd * des_angular_rate;
 
-  // The paper shows
-  // e_omega = omega - R.T * R_d * omega_des
-  // The code in the RotorS implementation has
-  // e_omega = omega - R_d.T * R * omega_des
-  Eigen::Vector3d angularRateError = simulator_model_data.angularVelocityBody - rot.transpose() * rotDes * des_angular_rate;
-
-  // The following MOI terms are computed in the paper, but the RotorS
-  // implementation ignores them. They don't appear to make much of a
-  // difference.
-  // Eigen::Matrix3d moi = _vehicle_parameters_.inertia;
-  // const Eigen::Vector3d &omega = simulator_model_data.angularVelocityBody;
-
-  // Eigen::Vector3d moiTerm = omega.cross(moi * omega);
-
-  // Eigen::Vector3d moiTerm2 = moi * (skewMatrixFromVector(omega) *
-  //                            rot.transpose() * rotDes * des_angular_rate);
-
-  // std::cout << moiTerm2.transpose() << std::endl;
-  // return -1 * angleError.cwiseProduct(normalized_attitude_gain_) -
-  //         angularRateError.cwiseProduct(normalized_angular_rate_gain_) +
-  //         moiTerm - moiTerm2;
-  return -1 * angleError.cwiseProduct(normalized_attitude_gain_) - angularRateError.cwiseProduct(normalized_angular_rate_gain_);
+  return -1 * R_e_vec.cwiseProduct(normalized_attitude_gain_) - w_e.cwiseProduct(normalized_angular_rate_gain_);
 }
 
 //}

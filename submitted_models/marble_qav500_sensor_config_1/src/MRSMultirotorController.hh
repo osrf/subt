@@ -42,7 +42,6 @@ public:
   void PreUpdate(const ignition::gazebo::UpdateInfo &_info, ignition::gazebo::EntityComponentManager &ecm) override;
 
 private:
-
   bool is_initialized_ = false;
 
   // | ----------------------- parameters ----------------------- |
@@ -90,11 +89,11 @@ private:
   // |            subscriber for feedforward reference            |
   // --------------------------------------------------------------
 
-  void callbackControlReference(const marble_qav500_sensor_config_1::ControlReferenceConstPtr &msg);
+  void callbackFeedForward(const marble_qav500_sensor_config_1::ControlReferenceConstPtr &msg);
 
-  ros::Subscriber                                 subscriber_control_reference_;
-  bool                                            got_control_reference_ = false;
-  marble_qav500_sensor_config_1::ControlReference control_reference_;
+  ros::Subscriber                                                subscriber_feedforward_;
+  std::optional<marble_qav500_sensor_config_1::ControlReference> feedforward_;
+  std::mutex                                                     mutex_feedforward_;
 };
 
 }  // namespace systems
