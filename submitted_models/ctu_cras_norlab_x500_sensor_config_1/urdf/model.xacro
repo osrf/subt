@@ -361,7 +361,7 @@
       </geometry>
     </visual>
   </link>
-  <joint name='imu_joint' type='revolute'>
+  <joint name='imu_joint' type='fixed'>
     <origin xyz='0 0 0' rpy='0 -0 0'/>
     <parent link='${robot_namespace}/base_link'/>
     <child link='${robot_namespace}/imu_link'/>

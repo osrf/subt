@@ -678,7 +678,7 @@
         </geometry>
       </visual>
     </link>
-    <joint name='imu_joint' type='revolute'>
+    <joint name='imu_joint' type='fixed'>
       <pose relative_to='base_link'>0 0 0 0 -0 0</pose>
       <parent>base_link</parent>
       <child>imu_link</child>
