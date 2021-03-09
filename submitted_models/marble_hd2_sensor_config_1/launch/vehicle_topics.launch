@@ -294,5 +294,35 @@
         <remap from="/model/$(arg name)/breadcrumb/deploy" to="breadcrumb/deploy"/>
       </node>
     </group>
+    
+    <!-- Mapping Server -->
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_mapping_server_cloud"
+      args="/model/$(arg name)/cloud@sensor_msgs/PointCloud2]ignition.msgs.PointCloudPacked">
+      <remap from="/model/$(arg name)/cloud" to="/cloud"/>
+    </node>
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_mapping_server_grid"
+      args="/model/$(arg name)/grid@nav_msgs/OccupancyGrid]ignition.msgs.OccupancyGrid">
+      <remap from="/model/$(arg name)/grid" to="/grid"/>
+    </node>
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_mapping_server_poses"
+      args="/model/$(arg name)/poses@geometry_msgs/PoseArray]ignition.msgs.Pose_V">
+      <remap from="/model/$(arg name)/poses" to="/poses"/>
+    </node>
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_mapping_server_markers"
+      args="/model/$(arg name)/markers@visualization_msgs/MarkerArray]ignition.msgs.Marker_V">
+      <remap from="/model/$(arg name)/markers" to="/markers"/>
+    </node>
   </group>
 </launch>
