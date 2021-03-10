@@ -439,7 +439,7 @@
 	    
       <!-- Based on Intel realsense D435 (intrinsics and distortion not modeled)-->
       <sensor name="rs_front" type="rgbd_camera">
-        <pose>0.43 0 0.634 0 0.52 0</pose>
+        <pose>0.45 0 0.634 0 0.52 0</pose>
         <always_on>1</always_on>
         <update_rate>30</update_rate>
         <camera name="rs_front">
