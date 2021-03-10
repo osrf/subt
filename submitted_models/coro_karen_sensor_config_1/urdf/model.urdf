@@ -1,0 +1,406 @@
+<?xml version="1.0" ?>
+<robot name="CORO_KAREN">
+  <joint name="CORO_KAREN__front_left_wheel_steering_joint" type="revolute">
+    <parent link="CORO_KAREN__base_link"/>
+    <child link="CORO_KAREN__front_left_wheel_steering_link"/>
+    <origin rpy="0 0 0" xyz="0.465  0.22   0.1475"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="150.0" lower="-0.6" upper="0.6" velocity="1.0"/>
+  </joint>
+  <joint name="CORO_KAREN__front_right_wheel_steering_joint" type="revolute">
+    <parent link="CORO_KAREN__base_link"/>
+    <child link="CORO_KAREN__front_right_wheel_steering_link"/>
+    <origin rpy="0 0 0" xyz="0.465  -0.22    0.1475"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="150.0" lower="-0.6" upper="0.6" velocity="1.0"/>
+  </joint>
+  <joint name="CORO_KAREN__front_left_wheel_joint" type="revolute">
+    <parent link="CORO_KAREN__front_left_wheel_steering_link"/>
+    <child link="CORO_KAREN__front_left_wheel"/>
+    <origin rpy="0 0 0" xyz="0     0.105 -0.02"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="35.0" lower="-1.79769e+308" upper="1.79769e+308" velocity="9.71"/>
+  </joint>
+  <joint name="CORO_KAREN__front_right_wheel_joint" type="revolute">
+    <parent link="CORO_KAREN__front_right_wheel_steering_link"/>
+    <child link="CORO_KAREN__front_right_wheel"/>
+    <origin rpy="0 0 0" xyz="0    -0.105 -0.02"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="35.0" lower="-1.79769e+308" upper="1.79769e+308" velocity="9.71"/>
+  </joint>
+  <joint name="CORO_KAREN__rear_left_wheel_joint" type="revolute">
+    <parent link="CORO_KAREN__base_link"/>
+    <child link="CORO_KAREN__rear_left_wheel"/>
+    <origin rpy="0 0 0" xyz="-0.465   0.325   0.1275"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="35.0" lower="-1.79769e+308" upper="1.79769e+308" velocity="9.71"/>
+  </joint>
+  <joint name="CORO_KAREN__rear_right_wheel_joint" type="revolute">
+    <parent link="CORO_KAREN__base_link"/>
+    <child link="CORO_KAREN__rear_right_wheel"/>
+    <origin rpy="0 0 0" xyz="-0.465  -0.325   0.1275"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="35.0" lower="-1.79769e+308" upper="1.79769e+308" velocity="9.71"/>
+  </joint>
+  <link name="CORO_KAREN__base_link">
+    <inertial>
+      <mass value="90.0"/>
+      <origin rpy="0 0 0" xyz="0      0      0.07249"/>
+      <inertia ixx="3.333" ixy="0" ixz="0" iyy="9.733" iyz="0" izz="9.733"/>
+    </inertial>
+    <collision name="CORO_KAREN__chassis_collision">
+      <origin rpy="0 0 0" xyz="0     0     0.3775"/>
+      <geometry>
+        <box size="1.1 0.7 0.4"/>
+      </geometry>
+    </collision>
+    <collision name="CORO_KAREN__tower_collision">
+      <origin rpy="0 0 0" xyz="0.13   0     0.3975"/>
+      <geometry>
+        <box size="0.2 0.2 0.34"/>
+      </geometry>
+    </collision>
+    <visual name="CORO_KAREN__chassis_main_visual">
+      <origin rpy="0 0 0" xyz="0     0     0.2775"/>
+      <geometry>
+        <box size="1.0 0.45 0.2"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__front_side">
+      <origin rpy="1.5707 0     0" xyz="0.5    0     0.4275"/>
+      <geometry>
+        <cylinder length="0.55" radius="0.07"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__back_side">
+      <origin rpy="1.5707 0     0" xyz="-0.5     0      0.4275"/>
+      <geometry>
+        <cylinder length="0.55" radius="0.07"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__left_side">
+      <origin rpy="0     1.5707 0" xyz="0     0.25   0.4275"/>
+      <geometry>
+        <cylinder length="1.0" radius="0.07"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__right_side">
+      <origin rpy="0     1.5707 0" xyz="0     -0.25    0.4275"/>
+      <geometry>
+        <cylinder length="1.0" radius="0.07"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__differential_visual">
+      <origin rpy="1.5707 0     0" xyz="-0.5     0      0.1275"/>
+      <geometry>
+        <cylinder length="0.44" radius="0.06"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__plate1_visual">
+      <origin rpy="0 0 0" xyz="0.37   0     0.7875"/>
+      <geometry>
+        <box size="0.2 0.2 0.005"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__plate2_visual">
+      <origin rpy="0 0 0" xyz="0.37   0     0.6775"/>
+      <geometry>
+        <box size="0.2 0.2 0.005"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__plate3_visual">
+      <origin rpy="0 0 0" xyz="0.37   0     0.4875"/>
+      <geometry>
+        <box size="0.2 0.2 0.005"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__beam1_visual">
+      <origin rpy="0 0 0" xyz="0.461   0.091   0.63749"/>
+      <geometry>
+        <box size="0.02 0.02 0.3"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__beam2_visual">
+      <origin rpy="0 0 0" xyz="0.461   -0.091    0.63749"/>
+      <geometry>
+        <box size="0.02 0.02 0.3"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__beam3_visual">
+      <origin rpy="0 0 0" xyz="0.279  0.091  0.5375"/>
+      <geometry>
+        <box size="0.02 0.02 0.5"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__beam4_visual">
+      <origin rpy="0 0 0" xyz="0.279  -0.091   0.5375"/>
+      <geometry>
+        <box size="0.02 0.02 0.5"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__d435i_realsense_camera_visual">
+      <origin rpy="0   0.52 0" xyz="0.43   0     0.7615"/>
+      <geometry>
+        <mesh filename="package://coro_karen_sensor_config_1/meshes/realsense_d435.dae" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__vlp16_visual1">
+      <origin rpy="0 0 0" xyz="0.37   0     0.6795"/>
+      <geometry>
+        <mesh filename="package://coro_karen_sensor_config_1/meshes/VLP16_base_1.dae" scale="1 1 1"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__vlp_visual2">
+      <origin rpy="0 0 0" xyz="0.37   0     0.6795"/>
+      <geometry>
+        <mesh filename="package://coro_karen_sensor_config_1/meshes/VLP16_base_2.dae" scale="1 1 1"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__vlp_visual3">
+      <origin rpy="0 0 0" xyz="0.37   0     0.6795"/>
+      <geometry>
+        <mesh filename="package://coro_karen_sensor_config_1/meshes/VLP16_scan.dae" scale="1 1 1"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__emergency_stop_bottom_visual">
+      <origin rpy="0 0 0" xyz="0.13   -0.13    0.3875"/>
+      <geometry>
+        <cylinder length="0.015" radius="0.015"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__emergency_stop_top_visual">
+      <origin rpy="0 0 0" xyz="0.13   -0.13    0.3975"/>
+      <geometry>
+        <cylinder length="0.005" radius="0.02"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__thermal_camera_visual">
+      <origin rpy="0 0 0" xyz="0.45   -0.06    0.7725"/>
+      <geometry>
+        <box size="0.02 0.03 0.03"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__camera_front_visual">
+      <origin rpy="0 0 0" xyz="0.46   0.06   0.7725"/>
+      <geometry>
+        <box size="0.01 0.03 0.03"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__camera_lens_front_visual">
+      <origin rpy="0      1.57079 0" xyz="0.47   0.06   0.7725"/>
+      <geometry>
+        <cylinder length="0.011" radius="0.005"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__camera_rear_visual">
+      <origin rpy="0 0 0" xyz="0.28   0     0.7725"/>
+      <geometry>
+        <box size="0.01 0.03 0.03"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__camera_lens_rear_visual">
+      <origin rpy="0      1.57079 0" xyz="0.27   0     0.7725"/>
+      <geometry>
+        <cylinder length="0.011" radius="0.005"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__camera_left_visual">
+      <origin rpy="0 0 0" xyz="0.37   0.09   0.7725"/>
+      <geometry>
+        <box size="0.03 0.01 0.03"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__camera_lens_left_visual">
+      <origin rpy="1.57079 0      0" xyz="0.37   0.1    0.7725"/>
+      <geometry>
+        <cylinder length="0.011" radius="0.005"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__camera_right_visual">
+      <origin rpy="0 0 0" xyz="0.37   -0.09    0.7725"/>
+      <geometry>
+        <box size="0.03 0.01 0.03"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__camera_lens_right_visual">
+      <origin rpy="1.57079 0      0" xyz="0.37   -0.1     0.7725"/>
+      <geometry>
+        <cylinder length="0.011" radius="0.005"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__light_front_left_visual">
+      <origin rpy="0   0   0.75" xyz="0.44   0.23   0.5375"/>
+      <geometry>
+        <box size="0.01 0.12 0.08"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__light_front_right_visual">
+      <origin rpy="0    0   -0.75" xyz="0.44   -0.23    0.5375"/>
+      <geometry>
+        <box size="0.01 0.12 0.08"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__light_rear_left_visual">
+      <origin rpy="0    0   -0.75" xyz="-0.3     0.25    0.5375"/>
+      <geometry>
+        <box size="0.01 0.12 0.08"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__light_rear_right_visual">
+      <origin rpy="0   0   0.75" xyz="-0.3    -0.25    0.5375"/>
+      <geometry>
+        <box size="0.01 0.12 0.08"/>
+      </geometry>
+    </visual>
+  </link>
+  <link name="CORO_KAREN__front_left_wheel_steering_link">
+    <inertial>
+      <mass value="0.5"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="0.0153" ixy="0" ixz="0" iyy="0.025" iyz="0" izz="0.0153"/>
+    </inertial>
+    <visual name="CORO_KAREN__steering_link_visual">
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.1" radius="0.03"/>
+      </geometry>
+    </visual>
+  </link>
+  <link name="CORO_KAREN__front_right_wheel_steering_link">
+    <inertial>
+      <mass value="0.5"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="0.0153" ixy="0" ixz="0" iyy="0.025" iyz="0" izz="0.0153"/>
+    </inertial>
+    <visual name="CORO_KAREN__steering_link_visual">
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.1" radius="0.03"/>
+      </geometry>
+    </visual>
+  </link>
+  <link name="CORO_KAREN__front_left_wheel">
+    <inertial>
+      <mass value="5.0"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="0.043" ixy="0" ixz="0" iyy="0.076" iyz="0" izz="0.043"/>
+    </inertial>
+    <collision name="CORO_KAREN__collision">
+      <origin rpy="-1.57079  0       0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.11" radius="0.175"/>
+      </geometry>
+    </collision>
+    <visual name="CORO_KAREN__tire_visual">
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://coro_karen_sensor_config_1/meshes/wheel.dae" scale="1.01 1.0 1.01"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__hub_visual">
+      <origin rpy="1.57079 0      0" xyz="0   -0.01  0"/>
+      <geometry>
+        <cylinder length="0.025" radius="0.04"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__axis_visual">
+      <origin rpy="1.57079 0      0" xyz="0   -0.08  0"/>
+      <geometry>
+        <cylinder length="0.1" radius="0.008"/>
+      </geometry>
+    </visual>
+  </link>
+  <link name="CORO_KAREN__front_right_wheel">
+    <inertial>
+      <mass value="5.0"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="0.043" ixy="0" ixz="0" iyy="0.076" iyz="0" izz="0.043"/>
+    </inertial>
+    <collision name="CORO_KAREN__collision">
+      <origin rpy="1.57079 0      0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.11" radius="0.175"/>
+      </geometry>
+    </collision>
+    <visual name="CORO_KAREN__tire_visual">
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://coro_karen_sensor_config_1/meshes/wheel.dae" scale="1.01 1.0 1.01"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__hub_visual">
+      <origin rpy="1.57079 0      0" xyz="0   0.01 0"/>
+      <geometry>
+        <cylinder length="0.025" radius="0.04"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__axis_visual">
+      <origin rpy="1.57079 0      0" xyz="0   0.08 0"/>
+      <geometry>
+        <cylinder length="0.1" radius="0.008"/>
+      </geometry>
+    </visual>
+  </link>
+  <link name="CORO_KAREN__rear_left_wheel">
+    <inertial>
+      <mass value="5.0"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="0.043" ixy="0" ixz="0" iyy="0.076" iyz="0" izz="0.043"/>
+    </inertial>
+    <collision name="CORO_KAREN__collision">
+      <origin rpy="-1.57079  0       0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.11" radius="0.175"/>
+      </geometry>
+    </collision>
+    <visual name="CORO_KAREN__tire_visual">
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://coro_karen_sensor_config_1/meshes/wheel.dae" scale="1.01 1.0 1.01"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__hub_visual">
+      <origin rpy="1.57079 0      0" xyz="0   -0.01  0"/>
+      <geometry>
+        <cylinder length="0.025" radius="0.04"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__axis_visual">
+      <origin rpy="1.57079 0      0" xyz="0   -0.08  0"/>
+      <geometry>
+        <cylinder length="0.1" radius="0.008"/>
+      </geometry>
+    </visual>
+  </link>
+  <link name="CORO_KAREN__rear_right_wheel">
+    <inertial>
+      <mass value="5.0"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="0.043" ixy="0" ixz="0" iyy="0.076" iyz="0" izz="0.043"/>
+    </inertial>
+    <collision name="CORO_KAREN__collision">
+      <origin rpy="1.57079 0      0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.11" radius="0.175"/>
+      </geometry>
+    </collision>
+    <visual name="CORO_KAREN__tire_visual">
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://coro_karen_sensor_config_1/meshes/wheel.dae" scale="1.01 1.0 1.01"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__hub_visual">
+      <origin rpy="1.57079 0      0" xyz="0   0.01 0"/>
+      <geometry>
+        <cylinder length="0.025" radius="0.04"/>
+      </geometry>
+    </visual>
+    <visual name="CORO_KAREN__axis_visual">
+      <origin rpy="1.57079 0      0" xyz="0   0.08 0"/>
+      <geometry>
+        <cylinder length="0.1" radius="0.008"/>
+      </geometry>
+    </visual>
+  </link>
+</robot>
