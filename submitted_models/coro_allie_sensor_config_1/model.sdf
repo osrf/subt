@@ -187,7 +187,7 @@
       </visual>
 
       <visual name="d435i_realsense_camera_visual">
-        <pose>0.19 0 0.394 0 0.42 0</pose>
+        <pose>0.19 0 0.393 0 0.52 0</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -331,7 +331,7 @@
 
       <!-- Based on Intel realsense D435 (intrinsics and distortion not modeled)-->
       <sensor name="rgbd_front" type="rgbd_camera">
-        <pose>0.19 0 0.393 0 0.42 0</pose>
+        <pose>0.21 0 0.393 0 0.52 0</pose>
         <always_on>1</always_on>
         <update_rate>30</update_rate>
         <camera name="rgbd_front">
