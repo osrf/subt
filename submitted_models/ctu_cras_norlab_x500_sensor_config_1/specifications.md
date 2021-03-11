@@ -19,7 +19,7 @@ The CTU-CRAS-NORLAB's X500 UAV  has an estimated commercial cost of 12500 USD.
 It weights approximately 3.3 kg.
 
 ## Sensors
-This X500 with sensor configuration Sensor Configu 1 includes the following sensors. 
+This X500 with sensor configuration Sensor Config 1 includes the following sensors. 
 The specifications of the sensors are provided below in
 the [Validation Links](#validation_links) section.
 
@@ -27,7 +27,7 @@ The following specific sensors are declared payloads of this vehicle:
 
 * 2x RGBD camera - Intel Realsense D435i, modeled by `rgbd_camera` plugin.
 * 1x 3D medium range LiDAR - Ouster OS0-64, modeled by `gpu_lidar` plugin.
-* 1x HD wide camera with standard SubT specification, modeled by `camera` plugin.
+* 1x HD wide camera - Basler dart daA1600-60um with DSL165A lens, modeled by `camera` plugin.
 * 1x IMU with standard SubT specification, modeled by `imu` plugin.
 
 ## Control
@@ -54,9 +54,6 @@ Based on the tests specified in the DARPA SubT Challenge [Model Preparation Guid
 
 ## Diversions from Physical Hardware
 Virtual X500 is a faithful representation of real-world X500 with few diversions:
-* Front RGB Camera
-  * Real-world: [mvBlueFOX-MLC 200w](https://www.matrix-vision.com/USB2.0-single-board-camera-mvbluefox-mlc.html) soon to be upgraded to [daA1600-60um](https://www.baslerweb.com/en/products/cameras/area-scan-cameras/dart/daa1600-60um-s-mount/ )
-  * Virtual: HD wide camera from the [subt repository](https://github.com/osrf/subt/wiki/api#sensors)
 * IMU:
   * Real-world: we are using the IMU from [Pixhawk4 FCU](https://docs.px4.io/master/en/flight_controller/pixhawk4.html#quick-summary)
   * Virtual: IMU from the [subt repository](https://github.com/osrf/subt/wiki/api#sensors)
@@ -68,6 +65,8 @@ Virtual X500 is a faithful representation of real-world X500 with few diversions
   * [Batteries](https://www.professional-multirotors.com/product/tattu-6750mah-14-8v-25c-4s1p-lipo-battery-99wh/)
 * Sensor specification links:
   * [Intel Realsense D435](https://www.intelrealsense.com/depth-camera-d435/)
+  * [Basler dart daA1600-60um](https://www.baslerweb.com/en/products/cameras/area-scan-cameras/dart/daa1600-60um-s-mount/)
+  * [DSL165a lens](https://www.framos.com/en/dsl165a-nir-f1.6-22853)
   * [Ouster OS0-64 LiDAR](https://data.ouster.io/downloads/datasheets/datasheet-revd-v2p0-os0.pdf)
 * Motion validation links
   * [Unedited video](https://www.youtube.com/watch?v=ilg0HgWysHg)

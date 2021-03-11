@@ -37,18 +37,18 @@
     <sensor name="rs_up" type="rgbd_camera">
         <pose>0.82 0 0.034 0 -1.57079632679 0</pose>
         <always_on>1</always_on>
-        <update_rate>20</update_rate>
+        <update_rate>30</update_rate>
         <camera name="rs_up">
-            <horizontal_fov>1.0472</horizontal_fov>
+            <horizontal_fov>1.50098</horizontal_fov>
             <lens>
                 <intrinsics>
                     <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
-                    <fx>554.25469</fx>
-                    <fy>554.25469</fy>
-                    <!-- cx = ( width + 1 ) / 2 -->
-                    <cx>320.5</cx>
-                    <!-- cy = ( height + 1 ) / 2 -->
-                    <cy>240.5</cy>
+                    <fx>686.32</fx>
+                    <fy>686.32</fy>
+                    <!-- cx = ( width - 1 ) / 2 -->
+                    <cx>639.5</cx>
+                    <!-- cy = ( height - 1 ) / 2 -->
+                    <cy>359.5</cy>
                     <s>0</s>
                 </intrinsics>
             </lens>
@@ -61,8 +61,8 @@
                 <center>0.5 0.5</center>
             </distortion>
             <image>
-                <width>640</width>
-                <height>480</height>
+                <width>1280</width>
+                <height>720</height>
                 <format>R8G8B8</format>
             </image>
             <clip>
@@ -86,18 +86,18 @@
     <sensor name="rs_down" type="rgbd_camera">
         <pose>0.85 0 -0.20 0 1.57079632679 0</pose>
         <always_on>1</always_on>
-        <update_rate>20</update_rate>
+        <update_rate>30</update_rate>
         <camera name="rs_down">
-            <horizontal_fov>1.0472</horizontal_fov>
+            <horizontal_fov>1.50098</horizontal_fov>
             <lens>
                 <intrinsics>
                     <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
-                    <fx>554.25469</fx>
-                    <fy>554.25469</fy>
-                    <!-- cx = ( width + 1 ) / 2 -->
-                    <cx>320.5</cx>
-                    <!-- cy = ( height + 1 ) / 2 -->
-                    <cy>240.5</cy>
+                    <fx>686.32</fx>
+                    <fy>686.32</fy>
+                    <!-- cx = ( width - 1 ) / 2 -->
+                    <cx>639.5</cx>
+                    <!-- cy = ( height - 1 ) / 2 -->
+                    <cy>359.5</cy>
                     <s>0</s>
                 </intrinsics>
             </lens>
@@ -110,8 +110,8 @@
                 <center>0.5 0.5</center>
             </distortion>
             <image>
-                <width>640</width>
-                <height>480</height>
+                <width>1280</width>
+                <height>720</height>
                 <format>R8G8B8</format>
             </image>
             <clip>
@@ -135,18 +135,18 @@
     <sensor name="camera_front" type="camera">
         <pose>0.107 0 0.0 0 0 0</pose>
         <always_on>1</always_on>
-        <update_rate>20</update_rate>
+        <update_rate>60</update_rate>
         <camera name="camera_front">
-            <horizontal_fov>1.0472</horizontal_fov>
+            <horizontal_fov>1.74533</horizontal_fov>
             <lens>
                 <intrinsics>
                     <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
-                    <fx>1108.5</fx>
-                    <fy>1108.5</fy>
-                    <!-- cx = ( width + 1 ) / 2 -->
-                    <cx>640.5</cx>
-                    <!-- cy = ( height + 1 ) / 2 -->
-                    <cy>480.5</cy>
+                    <fx>671.28</fx>
+                    <fy>671.28</fy>
+                    <!-- cx = ( width - 1 ) / 2 -->
+                    <cx>839.5</cx>
+                    <!-- cy = ( height - 1 ) / 2 -->
+                    <cy>599.5</cy>
                     <s>0</s>
                 </intrinsics>
             </lens>
@@ -159,8 +159,8 @@
                 <center>0.5 0.5</center>
             </distortion>
             <image>
-                <width>1280</width>
-                <height>960</height>
+                <width>1600</width>
+                <height>1200</height>
                 <format>R8G8B8</format>
             </image>
             <clip>
