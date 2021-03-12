@@ -284,6 +284,43 @@
       </spot>
       <direction>1 0 0</direction>
     </light>
+
+    <light name="top_light" type="spot">
+      <pose>0.05 0 0.059 0 3.14159 0</pose>
+      <attenuation>
+        <range>50</range>
+        <linear>0</linear>
+        <constant>0.1</constant>
+        <quadratic>0.0025</quadratic>
+      </attenuation>
+      <diffuse>0.8 0.8 0.5 1</diffuse>
+      <specular>0.8 0.8 0.5 1</specular>
+      <spot>
+        <inner_angle>2.8</inner_angle>
+        <outer_angle>2.9</outer_angle>
+        <falloff>1</falloff>
+      </spot>
+      <direction>1 0 0</direction>
+    </light>
+
+    <light name="bottom_light" type="spot">
+      <pose>0.03 0 -0.05 0 0 0</pose>
+      <attenuation>
+        <range>50</range>
+        <linear>0</linear>
+        <constant>0.1</constant>
+        <quadratic>0.0025</quadratic>
+      </attenuation>
+      <diffuse>0.8 0.8 0.5 1</diffuse>
+      <specular>0.8 0.8 0.5 1</specular>
+      <spot>
+        <inner_angle>2.8</inner_angle>
+        <outer_angle>2.9</outer_angle>
+        <falloff>1</falloff>
+      </spot>
+      <direction>1 0 0</direction>
+    </light>
+
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>3.3</mass>
@@ -304,7 +341,23 @@
           </box>
         </geometry>
       </collision>
-      <collision name='base_link_fixed_joint_lump__front_left_leg_clip_link_collision_1'>
+      <collision name='base_link_fixed_joint_lump__bottom_light_link_collision_1'>
+        <pose>0.03 0 -0.05 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.01 0.1 0.003</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__top_light_link_collision_2'>
+        <pose>0.05 0 0.059 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.01 0.1 0.003</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__front_left_leg_clip_link_collision_3'>
         <pose>0.162635 0.162635 -0.0785 0 -0 0</pose>
         <geometry>
           <cylinder>
@@ -313,7 +366,7 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name='base_link_fixed_joint_lump__front_left_leg_light_link_collision_2'>
+      <collision name='base_link_fixed_joint_lump__front_left_leg_light_link_collision_4'>
         <pose>0.159099 0.152028 -0.0785 0 -0 2.35619</pose>
         <geometry>
           <box>
@@ -321,7 +374,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name='base_link_fixed_joint_lump__front_right_leg_clip_link_collision_3'>
+      <collision name='base_link_fixed_joint_lump__front_right_leg_clip_link_collision_5'>
         <pose>0.162635 -0.162635 -0.0785 0 0 -1.5708</pose>
         <geometry>
           <cylinder>
@@ -330,7 +383,7 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name='base_link_fixed_joint_lump__front_right_leg_light_link_collision_4'>
+      <collision name='base_link_fixed_joint_lump__front_right_leg_light_link_collision_6'>
         <pose>0.159099 -0.152028 -0.0785 0 -0 0.785398</pose>
         <geometry>
           <box>
@@ -338,7 +391,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name='base_link_fixed_joint_lump__os_sensor_link_collision_5'>
+      <collision name='base_link_fixed_joint_lump__os_sensor_link_collision_7'>
         <pose>0 0 0.0944 0 -0 1.5708</pose>
         <geometry>
           <cylinder>
@@ -347,7 +400,7 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name='base_link_fixed_joint_lump__rear_left_leg_clip_link_collision_6'>
+      <collision name='base_link_fixed_joint_lump__rear_left_leg_clip_link_collision_8'>
         <pose>-0.162635 0.162635 -0.0785 0 -0 1.5708</pose>
         <geometry>
           <cylinder>
@@ -356,7 +409,7 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name='base_link_fixed_joint_lump__rear_right_leg_clip_link_collision_7'>
+      <collision name='base_link_fixed_joint_lump__rear_right_leg_clip_link_collision_9'>
         <pose>-0.162635 -0.162635 -0.0785 0 0 -3.14159</pose>
         <geometry>
           <cylinder>
@@ -365,7 +418,7 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name='base_link_fixed_joint_lump__rs_up_holder_link_collision_8'>
+      <collision name='base_link_fixed_joint_lump__rs_up_holder_link_collision_10'>
         <pose>0.085 0 0.032 -1.5708 -0 -1.5708</pose>
         <geometry>
           <mesh>
@@ -374,7 +427,7 @@
           </mesh>
         </geometry>
       </collision>
-      <collision name='base_link_fixed_joint_lump__sensor_holder_link_collision_9'>
+      <collision name='base_link_fixed_joint_lump__sensor_holder_link_collision_11'>
         <pose>0 0 -0.022 1.5708 0 -1.5708</pose>
         <geometry>
           <mesh>
@@ -491,7 +544,24 @@
           </mesh>
         </geometry>
       </visual>
-      <visual name='base_link_fixed_joint_lump__computer_board_link_visual_11'>
+      <visual name='base_link_fixed_joint_lump__bottom_light_link_visual_11'>
+        <pose>0.03 0 -0.05 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.01 0.1 0.003</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>1.0 1.0 1.0 1.0</ambient>
+          <diffuse>1.0 1.0 1.0 1.0</diffuse>
+          <specular>1.0 1.0 1.0 1.0</specular>
+          <script>
+            <name>Gazebo/White</name>
+            <uri>materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__computer_board_link_visual_12'>
         <pose>0 0 0.058 0 -0 0</pose>
         <geometry>
           <box>
@@ -499,7 +569,24 @@
           </box>
         </geometry>
       </visual>
-      <visual name='base_link_fixed_joint_lump__front_left_arm_link_visual_12'>
+      <visual name='base_link_fixed_joint_lump__top_light_link_visual_13'>
+        <pose>0.05 0 0.059 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.01 0.1 0.003</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>1.0 1.0 1.0 1.0</ambient>
+          <diffuse>1.0 1.0 1.0 1.0</diffuse>
+          <specular>1.0 1.0 1.0 1.0</specular>
+          <script>
+            <name>Gazebo/White</name>
+            <uri>materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__front_left_arm_link_visual_14'>
         <pose>0 0 0 0 -0 0.785398</pose>
         <geometry>
           <mesh>
@@ -508,7 +595,7 @@
           </mesh>
         </geometry>
       </visual>
-      <visual name='base_link_fixed_joint_lump__front_left_leg_clip_link_visual_13'>
+      <visual name='base_link_fixed_joint_lump__front_left_leg_clip_link_visual_15'>
         <pose>0.162635 0.162635 -0.157 0 -0 0.785398</pose>
         <geometry>
           <mesh>
@@ -517,7 +604,7 @@
           </mesh>
         </geometry>
       </visual>
-      <visual name='base_link_fixed_joint_lump__front_left_leg_light_link_visual_14'>
+      <visual name='base_link_fixed_joint_lump__front_left_leg_light_link_visual_16'>
         <pose>0.159099 0.152028 -0.0785 0 -0 2.35619</pose>
         <geometry>
           <box>
@@ -534,7 +621,7 @@
           </script>
         </material>
       </visual>
-      <visual name='base_link_fixed_joint_lump__front_left_rotor_link_visual_15'>
+      <visual name='base_link_fixed_joint_lump__front_left_rotor_link_visual_17'>
         <pose>0.177484 0.177484 0.021 0 -0 0</pose>
         <geometry>
           <mesh>
@@ -543,7 +630,7 @@
           </mesh>
         </geometry>
       </visual>
-      <visual name='base_link_fixed_joint_lump__front_right_arm_link_visual_16'>
+      <visual name='base_link_fixed_joint_lump__front_right_arm_link_visual_18'>
         <pose>0 0 0 0 0 -0.785398</pose>
         <geometry>
           <mesh>
@@ -552,7 +639,7 @@
           </mesh>
         </geometry>
       </visual>
-      <visual name='base_link_fixed_joint_lump__front_right_leg_clip_link_visual_17'>
+      <visual name='base_link_fixed_joint_lump__front_right_leg_clip_link_visual_19'>
         <pose>0.162635 -0.162635 -0.157 0 0 -0.785398</pose>
         <geometry>
           <mesh>
@@ -561,7 +648,7 @@
           </mesh>
         </geometry>
       </visual>
-      <visual name='base_link_fixed_joint_lump__front_right_leg_light_link_visual_18'>
+      <visual name='base_link_fixed_joint_lump__front_right_leg_light_link_visual_20'>
         <pose>0.159099 -0.152028 -0.0785 0 -0 0.785398</pose>
         <geometry>
           <box>
@@ -578,7 +665,7 @@
           </script>
         </material>
       </visual>
-      <visual name='base_link_fixed_joint_lump__front_right_rotor_link_visual_19'>
+      <visual name='base_link_fixed_joint_lump__front_right_rotor_link_visual_21'>
         <pose>0.177484 -0.177484 0.021 0 -0 0</pose>
         <geometry>
           <mesh>
@@ -587,7 +674,7 @@
           </mesh>
         </geometry>
       </visual>
-      <visual name='base_link_fixed_joint_lump__left_cover_link_visual_20'>
+      <visual name='base_link_fixed_joint_lump__left_cover_link_visual_22'>
         <pose>0 0.064 0.03 0 0 -3.14159</pose>
         <geometry>
           <mesh>
@@ -596,7 +683,7 @@
           </mesh>
         </geometry>
       </visual>
-      <visual name='base_link_fixed_joint_lump__os_sensor_link_visual_21'>
+      <visual name='base_link_fixed_joint_lump__os_sensor_link_visual_23'>
         <pose>0 0 0.06 0 -0 1.5708</pose>
         <geometry>
           <mesh>
@@ -605,7 +692,7 @@
           </mesh>
         </geometry>
       </visual>
-      <visual name='base_link_fixed_joint_lump__os_sensor_window_link_visual_22'>
+      <visual name='base_link_fixed_joint_lump__os_sensor_window_link_visual_24'>
         <pose>0 0 0.0944 0 -0 0</pose>
         <geometry>
           <cylinder>
@@ -614,7 +701,7 @@
           </cylinder>
         </geometry>
       </visual>
-      <visual name='base_link_fixed_joint_lump__pc_mount_link_visual_23'>
+      <visual name='base_link_fixed_joint_lump__pc_mount_link_visual_25'>
         <pose>0 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
@@ -623,7 +710,7 @@
           </mesh>
         </geometry>
       </visual>
-      <visual name='base_link_fixed_joint_lump__pixhawk_link_visual_24'>
+      <visual name='base_link_fixed_joint_lump__pixhawk_link_visual_26'>
         <pose>0 0 0.036 0 -0 0</pose>
         <geometry>
           <mesh>
@@ -632,7 +719,7 @@
           </mesh>
         </geometry>
       </visual>
-      <visual name='base_link_fixed_joint_lump__rear_left_leg_clip_link_visual_25'>
+      <visual name='base_link_fixed_joint_lump__rear_left_leg_clip_link_visual_27'>
         <pose>-0.162635 0.162635 -0.157 0 -0 2.35619</pose>
         <geometry>
           <mesh>
@@ -641,7 +728,7 @@
           </mesh>
         </geometry>
       </visual>
-      <visual name='base_link_fixed_joint_lump__rear_right_leg_clip_link_visual_26'>
+      <visual name='base_link_fixed_joint_lump__rear_right_leg_clip_link_visual_28'>
         <pose>-0.162635 -0.162635 -0.157 0 0 -2.35619</pose>
         <geometry>
           <mesh>
@@ -650,7 +737,7 @@
           </mesh>
         </geometry>
       </visual>
-      <visual name='base_link_fixed_joint_lump__right_cover_link_visual_27'>
+      <visual name='base_link_fixed_joint_lump__right_cover_link_visual_29'>
         <pose>0 -0.064 0.03 0 -0 0</pose>
         <geometry>
           <mesh>
@@ -659,7 +746,7 @@
           </mesh>
         </geometry>
       </visual>
-      <visual name='base_link_fixed_joint_lump__rs_up_holder_link_visual_28'>
+      <visual name='base_link_fixed_joint_lump__rs_up_holder_link_visual_30'>
         <pose>0.085 0 0.032 -1.5708 -0 -1.5708</pose>
         <geometry>
           <mesh>
@@ -668,7 +755,7 @@
           </mesh>
         </geometry>
       </visual>
-      <visual name='base_link_fixed_joint_lump__sensor_holder_link_visual_29'>
+      <visual name='base_link_fixed_joint_lump__sensor_holder_link_visual_31'>
         <pose>0 0 -0.022 1.5708 0 -1.5708</pose>
         <geometry>
           <mesh>
