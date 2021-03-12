@@ -45,7 +45,7 @@
 
     <!-- Gas sensor -->
     <group if="$(arg gas_sensor)">
-      <node
+      <nodea
         pkg="ros_ign_bridge"
         type="parameter_bridge"
         name="ros_ign_bridge_gas"
@@ -165,7 +165,7 @@
         args="$(arg sensor_prefix)/camera_front/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
         <remap from="$(arg sensor_prefix)/camera_front/camera_info" to="front/camera_info"/>
       </node>
-      <node
+      <nodea
         pkg="ros_ign_image"
         type="image_bridge"
         name="ros_ign_image_camera"
@@ -271,6 +271,8 @@
       name="pose_tf_broadcaster"/>
       
     <!-- Mapping Server -->
-    <include file="$(find subt_ros)/launch/models_common/mapping_server_relays.launch"/>
+    <include file="$(find subt_ros)/launch/models_common/mapping_server_relays.launch">
+      <arg name="$(arg name)"/>
+    </include>
   </group>
 </launch>

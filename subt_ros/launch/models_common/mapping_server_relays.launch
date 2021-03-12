@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <launch>
+  <arg name="name"/>
   <node
     pkg="topic_tools"
     type="throttle"
