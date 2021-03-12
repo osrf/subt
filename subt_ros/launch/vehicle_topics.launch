@@ -45,7 +45,7 @@
 
     <!-- Gas sensor -->
     <group if="$(arg gas_sensor)">
-      <nodea
+      <node
         pkg="ros_ign_bridge"
         type="parameter_bridge"
         name="ros_ign_bridge_gas"
@@ -165,7 +165,7 @@
         args="$(arg sensor_prefix)/camera_front/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
         <remap from="$(arg sensor_prefix)/camera_front/camera_info" to="front/camera_info"/>
       </node>
-      <nodea
+      <node
         pkg="ros_ign_image"
         type="image_bridge"
         name="ros_ign_image_camera"
