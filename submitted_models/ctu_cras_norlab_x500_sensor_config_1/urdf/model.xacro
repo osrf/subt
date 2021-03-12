@@ -277,25 +277,25 @@
     <parent link='${robot_namespace}/base_link'/>
     <origin xyz='0 0 0.0944' rpy='0 -0 0'/>
   </sensor>
-  <sensor name='rs_up' update_rate='20'>
+  <sensor name='rs_up' update_rate='30'>
     <parent link='${robot_namespace}/base_link'/>
     <origin xyz='0.82 0 0.034' rpy='0 -1.5708 0'/>
     <camera>
-      <image width='640' height='480' format='R8G8B8' hfov='1.0472' near='0.01' far='300' />
+      <image width='1280' height='720' format='R8G8B8' hfov='1.50098' near='0.01' far='300' />
     </camera>
   </sensor>
   <sensor name='rs_down' update_rate='20'>
     <parent link='${robot_namespace}/base_link'/>
     <origin xyz='0.85 0 -0.2' rpy='0 1.5708 0'/>
     <camera>
-      <image width='640' height='480' format='R8G8B8' hfov='1.0472' near='0.01' far='300' />
+      <image width='1280' height='720' format='R8G8B8' hfov='1.50098' near='0.01' far='300' />
     </camera>
   </sensor>
-  <sensor name='camera_front' update_rate='20'>
+  <sensor name='camera_front' update_rate='60'>
     <parent link='${robot_namespace}/base_link'/>
     <origin xyz='0.107 0 0' rpy='0 -0 0'/>
     <camera>
-      <image width='1280' height='960' format='R8G8B8' hfov='1.0472' near='0.01' far='300' />
+      <image width='1600' height='1200' format='R8G8B8' hfov='1.74533' near='0.01' far='300' />
     </camera>
   </sensor>
   <sensor name='imu_sensor' update_rate='250'>
