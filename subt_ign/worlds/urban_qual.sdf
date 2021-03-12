@@ -18,6 +18,10 @@
       <origin_visual>false</origin_visual>
     </scene>
 
+    <atmosphere type="adiabatic">
+       <temperature>288</temperature>
+       <temperature_gradient>0.6</temperature_gradient>
+    </atmosphere>
 
     <!-- The staging area -->
     <include>
@@ -388,7 +392,7 @@
     <include>
       <name>phone_3</name>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Samsung J8 Black</uri>
-      <pose>-89.600000 -169.200000 0.000000 -1.570796 0 0.436332</pose>
+      <pose>-89.0758 -170.418 0.000000 -1.570796 0 0.436332</pose>
     </include>
 
     <include>

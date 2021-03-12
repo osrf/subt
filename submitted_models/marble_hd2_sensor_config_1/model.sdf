@@ -142,7 +142,7 @@
         <pose>0 0 -0.135 0 0 1.57</pose>
         <geometry>
           <mesh>
-            <uri>model://MARBLE_HD2_SENSOR_CONFIG_1/meshes/hd2.dae</uri>
+            <uri>meshes/hd2.dae</uri>
             <submesh>
               <name>Body</name>
               <center>false</center>
@@ -154,15 +154,15 @@
           <specular>1.0 1.0 1.0</specular>
           <pbr>
             <metal>
-              <albedo_map>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/HD2_Albedo.png</albedo_map>
-              <metalness_map>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/HD2_Metalness.png</metalness_map>
-              <roughness_map>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/HD2_Roughness.png</roughness_map>
+              <albedo_map>materials/textures/HD2_Albedo.png</albedo_map>
+              <metalness_map>materials/textures/HD2_Metalness.png</metalness_map>
+              <roughness_map>materials/textures/HD2_Roughness.png</roughness_map>
             </metal>
           </pbr>
           <!-- fallback to script if no PBR support-->
           <script>
-            <uri>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/scripts/</uri>
-            <uri>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/</uri>
+            <uri>materials/scripts/</uri>
+            <uri>materials/textures/</uri>
             <name>HD/HD2_Diffuse</name>
           </script>
         </material>
@@ -304,8 +304,6 @@
         <lidar>
           <scan>
             <horizontal>
-              <!-- Resolution can't be above 16k, see
-              https://bitbucket.org/ignitionrobotics/ign-sensors/issues/8 -->
                             <samples>1024</samples>
                             <resolution>1</resolution>
                             <min_angle>-3.1459</min_angle>
@@ -329,77 +327,83 @@
                           <stddev>0.03</stddev>
                         </noise>
                       </lidar>
-                      <pose frame="">0.403 0 0.36 0 -0 </pose>
+                      <pose frame="">0.403 0 0.36 0 -0 0</pose>
                     </sensor>
                     <sensor name="imu_sensor" type="imu">
                       <always_on>1</always_on>
                       <update_rate>50</update_rate>
                       <imu>
-                        <angular_velocity>
-                          <x>
+                    <angular_velocity>
+                        <x>
                             <noise type="gaussian">
-                              <mean>0</mean>
-                              <stddev>2e-4</stddev>
-                              <bias_mean>0.0000075</bias_mean>
-                              <bias_stddev>0.0000008</bias_stddev>
-                              <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
-                              <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
+                                <mean>0</mean>
+                                <stddev>0.009</stddev>
+                                <bias_mean>0.00075</bias_mean>
+                                <bias_stddev>0.005</bias_stddev>
+                                <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                                <precision>0.00025</precision>
                             </noise>
-                          </x>
-                          <y>
+                        </x>
+                        <y>
                             <noise type="gaussian">
-                              <mean>0</mean>
-                              <stddev>2e-4</stddev>
-                              <bias_mean>0.0000075</bias_mean>
-                              <bias_stddev>0.0000008</bias_stddev>
-                              <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
-                              <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
+                                <mean>0</mean>
+                                <stddev>0.009</stddev>
+                                <bias_mean>0.00075</bias_mean>
+                                <bias_stddev>0.005</bias_stddev>
+                                <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                                <precision>0.00025</precision>
                             </noise>
-                          </y>
-                          <z>
+                        </y>
+                        <z>
                             <noise type="gaussian">
-                              <mean>0</mean>
-                              <stddev>2e-4</stddev>
-                              <bias_mean>0.0000075</bias_mean>
-                              <bias_stddev>0.0000008</bias_stddev>
-                              <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
-                              <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
+                                <mean>0</mean>
+                                <stddev>0.009</stddev>
+                                <bias_mean>0.00075</bias_mean>
+                                <bias_stddev>0.005</bias_stddev>
+                                <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                                <precision>0.00025</precision>
                             </noise>
-                          </z>
-                        </angular_velocity>
-                        <linear_acceleration>
-                          <x>
+                        </z>
+                    </angular_velocity>
+                    <linear_acceleration>
+                        <x>
                             <noise type="gaussian">
-                              <mean>0</mean>
-                              <stddev>1e-2</stddev>
-                              <bias_mean>0.1</bias_mean>
-                              <bias_stddev>0.001</bias_stddev>
-                              <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
-                              <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
+                                <mean>0</mean>
+                                <stddev>0.021</stddev>
+                                <bias_mean>0.05</bias_mean>
+                                <bias_stddev>0.0075</bias_stddev>
+                                <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                                <precision>0.005</precision>
                             </noise>
-                          </x>
-                          <y>
+                        </x>
+                        <y>
                             <noise type="gaussian">
-                              <mean>0</mean>
-                              <stddev>1e-2</stddev>
-                              <bias_mean>0.1</bias_mean>
-                              <bias_stddev>0.001</bias_stddev>
-                              <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
-                              <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
+                                <mean>0</mean>
+                                <stddev>0.021</stddev>
+                                <bias_mean>0.05</bias_mean>
+                                <bias_stddev>0.0075</bias_stddev>
+                                <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                                <precision>0.005</precision>
                             </noise>
-                          </y>
-                          <z>
+                        </y>
+                        <z>
                             <noise type="gaussian">
-                              <mean>0</mean>
-                              <stddev>1e-2</stddev>
-                              <bias_mean>0.1</bias_mean>
-                              <bias_stddev>0.001</bias_stddev>
-                              <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
-                              <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
+                                <mean>0</mean>
+                                <stddev>0.021</stddev>
+                                <bias_mean>0.05</bias_mean>
+                                <bias_stddev>0.0075</bias_stddev>
+                                <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                                <precision>0.005</precision>
                             </noise>
-                          </z>
-                        </linear_acceleration>
-                      </imu>
+                        </z>
+                    </linear_acceleration>
+                </imu>
                     </sensor>
                   </link>
                   <!-- Left Side Wheels  -->
@@ -434,9 +438,9 @@
                         </contact>
                         <friction>
                           <ode>
-                            <mu>1</mu>
+                            <mu>0.5</mu>
                             <mu2>1</mu2>
-                            <slip1>0.035</slip1>
+                            <slip1>0.001</slip1>
                             <slip2>0</slip2>
                             <fdir1>0 0 1</fdir1>
                           </ode>
@@ -491,9 +495,9 @@
                         </contact>
                         <friction>
                           <ode>
-                            <mu>1</mu>
+                            <mu>0.5</mu>
                             <mu2>1</mu2>
-                            <slip1>0.035</slip1>
+                            <slip1>0.001</slip1>
                             <slip2>0</slip2>
                             <fdir1>0 0 1</fdir1>
                           </ode>
@@ -548,9 +552,9 @@
                         </contact>
                         <friction>
                           <ode>
-                            <mu>1</mu>
+                            <mu>0.5</mu>
                             <mu2>1</mu2>
-                            <slip1>0.035</slip1>
+                            <slip1>0.001</slip1>
                             <slip2>0</slip2>
                             <fdir1>0 0 1</fdir1>
                           </ode>
@@ -592,8 +596,8 @@
                       <pose frame="">0 0 0 1.5707963267948966 -0 0</pose>
                       <geometry>
                         <cylinder>
-                          <length>0.1143</length>
-                          <radius>0.1651</radius>
+                          <length>0.1</length>
+                          <radius>0.129</radius>
                         </cylinder>
                       </geometry>
                       <surface>
@@ -605,9 +609,9 @@
                         </contact>
                         <friction>
                           <ode>
-                            <mu>1</mu>
+                            <mu>0.5</mu>
                             <mu2>1</mu2>
-                            <slip1>0.035</slip1>
+                            <slip1>0.001</slip1>
                             <slip2>0</slip2>
                             <fdir1>0 0 1</fdir1>
                           </ode>
@@ -663,9 +667,9 @@
                         </contact>
                         <friction>
                           <ode>
-                            <mu>1</mu>
+                            <mu>0.5</mu>
                             <mu2>1</mu2>
-                            <slip1>0.035</slip1>
+                            <slip1>0.001</slip1>
                             <slip2>0</slip2>
                             <fdir1>0 0 1</fdir1>
                           </ode>
@@ -720,9 +724,9 @@
                         </contact>
                         <friction>
                           <ode>
-                            <mu>1</mu>
+                            <mu>0.5</mu>
                             <mu2>1</mu2>
-                            <slip1>0.035</slip1>
+                            <slip1>0.001</slip1>
                             <slip2>0</slip2>
                             <fdir1>0 0 1</fdir1>
                           </ode>
@@ -777,9 +781,9 @@
                         </contact>
                         <friction>
                           <ode>
-                            <mu>1</mu>
+                            <mu>0.5</mu>
                             <mu2>1</mu2>
-                            <slip1>0.035</slip1>
+                            <slip1>0.001</slip1>
                             <slip2>0</slip2>
                             <fdir1>0 0 1</fdir1>
                           </ode>
@@ -821,8 +825,8 @@
                       <pose frame="">0 0 0 1.5707963267948966 -0 0</pose>
                       <geometry>
                         <cylinder>
-                          <length>0.1143</length>
-                          <radius>0.1651</radius>
+                          <length>0.1</length>
+                          <radius>0.129</radius>
                         </cylinder>
                       </geometry>
                       <surface>
@@ -834,9 +838,9 @@
                         </contact>
                         <friction>
                           <ode>
-                            <mu>1</mu>
+                            <mu>0.5</mu>
                             <mu2>1</mu2>
-                            <slip1>0.035</slip1>
+                            <slip1>0.001</slip1>
                             <slip2>0</slip2>
                             <fdir1>0 0 1</fdir1>
                           </ode>
@@ -897,7 +901,7 @@
                       <pose>0 0 0 0 0 1.57</pose>
                       <geometry>
                         <mesh>
-                          <uri>model://MARBLE_HD2_SENSOR_CONFIG_1/meshes/hd2.dae</uri>
+                          <uri>meshes/hd2.dae</uri>
                           <submesh>
                             <name>CameraPivot</name>
                             <center>true</center>
@@ -909,14 +913,14 @@
                         <specular>1.0 1.0 1.0</specular>
                         <pbr>
                           <metal>
-                            <albedo_map>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/HD2_Albedo.png</albedo_map>
-                            <metalness_map>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/HD2_Metalness.png</metalness_map>
-                            <roughness_map>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/HD2_Roughness.png</roughness_map>
+                            <albedo_map>materials/textures/HD2_Albedo.png</albedo_map>
+                            <metalness_map>materials/textures/HD2_Metalness.png</metalness_map>
+                            <roughness_map>materials/textures/HD2_Roughness.png</roughness_map>
                           </metal>
                         </pbr>
                         <script>
-                          <uri>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/scripts/</uri>
-                          <uri>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/</uri>
+                          <uri>materials/scripts/</uri>
+                          <uri>materials/textures/</uri>
                           <name>HD2/HD2_Diffuse</name>
                         </script>
                       </material>
@@ -959,7 +963,7 @@
                       <pose>0.005 0.015 0.038 0 0 -1.570796</pose>
                       <geometry>
                         <mesh>
-                          <uri>model://MARBLE_HD2_SENSOR_CONFIG_1/meshes/hd2.dae</uri>
+                          <uri>meshes/hd2.dae</uri>
                           <submesh>
                             <name>CameraTilt</name>
                             <center>true</center>
@@ -971,15 +975,15 @@
                         <specular>1.0 1.0 1.0</specular>
                         <pbr>
                           <metal>
-                            <albedo_map>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/HD2_Albedo.png</albedo_map>
-                            <metalness_map>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/HD2_Metalness.png</metalness_map>
-                            <roughness_map>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/HD2_Roughness.png</roughness_map>
+                            <albedo_map>materials/textures/HD2_Albedo.png</albedo_map>
+                            <metalness_map>materials/textures/HD2_Metalness.png</metalness_map>
+                            <roughness_map>materials/textures/HD2_Roughness.png</roughness_map>
                           </metal>
                         </pbr>
                         <!-- fallback to script if no PBR support-->
                         <script>
-                          <uri>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/scripts/</uri>
-                          <uri>model://MARBLE_HD2_SENSOR_CONFIG_1/materials/textures/</uri>
+                          <uri>materials/scripts/</uri>
+                          <uri>materials/textures/</uri>
                           <name>HD/HD2_Diffuse</name>
                         </script>
                       </material>
@@ -1094,11 +1098,17 @@
               </axis>
             </joint>
             <!-- Gimbal Joints Plugins -->
-            <plugin filename="libignition-gazebo-apply-joint-force-system.so" name="ignition::gazebo::systems::ApplyJointForce">
+            <plugin filename="libignition-gazebo-joint-controller-system.so" name="ignition::gazebo::systems::JointController">
               <joint_name>pan_gimbal_joint</joint_name>
+              <use_force_commands>true</use_force_commands>
+              <p_gain>0.4</p_gain>
+              <i_gain>10</i_gain>
             </plugin>
-            <plugin filename="libignition-gazebo-apply-joint-force-system.so" name="ignition::gazebo::systems::ApplyJointForce">
+            <plugin filename="libignition-gazebo-joint-controller-system.so" name="ignition::gazebo::systems::JointController">
               <joint_name>tilt_gimbal_joint</joint_name>
+              <use_force_commands>true</use_force_commands>
+              <p_gain>0.4</p_gain>
+              <i_gain>10</i_gain>
             </plugin>
             <plugin filename="libignition-gazebo-joint-state-publisher-system.so" name="ignition::gazebo::systems::JointStatePublisher">
               <joint_name>pan_gimbal_joint</joint_name>

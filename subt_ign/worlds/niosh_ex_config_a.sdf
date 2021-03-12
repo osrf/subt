@@ -1,0 +1,1169 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <world name="niosh_ex_config_a">
+
+    <physics name="1ms" type="ode">
+      <max_step_size>0.004</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+
+    <scene>
+      <ambient>0.1 0.1 0.1 1.0</ambient>
+      <background>0 0 0 1.0</background>
+      <grid>false</grid>
+      <origin_visual>false</origin_visual>
+    </scene>
+
+    <atmosphere type="adiabatic">
+      <temperature>288</temperature>
+      <temperature_gradient>0.2</temperature_gradient>
+    </atmosphere>
+
+    <!-- The staging area -->
+    <include>
+      <static>true</static>
+      <name>staging_area</name>
+      <pose>0 0 0 0 0 0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/NIOSH Staging Area</uri>
+    </include>
+
+    <!-- Barriers -->
+    <include>
+      <name>barrier_0_-1</name>
+      <pose>8.0 -11 0 0 0 0</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_0_1</name>
+      <pose>8.0 11 0 0 0 0 </pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_1_-1</name>
+      <pose>3.7 -11 0 0 0 0</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_1_1</name>
+      <pose>3.7 11 0 0 0 0</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_2_-1</name>
+      <pose>-0.5999999999999996 -11 0 0 0 0</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_2_1</name>
+      <pose>-0.5999999999999996 11 0 0 0 0</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_3_-1</name>
+      <pose>-4.899999999999999 -11 0 0 0 0</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_3_1</name>
+      <pose>-4.899999999999999 11 0 0 0 0</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_4_-1</name>
+      <pose>-9.2 -11 0 0 0 0</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_4_1</name>
+      <pose>-9.2 11 0 0 0 0</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_-9.5_-2</name>
+      <pose>10.5 -8.6 0 0 0 1.5707963267948966</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_-9.5_2</name>
+      <pose>10.5 8.6 0 0 0 1.5707963267948966</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_-9.5_-1</name>
+      <pose>10.5 -4.3 0 0 0 1.5707963267948966</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_-9.5_1</name>
+      <pose>10.5 4.3 0 0 0 1.5707963267948966</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_-32_-2</name>
+      <pose>-12 -8.6 0 0 0 1.5707963267948966</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_-32_-1</name>
+      <pose>-12 -4.3 0 0 0 1.5707963267948966</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_-32_0</name>
+      <pose>-12 0.0 0 0 0 1.5707963267948966</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_-32_1</name>
+      <pose>-12 4.3 0 0 0 1.5707963267948966</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_-32_2</name>
+      <pose>-12 8.6 0 0 0 1.5707963267948966</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <!-- The base station -->
+    <include>
+      <static>true</static>
+      <name>base_station</name>
+      <pose>-8 0 0 0 0 -1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Base Station</uri>
+    </include>
+
+    <!-- Fiducial marking the origin for artifacts reports -->
+    <include>
+      <name>artifact_origin</name>
+      <pose>10.0 0.0 0.0 0 0 0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fiducial</uri>
+    </include>
+
+    <!-- Tunnel tiles and artifacts -->
+    <include>
+      <name>sec_01</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/NIOSH EX Course Section 01</uri>
+      <pose>9.650000 -1.050000 5.000 0 0 -1.57</pose>
+    </include>
+
+    <include>
+      <name>sec_02</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/NIOSH EX Course Section 02</uri>
+      <pose>9.650000 -1.050000 5.000 0 0 -1.57</pose>
+    </include>
+
+    <include>
+      <name>sec_03</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/NIOSH EX Course Section 03</uri>
+      <pose>9.650000 -1.050000 5.000 0 0 -1.57</pose>
+    </include>
+
+    <include>
+      <name>sec_04</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/NIOSH EX Course Section 04</uri>
+      <pose>9.650000 -1.050000 5.000 0 0 -1.57</pose>
+    </include>
+
+    <include>
+      <name>sec_05</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/NIOSH EX Course Section 05</uri>
+      <pose>9.650000 -1.050000 5.000 0 0 -1.57</pose>
+    </include>
+
+    <include>
+      <name>sec_06</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/NIOSH EX Course Section 06</uri>
+      <pose>9.650000 -1.050000 5.000 0 0 -1.57</pose>
+    </include>
+
+    <include>
+      <name>blocker_01</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>236.628 23.8137 5.2535 0 0 0</pose>
+    </include>
+
+    <include>
+      <name>shell</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/NIOSH EX Course Shell</uri>
+      <pose>9.650000 -1.050000 5.000 0 0 -1.57</pose>
+    </include>
+
+    <include>
+      <name>backpack_1</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/JanSport Backpack Red</uri>
+      <pose>45.9199 -3.08994 1.187180 0 0 2.071470</pose>
+    </include>
+
+    <include>
+      <name>backpack_2</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/JanSport Backpack Red</uri>
+      <pose>366.805 -8.3926 3.135730 0 0 1.570700</pose>
+    </include>
+
+    <include>
+      <name>backpack_3</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/JanSport Backpack Red</uri>
+      <pose>248.874 119.232 4.17699 0 0 -1.61811</pose>
+    </include>
+
+    <include>
+      <name>backpack_4</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/JanSport Backpack Red</uri>
+      <pose>169.131 118.001 3.354840 0 0 1.47769</pose>
+    </include>
+
+    <include>
+      <name>backpack_5</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/JanSport Backpack Red</uri>
+      <pose>168.684 40.9535 2.430930 0 0 -1.499870</pose>
+    </include>
+
+    <include>
+      <name>rescue_randy_1</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rescue Randy Sitting</uri>
+      <pose>133.558 -5.61621 2.24636 0 0 -1.464920</pose>
+    </include>
+
+    <include>
+      <name>rescue_randy_2</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rescue Randy Sitting</uri>
+      <pose>228.26 65.9252 3.3663 0 0 0.83357</pose>
+    </include>
+
+    <include>
+      <name>rescue_randy_3</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rescue Randy Sitting</uri>
+      <pose>206.443 104.95 3.92881 0 0 0</pose>
+    </include>
+
+    <include>
+      <name>phone_1</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Samsung J8 Black</uri>
+      <pose>166.563 0.097076 2.064940 -1.5707 0 -1.399160</pose>
+    </include>
+
+    <include>
+      <name>phone_2</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Samsung J8 Black</uri>
+      <pose>75.6359 -13.5519 1.401440 -1.5707 0 -0.476791</pose>
+    </include>
+
+    <include>
+      <name>phone_3</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Samsung J8 Black</uri>
+      <pose>203.046 65.9938 4.145510 -1.5707 -0.133185 0.315981</pose>
+    </include>
+
+    <include>
+      <name>phone_4</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Samsung J8 Black</uri>
+      <pose>246.028 93.6245 4.18068 -1.5707 0 -1.36068</pose>
+    </include>
+
+    <include>
+      <name>drill_1</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Black and Decker Cordless Drill</uri>
+      <pose>106.415 -2.78948 2.02927 0 0 -1.44173</pose>
+    </include>
+
+    <include>
+      <name>drill_2</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Black and Decker Cordless Drill</uri>
+      <pose>219.844 2.00738 2.69773 0 0 -0.913054</pose>
+    </include>
+
+    <include>
+      <name>drill_3</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Black and Decker Cordless Drill</uri>
+      <pose>243.631 40.447 3.49895 0 0 3.14</pose>
+    </include>
+
+    <include>
+      <name>drill_4</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Black and Decker Cordless Drill</uri>
+      <pose>181.721 74.0267 3.96509 0 0.0 1.5707</pose>
+    </include>
+
+    <include>
+      <name>extinguisher_1</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fire Extinguisher</uri>
+      <pose>81.8227 0.979194 1.656940 0 0 0</pose>
+    </include>
+
+    <include>
+      <name>extinguisher_2</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fire Extinguisher</uri>
+      <pose>292.935 -11.0948 2.7026 0 0 -1.613870</pose>
+    </include>
+
+    <include>
+      <name>extinguisher_3</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fire Extinguisher</uri>
+      <pose>168.704 -17.048 1.93534 0 0 3.14</pose>
+    </include>
+
+    <include>
+      <name>extinguisher_4</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fire Extinguisher</uri>
+      <pose>204.003 91.4695 3.74175 0 0 0.533666</pose>
+    </include>
+
+    <model name="niosh_lights">
+      <static>true</static>
+      <pose>9.65 -1.05 5 0 0 -1.5708</pose>
+      <link name="link">
+
+      <light type="spot" name="Fspot001">
+        <pose>-0.955426 6.0736 -3.26647 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot002">
+        <pose>-0.955426 16.4075 -2.89479 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot003">
+        <pose>-0.955426 26.7414 -2.6863 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot004">
+        <pose>-0.0145444 36.5967 -2.22796 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot005">
+        <pose>-0.714373 47.4093 -1.86386 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot006">
+        <pose>-0.628419 57.7432 -1.70663 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot007">
+        <pose>-0.523568 70.6207 -1.34147 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot008">
+        <pose>-0.564758 78.4111 -1.37993 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot009">
+        <pose>-0.609201 88.745 -1.0843 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot010">
+        <pose>-0.333357 99.0789 -0.898264 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot011">
+        <pose>-0.125164 109.413 -1.1023 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot012">
+        <pose>-0.173407 119.747 -1.08659 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot013">
+        <pose>-0.105017 130.081 -1.07218 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot014">
+        <pose>-0.105061 140.415 -1.10888 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot015">
+        <pose>0.0104032 150.749 -1.15303 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot016">
+        <pose>0.0584047 161.082 -1.1023 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot017">
+        <pose>0.241934 171.416 -1.1023 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot018">
+        <pose>0.126341 181.75 -0.984736 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot019">
+        <pose>0.0568513 192.084 -0.968121 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot020">
+        <pose>0.0328186 202.418 -0.884681 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot021">
+        <pose>-0.862824 211.442 -0.651156 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot022">
+        <pose>0.0495689 225.867 -0.295988 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot023">
+        <pose>-9.05116 233.439 -0.436202 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot024">
+        <pose>-21.2576 235.502 -0.182774 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot025">
+        <pose>-31.585 235.502 0.29739 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot026">
+        <pose>-42.1649 235.637 0.199176 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot027">
+        <pose>-52.7047 235.637 0.561505 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot028">
+        <pose>-63.1148 235.637 0.52732 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot029">
+        <pose>-73.6566 235.866 0.913958 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot030">
+        <pose>-83.4142 236.169 0.870283 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot031">
+        <pose>-90.8101 236.209 1.27089 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot032">
+        <pose>-91.0249 228.309 1.42199 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot033">
+        <pose>-90.7169 221.235 1.34553 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot034">
+        <pose>-100.912 221.235 1.14022 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot035">
+        <pose>-110.922 221.235 1.24907 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot036">
+        <pose>-121.098 221.947 1.17798 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot037">
+        <pose>-123.048 229.555 1.21373 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot038">
+        <pose>-122.046 237.046 1.17018 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot039">
+        <pose>-117.941 214.07 1.29389 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot040">
+        <pose>-117.941 203.674 0.75852 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot041">
+        <pose>-117.941 193.536 0.645167 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot042">
+        <pose>-117.258 183.301 0.258863 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot043">
+        <pose>-117.258 172.905 0.450716 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+      <light type="spot" name="Fspot044">
+        <pose>-117.258 162.446 0.463072 0 0 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <attenuation>
+          <range>8</range>
+          <linear>0.2</linear>
+          <constant>0.3</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <direction>0.0 0.0 0.0</direction>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>3.1</outer_angle>
+          <falloff>0.5</falloff>
+        </spot>
+        <cast_shadows>false</cast_shadows>
+      </light>
+
+      </link>
+    </model>
+
+    <wind>
+      <linear_velocity>0.000000 0.000000 0.000000</linear_velocity>
+    </wind>
+
+    <!-- Load the plugin for the wind -->
+    <plugin name="ignition::gazebo::systems::WindEffects" filename="libignition-gazebo-wind-effects-system.so">
+      <horizontal>
+        <magnitude>
+          <time_for_rise>10</time_for_rise>
+          <sin>
+            <amplitude_percent>0.05</amplitude_percent>
+            <period>60</period>
+          </sin>
+          <noise type="gaussian">
+           <mean>0</mean>
+           <stddev>0.0002</stddev>
+          </noise>
+        </magnitude>
+        <direction>
+          <time_for_rise>30</time_for_rise>
+          <sin>
+            <amplitude>5</amplitude>
+            <period>20</period>
+          </sin>
+          <noise type="gaussian">
+           <mean>0</mean>
+           <stddev>0.03</stddev>
+          </noise>
+        </direction>
+      </horizontal>
+      <vertical>
+        <noise type="gaussian">
+         <mean>0</mean>
+         <stddev>0.03</stddev>
+        </noise>
+      </vertical>
+    </plugin>
+
+  </world>
+</sdf>

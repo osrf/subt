@@ -1,0 +1,4881 @@
+<?xml version="1.0" ?>
+<!--
+  Generated with the tile_tsv.py script:
+    tile_tsv.py 03/tunnel_circuit_03.tsv -\-graph-file 03/tunnel_circuit_03.dot -\-world-file 03/tunnel_circuit_03.sdf -\-world-name tunnel_circuit_03 -\-y0 160
+-->
+<sdf version="1.6">
+  <world name="tunnel_circuit_03">
+
+    <physics name="1ms" type="ode">
+      <max_step_size>0.004</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+
+    <scene>
+      <ambient>0.1 0.1 0.1 1.0</ambient>
+      <background>0 0 0 1.0</background>
+      <grid>false</grid>
+      <origin_visual>false</origin_visual>
+    </scene>
+
+    <atmosphere type="adiabatic">
+       <temperature>288</temperature>
+       <temperature_gradient>0.3</temperature_gradient>
+    </atmosphere>
+
+    <!-- The staging area -->
+    <include>
+      <static>true</static>
+      <name>staging_area</name>
+      <pose>0 0 0 0 0 0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/subt_tunnel_staging_area</uri>
+    </include>
+
+    <!-- Barriers -->
+    <include>
+      <name>barrier_0_-1</name>
+      <pose>8.0 -11 0 0 0 0</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_0_1</name>
+      <pose>8.0 11 0 0 0 0 </pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_1_-1</name>
+      <pose>3.7 -11 0 0 0 0</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_1_1</name>
+      <pose>3.7 11 0 0 0 0</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_2_-1</name>
+      <pose>-0.5999999999999996 -11 0 0 0 0</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_2_1</name>
+      <pose>-0.5999999999999996 11 0 0 0 0</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_3_-1</name>
+      <pose>-4.899999999999999 -11 0 0 0 0</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_3_1</name>
+      <pose>-4.899999999999999 11 0 0 0 0</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_4_-1</name>
+      <pose>-9.2 -11 0 0 0 0</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_4_1</name>
+      <pose>-9.2 11 0 0 0 0</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_-9.5_-2</name>
+      <pose>10.5 -8.6 0 0 0 1.5707963267948966</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_-9.5_2</name>
+      <pose>10.5 8.6 0 0 0 1.5707963267948966</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_-32_-2</name>
+      <pose>-12 -8.6 0 0 0 1.5707963267948966</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_-32_-1</name>
+      <pose>-12 -4.3 0 0 0 1.5707963267948966</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_-32_0</name>
+      <pose>-12 0.0 0 0 0 1.5707963267948966</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_-32_1</name>
+      <pose>-12 4.3 0 0 0 1.5707963267948966</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <include>
+      <name>barrier_-32_2</name>
+      <pose>-12 8.6 0 0 0 1.5707963267948966</pose>
+      <uri> https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jersey Barrier </uri>
+    </include>
+
+    <!-- The base station -->
+    <include>
+      <static>true</static>
+      <name>base_station</name>
+      <pose>-8 0 0 0 0 -1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Base Station</uri>
+    </include>
+
+    <!-- Fiducial marking the origin for artifacts reports -->
+    <include>
+      <name>artifact_origin</name>
+      <pose>10 0 0.0 0 0 0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fiducial</uri>
+    </include>
+
+    <!-- Tunnel tiles and artifacts -->
+    <include>
+      <name>tile_1</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>0.000000 160.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_2</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>-11.000000 160.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_3</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>0.000000 171.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_4</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>20.000000 160.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_5</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>20.000000 171.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_6</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>20.000000 149.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_7</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>31.000000 160.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_8</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <pose>40.000000 160.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_9</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>40.000000 171.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_10</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>60.000000 160.000000 0.000000 0 0 4.712389</pose>
+    </include>
+
+    <include>
+      <name>tile_11</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>49.000000 160.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_12</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 2</uri>
+      <pose>80.000000 160.000000 0.000000 0 0 4.712389</pose>
+    </include>
+
+    <include>
+      <name>tile_13</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>100.000000 160.000000 0.000000 0 0 3.141593</pose>
+    </include>
+
+    <include>
+      <name>tile_14</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>100.000000 171.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_15</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>120.000000 160.000000 -5.000000 0 0 3.141593</pose>
+    </include>
+
+    <include>
+      <name>tile_16</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>120.000000 171.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_17</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>140.000000 160.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_18</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>129.000000 160.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_19</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>151.000000 160.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_20</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>140.000000 171.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_21</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>160.000000 160.000000 5.000000 0 0 3.141593</pose>
+    </include>
+
+    <include>
+      <name>tile_22</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>160.000000 171.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_23</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>180.000000 160.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_24</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>169.000000 160.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_25</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>180.000000 171.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_26</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>200.000000 160.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_27</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>200.000000 171.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_28</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <pose>220.000000 160.000000 -5.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_29</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>240.000000 160.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_30</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>240.000000 171.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_31</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>240.000000 149.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_32</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>260.000000 160.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_33</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>260.000000 171.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_34</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>260.000000 149.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_35</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>271.000000 160.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_36</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>280.000000 160.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_37</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>269.000000 160.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_38</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>291.000000 160.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_39</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>280.000000 171.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_40</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>300.000000 160.000000 0.000000 0 0 3.141593</pose>
+    </include>
+
+    <include>
+      <name>tile_41</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>300.000000 171.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_42</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>0.000000 140.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_43</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>0.000000 129.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_44</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>-11.000000 140.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_45</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 2</uri>
+      <pose>20.000000 140.000000 0.000000 0 0 4.712389</pose>
+    </include>
+
+    <include>
+      <name>tile_46</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>40.000000 140.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_47</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>29.000000 140.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_48</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 2</uri>
+      <pose>60.000000 140.000000 0.000000 0 0 4.712389</pose>
+    </include>
+
+    <include>
+      <name>tile_49</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>80.000000 140.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_50</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>69.000000 140.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_51</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>100.000000 140.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_52</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>111.000000 140.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_53</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>120.000000 140.000000 -5.000000 0 0 3.141593</pose>
+    </include>
+
+    <include>
+      <name>tile_54</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>140.000000 140.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_55</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>129.000000 140.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_56</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>160.000000 140.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_57</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>160.000000 129.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_58</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>171.000000 140.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_59</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>180.000000 140.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_60</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>169.000000 140.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_61</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>200.000000 140.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_62</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>220.000000 140.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_63</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>220.000000 151.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_64</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <pose>240.000000 140.000000 0.000000 0 0 4.712389</pose>
+    </include>
+
+    <include>
+      <name>tile_65</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>260.000000 140.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_66</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>260.000000 151.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_67</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>260.000000 129.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_68</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>271.000000 140.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_69</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>280.000000 140.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_70</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>269.000000 140.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_71</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>300.000000 140.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_72</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>311.000000 140.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_73</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>0.000000 120.000000 0.000000 0 0 4.712389</pose>
+    </include>
+
+    <include>
+      <name>tile_74</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>-11.000000 120.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_75</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>20.000000 120.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_76</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>40.000000 120.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_77</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>60.000000 120.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_78</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>71.000000 120.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>phone_1</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Samsung J8 Black</uri>
+      <pose>62.200000 124.100000 0.008000 1.570796 3.141593 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_79</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <pose>80.000000 120.000000 0.000000 0 0 3.141593</pose>
+    </include>
+
+    <include>
+      <name>tile_80</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>100.000000 120.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_81</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>89.000000 120.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_82</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>111.000000 120.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_83</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <pose>120.000000 120.000000 -5.000000 0 0 3.141593</pose>
+    </include>
+
+    <include>
+      <name>tile_84</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <pose>140.000000 120.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_85</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>160.000000 120.000000 0.000000 0 0 3.141593</pose>
+    </include>
+
+    <include>
+      <name>tile_86</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>160.000000 131.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_87</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>180.000000 120.000000 0.000000 0 0 3.141593</pose>
+    </include>
+
+    <include>
+      <name>tile_88</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <pose>200.000000 120.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_89</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>220.000000 120.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_90</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>209.000000 120.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_91</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>220.000000 109.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_92</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>240.000000 120.000000 0.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_93</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>260.000000 120.000000 0.000000 0 0 4.712389</pose>
+    </include>
+
+    <include>
+      <name>tile_94</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>280.000000 120.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_95</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>300.000000 120.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_96</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>311.000000 120.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_97</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>0.000000 100.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_98</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>-11.000000 100.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_99</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>11.000000 100.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_100</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>0.000000 111.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>extinguisher_1</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fire Extinguisher</uri>
+      <pose>2.000000 102.000000 0.004000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_101</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>20.000000 100.000000 0.000000 0 0 3.141593</pose>
+    </include>
+
+    <include>
+      <name>tile_102</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>40.000000 100.000000 0.000000 0 0 3.141593</pose>
+    </include>
+
+    <include>
+      <name>tile_103</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>60.000000 100.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_104</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>49.000000 100.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_105</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>71.000000 100.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_106</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>80.000000 100.000000 5.000000 0 0 3.141593</pose>
+    </include>
+
+    <include>
+      <name>tile_107</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>100.000000 100.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_108</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>100.000000 89.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_109</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>89.000000 100.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_110</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>120.000000 100.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>phone_2</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Samsung J8 Black</uri>
+      <pose>122.000000 104.000000 0.008000 1.570796 3.141593 0.523599</pose>
+    </include>
+
+    <include>
+      <name>tile_111</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>140.000000 100.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_112</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>140.000000 89.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_113</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>160.000000 100.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_114</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>160.000000 89.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_115</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>171.000000 100.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_116</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <pose>180.000000 100.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_117</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>200.000000 100.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_118</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>211.000000 100.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_119</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>189.000000 100.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_120</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>200.000000 89.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_121</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 2</uri>
+      <pose>220.000000 100.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_122</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>240.000000 100.000000 -5.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_123</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <pose>260.000000 100.000000 -5.000000 0 0 4.712389</pose>
+    </include>
+
+    <include>
+      <name>tile_124</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>280.000000 100.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_125</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>280.000000 89.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_126</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>300.000000 100.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_127</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>300.000000 89.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_128</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>311.000000 100.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_129</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>0.000000 80.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_130</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>-11.000000 80.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_131</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>11.000000 80.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_132</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 2</uri>
+      <pose>20.000000 80.000000 0.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_133</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>40.000000 80.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_134</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>40.000000 69.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_135</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>60.000000 80.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_136</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>71.000000 80.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_137</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>80.000000 80.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_138</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>69.000000 80.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_139</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>91.000000 80.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_140</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 2</uri>
+      <pose>100.000000 80.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_141</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>120.000000 80.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_142</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>140.000000 80.000000 0.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_143</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <pose>160.000000 80.000000 0.000000 0 0 4.712389</pose>
+    </include>
+
+    <include>
+      <name>tile_144</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>171.000000 80.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_145</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>180.000000 80.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_146</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>169.000000 80.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_147</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>200.000000 80.000000 -5.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_148</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>220.000000 80.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_149</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>220.000000 69.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_150</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>240.000000 80.000000 -5.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_151</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 2</uri>
+      <pose>260.000000 80.000000 -5.000000 0 0 3.141593</pose>
+    </include>
+
+    <include>
+      <name>tile_152</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>260.000000 91.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_153</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>280.000000 80.000000 -5.000000 0 0 3.141593</pose>
+    </include>
+
+    <include>
+      <name>tile_154</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>280.000000 91.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_155</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <pose>300.000000 80.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_156</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>0.000000 60.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_157</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>-11.000000 60.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_158</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>20.000000 60.000000 0.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_159</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>31.000000 60.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_160</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 2</uri>
+      <pose>40.000000 60.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_161</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>60.000000 60.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_162</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>71.000000 60.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_163</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <pose>80.000000 60.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>backpack_1</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/JanSport Backpack Red</uri>
+      <pose>82.200000 70.100000 5.004000 0 0 0.349066</pose>
+    </include>
+
+    <include>
+      <name>tile_164</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>100.000000 60.000000 0.000000 0 0 3.141593</pose>
+    </include>
+
+    <include>
+      <name>tile_165</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>120.000000 60.000000 0.000000 0 0 3.141593</pose>
+    </include>
+
+    <include>
+      <name>tile_166</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 2</uri>
+      <pose>140.000000 60.000000 0.000000 0 0 4.712389</pose>
+    </include>
+
+    <include>
+      <name>tile_167</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>129.000000 60.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>rescue_randy_1</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rescue Randy Sitting</uri>
+      <pose>138.750000 58.000000 0.004000 0 0 0.802851</pose>
+    </include>
+
+    <include>
+      <name>tile_168</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>180.000000 60.000000 -5.000000 0 0 3.141593</pose>
+    </include>
+
+    <include>
+      <name>tile_169</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>200.000000 60.000000 -5.000000 0 0 3.141593</pose>
+    </include>
+
+    <include>
+      <name>tile_170</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>200.000000 71.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_171</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <pose>220.000000 60.000000 -10.000000 0 0 3.141593</pose>
+    </include>
+
+    <include>
+      <name>tile_172</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>220.000000 71.000000 -10.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_173</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>240.000000 60.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_174</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>229.000000 60.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_175</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>240.000000 71.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_176</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>260.000000 60.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_177</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>260.000000 71.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_178</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>260.000000 49.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_179</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>280.000000 60.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_180</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>280.000000 49.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_181</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>300.000000 60.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_182</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>300.000000 49.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_183</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>311.000000 60.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>phone_3</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Samsung J8 Black</uri>
+      <pose>297.800000 56.000000 -4.992000 1.570796 3.316126 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_184</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>0.000000 40.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_185</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>-11.000000 40.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_186</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>20.000000 40.000000 0.000000 0 0 4.712389</pose>
+    </include>
+
+    <include>
+      <name>tile_187</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>40.000000 40.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_188</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>60.000000 40.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_189</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>60.000000 29.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>phone_4</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Samsung J8 Black</uri>
+      <pose>61.200000 34.900000 0.008000 1.570796 3.141593 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_190</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>80.000000 40.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_191</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>100.000000 40.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_192</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>120.000000 40.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_193</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>120.000000 29.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_194</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>140.000000 40.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_195</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <pose>160.000000 40.000000 -5.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_196</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>180.000000 40.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_197</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>180.000000 29.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_198</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>200.000000 40.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_199</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>200.000000 29.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_200</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>220.000000 40.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_201</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>220.000000 29.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_202</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>240.000000 40.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_203</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>240.000000 29.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_204</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>240.000000 29.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_205</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>260.000000 40.000000 -5.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_206</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>280.000000 40.000000 -5.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_207</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>300.000000 40.000000 -5.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_208</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>311.000000 40.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_209</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 2</uri>
+      <pose>0.000000 20.000000 0.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_210</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>20.000000 20.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_211</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>20.000000 9.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_212</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>20.000000 31.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_213</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>40.000000 20.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_214</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>40.000000 9.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_215</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>60.000000 20.000000 0.000000 0 0 4.712389</pose>
+    </include>
+
+    <include>
+      <name>tile_216</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>80.000000 20.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_217</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>80.000000 9.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>extinguisher_2</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fire Extinguisher</uri>
+      <pose>82.100000 22.100000 0.004000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_218</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>100.000000 20.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_219</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>120.000000 20.000000 0.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_220</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>140.000000 20.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_221</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>140.000000 9.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_222</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>160.000000 20.000000 0.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_223</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>180.000000 20.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_224</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>180.000000 31.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_225</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>180.000000 9.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>drill_1</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Black and Decker Cordless Drill</uri>
+      <pose>178.100000 18.000000 0.004000 0 0 0.523599</pose>
+    </include>
+
+    <include>
+      <name>tile_226</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>200.000000 20.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_227</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>200.000000 31.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_228</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>200.000000 9.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_229</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>220.000000 20.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_230</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>220.000000 31.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_231</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>220.000000 9.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_232</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>240.000000 20.000000 0.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_233</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>260.000000 20.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_234</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>260.000000 31.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_235</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>260.000000 9.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_236</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>280.000000 20.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_237</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>280.000000 31.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_238</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>300.000000 20.000000 0.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_239</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>311.000000 20.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_240</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>20.000000 0.000000 0.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_241</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>40.000000 0.000000 0.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_242</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>60.000000 0.000000 0.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_243</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>80.000000 0.000000 0.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_244</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>100.000000 0.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_245</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>120.000000 0.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_246</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>120.000000 11.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_247</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>120.000000 -11.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_248</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <pose>140.000000 0.000000 0.000000 0 0 4.712389</pose>
+    </include>
+
+    <include>
+      <name>tile_249</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>160.000000 0.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_250</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>160.000000 11.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_251</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>160.000000 -11.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_252</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>180.000000 0.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_253</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>180.000000 11.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_254</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>180.000000 -11.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_255</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>200.000000 0.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_256</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>200.000000 11.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_257</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>200.000000 -11.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_258</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>220.000000 0.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_259</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>220.000000 11.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_260</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>240.000000 0.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_261</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>240.000000 11.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_262</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 2</uri>
+      <pose>260.000000 0.000000 5.000000 0 0 3.141593</pose>
+    </include>
+
+    <include>
+      <name>tile_263</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>260.000000 11.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_264</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <pose>280.000000 0.000000 0.000000 0 0 3.141593</pose>
+    </include>
+
+    <include>
+      <name>tile_265</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 2</uri>
+      <pose>0.000000 -20.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_266</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>20.000000 -20.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_267</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>20.000000 -9.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_268</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>40.000000 -20.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_269</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>40.000000 -9.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_270</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>60.000000 -20.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_271</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>60.000000 -9.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>backpack_2</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/JanSport Backpack Red</uri>
+      <pose>62.200000 -12.900000 -4.996000 0 0 5.235988</pose>
+    </include>
+
+    <include>
+      <name>tile_272</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <pose>80.000000 -20.000000 -5.000000 0 0 4.712389</pose>
+    </include>
+
+    <include>
+      <name>tile_273</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>100.000000 -20.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_274</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <pose>120.000000 -20.000000 -5.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_275</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>140.000000 -20.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_276</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>140.000000 -9.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_277</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>160.000000 -20.000000 -5.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_278</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>180.000000 -20.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_279</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>180.000000 -9.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_280</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>180.000000 -31.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>drill_2</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Black and Decker Cordless Drill</uri>
+      <pose>182.100000 -22.000000 -4.996000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_281</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 2</uri>
+      <pose>200.000000 -20.000000 -5.000000 0 0 4.712389</pose>
+    </include>
+
+    <include>
+      <name>tile_282</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>200.000000 -31.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_283</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <pose>220.000000 -20.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_284</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>220.000000 -31.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_285</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>240.000000 -20.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_286</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>240.000000 -31.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_287</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>240.000000 -31.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>extinguisher_3</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fire Extinguisher</uri>
+      <pose>240.000000 -15.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_288</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>260.000000 -20.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_289</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>249.000000 -20.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_290</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>271.000000 -20.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_291</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>260.000000 -9.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_292</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>280.000000 -20.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_293</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>280.000000 -31.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>rescue_randy_2</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rescue Randy Sitting</uri>
+      <pose>282.200000 -22.000000 5.004000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_294</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>0.000000 -40.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_295</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>11.000000 -40.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_296</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>-11.000000 -40.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>backpack_3</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/JanSport Backpack Red</uri>
+      <pose>5.000000 -40.000000 -5.000000 0 0 0.349066</pose>
+    </include>
+
+    <include>
+      <name>tile_297</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <pose>20.000000 -40.000000 -5.000000 0 0 3.141593</pose>
+    </include>
+
+    <include>
+      <name>tile_298</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>20.000000 -51.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_299</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <pose>40.000000 -40.000000 -10.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_300</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>40.000000 -51.000000 -10.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_301</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>60.000000 -40.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_302</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>80.000000 -40.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_303</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>80.000000 -29.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_304</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>69.000000 -40.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_305</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>100.000000 -40.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_306</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>120.000000 -40.000000 0.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_307</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>131.000000 -40.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_308</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>140.000000 -40.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_309</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>129.000000 -40.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_310</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>160.000000 -40.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_311</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>160.000000 -29.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_312</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>180.000000 -40.000000 -5.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_313</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <pose>200.000000 -40.000000 -10.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_314</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>220.000000 -40.000000 -10.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_315</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <pose>240.000000 -40.000000 -10.000000 0 0 4.712389</pose>
+    </include>
+
+    <include>
+      <name>tile_316</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>260.000000 -40.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_317</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>260.000000 -51.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_318</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>280.000000 -40.000000 -5.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_319</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>300.000000 -40.000000 -5.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_320</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>311.000000 -40.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_321</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>0.000000 -60.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_322</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>-11.000000 -60.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_323</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>20.000000 -60.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_324</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>20.000000 -49.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_325</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>40.000000 -60.000000 -5.000000 0 0 4.712389</pose>
+    </include>
+
+    <include>
+      <name>tile_326</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>60.000000 -60.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_327</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>71.000000 -60.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_328</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>80.000000 -60.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_329</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>100.000000 -60.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_330</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>89.000000 -60.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_331</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>120.000000 -60.000000 0.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_332</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>131.000000 -60.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_333</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>140.000000 -60.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_334</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>160.000000 -60.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_335</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>149.000000 -60.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_336</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>180.000000 -60.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_337</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>180.000000 -49.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>rescue_randy_3</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rescue Randy Sitting</uri>
+      <pose>182.000000 -58.000000 -4.996000 0 0 2.094395</pose>
+    </include>
+
+    <include>
+      <name>rescue_randy_4</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rescue Randy Sitting</uri>
+      <pose>180.250000 -53.000000 -4.996000 0 0 1.047198</pose>
+    </include>
+
+    <include>
+      <name>tile_338</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>200.000000 -60.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_339</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>200.000000 -49.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_340</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>200.000000 -71.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_341</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <pose>220.000000 -60.000000 -10.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_342</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>240.000000 -60.000000 -10.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_343</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>240.000000 -49.000000 -10.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_344</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>240.000000 -71.000000 -10.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_345</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>260.000000 -60.000000 -10.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_346</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>260.000000 -49.000000 -10.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_347</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>260.000000 -71.000000 -10.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_348</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>280.000000 -60.000000 -10.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_349</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>280.000000 -49.000000 -10.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_350</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>300.000000 -60.000000 -10.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_351</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>300.000000 -49.000000 -10.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_352</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>311.000000 -60.000000 -10.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_353</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>0.000000 -80.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_354</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>11.000000 -80.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_355</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>-11.000000 -80.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_356</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>0.000000 -91.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>extinguisher_4</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fire Extinguisher</uri>
+      <pose>-2.000000 -78.100000 -4.996000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_357</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>20.000000 -80.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_358</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>60.000000 -80.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_359</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 2</uri>
+      <pose>80.000000 -80.000000 0.000000 0 0 3.141593</pose>
+    </include>
+
+    <include>
+      <name>tile_360</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>69.000000 -80.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_361</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <pose>100.000000 -80.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_362</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>120.000000 -80.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_363</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>120.000000 -69.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_364</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>109.000000 -80.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_365</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>140.000000 -80.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_366</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>151.000000 -80.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_367</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>160.000000 -80.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_368</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>180.000000 -80.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_369</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>169.000000 -80.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_370</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <pose>200.000000 -80.000000 -5.000000 0 0 4.712389</pose>
+    </include>
+
+    <include>
+      <name>tile_371</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>220.000000 -80.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_372</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>220.000000 -69.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_373</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>240.000000 -80.000000 0.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_374</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 2</uri>
+      <pose>260.000000 -80.000000 0.000000 0 0 3.141593</pose>
+    </include>
+
+    <include>
+      <name>tile_375</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>260.000000 -69.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_376</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <pose>280.000000 -80.000000 -15.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_377</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>280.000000 -91.000000 -15.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_378</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>300.000000 -80.000000 -10.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_379</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>300.000000 -91.000000 -10.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_380</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>0.000000 -100.000000 -5.000000 0 0 4.712389</pose>
+    </include>
+
+    <include>
+      <name>tile_381</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>-11.000000 -100.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_382</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>20.000000 -100.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_383</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>31.000000 -100.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_384</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <pose>40.000000 -100.000000 -5.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_385</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>29.000000 -100.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_386</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>60.000000 -100.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_387</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 2</uri>
+      <pose>80.000000 -100.000000 -5.000000 0 0 3.141593</pose>
+    </include>
+
+    <include>
+      <name>tile_388</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>80.000000 -89.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_389</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <pose>100.000000 -100.000000 -10.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_390</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>120.000000 -100.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_391</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>131.000000 -100.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_392</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>109.000000 -100.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_393</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>120.000000 -111.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_394</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>140.000000 -100.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>backpack_4</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/JanSport Backpack Red</uri>
+      <pose>142.200000 -95.900000 -4.996000 0 0 3.839724</pose>
+    </include>
+
+    <include>
+      <name>tile_395</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>160.000000 -100.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_396</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>149.000000 -100.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_397</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>180.000000 -100.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_398</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>200.000000 -100.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_399</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>200.000000 -89.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_400</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>211.000000 -100.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_401</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>220.000000 -100.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_402</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>209.000000 -100.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_403</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>240.000000 -100.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_404</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>240.000000 -89.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_405</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>260.000000 -100.000000 0.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_406</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>280.000000 -100.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_407</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>280.000000 -89.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_408</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>300.000000 -100.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_409</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>300.000000 -89.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_410</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>311.000000 -100.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_411</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>0.000000 -120.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_412</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>0.000000 -109.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_413</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>-11.000000 -120.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_414</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>20.000000 -120.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_415</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>40.000000 -120.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_416</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>40.000000 -109.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_417</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>60.000000 -120.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_418</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>71.000000 -120.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_419</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>80.000000 -120.000000 -10.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_420</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>80.000000 -109.000000 -10.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_421</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>69.000000 -120.000000 -10.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_422</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>100.000000 -120.000000 -10.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_423</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>120.000000 -120.000000 -10.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_424</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>120.000000 -109.000000 -10.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_425</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>131.000000 -120.000000 -10.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_426</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <pose>140.000000 -120.000000 -5.000000 0 0 3.141593</pose>
+    </include>
+
+    <include>
+      <name>tile_427</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>160.000000 -120.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_428</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>180.000000 -120.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_429</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>169.000000 -120.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_430</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>200.000000 -120.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_431</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>211.000000 -120.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_432</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>220.000000 -120.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_433</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>231.000000 -120.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_434</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>209.000000 -120.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_435</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>240.000000 -120.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_436</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>260.000000 -120.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_437</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>249.000000 -120.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_438</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>271.000000 -120.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_439</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>260.000000 -109.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_440</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <pose>280.000000 -120.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_441</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>280.000000 -131.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_442</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>300.000000 -120.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_443</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>311.000000 -120.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_444</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>289.000000 -120.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_445</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>300.000000 -131.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_446</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>0.000000 -140.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_447</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>0.000000 -151.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_448</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>20.000000 -140.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_449</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>20.000000 -151.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_450</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>40.000000 -140.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_451</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>51.000000 -140.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_452</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>29.000000 -140.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_453</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>40.000000 -151.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_454</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <pose>60.000000 -140.000000 -5.000000 0 0 3.141593</pose>
+    </include>
+
+    <include>
+      <name>tile_455</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>60.000000 -151.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_456</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 2</uri>
+      <pose>80.000000 -140.000000 -10.000000 0 0 3.141593</pose>
+    </include>
+
+    <include>
+      <name>tile_457</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>69.000000 -140.000000 -10.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_458</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>100.000000 -140.000000 -10.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_459</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>89.000000 -140.000000 -10.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_460</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>100.000000 -151.000000 -10.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>drill_3</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Black and Decker Cordless Drill</uri>
+      <pose>102.100000 -137.000000 -9.996000 0 0 1.745329</pose>
+    </include>
+
+    <include>
+      <name>tile_461</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>120.000000 -140.000000 -10.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_462</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>131.000000 -140.000000 -10.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_463</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>120.000000 -151.000000 -10.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_464</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>140.000000 -140.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_465</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>140.000000 -151.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_466</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>160.000000 -140.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_467</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>171.000000 -140.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_468</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>149.000000 -140.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_469</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>160.000000 -151.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_470</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 2</uri>
+      <pose>180.000000 -140.000000 -5.000000 0 0 1.570796</pose>
+    </include>
+
+    <include>
+      <name>tile_471</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>200.000000 -140.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_472</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>211.000000 -140.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_473</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>200.000000 -151.000000 -5.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_474</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <pose>220.000000 -140.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_475</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>220.000000 -151.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_476</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>240.000000 -140.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_477</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>229.000000 -140.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_478</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>240.000000 -151.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>drill_4</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Black and Decker Cordless Drill</uri>
+      <pose>237.800000 -146.000000 0.004000 0 0 1.745329</pose>
+    </include>
+
+    <include>
+      <name>tile_479</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>260.000000 -140.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_480</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>260.000000 -151.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_481</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+      <pose>280.000000 -140.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_482</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>280.000000 -151.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_483</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>280.000000 -129.000000 0.000000 0 0 0.000000</pose>
+    </include>
+
+    <include>
+      <name>tile_484</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <pose>300.000000 -140.000000 0.000000 0 0 4.712389</pose>
+    </include>
+
+    <include>
+      <name>tile_485</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>311.000000 -140.000000 5.000000 0 0 0.000000</pose>
+    </include>
+
+
+    <wind>
+      <linear_velocity>0.000000 0.000000 0.000000</linear_velocity>
+    </wind>
+
+    <!-- Load the plugin for the wind -->
+    <plugin name="ignition::gazebo::systems::WindEffects" filename="libignition-gazebo-wind-effects-system.so">
+      <horizontal>
+        <magnitude>
+          <time_for_rise>10</time_for_rise>
+          <sin>
+            <amplitude_percent>0.05</amplitude_percent>
+            <period>60</period>
+          </sin>
+          <noise type="gaussian">
+           <mean>0</mean>
+           <stddev>0.0002</stddev>
+          </noise>
+        </magnitude>
+        <direction>
+          <time_for_rise>30</time_for_rise>
+          <sin>
+            <amplitude>5</amplitude>
+            <period>20</period>
+          </sin>
+          <noise type="gaussian">
+           <mean>0</mean>
+           <stddev>0.03</stddev>
+          </noise>
+        </direction>
+      </horizontal>
+      <vertical>
+        <noise type="gaussian">
+         <mean>0</mean>
+         <stddev>0.03</stddev>
+        </noise>
+      </vertical>
+    </plugin>
+
+    <!-- Levels plugin -->
+    <plugin name="ignition::gazebo" filename="dummy">
+
+      <level name="level0">
+        <ref>tile_1</ref>
+        <ref>tile_2</ref>
+        <ref>tile_4</ref>
+        <ref>tile_7</ref>
+        <ref>tile_8</ref>
+        <ref>tile_10</ref>
+        <ref>tile_11</ref>
+        <ref>tile_12</ref>
+        <ref>tile_13</ref>
+        <ref>tile_15</ref>
+        <ref>tile_17</ref>
+        <ref>tile_18</ref>
+        <ref>tile_19</ref>
+        <ref>tile_21</ref>
+        <ref>tile_23</ref>
+        <ref>tile_24</ref>
+        <ref>tile_26</ref>
+        <ref>tile_28</ref>
+        <ref>tile_29</ref>
+        <ref>tile_32</ref>
+        <ref>tile_35</ref>
+        <ref>tile_36</ref>
+        <ref>tile_37</ref>
+        <ref>tile_38</ref>
+        <ref>tile_40</ref>
+        <pose>160.000000 160.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level3">
+        <ref>tile_3</ref>
+        <ref>tile_5</ref>
+        <ref>tile_9</ref>
+        <ref>tile_14</ref>
+        <ref>tile_16</ref>
+        <ref>tile_20</ref>
+        <ref>tile_22</ref>
+        <ref>tile_25</ref>
+        <ref>tile_27</ref>
+        <ref>tile_30</ref>
+        <ref>tile_33</ref>
+        <ref>tile_39</ref>
+        <ref>tile_41</ref>
+        <pose>160.000000 171.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level5">
+        <ref>tile_6</ref>
+        <ref>tile_31</ref>
+        <ref>tile_34</ref>
+        <pose>160.000000 149.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level28">
+        <ref>tile_42</ref>
+        <ref>tile_44</ref>
+        <ref>tile_45</ref>
+        <ref>tile_46</ref>
+        <ref>tile_47</ref>
+        <ref>tile_48</ref>
+        <ref>tile_49</ref>
+        <ref>tile_50</ref>
+        <ref>tile_51</ref>
+        <ref>tile_52</ref>
+        <ref>tile_53</ref>
+        <ref>tile_54</ref>
+        <ref>tile_55</ref>
+        <ref>tile_56</ref>
+        <ref>tile_58</ref>
+        <ref>tile_59</ref>
+        <ref>tile_60</ref>
+        <ref>tile_61</ref>
+        <ref>tile_62</ref>
+        <ref>tile_64</ref>
+        <ref>tile_65</ref>
+        <ref>tile_68</ref>
+        <ref>tile_69</ref>
+        <ref>tile_70</ref>
+        <ref>tile_71</ref>
+        <ref>tile_72</ref>
+        <pose>160.000000 140.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level29">
+        <ref>tile_43</ref>
+        <ref>tile_57</ref>
+        <ref>tile_67</ref>
+        <pose>160.000000 129.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level34">
+        <ref>tile_63</ref>
+        <ref>tile_66</ref>
+        <pose>160.000000 151.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level36">
+        <ref>tile_73</ref>
+        <ref>tile_74</ref>
+        <ref>tile_75</ref>
+        <ref>tile_76</ref>
+        <ref>tile_77</ref>
+        <ref>tile_78</ref>
+        <ref>tile_79</ref>
+        <ref>tile_80</ref>
+        <ref>tile_81</ref>
+        <ref>tile_82</ref>
+        <ref>tile_83</ref>
+        <ref>tile_84</ref>
+        <ref>tile_85</ref>
+        <ref>tile_87</ref>
+        <ref>tile_88</ref>
+        <ref>tile_89</ref>
+        <ref>tile_90</ref>
+        <ref>tile_92</ref>
+        <ref>tile_93</ref>
+        <ref>tile_94</ref>
+        <ref>tile_95</ref>
+        <ref>tile_96</ref>
+        <pose>160.000000 120.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level38">
+        <ref>phone_1</ref>
+        <pose>160.000000 124.100000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level41">
+        <ref>tile_86</ref>
+        <pose>160.000000 131.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level43">
+        <ref>tile_91</ref>
+        <pose>160.000000 109.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level44">
+        <ref>tile_97</ref>
+        <ref>tile_98</ref>
+        <ref>tile_99</ref>
+        <ref>tile_101</ref>
+        <ref>tile_102</ref>
+        <ref>tile_103</ref>
+        <ref>tile_104</ref>
+        <ref>tile_105</ref>
+        <ref>tile_106</ref>
+        <ref>tile_107</ref>
+        <ref>tile_109</ref>
+        <ref>tile_110</ref>
+        <ref>tile_111</ref>
+        <ref>tile_113</ref>
+        <ref>tile_115</ref>
+        <ref>tile_116</ref>
+        <ref>tile_117</ref>
+        <ref>tile_118</ref>
+        <ref>tile_119</ref>
+        <ref>tile_121</ref>
+        <ref>tile_122</ref>
+        <ref>tile_123</ref>
+        <ref>tile_124</ref>
+        <ref>tile_126</ref>
+        <ref>tile_128</ref>
+        <pose>160.000000 100.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level46">
+        <ref>tile_100</ref>
+        <pose>160.000000 111.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level47">
+        <ref>extinguisher_1</ref>
+        <pose>160.000000 102.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level49">
+        <ref>tile_108</ref>
+        <ref>tile_112</ref>
+        <ref>tile_114</ref>
+        <ref>tile_120</ref>
+        <ref>tile_125</ref>
+        <ref>tile_127</ref>
+        <pose>160.000000 89.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level50">
+        <ref>phone_2</ref>
+        <pose>160.000000 104.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level54">
+        <ref>tile_129</ref>
+        <ref>tile_130</ref>
+        <ref>tile_131</ref>
+        <ref>tile_132</ref>
+        <ref>tile_133</ref>
+        <ref>tile_135</ref>
+        <ref>tile_136</ref>
+        <ref>tile_137</ref>
+        <ref>tile_138</ref>
+        <ref>tile_139</ref>
+        <ref>tile_140</ref>
+        <ref>tile_141</ref>
+        <ref>tile_142</ref>
+        <ref>tile_143</ref>
+        <ref>tile_144</ref>
+        <ref>tile_145</ref>
+        <ref>tile_146</ref>
+        <ref>tile_147</ref>
+        <ref>tile_148</ref>
+        <ref>tile_150</ref>
+        <ref>tile_151</ref>
+        <ref>tile_153</ref>
+        <ref>tile_155</ref>
+        <pose>160.000000 80.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level55">
+        <ref>tile_134</ref>
+        <ref>tile_149</ref>
+        <pose>160.000000 69.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level57">
+        <ref>tile_152</ref>
+        <ref>tile_154</ref>
+        <pose>160.000000 91.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level58">
+        <ref>tile_156</ref>
+        <ref>tile_157</ref>
+        <ref>tile_158</ref>
+        <ref>tile_159</ref>
+        <ref>tile_160</ref>
+        <ref>tile_161</ref>
+        <ref>tile_162</ref>
+        <ref>tile_163</ref>
+        <ref>tile_164</ref>
+        <ref>tile_165</ref>
+        <ref>tile_166</ref>
+        <ref>tile_167</ref>
+        <ref>tile_168</ref>
+        <ref>tile_169</ref>
+        <ref>tile_171</ref>
+        <ref>tile_173</ref>
+        <ref>tile_174</ref>
+        <ref>tile_176</ref>
+        <ref>tile_179</ref>
+        <ref>tile_181</ref>
+        <ref>tile_183</ref>
+        <pose>160.000000 60.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level59">
+        <ref>backpack_1</ref>
+        <pose>160.000000 70.100000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level61">
+        <ref>rescue_randy_1</ref>
+        <pose>160.000000 58.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level63">
+        <ref>tile_170</ref>
+        <ref>tile_172</ref>
+        <ref>tile_175</ref>
+        <ref>tile_177</ref>
+        <pose>160.000000 71.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level65">
+        <ref>tile_178</ref>
+        <ref>tile_180</ref>
+        <ref>tile_182</ref>
+        <pose>160.000000 49.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level66">
+        <ref>phone_3</ref>
+        <pose>160.000000 56.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level68">
+        <ref>tile_184</ref>
+        <ref>tile_185</ref>
+        <ref>tile_186</ref>
+        <ref>tile_187</ref>
+        <ref>tile_188</ref>
+        <ref>tile_190</ref>
+        <ref>tile_191</ref>
+        <ref>tile_192</ref>
+        <ref>tile_194</ref>
+        <ref>tile_195</ref>
+        <ref>tile_196</ref>
+        <ref>tile_198</ref>
+        <ref>tile_200</ref>
+        <ref>tile_202</ref>
+        <ref>tile_205</ref>
+        <ref>tile_206</ref>
+        <ref>tile_207</ref>
+        <ref>tile_208</ref>
+        <pose>160.000000 40.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level69">
+        <ref>tile_189</ref>
+        <ref>tile_193</ref>
+        <ref>tile_197</ref>
+        <ref>tile_199</ref>
+        <ref>tile_201</ref>
+        <ref>tile_203</ref>
+        <ref>tile_204</ref>
+        <pose>160.000000 29.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level70">
+        <ref>phone_4</ref>
+        <pose>160.000000 34.900000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level72">
+        <ref>tile_209</ref>
+        <ref>tile_210</ref>
+        <ref>tile_213</ref>
+        <ref>tile_215</ref>
+        <ref>tile_216</ref>
+        <ref>tile_218</ref>
+        <ref>tile_219</ref>
+        <ref>tile_220</ref>
+        <ref>tile_222</ref>
+        <ref>tile_223</ref>
+        <ref>tile_226</ref>
+        <ref>tile_229</ref>
+        <ref>tile_232</ref>
+        <ref>tile_233</ref>
+        <ref>tile_236</ref>
+        <ref>tile_238</ref>
+        <ref>tile_239</ref>
+        <pose>160.000000 20.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level73">
+        <ref>tile_211</ref>
+        <ref>tile_214</ref>
+        <ref>tile_217</ref>
+        <ref>tile_221</ref>
+        <ref>tile_225</ref>
+        <ref>tile_228</ref>
+        <ref>tile_231</ref>
+        <ref>tile_235</ref>
+        <pose>160.000000 9.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level74">
+        <ref>tile_212</ref>
+        <ref>tile_224</ref>
+        <ref>tile_227</ref>
+        <ref>tile_230</ref>
+        <ref>tile_234</ref>
+        <ref>tile_237</ref>
+        <pose>160.000000 31.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level75">
+        <ref>extinguisher_2</ref>
+        <pose>160.000000 22.100000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level77">
+        <ref>drill_1</ref>
+        <pose>160.000000 18.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level79">
+        <ref>tile_240</ref>
+        <ref>tile_241</ref>
+        <ref>tile_242</ref>
+        <ref>tile_243</ref>
+        <ref>tile_244</ref>
+        <ref>tile_245</ref>
+        <ref>tile_248</ref>
+        <ref>tile_249</ref>
+        <ref>tile_252</ref>
+        <ref>tile_255</ref>
+        <ref>tile_258</ref>
+        <ref>tile_260</ref>
+        <ref>tile_262</ref>
+        <ref>tile_264</ref>
+        <pose>160.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level80">
+        <ref>tile_246</ref>
+        <ref>tile_250</ref>
+        <ref>tile_253</ref>
+        <ref>tile_256</ref>
+        <ref>tile_259</ref>
+        <ref>tile_261</ref>
+        <ref>tile_263</ref>
+        <pose>160.000000 11.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level81">
+        <ref>tile_247</ref>
+        <ref>tile_251</ref>
+        <ref>tile_254</ref>
+        <ref>tile_257</ref>
+        <pose>160.000000 -11.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level82">
+        <ref>tile_265</ref>
+        <ref>tile_266</ref>
+        <ref>tile_268</ref>
+        <ref>tile_270</ref>
+        <ref>tile_272</ref>
+        <ref>tile_273</ref>
+        <ref>tile_274</ref>
+        <ref>tile_275</ref>
+        <ref>tile_277</ref>
+        <ref>tile_278</ref>
+        <ref>tile_281</ref>
+        <ref>tile_283</ref>
+        <ref>tile_285</ref>
+        <ref>tile_288</ref>
+        <ref>tile_289</ref>
+        <ref>tile_290</ref>
+        <ref>tile_292</ref>
+        <pose>160.000000 -20.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level83">
+        <ref>tile_267</ref>
+        <ref>tile_269</ref>
+        <ref>tile_271</ref>
+        <ref>tile_276</ref>
+        <ref>tile_279</ref>
+        <ref>tile_291</ref>
+        <pose>160.000000 -9.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level84">
+        <ref>backpack_2</ref>
+        <pose>160.000000 -12.900000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level85">
+        <ref>tile_280</ref>
+        <ref>tile_282</ref>
+        <ref>tile_284</ref>
+        <ref>tile_286</ref>
+        <ref>tile_287</ref>
+        <ref>tile_293</ref>
+        <pose>160.000000 -31.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level86">
+        <ref>drill_2</ref>
+        <ref>rescue_randy_2</ref>
+        <pose>160.000000 -22.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level88">
+        <ref>extinguisher_3</ref>
+        <pose>160.000000 -15.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level91">
+        <ref>tile_294</ref>
+        <ref>tile_295</ref>
+        <ref>tile_296</ref>
+        <ref>backpack_3</ref>
+        <ref>tile_297</ref>
+        <ref>tile_299</ref>
+        <ref>tile_301</ref>
+        <ref>tile_302</ref>
+        <ref>tile_304</ref>
+        <ref>tile_305</ref>
+        <ref>tile_306</ref>
+        <ref>tile_307</ref>
+        <ref>tile_308</ref>
+        <ref>tile_309</ref>
+        <ref>tile_310</ref>
+        <ref>tile_312</ref>
+        <ref>tile_313</ref>
+        <ref>tile_314</ref>
+        <ref>tile_315</ref>
+        <ref>tile_316</ref>
+        <ref>tile_318</ref>
+        <ref>tile_319</ref>
+        <ref>tile_320</ref>
+        <pose>160.000000 -40.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level93">
+        <ref>tile_298</ref>
+        <ref>tile_300</ref>
+        <ref>tile_317</ref>
+        <pose>160.000000 -51.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level94">
+        <ref>tile_303</ref>
+        <ref>tile_311</ref>
+        <pose>160.000000 -29.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level96">
+        <ref>tile_321</ref>
+        <ref>tile_322</ref>
+        <ref>tile_323</ref>
+        <ref>tile_325</ref>
+        <ref>tile_326</ref>
+        <ref>tile_327</ref>
+        <ref>tile_328</ref>
+        <ref>tile_329</ref>
+        <ref>tile_330</ref>
+        <ref>tile_331</ref>
+        <ref>tile_332</ref>
+        <ref>tile_333</ref>
+        <ref>tile_334</ref>
+        <ref>tile_335</ref>
+        <ref>tile_336</ref>
+        <ref>tile_338</ref>
+        <ref>tile_341</ref>
+        <ref>tile_342</ref>
+        <ref>tile_345</ref>
+        <ref>tile_348</ref>
+        <ref>tile_350</ref>
+        <ref>tile_352</ref>
+        <pose>160.000000 -60.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level97">
+        <ref>tile_324</ref>
+        <ref>tile_337</ref>
+        <ref>tile_339</ref>
+        <ref>tile_343</ref>
+        <ref>tile_346</ref>
+        <ref>tile_349</ref>
+        <ref>tile_351</ref>
+        <pose>160.000000 -49.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level99">
+        <ref>rescue_randy_3</ref>
+        <pose>160.000000 -58.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level101">
+        <ref>rescue_randy_4</ref>
+        <pose>160.000000 -53.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level103">
+        <ref>tile_340</ref>
+        <ref>tile_344</ref>
+        <ref>tile_347</ref>
+        <pose>160.000000 -71.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level104">
+        <ref>tile_353</ref>
+        <ref>tile_354</ref>
+        <ref>tile_355</ref>
+        <ref>tile_357</ref>
+        <ref>tile_358</ref>
+        <ref>tile_359</ref>
+        <ref>tile_360</ref>
+        <ref>tile_361</ref>
+        <ref>tile_362</ref>
+        <ref>tile_364</ref>
+        <ref>tile_365</ref>
+        <ref>tile_366</ref>
+        <ref>tile_367</ref>
+        <ref>tile_368</ref>
+        <ref>tile_369</ref>
+        <ref>tile_370</ref>
+        <ref>tile_371</ref>
+        <ref>tile_373</ref>
+        <ref>tile_374</ref>
+        <ref>tile_376</ref>
+        <ref>tile_378</ref>
+        <pose>160.000000 -80.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level105">
+        <ref>tile_356</ref>
+        <ref>tile_377</ref>
+        <ref>tile_379</ref>
+        <pose>160.000000 -91.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level106">
+        <ref>extinguisher_4</ref>
+        <pose>160.000000 -78.100000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level108">
+        <ref>tile_363</ref>
+        <ref>tile_372</ref>
+        <ref>tile_375</ref>
+        <pose>160.000000 -69.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level110">
+        <ref>tile_380</ref>
+        <ref>tile_381</ref>
+        <ref>tile_382</ref>
+        <ref>tile_383</ref>
+        <ref>tile_384</ref>
+        <ref>tile_385</ref>
+        <ref>tile_386</ref>
+        <ref>tile_387</ref>
+        <ref>tile_389</ref>
+        <ref>tile_390</ref>
+        <ref>tile_391</ref>
+        <ref>tile_392</ref>
+        <ref>tile_394</ref>
+        <ref>tile_395</ref>
+        <ref>tile_396</ref>
+        <ref>tile_397</ref>
+        <ref>tile_398</ref>
+        <ref>tile_400</ref>
+        <ref>tile_401</ref>
+        <ref>tile_402</ref>
+        <ref>tile_403</ref>
+        <ref>tile_405</ref>
+        <ref>tile_406</ref>
+        <ref>tile_408</ref>
+        <ref>tile_410</ref>
+        <pose>160.000000 -100.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level111">
+        <ref>tile_388</ref>
+        <ref>tile_399</ref>
+        <ref>tile_404</ref>
+        <ref>tile_407</ref>
+        <ref>tile_409</ref>
+        <pose>160.000000 -89.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level112">
+        <ref>tile_393</ref>
+        <pose>160.000000 -111.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level113">
+        <ref>backpack_4</ref>
+        <pose>160.000000 -95.900000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level115">
+        <ref>tile_411</ref>
+        <ref>tile_413</ref>
+        <ref>tile_414</ref>
+        <ref>tile_415</ref>
+        <ref>tile_417</ref>
+        <ref>tile_418</ref>
+        <ref>tile_419</ref>
+        <ref>tile_421</ref>
+        <ref>tile_422</ref>
+        <ref>tile_423</ref>
+        <ref>tile_425</ref>
+        <ref>tile_426</ref>
+        <ref>tile_427</ref>
+        <ref>tile_428</ref>
+        <ref>tile_429</ref>
+        <ref>tile_430</ref>
+        <ref>tile_431</ref>
+        <ref>tile_432</ref>
+        <ref>tile_433</ref>
+        <ref>tile_434</ref>
+        <ref>tile_435</ref>
+        <ref>tile_436</ref>
+        <ref>tile_437</ref>
+        <ref>tile_438</ref>
+        <ref>tile_440</ref>
+        <ref>tile_442</ref>
+        <ref>tile_443</ref>
+        <ref>tile_444</ref>
+        <pose>160.000000 -120.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level116">
+        <ref>tile_412</ref>
+        <ref>tile_416</ref>
+        <ref>tile_420</ref>
+        <ref>tile_424</ref>
+        <ref>tile_439</ref>
+        <pose>160.000000 -109.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level118">
+        <ref>tile_441</ref>
+        <ref>tile_445</ref>
+        <pose>160.000000 -131.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level120">
+        <ref>tile_446</ref>
+        <ref>tile_448</ref>
+        <ref>tile_450</ref>
+        <ref>tile_451</ref>
+        <ref>tile_452</ref>
+        <ref>tile_454</ref>
+        <ref>tile_456</ref>
+        <ref>tile_457</ref>
+        <ref>tile_458</ref>
+        <ref>tile_459</ref>
+        <ref>tile_461</ref>
+        <ref>tile_462</ref>
+        <ref>tile_464</ref>
+        <ref>tile_466</ref>
+        <ref>tile_467</ref>
+        <ref>tile_468</ref>
+        <ref>tile_470</ref>
+        <ref>tile_471</ref>
+        <ref>tile_472</ref>
+        <ref>tile_474</ref>
+        <ref>tile_476</ref>
+        <ref>tile_477</ref>
+        <ref>tile_479</ref>
+        <ref>tile_481</ref>
+        <ref>tile_484</ref>
+        <ref>tile_485</ref>
+        <pose>160.000000 -140.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level121">
+        <ref>tile_447</ref>
+        <ref>tile_449</ref>
+        <ref>tile_453</ref>
+        <ref>tile_455</ref>
+        <ref>tile_460</ref>
+        <ref>tile_463</ref>
+        <ref>tile_465</ref>
+        <ref>tile_469</ref>
+        <ref>tile_473</ref>
+        <ref>tile_475</ref>
+        <ref>tile_478</ref>
+        <ref>tile_480</ref>
+        <ref>tile_482</ref>
+        <pose>160.000000 -151.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level123">
+        <ref>drill_3</ref>
+        <pose>160.000000 -137.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level125">
+        <ref>drill_4</ref>
+        <pose>160.000000 -146.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level127">
+        <ref>tile_483</ref>
+        <pose>160.000000 -129.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>360.000000 30.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+
+
+      <level name="level1">
+        <ref>tile_1</ref>
+        <ref>tile_3</ref>
+        <ref>tile_42</ref>
+        <ref>tile_43</ref>
+        <ref>tile_73</ref>
+        <ref>tile_97</ref>
+        <ref>tile_100</ref>
+        <ref>tile_129</ref>
+        <ref>tile_156</ref>
+        <ref>tile_184</ref>
+        <ref>tile_209</ref>
+        <ref>tile_265</ref>
+        <ref>tile_294</ref>
+        <ref>tile_321</ref>
+        <ref>tile_353</ref>
+        <ref>tile_356</ref>
+        <ref>tile_380</ref>
+        <ref>tile_411</ref>
+        <ref>tile_412</ref>
+        <ref>tile_446</ref>
+        <ref>tile_447</ref>
+        <pose>0.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level2">
+        <ref>tile_2</ref>
+        <ref>tile_44</ref>
+        <ref>tile_74</ref>
+        <ref>tile_98</ref>
+        <ref>tile_130</ref>
+        <ref>tile_157</ref>
+        <ref>tile_185</ref>
+        <ref>tile_296</ref>
+        <ref>tile_322</ref>
+        <ref>tile_355</ref>
+        <ref>tile_381</ref>
+        <ref>tile_413</ref>
+        <pose>-11.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level4">
+        <ref>tile_4</ref>
+        <ref>tile_5</ref>
+        <ref>tile_6</ref>
+        <ref>tile_45</ref>
+        <ref>tile_75</ref>
+        <ref>tile_101</ref>
+        <ref>tile_132</ref>
+        <ref>tile_158</ref>
+        <ref>tile_186</ref>
+        <ref>tile_210</ref>
+        <ref>tile_211</ref>
+        <ref>tile_212</ref>
+        <ref>tile_240</ref>
+        <ref>tile_266</ref>
+        <ref>tile_267</ref>
+        <ref>tile_297</ref>
+        <ref>tile_298</ref>
+        <ref>tile_323</ref>
+        <ref>tile_324</ref>
+        <ref>tile_357</ref>
+        <ref>tile_382</ref>
+        <ref>tile_414</ref>
+        <ref>tile_448</ref>
+        <ref>tile_449</ref>
+        <pose>20.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level6">
+        <ref>tile_7</ref>
+        <ref>tile_159</ref>
+        <ref>tile_383</ref>
+        <pose>31.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level7">
+        <ref>tile_8</ref>
+        <ref>tile_9</ref>
+        <ref>tile_46</ref>
+        <ref>tile_76</ref>
+        <ref>tile_102</ref>
+        <ref>tile_133</ref>
+        <ref>tile_134</ref>
+        <ref>tile_160</ref>
+        <ref>tile_187</ref>
+        <ref>tile_213</ref>
+        <ref>tile_214</ref>
+        <ref>tile_241</ref>
+        <ref>tile_268</ref>
+        <ref>tile_269</ref>
+        <ref>tile_299</ref>
+        <ref>tile_300</ref>
+        <ref>tile_325</ref>
+        <ref>tile_384</ref>
+        <ref>tile_415</ref>
+        <ref>tile_416</ref>
+        <ref>tile_450</ref>
+        <ref>tile_453</ref>
+        <pose>40.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level8">
+        <ref>tile_10</ref>
+        <ref>tile_48</ref>
+        <ref>tile_77</ref>
+        <ref>tile_103</ref>
+        <ref>tile_135</ref>
+        <ref>tile_161</ref>
+        <ref>tile_188</ref>
+        <ref>tile_189</ref>
+        <ref>tile_215</ref>
+        <ref>tile_242</ref>
+        <ref>tile_270</ref>
+        <ref>tile_271</ref>
+        <ref>tile_301</ref>
+        <ref>tile_326</ref>
+        <ref>tile_358</ref>
+        <ref>tile_386</ref>
+        <ref>tile_417</ref>
+        <ref>tile_454</ref>
+        <ref>tile_455</ref>
+        <pose>60.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level9">
+        <ref>tile_11</ref>
+        <ref>tile_104</ref>
+        <pose>49.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level10">
+        <ref>tile_12</ref>
+        <ref>tile_49</ref>
+        <ref>tile_79</ref>
+        <ref>tile_106</ref>
+        <ref>tile_137</ref>
+        <ref>tile_163</ref>
+        <ref>tile_190</ref>
+        <ref>tile_216</ref>
+        <ref>tile_217</ref>
+        <ref>tile_243</ref>
+        <ref>tile_272</ref>
+        <ref>tile_302</ref>
+        <ref>tile_303</ref>
+        <ref>tile_328</ref>
+        <ref>tile_359</ref>
+        <ref>tile_387</ref>
+        <ref>tile_388</ref>
+        <ref>tile_419</ref>
+        <ref>tile_420</ref>
+        <ref>tile_456</ref>
+        <pose>80.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level11">
+        <ref>tile_13</ref>
+        <ref>tile_14</ref>
+        <ref>tile_51</ref>
+        <ref>tile_80</ref>
+        <ref>tile_107</ref>
+        <ref>tile_108</ref>
+        <ref>tile_140</ref>
+        <ref>tile_164</ref>
+        <ref>tile_191</ref>
+        <ref>tile_218</ref>
+        <ref>tile_244</ref>
+        <ref>tile_273</ref>
+        <ref>tile_305</ref>
+        <ref>tile_329</ref>
+        <ref>tile_361</ref>
+        <ref>tile_389</ref>
+        <ref>tile_422</ref>
+        <ref>tile_458</ref>
+        <ref>tile_460</ref>
+        <pose>100.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level12">
+        <ref>tile_15</ref>
+        <ref>tile_16</ref>
+        <ref>tile_53</ref>
+        <ref>tile_83</ref>
+        <ref>tile_110</ref>
+        <ref>tile_141</ref>
+        <ref>tile_165</ref>
+        <ref>tile_192</ref>
+        <ref>tile_193</ref>
+        <ref>tile_219</ref>
+        <ref>tile_245</ref>
+        <ref>tile_246</ref>
+        <ref>tile_247</ref>
+        <ref>tile_274</ref>
+        <ref>tile_306</ref>
+        <ref>tile_331</ref>
+        <ref>tile_362</ref>
+        <ref>tile_363</ref>
+        <ref>tile_390</ref>
+        <ref>tile_393</ref>
+        <ref>tile_423</ref>
+        <ref>tile_424</ref>
+        <ref>tile_461</ref>
+        <ref>tile_463</ref>
+        <pose>120.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level13">
+        <ref>tile_17</ref>
+        <ref>tile_20</ref>
+        <ref>tile_54</ref>
+        <ref>tile_84</ref>
+        <ref>tile_111</ref>
+        <ref>tile_112</ref>
+        <ref>tile_142</ref>
+        <ref>tile_166</ref>
+        <ref>tile_194</ref>
+        <ref>tile_220</ref>
+        <ref>tile_221</ref>
+        <ref>tile_248</ref>
+        <ref>tile_275</ref>
+        <ref>tile_276</ref>
+        <ref>tile_308</ref>
+        <ref>tile_333</ref>
+        <ref>tile_365</ref>
+        <ref>tile_394</ref>
+        <ref>tile_426</ref>
+        <ref>tile_464</ref>
+        <ref>tile_465</ref>
+        <pose>140.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level14">
+        <ref>tile_18</ref>
+        <ref>tile_55</ref>
+        <ref>tile_167</ref>
+        <ref>tile_309</ref>
+        <pose>129.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level15">
+        <ref>tile_19</ref>
+        <ref>tile_366</ref>
+        <pose>151.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level16">
+        <ref>tile_21</ref>
+        <ref>tile_22</ref>
+        <ref>tile_56</ref>
+        <ref>tile_57</ref>
+        <ref>tile_85</ref>
+        <ref>tile_86</ref>
+        <ref>tile_113</ref>
+        <ref>tile_114</ref>
+        <ref>tile_143</ref>
+        <ref>tile_195</ref>
+        <ref>tile_222</ref>
+        <ref>tile_249</ref>
+        <ref>tile_250</ref>
+        <ref>tile_251</ref>
+        <ref>tile_277</ref>
+        <ref>tile_310</ref>
+        <ref>tile_311</ref>
+        <ref>tile_334</ref>
+        <ref>tile_367</ref>
+        <ref>tile_395</ref>
+        <ref>tile_427</ref>
+        <ref>tile_466</ref>
+        <ref>tile_469</ref>
+        <pose>160.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level17">
+        <ref>tile_23</ref>
+        <ref>tile_25</ref>
+        <ref>tile_59</ref>
+        <ref>tile_87</ref>
+        <ref>tile_116</ref>
+        <ref>tile_145</ref>
+        <ref>tile_168</ref>
+        <ref>tile_196</ref>
+        <ref>tile_197</ref>
+        <ref>tile_223</ref>
+        <ref>tile_224</ref>
+        <ref>tile_225</ref>
+        <ref>tile_252</ref>
+        <ref>tile_253</ref>
+        <ref>tile_254</ref>
+        <ref>tile_278</ref>
+        <ref>tile_279</ref>
+        <ref>tile_280</ref>
+        <ref>tile_312</ref>
+        <ref>tile_336</ref>
+        <ref>tile_337</ref>
+        <ref>tile_368</ref>
+        <ref>tile_397</ref>
+        <ref>tile_428</ref>
+        <ref>tile_470</ref>
+        <pose>180.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level18">
+        <ref>tile_24</ref>
+        <ref>tile_60</ref>
+        <ref>tile_146</ref>
+        <ref>tile_369</ref>
+        <ref>tile_429</ref>
+        <pose>169.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level19">
+        <ref>tile_26</ref>
+        <ref>tile_27</ref>
+        <ref>tile_61</ref>
+        <ref>tile_88</ref>
+        <ref>tile_117</ref>
+        <ref>tile_120</ref>
+        <ref>tile_147</ref>
+        <ref>tile_169</ref>
+        <ref>tile_170</ref>
+        <ref>tile_198</ref>
+        <ref>tile_199</ref>
+        <ref>tile_226</ref>
+        <ref>tile_227</ref>
+        <ref>tile_228</ref>
+        <ref>tile_255</ref>
+        <ref>tile_256</ref>
+        <ref>tile_257</ref>
+        <ref>tile_281</ref>
+        <ref>tile_282</ref>
+        <ref>tile_313</ref>
+        <ref>tile_338</ref>
+        <ref>tile_339</ref>
+        <ref>tile_340</ref>
+        <ref>tile_370</ref>
+        <ref>tile_398</ref>
+        <ref>tile_399</ref>
+        <ref>tile_430</ref>
+        <ref>tile_471</ref>
+        <ref>tile_473</ref>
+        <pose>200.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level20">
+        <ref>tile_28</ref>
+        <ref>tile_62</ref>
+        <ref>tile_63</ref>
+        <ref>tile_89</ref>
+        <ref>tile_91</ref>
+        <ref>tile_121</ref>
+        <ref>tile_148</ref>
+        <ref>tile_149</ref>
+        <ref>tile_171</ref>
+        <ref>tile_172</ref>
+        <ref>tile_200</ref>
+        <ref>tile_201</ref>
+        <ref>tile_229</ref>
+        <ref>tile_230</ref>
+        <ref>tile_231</ref>
+        <ref>tile_258</ref>
+        <ref>tile_259</ref>
+        <ref>tile_283</ref>
+        <ref>tile_284</ref>
+        <ref>tile_314</ref>
+        <ref>tile_341</ref>
+        <ref>tile_371</ref>
+        <ref>tile_372</ref>
+        <ref>tile_401</ref>
+        <ref>tile_432</ref>
+        <ref>tile_474</ref>
+        <ref>tile_475</ref>
+        <pose>220.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level21">
+        <ref>tile_29</ref>
+        <ref>tile_30</ref>
+        <ref>tile_31</ref>
+        <ref>tile_64</ref>
+        <ref>tile_92</ref>
+        <ref>tile_122</ref>
+        <ref>tile_150</ref>
+        <ref>tile_173</ref>
+        <ref>tile_175</ref>
+        <ref>tile_202</ref>
+        <ref>tile_203</ref>
+        <ref>tile_204</ref>
+        <ref>tile_232</ref>
+        <ref>tile_260</ref>
+        <ref>tile_261</ref>
+        <ref>tile_285</ref>
+        <ref>tile_286</ref>
+        <ref>tile_287</ref>
+        <ref>extinguisher_3</ref>
+        <ref>tile_315</ref>
+        <ref>tile_342</ref>
+        <ref>tile_343</ref>
+        <ref>tile_344</ref>
+        <ref>tile_373</ref>
+        <ref>tile_403</ref>
+        <ref>tile_404</ref>
+        <ref>tile_435</ref>
+        <ref>tile_476</ref>
+        <ref>tile_478</ref>
+        <pose>240.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level22">
+        <ref>tile_32</ref>
+        <ref>tile_33</ref>
+        <ref>tile_34</ref>
+        <ref>tile_65</ref>
+        <ref>tile_66</ref>
+        <ref>tile_67</ref>
+        <ref>tile_93</ref>
+        <ref>tile_123</ref>
+        <ref>tile_151</ref>
+        <ref>tile_152</ref>
+        <ref>tile_176</ref>
+        <ref>tile_177</ref>
+        <ref>tile_178</ref>
+        <ref>tile_205</ref>
+        <ref>tile_233</ref>
+        <ref>tile_234</ref>
+        <ref>tile_235</ref>
+        <ref>tile_262</ref>
+        <ref>tile_263</ref>
+        <ref>tile_288</ref>
+        <ref>tile_291</ref>
+        <ref>tile_316</ref>
+        <ref>tile_317</ref>
+        <ref>tile_345</ref>
+        <ref>tile_346</ref>
+        <ref>tile_347</ref>
+        <ref>tile_374</ref>
+        <ref>tile_375</ref>
+        <ref>tile_405</ref>
+        <ref>tile_436</ref>
+        <ref>tile_439</ref>
+        <ref>tile_479</ref>
+        <ref>tile_480</ref>
+        <pose>260.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level23">
+        <ref>tile_35</ref>
+        <ref>tile_68</ref>
+        <ref>tile_290</ref>
+        <ref>tile_438</ref>
+        <pose>271.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level24">
+        <ref>tile_36</ref>
+        <ref>tile_39</ref>
+        <ref>tile_69</ref>
+        <ref>tile_94</ref>
+        <ref>tile_124</ref>
+        <ref>tile_125</ref>
+        <ref>tile_153</ref>
+        <ref>tile_154</ref>
+        <ref>tile_179</ref>
+        <ref>tile_180</ref>
+        <ref>tile_206</ref>
+        <ref>tile_236</ref>
+        <ref>tile_237</ref>
+        <ref>tile_264</ref>
+        <ref>tile_292</ref>
+        <ref>tile_293</ref>
+        <ref>tile_318</ref>
+        <ref>tile_348</ref>
+        <ref>tile_349</ref>
+        <ref>tile_376</ref>
+        <ref>tile_377</ref>
+        <ref>tile_406</ref>
+        <ref>tile_407</ref>
+        <ref>tile_440</ref>
+        <ref>tile_441</ref>
+        <ref>tile_481</ref>
+        <ref>tile_482</ref>
+        <ref>tile_483</ref>
+        <pose>280.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level25">
+        <ref>tile_37</ref>
+        <ref>tile_70</ref>
+        <pose>269.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level26">
+        <ref>tile_38</ref>
+        <pose>291.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level27">
+        <ref>tile_40</ref>
+        <ref>tile_41</ref>
+        <ref>tile_71</ref>
+        <ref>tile_95</ref>
+        <ref>tile_126</ref>
+        <ref>tile_127</ref>
+        <ref>tile_155</ref>
+        <ref>tile_181</ref>
+        <ref>tile_182</ref>
+        <ref>tile_207</ref>
+        <ref>tile_238</ref>
+        <ref>tile_319</ref>
+        <ref>tile_350</ref>
+        <ref>tile_351</ref>
+        <ref>tile_378</ref>
+        <ref>tile_379</ref>
+        <ref>tile_408</ref>
+        <ref>tile_409</ref>
+        <ref>tile_442</ref>
+        <ref>tile_445</ref>
+        <ref>tile_484</ref>
+        <pose>300.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level30">
+        <ref>tile_47</ref>
+        <ref>tile_385</ref>
+        <ref>tile_452</ref>
+        <pose>29.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level31">
+        <ref>tile_50</ref>
+        <ref>tile_138</ref>
+        <ref>tile_304</ref>
+        <ref>tile_360</ref>
+        <ref>tile_421</ref>
+        <ref>tile_457</ref>
+        <pose>69.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level32">
+        <ref>tile_52</ref>
+        <ref>tile_82</ref>
+        <pose>111.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level33">
+        <ref>tile_58</ref>
+        <ref>tile_115</ref>
+        <ref>tile_144</ref>
+        <ref>tile_467</ref>
+        <pose>171.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level35">
+        <ref>tile_72</ref>
+        <ref>tile_96</ref>
+        <ref>tile_128</ref>
+        <ref>tile_183</ref>
+        <ref>tile_208</ref>
+        <ref>tile_239</ref>
+        <ref>tile_320</ref>
+        <ref>tile_352</ref>
+        <ref>tile_410</ref>
+        <ref>tile_443</ref>
+        <ref>tile_485</ref>
+        <pose>311.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level37">
+        <ref>tile_78</ref>
+        <ref>tile_105</ref>
+        <ref>tile_136</ref>
+        <ref>tile_162</ref>
+        <ref>tile_327</ref>
+        <ref>tile_418</ref>
+        <pose>71.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level39">
+        <ref>phone_1</ref>
+        <ref>backpack_2</ref>
+        <pose>62.200000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level40">
+        <ref>tile_81</ref>
+        <ref>tile_109</ref>
+        <ref>tile_330</ref>
+        <ref>tile_459</ref>
+        <pose>89.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level42">
+        <ref>tile_90</ref>
+        <ref>tile_402</ref>
+        <ref>tile_434</ref>
+        <pose>209.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level45">
+        <ref>tile_99</ref>
+        <ref>tile_131</ref>
+        <ref>tile_295</ref>
+        <ref>tile_354</ref>
+        <pose>11.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level48">
+        <ref>extinguisher_1</ref>
+        <pose>2.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level51">
+        <ref>phone_2</ref>
+        <pose>122.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level52">
+        <ref>tile_118</ref>
+        <ref>tile_400</ref>
+        <ref>tile_431</ref>
+        <ref>tile_472</ref>
+        <pose>211.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level53">
+        <ref>tile_119</ref>
+        <pose>189.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level56">
+        <ref>tile_139</ref>
+        <pose>91.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level60">
+        <ref>backpack_1</ref>
+        <pose>82.200000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level62">
+        <ref>rescue_randy_1</ref>
+        <pose>138.750000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level64">
+        <ref>tile_174</ref>
+        <ref>tile_477</ref>
+        <pose>229.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level67">
+        <ref>phone_3</ref>
+        <pose>297.800000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level71">
+        <ref>phone_4</ref>
+        <pose>61.200000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level76">
+        <ref>extinguisher_2</ref>
+        <pose>82.100000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level78">
+        <ref>drill_1</ref>
+        <pose>178.100000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level87">
+        <ref>drill_2</ref>
+        <pose>182.100000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level89">
+        <ref>tile_289</ref>
+        <ref>tile_437</ref>
+        <pose>249.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level90">
+        <ref>rescue_randy_2</ref>
+        <pose>282.200000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level92">
+        <ref>backpack_3</ref>
+        <pose>5.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level95">
+        <ref>tile_307</ref>
+        <ref>tile_332</ref>
+        <ref>tile_391</ref>
+        <ref>tile_425</ref>
+        <ref>tile_462</ref>
+        <pose>131.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level98">
+        <ref>tile_335</ref>
+        <ref>tile_396</ref>
+        <ref>tile_468</ref>
+        <pose>149.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level100">
+        <ref>rescue_randy_3</ref>
+        <pose>182.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level102">
+        <ref>rescue_randy_4</ref>
+        <pose>180.250000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level107">
+        <ref>extinguisher_4</ref>
+        <pose>-2.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level109">
+        <ref>tile_364</ref>
+        <ref>tile_392</ref>
+        <pose>109.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level114">
+        <ref>backpack_4</ref>
+        <pose>142.200000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level117">
+        <ref>tile_433</ref>
+        <pose>231.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level119">
+        <ref>tile_444</ref>
+        <pose>289.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level122">
+        <ref>tile_451</ref>
+        <pose>51.000000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level124">
+        <ref>drill_3</ref>
+        <pose>102.100000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+      <level name="level126">
+        <ref>drill_4</ref>
+        <pose>237.800000 0.000000 0.000000 0 0 0</pose>
+        <geometry><box><size>30.000000 360.000000 50.000000</size></box></geometry>
+        <buffer>5.000000</buffer>
+      </level>
+
+    </plugin>
+
+  </world>
+</sdf>

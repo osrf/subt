@@ -14,8 +14,7 @@
              ... ]
 
     The [worldName] command line argument is optional,
-          defaults to tunnel_circuit_practice_01 if not specified
-    The [robotNameX] command line argument is optional, where X can be 1 to 20
+          defaults to finals_qual if not specified
 
     Example that loads tunnel circuit practice world with an X2 robot with configuration 3
 
@@ -42,9 +41,15 @@
 
   # Check if circuit is not defined or is empty/nil
   if !defined?(circuit) || circuit == nil || circuit.empty?
-    $circuit = 'cave'
+    $circuit = 'finals'
   else
     $circuit = circuit
+  end
+
+  if !defined?(logPath) || logPath == nil || logPath.empty?
+    $logPath = '/tmp/ign/logs'
+  else
+    $logPath = logPath
   end
 %>
 
@@ -71,7 +76,7 @@
   end
 
   $commsFadingExponent = 2.5
-  if $circuit == "cave"
+  if $circuit == "cave" || $circuit == "finals"
     $commsFadingExponent = 1.5
   end
 
@@ -82,6 +87,12 @@
     spawnWorldZPos = 7.5
     spawnWorldYaw = 0
     guiCameraPose = "-2.0 27 15 0 0.868 0"
+  elsif $circuit == "finals"
+    spawnWorldXPos = -18.0
+    spawnWorldYPos = -1 
+    spawnWorldZPos = 0
+    spawnWorldYaw = 0
+    guiCameraPose = "-20 0 2.5 0 0.268 0"
   else
     spawnWorldXPos = 0
     spawnWorldYPos = 0
@@ -112,18 +123,34 @@
     end
   end
 
-   MARSUPIAL_VALID_ROBOT_PAIRS = {
-    "X1" => ["X3", "MARBLE_QAV500"],
-    "EXPLORER_X1" =>["X3", "MARBLE_QAV500"],
-    "EXPLORER_R2" =>["X3", "X4", "SSCI_X4", "SOPHISTICATED_ENGINEERING_X4", "EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100"]
+  MARSUPIAL_PARENT_LINK_NAMES = {
+     "X1" => "base_link",
+     "EXPLORER_X1" => "base_link",
+     "EXPLORER_R2" => "Rear_Rocker_Link",
+     "CSIRO_DATA61_OZBOT_ATR" => "base_link"
+   }
+
+  MARSUPIAL_VALID_ROBOT_PAIRS = {
+    "X1" => ["X3", "MARBLE_QAV500", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER"],
+    "EXPLORER_X1" =>["X3", "MARBLE_QAV500", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER"],
+    "EXPLORER_R2" =>["X3", "X4", "SSCI_X4", "SOPHISTICATED_ENGINEERING_X4", "EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER"],
+    "CSIRO_DATA61_OZBOT_ATR" =>["X3", "X4", "SSCI_X4", "SOPHISTICATED_ENGINEERING_X4","EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER"]
   }
 
   MARSUPIAL_PARENT_ROBOT_POSITION_OFFSETS = {
     "X1" => Vector3d.new(0, 0, 0.717),
     "EXPLORER_X1" => Vector3d.new(0, 0, 0.717),
-    "EXPLORER_R2" => Vector3d.new(-0.45, 0, 0.662)
+    "EXPLORER_R2" => Vector3d.new(-0.402375, 0, 0.6874),
+    "CSIRO_DATA61_OZBOT_ATR" => Vector3d.new(-0.15, 0, 0.528)
   }
 
+  MARSUPIAL_PARENT_ROBOT_ROTATION_OFFSETS = {
+    "X1" => AngularVector3d.new(0, 0, 0),
+    "EXPLORER_X1" => AngularVector3d.new(0, 0, 0),
+    "EXPLORER_R2" => AngularVector3d.new(0, 0, -3.1416),
+    "CSIRO_DATA61_OZBOT_ATR" => AngularVector3d.new(0, 0, -3.1416)
+  }
+  
   allExecutables = ""
 
   # key: parent, value: child
@@ -179,9 +206,27 @@
 %>
 
 <%
+  # Check if robotNameX and robotConfigX exists
+  maxRobotCount = 20
+  robotNames = []
+  robotConfigs = []
+  for i in 1..maxRobotCount do
+    if (local_variables.include?(:"robotName#{i}") &&
+        local_variables.include?(:"robotConfig#{i}"))
+      robotName=eval "robotName#{i}"
+      robotConfig=eval "robotConfig#{i}"
+      robotNames.append(robotName)
+      robotConfigs.append(robotConfig)
+    end
+  end
+  # fail ArgumentError, "missing robotNameX argument" if robotNames.nil? or robotNames.empty?
+  # fail ArgumentError, "missing robotConfigX argument" if robotConfigs.nil? or robotConfigs.empty?
+%>
+
+<%
   # Check if worldName is not defined or is empty/nil
   if !defined?(worldName) || worldName == nil || worldName.empty?
-    $worldName = 'simple_cave_01'
+    $worldName = 'finals_qual'
   else
     $worldName = worldName
   end
@@ -190,6 +235,14 @@
     $headless = false
   elsif headless == 'true' || headless == 'True' || headless == '1'
     $headless = true
+  end
+
+  if !defined?(ros) || ros == nil || ros.empty?
+    $ros = false
+  elsif ros.upcase == 'TRUE' || ros == '1'
+    $ros = true
+  else
+    $ros = false
   end
 
   # Check if durationSec is not defined or is empty/nil. In this case, set
@@ -215,7 +268,7 @@
 <%
   # disable levels for simple cave worlds
   $levels = "true"
-  if $worldName.include?('simple_cave_')
+  if $worldName.include?('simple_cave_') || $worldName.include?('cave_qual') || $worldName.include?('niosh_')
     $levels = "false"
   end
 
@@ -242,12 +295,29 @@
   if defined?(websocketSSLKeyFile) && websocketSSLKeyFile != nil && !websocketSSLKeyFile.empty?
     $websocketSSLKeyFile = websocketSSLKeyFile
   end
+
+  $websocketMaxConnections = "-1"
+  if defined?(websocketMaxConnections) && websocketMaxConnections != nil && !websocketMaxConnections.empty?
+    $websocketMaxConnections = websocketMaxConnections
+  end
+
 %>
 
 <ignition version='1.0'>
+  <%if $ros %>
+  <executable name='ros'>
+    <command>roslaunch subt_ros cloudsim_init.launch world_name:=<%=$worldName%> enable_ground_truth:=<%=($enableGroundTruth)?"1":"0"%> robot_names:=<%= robotNames.join(",") %></command>
+  </executable>
+  <%end%>
+
   <env>
     <name>IGN_GAZEBO_SYSTEM_PLUGIN_PATH</name>
     <value>$LD_LIBRARY_PATH</value>
+  </env>
+
+  <env>
+    <name>IGN_TRANSPORT_TOPIC_STATISTICS</name>
+    <value>1</value>
   </env>
 
   <!-- Run the websocket server -->
@@ -257,6 +327,7 @@
     <port>9002</port>
     <authorization_key><%= $websocketAuthKey %></authorization_key>
     <admin_authorization_key><%= $websocketAdminAuthKey %></admin_authorization_key>
+    <max_connections><%= $websocketMaxConnections  %></max_connections>
     <ssl>
       <cert_file><%= $websocketSSLCertFile %></cert_file>
       <private_key_file><%= $websocketSSLKeyFile %></private_key_file>
@@ -274,6 +345,9 @@
     <% elsif $worldName.include?('cave_circuit_') &&
           !$worldName.include?('practice') %>
       <world_file>cave_circuit/<%= worldNumber %>/<%= $worldName %>.sdf</world_file>
+    <% elsif $worldName.include?('final_event') &&
+          !$worldName.include?('practice') %>
+      <world_file>final_event/<%= worldNumber %>/<%= $worldName %>.sdf</world_file>
     <% else %>
       <world_file><%= $worldName %>.sdf</world_file>
     <% end %>
@@ -285,7 +359,7 @@
     <record>
       <enabled>true</enabled>
       <!-- This path is used by cloudsim, please do not change -->
-      <path>/tmp/ign/logs</path>
+      <path><%= $logPath %></path>
       <overwrite>true</overwrite>
     </record>
     <%if defined?(seed) && seed != nil && !seed.empty?%>
@@ -339,188 +413,17 @@
             name="subt::GameLogicPlugin">
       <!-- The collection of artifacts to locate -->
       <world_name><%= $worldName %></world_name>
+      <ros><%= $ros %></ros>
 
       <duration_seconds><%= $durationSec %></duration_seconds>
 
       <logging>
         <!-- Use the <path> element to control where to record the log file.
              The HOME path is used by default -->
-        <path>/tmp/ign/logs</path>
+        <path><%= $logPath %></path>
         <filename_prefix>subt_<%= $circuit %></filename_prefix>
+        <elevation_step_size>5</elevation_step_size>
       </logging>
-
-      <artifact>
-        <name>backpack_1</name>
-        <type>TYPE_BACKPACK</type>
-      </artifact>
-      <artifact>
-        <name>backpack_2</name>
-        <type>TYPE_BACKPACK</type>
-      </artifact>
-      <artifact>
-        <name>backpack_3</name>
-        <type>TYPE_BACKPACK</type>
-      </artifact>
-      <artifact>
-        <name>backpack_4</name>
-        <type>TYPE_BACKPACK</type>
-      </artifact>
-      <artifact>
-        <name>backpack_5</name>
-        <type>TYPE_BACKPACK</type>
-      </artifact>
-
-      <artifact>
-        <name>drill_1</name>
-        <type>TYPE_DRILL</type>
-      </artifact>
-      <artifact>
-        <name>drill_2</name>
-        <type>TYPE_DRILL</type>
-      </artifact>
-      <artifact>
-        <name>drill_3</name>
-        <type>TYPE_DRILL</type>
-      </artifact>
-      <artifact>
-        <name>drill_4</name>
-        <type>TYPE_DRILL</type>
-      </artifact>
-
-      <artifact>
-        <name>extinguisher_1</name>
-        <type>TYPE_EXTINGUISHER</type>
-      </artifact>
-      <artifact>
-        <name>extinguisher_2</name>
-        <type>TYPE_EXTINGUISHER</type>
-      </artifact>
-      <artifact>
-        <name>extinguisher_3</name>
-        <type>TYPE_EXTINGUISHER</type>
-      </artifact>
-      <artifact>
-        <name>extinguisher_4</name>
-        <type>TYPE_EXTINGUISHER</type>
-      </artifact>
-
-      <artifact>
-        <name>phone_1</name>
-        <type>TYPE_PHONE</type>
-      </artifact>
-      <artifact>
-        <name>phone_2</name>
-        <type>TYPE_PHONE</type>
-      </artifact>
-      <artifact>
-        <name>phone_3</name>
-        <type>TYPE_PHONE</type>
-      </artifact>
-      <artifact>
-        <name>phone_4</name>
-        <type>TYPE_PHONE</type>
-      </artifact>
-      <artifact>
-        <name>phone_5</name>
-        <type>TYPE_PHONE</type>
-      </artifact>
-      <artifact>
-        <name>phone_6</name>
-        <type>TYPE_PHONE</type>
-      </artifact>
-
-      <artifact>
-        <name>rescue_randy_1</name>
-        <type>TYPE_RESCUE_RANDY</type>
-      </artifact>
-      <artifact>
-        <name>rescue_randy_2</name>
-        <type>TYPE_RESCUE_RANDY</type>
-      </artifact>
-      <artifact>
-        <name>rescue_randy_3</name>
-        <type>TYPE_RESCUE_RANDY</type>
-      </artifact>
-      <artifact>
-        <name>rescue_randy_4</name>
-        <type>TYPE_RESCUE_RANDY</type>
-      </artifact>
-      <artifact>
-        <name>rescue_randy_5</name>
-        <type>TYPE_RESCUE_RANDY</type>
-      </artifact>
-
-      <artifact>
-        <name>vent_1</name>
-        <type>TYPE_VENT</type>
-      </artifact>
-      <artifact>
-        <name>vent_2</name>
-        <type>TYPE_VENT</type>
-      </artifact>
-      <artifact>
-        <name>vent_3</name>
-        <type>TYPE_VENT</type>
-      </artifact>
-      <artifact>
-        <name>vent_4</name>
-        <type>TYPE_VENT</type>
-      </artifact>
-
-      <artifact>
-        <name>gas_1</name>
-        <type>TYPE_GAS</type>
-      </artifact>
-      <artifact>
-        <name>gas_2</name>
-        <type>TYPE_GAS</type>
-      </artifact>
-      <artifact>
-        <name>gas_3</name>
-        <type>TYPE_GAS</type>
-      </artifact>
-      <artifact>
-        <name>gas_4</name>
-        <type>TYPE_GAS</type>
-      </artifact>
-      <artifact>
-        <name>gas_5</name>
-        <type>TYPE_GAS</type>
-      </artifact>
-
-      <artifact>
-        <name>helmet_1</name>
-        <type>TYPE_HELMET</type>
-      </artifact>
-      <artifact>
-        <name>helmet_2</name>
-        <type>TYPE_HELMET</type>
-      </artifact>
-      <artifact>
-        <name>helmet_3</name>
-        <type>TYPE_HELMET</type>
-      </artifact>
-      <artifact>
-        <name>helmet_4</name>
-        <type>TYPE_HELMET</type>
-      </artifact>
-
-      <artifact>
-        <name>rope_1</name>
-        <type>TYPE_ROPE</type>
-      </artifact>
-      <artifact>
-        <name>rope_2</name>
-        <type>TYPE_ROPE</type>
-      </artifact>
-      <artifact>
-        <name>rope_3</name>
-        <type>TYPE_ROPE</type>
-      </artifact>
-      <artifact>
-        <name>rope_4</name>
-        <type>TYPE_ROPE</type>
-      </artifact>
     </plugin>
   </plugin>
 
@@ -731,6 +634,7 @@
             <topic>/model/#{_name}/breadcrumb/deploy</topic>
             <max_deployments>#{max_breadcrumbs}</max_deployments>
             <disable_physics_time>3.0</disable_physics_time>
+            <topic_statistics>true</topic_statistics>
             <breadcrumb>
               <sdf version="1.6">
                 <model name="#{_name}__breadcrumb__">
@@ -741,6 +645,34 @@
                 </model>
               </sdf>
             </breadcrumb>
+          </plugin>
+          <!-- Wheel plugin -->
+          <plugin filename="libignition-gazebo-wheel-slip-system.so"
+            name="ignition::gazebo::systems::WheelSlip">
+            <wheel link_name="front_left_wheel">
+              <slip_compliance_lateral>0.172</slip_compliance_lateral>
+              <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
+              <wheel_normal_force>138.767</wheel_normal_force>
+              <wheel_radius>0.1651</wheel_radius>
+            </wheel>
+            <wheel link_name="rear_left_wheel">
+              <slip_compliance_lateral>0.172</slip_compliance_lateral>
+              <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
+              <wheel_normal_force>138.767</wheel_normal_force>
+              <wheel_radius>0.1651</wheel_radius>
+            </wheel>
+            <wheel link_name="front_right_wheel">
+              <slip_compliance_lateral>0.172</slip_compliance_lateral>
+              <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
+              <wheel_normal_force>138.767</wheel_normal_force>
+              <wheel_radius>0.1651</wheel_radius>
+            </wheel>
+            <wheel link_name="rear_right_wheel">
+              <slip_compliance_lateral>0.172</slip_compliance_lateral>
+              <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
+              <wheel_normal_force>138.767</wheel_normal_force>
+              <wheel_radius>0.1651</wheel_radius>
+            </wheel>
           </plugin>
         </include>
         </sdf>
@@ -845,6 +777,7 @@
             <topic>/model/#{_name}/breadcrumb/deploy</topic>
             <max_deployments>#{max_breadcrumbs}</max_deployments>
             <disable_physics_time>3.0</disable_physics_time>
+            <topic_statistics>true</topic_statistics>
             <breadcrumb>
               <sdf version="1.6">
                 <model name="#{_name}__breadcrumb__">
@@ -855,6 +788,34 @@
                 </model>
               </sdf>
             </breadcrumb>
+          </plugin>
+          <!-- Wheel plugin -->
+          <plugin filename="libignition-gazebo-wheel-slip-system.so"
+            name="ignition::gazebo::systems::WheelSlip">
+            <wheel link_name="front_left_wheel">
+              <slip_compliance_lateral>0.116</slip_compliance_lateral>
+              <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
+              <wheel_normal_force>45.20448</wheel_normal_force>
+              <wheel_radius>0.098</wheel_radius>
+            </wheel>
+            <wheel link_name="rear_left_wheel">
+              <slip_compliance_lateral>0.116</slip_compliance_lateral>
+              <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
+              <wheel_normal_force>45.20448</wheel_normal_force>
+              <wheel_radius>0.098</wheel_radius>
+            </wheel>
+            <wheel link_name="front_right_wheel">
+              <slip_compliance_lateral>0.116</slip_compliance_lateral>
+              <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
+              <wheel_normal_force>45.20448</wheel_normal_force>
+              <wheel_radius>0.098</wheel_radius>
+            </wheel>
+            <wheel link_name="rear_right_wheel">
+              <slip_compliance_lateral>0.116</slip_compliance_lateral>
+              <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
+              <wheel_normal_force>45.20448</wheel_normal_force>
+              <wheel_radius>0.098</wheel_radius>
+            </wheel>
           </plugin>
         </include>
         </sdf>
@@ -1398,7 +1359,9 @@
       robot.pos.x = parentRobot.pos.x + Math.cos(-spawnWorldYaw) * offsetX + Math.sin(-spawnWorldYaw) * offsetY
       robot.pos.y = parentRobot.pos.y - Math.sin(-spawnWorldYaw) * offsetX + Math.cos(-spawnWorldYaw) * offsetY
       robot.pos.z = parentRobot.pos.z + MARSUPIAL_PARENT_ROBOT_POSITION_OFFSETS[parentRobot.type].z
-      robot.rot = parentRobot.rot
+      robot.rot.roll = parentRobot.rot.roll + MARSUPIAL_PARENT_ROBOT_ROTATION_OFFSETS[parentRobot.type].roll
+      robot.rot.pitch = parentRobot.rot.pitch + MARSUPIAL_PARENT_ROBOT_ROTATION_OFFSETS[parentRobot.type].pitch
+      robot.rot.yaw = parentRobot.rot.yaw + MARSUPIAL_PARENT_ROBOT_ROTATION_OFFSETS[parentRobot.type].yaw
     else
       x = Math.cos(-spawnWorldYaw) * posX + Math.sin(-spawnWorldYaw) * posY
       y = -(Math.sin(-spawnWorldYaw)) * posX + Math.cos(-spawnWorldYaw) * posY
@@ -1428,7 +1391,7 @@
       robotSpawned += 1
       if !teamBaseSpawned
         teamBaseSpawned = true
-        spawnStringTmp, executables = spawnTeamBase(name, posX, posY, spawnWorldZPos, spawnWorldYaw)
+        spawnStringTmp, executables = spawnTeamBase(name, robot.pos.x, robot.pos.y, robot.pos.z, robot.rot.yaw)
       else
         puts "Error: Only 1 teambase is allows. Skpping[%s]." % [name]
       end
@@ -1480,11 +1443,12 @@
       allExecutables += executables
     end
 
-    if marsupialParents.has_key?(name) && robots[name].type.include?("X1")
+    if marsupialParents.has_key?(name)
       childModelName = marsupialParents[name]
-       detachableJointPlugin = REXML::Document.new <<-HEREDOC
+      parentModelName = marsupialChildren[childModelName]
+      detachableJointPlugin = REXML::Document.new <<-HEREDOC
          <plugin filename="libignition-gazebo-detachable-joint-system.so" name="ignition::gazebo::systems::DetachableJoint">
-         <parent_link>base_link</parent_link>
+           <parent_link>#{MARSUPIAL_PARENT_LINK_NAMES[robots[parentModelName].type]}</parent_link>
          <child_model>#{childModelName}</child_model>
          <child_link>base_link</child_link>
          <topic>/model/#{childModelName}/detach</topic>
@@ -1492,15 +1456,36 @@
          </plugin>
        HEREDOC
 
+       platformJointPlugin = ""
+       platform = ""
+
        # This will be use to attach the drone platform to the base.
-       platformJointPlugin = REXML::Document.new <<-HEREDOC
-         <plugin filename="libignition-gazebo-detachable-joint-system.so" name="ignition::gazebo::systems::DetachableJoint">
-         <parent_link>base_link</parent_link>
-         <child_model>#{name}_platform</child_model>
-         <child_link>base_link</child_link>
-         <suppress_child_warning>true</suppress_child_warning>
-         </plugin>
-       HEREDOC
+       if robots[name].type.include?("X1")
+         platformJointPlugin = REXML::Document.new <<-HEREDOC
+           <plugin filename="libignition-gazebo-detachable-joint-system.so" name="ignition::gazebo::systems::DetachableJoint">
+           <parent_link>base_link</parent_link>
+           <child_model>#{name}_platform</child_model>
+           <child_link>base_link</child_link>
+           <suppress_child_warning>true</suppress_child_warning>
+           </plugin>
+         HEREDOC
+
+         # This will be used to spawn the drone platform.
+         platform = <<-HEREDOC
+           <spawn name="#{name}_platform">
+             <name>#{name}_platform</name>
+             <allow_renaming>false</allow_renaming>
+             <pose>#{robot.pos.x + 0.078} #{robot.pos.y} #{robot.pos.z-0.11} 0 0 0</pose>
+             <world>#{$worldName}</world>
+             <is_performer>false</is_performer>
+             <sdf version='1.6'>
+               <include>
+                 <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/DronePlatformX1</uri>
+               </include>
+             </sdf>
+           </spawn>
+         HEREDOC
+       end
 
        rosExecutable = <<-HEREDOC
          <executable name="#{childModelName}_marsupial">
@@ -1508,22 +1493,6 @@
          </executable>
        HEREDOC
        allExecutables += rosExecutable
-
-       # This will be used to spawn the drone platform.
-       platform = <<-HEREDOC
-         <spawn name="#{name}_platform">
-           <name>#{name}_platform</name>
-           <allow_renaming>false</allow_renaming>
-           <pose>#{robot.pos.x + 0.078} #{robot.pos.y} #{robot.pos.z-0.11} 0 0 0</pose>
-           <world>#{$worldName}</world>
-           <is_performer>false</is_performer>
-           <sdf version='1.6'>
-             <include>
-               <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/DronePlatformX1</uri>
-             </include>
-           </sdf>
-         </spawn>
-       HEREDOC
 
        # Wrap the temporary spawn string with a root element. This is needed
        # because the xml parser needs a root element. When we're adding the
@@ -1533,7 +1502,9 @@
        pluginElem = spawnXml.root.elements[search]
        includeElem = pluginElem.elements['sdf/include']
        includeElem.add_element(detachableJointPlugin.root)
-       includeElem.add_element(platformJointPlugin.root)
+       if platformJointPlugin != ""
+         includeElem.add_element(platformJointPlugin.root)
+       end
 
        spawnString = ""
        formatter = REXML::Formatters::Default.new

@@ -1,0 +1,23 @@
+graph {
+  /* ==== Vertices ==== */
+
+  /* Base station / Staging area */
+  0   [label="0::base_station::BaseStation"];
+
+  1   [label="1::NIOSH EX Course Section 01::niosh_seg02_sec01"];
+  2   [label="2::NIOSH EX Course Section 02::niosh_seg02_sec02"];
+  3   [label="3::NIOSH EX Course Section 03::niosh_seg02_sec03"];
+  4   [label="4::NIOSH EX Course Section 04::niosh_seg02_sec04"];
+  5   [label="5::NIOSH EX Course Section 05::niosh_seg02_sec05"];
+  6   [label="6::NIOSH EX Course Section 06::niosh_seg02_sec06"];
+
+  /* ==== Edges ==== */
+
+  /* Base station */
+  0  -- 1   [label=6];
+  1  -- 2   [label=6];
+  2  -- 4   [label=6];
+  2  -- 6   [label=6];
+  4  -- 5   [label=6];
+  5  -- 3   [label=6];
+}

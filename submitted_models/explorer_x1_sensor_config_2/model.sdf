@@ -4,7 +4,7 @@
     <link name="base_link">
       <pose frame="">0 0 0 0 -0 0</pose>
       <inertial>
-        <pose frame="">-0.000649 -0.084999 0.062001 0 -0 0</pose>
+        <pose frame="">0 0 0.062001 0 -0 0</pose>
         <mass>46.0344</mass>
         <inertia>
           <ixx>0.63323</ixx>
@@ -571,14 +571,12 @@
       </sensor>
       <gravity>1</gravity>
       <sensor name="front_laser" type="gpu_lidar">
-        <update_rate>15</update_rate>
+        <update_rate>10</update_rate>
         <lidar>
           <scan>
             <horizontal>
-              <!-- Resolution can't be above 16k, see
-              https://bitbucket.org/ignitionrobotics/ign-sensors/issues/8 -->
-              <samples>10000</samples>
-              <resolution>0.1</resolution>
+              <samples>1800</samples>
+              <resolution>1</resolution>
               <min_angle>-3.14159</min_angle>
               <max_angle>3.14159</max_angle>
             </horizontal>
@@ -605,71 +603,77 @@
         <always_on>1</always_on>
         <update_rate>50</update_rate>
         <imu>
-          <angular_velocity>
-            <x>
-              <noise type="gaussian">
-                <mean>0</mean>
-                <stddev>2e-4</stddev>
-                <bias_mean>0.0000075</bias_mean>
-                <bias_stddev>0.0000008</bias_stddev>
-                <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
-                <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
-              </noise>
-            </x>
-            <y>
-              <noise type="gaussian">
-                <mean>0</mean>
-                <stddev>2e-4</stddev>
-                <bias_mean>0.0000075</bias_mean>
-                <bias_stddev>0.0000008</bias_stddev>
-                <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
-                <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
-              </noise>
-            </y>
-            <z>
-              <noise type="gaussian">
-                <mean>0</mean>
-                <stddev>2e-4</stddev>
-                <bias_mean>0.0000075</bias_mean>
-                <bias_stddev>0.0000008</bias_stddev>
-                <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
-                <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
-              </noise>
-            </z>
-          </angular_velocity>
-          <linear_acceleration>
-            <x>
-              <noise type="gaussian">
-                <mean>0</mean>
-                <stddev>1e-2</stddev>
-                <bias_mean>0.1</bias_mean>
-                <bias_stddev>0.001</bias_stddev>
-                <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
-                <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
-              </noise>
-            </x>
-            <y>
-              <noise type="gaussian">
-                <mean>0</mean>
-                <stddev>1e-2</stddev>
-                <bias_mean>0.1</bias_mean>
-                <bias_stddev>0.001</bias_stddev>
-                <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
-                <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
-              </noise>
-            </y>
-            <z>
-              <noise type="gaussian">
-                <mean>0</mean>
-                <stddev>1e-2</stddev>
-                <bias_mean>0.1</bias_mean>
-                <bias_stddev>0.001</bias_stddev>
-                <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
-                <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
-              </noise>
-            </z>
-          </linear_acceleration>
-        </imu>
+                    <angular_velocity>
+                        <x>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>0.009</stddev>
+                                <bias_mean>0.00075</bias_mean>
+                                <bias_stddev>0.005</bias_stddev>
+                                <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                                <precision>0.00025</precision>
+                            </noise>
+                        </x>
+                        <y>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>0.009</stddev>
+                                <bias_mean>0.00075</bias_mean>
+                                <bias_stddev>0.005</bias_stddev>
+                                <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                                <precision>0.00025</precision>
+                            </noise>
+                        </y>
+                        <z>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>0.009</stddev>
+                                <bias_mean>0.00075</bias_mean>
+                                <bias_stddev>0.005</bias_stddev>
+                                <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                                <precision>0.00025</precision>
+                            </noise>
+                        </z>
+                    </angular_velocity>
+                    <linear_acceleration>
+                        <x>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>0.021</stddev>
+                                <bias_mean>0.05</bias_mean>
+                                <bias_stddev>0.0075</bias_stddev>
+                                <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                                <precision>0.005</precision>
+                            </noise>
+                        </x>
+                        <y>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>0.021</stddev>
+                                <bias_mean>0.05</bias_mean>
+                                <bias_stddev>0.0075</bias_stddev>
+                                <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                                <precision>0.005</precision>
+                            </noise>
+                        </y>
+                        <z>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>0.021</stddev>
+                                <bias_mean>0.05</bias_mean>
+                                <bias_stddev>0.0075</bias_stddev>
+                                <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                                <precision>0.005</precision>
+                            </noise>
+                        </z>
+                    </linear_acceleration>
+                </imu>
       </sensor>
       <light name="left_headlight_body_light_source_light" type="spot">
         <pose frame="">0.514147 0.216803 0.180 3.14159 1.56859 0</pose>
@@ -708,7 +712,7 @@
         <cast_shadows>1</cast_shadows>
       </light>
       <light name="lateral_left_front_headlight_body_light_source_light" type="spot">
-        <pose frame="">0.2499796936688763 0.334 0.155 3.14159 1.56859 1.5715899999999998</pose>
+        <pose frame="">0.2499796936688763 0.36 0.155 3.14159 1.56859 1.5715899999999998</pose>
         <attenuation>
           <range>50</range>
           <linear>0</linear>
@@ -726,7 +730,7 @@
         <cast_shadows>1</cast_shadows>
       </light>
       <light name="lateral_left_rear_headlight_body_light_source_light" type="spot">
-        <pose frame="">-0.2500203063311236 0.334 0.155 3.14159 1.56859 1.5715899999999998</pose>
+        <pose frame="">-0.2500203063311236 0.36 0.155 3.14159 1.56859 1.5715899999999998</pose>
         <attenuation>
           <range>50</range>
           <linear>0</linear>
@@ -744,7 +748,7 @@
         <cast_shadows>1</cast_shadows>
       </light>
       <light name="lateral_right_front_headlight_body_light_source_light" type="spot">
-        <pose frame="">0.2499796936688763 -0.334 0.155 3.14159 1.56859 -1.5715953071795865</pose>
+        <pose frame="">0.2499796936688763 -0.36 0.155 3.14159 1.56859 -1.5715953071795865</pose>
         <attenuation>
           <range>50</range>
           <linear>0</linear>
@@ -762,7 +766,7 @@
         <cast_shadows>1</cast_shadows>
       </light>
       <light name="lateral_right_rear_headlight_body_light_source_light" type="spot">
-        <pose frame="">-0.2500203063311236 -0.334 0.155 3.14159 1.56859 -1.5715953071795865</pose>
+        <pose frame="">-0.2500203063311236 -0.36 0.155 3.14159 1.56859 -1.5715953071795865</pose>
         <attenuation>
           <range>50</range>
           <linear>0</linear>
@@ -841,9 +845,9 @@
         <surface>
           <friction>
             <ode>
-              <mu>1</mu>
+              <mu>0.5</mu>
               <mu2>1</mu2>
-              <slip1>0.035</slip1>
+              <slip1>0.00062</slip1>
               <slip2>0</slip2>
               <fdir1>0 0 1</fdir1>
             </ode>
@@ -909,9 +913,9 @@
         <surface>
           <friction>
             <ode>
-              <mu>1</mu>
+              <mu>0.5</mu>
               <mu2>1</mu2>
-              <slip1>0.035</slip1>
+              <slip1>0.00062</slip1>
               <slip2>0</slip2>
               <fdir1>0 0 1</fdir1>
             </ode>
@@ -977,9 +981,9 @@
         <surface>
           <friction>
             <ode>
-              <mu>1</mu>
+              <mu>0.5</mu>
               <mu2>1</mu2>
-              <slip1>0.035</slip1>
+              <slip1>0.00062</slip1>
               <slip2>0</slip2>
               <fdir1>0 0 1</fdir1>
             </ode>
@@ -1045,9 +1049,9 @@
         <surface>
           <friction>
             <ode>
-              <mu>1</mu>
+              <mu>0.5</mu>
               <mu2>1</mu2>
-              <slip1>0.035</slip1>
+              <slip1>0.00062</slip1>
               <slip2>0</slip2>
               <fdir1>0 0 1</fdir1>
             </ode>

@@ -22,6 +22,7 @@
 #include <string>
 #include <utility>
 #include <ignition/math/graph/Graph.hh>
+#include <subt_ign/VisibilityTypes.hh>
 
 namespace subt
 {
@@ -41,7 +42,7 @@ namespace subt
   using VisibilityInfo =
     std::map<std::pair<ignition::math::graph::VertexId,
                        ignition::math::graph::VertexId>,
-             double>;
+             VisibilityCost>;
 
   /// \brief Class used to store information about a member of the team.
   class TeamMember
@@ -66,8 +67,8 @@ namespace subt
   enum class ArtifactType : uint32_t
   {
     TYPE_BACKPACK = 0,
-    TYPE_DUCT,
     TYPE_DRILL,
+    TYPE_DUCT,
     TYPE_ELECTRICAL_BOX,
     TYPE_EXTINGUISHER,
     TYPE_PHONE,
@@ -78,7 +79,8 @@ namespace subt
     TYPE_VENT,
     TYPE_GAS,
     TYPE_HELMET,
-    TYPE_ROPE
+    TYPE_ROPE,
+    Count
   };
 
   /// \def TeamMemberPtr

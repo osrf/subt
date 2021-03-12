@@ -68,15 +68,28 @@ bool SdfParser::FillVertexData(const std::string &_includeStr, VertexData &_vd,
   size_t fuelIdx = uri.find(fuelStr);
   std::string modelType;
   if (fuelIdx == std::string::npos)
-    return false;
+  {
+    fuelStr = "https://fuel.ignitionrobotics.org/1.0/openrobotics/models/";
+    fuelIdx = uri.find(fuelStr);
+
+    if (fuelIdx == std::string::npos)
+    {
+      std::cerr  << "Invalid Fuel Index for uri[" << uri << "]\n";
+      return false;
+    }
+  }
   modelType = uri.substr(fuelIdx + fuelStr.size());
 
   // check if model type is recognized
-  if (_filter && _filter(name, modelType))
+  if (_filter && _filter(name, modelType) &&
+      modelType.find("Blocker") == std::string::npos)
+  {
+    std::cerr  << "Unrecognized model type[" << modelType << "]\n";
     return false;
+  }
   sdf::Model modelSdf;
   modelSdf.SetName(name);
-  modelSdf.SetPose(pose);
+  modelSdf.SetRawPose(pose);
 
   static int tileId = 0;
   // Try getting the tile id from the tile name first.
@@ -95,6 +108,4 @@ bool SdfParser::FillVertexData(const std::string &_includeStr, VertexData &_vd,
 
   return true;
 }
-
-
 

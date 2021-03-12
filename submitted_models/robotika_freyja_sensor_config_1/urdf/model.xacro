@@ -406,7 +406,7 @@
     <visual name='front_left_wheel_tire_visual'>
       <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
       <geometry>
-        <mesh filename='meshes/wheel_left.dae' scale='1.30102 1.30102 2.05'/>
+        <mesh filename='package://robotika_freyja_sensor_config_1/meshes/wheel_left.dae' scale='1.30102 1.30102 2.05'/>
       </geometry>
     </visual>
     <visual name='front_left_wheel_hub_visual'>
@@ -431,7 +431,7 @@
     <visual name='front_right_wheel_tire_visual'>
       <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
       <geometry>
-        <mesh filename='meshes/wheel_right.dae' scale='1.30102 1.30102 2.05'/>
+        <mesh filename='package://robotika_freyja_sensor_config_1/meshes/wheel_right.dae' scale='1.30102 1.30102 2.05'/>
       </geometry>
     </visual>
     <visual name='front_right_wheel_hub_visual'>
@@ -456,7 +456,7 @@
     <visual name='rear_left_wheel_tire_visual'>
       <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
       <geometry>
-        <mesh filename='meshes/wheel_left.dae' scale='1.30102 1.30102 2.05'/>
+        <mesh filename='package://robotika_freyja_sensor_config_1/meshes/wheel_left.dae' scale='1.30102 1.30102 2.05'/>
       </geometry>
     </visual>
     <visual name='rear_left_wheel_hub_visual'>
@@ -481,7 +481,7 @@
     <visual name='rear_right_wheel_tire_visual'>
       <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
       <geometry>
-        <mesh filename='meshes/wheel_right.dae' scale='1.30102 1.30102 2.05'/>
+        <mesh filename='package://robotika_freyja_sensor_config_1/meshes/wheel_right.dae' scale='1.30102 1.30102 2.05'/>
       </geometry>
     </visual>
     <visual name='rear_right_wheel_hub_visual'>

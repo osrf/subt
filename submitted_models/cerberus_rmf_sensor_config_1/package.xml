@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>cerberus_rmf_sensor_config_1</name>
+  <version>0.1.0</version>
+  <description>
+    The cerberus_rmf_sensor_config_1 package is derived from OSRF's X3 vehicle model.  
+    This sensor configuration has a T265 tracking camera and four laser ToF sensors..
+  </description>
+
+  <author email="mihirk284@gmail.com">Mihir Kulkarni</author>
+  <author email="pdepetris@nevada.unr.edu">Paolo De Petris</author>
+  <maintainer email="mihirk284@gmail.com">Mihir Kulkarni</maintainer>
+  <maintainer email="pdepetris@nevada.unr.edu">Paolo De Petris</maintainer>
+
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <buildtool_depend>roslaunch</buildtool_depend>
+  <buildtool_depend>urdf</buildtool_depend>
+  <buildtool_depend>xacro</buildtool_depend>
+
+</package>

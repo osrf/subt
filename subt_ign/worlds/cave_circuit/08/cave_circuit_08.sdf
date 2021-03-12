@@ -1,0 +1,231 @@
+<?xml version="1.0" ?>
+
+<!-- The Jenolan Cave tile meshes that make up this world were created using a cave scan from the open dataset: Zlot, Robert; Bosse, Michael (2015): Jenolan Caves: 3D Data Collection. v1. CSIRO. Data Collection. https://doi.org/10.4225/08/55911F74299DC -->
+
+<sdf version="1.6">
+  <world name="cave_circuit_08">
+    <physics name="1ms" type="ode">
+      <max_step_size>0.004</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+
+    <scene>
+      <ambient>0.1 0.1 0.1 1.0</ambient>
+      <background>0 0 0 1.0</background>
+      <grid>false</grid>
+      <origin_visual>false</origin_visual>
+    </scene>
+
+    <atmosphere type="adiabatic">
+       <temperature>288</temperature>
+       <temperature_gradient>0.4</temperature_gradient>
+    </atmosphere>
+
+    <!-- The staging area -->
+    <include>
+      <static>true</static>
+      <name>staging_area</name>
+      <pose>0 0 0 0 0 0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Starting Area Type B</uri>
+    </include>
+
+    <!-- The base station -->
+    <include>
+      <static>true</static>
+      <name>base_station</name>
+      <pose>-8 0 0 0 0 -1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Base Station</uri>
+    </include>
+
+    <!-- Fiducial marking the origin for artifacts reports -->
+    <include>
+      <name>artifact_origin</name>
+      <pose>10.0 0.0 0.0 0 0 0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fiducial</uri>
+    </include>
+
+    <!-- cave tiles -->
+    <include>
+      <static>true</static>
+      <name>tile_1</name>
+      <pose>0 0 0 1.57 0 1.57</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jenolan Section 01</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>tile_2</name>
+      <pose>0 0 0 1.57 0 1.57</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jenolan Section 02</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>tile_3</name>
+      <pose>0 0 0 1.57 0 1.57</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jenolan Section 03</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>tile_4</name>
+      <pose>0 0 0 1.57 0 1.57</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jenolan Section 04</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>tile_5</name>
+      <pose>0 0 0 1.57 0 1.57</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jenolan Section 05 Lights</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>tile_6</name>
+      <pose>0 0 0 1.57 0 1.57</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jenolan Section 06</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>tile_7</name>
+      <pose>0 0 0 1.57 0 1.57</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jenolan Section 07</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>tile_8</name>
+      <pose>0 0 0 1.57 0 1.57</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jenolan Section 08</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>tile_9</name>
+      <pose>0 0 0 1.57 0 1.57</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jenolan Section 09</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>tile_10</name>
+      <pose>0 0 0 1.57 0 1.57</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jenolan Section 10</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>tile_11</name>
+      <pose>0 0 0 1.57 0 1.57</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Jenolan Section 11</uri>
+    </include>
+
+    <!-- artifacts -->
+    <include>
+      <name>backpack_1</name>
+      <pose>32.3631 11.431 7.62212 -0.899778 0.061821 0.919509</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/JanSport Backpack Red</uri>
+    </include>
+    <include>
+      <name>backpack_2</name>
+      <pose>110.572 46.2751 -4.88578 0.026012 0.043313 0.720064</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/JanSport Backpack Red</uri>
+    </include>
+    <include>
+      <name>backpack_3</name>
+      <pose>157.816 101.766 -4.50675 -0.040345 -0.002497 1.43355</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/JanSport Backpack Red</uri>
+    </include>
+    <include>
+      <name>backpack_4</name>
+      <pose>73.3787 -236.1450 10.0446 0.0 0.0 1.168030</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/JanSport Backpack Red</uri>
+    </include>
+
+    <include>
+      <name>rescue_randy_1</name>
+      <pose>209.682 -132.933 10.007 0.065975 0.138911 -1.36773</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rescue Randy Sitting</uri>
+    </include>
+    <include>
+      <name>rescue_randy_2</name>
+      <pose>131.153 -227.756 0.321615 0 -0.089236 -1.16113</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rescue Randy Sitting</uri>
+    </include>
+    <include>
+      <name>rescue_randy_3</name>
+      <pose>21.239 -9.61435 -3.01032 0.056947 0.337425 2.12416</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rescue Randy Sitting</uri>
+    </include>
+    <include>
+      <name>rescue_randy_4</name>
+      <pose>160.708 73.2285 0.965447 0.379158 0.176725 -0.240493</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rescue Randy Sitting</uri>
+    </include>
+    <include>
+      <name>rescue_randy_5</name>
+      <pose>83.5267 324.828 14.9127 0.028771 0.204703 -0.242483</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rescue Randy Sitting</uri>
+    </include>
+
+    <include>
+      <name>helmet_1</name>
+      <pose>80.4927 28.04530 -1.789780 0.169009 0.208747 -2.914410</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Climbing Helmet With Light</uri>
+    </include>
+    <include>
+      <name>helmet_2</name>
+      <pose>157.2340 5.33024 -1.19615 0.490837 -0.135195 2.507060</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Climbing Helmet With Light</uri>
+    </include>
+    <include>
+      <name>helmet_3</name>
+      <pose>157.807 152.129 -0.475435 0.32586 0.138143 1.33285</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Climbing Helmet With Light</uri>
+    </include>
+    <include>
+      <name>helmet_4</name>
+      <pose>93.3368 132.072 16.005 0 0.153146 -1.47254</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Climbing Helmet With Light</uri>
+    </include>
+    <include>
+      <name>helmet_5</name>
+      <pose>25.0356 396.3600 22.6490 0.170207 0.0 -2.319340</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Climbing Helmet With Light</uri>
+    </include>
+
+    <include>
+      <name>rope_1</name>
+      <pose>106.364 26.50860 1.549930 -1.319690 -1.526240 0.0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Climbing Rope</uri>
+    </include>
+    <include>
+      <name>rope_2</name>
+      <pose>155.501 -15.37460 15.4086 -0.310952 -0.180757 1.060770</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Climbing Rope</uri>
+    </include>
+    <include>
+      <name>rope_3</name>
+      <pose>142.7550 95.91580 35.21650 0.130178 1.224550 0.444386</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Climbing Rope</uri>
+    </include>
+    <include>
+      <name>rope_4</name>
+      <pose>-36.76780 493.2130 12.45710 0.0 0.0 -1.118760</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Climbing Rope</uri>
+    </include>
+
+    <include>
+      <name>phone_1</name>
+      <pose>-27.96870 -231.2480 22.55510 -1.56060 -0.009221 0.735225</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Samsung J8 Black</uri>
+    </include>
+    <include>
+      <name>phone_2</name>
+      <pose>107.444 228.745 12.5805 -0.81255 0.119051 -0.965277</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Samsung J8 Black</uri>
+    </include>
+  </world>
+</sdf>

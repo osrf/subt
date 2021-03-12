@@ -23,8 +23,8 @@ require 'tempfile'
 # Example JSON.
 example_json=<<EOF
 {
-  "circuit": "urban",
-  "world": "simple_urban_01",
+  "circuit": "cave",
+  "world": "simple_cave_01",
   "headless": "false",
   "robots":
   [
@@ -184,11 +184,12 @@ submission['robots'].each_with_index do |robot, index|
 end
 
 marsupialChildren = []
-submission['marsupials'].each_with_index do |(parent, child), index|
-  robotStr += "marsupial#{index+1}:=#{parent}:#{child} "
-  marsupialChildren.append(child)
+if submission.key?('marsupials')
+  submission['marsupials'].each_with_index do |(parent, child), index|
+    robotStr += "marsupial#{index+1}:=#{parent}:#{child} "
+    marsupialChildren.append(child)
+  end
 end
-
 
 # Set where the output is going
 if options['run']
@@ -208,7 +209,7 @@ services:
   # In this example, two robots are started with the names X1 and X2.
   sim:
     image: #{options['sim_image']}
-    command: cloudsim_sim.ign headless:=#{submission['headless']} circuit:=#{submission['circuit']} worldName:=#{submission['world']} #{robotStr}
+    command: cloudsim_sim.ign headless:=#{submission['headless']} circuit:=#{submission['circuit']} ros:=true worldName:=#{submission['world']} #{robotStr}
     networks:
       sim_net:
         ipv4_address: 172.28.1.1
