@@ -40,7 +40,8 @@ void printGraph(std::vector<VertexData> &_vertexData)
     std::string name = vd.tileName;
     std::string type = vd.tileType;
     if (type == "Cave Starting Area Type B" ||
-        type == "Urban Starting Area")
+        type == "Urban Starting Area" ||
+        type == "Finals Staging Area")
     {
       type = "base_station";
       name = "BaseStation";
@@ -78,7 +79,8 @@ void printGraph(std::vector<VertexData> &_vertexData)
             _vertexData[i].tileType == "Cave Starting Area Type B" ||
             _vertexData[i].tileType == "Urban Starting Area" ||
             _vertexData[j].tileType == "Cave Starting Area Type B" ||
-            _vertexData[j].tileType == "Urban Starting Area";
+            _vertexData[j].tileType == "Urban Starting Area" ||
+            _vertexData[j].tileType == "Finals Staging Area";
 
           if ((tp1 == subt::ConnectionHelper::STRAIGHT &&
                 tp2 == subt::ConnectionHelper::STRAIGHT) || connectsToStaging)

@@ -29,7 +29,7 @@ awsVersion=`aws --version`
 if [[ "$awsVersion" == *"aws-cli/1"* ]]; then
   $(aws ecr get-login --no-include-email --region us-east-1)
 elif [[ "$awsVersion" == *"aws-cli/2"* ]]; then
-  aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 200670743174.dkr.ecr.us-east-1.amazonaws.com
+  aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 138467776890.dkr.ecr.us-east-1.amazonaws.com
 else
     echo "Unsupported aws cli version $awsVersion"
   exit
