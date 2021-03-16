@@ -25,12 +25,12 @@ std::map<std::string, std::vector<ignition::math::Vector3d>>
   {
     {"Constrained Tunnel Tile Short", {{0, -10, 0}, {0, 10, 0}}},
     {"Constrained Tunnel Tile Tall", {{0, -10, 0}, {0, 10, 0}}},
-    {"Tunnel Bend Right", {{0, 0, 0}, {17.5, 25, 0}}},
-    {"Tunnel Corner Left", {{0, 0, 0}, {-10, 15, 0}}},
-    {"Tunnel Corner Right", {{0, 0, 0}, {10, 15, 0}}},
+    {"Tunnel Bend Right", {{0, 0, 0}, {15, 25, 0}}}, // Connection opening in +X direction
+    {"Tunnel Corner Left", {{0, 0, 0}, {-10, 15, 0}}}, // Connection opening in -Y direction
+    {"Tunnel Corner Right", {{0, 0, 0}, {10, 15, 0}}}, // Connection opening in +Y direction
     {"Tunnel Elevation", {{0, 0, 0}, {0, 20, 5}}},
-    {"Tunnel Intersection", {{0, 0, 0}, {7.5, 7.5, 0}, {-7.5, 7.5, 0}, {0, 15, 0}}},
-    {"Tunnel Intersection T", {{0, 0, 0}, {7.5, 7.5, 0}, {-7.5, 7.5, 0}}},
+    {"Tunnel Intersection", {{0, 0, 0}, {7.5, 7.5, 0}, {-7.5, 7.5, 0}, {0, 15, 0}}}, // Connection opening in +X, -X
+    {"Tunnel Intersection T", {{0, 0, 0}, {7.5, 7.5, 0}, {-7.5, 7.5, 0}}}, // Connection opening in +X, -X directions
     {"Tunnel Straight", {{0, 0, 0}, {0, 5, 0}}},
     {"subt_tunnel_staging_area", {{10, 0, 0}}},
     {"Tunnel Tile 1", {{0.0, 10.0, 0.0}, {10.0, 0.0, 0.0}, {0.0, -10.0, 0.0}, {-10.0, 0.0, 0.0}}},

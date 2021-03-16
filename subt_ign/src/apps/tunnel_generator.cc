@@ -103,7 +103,7 @@ std::vector<WorldSection> TunnelGeneratorBase::CreateWorldSections(std::map<std:
       s.id = nextId++;
       worldSections.push_back(s);
     }
-    else if (t.first.find("Corner Right") != std::string::npos)
+    else if (t.first.find("Corner") != std::string::npos)
     {
       WorldSection s = std::move(
         CreateWorldSectionFromTile(t.first,
@@ -114,23 +114,12 @@ std::vector<WorldSection> TunnelGeneratorBase::CreateWorldSections(std::map<std:
       s.id = nextId++;
       worldSections.push_back(s);
     }
-    else if (t.first.find("Corner Left") != std::string::npos)
-    {
-      WorldSection s = std::move(
-        CreateWorldSectionFromTile(t.first,
-        math::Vector3d(0, 0, 0),
-        math::Quaterniond(0, 0, IGN_PI/2),
-        NONE));
-      s.tileType = NONE;
-      s.id = nextId++;
-      worldSections.push_back(s);
-    }
     else if (t.first.find("Bend") != std::string::npos)
     {
       WorldSection s = std::move(
         CreateWorldSectionFromTile(t.first,
         math::Vector3d(0, 0, 0),
-        math::Quaterniond(0, 0, IGN_PI/2),
+        math::Quaterniond(0, 0, -IGN_PI/2),
         NONE));
       s.tileType = NONE;
       s.id = nextId++;
@@ -141,7 +130,7 @@ std::vector<WorldSection> TunnelGeneratorBase::CreateWorldSections(std::map<std:
       WorldSection s = std::move(
         CreateWorldSectionFromTile(t.first,
         math::Vector3d(0, 0, 0),
-        math::Quaterniond(0, 0, IGN_PI/2),
+        math::Quaterniond(0, 0, -IGN_PI/2),
         NONE));
       s.tileType = NONE;
       s.id = nextId++;
@@ -205,7 +194,7 @@ void TunnelGenerator::Generate()
     // point before giving up. Failure to add a tile is mostly due to
     // intersection with existing tiles in the world.
     int attempt = 0;
-    int maxAttempt = 20;
+    int maxAttempt = 50;
     while (!selected && attempt++ < maxAttempt)
     {
       // Select the world section generated from the tile
@@ -518,7 +507,7 @@ void TunnelGeneratorDebug::Generate()
     }
     else if (this->tileName.find("Corner") != std::string::npos)
     {
-      pose = math::Pose3d(pos + rot*math::Vector3d(5, 0, 0),
+      pose = math::Pose3d(pos + rot*math::Vector3d(2.5, 0, 0),
           math::Quaterniond(0, 0, IGN_PI/2)*rot);
     }
     else if (this->tileName.find("Elevation") != std::string::npos)

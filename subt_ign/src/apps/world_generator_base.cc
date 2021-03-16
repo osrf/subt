@@ -328,7 +328,6 @@ void WorldGenerator::LoadTiles()
       bbox = transformAxisAlignedBox(
           bbox, math::Pose3d(0, 0, 0, 0, 0, IGN_PI/2));
     }
-    // TODO VERIFY
     if (tileType == "Urban Starting Area")
     {
       bbox = transformAxisAlignedBox(

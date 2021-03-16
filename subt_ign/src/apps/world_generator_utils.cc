@@ -225,6 +225,28 @@ std::string WorldTopStr(const std::string &_worldType, std::string outputFile, s
 }
 
 //////////////////////////////////////////////////
+void TunnelTileRotations(const std::string &_tileName, math::Vector3d &_pt, math::Quaterniond &_rot)
+{
+  if (_tileName.find("Bend") != std::string::npos)
+    _rot = math::Quaterniond::Identity;
+  if (_tileName.find("Corner Right") != std::string::npos)
+    _rot = math::Quaterniond(0, 0, -IGN_PI/2);
+  if (_tileName.find("Corner Left") != std::string::npos)
+    _rot = math::Quaterniond(0, 0, IGN_PI/2);
+  if (_tileName.find("Intersection") != std::string::npos)
+  {
+    if (_pt.X() > 0 && _pt.Y() > 0)
+    {
+      _rot = math::Quaterniond::Identity;
+    }
+    else if (_pt.X() < 0 && _pt.Y() > 0)
+    {
+      _rot = math::Quaterniond(0, 0, IGN_PI/2);
+    }
+  }
+}
+
+//////////////////////////////////////////////////
 WorldSection CreateWorldSectionFromTile(const std::string &_type, 
     const math::Vector3d &_entry, const math::Quaterniond &_rot, 
     TileType _tileType)
@@ -264,7 +286,7 @@ WorldSection CreateWorldSectionFromTile(const std::string &_type,
         if (pt.X() < 0.0)
           rot = math::Quaterniond(0, 0, -IGN_PI);
       }
-
+      TunnelTileRotations(_type, pt, rot);
       s.connectionPoints.push_back(std::make_pair(
           pt, rot));
 
