@@ -192,6 +192,9 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
   // does not drift over time.
   protected: double correctStaticAnglePosition(const Entity& joint, const math::Angle& staticPos, EntityComponentManager& _ecm) {
     auto pos = _ecm.Component<components::JointPosition>(this->joint);
+    if (!pos || pos->Data().empty())
+      return 0.0;
+
     const math::Angle currentPos{pos->Data()[0]};
     if (fabs((currentPos - staticPos).Radian()) > this->positionCorrectionTolerance.Radian())
     {
