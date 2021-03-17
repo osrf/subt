@@ -587,7 +587,7 @@ class GraphRules:
     # Only needed if these are specified in individual cells, as opposed to after @ in a tile cell.
     ARTIFACTS = ['Backpack', 'Electrical Box', 'Extinguisher', 'Phone',
                  'Radio', 'Survivor Female', 'Survivor Male', 'Toolbox', 'Valve',
-                 'Drill', 'Rescue Randy', 'Vent', 'Gas',
+                 'Drill', 'Rescue Randy', 'Vent', 'Gas', 'Cube',
                  BLOCKER_TILE, 'niosh_blocker', 'niosh_blocker1', 'niosh_blocker2', 'niosh_blocker3']
 
     @classmethod
