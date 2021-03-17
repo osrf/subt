@@ -482,7 +482,9 @@ class subt::GameLogicPluginPrivate
     {subt::ArtifactType::TYPE_ROPE,
       ignition::math::Vector3d(0.004, -0.03, 0.095)},
     {subt::ArtifactType::TYPE_VENT,
-      ignition::math::Vector3d(0, 0, 0.138369)}
+      ignition::math::Vector3d(0, 0, 0.138369)},
+    {subt::ArtifactType::TYPE_CUBE,
+      ignition::math::Vector3d(0, 0, 0.2)}
   };
 
   /// \brief Event manager for pausing simulation
