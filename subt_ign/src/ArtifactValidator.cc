@@ -187,25 +187,28 @@ bool ArtifactValidatorPrivate::MoveToString(const std::string &_name,
 }
 
 /////////////////////////////////////////////////
-bool ArtifactValidatorPrivate::OnScore(const ignition::msgs::StringMsg& /*_req*/,
+bool ArtifactValidatorPrivate::OnScore(const ignition::msgs::StringMsg& _req,
                                        ignition::msgs::StringMsg& _rep)
 {
   // Report the artifact that we are currently at
-  
-  auto artifact = this->artifactsIter->second;
-
-  if (artifact.name == "artifact_origin")
+  //
+  auto newIter = this->artifacts.find(_req.data());
+  if (newIter == this->artifacts.end())
   {
-    std::cerr << "Attempted to score artifact_origin" << std::endl;
+    ignerr << "Artifact: " << _req.data() << " does not exist" << std::endl;
     return false;
   }
+  this->artifactsIter = newIter;
 
+  auto artifact = this->artifactsIter->second;
   std::cout << "Reporting: " << artifact.String() << std::endl; 
 
+  auto origin = this->artifacts.find("artifact_origin")->second;
+
   ignition::msgs::Pose reportPose;
-  reportPose.mutable_position()->set_x(artifact.pose.Pos().X());
-  reportPose.mutable_position()->set_y(artifact.pose.Pos().Y());
-  reportPose.mutable_position()->set_z(artifact.pose.Pos().Z());
+  reportPose.mutable_position()->set_x(artifact.pose.Pos().X() - origin.pose.Pos().X());
+  reportPose.mutable_position()->set_y(artifact.pose.Pos().Y() - origin.pose.Pos().Y());
+  reportPose.mutable_position()->set_z(artifact.pose.Pos().Z() - origin.pose.Pos().Z());
 
   return this->ReportArtifact(artifact.type,
                               reportPose);
@@ -229,8 +232,15 @@ bool ArtifactValidatorPrivate::ReportArtifact(const ArtifactType _type,
     return false;
   }
 
-  this->client->SendTo(serializedData, subt::kBaseStationName);
-  return true;
+  if (this->client)
+  {
+    this->client->SendTo(serializedData, subt::kBaseStationName);
+    return true;
+  }
+  else
+  {
+    return false;
+  }
 }
 
 /////////////////////////////////////////////////
@@ -382,8 +392,6 @@ void ArtifactValidator::Configure(const ignition::gazebo::Entity & /*_entity*/,
     req.set_data(true);
     this->dataPtr->node.Request("/subt/start", req, timeout, rep, result);
   }
-
-
 }
 
 /////////////////////////////////////////////////
@@ -394,7 +402,7 @@ void ArtifactValidator::PostUpdate(
 
   if (!this->dataPtr->client)
   {
-    this->dataPtr->client.reset(new subt::CommsClient("X2", false, true));
+    this->dataPtr->client.reset(new subt::CommsClient("validator", false, true));
     this->dataPtr->client->Bind(&ArtifactValidatorPrivate::OnArtifactAck, 
         this->dataPtr.get());
   }
