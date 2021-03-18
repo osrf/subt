@@ -54,7 +54,8 @@ TEST(subt_ign_Common, ArtifactFromInt){
     {10, subt::ArtifactType::TYPE_VENT},
     {11, subt::ArtifactType::TYPE_GAS},
     {12, subt::ArtifactType::TYPE_HELMET},
-    {13, subt::ArtifactType::TYPE_ROPE}
+    {13, subt::ArtifactType::TYPE_ROPE},
+    {14, subt::ArtifactType::TYPE_CUBE}
   };
 
   for (const auto &[input, expected_out] : expected)
@@ -93,7 +94,8 @@ TEST(subt_ign_Common, ArtifactFromString){
     {"TYPE_VENT", subt::ArtifactType::TYPE_VENT},
     {"TYPE_GAS", subt::ArtifactType::TYPE_GAS},
     {"TYPE_HELMET", subt::ArtifactType::TYPE_HELMET},
-    {"TYPE_ROPE", subt::ArtifactType::TYPE_ROPE}
+    {"TYPE_ROPE", subt::ArtifactType::TYPE_ROPE},
+    {"TYPE_CUBE", subt::ArtifactType::TYPE_CUBE}
   };
 
   for (const auto &[input, expected_out] : expected)
@@ -166,7 +168,7 @@ TEST(subt_ign_Common, FullWorldPath) {
     std::string worldPath;
     EXPECT_TRUE(subt::FullWorldPath(input, worldPath));
     EXPECT_EQ(
-        ignition::common::joinPaths(worldsDirectory, expected_out), 
+        ignition::common::joinPaths(worldsDirectory, expected_out),
         worldPath);
   }
 
