@@ -1,0 +1,10 @@
+<launch>
+    <arg name="name" />
+    <arg name="ign_service" />
+    <arg name="ros_service" />
+
+    <node name="$(arg name)" pkg="subt_ros" type="set_rate_relay">
+        <param name="service" value="$(arg ign_service)" />
+        <remap from="$(arg ign_service)" to="$(arg ros_service)" />
+    </node>
+</launch>
