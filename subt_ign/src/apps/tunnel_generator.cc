@@ -125,7 +125,7 @@ std::vector<WorldSection> TunnelGeneratorBase::CreateWorldSections(std::map<std:
       s.id = nextId++;
       worldSections.push_back(s);
     }
-    else if (t.first.find("Intersection T") != std::string::npos)
+    else if (t.first.find("Intersection") != std::string::npos)
     {
       WorldSection s = std::move(
         CreateWorldSectionFromTile(t.first,
@@ -135,19 +135,7 @@ std::vector<WorldSection> TunnelGeneratorBase::CreateWorldSections(std::map<std:
       s.tileType = NONE;
       s.id = nextId++;
       worldSections.push_back(s);
-    } 
-    else if (t.first.find("Intersection") != std::string::npos)
-    {
-      WorldSection s = std::move(
-        CreateWorldSectionFromTile(t.first,
-        math::Vector3d(0, 15, 0),
-        math::Quaterniond(0, 0, IGN_PI/2),
-        NONE));
-      s.tileType = NONE;
-      s.id = nextId++;
-      worldSections.push_back(s);
-    }
-    
+    }     
   }
   return worldSections;
 }
@@ -517,7 +505,7 @@ void TunnelGeneratorDebug::Generate()
     }
     else
     {
-      pose = math::Pose3d(pos + rot*math::Vector3d(2.5, 0, 0), math::Quaterniond(0, 0, IGN_PI/2)*rot);
+      pose = math::Pose3d(pos, math::Quaterniond(0, 0, IGN_PI/2)*rot);
     }
 
     ss << "    <include>\n";

@@ -122,24 +122,44 @@ bool WorldGeneratorBase::IntersectionCheck(WorldSection &_section,
             // connection point, it could be a valid intersection between tiles
             // since the meshes are designed to overlap a little to reduce gaps
             double dist = (region.Center() - so).Length();
-            if (dist < 30)
+            if (this->worldType == "Cave")
             {
-              // make sure the overlapping region is small
-              double volume = region.XLength() * region.YLength()
-                  * region.ZLength();
-
-              double maxOverlapVolume = 1000;
-              if (section.tileType == CAVE_TYPE_B)
-                maxOverlapVolume = 1800;
-              if (section.tileType == NONE)
-                maxOverlapVolume = 100;
-              // TODO for Urban circuit
-              if (volume < maxOverlapVolume)
+              if (dist < 30)
               {
-                overlapAtConnection = true;
-                break;
+                // make sure the overlapping region is small
+                double volume = region.XLength() * region.YLength()
+                    * region.ZLength();
+
+                double maxOverlapVolume = 1000;
+                if (section.tileType == CAVE_TYPE_B)
+                  maxOverlapVolume = 1800;
+                if (volume < maxOverlapVolume)
+                {
+                  overlapAtConnection = true;
+                  break;
+                }
               }
             }
+            if (this->worldType == "Tunnel")
+            {
+              if (dist < 5)
+              {
+                // make sure the overlapping region is small
+                double volume = region.XLength() * region.YLength()
+                    * region.ZLength();
+                double maxOverlapVolume = 100;
+                if (volume < maxOverlapVolume)
+                {
+                  overlapAtConnection = true;
+                  break;
+                }
+              }
+            }
+            else if (this->worldType == "Urban")
+            {
+
+            }
+            // TODO for Urban circuit
           }
 
           if (!overlapAtConnection)
@@ -335,6 +355,9 @@ void WorldGenerator::LoadTiles()
     }
     if (tileType == "subt_tunnel_staging_area")
     {
+      // Need to correct tunnel starting area bounding box (currently like a plane)
+      // TODO Adjust common::Mesh to correct mesh min/max values
+      bbox = math::AxisAlignedBox(-13.75, 12.5, 0, 10, -5, 20); //   
       bbox = transformAxisAlignedBox(
           bbox, math::Pose3d(0, 0, 0, 0, 0, IGN_PI/2));
     }
