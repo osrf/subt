@@ -39,6 +39,12 @@ void printGraph(std::vector<VertexData> &_vertexData)
     // rely on this naming convention
     std::string name = vd.tileName;
     std::string type = vd.tileType;
+
+    if (type.find("Blocker") != std::string::npos)
+    {
+      continue;
+    }
+
     if (type == "Cave Starting Area Type B" ||
         type == "Urban Starting Area" ||
         type == "Finals Staging Area")
