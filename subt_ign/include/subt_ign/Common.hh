@@ -26,7 +26,7 @@ namespace subt
 {
   /// \brief Mapping between artifact model names and types.
   const std::array<
-      const std::pair<std::string, ArtifactType>, 14> kArtifactNames
+      const std::pair<std::string, ArtifactType>, 15> kArtifactNames
       {
         {
           {"backpack",           ArtifactType::TYPE_BACKPACK},
@@ -42,13 +42,14 @@ namespace subt
           {"vent",               ArtifactType::TYPE_VENT},
           {"gas",                ArtifactType::TYPE_GAS},
           {"helmet",             ArtifactType::TYPE_HELMET},
-          {"rope",               ArtifactType::TYPE_ROPE}
+          {"rope",               ArtifactType::TYPE_ROPE},
+          {"cube",               ArtifactType::TYPE_CUBE}
         }
       };
 
   /// \brief Mapping between enum types and strings.
   const std::array<
-      const std::pair<ArtifactType, std::string>, 14> kArtifactTypes
+      const std::pair<ArtifactType, std::string>, 15> kArtifactTypes
       {
         {
           {ArtifactType::TYPE_BACKPACK      , "TYPE_BACKPACK"},
@@ -64,7 +65,8 @@ namespace subt
           {ArtifactType::TYPE_VENT          , "TYPE_VENT"},
           {ArtifactType::TYPE_GAS           , "TYPE_GAS"},
           {ArtifactType::TYPE_HELMET        , "TYPE_HELMET"},
-          {ArtifactType::TYPE_ROPE          , "TYPE_ROPE"}
+          {ArtifactType::TYPE_ROPE          , "TYPE_ROPE"},
+          {ArtifactType::TYPE_CUBE          , "TYPE_CUBE"}
         }
       };
 
