@@ -41,8 +41,8 @@ enum SubWorldType
   CAVE_CURVILINEAR = 2,
   CAVE_RECTILINEAR = 3,
   URBAN_SUBWAY = 4,
-  URBAN_BUILDING = 5,
-  URBAN_MIXED_STRUCTURE = 6
+  URBAN_FACTORY = 5,
+  URBAN_MIXED = 6
 };
 
 enum TileType 
@@ -52,8 +52,8 @@ enum TileType
   CAVE_TYPE_B = 2,
   CAVE_TYPE_TRANSITION = 3,
   URBAN_S = 4,
-  URBAN_B = 5,
-  URBAN_MS = 6
+  URBAN_F = 5,
+  URBAN_M = 6
   
 };
 
