@@ -124,7 +124,7 @@ bool WorldGeneratorBase::IntersectionCheck(WorldSection &_section,
             double dist = (region.Center() - so).Length();
             if (this->worldType == "Cave")
             {
-              if (dist < 30)
+              if (dist < 15)
               {
                 // make sure the overlapping region is small
                 double volume = region.XLength() * region.YLength()
