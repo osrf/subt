@@ -183,6 +183,11 @@
       <remap from="input/image" to="front/depth" />
       <remap from="output/image" to="front/optical/depth" />
     </node>
+    <include file="$(find subt_ros)/launch/models_common/set_rate_relay.launch">
+      <arg name="name" value="ros_ign_bridge_rgbd_set_rate" />
+      <arg name="ign_service" value="$(arg link_prefix)/base_link/sensor/camera/set_rate" />
+      <arg name="ros_service" value="front/set_rate" />
+    </include>
 
     <!-- Planar Laser -->
     <node
@@ -192,6 +197,12 @@
         args="$(arg link_prefix)/laser/sensor/laser/scan@sensor_msgs/LaserScan[ignition.msgs.LaserScan">
       <remap from="$(arg link_prefix)/laser/sensor/laser/scan" to="front_scan"/>
     </node>
+
+    <include file="$(find subt_ros)/launch/models_common/set_rate_relay.launch">
+      <arg name="name" value="ros_ign_bridge_lidar_set_rate" />
+      <arg name="ign_service" value="$(arg link_prefix)/laser/sensor/laser/scan/set_rate" />
+      <arg name="ros_service" value="front_scan/set_rate" />
+    </include>
 
     <!-- Omnicamera -->
     
@@ -219,6 +230,11 @@
       <remap from="input/camera_info" to="omni/camera_0/camera_info" />
       <remap from="output/camera_info" to="omni/camera_0/optical/camera_info" />
     </node>
+    <include file="$(find subt_ros)/launch/models_common/set_rate_relay.launch">
+      <arg name="name" value="ros_ign_bridge_omnicam0_set_rate" />
+      <arg name="ign_service" value="$(arg link_prefix)/base_link/sensor/omnicam_sensor0/image/set_rate" />
+      <arg name="ros_service" value="omni/camera_0/set_rate" />
+    </include>
     
     <node
       pkg="ros_ign_bridge"
@@ -244,6 +260,11 @@
       <remap from="input/camera_info" to="omni/camera_1/camera_info" />
       <remap from="output/camera_info" to="omni/camera_1/optical/camera_info" />
     </node>
+    <include file="$(find subt_ros)/launch/models_common/set_rate_relay.launch">
+      <arg name="name" value="ros_ign_bridge_omnicam1_set_rate" />
+      <arg name="ign_service" value="$(arg link_prefix)/base_link/sensor/omnicam_sensor1/image/set_rate" />
+      <arg name="ros_service" value="omni/camera_1/set_rate" />
+    </include>
 
     <node
       pkg="ros_ign_bridge"
@@ -269,6 +290,11 @@
       <remap from="input/camera_info" to="omni/camera_2/camera_info" />
       <remap from="output/camera_info" to="omni/camera_2/optical/camera_info" />
     </node>
+    <include file="$(find subt_ros)/launch/models_common/set_rate_relay.launch">
+      <arg name="name" value="ros_ign_bridge_omnicam2_set_rate" />
+      <arg name="ign_service" value="$(arg link_prefix)/base_link/sensor/omnicam_sensor2/image/set_rate" />
+      <arg name="ros_service" value="omni/camera_2/set_rate" />
+    </include>
 
     <node
       pkg="ros_ign_bridge"
@@ -294,6 +320,11 @@
       <remap from="input/camera_info" to="omni/camera_3/camera_info" />
       <remap from="output/camera_info" to="omni/camera_3/optical/camera_info" />
     </node>
+    <include file="$(find subt_ros)/launch/models_common/set_rate_relay.launch">
+      <arg name="name" value="ros_ign_bridge_omnicam3_set_rate" />
+      <arg name="ign_service" value="$(arg link_prefix)/base_link/sensor/omnicam_sensor3/image/set_rate" />
+      <arg name="ros_service" value="omni/camera_3/set_rate" />
+    </include>
 
     <node
       pkg="ros_ign_bridge"
@@ -319,6 +350,11 @@
       <remap from="input/camera_info" to="omni/camera_4/camera_info" />
       <remap from="output/camera_info" to="omni/camera_4/optical/camera_info" />
     </node>
+    <include file="$(find subt_ros)/launch/models_common/set_rate_relay.launch">
+      <arg name="name" value="ros_ign_bridge_omnicam4_set_rate" />
+      <arg name="ign_service" value="$(arg link_prefix)/base_link/sensor/omnicam_sensor4/image/set_rate" />
+      <arg name="ros_service" value="omni/camera_4/set_rate" />
+    </include>
 
     <node
       pkg="ros_ign_bridge"
@@ -344,6 +380,11 @@
       <remap from="input/camera_info" to="omni/camera_5/camera_info" />
       <remap from="output/camera_info" to="omni/camera_5/optical/camera_info" />
     </node>
+    <include file="$(find subt_ros)/launch/models_common/set_rate_relay.launch">
+      <arg name="name" value="ros_ign_bridge_omnicam5_set_rate" />
+      <arg name="ign_service" value="$(arg link_prefix)/base_link/sensor/omnicam_sensor5/image/set_rate" />
+      <arg name="ros_service" value="omni/camera_5/set_rate" />
+    </include>
 
     <!--IMU-->
     <node
@@ -371,7 +412,14 @@
         args="/model/$(arg name)/breadcrumb/deploy@std_msgs/Empty]ignition.msgs.Empty">
         <remap from="/model/$(arg name)/breadcrumb/deploy" to="breadcrumb/deploy"/>
       </node>
+      <node
+        pkg="ros_ign_bridge"
+        type="parameter_bridge"
+        name="ros_ign_bridge_breadcrumbs_remaining"
+        args="/model/$(arg name)/breadcrumb/deploy/remaining@std_msgs/Int32[ignition.msgs.Int32">
+        <remap from="/model/$(arg name)/breadcrumb/deploy/remaining" to="breadcrumb/remaining"/>
+      </node>
     </group>
   </group>
-  
+
 </launch>

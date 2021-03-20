@@ -482,7 +482,9 @@ class subt::GameLogicPluginPrivate
     {subt::ArtifactType::TYPE_ROPE,
       ignition::math::Vector3d(0.004, -0.03, 0.095)},
     {subt::ArtifactType::TYPE_VENT,
-      ignition::math::Vector3d(0, 0, 0.138369)}
+      ignition::math::Vector3d(0, 0, 0.138369)},
+    {subt::ArtifactType::TYPE_CUBE,
+      ignition::math::Vector3d(0, 0, 0.2)}
   };
 
   /// \brief Event manager for pausing simulation
@@ -709,6 +711,11 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
       &GameLogicPluginPrivate::OnEvent, this->dataPtr.get());
 
   ignmsg << "Starting SubT" << std::endl;
+
+  // Set the report limit to 25 for final worlds.
+  this->dataPtr->reportCountLimit =
+    this->dataPtr->worldName.find("final") != std::string::npos ? 25 :
+    this->dataPtr->reportCountLimit;
 
   // Make sure that there are score files.
   this->dataPtr->UpdateScoreFiles(this->dataPtr->simTime);
@@ -2374,6 +2381,8 @@ void GameLogicPluginPrivate::LogRobotArtifactData(
 
   out << YAML::Key << "world_name";
   out << YAML::Value  << this->worldName;
+  out << YAML::Key << "report_count_limit";
+  out << YAML::Value  << this->reportCountLimit;
   out << YAML::Key << "robots";
   out << YAML::Value << YAML::BeginMap;
   for (auto const &pair : this->robotFullTypes)

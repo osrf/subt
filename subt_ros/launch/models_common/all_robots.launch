@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Include this launch file in vehicle_topics.launch of all robots. -->
+
+    <arg name="name" doc="Name of the robot" />
+    <arg name="world_name" doc="Name of the world" />
+
+    <!-- Pose and TF relays -->
+    <node pkg="ros_ign_bridge" type="parameter_bridge" name="ros_ign_bridge_pose" respawn="true"
+      args="/model/$(arg name)/pose@tf2_msgs/TFMessage[ignition.msgs.Pose_V">
+      <remap from="/model/$(arg name)/pose" to="pose"/>
+    </node>
+    <node pkg="ros_ign_bridge" type="parameter_bridge" name="ros_ign_bridge_pose_static" respawn="true"
+      args="/model/$(arg name)/pose_static@tf2_msgs/TFMessage[ignition.msgs.Pose_V">
+      <remap from="/model/$(arg name)/pose_static" to="pose_static"/>
+    </node>
+
+    <node pkg="subt_ros" type="pose_tf_broadcaster" name="pose_tf_broadcaster"/>
+
+    <!-- Joint Publisher (Publishes to topic but doesn't control...)-->
+    <node pkg="ros_ign_bridge" type="parameter_bridge" name="ros_ign_bridge_joint_state_publisher" respawn="true"
+      args="/world/$(arg world_name)/model/$(arg name)/joint_state@sensor_msgs/JointState[ignition.msgs.Model">
+      <remap from="/world/$(arg world_name)/model/$(arg name)/joint_state" to="joint_state"/>
+    </node>
+
+    <!-- Battery -->
+    <node pkg="ros_ign_bridge" type="parameter_bridge" name="ros_ign_bridge_battery_state" respawn="true"
+      args="/model/$(arg name)/battery/linear_battery/state@sensor_msgs/BatteryState[ignition.msgs.BatteryState">
+      <remap from="/model/$(arg name)/battery/linear_battery/state" to="battery_state"/>
+    </node>
+
+    <!-- cmd_vel -->
+    <node pkg="ros_ign_bridge" type="parameter_bridge" name="ros_ign_bridge_twist" respawn="true"
+      args="/model/$(arg name)/cmd_vel_relay@geometry_msgs/Twist]ignition.msgs.Twist">
+      <remap from="/model/$(arg name)/cmd_vel_relay" to="cmd_vel"/>
+    </node>
+
+    <!-- Gas sensor -->
+    <node pkg="ros_ign_bridge" type="parameter_bridge" name="ros_ign_bridge_gas" respawn="true"
+      args="/model/$(arg name)/gas_detected@std_msgs/Bool[ignition.msgs.Boolean">
+      <remap from="/model/$(arg name)/gas_detected" to="gas_detected"/>
+    </node>
+</launch>

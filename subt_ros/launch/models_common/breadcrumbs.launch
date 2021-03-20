@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Include nodes necessary for using breadcrumbs. -->
+
+    <arg name="name" doc="Name of the robot" />
+
+    <node pkg="ros_ign_bridge" type="parameter_bridge" respawn="true"
+        name="ros_ign_bridge_breadcrumbs"
+        args="/model/$(arg name)/breadcrumb/deploy@std_msgs/Empty]ignition.msgs.Empty">
+        <remap from="/model/$(arg name)/breadcrumb/deploy" to="breadcrumb/deploy"/>
+    </node>
+
+    <node pkg="ros_ign_bridge" type="parameter_bridge" respawn="true"
+        name="ros_ign_bridge_breadcrumbs_remaining"
+        args="/model/$(arg name)/breadcrumb/deploy/remaining@std_msgs/Int32[ignition.msgs.Int32">
+        <remap from="/model/$(arg name)/breadcrumb/deploy/remaining" to="breadcrumb/remaining"/>
+    </node>
+</launch>
