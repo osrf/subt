@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<root xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:macro name="led_stripe" params="name pose range linear:=1 constant:=0 quadratic:=0 inner_angle outer_angle">
+        <light name="${name}" type="spot">
+            <pose>${pose}</pose>
+            <cast_shadows>1</cast_shadows>
+            <attenuation>
+                <range>${range}</range>
+                <linear>${linear}</linear>
+                <constant>${constant}</constant>
+                <quadratic>${quadratic}</quadratic>
+            </attenuation>
+            <diffuse>0.8 0.8 0.5 1</diffuse>
+            <specular>0.8 0.8 0.5 1</specular>
+            <spot>
+                <inner_angle>${inner_angle}</inner_angle>
+                <outer_angle>${outer_angle}</outer_angle>
+                <falloff>1</falloff>
+            </spot>
+            <!-- Workaround: Gazebo Classic rotates <direction> differently -->
+            <xacro:if value="${'$(arg rendering_target)' == 'ign'}">
+                <direction>1 0 0</direction>
+            </xacro:if>
+            <xacro:unless value="${'$(arg rendering_target)' == 'ign'}">
+                <direction>0 0 -1</direction>
+            </xacro:unless>
+        </light>
+    </xacro:macro>
+
+    <xacro:macro name="spot_light_up" params="name pose">
+        <light name="${name}" type="spot">
+            <pose>${pose}</pose>
+            <attenuation>
+                <range>60</range>
+                <linear>0</linear>
+                <constant>0.1</constant>
+                <quadratic>0.0025</quadratic>
+            </attenuation>
+            <diffuse>0.8 0.8 0.5 1</diffuse>
+            <specular>0.8 0.8 0.5 1</specular>
+            <spot>
+                <inner_angle>${pi/3}</inner_angle>
+                <outer_angle>${pi/2}</outer_angle>
+                <falloff>1</falloff>
+            </spot>
+            <direction>0 0 -1</direction>
+        </light>
+    </xacro:macro>
+</root>

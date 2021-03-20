@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -e
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+MODEL_DIR="${DIR}/.."
+[ -z "${OUTPUT_FILE}" ] && OUTPUT_FILE="${MODEL_DIR}/model.sdf"
+
+config=""
+for file in "${MODEL_DIR}/config/common.yaml" "${MODEL_DIR}/config/sim.yaml" "${MODEL_DIR}/config/gz.yaml"; do
+  config="${config} $("${DIR}/yaml_to_xacro_args" "$file")"
+done
+
+echo -e "Rendering Gazebo Classic SDF of $(basename "$(realpath "$MODEL_DIR")") with the following Xacro arguments:\n${config}" "$@" >&2
+rosrun xacro xacro "${MODEL_DIR}/urdf/marv.xacro" ${config} "$@" > "${OUTPUT_FILE}.urdf"
+gz sdf -p "${OUTPUT_FILE}.urdf" | "${DIR}/high_precision_constants.py" - > "${OUTPUT_FILE}"
+
+"${DIR}/clean_sdf" "${OUTPUT_FILE}"

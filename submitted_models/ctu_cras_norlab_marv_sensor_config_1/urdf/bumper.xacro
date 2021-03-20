@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<root xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:property name="item20_meter_mass" value="0.5" scope="global" />
+    <xacro:property name="item40x40_angle_mass" value="0.058" scope="global" />
+
+    <xacro:macro name="item20_profile" params="name length">
+        <xacro:property name="item20_void" value="${payload_mass.append(item20_meter_mass * length)}" scope="global" />
+        <link name="$(arg prefix)${name}">
+            <visual>
+                <geometry>
+                    <mesh filename="package://ctu_cras_norlab_marv_sensor_config_1/meshes/item20.dae" scale="${length} 1 1"/>
+                </geometry>
+            </visual>
+            <collision>
+                <geometry>
+                    <box size="${length} 0.02 0.02"/>
+                </geometry>
+            </collision>
+            <xacro:box_inertial mass="${item20_meter_mass * length}" width="0.02" depth="${length}" height="0.02" />
+        </link>
+    </xacro:macro>
+
+    <xacro:macro name="item40x40_angle" params="name">
+        <xacro:property name="item40x40_void" value="${payload_mass.append(item40x40_angle_mass)}" scope="global" />
+        <link name="$(arg prefix)${name}">
+            <visual>
+                <geometry>
+                    <mesh filename="package://ctu_cras_norlab_marv_sensor_config_1/meshes/item_angle40x40.dae" />
+                </geometry>
+            </visual>
+            <collision>
+                <xacro:property name="diag" value="${sqrt(2) * 0.04}" />
+                <origin xyz="0 0 0" rpy="0 ${pi/4} 0" />
+                <geometry>
+                    <box size="${diag} 0.02 ${diag}"/>
+                </geometry>
+            </collision>
+            <xacro:box_inertial mass="${item40x40_angle_mass}" width="0.02" depth="0.04" height="0.04" />
+        </link>
+    </xacro:macro>
+
+    <xacro:macro name="item_bumper" params="name width arm_length arm_relative_pos:=0.5">
+        <xacro:empty_link name="$(arg prefix)${name}" />
+
+        <xacro:item20_profile name="${name}_front" length="${width}" />
+        <xacro:fixed_joint name="${name}_front_j" parent="$(arg prefix)${name}" child="$(arg prefix)${name}_front"
+            xyz="${arm_length + 0.01} 0 0" rpy="0 0 ${pi/2}" />
+
+        <xacro:item20_profile name="${name}_left" length="${arm_length}" />
+        <xacro:fixed_joint name="${name}_left_j" parent="$(arg prefix)${name}" child="$(arg prefix)${name}_left"
+            xyz="${arm_length/2} ${width/2 * arm_relative_pos} 0" rpy="0 0 0" />
+
+        <xacro:item40x40_angle name="${name}_left_angle" />
+        <xacro:fixed_joint name="${name}_left_angle_j" parent="$(arg prefix)${name}" child="$(arg prefix)${name}_left_angle"
+            xyz="0 ${width/2 * arm_relative_pos} -0.01" rpy="${pi} 0 0" />
+
+        <xacro:item20_profile name="${name}_right" length="${arm_length}" />
+        <xacro:fixed_joint name="${name}_right_j" parent="$(arg prefix)${name}" child="$(arg prefix)${name}_right"
+            xyz="${arm_length/2} ${-width/2 * arm_relative_pos} 0" rpy="0 0 0" />
+
+        <xacro:item40x40_angle name="${name}_right_angle" />
+        <xacro:fixed_joint name="${name}_right_angle_j" parent="$(arg prefix)${name}" child="$(arg prefix)${name}_right_angle"
+            xyz="0 ${-width/2 * arm_relative_pos} -0.01" rpy="${pi} 0 0" />
+    </xacro:macro>
+</root>

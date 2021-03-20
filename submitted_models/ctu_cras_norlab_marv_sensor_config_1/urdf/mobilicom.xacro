@@ -1,0 +1,118 @@
+<?xml version="1.0"?>
+<root xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:arg name="has_mobilicom" default="0" />
+    <xacro:arg name="mobilicom_is_lite" default="0" />
+    <xacro:arg name="mobilicom_shift_x" default="-0.015" />
+    <xacro:arg name="mobilicom_shift_y" default="0.005" />
+    <xacro:arg name="mobilicom_shift_z" default="0.08" />
+    <xacro:arg name="mobilicom_yaw" default="-0.94" />
+    <xacro:arg name="mobilicom_pitch" default="0.0" />
+    <xacro:arg name="mobilicom_roll" default="0.0" />
+    <xacro:arg name="mobilicom_antenna_l_rotation" default="0" />
+    <xacro:arg name="mobilicom_antenna_l_tilt" default="${pi/2}" />
+    <xacro:arg name="mobilicom_antenna_r_rotation" default="0" />
+    <xacro:arg name="mobilicom_antenna_r_tilt" default="${pi/2}" />
+    <xacro:arg name="mobilicom_antennas_radius" default="0.01" />
+    <xacro:arg name="mobilicom_antennas_length" default="0.17" />
+    <xacro:arg name="mobilicom_parent_link" default="omnicam" />
+    <xacro:arg name="mobilicom_has_antenna_box" default="True" />
+
+    <xacro:property name="mobilicom_body_mass" value="0.168" />
+    <xacro:property name="mobilicom_antenna_mass" value="0.03" />
+    <xacro:property name="mobilicom_mass" value="${mobilicom_body_mass + 2*mobilicom_antenna_mass}" />
+
+    <xacro:if value="$(arg has_mobilicom)">
+        <xacro:property name="mobilicom_void" value="${payload_mass.append(mobilicom_mass)}" scope="global" />
+
+        <link name="$(arg prefix)mobilicom">
+            <visual>
+                <xacro:unless value="$(arg mobilicom_is_lite)">
+                    <origin rpy="0 0 0" xyz="0 0 ${0.065/2}" />
+                    <geometry>
+                        <box size="0.2 0.09 0.065" />
+                    </geometry>
+                    <material name="black_aluminium">
+                        <color rgba="0.1 0.1 0.1 1"/>
+                    </material>
+                </xacro:unless>
+                <xacro:if value="$(arg mobilicom_is_lite)">
+                    <geometry>
+                        <mesh filename="package://ctu_cras_norlab_marv_sensor_config_1/meshes/mobilicom.dae" />
+                    </geometry>
+                </xacro:if>
+            </visual>
+            <collision>
+                <origin rpy="0 0 0" xyz="0 0 ${0.027/2}" />
+                <geometry>
+                    <box size="0.1 0.074 0.027" />
+                </geometry>
+            </collision>
+            <xacro:if value="$(arg mobilicom_has_antenna_box)">
+                <collision name="antenna_big_box">
+                    <origin rpy="0 0 0" xyz="0.05 0.03 0.1" />
+                    <geometry>
+                        <box size="0.05 0.2
+                        ${$(arg mobilicom_antennas_length)+0.05}" />
+                    </geometry>
+                </collision>
+            </xacro:if>
+            <xacro:box_inertial mass="${mobilicom_body_mass}"
+                width="0.074" height="0.027" depth="0.1"
+                xyz="0 0 ${0.027/2}" />
+        </link>
+        <xacro:fixed_joint name="mobilicom_j" parent="$(arg prefix)$(arg mobilicom_parent_link)" child="$(arg prefix)mobilicom"
+            xyz="$(arg mobilicom_shift_x) $(arg mobilicom_shift_y) $(arg mobilicom_shift_z)"
+            rpy="$(arg mobilicom_roll) $(arg mobilicom_pitch) $(arg mobilicom_yaw)" />
+
+        <link name="$(arg prefix)mobilicom_antenna_l">
+            <visual>
+                <origin rpy="0 0 0" xyz="0 0 ${$(arg mobilicom_antennas_length)/2}" />
+                <geometry>
+                    <cylinder radius="$(arg mobilicom_antennas_radius)" length="$(arg mobilicom_antennas_length)" />
+                </geometry>
+                <material name="black_aluminium">
+                    <color rgba="0.1 0.1 0.1 1"/>
+                </material>
+            </visual>
+            <collision>
+                <origin rpy="0 0 0" xyz="0 0 ${$(arg mobilicom_antennas_length)/2}" />
+                <geometry>
+                    <cylinder radius="$(arg mobilicom_antennas_radius)" length="$(arg mobilicom_antennas_length)"/>
+                </geometry>
+            </collision>
+            <xacro:cylinder_inertial mass="${mobilicom_antenna_mass}"
+                length="$(arg mobilicom_antennas_length)" radius="$(arg mobilicom_antennas_radius)"
+                xyz="0 0 ${$(arg mobilicom_antennas_length)/2}" />
+        </link>
+        <xacro:fixed_joint name="mobilicom_antenna_l_j" parent="$(arg prefix)mobilicom" child="$(arg prefix)mobilicom_antenna_l"
+            xyz="${0.1/2} 0.025 ${0.027/2}"
+            rpy="$(arg mobilicom_antenna_l_rotation) $(arg mobilicom_antenna_l_tilt) 0" />
+
+        <link name="$(arg prefix)mobilicom_antenna_r">
+            <visual>
+                <origin rpy="0 0 0" xyz="0 0 ${$(arg mobilicom_antennas_length)/2}" />
+                <geometry>
+                    <cylinder radius="$(arg mobilicom_antennas_radius)" length="$(arg mobilicom_antennas_length)" />
+                </geometry>
+                <material name="black_aluminium">
+                    <color rgba="0.1 0.1 0.1 1"/>
+                </material>
+            </visual>
+            <collision>
+                <origin rpy="0 0 0" xyz="0 0 ${$(arg mobilicom_antennas_length)/2}" />
+                <geometry>
+                    <cylinder radius="$(arg mobilicom_antennas_radius)" length="$(arg mobilicom_antennas_length)"/>
+                </geometry>
+            </collision>
+            <xacro:cylinder_inertial mass="${mobilicom_antenna_mass}"
+                length="$(arg mobilicom_antennas_length)" radius="$(arg mobilicom_antennas_radius)"
+                xyz="0 0 ${$(arg mobilicom_antennas_length)/2}" />
+        </link>
+        <xacro:fixed_joint name="mobilicom_antenna_r_j" parent="$(arg prefix)mobilicom" child="$(arg prefix)mobilicom_antenna_r"
+            xyz="${0.1/2} -0.025 ${0.027/2}"
+            rpy="$(arg mobilicom_antenna_r_rotation) $(arg mobilicom_antenna_r_tilt) 0" />
+
+    </xacro:if>
+
+</root>
