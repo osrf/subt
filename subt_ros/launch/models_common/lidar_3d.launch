@@ -16,7 +16,7 @@
     <!-- Allow slowing down framerate of the lidar. -->
     <include file="$(dirname)/set_rate_relay.launch">
         <arg name="name" value="ros_ign_bridge_$(arg node_name_suffix)_set_rate" />
-        <arg name="ign_service" value="$(arg gazebo_topic)/set_rate" />
+        <arg name="ign_service" value="$(eval gazebo_topic.replace('/points', '/set_rate'))" />
         <arg name="ros_service" value="$(arg ros_topic)/set_rate" />
     </include>
 </launch>
