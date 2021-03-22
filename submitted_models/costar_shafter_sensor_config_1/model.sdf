@@ -1,3 +1,4 @@
+<?xml version='1.0' encoding='utf-8'?>
 <sdf version='1.6'>
     <model name='shafter'>
         <link name='base_link'>
@@ -180,7 +181,7 @@
             </visual>
           
             <sensor name="realsense_front" type="rgbd_camera">
-                <pose>0.17 0.0 -0.003 0 0 0</pose>
+                <pose>0.16 0.0 -0.02 0 0 0</pose>
                 <always_on>1</always_on>
                 <update_rate>30</update_rate>
                 <camera name="realsense_front">
