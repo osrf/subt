@@ -12,15 +12,15 @@
     <!-- Camera info -->
     <node pkg="ros_ign_bridge" type="parameter_bridge" respawn="true"
       name="ros_ign_bridge_$(arg node_name_suffix)"
-      args="$(arg gazebo_prefix)/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
-      <remap from="$(arg gazebo_prefix)/camera_info" to="$(arg ros_topic)/camera_info"/>
+      args="$(arg gazebo_topic)/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+      <remap from="$(arg gazebo_topic)/camera_info" to="$(arg ros_topic)/camera_info"/>
     </node>
 
     <!-- Thermal image -->
     <node pkg="ros_ign_image" type="image_bridge" respawn="true"
       name="ros_ign_image_$(arg node_name_suffix)"
-      args="$(arg gazebo_prefix)/$(arg sensor_name)">
-      <remap from="$(arg gazebo_prefix)/$(arg sensor_name)" to="$(arg ros_topic)/image_raw"/>
+      args="$(arg gazebo_topic)/$(arg sensor_name)">
+      <remap from="$(arg gazebo_topic)/$(arg sensor_name)" to="$(arg ros_topic)/image_raw"/>
     </node>
 
     <!-- Optical frame publisher -->
@@ -36,7 +36,7 @@
     <!-- Allow slowing down framerate of the camera. -->
     <include file="$(dirname)/set_rate_relay.launch">
       <arg name="name" value="ros_ign_bridge_$(arg node_name_suffix)_set_rate" />
-      <arg name="ign_service" value="$(arg gazebo_prefix)/$(arg sensor_name)/set_rate" />
+      <arg name="ign_service" value="$(arg gazebo_topic)/$(arg sensor_name)/set_rate" />
       <arg name="ros_service" value="$(arg ros_topic)/set_rate" />
     </include>
 </launch>

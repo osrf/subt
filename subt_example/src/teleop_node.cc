@@ -24,6 +24,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <std_msgs/Float64.h>
 
 /// \brief. Tele-operation node to control a team of robots by joysticks.
 class SubtTeleop
@@ -91,6 +92,33 @@ class SubtTeleop
   /// \brief Index for vertial axis of arrow keys.
   private: int axisArrowVertical;
 
+  /// \brief Whether flipper controls are expected to be axes or buttons.
+  private: bool flippersUseAxes;
+
+  /// \brief Index for front flippers axis.
+  private: int axisFrontFlippers;
+
+  /// \brief Index for rear flippers axis.
+  private: int axisRearFlippers;
+
+  /// \brief Index of the button that lifts front flippers up.
+  private: int frontFlippersUpButton;
+
+  /// \brief Index of the button that lifts front flippers down.
+  private: int frontFlippersDownButton;
+
+  /// \brief Index of the button that lifts rear flippers up.
+  private: int rearFlippersUpButton;
+
+  /// \brief Index of the button that lifts rear flippers down.
+  private: int rearFlippersDownButton;
+
+  /// \brief Scale value for front flipper velocity.
+  private: double scaleFrontFlippers;
+
+  /// \brief Scale value for rear flipper velocity.
+  private: double scaleRearFlippers;
+
   /// \brief Index for the left dead man's switch.
   private: int leftDeadMan;
 
@@ -126,6 +154,18 @@ class SubtTeleop
   /// \brief Map from a robot name to a ROS publisher to control flashlights.
   private: std::map<std::string, ros::Publisher> lightPubMap;
 
+  /// \brief Map from a robot name to a ROS publisher to control front left flipper velocity.
+  private: std::map<std::string, ros::Publisher> flipperFrontLeftPubMap;
+
+  /// \brief Map from a robot name to a ROS publisher to control front right flipper velocity.
+  private: std::map<std::string, ros::Publisher> flipperFrontRightPubMap;
+
+  /// \brief Map from a robot name to a ROS publisher to control rear left flipper velocity.
+  private: std::map<std::string, ros::Publisher> flipperRearLeftPubMap;
+
+  /// \brief Map from a robot name to a ROS publisher to control rear right flipper velocity.
+  private: std::map<std::string, ros::Publisher> flipperRearRightPubMap;
+
   /// \brief the name of the robot currently under control.
   private: std::string currentRobot;
 };
@@ -136,7 +176,10 @@ SubtTeleop::SubtTeleop():
   angularScaleTurbo(0), vertical(3), horizontal(2), verticalScale(0),
   verticalScaleTurbo(0), horizontalScale(0), horizontalScaleTurbo(0),
   enableButton(4), enableTurboButton(5), lightOnTrigger(6), lightOffTrigger(7),
-  axisArrowHorizontal(4), axisArrowVertical(5)
+  axisArrowHorizontal(4), axisArrowVertical(5), flippersUseAxes(true),
+  axisFrontFlippers(5), axisRearFlippers(4), frontFlippersUpButton(6),
+  frontFlippersDownButton(4), rearFlippersUpButton(7),
+  rearFlippersDownButton(5), scaleFrontFlippers(0), scaleRearFlippers(0)
 {
   // Load joy control settings. Setting values must be loaded by rosparam.
   this->nh.param("axis_linear", this->linear, this->linear);
@@ -179,6 +222,32 @@ SubtTeleop::SubtTeleop():
   this->nh.param(
     "axis_arrow_vertical", this->axisArrowVertical, this->axisArrowVertical);
 
+  this->nh.param(
+      "flippers_use_axes", this->flippersUseAxes, this->flippersUseAxes);
+  this->nh.param(
+      "scale_front_flippers", 
+      this->scaleFrontFlippers, this->scaleFrontFlippers);
+  this->nh.param(
+      "scale_rear_flippers", this->scaleRearFlippers, this->scaleRearFlippers);
+
+  this->nh.param(
+      "axis_front_flippers", this->axisFrontFlippers, this->axisFrontFlippers);
+  this->nh.param(
+      "axis_rear_flippers", this->axisRearFlippers, this->axisRearFlippers);
+
+  this->nh.param(
+      "front_flippers_up_button",
+      this->frontFlippersUpButton, this->frontFlippersUpButton);
+  this->nh.param(
+      "front_flippers_down_button",
+      this->frontFlippersDownButton, this->frontFlippersDownButton);
+  this->nh.param(
+      "rear_flippers_up_button",
+      this->rearFlippersUpButton, this->rearFlippersUpButton);
+  this->nh.param(
+      "rear_flippers_down_button",
+      this->rearFlippersDownButton, this->rearFlippersDownButton);
+
   this->nh.getParam("button_map", this->joyButtonIndexMap);
 
   // Load robot config information. Setting values must be loaded by rosparam.
@@ -211,6 +280,22 @@ SubtTeleop::SubtTeleop():
     this->lightPubMap[robotName]
       = this->nh.advertise<std_msgs::Bool>(
         robotName + "/light", 1, true);
+
+    this->flipperFrontLeftPubMap[robotName]
+      = this->nh.advertise<std_msgs::Float64>(
+          robotName + "/flippers_cmd_vel/front_left", 1, true);
+
+    this->flipperFrontRightPubMap[robotName]
+      = this->nh.advertise<std_msgs::Float64>(
+          robotName + "/flippers_cmd_vel/front_right", 1, true);
+    
+    this->flipperRearLeftPubMap[robotName]
+      = this->nh.advertise<std_msgs::Float64>(
+          robotName + "/flippers_cmd_vel/rear_left", 1, true);
+
+    this->flipperRearRightPubMap[robotName]
+      = this->nh.advertise<std_msgs::Float64>(
+          robotName + "/flippers_cmd_vel/rear_right", 1, true);
   }
 
   // Select the first robot in default
@@ -315,6 +400,30 @@ void SubtTeleop::JoyCallback(const sensor_msgs::Joy::ConstPtr &_joy)
 
     // Publish the control values.
     this->velPubMap[this->currentRobot].publish(twist);
+  }
+
+  if (_joy->buttons[this->enableButton] ||
+      _joy->buttons[this->rightDeadMan] ||
+      _joy->buttons[this->leftDeadMan] ||
+      _joy->buttons[this->enableTurboButton])
+  {
+    std_msgs::Float64 flipperVel;
+    double axisValue;
+    const auto& b = _joy->buttons;
+
+    axisValue = this->flippersUseAxes ? _joy->axes[this->axisFrontFlippers] :
+      (b[this->frontFlippersUpButton] - b[this->frontFlippersDownButton]);
+    flipperVel.data = -axisValue * this->scaleFrontFlippers;
+    this->flipperFrontLeftPubMap[this->currentRobot].publish(flipperVel);
+    this->flipperFrontRightPubMap[this->currentRobot].publish(flipperVel);
+
+    axisValue = this->flippersUseAxes ? _joy->axes[this->axisRearFlippers] :
+      (b[this->rearFlippersUpButton] - b[this->rearFlippersDownButton]);
+    // rear flippers are oriented the other way than front flippers, so their
+    // sign has to be opposite to go in the same direction
+    flipperVel.data = axisValue * this->scaleRearFlippers;
+    this->flipperRearLeftPubMap[this->currentRobot].publish(flipperVel);
+    this->flipperRearRightPubMap[this->currentRobot].publish(flipperVel);
   }
 }
 
