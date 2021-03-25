@@ -252,6 +252,42 @@
               </imu>
       </sensor>
 
+      <sensor name="air_pressure" type="air_pressure">
+          <always_on>1</always_on>
+          <update_rate>20</update_rate>
+          <air_pressure>
+              <reference_altitude>0</reference_altitude>
+              <noise type="gaussian">
+                  <mean>0.00000008</mean>
+              </noise>
+          </air_pressure>
+      </sensor>
+
+      <sensor name="magnetometer" type="magnetometer">
+          <always_on>1</always_on>
+          <update_rate>20</update_rate>
+          <magnetometer>
+              <x>
+                  <noise type="gaussian">
+                      <mean>0.000000080</mean>
+                      <bias_mean>0.000000400</bias_mean>
+                  </noise>
+              </x>
+              <y>
+                  <noise type="gaussian">
+                      <mean>0.000000080</mean>
+                      <bias_mean>0.000000400</bias_mean>
+                  </noise>
+              </y>
+              <z>
+                  <noise type="gaussian">
+                      <mean>0.000000080</mean>
+                      <bias_mean>0.000000400</bias_mean>
+                  </noise>
+              </z>
+          </magnetometer>
+      </sensor>
+
       <light name="light_front_left" type="spot">
         <pose>0.159099 0.152028 -0.0785 0 1.5708 2.35619</pose>
         <attenuation>
