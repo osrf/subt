@@ -31,7 +31,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <timeConstantUp>0.0182</timeConstantUp>
         <timeConstantDown>0.0182</timeConstantDown>
         <maxRotVelocity>1000.0</maxRotVelocity>
-        <motorConstant>2.269e-05</motorConstant>
+        <motorConstant>1.269e-05</motorConstant>
         <momentConstant>0.016754</momentConstant>
         <commandSubTopic>command/motor_speed</commandSubTopic>
         <motorNumber>0</motorNumber>
@@ -50,7 +50,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <timeConstantUp>0.0182</timeConstantUp>
         <timeConstantDown>0.0182</timeConstantDown>
         <maxRotVelocity>1000.0</maxRotVelocity>
-        <motorConstant>2.269e-05</motorConstant>
+        <motorConstant>1.269e-05</motorConstant>
         <momentConstant>0.016754</momentConstant>
         <commandSubTopic>command/motor_speed</commandSubTopic>
         <motorNumber>1</motorNumber>
@@ -69,7 +69,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <timeConstantUp>0.0182</timeConstantUp>
         <timeConstantDown>0.0182</timeConstantDown>
         <maxRotVelocity>1000.0</maxRotVelocity>
-        <motorConstant>2.269e-05</motorConstant>
+        <motorConstant>1.269e-05</motorConstant>
         <momentConstant>0.016754</momentConstant>
         <commandSubTopic>command/motor_speed</commandSubTopic>
         <motorNumber>2</motorNumber>
@@ -88,7 +88,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <timeConstantUp>0.0182</timeConstantUp>
         <timeConstantDown>0.0182</timeConstantDown>
         <maxRotVelocity>1000.0</maxRotVelocity>
-        <motorConstant>2.269e-05</motorConstant>
+        <motorConstant>1.269e-05</motorConstant>
         <momentConstant>0.016754</momentConstant>
         <commandSubTopic>command/motor_speed</commandSubTopic>
         <motorNumber>3</motorNumber>
@@ -100,19 +100,19 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
       </plugin>
       <!-- MulticopterVelocityControl plugin -->
       <plugin
-        filename="libMRSMultirotorController.so"
-        name="ignition::gazebo::systems::MRSMultirotorController">
+        filename="libignition-gazebo-multicopter-control-system.so"
+        name="ignition::gazebo::systems::MulticopterVelocityControl">
         <robotNamespace>model/#{_name}</robotNamespace>
         <commandSubTopic>cmd_vel</commandSubTopic>
         <motorControlPubTopic>command/motor_speed</motorControlPubTopic>
         <enableSubTopic>velocity_controller/enable</enableSubTopic>
         <comLinkName>base_link</comLinkName>
-        <velocityGain>10 10 10</velocityGain>
-        <attitudeGain>5 5 5</attitudeGain>
-        <angularRateGain>2.0 2.0 3.0</angularRateGain>
-        <maximumLinearAcceleration>10 10 10</maximumLinearAcceleration>
-        <maximumLinearVelocity>8 8 8</maximumLinearVelocity>
-        <maximumAngularVelocity>20 20 10</maximumAngularVelocity>
+        <velocityGain>8 8 10</velocityGain>
+        <attitudeGain>6 6 6</attitudeGain>
+        <angularRateGain>2.5 2.5 4.0</angularRateGain>
+        <maximumLinearAcceleration>5 5 3</maximumLinearAcceleration>
+        <maximumLinearVelocity>4 4 4</maximumLinearVelocity>
+        <maximumAngularVelocity>3 3 6</maximumAngularVelocity>
         <linearVelocityNoiseMean>0 0 0</linearVelocityNoiseMean>
         <!-- linearVelocityNoiseStdDev based on error values reported in the paper Shen et. al., -->
         <!-- Vision-Based State Estimation and Trajectory Control Towards High-Speed Flight with a Quadrotor -->
@@ -126,25 +126,25 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
           <rotorConfiguration>
             <rotor>
               <jointName>rotor_0_joint</jointName>
-              <forceConstant>2.269e-05</forceConstant>
+              <forceConstant>1.269e-05</forceConstant>
               <momentConstant>1.6754e-2</momentConstant>
               <direction>1</direction>
             </rotor>
             <rotor>
               <jointName>rotor_1_joint</jointName>
-              <forceConstant>2.269e-05</forceConstant>
+              <forceConstant>1.269e-05</forceConstant>
               <momentConstant>1.6754e-2</momentConstant>
               <direction>1</direction>
             </rotor>
             <rotor>
               <jointName>rotor_2_joint</jointName>
-              <forceConstant>2.269e-05</forceConstant>
+              <forceConstant>1.269e-05</forceConstant>
               <momentConstant>1.6754e-2</momentConstant>
               <direction>-1</direction>
             </rotor>
             <rotor>
               <jointName>rotor_3_joint</jointName>
-              <forceConstant>2.269e-05</forceConstant>
+              <forceConstant>1.269e-05</forceConstant>
               <momentConstant>1.6754e-2</momentConstant>
               <direction>-1</direction>
             </rotor>
