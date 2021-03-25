@@ -8,12 +8,30 @@
   <arg name="breadcrumbs" default="0"/>
   <group ns="$(arg name)">
     <!--Create multipe bridges so that it can run in parallel-->
+
+    <!-- Compass with IMU -->
     <node
       pkg="ros_ign_bridge"
       type="parameter_bridge"
       name="ros_ign_bridge_imu"
       args="$(arg sensor_prefix)/imu_sensor/imu@sensor_msgs/Imu[ignition.msgs.IMU">
       <remap from="$(arg sensor_prefix)/imu_sensor/imu" to="imu/data"/>
+    </node>
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_magnetometer"
+      args="$(arg sensor_prefix)/magnetometer/magnetometer@sensor_msgs/MagneticField[ignition.msgs.Magnetometer">
+      <remap from="$(arg sensor_prefix)/magnetometer/magnetometer" to="magnetic_field"/>
+    </node>
+
+    <!-- Altimeter -->
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_fluid_pressure"
+      args="$(arg sensor_prefix)/air_pressure/air_pressure@sensor_msgs/FluidPressure[ignition.msgs.FluidPressure">
+      <remap from="$(arg sensor_prefix)/air_pressure/air_pressure" to="air_pressure"/>
     </node>
 
     <group ns="front_thermal">
@@ -125,7 +143,16 @@
 	args="$(arg sensor_prefix)/camera_front/image">
       <remap from="$(arg sensor_prefix)/camera_front/image" to="camera_front/image_raw"/>
     </node>
-    
+    <node>
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher">
+      <remap from="input/image" to="camera_front/image_raw" />
+      <remap from="output/image" to="camera_front/optical/image_raw" />
+      <remap from="input/camera_info" to="camera_front/camera_info" />
+      <remap from="output/camera_info" to="camera_front/optical/camera_info" />
+    </node>
+
     <!-- Rear monocular camera -->
     <node
 	pkg="ros_ign_bridge"
@@ -140,6 +167,15 @@
 	name="ros_ign_image_camera_rear"
 	args="$(arg sensor_prefix)/camera_rear/image">
       <remap from="$(arg sensor_prefix)/camera_rear/image" to="camera_rear/image_raw"/>
+    </node>
+    <node>
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher">
+      <remap from="input/image" to="camera_rear/image_raw" />
+      <remap from="output/image" to="camera_rear/optical/image_raw" />
+      <remap from="input/camera_info" to="camera_rear/camera_info" />
+      <remap from="output/camera_info" to="camera_rear/optical/camera_info" />
     </node>
 
     <!-- Left monocular camera -->
@@ -157,7 +193,16 @@
 	args="$(arg sensor_prefix)/camera_left/image">
       <remap from="$(arg sensor_prefix)/camera_left/image" to="camera_left/image_raw"/>
     </node>
-  
+    <node>
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher">
+      <remap from="input/image" to="camera_left/image_raw" />
+      <remap from="output/image" to="camera_left/optical/image_raw" />
+      <remap from="input/camera_info" to="camera_left/camera_info" />
+      <remap from="output/camera_info" to="camera_left/optical/camera_info" />
+    </node>
+
     <!-- Right monocular camera -->
     <node
 	pkg="ros_ign_bridge"
@@ -173,8 +218,15 @@
 	args="$(arg sensor_prefix)/camera_right/image">
       <remap from="$(arg sensor_prefix)/camera_right/image" to="camera_right/image_raw"/>
     </node>
-
-
+    <node>
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher">
+      <remap from="input/image" to="camera_right/image_raw" />
+      <remap from="output/image" to="camera_right/optical/image_raw" />
+      <remap from="input/camera_info" to="camera_right/camera_info" />
+      <remap from="output/camera_info" to="camera_right/optical/camera_info" />
+    </node>
     
     
     <node
