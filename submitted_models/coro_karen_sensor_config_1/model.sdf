@@ -513,7 +513,7 @@
           </scan>
           <range>
             <min>0.05</min>
-            <max>100</max>
+            <max>300</max>
             <resolution>0.01</resolution>
           </range>
           <noise>
@@ -637,7 +637,7 @@
       <sensor name="camera_front" type="camera">
         <pose>0.48 0.06 0.645 0 0 0</pose>
         <always_on>1</always_on>
-        <update_rate>30</update_rate>
+        <update_rate>25</update_rate>
         <camera name="camera_front">
           <horizontal_fov>1.658</horizontal_fov>
           <lens>
@@ -680,7 +680,7 @@
       <sensor name="camera_rear" type="camera">
         <pose>0.26 0 0.645 0 0 3.141592653589793</pose>
         <always_on>1</always_on>
-        <update_rate>30</update_rate>
+        <update_rate>25</update_rate>
         <camera name="camera_front">
           <horizontal_fov>1.658</horizontal_fov>
           <lens>
@@ -723,7 +723,7 @@
       <sensor name="camera_left" type="camera">
         <pose>0.37 0.11 0.645 0 0 1.5707963267948966</pose>
         <always_on>1</always_on>
-        <update_rate>30</update_rate>
+        <update_rate>25</update_rate>
         <camera name="camera_front">
           <horizontal_fov>1.658</horizontal_fov>
           <lens>
@@ -766,7 +766,7 @@
       <sensor name="camera_right" type="camera">
         <pose>0.37 -0.11 0.645 0 0 -1.5707963267948966</pose>
         <always_on>1</always_on>
-        <update_rate>30</update_rate>
+        <update_rate>25</update_rate>
         <camera name="camera_front">
           <horizontal_fov>1.658</horizontal_fov>
           <lens>
