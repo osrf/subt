@@ -25,8 +25,8 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <wheel_base>0.93</wheel_base>
         <wheel_radius>0.175</wheel_radius>
         <topic>/model/#{_name}/cmd_vel_relay</topic>
-        <min_velocity>-1.67</min_velocity>
-        <max_velocity>1.67</max_velocity>
+        <min_velocity>-1.0</min_velocity>
+        <max_velocity>1.0</max_velocity>
         <min_acceleration>-3</min_acceleration>
         <max_acceleration>3</max_acceleration>
       </plugin>
