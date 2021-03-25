@@ -30,6 +30,12 @@ The following specific sensors are declared payloads of this vehicle:
 * 1x HD wide camera - Basler dart daA1600-60um with DSL165A lens, modeled by `camera` plugin.
 * 1x IMU with standard SubT specification, modeled by `imu` plugin.
 
+### Basler HD wide camera field of view
+
+* horizontal sensor size x = 7.2 mm
+* lens focal length f = 4.57 mm
+* HFOV = 2 * atan((x/2)/f) = 1.3344 rad = 76.2 deg
+
 ## Control
 This X500 is controlled by the open-source [mrs_uav_controllers](https://github.com/ctu-mrs/mrs_uav_controllers) package. 
 
