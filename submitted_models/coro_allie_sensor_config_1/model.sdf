@@ -497,12 +497,12 @@
           <lens>
             <intrinsics>
               <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
-              <fx>219.9333</fx>
-              <fy>219.9333</fy>
+              <fx>329.9</fx>
+              <fy>329.9</fy>
               <!-- cx = ( width - 1 ) / 2 -->
-              <cx>239.5</cx>
+              <cx>359.5</cx>
               <!-- cy = ( height - 1 ) / 2 -->
-              <cy>319.5</cy>
+              <cy>539.5</cy>
               <s>0</s>
             </intrinsics>
           </lens>
@@ -515,8 +515,8 @@
             <center>0.5 0.5</center>
           </distortion>
           <image>
-            <width>480</width>
-            <height>640</height>
+            <width>720</width>
+            <height>1080</height>
             <format>R8G8B8</format>
           </image>
           <clip>
@@ -540,12 +540,12 @@
           <lens>
             <intrinsics>
               <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
-              <fx>219.9333</fx>
-              <fy>219.9333</fy>
+              <fx>329.9</fx>
+              <fy>329.9</fy>
               <!-- cx = ( width - 1 ) / 2 -->
-              <cx>239.5</cx>
+              <cx>359.5</cx>
               <!-- cy = ( height - 1 ) / 2 -->
-              <cy>319.5</cy>
+              <cy>539.5</cy>
               <s>0</s>
             </intrinsics>
           </lens>
@@ -558,8 +558,8 @@
             <center>0.5 0.5</center>
           </distortion>
           <image>
-            <width>480</width>
-            <height>640</height>
+            <width>720</width>
+            <height>1080</height>
             <format>R8G8B8</format>
           </image>
           <clip>
@@ -583,12 +583,12 @@
           <lens>
             <intrinsics>
               <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
-              <fx>219.9333</fx>
-              <fy>219.9333</fy>
+              <fx>329.9</fx>
+              <fy>329.9</fy>
               <!-- cx = ( width - 1 ) / 2 -->
-              <cx>239.5</cx>
+              <cx>359.5</cx>
               <!-- cy = ( height - 1 ) / 2 -->
-              <cy>319.5</cy>
+              <cy>539.5</cy>
               <s>0</s>
             </intrinsics>
           </lens>
@@ -601,8 +601,8 @@
             <center>0.5 0.5</center>
           </distortion>
           <image>
-            <width>480</width>
-            <height>640</height>
+            <width>720</width>
+            <height>1080</height>
             <format>R8G8B8</format>
           </image>
           <clip>
@@ -626,12 +626,12 @@
           <lens>
             <intrinsics>
               <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
-              <fx>219.9333</fx>
-              <fy>219.9333</fy>
+              <fx>329.9</fx>
+              <fy>329.9</fy>
               <!-- cx = ( width - 1 ) / 2 -->
-              <cx>239.5</cx>
+              <cx>359.5</cx>
               <!-- cy = ( height - 1 ) / 2 -->
-              <cy>319.5</cy>
+              <cy>539.5</cy>
               <s>0</s>
             </intrinsics>
           </lens>
@@ -644,8 +644,8 @@
             <center>0.5 0.5</center>
           </distortion>
           <image>
-            <width>480</width>
-            <height>640</height>
+            <width>720</width>
+            <height>1080</height>
             <format>R8G8B8</format>
           </image>
           <clip>
@@ -682,7 +682,7 @@
           </scan>
           <range>
             <min>0.05</min>
-            <max>100</max>
+            <max>300</max>
             <resolution>0.01</resolution>
           </range>
           <noise>
