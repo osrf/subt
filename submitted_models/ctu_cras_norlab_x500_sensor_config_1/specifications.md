@@ -34,7 +34,8 @@ The following specific sensors are declared payloads of this vehicle:
 
 * horizontal sensor size x = 7.2 mm
 * lens focal length f = 4.57 mm
-* HFOV = 2 * atan((x/2)/f) = 1.3344 rad = 76.2 deg
+* HFoV = 2 * atan((x/2)/f) = 1.3344 rad = 76.2 deg
+* HFoV with the camera and lens on our [testbed](https://photos.google.com/u/1/share/AF1QipNFt3voXyQMq9E2hoaKImq9K2o2vBZdUgWQtd9WmCxNMdLBiPcG-QrDDGrBWJf5sQ?key=RVg1cjk0dGxXSF95Q1poXzRCd3ZESmZ1OEtxWUtR) is 97.47 deg
 
 ## Control
 This X500 is controlled by the open-source [mrs_uav_controllers](https://github.com/ctu-mrs/mrs_uav_controllers) package. 
