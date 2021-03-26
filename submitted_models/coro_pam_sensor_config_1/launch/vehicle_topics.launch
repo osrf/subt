@@ -100,7 +100,7 @@
       <node
         pkg="subt_ros"
         type="optical_frame_publisher"
-        name="optical_frame_publisher_rgbd_depth_up">
+        name="optical_frame_publisher_rgbd_depth_front">
         <remap from="input/image" to="depth/image_raw" />
         <remap from="output/image" to="optical/depth/image_raw" />
         <remap from="input/camera_info" to="depth/camera_info" />
@@ -164,7 +164,7 @@
       <node
         pkg="subt_ros"
         type="optical_frame_publisher"
-        name="optical_frame_publisher_rgbd_depth_up">
+        name="optical_frame_publisher_rgbd_depth_right">
         <remap from="input/image" to="depth/image_raw" />
         <remap from="output/image" to="optical/depth/image_raw" />
         <remap from="input/camera_info" to="depth/camera_info" />
@@ -228,7 +228,7 @@
       <node
         pkg="subt_ros"
         type="optical_frame_publisher"
-        name="optical_frame_publisher_rgbd_depth_up">
+        name="optical_frame_publisher_rgbd_depth_left">
         <remap from="input/image" to="depth/image_raw" />
         <remap from="output/image" to="optical/depth/image_raw" />
         <remap from="input/camera_info" to="depth/camera_info" />

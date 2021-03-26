@@ -16,11 +16,12 @@ The robot can be used in the same by sending Twist commands to the vehicle_name/
 
 
 ## Cost and Scale
-Pam has an estimated duplication cost of USD 1860. It weighs 3557 grams.
+Pam has an estimated duplication cost of USD 2160. It weighs 3557 grams.
 Cost breakdown:
 $600  - 3 x D435
 $540 - Frame / motors / props / batteries / controllers
 $500 -  Computer - GB-BRi5-8250
+$300 - LIDAR-Lite V3HP x 2
 $220 - lights / connectors /switches / DC-DC / misc
 
 
@@ -29,7 +30,7 @@ Pam Sensor Config 1 uses:
 * 3 x D435 modeled by rgbd_camera plugin
 * 1 x Kakute F7 - modeled by air_pressure plugin, imu_sensor and magnetometer plugin
 * 1 x SCD30 - modeled by GasEmitterDetector plugin
-
+* 2 x Garmin LIDAR-Lite v3HP modeled by gpu_ray
 
 ## Control
 Pam is controlled by by the Twist ROS topic cmd_vel.  Sensors are published on the standard topics.
@@ -67,6 +68,7 @@ Intel Realsense Tracking Camera T265 not modeled.
 * D435 RGBD Camera - https://www.intelrealsense.com/depth-camera-d435/
 * Kakute F7 - http://www.holybro.com/product/kakute-f7-v1-5/
 * Brix GB-BRi5-8250 - http://download.gigabyte.cn/FileList/Manual/brix_kabylake_datasheet.pdf
+* Garmin LIDAR-Lite v3HP - https://buy.garmin.com/en-US/US/p/578152
 * https://youtu.be/fMVmpcDZjTY  (endurance test)
 * https://youtu.be/S93qIGnCB9o  (xy speed, rotation test)
 * https://youtu.be/IJbUCzJX2yM  (z speed test)
