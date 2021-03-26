@@ -143,7 +143,7 @@
 	args="$(arg sensor_prefix)/camera_front/image">
       <remap from="$(arg sensor_prefix)/camera_front/image" to="camera_front/image_raw"/>
     </node>
-    <node>
+    <node
       pkg="subt_ros"
       type="optical_frame_publisher"
       name="optical_frame_publisher_front">
@@ -168,7 +168,7 @@
 	args="$(arg sensor_prefix)/camera_rear/image">
       <remap from="$(arg sensor_prefix)/camera_rear/image" to="camera_rear/image_raw"/>
     </node>
-    <node>
+    <node
       pkg="subt_ros"
       type="optical_frame_publisher"
       name="optical_frame_publisher_rear">
@@ -193,7 +193,7 @@
 	args="$(arg sensor_prefix)/camera_left/image">
       <remap from="$(arg sensor_prefix)/camera_left/image" to="camera_left/image_raw"/>
     </node>
-    <node>
+    <node
       pkg="subt_ros"
       type="optical_frame_publisher"
       name="optical_frame_publisher_left">
@@ -218,7 +218,7 @@
 	args="$(arg sensor_prefix)/camera_right/image">
       <remap from="$(arg sensor_prefix)/camera_right/image" to="camera_right/image_raw"/>
     </node>
-    <node>
+    <node
       pkg="subt_ros"
       type="optical_frame_publisher"
       name="optical_frame_publisher_right">
