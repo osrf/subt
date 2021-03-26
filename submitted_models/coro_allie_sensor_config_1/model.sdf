@@ -303,6 +303,16 @@
                     </linear_acceleration>
                 </imu>
       </sensor>
+      <sensor name="air_pressure" type="air_pressure">
+        <always_on>1</always_on>
+        <update_rate>20</update_rate>
+        <air_pressure>
+          <reference_altitude>0</reference_altitude>
+          <noise type="gaussian">
+            <mean>0.00000008</mean>
+          </noise>
+        </air_pressure>
+      </sensor>
       <sensor name="magnetometer" type="magnetometer">
         <always_on>1</always_on>
         <update_rate>50</update_rate>
@@ -682,7 +692,7 @@
           </scan>
           <range>
             <min>0.05</min>
-            <max>300</max>
+            <max>100</max>
             <resolution>0.01</resolution>
           </range>
           <noise>
