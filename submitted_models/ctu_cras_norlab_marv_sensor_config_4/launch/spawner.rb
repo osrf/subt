@@ -36,7 +36,6 @@ end
 
 def rosExecutables(_name, _worldName)
   <<-HEREDOC
-  invalid
   <executable name='topics'>
     <command>roslaunch --wait ctu_cras_norlab_marv_sensor_config_1 vehicle_topics.launch world_name:=#{_worldName} name:=#{_name} breadcrumbs:=#{$num_breadcrumbs} has_thermal_camera:=1</command>
   </executable>
