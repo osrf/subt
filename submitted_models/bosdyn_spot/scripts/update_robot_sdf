@@ -10,18 +10,17 @@ set -e
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 MODEL_DIR="${DIR}/.."
+[ -z "${OUTPUT_FILE}" ] && OUTPUT_FILE="${MODEL_DIR}/model.sdf"
 
-xacro_config="rendering_target:=sdf $*"
+config=""
+for file in "${MODEL_DIR}/config/model/common.yaml" "${MODEL_DIR}/config/model/ign.yaml"; do
+  config="${config} $("${DIR}/yaml_to_xacro_args" "$file")"
+done
 
-# Create URDF
-rosrun xacro xacro "${MODEL_DIR}/urdf/spot.urdf.xacro" ${xacro_config} > "${MODEL_DIR}/spot.sdf.urdf"
+echo -e "Rendering Ignition Gazebo SDF of $(basename "$(realpath "$MODEL_DIR")") with the following Xacro arguments:\n${config}" "$@" >&2
+rosrun xacro xacro "${MODEL_DIR}/urdf/spot.urdf.xacro" ${config} "$@" > "${OUTPUT_FILE}.urdf"
+ign sdf -p "${OUTPUT_FILE}.urdf" | "${DIR}/high_precision_constants.py" - > "${OUTPUT_FILE}"
 
-# Create SDF
-ign sdf -p "${MODEL_DIR}/spot.sdf.urdf" > "${MODEL_DIR}/model.sdf"
-
-# Fix references to resources
-sed -i 's#model://bosdyn_spot/##g' "${MODEL_DIR}/model.sdf"
-
-# Clean the SDF
-"${DIR}/clean_sdf" "${MODEL_DIR}/model.sdf"
-
+"${DIR}/clean_sdf" "${OUTPUT_FILE}"
+# fix resource paths
+sed -i -e 's#model://bosdyn_spot/##g' "${OUTPUT_FILE}"

@@ -16,10 +16,25 @@
   <build_depend>ignition-gazebo4</build_depend>
   <exec_depend>ignition-gazebo4</exec_depend>
 
-  <exec_depend>ros_ign_bridge</exec_depend>
+  <build_depend>message_generation</build_depend>
+  <build_export_depend>message_runtime</build_export_depend>
+  <exec_depend>message_runtime</exec_depend>
+
+  <depend>control_toolbox</depend>
+  <depend>dynamic_reconfigure</depend>
+  <depend>geometry_msgs</depend>
+  <depend>nodelet</depend>
+  <depend>ros_ign_bridge</depend>
+  <depend>roscpp</depend>
+  <depend>std_msgs</depend>
+
   <exec_depend>ros_ign_image</exec_depend>
   <exec_depend>roslaunch</exec_depend>
+  <exec_depend>rospy</exec_depend>
   <exec_depend>subt_ros</exec_depend>
   <exec_depend>xacro</exec_depend>
 
+  <export>
+    <nodelet plugin="${prefix}/nodelets.xml" />
+  </export>
 </package>

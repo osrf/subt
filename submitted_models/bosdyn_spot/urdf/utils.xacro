@@ -49,24 +49,22 @@
 
     <xacro:macro name="empty_link" params="name">
         <link name="${name}">
-            <visual>
-                <origin xyz="0 0 0" rpy="0 0 0" />
-                <geometry>
-                    <box size="0.005 0.005 0.005"/>
-                </geometry>
-                <material name="invisible_color">
-                    <color rgba="1 0 0 0.5"/>
-                </material>
-            </visual>
             <xacro:default_inertial />
+            <selfCollide>false</selfCollide>
         </link>
     </xacro:macro>
 
-    <xacro:macro name="fixed_joint" params="name parent child xyz='0 0 0' rpy='0 0 0'">
+    <xacro:macro name="fixed_joint" params="name parent child xyz:='0 0 0' rpy:='0 0 0' lump:=0">
         <joint name="${name}" type="fixed">
             <parent link="${parent}"/>
             <child link="${child}"/>
             <origin xyz="${xyz}" rpy="${rpy}"/>
         </joint>
+        <xacro:if value="${lump == 0}">
+            <!-- workaround for https://github.com/osrf/sdformat/issues/378 -->
+            <gazebo reference="${name}">
+                <preserveFixedJoint>true</preserveFixedJoint>
+            </gazebo>
+        </xacro:if>
     </xacro:macro>
 </root>

@@ -10,7 +10,7 @@
   load File.join(File.dirname(__FILE__), "spawner.rb")
 
   # Modify these as needed
-  $enableGroundTruth = true
+  $enableGroundTruth = false
   $headless =  local_variables.include?(:headless) ? :headless : false
 
 %>
@@ -39,12 +39,17 @@
 
   <!-- Start ROS first. This is a bit hacky for now. -->
   <!-- Make sure to source /opt/ros/melodic/setup.bash -->
-  <executable name='ros'>
-    <command>roslaunch subt_ros competition_init.launch world_name:=<%=$worldName%> vehicle_topics:=0 enable_ground_truth:=<%=($enableGroundTruth)?"1":"0"%> robot_names:=<%=robotName%></command>
-  </executable>
+  <% if local_variables.include?(:ros) and ros %>
+    <executable name='ros'>
+      <command>roslaunch subt_ros competition_init.launch world_name:=<%=$worldName%> vehicle_topics:=0 enable_ground_truth:=<%=($enableGroundTruth)?"1":"0"%> robot_names:=<%=robotName%></command>
+    </executable>
+  <% elsif local_variables.include?(:champ) and champ %>
+    <executable name='clock'>
+      <command>roslaunch --wait bosdyn_spot _clock_bridge.launch</command>
+    </executable>
+  <% end %>
 
-  <plugin name="ignition::launch::GazeboServer"
-          filename="libignition-launch-gazebo.so">
+  <plugin name="ignition::launch::GazeboServer" filename="ignition-launch-gazebo">
     <world_file><%= worldFile %></world_file>
     <run>true</run>
     <levels>false</levels>
@@ -52,51 +57,49 @@
       <enabled>false</enabled>
     </record>
 
-    <plugin entity_name="<%= $worldName %>"
-            entity_type="world"
-            filename="libignition-gazebo-physics-system.so"
+    <plugin entity_name="<%= $worldName %>" entity_type="world"
+            filename="ignition-gazebo-physics-system"
             name="ignition::gazebo::systems::Physics">
     </plugin>
 
-    <plugin entity_name="<%= $worldName %>"
-            entity_type="world"
-            filename="libignition-gazebo-sensors-system.so"
+    <plugin entity_name="<%= $worldName %>" entity_type="world"
+            filename="ignition-gazebo-sensors-system"
             name="ignition::gazebo::systems::Sensors">
             <render_engine>ogre2</render_engine>
     </plugin>
-    <plugin entity_name="<%= $worldName %>"
-            entity_type="world"
-            filename="libignition-gazebo-user-commands-system.so"
+    <plugin entity_name="<%= $worldName %>" entity_type="world"
+            filename="ignition-gazebo-user-commands-system"
             name="ignition::gazebo::systems::UserCommands">
     </plugin>
-    <plugin entity_name="<%= $worldName %>"
-            entity_type="world"
-            filename="libignition-gazebo-scene-broadcaster-system.so"
+    <plugin entity_name="<%= $worldName %>" entity_type="world"
+            filename="ignition-gazebo-scene-broadcaster-system"
             name="ignition::gazebo::systems::SceneBroadcaster">
     </plugin>
-    <plugin entity_name="<%= $worldName %>"
-            entity_type="world"
-            filename="libignition-gazebo-imu-system.so"
+    <plugin entity_name="<%= $worldName %>" entity_type="world"
+            filename="ignition-gazebo-imu-system"
             name="ignition::gazebo::systems::Imu">
     </plugin>
 
-    <plugin entity_name="<%= $worldName %>"
-            entity_type="world"
-            filename="libignition-gazebo-magnetometer-system.so"
+    <plugin entity_name="<%= $worldName %>" entity_type="world"
+            filename="ignition-gazebo-magnetometer-system"
             name="ignition::gazebo::systems::Magnetometer">
     </plugin>
 
-    <plugin entity_name="<%= $worldName %>"
-            entity_type="world"
-            filename="libignition-gazebo-air-pressure-system.so"
+    <plugin entity_name="<%= $worldName %>" entity_type="world"
+            filename="ignition-gazebo-air-pressure-system"
             name="ignition::gazebo::systems::AirPressure">
+    </plugin>
+
+    <plugin entity_name="<%= $worldName %>" entity_type="world"
+            filename="ignition-gazebo-contact-system"
+            name="ignition::gazebo::systems::Contact">
     </plugin>
   </plugin>
 
   <%if !$headless %>
   <executable_wrapper>
     <plugin name="ignition::launch::GazeboGui"
-          filename="libignition-launch-gazebogui.so">
+          filename="ignition-launch-gazebogui">
       <world_name><%= $worldName %></world_name>
       <window_title>SubT Simulator</window_title>
       <window_icon><%= ENV['SUBT_IMAGES_PATH'] %>/SubT_logo.svg</window_icon>
@@ -167,11 +170,19 @@
   </executable_wrapper>
   <%end%>
 
-<plugin name="ignition::launch::GazeboFactory"
-        filename="libignition-launch-gazebo-factory.so">
-<%= spawner(robotName, modelURI, $worldName, 0, 0, 0.2, 0, 0, 0) %>
-</plugin>
-<%= rosExecutables(robotName, $worldName) %>
- 
-</ignition>
+  <plugin name="ignition::launch::GazeboFactory" filename="ignition-launch-gazebo-factory">
+    <%= spawner(robotName, modelURI, $worldName, 0, 0, 0, 0, 0, 0) %>
+  </plugin>
 
+  <% if (local_variables.include?(:ros) and ros) or (local_variables.include?(:champ) and champ) %>
+    <%= rosExecutables(robotName, $worldName) %>
+  <% end %>
+
+  <!-- subt_spot package is not part of the SubT simulator. You have to download it separately from https://github.com/ctu-vras/subt_spot . -->
+  <% if local_variables.include?(:champ) and champ %>
+    <executable name='champ'>
+      <command>roslaunch --wait subt_spot champ.launch name:=<%=robotName%></command>
+    </executable>
+  <% end %>
+
+</ignition>

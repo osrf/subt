@@ -8,7 +8,7 @@
         <xacro:arg name="prefix" default="$(arg name)/"/>
     </xacro:unless>
 
-    <!-- Pass either "urdf" or "sdf" to tell the parser what is the desired target format. -->
+    <!-- Pass either "urdf" or "ign" to tell the parser what is the desired target format. -->
     <xacro:arg name="rendering_target" default="urdf"/>
     <xacro:arg name="simulate_cameras" default="True"/>
     <xacro:arg name="simulate_imu" default="True"/>
@@ -36,19 +36,14 @@
         </inertial>
     </link>
 
-    <link name="$(arg prefix)front_rail"/>
-    <joint name="front_rail_joint" type="fixed">
-        <origin xyz="0.223 0 0.0805" rpy="0 0 0" />
-        <parent link="$(arg prefix)base_link" />
-        <child link="$(arg prefix)front_rail" />
-    </joint>
+    <xacro:empty_link name="$(arg prefix)body"/>
+    <xacro:fixed_joint name="base_link_joint" parent="$(arg prefix)base_link" child="$(arg prefix)body" />
 
-    <link name="$(arg prefix)rear_rail"/>
-    <joint name="rear_rail_joint" type="fixed">
-        <origin xyz="-0.223 0 0.0805" rpy="0 0 0" />
-        <parent link="$(arg prefix)base_link" />
-        <child link="$(arg prefix)rear_rail" />
-    </joint>
+    <xacro:empty_link name="$(arg prefix)front_rail"/>
+    <xacro:fixed_joint name="front_rail_joint" parent="$(arg prefix)body" child="$(arg prefix)front_rail" xyz="0.223 0 0.0805" />
+
+    <xacro:empty_link name="$(arg prefix)rear_rail"/>
+    <xacro:fixed_joint name="rear_rail_joint" parent="$(arg prefix)body" child="$(arg prefix)rear_rail" xyz="-0.223 0 0.0805" />
 
     <xacro:spot_leg leg_name="front_left" prefix="$(arg prefix)" />
     <xacro:spot_leg leg_name="front_right" prefix="$(arg prefix)" />
@@ -57,9 +52,7 @@
 
     <!-- virtual link to specify IMU position -->
     <xacro:empty_link name="$(arg prefix)imu"/>
-    <xacro:fixed_joint name="imu_j"
-      parent="$(arg prefix)base_link" child="$(arg prefix)imu"
-      xyz="0 0 0" rpy="0 0 0"/>
+    <xacro:fixed_joint name="imu_j" parent="$(arg prefix)base_link" child="$(arg prefix)imu" />
 
     <gazebo reference="$(arg prefix)imu">
         <xacro:if value="$(arg simulate_imu)">
@@ -68,71 +61,38 @@
                 <update_rate>50</update_rate>
                 <imu>
                     <angular_velocity>
-                        <x>
+                        <xacro:macro name="angular_imu_noise">
                             <noise type="gaussian">
                                 <mean>0</mean>
                                 <stddev>2e-4</stddev>
                                 <bias_mean>0.0000075</bias_mean>
                                 <bias_stddev>0.0000008</bias_stddev>
-                                <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
-                                <dynamic_bias_correlation_time>1000.0
-                                </dynamic_bias_correlation_time>
+                                <xacro:if value="${'$(arg rendering_target)' == 'ign'}">
+                                    <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
+                                    <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
+                                </xacro:if>
                             </noise>
-                        </x>
-                        <y>
-                            <noise type="gaussian">
-                                <mean>0</mean>
-                                <stddev>2e-4</stddev>
-                                <bias_mean>0.0000075</bias_mean>
-                                <bias_stddev>0.0000008</bias_stddev>
-                                <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
-                                <dynamic_bias_correlation_time>1000.0
-                                </dynamic_bias_correlation_time>
-                            </noise>
-                        </y>
-                        <z>
-                            <noise type="gaussian">
-                                <mean>0</mean>
-                                <stddev>2e-4</stddev>
-                                <bias_mean>0.0000075</bias_mean>
-                                <bias_stddev>0.0000008</bias_stddev>
-                                <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
-                                <dynamic_bias_correlation_time>1000.0
-                                </dynamic_bias_correlation_time>
-                            </noise>
-                        </z>
+                        </xacro:macro>
+                        <x><xacro:angular_imu_noise/></x>
+                        <y><xacro:angular_imu_noise/></y>
+                        <z><xacro:angular_imu_noise/></z>
                     </angular_velocity>
                     <linear_acceleration>
-                        <x>
+                        <xacro:macro name="linear_imu_noise">
                             <noise type="gaussian">
                                 <mean>0</mean>
                                 <stddev>1e-2</stddev>
                                 <bias_mean>0.1</bias_mean>
                                 <bias_stddev>0.001</bias_stddev>
-                                <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
-                                <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
+                                <xacro:if value="${'$(arg rendering_target)' == 'ign'}">
+                                    <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
+                                    <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
+                                </xacro:if>
                             </noise>
-                        </x>
-                        <y>
-                            <noise type="gaussian">
-                                <mean>0</mean>
-                                <stddev>1e-2</stddev>
-                                <bias_mean>0.1</bias_mean>
-                                <bias_stddev>0.001</bias_stddev>
-                                <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
-                                <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
-                            </noise>
-                        </y>
-                        <z>
-                            <noise type="gaussian">
-                                <mean>0</mean>
-                                <stddev>1e-2</stddev>
-                                <bias_mean>0.1</bias_mean>
-                                <bias_stddev>0.001</bias_stddev>
-                                <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
-                                <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
-                            </noise>
-                        </z>
+                        </xacro:macro>
+                        <x><xacro:linear_imu_noise /></x>
+                        <y><xacro:linear_imu_noise /></y>
+                        <z><xacro:linear_imu_noise /></z>
                     </linear_acceleration>
                 </imu>
             </sensor>

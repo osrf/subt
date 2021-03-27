@@ -34,13 +34,17 @@ namespace subt
 /// be possible to e.g. leave the position and velocity fields empty and only fill out
 /// name and effort.
 ///
+/// The command can also be sent as a JointTrajectory type. It will do the same as the Model
+/// type message. Only the first trajectory point will be executed.
+///
 /// # Parameters
 ///
 /// `<topic>`: Name of the topic on which this system receives commands. Defaults to `/model/${MODEL_NAME}/joint_commands`.
+/// `<trajectory_topic>`: Name of the topic on which this system receives trajectory commands. Defaults to `/model/${MODEL_NAME}/joint_trajectory`.
 /// `<joint name="test_joint">`: The plugin is configured by a list of <joint> tags, each of which specifies one controlled joint.
 ///                              The `name` attribute is mandatory and specifies the name of the joint.
 ///
-/// `<joint><position_target_topic>`: Topic for sending positional commands. Defaults to `/model/${MODEL_NAME}/joint/${JOINT_NAME}/cmd_pos`.
+/// `<joint><position_target_topic>`: Topic for sending positional commands. Defaults to `/model/${MODEL_NAME}/joint/${JOINT_NAME}/0/cmd_pos`.
 /// `<joint><velocity_target_topic>`: Topic for sending velocity commands. Defaults to `/model/${MODEL_NAME}/joint/${JOINT_NAME}/cmd_vel`.
 /// `<joint><effort_target_topic>`: Topic for sending effort commands. Defaults to `/model/${MODEL_NAME}/joint/${JOINT_NAME}/cmd_force`.
 ///
@@ -50,7 +54,7 @@ namespace subt
 /// fields that are present, and is only interested in the header and joints/axis1 fields. Ignition-ROS bridge
 /// provides a converter between sensor_msgs/JointState and ignition::msgs::Model. Make sure the ROS message
 /// has all four vectors of the same length, otherwise the Ign-ROS bridge could segfault!
-class MultiJointCommandSystem : public System, public ISystemConfigure, public ISystemPreUpdate
+class MultiJointCommandSystem : public System, public ISystemConfigure
 {
   public: void Configure(const Entity& _entity, const std::shared_ptr<const sdf::Element>& _sdf,
                          EntityComponentManager& _ecm, EventManager& _eventMgr) override
@@ -92,7 +96,7 @@ class MultiJointCommandSystem : public System, public ISystemConfigure, public I
 
       const auto prefix = "/model/" + this->model.Name(_ecm) + "/joint/" + name;
 
-      std::string posTopic = prefix + "/cmd_pos";
+      std::string posTopic = prefix + "/0/cmd_pos";
       std::string velTopic = prefix + "/cmd_vel";
       std::string forceTopic = prefix + "/cmd_force";
 
@@ -147,18 +151,24 @@ class MultiJointCommandSystem : public System, public ISystemConfigure, public I
 
     this->node.Subscribe(topic, &MultiJointCommandSystem::OnCmd, this);
 
-    ignmsg << "MultiJointCommandSystem subscribing to commands on [" << topic << "]" << std::endl;
+    std::string trajectoryTopic {"/model/" + this->model.Name(_ecm) + "/joint_trajectory"};
+    if (_sdf->HasElement("trajectory_topic"))
+      trajectoryTopic = _sdf->Get<std::string>("trajectory_topic");
+
+    this->node.Subscribe(trajectoryTopic, &MultiJointCommandSystem::OnTrajectoryCmd, this);
+
+    ignmsg << "MultiJointCommandSystem subscribing to JointState commands on [" << topic
+           << "] and JointTrajectory commands on [" << trajectoryTopic << "]" << std::endl;
 
     this->initialized = true;
   }
 
-  public: void PreUpdate(const UpdateInfo& _info, EntityComponentManager& _ecm) override
+  protected: void OnCmd(const msgs::Model &_msg)
   {
     if (!this->initialized)
       return;
-    std::vector<std::string> sentCommands;
-    std::lock_guard<std::mutex> lock(this->commandLock);
-    for (const auto& joint : this->command.joint())
+
+    for (const auto& joint : _msg.joint())
     {
       if (joint.name().empty())
       {
@@ -181,10 +191,9 @@ class MultiJointCommandSystem : public System, public ISystemConfigure, public I
         if (this->posPublishers.find(name) != this->posPublishers.end())
         {
           msgs::Double msg;
-          *msg.mutable_header() = this->command.header();
+          *msg.mutable_header() = _msg.header();
           msg.set_data(axis.position());
           this->posPublishers[name].Publish(msg);
-          sentCommands.push_back(name + "[pos]");
         }
         else
           ignwarn << "Received positional command for joint " << name << " which doesn't have a valid positional target topic." << std::endl;
@@ -195,10 +204,9 @@ class MultiJointCommandSystem : public System, public ISystemConfigure, public I
         if (this->velPublishers.find(name) != this->velPublishers.end())
         {
           msgs::Double msg;
-          *msg.mutable_header() = this->command.header();
+          *msg.mutable_header() = _msg.header();
           msg.set_data(axis.velocity());
           this->velPublishers[name].Publish(msg);
-          sentCommands.push_back(name + "[vel]");
         }
         else
           ignwarn << "Received velocity command for joint " << name << " which doesn't have a valid velocity target topic." << std::endl;
@@ -209,10 +217,9 @@ class MultiJointCommandSystem : public System, public ISystemConfigure, public I
         if (this->forcePublishers.find(name) != this->forcePublishers.end())
         {
           msgs::Double msg;
-          *msg.mutable_header() = this->command.header();
+          *msg.mutable_header() = _msg.header();
           msg.set_data(axis.force());
           this->forcePublishers[name].Publish(msg);
-          sentCommands.push_back(name + "[effort]");
         }
         else
           ignwarn << "Received force command for joint " << name << " which doesn't have a valid effort target topic." << std::endl;
@@ -223,26 +230,72 @@ class MultiJointCommandSystem : public System, public ISystemConfigure, public I
         ignwarn << "Received command for joint " << name << " with no values to set." << std::endl;
       }
     }
-
-    // clear the received command so that we don't repeat it
-    this->command.clear_joint();
-
-    // if (!sentCommands.empty())
-    //   igndbg << "MultiJointCommandSystem has sent these commands: " << common::Join(sentCommands, ", ") << std::endl;
   }
 
-  protected: void OnCmd(const msgs::Model &_msg)
+  protected: void OnTrajectoryCmd(const msgs::JointTrajectory &_msg)
   {
     if (!this->initialized)
       return;
-    std::lock_guard<std::mutex> lock(this->commandLock);
-    this->command = _msg;
-  }
 
-  public: void Reset(EntityComponentManager& _ecm)
-  {
-    std::lock_guard<std::mutex> lock(this->commandLock);
-    this->command.clear_joint();
+    for (size_t i = 0; i < _msg.joint_names_size(); ++i)
+    {
+      if (_msg.joint_names(i).empty())
+      {
+        ignwarn << "Received command with empty joint name." << std::endl;
+        continue;
+      }
+
+      if (_msg.points().empty())
+      {
+        ignwarn << "Received empty trajectory command." << std::endl;
+        continue;
+      }
+
+      if (_msg.points().size() > 1)
+        ignwarn << "Received trajectory command with >1 points, this is not supported. Executing only the first one." << std::endl;
+
+      const auto& name = _msg.joint_names(i);
+      const auto& point = *_msg.points().begin();
+
+      if (i < point.positions_size() && std::isfinite(point.positions(i)))
+      {
+        if (this->posPublishers.find(name) != this->posPublishers.end())
+        {
+          msgs::Double msg;
+          *msg.mutable_header() = _msg.header();
+          msg.set_data(point.positions(i));
+          this->posPublishers[name].Publish(msg);
+        }
+        else
+          ignwarn << "Received positional command for joint " << name << " which doesn't have a valid positional target topic." << std::endl;
+      }
+
+      if (i < point.velocities_size() && std::isfinite(point.velocities(i)))
+      {
+        if (this->velPublishers.find(name) != this->velPublishers.end())
+        {
+          msgs::Double msg;
+          *msg.mutable_header() = _msg.header();
+          msg.set_data(point.velocities(i));
+          this->velPublishers[name].Publish(msg);
+        }
+        else
+          ignwarn << "Received velocity command for joint " << name << " which doesn't have a valid velocity target topic." << std::endl;
+      }
+
+      if (i < point.effort_size() && std::isfinite(point.effort(i)))
+      {
+        if (this->forcePublishers.find(name) != this->forcePublishers.end())
+        {
+          msgs::Double msg;
+          *msg.mutable_header() = _msg.header();
+          msg.set_data(point.effort(i));
+          this->forcePublishers[name].Publish(msg);
+        }
+        else
+          ignwarn << "Received force command for joint " << name << " which doesn't have a valid effort target topic." << std::endl;
+      }
+    }
   }
 
   protected: bool initialized {false};
@@ -251,15 +304,9 @@ class MultiJointCommandSystem : public System, public ISystemConfigure, public I
   protected: std::unordered_map<std::string, transport::Node::Publisher> velPublishers;
   protected: std::unordered_map<std::string, transport::Node::Publisher> forcePublishers;
   protected: Model model{kNullEntity};
-  protected: msgs::Model command;
-  protected: std::mutex commandLock;
 };
 
 }
 
-IGNITION_ADD_PLUGIN(subt::MultiJointCommandSystem,
-                    System,
-                    ISystemConfigure,
-                    ISystemPreUpdate)
-
+IGNITION_ADD_PLUGIN(subt::MultiJointCommandSystem, System, ISystemConfigure)
 IGNITION_ADD_PLUGIN_ALIAS(subt::MultiJointCommandSystem, "subt::MultiJointCommandSystem")

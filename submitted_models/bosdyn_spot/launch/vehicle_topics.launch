@@ -6,150 +6,24 @@
   <arg name="link_prefix" value="/world/$(arg world_name)/model/$(arg name)/link"/>
   <arg name="joint_prefix" value="/model/$(arg name)/joint"/>
   <arg name="breadcrumbs" default="0"/>
+  <arg name="description_print_command" default="" />
+
+  <include file="$(dirname)/description.launch" pass_all_args="true">
+    <arg name="print_command" value="$(arg description_print_command)" if="$(eval description_print_command != '')" />
+  </include>
 
   <group ns="$(arg name)">
-    <node
-      pkg="ros_ign_bridge"
-      type="parameter_bridge"
-      name="ros_ign_bridge_pose"
-      args="/model/$(arg name)/pose@tf2_msgs/TFMessage[ignition.msgs.Pose_V">
-      <remap from="/model/$(arg name)/pose" to="pose"/>
-    </node>
-    <node
-      pkg="ros_ign_bridge"
-      type="parameter_bridge"
-      name="ros_ign_bridge_pose_static"
-      args="/model/$(arg name)/pose_static@tf2_msgs/TFMessage[ignition.msgs.Pose_V">
-      <remap from="/model/$(arg name)/pose_static" to="pose_static"/>
-    </node>
+    <include file="$(find subt_ros)/launch/models_common/all_robots.launch">
+      <arg name="name" value="$(arg name)" />
+      <arg name="world_name" value="$(arg world_name)" />
+    </include>
 
-    <node
-      pkg="subt_ros"
-      type="pose_tf_broadcaster"
-      name="pose_tf_broadcaster"/>
-
-    <node
-      pkg="ros_ign_bridge"
-      type="parameter_bridge"
-      name="ros_ign_bridge_twist"
-      args="/model/$(arg name)/cmd_vel_relay@geometry_msgs/Twist]ignition.msgs.Twist">
-      <remap from="/model/$(arg name)/cmd_vel_relay" to="cmd_vel"/>
-    </node>
-
-    <node
-      pkg="ros_ign_bridge"
-      type="parameter_bridge"
-      name="ros_ign_bridge_odom"
-      args="/model/$(arg name)/odometry@nav_msgs/Odometry[ignition.msgs.Odometry">
-      <remap from="/model/$(arg name)/odometry" to="odom"/>
-    </node>
-
-    <node
-      pkg="ros_ign_bridge"
-      type="parameter_bridge"
-      name="ros_ign_bridge_battery_state"
-      args="/model/$(arg name)/battery/linear_battery/state@sensor_msgs/BatteryState[ignition.msgs.BatteryState">
-      <remap from="/model/$(arg name)/battery/linear_battery/state" to="battery_state"/>
-    </node>
-    
-    <!-- Joint Publisher (Publishes to topic but doesn't control...)-->
-    <node
-      pkg="ros_ign_bridge"
-      type="parameter_bridge"
-      name="ros_ign_bridge_joint_state_publisher"
-      args="/world/$(arg world_name)/model/$(arg name)/joint_state@sensor_msgs/JointState[ignition.msgs.Model">
-      <remap from="/world/$(arg world_name)/model/$(arg name)/joint_state" to="joint_state"/>
-    </node>
+    <include file="$(find subt_ros)/launch/models_common/all_ugvs.launch">
+      <arg name="name" value="$(arg name)" />
+      <arg name="world_name" value="$(arg world_name)" />
+    </include>
 
     <!-- Actuators -->
-    <node
-      pkg="ros_ign_bridge"
-      type="parameter_bridge"
-      name="ros_ign_bridge_front_left_hip_x_motor"
-      args="$(arg joint_prefix)/front_left_hip_x/cmd_force@std_msgs/Float64]ignition.msgs.Double">
-      <remap from="$(arg joint_prefix)/front_left_hip_x/cmd_force" to="cmd_force/front_left_hip_x"/>
-    </node>
-    <node
-      pkg="ros_ign_bridge"
-      type="parameter_bridge"
-      name="ros_ign_bridge_front_left_hip_y_motor"
-      args="$(arg joint_prefix)/front_left_hip_y/cmd_force@std_msgs/Float64]ignition.msgs.Double">
-      <remap from="$(arg joint_prefix)/front_left_hip_y/cmd_force" to="cmd_force/front_left_hip_y"/>
-    </node>
-    <node
-      pkg="ros_ign_bridge"
-      type="parameter_bridge"
-      name="ros_ign_bridge_front_left_knee_motor"
-      args="$(arg joint_prefix)/front_left_knee/cmd_force@std_msgs/Float64]ignition.msgs.Double">
-      <remap from="$(arg joint_prefix)/front_left_knee/cmd_force" to="cmd_force/front_left_knee"/>
-    </node>
-    
-    <node
-      pkg="ros_ign_bridge"
-      type="parameter_bridge"
-      name="ros_ign_bridge_front_right_hip_x_motor"
-      args="$(arg joint_prefix)/front_right_hip_x/cmd_force@std_msgs/Float64]ignition.msgs.Double">
-      <remap from="$(arg joint_prefix)/front_right_hip_x/cmd_force" to="cmd_force/front_right_hip_x"/>
-    </node>
-    <node
-      pkg="ros_ign_bridge"
-      type="parameter_bridge"
-      name="ros_ign_bridge_front_right_hip_y_motor"
-      args="$(arg joint_prefix)/front_right_hip_y/cmd_force@std_msgs/Float64]ignition.msgs.Double">
-      <remap from="$(arg joint_prefix)/front_right_hip_y/cmd_force" to="cmd_force/front_right_hip_y"/>
-    </node>
-    <node
-      pkg="ros_ign_bridge"
-      type="parameter_bridge"
-      name="ros_ign_bridge_front_right_knee_motor"
-      args="$(arg joint_prefix)/front_right_knee/cmd_force@std_msgs/Float64]ignition.msgs.Double">
-      <remap from="$(arg joint_prefix)/front_right_knee/cmd_force" to="cmd_force/front_right_knee"/>
-    </node>
-    
-    <node
-      pkg="ros_ign_bridge"
-      type="parameter_bridge"
-      name="ros_ign_bridge_rear_left_hip_x_motor"
-      args="$(arg joint_prefix)/rear_left_hip_x/cmd_force@std_msgs/Float64]ignition.msgs.Double">
-      <remap from="$(arg joint_prefix)/rear_left_hip_x/cmd_force" to="cmd_force/rear_left_hip_x"/>
-    </node>
-    <node
-      pkg="ros_ign_bridge"
-      type="parameter_bridge"
-      name="ros_ign_bridge_rear_left_hip_y_motor"
-      args="$(arg joint_prefix)/rear_left_hip_y/cmd_force@std_msgs/Float64]ignition.msgs.Double">
-      <remap from="$(arg joint_prefix)/rear_left_hip_y/cmd_force" to="cmd_force/rear_left_hip_y"/>
-    </node>
-    <node
-      pkg="ros_ign_bridge"
-      type="parameter_bridge"
-      name="ros_ign_bridge_rear_left_knee_motor"
-      args="$(arg joint_prefix)/rear_left_knee/cmd_force@std_msgs/Float64]ignition.msgs.Double">
-      <remap from="$(arg joint_prefix)/rear_left_knee/cmd_force" to="cmd_force/rear_left_knee"/>
-    </node>
-    
-    <node
-      pkg="ros_ign_bridge"
-      type="parameter_bridge"
-      name="ros_ign_bridge_rear_right_hip_x_motor"
-      args="$(arg joint_prefix)/rear_right_hip_x/cmd_force@std_msgs/Float64]ignition.msgs.Double">
-      <remap from="$(arg joint_prefix)/rear_right_hip_x/cmd_force" to="cmd_force/rear_right_hip_x"/>
-    </node>
-    <node
-      pkg="ros_ign_bridge"
-      type="parameter_bridge"
-      name="ros_ign_bridge_rear_right_hip_y_motor"
-      args="$(arg joint_prefix)/rear_right_hip_y/cmd_force@std_msgs/Float64]ignition.msgs.Double">
-      <remap from="$(arg joint_prefix)/rear_right_hip_y/cmd_force" to="cmd_force/rear_right_hip_y"/>
-    </node>
-    <node
-      pkg="ros_ign_bridge"
-      type="parameter_bridge"
-      name="ros_ign_bridge_rear_right_knee_motor"
-      args="$(arg joint_prefix)/rear_right_knee/cmd_force@std_msgs/Float64]ignition.msgs.Double">
-      <remap from="$(arg joint_prefix)/rear_right_knee/cmd_force" to="cmd_force/rear_right_knee"/>
-    </node>
-
     <node
       pkg="ros_ign_bridge"
       type="parameter_bridge"
@@ -208,32 +82,40 @@
     </node>
 
     <!--IMU-->
-    <node
-      pkg="ros_ign_bridge"
-      type="parameter_bridge"
-      name="ros_ign_bridge_imu"
-      args="$(arg link_prefix)/base_link/sensor/imu/imu@sensor_msgs/Imu[ignition.msgs.IMU">
-      <remap from="$(arg link_prefix)/base_link/sensor/imu/imu" to="imu/data"/>
+    <include file="$(find subt_ros)/launch/models_common/imu.launch">
+      <arg name="gazebo_topic" value="$(arg link_prefix)/base_link/sensor/imu/imu" />
+    </include>
+
+    <!-- Breadcrumbs -->
+    <include if="$(eval breadcrumbs > 0)" file="$(find subt_ros)/launch/models_common/breadcrumbs.launch">
+      <arg name="name" value="$(arg name)" />
+    </include>
+
+    <!-- Control -->
+
+    <include file="$(dirname)/leg.launch" pass_all_args="true"><arg name="leg" value="front_left" /></include>
+    <include file="$(dirname)/leg.launch" pass_all_args="true"><arg name="leg" value="front_right" /></include>
+    <include file="$(dirname)/leg.launch" pass_all_args="true"><arg name="leg" value="rear_left" /></include>
+    <include file="$(dirname)/leg.launch" pass_all_args="true"><arg name="leg" value="rear_right" /></include>
+
+    <!-- Contact relay -->
+    <node name="contacts_manager" pkg="nodelet" type="nodelet" args="manager" respawn="true" />
+    <node name="ros_ign_bridge_leg_contact" pkg="nodelet" type="nodelet" args="load bosdyn_spot/LogicalContactBridge contacts_manager" respawn="true">
+      <remap from="logical_contacts" to="leg_contacts" />
+      <param name="ign_topic" value="/model/$(arg name)/leg_collisions" />
     </node>
 
-    <!-- Gas sensor -->
-    <node
-      pkg="ros_ign_bridge"
-      type="parameter_bridge"
-      name="ros_ign_bridge_gas"
-      args="/model/$(arg name)/gas_detected@std_msgs/Bool[ignition.msgs.Boolean">
-      <remap from="/model/$(arg name)/gas_detected" to="gas_detected"/>
+    <rosparam command="load" file="$(find bosdyn_spot)/config/ros_control/ros_control.yaml" subst_value="true" />
+    <node name="control_manager" pkg="nodelet" type="nodelet" args="manager" respawn="true" />
+
+    <node pkg="nodelet" type="nodelet" name="ros_ign_bridge_joint_trajectory_command" args="load bosdyn_spot/JointTrajectoryBridge control_manager" respawn="true">
+      <remap from="~trajectory" to="joint_group_position_controller/command"/>
+      <param name="ign_topic" value="/model/$(arg name)/joint_trajectory" />
     </node>
 
-    <group if="$(arg breadcrumbs)">
-      <node
-        pkg="ros_ign_bridge"
-        type="parameter_bridge"
-        name="ros_ign_bridge_breadcrumbs"
-        args="/model/$(arg name)/breadcrumb/deploy@std_msgs/Empty]ignition.msgs.Empty">
-        <remap from="/model/$(arg name)/breadcrumb/deploy" to="breadcrumb/deploy"/>
-      </node>
-    </group>
+    <node name="pid_multituner" pkg="bosdyn_spot" type="pid_multituner" />
+
+    <!-- Launch subt_spot/launch/champ.launch to get the controller running. The controller should run in the solution container. -->
   </group>
   
 </launch>
