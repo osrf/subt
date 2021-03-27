@@ -6,6 +6,8 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
+        - /RobotModel1/Status1
+        - /Camera01/Status1
         - /Front Left Cliff Sensor1/Autocompute Value Bounds1
         - /Front Right Cliff Sensor1/Autocompute Value Bounds1
         - /Rear Left Cliff Sensor1/Autocompute Value Bounds1
@@ -80,202 +82,197 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        antenna:
+        X1/antenna:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        base_link:
+        X1/base_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        battery1:
+        X1/battery1:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        battery2:
+        X1/battery2:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        bottom_plate:
+        X1/bottom_plate:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        camera_0:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        camera_1:
+        X1/camera_0:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        camera_2:
+        X1/camera_1:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        camera_3:
+        X1/camera_2:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        camera_4:
+        X1/camera_3:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        cliff_sensor_front_left:
+        X1/camera_4:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        cliff_sensor_front_right:
+        X1/cliff_sensor_front_left:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        cliff_sensor_rear_left:
+        X1/cliff_sensor_front_right:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        cliff_sensor_rear_right:
+        X1/cliff_sensor_rear_left:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        deck:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        front_cam:
+        X1/cliff_sensor_rear_right:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        front_left_flipper:
+        X1/deck:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        X1/front_cam:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        front_left_flipper_end_point:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        front_left_flipper_end_point_inflated:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        front_left_motor:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        front_right_flipper:
+        X1/front_left_flipper:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        front_right_flipper_end_point:
+        X1/front_left_flipper_end_point:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        front_right_flipper_end_point_inflated:
+        X1/front_left_flipper_end_point_inflated:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        front_right_motor:
+        X1/front_left_motor:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        imu:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        laser:
+        X1/front_right_flipper:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        mobilicom:
+        X1/front_right_flipper_end_point:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        X1/front_right_flipper_end_point_inflated:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        X1/front_right_motor:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        X1/imu:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        X1/laser:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        mobilicom_antenna_l:
+        X1/mobilicom:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        mobilicom_antenna_r:
+        X1/mobilicom_antenna_l:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rear_cam:
+        X1/mobilicom_antenna_r:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rear_left_flipper:
+        X1/rear_cam:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rear_left_flipper_end_point:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        rear_left_flipper_end_point_inflated:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        rear_left_motor:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        rear_right_box:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        rear_right_flipper:
+        X1/rear_left_flipper:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rear_right_flipper_end_point:
+        X1/rear_left_flipper_end_point:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        rear_right_flipper_end_point_inflated:
+        X1/rear_left_flipper_end_point_inflated:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        rear_right_motor:
+        X1/rear_left_motor:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        thermocam:
+        X1/rear_right_box:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        X1/rear_right_flipper:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        top_box:
+        X1/rear_right_flipper_end_point:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        X1/rear_right_flipper_end_point_inflated:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        X1/rear_right_motor:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        X1/top_box:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        total_mass_60_306:
+        total_mass_60_282:
           Alpha: 1
           Show Axes: false
           Show Trail: false
       Name: RobotModel
       Robot Description: robot_description
-      TF Prefix: X1
+      TF Prefix: ""
       Update Interval: 0
       Value: true
       Visual Enabled: true
@@ -311,7 +308,7 @@ Visualization Manager:
       Value: false
     - Class: rviz/Image
       Enabled: true
-      Image Topic: camera_0/image_raw
+      Image Topic: omni/camera_0/image_raw
       Max Value: 1
       Median window: 5
       Min Value: 0
@@ -323,7 +320,7 @@ Visualization Manager:
       Value: true
     - Class: rviz/Image
       Enabled: true
-      Image Topic: camera_1/image_raw
+      Image Topic: omni/camera_1/image_raw
       Max Value: 1
       Median window: 5
       Min Value: 0
@@ -335,7 +332,7 @@ Visualization Manager:
       Value: true
     - Class: rviz/Image
       Enabled: true
-      Image Topic: camera_2/image_raw
+      Image Topic: omni/camera_2/image_raw
       Max Value: 1
       Median window: 5
       Min Value: 0
@@ -347,7 +344,7 @@ Visualization Manager:
       Value: true
     - Class: rviz/Image
       Enabled: true
-      Image Topic: camera_3/image_raw
+      Image Topic: omni/camera_3/image_raw
       Max Value: 1
       Median window: 5
       Min Value: 0
@@ -359,7 +356,7 @@ Visualization Manager:
       Value: true
     - Class: rviz/Image
       Enabled: true
-      Image Topic: camera_4/image_raw
+      Image Topic: omni/camera_4/image_raw
       Max Value: 1
       Median window: 5
       Min Value: 0
