@@ -9,3 +9,6 @@ install(DIRECTORY launch meshes urdf DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINAT
 
 install(FILES model.sdf model.config
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+
+install(PROGRAMS scripts/print_robot_urdf
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/scripts)

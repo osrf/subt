@@ -7,7 +7,8 @@
 
 <%
   #require_relative 'spawner'
-  load File.join(File.dirname(__FILE__), "spawner.rb")
+  _base_dir = defined?(base_dir) ? base_dir.tr('"', '') : File.realpath(File.join(File.dirname(__FILE__), ".."))
+  load File.join(_base_dir, "launch", "spawner.rb")
 
   # Modify these as needed
   $enableGroundTruth = false
@@ -21,7 +22,7 @@
   end
 
   # This assumes that this launch file is in a directory below the model
-  modelURI = File.expand_path("../", File.dirname(__FILE__))
+  modelURI = File.expand_path(_base_dir, File.dirname(__FILE__))
   $worldName = 'example'
   worldFile = File.join(File.expand_path("../worlds", File.dirname(__FILE__)), "#{$worldName}.sdf")
 

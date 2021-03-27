@@ -1,19 +1,20 @@
 def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
-  additionalSpawnPlugins = <<-HEREDOC
-  <!--plugin>custom plugins for this sensor config go here</plugin-->
-  HEREDOC
-
+  base_spawn = `rospack find bosdyn_spot`.chomp + "/launch/common.rb"
   begin
-    require `rospack find bosdyn_spot`.chomp + "/launch/spawner.rb"
-    spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw, additionalSpawnPlugins)
+    load base_spawn
+  rescue LoadError
+    raise "Unknown robot configuration #{File.dirname(__FILE__)}. #{base_spawn} could not be found."
+  else
+    additionalSpawnPlugins = <<-HEREDOC
+      <!--plugin>custom plugins for this sensor config go here</plugin-->
+    HEREDOC
+    _spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw, additionalSpawnPlugins)
   end
 end
 
 def rosExecutables(_name, _worldName)
+  # description.launch is included from vehicle_topics.launch
   <<-HEREDOC
-  <executable name='description'>
-    <command>roslaunch --wait ctu_cras_norlab_spot_sensor_config_1 description.launch name:=#{_name}</command>
-  </executable>
   <executable name='topics'>
     <command>roslaunch --wait ctu_cras_norlab_spot_sensor_config_1 vehicle_topics.launch world_name:=#{_worldName} name:=#{_name} breadcrumbs:=0</command>
   </executable>

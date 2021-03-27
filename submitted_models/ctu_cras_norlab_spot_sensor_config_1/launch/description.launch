@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-  <arg name="name" doc="Name of Vehicle"/>
-  <arg name="xacro_config" default="" doc="Additional key:=value pairs for Xacro" />
-  <group ns="$(arg name)">
-    <param name="robot_description" command="rosrun xacro xacro '$(dirname)/../urdf/spot.urdf.xacro' rendering_target:=urdf name:=$(arg name) $(arg xacro_config)" />
-  </group>
-</launch>
