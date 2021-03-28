@@ -731,6 +731,7 @@
       <sensor name="contact" type="contact">
         <contact>
           <collision>front_left_lower_leg_collision</collision>
+          <collision>front_left_lower_leg_collision_1</collision>
           <topic>__default_topic__</topic>
         </contact>
       </sensor>
@@ -952,6 +953,7 @@
       <sensor name="contact" type="contact">
         <contact>
           <collision>front_right_lower_leg_collision</collision>
+          <collision>front_right_lower_leg_collision_1</collision>
           <topic>__default_topic__</topic>
         </contact>
       </sensor>
@@ -1281,6 +1283,7 @@
       <sensor name="contact" type="contact">
         <contact>
           <collision>rear_left_lower_leg_collision</collision>
+          <collision>rear_left_lower_leg_collision_1</collision>
           <topic>__default_topic__</topic>
         </contact>
       </sensor>
@@ -1502,6 +1505,7 @@
       <sensor name="contact" type="contact">
         <contact>
           <collision>rear_right_lower_leg_collision</collision>
+          <collision>rear_right_lower_leg_collision_1</collision>
           <topic>__default_topic__</topic>
         </contact>
       </sensor>

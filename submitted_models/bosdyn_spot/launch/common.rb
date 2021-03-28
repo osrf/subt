@@ -41,7 +41,10 @@ def _spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw, _add
   logical_contact_collisions = ""
 
   for leg in legs do
-    logical_contact_collisions += "<collision>" + leg + "_lower_leg_collision</collision>\n";
+    logical_contact_collisions += "<group name='" + leg + "'>\n";
+    logical_contact_collisions += "  <collision>" + leg + "_lower_leg_collision</collision>\n";
+    logical_contact_collisions += "  <collision>" + leg + "_lower_leg_collision_1</collision>\n";
+    logical_contact_collisions += "</group>\n";
   end
 
   <<-HEREDOC

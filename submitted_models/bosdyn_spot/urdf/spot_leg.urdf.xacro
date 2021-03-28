@@ -119,6 +119,7 @@
              <sensor name="contact" type="contact">
                 <contact>
                     <collision>${leg_name}_lower_leg_collision</collision>
+                    <collision>${leg_name}_lower_leg_collision_1</collision>
                 </contact>
              </sensor>
         </gazebo>

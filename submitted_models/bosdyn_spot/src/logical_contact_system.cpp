@@ -28,18 +28,35 @@ class LogicalContactSystem : public System, public ISystemConfigure, public ISys
       return;
     }
 
-    if (!_sdf->HasElement("collision"))
+    if (!_sdf->HasElement("group"))
     {
-      ignerr << "LogicalContactSystem doesn't have any <collision> element. It will not do anything." << std::endl;
+      ignerr << "LogicalContactSystem doesn't have any <group> element. It will not do anything." << std::endl;
       return;
     }
 
     auto sdf = _sdf->Clone();
-    for (auto collision = sdf->GetElement("collision"); collision; collision = collision->GetNextElement("collision"))
+    for (auto group = sdf->GetElement("group"); group; group = group->GetNextElement("group"))
     {
-      const auto name = collision->GetValue()->GetAsString();
-      this->collisionNames.push_back(name);
-      this->collisions[name] = kNullEntity;
+      if (!group->HasAttribute("name"))
+      {
+        ignerr << "LogicalContactSystem found a group without the 'name' attribute, ignoring it." << std::endl;
+        continue;
+      }
+
+      const auto name = group->GetAttribute("name")->GetAsString();
+      this->collisionNames[name].clear();  // initialize the map key
+
+      for (auto collision = group->GetElement("collision"); collision; collision = collision->GetNextElement("collision"))
+      {
+        const auto collName = collision->GetValue()->GetAsString();
+        if (collName.empty())
+        {
+          ignerr << "LogicalContactSystem found empty <collision> tag in group [" << name << "], it will be ignored." << std::endl;
+          continue;
+        }
+        this->collisions[collName] = kNullEntity;
+        this->collisionNames[name].push_back(collName);
+      }
     }
 
     std::string topic {"/model/" + model.Name(_ecm) + "/logical_contacts"};
@@ -49,13 +66,18 @@ class LogicalContactSystem : public System, public ISystemConfigure, public ISys
     this->pub = this->node.Advertise<ignition::msgs::Int32_V>(topic);
 
     std::stringstream ss;
-    for (size_t i = 0; i < this->collisionNames.size(); ++i)
+    for (const auto& groupPair : this->collisionNames)
     {
-      ss << "'" << this->collisionNames[i] << "'";
-      if (i < this->collisionNames.size() - 1)
-        ss << ", ";
+      ss << " - '" << groupPair.first << "' with collisions [";
+      for (size_t i = 0;  i < groupPair.second.size(); ++i)
+      {
+        ss << "'" << groupPair.second[i] << "'";
+        if (i < groupPair.second.size() - 1)
+          ss << ", ";
+      }
+      ss << "]" << std::endl;
     }
-    ignmsg << "LogicalContactSystem publishing on [" << topic << "] is handling collisions [" << ss.str() << "]" << std::endl;
+    ignmsg << "LogicalContactSystem publishing on [" << topic << "] is handling the following groups:\n" << ss.str();
   }
 
   public: void PostUpdate(const UpdateInfo& _info, const EntityComponentManager& _ecm) override
@@ -64,22 +86,29 @@ class LogicalContactSystem : public System, public ISystemConfigure, public ISys
     size_t i = 0;
     msg.mutable_header()->mutable_stamp()->CopyFrom(convert<msgs::Time>(_info.simTime));
     msg.mutable_data()->Resize(this->collisionNames.size(), -1);
-    for (auto& name : this->collisionNames)
+    for (const auto& groupPair : this->collisionNames)
     {
-      auto& entity = this->collisions.at(name);
-      if (entity == kNullEntity)
+      msg.mutable_data()->Set(i, false);
+      for (const auto& name : groupPair.second)
       {
-        auto collisionEntities = _ecm.EntitiesByComponents(
-          components::Collision(), components::Name(name));
-        if (!collisionEntities.empty())
-          entity = collisionEntities[0];
-      }
+        auto& entity = this->collisions.at(name);
+        if (entity == kNullEntity)
+        {
+          auto collisionEntities = _ecm.EntitiesByComponents(
+            components::Collision(), components::Name(name));
+          if (!collisionEntities.empty())
+            entity = collisionEntities[0];
+        }
 
-      if (entity != kNullEntity)
-      {
-        const auto contacts = _ecm.Component<components::ContactSensorData>(entity);
-        if (contacts != nullptr)
-          msg.mutable_data()->Set(i, contacts->Data().contact_size() > 0);
+        if (entity != kNullEntity)
+        {
+          const auto& contacts = _ecm.Component<components::ContactSensorData>(entity);
+          if (contacts != nullptr && contacts->Data().contact_size() > 0)
+          {
+            msg.mutable_data()->Set(i,true);
+            break;
+          }
+        }
       }
 
       i += 1;
@@ -90,7 +119,7 @@ class LogicalContactSystem : public System, public ISystemConfigure, public ISys
 
   protected: transport::Node node;
   protected: transport::Node::Publisher pub;
-  protected: std::vector<std::string> collisionNames;
+  protected: std::map<std::string, std::vector<std::string>> collisionNames;
   protected: std::unordered_map<std::string, Entity> collisions;
 };
 
