@@ -1,5 +1,6 @@
 #include <memory>
 
+#include <ignition/msgs/double.pb.h>
 #include <ignition/msgs/camera_info.pb.h>
 #include <ignition/msgs/image.pb.h>
 #include <ignition/plugin/Register.hh>
@@ -51,11 +52,14 @@ class MonoCameraSystem : public System, public ISystemConfigure, public ISystemP
     std::string subInfoTopic { sensorName + "/camera_info" };
     std::string pubTopic { sensorName + "/mono/image" };
     std::string pubInfoTopic { sensorName + "/mono/camera_info" };
+    this->reqSetRateTopic = subTopic + "/set_rate";
+    std::string advSetRateTopic { pubTopic + "/set_rate" };
 
     this->pub = this->node.Advertise<ignition::msgs::Image>(pubTopic);
     this->pubInfo = this->node.Advertise<ignition::msgs::CameraInfo>(pubInfoTopic);
     this->node.Subscribe(subTopic, &MonoCameraSystem::OnMsg, this);
     this->node.Subscribe(subInfoTopic, &MonoCameraSystem::OnInfoMsg, this);
+    this->node.Advertise(advSetRateTopic, &MonoCameraSystem::OnSetRate, this);
 
     ignmsg << "MonoCameraSystem publishing on [" << pubTopic << "]" << std::endl;
   }
@@ -114,6 +118,11 @@ class MonoCameraSystem : public System, public ISystemConfigure, public ISystemP
     this->pubInfo.Publish(msg);
   }
 
+  protected: void OnSetRate(const ignition::msgs::Double &_rate)
+  {
+    this->node.Request(this->reqSetRateTopic, _rate);
+  }
+
   public: ~MonoCameraSystem() override
   {
     delete[] this->data;
@@ -125,6 +134,7 @@ class MonoCameraSystem : public System, public ISystemConfigure, public ISystemP
   protected: Entity sensor {kNullEntity};
   protected: bool initialized {false};
   protected: char* data {nullptr};
+  protected: std::string reqSetRateTopic;
 };
 
 }
