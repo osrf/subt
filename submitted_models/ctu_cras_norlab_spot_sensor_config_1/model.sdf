@@ -142,6 +142,831 @@
         </inertia>
       </inertial>
     </link>
+    <joint name="payload_j" type="fixed">
+      <pose relative_to="rear_rail">0.2 0 0 0 -0 0</pose>
+      <parent>rear_rail</parent>
+      <child>payload</child>
+      <axis>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+      </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
+    </joint>
+    <link name="payload">
+      <pose relative_to="payload_j">0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0.02 0 0.0905 0 -0 0</pose>
+        <mass>3</mass>
+        <inertia>
+          <ixx>0.0173105</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.15259</iyy>
+          <iyz>0</iyz>
+          <izz>0.15352</izz>
+        </inertia>
+      </inertial>
+      <collision name="payload_collision">
+        <pose>0.02 0 0.0905 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.76 0.191 0.181</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="payload_collision_1">
+        <pose>-0.13 0.03 0.2 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.05 0.1 0.22</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="payload_collision_2">
+        <pose>-0.24 -0.045 0.2 0 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.22</length>
+            <radius>0.02</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name="payload_visual">
+        <geometry>
+          <mesh>
+            <uri>meshes/spot_ign_payload.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <light name="light_left" type="spot">
+        <pose>0.275 0.1 0.13 1.5707963267948966 -1.5707963267948966 0</pose>
+        <cast_shadows>1</cast_shadows>
+        <attenuation>
+          <range>20</range>
+          <linear>0.2</linear>
+          <constant>0.1</constant>
+          <quadratic>0.0025</quadratic>
+        </attenuation>
+        <diffuse>0.8 0.8 0.5 1</diffuse>
+        <specular>0.8 0.8 0.5 1</specular>
+        <spot>
+          <inner_angle>2.8</inner_angle>
+          <outer_angle>2.9</outer_angle>
+          <falloff>1</falloff>
+        </spot>
+        <direction>0 0 -1</direction>
+      </light>
+      <light name="light_right" type="spot">
+        <pose>0.275 -0.1 0.1 -1.5707963267948966 -1.5707963267948966 0</pose>
+        <cast_shadows>1</cast_shadows>
+        <attenuation>
+          <range>20</range>
+          <linear>0.2</linear>
+          <constant>0.1</constant>
+          <quadratic>0.0025</quadratic>
+        </attenuation>
+        <diffuse>0.8 0.8 0.5 1</diffuse>
+        <specular>0.8 0.8 0.5 1</specular>
+        <spot>
+          <inner_angle>2.8</inner_angle>
+          <outer_angle>2.9</outer_angle>
+          <falloff>1</falloff>
+        </spot>
+        <direction>0 0 -1</direction>
+      </light>
+      <light name="light_front" type="spot">
+        <pose>0.375 0 0.1 0 -1.5707963267948966 0</pose>
+        <cast_shadows>1</cast_shadows>
+        <attenuation>
+          <range>20</range>
+          <linear>0.2</linear>
+          <constant>0.1</constant>
+          <quadratic>0.0025</quadratic>
+        </attenuation>
+        <diffuse>0.8 0.8 0.5 1</diffuse>
+        <specular>0.8 0.8 0.5 1</specular>
+        <spot>
+          <inner_angle>2.8</inner_angle>
+          <outer_angle>2.9</outer_angle>
+          <falloff>1</falloff>
+        </spot>
+        <direction>0 0 -1</direction>
+      </light>
+      <light name="light_rear" type="spot">
+        <pose>-0.36 0 0.14 3.1415926535897931 -1.5707963267948966 0</pose>
+        <cast_shadows>1</cast_shadows>
+        <attenuation>
+          <range>20</range>
+          <linear>0.2</linear>
+          <constant>0.1</constant>
+          <quadratic>0.0025</quadratic>
+        </attenuation>
+        <diffuse>0.8 0.8 0.5 1</diffuse>
+        <specular>0.8 0.8 0.5 1</specular>
+        <spot>
+          <inner_angle>2.8</inner_angle>
+          <outer_angle>2.9</outer_angle>
+          <falloff>1</falloff>
+        </spot>
+        <direction>0 0 -1</direction>
+      </light>
+      <light name="light_up" type="spot">
+        <pose>0.19 0 0.145 3.1415926535897931 -0 3.1415926535897931</pose>
+        <attenuation>
+          <range>60</range>
+          <linear>0</linear>
+          <constant>0.1</constant>
+          <quadratic>0.0025</quadratic>
+        </attenuation>
+        <diffuse>0.8 0.8 0.5 1</diffuse>
+        <specular>0.8 0.8 0.5 1</specular>
+        <spot>
+          <inner_angle>1.0472</inner_angle>
+          <outer_angle>1.5708</outer_angle>
+          <falloff>1</falloff>
+        </spot>
+        <direction>0 0 -1</direction>
+      </light>
+    </link>
+    <joint name="camera_0_j" type="fixed">
+      <pose relative_to="payload">0.317 0 0.134 -3.1415926535897931 0 0</pose>
+      <parent>payload</parent>
+      <child>camera_0</child>
+      <axis>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+      </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
+    </joint>
+    <link name="camera_0">
+      <pose relative_to="camera_0_j">0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0.039802 0 0.0145 0 -0 0</pose>
+        <mass>0.232</mass>
+        <inertia>
+          <ixx>3.25187e-05</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.000158598</iyy>
+          <iyz>0</iyz>
+          <izz>0.000158598</izz>
+        </inertia>
+      </inertial>
+      <collision name="camera_0_collision_collision">
+        <pose>0.02465 0 0.0145 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.0555 0.029 0.029</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="camera_0_lens_collision_collision_1">
+        <pose>0.062834 0 0.0145 0 1.5707963267948966 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.03974</length>
+            <radius>0.0125</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name="camera_0_visual">
+        <pose>0 0 0.0145 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/basler_ace2_pro.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="camera_0_visual_1">
+        <pose>0.042964 0 0.0145 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/evetar_lens.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <sensor name="camera_0" type="camera">
+        <pose>0.072044 0 0.0145 0 -0 0</pose>
+        <update_rate>9</update_rate>
+        <visualize>0</visualize>
+        <camera>
+          <horizontal_fov>1.50971</horizontal_fov>
+          <image>
+            <width>1920</width>
+            <height>1200</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.011726</near>
+            <far>300</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+      </sensor>
+    </link>
+    <joint name="camera_1_j" type="fixed">
+      <pose relative_to="payload">0.265 -0.01 0.105 0 0 -1.5707963267948966</pose>
+      <parent>payload</parent>
+      <child>camera_1</child>
+      <axis>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+      </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
+    </joint>
+    <link name="camera_1">
+      <pose relative_to="camera_1_j">0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0.039802 0 0.0145 0 -0 0</pose>
+        <mass>0.232</mass>
+        <inertia>
+          <ixx>3.25187e-05</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.000158598</iyy>
+          <iyz>0</iyz>
+          <izz>0.000158598</izz>
+        </inertia>
+      </inertial>
+      <collision name="camera_1_collision_collision">
+        <pose>0.02465 0 0.0145 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.0555 0.029 0.029</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="camera_1_lens_collision_collision_1">
+        <pose>0.062834 0 0.0145 0 1.5707963267948966 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.03974</length>
+            <radius>0.0125</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name="camera_1_visual">
+        <pose>0 0 0.0145 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/basler_ace2_pro.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="camera_1_visual_1">
+        <pose>0.042964 0 0.0145 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/evetar_lens.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <sensor name="camera_1" type="camera">
+        <pose>0.072044 0 0.0145 0 -0 0</pose>
+        <update_rate>9</update_rate>
+        <visualize>0</visualize>
+        <camera>
+          <horizontal_fov>1.50971</horizontal_fov>
+          <image>
+            <width>1920</width>
+            <height>1200</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.011726</near>
+            <far>300</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+      </sensor>
+    </link>
+    <joint name="camera_2_j" type="fixed">
+      <pose relative_to="payload">-0.275 0 0.134 -3.1415926535897931 -0 3.1415926535897931</pose>
+      <parent>payload</parent>
+      <child>camera_2</child>
+      <axis>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+      </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
+    </joint>
+    <link name="camera_2">
+      <pose relative_to="camera_2_j">0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0.039802 0 0.0145 0 -0 0</pose>
+        <mass>0.232</mass>
+        <inertia>
+          <ixx>3.25187e-05</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.000158598</iyy>
+          <iyz>0</iyz>
+          <izz>0.000158598</izz>
+        </inertia>
+      </inertial>
+      <collision name="camera_2_collision_collision">
+        <pose>0.02465 0 0.0145 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.0555 0.029 0.029</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="camera_2_lens_collision_collision_1">
+        <pose>0.062834 0 0.0145 0 1.5707963267948966 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.03974</length>
+            <radius>0.0125</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name="camera_2_visual">
+        <pose>0 0 0.0145 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/basler_ace2_pro.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="camera_2_visual_1">
+        <pose>0.042964 0 0.0145 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/evetar_lens.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <sensor name="camera_2" type="camera">
+        <pose>0.072044 0 0.0145 0 -0 0</pose>
+        <update_rate>9</update_rate>
+        <visualize>0</visualize>
+        <camera>
+          <horizontal_fov>1.50971</horizontal_fov>
+          <image>
+            <width>1920</width>
+            <height>1200</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.011726</near>
+            <far>300</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+      </sensor>
+    </link>
+    <joint name="camera_3_j" type="fixed">
+      <pose relative_to="payload">0.265 0.01 0.075 0 -0 1.5707963267948966</pose>
+      <parent>payload</parent>
+      <child>camera_3</child>
+      <axis>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+      </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
+    </joint>
+    <link name="camera_3">
+      <pose relative_to="camera_3_j">0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0.039802 0 0.0145 0 -0 0</pose>
+        <mass>0.232</mass>
+        <inertia>
+          <ixx>3.25187e-05</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.000158598</iyy>
+          <iyz>0</iyz>
+          <izz>0.000158598</izz>
+        </inertia>
+      </inertial>
+      <collision name="camera_3_collision_collision">
+        <pose>0.02465 0 0.0145 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.0555 0.029 0.029</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="camera_3_lens_collision_collision_1">
+        <pose>0.062834 0 0.0145 0 1.5707963267948966 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.03974</length>
+            <radius>0.0125</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name="camera_3_visual">
+        <pose>0 0 0.0145 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/basler_ace2_pro.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="camera_3_visual_1">
+        <pose>0.042964 0 0.0145 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/evetar_lens.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <sensor name="camera_3" type="camera">
+        <pose>0.072044 0 0.0145 0 -0 0</pose>
+        <update_rate>9</update_rate>
+        <visualize>0</visualize>
+        <camera>
+          <horizontal_fov>1.50971</horizontal_fov>
+          <image>
+            <width>1920</width>
+            <height>1200</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.011726</near>
+            <far>300</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+      </sensor>
+    </link>
+    <joint name="camera_4_j" type="fixed">
+      <pose relative_to="payload">0.215 -0.0145 0.055 -1.5707963267948966 -1.5707963267948966 0</pose>
+      <parent>payload</parent>
+      <child>camera_4</child>
+      <axis>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+      </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
+    </joint>
+    <link name="camera_4">
+      <pose relative_to="camera_4_j">0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0.039802 0 0.0145 0 -0 0</pose>
+        <mass>0.232</mass>
+        <inertia>
+          <ixx>3.25187e-05</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.000158598</iyy>
+          <iyz>0</iyz>
+          <izz>0.000158598</izz>
+        </inertia>
+      </inertial>
+      <collision name="camera_4_collision_collision">
+        <pose>0.02465 0 0.0145 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.0555 0.029 0.029</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="camera_4_lens_collision_collision_1">
+        <pose>0.062834 0 0.0145 0 1.5707963267948966 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.03974</length>
+            <radius>0.0125</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name="camera_4_visual">
+        <pose>0 0 0.0145 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/basler_ace2_pro.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="camera_4_visual_1">
+        <pose>0.042964 0 0.0145 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/evetar_lens.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <sensor name="camera_4" type="camera">
+        <pose>0.072044 0 0.0145 0 -0 0</pose>
+        <update_rate>9</update_rate>
+        <visualize>0</visualize>
+        <camera>
+          <horizontal_fov>1.50971</horizontal_fov>
+          <image>
+            <width>1920</width>
+            <height>1200</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.011726</near>
+            <far>300</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+      </sensor>
+    </link>
+    <joint name="imu_vras_j" type="fixed">
+      <pose relative_to="payload">0.05 0 0.015 0 -0 1.5707963267948966</pose>
+      <parent>payload</parent>
+      <child>imu_vras</child>
+      <axis>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+      </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
+    </joint>
+    <link name="imu_vras">
+      <pose relative_to="imu_vras_j">0 0 0 0 -0 0</pose>
+      <inertial>
+        <mass>1e-05</mass>
+        <inertia>
+          <ixx>0.001</ixx>
+          <ixy>1e-06</ixy>
+          <ixz>1e-06</ixz>
+          <iyy>0.001</iyy>
+          <iyz>1e-06</iyz>
+          <izz>0.001</izz>
+        </inertia>
+      </inertial>
+      <sensor name="imu" type="imu">
+        <always_on>1</always_on>
+        <update_rate>50</update_rate>
+        <imu>
+          <angular_velocity>
+            <x>
+              <noise type="gaussian">
+                <mean>0</mean>
+                <stddev>0.0002</stddev>
+                <bias_mean>7.5e-06</bias_mean>
+                <bias_stddev>8e-07</bias_stddev>
+                <dynamic_bias_stddev>4e-07</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>1000</dynamic_bias_correlation_time>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0</mean>
+                <stddev>0.0002</stddev>
+                <bias_mean>7.5e-06</bias_mean>
+                <bias_stddev>8e-07</bias_stddev>
+                <dynamic_bias_stddev>4e-07</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>1000</dynamic_bias_correlation_time>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0</mean>
+                <stddev>0.0002</stddev>
+                <bias_mean>7.5e-06</bias_mean>
+                <bias_stddev>8e-07</bias_stddev>
+                <dynamic_bias_stddev>4e-07</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>1000</dynamic_bias_correlation_time>
+              </noise>
+            </z>
+          </angular_velocity>
+          <linear_acceleration>
+            <x>
+              <noise type="gaussian">
+                <mean>0</mean>
+                <stddev>0.01</stddev>
+                <bias_mean>0.1</bias_mean>
+                <bias_stddev>0.001</bias_stddev>
+                <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>300</dynamic_bias_correlation_time>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0</mean>
+                <stddev>0.01</stddev>
+                <bias_mean>0.1</bias_mean>
+                <bias_stddev>0.001</bias_stddev>
+                <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>300</dynamic_bias_correlation_time>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0</mean>
+                <stddev>0.01</stddev>
+                <bias_mean>0.1</bias_mean>
+                <bias_stddev>0.001</bias_stddev>
+                <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>300</dynamic_bias_correlation_time>
+              </noise>
+            </z>
+          </linear_acceleration>
+        </imu>
+      </sensor>
+    </link>
+    <joint name="laser_j" type="fixed">
+      <pose relative_to="payload">0.365 0 0.165 0 0.35 0</pose>
+      <parent>payload</parent>
+      <child>laser</child>
+      <axis>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+      </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
+    </joint>
+    <link name="laser">
+      <pose relative_to="laser_j">0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0.03675 0 -0 0</pose>
+        <mass>0.5</mass>
+        <inertia>
+          <ixx>0.000461625</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.000461625</iyy>
+          <iyz>0</iyz>
+          <izz>0.000473063</izz>
+        </inertia>
+      </inertial>
+      <collision name="laser_collision">
+        <pose>0 0 0.03675 0 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.0735</length>
+            <radius>0.0435</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name="laser_visual">
+        <geometry>
+          <mesh>
+            <uri>meshes/ouster-os0.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <sensor name="laser" type="gpu_lidar">
+        <pose>0 0 0.035925 0 -0 0</pose>
+        <update_rate>10</update_rate>
+        <visualize>0</visualize>
+        <always_on>1</always_on>
+        <lidar>
+          <scan>
+            <horizontal>
+              <samples>2048</samples>
+              <resolution>1</resolution>
+              <min_angle>-3.1459</min_angle>
+              <max_angle>3.1459</max_angle>
+            </horizontal>
+            <vertical>
+              <samples>128</samples>
+              <resolution>1</resolution>
+              <min_angle>-0.785398</min_angle>
+              <max_angle>0.785398</max_angle>
+            </vertical>
+          </scan>
+          <range>
+            <min>0.1</min>
+            <max>50</max>
+            <resolution>0.003</resolution>
+          </range>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.03</stddev>
+          </noise>
+        </lidar>
+      </sensor>
+    </link>
     <joint name="camera_back_j" type="fixed">
       <pose relative_to="base_link">-0.425 0 0.01 -0 0.3 3.1415926535897931</pose>
       <parent>base_link</parent>
