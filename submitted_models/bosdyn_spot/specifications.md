@@ -25,6 +25,8 @@ As an example of how to "extend" this base robot with a custom sensor config, se
 
 ## Description
 The base body of Boston Dynamics Spot robot with 5 mono fisheye cameras, 5 depth cameras and an IMU.
+The robot is a quadruped with many autonomous motion functions which are mostly not modeled in this
+simulation package.
 
 ## Usage Instructions
 
