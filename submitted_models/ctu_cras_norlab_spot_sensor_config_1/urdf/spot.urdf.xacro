@@ -139,15 +139,16 @@
                            xyz="-0.295 0 -0.025" rpy="0 0 ${pi}" />
     </xacro:if>
 
-    <!-- Compute total mass -->
+    <!-- Compute total mass. You'll find it in the git-ignored file model.sdf.urdf as link named "total_mass_*". -->
+    <xacro:if value="${'$(arg rendering_target)' == 'ign'}">
+        <xacro:property name="total_mass" value="${
+          base_mass + 4 * (hip_mass + upper_leg_mass + lower_leg_mass) +
+          fsum(payload_mass)
+        }" />
 
-    <xacro:property name="total_mass" value="${
-      base_mass + 4 * (hip_mass + upper_leg_mass + lower_leg_mass) +
-      fsum(payload_mass)
-    }" />
-
-    <!-- This is a workaround for outputting the total mass of the robot. You'll find it in the URDF file. -->
-    <xacro:property name="total_mass_str" value="${str(total_mass).replace('.', '_')}" />
-    <link name="total_mass_${total_mass_str}" />
-    <xacro:fixed_joint name="total_mass_j" parent="$(arg prefix)base_link" child="total_mass_${total_mass_str}" />
+        <!-- This is a workaround for outputting the total mass of the robot. You'll find it in the URDF file. -->
+        <xacro:property name="total_mass_str" value="${str(total_mass).replace('.', '_')}" />
+        <link name="total_mass_${total_mass_str}" />
+        <xacro:fixed_joint name="total_mass_j" parent="$(arg prefix)base_link" child="total_mass_${total_mass_str}" />
+    </xacro:if>
 </robot>
