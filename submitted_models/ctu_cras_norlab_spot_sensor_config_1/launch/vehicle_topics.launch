@@ -6,13 +6,14 @@
     <arg name="breadcrumbs" default="0"/>
     <arg name="has_omnicam_vras" default="1"/>
     <arg name="has_ouster_lidar" default="1"/>
+    <arg name="description_print_command" default="$(find ctu_cras_norlab_spot_sensor_config_1)/scripts/print_robot_urdf" />
 
     <!-- Include default Spot topics. -->
     <include file="$(find bosdyn_spot)/launch/vehicle_topics.launch">
         <arg name="world_name" value="$(arg world_name)"/>
         <arg name="name" value="$(arg name)"/>
         <arg name="breadcrumbs" value="$(arg breadcrumbs)"/>
-        <arg name="description_print_command" default="$(find ctu_cras_norlab_spot_sensor_config_1)/scripts/print_robot_urdf" />
+        <arg name="description_print_command" value="$(arg description_print_command)" />
     </include>
 
     <group ns="$(arg name)">

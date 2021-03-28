@@ -3,9 +3,9 @@
 
     <xacro:arg name="has_ouster_lidar" default="1" />
     <xacro:arg name="has_omnicam_vras" default="1" />
+    <xacro:arg name="has_big_collision_box_on_top" default="0" />
 
     <xacro:arg name="simulate_ouster_lidar" default="True" />
-    <xacro:arg name="simulate_body_cams" default="True" />
     <xacro:arg name="simulate_omnicam_vras" default="True" />
     <xacro:arg name="simulate_imu" default="True" />
 
@@ -54,9 +54,19 @@
             </geometry>
         </visual>
         <collision>
-            <origin rpy="0 0 0" xyz="0.02 0 ${0.181/2}"/>
+            <xacro:if value="$(arg has_big_collision_box_on_top)">
+                <xacro:property name="coll_box_width" value="0.4" />
+                <xacro:property name="coll_box_length" value="1.0" />
+                <xacro:property name="coll_box_height" value="0.3" />
+            </xacro:if>
+            <xacro:unless value="$(arg has_big_collision_box_on_top)">
+                <xacro:property name="coll_box_width" value="0.191" />
+                <xacro:property name="coll_box_length" value="0.76" />
+                <xacro:property name="coll_box_height" value="0.181" />
+            </xacro:unless>
+            <origin rpy="0 0 0" xyz="0.02 0 ${coll_box_height/2}"/>
             <geometry>
-                <box size="0.76 0.191 0.181" />
+                <box size="${coll_box_length} ${coll_box_width} ${coll_box_height}" />
             </geometry>
         </collision>
         <collision>
