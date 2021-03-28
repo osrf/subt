@@ -4,11 +4,11 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /Global Options1
-        - /Robot model1
-        - /TF1
+        - /Mono1
+        - /Depth1
+        - /Points1
       Splitter Ratio: 0.6631853580474854
-    Tree Height: 802
+    Tree Height: 313
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -28,7 +28,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: Left
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -51,6 +51,30 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        X1/body:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        X1/camera_back:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        X1/camera_frontleft:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        X1/camera_frontright:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        X1/camera_left:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        X1/camera_right:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         X1/front_left_ee:
           Alpha: 1
           Show Axes: false
@@ -97,7 +121,6 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
         X1/rear_left_ee:
           Alpha: 1
           Show Axes: false
@@ -155,33 +178,107 @@ Visualization Manager:
           Value: true
         X1/base_link:
           Value: true
-        X1/base_link/imu:
+        X1/body:
+          Value: true
+        X1/camera_back:
+          Value: true
+        X1/camera_back/back_depth:
+          Value: true
+        X1/camera_back/back_depth_optical:
+          Value: true
+        X1/camera_back/back_fisheye_image:
+          Value: true
+        X1/camera_back/back_fisheye_image_optical:
+          Value: true
+        X1/camera_frontleft:
+          Value: true
+        X1/camera_frontleft/frontleft_depth:
+          Value: true
+        X1/camera_frontleft/frontleft_depth_optical:
+          Value: true
+        X1/camera_frontleft/frontleft_fisheye_image:
+          Value: true
+        X1/camera_frontleft/frontleft_fisheye_image_optical:
+          Value: true
+        X1/camera_frontright:
+          Value: true
+        X1/camera_frontright/frontright_depth:
+          Value: true
+        X1/camera_frontright/frontright_depth_optical:
+          Value: true
+        X1/camera_frontright/frontright_fisheye_image:
+          Value: true
+        X1/camera_frontright/frontright_fisheye_image_optical:
+          Value: true
+        X1/camera_left:
+          Value: true
+        X1/camera_left/left_depth:
+          Value: true
+        X1/camera_left/left_depth_optical:
+          Value: true
+        X1/camera_left/left_fisheye_image:
+          Value: true
+        X1/camera_left/left_fisheye_image_optical:
+          Value: true
+        X1/camera_right:
+          Value: true
+        X1/camera_right/right_depth:
+          Value: true
+        X1/camera_right/right_depth_optical:
+          Value: true
+        X1/camera_right/right_fisheye_image:
+          Value: true
+        X1/camera_right/right_fisheye_image_optical:
+          Value: true
+        X1/front_left_ee:
           Value: true
         X1/front_left_hip:
           Value: true
         X1/front_left_lower_leg:
           Value: true
+        X1/front_left_lower_leg/contact:
+          Value: true
         X1/front_left_upper_leg:
+          Value: true
+        X1/front_rail:
+          Value: true
+        X1/front_right_ee:
           Value: true
         X1/front_right_hip:
           Value: true
         X1/front_right_lower_leg:
           Value: true
+        X1/front_right_lower_leg/contact:
+          Value: true
         X1/front_right_upper_leg:
+          Value: true
+        X1/imu:
+          Value: true
+        X1/imu/imu:
+          Value: true
+        X1/rear_left_ee:
           Value: true
         X1/rear_left_hip:
           Value: true
         X1/rear_left_lower_leg:
           Value: true
+        X1/rear_left_lower_leg/contact:
+          Value: true
         X1/rear_left_upper_leg:
+          Value: true
+        X1/rear_rail:
+          Value: true
+        X1/rear_right_ee:
           Value: true
         X1/rear_right_hip:
           Value: true
         X1/rear_right_lower_leg:
           Value: true
+        X1/rear_right_lower_leg/contact:
+          Value: true
         X1/rear_right_upper_leg:
           Value: true
-        simple_cave_01:
+        example:
           Value: true
         world:
           Value: true
@@ -193,30 +290,85 @@ Visualization Manager:
       Tree:
         X1:
           X1/base_link:
-            X1/base_link/imu:
-              {}
+            {}
+          X1/body:
+            {}
+          X1/camera_back:
+            X1/camera_back/back_depth:
+              X1/camera_back/back_depth_optical:
+                {}
+            X1/camera_back/back_fisheye_image:
+              X1/camera_back/back_fisheye_image_optical:
+                {}
+          X1/camera_frontleft:
+            X1/camera_frontleft/frontleft_depth:
+              X1/camera_frontleft/frontleft_depth_optical:
+                {}
+            X1/camera_frontleft/frontleft_fisheye_image:
+              X1/camera_frontleft/frontleft_fisheye_image_optical:
+                {}
+          X1/camera_frontright:
+            X1/camera_frontright/frontright_depth:
+              X1/camera_frontright/frontright_depth_optical:
+                {}
+            X1/camera_frontright/frontright_fisheye_image:
+              X1/camera_frontright/frontright_fisheye_image_optical:
+                {}
+          X1/camera_left:
+            X1/camera_left/left_depth:
+              X1/camera_left/left_depth_optical:
+                {}
+            X1/camera_left/left_fisheye_image:
+              X1/camera_left/left_fisheye_image_optical:
+                {}
+          X1/camera_right:
+            X1/camera_right/right_depth:
+              X1/camera_right/right_depth_optical:
+                {}
+            X1/camera_right/right_fisheye_image:
+              X1/camera_right/right_fisheye_image_optical:
+                {}
+          X1/front_left_ee:
+            {}
           X1/front_left_hip:
             {}
           X1/front_left_lower_leg:
-            {}
+            X1/front_left_lower_leg/contact:
+              {}
           X1/front_left_upper_leg:
+            {}
+          X1/front_rail:
+            {}
+          X1/front_right_ee:
             {}
           X1/front_right_hip:
             {}
           X1/front_right_lower_leg:
-            {}
+            X1/front_right_lower_leg/contact:
+              {}
           X1/front_right_upper_leg:
+            {}
+          X1/imu:
+            X1/imu/imu:
+              {}
+          X1/rear_left_ee:
             {}
           X1/rear_left_hip:
             {}
           X1/rear_left_lower_leg:
-            {}
+            X1/rear_left_lower_leg/contact:
+              {}
           X1/rear_left_upper_leg:
+            {}
+          X1/rear_rail:
+            {}
+          X1/rear_right_ee:
             {}
           X1/rear_right_hip:
             {}
           X1/rear_right_lower_leg:
-            {}
+            X1/rear_right_lower_leg/contact:
+              {}
           X1/rear_right_upper_leg:
             {}
       Update Interval: 0
@@ -257,6 +409,288 @@ Visualization Manager:
       Plane Cell Count: 10
       Reference Frame: <Fixed Frame>
       Value: true
+    - Class: rviz/Group
+      Displays:
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: left/image_raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Left
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: frontleft/image_raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Front Left
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: frontright/image_raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Front Right
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: right/image_raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Right
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: back/image_raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Back
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+      Enabled: true
+      Name: Mono
+    - Class: rviz/Group
+      Displays:
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: tof_left/depth
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Left Depth
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: tof_frontleft/depth
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Front Left Depth
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: tof_frontright/depth
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Front Right Depth
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: tof_right/depth
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Right Depth
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: tof_back/depth
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Back Depth
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+      Enabled: true
+      Name: Depth
+    - Class: rviz/Group
+      Displays:
+        - Alpha: 1
+          Autocompute Intensity Bounds: true
+          Autocompute Value Bounds:
+            Max Value: 1
+            Min Value: -1
+            Value: false
+          Axis: Z
+          Channel Name: intensity
+          Class: rviz/PointCloud2
+          Color: 255; 255; 255
+          Color Transformer: AxisColor
+          Decay Time: 0
+          Enabled: true
+          Invert Rainbow: false
+          Max Color: 255; 255; 255
+          Max Intensity: 4096
+          Min Color: 0; 0; 0
+          Min Intensity: 0
+          Name: Left PCL
+          Position Transformer: XYZ
+          Queue Size: 10
+          Selectable: true
+          Size (Pixels): 3
+          Size (m): 0.009999999776482582
+          Style: Flat Squares
+          Topic: tof_left/depth/points
+          Unreliable: false
+          Use Fixed Frame: true
+          Use rainbow: true
+          Value: true
+        - Alpha: 1
+          Autocompute Intensity Bounds: true
+          Autocompute Value Bounds:
+            Max Value: 1
+            Min Value: -1
+            Value: false
+          Axis: Z
+          Channel Name: intensity
+          Class: rviz/PointCloud2
+          Color: 255; 255; 255
+          Color Transformer: AxisColor
+          Decay Time: 0
+          Enabled: true
+          Invert Rainbow: false
+          Max Color: 255; 255; 255
+          Max Intensity: 4096
+          Min Color: 0; 0; 0
+          Min Intensity: 0
+          Name: Front Left PCL
+          Position Transformer: XYZ
+          Queue Size: 10
+          Selectable: true
+          Size (Pixels): 3
+          Size (m): 0.009999999776482582
+          Style: Flat Squares
+          Topic: tof_frontleft/depth/points
+          Unreliable: false
+          Use Fixed Frame: true
+          Use rainbow: true
+          Value: true
+        - Alpha: 1
+          Autocompute Intensity Bounds: true
+          Autocompute Value Bounds:
+            Max Value: 1
+            Min Value: -1
+            Value: false
+          Axis: Z
+          Channel Name: intensity
+          Class: rviz/PointCloud2
+          Color: 255; 255; 255
+          Color Transformer: AxisColor
+          Decay Time: 0
+          Enabled: true
+          Invert Rainbow: false
+          Max Color: 255; 255; 255
+          Max Intensity: 4096
+          Min Color: 0; 0; 0
+          Min Intensity: 0
+          Name: Front Right PCL
+          Position Transformer: XYZ
+          Queue Size: 10
+          Selectable: true
+          Size (Pixels): 3
+          Size (m): 0.009999999776482582
+          Style: Flat Squares
+          Topic: tof_frontright/depth/points
+          Unreliable: false
+          Use Fixed Frame: true
+          Use rainbow: true
+          Value: true
+        - Alpha: 1
+          Autocompute Intensity Bounds: true
+          Autocompute Value Bounds:
+            Max Value: 1
+            Min Value: -1
+            Value: false
+          Axis: Z
+          Channel Name: intensity
+          Class: rviz/PointCloud2
+          Color: 255; 255; 255
+          Color Transformer: AxisColor
+          Decay Time: 0
+          Enabled: true
+          Invert Rainbow: false
+          Max Color: 255; 255; 255
+          Max Intensity: 4096
+          Min Color: 0; 0; 0
+          Min Intensity: 0
+          Name: Right PCL
+          Position Transformer: XYZ
+          Queue Size: 10
+          Selectable: true
+          Size (Pixels): 3
+          Size (m): 0.009999999776482582
+          Style: Flat Squares
+          Topic: tof_right/depth/points
+          Unreliable: false
+          Use Fixed Frame: true
+          Use rainbow: true
+          Value: true
+        - Alpha: 1
+          Autocompute Intensity Bounds: true
+          Autocompute Value Bounds:
+            Max Value: 1
+            Min Value: -1
+            Value: false
+          Axis: Z
+          Channel Name: intensity
+          Class: rviz/PointCloud2
+          Color: 255; 255; 255
+          Color Transformer: AxisColor
+          Decay Time: 0
+          Enabled: true
+          Invert Rainbow: false
+          Max Color: 255; 255; 255
+          Max Intensity: 4096
+          Min Color: 0; 0; 0
+          Min Intensity: 0
+          Name: Back PCL
+          Position Transformer: XYZ
+          Queue Size: 10
+          Selectable: true
+          Size (Pixels): 3
+          Size (m): 0.009999999776482582
+          Style: Flat Squares
+          Topic: tof_back/depth/points
+          Unreliable: false
+          Use Fixed Frame: true
+          Use rainbow: true
+          Value: true
+      Enabled: true
+      Name: Points
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -285,25 +719,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/ThirdPersonFollower
-      Distance: 1.0483907461166382
+      Distance: 3.2473340034484863
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.6163389682769775
-        Y: -1.0306105613708496
-        Z: 1.1273381460341625e-5
+        X: -0.3315746784210205
+        Y: 1.0569753646850586
+        Z: 1.2227055776747875e-5
       Focal Shape Fixed Size: false
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.10000000149011612
-      Pitch: 0.2447967231273651
+      Pitch: 0.5747964382171631
       Target Frame: base_link
       Value: ThirdPersonFollower (rviz)
-      Yaw: 4.1866936683654785
+      Yaw: 1.7066930532455444
     Saved:
       - Class: rviz/Orbit
         Distance: 5
@@ -490,12 +924,32 @@ Visualization Manager:
         Value: ThirdPersonFollower (rviz)
         Yaw: 6.276592254638672
 Window Geometry:
+  Back:
+    collapsed: false
+  Back Depth:
+    collapsed: false
   Displays:
     collapsed: false
-  Height: 1020
+  Front Left:
+    collapsed: false
+  Front Left Depth:
+    collapsed: false
+  Front Right:
+    collapsed: false
+  Front Right Depth:
+    collapsed: false
+  Height: 1052
   Hide Left Dock: false
   Hide Right Dock: false
-  QMainWindow State: 000000ff00000000fd0000000400000000000001ae000003cdfc020000000bfb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afc00000014000003cd000000e20100001afa000000000100000002fb000000100044006900730070006c0061007900730100000000000001e20000015600fffffffb0000000a005600690065007700730100000000ffffffff0000010000fffffffb0000001000500061006e006f00720061006d00610000000248000000d50000000000000000fb0000000600520047004200000002e80000010c0000000000000000fb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000000c0049006e0066007200610031000000034d000000a70000000000000000000000010000017800000416fc0200000002fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000074d00000171fc0100000002fb0000000800540069006d00650000000000000005d50000024400fffffffb0000000800540069006d00650100000000000004500000000000000000000005cc000003cd00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730000000000ffffffff0000000000000000
+  Left:
+    collapsed: false
+  Left Depth:
+    collapsed: false
+  QMainWindow State: 000000ff00000000fd0000000400000000000001ae000001e8fc020000000bfb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afc0000013f000001e8000000e60100001cfa000000000100000002fb000000100044006900730070006c0061007900730100000000000001e20000015600fffffffb0000000a005600690065007700730100000000ffffffff0000010000fffffffb0000001000500061006e006f00720061006d00610000000248000000d50000000000000000fb0000000600520047004200000002e80000010c0000000000000000fb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000000c0049006e0066007200610031000000034d000000a70000000000000000000000010000017800000416fc0200000002fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000001200530065006c0065006300740069006f006e010000025a000000b20000000000000000000000020000073d00000123fc0100000006fb00000008004c00650066007401000000000000016b0000005000fffffffb0000001400460072006f006e00740020004c00650066007401000001710000016d0000007900fffffffb0000001600460072006f006e007400200052006900670068007401000002e40000016b0000008100fffffffb0000000a0052006900670068007401000004550000016e0000005900fffffffb00000008004200610063006b01000005c9000001740000005500fffffffb0000000a00560069006500770073030000004e00000080000002e100000197000000030000073d000000d2fc0100000007fb00000014004c0065006600740020004400650070007400680100000000000001640000007e00fffffffb0000002000460072006f006e00740020004c006500660074002000440065007000740068010000016a00000164000000a700fffffffb0000002200460072006f006e007400200052006900670068007400200044006500700074006801000002d40000017b000000af00fffffffb00000016005200690067006800740020004400650070007400680100000455000001910000008700fffffffb00000014004200610063006b00200044006500700074006801000005ec000001510000008300fffffffb0000000800540069006d00650000000000000005d5000002eb00fffffffb0000000800540069006d0065010000000000000450000000000000000000000589000001e800000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730000000000ffffffff0000000000000000
+  Right:
+    collapsed: false
+  Right Depth:
+    collapsed: false
   Selection:
     collapsed: false
   Time:
@@ -504,6 +958,6 @@ Window Geometry:
     collapsed: false
   Views:
     collapsed: false
-  Width: 1920
-  X: 0
-  Y: 31
+  Width: 1853
+  X: 67
+  Y: 28

@@ -16,6 +16,7 @@
     <xacro:include filename="utils.xacro"/>
     <xacro:include filename="constants.urdf.xacro" />
     <xacro:include filename="spot_leg.urdf.xacro" />
+    <xacro:include filename="camera.xacro" />
 
     <link name="$(arg prefix)base_link">
         <visual>
@@ -98,4 +99,26 @@
             </sensor>
         </xacro:if>
     </gazebo>
+
+    <!-- Body cameras -->
+
+    <xacro:spot_camera prefix="$(arg prefix)" name="frontleft" simulate="$(arg simulate_cameras)" />
+    <xacro:fixed_joint name="camera_frontleft_j" parent="$(arg prefix)base_link" child="$(arg prefix)camera_frontleft"
+        xyz="0.415 0.037 -0.01" rpy="1.355558 0.353917 -0.554196" />
+
+    <xacro:spot_camera prefix="$(arg prefix)" name="frontright" simulate="$(arg simulate_cameras)" />
+    <xacro:fixed_joint name="camera_frontright_j" parent="$(arg prefix)base_link" child="$(arg prefix)camera_frontright"
+        xyz="0.415 -0.037 -0.01" rpy="-1.355558 0.353917 0.554196" />
+
+    <xacro:spot_camera prefix="$(arg prefix)" name="left" simulate="$(arg simulate_cameras)" />
+    <xacro:fixed_joint name="camera_left_j" parent="$(arg prefix)base_link" child="$(arg prefix)camera_left"
+        xyz="-0.125 0.12 0.035" rpy="0 0.2 ${pi/2}" />
+
+    <xacro:spot_camera prefix="$(arg prefix)" name="right" simulate="$(arg simulate_cameras)" />
+    <xacro:fixed_joint name="camera_right_j" parent="$(arg prefix)base_link" child="$(arg prefix)camera_right"
+        xyz="-0.125 -0.12 0.035" rpy="0 0.2 ${-pi/2}" />
+
+    <xacro:spot_camera prefix="$(arg prefix)" name="back" simulate="$(arg simulate_cameras)" />
+    <xacro:fixed_joint name="camera_back_j" parent="$(arg prefix)base_link" child="$(arg prefix)camera_back"
+        xyz="-0.425 0 0.01" rpy="0 0.3 ${-pi}" />
 </robot>

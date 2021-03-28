@@ -7,6 +7,7 @@
   <arg name="joint_prefix" value="/model/$(arg name)/joint"/>
   <arg name="breadcrumbs" default="0"/>
   <arg name="description_print_command" default="" />
+  <arg name="relay_points" default="1" />
 
   <include file="$(dirname)/description.launch" pass_all_args="true">
     <arg name="print_command" value="$(arg description_print_command)" if="$(eval description_print_command != '')" />
@@ -32,54 +33,22 @@
       <remap from="/model/$(arg name)/joint_commands" to="joint_commands"/>
     </node>
     
-    <!-- Slightly downward looking RGBD camera -->
-    <node
-      pkg="ros_ign_bridge"
-      type="parameter_bridge"
-      name="ros_ign_bridge_camera"
-      args="$(arg link_prefix)/base_link/sensor/camera/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
-      <remap from="$(arg link_prefix)/base_link/sensor/camera/camera_info" to="front/camera_info"/>
-    </node>
-    <node
-      pkg="ros_ign_image"
-      type="image_bridge"
-      name="ros_ign_image_camera"
-      respawn="true"
-      args="$(arg link_prefix)/base_link/sensor/camera/image">
-      <remap from="$(arg link_prefix)/base_link/sensor/camera/image" to="front/image_raw"/>
-    </node>
-    <node
-      pkg="ros_ign_bridge"
-      type="parameter_bridge"
-      name="ros_ign_bridge_rgbd"
-      args="$(arg link_prefix)/base_link/sensor/camera/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
-      <remap from="$(arg link_prefix)/base_link/sensor/camera/points" to="rgbd_camera/depth/points"/>
-    </node>
-    <node
-      pkg="ros_ign_image"
-      type="image_bridge"
-      name="ros_ign_image_depth"
-      respawn="true"
-      args="$(arg link_prefix)/base_link/sensor/camera/depth_image">
-      <remap from="$(arg link_prefix)/base_link/sensor/camera/depth_image" to="front/depth"/>
-    </node>
-    <node
-      pkg="subt_ros"
-      type="optical_frame_publisher"
-      name="optical_frame_publisher_color">
-      <remap from="input/image" to="front/image_raw" />
-      <remap from="output/image" to="front/optical/image_raw" />
-      <remap from="input/camera_info" to="front/camera_info" />
-      <remap from="output/camera_info" to="front/optical/camera_info" />
-    </node>
-    <node
-      pkg="subt_ros"
-      type="optical_frame_publisher"
-      name="optical_frame_publisher_depth"
-      args="depth">
-      <remap from="input/image" to="front/depth" />
-      <remap from="output/image" to="front/optical/depth" />
-    </node>
+    <!-- Cameras -->
+    <include file="$(dirname)/body_camera.launch" pass_all_args="true">
+      <arg name="camera" value="frontleft" />
+    </include>
+    <include file="$(dirname)/body_camera.launch" pass_all_args="true">
+      <arg name="camera" value="frontright" />
+    </include>
+    <include file="$(dirname)/body_camera.launch" pass_all_args="true">
+      <arg name="camera" value="left" />
+    </include>
+    <include file="$(dirname)/body_camera.launch" pass_all_args="true">
+      <arg name="camera" value="right" />
+    </include>
+    <include file="$(dirname)/body_camera.launch" pass_all_args="true">
+      <arg name="camera" value="back" />
+    </include>
 
     <!--IMU-->
     <include file="$(find subt_ros)/launch/models_common/imu.launch">

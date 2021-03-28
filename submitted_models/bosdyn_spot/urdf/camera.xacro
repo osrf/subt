@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:macro name="spot_camera" params="prefix name simulate:=1 visualize:=0" >
+        <link name="${prefix}camera_${name}">
+            <xacro:default_inertial />
+            <xacro:if value="${visualize}">
+                <visual>
+                    <geometry>
+                        <box size="0.02 0.1 0.04" />
+                    </geometry>
+                </visual>
+            </xacro:if>
+        </link>
+        <xacro:if value="${simulate and '$(arg rendering_target)' == 'ign'}">
+            <gazebo reference="${prefix}camera_${name}">
+                <!-- Fisheye grayscale camera -->
+                <!-- Ignition Gazebo doesn't yet have wideanglecamera https://github.com/ignitionrobotics/ign-sensors/issues/24 -->
+                <sensor name="${name}_fisheye_image" type="camera">
+                    <pose>0 0.01 0 0 0 0</pose>
+                    <update_rate>30</update_rate>
+                    <visualize>${visualize}</visualize>
+                    <camera>
+                        <horizontal_fov>${radians(95)}</horizontal_fov>
+                        <image>
+                            <width>640</width>
+                            <height>480</height>
+                            <format>R8G8B8</format>
+                        </image>
+                        <clip>
+                            <near>0.1</near>
+                            <far>20.0</far>
+                        </clip>
+                        <noise>
+                            <type>gaussian</type>
+                            <mean>0.0</mean>
+                            <stddev>0.007</stddev>
+                        </noise>
+                    </camera>
+                    <plugin filename="mono-camera-system" name="subt::MonoCameraSystem" />
+                </sensor>
+
+                <sensor name="${name}_depth" type="depth_camera">
+                    <pose>0 0 0 0 0 0</pose>
+                    <update_rate>30</update_rate>
+                    <visualize>${visualize}</visualize>
+                    <camera>
+                        <horizontal_fov>${radians(92)}</horizontal_fov>
+                        <image>
+                            <width>424</width>
+                            <height>240</height>
+                            <format>R_FLOAT32</format>
+                        </image>
+                        <clip>
+                            <near>0.1</near>
+                            <far>4.0</far>
+                        </clip>
+                        <noise>
+                            <type>gaussian</type>
+                            <mean>0.0</mean>
+                            <stddev>0.007</stddev>
+                        </noise>
+                    </camera>
+                </sensor>
+            </gazebo>
+        </xacro:if>
+    </xacro:macro>
+</robot>

@@ -142,6 +142,416 @@
         </inertia>
       </inertial>
     </link>
+    <joint name="camera_back_j" type="fixed">
+      <pose relative_to="base_link">-0.425 0 0.01 -0 0.3 3.1415926535897931</pose>
+      <parent>base_link</parent>
+      <child>camera_back</child>
+      <axis>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+      </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
+    </joint>
+    <link name="camera_back">
+      <pose relative_to="camera_back_j">0 0 0 0 -0 0</pose>
+      <inertial>
+        <mass>1e-05</mass>
+        <inertia>
+          <ixx>0.001</ixx>
+          <ixy>1e-06</ixy>
+          <ixz>1e-06</ixz>
+          <iyy>0.001</iyy>
+          <iyz>1e-06</iyz>
+          <izz>0.001</izz>
+        </inertia>
+      </inertial>
+      <sensor name="back_fisheye_image" type="camera">
+        <pose>0 0.01 0 0 -0 0</pose>
+        <update_rate>30</update_rate>
+        <visualize>0</visualize>
+        <camera>
+          <horizontal_fov>1.65806</horizontal_fov>
+          <image>
+            <width>640</width>
+            <height>480</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>20</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+        <plugin name="subt::MonoCameraSystem" filename="mono-camera-system"/>
+      </sensor>
+      <sensor name="back_depth" type="depth_camera">
+        <update_rate>30</update_rate>
+        <visualize>0</visualize>
+        <camera>
+          <horizontal_fov>1.6057</horizontal_fov>
+          <image>
+            <width>424</width>
+            <height>240</height>
+            <format>R_FLOAT32</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>4</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+      </sensor>
+    </link>
+    <joint name="camera_frontleft_j" type="fixed">
+      <pose relative_to="base_link">0.415 0.037 -0.01 1.35556 0.353917 -0.554196</pose>
+      <parent>base_link</parent>
+      <child>camera_frontleft</child>
+      <axis>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+      </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
+    </joint>
+    <link name="camera_frontleft">
+      <pose relative_to="camera_frontleft_j">0 0 0 0 -0 0</pose>
+      <inertial>
+        <mass>1e-05</mass>
+        <inertia>
+          <ixx>0.001</ixx>
+          <ixy>1e-06</ixy>
+          <ixz>1e-06</ixz>
+          <iyy>0.001</iyy>
+          <iyz>1e-06</iyz>
+          <izz>0.001</izz>
+        </inertia>
+      </inertial>
+      <sensor name="frontleft_fisheye_image" type="camera">
+        <pose>0 0.01 0 0 -0 0</pose>
+        <update_rate>30</update_rate>
+        <visualize>0</visualize>
+        <camera>
+          <horizontal_fov>1.65806</horizontal_fov>
+          <image>
+            <width>640</width>
+            <height>480</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>20</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+        <plugin name="subt::MonoCameraSystem" filename="mono-camera-system"/>
+      </sensor>
+      <sensor name="frontleft_depth" type="depth_camera">
+        <update_rate>30</update_rate>
+        <visualize>0</visualize>
+        <camera>
+          <horizontal_fov>1.6057</horizontal_fov>
+          <image>
+            <width>424</width>
+            <height>240</height>
+            <format>R_FLOAT32</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>4</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+      </sensor>
+    </link>
+    <joint name="camera_frontright_j" type="fixed">
+      <pose relative_to="base_link">0.415 -0.037 -0.01 -1.35556 0.353917 0.554196</pose>
+      <parent>base_link</parent>
+      <child>camera_frontright</child>
+      <axis>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+      </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
+    </joint>
+    <link name="camera_frontright">
+      <pose relative_to="camera_frontright_j">0 0 0 0 -0 0</pose>
+      <inertial>
+        <mass>1e-05</mass>
+        <inertia>
+          <ixx>0.001</ixx>
+          <ixy>1e-06</ixy>
+          <ixz>1e-06</ixz>
+          <iyy>0.001</iyy>
+          <iyz>1e-06</iyz>
+          <izz>0.001</izz>
+        </inertia>
+      </inertial>
+      <sensor name="frontright_fisheye_image" type="camera">
+        <pose>0 0.01 0 0 -0 0</pose>
+        <update_rate>30</update_rate>
+        <visualize>0</visualize>
+        <camera>
+          <horizontal_fov>1.65806</horizontal_fov>
+          <image>
+            <width>640</width>
+            <height>480</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>20</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+        <plugin name="subt::MonoCameraSystem" filename="mono-camera-system"/>
+      </sensor>
+      <sensor name="frontright_depth" type="depth_camera">
+        <update_rate>30</update_rate>
+        <visualize>0</visualize>
+        <camera>
+          <horizontal_fov>1.6057</horizontal_fov>
+          <image>
+            <width>424</width>
+            <height>240</height>
+            <format>R_FLOAT32</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>4</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+      </sensor>
+    </link>
+    <joint name="camera_left_j" type="fixed">
+      <pose relative_to="base_link">-0.125 0.12 0.035 0 0.2 1.5707963267948966</pose>
+      <parent>base_link</parent>
+      <child>camera_left</child>
+      <axis>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+      </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
+    </joint>
+    <link name="camera_left">
+      <pose relative_to="camera_left_j">0 0 0 0 -0 0</pose>
+      <inertial>
+        <mass>1e-05</mass>
+        <inertia>
+          <ixx>0.001</ixx>
+          <ixy>1e-06</ixy>
+          <ixz>1e-06</ixz>
+          <iyy>0.001</iyy>
+          <iyz>1e-06</iyz>
+          <izz>0.001</izz>
+        </inertia>
+      </inertial>
+      <sensor name="left_fisheye_image" type="camera">
+        <pose>0 0.01 0 0 -0 0</pose>
+        <update_rate>30</update_rate>
+        <visualize>0</visualize>
+        <camera>
+          <horizontal_fov>1.65806</horizontal_fov>
+          <image>
+            <width>640</width>
+            <height>480</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>20</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+        <plugin name="subt::MonoCameraSystem" filename="mono-camera-system"/>
+      </sensor>
+      <sensor name="left_depth" type="depth_camera">
+        <update_rate>30</update_rate>
+        <visualize>0</visualize>
+        <camera>
+          <horizontal_fov>1.6057</horizontal_fov>
+          <image>
+            <width>424</width>
+            <height>240</height>
+            <format>R_FLOAT32</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>4</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+      </sensor>
+    </link>
+    <joint name="camera_right_j" type="fixed">
+      <pose relative_to="base_link">-0.125 -0.12 0.035 0 0.2 -1.5707963267948966</pose>
+      <parent>base_link</parent>
+      <child>camera_right</child>
+      <axis>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+      </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
+    </joint>
+    <link name="camera_right">
+      <pose relative_to="camera_right_j">0 0 0 0 -0 0</pose>
+      <inertial>
+        <mass>1e-05</mass>
+        <inertia>
+          <ixx>0.001</ixx>
+          <ixy>1e-06</ixy>
+          <ixz>1e-06</ixz>
+          <iyy>0.001</iyy>
+          <iyz>1e-06</iyz>
+          <izz>0.001</izz>
+        </inertia>
+      </inertial>
+      <sensor name="right_fisheye_image" type="camera">
+        <pose>0 0.01 0 0 -0 0</pose>
+        <update_rate>30</update_rate>
+        <visualize>0</visualize>
+        <camera>
+          <horizontal_fov>1.65806</horizontal_fov>
+          <image>
+            <width>640</width>
+            <height>480</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>20</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+        <plugin name="subt::MonoCameraSystem" filename="mono-camera-system"/>
+      </sensor>
+      <sensor name="right_depth" type="depth_camera">
+        <update_rate>30</update_rate>
+        <visualize>0</visualize>
+        <camera>
+          <horizontal_fov>1.6057</horizontal_fov>
+          <image>
+            <width>424</width>
+            <height>240</height>
+            <format>R_FLOAT32</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>4</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+      </sensor>
+    </link>
     <joint name="front_left_hip_x" type="revolute">
       <pose relative_to="base_link">0.29785 0.055 0 0 -0 0</pose>
       <parent>base_link</parent>

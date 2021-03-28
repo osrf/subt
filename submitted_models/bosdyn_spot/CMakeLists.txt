@@ -59,6 +59,11 @@ target_link_libraries(configurable-joint-position-controller-system
   PRIVATE ignition-gazebo${IGN_GAZEBO_VER}::core
 )
 
+add_library(mono-camera-system src/mono_camera_system.cpp)
+target_link_libraries(mono-camera-system
+  PRIVATE ignition-gazebo${IGN_GAZEBO_VER}::core
+)
+
 install(TARGETS
     configurable-joint-position-controller-system
     joint_trajectory_bridge
@@ -67,6 +72,7 @@ install(TARGETS
     foot_contact_bridge
     logical-contact-system
     logical_contact_bridge
+    mono-camera-system
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
