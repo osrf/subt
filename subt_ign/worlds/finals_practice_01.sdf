@@ -51,7 +51,7 @@
       <static>true</static>
       <name>tile_1</name>
       <pose>22 100 -10 0 -0 -3.14159</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6 Rails</uri>
     </include>
 
     <include>
@@ -331,7 +331,7 @@
       <static>true</static>
       <name>tile_35</name>
       <pose>22 80 -5 0 -0 -3.14159</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6 Rails</uri>
     </include>
 
     <include>
@@ -555,7 +555,7 @@
       <static>true</static>
       <name>tile_67</name>
       <pose>22 60 0 0 -0 -3.14159</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5 Rails</uri>
     </include>
 
     <include>
@@ -751,7 +751,7 @@
       <static>true</static>
       <name>tile_94</name>
       <pose>-18 40 0 0 -0 -1.5708</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5 Rails</uri>
     </include>
 
     <include>
@@ -765,7 +765,7 @@
       <static>true</static>
       <name>tile_96</name>
       <pose>2 40 0 0 -0 -1.5708</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5 Rails</uri>
     </include>
 
     <include>
@@ -773,6 +773,20 @@
       <name>tile_97</name>
       <pose>22 40 0 0 -0 0</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>rail_end_97a</name>
+      <pose>2 40 0 0 -0 1.5707</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rail Tunnel End</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>rail_end_97b</name>
+      <pose>22 60 0 0 -0 0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rail Tunnel End</uri>
     </include>
 
     <include>
@@ -877,7 +891,7 @@
       <static>true</static>
       <name>tile_112</name>
       <pose>282 40 -15 0 -0 0</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 2</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 2 Rails</uri>
     </include>
 
     <include>
@@ -898,7 +912,7 @@
       <static>true</static>
       <name>tile_114</name>
       <pose>302 40 -15 0 -0 -1.5708</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5 Rails</uri>
     </include>
 
     <include>
@@ -906,6 +920,13 @@
       <name>tile_115</name>
       <pose>322 40 -15 0 -0 0</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>rail_end_115</name>
+      <pose>302 40 -15 0 -0 1.5707</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rail Tunnel End</uri>
     </include>
 
     <include>
@@ -1607,26 +1628,33 @@
       <pose>202 -20 -15 0 -0 0</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
     </include>
-    
+
+    <include>
+      <static>true</static>
+      <name>rail_end_213</name>
+      <pose>222 -20 -15 0 -0 -1.5707</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rail Tunnel End</uri>
+    </include>
+
     <include>
       <static>true</static>
       <name>tile_214</name>
       <pose>222 -20 -20 0 -0 1.5708</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6 Rails</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>tile_215</name>
       <pose>242 -20 -20 0 -0 -1.5708</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6 Rails</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>tile_216</name>
       <pose>262 -20 -15 0 -0 -1.5708</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5 Rails</uri>
     </include>
 
     <include>
@@ -1635,12 +1663,26 @@
       <pose>282 -20 -15 0 -0 0</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
     </include>
-    
+
+    <include>
+      <static>true</static>
+      <name>rail_217</name>
+      <pose>282 -20 -15 0 -0 1.5707</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rail Tunnel Straight</uri>
+    </include>
+
     <include>
       <static>true</static>
       <name>tile_218</name>
       <pose>302 -20 -15 0 -0 0</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>rail_218</name>
+      <pose>302 -20 -15 0 -0 1.5707</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rail Tunnel Straight</uri>
     </include>
 
     <include>
@@ -1659,6 +1701,13 @@
 
     <include>
       <static>true</static>
+      <name>rail_220</name>
+      <pose>322 -20 -15 0 -0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rail Tunnel Straight</uri>
+    </include>
+
+    <include>
+      <static>true</static>
       <name>tile_221</name>
       <pose>333 -20 -15 0 -0 0</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
@@ -1667,7 +1716,7 @@
     <include>
       <static>true</static>
       <name>rescue_randy_3</name>
-      <pose>327.2 -19 -15 0 -0 0.261799</pose>
+      <pose>327.078 -18.7723 -15 0 -0 0.261799</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rescue Randy Sitting</uri>
     </include>
 
@@ -2922,6 +2971,8 @@
         <ref>tile_35</ref>
         <ref>tile_67</ref>
         <ref>tile_97</ref>
+        <ref>rail_end_97a</ref>
+        <ref>rail_end_97b</ref>
         <ref>tile_138</ref>
         <ref>tile_173</ref>
         <ref>tile_202</ref>
@@ -3140,6 +3191,7 @@
         <ref>tile_181</ref>
         <ref>tile_182</ref>
         <ref>tile_213</ref>
+        <ref>rail_end_213</ref>
         <ref>tile_251</ref>
         <ref>tile_280</ref>
         <ref>tile_304</ref>
@@ -3215,6 +3267,7 @@
         <ref>tile_185</ref>
         <ref>tile_186</ref>
         <ref>tile_217</ref>
+        <ref>rail_217</ref>
         <ref>tile_252</ref>
         <ref>tile_253</ref>
         <ref>tile_281</ref>
@@ -3237,6 +3290,7 @@
         <ref>tile_153</ref>
         <ref>tile_187</ref>
         <ref>tile_218</ref>
+        <ref>rail_218</ref>
         <ref>tile_219</ref>
         <ref>tile_254</ref>
         <ref>tile_255</ref>
@@ -3259,10 +3313,12 @@
         <ref>tile_74</ref>
         <ref>tile_75</ref>
         <ref>tile_115</ref>
+        <ref>rail_end_115</ref>
         <ref>tile_116</ref>
         <ref>tile_154</ref>
         <ref>tile_188</ref>
         <ref>tile_220</ref>
+        <ref>rail_220</ref>
         <ref>tile_283</ref>
         <pose>322 10 -12.5 0 0 0</pose>
         <geometry><box><size>37.5 242 75</size></box></geometry>
@@ -3730,12 +3786,16 @@
         <ref>tile_211</ref>
         <ref>tile_212</ref>
         <ref>tile_213</ref>
+        <ref>rail_end_213</ref>
         <ref>tile_214</ref>
         <ref>tile_215</ref>
         <ref>tile_216</ref>
         <ref>tile_217</ref>
+        <ref>rail_217</ref>
         <ref>tile_218</ref>
+        <ref>rail_218</ref>
         <ref>tile_220</ref>
+        <ref>rail_220</ref>
         <ref>tile_221</ref>
         <ref>tile_222</ref>
         <ref>tile_223</ref>
@@ -3906,6 +3966,8 @@
         <ref>tile_95</ref>
         <ref>tile_96</ref>
         <ref>tile_97</ref>
+        <ref>rail_end_97a</ref>
+        <ref>rail_end_97b</ref>
         <ref>tile_98</ref>
         <ref>tile_99</ref>
         <ref>tile_100</ref>
@@ -3920,6 +3982,7 @@
         <ref>tile_112</ref>
         <ref>tile_114</ref>
         <ref>tile_115</ref>
+        <ref>rail_end_115</ref>
         <ref>tile_117</ref>
         <ref>tile_119</ref>
         <ref>tile_120</ref>
