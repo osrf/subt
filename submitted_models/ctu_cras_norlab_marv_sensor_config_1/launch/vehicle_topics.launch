@@ -27,6 +27,11 @@
       <arg name="world_name" value="$(arg world_name)" />
     </include>
 
+    <!-- Mapping Server -->
+    <include file="$(find subt_ros)/launch/models_common/mapping_server_relays.launch">
+      <arg name="name" value="$(arg name)"/>
+    </include>
+
     <!-- Body fisheye cameras -->
 
     <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
