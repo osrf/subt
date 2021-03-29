@@ -24,6 +24,11 @@
       <arg name="world_name" value="$(arg world_name)" />
     </include>
 
+    <!-- Mapping Server -->
+    <include file="$(find subt_ros)/launch/models_common/mapping_server_relays.launch">
+      <arg name="name" value="$(arg name)"/>
+    </include>
+
     <!-- Actuators -->
     <node
       pkg="ros_ign_bridge"
