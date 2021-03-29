@@ -1443,6 +1443,22 @@
         </surface>
       </collision>
     </link>
+    <joint name="front_left_flipper_wheel5_j" type="revolute">
+      <pose relative_to="front_left_flipper">0.33 0 0 0 -0 0</pose>
+      <parent>front_left_flipper</parent>
+      <child>front_left_flipper_wheel5</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
     <link name="front_left_flipper_wheel5">
       <pose relative_to="front_left_flipper_wheel5_j">0 0 0 0 -0 0</pose>
       <inertial>
@@ -1484,22 +1500,6 @@
         </surface>
       </collision>
     </link>
-    <joint name="front_left_flipper_wheel5_j" type="revolute">
-      <pose relative_to="front_left_flipper">0.33 0 0 0 -0 0</pose>
-      <parent>front_left_flipper</parent>
-      <child>front_left_flipper_wheel5</child>
-      <axis>
-        <xyz>0 1 0</xyz>
-        <limit>
-          <lower>-1e+16</lower>
-          <upper>1e+16</upper>
-        </limit>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-      </axis>
-    </joint>
     <link name="left_track_wheel1">
       <pose relative_to="left_track_wheel1_j">0 0 0 0 -0 0</pose>
       <inertial>
