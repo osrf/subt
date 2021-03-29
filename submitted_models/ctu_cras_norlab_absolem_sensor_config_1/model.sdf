@@ -3137,6 +3137,22 @@
         </surface>
       </collision>
     </link>
+    <joint name="right_track_wheel2_j" type="revolute">
+      <pose relative_to="right_track">0.178571 0 0.01855 0 -0 0</pose>
+      <parent>right_track</parent>
+      <child>right_track_wheel2</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
     <link name="right_track_wheel2">
       <pose relative_to="right_track_wheel2_j">0 0 0 0 -0 0</pose>
       <inertial>
@@ -3178,22 +3194,6 @@
         </surface>
       </collision>
     </link>
-    <joint name="right_track_wheel2_j" type="revolute">
-      <pose relative_to="right_track">0.178571 0 0.01855 0 -0 0</pose>
-      <parent>right_track</parent>
-      <child>right_track_wheel2</child>
-      <axis>
-        <xyz>0 1 0</xyz>
-        <limit>
-          <lower>-1e+16</lower>
-          <upper>1e+16</upper>
-        </limit>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-      </axis>
-    </joint>
     <link name="right_track_wheel3">
       <pose relative_to="right_track_wheel3_j">0 0 0 0 -0 0</pose>
       <inertial>
