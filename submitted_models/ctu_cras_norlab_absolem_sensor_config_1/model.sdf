@@ -3479,6 +3479,22 @@
         </surface>
       </collision>
     </link>
+    <joint name="right_track_wheel8_j" type="revolute">
+      <pose relative_to="right_track">-0.25 0 0.01855 0 -0 0</pose>
+      <parent>right_track</parent>
+      <child>right_track_wheel8</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
     <link name="right_track_wheel8">
       <pose relative_to="right_track_wheel8_j">0 0 0 0 -0 0</pose>
       <inertial>
@@ -3520,22 +3536,6 @@
         </surface>
       </collision>
     </link>
-    <joint name="right_track_wheel8_j" type="revolute">
-      <pose relative_to="right_track">-0.25 0 0.01855 0 -0 0</pose>
-      <parent>right_track</parent>
-      <child>right_track_wheel8</child>
-      <axis>
-        <xyz>0 1 0</xyz>
-        <limit>
-          <lower>-1e+16</lower>
-          <upper>1e+16</upper>
-        </limit>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-      </axis>
-    </joint>
     <plugin name="cras::FlipperControlPlugin" filename="libflipper_control_plugin.so">
       <joint_name>front_left_flipper_j</joint_name>
       <max_velocity>0.8</max_velocity>
