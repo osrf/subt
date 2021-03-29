@@ -997,8 +997,8 @@
     </link>
     <joint name="laser_j" type="revolute">
       <pose relative_to="base_link">0.2502 0 0.1407 -3.1415926535897931 0 0</pose>
-      <child>laser</child>
       <parent>base_link</parent>
+      <child>laser</child>
       <axis>
         <xyz>1 0 0</xyz>
         <limit>
@@ -1118,8 +1118,8 @@
     </link>
     <joint name="left_track_j" type="revolute">
       <pose relative_to="base_link">0 0.1985 0 0 -0 0</pose>
-      <child>left_track</child>
       <parent>base_link</parent>
+      <child>left_track</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -1189,8 +1189,8 @@
     </link>
     <joint name="front_left_flipper_j" type="revolute">
       <pose relative_to="left_track">0.25 0.0735 0.0195 0 0.193732 0</pose>
-      <child>front_left_flipper</child>
       <parent>left_track</parent>
+      <child>front_left_flipper</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -1258,8 +1258,8 @@
     </link>
     <joint name="front_left_flipper_wheel1_j" type="revolute">
       <pose relative_to="front_left_flipper">0 0 0 0 -0 0</pose>
-      <child>front_left_flipper_wheel1</child>
       <parent>front_left_flipper</parent>
+      <child>front_left_flipper_wheel1</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -1315,8 +1315,8 @@
     </link>
     <joint name="front_left_flipper_wheel2_j" type="revolute">
       <pose relative_to="front_left_flipper">0.0825 0 0 0 -0 0</pose>
-      <child>front_left_flipper_wheel2</child>
       <parent>front_left_flipper</parent>
+      <child>front_left_flipper_wheel2</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -1372,8 +1372,8 @@
     </link>
     <joint name="front_left_flipper_wheel3_j" type="revolute">
       <pose relative_to="front_left_flipper">0.165 0 0 0 -0 0</pose>
-      <child>front_left_flipper_wheel3</child>
       <parent>front_left_flipper</parent>
+      <child>front_left_flipper_wheel3</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -1429,8 +1429,8 @@
     </link>
     <joint name="front_left_flipper_wheel4_j" type="revolute">
       <pose relative_to="front_left_flipper">0.2475 0 0 0 -0 0</pose>
-      <child>front_left_flipper_wheel4</child>
       <parent>front_left_flipper</parent>
+      <child>front_left_flipper_wheel4</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -1486,8 +1486,8 @@
     </link>
     <joint name="front_left_flipper_wheel5_j" type="revolute">
       <pose relative_to="front_left_flipper">0.33 0 0 0 -0 0</pose>
-      <child>front_left_flipper_wheel5</child>
       <parent>front_left_flipper</parent>
+      <child>front_left_flipper_wheel5</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -1543,8 +1543,8 @@
     </link>
     <joint name="left_track_wheel1_j" type="revolute">
       <pose relative_to="left_track">0.25 0 0.01855 0 -0 0</pose>
-      <child>left_track_wheel1</child>
       <parent>left_track</parent>
+      <child>left_track_wheel1</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -1600,8 +1600,8 @@
     </link>
     <joint name="left_track_wheel2_j" type="revolute">
       <pose relative_to="left_track">0.178571 0 0.01855 0 -0 0</pose>
-      <child>left_track_wheel2</child>
       <parent>left_track</parent>
+      <child>left_track_wheel2</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -1657,8 +1657,8 @@
     </link>
     <joint name="left_track_wheel3_j" type="revolute">
       <pose relative_to="left_track">0.107143 0 0.01855 0 -0 0</pose>
-      <child>left_track_wheel3</child>
       <parent>left_track</parent>
+      <child>left_track_wheel3</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -1714,8 +1714,8 @@
     </link>
     <joint name="left_track_wheel4_j" type="revolute">
       <pose relative_to="left_track">0.035714 0 0.01855 0 -0 0</pose>
-      <child>left_track_wheel4</child>
       <parent>left_track</parent>
+      <child>left_track_wheel4</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -1771,8 +1771,8 @@
     </link>
     <joint name="left_track_wheel5_j" type="revolute">
       <pose relative_to="left_track">-0.035714 0 0.01855 0 -0 0</pose>
-      <child>left_track_wheel5</child>
       <parent>left_track</parent>
+      <child>left_track_wheel5</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -1828,8 +1828,8 @@
     </link>
     <joint name="left_track_wheel6_j" type="revolute">
       <pose relative_to="left_track">-0.107143 0 0.01855 0 -0 0</pose>
-      <child>left_track_wheel6</child>
       <parent>left_track</parent>
+      <child>left_track_wheel6</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -1885,8 +1885,8 @@
     </link>
     <joint name="left_track_wheel7_j" type="revolute">
       <pose relative_to="left_track">-0.178571 0 0.01855 0 -0 0</pose>
-      <child>left_track_wheel7</child>
       <parent>left_track</parent>
+      <child>left_track_wheel7</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -1942,8 +1942,8 @@
     </link>
     <joint name="left_track_wheel8_j" type="revolute">
       <pose relative_to="left_track">-0.25 0 0.01855 0 -0 0</pose>
-      <child>left_track_wheel8</child>
       <parent>left_track</parent>
+      <child>left_track_wheel8</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -1996,8 +1996,8 @@
     </link>
     <joint name="rear_left_flipper_j" type="revolute">
       <pose relative_to="left_track">-0.25 0.0735 0.0195 3.1415926535897931 0.193732 3.1415926535897931</pose>
-      <child>rear_left_flipper</child>
       <parent>left_track</parent>
+      <child>rear_left_flipper</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -2065,8 +2065,8 @@
     </link>
     <joint name="rear_left_flipper_wheel1_j" type="revolute">
       <pose relative_to="rear_left_flipper">0 0 0 0 -0 0</pose>
-      <child>rear_left_flipper_wheel1</child>
       <parent>rear_left_flipper</parent>
+      <child>rear_left_flipper_wheel1</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -2122,8 +2122,8 @@
     </link>
     <joint name="rear_left_flipper_wheel2_j" type="revolute">
       <pose relative_to="rear_left_flipper">0.0825 0 0 0 -0 0</pose>
-      <child>rear_left_flipper_wheel2</child>
       <parent>rear_left_flipper</parent>
+      <child>rear_left_flipper_wheel2</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -2179,8 +2179,8 @@
     </link>
     <joint name="rear_left_flipper_wheel3_j" type="revolute">
       <pose relative_to="rear_left_flipper">0.165 0 0 0 -0 0</pose>
-      <child>rear_left_flipper_wheel3</child>
       <parent>rear_left_flipper</parent>
+      <child>rear_left_flipper_wheel3</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -2236,8 +2236,8 @@
     </link>
     <joint name="rear_left_flipper_wheel4_j" type="revolute">
       <pose relative_to="rear_left_flipper">0.2475 0 0 0 -0 0</pose>
-      <child>rear_left_flipper_wheel4</child>
       <parent>rear_left_flipper</parent>
+      <child>rear_left_flipper_wheel4</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -2293,8 +2293,8 @@
     </link>
     <joint name="rear_left_flipper_wheel5_j" type="revolute">
       <pose relative_to="rear_left_flipper">0.33 0 0 0 -0 0</pose>
-      <child>rear_left_flipper_wheel5</child>
       <parent>rear_left_flipper</parent>
+      <child>rear_left_flipper_wheel5</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -2347,8 +2347,8 @@
     </link>
     <joint name="right_track_j" type="revolute">
       <pose relative_to="base_link">0 -0.1985 0 0 -0 0</pose>
-      <child>right_track</child>
       <parent>base_link</parent>
+      <child>right_track</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -2418,8 +2418,8 @@
     </link>
     <joint name="front_right_flipper_j" type="revolute">
       <pose relative_to="right_track">0.25 -0.0735 0.0195 3.1415926535897931 -0.193732 3.1415926535897931</pose>
-      <child>front_right_flipper</child>
       <parent>right_track</parent>
+      <child>front_right_flipper</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -2487,8 +2487,8 @@
     </link>
     <joint name="front_right_flipper_wheel1_j" type="revolute">
       <pose relative_to="front_right_flipper">0 0 0 0 -0 0</pose>
-      <child>front_right_flipper_wheel1</child>
       <parent>front_right_flipper</parent>
+      <child>front_right_flipper_wheel1</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -2544,8 +2544,8 @@
     </link>
     <joint name="front_right_flipper_wheel2_j" type="revolute">
       <pose relative_to="front_right_flipper">-0.0825 0 0 0 -0 0</pose>
-      <child>front_right_flipper_wheel2</child>
       <parent>front_right_flipper</parent>
+      <child>front_right_flipper_wheel2</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -2601,8 +2601,8 @@
     </link>
     <joint name="front_right_flipper_wheel3_j" type="revolute">
       <pose relative_to="front_right_flipper">-0.165 0 0 0 -0 0</pose>
-      <child>front_right_flipper_wheel3</child>
       <parent>front_right_flipper</parent>
+      <child>front_right_flipper_wheel3</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -2658,8 +2658,8 @@
     </link>
     <joint name="front_right_flipper_wheel4_j" type="revolute">
       <pose relative_to="front_right_flipper">-0.2475 0 0 0 -0 0</pose>
-      <child>front_right_flipper_wheel4</child>
       <parent>front_right_flipper</parent>
+      <child>front_right_flipper_wheel4</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -2715,8 +2715,8 @@
     </link>
     <joint name="front_right_flipper_wheel5_j" type="revolute">
       <pose relative_to="front_right_flipper">-0.33 0 0 0 -0 0</pose>
-      <child>front_right_flipper_wheel5</child>
       <parent>front_right_flipper</parent>
+      <child>front_right_flipper_wheel5</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -2769,8 +2769,8 @@
     </link>
     <joint name="rear_right_flipper_j" type="revolute">
       <pose relative_to="right_track">-0.25 -0.0735 0.0195 0 -0.193732 0</pose>
-      <child>rear_right_flipper</child>
       <parent>right_track</parent>
+      <child>rear_right_flipper</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -2838,8 +2838,8 @@
     </link>
     <joint name="rear_right_flipper_wheel1_j" type="revolute">
       <pose relative_to="rear_right_flipper">0 0 0 0 -0 0</pose>
-      <child>rear_right_flipper_wheel1</child>
       <parent>rear_right_flipper</parent>
+      <child>rear_right_flipper_wheel1</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -2895,8 +2895,8 @@
     </link>
     <joint name="rear_right_flipper_wheel2_j" type="revolute">
       <pose relative_to="rear_right_flipper">-0.0825 0 0 0 -0 0</pose>
-      <child>rear_right_flipper_wheel2</child>
       <parent>rear_right_flipper</parent>
+      <child>rear_right_flipper_wheel2</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -2952,8 +2952,8 @@
     </link>
     <joint name="rear_right_flipper_wheel3_j" type="revolute">
       <pose relative_to="rear_right_flipper">-0.165 0 0 0 -0 0</pose>
-      <child>rear_right_flipper_wheel3</child>
       <parent>rear_right_flipper</parent>
+      <child>rear_right_flipper_wheel3</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -3009,8 +3009,8 @@
     </link>
     <joint name="rear_right_flipper_wheel4_j" type="revolute">
       <pose relative_to="rear_right_flipper">-0.2475 0 0 0 -0 0</pose>
-      <child>rear_right_flipper_wheel4</child>
       <parent>rear_right_flipper</parent>
+      <child>rear_right_flipper_wheel4</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -3066,8 +3066,8 @@
     </link>
     <joint name="rear_right_flipper_wheel5_j" type="revolute">
       <pose relative_to="rear_right_flipper">-0.33 0 0 0 -0 0</pose>
-      <child>rear_right_flipper_wheel5</child>
       <parent>rear_right_flipper</parent>
+      <child>rear_right_flipper_wheel5</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -3123,8 +3123,8 @@
     </link>
     <joint name="right_track_wheel1_j" type="revolute">
       <pose relative_to="right_track">0.25 0 0.01855 0 -0 0</pose>
-      <child>right_track_wheel1</child>
       <parent>right_track</parent>
+      <child>right_track_wheel1</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -3180,8 +3180,8 @@
     </link>
     <joint name="right_track_wheel2_j" type="revolute">
       <pose relative_to="right_track">0.178571 0 0.01855 0 -0 0</pose>
-      <child>right_track_wheel2</child>
       <parent>right_track</parent>
+      <child>right_track_wheel2</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -3237,8 +3237,8 @@
     </link>
     <joint name="right_track_wheel3_j" type="revolute">
       <pose relative_to="right_track">0.107143 0 0.01855 0 -0 0</pose>
-      <child>right_track_wheel3</child>
       <parent>right_track</parent>
+      <child>right_track_wheel3</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -3294,8 +3294,8 @@
     </link>
     <joint name="right_track_wheel4_j" type="revolute">
       <pose relative_to="right_track">0.035714 0 0.01855 0 -0 0</pose>
-      <child>right_track_wheel4</child>
       <parent>right_track</parent>
+      <child>right_track_wheel4</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -3351,8 +3351,8 @@
     </link>
     <joint name="right_track_wheel5_j" type="revolute">
       <pose relative_to="right_track">-0.035714 0 0.01855 0 -0 0</pose>
-      <child>right_track_wheel5</child>
       <parent>right_track</parent>
+      <child>right_track_wheel5</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -3408,8 +3408,8 @@
     </link>
     <joint name="right_track_wheel6_j" type="revolute">
       <pose relative_to="right_track">-0.107143 0 0.01855 0 -0 0</pose>
-      <child>right_track_wheel6</child>
       <parent>right_track</parent>
+      <child>right_track_wheel6</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -3465,8 +3465,8 @@
     </link>
     <joint name="right_track_wheel7_j" type="revolute">
       <pose relative_to="right_track">-0.178571 0 0.01855 0 -0 0</pose>
-      <child>right_track_wheel7</child>
       <parent>right_track</parent>
+      <child>right_track_wheel7</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -3522,8 +3522,8 @@
     </link>
     <joint name="right_track_wheel8_j" type="revolute">
       <pose relative_to="right_track">-0.25 0 0.01855 0 -0 0</pose>
-      <child>right_track_wheel8</child>
       <parent>right_track</parent>
+      <child>right_track_wheel8</child>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
