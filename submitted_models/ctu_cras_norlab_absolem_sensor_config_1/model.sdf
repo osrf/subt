@@ -1078,6 +1078,39 @@
         </lidar>
       </sensor>
     </link>
+    <joint name="left_track_j" type="revolute">
+      <pose relative_to="base_link">0 0.1985 0 0 -0 0</pose>
+      <parent>base_link</parent>
+      <child>left_track</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>0</lower>
+          <upper>0</upper>
+          <effort>0</effort>
+          <velocity>4</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
+      <physics>
+        <ode>
+          <implicit_spring_damper>1</implicit_spring_damper>
+          <cfm>0</cfm>
+          <erp>0.95</erp>
+        </ode>
+      </physics>
+    </joint>
     <link name="left_track">
       <pose relative_to="left_track_j">0 0 0 0 -0 0</pose>
       <inertial>
@@ -1116,39 +1149,6 @@
         </geometry>
       </visual>
     </link>
-    <joint name="left_track_j" type="revolute">
-      <pose relative_to="base_link">0 0.1985 0 0 -0 0</pose>
-      <parent>base_link</parent>
-      <child>left_track</child>
-      <axis>
-        <xyz>0 1 0</xyz>
-        <limit>
-          <lower>0</lower>
-          <upper>0</upper>
-          <effort>0</effort>
-          <velocity>4</velocity>
-        </limit>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-      </axis>
-      <physics>
-        <ode>
-          <limit>
-            <cfm>0</cfm>
-            <erp>0.2</erp>
-          </limit>
-        </ode>
-      </physics>
-      <physics>
-        <ode>
-          <implicit_spring_damper>1</implicit_spring_damper>
-          <cfm>0</cfm>
-          <erp>0.95</erp>
-        </ode>
-      </physics>
-    </joint>
     <link name="front_left_flipper">
       <pose relative_to="front_left_flipper_j">0 0 0 0 -0 0</pose>
       <inertial>
