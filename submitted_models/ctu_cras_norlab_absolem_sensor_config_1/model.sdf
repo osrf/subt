@@ -2378,6 +2378,34 @@
         </geometry>
       </visual>
     </link>
+    <joint name="front_right_flipper_j" type="revolute">
+      <pose relative_to="right_track">0.25 -0.0735 0.0195 3.1415926535897931 -0.193732 3.1415926535897931</pose>
+      <parent>right_track</parent>
+      <child>front_right_flipper</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+          <effort>20</effort>
+          <velocity>0.785398</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+      <physics>
+        <ode>
+          <implicit_spring_damper>1</implicit_spring_damper>
+          <cfm_damping>1</cfm_damping>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
+    </joint>
     <link name="front_right_flipper">
       <pose relative_to="front_right_flipper_j">0 0 0 0 -0 0</pose>
       <inertial>
@@ -2416,34 +2444,6 @@
         </geometry>
       </visual>
     </link>
-    <joint name="front_right_flipper_j" type="revolute">
-      <pose relative_to="right_track">0.25 -0.0735 0.0195 3.1415926535897931 -0.193732 3.1415926535897931</pose>
-      <parent>right_track</parent>
-      <child>front_right_flipper</child>
-      <axis>
-        <xyz>0 1 0</xyz>
-        <limit>
-          <lower>-1e+16</lower>
-          <upper>1e+16</upper>
-          <effort>20</effort>
-          <velocity>0.785398</velocity>
-        </limit>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-      </axis>
-      <physics>
-        <ode>
-          <implicit_spring_damper>1</implicit_spring_damper>
-          <cfm_damping>1</cfm_damping>
-          <limit>
-            <cfm>0</cfm>
-            <erp>0.2</erp>
-          </limit>
-        </ode>
-      </physics>
-    </joint>
     <link name="front_right_flipper_wheel1">
       <pose relative_to="front_right_flipper_wheel1_j">0 0 0 0 -0 0</pose>
       <inertial>
