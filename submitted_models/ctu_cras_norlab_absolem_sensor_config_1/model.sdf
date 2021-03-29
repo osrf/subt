@@ -1899,6 +1899,22 @@
         </surface>
       </collision>
     </link>
+    <joint name="left_track_wheel8_j" type="revolute">
+      <pose relative_to="left_track">-0.25 0 0.01855 0 -0 0</pose>
+      <parent>left_track</parent>
+      <child>left_track_wheel8</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
     <link name="left_track_wheel8">
       <pose relative_to="left_track_wheel8_j">0 0 0 0 -0 0</pose>
       <inertial>
@@ -1940,22 +1956,6 @@
         </surface>
       </collision>
     </link>
-    <joint name="left_track_wheel8_j" type="revolute">
-      <pose relative_to="left_track">-0.25 0 0.01855 0 -0 0</pose>
-      <parent>left_track</parent>
-      <child>left_track_wheel8</child>
-      <axis>
-        <xyz>0 1 0</xyz>
-        <limit>
-          <lower>-1e+16</lower>
-          <upper>1e+16</upper>
-        </limit>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-      </axis>
-    </joint>
     <link name="rear_left_flipper">
       <pose relative_to="rear_left_flipper_j">0 0 0 0 -0 0</pose>
       <inertial>
