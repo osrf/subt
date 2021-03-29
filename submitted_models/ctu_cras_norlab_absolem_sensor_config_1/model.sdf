@@ -996,7 +996,7 @@
       </sensor>
     </link>
     <link name="laser">
-      <pose>0.2502 0 0.1407 -3.1415926535897931 -0 0</pose>
+      <pose relative_to="laser_j">0 0 0 0 -0 0</pose>
       <inertial>
         <pose>0 0 -0.04 0 -0 0</pose>
         <mass>1.1</mass>
@@ -1051,6 +1051,7 @@
       </sensor>
     </link>
     <joint name="laser_j" type="revolute">
+      <pose relative_to="base_link">0.2502 0 0.1407 -3.1415926535897931 0 0</pose>
       <child>laser</child>
       <parent>base_link</parent>
       <axis>
@@ -1065,7 +1066,6 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
       <physics>
         <ode>
@@ -1079,7 +1079,7 @@
       </physics>
     </joint>
     <link name="left_track">
-      <pose>0 0.1985 0 0 -0 0</pose>
+      <pose relative_to="left_track_j">0 0 0 0 -0 0</pose>
       <inertial>
         <mass>1e-05</mass>
         <inertia>
@@ -1117,6 +1117,7 @@
       </visual>
     </link>
     <joint name="left_track_j" type="revolute">
+      <pose relative_to="base_link">0 0.1985 0 0 -0 0</pose>
       <child>left_track</child>
       <parent>base_link</parent>
       <axis>
@@ -1131,7 +1132,6 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
       <physics>
         <ode>
@@ -1150,7 +1150,7 @@
       </physics>
     </joint>
     <link name="front_left_flipper">
-      <pose>0.25 0.272 0.0195 0 0.193732 0</pose>
+      <pose relative_to="front_left_flipper_j">0 0 0 0 -0 0</pose>
       <inertial>
         <mass>1e-05</mass>
         <inertia>
@@ -1188,6 +1188,7 @@
       </visual>
     </link>
     <joint name="front_left_flipper_j" type="revolute">
+      <pose relative_to="left_track">0.25 0.0735 0.0195 0 0.193732 0</pose>
       <child>front_left_flipper</child>
       <parent>left_track</parent>
       <axis>
@@ -1202,7 +1203,6 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
       <physics>
         <ode>
@@ -1216,7 +1216,7 @@
       </physics>
     </joint>
     <link name="front_left_flipper_wheel1">
-      <pose>0.25 0.272 0.0195 0 0.193732 0</pose>
+      <pose relative_to="front_left_flipper_wheel1_j">0 0 0 0 -0 0</pose>
       <inertial>
         <pose>0.08 0 0 0 -0 0</pose>
         <mass>0.15</mass>
@@ -1257,6 +1257,7 @@
       </collision>
     </link>
     <joint name="front_left_flipper_wheel1_j" type="revolute">
+      <pose relative_to="front_left_flipper">0 0 0 0 -0 0</pose>
       <child>front_left_flipper_wheel1</child>
       <parent>front_left_flipper</parent>
       <axis>
@@ -1269,11 +1270,10 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
     <link name="front_left_flipper_wheel2">
-      <pose>0.330957 0.272 0.003617 0 0.193732 0</pose>
+      <pose relative_to="front_left_flipper_wheel2_j">0 0 0 0 -0 0</pose>
       <inertial>
         <pose>0.08 0 0 0 -0 0</pose>
         <mass>0.15</mass>
@@ -1314,6 +1314,7 @@
       </collision>
     </link>
     <joint name="front_left_flipper_wheel2_j" type="revolute">
+      <pose relative_to="front_left_flipper">0.0825 0 0 0 -0 0</pose>
       <child>front_left_flipper_wheel2</child>
       <parent>front_left_flipper</parent>
       <axis>
@@ -1326,11 +1327,10 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
     <link name="front_left_flipper_wheel3">
-      <pose>0.411913 0.272 -0.012266 0 0.193732 0</pose>
+      <pose relative_to="front_left_flipper_wheel3_j">0 0 0 0 -0 0</pose>
       <inertial>
         <pose>0.08 0 0 0 -0 0</pose>
         <mass>0.15</mass>
@@ -1371,6 +1371,7 @@
       </collision>
     </link>
     <joint name="front_left_flipper_wheel3_j" type="revolute">
+      <pose relative_to="front_left_flipper">0.165 0 0 0 -0 0</pose>
       <child>front_left_flipper_wheel3</child>
       <parent>front_left_flipper</parent>
       <axis>
@@ -1383,11 +1384,10 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
     <link name="front_left_flipper_wheel4">
-      <pose>0.49287 0.272 -0.028149 0 0.193732 0</pose>
+      <pose relative_to="front_left_flipper_wheel4_j">0 0 0 0 -0 0</pose>
       <inertial>
         <pose>0.08 0 0 0 -0 0</pose>
         <mass>0.15</mass>
@@ -1428,6 +1428,7 @@
       </collision>
     </link>
     <joint name="front_left_flipper_wheel4_j" type="revolute">
+      <pose relative_to="front_left_flipper">0.2475 0 0 0 -0 0</pose>
       <child>front_left_flipper_wheel4</child>
       <parent>front_left_flipper</parent>
       <axis>
@@ -1440,11 +1441,10 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
     <link name="front_left_flipper_wheel5">
-      <pose>0.573827 0.272 -0.044032 0 0.193732 0</pose>
+      <pose relative_to="front_left_flipper_wheel5_j">0 0 0 0 -0 0</pose>
       <inertial>
         <pose>0.08 0 0 0 -0 0</pose>
         <mass>0.15</mass>
@@ -1485,6 +1485,7 @@
       </collision>
     </link>
     <joint name="front_left_flipper_wheel5_j" type="revolute">
+      <pose relative_to="front_left_flipper">0.33 0 0 0 -0 0</pose>
       <child>front_left_flipper_wheel5</child>
       <parent>front_left_flipper</parent>
       <axis>
@@ -1497,11 +1498,10 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
     <link name="left_track_wheel1">
-      <pose>0.25 0.1985 0.01855 0 -0 0</pose>
+      <pose relative_to="left_track_wheel1_j">0 0 0 0 -0 0</pose>
       <inertial>
         <pose>0 0 0.0141 0 -0 0</pose>
         <mass>0.7575</mass>
@@ -1542,6 +1542,7 @@
       </collision>
     </link>
     <joint name="left_track_wheel1_j" type="revolute">
+      <pose relative_to="left_track">0.25 0 0.01855 0 -0 0</pose>
       <child>left_track_wheel1</child>
       <parent>left_track</parent>
       <axis>
@@ -1554,11 +1555,10 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
     <link name="left_track_wheel2">
-      <pose>0.178571 0.1985 0.01855 0 -0 0</pose>
+      <pose relative_to="left_track_wheel2_j">0 0 0 0 -0 0</pose>
       <inertial>
         <pose>0 0 0.0141 0 -0 0</pose>
         <mass>0.7575</mass>
@@ -1599,6 +1599,7 @@
       </collision>
     </link>
     <joint name="left_track_wheel2_j" type="revolute">
+      <pose relative_to="left_track">0.178571 0 0.01855 0 -0 0</pose>
       <child>left_track_wheel2</child>
       <parent>left_track</parent>
       <axis>
@@ -1611,11 +1612,10 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
     <link name="left_track_wheel3">
-      <pose>0.107143 0.1985 0.01855 0 -0 0</pose>
+      <pose relative_to="left_track_wheel3_j">0 0 0 0 -0 0</pose>
       <inertial>
         <pose>0 0 0.0141 0 -0 0</pose>
         <mass>0.7575</mass>
@@ -1656,6 +1656,7 @@
       </collision>
     </link>
     <joint name="left_track_wheel3_j" type="revolute">
+      <pose relative_to="left_track">0.107143 0 0.01855 0 -0 0</pose>
       <child>left_track_wheel3</child>
       <parent>left_track</parent>
       <axis>
@@ -1668,11 +1669,10 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
     <link name="left_track_wheel4">
-      <pose>0.035714 0.1985 0.01855 0 -0 0</pose>
+      <pose relative_to="left_track_wheel4_j">0 0 0 0 -0 0</pose>
       <inertial>
         <pose>0 0 0.0141 0 -0 0</pose>
         <mass>0.7575</mass>
@@ -1713,6 +1713,7 @@
       </collision>
     </link>
     <joint name="left_track_wheel4_j" type="revolute">
+      <pose relative_to="left_track">0.035714 0 0.01855 0 -0 0</pose>
       <child>left_track_wheel4</child>
       <parent>left_track</parent>
       <axis>
@@ -1725,11 +1726,10 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
     <link name="left_track_wheel5">
-      <pose>-0.035714 0.1985 0.01855 0 -0 0</pose>
+      <pose relative_to="left_track_wheel5_j">0 0 0 0 -0 0</pose>
       <inertial>
         <pose>0 0 0.0141 0 -0 0</pose>
         <mass>0.7575</mass>
@@ -1770,6 +1770,7 @@
       </collision>
     </link>
     <joint name="left_track_wheel5_j" type="revolute">
+      <pose relative_to="left_track">-0.035714 0 0.01855 0 -0 0</pose>
       <child>left_track_wheel5</child>
       <parent>left_track</parent>
       <axis>
@@ -1782,11 +1783,10 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
     <link name="left_track_wheel6">
-      <pose>-0.107143 0.1985 0.01855 0 -0 0</pose>
+      <pose relative_to="left_track_wheel6_j">0 0 0 0 -0 0</pose>
       <inertial>
         <pose>0 0 0.0141 0 -0 0</pose>
         <mass>0.7575</mass>
@@ -1827,6 +1827,7 @@
       </collision>
     </link>
     <joint name="left_track_wheel6_j" type="revolute">
+      <pose relative_to="left_track">-0.107143 0 0.01855 0 -0 0</pose>
       <child>left_track_wheel6</child>
       <parent>left_track</parent>
       <axis>
@@ -1839,11 +1840,10 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
     <link name="left_track_wheel7">
-      <pose>-0.178571 0.1985 0.01855 0 -0 0</pose>
+      <pose relative_to="left_track_wheel7_j">0 0 0 0 -0 0</pose>
       <inertial>
         <pose>0 0 0.0141 0 -0 0</pose>
         <mass>0.7575</mass>
@@ -1884,6 +1884,7 @@
       </collision>
     </link>
     <joint name="left_track_wheel7_j" type="revolute">
+      <pose relative_to="left_track">-0.178571 0 0.01855 0 -0 0</pose>
       <child>left_track_wheel7</child>
       <parent>left_track</parent>
       <axis>
@@ -1896,11 +1897,10 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
     <link name="left_track_wheel8">
-      <pose>-0.25 0.1985 0.01855 0 -0 0</pose>
+      <pose relative_to="left_track_wheel8_j">0 0 0 0 -0 0</pose>
       <inertial>
         <pose>0 0 0.0141 0 -0 0</pose>
         <mass>0.7575</mass>
@@ -1941,6 +1941,7 @@
       </collision>
     </link>
     <joint name="left_track_wheel8_j" type="revolute">
+      <pose relative_to="left_track">-0.25 0 0.01855 0 -0 0</pose>
       <child>left_track_wheel8</child>
       <parent>left_track</parent>
       <axis>
@@ -1953,11 +1954,10 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
     <link name="rear_left_flipper">
-      <pose>-0.25 0.272 0.0195 3.1415926535897931 0.193732 3.1415926535897931</pose>
+      <pose relative_to="rear_left_flipper_j">0 0 0 0 -0 0</pose>
       <inertial>
         <mass>1e-05</mass>
         <inertia>
@@ -1995,6 +1995,7 @@
       </visual>
     </link>
     <joint name="rear_left_flipper_j" type="revolute">
+      <pose relative_to="left_track">-0.25 0.0735 0.0195 3.1415926535897931 0.193732 3.1415926535897931</pose>
       <child>rear_left_flipper</child>
       <parent>left_track</parent>
       <axis>
@@ -2009,7 +2010,6 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
       <physics>
         <ode>
@@ -2023,7 +2023,7 @@
       </physics>
     </joint>
     <link name="rear_left_flipper_wheel1">
-      <pose>-0.25 0.272 0.0195 3.1415926535897931 0.193732 3.1415926535897931</pose>
+      <pose relative_to="rear_left_flipper_wheel1_j">0 0 0 0 -0 0</pose>
       <inertial>
         <pose>0.08 0 0 0 -0 0</pose>
         <mass>0.15</mass>
@@ -2064,6 +2064,7 @@
       </collision>
     </link>
     <joint name="rear_left_flipper_wheel1_j" type="revolute">
+      <pose relative_to="rear_left_flipper">0 0 0 0 -0 0</pose>
       <child>rear_left_flipper_wheel1</child>
       <parent>rear_left_flipper</parent>
       <axis>
@@ -2076,11 +2077,10 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
     <link name="rear_left_flipper_wheel2">
-      <pose>-0.330957 0.272 0.003617 3.1415926535897931 0.193732 3.1415926535897931</pose>
+      <pose relative_to="rear_left_flipper_wheel2_j">0 0 0 0 -0 0</pose>
       <inertial>
         <pose>0.08 0 0 0 -0 0</pose>
         <mass>0.15</mass>
@@ -2121,6 +2121,7 @@
       </collision>
     </link>
     <joint name="rear_left_flipper_wheel2_j" type="revolute">
+      <pose relative_to="rear_left_flipper">0.0825 0 0 0 -0 0</pose>
       <child>rear_left_flipper_wheel2</child>
       <parent>rear_left_flipper</parent>
       <axis>
@@ -2133,11 +2134,10 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
     <link name="rear_left_flipper_wheel3">
-      <pose>-0.411913 0.272 -0.012266 3.1415926535897931 0.193732 3.1415926535897931</pose>
+      <pose relative_to="rear_left_flipper_wheel3_j">0 0 0 0 -0 0</pose>
       <inertial>
         <pose>0.08 0 0 0 -0 0</pose>
         <mass>0.15</mass>
@@ -2178,6 +2178,7 @@
       </collision>
     </link>
     <joint name="rear_left_flipper_wheel3_j" type="revolute">
+      <pose relative_to="rear_left_flipper">0.165 0 0 0 -0 0</pose>
       <child>rear_left_flipper_wheel3</child>
       <parent>rear_left_flipper</parent>
       <axis>
@@ -2190,11 +2191,10 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
     <link name="rear_left_flipper_wheel4">
-      <pose>-0.49287 0.272 -0.028149 3.1415926535897931 0.193732 3.1415926535897931</pose>
+      <pose relative_to="rear_left_flipper_wheel4_j">0 0 0 0 -0 0</pose>
       <inertial>
         <pose>0.08 0 0 0 -0 0</pose>
         <mass>0.15</mass>
@@ -2235,6 +2235,7 @@
       </collision>
     </link>
     <joint name="rear_left_flipper_wheel4_j" type="revolute">
+      <pose relative_to="rear_left_flipper">0.2475 0 0 0 -0 0</pose>
       <child>rear_left_flipper_wheel4</child>
       <parent>rear_left_flipper</parent>
       <axis>
@@ -2247,11 +2248,10 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
     <link name="rear_left_flipper_wheel5">
-      <pose>-0.573827 0.272 -0.044032 3.1415926535897931 0.193732 3.1415926535897931</pose>
+      <pose relative_to="rear_left_flipper_wheel5_j">0 0 0 0 -0 0</pose>
       <inertial>
         <pose>0.08 0 0 0 -0 0</pose>
         <mass>0.15</mass>
@@ -2292,6 +2292,7 @@
       </collision>
     </link>
     <joint name="rear_left_flipper_wheel5_j" type="revolute">
+      <pose relative_to="rear_left_flipper">0.33 0 0 0 -0 0</pose>
       <child>rear_left_flipper_wheel5</child>
       <parent>rear_left_flipper</parent>
       <axis>
@@ -2304,11 +2305,10 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
     <link name="right_track">
-      <pose>0 -0.1985 0 0 -0 0</pose>
+      <pose relative_to="right_track_j">0 0 0 0 -0 0</pose>
       <inertial>
         <mass>1e-05</mass>
         <inertia>
@@ -2346,6 +2346,7 @@
       </visual>
     </link>
     <joint name="right_track_j" type="revolute">
+      <pose relative_to="base_link">0 -0.1985 0 0 -0 0</pose>
       <child>right_track</child>
       <parent>base_link</parent>
       <axis>
@@ -2360,7 +2361,6 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
       <physics>
         <ode>
@@ -2379,7 +2379,7 @@
       </physics>
     </joint>
     <link name="front_right_flipper">
-      <pose>0.25 -0.272 0.0195 3.1415926535897931 -0.193732 3.1415926535897931</pose>
+      <pose relative_to="front_right_flipper_j">0 0 0 0 -0 0</pose>
       <inertial>
         <mass>1e-05</mass>
         <inertia>
@@ -2417,6 +2417,7 @@
       </visual>
     </link>
     <joint name="front_right_flipper_j" type="revolute">
+      <pose relative_to="right_track">0.25 -0.0735 0.0195 3.1415926535897931 -0.193732 3.1415926535897931</pose>
       <child>front_right_flipper</child>
       <parent>right_track</parent>
       <axis>
@@ -2431,7 +2432,6 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
       <physics>
         <ode>
@@ -2445,7 +2445,7 @@
       </physics>
     </joint>
     <link name="front_right_flipper_wheel1">
-      <pose>0.25 -0.272 0.0195 3.1415926535897931 -0.193732 3.1415926535897931</pose>
+      <pose relative_to="front_right_flipper_wheel1_j">0 0 0 0 -0 0</pose>
       <inertial>
         <pose>-0.08 0 0 0 -0 0</pose>
         <mass>0.15</mass>
@@ -2486,6 +2486,7 @@
       </collision>
     </link>
     <joint name="front_right_flipper_wheel1_j" type="revolute">
+      <pose relative_to="front_right_flipper">0 0 0 0 -0 0</pose>
       <child>front_right_flipper_wheel1</child>
       <parent>front_right_flipper</parent>
       <axis>
@@ -2498,11 +2499,10 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
     <link name="front_right_flipper_wheel2">
-      <pose>0.330957 -0.272 0.003617 3.1415926535897931 -0.193732 3.1415926535897931</pose>
+      <pose relative_to="front_right_flipper_wheel2_j">0 0 0 0 -0 0</pose>
       <inertial>
         <pose>-0.08 0 0 0 -0 0</pose>
         <mass>0.15</mass>
@@ -2543,6 +2543,7 @@
       </collision>
     </link>
     <joint name="front_right_flipper_wheel2_j" type="revolute">
+      <pose relative_to="front_right_flipper">-0.0825 0 0 0 -0 0</pose>
       <child>front_right_flipper_wheel2</child>
       <parent>front_right_flipper</parent>
       <axis>
@@ -2555,11 +2556,10 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
     <link name="front_right_flipper_wheel3">
-      <pose>0.411913 -0.272 -0.012266 3.1415926535897931 -0.193732 3.1415926535897931</pose>
+      <pose relative_to="front_right_flipper_wheel3_j">0 0 0 0 -0 0</pose>
       <inertial>
         <pose>-0.08 0 0 0 -0 0</pose>
         <mass>0.15</mass>
@@ -2600,6 +2600,7 @@
       </collision>
     </link>
     <joint name="front_right_flipper_wheel3_j" type="revolute">
+      <pose relative_to="front_right_flipper">-0.165 0 0 0 -0 0</pose>
       <child>front_right_flipper_wheel3</child>
       <parent>front_right_flipper</parent>
       <axis>
@@ -2612,11 +2613,10 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
     <link name="front_right_flipper_wheel4">
-      <pose>0.49287 -0.272 -0.028149 3.1415926535897931 -0.193732 3.1415926535897931</pose>
+      <pose relative_to="front_right_flipper_wheel4_j">0 0 0 0 -0 0</pose>
       <inertial>
         <pose>-0.08 0 0 0 -0 0</pose>
         <mass>0.15</mass>
@@ -2657,6 +2657,7 @@
       </collision>
     </link>
     <joint name="front_right_flipper_wheel4_j" type="revolute">
+      <pose relative_to="front_right_flipper">-0.2475 0 0 0 -0 0</pose>
       <child>front_right_flipper_wheel4</child>
       <parent>front_right_flipper</parent>
       <axis>
@@ -2669,11 +2670,10 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
     <link name="front_right_flipper_wheel5">
-      <pose>0.573827 -0.272 -0.044032 3.1415926535897931 -0.193732 3.1415926535897931</pose>
+      <pose relative_to="front_right_flipper_wheel5_j">0 0 0 0 -0 0</pose>
       <inertial>
         <pose>-0.08 0 0 0 -0 0</pose>
         <mass>0.15</mass>
@@ -2714,6 +2714,7 @@
       </collision>
     </link>
     <joint name="front_right_flipper_wheel5_j" type="revolute">
+      <pose relative_to="front_right_flipper">-0.33 0 0 0 -0 0</pose>
       <child>front_right_flipper_wheel5</child>
       <parent>front_right_flipper</parent>
       <axis>
@@ -2726,11 +2727,10 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
     <link name="rear_right_flipper">
-      <pose>-0.25 -0.272 0.0195 0 -0.193732 0</pose>
+      <pose relative_to="rear_right_flipper_j">0 0 0 0 -0 0</pose>
       <inertial>
         <mass>1e-05</mass>
         <inertia>
@@ -2768,6 +2768,7 @@
       </visual>
     </link>
     <joint name="rear_right_flipper_j" type="revolute">
+      <pose relative_to="right_track">-0.25 -0.0735 0.0195 0 -0.193732 0</pose>
       <child>rear_right_flipper</child>
       <parent>right_track</parent>
       <axis>
@@ -2782,7 +2783,6 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
       <physics>
         <ode>
@@ -2796,7 +2796,7 @@
       </physics>
     </joint>
     <link name="rear_right_flipper_wheel1">
-      <pose>-0.25 -0.272 0.0195 0 -0.193732 0</pose>
+      <pose relative_to="rear_right_flipper_wheel1_j">0 0 0 0 -0 0</pose>
       <inertial>
         <pose>-0.08 0 0 0 -0 0</pose>
         <mass>0.15</mass>
@@ -2837,6 +2837,7 @@
       </collision>
     </link>
     <joint name="rear_right_flipper_wheel1_j" type="revolute">
+      <pose relative_to="rear_right_flipper">0 0 0 0 -0 0</pose>
       <child>rear_right_flipper_wheel1</child>
       <parent>rear_right_flipper</parent>
       <axis>
@@ -2849,11 +2850,10 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
     <link name="rear_right_flipper_wheel2">
-      <pose>-0.330957 -0.272 0.003617 0 -0.193732 0</pose>
+      <pose relative_to="rear_right_flipper_wheel2_j">0 0 0 0 -0 0</pose>
       <inertial>
         <pose>-0.08 0 0 0 -0 0</pose>
         <mass>0.15</mass>
@@ -2894,6 +2894,7 @@
       </collision>
     </link>
     <joint name="rear_right_flipper_wheel2_j" type="revolute">
+      <pose relative_to="rear_right_flipper">-0.0825 0 0 0 -0 0</pose>
       <child>rear_right_flipper_wheel2</child>
       <parent>rear_right_flipper</parent>
       <axis>
@@ -2906,11 +2907,10 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
     <link name="rear_right_flipper_wheel3">
-      <pose>-0.411913 -0.272 -0.012266 0 -0.193732 0</pose>
+      <pose relative_to="rear_right_flipper_wheel3_j">0 0 0 0 -0 0</pose>
       <inertial>
         <pose>-0.08 0 0 0 -0 0</pose>
         <mass>0.15</mass>
@@ -2951,6 +2951,7 @@
       </collision>
     </link>
     <joint name="rear_right_flipper_wheel3_j" type="revolute">
+      <pose relative_to="rear_right_flipper">-0.165 0 0 0 -0 0</pose>
       <child>rear_right_flipper_wheel3</child>
       <parent>rear_right_flipper</parent>
       <axis>
@@ -2963,11 +2964,10 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
     <link name="rear_right_flipper_wheel4">
-      <pose>-0.49287 -0.272 -0.028149 0 -0.193732 0</pose>
+      <pose relative_to="rear_right_flipper_wheel4_j">0 0 0 0 -0 0</pose>
       <inertial>
         <pose>-0.08 0 0 0 -0 0</pose>
         <mass>0.15</mass>
@@ -3008,6 +3008,7 @@
       </collision>
     </link>
     <joint name="rear_right_flipper_wheel4_j" type="revolute">
+      <pose relative_to="rear_right_flipper">-0.2475 0 0 0 -0 0</pose>
       <child>rear_right_flipper_wheel4</child>
       <parent>rear_right_flipper</parent>
       <axis>
@@ -3020,11 +3021,10 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
     <link name="rear_right_flipper_wheel5">
-      <pose>-0.573827 -0.272 -0.044032 0 -0.193732 0</pose>
+      <pose relative_to="rear_right_flipper_wheel5_j">0 0 0 0 -0 0</pose>
       <inertial>
         <pose>-0.08 0 0 0 -0 0</pose>
         <mass>0.15</mass>
@@ -3065,6 +3065,7 @@
       </collision>
     </link>
     <joint name="rear_right_flipper_wheel5_j" type="revolute">
+      <pose relative_to="rear_right_flipper">-0.33 0 0 0 -0 0</pose>
       <child>rear_right_flipper_wheel5</child>
       <parent>rear_right_flipper</parent>
       <axis>
@@ -3077,11 +3078,10 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
     <link name="right_track_wheel1">
-      <pose>0.25 -0.1985 0.01855 0 -0 0</pose>
+      <pose relative_to="right_track_wheel1_j">0 0 0 0 -0 0</pose>
       <inertial>
         <pose>0 0 0.0141 0 -0 0</pose>
         <mass>0.7575</mass>
@@ -3122,6 +3122,7 @@
       </collision>
     </link>
     <joint name="right_track_wheel1_j" type="revolute">
+      <pose relative_to="right_track">0.25 0 0.01855 0 -0 0</pose>
       <child>right_track_wheel1</child>
       <parent>right_track</parent>
       <axis>
@@ -3134,11 +3135,10 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
     <link name="right_track_wheel2">
-      <pose>0.178571 -0.1985 0.01855 0 -0 0</pose>
+      <pose relative_to="right_track_wheel2_j">0 0 0 0 -0 0</pose>
       <inertial>
         <pose>0 0 0.0141 0 -0 0</pose>
         <mass>0.7575</mass>
@@ -3179,6 +3179,7 @@
       </collision>
     </link>
     <joint name="right_track_wheel2_j" type="revolute">
+      <pose relative_to="right_track">0.178571 0 0.01855 0 -0 0</pose>
       <child>right_track_wheel2</child>
       <parent>right_track</parent>
       <axis>
@@ -3191,11 +3192,10 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
     <link name="right_track_wheel3">
-      <pose>0.107143 -0.1985 0.01855 0 -0 0</pose>
+      <pose relative_to="right_track_wheel3_j">0 0 0 0 -0 0</pose>
       <inertial>
         <pose>0 0 0.0141 0 -0 0</pose>
         <mass>0.7575</mass>
@@ -3236,6 +3236,7 @@
       </collision>
     </link>
     <joint name="right_track_wheel3_j" type="revolute">
+      <pose relative_to="right_track">0.107143 0 0.01855 0 -0 0</pose>
       <child>right_track_wheel3</child>
       <parent>right_track</parent>
       <axis>
@@ -3248,11 +3249,10 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
     <link name="right_track_wheel4">
-      <pose>0.035714 -0.1985 0.01855 0 -0 0</pose>
+      <pose relative_to="right_track_wheel4_j">0 0 0 0 -0 0</pose>
       <inertial>
         <pose>0 0 0.0141 0 -0 0</pose>
         <mass>0.7575</mass>
@@ -3293,6 +3293,7 @@
       </collision>
     </link>
     <joint name="right_track_wheel4_j" type="revolute">
+      <pose relative_to="right_track">0.035714 0 0.01855 0 -0 0</pose>
       <child>right_track_wheel4</child>
       <parent>right_track</parent>
       <axis>
@@ -3305,11 +3306,10 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
     <link name="right_track_wheel5">
-      <pose>-0.035714 -0.1985 0.01855 0 -0 0</pose>
+      <pose relative_to="right_track_wheel5_j">0 0 0 0 -0 0</pose>
       <inertial>
         <pose>0 0 0.0141 0 -0 0</pose>
         <mass>0.7575</mass>
@@ -3350,6 +3350,7 @@
       </collision>
     </link>
     <joint name="right_track_wheel5_j" type="revolute">
+      <pose relative_to="right_track">-0.035714 0 0.01855 0 -0 0</pose>
       <child>right_track_wheel5</child>
       <parent>right_track</parent>
       <axis>
@@ -3362,11 +3363,10 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
     <link name="right_track_wheel6">
-      <pose>-0.107143 -0.1985 0.01855 0 -0 0</pose>
+      <pose relative_to="right_track_wheel6_j">0 0 0 0 -0 0</pose>
       <inertial>
         <pose>0 0 0.0141 0 -0 0</pose>
         <mass>0.7575</mass>
@@ -3407,6 +3407,7 @@
       </collision>
     </link>
     <joint name="right_track_wheel6_j" type="revolute">
+      <pose relative_to="right_track">-0.107143 0 0.01855 0 -0 0</pose>
       <child>right_track_wheel6</child>
       <parent>right_track</parent>
       <axis>
@@ -3419,11 +3420,10 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
     <link name="right_track_wheel7">
-      <pose>-0.178571 -0.1985 0.01855 0 -0 0</pose>
+      <pose relative_to="right_track_wheel7_j">0 0 0 0 -0 0</pose>
       <inertial>
         <pose>0 0 0.0141 0 -0 0</pose>
         <mass>0.7575</mass>
@@ -3464,6 +3464,7 @@
       </collision>
     </link>
     <joint name="right_track_wheel7_j" type="revolute">
+      <pose relative_to="right_track">-0.178571 0 0.01855 0 -0 0</pose>
       <child>right_track_wheel7</child>
       <parent>right_track</parent>
       <axis>
@@ -3476,11 +3477,10 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
     <link name="right_track_wheel8">
-      <pose>-0.25 -0.1985 0.01855 0 -0 0</pose>
+      <pose relative_to="right_track_wheel8_j">0 0 0 0 -0 0</pose>
       <inertial>
         <pose>0 0 0.0141 0 -0 0</pose>
         <mass>0.7575</mass>
@@ -3521,6 +3521,7 @@
       </collision>
     </link>
     <joint name="right_track_wheel8_j" type="revolute">
+      <pose relative_to="right_track">-0.25 0 0.01855 0 -0 0</pose>
       <child>right_track_wheel8</child>
       <parent>right_track</parent>
       <axis>
@@ -3533,7 +3534,6 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
     <plugin name="cras::FlipperControlPlugin" filename="libflipper_control_plugin.so">
