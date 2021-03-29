@@ -995,6 +995,34 @@
         <pose>0.13592 -0.016338 0.419596 0.015 0.499467 -0.000319</pose>
       </sensor>
     </link>
+    <joint name="laser_j" type="revolute">
+      <pose relative_to="base_link">0.2502 0 0.1407 -3.1415926535897931 0 0</pose>
+      <child>laser</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>-2.35619</lower>
+          <upper>2.35619</upper>
+          <effort>10</effort>
+          <velocity>1.2</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+      <physics>
+        <ode>
+          <implicit_spring_damper>1</implicit_spring_damper>
+          <cfm_damping>1</cfm_damping>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
+    </joint>
     <link name="laser">
       <pose relative_to="laser_j">0 0 0 0 -0 0</pose>
       <inertial>
@@ -1050,34 +1078,6 @@
         </lidar>
       </sensor>
     </link>
-    <joint name="laser_j" type="revolute">
-      <pose relative_to="base_link">0.2502 0 0.1407 -3.1415926535897931 0 0</pose>
-      <child>laser</child>
-      <parent>base_link</parent>
-      <axis>
-        <xyz>1 0 0</xyz>
-        <limit>
-          <lower>-2.35619</lower>
-          <upper>2.35619</upper>
-          <effort>10</effort>
-          <velocity>1.2</velocity>
-        </limit>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-      </axis>
-      <physics>
-        <ode>
-          <implicit_spring_damper>1</implicit_spring_damper>
-          <cfm_damping>1</cfm_damping>
-          <limit>
-            <cfm>0</cfm>
-            <erp>0.2</erp>
-          </limit>
-        </ode>
-      </physics>
-    </joint>
     <link name="left_track">
       <pose relative_to="left_track_j">0 0 0 0 -0 0</pose>
       <inertial>
