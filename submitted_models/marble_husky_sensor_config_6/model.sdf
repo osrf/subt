@@ -770,7 +770,7 @@
         </sensor>
 
         <visual name="camera_left_visual">
-          <pose>0.4379 -0.08 0.53718 1.5709 0 0</pose>
+          <pose>0.4379 0.08 0.53718 1.5709 0 0</pose>
           <geometry>
             <cylinder>
               <length>0.065</length>
@@ -779,7 +779,7 @@
           </geometry>
         </visual>
         <collision name="camera_left_collision">
-          <pose>0.4379 -0.08 0.53718 1.5709 0 0</pose>
+          <pose>0.4379 0.08 0.53718 1.5709 0 0</pose>
           <geometry>
             <cylinder>
               <length>0.065</length>
@@ -788,7 +788,7 @@
           </geometry>
         </collision>
         <sensor name="camera_left" type="camera">
-            <pose>0.4379 -0.12 0.53718 0 0 -1.5708</pose>
+            <pose>0.4379 0.12 0.53718 0 0 1.5708</pose>
             <always_on>1</always_on>
             <update_rate>10</update_rate>
             <camera name="camera_left">
@@ -833,7 +833,7 @@
         </sensor>
 
         <visual name="camera_right_visual">
-          <pose>0.4379 0.08 0.53718 1.5709 0 0</pose>
+          <pose>0.4379 -0.08 0.53718 1.5709 0 0</pose>
           <geometry>
               <cylinder>
                 <length>0.065</length>
@@ -842,7 +842,7 @@
           </geometry>
         </visual>
         <collision name="camera_right_collision">
-          <pose>0.4379 0.08 0.53718 1.5709 0 0</pose>
+          <pose>0.4379 -0.08 0.53718 1.5709 0 0</pose>
           <geometry>
               <cylinder>
                 <length>0.065</length>
@@ -851,7 +851,7 @@
           </geometry>
         </collision>
         <sensor name="camera_right" type="camera">
-            <pose>0.4379 0.12 0.53718 0 0 1.5708</pose>
+            <pose>0.4379 -0.12 0.53718 0 0 -1.5708</pose>
             <always_on>1</always_on>
             <update_rate>10</update_rate>
             <camera name="camera_right">
@@ -898,7 +898,7 @@
       <light name="flashlight_flashlight_light_source_lamp_light_front" type="spot">
         <pose frame="">0.5179 0 0.53718 3.14159 1.5709 0</pose>
         <attenuation>
-          <range>50</range>
+          <range>35</range>
           <linear>0</linear>
           <constant>0.1</constant>
           <quadratic>0.0025</quadratic>
@@ -906,9 +906,8 @@
         <diffuse>0.8 0.8 0.5 1</diffuse>
         <specular>0.8 0.8 0.5 1</specular>
         <spot>
-          <!-- The lights on the MARBLE ground vehicles are very wide angle, 100W LEDs -->
-          <inner_angle>2.8</inner_angle>
-          <outer_angle>2.9</outer_angle>
+          <inner_angle>1.8</inner_angle>
+          <outer_angle>1.9</outer_angle>
           <falloff>1</falloff>
         </spot>
         <direction>0 0 -1</direction>
@@ -930,114 +929,60 @@
         </material>
       </visual>
 
-      <!-- <light name="flashlight_flashlight_light_source_lamp_light_left" type="spot"> -->
-      <!--   <!&#45;&#45; <pose frame="">0.5179 0 0.53718 3.14159 1.5709 0</pose> &#45;&#45;> -->
-      <!--   <pose frame="">0.4379 &#45;0.12 0.53718 1.5709 0 0</pose> -->
-      <!--   <attenuation> -->
-      <!--     <range>50</range> -->
-      <!--     <linear>0</linear> -->
-      <!--     <constant>0.1</constant> -->
-      <!--     <quadratic>0.0025</quadratic> -->
-      <!--   </attenuation> -->
-      <!--   <diffuse>0.8 0.8 0.5 1</diffuse> -->
-      <!--   <specular>0.8 0.8 0.5 1</specular> -->
-      <!--   <spot> -->
-      <!--     <!&#45;&#45; The lights on the MARBLE ground vehicles are very wide angle, 100W LEDs &#45;&#45;> -->
-      <!--     <inner_angle>2.8</inner_angle> -->
-      <!--     <outer_angle>2.9</outer_angle> -->
-      <!--     <falloff>1</falloff> -->
-      <!--   </spot> -->
-      <!--   <direction>0 0 &#45;1</direction> -->
-      <!-- </light> -->
-      <!-- <visual name="flashlight_flashlight_light_source_lamp_viz_visual_left"> -->
-      <!--   <pose frame="">0.4379 &#45;0.12 0.53718 1.5709 0 0</pose> -->
-      <!--   <geometry> -->
-      <!--     <cylinder> -->
-      <!--       <radius>0.019</radius> -->
-      <!--       <length>0.005</length> -->
-      <!--     </cylinder> -->
-      <!--   </geometry> -->
-      <!--   <transparency>0</transparency> -->
-      <!--   <material> -->
-      <!--     <ambient>1 1 1 1</ambient> -->
-      <!--     <diffuse>1 1 1 1</diffuse> -->
-      <!--     <specular>1 1 1 1</specular> -->
-      <!--     <emissive>1 1 1 1</emissive> -->
-      <!--   </material> -->
-      <!-- </visual> -->
-      <!--  -->
-      <!-- <light name="flashlight_flashlight_light_source_lamp_light_right" type="spot"> -->
-      <!--   <pose frame="">0.5179 0 0.53718 3.14159 1.5709 0</pose> -->
-      <!--   <pose>0.4379 0.12 0.53718 0 0 1.5708</pose> -->
-      <!--   <attenuation> -->
-      <!--     <range>50</range> -->
-      <!--     <linear>0</linear> -->
-      <!--     <constant>0.1</constant> -->
-      <!--     <quadratic>0.0025</quadratic> -->
-      <!--   </attenuation> -->
-      <!--   <diffuse>0.8 0.8 0.5 1</diffuse> -->
-      <!--   <specular>0.8 0.8 0.5 1</specular> -->
-      <!--   <spot> -->
-      <!--     <!&#45;&#45; The lights on the MARBLE ground vehicles are very wide angle, 100W LEDs &#45;&#45;> -->
-      <!--     <inner_angle>2.8</inner_angle> -->
-      <!--     <outer_angle>2.9</outer_angle> -->
-      <!--     <falloff>1</falloff> -->
-      <!--   </spot> -->
-      <!--   <direction>0 0 &#45;1</direction> -->
-      <!-- </light> -->
-      <!-- <visual name="flashlight_flashlight_light_source_lamp_viz_visual_right"> -->
-      <!--   <pose frame="">0.5179 0 0.53718 3.14159 1.5709 0</pose> -->
-      <!--   <geometry> -->
-      <!--     <cylinder> -->
-      <!--       <radius>0.019</radius> -->
-      <!--       <length>0.005</length> -->
-      <!--     </cylinder> -->
-      <!--   </geometry> -->
-      <!--   <transparency>0</transparency> -->
-      <!--   <material> -->
-      <!--     <ambient>1 1 1 1</ambient> -->
-      <!--     <diffuse>1 1 1 1</diffuse> -->
-      <!--     <specular>1 1 1 1</specular> -->
-      <!--     <emissive>1 1 1 1</emissive> -->
-      <!--   </material> -->
-      <!-- </visual> -->
-      <!--  -->
-      <!-- <light name="flashlight_flashlight_light_source_lamp_light_back" type="spot"> -->
-      <!--   <pose frame="">0.5179 0 0.53718 3.14159 1.5709 0</pose> -->
-      <!--       <pose>0.3179 0.0 0.53718 0 0 3.14159</pose> -->
-      <!--   <attenuation> -->
-      <!--     <range>50</range> -->
-      <!--     <linear>0</linear> -->
-      <!--     <constant>0.1</constant> -->
-      <!--     <quadratic>0.0025</quadratic> -->
-      <!--   </attenuation> -->
-      <!--   <diffuse>0.8 0.8 0.5 1</diffuse> -->
-      <!--   <specular>0.8 0.8 0.5 1</specular> -->
-      <!--   <spot> -->
-      <!--     <!&#45;&#45; The lights on the MARBLE ground vehicles are very wide angle, 100W LEDs &#45;&#45;> -->
-      <!--     <inner_angle>2.8</inner_angle> -->
-      <!--     <outer_angle>2.9</outer_angle> -->
-      <!--     <falloff>1</falloff> -->
-      <!--   </spot> -->
-      <!--   <direction>0 0 &#45;1</direction> -->
-      <!-- </light> -->
-      <!-- <visual name="flashlight_flashlight_light_source_lamp_viz_visual_back"> -->
-      <!--   <pose frame="">0.5179 0 0.53718 3.14159 1.5709 0</pose> -->
-      <!--   <geometry> -->
-      <!--     <cylinder> -->
-      <!--       <radius>0.019</radius> -->
-      <!--       <length>0.005</length> -->
-      <!--     </cylinder> -->
-      <!--   </geometry> -->
-      <!--   <transparency>0</transparency> -->
-      <!--   <material> -->
-      <!--     <ambient>1 1 1 1</ambient> -->
-      <!--     <diffuse>1 1 1 1</diffuse> -->
-      <!--     <specular>1 1 1 1</specular> -->
-      <!--     <emissive>1 1 1 1</emissive> -->
-      <!--   </material> -->
-      <!-- </visual> -->
-      <!--  -->
+      <light name="flashlight_flashlight_light_source_lamp_light_left" type="spot">
+        <pose frame="">0.4379 0.12 0.53718 1.5708 0 0</pose> 
+        <attenuation>
+          <range>35</range>
+          <linear>0</linear>
+          <constant>0.1</constant>
+          <quadratic>0.0025</quadratic>
+        </attenuation>
+        <diffuse>0.8 0.8 0.5 1</diffuse>
+        <specular>0.8 0.8 0.5 1</specular>
+        <spot>
+          <inner_angle>1.8</inner_angle>
+          <outer_angle>1.9</outer_angle>
+          <falloff>1</falloff>
+        </spot>
+        <direction>0 0 &#45;1</direction>
+      </light>
+
+      <light name="flashlight_flashlight_light_source_lamp_light_right" type="spot">
+        <pose frame="">0.4379 -0.12 0.53718 -1.5708 0 0</pose>
+        <pose>0.4379 0.12 0.53718 0 0 1.5708</pose>
+        <attenuation>
+          <range>35</range>
+          <linear>0</linear>
+          <constant>0.1</constant>
+          <quadratic>0.0025</quadratic>
+        </attenuation>
+        <diffuse>0.8 0.8 0.5 1</diffuse>
+        <specular>0.8 0.8 0.5 1</specular>
+        <spot>
+          <inner_angle>1.8</inner_angle>
+          <outer_angle>1.9</outer_angle>
+          <falloff>1</falloff>
+        </spot>
+        <direction>0 0 &#45;1</direction>
+      </light>
+      <light name="flashlight_flashlight_light_source_lamp_light_back" type="spot">
+        <pose frame="">0.3579 0 0.53718 3.14159 -1.5709 0</pose>
+            <pose>0.3179 0.0 0.53718 0 0 3.14159</pose>
+        <attenuation>
+          <range>35</range>
+          <linear>0</linear>
+          <constant>0.1</constant>
+          <quadratic>0.0025</quadratic>
+        </attenuation>
+        <diffuse>0.8 0.8 0.5 1</diffuse>
+        <specular>0.8 0.8 0.5 1</specular>
+        <spot>
+          <inner_angle>1.8</inner_angle>
+          <outer_angle>1.9</outer_angle>
+          <falloff>1</falloff>
+        </spot>
+        <direction>0 0 &#45;1</direction>
+      </light>
     </link>
 
     <link name="front_left_wheel_link">

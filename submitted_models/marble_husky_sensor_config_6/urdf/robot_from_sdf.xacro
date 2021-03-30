@@ -26,12 +26,6 @@
         <box size='0.78992 0.5709 0.12375'/>
       </geometry>
     </collision>
-    <collision name='base_link_fixed_joint_lump__camera/camera_link_collision_1'>
-      <origin xyz='0 0 0.05' rpy='0 -0 0'/>
-      <geometry>
-        <box size='0.0078 0.13 0.0192'/>
-      </geometry>
-    </collision>
     <collision name='base_link_fixed_joint_lump__camera/camera_link_collision_2'>
       <origin xyz='0.478 0 0.285' rpy='0 -0 0'/>
       <geometry>
@@ -50,12 +44,6 @@
         <cylinder radius='0.0516' length='0.0717'/>
       </geometry>
     </collision>
-    <collision name='base_link_fixed_joint_lump__velodyne_gimbal_plate_base_link_collision_7'>
-      <origin xyz='0.424 0 0.4' rpy='0 -0 0'/>
-      <geometry>
-        <box size='0.1 0.1 0.01'/>
-      </geometry>
-    </collision>
     <collision name='base_link_fixed_joint_lump__sensor_tower_8'>
       <origin xyz='0.374 0 0.215' rpy='0 -0 0'/>
       <geometry>
@@ -68,76 +56,100 @@
         <box size='0.3 0.355 0.175'/>
       </geometry>
     </collision>
+    <collision name='tof_left_camera_mount_collision'>
+      <origin xyz='0.5105 0.01 0.439' rpy='-1.34452 0.47634 0.465309'/>
+      <geometry>
+        <box size='0.04 0.135 0.0385'/>
+      </geometry>
+    </collision>
+    <collision name='tof_right_camera_mount_collision'>
+      <origin xyz='0.5105 -0.01 0.439' rpy='-1.79707 0.47634 -0.465309'/>
+      <geometry>
+        <box size='0.04 0.135 0.0385'/>
+      </geometry>
+    </collision>
+    <collision name='sensor_head_collision'>
+      <origin xyz='0.4379 0 0.54818' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.1 0.1 0.125'/>
+      </geometry>
+    </collision>
+    <collision name='sensor_tower_support_collision'>
+      <origin xyz='0.4379 0 0.39918' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.04 0.04 0.25'/>
+      </geometry>
+    </collision>
+    <collision name='vertical_lidar_support_collision'>
+      <origin xyz='0.4029 0 0.44418' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.2 0.04 0.04'/>
+      </geometry>
+    </collision>
+    <collision name='diagonal_lidar_support_collision'>
+      <origin xyz='0.3779 0 0.36418' rpy='0 0.8854 0'/>
+      <geometry>
+        <box size='0.18 0.04 0.04'/>
+      </geometry>
+    </collision>
+    <collision name='camera_front_collision'>
+      <origin xyz='0.5179 0 0.53718' rpy='3.14159 1.57069 3.14159'/>
+      <geometry>
+        <cylinder radius='0.03' length='0.065'/>
+      </geometry>
+    </collision>
+    <collision name='camera_back_collision'>
+      <origin xyz='0.3579 0 0.53718' rpy='3.14159 1.57069 3.14159'/>
+      <geometry>
+        <cylinder radius='0.03' length='0.065'/>
+      </geometry>
+    </collision>
+    <collision name='camera_left_collision'>
+      <origin xyz='0.4379 0.08 0.53718' rpy='1.5709 -0 0'/>
+      <geometry>
+        <cylinder radius='0.03' length='0.065'/>
+      </geometry>
+    </collision>
+    <collision name='camera_right_collision'>
+      <origin xyz='0.4379 -0.08 0.53718' rpy='1.5709 -0 0'/>
+      <geometry>
+        <cylinder radius='0.03' length='0.065'/>
+      </geometry>
+    </collision>
     <visual name='base_link_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://marble_husky_sensor_config_6/meshes/base_link.dae' scale='1 1 1'/>
-      </geometry>
-    </visual>
-    <visual name='base_link_fixed_joint_lump__camera/camera_link_visual_1'>
-      <origin xyz='0.478 0 0.26' rpy='0 0.5236 0'/>
-      <geometry>
-        <mesh filename='package://marble_husky_sensor_config_6/meshes/realsense.dae' scale='1 1 1'/>
-      </geometry>
-    </visual>
-    <visual name='base_link_fixed_joint_lump__camera/camera_link_visual_2'>
-      <origin xyz='0.478 0 0.285' rpy='0 -0 0'/>
-      <geometry>
-        <mesh filename='package://marble_husky_sensor_config_6/meshes/realsense.dae' scale='1 1 1'/>
+        <mesh filename='meshes/base_link.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='base_link_fixed_joint_lump__front_bumper_link_visual_3'>
       <origin xyz='0.48 0 0.091' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://marble_husky_sensor_config_6/meshes/bumper.dae' scale='1 1 1'/>
+        <mesh filename='meshes/bumper.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='base_link_fixed_joint_lump__rear_bumper_link_visual_4'>
       <origin xyz='-0.48 0 0.091' rpy='0 -0 3.14159'/>
       <geometry>
-        <mesh filename='package://marble_husky_sensor_config_6/meshes/bumper.dae' scale='1 1 1'/>
+        <mesh filename='meshes/bumper.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='base_link_fixed_joint_lump__top_chassis_link_visual_5'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://marble_husky_sensor_config_6/meshes/top_chassis.dae' scale='1 1 1'/>
-      </geometry>
-    </visual>
-    <visual name='base_link_fixed_joint_lump__velodyne_base_link_visual_10'>
-      <origin xyz='0.424 0 0.327' rpy='0 -0 0'/>
-      <geometry>
-        <mesh filename='package://marble_husky_sensor_config_6/meshes/VLP16_base_1.dae' scale='1 1 1'/>
-      </geometry>
-    </visual>
-    <visual name='base_link_fixed_joint_lump__velodyne_base_link_visual_11'>
-      <origin xyz='0.424 0 0.327' rpy='0 -0 0'/>
-      <geometry>
-        <mesh filename='package://marble_husky_sensor_config_6/meshes/VLP16_base_2.dae' scale='1 1 1'/>
-      </geometry>
-    </visual>
-    <visual name='base_link_fixed_joint_lump__velodyne_visual_12'>
-      <origin xyz='0.424 0 0.327' rpy='0 -0 0'/>
-      <geometry>
-        <mesh filename='package://marble_husky_sensor_config_6/meshes/VLP16_scan.dae' scale='1 1 1'/>
+        <mesh filename='meshes/top_chassis.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='base_link_fixed_joint_lump__user_rail_link_visual_13'>
       <origin xyz='0.272 0 0.245' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://marble_husky_sensor_config_6/meshes/user_rail.dae' scale='1 1 1'/>
+        <mesh filename='meshes/user_rail.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='base_link_fixed_joint_lump__planar_lidar_link_visual_14'>
       <origin xyz='0.474 0 0.127' rpy='0 -0 0'/>
       <geometry>
         <cylinder radius='0.045' length='0.05'/>
-      </geometry>
-    </visual>
-    <visual name='base_link_fixed_joint_lump__velodyne_gimbal_plate_15'>
-      <origin xyz='0.424 0 0.4' rpy='0 -0 0'/>
-      <geometry>
-        <box size='0.06 0.06 0.01'/>
       </geometry>
     </visual>
     <visual name='base_link_fixed_joint_lump__sensor_tower_16'>
@@ -152,32 +164,172 @@
         <box size='0.3 0.355 0.175'/>
       </geometry>
     </visual>
+    <visual name='tof_left_camera_visual'>
+      <origin xyz='0.527 0.015 0.429' rpy='-1.34452 0.47634 0.465309'/>
+      <geometry>
+        <mesh filename='meshes/realsense.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='tof_left_camera_mount_visual'>
+      <origin xyz='0.5105 0.01 0.439' rpy='-1.34452 0.47634 0.465309'/>
+      <geometry>
+        <box size='0.04 0.135 0.0385'/>
+      </geometry>
+    </visual>
+    <visual name='tof_right_camera_visual'>
+      <origin xyz='0.527 -0.015 0.429' rpy='-1.79707 0.47634 -0.465309'/>
+      <geometry>
+        <mesh filename='meshes/realsense.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='tof_right_camera_mount_visual'>
+      <origin xyz='0.5105 -0.01 0.439' rpy='-1.79707 0.47634 -0.465309'/>
+      <geometry>
+        <box size='0.04 0.135 0.0385'/>
+      </geometry>
+    </visual>
+    <visual name='sensor_head_visual'>
+      <origin xyz='0.4379 0 0.54818' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.1 0.1 0.125'/>
+      </geometry>
+    </visual>
+    <visual name='sensor_tower_support_visual'>
+      <origin xyz='0.4379 0 0.39918' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.04 0.04 0.25'/>
+      </geometry>
+    </visual>
+    <visual name='vertical_lidar_support_visual'>
+      <origin xyz='0.4029 0 0.44418' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.2 0.04 0.04'/>
+      </geometry>
+    </visual>
+    <visual name='diagonal_lidar_support_visual'>
+      <origin xyz='0.3779 0 0.36418' rpy='0 0.8854 0'/>
+      <geometry>
+        <box size='0.18 0.04 0.04'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__velodyne_base_link_visual_10'>
+      <origin xyz='0.4379 0 0.61018' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='meshes/VLP16_base_1.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__velodyne_base_link_visual_11'>
+      <origin xyz='0.4379 0 0.61018' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='meshes/VLP16_base_2.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__velodyne_visual_12'>
+      <origin xyz='0.4379 0 0.61018' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='meshes/VLP16_scan.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__velodyne_base_link_visual_13'>
+      <origin xyz='0.31037 0 0.44818' rpy='3.14159 -1.57079 3.14159'/>
+      <geometry>
+        <mesh filename='meshes/VLP16_base_1.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__velodyne_base_link_visual_14'>
+      <origin xyz='0.31037 0 0.44818' rpy='3.14159 -1.57079 3.14159'/>
+      <geometry>
+        <mesh filename='meshes/VLP16_base_2.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__velodyne_visual_15'>
+      <origin xyz='0.31037 0 0.44818' rpy='3.14159 -1.57079 3.14159'/>
+      <geometry>
+        <mesh filename='meshes/VLP16_scan.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='camera_front_visual'>
+      <origin xyz='0.5179 0 0.53718' rpy='3.14159 1.57069 3.14159'/>
+      <geometry>
+        <cylinder radius='0.03' length='0.065'/>
+      </geometry>
+    </visual>
+    <visual name='camera_back_visual'>
+      <origin xyz='0.3579 0 0.53718' rpy='3.14159 1.57069 3.14159'/>
+      <geometry>
+        <cylinder radius='0.03' length='0.065'/>
+      </geometry>
+    </visual>
+    <visual name='camera_left_visual'>
+      <origin xyz='0.4379 0.08 0.53718' rpy='1.5709 -0 0'/>
+      <geometry>
+        <cylinder radius='0.03' length='0.065'/>
+      </geometry>
+    </visual>
+    <visual name='camera_right_visual'>
+      <origin xyz='0.4379 -0.08 0.53718' rpy='1.5709 -0 0'/>
+      <geometry>
+        <cylinder radius='0.03' length='0.065'/>
+      </geometry>
+    </visual>
   </link>
-  <sensor name='camera_front' update_rate='30'>
-    <parent link='${robot_namespace}/imu_link'/>
-    <origin xyz='0.468 0 0.36' rpy='0 -0 0'/>
+  <sensor name='planar_laser' update_rate='20'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0.485 0 0.166' rpy='0 -0 0'/>
+  </sensor>
+  <sensor name='tof_left' update_rate='10'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0.527 0.015 0.429' rpy='-1.34452 0.47634 0.465309'/>
     <camera>
-      <image width='640' height='480' format='R8G8B8' hfov='1.5184' near='0.01' far='300' />
+      <image width='224' height='171' format='R8G8B8' hfov='1.0821' near='0.1' far='4' />
     </camera>
   </sensor>
-  <sensor name='camera_back' update_rate='30'>
+  <sensor name='tof_right' update_rate='10'>
     <parent link='${robot_namespace}/base_link'/>
-    <origin xyz='0.468 0 0.36' rpy='0 -0 0'/>
+    <origin xyz='0.527 -0.015 0.429' rpy='-1.79707 0.47634 -0.465309'/>
     <camera>
-      <image width='640' height='480' format='R8G8B8' hfov='1.5184' near='0.01' far='300' />
+      <image width='224' height='171' format='R8G8B8' hfov='1.0821' near='0.1' far='4' />
     </camera>
   </sensor>
-  <sensor name='planar_laser' update_rate='10'>
+  <sensor name='imu_sensor' update_rate='200'>
     <parent link='${robot_namespace}/base_link'/>
-    <origin xyz='0.474 0 0.127' rpy='0 -0 0'/>
+    <origin xyz='0 0 0' rpy='0 -0 0'/>
   </sensor>
-  <sensor name='front_laser' update_rate='20'>
+  <sensor name='front_laser' update_rate='10'>
     <parent link='${robot_namespace}/base_link'/>
-    <origin xyz='0.424 0 0.387' rpy='0 -0 0'/>
+    <origin xyz='0.4379 0 0.67018' rpy='0 -0 0'/>
   </sensor>
-  <sensor name='imu_sensor' update_rate='250'>
+  <sensor name='vert_laser' update_rate='10'>
     <parent link='${robot_namespace}/base_link'/>
-    <origin xyz='0.4379 0 0.52418' rpy='0 -0 0'/>
+    <origin xyz='0.31037 0 0.44818' rpy='3.14159 -1.57079 3.14159'/>
+  </sensor>
+  <sensor name='camera_front' update_rate='10'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0.5579 0 0.53718' rpy='0 -0 0'/>
+    <camera>
+      <image width='808' height='608' format='R8G8B8' hfov='1.39626' near='0.01' far='300' />
+    </camera>
+  </sensor>
+  <sensor name='camera_back' update_rate='10'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0.3179 0 0.53718' rpy='0 -0 3.14159'/>
+    <camera>
+      <image width='808' height='608' format='R8G8B8' hfov='1.39626' near='0.01' far='300' />
+    </camera>
+  </sensor>
+  <sensor name='camera_left' update_rate='10'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0.4379 0.12 0.53718' rpy='0 -0 1.5708'/>
+    <camera>
+      <image width='808' height='608' format='R8G8B8' hfov='1.39626' near='0.01' far='300' />
+    </camera>
+  </sensor>
+  <sensor name='camera_right' update_rate='10'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0.4379 -0.12 0.53718' rpy='0 0 -1.5708'/>
+    <camera>
+      <image width='808' height='608' format='R8G8B8' hfov='1.39626' near='0.01' far='300' />
+    </camera>
   </sensor>
   <link name='${robot_namespace}/front_left_wheel_link'>
     <inertial>
@@ -194,7 +346,7 @@
     <visual name='front_left_wheel_link_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://marble_husky_sensor_config_6/meshes/wheel.dae' scale='1 1 1'/>
+        <mesh filename='meshes/wheel.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
@@ -213,7 +365,7 @@
     <visual name='front_right_wheel_link_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://marble_husky_sensor_config_6/meshes/wheel.dae' scale='1 1 1'/>
+        <mesh filename='meshes/wheel.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
@@ -232,7 +384,7 @@
     <visual name='rear_left_wheel_link_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://marble_husky_sensor_config_6/meshes/wheel.dae' scale='1 1 1'/>
+        <mesh filename='meshes/wheel.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
@@ -251,79 +403,10 @@
     <visual name='rear_right_wheel_link_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://marble_husky_sensor_config_6/meshes/wheel.dae' scale='1 1 1'/>
+        <mesh filename='meshes/wheel.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
-  <link name='${robot_namespace}/pan_gimbal_link'>
-    <inertial>
-      <origin xyz='0 0 0' rpy='0 -0 0'/>
-      <mass value='0.1'/>
-      <inertia ixx='1' ixy='0' ixz='0' iyy='1' iyz='0' izz='1'/>
-    </inertial>
-    <collision name='pan_gimbal_link_collision'>
-      <origin xyz='0 0 0' rpy='0 -0 0'/>
-      <geometry>
-        <cylinder radius='0.014' length='0.045'/>
-      </geometry>
-    </collision>
-    <visual name='pan_gimbal_link_visual'>
-      <origin xyz='0 0 0' rpy='0 -0 0'/>
-      <geometry>
-        <cylinder radius='0.014' length='0.045'/>
-      </geometry>
-    </visual>
-  </link>
-  <link name='${robot_namespace}/tilt_gimbal_link'>
-    <inertial>
-      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
-      <mass value='0.1'/>
-      <inertia ixx='1' ixy='0' ixz='0' iyy='1' iyz='0' izz='1'/>
-    </inertial>
-    <collision name='tilt_gimbal_link_collision'>
-      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
-      <geometry>
-        <cylinder radius='0.014' length='0.045'/>
-      </geometry>
-    </collision>
-    <visual name='tilt_gimbal_link_visual'>
-      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
-      <geometry>
-        <cylinder radius='0.014' length='0.045'/>
-      </geometry>
-    </visual>
-    <visual name='tilt_gimbal_link_fixed_joint_lump__camera/camera_link_visual_0'>
-      <origin xyz='0 0 0.03' rpy='0 -0 0'/>
-      <geometry>
-        <mesh filename='package://marble_husky_sensor_config_6/meshes/realsense.dae' scale='1 1 1'/>
-      </geometry>
-    </visual>
-    <visual name='tilt_gimbal_link_fixed_joint_lump_bot_camera_plate_link_visual_1'>
-      <origin xyz='0 0 0.017' rpy='0 -0 0'/>
-      <geometry>
-        <box size='0.025 0.13 0.007'/>
-      </geometry>
-    </visual>
-    <visual name='tilt_gimbal_link_fixed_joint_lump_bot_camera_plate_link_visual_2'>
-      <origin xyz='0 0 0.042' rpy='0 -0 0'/>
-      <geometry>
-        <box size='0.025 0.13 0.007'/>
-      </geometry>
-    </visual>
-    <visual name='flashlight_flashlight_light_source_lamp_viz_visual'>
-      <origin xyz='0 0 0.065' rpy='-0 1.3208 3.14'/>
-      <geometry>
-        <cylinder radius='0.019' length='0.005'/>
-      </geometry>
-    </visual>
-  </link>
-  <sensor name='camera_pan_tilt' update_rate='30'>
-    <parent link='${robot_namespace}/tilt_gimbal_link'/>
-    <origin xyz='0 0 0.03' rpy='0 -0 0'/>
-    <camera>
-      <image width='1280' height='720' format='R8G8B8' hfov='1.5184' near='0.01' far='300' />
-    </camera>
-  </sensor>
   <joint name='front_left_wheel_joint' type='revolute'>
     <origin xyz='0.256 0.2854 0.03282' rpy='0 -0 0'/>
     <parent link='${robot_namespace}/base_link'/>
@@ -355,21 +438,5 @@
     <dynamics damping='0' friction='0' />
     <axis xyz='0 1 0'/>
     <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
-  </joint>
-  <joint name='pan_gimbal_joint' type='revolute'>
-    <origin xyz='0.424 0 0.427' rpy='0 -0 0'/>
-    <parent link='${robot_namespace}/base_link'/>
-    <child link='${robot_namespace}/pan_gimbal_link'/>
-    <dynamics damping='0' friction='0' />
-    <axis xyz='0 0 1'/>
-    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
-  </joint>
-  <joint name='tilt_gimbal_joint' type='revolute'>
-    <origin xyz='0.424 0 0.46' rpy='0 -0 0'/>
-    <parent link='${robot_namespace}/pan_gimbal_link'/>
-    <child link='${robot_namespace}/tilt_gimbal_link'/>
-    <dynamics damping='0' friction='0' />
-    <axis xyz='0 1 0'/>
-    <limit lower='-2.79253' upper='2.79253' effort='-1' velocity='-1'/>
   </joint>
 </robot>
