@@ -1386,6 +1386,13 @@
 										</intrinsics>
 								</lens>
 						</camera>
+						<!-- Until https://github.com/osrf/sdformat/pull/525 gets merged, we work around the camera positions like this -->
+						<xacro:if value="${num == 0}"><pose>0.057346 -0.083518 0.313841 -0.000948 -0.000784 -2.19802</pose></xacro:if>
+						<xacro:if value="${num == 1}"><pose>0.009992 -0.096606 0.314114 -0.001069 0.000853 2.82791</pose></xacro:if>
+						<xacro:if value="${num == 2}"><pose>-0.01735 -0.055429 0.314721 -0.001705 0.00415 1.56975</pose></xacro:if>
+						<xacro:if value="${num == 3}"><pose>0.012561 -0.017068 0.314417 -0.000579 0.005611 0.313689</pose></xacro:if>
+						<xacro:if value="${num == 4}"><pose>0.058951 -0.03438 0.313899 -0.010815 0.001034 -0.943109</pose></xacro:if>
+						<xacro:if value="${num == 5}"><pose>0.024083 -0.058382 0.376328 3.1415926535897931 -1.5707963267948966 0.945143</pose></xacro:if>
 					</sensor>
 				</gazebo>
     </xacro:macro>
@@ -1639,6 +1646,8 @@
 						</z>
 					</linear_acceleration>
 				</imu>
+				<!-- Until https://github.com/osrf/sdformat/pull/525 gets merged, we work around the IMU position like this -->
+				<pose>0 0 0.15 -3.1415926535897931 -0 0</pose>
             </sensor>
         </xacro:if>
 	</gazebo>
