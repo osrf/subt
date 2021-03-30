@@ -251,7 +251,7 @@
             https://www.sick.com/ch/en/detection-and-ranging-solutions/2d-lidar-sensors/tim5xx/tim581-2050101/p/p619344
         -->
         <sensor name="lidar_front" type="gpu_lidar">
-            <pose>0.04 0 0.235 0 0 0</pose>
+            <pose>0.08 0 0.25 0 0 0</pose>
             <update_rate>15</update_rate>
             <lidar>
                 <scan>
@@ -284,16 +284,16 @@
             <always_on>1</always_on>
             <update_rate>10</update_rate>
             <camera name="camera_front">
-                <horizontal_fov>3.072</horizontal_fov>
+                <horizontal_fov>2.27</horizontal_fov>
                 <lens>
                     <intrinsics>
                         <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
-                        <fx>17.8229</fx>
-                        <fy>17.8229</fy>
+                        <fx>149.01</fx>
+                        <fy>149.01</fy>
                         <!-- cx = ( width - 1 ) / 2 -->
-                        <cx>511.5</cx>
+                        <cx>339.5</cx>
                         <!-- cy = ( height - 1 ) / 2 -->
-                        <cy>383.5</cy>
+                        <cy>179.5</cy>
                         <s>0</s>
                     </intrinsics>
                 </lens>
@@ -306,8 +306,8 @@
                     <center>0.5 0.5</center>
                 </distortion>
                 <image>
-                    <width>1024</width>
-                    <height>768</height>
+                    <width>640</width>
+                    <height>360</height>
                     <format>R8G8B8</format>
                 </image>
                 <clip>
@@ -388,7 +388,7 @@
     
     
     <link name='chassis_back'>
-        <pose>-0.7 0 0.2 0 0 0</pose>
+        <pose>-0.671 0 0.2 0 0 0</pose>
         <inertial>
             <pose>0.025 0 0.116 0 0 0</pose>
             <mass>7.2</mass>
@@ -582,7 +582,7 @@
             https://www.sick.com/ch/en/detection-and-ranging-solutions/2d-lidar-sensors/tim5xx/tim581-2050101/p/p619344
         -->
         <sensor name="lidar_back" type="gpu_lidar">
-            <pose>-0.06 0 0.295 0 0 3.1415927</pose>
+            <pose>-0.08 0 0.345 0 0 3.1415927</pose>
             <update_rate>15</update_rate>
             <lidar>
                 <scan>
@@ -615,16 +615,16 @@
             <always_on>1</always_on>
             <update_rate>10</update_rate>
             <camera name="camera_back">
-                <horizontal_fov>3.072</horizontal_fov>
+                <horizontal_fov>2.27</horizontal_fov>
                 <lens>
                     <intrinsics>
                         <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
-                        <fx>17.8229</fx>
-                        <fy>17.8229</fy>
+                        <fx>149.01</fx>
+                        <fy>149.01</fy>
                         <!-- cx = ( width - 1 ) / 2 -->
-                        <cx>511.5</cx>
+                        <cx>339.5</cx>
                         <!-- cy = ( height - 1 ) / 2 -->
-                        <cy>383.5</cy>
+                        <cy>179.5</cy>
                         <s>0</s>
                     </intrinsics>
                 </lens>
@@ -637,8 +637,8 @@
                     <center>0.5 0.5</center>
                 </distortion>
                 <image>
-                    <width>1024</width>
-                    <height>768</height>
+                    <width>640</width>
+                    <height>360</height>
                     <format>R8G8B8</format>
                 </image>
                 <clip>
@@ -719,7 +719,7 @@
     
     
     <link name='axle_back'>
-        <pose>-0.729 0 0.183 0 0 0</pose>
+        <pose>-0.7 0 0.183 0 0 0</pose>
         <inertial>
             <pose>0 0 0 0 0 0</pose>
             <mass>0.8</mass>
@@ -839,7 +839,7 @@
         
         
         <link name="rear_left_wheel">
-            <pose>-0.729 0.25 0.172 0 0 0</pose>
+            <pose>-0.7 0.25 0.172 0 0 0</pose>
             <inertial>
                 <mass>3.5</mass>
                 <inertia>
@@ -882,7 +882,7 @@
         </link>
 
         <link name="rear_right_wheel">
-            <pose>-0.729 -0.25 0.172 0 0 0</pose>
+            <pose>-0.7 -0.25 0.172 0 0 0</pose>
             <inertial>
                 <mass>3.5</mass>
                 <inertia>
