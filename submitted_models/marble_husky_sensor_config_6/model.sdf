@@ -439,71 +439,77 @@
           <always_on>1</always_on>
           <update_rate>200</update_rate>
           <imu>
-            <angular_velocity>
-              <x>
-                <noise type="gaussian">
-                  <mean>0</mean>
-                  <stddev>2e-4</stddev>
-                  <bias_mean>0.0000075</bias_mean>
-                  <bias_stddev>0.0000008</bias_stddev>
-                  <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
-                  <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
-                </noise>
-              </x>
-              <y>
-                <noise type="gaussian">
-                  <mean>0</mean>
-                  <stddev>2e-4</stddev>
-                  <bias_mean>0.0000075</bias_mean>
-                  <bias_stddev>0.0000008</bias_stddev>
-                  <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
-                  <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
-                </noise>
-              </y>
-              <z>
-                <noise type="gaussian">
-                  <mean>0</mean>
-                  <stddev>2e-4</stddev>
-                  <bias_mean>0.0000075</bias_mean>
-                  <bias_stddev>0.0000008</bias_stddev>
-                  <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
-                  <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
-                </noise>
-              </z>
-            </angular_velocity>
-            <linear_acceleration>
-              <x>
-                <noise type="gaussian">
-                  <mean>0</mean>
-                  <stddev>1e-2</stddev>
-                  <bias_mean>0.1</bias_mean>
-                  <bias_stddev>0.001</bias_stddev>
-                  <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
-                  <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
-                </noise>
-              </x>
-              <y>
-                <noise type="gaussian">
-                  <mean>0</mean>
-                  <stddev>1e-2</stddev>
-                  <bias_mean>0.1</bias_mean>
-                  <bias_stddev>0.001</bias_stddev>
-                  <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
-                  <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
-                </noise>
-              </y>
-              <z>
-                <noise type="gaussian">
-                  <mean>0</mean>
-                  <stddev>1e-2</stddev>
-                  <bias_mean>0.1</bias_mean>
-                  <bias_stddev>0.001</bias_stddev>
-                  <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
-                  <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
-                </noise>
-              </z>
-            </linear_acceleration>
-          </imu>
+                    <angular_velocity>
+                        <x>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>0.009</stddev>
+                                <bias_mean>0.00075</bias_mean>
+                                <bias_stddev>0.005</bias_stddev>
+                                <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                                <precision>0.00025</precision>
+                            </noise>
+                        </x>
+                        <y>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>0.009</stddev>
+                                <bias_mean>0.00075</bias_mean>
+                                <bias_stddev>0.005</bias_stddev>
+                                <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                                <precision>0.00025</precision>
+                            </noise>
+                        </y>
+                        <z>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>0.009</stddev>
+                                <bias_mean>0.00075</bias_mean>
+                                <bias_stddev>0.005</bias_stddev>
+                                <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                                <precision>0.00025</precision>
+                            </noise>
+                        </z>
+                    </angular_velocity>
+                    <linear_acceleration>
+                        <x>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>0.021</stddev>
+                                <bias_mean>0.05</bias_mean>
+                                <bias_stddev>0.0075</bias_stddev>
+                                <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                                <precision>0.005</precision>
+                            </noise>
+                        </x>
+                        <y>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>0.021</stddev>
+                                <bias_mean>0.05</bias_mean>
+                                <bias_stddev>0.0075</bias_stddev>
+                                <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                                <precision>0.005</precision>
+                            </noise>
+                        </y>
+                        <z>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>0.021</stddev>
+                                <bias_mean>0.05</bias_mean>
+                                <bias_stddev>0.0075</bias_stddev>
+                                <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                                <precision>0.005</precision>
+                            </noise>
+                        </z>
+                    </linear_acceleration>
+                </imu>
         </sensor>
 
         <!-- Bottom cylinder of Ouster/Velodyne 3D Lidar -->
@@ -571,7 +577,7 @@
         <!-- OS1-64 3D Laser Configuration (10x2048 or 10x1024 or 20x1024 or 20x512 as possible (rate) x (hor. res.) configs)-->
         <sensor name="front_laser" type="gpu_lidar">
           <visualize>0</visualize>
-          <update_rate>20</update_rate>
+          <update_rate>10</update_rate>
           <lidar>
             <scan>
               <horizontal>
@@ -579,8 +585,8 @@
                 https://bitbucket.org/ignitionrobotics/ign-sensors/issues/8 -->
                 <samples>1024</samples>
                 <resolution>1</resolution>
-                <min_angle>-3.1459</min_angle>
-                <max_angle>3.1459</max_angle>
+                <min_angle>-3.14159</min_angle>
+                <max_angle>3.14159</max_angle>
               </horizontal>
               <vertical>
                 <samples>64</samples>
@@ -600,13 +606,13 @@
               <stddev>0.015</stddev>
             </noise>
           </lidar>
-          <pose frame="">0.0 0 0.61018 0 -0 0</pose>
+          <pose frame="">0.4379 0 0.67018 0 -0 0</pose>
         </sensor>
 
         <!-- OS1-64 3D Laser Configuration (10x2048 or 10x1024 or 20x1024 or 20x512 as possible (rate) x (hor. res.) configs)-->
         <sensor name="vert_laser" type="gpu_lidar">
           <visualize>0</visualize>
-          <update_rate>20</update_rate>
+          <update_rate>10</update_rate>
           <lidar>
             <scan>
               <horizontal>
@@ -614,8 +620,8 @@
                 https://bitbucket.org/ignitionrobotics/ign-sensors/issues/8 -->
                 <samples>1024</samples>
                 <resolution>1</resolution>
-                <min_angle>-3.1459</min_angle>
-                <max_angle>3.1459</max_angle>
+                <min_angle>-3.14159</min_angle>
+                <max_angle>3.14159</max_angle>
               </horizontal>
               <vertical>
                 <samples>64</samples>
@@ -635,7 +641,7 @@
               <stddev>0.015</stddev>
             </noise>
           </lidar>
-          <pose frame="">0.31037 0 0.44818 0 1.5708 0</pose>
+          <pose frame="">0.31037 0 0.44818 0 -1.5708 0</pose>
         </sensor>
 
         <visual name="camera_front_visual">
@@ -660,7 +666,7 @@
         <sensor name="camera_front" type="camera">
           <pose>0.5579 0.0 0.53718 0 0 0</pose>
           <always_on>1</always_on>
-          <update_rate>50</update_rate>
+          <update_rate>10</update_rate>
           <camera name="camera_front">
               <horizontal_fov>1.39626</horizontal_fov>
               <lens>
@@ -721,7 +727,7 @@
         <sensor name="camera_back" type="camera">
             <pose>0.3179 0.0 0.53718 0 0 3.14159</pose>
             <always_on>1</always_on>
-            <update_rate>50</update_rate>
+            <update_rate>10</update_rate>
             <camera name="camera_back">
                 <!--<cameraInfoTopicName>camera_info</cameraInfoTopicName>-->
                 <!--<hackBaseline>0.07</hackBaseline>-->
@@ -784,7 +790,7 @@
         <sensor name="camera_left" type="camera">
             <pose>0.4379 -0.12 0.53718 0 0 -1.5708</pose>
             <always_on>1</always_on>
-            <update_rate>50</update_rate>
+            <update_rate>10</update_rate>
             <camera name="camera_left">
                 <!--<cameraInfoTopicName>camera_info</cameraInfoTopicName>-->
                 <!--<hackBaseline>0.07</hackBaseline>-->
@@ -847,7 +853,7 @@
         <sensor name="camera_right" type="camera">
             <pose>0.4379 0.12 0.53718 0 0 1.5708</pose>
             <always_on>1</always_on>
-            <update_rate>50</update_rate>
+            <update_rate>10</update_rate>
             <camera name="camera_right">
                 <!--<cameraInfoTopicName>camera_info</cameraInfoTopicName>-->
                 <!--<hackBaseline>0.07</hackBaseline>-->
@@ -889,6 +895,149 @@
             </camera>
         </sensor>
 
+      <light name="flashlight_flashlight_light_source_lamp_light_front" type="spot">
+        <pose frame="">0.5179 0 0.53718 3.14159 1.5709 0</pose>
+        <attenuation>
+          <range>50</range>
+          <linear>0</linear>
+          <constant>0.1</constant>
+          <quadratic>0.0025</quadratic>
+        </attenuation>
+        <diffuse>0.8 0.8 0.5 1</diffuse>
+        <specular>0.8 0.8 0.5 1</specular>
+        <spot>
+          <!-- The lights on the MARBLE ground vehicles are very wide angle, 100W LEDs -->
+          <inner_angle>2.8</inner_angle>
+          <outer_angle>2.9</outer_angle>
+          <falloff>1</falloff>
+        </spot>
+        <direction>0 0 -1</direction>
+      </light>
+      <visual name="flashlight_flashlight_light_source_lamp_viz_visual_front">
+        <pose frame="">0.5179 0 0.53718 3.14159 1.5709 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.019</radius>
+            <length>0.005</length>
+          </cylinder>
+        </geometry>
+        <transparency>0</transparency>
+        <material>
+          <ambient>1 1 1 1</ambient>
+          <diffuse>1 1 1 1</diffuse>
+          <specular>1 1 1 1</specular>
+          <emissive>1 1 1 1</emissive>
+        </material>
+      </visual>
+
+      <!-- <light name="flashlight_flashlight_light_source_lamp_light_left" type="spot"> -->
+      <!--   <!&#45;&#45; <pose frame="">0.5179 0 0.53718 3.14159 1.5709 0</pose> &#45;&#45;> -->
+      <!--   <pose frame="">0.4379 &#45;0.12 0.53718 1.5709 0 0</pose> -->
+      <!--   <attenuation> -->
+      <!--     <range>50</range> -->
+      <!--     <linear>0</linear> -->
+      <!--     <constant>0.1</constant> -->
+      <!--     <quadratic>0.0025</quadratic> -->
+      <!--   </attenuation> -->
+      <!--   <diffuse>0.8 0.8 0.5 1</diffuse> -->
+      <!--   <specular>0.8 0.8 0.5 1</specular> -->
+      <!--   <spot> -->
+      <!--     <!&#45;&#45; The lights on the MARBLE ground vehicles are very wide angle, 100W LEDs &#45;&#45;> -->
+      <!--     <inner_angle>2.8</inner_angle> -->
+      <!--     <outer_angle>2.9</outer_angle> -->
+      <!--     <falloff>1</falloff> -->
+      <!--   </spot> -->
+      <!--   <direction>0 0 &#45;1</direction> -->
+      <!-- </light> -->
+      <!-- <visual name="flashlight_flashlight_light_source_lamp_viz_visual_left"> -->
+      <!--   <pose frame="">0.4379 &#45;0.12 0.53718 1.5709 0 0</pose> -->
+      <!--   <geometry> -->
+      <!--     <cylinder> -->
+      <!--       <radius>0.019</radius> -->
+      <!--       <length>0.005</length> -->
+      <!--     </cylinder> -->
+      <!--   </geometry> -->
+      <!--   <transparency>0</transparency> -->
+      <!--   <material> -->
+      <!--     <ambient>1 1 1 1</ambient> -->
+      <!--     <diffuse>1 1 1 1</diffuse> -->
+      <!--     <specular>1 1 1 1</specular> -->
+      <!--     <emissive>1 1 1 1</emissive> -->
+      <!--   </material> -->
+      <!-- </visual> -->
+      <!--  -->
+      <!-- <light name="flashlight_flashlight_light_source_lamp_light_right" type="spot"> -->
+      <!--   <pose frame="">0.5179 0 0.53718 3.14159 1.5709 0</pose> -->
+      <!--   <pose>0.4379 0.12 0.53718 0 0 1.5708</pose> -->
+      <!--   <attenuation> -->
+      <!--     <range>50</range> -->
+      <!--     <linear>0</linear> -->
+      <!--     <constant>0.1</constant> -->
+      <!--     <quadratic>0.0025</quadratic> -->
+      <!--   </attenuation> -->
+      <!--   <diffuse>0.8 0.8 0.5 1</diffuse> -->
+      <!--   <specular>0.8 0.8 0.5 1</specular> -->
+      <!--   <spot> -->
+      <!--     <!&#45;&#45; The lights on the MARBLE ground vehicles are very wide angle, 100W LEDs &#45;&#45;> -->
+      <!--     <inner_angle>2.8</inner_angle> -->
+      <!--     <outer_angle>2.9</outer_angle> -->
+      <!--     <falloff>1</falloff> -->
+      <!--   </spot> -->
+      <!--   <direction>0 0 &#45;1</direction> -->
+      <!-- </light> -->
+      <!-- <visual name="flashlight_flashlight_light_source_lamp_viz_visual_right"> -->
+      <!--   <pose frame="">0.5179 0 0.53718 3.14159 1.5709 0</pose> -->
+      <!--   <geometry> -->
+      <!--     <cylinder> -->
+      <!--       <radius>0.019</radius> -->
+      <!--       <length>0.005</length> -->
+      <!--     </cylinder> -->
+      <!--   </geometry> -->
+      <!--   <transparency>0</transparency> -->
+      <!--   <material> -->
+      <!--     <ambient>1 1 1 1</ambient> -->
+      <!--     <diffuse>1 1 1 1</diffuse> -->
+      <!--     <specular>1 1 1 1</specular> -->
+      <!--     <emissive>1 1 1 1</emissive> -->
+      <!--   </material> -->
+      <!-- </visual> -->
+      <!--  -->
+      <!-- <light name="flashlight_flashlight_light_source_lamp_light_back" type="spot"> -->
+      <!--   <pose frame="">0.5179 0 0.53718 3.14159 1.5709 0</pose> -->
+      <!--       <pose>0.3179 0.0 0.53718 0 0 3.14159</pose> -->
+      <!--   <attenuation> -->
+      <!--     <range>50</range> -->
+      <!--     <linear>0</linear> -->
+      <!--     <constant>0.1</constant> -->
+      <!--     <quadratic>0.0025</quadratic> -->
+      <!--   </attenuation> -->
+      <!--   <diffuse>0.8 0.8 0.5 1</diffuse> -->
+      <!--   <specular>0.8 0.8 0.5 1</specular> -->
+      <!--   <spot> -->
+      <!--     <!&#45;&#45; The lights on the MARBLE ground vehicles are very wide angle, 100W LEDs &#45;&#45;> -->
+      <!--     <inner_angle>2.8</inner_angle> -->
+      <!--     <outer_angle>2.9</outer_angle> -->
+      <!--     <falloff>1</falloff> -->
+      <!--   </spot> -->
+      <!--   <direction>0 0 &#45;1</direction> -->
+      <!-- </light> -->
+      <!-- <visual name="flashlight_flashlight_light_source_lamp_viz_visual_back"> -->
+      <!--   <pose frame="">0.5179 0 0.53718 3.14159 1.5709 0</pose> -->
+      <!--   <geometry> -->
+      <!--     <cylinder> -->
+      <!--       <radius>0.019</radius> -->
+      <!--       <length>0.005</length> -->
+      <!--     </cylinder> -->
+      <!--   </geometry> -->
+      <!--   <transparency>0</transparency> -->
+      <!--   <material> -->
+      <!--     <ambient>1 1 1 1</ambient> -->
+      <!--     <diffuse>1 1 1 1</diffuse> -->
+      <!--     <specular>1 1 1 1</specular> -->
+      <!--     <emissive>1 1 1 1</emissive> -->
+      <!--   </material> -->
+      <!-- </visual> -->
+      <!--  -->
     </link>
 
     <link name="front_left_wheel_link">
@@ -922,9 +1071,9 @@
           </contact>
           <friction>
             <ode>
-              <mu>1</mu>
+              <mu>0.5</mu>
               <mu2>1</mu2>
-              <slip1>0.035</slip1>
+              <slip1>0.00062</slip1>
               <slip2>0</slip2>
               <fdir1>0 0 1</fdir1>
             </ode>
@@ -990,9 +1139,9 @@
           </contact>
           <friction>
             <ode>
-              <mu>1</mu>
+              <mu>0.5</mu>
               <mu2>1</mu2>
-              <slip1>0.035</slip1>
+              <slip1>0.00062</slip1>
               <slip2>0</slip2>
               <fdir1>0 0 1</fdir1>
             </ode>
@@ -1058,9 +1207,9 @@
           </contact>
           <friction>
             <ode>
-              <mu>1</mu>
+              <mu>0.5</mu>
               <mu2>1</mu2>
-              <slip1>0.035</slip1>
+              <slip1>0.00062</slip1>
               <slip2>0</slip2>
               <fdir1>0 0 1</fdir1>
             </ode>
@@ -1126,9 +1275,9 @@
           </contact>
           <friction>
             <ode>
-              <mu>1</mu>
+              <mu>0.5</mu>
               <mu2>1</mu2>
-              <slip1>0.035</slip1>
+              <slip1>0.00062</slip1>
               <slip2>0</slip2>
               <fdir1>0 0 1</fdir1>
             </ode>
