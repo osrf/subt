@@ -1,0 +1,65 @@
+revision: 2014  # 2014 for TRADR robot, 2021 for upgraded robot
+
+big_collision_box_on_top: False
+big_collision_box_height: 0.5
+big_collision_box_width: 0.5
+big_collision_box_x: -0.1
+
+flipper_inflation_ratio: 1.0
+flipper_inward_enlargement: 0.0
+
+has_flipper_touch_sensors: False
+has_omnicam: True
+has_omnicam_sensor_mount: True
+has_omnicam_vras: False
+has_sick_lidar: True
+has_ouster_lidar: False
+
+has_rear_sensor_item: True
+rear_sensor_item_height: 0.35
+
+has_top_box: True
+top_box_j_x: 0.472
+
+has_jetson: True
+jetson_shift_x: 0.515
+jetson_shift_y: 0.17
+jetson_version: 2
+jetson_yaw: 0.0
+
+laser_pitch: 0.0
+
+has_mobilicom: True
+mobilicom_antenna_l_rotation: -0.5
+mobilicom_antenna_l_tilt: 1.0
+mobilicom_antenna_r_rotation: 0.0
+mobilicom_antenna_r_tilt: 1.5758
+mobilicom_antennas_length: 0.17
+mobilicom_has_antenna_box: 0
+mobilicom_is_lite: True
+mobilicom_parent_link: rear_sensor_item
+mobilicom_pitch: 4.0
+mobilicom_roll: 1.5758
+mobilicom_shift_x: 0.0
+mobilicom_shift_y: 0.01
+mobilicom_shift_z: 0.2
+mobilicom_yaw: 3.14152
+
+ptuxthermo_x_offset: 0.2
+ptuxthermo_y_offset: 0.18
+
+has_new_realsense: False
+has_realsense: False
+has_realsense_d435: True
+realsense_holder_version: 5
+realsense_parent_link: omnicam_sensor_mount
+realsense_roll: 0.0
+realsense_shift_x: 0.0
+realsense_shift_y: 0.0
+realsense_shift_z: 0.0
+realsense_tilt: -1.15
+realsense_upside_down: False
+realsense_yaw: 0.62831853
+
+has_realsense_t265: False
+t265_parent_link: rear_sensor_item
