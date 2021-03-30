@@ -248,6 +248,13 @@ class subt::GameLogicPluginPrivate
   public: ignition::math::Pose3d ConvertToArtifactOrigin(
     const ignition::math::Pose3d &_pose) const;
 
+  /// \brief Kinetic energy callback triggered
+  /// when the energy goes above a set threshold.
+  /// \param[in] _msg Kinetic energy message.
+  /// \param[in] _info Message information.
+  public: void OnKineticEnergyEvent(const ignition::msgs::Double &_msg,
+    const transport::MessageInfo &_info);
+
   /// \brief Ignition Transport node.
   public: transport::Node node;
 
@@ -1151,6 +1158,13 @@ void GameLogicPlugin::PostUpdate(
                 mName->Data() + "/battery/linear_battery/state";
               this->dataPtr->node.Subscribe(batteryTopic,
                   &GameLogicPluginPrivate::OnBatteryMsg, this->dataPtr.get());
+
+              // Subscribe to Kinetic energy events to evaluate robot state.
+              std::string kineticTopic = std::string("/model/") +
+                mName->Data() + "/kinetic_energy";
+              this->dataPtr->node.Subscribe(kineticTopic,
+                  &GameLogicPluginPrivate::OnKineticEnergyEvent,
+                  this->dataPtr.get());
             }
           }
           return true;
@@ -2747,4 +2761,34 @@ double GameLogicPluginPrivate::FloorMultiple(double _n, double _m)
   if (_n < 0)
     out -= _m;
   return out;
+}
+
+/////////////////////////////////////////////////
+void GameLogicPluginPrivate::OnKineticEnergyEvent(
+    const ignition::msgs::Double &/*_msg*/,
+    const transport::MessageInfo &_info)
+{
+  ignition::msgs::Time localSimTime(this->simTime);
+  std::vector<std::string> topicParts = common::split(_info.Topic(), "/");
+  std::string name = "_unknown_";
+
+  // Get the name of the model from the topic name, where the topic name
+  // look like '/model/{model_name}/kinetic_energy'.
+  if (topicParts.size() > 1)
+    name = topicParts[1];
+
+  {
+    std::lock_guard<std::mutex> lock(this->eventCounterMutex);
+    std::ostringstream stream;
+    stream
+      << "- event:\n"
+      << "  id: " << this->eventCounter << "\n"
+      << "  type: KineticEnergyThreshold Surpassed\n"
+      << "  time_sec: " << localSimTime.sec() << "\n"
+      << "  robot: " << name << std::endl;
+
+    this->LogEvent(stream.str());
+    this->PublishRobotEvent(localSimTime, "kinetic", name, this->eventCounter);
+    this->eventCounter++;
+  }
 }

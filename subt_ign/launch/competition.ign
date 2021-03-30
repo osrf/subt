@@ -606,6 +606,12 @@
               <wheel_radius>0.1651</wheel_radius>
             </wheel>
           </plugin>
+          <plugin
+            filename="ignition-gazebo-kinetic-energy-monitor-system"
+            name="ignition::gazebo::systems::KineticEnergyMonitor">
+            <link_name>base_link</link_name>
+            <kinetic_energy_threshold>100</kinetic_energy_threshold>
+          </plugin>
         </include>
         </sdf>
       </spawn>
@@ -748,6 +754,12 @@
               <wheel_normal_force>45.20448</wheel_normal_force>
               <wheel_radius>0.098</wheel_radius>
             </wheel>
+          </plugin>
+          <plugin
+            filename="ignition-gazebo-kinetic-energy-monitor-system"
+            name="ignition::gazebo::systems::KineticEnergyMonitor">
+            <link_name>base_link</link_name>
+            <kinetic_energy_threshold>100</kinetic_energy_threshold>
           </plugin>
         </include>
         </sdf>
@@ -950,6 +962,12 @@
           <topic>/model/#{_name}/gas_detected</topic>
           <update_rate>10</update_rate>
           <type>gas</type>
+        </plugin>
+        <plugin
+          filename="ignition-gazebo-kinetic-energy-monitor-system"
+          name="ignition::gazebo::systems::KineticEnergyMonitor">
+          <link_name>base_link</link_name>
+          <kinetic_energy_threshold>100</kinetic_energy_threshold>
         </plugin>
       </include>
       </sdf>
@@ -1205,6 +1223,12 @@
           <topic>/model/#{_name}/gas_detected</topic>
           <update_rate>10</update_rate>
           <type>gas</type>
+        </plugin>
+        <plugin
+          filename="ignition-gazebo-kinetic-energy-monitor-system"
+          name="ignition::gazebo::systems::KineticEnergyMonitor">
+          <link_name>base_link</link_name>
+          <kinetic_energy_threshold>100</kinetic_energy_threshold>
         </plugin>
         </include>
       </sdf>
