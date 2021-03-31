@@ -611,6 +611,7 @@
             name="ignition::gazebo::systems::KineticEnergyMonitor">
             <link_name>base_link</link_name>
             <kinetic_energy_threshold>100</kinetic_energy_threshold>
+            <halt_mode>true</halt_mode>
           </plugin>
         </include>
         </sdf>
@@ -760,6 +761,7 @@
             name="ignition::gazebo::systems::KineticEnergyMonitor">
             <link_name>base_link</link_name>
             <kinetic_energy_threshold>100</kinetic_energy_threshold>
+            <halt_mode>true</halt_mode>
           </plugin>
         </include>
         </sdf>
@@ -968,6 +970,7 @@
           name="ignition::gazebo::systems::KineticEnergyMonitor">
           <link_name>base_link</link_name>
           <kinetic_energy_threshold>100</kinetic_energy_threshold>
+          <halt_mode>true</halt_mode>
         </plugin>
       </include>
       </sdf>
@@ -1229,6 +1232,7 @@
           name="ignition::gazebo::systems::KineticEnergyMonitor">
           <link_name>base_link</link_name>
           <kinetic_energy_threshold>100</kinetic_energy_threshold>
+          <halt_mode>true</halt_mode>
         </plugin>
         </include>
       </sdf>
