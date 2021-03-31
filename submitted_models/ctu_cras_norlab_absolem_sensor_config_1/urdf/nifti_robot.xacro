@@ -291,6 +291,7 @@
 	<xacro:arg name="big_collision_box_on_top" default="1" />
 	<xacro:arg name="big_collision_box_height" default="0.25" />
 	<xacro:arg name="big_collision_box_width" default="0.31" />
+	<xacro:arg name="big_collision_box_length" default="0.65" />
 	<xacro:arg name="big_collision_box_x" default="-0.21" />
 
 	<xacro:arg name="flipper_inflation_ratio" default="1.0" />
@@ -602,7 +603,7 @@
 					<collision name="big_collision_box">
 							<origin rpy="0 0 0" xyz="$(arg big_collision_box_x) 0 ${0.08 + $(arg big_collision_box_height)/2}"/>
 							<geometry>
-									<box size="0.65 $(arg big_collision_box_width) $(arg big_collision_box_height)" />
+									<box size="$(arg big_collision_box_length) $(arg big_collision_box_width) $(arg big_collision_box_height)" />
 							</geometry>
 					</collision>
 			</xacro:if>
