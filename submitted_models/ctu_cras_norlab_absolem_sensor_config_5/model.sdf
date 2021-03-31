@@ -188,7 +188,15 @@
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__antenna_visual_1">
+      <visual name="base_link_visual_1">
+        <pose>-0.18 0 0.185 1.5707963267948966 -1.5707963267948966 0</pose>
+        <geometry>
+          <mesh>
+            <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/CTU_CRAS_NORLAB_ABSOLEM_SENSOR_CONFIG_1/tip/files/meshes/reflector.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="base_link_fixed_joint_lump__antenna_visual_2">
         <pose>-0.175 0.0789 0.1551 0 -0 0</pose>
         <geometry>
           <mesh>
@@ -196,7 +204,7 @@
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__battery_visual_2">
+      <visual name="base_link_fixed_joint_lump__battery_visual_3">
         <pose>-0.12 0 0.12 0 1.5707963267948966 0</pose>
         <geometry>
           <mesh>
@@ -204,7 +212,7 @@
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__mote_deployer_visual_3">
+      <visual name="base_link_fixed_joint_lump__mote_deployer_visual_4">
         <pose>-0.205 0.039535 0.175 0 0 -3.1415926535897931</pose>
         <geometry>
           <mesh>
@@ -212,7 +220,7 @@
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__rear_sensor_item_visual_4">
+      <visual name="base_link_fixed_joint_lump__rear_sensor_item_visual_5">
         <pose>-0.185 -0.100465 0.235 0 -0 0</pose>
         <geometry>
           <box>
@@ -220,7 +228,7 @@
           </box>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__mobilicom_visual_5">
+      <visual name="base_link_fixed_joint_lump__mobilicom_visual_6">
         <pose>-0.164999 -0.090462 0.2349 1.5758 -0 3.1415926535897931</pose>
         <geometry>
           <mesh>
@@ -228,7 +236,7 @@
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__mobilicom_antenna_l_visual_6">
+      <visual name="base_link_fixed_joint_lump__mobilicom_antenna_l_visual_7">
         <pose>-0.241261 -0.112864 0.283984 1.06679 -0.002995 -0.641659</pose>
         <geometry>
           <cylinder>
@@ -237,7 +245,7 @@
           </cylinder>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__mobilicom_antenna_r_visual_7">
+      <visual name="base_link_fixed_joint_lump__mobilicom_antenna_r_visual_8">
         <pose>-0.260464 -0.098887 0.209942 1.56871 -0.00455 -1.14166</pose>
         <geometry>
           <cylinder>
@@ -246,7 +254,7 @@
           </cylinder>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__top_box_visual_8">
+      <visual name="base_link_fixed_joint_lump__top_box_visual_9">
         <pose>0.0915 0 0.185 0 -0 0</pose>
         <geometry>
           <mesh>
@@ -254,7 +262,7 @@
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__omnicam_visual_9">
+      <visual name="base_link_fixed_joint_lump__omnicam_visual_10">
         <pose>0.0865 0 0.3142 0 0 -0.628319</pose>
         <geometry>
           <mesh>
@@ -262,7 +270,7 @@
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__ouster_holder_visual_10">
+      <visual name="base_link_fixed_joint_lump__ouster_holder_visual_11">
         <pose>0.0865 0 0.3932 0 -0 0.628</pose>
         <geometry>
           <mesh>
@@ -322,7 +330,7 @@
         <direction>1 0 0</direction>
       </light>
       <light name="light_front" type="spot">
-        <pose>0.4 0 0.2 3.1415926535897931 1.5707963267948966 0</pose>
+        <pose>-0.075 0 0.16 3.1415926535897931 1.5707963267948966 0</pose>
         <attenuation>
           <range>30</range>
           <linear>0</linear>
@@ -337,6 +345,23 @@
           <falloff>1</falloff>
         </spot>
         <direction>1 0 0</direction>
+      </light>
+      <light name="light_up" type="spot">
+        <pose>-0.2 0 0.185 -3.1415926535897931 0 -3.1415926535897931</pose>
+        <attenuation>
+          <range>60</range>
+          <linear>0</linear>
+          <constant>0.1</constant>
+          <quadratic>0.0025</quadratic>
+        </attenuation>
+        <diffuse>0.8 0.8 0.5 1</diffuse>
+        <specular>0.8 0.8 0.5 1</specular>
+        <spot>
+          <inner_angle>1.0472</inner_angle>
+          <outer_angle>1.5708</outer_angle>
+          <falloff>1</falloff>
+        </spot>
+        <direction>0 0 -1</direction>
       </light>
       <self_collide>0</self_collide>
       <sensor name="imu" type="imu">

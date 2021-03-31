@@ -434,6 +434,9 @@
 	<xacro:if value="$(arg has_mote_deployer)">
 		<xacro:include filename="$(find ctu_cras_norlab_absolem_sensor_config_1)/urdf/mote_deployer.xacro" />
 	</xacro:if>
+	<xacro:if value="${'$(arg revision)' == '2021'}">
+		<xacro:include filename="$(find ctu_cras_norlab_absolem_sensor_config_1)/urdf/lights.xacro" />
+	</xacro:if>
 	<xacro:if value="$(arg has_boson_thermocam)">
 		<xacro:include filename="$(find ctu_cras_norlab_absolem_sensor_config_1)/urdf/boson_thermocam.xacro" />
 	</xacro:if>
@@ -496,6 +499,14 @@
 								</material>
 						</visual>
 					</xacro:unless>
+			</xacro:if>
+			<xacro:if value="${'$(arg revision)' == '2021' and $(arg has_omnicam)}">
+				<visual>
+					<origin rpy="0 ${3*pi/2} ${pi/2}" xyz="-0.18 0 0.185" />
+					<geometry>
+						<mesh filename="package://ctu_cras_norlab_absolem_sensor_config_1/meshes/reflector.dae" />
+					</geometry>
+				</visual>
 			</xacro:if>
 			<xacro:if value="${$(arg simplified_collision)==0}">
 					<collision>
@@ -694,12 +705,7 @@
 
 	<xacro:if value="$(arg has_top_box)">
 		<xacro:if value="${'$(arg revision)' == '2021'}">
-			<xacro:if value="$(arg has_omnicam)">
-				<xacro:property name="top_box_mesh_name" value="top_box_2021_ladybug.dae" />
-			</xacro:if>
-			<xacro:if value="$(arg has_omnicam_vras)">
-				<xacro:property name="top_box_mesh_name" value="top_box_2021_omnicam_vras.dae" />
-			</xacro:if>
+			<xacro:property name="top_box_mesh_name" value="top_box_2021_ladybug.dae" />
 		</xacro:if>
 		<xacro:unless value="${'$(arg revision)' == '2021'}">
 			<xacro:property name="top_box_mesh_name" value="top_box.dae" />
@@ -734,15 +740,10 @@
 							<!-- the box -->
 							<collision>
 								<xacro:if value="${'$(arg revision)' == '2021'}">
-									<xacro:if value="$(arg has_omnicam)">
-										<origin rpy="0 0 0" xyz="0 0 0.0315"/>
-										<geometry>
-											<box size="0.1270 0.231 0.06252" />
-										</geometry>
-									</xacro:if>
-									<xacro:if value="$(arg has_omnicam_vras)">
-										<!-- TODO -->
-									</xacro:if>
+									<origin rpy="0 0 0" xyz="0 0 0.0315"/>
+									<geometry>
+										<box size="0.1270 0.231 0.06252" />
+									</geometry>
 								</xacro:if>
 								<xacro:unless value="${'$(arg revision)' == '2021'}">
 									<origin rpy="0 0 0" xyz="-0.0290 0 0.0315"/>
@@ -754,12 +755,7 @@
 							<!-- GPS antenna -->
 							<collision>
 									<xacro:if value="${'$(arg revision)' == '2021'}">
-										<xacro:if value="$(arg has_omnicam)">
-											<origin rpy="0 0 0" xyz="-0.04 0.09 0.0690"/>
-										</xacro:if>
-										<xacro:if value="$(arg has_omnicam_vras)">
-											<origin rpy="0 0 0" xyz="fail"/>
-										</xacro:if>
+										<origin rpy="0 0 0" xyz="-0.04 0.09 0.0690"/>
 									</xacro:if>
 									<xacro:unless value="${'$(arg revision)' == '2021'}">
 										<origin rpy="0 0 0" xyz="-0.09824 0.04127 0.0690"/>
@@ -771,12 +767,7 @@
 							<!-- E-stop -->
 							<collision>
 									<xacro:if value="${'$(arg revision)' == '2021'}">
-										<xacro:if value="$(arg has_omnicam)">
-											<origin rpy="0 0 0" xyz="0.01474 -0.08352 0.07996"/>
-										</xacro:if>
-										<xacro:if value="$(arg has_omnicam_vras)">
-											<origin rpy="0 0 0" xyz="fail"/>
-										</xacro:if>
+										<origin rpy="0 0 0" xyz="0.01474 -0.08352 0.07996"/>
 									</xacro:if>
 									<xacro:unless value="${'$(arg revision)' == '2021'}">
 										<origin rpy="0 0 0" xyz="-0.07383 -0.04222 0.07996"/>
@@ -798,10 +789,8 @@
 			</link>
 			<xacro:property name="top_box_j_x" value="$(arg top_box_j_x)" />
 			<xacro:if value="${'$(arg revision)' == '2021'}">
-				<xacro:if value="$(arg has_omnicam)">
-					<!-- Origin of top box is 0.0635 m from the front side. And top_box_j_x is distance from robot's back to top box' front. -->
-					<xacro:fixed_joint name="top_box_j" parent="$(arg prefix)rear_right_box" child="$(arg prefix)top_box" xyz="${top_box_j_x-0.0635} ${$(arg rover_robotWidthBody)/2} 0.0" rpy="0 0 0"/>
-				</xacro:if>
+				<!-- Origin of top box is 0.0635 m from the front side. And top_box_j_x is distance from robot's back to top box' front. -->
+				<xacro:fixed_joint name="top_box_j" parent="$(arg prefix)rear_right_box" child="$(arg prefix)top_box" xyz="${top_box_j_x-0.0635} ${$(arg rover_robotWidthBody)/2} 0.0" rpy="0 0 0"/>
 				<xacro:if value="$(arg has_omnicam_vras)">
 					<!-- -->
 				</xacro:if>
@@ -1832,6 +1821,19 @@
 				</light>
 			</xacro:if>
 		</gazebo>
+
+	<xacro:if value="${'$(arg revision)' == '2021'}">
+		<xacro:if value="$(arg has_omnicam)">
+			<gazebo reference="$(arg prefix)base_link">
+				<xacro:spot_light_up name="light_up" pose="-0.18 0 0.185 0 ${-pi} 0" />
+			</gazebo>
+		</xacro:if>
+		<xacro:if value="$(arg has_omnicam_vras)">
+			<gazebo reference="$(arg prefix)top_box">
+				<xacro:spot_light_up name="light_up" pose="-0.075 0.0 0.12 0 ${-pi} 0" />
+			</gazebo>
+		</xacro:if>
+	</xacro:if>
 	
     <gazebo reference="$(arg prefix)imu">
 		<xacro:gazebo_invisible_tags />
