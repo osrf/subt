@@ -62,11 +62,9 @@ The constraints can be found in the following locations within the simulation mo
 * Velocity and acceleration limits applied to the `diff_drive` plugin in the `spawner.rb` file, lines 23-26
 
 ## Endurance Characteristics
-This vehicle has a battery life of 9000 seconds.  The 4 cell 16.8V 40AH battery started at 16.6V after some
-prior tests and finished at 16.2V after driving in a circle for 20 minutes.
-9000 seconds = 1200 seconds * (16.6V - 13.6V) / (16.6V / 16.2V)
-After the endurance test, motion tests and some other tests the battery accepted 6AH of charge.  So an
-alternative calculation would be 1200 * 40 / 6 = 8000 seconds.
+This vehicle has a battery life of 9000 seconds.  The 4 cell 16.8V 40AH battery started at 16.785V and finished at 16.392V after driving in a circle for 20 minutes.
+9725 seconds = 1200 seconds * (16.785V - 13.6V) / (16.785V / 16.392V)
+I rounded down to 9000 seconds as that was the calculated result from endurance test v1.
 
 ## Diversions from Physical Hardware of Allie
 Fisheye cameras are not modeled, so 4 cameras were used for simulation in place of the two fisheye cameras on the physical robot.
@@ -81,5 +79,5 @@ Fisheye cameras are not modeled, so 4 cameras were used for simulation in place 
 * D435i RGBD Camera - https://www.intelrealsense.com/depth-camera-d435i/
 * https://youtu.be/uEtft8CetpA (speed test)
 * https://youtu.be/6BbGLp9J9W0 (rotation test)
-* https://youtu.be/RZ3VHLL6580 (endurance test)
+* https://youtu.be/taEptt-JU4c (endurance test v2)
 * https://drive.google.com/drive/folders/15PRCiCWjE2RYVUxbbYfNrXB4JZoPsjwk?usp=sharing (datalogs, etc.)
