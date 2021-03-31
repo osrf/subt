@@ -182,7 +182,7 @@ def rosExecutables(_name, _worldName)
     <executable name='pam_description'>
       <command>roslaunch --wait coro_pam_sensor_config_1 description.launch world_name:=#{_worldName} name:=#{_name}</command>
     </executable>
-    <executable name='x3_ros_ign_bridge'>
+    <executable name='pam_ros_ign_bridge'>
       <command>roslaunch --wait coro_pam_sensor_config_1 vehicle_topics.launch world_name:=#{_worldName} name:=#{_name} uav:=1 laser_scan:=0 top_scan:=1 bottom_scan:=1 rgbd_cam:=1    </command>
   </executable>
   HEREDOC

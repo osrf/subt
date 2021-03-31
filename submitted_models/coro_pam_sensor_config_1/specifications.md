@@ -28,7 +28,7 @@ $220 - lights / connectors /switches / DC-DC / misc
 ## Sensors
 Pam Sensor Config 1 uses:
 * 3 x D435 modeled by rgbd_camera plugin
-* 1 x Kakute F7 - modeled by air_pressure plugin, imu_sensor and magnetometer plugin
+* 1 x Kakute F7 - modeled by air_pressure plugin, imu_sensor, and magnetometer plugin
 * 1 x SCD30 - modeled by GasEmitterDetector plugin
 * 2 x Garmin LIDAR-Lite v3HP modeled by gpu_ray
 
@@ -51,7 +51,6 @@ constraint characteristics:
 * _z_ acceleration range from -5.2 rad/s<sup>2</sup> to 4.4 rad/s<sup>2</sup>
 
 
-
 The constraints can be found in the following locations within the simulation model package:
 * Velocity and acceleration limits applied to the `MulticopterVelocityControl` plugin in the `spawner.rb` file, lines 113-115
 
@@ -61,7 +60,6 @@ This vehicle has a battery life of 1150 seconds.
 
 ## Diversions from Physical Hardware of Pam
 Intel Realsense Tracking Camera T265 not modeled.
-
 
 # <a name="validation_links"></a>Pam Validation and Specification Links
 

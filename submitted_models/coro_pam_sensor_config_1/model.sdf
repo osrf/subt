@@ -719,18 +719,6 @@
           </z>
         </magnetometer>
       </sensor>
-      <visual name="t265_visual">
-        <pose>0.09 0 -0.143 0 0.75 0</pose>
-        <geometry>
-          <box>
-            <size>0.013 0.108 0.025</size>
-          </box>
-        </geometry>
-        <material>
-          <ambient>240 240 240 1</ambient>
-          <diffuse>240 240 240 1</diffuse>
-        </material>
-      </visual>
 
       <visual name="d435_dae_front_visual">
         <pose>0.075 0 -0.13 0 0 0</pose>
