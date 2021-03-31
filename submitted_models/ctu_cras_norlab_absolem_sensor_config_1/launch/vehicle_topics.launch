@@ -8,6 +8,7 @@
   <arg name="description_print_command" default="" />
   <arg name="revision" default="2014" />
   <arg name="has_cliff_sensors" default="0" />
+  <arg name="has_thermal_camera" default="0" />
 
   <include file="$(dirname)/description.launch" pass_all_args="true">
     <arg name="print_command" value="$(arg description_print_command)" if="$(eval description_print_command != '')" />
@@ -144,6 +145,14 @@
       <arg name="node_name_suffix" value="omnicam_5" />
       <arg name="gazebo_topic" value="$(arg link_prefix)/base_link/sensor/omnicam_sensor5" />
       <arg name="ros_topic" value="omni/camera_5" />
+    </include>
+
+    <!-- Thermal camera (if used) -->
+    <include if="$(arg has_thermal_camera)" file="$(find subt_ros)/launch/models_common/thermal_camera.launch">
+      <arg name="node_name_suffix" value="thermal" />
+      <arg name="gazebo_topic" value="$(arg link_prefix)/thermocam/sensor" />
+      <arg name="ros_topic" value="thermal_camera" />
+      <arg name="sensor_name" value="thermal_camera" />
     </include>
 
     <!--IMU-->

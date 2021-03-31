@@ -191,6 +191,19 @@
 	<xacro:arg default="0.200000" name="ouster_pos_z"/>
 	<xacro:arg default="0.000000" name="ouster_pos_y"/>
 	<xacro:arg default="0.070000" name="ouster_pos_x"/>
+	<xacro:arg default="1.000000" name="boson_quat_w"/>
+	<xacro:arg default="0.000000" name="boson_quat_z"/>
+	<xacro:arg default="0.000000" name="boson_quat_y"/>
+	<xacro:arg default="0.000000" name="boson_quat_x"/>
+	<xacro:arg default="0.000000" name="boson_gzrpy_y"/>
+	<xacro:arg default="0.000000" name="boson_gzrpy_p"/>
+	<xacro:arg default="0.000000" name="boson_gzrpy_r"/>
+	<xacro:arg default="0.000000" name="boson_rpy_y"/>
+	<xacro:arg default="0.000000" name="boson_rpy_p"/>
+	<xacro:arg default="0.000000" name="boson_rpy_r"/>
+	<xacro:arg default="0.000000" name="boson_pos_z"/>
+	<xacro:arg default="0.000000" name="boson_pos_y"/>
+	<xacro:arg default="0.000000" name="boson_pos_x"/>
 	<xacro:arg default="0.042087" name="camera_0_pos_x"/>
 	<xacro:arg default="0.000000" name="cliff_sensor_0_x"/>
 	<xacro:arg default="0.000000" name="cliff_sensor_0_y"/>
@@ -260,6 +273,7 @@
 	<xacro:arg name="has_realsense_t265" default="0" />
 	<xacro:arg name="has_jetson" default="0" />
 	<xacro:arg name="has_mote_deployer" default="0" />
+	<xacro:arg name="has_boson_thermocam" default="0" />
 
 	<xacro:arg name="num_cliff_sensors" default="0" />
 
@@ -334,6 +348,7 @@
     <xacro:arg name="simulate_realsense_d435" default="True" />
     <xacro:arg name="simulate_imu" default="True" />
     <xacro:arg name="simulate_cliff_sensors" default="True" />
+    <xacro:arg name="simulate_thermocam" default="True" />
 
     <xacro:arg name="visualize_sensors" default="False" />
 
@@ -417,6 +432,9 @@
 	</xacro:if>
 	<xacro:if value="$(arg has_mote_deployer)">
 		<xacro:include filename="$(find ctu_cras_norlab_absolem_sensor_config_1)/urdf/mote_deployer.xacro" />
+	</xacro:if>
+	<xacro:if value="$(arg has_boson_thermocam)">
+		<xacro:include filename="$(find ctu_cras_norlab_absolem_sensor_config_1)/urdf/boson_thermocam.xacro" />
 	</xacro:if>
 
 	<!-- NIFTI ROBOT LINKS AND JOINTS SPECIFICATION -->
@@ -1302,6 +1320,12 @@
 		</link>
 		<xacro:fixed_joint name="ouster_holder_j" parent="$(arg prefix)omnicam_top" child="$(arg prefix)ouster_holder"
 			xyz="0 0 0.005" rpy="0 0 ${radians(36)}" />
+	</xacro:if>
+
+	<!-- Thermal camera -->
+	<xacro:if value="$(arg has_boson_thermocam)">
+		<xacro:boson_thermocam name="thermocam" simulate="$(arg simulate_thermocam)" visualize="$(arg visualize_sensors)" />
+		<xacro:calibrated_fixed_joint name="thermocam_j" parent="rear_right_box" child="thermocam" prefix="boson" lump="0"/>
 	</xacro:if>
 
     <gazebo>
