@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<launch>
+  <env name="IGN_TRANSPORT_TOPIC_STATISTICS" value="1"/>
+  <arg name="world_name" default="example"/>
+  <arg name="name" default="plane"/>
+  <arg name="link_name"       value="fuselage"/>
+  <arg name="sensor_prefix"   value="/world/$(arg world_name)/model/$(arg name)/link/$(arg link_name)/sensor"/>
+  <arg name="breadcrumbs" default="0"/>
+
+  <group ns="$(arg name)">
+
+    <group ns="camera_front">
+      <node
+        pkg="ros_ign_bridge"
+        type="parameter_bridge"
+        name="ros_ign_bridge_camera"
+        args="$(arg sensor_prefix)/camera_front/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+        <remap from="$(arg sensor_prefix)/camera_front/camera_info" to="camera_info"/>
+      </node>
+      <node
+        pkg="ros_ign_image"
+        type="image_bridge"
+        name="ros_ign_image_camera"
+        args="$(arg sensor_prefix)/camera_front/image">
+        <remap from="$(arg sensor_prefix)/camera_front/image" to="image_raw"/>
+      </node>
+
+      <node
+        pkg="subt_ros"
+        type="optical_frame_publisher"
+        name="optical_frame_publisher">
+        <remap from="input/image" to="image_raw" />
+        <remap from="output/image" to="optical/image_raw" />
+        <remap from="input/camera_info" to="camera_info" />
+        <remap from="output/camera_info" to="optical/camera_info" />
+      </node>
+
+    </group>
+
+    <!-- Control Commands -->
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_uav_input"
+      args="/$(arg name)/input@mav_msgs/Actuators]ignition.msgs.Actuators">
+    </node>
+
+    <!-- Robot's state -->
+
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_pose"
+      args="/model/$(arg name)/pose@tf2_msgs/TFMessage[ignition.msgs.Pose_V">
+      <remap from="/model/$(arg name)/pose" to="pose"/>
+    </node>
+
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_pose_static"
+      args="/model/$(arg name)/pose_static@tf2_msgs/TFMessage[ignition.msgs.Pose_V">
+      <remap from="/model/$(arg name)/pose_static" to="pose_static"/>
+    </node>
+
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_battery_state"
+      args="/model/$(arg name)/battery/linear_battery/state@sensor_msgs/BatteryState[ignition.msgs.BatteryState">
+      <remap from="/model/$(arg name)/battery/linear_battery/state" to="battery_state"/>
+    </node>
+
+    <node
+      pkg="subt_ros"
+      type="pose_tf_broadcaster"
+      name="pose_tf_broadcaster"/>
+  </group>
+
+</launch>
