@@ -912,22 +912,6 @@
         </spot>
         <direction>0 0 -1</direction>
       </light>
-      <visual name="flashlight_flashlight_light_source_lamp_viz_visual_front">
-        <pose frame="">0.5179 0 0.53718 3.14159 1.5709 0</pose>
-        <geometry>
-          <cylinder>
-            <radius>0.019</radius>
-            <length>0.005</length>
-          </cylinder>
-        </geometry>
-        <transparency>0</transparency>
-        <material>
-          <ambient>1 1 1 1</ambient>
-          <diffuse>1 1 1 1</diffuse>
-          <specular>1 1 1 1</specular>
-          <emissive>1 1 1 1</emissive>
-        </material>
-      </visual>
 
       <light name="flashlight_flashlight_light_source_lamp_light_left" type="spot">
         <pose frame="">0.4379 0.12 0.53718 1.5708 0 0</pose> 
