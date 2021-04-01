@@ -65,7 +65,7 @@ Battery limited to 1 hour until validation is completed.
 ## Diversions from Physical Hardware of Jeanine
 Fisheye cameras are not modeled, so 4 cameras were used for simulation in place of the two fisheye cameras on the physical robot.
 
-# <a name="validation_links"></a>Jeanine Validation and Specification Links
+## Jeanine Validation and Specification Links
 
 * VLP-16 LIDAR -  https://www.mapix.com/wp-content/uploads/2018/07/63-9229_Rev-H_Puck-_Datasheet_Web-1.pdf
 * Memsense MS-IMU3025 - https://www.memsense.com/products/ms-imu3025
