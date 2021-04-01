@@ -2,7 +2,7 @@
 <COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
   <asset><contributor><author></author><authoring_tool>FBX COLLADA exporter</authoring_tool><comments></comments></contributor><created>2021-03-07T20:45:27Z</created><keywords></keywords><modified>2021-03-07T20:45:27Z</modified><revision></revision><subject></subject><title></title><unit meter="1.000000" name="centimeter"></unit><up_axis>Y_UP</up_axis></asset>
   <library_images>
-    <image id="mrs_logo.png-image" name="mrs_logo.png"><init_from>../../materials/textures/mrs_logo.png</init_from></image>
+    <image id="mrs_logo.png-image" name="mrs_logo.png"><init_from>../materials/textures/mrs_logo.png</init_from></image>
   </library_images>
   <library_materials>
     <material id="logo_cvut_en_doplnkova_verzeMaterial" name="logo_cvut_en_doplnkova_verzeMaterial">
@@ -43,12 +43,6 @@
             <reflectivity>
               <float sid="reflectivity">1.000000</float>
             </reflectivity>
-            <transparent opaque="RGB_ZERO">
-              <color sid="transparent">1.000000  1.000000 1.000000 1.000000</color>
-            </transparent>
-            <transparency>
-              <float sid="transparency">0.000000</float>
-            </transparency>
           </phong>
         </technique>
       </profile_COMMON>

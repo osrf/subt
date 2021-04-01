@@ -462,7 +462,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/holders/holder_rs_up.dae</uri>
+            <uri>meshes/holder_rs_up.dae</uri>
           </mesh>
         </geometry>
       </collision>
@@ -471,7 +471,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/holders/holder_rs_down_bfox.dae</uri>
+            <uri>meshes/holder_rs_down_bfox.dae</uri>
           </mesh>
         </geometry>
       </collision>
@@ -480,7 +480,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/sensors/realsense.dae</uri>
+            <uri>meshes/realsense.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -489,7 +489,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/sensors/realsense.dae</uri>
+            <uri>meshes/realsense.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -498,17 +498,13 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/sensors/bluefox.dae</uri>
+            <uri>meshes/bluefox.dae</uri>
           </mesh>
         </geometry>
         <material>
           <ambient>1.0 1.0 1.0 0.2</ambient>
           <diffuse>1.0 1.0 1.0 0.2</diffuse>
           <specular>1.0 1.0 1.0 0.2</specular>
-          <script>
-            <name>Gazebo/DarkGrey</name>
-            <uri>materials/scripts/gazebo.material</uri>
-          </script>
         </material>
       </visual>
       <visual name='base_link_fixed_joint_lump__back_cover_link_visual_3'>
@@ -516,7 +512,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/holders/side_mrs.dae</uri>
+            <uri>meshes/side_mrs.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -525,7 +521,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/holybro/holybro_x500_arm.dae</uri>
+            <uri>meshes/holybro_x500_arm.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -534,7 +530,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/holybro/holybro_x500_motor.dae</uri>
+            <uri>meshes/holybro_x500_motor.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -543,7 +539,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/holybro/holybro_x500_arm.dae</uri>
+            <uri>meshes/holybro_x500_arm.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -552,7 +548,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/holybro/holybro_x500_motor.dae</uri>
+            <uri>meshes/holybro_x500_motor.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -561,7 +557,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/holybro/holybro_x500_battery.dae</uri>
+            <uri>meshes/holybro_x500_battery.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -570,7 +566,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/holybro/holybro_x500_battery.dae</uri>
+            <uri>meshes/holybro_x500_battery.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -579,7 +575,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/holybro/holybro_x500_bottom_board.dae</uri>
+            <uri>meshes/holybro_x500_bottom_board.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -594,10 +590,6 @@
           <ambient>1.0 1.0 1.0 1.0</ambient>
           <diffuse>1.0 1.0 1.0 1.0</diffuse>
           <specular>1.0 1.0 1.0 1.0</specular>
-          <script>
-            <name>Gazebo/White</name>
-            <uri>materials/scripts/gazebo.material</uri>
-          </script>
         </material>
       </visual>
       <visual name='base_link_fixed_joint_lump__computer_board_link_visual_12'>
@@ -619,10 +611,6 @@
           <ambient>1.0 1.0 1.0 1.0</ambient>
           <diffuse>1.0 1.0 1.0 1.0</diffuse>
           <specular>1.0 1.0 1.0 1.0</specular>
-          <script>
-            <name>Gazebo/White</name>
-            <uri>materials/scripts/gazebo.material</uri>
-          </script>
         </material>
       </visual>
       <visual name='base_link_fixed_joint_lump__front_left_arm_link_visual_14'>
@@ -630,7 +618,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/holybro/holybro_x500_arm.dae</uri>
+            <uri>meshes/holybro_x500_arm.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -639,7 +627,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/holybro/holybro_x500_leg.dae</uri>
+            <uri>meshes/holybro_x500_leg.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -654,10 +642,6 @@
           <ambient>1.0 1.0 1.0 1.0</ambient>
           <diffuse>1.0 1.0 1.0 1.0</diffuse>
           <specular>1.0 1.0 1.0 1.0</specular>
-          <script>
-            <name>Gazebo/White</name>
-            <uri>materials/scripts/gazebo.material</uri>
-          </script>
         </material>
       </visual>
       <visual name='base_link_fixed_joint_lump__front_left_rotor_link_visual_17'>
@@ -665,7 +649,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/holybro/holybro_x500_motor.dae</uri>
+            <uri>meshes/holybro_x500_motor.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -674,7 +658,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/holybro/holybro_x500_arm.dae</uri>
+            <uri>meshes/holybro_x500_arm.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -683,7 +667,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/holybro/holybro_x500_leg.dae</uri>
+            <uri>meshes/holybro_x500_leg.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -698,10 +682,6 @@
           <ambient>1.0 1.0 1.0 1.0</ambient>
           <diffuse>1.0 1.0 1.0 1.0</diffuse>
           <specular>1.0 1.0 1.0 1.0</specular>
-          <script>
-            <name>Gazebo/White</name>
-            <uri>materials/scripts/gazebo.material</uri>
-          </script>
         </material>
       </visual>
       <visual name='base_link_fixed_joint_lump__front_right_rotor_link_visual_21'>
@@ -709,7 +689,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/holybro/holybro_x500_motor.dae</uri>
+            <uri>meshes/holybro_x500_motor.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -718,7 +698,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/holders/side_ctu.dae</uri>
+            <uri>meshes/side_ctu.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -727,7 +707,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/sensors/os1_64.dae</uri>
+            <uri>meshes/os1_64.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -745,7 +725,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/holybro/holybro_x500_pc_mount.dae</uri>
+            <uri>meshes/holybro_x500_pc_mount.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -754,7 +734,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/sensors/pixhawk.dae</uri>
+            <uri>meshes/pixhawk.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -763,7 +743,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/holybro/holybro_x500_leg.dae</uri>
+            <uri>meshes/holybro_x500_leg.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -772,7 +752,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/holybro/holybro_x500_leg.dae</uri>
+            <uri>meshes/holybro_x500_leg.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -781,7 +761,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/holders/side_ctu.dae</uri>
+            <uri>meshes/side_ctu.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -790,7 +770,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/holders/holder_rs_up.dae</uri>
+            <uri>meshes/holder_rs_up.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -799,13 +779,13 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/holders/holder_rs_down_bfox.dae</uri>
+            <uri>meshes/holder_rs_down_bfox.dae</uri>
           </mesh>
         </geometry>
       </visual>
     </link>
     <joint name='imu_joint' type='fixed'>
-      <pose relative_to='base_link'>0 0 0 0 -0 0</pose>
+      <pose>0 0 0 0 -0 0</pose>
       <parent>base_link</parent>
       <child>imu_link</child>
       <axis>
@@ -823,7 +803,7 @@
       </axis>
     </joint>
     <link name='imu_link'>
-      <pose relative_to='imu_joint'>0 0 0 0 -0 0</pose>
+      <pose>0 0 0 0 -0 0</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>0.015</mass>
@@ -838,7 +818,6 @@
       </inertial>
     </link>
     <joint name='rotor_0_joint' type='revolute'>
-      <pose relative_to='base_link'>0.177484 -0.177484 0.057 0 -0 0</pose>
       <parent>base_link</parent>
       <child>rotor_0</child>
       <axis>
@@ -854,7 +833,7 @@
       </axis>
     </joint>
     <link name='rotor_0'>
-      <pose relative_to='rotor_0_joint'>0 0 0 0 -0 0</pose>
+      <pose>0.177484 -0.177484 0.057 0 -0 0</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>0.005</mass>
@@ -881,13 +860,12 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/holybro/holybro_x500_prop.dae</uri>
+            <uri>meshes/holybro_x500_prop.dae</uri>
           </mesh>
         </geometry>
       </visual>
     </link>
     <joint name='rotor_1_joint' type='revolute'>
-      <pose relative_to='base_link'>-0.177484 0.177484 0.057 0 -0 0</pose>
       <parent>base_link</parent>
       <child>rotor_1</child>
       <axis>
@@ -903,7 +881,7 @@
       </axis>
     </joint>
     <link name='rotor_1'>
-      <pose relative_to='rotor_1_joint'>0 0 0 0 -0 0</pose>
+      <pose>-0.177484 0.177484 0.057 0 -0 0</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>0.005</mass>
@@ -930,13 +908,12 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>meshes/holybro/holybro_x500_prop.dae</uri>
+            <uri>meshes/holybro_x500_prop.dae</uri>
           </mesh>
         </geometry>
       </visual>
     </link>
     <joint name='rotor_2_joint' type='revolute'>
-      <pose relative_to='base_link'>0.177484 0.177484 0.057 0 -0 0</pose>
       <parent>base_link</parent>
       <child>rotor_2</child>
       <axis>
@@ -952,7 +929,7 @@
       </axis>
     </joint>
     <link name='rotor_2'>
-      <pose relative_to='rotor_2_joint'>0 0 0 0 -0 0</pose>
+      <pose>0.177484 0.177484 0.057 0 -0 0</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>0.005</mass>
@@ -979,13 +956,12 @@
         <geometry>
           <mesh>
             <scale>-1 1 1</scale>
-            <uri>meshes/holybro/holybro_x500_prop.dae</uri>
+            <uri>meshes/holybro_x500_prop.dae</uri>
           </mesh>
         </geometry>
       </visual>
     </link>
     <joint name='rotor_3_joint' type='revolute'>
-      <pose relative_to='base_link'>-0.177484 -0.177484 0.057 0 -0 0</pose>
       <parent>base_link</parent>
       <child>rotor_3</child>
       <axis>
@@ -1001,7 +977,7 @@
       </axis>
     </joint>
     <link name='rotor_3'>
-      <pose relative_to='rotor_3_joint'>0 0 0 0 -0 0</pose>
+      <pose>-0.177484 -0.177484 0.057 0 -0 0</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>0.005</mass>
@@ -1028,7 +1004,7 @@
         <geometry>
           <mesh>
             <scale>-1 1 1</scale>
-            <uri>meshes/holybro/holybro_x500_prop.dae</uri>
+            <uri>meshes/holybro_x500_prop.dae</uri>
           </mesh>
         </geometry>
       </visual>

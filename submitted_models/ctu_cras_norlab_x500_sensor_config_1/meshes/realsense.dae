@@ -17,7 +17,7 @@
   </asset>
   <library_images>
     <image id="MapFBXASC032FBXASC0352-image" name="MapFBXASC032FBXASC0352">
-      <init_from>../../materials/textures/RealSense_Albedo.jpg</init_from>
+      <init_from>../materials/textures/RealSense_Albedo.jpg</init_from>
     </image>
   </library_images>
   <library_materials>
@@ -59,12 +59,6 @@
             <reflectivity>
               <float sid="reflectivity">1.000000</float>
             </reflectivity>
-            <transparent opaque="RGB_ZERO">
-              <color sid="transparent">1.000000  1.000000 1.000000 1.000000</color>
-            </transparent>
-            <transparency>
-              <float sid="transparency">0.000000</float>
-            </transparency>
           </phong>
         </technique>
       </profile_COMMON>
