@@ -76,7 +76,7 @@ The differentials are modeled as two separate motors rather than one motor drivi
 Suspension is not modeled.
 
 
-# <a name="validation_links"></a>Rocky Validation and Specification Links
+## Rocky Validation and Specification Links
 
 * Vehicle - https://www.nitrorcx.com/-03c09-madtorque-green-artr.html
 * Kakute F7 - http://www.holybro.com/product/kakute-f7-v1-5/

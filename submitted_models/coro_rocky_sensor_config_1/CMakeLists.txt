@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
 find_package(ignition-gazebo4 REQUIRED)
 find_package(ignition-transport9 REQUIRED)
 find_package(ignition-common3 REQUIRED)
+find_package(Eigen3 REQUIRED)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
