@@ -93,7 +93,7 @@ and the simulator slopes are ~30 degrees.  Based on the weight balance, motor to
 I believe the physical vehicle can go to 40 degrees or so, but that has not been validated.
 
 
-# <a name="validation_links"></a>Karen Validation and Specification Links
+## Karen Validation and Specification Links
 
 * Vehicle - https://smprobotics.com/products_autonomous_ugv/
 * VLP-16 LIDAR -  https://www.mapix.com/wp-content/uploads/2018/07/63-9229_Rev-H_Puck-_Datasheet_Web-1.pdf
@@ -103,4 +103,3 @@ I believe the physical vehicle can go to 40 degrees or so, but that has not been
 * Arducam LN008 - https://www.arducam.com/product/m25156h14/
 * D435i RGBD Camera - https://www.intelrealsense.com/depth-camera-d435i/
 * Seek Thermal Compact - https://www.thermal.com/uploads/1/0/1/3/101388544/compact-sellsheet-usa_web.pdf
-
