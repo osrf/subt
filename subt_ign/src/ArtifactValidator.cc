@@ -141,6 +141,9 @@ class subt::ArtifactValidatorPrivate
   /// \brief World name of current world.
   public: std::string worldName;
 
+  /// \brief Next time to check if client is nullptr
+  public: std::chrono::steady_clock::duration clientCheck{0};
+
   /// \brief Communication client.
   public: std::unique_ptr<subt::CommsClient> client {nullptr};
 };
@@ -188,7 +191,7 @@ bool ArtifactValidatorPrivate::MoveToString(const std::string &_name,
 
 /////////////////////////////////////////////////
 bool ArtifactValidatorPrivate::OnScore(const ignition::msgs::StringMsg& _req,
-                                       ignition::msgs::StringMsg& _rep)
+                                       ignition::msgs::StringMsg& /*_rep*/)
 {
   // Report the artifact that we are currently at
   //
@@ -396,15 +399,20 @@ void ArtifactValidator::Configure(const ignition::gazebo::Entity & /*_entity*/,
 
 /////////////////////////////////////////////////
 void ArtifactValidator::PostUpdate(
-                const ignition::gazebo::UpdateInfo &/*_info*/,
+                const ignition::gazebo::UpdateInfo &_info,
                 const ignition::gazebo::EntityComponentManager &/*_ecm*/)
 {
-
-  if (!this->dataPtr->client)
+  if (!this->dataPtr->client && 
+      _info.simTime > this->dataPtr->clientCheck)
   {
     this->dataPtr->client.reset(new subt::CommsClient("validator", false, true));
-    this->dataPtr->client->Bind(&ArtifactValidatorPrivate::OnArtifactAck, 
+    auto bound = this->dataPtr->client->Bind(&ArtifactValidatorPrivate::OnArtifactAck, 
         this->dataPtr.get());
+
+    if (!bound) {
+      this->dataPtr->client.reset(nullptr);
+      this->dataPtr->clientCheck = _info.simTime + std::chrono::milliseconds(100);
+    }
   }
 
   if (this->dataPtr->artifactsIter == this->dataPtr->artifacts.end())
