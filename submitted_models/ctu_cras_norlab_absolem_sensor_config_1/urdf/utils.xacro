@@ -49,15 +49,6 @@
 
     <xacro:macro name="empty_link" params="name">
         <link name="${name}">
-            <visual>
-                <origin xyz="0 0 0" rpy="0 0 0" />
-                <geometry>
-                    <box size="0.005 0.005 0.005"/>
-                </geometry>
-                <material name="invisible_color">
-                    <color rgba="1 0 0 0.5"/>
-                </material>
-            </visual>
             <xacro:default_inertial />
         </link>
     </xacro:macro>

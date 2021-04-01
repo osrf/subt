@@ -65,7 +65,8 @@ This is the Gazebo URDF model for the Intel RealSense D435 camera
           </camera>
           <always_on>1</always_on>
           <update_rate>$(arg realsense_fps)</update_rate>
-          <pose frame="">0.0 0 0.0 0 0.0 0</pose>
+          <!-- Until https://github.com/osrf/sdformat/pull/525 gets merged, we work around the camera position like this -->
+          <pose>0.13592 -0.016338 0.419596 0.015 0.499467 -0.000319</pose>
         </sensor>
     </gazebo>
 
