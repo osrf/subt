@@ -11,16 +11,36 @@
 
   <group ns="$(arg name)">
 
-    <!-- We do not want to provide transform base_link->balloon, so we delete the TF -->
+    <!-- We do not want to provide transform base_link->balloon or to cameras, so we delete the TF -->
     <group>
       <remap from="/tf" to="/tf_old" />
+      <remap from="/tf_static" to="/tf_static_old" />
       <include file="$(find subt_ros)/launch/models_common/all_robots.launch">
         <arg name="name" value="$(arg name)" />
         <arg name="world_name" value="$(arg world_name)" />
       </include>
     </group>
-    <node name="tf_remapper" pkg="tf_remapper_cpp" type="tf_remap">
-      <rosparam param="mappings" subst_value="true">[{old: $(arg name)/balloon}]</rosparam>
+    <node name="tf_remapper" pkg="tf_remapper_cpp" type="tf_remap" output="screen">
+      <rosparam param="mappings" subst_value="true">
+        [
+          {old: $(arg name)/balloon},
+        ]
+      </rosparam>
+    </node>
+    <node name="tf_remapper_static" pkg="tf_remapper_cpp" type="tf_remap">
+      <rosparam param="mappings" subst_value="true">
+        [
+          {old: $(arg name)/camera},
+          {old: $(arg name)/camera_0},
+          {old: $(arg name)/camera_1},
+          {old: $(arg name)/camera_2},
+          {old: $(arg name)/camera_3},
+          {old: $(arg name)/camera_4},
+        ]
+      </rosparam>
+      <param name="old_tf_topic_name" value="/tf_static_old" />
+      <param name="new_tf_topic_name" value="/tf_static" />
+      <param name="static_tf" value="true" />
     </node>
 
     <!-- reel control -->
