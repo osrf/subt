@@ -112,6 +112,12 @@ ever see the simulator crashing with NaNs going in and out of ODE, the simulatio
 I saw it a lot when setting up the model, but adding internal friction to the ball joint helped this
 and I haven't seen a crash since correcting the parameters.
 
+The real balloon has no computational hardware and no long-range comms. It is expected that is is just
+a pure sender of images and all processing happens on the UGV. In simulation, participants can utilize
+the full cloud machine that runs this vehicle for computations. The simulated balloon can also serve
+as a relay of wireless messages, but that is no real problem because it should always be close to some UGV,
+so it won't add unrealistic comms coverage.
+
 ## Changing parameters of the robot
 
 Look into the Xacro files in `urdf/` folder and change the values there.
