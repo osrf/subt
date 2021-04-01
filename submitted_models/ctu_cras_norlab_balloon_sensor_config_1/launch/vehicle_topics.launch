@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<launch>
+  <env name="IGN_TRANSPORT_TOPIC_STATISTICS" value="1"/>
+
+  <arg name="world_name"/>
+  <arg name="name"/>
+
+  <arg name="link_prefix" value="/world/$(arg world_name)/model/$(arg name)/link"/>
+
+  <!-- This is a passive vehicle without any sensors. -->
+
+  <group ns="$(arg name)">
+
+    <!-- We do not want to provide transform base_link->balloon, so we delete the TF -->
+    <group>
+      <remap from="/tf" to="/tf_old" />
+      <include file="$(find subt_ros)/launch/models_common/all_robots.launch">
+        <arg name="name" value="$(arg name)" />
+        <arg name="world_name" value="$(arg world_name)" />
+      </include>
+    </group>
+    <node name="tf_remapper" pkg="tf_remapper_cpp" type="tf_remap">
+      <rosparam param="mappings" subst_value="true">[{old: $(arg name)/balloon}]</rosparam>
+    </node>
+
+    <!-- reel control -->
+
+    <node pkg="ros_ign_bridge" type="parameter_bridge" respawn="true"
+          name="ros_ign_bridge_reel"
+          args="/model/$(arg name)/joint/string_prismatic_j/cmd_vel@std_msgs/Float64]ignition.msgs.Double">
+      <remap from="/model/$(arg name)/joint/string_prismatic_j/cmd_vel" to="reel_cmd_vel"/>
+    </node>
+
+    <!-- just a convenience to be able to control the reel on a gamepad via subt_example teleop pretending it is a flipper -->
+    <node name="ros_ign_bridge_reel_convenience" pkg="topic_tools" type="relay" args="flippers_cmd_vel/front_left reel_cmd_vel" respawn="true"/>
+
+    <!-- cameras -->
+
+    <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
+      <arg name="node_name_suffix" value="fisheye_0" />
+      <arg name="gazebo_topic" value="$(arg link_prefix)/camera_0/sensor/camera" />
+      <arg name="ros_topic" value="fisheye/camera_0" />
+    </include>
+
+    <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
+      <arg name="node_name_suffix" value="fisheye_1" />
+      <arg name="gazebo_topic" value="$(arg link_prefix)/camera_1/sensor/camera" />
+      <arg name="ros_topic" value="fisheye/camera_1" />
+    </include>
+
+    <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
+      <arg name="node_name_suffix" value="fisheye_2" />
+      <arg name="gazebo_topic" value="$(arg link_prefix)/camera_2/sensor/camera" />
+      <arg name="ros_topic" value="fisheye/camera_2" />
+    </include>
+
+    <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
+      <arg name="node_name_suffix" value="fisheye_3" />
+      <arg name="gazebo_topic" value="$(arg link_prefix)/camera_3/sensor/camera" />
+      <arg name="ros_topic" value="fisheye/camera_3" />
+    </include>
+
+    <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
+      <arg name="node_name_suffix" value="fisheye_4" />
+      <arg name="gazebo_topic" value="$(arg link_prefix)/camera_4/sensor/camera" />
+      <arg name="ros_topic" value="fisheye/camera_4" />
+    </include>
+  </group>
+  
+</launch>

@@ -1,0 +1,201 @@
+<?xml version="1.0" ?>
+<robot name="ctu_cras_norlab_balloon_sensor_config_1" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:arg name="name" default="" />
+    <xacro:if value="${len('$(arg name)') == 0}">
+        <xacro:arg name="prefix" default="" />
+    </xacro:if>
+    <xacro:unless value="${len('$(arg name)') == 0}">
+        <xacro:arg name="prefix" default="$(arg name)/" />
+    </xacro:unless>
+
+    <xacro:property name="string_length" value="15" />
+    <xacro:property name="radius" value="${0.53/2}" />
+    <xacro:property name="initial_balloon_dist" value="0.2" />
+    <xacro:property name="ball_joint_xy_limit" value="0.3" />
+
+    <xacro:include filename="utils.xacro" />
+
+    <!--
+    This file is the single source of all URDF and SDF models of Trailer. Do not edit those files
+    manually. Update the SDF using scripts/update_robot_sdf. The URDF is generated dynamically
+    when launching the robot.
+    -->
+
+    <!-- The main baloon -->
+
+    <link name="$(arg prefix)balloon">
+        <visual>
+            <geometry>
+                <sphere radius="${radius}" />
+            </geometry>
+            <material name="body_color"><color rgba="0.8 0.8 0.8"/></material>
+        </visual>
+        <collision>
+            <geometry>
+                <sphere radius="${radius}" />
+            </geometry>
+        </collision>
+        <xacro:sphere_inertial mass="0.05" radius="${radius}" />
+    </link>
+    <xacro:unless value="${'$(arg rendering_target)' == 'urdf'}">
+        <gazebo reference="$(arg prefix)balloon">
+            <visual>
+                <material>
+                    <ambient>0 0 0 0</ambient>
+                    <diffuse>0.8 0.8 0.8 1</diffuse>
+                    <specular>1.0 1.0 1.0 0.5</specular>
+                    <emissive>1.0 1.0 1.0 0.1</emissive>
+                </material>
+            </visual>
+        </gazebo>
+    </xacro:unless>
+
+    <xacro:macro name="spot_light" params="name pose">
+        <light name="${name}" type="spot">
+            <pose>${pose}</pose>
+            <attenuation>
+                <range>20</range>
+                <linear>0</linear>
+                <constant>0.1</constant>
+                <quadratic>0.0025</quadratic>
+            </attenuation>
+            <diffuse>0.8 0.8 0.5 1</diffuse>
+            <specular>0.8 0.8 0.5 1</specular>
+            <spot>
+                <inner_angle>${pi/3}</inner_angle>
+                <outer_angle>${pi/2}</outer_angle>
+                <falloff>1</falloff>
+            </spot>
+            <direction>0 0 -1</direction>
+        </light>
+    </xacro:macro>
+
+    <link name="$(arg prefix)camera">
+        <visual>
+            <geometry>
+                <cylinder radius="0.008" length="0.02" />
+            </geometry>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.008" length="0.02" />
+            </geometry>
+        </collision>
+        <xacro:cylinder_inertial mass="0.022" radius="0.008" length="0.02" />
+    </link>
+    <xacro:fixed_joint name="camera_j" parent="$(arg prefix)balloon" child="$(arg prefix)camera" xyz="0 0 ${-radius-0.01}" rpy="${pi} 0 0" />
+
+    <gazebo reference="$(arg prefix)camera">
+        <xacro:spot_light name="light_0" pose="0.02 0 0 0 ${-7*pi/8} 0" />
+        <xacro:spot_light name="light_1" pose="0.02 0 0 0 ${-7*pi/8} ${2*pi/3}" />
+        <xacro:spot_light name="light_2" pose="0.02 0 0 0 ${-7*pi/8} ${4*pi/3}" />
+    </gazebo>
+
+    <xacro:macro name="cam" params="name">
+        <sensor name="${name}" type="camera">
+            <update_rate>3</update_rate>
+            <camera>
+                <horizontal_fov>${radians(90)}</horizontal_fov>
+                <image>
+                    <width>800</width>
+                    <height>600</height>
+                    <format>R8G8B8</format>
+                </image>
+                <clip>
+                    <near>0.05</near>
+                    <far>50</far>
+                </clip>
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stddev>0.007</stddev>
+                </noise>
+            </camera>
+        </sensor>
+    </xacro:macro>
+
+    <xacro:empty_link name="$(arg prefix)camera_0" />
+    <gazebo reference="$(arg prefix)camera_0"><xacro:cam name="camera" /></gazebo>
+    <xacro:fixed_joint name="camera_0_j" parent="$(arg prefix)camera" child="$(arg prefix)camera_0" xyz="0.02 0 0" rpy="0 ${-pi/4} 0" />
+
+    <xacro:empty_link name="$(arg prefix)camera_1" />
+    <gazebo reference="$(arg prefix)camera_1"><xacro:cam name="camera" /></gazebo>
+    <xacro:fixed_joint name="camera_1_j" parent="$(arg prefix)camera" child="$(arg prefix)camera_1" xyz="0.02 0 0" rpy="0 ${-pi/4} ${-pi/2}" />
+
+    <xacro:empty_link name="$(arg prefix)camera_2" />
+    <gazebo reference="$(arg prefix)camera_2"><xacro:cam name="camera" /></gazebo>
+    <xacro:fixed_joint name="camera_2_j" parent="$(arg prefix)camera" child="$(arg prefix)camera_2" xyz="0.02 0 0" rpy="0 ${-pi/4} ${pi}" />
+
+    <xacro:empty_link name="$(arg prefix)camera_3" />
+    <gazebo reference="$(arg prefix)camera_3"><xacro:cam name="camera" /></gazebo>
+    <xacro:fixed_joint name="camera_3_j" parent="$(arg prefix)camera" child="$(arg prefix)camera_3" xyz="0.02 0 0" rpy="0 ${-pi/4} ${pi/2}" />
+
+    <xacro:empty_link name="$(arg prefix)camera_4" />
+    <gazebo reference="$(arg prefix)camera_4"><xacro:cam name="camera" /></gazebo>
+    <xacro:fixed_joint name="camera_4_j" parent="$(arg prefix)camera" child="$(arg prefix)camera_4" xyz="0.02 0 0" rpy="0 ${-pi/2} 0" />
+
+    <!-- Rest of the joint system and reel -->
+
+    <xacro:macro name="ball_joint_part" params="name parent child xyz='0 0 0' rpy='0 0 0' axis lim:=0">
+        <xacro:property name="type" value="continuous" />
+        <xacro:if value="${lim != 0}">
+            <xacro:property name="type" value="revolute" />
+        </xacro:if>
+        <joint name="${name}" type="${type}">
+            <child link="$(arg prefix)${child}"/>
+            <parent link="$(arg prefix)${parent}"/>
+            <axis xyz="${axis}"/>
+            <origin xyz="${xyz}" rpy="${rpy}" />
+            <dynamics friction="0.05" />
+            <xacro:if value="${lim != 0}">
+                <limit effort="1" velocity="1" lower="${-ball_joint_xy_limit}" upper="${ball_joint_xy_limit}" />
+            </xacro:if>
+        </joint>
+    </xacro:macro>
+
+    <xacro:macro name="ball_joint" params="name parent child xyz='0 0 0' rpy='0 0 0'">
+        <xacro:ball_joint_part name="${name}_x_j" parent="${parent}" child="${name}_x" axis="1 0 0" lim="1" />
+        <xacro:empty_link name="$(arg prefix)${name}_x" mass="0.001" />
+        <xacro:ball_joint_part name="${name}_y_j" parent="${name}_x" child="${name}_y" axis="0 1 0" lim="1" />
+        <xacro:empty_link name="$(arg prefix)${name}_y" mass="0.001" />
+        <xacro:ball_joint_part name="${name}_z_j" parent="${name}_y" child="${child}" axis="0 0 1" xyz="${xyz}" rpy="${rpy}" />
+    </xacro:macro>
+
+    <!-- reel -->
+    <link name="$(arg prefix)reel">
+        <visual>
+            <origin rpy="0 ${pi/2} ${pi/2}" />
+            <geometry>
+                <cylinder radius="0.07" length="0.15" />
+            </geometry>
+        </visual>
+        <visual>
+            <origin xyz="0.03 0 0.08" />
+            <geometry>
+                <mesh filename="package://ctu_cras_norlab_balloon_sensor_config_1/meshes/apriltag.dae" scale="2 2 1" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy="0 ${pi/2} ${pi/2}" />
+            <geometry>
+                <cylinder radius="0.07" length="0.15" />
+            </geometry>
+        </collision>
+        <xacro:default_inertial mass="1" />
+    </link>
+    <xacro:ball_joint name="ball_j" parent="reel" child="string" />
+    <xacro:empty_link name="$(arg prefix)string" mass="0.001" />
+
+    <xacro:empty_link name="$(arg prefix)base_link" mass="0.001" />
+    <xacro:fixed_joint name="intermediate_j" parent="$(arg prefix)base_link" child="$(arg prefix)reel"
+                       xyz="-0.05 0 -0.35" />
+
+    <!-- string -->
+    <joint name="string_prismatic_j" type="prismatic">
+        <parent link="$(arg prefix)string"/>
+        <child link="$(arg prefix)balloon"/>
+        <origin xyz="0 0 ${radius+initial_balloon_dist}" />
+        <axis xyz="0 0 1"/>
+        <limit lower="0" upper="${string_length}" effort="1" velocity="0.5" />
+    </joint>
+</robot>

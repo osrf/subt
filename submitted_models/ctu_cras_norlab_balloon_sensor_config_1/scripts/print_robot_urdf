@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -e
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+MODEL_DIR="${DIR}/.."
+
+echo -e "Rendering URDF of $(basename "$(realpath "$MODEL_DIR")")" >&2
+rosrun xacro xacro "${MODEL_DIR}/urdf/balloon.xacro" rendering_target:=urdf "$@"
