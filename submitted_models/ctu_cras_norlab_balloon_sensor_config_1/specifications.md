@@ -17,6 +17,8 @@ This robot requires the Buoyancy world plugin for it to actually float.
 
 This robot is only expected to be used as a marsupial child, not standalone. 
 
+The model is connected to the UGVs as other marsupials, but this one should never be detached!
+
 ## Usage Instructions
 
 The balloon is tethered on a reel that is controlled by publishing velocity commands 

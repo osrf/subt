@@ -9,6 +9,8 @@ The tether length is 15 m.
 
 This robot requires the Buoyancy world plugin for it to actually float. 
 
+The model is connected to the UGVs as other marsupials, but this one should never be detached!
+
 ## Model files management
 
 This package follows a different workflow for managing SDF and URDF models of the robot than the suggested one. The only and main source of model data is `urdf/trailer.xacro` file and the files it includes. 
