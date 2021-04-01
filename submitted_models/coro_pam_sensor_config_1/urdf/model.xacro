@@ -1,0 +1,432 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name="Pam" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:arg name="name" default="Pam"/>
+  <xacro:property name="robot_namespace" value="$(arg name)"/>
+  
+  <link name='${robot_namespace}/base_link'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='3.461'/>
+      <inertia ixx='0.0324' ixy='0' ixz='0' iyy='0.0324' iyz='0' izz='0.0519'/>
+    </inertial>
+    <collision name='base_link_inertia_collision'>
+      <origin xyz='0 0 -0.05' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.76 0.72 0.3'/>
+      </geometry>
+    </collision>
+    <visual name='plate1_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.14 0.14 0.001'/>
+      </geometry>
+    </visual>
+    <visual name='plate2_visual'>
+      <origin xyz='0 0 -0.04' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.14 0.14 0.001'/>
+      </geometry>
+    </visual>
+    <visual name='plate3_visual'>
+      <origin xyz='0 0 -0.09' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.14 0.14 0.001'/>
+      </geometry>
+    </visual>
+    <visual name='plate4_visual'>
+      <origin xyz='0.015 0 -0.13' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.17 0.14 0.001'/>
+      </geometry>
+    </visual>
+    <visual name='brix_visual'>
+      <origin xyz='0 0 -0.065' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.12 0.12 0.05'/>
+      </geometry>
+    </visual>
+    <visual name='battery_visual'>
+      <origin xyz='0 0 -0.11' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.14 0.08 0.04'/>
+      </geometry>
+    </visual>
+    <visual name='leg1_visual'>
+      <origin xyz='0.08 0.11 -0.158' rpy='-0.6 0 0'/>
+      <geometry>
+        <box size='0.04 0.1 0.001'/>
+      </geometry>
+    </visual>
+    <visual name='leg2_visual'>
+      <origin xyz='0.08 -0.11 -0.158' rpy='0.6 -0 0'/>
+      <geometry>
+        <box size='0.04 0.1 0.001'/>
+      </geometry>
+    </visual>
+    <visual name='leg3_visual'>
+      <origin xyz='-0.05 0.11 -0.158' rpy='-0.6 0 0'/>
+      <geometry>
+        <box size='0.04 0.1 0.001'/>
+      </geometry>
+    </visual>
+    <visual name='leg4_visual'>
+      <origin xyz='-0.05 -0.11 -0.158' rpy='0.6 -0 0'/>
+      <geometry>
+        <box size='0.04 0.1 0.001'/>
+      </geometry>
+    </visual>
+    <visual name='antenna1_visual'>
+      <origin xyz='0.05 -0.05 0.05' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.005' length='0.1'/>
+      </geometry>
+    </visual>
+    <visual name='antenna2_visual'>
+      <origin xyz='-0.05 -0.05 0.05' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.005' length='0.1'/>
+      </geometry>
+    </visual>
+    <visual name='prop_guard1_visual'>
+      <origin xyz='0.38 0 0.05' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.002' length='0.48'/>
+      </geometry>
+    </visual>
+    <visual name='prop_guard2_visual'>
+      <origin xyz='0 0.36 0.05' rpy='0 1.5708 0'/>
+      <geometry>
+        <cylinder radius='0.002' length='0.52'/>
+      </geometry>
+    </visual>
+    <visual name='prop_guard3_visual'>
+      <origin xyz='-0.38 0 0.05' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.002' length='0.48'/>
+      </geometry>
+    </visual>
+    <visual name='prop_guard4_visual'>
+      <origin xyz='0 -0.36 0.05' rpy='0 1.5708 0'/>
+      <geometry>
+        <cylinder radius='0.002' length='0.52'/>
+      </geometry>
+    </visual>
+    <visual name='prop_guard5_visual'>
+      <origin xyz='0.32 0.3 0.05' rpy='1.5708 0 0.7854'/>
+      <geometry>
+        <cylinder radius='0.002' length='0.17'/>
+      </geometry>
+    </visual>
+    <visual name='prop_guard6_visual'>
+      <origin xyz='-0.32 -0.3 0.05' rpy='1.5708 0 0.7854'/>
+      <geometry>
+        <cylinder radius='0.002' length='0.17'/>
+      </geometry>
+    </visual>
+    <visual name='prop_guard7_visual'>
+      <origin xyz='-0.32 0.3 0.05' rpy='1.5708 -0 -0.7854'/>
+      <geometry>
+        <cylinder radius='0.002' length='0.17'/>
+      </geometry>
+    </visual>
+    <visual name='prop_guard8_visual'>
+      <origin xyz='0.32 -0.3 0.05' rpy='1.5708 -0 -0.7854'/>
+      <geometry>
+        <cylinder radius='0.002' length='0.17'/>
+      </geometry>
+    </visual>
+    <visual name='prop_guard9_visual'>
+      <origin xyz='0.32 0.3 0.025' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.004' length='0.055'/>
+      </geometry>
+    </visual>
+    <visual name='prop_guard10_visual'>
+      <origin xyz='-0.32 0.3 0.025' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.004' length='0.055'/>
+      </geometry>
+    </visual>
+    <visual name='prop_guard11_visual'>
+      <origin xyz='0.32 -0.3 0.025' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.004' length='0.055'/>
+      </geometry>
+    </visual>
+    <visual name='prop_guard12_visual'>
+      <origin xyz='-0.32 -0.3 0.025' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.004' length='0.055'/>
+      </geometry>
+    </visual>
+    <visual name='prop_guard13_visual'>
+      <origin xyz='0.265 0.245 -0.005' rpy='1.5708 -0 -0.7854'/>
+      <geometry>
+        <cylinder radius='0.004' length='0.16'/>
+      </geometry>
+    </visual>
+    <visual name='prop_guard14_visual'>
+      <origin xyz='-0.265 -0.245 -0.005' rpy='1.5708 -0 -0.7854'/>
+      <geometry>
+        <cylinder radius='0.004' length='0.16'/>
+      </geometry>
+    </visual>
+    <visual name='prop_guard15_visual'>
+      <origin xyz='-0.265 0.245 -0.005' rpy='1.5708 0 0.7854'/>
+      <geometry>
+        <cylinder radius='0.004' length='0.16'/>
+      </geometry>
+    </visual>
+    <visual name='prop_guard16_visual'>
+      <origin xyz='0.265 -0.245 -0.005' rpy='1.5708 0 0.7854'/>
+      <geometry>
+        <cylinder radius='0.004' length='0.16'/>
+      </geometry>
+    </visual>
+    <visual name='arm1_visual'>
+      <origin xyz='0.13 0.12 -0.005' rpy='0 -0 0.74'/>
+      <geometry>
+        <box size='0.21 0.03 0.01'/>
+      </geometry>
+    </visual>
+    <visual name='arm2_visual'>
+      <origin xyz='0.13 -0.12 -0.005' rpy='0 0 -0.74'/>
+      <geometry>
+        <box size='0.21 0.03 0.01'/>
+      </geometry>
+    </visual>
+    <visual name='arm3_visual'>
+      <origin xyz='-0.13 0.12 -0.005' rpy='0 0 -0.74'/>
+      <geometry>
+        <box size='0.21 0.03 0.01'/>
+      </geometry>
+    </visual>
+    <visual name='arm4_visual'>
+      <origin xyz='-0.13 -0.12 -0.005' rpy='0 -0 0.74'/>
+      <geometry>
+        <box size='0.21 0.03 0.01'/>
+      </geometry>
+    </visual>
+    <visual name='arm1a_visual'>
+      <origin xyz='0.06 0.06 -0.025' rpy='0 -0 0.02'/>
+      <geometry>
+        <box size='0.02 0.02 0.03'/>
+      </geometry>
+    </visual>
+    <visual name='arm2a_visual'>
+      <origin xyz='0.06 -0.06 -0.025' rpy='0 -0 0.02'/>
+      <geometry>
+        <box size='0.02 0.02 0.03'/>
+      </geometry>
+    </visual>
+    <visual name='arm3a_visual'>
+      <origin xyz='-0.06 0.06 -0.025' rpy='0 -0 0.02'/>
+      <geometry>
+        <box size='0.02 0.02 0.03'/>
+      </geometry>
+    </visual>
+    <visual name='arm4a_visual'>
+      <origin xyz='-0.06 -0.06 -0.025' rpy='0 -0 0.02'/>
+      <geometry>
+        <box size='0.02 0.02 0.03'/>
+      </geometry>
+    </visual>
+    <visual name='motor1_visual'>
+      <origin xyz='0.2 0.18 0.02' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.02' length='0.04'/>
+      </geometry>
+    </visual>
+    <visual name='motor2_visual'>
+      <origin xyz='-0.2 0.18 0.02' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.02' length='0.04'/>
+      </geometry>
+    </visual>
+    <visual name='motor3_visual'>
+      <origin xyz='0.2 -0.18 0.02' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.02' length='0.04'/>
+      </geometry>
+    </visual>
+    <visual name='motor4_visual'>
+      <origin xyz='-0.2 -0.18 0.02' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.02' length='0.04'/>
+      </geometry>
+    </visual>
+    <visual name='lightbar_visual'>
+      <origin xyz='0.095 -0.06 -0.1' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.001 0.02 0.06'/>
+      </geometry>
+    </visual>
+    <visual name='d435_dae_front_visual'>
+      <origin xyz='0.075 0 -0.13' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://coro_pam_sensor_config_1/meshes/realsense_d435.dae' scale='0.001 0.001 0.001'/>
+      </geometry>
+    </visual>
+    <visual name='d435_dae_left_visual'>
+      <origin xyz='0 0.07 -0.117' rpy='1.5708 -0 1.5708'/>
+      <geometry>
+        <mesh filename='package://coro_pam_sensor_config_1/meshes/realsense_d435.dae' scale='0.001 0.001 0.001'/>
+      </geometry>
+    </visual>
+    <visual name='d435_dae_right_visual'>
+      <origin xyz='0.02 -0.07 -0.117' rpy='1.5708 0 -1.5708'/>
+      <geometry>
+        <mesh filename='package://coro_pam_sensor_config_1/meshes/realsense_d435.dae' scale='0.001 0.001 0.001'/>
+      </geometry>
+    </visual>
+  </link>
+  <sensor name='imu_sensor' update_rate='250'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0 0 0' rpy='0 -0 0'/>
+  </sensor>
+  <sensor name='air_pressure' update_rate='20'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0 0 0' rpy='0 -0 0'/>
+  </sensor>
+  <sensor name='magnetometer' update_rate='20'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0 0 0' rpy='0 -0 0'/>
+  </sensor>
+  <sensor name='rgbd_front' update_rate='30'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0.105 0 -0.115' rpy='0 -0 0'/>
+    <camera>
+      <image width='640' height='360' format='R8G8B8' hfov='1.50098' near='0.01' far='300' />
+    </camera>
+  </sensor>
+  <sensor name='rgbd_right' update_rate='30'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0.01 -0.1 -0.115' rpy='1.5708 0 -1.5708'/>
+    <camera>
+      <image width='640' height='360' format='R8G8B8' hfov='1.50098' near='0.01' far='300' />
+    </camera>
+  </sensor>
+  <sensor name='rgbd_left' update_rate='30'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0.01 0.1 -0.115' rpy='1.5708 -0 1.5708'/>
+    <camera>
+      <image width='640' height='360' format='R8G8B8' hfov='1.50098' near='0.01' far='300' />
+    </camera>
+  </sensor>
+  <sensor name='top_laser' update_rate='50'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0 -0.03 0.06' rpy='0 1.57 0'/>
+  </sensor>
+  <sensor name='bottom_laser' update_rate='50'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0 0 -0.14' rpy='0 -1.57 0'/>
+  </sensor>
+  <link name='${robot_namespace}/rotor_0'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='0.024'/>
+      <inertia ixx='1e-05' ixy='0' ixz='0' iyy='0.0004' iyz='0' izz='0.0004'/>
+    </inertial>
+    <collision name='rotor_0_collision'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.165' length='0.01'/>
+      </geometry>
+    </collision>
+    <visual name='rotor_0_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://coro_pam_sensor_config_1/meshes/propeller_ccw.dae' scale='0.165 0.165 0.165'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/rotor_1'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='0.024'/>
+      <inertia ixx='1e-05' ixy='0' ixz='0' iyy='0.0004' iyz='0' izz='0.0004'/>
+    </inertial>
+    <collision name='rotor_1_collision'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.165' length='0.01'/>
+      </geometry>
+    </collision>
+    <visual name='rotor_1_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://coro_pam_sensor_config_1/meshes/propeller_ccw.dae' scale='0.165 0.165 0.165'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/rotor_2'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='0.024'/>
+      <inertia ixx='1e-05' ixy='0' ixz='0' iyy='0.0004' iyz='0' izz='0.0004'/>
+    </inertial>
+    <collision name='rotor_2_collision'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.165' length='0.01'/>
+      </geometry>
+    </collision>
+    <visual name='rotor_2_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://coro_pam_sensor_config_1/meshes/propeller_cw.dae' scale='0.165 0.165 0.165'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/rotor_3'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='0.024'/>
+      <inertia ixx='1e-05' ixy='0' ixz='0' iyy='0.0004' iyz='0' izz='0.0004'/>
+    </inertial>
+    <collision name='rotor_3_collision'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.165' length='0.01'/>
+      </geometry>
+    </collision>
+    <visual name='rotor_3_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://coro_pam_sensor_config_1/meshes/propeller_cw.dae' scale='0.165 0.165 0.165'/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name='rotor_0_joint' type='revolute'>
+    <origin xyz='0.2 -0.18 0.05' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rotor_0'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 0 1'/>
+    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+  </joint>
+  <joint name='rotor_1_joint' type='revolute'>
+    <origin xyz='-0.2 0.18 0.05' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rotor_1'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 0 1'/>
+    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+  </joint>
+  <joint name='rotor_2_joint' type='revolute'>
+    <origin xyz='0.2 0.18 0.05' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rotor_2'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 0 1'/>
+    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+  </joint>
+  <joint name='rotor_3_joint' type='revolute'>
+    <origin xyz='-0.2 -0.18 0.05' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rotor_3'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 0 1'/>
+    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+  </joint>
+</robot>
