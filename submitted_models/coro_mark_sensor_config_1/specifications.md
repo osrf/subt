@@ -57,7 +57,7 @@ Limited to default 10 minutes as tests are not completed.
 
 
 
-# <a name="validation_links"></a>Mark Validation and Specification Links
+## Mark Validation and Specification Links
 * D435i RGBD Camera - https://www.intelrealsense.com/depth-camera-d435i/
 * Kakute F7 - http://www.holybro.com/product/kakute-f7-v1-5/
 * Garmin LIDAR-Lite v3HP - https://buy.garmin.com/en-US/US/p/557294
