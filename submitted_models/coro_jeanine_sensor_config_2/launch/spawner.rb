@@ -64,26 +64,26 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
          <wheel link_name="front_left_wheel">
            <slip_compliance_lateral>0.172</slip_compliance_lateral>
            <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-           <wheel_normal_force>123.6</wheel_normal_force>
-           <wheel_radius>0.205</wheel_radius>
+           <wheel_normal_force>114.3</wheel_normal_force>
+           <wheel_radius>0.1275</wheel_radius>
          </wheel>
          <wheel link_name="rear_left_wheel">
            <slip_compliance_lateral>0.172</slip_compliance_lateral>
            <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-           <wheel_normal_force>123.6</wheel_normal_force>
-           <wheel_radius>0.205</wheel_radius>
+           <wheel_normal_force>114.3</wheel_normal_force>
+           <wheel_radius>0.1275</wheel_radius>
          </wheel>
          <wheel link_name="front_right_wheel">
            <slip_compliance_lateral>0.172</slip_compliance_lateral>
            <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-           <wheel_normal_force>123.6</wheel_normal_force>
-           <wheel_radius>0.205</wheel_radius>
+           <wheel_normal_force>114.3</wheel_normal_force>
+           <wheel_radius>0.1275</wheel_radius>
          </wheel>
          <wheel link_name="rear_right_wheel">
            <slip_compliance_lateral>0.172</slip_compliance_lateral>
            <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-           <wheel_normal_force>123.6</wheel_normal_force>
-           <wheel_radius>0.205</wheel_radius>
+           <wheel_normal_force>114.3</wheel_normal_force>
+           <wheel_radius>0.1275</wheel_radius>
          </wheel>
        </plugin>
        <!-- breadcrumb -->
@@ -96,7 +96,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
          <breadcrumb>
            <sdf version="1.6">
              <model name="#{_name}__breadcrumb__">
-               <pose>-0.35 0 0 0 0 0</pose>
+               <pose>-0.25 0 0 0 0 0</pose>
                <include>
                  <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Breadcrumb Node</uri>
               </include>

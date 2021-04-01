@@ -6,7 +6,7 @@ Coordinated Robotics Jeanine with Sensor Configuration 1. This robot may be laun
 a `ign launch` command with the variable name `coro_jeanine_sensor_config_1`.
 
 ## Description
-Jeanine is a four-wheel skid steer ground vehicle. Jeanine weighs ~35 kg and uses a motor
+Jeanine is a four-wheel skid steer ground vehicle. Jeanine weighs ~45 kg and uses a motor
 for each wheel.  Jeanine can carry and launch a drone from atop the sensor platform.
 
 ## Usage Instructions
@@ -17,7 +17,7 @@ Sensors are published on the standard topics.
 
 
 ## Cost and Scale
-Jeanine has an estimated duplication cost of USD 5850. It weighs  kg.
+Jeanine has an estimated duplication cost of USD 5850. It weighs  46.6 kg.
 Cost breakdown:
 $2500 - Velodyne VLP-16 https://www.ebay.com/sch/i.html?_nkw=velodyne+vlp-16&_sacat=0
 $1300 - MS-IMU3025
