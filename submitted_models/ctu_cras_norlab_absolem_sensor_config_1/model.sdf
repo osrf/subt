@@ -1,85 +1,158 @@
-<?xml version='1.0' encoding='utf-8'?>
-<sdf version="1.7">
-  <model name="ctu_cras_norlab_absolem_sensor_config_1">
-    <link name="base_link">
+<?xml version='1.0'?>
+<sdf version='1.6'>
+  <model name='ctu_cras_norlab_absolem_sensor_config_1'>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/base_link'>
+      <pose>0 0 0 0 -0 0</pose>
       <inertial>
-        <pose>-0.062088 -0.006779 0.166362 0 -0 0</pose>
-        <mass>22.4783</mass>
+        <pose>-0.066916 -0.007121 0.159422 0 -0 0</pose>
+        <mass>21.9141</mass>
         <inertia>
-          <ixx>0.178253</ixx>
-          <ixy>0.0177326</ixy>
-          <ixz>-0.0781139</ixz>
-          <iyy>0.4196</iyy>
-          <iyz>0.0158494</iyz>
-          <izz>0.33554</izz>
+          <ixx>0.117218</ixx>
+          <ixy>0.0191964</ixy>
+          <ixz>-0.0488577</ixz>
+          <iyy>0.341695</iyy>
+          <iyz>0.0179603</iyz>
+          <izz>0.296202</izz>
         </inertia>
       </inertial>
-      <collision name="base_link_collision">
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/base_link_collision'>
         <pose>-0.122 0 0.118 0 -0 0</pose>
         <geometry>
           <box>
             <size>0.50017 0.24093 0.139</size>
           </box>
         </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
       </collision>
-      <collision name="base_link_collision_1">
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/base_link_collision_1'>
         <pose>0.157 0 0.118 0 -0 0</pose>
         <geometry>
           <box>
             <size>0.056 0.12093 0.139</size>
           </box>
         </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
       </collision>
-      <collision name="base_link_collision_2">
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/base_link_collision_2'>
         <pose>0.144 -0.076 0.118 0 -0 0.785398</pose>
         <geometry>
           <box>
             <size>0.083 0.04 0.139</size>
           </box>
         </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
       </collision>
-      <collision name="base_link_collision_3">
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/base_link_collision_3'>
         <pose>0.144 0.076 0.118 0 0 -0.785398</pose>
         <geometry>
           <box>
             <size>0.083 0.04 0.139</size>
           </box>
         </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
       </collision>
-      <collision name="base_link_collision_4">
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/base_link_collision_4'>
         <pose>0 0.135 0.09 0 -0 0</pose>
         <geometry>
           <box>
             <size>0.055 0.04 0.08</size>
           </box>
         </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
       </collision>
-      <collision name="base_link_collision_5">
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/base_link_collision_5'>
         <pose>0 0.155 0.013 0 -0 0</pose>
         <geometry>
           <box>
             <size>0.055 0.02 0.075</size>
           </box>
         </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
       </collision>
-      <collision name="base_link_collision_6">
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/base_link_collision_6'>
         <pose>0 -0.135 0.09 0 -0 0</pose>
         <geometry>
           <box>
             <size>0.055 0.04 0.08</size>
           </box>
         </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
       </collision>
-      <collision name="base_link_collision_7">
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/base_link_collision_7'>
         <pose>0 -0.155 0.013 0 -0 0</pose>
         <geometry>
           <box>
             <size>0.055 0.02 0.075</size>
           </box>
         </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
       </collision>
-      <collision name="base_link_fixed_joint_lump__antenna_collision_8">
-        <pose>-0.39064 0.0789 0.1551 0 1.5707963267948966 0</pose>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__big_collision_box_collision_8'>
+        <pose>-0.1 0 0.33 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.65 0.5 0.5</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/antenna_collision_9'>
+        <pose>-0.39064 0.0789 0.1551 0 1.5708 0</pose>
         <geometry>
           <cylinder>
             <length>0.03718</length>
@@ -87,7 +160,7 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__antenna_collision_9">
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/antenna_collision_10'>
         <pose>-0.402 0.0789 0.34563 0 -0 0</pose>
         <geometry>
           <cylinder>
@@ -96,7 +169,7 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__battery_collision_10">
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/battery_collision_11'>
         <pose>-0.2836 -0.0221 0.1132 0 -0 0</pose>
         <geometry>
           <box>
@@ -104,7 +177,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__jetson_collision_11">
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/jetson_collision_12'>
         <pose>0.136 0.0435 0.2125 0 -0 0</pose>
         <geometry>
           <box>
@@ -112,7 +185,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__rear_sensor_item_collision_12">
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/rear_sensor_item_collision_13'>
         <pose>-0.295 -0.1065 0.36 0 -0 0</pose>
         <geometry>
           <box>
@@ -120,7 +193,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__mobilicom_collision_13">
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/mobilicom_collision_14'>
         <pose>-0.295121 -0.064 0.385106 -1.56579 -0.858407 -7.3e-05</pose>
         <geometry>
           <box>
@@ -128,7 +201,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__mobilicom_antenna_l_collision_14">
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/mobilicom_antenna_l_collision_15'>
         <pose>-0.139117 -0.02338 0.465445 -1.29704 -0.418237 -1.17028</pose>
         <geometry>
           <cylinder>
@@ -137,8 +210,8 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__mobilicom_antenna_r_collision_15">
-        <pose>-0.193116 -0.064558 0.541453 -0.7124 0.007057 -1.5707963267948966</pose>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/mobilicom_antenna_r_collision_16'>
+        <pose>-0.193116 -0.064558 0.541453 -0.7124 0.007057 -1.57035</pose>
         <geometry>
           <cylinder>
             <length>0.17</length>
@@ -146,7 +219,7 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__top_box_collision_16">
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/top_box_collision_17'>
         <pose>-0.007 -0.0557 0.2165 0 -0 0</pose>
         <geometry>
           <box>
@@ -154,7 +227,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__top_box_collision_17">
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/top_box_collision_18'>
         <pose>-0.07624 -0.01443 0.254 0 -0 0</pose>
         <geometry>
           <box>
@@ -162,7 +235,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__top_box_collision_18">
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/top_box_collision_19'>
         <pose>-0.05183 -0.09792 0.26496 0 -0 0</pose>
         <geometry>
           <box>
@@ -170,7 +243,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__omnicam_collision_19">
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/omnicam_collision_20'>
         <pose>0.020991 -0.05685 0.3172 0 0 -0.628319</pose>
         <geometry>
           <cylinder>
@@ -179,62 +252,123 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__realsense_holder_part2_collision_20">
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/omnicam_sensor_mount_collision_21'>
+        <pose>0.0243 -0.0574 0.3732 0 0 -0.000319</pose>
+        <geometry>
+          <cylinder>
+            <length>0.044</length>
+            <radius>0.095</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/realsense_holder_part2_collision_22'>
         <pose>0.111811 -0.018928 0.440133 0 0.504467 -0.000319</pose>
         <geometry>
           <box>
             <size>0.008 0.075 0.025</size>
           </box>
         </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
       </collision>
-      <collision name="base_link_fixed_joint_lump__realsense_holder_part2_collision_21">
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/realsense_holder_part2_collision_23'>
         <pose>0.099551 -0.028924 0.4469 0 0.504467 -0.000319</pose>
         <geometry>
           <box>
             <size>0.035 0.01 0.028</size>
           </box>
         </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
       </collision>
-      <collision name="base_link_fixed_joint_lump__realsense_holder_part2_collision_22">
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/realsense_holder_part2_collision_24'>
         <pose>0.074085 -0.043916 0.415266 -0 0.004467 -0.000319</pose>
         <geometry>
           <box>
             <size>0.035 0.045 0.073</size>
           </box>
         </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
       </collision>
-      <collision name="base_link_fixed_joint_lump__camera_link_collision_23">
-        <pose>0.125348 -0.010971 0.43571 0.015 0.499467 -0.000319</pose>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/camera_link_collision_25'>
+        <pose>0.124976 -0.017932 0.432945 0.015 0.499467 -0.000319</pose>
         <geometry>
           <box>
-            <size>0.02505 0.09 0.025</size>
+            <size>0.15 0.2 0.05</size>
           </box>
         </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
       </collision>
-      <visual name="base_link_visual">
+      <visual name='ctu_cras_norlab_absolem_sensor_config_1/base_link_visual'>
+        <pose>0 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>meshes/body.dae</uri>
+            <scale>1 1 1</scale>
+            <uri>model://ctu_cras_norlab_absolem_sensor_config_1/meshes/body.dae</uri>
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__antenna_visual_1">
+      <visual name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/antenna_visual_1'>
         <pose>-0.372 0.0789 0.1551 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>meshes/antenna.dae</uri>
+            <scale>1 1 1</scale>
+            <uri>model://ctu_cras_norlab_absolem_sensor_config_1/meshes/antenna.dae</uri>
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__battery_visual_2">
+      <visual name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/battery_visual_2'>
         <pose>-0.2836 -0.0221 0.0722 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>meshes/battery.dae</uri>
+            <scale>1 1 1</scale>
+            <uri>model://ctu_cras_norlab_absolem_sensor_config_1/meshes/battery.dae</uri>
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__jetson_visual_3">
+      <visual name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/imu_visual_3'>
+        <pose>0 0 0.15 -3.14159 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.005 0.005 0.005</size>
+          </box>
+        </geometry>
+      </visual>
+      <visual name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/laser_base_visual_4'>
+        <pose>0.2502 0 0.1407 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.005 0.005 0.005</size>
+          </box>
+        </geometry>
+      </visual>
+      <visual name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/jetson_visual_5'>
         <pose>0.136 0.0435 0.2125 0 -0 0</pose>
         <geometry>
           <box>
@@ -242,7 +376,7 @@
           </box>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__rear_sensor_item_visual_4">
+      <visual name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/rear_sensor_item_visual_6'>
         <pose>-0.295 -0.1065 0.36 0 -0 0</pose>
         <geometry>
           <box>
@@ -250,7 +384,7 @@
           </box>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__mobilicom_visual_5">
+      <visual name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/mobilicom_visual_7'>
         <pose>-0.275459 -0.078002 0.407765 -1.56579 -0.858407 -7.3e-05</pose>
         <geometry>
           <box>
@@ -258,7 +392,7 @@
           </box>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__mobilicom_antenna_l_visual_6">
+      <visual name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/mobilicom_antenna_l_visual_8'>
         <pose>-0.139117 -0.02338 0.465445 -1.29704 -0.418237 -1.17028</pose>
         <geometry>
           <cylinder>
@@ -267,8 +401,8 @@
           </cylinder>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__mobilicom_antenna_r_visual_7">
-        <pose>-0.193116 -0.064558 0.541453 -0.7124 0.007057 -1.5707963267948966</pose>
+      <visual name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/mobilicom_antenna_r_visual_9'>
+        <pose>-0.193116 -0.064558 0.541453 -0.7124 0.007057 -1.57035</pose>
         <geometry>
           <cylinder>
             <length>0.17</length>
@@ -276,40 +410,120 @@
           </cylinder>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__top_box_visual_8">
+      <visual name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/top_box_visual_10'>
         <pose>0.022 -0.0557 0.185 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>meshes/top_box.dae</uri>
+            <scale>1 1 1</scale>
+            <uri>model://ctu_cras_norlab_absolem_sensor_config_1/meshes/top_box.dae</uri>
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__omnicam_visual_9">
+      <visual name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/omnicam_visual_11'>
         <pose>0.0243 -0.0574 0.3142 0 0 -0.628319</pose>
         <geometry>
           <mesh>
-            <uri>meshes/omnicam.dae</uri>
+            <scale>1 1 1</scale>
+            <uri>model://ctu_cras_norlab_absolem_sensor_config_1/meshes/omnicam.dae</uri>
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__realsense_holder_part2_visual_10">
-        <pose>0.088136 -0.07392 0.386942 -5e-06 -0.002418 1.57486</pose>
+      <visual name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/camera_0_visual_12'>
+        <pose>0.057346 -0.083518 0.313841 -1.57174 -0.000784 -2.19802</pose>
+        <geometry>
+          <box>
+            <size>0.005 0.005 0.005</size>
+          </box>
+        </geometry>
+      </visual>
+      <visual name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/camera_1_visual_13'>
+        <pose>0.009992 -0.096606 0.314114 -1.57187 0.000853 2.82791</pose>
+        <geometry>
+          <box>
+            <size>0.005 0.005 0.005</size>
+          </box>
+        </geometry>
+      </visual>
+      <visual name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/camera_2_visual_14'>
+        <pose>-0.01735 -0.055429 0.314721 -1.5725 0.00415 1.56974</pose>
+        <geometry>
+          <box>
+            <size>0.005 0.005 0.005</size>
+          </box>
+        </geometry>
+      </visual>
+      <visual name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/camera_3_visual_15'>
+        <pose>0.012561 -0.017068 0.314417 -1.57137 0.005611 0.313689</pose>
+        <geometry>
+          <box>
+            <size>0.005 0.005 0.005</size>
+          </box>
+        </geometry>
+      </visual>
+      <visual name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/camera_4_visual_16'>
+        <pose>0.058951 -0.03438 0.313899 -1.58161 0.001034 -0.943109</pose>
+        <geometry>
+          <box>
+            <size>0.005 0.005 0.005</size>
+          </box>
+        </geometry>
+      </visual>
+      <visual name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/camera_5_visual_17'>
+        <pose>0.024083 -0.058382 0.376328 0.003778 0.000786 -2.20023</pose>
+        <geometry>
+          <box>
+            <size>0.005 0.005 0.005</size>
+          </box>
+        </geometry>
+      </visual>
+      <visual name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/omnicam_forward_visual_18'>
+        <pose>0.0243 -0.0574 0.3142 0 0 -0.000319</pose>
+        <geometry>
+          <box>
+            <size>0.005 0.005 0.005</size>
+          </box>
+        </geometry>
+      </visual>
+      <visual name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/omnicam_bottom_visual_19'>
+        <pose>0.0243 -0.0574 0.2482 0 0 -0.000319</pose>
+        <geometry>
+          <box>
+            <size>0.005 0.005 0.005</size>
+          </box>
+        </geometry>
+      </visual>
+      <visual name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/omnicam_top_visual_20'>
+        <pose>0.0243 -0.0574 0.3882 0 0 -0.000319</pose>
+        <geometry>
+          <box>
+            <size>0.005 0.005 0.005</size>
+          </box>
+        </geometry>
+      </visual>
+      <visual name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/omnicam_sensor_mount_visual_21'>
+        <pose>0.021299 -0.059399 0.3882 3.14152 -0 -0.000319</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>meshes/d435_holder_combined.stl</uri>
+            <uri>model://ctu_cras_norlab_absolem_sensor_config_1/meshes/lb3_mount_2.stl</uri>
           </mesh>
         </geometry>
-        <material>
-          <diffuse>0.5 0.5 0.5 1</diffuse>
-          <ambient>0.1 0.1 0.1 1</ambient>
-        </material>
       </visual>
-      <visual name="base_link_fixed_joint_lump__camera_link_visual_11">
-        <pose>0.133719 -0.010853 0.422031 2.07031 -0.013167 1.56329</pose>
+      <visual name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/omnicam_sensor_mount_visual_22'>
+        <pose>0.0198 -0.057399 0.2482 0 0 -0.000319</pose>
         <geometry>
           <mesh>
-            <uri>meshes/realsense_d435.dae</uri>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>model://ctu_cras_norlab_absolem_sensor_config_1/meshes/lb3_mount_bottom.stl</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/realsense_holder_part2_visual_23'>
+        <pose>0.088893 -0.073921 0.39452 -5e-06 -0.002418 1.57486</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>model://ctu_cras_norlab_absolem_sensor_config_1/meshes/d435_holder_combined.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -317,8 +531,39 @@
           <ambient>0.1 0.1 0.1 1</ambient>
         </material>
       </visual>
-      <light name="light_left" type="spot">
-        <pose>0 0.13 0.2 1.5707963267948966 1.5707963267948966 0</pose>
+      <visual name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/camera_back_mounting_plane_visual_24'>
+        <pose>0.115312 -0.018929 0.4382 0.015 0.499467 -0.000319</pose>
+        <geometry>
+          <box>
+            <size>0.005 0.005 0.005</size>
+          </box>
+        </geometry>
+      </visual>
+      <visual name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/camera_tripod_screw_link_visual_25'>
+        <pose>0.119362 -0.010781 0.424738 0.015 0.499467 -0.000319</pose>
+        <geometry>
+          <box>
+            <size>0.005 0.005 0.005</size>
+          </box>
+        </geometry>
+      </visual>
+      <visual name='ctu_cras_norlab_absolem_sensor_config_1/base_link_fixed_joint_lump__ctu_cras_norlab_absolem_sensor_config_1/camera_link_visual_26'>
+        <pose>0.133882 -0.000937 0.428379 2.07031 -0.013169 1.5633</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://ctu_cras_norlab_absolem_sensor_config_1/meshes/realsense_d435.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.5 0.5 0.5 1</diffuse>
+          <ambient>0.1 0.1 0.1 1</ambient>
+        </material>
+      </visual>
+      <velocity_decay/>
+      <velocity_decay/>
+      <light name='light_left' type='spot'>
+        <pose>0 0.13 0.2 1.5708 1.5708 0</pose>
         <attenuation>
           <range>50</range>
           <linear>0</linear>
@@ -334,8 +579,8 @@
         </spot>
         <direction>1 0 0</direction>
       </light>
-      <light name="light_right" type="spot">
-        <pose>0 -0.13 0.2 -1.5707963267948966 1.5707963267948966 0</pose>
+      <light name='light_right' type='spot'>
+        <pose>0 -0.13 0.2 -1.5708 1.5708 0</pose>
         <attenuation>
           <range>50</range>
           <linear>0</linear>
@@ -351,8 +596,8 @@
         </spot>
         <direction>1 0 0</direction>
       </light>
-      <light name="light_front_left" type="spot">
-        <pose>0.3 0.13 0.2 2.74889 1.5707963267948966 0</pose>
+      <light name='light_front_left' type='spot'>
+        <pose>0.3 0.13 0.2 2.74889 1.5708 0</pose>
         <attenuation>
           <range>30</range>
           <linear>0</linear>
@@ -368,8 +613,8 @@
         </spot>
         <direction>1 0 0</direction>
       </light>
-      <light name="light_front_right" type="spot">
-        <pose>0.3 -0.13 0.2 -2.74889 1.5707963267948966 0</pose>
+      <light name='light_front_right' type='spot'>
+        <pose>0.3 -0.13 0.2 -2.74889 1.5708 0</pose>
         <attenuation>
           <range>30</range>
           <linear>0</linear>
@@ -385,8 +630,8 @@
         </spot>
         <direction>1 0 0</direction>
       </light>
-      <light name="light_rear" type="spot">
-        <pose>-0.4 0 0.2 0 1.5707963267948966 0</pose>
+      <light name='light_rear' type='spot'>
+        <pose>-0.4 0 0.2 0 1.5708 0</pose>
         <attenuation>
           <range>30</range>
           <linear>0</linear>
@@ -402,14 +647,15 @@
         </spot>
         <direction>1 0 0</direction>
       </light>
+      <velocity_decay/>
       <self_collide>0</self_collide>
-      <sensor name="imu" type="imu">
+      <sensor name='imu' type='imu'>
         <always_on>1</always_on>
         <update_rate>50</update_rate>
         <imu>
           <angular_velocity>
             <x>
-              <noise type="gaussian">
+              <noise type='gaussian'>
                 <mean>0</mean>
                 <stddev>0.009</stddev>
                 <bias_mean>0.00075</bias_mean>
@@ -420,7 +666,7 @@
               </noise>
             </x>
             <y>
-              <noise type="gaussian">
+              <noise type='gaussian'>
                 <mean>0</mean>
                 <stddev>0.009</stddev>
                 <bias_mean>0.00075</bias_mean>
@@ -431,7 +677,7 @@
               </noise>
             </y>
             <z>
-              <noise type="gaussian">
+              <noise type='gaussian'>
                 <mean>0</mean>
                 <stddev>0.009</stddev>
                 <bias_mean>0.00075</bias_mean>
@@ -444,7 +690,7 @@
           </angular_velocity>
           <linear_acceleration>
             <x>
-              <noise type="gaussian">
+              <noise type='gaussian'>
                 <mean>0</mean>
                 <stddev>0.021</stddev>
                 <bias_mean>0.05</bias_mean>
@@ -455,7 +701,7 @@
               </noise>
             </x>
             <y>
-              <noise type="gaussian">
+              <noise type='gaussian'>
                 <mean>0</mean>
                 <stddev>0.021</stddev>
                 <bias_mean>0.05</bias_mean>
@@ -466,7 +712,7 @@
               </noise>
             </y>
             <z>
-              <noise type="gaussian">
+              <noise type='gaussian'>
                 <mean>0</mean>
                 <stddev>0.021</stddev>
                 <bias_mean>0.05</bias_mean>
@@ -477,245 +723,17 @@
               </noise>
             </z>
           </linear_acceleration>
+          <angular_velocity/>
+          <linear_acceleration/>
         </imu>
-        <pose>0 0 0.15 -3.1415926535897931 -0 0</pose>
+        <pose>0 0 0.15 -3.14159 -0 0</pose>
       </sensor>
-      <sensor name="omnicam_sensor0" type="camera">
-        <update_rate>6</update_rate>
-        <camera name="camera_0">
-          <horizontal_fov>1.36478</horizontal_fov>
-          <image>
-            <width>1232</width>
-            <height>1616</height>
-            <format>R8G8B8</format>
-          </image>
-          <clip>
-            <near>0.02</near>
-            <far>300</far>
-          </clip>
-          <noise>
-            <type>gaussian</type>
-            <mean>0</mean>
-            <stddev>0.007</stddev>
-          </noise>
-          <distortion>
-            <k1>-0.20571</k1>
-            <k2>0.04103</k2>
-            <k3>0</k3>
-            <p1>-0.00101</p1>
-            <p2>0.00098</p2>
-          </distortion>
-          <lens>
-            <intrinsics>
-              <fx>758.04</fx>
-              <fy>761.624</fy>
-              <cx>621.466</cx>
-              <cy>756.864</cy>
-              <s>1</s>
-            </intrinsics>
-            <type>stereographic</type>
-            <scale_to_hfov>1</scale_to_hfov>
-          </lens>
-        </camera>
-        <pose>0.057346 -0.083518 0.313841 -0.000948 -0.000784 -2.19802</pose>
-      </sensor>
-      <sensor name="omnicam_sensor1" type="camera">
-        <update_rate>6</update_rate>
-        <camera name="camera_1">
-          <horizontal_fov>1.36574</horizontal_fov>
-          <image>
-            <width>1232</width>
-            <height>1616</height>
-            <format>R8G8B8</format>
-          </image>
-          <clip>
-            <near>0.02</near>
-            <far>300</far>
-          </clip>
-          <noise>
-            <type>gaussian</type>
-            <mean>0</mean>
-            <stddev>0.007</stddev>
-          </noise>
-          <distortion>
-            <k1>-0.19931</k1>
-            <k2>0.03549</k2>
-            <k3>0</k3>
-            <p1>5e-05</p1>
-            <p2>-0.00053</p2>
-          </distortion>
-          <lens>
-            <intrinsics>
-              <fx>757.299</fx>
-              <fy>757.801</fy>
-              <cx>594.19</cx>
-              <cy>779.434</cy>
-              <s>1</s>
-            </intrinsics>
-            <type>stereographic</type>
-            <scale_to_hfov>1</scale_to_hfov>
-          </lens>
-        </camera>
-        <pose>0.009992 -0.096606 0.314114 -0.001069 0.000853 2.82791</pose>
-      </sensor>
-      <sensor name="omnicam_sensor2" type="camera">
-        <update_rate>6</update_rate>
-        <camera name="camera_2">
-          <horizontal_fov>1.36565</horizontal_fov>
-          <image>
-            <width>1232</width>
-            <height>1616</height>
-            <format>R8G8B8</format>
-          </image>
-          <clip>
-            <near>0.02</near>
-            <far>300</far>
-          </clip>
-          <noise>
-            <type>gaussian</type>
-            <mean>0</mean>
-            <stddev>0.007</stddev>
-          </noise>
-          <distortion>
-            <k1>-0.19722</k1>
-            <k2>0.03442</k2>
-            <k3>0</k3>
-            <p1>0.00013</p1>
-            <p2>-0.00035</p2>
-          </distortion>
-          <lens>
-            <intrinsics>
-              <fx>757.367</fx>
-              <fy>755.079</fy>
-              <cx>632.96</cx>
-              <cy>740.558</cy>
-              <s>1</s>
-            </intrinsics>
-            <type>stereographic</type>
-            <scale_to_hfov>1</scale_to_hfov>
-          </lens>
-        </camera>
-        <pose>-0.01735 -0.055429 0.314721 -0.001705 0.00415 1.56975</pose>
-      </sensor>
-      <sensor name="omnicam_sensor3" type="camera">
-        <update_rate>6</update_rate>
-        <camera name="camera_3">
-          <horizontal_fov>1.35821</horizontal_fov>
-          <image>
-            <width>1232</width>
-            <height>1616</height>
-            <format>R8G8B8</format>
-          </image>
-          <clip>
-            <near>0.02</near>
-            <far>300</far>
-          </clip>
-          <noise>
-            <type>gaussian</type>
-            <mean>0</mean>
-            <stddev>0.007</stddev>
-          </noise>
-          <distortion>
-            <k1>-0.20395</k1>
-            <k2>0.03534</k2>
-            <k3>0</k3>
-            <p1>0.0003</p1>
-            <p2>-0.00066</p2>
-          </distortion>
-          <lens>
-            <intrinsics>
-              <fx>763.152</fx>
-              <fy>763.185</fy>
-              <cx>606.706</cx>
-              <cy>785.217</cy>
-              <s>1</s>
-            </intrinsics>
-            <type>stereographic</type>
-            <scale_to_hfov>1</scale_to_hfov>
-          </lens>
-        </camera>
-        <pose>0.012561 -0.017068 0.314417 -0.000579 0.005611 0.313689</pose>
-      </sensor>
-      <sensor name="omnicam_sensor4" type="camera">
-        <update_rate>6</update_rate>
-        <camera name="camera_4">
-          <horizontal_fov>1.37789</horizontal_fov>
-          <image>
-            <width>1232</width>
-            <height>1616</height>
-            <format>R8G8B8</format>
-          </image>
-          <clip>
-            <near>0.02</near>
-            <far>300</far>
-          </clip>
-          <noise>
-            <type>gaussian</type>
-            <mean>0</mean>
-            <stddev>0.007</stddev>
-          </noise>
-          <distortion>
-            <k1>-0.19889</k1>
-            <k2>0.03244</k2>
-            <k3>0</k3>
-            <p1>-0.00039</p1>
-            <p2>-0.00126</p2>
-          </distortion>
-          <lens>
-            <intrinsics>
-              <fx>747.97</fx>
-              <fy>744.851</fy>
-              <cx>612.798</cx>
-              <cy>772.008</cy>
-              <s>1</s>
-            </intrinsics>
-            <type>stereographic</type>
-            <scale_to_hfov>1</scale_to_hfov>
-          </lens>
-        </camera>
-        <pose>0.058951 -0.03438 0.313899 -0.010815 0.001034 -0.943109</pose>
-      </sensor>
-      <sensor name="omnicam_sensor5" type="camera">
-        <update_rate>6</update_rate>
-        <camera name="camera_5">
-          <horizontal_fov>1.36869</horizontal_fov>
-          <image>
-            <width>1232</width>
-            <height>1616</height>
-            <format>R8G8B8</format>
-          </image>
-          <clip>
-            <near>0.02</near>
-            <far>300</far>
-          </clip>
-          <noise>
-            <type>gaussian</type>
-            <mean>0</mean>
-            <stddev>0.007</stddev>
-          </noise>
-          <distortion>
-            <k1>-0.21309</k1>
-            <k2>0.03984</k2>
-            <k3>0</k3>
-            <p1>-0.00011</p1>
-            <p2>-0.00017</p2>
-          </distortion>
-          <lens>
-            <intrinsics>
-              <fx>755.019</fx>
-              <fy>754.96</fy>
-              <cx>602.194</cx>
-              <cy>802.92</cy>
-              <s>1</s>
-            </intrinsics>
-            <type>stereographic</type>
-            <scale_to_hfov>1</scale_to_hfov>
-          </lens>
-        </camera>
-        <pose>0.024083 -0.058382 0.376328 -2.19645 -1.5707963267948966 0</pose>
-      </sensor>
-      <sensor name="camera" type="rgbd_camera">
-        <camera name="camera_camera">
+      <velocity_decay/>
+      <velocity_decay/>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <sensor name='camera' type='rgbd_camera'>
+        <camera name='camera_camera'>
           <horizontal_fov>1.5184</horizontal_fov>
           <lens>
             <intrinsics>
@@ -737,7 +755,7 @@
             <center>0.5 0.5</center>
           </distortion>
           <image>
-            <width>640</width>
+            <width>848</width>
             <height>480</height>
             <format>RGB_INT8</format>
           </image>
@@ -760,39 +778,11 @@
         </camera>
         <always_on>1</always_on>
         <update_rate>6</update_rate>
-        <pose>0.13592 -0.016338 0.419596 0.015 0.499467 -0.000319</pose>
+        <pose>0.144322 -0.023803 0.412034 0.015 0.499467 -0.000319</pose>
       </sensor>
     </link>
-    <joint name="laser_j" type="revolute">
-      <pose relative_to="base_link">0.2502 0 0.1407 -3.1415926535897931 0 0</pose>
-      <parent>base_link</parent>
-      <child>laser</child>
-      <axis>
-        <xyz>1 0 0</xyz>
-        <limit>
-          <lower>-2.35619</lower>
-          <upper>2.35619</upper>
-          <effort>10</effort>
-          <velocity>1.2</velocity>
-        </limit>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-      </axis>
-      <physics>
-        <ode>
-          <implicit_spring_damper>1</implicit_spring_damper>
-          <cfm_damping>1</cfm_damping>
-          <limit>
-            <cfm>0</cfm>
-            <erp>0.2</erp>
-          </limit>
-        </ode>
-      </physics>
-    </joint>
-    <link name="laser">
-      <pose relative_to="laser_j">0 0 0 0 -0 0</pose>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/laser'>
+      <pose>0.2502 0 0.1407 -3.14159 0 0</pose>
       <inertial>
         <pose>0 0 -0.04 0 -0 0</pose>
         <mass>1.1</mass>
@@ -805,23 +795,36 @@
           <izz>0.0017656</izz>
         </inertia>
       </inertial>
-      <collision name="laser_collision">
-        <pose>0 0 -0.04 1.5707963267948966 0 -1.5707963267948966</pose>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/laser_collision'>
+        <pose>0 0 -0.04 1.5708 0 -1.5708</pose>
         <geometry>
           <box>
             <size>0.1159 0.16826 0.1159</size>
           </box>
         </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
       </collision>
-      <visual name="laser_visual">
-        <pose>0 0 0 1.5707963267948966 0 -1.5707963267948966</pose>
+      <visual name='ctu_cras_norlab_absolem_sensor_config_1/laser_visual'>
+        <pose>0 0 0 1.5708 0 -1.5708</pose>
         <geometry>
           <mesh>
-            <uri>meshes/laser.dae</uri>
+            <scale>1 1 1</scale>
+            <uri>model://ctu_cras_norlab_absolem_sensor_config_1/meshes/laser.dae</uri>
           </mesh>
         </geometry>
       </visual>
-      <sensor name="laser" type="gpu_lidar">
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
+      <sensor name='laser' type='gpu_lidar'>
+        <pose>0 0 0 0 -0 0</pose>
         <update_rate>50</update_rate>
         <always_on>1</always_on>
         <lidar>
@@ -846,15 +849,89 @@
         </lidar>
       </sensor>
     </link>
-    <joint name="left_track_j" type="revolute">
-      <pose relative_to="base_link">0 0.1985 0 0 -0 0</pose>
-      <parent>base_link</parent>
-      <child>left_track</child>
+    <joint name='laser_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/laser</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/base_link</parent>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>-2.35619</lower>
+          <upper>2.35619</upper>
+          <effort>10</effort>
+          <velocity>1.2</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+      <physics>
+        <ode>
+          <implicit_spring_damper>1</implicit_spring_damper>
+          <cfm_damping>1</cfm_damping>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
+    </joint>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/left_track'>
+      <pose>0 0.1985 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>1e-05</mass>
+        <inertia>
+          <ixx>0.001</ixx>
+          <ixy>1e-06</ixy>
+          <ixz>1e-06</ixz>
+          <iyy>0.001</iyy>
+          <iyz>1e-06</iyz>
+          <izz>0.001</izz>
+        </inertia>
+      </inertial>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/left_track_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.01 0.01 0.01</size>
+          </box>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>0.7</mu>
+              <mu2>150</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+          <contact>
+            <ode/>
+          </contact>
+        </surface>
+      </collision>
+      <visual name='ctu_cras_norlab_absolem_sensor_config_1/left_track_visual'>
+        <pose>0 0 -0.0705 1.57 -0 1.57</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://ctu_cras_norlab_absolem_sensor_config_1/meshes/bogie.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
+    </link>
+    <joint name='left_track_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/left_track</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/base_link</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
-          <lower>0</lower>
-          <upper>0</upper>
+          <lower>-0.7</lower>
+          <upper>0.7</upper>
           <effort>0</effort>
           <velocity>4</velocity>
         </limit>
@@ -862,6 +939,7 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
       <physics>
         <ode>
@@ -879,9 +957,10 @@
         </ode>
       </physics>
     </joint>
-    <link name="left_track">
-      <pose relative_to="left_track_j">0 0 0 0 -0 0</pose>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/front_left_flipper'>
+      <pose>0.25 0.272 0.0195 0 0.193732 0</pose>
       <inertial>
+        <pose>0 0 0 0 -0 0</pose>
         <mass>1e-05</mass>
         <inertia>
           <ixx>0.001</ixx>
@@ -892,7 +971,8 @@
           <izz>0.001</izz>
         </inertia>
       </inertial>
-      <collision name="left_track_collision">
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/front_left_flipper_collision'>
+        <pose>0 0 0 0 -0 0</pose>
         <geometry>
           <box>
             <size>0.01 0.01 0.01</size>
@@ -906,21 +986,27 @@
               <fdir1>0 0 1</fdir1>
             </ode>
           </friction>
+          <contact>
+            <ode/>
+          </contact>
         </surface>
       </collision>
-      <visual name="left_track_visual">
-        <pose>0 0 -0.0705 1.5707963267948966 -0 1.5707963267948966</pose>
+      <visual name='ctu_cras_norlab_absolem_sensor_config_1/front_left_flipper_visual'>
+        <pose>0 0 0 -2.95743 -0 1.5708</pose>
         <geometry>
           <mesh>
-            <uri>meshes/bogie.dae</uri>
+            <scale>1 1 1</scale>
+            <uri>model://ctu_cras_norlab_absolem_sensor_config_1/meshes/flipper.dae</uri>
           </mesh>
         </geometry>
       </visual>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
     </link>
-    <joint name="front_left_flipper_j" type="revolute">
-      <pose relative_to="left_track">0.25 0.0735 0.0195 0 0.193732 0</pose>
-      <parent>left_track</parent>
-      <child>front_left_flipper</child>
+    <joint name='front_left_flipper_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/front_left_flipper</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/left_track</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -933,6 +1019,7 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
       <physics>
         <ode>
@@ -945,62 +1032,8 @@
         </ode>
       </physics>
     </joint>
-    <link name="front_left_flipper">
-      <pose relative_to="front_left_flipper_j">0 0 0 0 -0 0</pose>
-      <inertial>
-        <mass>1e-05</mass>
-        <inertia>
-          <ixx>0.001</ixx>
-          <ixy>1e-06</ixy>
-          <ixz>1e-06</ixz>
-          <iyy>0.001</iyy>
-          <iyz>1e-06</iyz>
-          <izz>0.001</izz>
-        </inertia>
-      </inertial>
-      <collision name="front_left_flipper_collision">
-        <geometry>
-          <box>
-            <size>0.01 0.01 0.01</size>
-          </box>
-        </geometry>
-        <surface>
-          <friction>
-            <ode>
-              <mu>0.7</mu>
-              <mu2>150</mu2>
-              <fdir1>0 0 1</fdir1>
-            </ode>
-          </friction>
-        </surface>
-      </collision>
-      <visual name="front_left_flipper_visual">
-        <pose>0 0 0 -2.95743 -0 1.5707963267948966</pose>
-        <geometry>
-          <mesh>
-            <uri>meshes/flipper.dae</uri>
-          </mesh>
-        </geometry>
-      </visual>
-    </link>
-    <joint name="front_left_flipper_wheel1_j" type="revolute">
-      <pose relative_to="front_left_flipper">0 0 0 0 -0 0</pose>
-      <parent>front_left_flipper</parent>
-      <child>front_left_flipper_wheel1</child>
-      <axis>
-        <xyz>0 1 0</xyz>
-        <limit>
-          <lower>-1e+16</lower>
-          <upper>1e+16</upper>
-        </limit>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-      </axis>
-    </joint>
-    <link name="front_left_flipper_wheel1">
-      <pose relative_to="front_left_flipper_wheel1_j">0 0 0 0 -0 0</pose>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/front_left_flipper_wheel1'>
+      <pose>0.25 0.2535 0.0195 0 0.193732 0</pose>
       <inertial>
         <pose>0.08 0 0 0 -0 0</pose>
         <mass>0.15</mass>
@@ -1013,37 +1046,22 @@
           <izz>0.010941</izz>
         </inertia>
       </inertial>
-      <collision name="front_left_flipper_wheel1_collision_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/front_left_flipper_wheel1_fixed_joint_lump__front_left_flipper_wheel1_collision_collision'>
+        <pose>0 0 0 1.5708 -0 0</pose>
         <geometry>
           <cylinder>
-            <length>0.04981</length>
-            <radius>0.089</radius>
+            <length>0.08681</length>
+            <radius>0.1157</radius>
           </cylinder>
         </geometry>
-        <surface>
-          <contact>
-            <ode>
-              <kp>1e+07</kp>
-              <kd>1</kd>
-            </ode>
-          </contact>
-          <friction>
-            <ode>
-              <mu>0.5</mu>
-              <mu2>1</mu2>
-              <slip1>0.00092</slip1>
-              <slip2>0</slip2>
-              <fdir1>0 0 1</fdir1>
-            </ode>
-          </friction>
-        </surface>
       </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
     </link>
-    <joint name="front_left_flipper_wheel2_j" type="revolute">
-      <pose relative_to="front_left_flipper">0.0825 0 0 0 -0 0</pose>
-      <parent>front_left_flipper</parent>
-      <child>front_left_flipper_wheel2</child>
+    <joint name='front_left_flipper_wheel1_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/front_left_flipper_wheel1</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/front_left_flipper</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -1054,10 +1072,11 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="front_left_flipper_wheel2">
-      <pose relative_to="front_left_flipper_wheel2_j">0 0 0 0 -0 0</pose>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/front_left_flipper_wheel2'>
+      <pose>0.330957 0.2535 0.003617 0 0.193732 0</pose>
       <inertial>
         <pose>0.08 0 0 0 -0 0</pose>
         <mass>0.15</mass>
@@ -1070,37 +1089,22 @@
           <izz>0.010941</izz>
         </inertia>
       </inertial>
-      <collision name="front_left_flipper_wheel2_collision_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/front_left_flipper_wheel2_fixed_joint_lump__front_left_flipper_wheel2_collision_collision'>
+        <pose>0 0 0 1.5708 -0 0</pose>
         <geometry>
           <cylinder>
-            <length>0.04981</length>
-            <radius>0.074</radius>
+            <length>0.08681</length>
+            <radius>0.0962</radius>
           </cylinder>
         </geometry>
-        <surface>
-          <contact>
-            <ode>
-              <kp>1e+07</kp>
-              <kd>1</kd>
-            </ode>
-          </contact>
-          <friction>
-            <ode>
-              <mu>0.5</mu>
-              <mu2>1</mu2>
-              <slip1>0.00092</slip1>
-              <slip2>0</slip2>
-              <fdir1>0 0 1</fdir1>
-            </ode>
-          </friction>
-        </surface>
       </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
     </link>
-    <joint name="front_left_flipper_wheel3_j" type="revolute">
-      <pose relative_to="front_left_flipper">0.165 0 0 0 -0 0</pose>
-      <parent>front_left_flipper</parent>
-      <child>front_left_flipper_wheel3</child>
+    <joint name='front_left_flipper_wheel2_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/front_left_flipper_wheel2</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/front_left_flipper</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -1111,10 +1115,11 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="front_left_flipper_wheel3">
-      <pose relative_to="front_left_flipper_wheel3_j">0 0 0 0 -0 0</pose>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/front_left_flipper_wheel3'>
+      <pose>0.411913 0.2535 -0.012266 0 0.193732 0</pose>
       <inertial>
         <pose>0.08 0 0 0 -0 0</pose>
         <mass>0.15</mass>
@@ -1127,37 +1132,22 @@
           <izz>0.010941</izz>
         </inertia>
       </inertial>
-      <collision name="front_left_flipper_wheel3_collision_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/front_left_flipper_wheel3_fixed_joint_lump__front_left_flipper_wheel3_collision_collision'>
+        <pose>0 0 0 1.5708 -0 0</pose>
         <geometry>
           <cylinder>
-            <length>0.04981</length>
-            <radius>0.059</radius>
+            <length>0.08681</length>
+            <radius>0.0767</radius>
           </cylinder>
         </geometry>
-        <surface>
-          <contact>
-            <ode>
-              <kp>1e+07</kp>
-              <kd>1</kd>
-            </ode>
-          </contact>
-          <friction>
-            <ode>
-              <mu>0.5</mu>
-              <mu2>1</mu2>
-              <slip1>0.00092</slip1>
-              <slip2>0</slip2>
-              <fdir1>0 0 1</fdir1>
-            </ode>
-          </friction>
-        </surface>
       </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
     </link>
-    <joint name="front_left_flipper_wheel4_j" type="revolute">
-      <pose relative_to="front_left_flipper">0.2475 0 0 0 -0 0</pose>
-      <parent>front_left_flipper</parent>
-      <child>front_left_flipper_wheel4</child>
+    <joint name='front_left_flipper_wheel3_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/front_left_flipper_wheel3</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/front_left_flipper</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -1168,10 +1158,11 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="front_left_flipper_wheel4">
-      <pose relative_to="front_left_flipper_wheel4_j">0 0 0 0 -0 0</pose>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/front_left_flipper_wheel4'>
+      <pose>0.49287 0.2535 -0.028149 0 0.193732 0</pose>
       <inertial>
         <pose>0.08 0 0 0 -0 0</pose>
         <mass>0.15</mass>
@@ -1184,37 +1175,22 @@
           <izz>0.010941</izz>
         </inertia>
       </inertial>
-      <collision name="front_left_flipper_wheel4_collision_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/front_left_flipper_wheel4_fixed_joint_lump__front_left_flipper_wheel4_collision_collision'>
+        <pose>0 0 0 1.5708 -0 0</pose>
         <geometry>
           <cylinder>
-            <length>0.04981</length>
-            <radius>0.044</radius>
+            <length>0.08681</length>
+            <radius>0.0572</radius>
           </cylinder>
         </geometry>
-        <surface>
-          <contact>
-            <ode>
-              <kp>1e+07</kp>
-              <kd>1</kd>
-            </ode>
-          </contact>
-          <friction>
-            <ode>
-              <mu>0.5</mu>
-              <mu2>1</mu2>
-              <slip1>0.00092</slip1>
-              <slip2>0</slip2>
-              <fdir1>0 0 1</fdir1>
-            </ode>
-          </friction>
-        </surface>
       </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
     </link>
-    <joint name="front_left_flipper_wheel5_j" type="revolute">
-      <pose relative_to="front_left_flipper">0.33 0 0 0 -0 0</pose>
-      <parent>front_left_flipper</parent>
-      <child>front_left_flipper_wheel5</child>
+    <joint name='front_left_flipper_wheel4_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/front_left_flipper_wheel4</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/front_left_flipper</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -1225,10 +1201,11 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="front_left_flipper_wheel5">
-      <pose relative_to="front_left_flipper_wheel5_j">0 0 0 0 -0 0</pose>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/front_left_flipper_wheel5'>
+      <pose>0.573827 0.2535 -0.044032 0 0.193732 0</pose>
       <inertial>
         <pose>0.08 0 0 0 -0 0</pose>
         <mass>0.15</mass>
@@ -1241,37 +1218,22 @@
           <izz>0.010941</izz>
         </inertia>
       </inertial>
-      <collision name="front_left_flipper_wheel5_collision_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/front_left_flipper_wheel5_fixed_joint_lump__front_left_flipper_wheel5_collision_collision'>
+        <pose>0 0 0 1.5708 -0 0</pose>
         <geometry>
           <cylinder>
-            <length>0.04981</length>
-            <radius>0.029</radius>
+            <length>0.08681</length>
+            <radius>0.0377</radius>
           </cylinder>
         </geometry>
-        <surface>
-          <contact>
-            <ode>
-              <kp>1e+07</kp>
-              <kd>1</kd>
-            </ode>
-          </contact>
-          <friction>
-            <ode>
-              <mu>0.5</mu>
-              <mu2>1</mu2>
-              <slip1>0.00092</slip1>
-              <slip2>0</slip2>
-              <fdir1>0 0 1</fdir1>
-            </ode>
-          </friction>
-        </surface>
       </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
     </link>
-    <joint name="left_track_wheel1_j" type="revolute">
-      <pose relative_to="left_track">0.25 0 0.01855 0 -0 0</pose>
-      <parent>left_track</parent>
-      <child>left_track_wheel1</child>
+    <joint name='front_left_flipper_wheel5_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/front_left_flipper_wheel5</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/front_left_flipper</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -1282,10 +1244,11 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="left_track_wheel1">
-      <pose relative_to="left_track_wheel1_j">0 0 0 0 -0 0</pose>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/left_track_wheel1'>
+      <pose>0.25 0.1985 0.01855 0 -0 0</pose>
       <inertial>
         <pose>0 0 0.0141 0 -0 0</pose>
         <mass>0.7575</mass>
@@ -1298,8 +1261,8 @@
           <izz>0.031391</izz>
         </inertia>
       </inertial>
-      <collision name="left_track_wheel1_collision">
-        <pose>0 -0.015 0 1.5707963267948966 -0 0</pose>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/left_track_wheel1_collision'>
+        <pose>0 -0.015 0 1.5708 -0 0</pose>
         <geometry>
           <cylinder>
             <length>0.112</length>
@@ -1324,11 +1287,13 @@
           </friction>
         </surface>
       </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
     </link>
-    <joint name="left_track_wheel2_j" type="revolute">
-      <pose relative_to="left_track">0.178571 0 0.01855 0 -0 0</pose>
-      <parent>left_track</parent>
-      <child>left_track_wheel2</child>
+    <joint name='left_track_wheel1_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/left_track_wheel1</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/left_track</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -1339,10 +1304,11 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="left_track_wheel2">
-      <pose relative_to="left_track_wheel2_j">0 0 0 0 -0 0</pose>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/left_track_wheel2'>
+      <pose>0.178571 0.1985 0.01855 0 -0 0</pose>
       <inertial>
         <pose>0 0 0.0141 0 -0 0</pose>
         <mass>0.7575</mass>
@@ -1355,8 +1321,8 @@
           <izz>0.031391</izz>
         </inertia>
       </inertial>
-      <collision name="left_track_wheel2_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/left_track_wheel2_collision'>
+        <pose>0 0 0 1.5708 -0 0</pose>
         <geometry>
           <cylinder>
             <length>0.097</length>
@@ -1381,11 +1347,13 @@
           </friction>
         </surface>
       </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
     </link>
-    <joint name="left_track_wheel3_j" type="revolute">
-      <pose relative_to="left_track">0.107143 0 0.01855 0 -0 0</pose>
-      <parent>left_track</parent>
-      <child>left_track_wheel3</child>
+    <joint name='left_track_wheel2_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/left_track_wheel2</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/left_track</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -1396,10 +1364,11 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="left_track_wheel3">
-      <pose relative_to="left_track_wheel3_j">0 0 0 0 -0 0</pose>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/left_track_wheel3'>
+      <pose>0.107143 0.1985 0.01855 0 -0 0</pose>
       <inertial>
         <pose>0 0 0.0141 0 -0 0</pose>
         <mass>0.7575</mass>
@@ -1412,8 +1381,8 @@
           <izz>0.031391</izz>
         </inertia>
       </inertial>
-      <collision name="left_track_wheel3_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/left_track_wheel3_collision'>
+        <pose>0 0 0 1.5708 -0 0</pose>
         <geometry>
           <cylinder>
             <length>0.097</length>
@@ -1438,11 +1407,13 @@
           </friction>
         </surface>
       </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
     </link>
-    <joint name="left_track_wheel4_j" type="revolute">
-      <pose relative_to="left_track">0.035714 0 0.01855 0 -0 0</pose>
-      <parent>left_track</parent>
-      <child>left_track_wheel4</child>
+    <joint name='left_track_wheel3_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/left_track_wheel3</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/left_track</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -1453,10 +1424,11 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="left_track_wheel4">
-      <pose relative_to="left_track_wheel4_j">0 0 0 0 -0 0</pose>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/left_track_wheel4'>
+      <pose>0.035714 0.1985 0.01855 0 -0 0</pose>
       <inertial>
         <pose>0 0 0.0141 0 -0 0</pose>
         <mass>0.7575</mass>
@@ -1469,8 +1441,8 @@
           <izz>0.031391</izz>
         </inertia>
       </inertial>
-      <collision name="left_track_wheel4_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/left_track_wheel4_collision'>
+        <pose>0 0 0 1.5708 -0 0</pose>
         <geometry>
           <cylinder>
             <length>0.097</length>
@@ -1495,11 +1467,13 @@
           </friction>
         </surface>
       </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
     </link>
-    <joint name="left_track_wheel5_j" type="revolute">
-      <pose relative_to="left_track">-0.035714 0 0.01855 0 -0 0</pose>
-      <parent>left_track</parent>
-      <child>left_track_wheel5</child>
+    <joint name='left_track_wheel4_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/left_track_wheel4</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/left_track</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -1510,10 +1484,11 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="left_track_wheel5">
-      <pose relative_to="left_track_wheel5_j">0 0 0 0 -0 0</pose>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/left_track_wheel5'>
+      <pose>-0.035714 0.1985 0.01855 0 -0 0</pose>
       <inertial>
         <pose>0 0 0.0141 0 -0 0</pose>
         <mass>0.7575</mass>
@@ -1526,8 +1501,8 @@
           <izz>0.031391</izz>
         </inertia>
       </inertial>
-      <collision name="left_track_wheel5_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/left_track_wheel5_collision'>
+        <pose>0 0 0 1.5708 -0 0</pose>
         <geometry>
           <cylinder>
             <length>0.097</length>
@@ -1552,11 +1527,13 @@
           </friction>
         </surface>
       </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
     </link>
-    <joint name="left_track_wheel6_j" type="revolute">
-      <pose relative_to="left_track">-0.107143 0 0.01855 0 -0 0</pose>
-      <parent>left_track</parent>
-      <child>left_track_wheel6</child>
+    <joint name='left_track_wheel5_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/left_track_wheel5</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/left_track</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -1567,10 +1544,11 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="left_track_wheel6">
-      <pose relative_to="left_track_wheel6_j">0 0 0 0 -0 0</pose>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/left_track_wheel6'>
+      <pose>-0.107143 0.1985 0.01855 0 -0 0</pose>
       <inertial>
         <pose>0 0 0.0141 0 -0 0</pose>
         <mass>0.7575</mass>
@@ -1583,8 +1561,8 @@
           <izz>0.031391</izz>
         </inertia>
       </inertial>
-      <collision name="left_track_wheel6_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/left_track_wheel6_collision'>
+        <pose>0 0 0 1.5708 -0 0</pose>
         <geometry>
           <cylinder>
             <length>0.097</length>
@@ -1609,11 +1587,13 @@
           </friction>
         </surface>
       </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
     </link>
-    <joint name="left_track_wheel7_j" type="revolute">
-      <pose relative_to="left_track">-0.178571 0 0.01855 0 -0 0</pose>
-      <parent>left_track</parent>
-      <child>left_track_wheel7</child>
+    <joint name='left_track_wheel6_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/left_track_wheel6</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/left_track</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -1624,10 +1604,11 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="left_track_wheel7">
-      <pose relative_to="left_track_wheel7_j">0 0 0 0 -0 0</pose>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/left_track_wheel7'>
+      <pose>-0.178571 0.1985 0.01855 0 -0 0</pose>
       <inertial>
         <pose>0 0 0.0141 0 -0 0</pose>
         <mass>0.7575</mass>
@@ -1640,8 +1621,8 @@
           <izz>0.031391</izz>
         </inertia>
       </inertial>
-      <collision name="left_track_wheel7_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/left_track_wheel7_collision'>
+        <pose>0 0 0 1.5708 -0 0</pose>
         <geometry>
           <cylinder>
             <length>0.097</length>
@@ -1666,11 +1647,13 @@
           </friction>
         </surface>
       </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
     </link>
-    <joint name="left_track_wheel8_j" type="revolute">
-      <pose relative_to="left_track">-0.25 0 0.01855 0 -0 0</pose>
-      <parent>left_track</parent>
-      <child>left_track_wheel8</child>
+    <joint name='left_track_wheel7_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/left_track_wheel7</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/left_track</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -1681,10 +1664,11 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="left_track_wheel8">
-      <pose relative_to="left_track_wheel8_j">0 0 0 0 -0 0</pose>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/left_track_wheel8'>
+      <pose>-0.25 0.1985 0.01855 0 -0 0</pose>
       <inertial>
         <pose>0 0 0.0141 0 -0 0</pose>
         <mass>0.7575</mass>
@@ -1697,8 +1681,8 @@
           <izz>0.031391</izz>
         </inertia>
       </inertial>
-      <collision name="left_track_wheel8_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/left_track_wheel8_collision'>
+        <pose>0 0 0 1.5708 -0 0</pose>
         <geometry>
           <cylinder>
             <length>0.097</length>
@@ -1723,38 +1707,30 @@
           </friction>
         </surface>
       </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
     </link>
-    <joint name="rear_left_flipper_j" type="revolute">
-      <pose relative_to="left_track">-0.25 0.0735 0.0195 3.1415926535897931 0.193732 3.1415926535897931</pose>
-      <parent>left_track</parent>
-      <child>rear_left_flipper</child>
+    <joint name='left_track_wheel8_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/left_track_wheel8</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/left_track</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
-          <effort>20</effort>
-          <velocity>0.785398</velocity>
         </limit>
         <dynamics>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
-      <physics>
-        <ode>
-          <implicit_spring_damper>1</implicit_spring_damper>
-          <cfm_damping>1</cfm_damping>
-          <limit>
-            <cfm>0</cfm>
-            <erp>0.2</erp>
-          </limit>
-        </ode>
-      </physics>
     </joint>
-    <link name="rear_left_flipper">
-      <pose relative_to="rear_left_flipper_j">0 0 0 0 -0 0</pose>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/rear_left_flipper'>
+      <pose>-0.25 0.272 0.0195 3.14159 0.193732 3.14159</pose>
       <inertial>
+        <pose>0 0 0 0 -0 0</pose>
         <mass>1e-05</mass>
         <inertia>
           <ixx>0.001</ixx>
@@ -1765,7 +1741,8 @@
           <izz>0.001</izz>
         </inertia>
       </inertial>
-      <collision name="rear_left_flipper_collision">
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/rear_left_flipper_collision'>
+        <pose>0 0 0 0 -0 0</pose>
         <geometry>
           <box>
             <size>0.01 0.01 0.01</size>
@@ -1779,35 +1756,54 @@
               <fdir1>0 0 1</fdir1>
             </ode>
           </friction>
+          <contact>
+            <ode/>
+          </contact>
         </surface>
       </collision>
-      <visual name="rear_left_flipper_visual">
-        <pose>0 0 0 -2.95743 -0 1.5707963267948966</pose>
+      <visual name='ctu_cras_norlab_absolem_sensor_config_1/rear_left_flipper_visual'>
+        <pose>0 0 0 -2.95743 -0 1.5708</pose>
         <geometry>
           <mesh>
-            <uri>meshes/flipper.dae</uri>
+            <scale>1 1 1</scale>
+            <uri>model://ctu_cras_norlab_absolem_sensor_config_1/meshes/flipper.dae</uri>
           </mesh>
         </geometry>
       </visual>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
     </link>
-    <joint name="rear_left_flipper_wheel1_j" type="revolute">
-      <pose relative_to="rear_left_flipper">0 0 0 0 -0 0</pose>
-      <parent>rear_left_flipper</parent>
-      <child>rear_left_flipper_wheel1</child>
+    <joint name='rear_left_flipper_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/rear_left_flipper</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/left_track</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
+          <effort>20</effort>
+          <velocity>0.785398</velocity>
         </limit>
         <dynamics>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
+      <physics>
+        <ode>
+          <implicit_spring_damper>1</implicit_spring_damper>
+          <cfm_damping>1</cfm_damping>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
     </joint>
-    <link name="rear_left_flipper_wheel1">
-      <pose relative_to="rear_left_flipper_wheel1_j">0 0 0 0 -0 0</pose>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/rear_left_flipper_wheel1'>
+      <pose>-0.25 0.272 0.0195 3.14159 0.193732 3.14159</pose>
       <inertial>
         <pose>0.08 0 0 0 -0 0</pose>
         <mass>0.15</mass>
@@ -1820,37 +1816,22 @@
           <izz>0.010941</izz>
         </inertia>
       </inertial>
-      <collision name="rear_left_flipper_wheel1_collision_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/rear_left_flipper_wheel1_fixed_joint_lump__rear_left_flipper_wheel1_collision_collision'>
+        <pose>0 0 0 1.5708 -0 0</pose>
         <geometry>
           <cylinder>
             <length>0.04981</length>
             <radius>0.089</radius>
           </cylinder>
         </geometry>
-        <surface>
-          <contact>
-            <ode>
-              <kp>1e+07</kp>
-              <kd>1</kd>
-            </ode>
-          </contact>
-          <friction>
-            <ode>
-              <mu>0.5</mu>
-              <mu2>1</mu2>
-              <slip1>0.00092</slip1>
-              <slip2>0</slip2>
-              <fdir1>0 0 1</fdir1>
-            </ode>
-          </friction>
-        </surface>
       </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
     </link>
-    <joint name="rear_left_flipper_wheel2_j" type="revolute">
-      <pose relative_to="rear_left_flipper">0.0825 0 0 0 -0 0</pose>
-      <parent>rear_left_flipper</parent>
-      <child>rear_left_flipper_wheel2</child>
+    <joint name='rear_left_flipper_wheel1_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/rear_left_flipper_wheel1</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/rear_left_flipper</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -1861,10 +1842,11 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="rear_left_flipper_wheel2">
-      <pose relative_to="rear_left_flipper_wheel2_j">0 0 0 0 -0 0</pose>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/rear_left_flipper_wheel2'>
+      <pose>-0.330957 0.272 0.003617 3.14159 0.193732 3.14159</pose>
       <inertial>
         <pose>0.08 0 0 0 -0 0</pose>
         <mass>0.15</mass>
@@ -1877,37 +1859,22 @@
           <izz>0.010941</izz>
         </inertia>
       </inertial>
-      <collision name="rear_left_flipper_wheel2_collision_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/rear_left_flipper_wheel2_fixed_joint_lump__rear_left_flipper_wheel2_collision_collision'>
+        <pose>0 0 0 1.5708 -0 0</pose>
         <geometry>
           <cylinder>
             <length>0.04981</length>
             <radius>0.074</radius>
           </cylinder>
         </geometry>
-        <surface>
-          <contact>
-            <ode>
-              <kp>1e+07</kp>
-              <kd>1</kd>
-            </ode>
-          </contact>
-          <friction>
-            <ode>
-              <mu>0.5</mu>
-              <mu2>1</mu2>
-              <slip1>0.00092</slip1>
-              <slip2>0</slip2>
-              <fdir1>0 0 1</fdir1>
-            </ode>
-          </friction>
-        </surface>
       </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
     </link>
-    <joint name="rear_left_flipper_wheel3_j" type="revolute">
-      <pose relative_to="rear_left_flipper">0.165 0 0 0 -0 0</pose>
-      <parent>rear_left_flipper</parent>
-      <child>rear_left_flipper_wheel3</child>
+    <joint name='rear_left_flipper_wheel2_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/rear_left_flipper_wheel2</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/rear_left_flipper</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -1918,10 +1885,11 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="rear_left_flipper_wheel3">
-      <pose relative_to="rear_left_flipper_wheel3_j">0 0 0 0 -0 0</pose>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/rear_left_flipper_wheel3'>
+      <pose>-0.411913 0.272 -0.012266 3.14159 0.193732 3.14159</pose>
       <inertial>
         <pose>0.08 0 0 0 -0 0</pose>
         <mass>0.15</mass>
@@ -1934,37 +1902,22 @@
           <izz>0.010941</izz>
         </inertia>
       </inertial>
-      <collision name="rear_left_flipper_wheel3_collision_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/rear_left_flipper_wheel3_fixed_joint_lump__rear_left_flipper_wheel3_collision_collision'>
+        <pose>0 0 0 1.5708 -0 0</pose>
         <geometry>
           <cylinder>
             <length>0.04981</length>
             <radius>0.059</radius>
           </cylinder>
         </geometry>
-        <surface>
-          <contact>
-            <ode>
-              <kp>1e+07</kp>
-              <kd>1</kd>
-            </ode>
-          </contact>
-          <friction>
-            <ode>
-              <mu>0.5</mu>
-              <mu2>1</mu2>
-              <slip1>0.00092</slip1>
-              <slip2>0</slip2>
-              <fdir1>0 0 1</fdir1>
-            </ode>
-          </friction>
-        </surface>
       </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
     </link>
-    <joint name="rear_left_flipper_wheel4_j" type="revolute">
-      <pose relative_to="rear_left_flipper">0.2475 0 0 0 -0 0</pose>
-      <parent>rear_left_flipper</parent>
-      <child>rear_left_flipper_wheel4</child>
+    <joint name='rear_left_flipper_wheel3_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/rear_left_flipper_wheel3</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/rear_left_flipper</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -1975,10 +1928,11 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="rear_left_flipper_wheel4">
-      <pose relative_to="rear_left_flipper_wheel4_j">0 0 0 0 -0 0</pose>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/rear_left_flipper_wheel4'>
+      <pose>-0.49287 0.272 -0.028149 3.14159 0.193732 3.14159</pose>
       <inertial>
         <pose>0.08 0 0 0 -0 0</pose>
         <mass>0.15</mass>
@@ -1991,37 +1945,22 @@
           <izz>0.010941</izz>
         </inertia>
       </inertial>
-      <collision name="rear_left_flipper_wheel4_collision_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/rear_left_flipper_wheel4_fixed_joint_lump__rear_left_flipper_wheel4_collision_collision'>
+        <pose>0 0 0 1.5708 -0 0</pose>
         <geometry>
           <cylinder>
             <length>0.04981</length>
             <radius>0.044</radius>
           </cylinder>
         </geometry>
-        <surface>
-          <contact>
-            <ode>
-              <kp>1e+07</kp>
-              <kd>1</kd>
-            </ode>
-          </contact>
-          <friction>
-            <ode>
-              <mu>0.5</mu>
-              <mu2>1</mu2>
-              <slip1>0.00092</slip1>
-              <slip2>0</slip2>
-              <fdir1>0 0 1</fdir1>
-            </ode>
-          </friction>
-        </surface>
       </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
     </link>
-    <joint name="rear_left_flipper_wheel5_j" type="revolute">
-      <pose relative_to="rear_left_flipper">0.33 0 0 0 -0 0</pose>
-      <parent>rear_left_flipper</parent>
-      <child>rear_left_flipper_wheel5</child>
+    <joint name='rear_left_flipper_wheel4_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/rear_left_flipper_wheel4</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/rear_left_flipper</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -2032,10 +1971,11 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="rear_left_flipper_wheel5">
-      <pose relative_to="rear_left_flipper_wheel5_j">0 0 0 0 -0 0</pose>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/rear_left_flipper_wheel5'>
+      <pose>-0.573827 0.272 -0.044032 3.14159 0.193732 3.14159</pose>
       <inertial>
         <pose>0.08 0 0 0 -0 0</pose>
         <mass>0.15</mass>
@@ -2048,42 +1988,90 @@
           <izz>0.010941</izz>
         </inertia>
       </inertial>
-      <collision name="rear_left_flipper_wheel5_collision_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/rear_left_flipper_wheel5_fixed_joint_lump__rear_left_flipper_wheel5_collision_collision'>
+        <pose>0 0 0 1.5708 -0 0</pose>
         <geometry>
           <cylinder>
             <length>0.04981</length>
             <radius>0.029</radius>
           </cylinder>
         </geometry>
-        <surface>
-          <contact>
-            <ode>
-              <kp>1e+07</kp>
-              <kd>1</kd>
-            </ode>
-          </contact>
-          <friction>
-            <ode>
-              <mu>0.5</mu>
-              <mu2>1</mu2>
-              <slip1>0.00092</slip1>
-              <slip2>0</slip2>
-              <fdir1>0 0 1</fdir1>
-            </ode>
-          </friction>
-        </surface>
       </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
     </link>
-    <joint name="right_track_j" type="revolute">
-      <pose relative_to="base_link">0 -0.1985 0 0 -0 0</pose>
-      <parent>base_link</parent>
-      <child>right_track</child>
+    <joint name='rear_left_flipper_wheel5_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/rear_left_flipper_wheel5</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/rear_left_flipper</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
-          <lower>0</lower>
-          <upper>0</upper>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/right_track'>
+      <pose>0 -0.1985 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>1e-05</mass>
+        <inertia>
+          <ixx>0.001</ixx>
+          <ixy>1e-06</ixy>
+          <ixz>1e-06</ixz>
+          <iyy>0.001</iyy>
+          <iyz>1e-06</iyz>
+          <izz>0.001</izz>
+        </inertia>
+      </inertial>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/right_track_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.01 0.01 0.01</size>
+          </box>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>0.7</mu>
+              <mu2>150</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+          <contact>
+            <ode/>
+          </contact>
+        </surface>
+      </collision>
+      <visual name='ctu_cras_norlab_absolem_sensor_config_1/right_track_visual'>
+        <pose>0 0 -0.0705 1.57 0 -1.57</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://ctu_cras_norlab_absolem_sensor_config_1/meshes/bogie.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
+    </link>
+    <joint name='right_track_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/right_track</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/base_link</parent>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-0.7</lower>
+          <upper>0.7</upper>
           <effort>0</effort>
           <velocity>4</velocity>
         </limit>
@@ -2091,6 +2079,7 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
       <physics>
         <ode>
@@ -2108,9 +2097,10 @@
         </ode>
       </physics>
     </joint>
-    <link name="right_track">
-      <pose relative_to="right_track_j">0 0 0 0 -0 0</pose>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/front_right_flipper'>
+      <pose>0.25 -0.272 0.0195 3.14159 -0.193732 3.14159</pose>
       <inertial>
+        <pose>0 0 0 0 -0 0</pose>
         <mass>1e-05</mass>
         <inertia>
           <ixx>0.001</ixx>
@@ -2121,7 +2111,8 @@
           <izz>0.001</izz>
         </inertia>
       </inertial>
-      <collision name="right_track_collision">
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/front_right_flipper_collision'>
+        <pose>0 0 0 0 -0 0</pose>
         <geometry>
           <box>
             <size>0.01 0.01 0.01</size>
@@ -2135,21 +2126,27 @@
               <fdir1>0 0 1</fdir1>
             </ode>
           </friction>
+          <contact>
+            <ode/>
+          </contact>
         </surface>
       </collision>
-      <visual name="right_track_visual">
-        <pose>0 0 -0.0705 1.5707963267948966 0 -1.5707963267948966</pose>
+      <visual name='ctu_cras_norlab_absolem_sensor_config_1/front_right_flipper_visual'>
+        <pose>0 0 0 -2.95743 -0 -1.5708</pose>
         <geometry>
           <mesh>
-            <uri>meshes/bogie.dae</uri>
+            <scale>1 1 1</scale>
+            <uri>model://ctu_cras_norlab_absolem_sensor_config_1/meshes/flipper.dae</uri>
           </mesh>
         </geometry>
       </visual>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
     </link>
-    <joint name="front_right_flipper_j" type="revolute">
-      <pose relative_to="right_track">0.25 -0.0735 0.0195 3.1415926535897931 -0.193732 3.1415926535897931</pose>
-      <parent>right_track</parent>
-      <child>front_right_flipper</child>
+    <joint name='front_right_flipper_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/front_right_flipper</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/right_track</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -2162,6 +2159,7 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
       <physics>
         <ode>
@@ -2174,9 +2172,225 @@
         </ode>
       </physics>
     </joint>
-    <link name="front_right_flipper">
-      <pose relative_to="front_right_flipper_j">0 0 0 0 -0 0</pose>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/front_right_flipper_wheel1'>
+      <pose>0.25 -0.2535 0.0195 3.14159 -0.193732 3.14159</pose>
       <inertial>
+        <pose>-0.08 0 0 0 -0 0</pose>
+        <mass>0.15</mass>
+        <inertia>
+          <ixx>0.0017491</ixx>
+          <ixy>2.8512e-07</ixy>
+          <ixz>0.0018277</ixz>
+          <iyy>0.012277</iyy>
+          <iyz>-3.6288e-07</iyz>
+          <izz>0.010941</izz>
+        </inertia>
+      </inertial>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/front_right_flipper_wheel1_fixed_joint_lump__front_right_flipper_wheel1_collision_collision'>
+        <pose>0 0 0 1.5708 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.08681</length>
+            <radius>0.1157</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
+    </link>
+    <joint name='front_right_flipper_wheel1_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/front_right_flipper_wheel1</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/front_right_flipper</parent>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/front_right_flipper_wheel2'>
+      <pose>0.330957 -0.2535 0.003617 3.14159 -0.193732 3.14159</pose>
+      <inertial>
+        <pose>-0.08 0 0 0 -0 0</pose>
+        <mass>0.15</mass>
+        <inertia>
+          <ixx>0.0017491</ixx>
+          <ixy>2.8512e-07</ixy>
+          <ixz>0.0018277</ixz>
+          <iyy>0.012277</iyy>
+          <iyz>-3.6288e-07</iyz>
+          <izz>0.010941</izz>
+        </inertia>
+      </inertial>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/front_right_flipper_wheel2_fixed_joint_lump__front_right_flipper_wheel2_collision_collision'>
+        <pose>0 0 0 1.5708 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.08681</length>
+            <radius>0.0962</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
+    </link>
+    <joint name='front_right_flipper_wheel2_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/front_right_flipper_wheel2</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/front_right_flipper</parent>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/front_right_flipper_wheel3'>
+      <pose>0.411913 -0.2535 -0.012266 3.14159 -0.193732 3.14159</pose>
+      <inertial>
+        <pose>-0.08 0 0 0 -0 0</pose>
+        <mass>0.15</mass>
+        <inertia>
+          <ixx>0.0017491</ixx>
+          <ixy>2.8512e-07</ixy>
+          <ixz>0.0018277</ixz>
+          <iyy>0.012277</iyy>
+          <iyz>-3.6288e-07</iyz>
+          <izz>0.010941</izz>
+        </inertia>
+      </inertial>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/front_right_flipper_wheel3_fixed_joint_lump__front_right_flipper_wheel3_collision_collision'>
+        <pose>0 0 0 1.5708 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.08681</length>
+            <radius>0.0767</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
+    </link>
+    <joint name='front_right_flipper_wheel3_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/front_right_flipper_wheel3</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/front_right_flipper</parent>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/front_right_flipper_wheel4'>
+      <pose>0.49287 -0.2535 -0.028149 3.14159 -0.193732 3.14159</pose>
+      <inertial>
+        <pose>-0.08 0 0 0 -0 0</pose>
+        <mass>0.15</mass>
+        <inertia>
+          <ixx>0.0017491</ixx>
+          <ixy>2.8512e-07</ixy>
+          <ixz>0.0018277</ixz>
+          <iyy>0.012277</iyy>
+          <iyz>-3.6288e-07</iyz>
+          <izz>0.010941</izz>
+        </inertia>
+      </inertial>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/front_right_flipper_wheel4_fixed_joint_lump__front_right_flipper_wheel4_collision_collision'>
+        <pose>0 0 0 1.5708 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.08681</length>
+            <radius>0.0572</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
+    </link>
+    <joint name='front_right_flipper_wheel4_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/front_right_flipper_wheel4</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/front_right_flipper</parent>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/front_right_flipper_wheel5'>
+      <pose>0.573827 -0.2535 -0.044032 3.14159 -0.193732 3.14159</pose>
+      <inertial>
+        <pose>-0.08 0 0 0 -0 0</pose>
+        <mass>0.15</mass>
+        <inertia>
+          <ixx>0.0017491</ixx>
+          <ixy>2.8512e-07</ixy>
+          <ixz>0.0018277</ixz>
+          <iyy>0.012277</iyy>
+          <iyz>-3.6288e-07</iyz>
+          <izz>0.010941</izz>
+        </inertia>
+      </inertial>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/front_right_flipper_wheel5_fixed_joint_lump__front_right_flipper_wheel5_collision_collision'>
+        <pose>0 0 0 1.5708 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.08681</length>
+            <radius>0.0377</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
+    </link>
+    <joint name='front_right_flipper_wheel5_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/front_right_flipper_wheel5</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/front_right_flipper</parent>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/rear_right_flipper'>
+      <pose>-0.25 -0.272 0.0195 0 -0.193732 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
         <mass>1e-05</mass>
         <inertia>
           <ixx>0.001</ixx>
@@ -2187,7 +2401,8 @@
           <izz>0.001</izz>
         </inertia>
       </inertial>
-      <collision name="front_right_flipper_collision">
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/rear_right_flipper_collision'>
+        <pose>0 0 0 0 -0 0</pose>
         <geometry>
           <box>
             <size>0.01 0.01 0.01</size>
@@ -2201,306 +2416,27 @@
               <fdir1>0 0 1</fdir1>
             </ode>
           </friction>
+          <contact>
+            <ode/>
+          </contact>
         </surface>
       </collision>
-      <visual name="front_right_flipper_visual">
-        <pose>0 0 0 -2.95743 -0 -1.5707963267948966</pose>
+      <visual name='ctu_cras_norlab_absolem_sensor_config_1/rear_right_flipper_visual'>
+        <pose>0 0 0 -2.95743 -0 -1.5708</pose>
         <geometry>
           <mesh>
-            <uri>meshes/flipper.dae</uri>
+            <scale>1 1 1</scale>
+            <uri>model://ctu_cras_norlab_absolem_sensor_config_1/meshes/flipper.dae</uri>
           </mesh>
         </geometry>
       </visual>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
     </link>
-    <joint name="front_right_flipper_wheel1_j" type="revolute">
-      <pose relative_to="front_right_flipper">0 0 0 0 -0 0</pose>
-      <parent>front_right_flipper</parent>
-      <child>front_right_flipper_wheel1</child>
-      <axis>
-        <xyz>0 1 0</xyz>
-        <limit>
-          <lower>-1e+16</lower>
-          <upper>1e+16</upper>
-        </limit>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-      </axis>
-    </joint>
-    <link name="front_right_flipper_wheel1">
-      <pose relative_to="front_right_flipper_wheel1_j">0 0 0 0 -0 0</pose>
-      <inertial>
-        <pose>-0.08 0 0 0 -0 0</pose>
-        <mass>0.15</mass>
-        <inertia>
-          <ixx>0.0017491</ixx>
-          <ixy>2.8512e-07</ixy>
-          <ixz>0.0018277</ixz>
-          <iyy>0.012277</iyy>
-          <iyz>-3.6288e-07</iyz>
-          <izz>0.010941</izz>
-        </inertia>
-      </inertial>
-      <collision name="front_right_flipper_wheel1_collision_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.04981</length>
-            <radius>0.089</radius>
-          </cylinder>
-        </geometry>
-        <surface>
-          <contact>
-            <ode>
-              <kp>1e+07</kp>
-              <kd>1</kd>
-            </ode>
-          </contact>
-          <friction>
-            <ode>
-              <mu>0.5</mu>
-              <mu2>1</mu2>
-              <slip1>0.00092</slip1>
-              <slip2>0</slip2>
-              <fdir1>0 0 1</fdir1>
-            </ode>
-          </friction>
-        </surface>
-      </collision>
-    </link>
-    <joint name="front_right_flipper_wheel2_j" type="revolute">
-      <pose relative_to="front_right_flipper">-0.0825 0 0 0 -0 0</pose>
-      <parent>front_right_flipper</parent>
-      <child>front_right_flipper_wheel2</child>
-      <axis>
-        <xyz>0 1 0</xyz>
-        <limit>
-          <lower>-1e+16</lower>
-          <upper>1e+16</upper>
-        </limit>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-      </axis>
-    </joint>
-    <link name="front_right_flipper_wheel2">
-      <pose relative_to="front_right_flipper_wheel2_j">0 0 0 0 -0 0</pose>
-      <inertial>
-        <pose>-0.08 0 0 0 -0 0</pose>
-        <mass>0.15</mass>
-        <inertia>
-          <ixx>0.0017491</ixx>
-          <ixy>2.8512e-07</ixy>
-          <ixz>0.0018277</ixz>
-          <iyy>0.012277</iyy>
-          <iyz>-3.6288e-07</iyz>
-          <izz>0.010941</izz>
-        </inertia>
-      </inertial>
-      <collision name="front_right_flipper_wheel2_collision_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.04981</length>
-            <radius>0.074</radius>
-          </cylinder>
-        </geometry>
-        <surface>
-          <contact>
-            <ode>
-              <kp>1e+07</kp>
-              <kd>1</kd>
-            </ode>
-          </contact>
-          <friction>
-            <ode>
-              <mu>0.5</mu>
-              <mu2>1</mu2>
-              <slip1>0.00092</slip1>
-              <slip2>0</slip2>
-              <fdir1>0 0 1</fdir1>
-            </ode>
-          </friction>
-        </surface>
-      </collision>
-    </link>
-    <joint name="front_right_flipper_wheel3_j" type="revolute">
-      <pose relative_to="front_right_flipper">-0.165 0 0 0 -0 0</pose>
-      <parent>front_right_flipper</parent>
-      <child>front_right_flipper_wheel3</child>
-      <axis>
-        <xyz>0 1 0</xyz>
-        <limit>
-          <lower>-1e+16</lower>
-          <upper>1e+16</upper>
-        </limit>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-      </axis>
-    </joint>
-    <link name="front_right_flipper_wheel3">
-      <pose relative_to="front_right_flipper_wheel3_j">0 0 0 0 -0 0</pose>
-      <inertial>
-        <pose>-0.08 0 0 0 -0 0</pose>
-        <mass>0.15</mass>
-        <inertia>
-          <ixx>0.0017491</ixx>
-          <ixy>2.8512e-07</ixy>
-          <ixz>0.0018277</ixz>
-          <iyy>0.012277</iyy>
-          <iyz>-3.6288e-07</iyz>
-          <izz>0.010941</izz>
-        </inertia>
-      </inertial>
-      <collision name="front_right_flipper_wheel3_collision_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.04981</length>
-            <radius>0.059</radius>
-          </cylinder>
-        </geometry>
-        <surface>
-          <contact>
-            <ode>
-              <kp>1e+07</kp>
-              <kd>1</kd>
-            </ode>
-          </contact>
-          <friction>
-            <ode>
-              <mu>0.5</mu>
-              <mu2>1</mu2>
-              <slip1>0.00092</slip1>
-              <slip2>0</slip2>
-              <fdir1>0 0 1</fdir1>
-            </ode>
-          </friction>
-        </surface>
-      </collision>
-    </link>
-    <joint name="front_right_flipper_wheel4_j" type="revolute">
-      <pose relative_to="front_right_flipper">-0.2475 0 0 0 -0 0</pose>
-      <parent>front_right_flipper</parent>
-      <child>front_right_flipper_wheel4</child>
-      <axis>
-        <xyz>0 1 0</xyz>
-        <limit>
-          <lower>-1e+16</lower>
-          <upper>1e+16</upper>
-        </limit>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-      </axis>
-    </joint>
-    <link name="front_right_flipper_wheel4">
-      <pose relative_to="front_right_flipper_wheel4_j">0 0 0 0 -0 0</pose>
-      <inertial>
-        <pose>-0.08 0 0 0 -0 0</pose>
-        <mass>0.15</mass>
-        <inertia>
-          <ixx>0.0017491</ixx>
-          <ixy>2.8512e-07</ixy>
-          <ixz>0.0018277</ixz>
-          <iyy>0.012277</iyy>
-          <iyz>-3.6288e-07</iyz>
-          <izz>0.010941</izz>
-        </inertia>
-      </inertial>
-      <collision name="front_right_flipper_wheel4_collision_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.04981</length>
-            <radius>0.044</radius>
-          </cylinder>
-        </geometry>
-        <surface>
-          <contact>
-            <ode>
-              <kp>1e+07</kp>
-              <kd>1</kd>
-            </ode>
-          </contact>
-          <friction>
-            <ode>
-              <mu>0.5</mu>
-              <mu2>1</mu2>
-              <slip1>0.00092</slip1>
-              <slip2>0</slip2>
-              <fdir1>0 0 1</fdir1>
-            </ode>
-          </friction>
-        </surface>
-      </collision>
-    </link>
-    <joint name="front_right_flipper_wheel5_j" type="revolute">
-      <pose relative_to="front_right_flipper">-0.33 0 0 0 -0 0</pose>
-      <parent>front_right_flipper</parent>
-      <child>front_right_flipper_wheel5</child>
-      <axis>
-        <xyz>0 1 0</xyz>
-        <limit>
-          <lower>-1e+16</lower>
-          <upper>1e+16</upper>
-        </limit>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-      </axis>
-    </joint>
-    <link name="front_right_flipper_wheel5">
-      <pose relative_to="front_right_flipper_wheel5_j">0 0 0 0 -0 0</pose>
-      <inertial>
-        <pose>-0.08 0 0 0 -0 0</pose>
-        <mass>0.15</mass>
-        <inertia>
-          <ixx>0.0017491</ixx>
-          <ixy>2.8512e-07</ixy>
-          <ixz>0.0018277</ixz>
-          <iyy>0.012277</iyy>
-          <iyz>-3.6288e-07</iyz>
-          <izz>0.010941</izz>
-        </inertia>
-      </inertial>
-      <collision name="front_right_flipper_wheel5_collision_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.04981</length>
-            <radius>0.029</radius>
-          </cylinder>
-        </geometry>
-        <surface>
-          <contact>
-            <ode>
-              <kp>1e+07</kp>
-              <kd>1</kd>
-            </ode>
-          </contact>
-          <friction>
-            <ode>
-              <mu>0.5</mu>
-              <mu2>1</mu2>
-              <slip1>0.00092</slip1>
-              <slip2>0</slip2>
-              <fdir1>0 0 1</fdir1>
-            </ode>
-          </friction>
-        </surface>
-      </collision>
-    </link>
-    <joint name="rear_right_flipper_j" type="revolute">
-      <pose relative_to="right_track">-0.25 -0.0735 0.0195 0 -0.193732 0</pose>
-      <parent>right_track</parent>
-      <child>rear_right_flipper</child>
+    <joint name='rear_right_flipper_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/rear_right_flipper</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/right_track</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -2513,6 +2449,7 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
       <physics>
         <ode>
@@ -2525,62 +2462,8 @@
         </ode>
       </physics>
     </joint>
-    <link name="rear_right_flipper">
-      <pose relative_to="rear_right_flipper_j">0 0 0 0 -0 0</pose>
-      <inertial>
-        <mass>1e-05</mass>
-        <inertia>
-          <ixx>0.001</ixx>
-          <ixy>1e-06</ixy>
-          <ixz>1e-06</ixz>
-          <iyy>0.001</iyy>
-          <iyz>1e-06</iyz>
-          <izz>0.001</izz>
-        </inertia>
-      </inertial>
-      <collision name="rear_right_flipper_collision">
-        <geometry>
-          <box>
-            <size>0.01 0.01 0.01</size>
-          </box>
-        </geometry>
-        <surface>
-          <friction>
-            <ode>
-              <mu>0.7</mu>
-              <mu2>150</mu2>
-              <fdir1>0 0 1</fdir1>
-            </ode>
-          </friction>
-        </surface>
-      </collision>
-      <visual name="rear_right_flipper_visual">
-        <pose>0 0 0 -2.95743 -0 -1.5707963267948966</pose>
-        <geometry>
-          <mesh>
-            <uri>meshes/flipper.dae</uri>
-          </mesh>
-        </geometry>
-      </visual>
-    </link>
-    <joint name="rear_right_flipper_wheel1_j" type="revolute">
-      <pose relative_to="rear_right_flipper">0 0 0 0 -0 0</pose>
-      <parent>rear_right_flipper</parent>
-      <child>rear_right_flipper_wheel1</child>
-      <axis>
-        <xyz>0 1 0</xyz>
-        <limit>
-          <lower>-1e+16</lower>
-          <upper>1e+16</upper>
-        </limit>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-      </axis>
-    </joint>
-    <link name="rear_right_flipper_wheel1">
-      <pose relative_to="rear_right_flipper_wheel1_j">0 0 0 0 -0 0</pose>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/rear_right_flipper_wheel1'>
+      <pose>-0.25 -0.272 0.0195 0 -0.193732 0</pose>
       <inertial>
         <pose>-0.08 0 0 0 -0 0</pose>
         <mass>0.15</mass>
@@ -2593,37 +2476,22 @@
           <izz>0.010941</izz>
         </inertia>
       </inertial>
-      <collision name="rear_right_flipper_wheel1_collision_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/rear_right_flipper_wheel1_fixed_joint_lump__rear_right_flipper_wheel1_collision_collision'>
+        <pose>0 0 0 1.5708 -0 0</pose>
         <geometry>
           <cylinder>
             <length>0.04981</length>
             <radius>0.089</radius>
           </cylinder>
         </geometry>
-        <surface>
-          <contact>
-            <ode>
-              <kp>1e+07</kp>
-              <kd>1</kd>
-            </ode>
-          </contact>
-          <friction>
-            <ode>
-              <mu>0.5</mu>
-              <mu2>1</mu2>
-              <slip1>0.00092</slip1>
-              <slip2>0</slip2>
-              <fdir1>0 0 1</fdir1>
-            </ode>
-          </friction>
-        </surface>
       </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
     </link>
-    <joint name="rear_right_flipper_wheel2_j" type="revolute">
-      <pose relative_to="rear_right_flipper">-0.0825 0 0 0 -0 0</pose>
-      <parent>rear_right_flipper</parent>
-      <child>rear_right_flipper_wheel2</child>
+    <joint name='rear_right_flipper_wheel1_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/rear_right_flipper_wheel1</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/rear_right_flipper</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -2634,10 +2502,11 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="rear_right_flipper_wheel2">
-      <pose relative_to="rear_right_flipper_wheel2_j">0 0 0 0 -0 0</pose>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/rear_right_flipper_wheel2'>
+      <pose>-0.330957 -0.272 0.003617 0 -0.193732 0</pose>
       <inertial>
         <pose>-0.08 0 0 0 -0 0</pose>
         <mass>0.15</mass>
@@ -2650,37 +2519,22 @@
           <izz>0.010941</izz>
         </inertia>
       </inertial>
-      <collision name="rear_right_flipper_wheel2_collision_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/rear_right_flipper_wheel2_fixed_joint_lump__rear_right_flipper_wheel2_collision_collision'>
+        <pose>0 0 0 1.5708 -0 0</pose>
         <geometry>
           <cylinder>
             <length>0.04981</length>
             <radius>0.074</radius>
           </cylinder>
         </geometry>
-        <surface>
-          <contact>
-            <ode>
-              <kp>1e+07</kp>
-              <kd>1</kd>
-            </ode>
-          </contact>
-          <friction>
-            <ode>
-              <mu>0.5</mu>
-              <mu2>1</mu2>
-              <slip1>0.00092</slip1>
-              <slip2>0</slip2>
-              <fdir1>0 0 1</fdir1>
-            </ode>
-          </friction>
-        </surface>
       </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
     </link>
-    <joint name="rear_right_flipper_wheel3_j" type="revolute">
-      <pose relative_to="rear_right_flipper">-0.165 0 0 0 -0 0</pose>
-      <parent>rear_right_flipper</parent>
-      <child>rear_right_flipper_wheel3</child>
+    <joint name='rear_right_flipper_wheel2_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/rear_right_flipper_wheel2</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/rear_right_flipper</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -2691,10 +2545,11 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="rear_right_flipper_wheel3">
-      <pose relative_to="rear_right_flipper_wheel3_j">0 0 0 0 -0 0</pose>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/rear_right_flipper_wheel3'>
+      <pose>-0.411913 -0.272 -0.012266 0 -0.193732 0</pose>
       <inertial>
         <pose>-0.08 0 0 0 -0 0</pose>
         <mass>0.15</mass>
@@ -2707,37 +2562,22 @@
           <izz>0.010941</izz>
         </inertia>
       </inertial>
-      <collision name="rear_right_flipper_wheel3_collision_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/rear_right_flipper_wheel3_fixed_joint_lump__rear_right_flipper_wheel3_collision_collision'>
+        <pose>0 0 0 1.5708 -0 0</pose>
         <geometry>
           <cylinder>
             <length>0.04981</length>
             <radius>0.059</radius>
           </cylinder>
         </geometry>
-        <surface>
-          <contact>
-            <ode>
-              <kp>1e+07</kp>
-              <kd>1</kd>
-            </ode>
-          </contact>
-          <friction>
-            <ode>
-              <mu>0.5</mu>
-              <mu2>1</mu2>
-              <slip1>0.00092</slip1>
-              <slip2>0</slip2>
-              <fdir1>0 0 1</fdir1>
-            </ode>
-          </friction>
-        </surface>
       </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
     </link>
-    <joint name="rear_right_flipper_wheel4_j" type="revolute">
-      <pose relative_to="rear_right_flipper">-0.2475 0 0 0 -0 0</pose>
-      <parent>rear_right_flipper</parent>
-      <child>rear_right_flipper_wheel4</child>
+    <joint name='rear_right_flipper_wheel3_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/rear_right_flipper_wheel3</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/rear_right_flipper</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -2748,10 +2588,11 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="rear_right_flipper_wheel4">
-      <pose relative_to="rear_right_flipper_wheel4_j">0 0 0 0 -0 0</pose>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/rear_right_flipper_wheel4'>
+      <pose>-0.49287 -0.272 -0.028149 0 -0.193732 0</pose>
       <inertial>
         <pose>-0.08 0 0 0 -0 0</pose>
         <mass>0.15</mass>
@@ -2764,37 +2605,22 @@
           <izz>0.010941</izz>
         </inertia>
       </inertial>
-      <collision name="rear_right_flipper_wheel4_collision_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/rear_right_flipper_wheel4_fixed_joint_lump__rear_right_flipper_wheel4_collision_collision'>
+        <pose>0 0 0 1.5708 -0 0</pose>
         <geometry>
           <cylinder>
             <length>0.04981</length>
             <radius>0.044</radius>
           </cylinder>
         </geometry>
-        <surface>
-          <contact>
-            <ode>
-              <kp>1e+07</kp>
-              <kd>1</kd>
-            </ode>
-          </contact>
-          <friction>
-            <ode>
-              <mu>0.5</mu>
-              <mu2>1</mu2>
-              <slip1>0.00092</slip1>
-              <slip2>0</slip2>
-              <fdir1>0 0 1</fdir1>
-            </ode>
-          </friction>
-        </surface>
       </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
     </link>
-    <joint name="rear_right_flipper_wheel5_j" type="revolute">
-      <pose relative_to="rear_right_flipper">-0.33 0 0 0 -0 0</pose>
-      <parent>rear_right_flipper</parent>
-      <child>rear_right_flipper_wheel5</child>
+    <joint name='rear_right_flipper_wheel4_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/rear_right_flipper_wheel4</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/rear_right_flipper</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -2805,10 +2631,11 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="rear_right_flipper_wheel5">
-      <pose relative_to="rear_right_flipper_wheel5_j">0 0 0 0 -0 0</pose>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/rear_right_flipper_wheel5'>
+      <pose>-0.573827 -0.272 -0.044032 0 -0.193732 0</pose>
       <inertial>
         <pose>-0.08 0 0 0 -0 0</pose>
         <mass>0.15</mass>
@@ -2821,37 +2648,22 @@
           <izz>0.010941</izz>
         </inertia>
       </inertial>
-      <collision name="rear_right_flipper_wheel5_collision_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/rear_right_flipper_wheel5_fixed_joint_lump__rear_right_flipper_wheel5_collision_collision'>
+        <pose>0 0 0 1.5708 -0 0</pose>
         <geometry>
           <cylinder>
             <length>0.04981</length>
             <radius>0.029</radius>
           </cylinder>
         </geometry>
-        <surface>
-          <contact>
-            <ode>
-              <kp>1e+07</kp>
-              <kd>1</kd>
-            </ode>
-          </contact>
-          <friction>
-            <ode>
-              <mu>0.5</mu>
-              <mu2>1</mu2>
-              <slip1>0.00092</slip1>
-              <slip2>0</slip2>
-              <fdir1>0 0 1</fdir1>
-            </ode>
-          </friction>
-        </surface>
       </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
     </link>
-    <joint name="right_track_wheel1_j" type="revolute">
-      <pose relative_to="right_track">0.25 0 0.01855 0 -0 0</pose>
-      <parent>right_track</parent>
-      <child>right_track_wheel1</child>
+    <joint name='rear_right_flipper_wheel5_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/rear_right_flipper_wheel5</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/rear_right_flipper</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -2862,10 +2674,11 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="right_track_wheel1">
-      <pose relative_to="right_track_wheel1_j">0 0 0 0 -0 0</pose>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/right_track_wheel1'>
+      <pose>0.25 -0.1985 0.01855 0 -0 0</pose>
       <inertial>
         <pose>0 0 0.0141 0 -0 0</pose>
         <mass>0.7575</mass>
@@ -2878,8 +2691,8 @@
           <izz>0.031391</izz>
         </inertia>
       </inertial>
-      <collision name="right_track_wheel1_collision">
-        <pose>0 0.015 0 1.5707963267948966 -0 0</pose>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/right_track_wheel1_collision'>
+        <pose>0 0.015 0 1.5708 -0 0</pose>
         <geometry>
           <cylinder>
             <length>0.112</length>
@@ -2904,11 +2717,13 @@
           </friction>
         </surface>
       </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
     </link>
-    <joint name="right_track_wheel2_j" type="revolute">
-      <pose relative_to="right_track">0.178571 0 0.01855 0 -0 0</pose>
-      <parent>right_track</parent>
-      <child>right_track_wheel2</child>
+    <joint name='right_track_wheel1_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/right_track_wheel1</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/right_track</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -2919,10 +2734,11 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="right_track_wheel2">
-      <pose relative_to="right_track_wheel2_j">0 0 0 0 -0 0</pose>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/right_track_wheel2'>
+      <pose>0.178571 -0.1985 0.01855 0 -0 0</pose>
       <inertial>
         <pose>0 0 0.0141 0 -0 0</pose>
         <mass>0.7575</mass>
@@ -2935,8 +2751,8 @@
           <izz>0.031391</izz>
         </inertia>
       </inertial>
-      <collision name="right_track_wheel2_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/right_track_wheel2_collision'>
+        <pose>0 0 0 1.5708 -0 0</pose>
         <geometry>
           <cylinder>
             <length>0.097</length>
@@ -2961,11 +2777,13 @@
           </friction>
         </surface>
       </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
     </link>
-    <joint name="right_track_wheel3_j" type="revolute">
-      <pose relative_to="right_track">0.107143 0 0.01855 0 -0 0</pose>
-      <parent>right_track</parent>
-      <child>right_track_wheel3</child>
+    <joint name='right_track_wheel2_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/right_track_wheel2</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/right_track</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -2976,10 +2794,11 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="right_track_wheel3">
-      <pose relative_to="right_track_wheel3_j">0 0 0 0 -0 0</pose>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/right_track_wheel3'>
+      <pose>0.107143 -0.1985 0.01855 0 -0 0</pose>
       <inertial>
         <pose>0 0 0.0141 0 -0 0</pose>
         <mass>0.7575</mass>
@@ -2992,8 +2811,8 @@
           <izz>0.031391</izz>
         </inertia>
       </inertial>
-      <collision name="right_track_wheel3_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/right_track_wheel3_collision'>
+        <pose>0 0 0 1.5708 -0 0</pose>
         <geometry>
           <cylinder>
             <length>0.097</length>
@@ -3018,11 +2837,13 @@
           </friction>
         </surface>
       </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
     </link>
-    <joint name="right_track_wheel4_j" type="revolute">
-      <pose relative_to="right_track">0.035714 0 0.01855 0 -0 0</pose>
-      <parent>right_track</parent>
-      <child>right_track_wheel4</child>
+    <joint name='right_track_wheel3_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/right_track_wheel3</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/right_track</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -3033,10 +2854,11 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="right_track_wheel4">
-      <pose relative_to="right_track_wheel4_j">0 0 0 0 -0 0</pose>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/right_track_wheel4'>
+      <pose>0.035714 -0.1985 0.01855 0 -0 0</pose>
       <inertial>
         <pose>0 0 0.0141 0 -0 0</pose>
         <mass>0.7575</mass>
@@ -3049,8 +2871,8 @@
           <izz>0.031391</izz>
         </inertia>
       </inertial>
-      <collision name="right_track_wheel4_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/right_track_wheel4_collision'>
+        <pose>0 0 0 1.5708 -0 0</pose>
         <geometry>
           <cylinder>
             <length>0.097</length>
@@ -3075,11 +2897,13 @@
           </friction>
         </surface>
       </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
     </link>
-    <joint name="right_track_wheel5_j" type="revolute">
-      <pose relative_to="right_track">-0.035714 0 0.01855 0 -0 0</pose>
-      <parent>right_track</parent>
-      <child>right_track_wheel5</child>
+    <joint name='right_track_wheel4_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/right_track_wheel4</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/right_track</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -3090,10 +2914,11 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="right_track_wheel5">
-      <pose relative_to="right_track_wheel5_j">0 0 0 0 -0 0</pose>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/right_track_wheel5'>
+      <pose>-0.035714 -0.1985 0.01855 0 -0 0</pose>
       <inertial>
         <pose>0 0 0.0141 0 -0 0</pose>
         <mass>0.7575</mass>
@@ -3106,8 +2931,8 @@
           <izz>0.031391</izz>
         </inertia>
       </inertial>
-      <collision name="right_track_wheel5_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/right_track_wheel5_collision'>
+        <pose>0 0 0 1.5708 -0 0</pose>
         <geometry>
           <cylinder>
             <length>0.097</length>
@@ -3132,11 +2957,13 @@
           </friction>
         </surface>
       </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
     </link>
-    <joint name="right_track_wheel6_j" type="revolute">
-      <pose relative_to="right_track">-0.107143 0 0.01855 0 -0 0</pose>
-      <parent>right_track</parent>
-      <child>right_track_wheel6</child>
+    <joint name='right_track_wheel5_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/right_track_wheel5</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/right_track</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -3147,10 +2974,11 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="right_track_wheel6">
-      <pose relative_to="right_track_wheel6_j">0 0 0 0 -0 0</pose>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/right_track_wheel6'>
+      <pose>-0.107143 -0.1985 0.01855 0 -0 0</pose>
       <inertial>
         <pose>0 0 0.0141 0 -0 0</pose>
         <mass>0.7575</mass>
@@ -3163,8 +2991,8 @@
           <izz>0.031391</izz>
         </inertia>
       </inertial>
-      <collision name="right_track_wheel6_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/right_track_wheel6_collision'>
+        <pose>0 0 0 1.5708 -0 0</pose>
         <geometry>
           <cylinder>
             <length>0.097</length>
@@ -3189,11 +3017,13 @@
           </friction>
         </surface>
       </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
     </link>
-    <joint name="right_track_wheel7_j" type="revolute">
-      <pose relative_to="right_track">-0.178571 0 0.01855 0 -0 0</pose>
-      <parent>right_track</parent>
-      <child>right_track_wheel7</child>
+    <joint name='right_track_wheel6_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/right_track_wheel6</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/right_track</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -3204,10 +3034,11 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="right_track_wheel7">
-      <pose relative_to="right_track_wheel7_j">0 0 0 0 -0 0</pose>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/right_track_wheel7'>
+      <pose>-0.178571 -0.1985 0.01855 0 -0 0</pose>
       <inertial>
         <pose>0 0 0.0141 0 -0 0</pose>
         <mass>0.7575</mass>
@@ -3220,8 +3051,8 @@
           <izz>0.031391</izz>
         </inertia>
       </inertial>
-      <collision name="right_track_wheel7_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/right_track_wheel7_collision'>
+        <pose>0 0 0 1.5708 -0 0</pose>
         <geometry>
           <cylinder>
             <length>0.097</length>
@@ -3246,11 +3077,13 @@
           </friction>
         </surface>
       </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
     </link>
-    <joint name="right_track_wheel8_j" type="revolute">
-      <pose relative_to="right_track">-0.25 0 0.01855 0 -0 0</pose>
-      <parent>right_track</parent>
-      <child>right_track_wheel8</child>
+    <joint name='right_track_wheel7_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/right_track_wheel7</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/right_track</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -3261,10 +3094,11 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="right_track_wheel8">
-      <pose relative_to="right_track_wheel8_j">0 0 0 0 -0 0</pose>
+    <link name='ctu_cras_norlab_absolem_sensor_config_1/right_track_wheel8'>
+      <pose>-0.25 -0.1985 0.01855 0 -0 0</pose>
       <inertial>
         <pose>0 0 0.0141 0 -0 0</pose>
         <mass>0.7575</mass>
@@ -3277,8 +3111,8 @@
           <izz>0.031391</izz>
         </inertia>
       </inertial>
-      <collision name="right_track_wheel8_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+      <collision name='ctu_cras_norlab_absolem_sensor_config_1/right_track_wheel8_collision'>
+        <pose>0 0 0 1.5708 -0 0</pose>
         <geometry>
           <cylinder>
             <length>0.097</length>
@@ -3303,29 +3137,49 @@
           </friction>
         </surface>
       </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <kinematic>0</kinematic>
     </link>
-    <plugin name="cras::FlipperControlPlugin" filename="libflipper_control_plugin.so">
+    <joint name='right_track_wheel8_j' type='revolute'>
+      <child>ctu_cras_norlab_absolem_sensor_config_1/right_track_wheel8</child>
+      <parent>ctu_cras_norlab_absolem_sensor_config_1/right_track</parent>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <static>0</static>
+    <plugin name='cras::FlipperControlPlugin' filename='libflipper_control_plugin.so'>
       <joint_name>front_left_flipper_j</joint_name>
       <max_velocity>0.8</max_velocity>
     </plugin>
-    <plugin name="cras::FlipperControlPlugin" filename="libflipper_control_plugin.so">
+    <plugin name='cras::FlipperControlPlugin' filename='libflipper_control_plugin.so'>
       <joint_name>front_right_flipper_j</joint_name>
       <max_velocity>0.8</max_velocity>
     </plugin>
-    <plugin name="cras::FlipperControlPlugin" filename="libflipper_control_plugin.so">
+    <plugin name='cras::FlipperControlPlugin' filename='libflipper_control_plugin.so'>
       <joint_name>rear_left_flipper_j</joint_name>
       <max_velocity>0.8</max_velocity>
     </plugin>
-    <plugin name="cras::FlipperControlPlugin" filename="libflipper_control_plugin.so">
+    <plugin name='cras::FlipperControlPlugin' filename='libflipper_control_plugin.so'>
       <joint_name>rear_right_flipper_j</joint_name>
       <max_velocity>0.8</max_velocity>
     </plugin>
-    <plugin name="cras::LaserRotatePlugin" filename="liblaser_rotate_plugin.so">
+    <plugin name='cras::LaserRotatePlugin' filename='liblaser_rotate_plugin.so'>
       <joint_name>laser_j</joint_name>
       <initial_velocity>0.0</initial_velocity>
       <rotation_angular_limit>1.618994</rotation_angular_limit>
     </plugin>
-    <plugin name="ignition::gazebo::systems::JointStatePublisher" filename="libignition-gazebo-joint-state-publisher-system.so">
+    <plugin name='ignition::gazebo::systems::JointStatePublisher' filename='libignition-gazebo-joint-state-publisher-system.so'>
       <joint_name>front_left_flipper_j</joint_name>
       <joint_name>front_right_flipper_j</joint_name>
       <joint_name>rear_left_flipper_j</joint_name>
@@ -3334,4 +3188,3 @@
     </plugin>
   </model>
 </sdf>
-
