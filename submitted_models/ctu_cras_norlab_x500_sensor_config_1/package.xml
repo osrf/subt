@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>ctu_cras_norlab_x500_sensor_config_1</name>
+  <version>0.1.0</version>
+  <description>
+    CTU-CRAS-NORLAB X500 UAV 
+    Sensor configuration:
+    - 3D medium range lidar Ouster OS0-64
+    - upward Intel Realsense D435 (RGBD camera)
+    - downward Intel Realsense D435 (RGBD camera)
+    - frontward Basler dart daA1600-60um with DSL165A lens (RGB camera)
+    - standard SubT IMU 
+  </description>
+  <author email="matej.petrlik@fel.cvut.cz">Matej Petrlik</author>
+  <maintainer email="matej.petrlik@fel.cvut.cz">Matej Petrlik</maintainer>
+  <maintainer email="tomas.baca@fel.cvut.cz">Tomas Baca</maintainer>
+
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <buildtool_depend>roslaunch</buildtool_depend>
+  <buildtool_depend>urdf</buildtool_depend>
+  <buildtool_depend>xacro</buildtool_depend>
+
+  <depend>roscpp</depend>
+  <depend>message_runtime</depend>
+  <depend>std_msgs</depend>
+  <depend>geometry_msgs</depend>
+
+</package>

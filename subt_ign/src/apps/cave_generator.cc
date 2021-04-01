@@ -375,22 +375,31 @@ std::vector<WorldSection> CaveGeneratorBase::CreateTypeBWorldSections(std::map<s
     // Ignore Split 01 -> flight traversable
     if (t.first.find("Cavern Split 02 Type B") != std::string::npos)
     {
-      WorldSection s;
-      s.tileType = CAVE_TYPE_B;
-      s.id = nextId++;
+      // build cavern world section
+        WorldSection s;
+        s.tileType = CAVE_TYPE_B;
+        s.id = nextId++;
 
-      VertexData v;
-      v.tileType = "Cave Cavern Split 02 Type B";
-      v.model.SetRawPose(math::Pose3d(halfTileSize, 0, 0, 0, 0, 0));
-      s.tiles.push_back(v);
-      s.connectionPoints.push_back(std::make_pair(
-        math::Vector3d(-halfTileSize, 0, 0),
-        math::Quaterniond::Identity));
+        VertexData t;
+        t.tileType = "Cave Cavern Split 02 Type B";
+        t.model.SetRawPose(math::Pose3d(halfTileSize, 0, 0, 0, 0, 0));
+        s.tiles.push_back(t);
 
-      worldSections.push_back(s);
-      std::cout << "Created tile:\t" << t.first << std::endl;
+        t.tileType = "Cave Cavern Split 01 Type B";
+        t.model.SetRawPose(math::Pose3d(halfTileSize + tileSize, 0, 0, 0, 0, 0));
+        s.tiles.push_back(t);
+
+        s.connectionPoints.push_back(std::make_pair(
+            math::Vector3d(tileSize + tileSize, 0, 0),
+            math::Quaterniond::Identity));
+
+        s.connectionPoints.push_back(std::make_pair(
+            math::Vector3d(halfTileSize + tileSize, tileSize, 25),
+            math::Quaterniond(0, 0, IGN_PI/2)));
+
+        worldSections.push_back(s);
+        std::cout << "Created tile:\tCave Cavern Split 01 & 02 Type B" << std::endl;
     }
-
     else if (t.first.find("Straight") != std::string::npos ||
         t.first.find("Vertical Shaft") != std::string::npos)
     {
@@ -1214,6 +1223,8 @@ int main(int argc, char **argv)
     }
   }
 
+  srand(seed);
+  
   if(debug)
   {
     CaveGeneratorDebug cgdb;
