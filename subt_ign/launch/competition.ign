@@ -123,6 +123,10 @@
      "X1" => "base_link",
      "EXPLORER_X1" => "base_link",
      "EXPLORER_R2" => "Rear_Rocker_Link",
+     "CTU_CRAS_NORLAB_ABSOLEM" => "base_link",
+     "CTU_CRAS_NORLAB_MARV" => "base_link",
+     "CTU_CRAS_NORLAB_HUSKY" => "base_link",
+     "CTU_CRAS_NORLAB_MARMOTTE" => "base_link",
      "CSIRO_DATA61_OZBOT_ATR" => "base_link"
    }
 
@@ -130,6 +134,10 @@
     "X1" => ["X3", "MARBLE_QAV500", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER"],
     "EXPLORER_X1" =>["X3", "MARBLE_QAV500", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER"],
     "EXPLORER_R2" =>["X3", "X4", "SSCI_X4", "SOPHISTICATED_ENGINEERING_X4", "EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER"],
+    "CTU_CRAS_NORLAB_ABSOLEM" => ["CTU_CRAS_NORLAB_TRAILER"],
+    "CTU_CRAS_NORLAB_MARV" => ["CTU_CRAS_NORLAB_TRAILER"],
+    "CTU_CRAS_NORLAB_HUSKY" => ["CTU_CRAS_NORLAB_TRAILER"],
+    "CTU_CRAS_NORLAB_MARMOTTE" => ["CTU_CRAS_NORLAB_TRAILER"],
     "CSIRO_DATA61_OZBOT_ATR" =>["X3", "X4", "SSCI_X4", "SOPHISTICATED_ENGINEERING_X4","EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER"]
   }
 
@@ -137,6 +145,10 @@
     "X1" => Vector3d.new(0, 0, 0.717),
     "EXPLORER_X1" => Vector3d.new(0, 0, 0.717),
     "EXPLORER_R2" => Vector3d.new(-0.402375, 0, 0.6874),
+    "CTU_CRAS_NORLAB_ABSOLEM" => Vector3d.new(-0.4, 0, 0.15),
+    "CTU_CRAS_NORLAB_MARV" => Vector3d.new(-0.3, 0, 0.1),
+    "CTU_CRAS_NORLAB_HUSKY" => Vector3d.new(-0.47, 0, 0.1),
+    "CTU_CRAS_NORLAB_MARMOTTE" => Vector3d.new(-0.4, 0, 0.05),
     "CSIRO_DATA61_OZBOT_ATR" => Vector3d.new(-0.15, 0, 0.528)
   }
 
@@ -144,6 +156,10 @@
     "X1" => AngularVector3d.new(0, 0, 0),
     "EXPLORER_X1" => AngularVector3d.new(0, 0, 0),
     "EXPLORER_R2" => AngularVector3d.new(0, 0, -3.1416),
+    "CTU_CRAS_NORLAB_ABSOLEM" => AngularVector3d.new(0, 0, 0),
+    "CTU_CRAS_NORLAB_MARV" => AngularVector3d.new(0, 0, 0),
+    "CTU_CRAS_NORLAB_HUSKY" => AngularVector3d.new(0, 0, 0),
+    "CTU_CRAS_NORLAB_MARMOTTE" => AngularVector3d.new(0, 0, 0),
     "CSIRO_DATA61_OZBOT_ATR" => AngularVector3d.new(0, 0, -3.1416)
   }
 

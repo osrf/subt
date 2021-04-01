@@ -1,0 +1,132 @@
+<?xml version="1.0" ?>
+<robot name="ctu_cras_norlab_trailer_sensor_config_1" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:arg name="name" default="" />
+    <xacro:if value="${len('$(arg name)') == 0}">
+        <xacro:arg name="prefix" default="" />
+    </xacro:if>
+    <xacro:unless value="${len('$(arg name)') == 0}">
+        <xacro:arg name="prefix" default="$(arg name)/" />
+    </xacro:unless>
+
+    <xacro:property name="dragging_rod_length" value="0.5" />
+    <xacro:property name="chassis_length" value="0.5" />
+    <xacro:property name="body_color" value="0.7 0.7 0.7" />
+
+    <xacro:include filename="utils.xacro" />
+
+    <!--
+    This file is the single source of all URDF and SDF models of Trailer. Do not edit those files
+    manually. Update the SDF using scripts/update_robot_sdf. The URDF is generated dynamically
+    when launching the robot.
+    -->
+    <link name="$(arg prefix)chassis">
+        <visual name="chassis">
+            <geometry>
+                <box size="${chassis_length} 0.2 0.1" />
+            </geometry>
+            <material name="body_color"><color rgba="${body_color}"/></material>
+        </visual>
+        <visual name="antenna_1">
+            <origin xyz="0.2 0.06 0.2" />
+            <geometry>
+                <cylinder radius="0.01" length="0.4" />
+            </geometry>
+            <material name="body_color"><color rgba="${body_color}"/></material>
+        </visual>
+        <visual name="antenna_2">
+            <origin xyz="0.2 -0.06 0.2" />
+            <geometry>
+                <cylinder radius="0.01" length="0.4" />
+            </geometry>
+            <material name="body_color"><color rgba="${body_color}"/></material>
+        </visual>
+        <collision name="chassis">
+            <geometry>
+                <box size="${chassis_length} 0.2 0.1" />
+            </geometry>
+        </collision>
+        <collision name="antenna_1">
+            <origin xyz="0.2 0.06 0.2" />
+            <geometry>
+                <cylinder radius="0.01" length="0.4" />
+            </geometry>
+        </collision>
+        <collision name="antenna_2">
+            <origin xyz="0.2 -0.06 0.2" />
+            <geometry>
+                <cylinder radius="0.01" length="0.4" />
+            </geometry>
+        </collision>
+        <xacro:box_inertial mass="2.0" width="0.2" height="0.1" depth="${chassis_length}" />
+    </link>
+    <xacro:solid_color_link_material link="$(arg prefix)chassis" r="0.4" g="0.4" b="0.4" />
+
+    <xacro:macro name="wheel" params="side">
+        <joint name="${side}_wheel_j" type="continuous">
+            <parent link="$(arg prefix)chassis"/>
+            <child link="$(arg prefix)${side}_wheel"/>
+            <axis xyz="0 1 0"/>
+            <xacro:if value="${side == 'left'}">
+                <origin xyz="0 -0.12 0" />
+            </xacro:if>
+            <xacro:unless value="${side == 'left'}">
+                <origin xyz="0 0.12 0" />
+            </xacro:unless>
+        </joint>
+        <link name="$(arg prefix)${side}_wheel">
+            <visual>
+                <geometry>
+                    <mesh filename="package://ctu_cras_norlab_trailer_sensor_config_1/meshes/wheel.dae" />
+                </geometry>
+            </visual>
+            <collision>
+                <origin rpy="${pi/2} 0 0" />
+                <geometry>
+                    <cylinder length="0.03" radius="0.2" />
+                </geometry>
+            </collision>
+            <xacro:cylinder_inertial mass="1" radius="0.2" length="0.03" rpy="${pi/2} 0 0" />
+        </link>
+    </xacro:macro>
+
+    <xacro:wheel side="left" />
+    <xacro:wheel side="right" />
+
+    <!-- dragging rod -->
+
+    <link name="$(arg prefix)dragging_rod">
+        <visual>
+            <origin xyz="${dragging_rod_length/2} 0 0" rpy="0 ${pi/2} 0" />
+            <geometry>
+                <cylinder radius="0.02" length="${dragging_rod_length}" />
+            </geometry>
+            <material name="body_color"><color rgba="${body_color}"/></material>
+        </visual>
+        <collision>
+            <origin xyz="${dragging_rod_length/2} 0 0" rpy="0 ${pi/2} 0" />
+            <geometry>
+                <cylinder radius="0.02" length="${dragging_rod_length}" />
+            </geometry>
+        </collision>
+        <xacro:cylinder_inertial mass="0.5" length="${dragging_rod_length}" radius="0.02" xyz="${dragging_rod_length/2} 0 0" rpy="0 ${pi/2} 0" />
+    </link>
+
+    <xacro:fixed_joint name="rod_j" parent="$(arg prefix)dragging_rod" child="$(arg prefix)chassis" xyz="${chassis_length/2 + dragging_rod_length} 0 0" />
+
+    <xacro:empty_link name="$(arg prefix)intermediate" mass="0.1" />
+    <xacro:empty_link name="$(arg prefix)base_link" mass="0.1" /> <!-- marsupial attachment point -->
+    <joint name="marsup_z_j" type="revolute">
+        <child link="$(arg prefix)intermediate"/>
+        <parent link="$(arg prefix)base_link"/>
+        <axis xyz="0 0 1"/>
+        <origin xyz="0 0 0" rpy="0 0 ${pi}" />
+        <limit lower="${-pi/2}" upper="${pi/2}" effort="10000" velocity="2" />
+    </joint>
+    <joint name="marsup_y_j" type="revolute">
+        <child link="$(arg prefix)dragging_rod"/>
+        <parent link="$(arg prefix)intermediate"/>
+        <axis xyz="0 1 0"/>
+        <origin xyz="0 0 0" />
+        <limit lower="${-pi/4}" upper="${pi/4}" effort="10000" velocity="2" />
+    </joint>
+</robot>

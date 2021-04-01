@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -e
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+MODEL_DIR="${DIR}/.."
+[ -z "${OUTPUT_FILE}" ] && OUTPUT_FILE="${MODEL_DIR}/model.sdf"
+
+echo -e "Rendering Ignition Gazebo SDF of $(basename "$(realpath "$MODEL_DIR")")" >&2
+rosrun xacro xacro "${MODEL_DIR}/urdf/trailer.xacro" rendering_target:=sdf "$@" > "${OUTPUT_FILE}.urdf"
+ign sdf -p "${OUTPUT_FILE}.urdf" | "${DIR}/high_precision_constants.py" - > "${OUTPUT_FILE}"
+
+"${DIR}/clean_sdf" "${OUTPUT_FILE}"
+# fix resource paths
+sed -i -e 's#model://ctu_cras_norlab_trailer_sensor_config_1/##g' "${OUTPUT_FILE}"

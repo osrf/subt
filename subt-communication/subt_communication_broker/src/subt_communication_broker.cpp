@@ -214,12 +214,43 @@ void Broker::DispatchMessages()
           continue;
         }
 
+        rf_interface::radio_state* txRadioState = &txNode->second->rf_state;
+        rf_interface::radio_state* rxRadioState = &rxNode->second->rf_state;
+
+        // make local temporary copies; be sure to not take by reference!
+        rf_interface::radio_state tmpTxRadioState = *txRadioState;
+        rf_interface::radio_state tmpRxRadioState = *rxRadioState;
+
+        // allow uninterrupted communication between TEAMBASE and COMMS_EXTENDER
+        // if their distance is lower than 100 meters - this is to simulate a
+        // wired connection
+        if ((msg.src_address() == "TEAMBASE" || msg.src_address() == "COMMS_EXTENDER") &&
+            (msg.dst_address() == "TEAMBASE" || msg.dst_address() == "COMMS_EXTENDER"))
+        {
+          // std::cerr << "[Dbg] Distance :" << txRadioState->pose.Pos().Distance(rxRadioState->pose.Pos()) << std::endl;
+          if (txRadioState->pose.Pos().Distance(rxRadioState->pose.Pos()) < 100)
+          {
+            // std::cerr << "[Dbg] Using wired communication with teambase" << std::endl;
+
+            // set the two radios at the same position so that there is no path loss
+            tmpTxRadioState.pose = ignition::math::Pose3d::Zero;
+            tmpRxRadioState.pose = ignition::math::Pose3d::Zero;
+            // use these temporary radios for sending the message; this has the
+            // following consequences:
+            //  - as the radios are close, the path loss should not apply
+            //  - the sent data do not count in the channel capacity counters
+            //    (which simulates the much faster transfer speeds over wire)
+            txRadioState = &tmpTxRadioState;
+            rxRadioState = &tmpRxRadioState;
+          }
+        }
+        
         bool sendPacket;
         double rssi;
         std::tie(sendPacket, rssi) =
           communication_function(txNode->second->radio,
-                                 txNode->second->rf_state,
-                                 rxNode->second->rf_state,
+                                 *txRadioState,
+                                 *rxRadioState,
                                  msg.data().size());
 
         if (sendPacket)
