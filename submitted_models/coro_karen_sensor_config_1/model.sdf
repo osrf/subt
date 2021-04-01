@@ -8,13 +8,13 @@
       <inertial>
         <pose>0 0 0.0725 0 0 0</pose>
         <mass>90.0</mass>
-	<inertia>
-	  <ixx>3.333</ixx>
-	  <iyy>9.733</iyy>
-	  <izz>9.733</izz>
-	</inertia>
+        <inertia>
+          <ixx>3.333</ixx>
+          <iyy>9.733</iyy>
+          <izz>9.733</izz>
+        </inertia>
       </inertial>
-      
+
       <collision name="chassis_collision">
         <pose>0 0 0.25 0 0 0</pose>
         <geometry>
@@ -33,8 +33,8 @@
         </geometry>
       </collision>
 
-      
-      
+
+
       <visual name="chassis_main_visual">
         <pose>0 0 0.15 0 0 0</pose>
         <geometry>
@@ -43,11 +43,11 @@
           </box>
         </geometry>
         <material>
-          <ambient>240 240 240 1</ambient>
-          <diffuse>240 240 240 1</diffuse>
+          <ambient>0.9411764705882353 0.9411764705882353 0.9411764705882353 1</ambient>
+          <diffuse>0.9411764705882353 0.9411764705882353 0.9411764705882353 1</diffuse>
         </material>
       </visual>
-      
+
       <visual name="front_side">
         <pose>0.5 0 0.3 1.5707 0 0</pose>
         <geometry>
@@ -57,11 +57,11 @@
           </cylinder>
         </geometry>
         <material>
-          <ambient>100 100 235 1</ambient>
-          <diffuse>100 100 235 1</diffuse>
+          <ambient>0.39215686274509803 0.39215686274509803 0.9215686274509803 1</ambient>
+          <diffuse>0.39215686274509803 0.39215686274509803 0.9215686274509803 1</diffuse>
         </material>
       </visual>
-      
+
       <visual name="back_side">
         <pose>-0.5 0 0.3 1.5707 0 0</pose>
         <geometry>
@@ -71,11 +71,11 @@
           </cylinder>
         </geometry>
         <material>
-          <ambient>100 100 235 1</ambient>
-          <diffuse>100 100 235 1</diffuse>
+          <ambient>0.39215686274509803 0.39215686274509803 0.9215686274509803 1</ambient>
+          <diffuse>0.39215686274509803 0.39215686274509803 0.9215686274509803 1</diffuse>
         </material>
       </visual>
-      
+
       <visual name="left_side">
         <pose>0 0.25 0.3 0 1.5707 0</pose>
         <geometry>
@@ -85,11 +85,11 @@
           </cylinder>
         </geometry>
         <material>
-          <ambient>100 100 235 1</ambient>
-          <diffuse>100 100 235 1</diffuse>
+          <ambient>0.39215686274509803 0.39215686274509803 0.9215686274509803 1</ambient>
+          <diffuse>0.39215686274509803 0.39215686274509803 0.9215686274509803 1</diffuse>
         </material>
       </visual>
-      
+
       <visual name="right_side">
         <pose>0 -0.25 0.3 0 1.5707 0</pose>
         <geometry>
@@ -99,12 +99,12 @@
           </cylinder>
         </geometry>
         <material>
-          <ambient>100 100 235 1</ambient>
-          <diffuse>100 100 235 1</diffuse>
+          <ambient>0.39215686274509803 0.39215686274509803 0.9215686274509803 1</ambient>
+          <diffuse>0.39215686274509803 0.39215686274509803 0.9215686274509803 1</diffuse>
         </material>
       </visual>
-      
-      
+
+
       <visual name="differential_visual">
         <pose>-0.5 0 0.0 1.5707 0 0</pose>
         <geometry>
@@ -114,8 +114,8 @@
           </cylinder>
         </geometry>
         <material>
-          <ambient>100 100 235 1</ambient>
-          <diffuse>100 100 235 1</diffuse>
+          <ambient>0.39215686274509803 0.39215686274509803 0.9215686274509803 1</ambient>
+          <diffuse>0.39215686274509803 0.39215686274509803 0.9215686274509803 1</diffuse>
         </material>
       </visual>
 
@@ -130,8 +130,8 @@
           </box>
         </geometry>
         <material>
-          <ambient>200 200 200 1</ambient>
-          <diffuse>200 200 200 1</diffuse>
+          <ambient>0.7843137254901961 0.7843137254901961 0.7843137254901961 1</ambient>
+          <diffuse>0.7843137254901961 0.7843137254901961 0.7843137254901961 1</diffuse>
         </material>
       </visual>
 
@@ -143,8 +143,8 @@
           </box>
         </geometry>
         <material>
-          <ambient>200 200 200 1</ambient>
-          <diffuse>200 200 200 1</diffuse>
+          <ambient>0.7843137254901961 0.7843137254901961 0.7843137254901961 1</ambient>
+          <diffuse>0.7843137254901961 0.7843137254901961 0.7843137254901961 1</diffuse>
         </material>
       </visual>
 
@@ -156,8 +156,8 @@
           </box>
         </geometry>
         <material>
-          <ambient>240 240 240 1</ambient>
-          <diffuse>240 240 240 1</diffuse>
+          <ambient>0.9411764705882353 0.9411764705882353 0.9411764705882353 1</ambient>
+          <diffuse>0.9411764705882353 0.9411764705882353 0.9411764705882353 1</diffuse>
         </material>
       </visual>
 
@@ -169,8 +169,8 @@
           </box>
         </geometry>
         <material>
-          <ambient>200 200 200 1</ambient>
-          <diffuse>200 200 200 1</diffuse>
+          <ambient>0.7843137254901961 0.7843137254901961 0.7843137254901961 1</ambient>
+          <diffuse>0.7843137254901961 0.7843137254901961 0.7843137254901961 1</diffuse>
         </material>
       </visual>
       <visual name="beam2_visual">
@@ -181,8 +181,8 @@
           </box>
         </geometry>
         <material>
-          <ambient>200 200 200 1</ambient>
-          <diffuse>200 200 200 1</diffuse>
+          <ambient>0.7843137254901961 0.7843137254901961 0.7843137254901961 1</ambient>
+          <diffuse>0.7843137254901961 0.7843137254901961 0.7843137254901961 1</diffuse>
         </material>
       </visual>
       <visual name="beam3_visual">
@@ -193,8 +193,8 @@
           </box>
         </geometry>
         <material>
-          <ambient>200 200 200 1</ambient>
-          <diffuse>200 200 200 1</diffuse>
+          <ambient>0.7843137254901961 0.7843137254901961 0.7843137254901961 1</ambient>
+          <diffuse>0.7843137254901961 0.7843137254901961 0.7843137254901961 1</diffuse>
         </material>
       </visual>
       <visual name="beam4_visual">
@@ -205,8 +205,8 @@
           </box>
         </geometry>
         <material>
-          <ambient>200 200 200 1</ambient>
-          <diffuse>200 200 200 1</diffuse>
+          <ambient>0.7843137254901961 0.7843137254901961 0.7843137254901961 1</ambient>
+          <diffuse>0.7843137254901961 0.7843137254901961 0.7843137254901961 1</diffuse>
         </material>
       </visual>
 
@@ -249,8 +249,8 @@
       </visual>
 
 
-      
-      
+
+
       <visual name="emergency_stop_bottom_visual">
         <pose>0.13 -0.13 0.26 0 0 0</pose>
         <geometry>
@@ -260,8 +260,8 @@
           </cylinder>
         </geometry>
         <material>
-          <ambient>180 180 180</ambient>
-          <diffuse>180 180 180</diffuse>
+          <ambient>0.7058823529411765 0.7058823529411765 0.7058823529411765 1.0</ambient>
+          <diffuse>0.7058823529411765 0.7058823529411765 0.7058823529411765 1.0</diffuse>
         </material>
       </visual>
       <visual name="emergency_stop_top_visual">
@@ -273,14 +273,14 @@
           </cylinder>
         </geometry>
         <material>
-          <ambient>255 0 0</ambient>
-          <diffuse>255 0 0</diffuse>
+          <ambient>1.0 0 0 1.0</ambient>
+          <diffuse>1.0 0 0 1.0</diffuse>
         </material>
       </visual>
-      
-      
-      
-      
+
+
+
+
       <!-- IMU  -->
       <sensor name="imu_sensor" type="imu">
         <always_on>1</always_on>
@@ -358,8 +358,8 @@
           </linear_acceleration>
         </imu>
       </sensor>
-      
-      
+
+
       <sensor name="magnetometer" type="magnetometer">
         <always_on>1</always_on>
         <update_rate>50</update_rate>
@@ -384,7 +384,7 @@
           </z>
         </magnetometer>
       </sensor>
-      
+
       <sensor name="air_pressure" type="air_pressure">
         <always_on>1</always_on>
         <update_rate>20</update_rate>
@@ -399,7 +399,7 @@
 
       <!-- thermal camera -->
       <visual name="thermal_camera_visual">
-        <pose> 0.45 -0.06 0.645 0 0 0</pose>
+        <pose>0.45 -0.06 0.645 0 0 0</pose>
         <geometry>
           <box>
             <size>0.02 0.03 0.03</size>
@@ -407,7 +407,7 @@
         </geometry>
       </visual>
       <sensor name="thermal_camera" type="thermal">
-        <pose> 0.48 -0.06 0.645 0 0 0</pose>
+        <pose>0.48 -0.06 0.645 0 0 0</pose>
         <camera name="thermal_camera">
           <horizontal_fov>0.628</horizontal_fov>
           <lens>
@@ -434,9 +434,9 @@
         <always_on>1</always_on>
         <update_rate>9</update_rate>
       </sensor>
-      
-      
-	    
+
+
+
       <!-- Based on Intel realsense D435 (intrinsics and distortion not modeled)-->
       <sensor name="rs_front" type="rgbd_camera">
         <pose>0.45 0 0.634 0 0.52 0</pose>
@@ -487,12 +487,12 @@
         </camera>
       </sensor>
 
-		 
+
 
 
       <!-- 3D Velodyne VLP-16 lidar -->
 
-      
+
       <sensor name="front_laser" type="gpu_ray">
         <pose>0.37 0 0.592 0 0 0</pose>
         <update_rate>10</update_rate>
@@ -806,7 +806,7 @@
         </camera>
       </sensor>
 
-      
+
 
       <light name="light_front_left" type="spot">
         <pose>0.45 0.23 0.44 1.5 0 -0.75</pose>
@@ -880,56 +880,56 @@
         <direction>0 -1 0</direction>
         <cast_shadows>1</cast_shadows>
       </light>
-      
+
       <visual name="light_front_left_visual">
         <pose>0.44 0.23 0.41 0 0 0.75</pose>
         <geometry>
-	  <box>
-	    <size>0.01 0.12 0.08</size>
-	  </box>
+          <box>
+            <size>0.01 0.12 0.08</size>
+          </box>
         </geometry>
         <material>
-          <ambient>255 255 255</ambient>
-          <diffuse>255 255 255</diffuse>
+          <ambient>1.0 1.0 1.0 1.0</ambient>
+          <diffuse>1.0 1.0 1.0 1.0</diffuse>
         </material>
       </visual>
       <visual name="light_front_right_visual">
         <pose>0.44 -0.23 0.41 0 0 -0.75</pose>
         <geometry>
-	  <box>
-	    <size>0.01 0.12 0.08</size>
-	  </box>
+          <box>
+            <size>0.01 0.12 0.08</size>
+          </box>
         </geometry>
         <material>
-          <ambient>255 255 255</ambient>
-          <diffuse>255 255 255</diffuse>
+          <ambient>1.0 1.0 1.0 1.0</ambient>
+          <diffuse>1.0 1.0 1.0 1.0</diffuse>
         </material>
       </visual>
       <visual name="light_rear_left_visual">
         <pose>-0.3 0.25 0.41 0 0 -0.75</pose>
         <geometry>
-	  <box>
-	    <size>0.01 0.12 0.08</size>
-	  </box>
+          <box>
+            <size>0.01 0.12 0.08</size>
+          </box>
         </geometry>
         <material>
-          <ambient>255 255 255</ambient>
-          <diffuse>255 255 255</diffuse>
+          <ambient>1.0 1.0 1.0 1.0</ambient>
+          <diffuse>1.0 1.0 1.0 1.0</diffuse>
         </material>
       </visual>
       <visual name="light_rear_right_visual">
         <pose>-0.3 -0.25 0.41 0 0 0.75</pose>
         <geometry>
-	  <box>
-	    <size>0.01 0.12 0.08</size>
-	  </box>
+          <box>
+            <size>0.01 0.12 0.08</size>
+          </box>
         </geometry>
         <material>
-          <ambient>255 255 255</ambient>
-          <diffuse>255 255 255</diffuse>
+          <ambient>1.0 1.0 1.0 1.0</ambient>
+          <diffuse>1.0 1.0 1.0 1.0</diffuse>
         </material>
       </visual>
-      
+
     </link>
 
 
@@ -953,12 +953,12 @@
           </cylinder>
         </geometry>
         <material>
-          <ambient>11 11 11</ambient>
-          <diffuse>11 11 11</diffuse>
+          <ambient>0.043137254901960784 0.043137254901960784 0.043137254901960784 1.0</ambient>
+          <diffuse>0.043137254901960784 0.043137254901960784 0.043137254901960784 1.0</diffuse>
         </material>
       </visual>
     </link>
-    
+
     <link name="front_right_wheel_steering_link">
       <pose>0.465 -0.22 0.02 0 0 0</pose>
       <inertial>
@@ -978,12 +978,12 @@
           </cylinder>
         </geometry>
         <material>
-          <ambient>11 11 11</ambient>
-          <diffuse>11 11 11</diffuse>
+          <ambient>0.043137254901960784 0.043137254901960784 0.043137254901960784 1.0</ambient>
+          <diffuse>0.043137254901960784 0.043137254901960784 0.043137254901960784 1.0</diffuse>
         </material>
       </visual>
     </link>
-    
+
     <link name="front_left_wheel">
       <pose>0.465 0.325 0 0 0 0</pose>
       <!-- Inertia and size need adjusted -->
@@ -1020,7 +1020,7 @@
         <geometry>
           <mesh>
             <uri>meshes/wheel.dae</uri>
-	    <scale>1.01 1.0 1.01</scale>
+            <scale>1.01 1.0 1.01</scale>
           </mesh>
         </geometry>
       </visual>
@@ -1033,8 +1033,8 @@
           </cylinder>
         </geometry>
         <material>
-          <ambient>128 128 128</ambient>
-          <diffuse>128 128 128</diffuse>
+          <ambient>0.5 0.5 0.5 1.0</ambient>
+          <diffuse>0.5 0.5 0.5 1.0</diffuse>
         </material>
       </visual>
       <visual name="axis_visual">
@@ -1046,12 +1046,12 @@
           </cylinder>
         </geometry>
         <material>
-          <ambient>0 0 0</ambient>
-          <diffuse>0 0 0</diffuse>
+          <ambient>0 0 0 1.0</ambient>
+          <diffuse>0 0 0 1.0</diffuse>
         </material>
       </visual>
     </link>
-    
+
     <link name="front_right_wheel">
       <pose>0.465 -0.325 0 0 0 0</pose>
       <inertial>
@@ -1087,7 +1087,7 @@
         <geometry>
           <mesh>
             <uri>meshes/wheel.dae</uri>
-	    <scale>1.01 1.0 1.01</scale>
+            <scale>1.01 1.0 1.01</scale>
           </mesh>
         </geometry>
       </visual>
@@ -1100,8 +1100,8 @@
           </cylinder>
         </geometry>
         <material>
-          <ambient>128 128 128</ambient>
-          <diffuse>128 128 128</diffuse>
+          <ambient>0.5 0.5 0.5 1.0</ambient>
+          <diffuse>0.5 0.5 0.5 1.0</diffuse>
         </material>
       </visual>
       <visual name="axis_visual">
@@ -1113,8 +1113,8 @@
           </cylinder>
         </geometry>
         <material>
-          <ambient>0 0 0</ambient>
-          <diffuse>0 0 0</diffuse>
+          <ambient>0 0 0 1.0</ambient>
+          <diffuse>0 0 0 1.0</diffuse>
         </material>
       </visual>
     </link>
@@ -1154,7 +1154,7 @@
         <geometry>
           <mesh>
             <uri>meshes/wheel.dae</uri>
-	    <scale>1.01 1.0 1.01</scale>
+            <scale>1.01 1.0 1.01</scale>
           </mesh>
         </geometry>
       </visual>
@@ -1167,8 +1167,8 @@
           </cylinder>
         </geometry>
         <material>
-          <ambient>128 128 128</ambient>
-          <diffuse>128 128 128</diffuse>
+          <ambient>0.5 0.5 0.5 1.0</ambient>
+          <diffuse>0.5 0.5 0.5 1.0</diffuse>
         </material>
       </visual>
       <visual name="axis_visual">
@@ -1180,12 +1180,12 @@
           </cylinder>
         </geometry>
         <material>
-          <ambient>0 0 0</ambient>
-          <diffuse>0 0 0</diffuse>
+          <ambient>0 0 0 1.0</ambient>
+          <diffuse>0 0 0 1.0</diffuse>
         </material>
       </visual>
     </link>
-    
+
     <link name="rear_right_wheel">
       <pose>-0.465 -0.325 0 0 0 0</pose>
       <inertial>
@@ -1221,7 +1221,7 @@
         <geometry>
           <mesh>
             <uri>meshes/wheel.dae</uri>
-	    <scale>1.01 1.0 1.01</scale>
+            <scale>1.01 1.0 1.01</scale>
           </mesh>
         </geometry>
       </visual>
@@ -1234,8 +1234,8 @@
           </cylinder>
         </geometry>
         <material>
-          <ambient>128 128 128</ambient>
-          <diffuse>128 128 128</diffuse>
+          <ambient>0.5 0.5 0.5 1.0</ambient>
+          <diffuse>0.5 0.5 0.5 1.0</diffuse>
         </material>
       </visual>
       <visual name="axis_visual">
@@ -1247,8 +1247,8 @@
           </cylinder>
         </geometry>
         <material>
-          <ambient>0 0 0</ambient>
-          <diffuse>0 0 0</diffuse>
+          <ambient>0 0 0 1.0</ambient>
+          <diffuse>0 0 0 1.0</diffuse>
         </material>
       </visual>
     </link>
@@ -1268,7 +1268,7 @@
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
-    
+
     <joint name="front_right_wheel_steering_joint" type="revolute">
       <parent>base_link</parent>
       <child>front_right_wheel_steering_link</child>
@@ -1282,8 +1282,8 @@
         </limit>
       </axis>
     </joint>
-    
-    
+
+
     <joint name="front_left_wheel_joint" type="revolute">
       <child>front_left_wheel</child>
       <parent>front_left_wheel_steering_link</parent>
@@ -1298,7 +1298,7 @@
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
-    
+
     <joint name="front_right_wheel_joint" type="revolute">
       <parent>front_right_wheel_steering_link</parent>
       <child>front_right_wheel</child>
@@ -1312,7 +1312,7 @@
         </limit>
       </axis>
     </joint>
-    
+
     <joint name="rear_left_wheel_joint" type="revolute">
       <parent>base_link</parent>
       <child>rear_left_wheel</child>
@@ -1327,7 +1327,7 @@
         </limit>
       </axis>
     </joint>
-    
+
     <joint name="rear_right_wheel_joint" type="revolute">
       <parent>base_link</parent>
       <child>rear_right_wheel</child>
@@ -1342,6 +1342,6 @@
         </limit>
       </axis>
     </joint>
-    
+
   </model>
 </sdf>
