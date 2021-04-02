@@ -1185,9 +1185,9 @@
 			</contact>
 			<friction>
 				<ode>
-					<mu>1</mu>
+					<mu>0.5</mu>
 					<mu2>1</mu2>
-					<slip1>0.035</slip1>
+					<slip1>0.00092</slip1>
 					<slip2>0</slip2>
 					<fdir1>0 0 1</fdir1>
 				</ode>
@@ -1205,9 +1205,9 @@
 			</contact>
 			<friction>
 				<ode>
-					<mu>1</mu>
+					<mu>0.5</mu>
 					<mu2>1</mu2>
-					<slip1>0.035</slip1>
+					<slip1>0.00092</slip1>
 					<slip2>0</slip2>
 					<fdir1>0 0 1</fdir1>
 				</ode>
@@ -1386,6 +1386,13 @@
 										</intrinsics>
 								</lens>
 						</camera>
+						<!-- Until https://github.com/osrf/sdformat/pull/525 gets merged, we work around the camera positions like this -->
+						<xacro:if value="${num == 0}"><pose>0.057346 -0.083518 0.313841 -0.000948 -0.000784 -2.19802</pose></xacro:if>
+						<xacro:if value="${num == 1}"><pose>0.009992 -0.096606 0.314114 -0.001069 0.000853 2.82791</pose></xacro:if>
+						<xacro:if value="${num == 2}"><pose>-0.01735 -0.055429 0.314721 -0.001705 0.00415 1.56975</pose></xacro:if>
+						<xacro:if value="${num == 3}"><pose>0.012561 -0.017068 0.314417 -0.000579 0.005611 0.313689</pose></xacro:if>
+						<xacro:if value="${num == 4}"><pose>0.058951 -0.03438 0.313899 -0.010815 0.001034 -0.943109</pose></xacro:if>
+						<xacro:if value="${num == 5}"><pose>0.024083 -0.058382 0.376328 3.1415926535897931 -1.5707963267948966 0.945143</pose></xacro:if>
 					</sensor>
 				</gazebo>
     </xacro:macro>
@@ -1572,31 +1579,34 @@
 						<x>
 							<noise type="gaussian">
 								<mean>0</mean>
-								<stddev>2e-4</stddev>
-								<bias_mean>0.0000075</bias_mean>
-								<bias_stddev>0.0000008</bias_stddev>
-								<dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
-								<dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
+								<stddev>0.009</stddev>
+								<bias_mean>0.00075</bias_mean>
+								<bias_stddev>0.005</bias_stddev>
+								<dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+								<dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+								<precision>0.00025</precision>
 							</noise>
 						</x>
 						<y>
 							<noise type="gaussian">
 								<mean>0</mean>
-								<stddev>2e-4</stddev>
-								<bias_mean>0.0000075</bias_mean>
-								<bias_stddev>0.0000008</bias_stddev>
-								<dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
-								<dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
+								<stddev>0.009</stddev>
+								<bias_mean>0.00075</bias_mean>
+								<bias_stddev>0.005</bias_stddev>
+								<dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+								<dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+								<precision>0.00025</precision>
 							</noise>
 						</y>
 						<z>
 							<noise type="gaussian">
 								<mean>0</mean>
-								<stddev>2e-4</stddev>
-								<bias_mean>0.0000075</bias_mean>
-								<bias_stddev>0.0000008</bias_stddev>
-								<dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
-								<dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
+								<stddev>0.009</stddev>
+								<bias_mean>0.00075</bias_mean>
+								<bias_stddev>0.005</bias_stddev>
+								<dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+								<dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+								<precision>0.00025</precision>
 							</noise>
 						</z>
 					</angular_velocity>
@@ -1604,35 +1614,40 @@
 						<x>
 							<noise type="gaussian">
 								<mean>0</mean>
-								<stddev>1e-2</stddev>
-								<bias_mean>0.1</bias_mean>
-								<bias_stddev>0.001</bias_stddev>
-								<dynamic_bias_stddev>0.002</dynamic_bias_stddev>
-								<dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
+								<stddev>0.021</stddev>
+								<bias_mean>0.05</bias_mean>
+								<bias_stddev>0.0075</bias_stddev>
+								<dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+								<dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+								<precision>0.005</precision>
 							</noise>
 						</x>
 						<y>
 							<noise type="gaussian">
 								<mean>0</mean>
-								<stddev>1e-2</stddev>
-								<bias_mean>0.1</bias_mean>
-								<bias_stddev>0.001</bias_stddev>
-								<dynamic_bias_stddev>0.002</dynamic_bias_stddev>
-								<dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
+								<stddev>0.021</stddev>
+								<bias_mean>0.05</bias_mean>
+								<bias_stddev>0.0075</bias_stddev>
+								<dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+								<dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+								<precision>0.005</precision>
 							</noise>
 						</y>
 						<z>
 							<noise type="gaussian">
 								<mean>0</mean>
-								<stddev>1e-2</stddev>
-								<bias_mean>0.1</bias_mean>
-								<bias_stddev>0.001</bias_stddev>
-								<dynamic_bias_stddev>0.002</dynamic_bias_stddev>
-								<dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
+								<stddev>0.021</stddev>
+								<bias_mean>0.05</bias_mean>
+								<bias_stddev>0.0075</bias_stddev>
+								<dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+								<dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+								<precision>0.005</precision>
 							</noise>
 						</z>
 					</linear_acceleration>
 				</imu>
+				<!-- Until https://github.com/osrf/sdformat/pull/525 gets merged, we work around the IMU position like this -->
+				<pose>0 0 0.15 -3.1415926535897931 -0 0</pose>
             </sensor>
         </xacro:if>
 	</gazebo>
