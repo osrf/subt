@@ -64,6 +64,8 @@ ign service -s /artifact/move_to \
 #include <sdf/World.hh>
 
 #include "subt_ign/Common.hh"
+#include "subt_communication_broker/subt_communication_client.h"
+#include "subt_ign/protobuf/artifact.pb.h"
 
 IGNITION_ADD_PLUGIN(
   subt::ArtifactValidator,
@@ -107,8 +109,25 @@ class subt::ArtifactValidatorPrivate
   public: bool OnPrev(const ignition::msgs::StringMsg &_msg,
                       ignition::msgs::StringMsg &_rep);
 
+  /// \brief Callback fired when the score service is called.
+  /// \param[in] _msg Service request
+  /// \param[out] _rep Service response
+  public: bool OnScore(const ignition::msgs::StringMsg &_msg,
+                       ignition::msgs::StringMsg &_rep);
+
+  public: bool ReportArtifact(const ArtifactType _type,
+                              const ignition::msgs::Pose &_pose);
+
+  public: void OnArtifactAck(const std::string &/*_srcAddress*/,
+                                const std::string &/*_dstAddress*/,
+                                const uint32_t /*_dstPort*/,
+                                const std::string &_data);
+
   /// \brief Map of artifact names to additional artifact data.
   public: std::map<std::string, Artifact> artifacts;
+
+  /// \brief Queue of artifacts to report 
+  public: std::deque<Artifact*> toReport;
 
   /// \brief Iterator to current position in map
   public: std::map<std::string, Artifact>::iterator artifactsIter;
@@ -121,6 +140,12 @@ class subt::ArtifactValidatorPrivate
 
   /// \brief World name of current world.
   public: std::string worldName;
+
+  /// \brief Next time to check if client is nullptr
+  public: std::chrono::steady_clock::duration clientCheck{0};
+
+  /// \brief Communication client.
+  public: std::unique_ptr<subt::CommsClient> client {nullptr};
 };
 
 /////////////////////////////////////////////////
@@ -145,12 +170,13 @@ bool ArtifactValidatorPrivate::MoveTo(const ignition::msgs::StringMsg &_msg,
   req.mutable_position()->set_z(artifact.pose.Pos().Z());
   _rep.set_data(_msg.data());
 
-  msgs::Boolean res;
+  ignition::msgs::Boolean res;
   bool result;
   unsigned int timeout = 1000;
   std::string service {"/world/" + this->worldName + "/set_pose"};
   node.Request(service, req, timeout, res, result);
   igndbg << "Result: " << res.data() << " " << result << std::endl;
+
   return result;
 }
 
@@ -161,6 +187,79 @@ bool ArtifactValidatorPrivate::MoveToString(const std::string &_name,
   ignition::msgs::StringMsg msg;
   msg.set_data(_name);
   return this->MoveTo(msg, _rep);
+}
+
+/////////////////////////////////////////////////
+bool ArtifactValidatorPrivate::OnScore(const ignition::msgs::StringMsg& _req,
+                                       ignition::msgs::StringMsg& /*_rep*/)
+{
+  // Report the artifact that we are currently at
+  //
+  auto newIter = this->artifacts.find(_req.data());
+  if (newIter == this->artifacts.end())
+  {
+    ignerr << "Artifact: " << _req.data() << " does not exist" << std::endl;
+    return false;
+  }
+  this->artifactsIter = newIter;
+
+  auto artifact = this->artifactsIter->second;
+  std::cout << "Reporting: " << artifact.String() << std::endl; 
+
+  auto origin = this->artifacts.find("artifact_origin")->second;
+
+  ignition::msgs::Pose reportPose;
+  reportPose.mutable_position()->set_x(artifact.pose.Pos().X() - origin.pose.Pos().X());
+  reportPose.mutable_position()->set_y(artifact.pose.Pos().Y() - origin.pose.Pos().Y());
+  reportPose.mutable_position()->set_z(artifact.pose.Pos().Z() - origin.pose.Pos().Z());
+
+  return this->ReportArtifact(artifact.type,
+                              reportPose);
+}
+
+/////////////////////////////////////////////////
+bool ArtifactValidatorPrivate::ReportArtifact(const ArtifactType _type,
+                                              const ignition::msgs::Pose &_pose)
+{
+  subt::msgs::Artifact artifact;
+  artifact.set_type(static_cast<uint32_t>(_type));
+  artifact.mutable_pose()->CopyFrom(_pose);
+
+  // Serialize the artifact.
+  std::string serializedData;
+
+  if (!artifact.SerializeToString(&serializedData)) {
+    std::cerr
+        << "ReportArtifact(): Error serializing message\n"
+        << artifact.DebugString() << std::endl;
+    return false;
+  }
+
+  if (this->client)
+  {
+    this->client->SendTo(serializedData, subt::kBaseStationName);
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+
+/////////////////////////////////////////////////
+void ArtifactValidatorPrivate::OnArtifactAck(const std::string &/*_srcAddress*/,
+                                             const std::string &/*_dstAddress*/,
+                                             const uint32_t /*_dstPort*/,
+                                             const std::string &_data)
+{
+  subt::msgs::ArtifactScore ack;
+  if (!ack.ParseFromString(_data))
+  {
+    std::cerr << "Error parsing artifact score response" << std::endl;
+  }
+  else
+  {
+  }
 }
 
 /////////////////////////////////////////////////
@@ -264,17 +363,13 @@ void ArtifactValidator::Configure(const ignition::gazebo::Entity & /*_entity*/,
 
   std::string fullPath;
   subt::FullWorldPath(worldName, fullPath);
+  ignmsg << "Loading SDF world file[" << fullPath + ".sdf" << "].\n";
 
-  common::SystemPaths systemPaths;
-  systemPaths.SetFilePathEnv("IGN_GAZEBO_RESOURCE_PATH");
-  systemPaths.AddFilePaths(IGN_GAZEBO_WORLD_INSTALL_DIR);
-  std::string filePath = systemPaths.FindFile(fullPath);
-  ignmsg << "Loading SDF world file[" << filePath << "].\n";
-
-  auto errors = this->dataPtr->sdfRoot.Load(filePath);
+  auto errors = this->dataPtr->sdfRoot.Load(fullPath + ".sdf");
 
   if (!errors.empty())
   {
+    ignerr << "Couldn't load SDF" << std::endl;
     for (auto &err : errors)
       ignerr << err << "\n";
     return;
@@ -288,13 +383,38 @@ void ArtifactValidator::Configure(const ignition::gazebo::Entity & /*_entity*/,
       &ArtifactValidatorPrivate::OnNext, this->dataPtr.get());
   this->dataPtr->node.Advertise("/artifact/prev",
       &ArtifactValidatorPrivate::OnPrev, this->dataPtr.get());
+  this->dataPtr->node.Advertise("/artifact/score",
+      &ArtifactValidatorPrivate::OnScore, this->dataPtr.get());
+
+  {
+    // Start the SubT competition
+    ignition::msgs::Boolean req;
+    ignition::msgs::Boolean rep;
+    unsigned int timeout = 5000;
+    bool result;
+    req.set_data(true);
+    this->dataPtr->node.Request("/subt/start", req, timeout, rep, result);
+  }
 }
 
 /////////////////////////////////////////////////
 void ArtifactValidator::PostUpdate(
-                const ignition::gazebo::UpdateInfo &/*_info*/,
+                const ignition::gazebo::UpdateInfo &_info,
                 const ignition::gazebo::EntityComponentManager &/*_ecm*/)
 {
+  if (!this->dataPtr->client && 
+      _info.simTime > this->dataPtr->clientCheck)
+  {
+    this->dataPtr->client.reset(new subt::CommsClient("validator", false, true));
+    auto bound = this->dataPtr->client->Bind(&ArtifactValidatorPrivate::OnArtifactAck, 
+        this->dataPtr.get());
+
+    if (!bound) {
+      this->dataPtr->client.reset(nullptr);
+      this->dataPtr->clientCheck = _info.simTime + std::chrono::milliseconds(100);
+    }
+  }
+
   if (this->dataPtr->artifactsIter == this->dataPtr->artifacts.end())
   {
     this->dataPtr->artifactsIter = this->dataPtr->artifacts.begin();
