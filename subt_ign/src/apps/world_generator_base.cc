@@ -122,21 +122,44 @@ bool WorldGeneratorBase::IntersectionCheck(WorldSection &_section,
             // connection point, it could be a valid intersection between tiles
             // since the meshes are designed to overlap a little to reduce gaps
             double dist = (region.Center() - so).Length();
-            if (dist < 30)
+            if (this->worldType == "Cave")
             {
-              // make sure the overlapping region is small
-              double volume = region.XLength() * region.YLength()
-                  * region.ZLength();
-
-              double maxOverlapVolume = 1000;
-              if (section.tileType == CAVE_TYPE_B)
-                maxOverlapVolume = 1800;
-              if (volume < maxOverlapVolume)
+              if (dist < 15)
               {
-                overlapAtConnection = true;
-                break;
+                // make sure the overlapping region is small
+                double volume = region.XLength() * region.YLength()
+                    * region.ZLength();
+
+                double maxOverlapVolume = 1000;
+                if (section.tileType == CAVE_TYPE_B)
+                  maxOverlapVolume = 1800;
+                if (volume < maxOverlapVolume)
+                {
+                  overlapAtConnection = true;
+                  break;
+                }
               }
             }
+            if (this->worldType == "Tunnel")
+            {
+              if (dist < 5)
+              {
+                // make sure the overlapping region is small
+                double volume = region.XLength() * region.YLength()
+                    * region.ZLength();
+                double maxOverlapVolume = 100;
+                if (volume < maxOverlapVolume)
+                {
+                  overlapAtConnection = true;
+                  break;
+                }
+              }
+            }
+            else if (this->worldType == "Urban")
+            {
+
+            }
+            // TODO for Urban circuit
           }
 
           if (!overlapAtConnection)
@@ -227,9 +250,12 @@ void WorldGenerator::LoadTiles()
   // filter tiles
   for (const auto &t : subt::ConnectionHelper::connectionPoints)
   {
-    // Ignore all tiles not from world type
-    if (t.first.find(this->worldType) == std::string::npos)
+    // Add starting area if tunnel circuit
+    if (this->worldType == "Tunnel" && t.first.find("tunnel") != std::string::npos)
+    {
+      this->tileConnectionPoints[t.first] = t.second;
       continue;
+    }
 
     // ignore lights
     if (t.first.find("Lights") != std::string::npos)
@@ -239,138 +265,16 @@ void WorldGenerator::LoadTiles()
     if (t.first.find("30") != std::string::npos)
       continue;
 
-    this->tileConnectionPoints[t.first] = t.second;
-  }
-
-  // fetch model and find the mesh file so we can load it and compute
-  // bounding box data which are used for intersection checks
-  std::cout << "Computing tile bounding box info. "
-            << "This may take a while if models need to be downloaded."
-            << std::endl;
-
-  fuel_tools::ClientConfig config;
-  auto fuelClient = std::make_unique<fuel_tools::FuelClient>(config);
-
-  std::string baseUri = "https://fuel.ignitionrobotics.org/OpenRobotics/models";
-
-  for (const auto &t : tileConnectionPoints)
-  {
-    std::string tileType = t.first;
-    if (tileType.find("Lights") != std::string::npos)
+    // Ignore disjointed tunnel tiles
+    if (t.first.find("Tunnel Tile 3") != std::string::npos)
       continue;
 
-    common::URI modelUri;
-    std::string fullUri = common::joinPaths(baseUri, tileType);
-    modelUri.Parse(fullUri);
-
-    std::string path;
-    auto result = fuelClient->CachedModel(modelUri, path);
-    if (result.Type() == fuel_tools::ResultType::FETCH_ERROR)
-    {
-      std::cout << "Unable to find tile in local cache. Downloading: "
-                << tileType << std::endl;
-
-      auto result2 = fuelClient->DownloadModel(modelUri, path);
-      if (result2.Type() == fuel_tools::ResultType::FETCH_ERROR)
-      {
-        std::cerr << "Failed to download tile from fuel: " << tileType
-                  << tileType << std::endl;
-
-      }
+    if (t.first.find("Tunnel Tile 4") != std::string::npos)
       continue;
-    }
 
-    // find the first dae mesh in the meshes dir
-    std::string meshPath = common::joinPaths(path, "meshes");
-    std::string resourcePath;
-    for (common::DirIter file(meshPath); file != common::DirIter(); ++file)
-    {
-      std::string current(*file);
-      if (current.substr(current.size() - 4) == ".dae")
-      {
-        resourcePath = current;
-      }
-    }
-    if (resourcePath.empty())
-    {
-      std::cerr << "Unable to find file with .dae extension in dir: "
-                << meshPath << std::endl;
-      continue;
-    }
-
-    // load dae and compute bbox
-    common::MeshManager *meshManager = common::MeshManager::Instance();
-    const common::Mesh *mesh = meshManager->Load(resourcePath);
-    math::AxisAlignedBox bbox = math::AxisAlignedBox(mesh->Min(), mesh->Max());
-
-    // special case for starting area
-    if (tileType == "Cave Starting Area Type B")
-    {
-      bbox = transformAxisAlignedBox(
-          bbox, math::Pose3d(0, 0, 0, 0, 0, IGN_PI/2));
-    }
-    // TODO VERIFY
-    if (tileType == "Urban Starting Area")
-    {
-      bbox = transformAxisAlignedBox(
-          bbox, math::Pose3d(0, 0, 0, 0, 0, IGN_PI/2));
-    }
-    if (tileType == "subt_tunnel_staging_area")
-    {
-      bbox = transformAxisAlignedBox(
-          bbox, math::Pose3d(0, 0, 0, 0, 0, IGN_PI/2));
-    }
-    this->tileBoundingBoxes[tileType] = bbox;
-  }
-}
-
-//////////////////////////////////////////////////
-WorldSection WorldGenerator::SelectWorldSection(TileType &_tileType)
-{
-  int r = rand() % this->worldSections.size();
-  // TODO remove maxAttempts <- while loop should almost surely not be infinitely recursive 
-  int maxAttempts = 10;
-  WorldSection s = this->worldSections[r];
-
-  while(s.tileType != _tileType && maxAttempts-- > 0)
-  {
-    r = rand() % this->worldSections.size();
-    s = this->worldSections[r];
-  }
-  
-  return s; 
-}
-
-//////////////////////////////////////////////////
-void WorldGeneratorDebug::SetTileName(const std::string &_tile)
-{
-  this->tileName = _tile;
-}
-
-//////////////////////////////////////////////////
-void WorldGeneratorDebug::LoadTiles()
-{
-  // filter tiles
-  for (const auto &t : subt::ConnectionHelper::connectionPoints)
-  {
-    // Ignore all other sub-domains
-    if (t.first.find(this->worldType) == std::string::npos)
-      continue;
-     
-    std::cout << "Loading: " << t.first << std::endl;
-    this->tileConnectionPoints[t.first] = t.second;
-
-    // Cave/Urban Starting area
-    if (t.first.find("Starting") != std::string::npos && t.first.find(this->worldType) != std::string::npos)
-    {
-      std::cout << "Loading: " << t.first << std::endl;
+    // Ignore all tiles not from world type
+    if (t.first.find(this->worldType) != std::string::npos)
       this->tileConnectionPoints[t.first] = t.second;
-    }
-    if (t.first.find("staging") != std::string::npos && t.first.find(this->worldType) != std::string::npos)
-    {
-      std::cout << "Loading: " << t.first << std::endl;
-      this->tileConnectionPoints[t.first] = t.second;
-    }  
   }
 
   // fetch model and find the mesh file so we can load it and compute
@@ -421,6 +325,10 @@ void WorldGeneratorDebug::LoadTiles()
       {
         resourcePath = current;
       }
+      else if (current.substr(current.size() - 4) == ".obj")
+      {
+        resourcePath = current;
+      }
     }
     if (resourcePath.empty())
     {
@@ -433,6 +341,166 @@ void WorldGeneratorDebug::LoadTiles()
     common::MeshManager *meshManager = common::MeshManager::Instance();
     const common::Mesh *mesh = meshManager->Load(resourcePath);
     math::AxisAlignedBox bbox = math::AxisAlignedBox(mesh->Min(), mesh->Max());
+
+    // special case for starting area
+    if (tileType == "Cave Starting Area Type B")
+    {
+      bbox = transformAxisAlignedBox(
+          bbox, math::Pose3d(0, 0, 0, 0, 0, IGN_PI/2));
+    }
+    if (tileType == "Urban Starting Area")
+    {
+      bbox = transformAxisAlignedBox(
+          bbox, math::Pose3d(0, 0, 0, 0, 0, IGN_PI/2));
+    }
+    if (tileType == "subt_tunnel_staging_area")
+    {
+      // Need to correct tunnel starting area bounding box (currently like a plane)
+      // TODO Adjust common::Mesh to correct mesh min/max values
+      bbox = math::AxisAlignedBox(-13.75, 12.5, 0, 10, -5, 20); //   
+      bbox = transformAxisAlignedBox(
+          bbox, math::Pose3d(0, 0, 0, 0, 0, IGN_PI/2));
+    }
+    this->tileBoundingBoxes[tileType] = bbox;
+  }
+}
+
+//////////////////////////////////////////////////
+WorldSection WorldGenerator::SelectWorldSection(TileType &_tileType)
+{
+  int r = rand() % this->worldSections.size();
+  // TODO remove maxAttempts <- while loop should almost surely not be infinitely recursive 
+  int maxAttempts = 10;
+  WorldSection s = this->worldSections[r];
+
+  while(s.tileType != _tileType && maxAttempts-- > 0)
+  {
+    r = rand() % this->worldSections.size();
+    s = this->worldSections[r];
+  }
+  
+  return s; 
+}
+
+//////////////////////////////////////////////////
+void WorldGeneratorDebug::SetTileName(const std::string &_tile)
+{
+  this->tileName = _tile;
+}
+
+//////////////////////////////////////////////////
+void WorldGeneratorDebug::LoadTiles()
+{
+  // filter tiles
+  for (const auto &t : subt::ConnectionHelper::connectionPoints)
+  {
+    // Add starting area if tunnel circuit
+    if (this->worldType == "Tunnel" && t.first.find("tunnel") != std::string::npos)
+    {
+      std::cout << "Loading: " << t.first << std::endl;
+      this->tileConnectionPoints[t.first] = t.second;
+    }
+
+    // If Cave Type A tile add transition tile
+    if (this->tileName.find("Type A") != std::string::npos && t.first.find("Transition") != std::string::npos)
+    {
+      std::cout << "Loading: " << t.first << std::endl;
+      this->tileConnectionPoints[t.first] = t.second;
+    }
+
+    // If Urban Subway tile add transition tile
+    // TODO
+    // if (this->worldType == "Urban" && t.first.find(""))
+    // Ignore all tiles except needed tile name
+    if (this->tileName.find(t.first) == std::string::npos)
+      continue;
+
+    std::cout << "Loading: " << t.first << std::endl;
+    this->tileConnectionPoints[t.first] = t.second; 
+  }
+
+  // fetch model and find the mesh file so we can load it and compute
+  // bounding box data which are used for intersection checks
+  std::cout << "Computing tile bounding box info. "
+            << "This may take a while if models need to be downloaded."
+            << std::endl;
+
+  fuel_tools::ClientConfig config;
+  auto fuelClient = std::make_unique<fuel_tools::FuelClient>(config);
+
+  std::string baseUri = "https://fuel.ignitionrobotics.org/openrobotics/models";
+
+  for (const auto &t : tileConnectionPoints)
+  {
+    std::string tileType = t.first;
+    if (tileType.find("Lights") != std::string::npos)
+      continue;
+
+    common::URI modelUri;
+    std::string fullUri = common::joinPaths(baseUri, tileType);
+    modelUri.Parse(fullUri);
+
+    std::string path;
+    auto result = fuelClient->CachedModel(modelUri, path);
+    if (result.Type() == fuel_tools::ResultType::FETCH_ERROR)
+    {
+      std::cout << "Unable to find tile in local cache. Downloading: "
+                << tileType << std::endl;
+
+      auto result2 = fuelClient->DownloadModel(modelUri, path);
+      if (result2.Type() == fuel_tools::ResultType::FETCH_ERROR)
+      {
+        std::cerr << "Failed to download tile from fuel: " << tileType
+                  << tileType << std::endl;
+
+      }
+      continue;
+    }
+
+    // find the first dae mesh in the meshes dir
+    std::string meshPath = common::joinPaths(path, "meshes");
+    std::string resourcePath;
+    for (common::DirIter file(meshPath); file != common::DirIter(); ++file)
+    {
+      std::string current(*file);
+      if (current.substr(current.size() - 4) == ".dae")
+      {
+        resourcePath = current;
+      }
+      else if (current.substr(current.size() - 4) == ".obj")
+      {
+        resourcePath = current;
+      }
+    }
+    if (resourcePath.empty())
+    {
+      std::cerr << "Unable to find file with .dae extension in dir: "
+                << meshPath << std::endl;
+      continue;
+    }
+
+    // load dae and compute bbox
+    common::MeshManager *meshManager = common::MeshManager::Instance();
+    const common::Mesh *mesh = meshManager->Load(resourcePath);
+    math::AxisAlignedBox bbox = math::AxisAlignedBox(mesh->Min(), mesh->Max());
+
+    // special case for starting area
+    if (tileType == "Cave Starting Area Type B")
+    {
+      bbox = transformAxisAlignedBox(
+          bbox, math::Pose3d(0, 0, 0, 0, 0, IGN_PI/2));
+    }
+    // TODO VERIFY
+    if (tileType == "Urban Starting Area")
+    {
+      bbox = transformAxisAlignedBox(
+          bbox, math::Pose3d(0, 0, 0, 0, 0, IGN_PI/2));
+    }
+    if (tileType == "subt_tunnel_staging_area")
+    {
+      bbox = transformAxisAlignedBox(
+          bbox, math::Pose3d(0, 0, 0, 0, 0, IGN_PI/2));
+    }
 
     this->tileBoundingBoxes[tileType] = bbox;
   }
