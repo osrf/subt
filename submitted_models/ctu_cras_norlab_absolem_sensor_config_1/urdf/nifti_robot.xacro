@@ -259,6 +259,7 @@
 	<xacro:arg name="has_realsense_d435" default="0" />
 	<xacro:arg name="has_realsense_t265" default="0" />
 	<xacro:arg name="has_jetson" default="0" />
+	<xacro:arg name="has_mote_deployer" default="0" />
 
 	<xacro:arg name="num_cliff_sensors" default="0" />
 
@@ -413,6 +414,9 @@
 	</xacro:if>
 	<xacro:if value="$(arg has_ouster_lidar)">
 		<xacro:include filename="$(find ctu_cras_norlab_absolem_sensor_config_1)/urdf/ouster_lidar.xacro" />
+	</xacro:if>
+	<xacro:if value="$(arg has_mote_deployer)">
+		<xacro:include filename="$(find ctu_cras_norlab_absolem_sensor_config_1)/urdf/mote_deployer.xacro" />
 	</xacro:if>
 
 	<!-- NIFTI ROBOT LINKS AND JOINTS SPECIFICATION -->
@@ -840,7 +844,7 @@
 			</inertial>
 	</link>
 	<xacro:if value="${'$(arg revision)' == '2021'}">
-		<xacro:fixed_joint name="antenna_j" parent="$(arg prefix)base_link" child="$(arg prefix)antenna" xyz="${-$(arg rover_robotLengthBody)/2 + 0.05} 0.0789 0.1551" rpy="0 0 0" />
+		<xacro:fixed_joint name="antenna_j" parent="$(arg prefix)base_link" child="$(arg prefix)antenna" xyz="${-$(arg rover_robotLengthBody)/2 + 0.12} 0.0789 0.1551" rpy="0 0 0" />
 	</xacro:if>
 	<xacro:unless value="${'$(arg revision)' == '2021'}">
 		<xacro:fixed_joint name="antenna_j" parent="$(arg prefix)base_link" child="$(arg prefix)antenna" xyz="-0.3720 0.0789 0.1551" rpy="0 0 0" />
@@ -1622,6 +1626,13 @@
 							   xyz="$(arg cliff_sensor_3_x) $(arg cliff_sensor_3_y) 0.0185" rpy="0 ${pi/2} $(arg cliff_sensor_3_yaw)" />
 		</xacro:if>
 	</xacro:if>
+
+	<!-- Mote deployer -->
+    <xacro:if value="$(arg has_mote_deployer)">
+        <!-- The link is included automatically in the payload xacro -->
+        <xacro:fixed_joint name="mote_deployer_j" parent="$(arg prefix)rear_right_box" child="$(arg prefix)mote_deployer"
+            xyz="0.09 0.16 -0.01" rpy="0 0 ${pi}" />
+    </xacro:if>
 
     <xacro:macro name="stiff_joint_tags">
         <stopCfm value="0" />

@@ -3,15 +3,15 @@
   <model name="ctu_cras_norlab_absolem_sensor_config_1">
     <link name="base_link">
       <inertial>
-        <pose>-0.028015 0.002512 0.162276 0 -0 0</pose>
-        <mass>22.1142</mass>
+        <pose>-0.033797 0.003861 0.164006 0 -0 0</pose>
+        <mass>22.6142</mass>
         <inertia>
-          <ixx>0.120878</ixx>
-          <ixy>0.00951111</ixy>
-          <ixz>-0.0546062</ixz>
-          <iyy>0.188498</iyy>
-          <iyz>-0.00146161</iyz>
-          <izz>0.124747</izz>
+          <ixx>0.126621</ixx>
+          <ixy>0.017313</ixy>
+          <ixz>-0.0446051</ixz>
+          <iyy>0.227125</iyy>
+          <iyz>-0.00379556</iyz>
+          <izz>0.161703</izz>
         </inertia>
       </inertial>
       <collision name="base_link_collision">
@@ -106,7 +106,15 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__rear_sensor_item_collision_11">
+      <collision name="base_link_fixed_joint_lump__mote_deployer_collision_11">
+        <pose>-0.2895 0.063535 0.2405 0 0 -3.1415926535897931</pose>
+        <geometry>
+          <box>
+            <size>0.189 0.072 0.131</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="base_link_fixed_joint_lump__rear_sensor_item_collision_12">
         <pose>-0.185 -0.100465 0.235 0 -0 0</pose>
         <geometry>
           <box>
@@ -114,7 +122,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__mobilicom_collision_12">
+      <collision name="base_link_fixed_joint_lump__mobilicom_collision_13">
         <pose>-0.114998 -0.077965 0.234837 1.5758 -0 3.1415926535897931</pose>
         <geometry>
           <box>
@@ -122,7 +130,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__mobilicom_antenna_l_collision_13">
+      <collision name="base_link_fixed_joint_lump__mobilicom_antenna_l_collision_14">
         <pose>-0.241261 -0.112864 0.283984 1.06679 -0.002995 -0.641659</pose>
         <geometry>
           <cylinder>
@@ -131,7 +139,7 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__mobilicom_antenna_r_collision_14">
+      <collision name="base_link_fixed_joint_lump__mobilicom_antenna_r_collision_15">
         <pose>-0.260464 -0.098887 0.209942 1.56871 -0.00455 -1.14166</pose>
         <geometry>
           <cylinder>
@@ -140,7 +148,7 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__top_box_collision_15">
+      <collision name="base_link_fixed_joint_lump__top_box_collision_16">
         <pose>0.0915 0 0.2165 0 -0 0</pose>
         <geometry>
           <box>
@@ -148,7 +156,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__top_box_collision_16">
+      <collision name="base_link_fixed_joint_lump__top_box_collision_17">
         <pose>0.0515 0.09 0.254 0 -0 0</pose>
         <geometry>
           <box>
@@ -156,7 +164,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__top_box_collision_17">
+      <collision name="base_link_fixed_joint_lump__top_box_collision_18">
         <pose>0.10624 -0.08352 0.26496 0 -0 0</pose>
         <geometry>
           <box>
@@ -164,7 +172,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__omnicam_collision_18">
+      <collision name="base_link_fixed_joint_lump__omnicam_collision_19">
         <pose>0.083191 0.00055 0.3172 0 0 -0.628319</pose>
         <geometry>
           <cylinder>
@@ -196,7 +204,15 @@
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__rear_sensor_item_visual_3">
+      <visual name="base_link_fixed_joint_lump__mote_deployer_visual_3">
+        <pose>-0.205 0.039535 0.175 0 0 -3.1415926535897931</pose>
+        <geometry>
+          <mesh>
+            <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/CTU_CRAS_NORLAB_ABSOLEM_SENSOR_CONFIG_1/tip/files/meshes/mote_deployer.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="base_link_fixed_joint_lump__rear_sensor_item_visual_4">
         <pose>-0.185 -0.100465 0.235 0 -0 0</pose>
         <geometry>
           <box>
@@ -204,7 +220,7 @@
           </box>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__mobilicom_visual_4">
+      <visual name="base_link_fixed_joint_lump__mobilicom_visual_5">
         <pose>-0.164999 -0.090462 0.2349 1.5758 -0 3.1415926535897931</pose>
         <geometry>
           <mesh>
@@ -212,7 +228,7 @@
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__mobilicom_antenna_l_visual_5">
+      <visual name="base_link_fixed_joint_lump__mobilicom_antenna_l_visual_6">
         <pose>-0.241261 -0.112864 0.283984 1.06679 -0.002995 -0.641659</pose>
         <geometry>
           <cylinder>
@@ -221,7 +237,7 @@
           </cylinder>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__mobilicom_antenna_r_visual_6">
+      <visual name="base_link_fixed_joint_lump__mobilicom_antenna_r_visual_7">
         <pose>-0.260464 -0.098887 0.209942 1.56871 -0.00455 -1.14166</pose>
         <geometry>
           <cylinder>
@@ -230,7 +246,7 @@
           </cylinder>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__top_box_visual_7">
+      <visual name="base_link_fixed_joint_lump__top_box_visual_8">
         <pose>0.0915 0 0.185 0 -0 0</pose>
         <geometry>
           <mesh>
@@ -238,7 +254,7 @@
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__omnicam_visual_8">
+      <visual name="base_link_fixed_joint_lump__omnicam_visual_9">
         <pose>0.0865 0 0.3142 0 0 -0.628319</pose>
         <geometry>
           <mesh>
@@ -246,7 +262,7 @@
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__ouster_holder_visual_9">
+      <visual name="base_link_fixed_joint_lump__ouster_holder_visual_10">
         <pose>0.0865 0 0.3932 0 -0 0.628</pose>
         <geometry>
           <mesh>
