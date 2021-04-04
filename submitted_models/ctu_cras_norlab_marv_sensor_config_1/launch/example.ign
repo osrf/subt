@@ -7,7 +7,7 @@
 
 <%
   #require_relative 'spawner'
-  _base_dir = defined?(base_dir) ? base_dir.tr('"', '') : File.join(File.dirname(__FILE__), "..")
+  _base_dir = defined?(base_dir) ? base_dir.tr('"', '') : File.realpath(File.join(File.dirname(__FILE__), ".."))
   load File.join(_base_dir, "launch", "spawner.rb")
 
   # Modify these as needed

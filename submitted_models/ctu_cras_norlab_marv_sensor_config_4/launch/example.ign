@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <%
   base_launch = `rospack find ctu_cras_norlab_marv_sensor_config_1`.chomp + "/launch"
-  base_dir = File.join(File.dirname(__FILE__), "..")
+  base_dir = File.realpath(File.join(File.dirname(__FILE__), ".."))
 
   ros_param=''
   if defined?(ros) and ros
