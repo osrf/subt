@@ -79,7 +79,7 @@
         </geometry>
       </collision>
       <collision name="base_link_fixed_joint_lump__antenna_collision_8">
-        <pose>-0.39064 0.0789 0.1551 3.1415926535897931 1.5707963267948966 3.1415926535897931</pose>
+        <pose>-0.39064 0.0789 0.1551 0 1.5707963267948966 0</pose>
         <geometry>
           <cylinder>
             <length>0.03718</length>
@@ -235,7 +235,7 @@
         </geometry>
       </visual>
       <visual name="base_link_fixed_joint_lump__imu_visual_3">
-        <pose>0 0 0.15 -3.1415926535897931 -0 0</pose>
+        <pose>0 0 0.15 -3.1415926535897931 0 0</pose>
         <geometry>
           <box>
             <size>0.005 0.005 0.005</size>
@@ -341,7 +341,7 @@
         </geometry>
       </visual>
       <visual name="base_link_fixed_joint_lump__camera_2_visual_16">
-        <pose>-0.01735 -0.055429 0.314721 -1.5725 0.00415 1.56975</pose>
+        <pose>-0.01735 -0.055429 0.314721 -1.5725 0.00415 1.56974</pose>
         <geometry>
           <box>
             <size>0.005 0.005 0.005</size>
@@ -349,7 +349,7 @@
         </geometry>
       </visual>
       <visual name="base_link_fixed_joint_lump__camera_2_sim_visual_17">
-        <pose>-0.01735 -0.055429 0.314721 -0.001705 0.00415 1.56975</pose>
+        <pose>-0.01735 -0.055429 0.314721 -0.001705 0.00415 1.56974</pose>
         <geometry>
           <box>
             <size>0.005 0.005 0.005</size>
@@ -397,7 +397,7 @@
         </geometry>
       </visual>
       <visual name="base_link_fixed_joint_lump__camera_5_sim_visual_23">
-        <pose>0.024083 -0.058382 0.376328 3.1415926535897931 -1.5707963267948966 0.945143</pose>
+        <pose>0.024083 -0.058382 0.376328 -2.19645 -1.5707963267948966 0</pose>
         <geometry>
           <box>
             <size>0.005 0.005 0.005</size>
@@ -474,7 +474,7 @@
         </geometry>
       </visual>
       <visual name="base_link_fixed_joint_lump__camera_link_visual_32">
-        <pose>0.133719 -0.010853 0.422031 2.07031 -0.013168 1.56329</pose>
+        <pose>0.133719 -0.010853 0.422031 2.07031 -0.013167 1.56329</pose>
         <geometry>
           <mesh>
             <uri>meshes/realsense_d435.dae</uri>
@@ -639,77 +639,77 @@
         <always_on>1</always_on>
         <update_rate>50</update_rate>
         <imu>
-                    <angular_velocity>
-                        <x>
-                            <noise type="gaussian">
-                                <mean>0</mean>
-                                <stddev>0.009</stddev>
-                                <bias_mean>0.00075</bias_mean>
-                                <bias_stddev>0.005</bias_stddev>
-                                <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
-                                <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
-                                <precision>0.00025</precision>
-                            </noise>
-                        </x>
-                        <y>
-                            <noise type="gaussian">
-                                <mean>0</mean>
-                                <stddev>0.009</stddev>
-                                <bias_mean>0.00075</bias_mean>
-                                <bias_stddev>0.005</bias_stddev>
-                                <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
-                                <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
-                                <precision>0.00025</precision>
-                            </noise>
-                        </y>
-                        <z>
-                            <noise type="gaussian">
-                                <mean>0</mean>
-                                <stddev>0.009</stddev>
-                                <bias_mean>0.00075</bias_mean>
-                                <bias_stddev>0.005</bias_stddev>
-                                <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
-                                <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
-                                <precision>0.00025</precision>
-                            </noise>
-                        </z>
-                    </angular_velocity>
-                    <linear_acceleration>
-                        <x>
-                            <noise type="gaussian">
-                                <mean>0</mean>
-                                <stddev>0.021</stddev>
-                                <bias_mean>0.05</bias_mean>
-                                <bias_stddev>0.0075</bias_stddev>
-                                <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
-                                <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
-                                <precision>0.005</precision>
-                            </noise>
-                        </x>
-                        <y>
-                            <noise type="gaussian">
-                                <mean>0</mean>
-                                <stddev>0.021</stddev>
-                                <bias_mean>0.05</bias_mean>
-                                <bias_stddev>0.0075</bias_stddev>
-                                <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
-                                <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
-                                <precision>0.005</precision>
-                            </noise>
-                        </y>
-                        <z>
-                            <noise type="gaussian">
-                                <mean>0</mean>
-                                <stddev>0.021</stddev>
-                                <bias_mean>0.05</bias_mean>
-                                <bias_stddev>0.0075</bias_stddev>
-                                <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
-                                <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
-                                <precision>0.005</precision>
-                            </noise>
-                        </z>
-                    </linear_acceleration>
-                </imu>
+          <angular_velocity>
+            <x>
+              <noise type="gaussian">
+                <mean>0</mean>
+                <stddev>0.009</stddev>
+                <bias_mean>0.00075</bias_mean>
+                <bias_stddev>0.005</bias_stddev>
+                <dynamic_bias_stddev>2e-05</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>400</dynamic_bias_correlation_time>
+                <precision>0.00025</precision>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0</mean>
+                <stddev>0.009</stddev>
+                <bias_mean>0.00075</bias_mean>
+                <bias_stddev>0.005</bias_stddev>
+                <dynamic_bias_stddev>2e-05</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>400</dynamic_bias_correlation_time>
+                <precision>0.00025</precision>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0</mean>
+                <stddev>0.009</stddev>
+                <bias_mean>0.00075</bias_mean>
+                <bias_stddev>0.005</bias_stddev>
+                <dynamic_bias_stddev>2e-05</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>400</dynamic_bias_correlation_time>
+                <precision>0.00025</precision>
+              </noise>
+            </z>
+          </angular_velocity>
+          <linear_acceleration>
+            <x>
+              <noise type="gaussian">
+                <mean>0</mean>
+                <stddev>0.021</stddev>
+                <bias_mean>0.05</bias_mean>
+                <bias_stddev>0.0075</bias_stddev>
+                <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>175</dynamic_bias_correlation_time>
+                <precision>0.005</precision>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0</mean>
+                <stddev>0.021</stddev>
+                <bias_mean>0.05</bias_mean>
+                <bias_stddev>0.0075</bias_stddev>
+                <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>175</dynamic_bias_correlation_time>
+                <precision>0.005</precision>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0</mean>
+                <stddev>0.021</stddev>
+                <bias_mean>0.05</bias_mean>
+                <bias_stddev>0.0075</bias_stddev>
+                <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>175</dynamic_bias_correlation_time>
+                <precision>0.005</precision>
+              </noise>
+            </z>
+          </linear_acceleration>
+        </imu>
         <pose>0 0 0.15 -3.1415926535897931 -0 0</pose>
       </sensor>
       <sensor name="omnicam_sensor0" type="camera">
@@ -996,7 +996,7 @@
       </sensor>
     </link>
     <link name="laser">
-      <pose>0.2502 0 0.1407 -3.1415926535897931 -0 0</pose>
+      <pose>0.2502 0 0.1407 -3.1415926535897931 0 0</pose>
       <inertial>
         <pose>0 0 -0.04 0 -0 0</pose>
         <mass>1.1</mass>
@@ -1179,7 +1179,7 @@
         </surface>
       </collision>
       <visual name="front_left_flipper_visual">
-        <pose>0 0 0 -2.95744 0 1.5707963267948966</pose>
+        <pose>0 0 0 -2.95743 -0 1.5707963267948966</pose>
         <geometry>
           <mesh>
             <uri>meshes/flipper.dae</uri>
@@ -1986,7 +1986,7 @@
         </surface>
       </collision>
       <visual name="rear_left_flipper_visual">
-        <pose>0 0 0 -2.95744 0 1.5707963267948966</pose>
+        <pose>0 0 0 -2.95743 -0 1.5707963267948966</pose>
         <geometry>
           <mesh>
             <uri>meshes/flipper.dae</uri>
@@ -2408,7 +2408,7 @@
         </surface>
       </collision>
       <visual name="front_right_flipper_visual">
-        <pose>0 0 0 -2.95744 -0 -1.5707963267948966</pose>
+        <pose>0 0 0 -2.95743 -0 -1.5707963267948966</pose>
         <geometry>
           <mesh>
             <uri>meshes/flipper.dae</uri>
@@ -2759,7 +2759,7 @@
         </surface>
       </collision>
       <visual name="rear_right_flipper_visual">
-        <pose>0 0 0 -2.95744 -0 -1.5707963267948966</pose>
+        <pose>0 0 0 -2.95743 -0 -1.5707963267948966</pose>
         <geometry>
           <mesh>
             <uri>meshes/flipper.dae</uri>
