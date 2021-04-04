@@ -1,0 +1,1013 @@
+<?xml version="1.0"?>
+<sdf version='1.6'>
+  <model name='ctu_cras_norlab_x500_sensor_config_1'>
+    <link name='base_link'>
+
+      <sensor name="front_laser" type="gpu_lidar">
+        <pose>0 0 0.0944 0 0 0</pose>
+        <update_rate>20</update_rate>
+        <lidar>
+          <scan>
+            <horizontal>
+              <samples>1024</samples>
+              <resolution>1</resolution>
+              <min_angle>-3.14159</min_angle>
+              <max_angle>3.14159</max_angle>
+            </horizontal>
+            <vertical>
+              <samples>64</samples>
+              <resolution>1</resolution>
+              <min_angle>-0.785398163397</min_angle>
+              <max_angle>0.785398163397</max_angle>
+            </vertical>
+          </scan>
+          <range>
+            <min>0.1</min>
+            <max>50</max>
+            <resolution>0.003</resolution>
+          </range>
+          <noise>
+              <type>gaussian</type>
+              <mean>0</mean>
+              <stddev>0.03</stddev>
+          </noise>
+        </lidar>
+      </sensor>
+
+      <sensor name="rs_up" type="rgbd_camera">
+          <pose>0.82 0 0.034 0 -1.57079632679 0</pose>
+          <always_on>1</always_on>
+          <update_rate>30</update_rate>
+          <camera name="rs_up">
+              <horizontal_fov>1.50098</horizontal_fov>
+              <lens>
+                  <intrinsics>
+                      <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+                      <fx>343.158</fx>
+                      <fy>343.158</fy>
+                      <!-- cx = ( width - 1 ) / 2 -->
+                      <cx>319.5</cx>
+                      <!-- cy = ( height - 1 ) / 2 -->
+                      <cy>179.5</cy>
+                      <s>0</s>
+                  </intrinsics>
+              </lens>
+              <distortion>
+                  <k1>0.0</k1>
+                  <k2>0.0</k2>
+                  <k3>0.0</k3>
+                  <p1>0.0</p1>
+                  <p2>0.0</p2>
+                  <center>0.5 0.5</center>
+              </distortion>
+              <image>
+                  <width>640</width>
+                  <height>360</height>
+                  <format>R8G8B8</format>
+              </image>
+              <clip>
+                  <near>0.01</near>
+                  <far>300</far>
+              </clip>
+              <depth_camera>
+                <clip>
+                  <near>0.1</near>
+                  <far>10</far>
+                </clip>
+              </depth_camera>
+              <noise>
+                  <type>gaussian</type>
+                  <mean>0</mean>
+                  <stddev>0.007</stddev>
+              </noise>
+          </camera>
+      </sensor>
+
+      <sensor name="rs_down" type="rgbd_camera">
+          <pose>0.85 0 -0.20 0 1.57079632679 0</pose>
+          <always_on>1</always_on>
+          <update_rate>30</update_rate>
+          <camera name="rs_down">
+              <horizontal_fov>1.50098</horizontal_fov>
+              <lens>
+                  <intrinsics>
+                      <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+                      <fx>343.158</fx>
+                      <fy>343.158</fy>
+                      <!-- cx = ( width - 1 ) / 2 -->
+                      <cx>319.5</cx>
+                      <!-- cy = ( height - 1 ) / 2 -->
+                      <cy>179.5</cy>
+                      <s>0</s>
+                  </intrinsics>
+              </lens>
+              <distortion>
+                  <k1>0.0</k1>
+                  <k2>0.0</k2>
+                  <k3>0.0</k3>
+                  <p1>0.0</p1>
+                  <p2>0.0</p2>
+                  <center>0.5 0.5</center>
+              </distortion>
+              <image>
+                  <width>640</width>
+                  <height>360</height>
+                  <format>R8G8B8</format>
+              </image>
+              <clip>
+                  <near>0.01</near>
+                  <far>300</far>
+              </clip>
+              <depth_camera>
+                <clip>
+                  <near>0.1</near>
+                  <far>10</far>
+                </clip>
+              </depth_camera>
+              <noise>
+                  <type>gaussian</type>
+                  <mean>0</mean>
+                  <stddev>0.007</stddev>
+              </noise>
+          </camera>
+      </sensor>
+
+      <sensor name="camera_front" type="camera">
+          <pose>0.107 0 0.0 0 0 0</pose>
+          <always_on>1</always_on>
+          <update_rate>60</update_rate>
+          <camera name="camera_front">
+              <horizontal_fov>1.7012</horizontal_fov>
+              <lens>
+                  <intrinsics>
+                      <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+                      <fx>671.28</fx>
+                      <fy>671.28</fy>
+                      <!-- cx = ( width - 1 ) / 2 -->
+                      <cx>799.5</cx>
+                      <!-- cy = ( height - 1 ) / 2 -->
+                      <cy>599.5</cy>
+                      <s>0</s>
+                  </intrinsics>
+              </lens>
+              <distortion>
+                  <k1>0.0</k1>
+                  <k2>0.0</k2>
+                  <k3>0.0</k3>
+                  <p1>0.0</p1>
+                  <p2>0.0</p2>
+                  <center>0.5 0.5</center>
+              </distortion>
+              <image>
+                  <width>1600</width>
+                  <height>1200</height>
+                  <format>R8G8B8</format>
+              </image>
+              <clip>
+                  <near>0.01</near>
+                  <far>300</far>
+              </clip>
+              <noise>
+                  <type>gaussian</type>
+                  <mean>0</mean>
+                  <stddev>0.007</stddev>
+              </noise>
+          </camera>
+      </sensor>
+
+      <sensor name="imu_sensor" type="imu">
+          <always_on>1</always_on>
+          <update_rate>250</update_rate>
+              <imu>
+                  <angular_velocity>
+                      <x>
+                          <noise type="gaussian">
+                              <mean>0</mean>
+                              <stddev>0.009</stddev>
+                              <bias_mean>0.00075</bias_mean>
+                              <bias_stddev>0.005</bias_stddev>
+                              <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                              <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                              <precision>0.00025</precision>
+                          </noise>
+                      </x>
+                      <y>
+                          <noise type="gaussian">
+                              <mean>0</mean>
+                              <stddev>0.009</stddev>
+                              <bias_mean>0.00075</bias_mean>
+                              <bias_stddev>0.005</bias_stddev>
+                              <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                              <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                              <precision>0.00025</precision>
+                          </noise>
+                      </y>
+                      <z>
+                          <noise type="gaussian">
+                              <mean>0</mean>
+                              <stddev>0.009</stddev>
+                              <bias_mean>0.00075</bias_mean>
+                              <bias_stddev>0.005</bias_stddev>
+                              <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                              <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                              <precision>0.00025</precision>
+                          </noise>
+                      </z>
+                  </angular_velocity>
+                  <linear_acceleration>
+                      <x>
+                          <noise type="gaussian">
+                              <mean>0</mean>
+                              <stddev>0.021</stddev>
+                              <bias_mean>0.05</bias_mean>
+                              <bias_stddev>0.0075</bias_stddev>
+                              <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                              <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                              <precision>0.005</precision>
+                          </noise>
+                      </x>
+                      <y>
+                          <noise type="gaussian">
+                              <mean>0</mean>
+                              <stddev>0.021</stddev>
+                              <bias_mean>0.05</bias_mean>
+                              <bias_stddev>0.0075</bias_stddev>
+                              <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                              <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                              <precision>0.005</precision>
+                          </noise>
+                      </y>
+                      <z>
+                          <noise type="gaussian">
+                              <mean>0</mean>
+                              <stddev>0.021</stddev>
+                              <bias_mean>0.05</bias_mean>
+                              <bias_stddev>0.0075</bias_stddev>
+                              <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                              <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                              <precision>0.005</precision>
+                          </noise>
+                      </z>
+                  </linear_acceleration>
+              </imu>
+      </sensor>
+
+      <sensor name="air_pressure" type="air_pressure">
+          <always_on>1</always_on>
+          <update_rate>20</update_rate>
+          <air_pressure>
+              <reference_altitude>0</reference_altitude>
+              <noise type="gaussian">
+                  <mean>0.00000008</mean>
+              </noise>
+          </air_pressure>
+      </sensor>
+
+      <sensor name="magnetometer" type="magnetometer">
+          <always_on>1</always_on>
+          <update_rate>20</update_rate>
+          <magnetometer>
+              <x>
+                  <noise type="gaussian">
+                      <mean>0.000000080</mean>
+                      <bias_mean>0.000000400</bias_mean>
+                  </noise>
+              </x>
+              <y>
+                  <noise type="gaussian">
+                      <mean>0.000000080</mean>
+                      <bias_mean>0.000000400</bias_mean>
+                  </noise>
+              </y>
+              <z>
+                  <noise type="gaussian">
+                      <mean>0.000000080</mean>
+                      <bias_mean>0.000000400</bias_mean>
+                  </noise>
+              </z>
+          </magnetometer>
+      </sensor>
+
+      <light name="light_front_left" type="spot">
+        <pose>0.159099 0.152028 -0.0785 0 1.5708 2.35619</pose>
+        <attenuation>
+          <range>50</range>
+          <linear>0</linear>
+          <constant>0.1</constant>
+          <quadratic>0.0025</quadratic>
+        </attenuation>
+        <diffuse>0.8 0.8 0.5 1</diffuse>
+        <specular>0.8 0.8 0.5 1</specular>
+        <spot>
+          <inner_angle>2.8</inner_angle>
+          <outer_angle>2.9</outer_angle>
+          <falloff>1</falloff>
+        </spot>
+        <direction>1 0 0</direction>
+      </light>
+
+      <light name="light_front_right" type="spot">
+        <pose>0.159099 -0.152028 -0.0785 -1.5708 -0 2.35619</pose>
+        <attenuation>
+          <range>50</range>
+          <linear>0</linear>
+          <constant>0.1</constant>
+          <quadratic>0.0025</quadratic>
+        </attenuation>
+        <diffuse>0.8 0.8 0.5 1</diffuse>
+        <specular>0.8 0.8 0.5 1</specular>
+        <spot>
+          <inner_angle>2.8</inner_angle>
+          <outer_angle>2.9</outer_angle>
+          <falloff>1</falloff>
+        </spot>
+        <direction>1 0 0</direction>
+      </light>
+
+      <light name="top_light" type="spot">
+        <pose>0.05 0 0.059 0 3.14159 0</pose>
+        <attenuation>
+          <range>50</range>
+          <linear>0</linear>
+          <constant>0.1</constant>
+          <quadratic>0.0025</quadratic>
+        </attenuation>
+        <diffuse>0.8 0.8 0.5 1</diffuse>
+        <specular>0.8 0.8 0.5 1</specular>
+        <spot>
+          <inner_angle>2.8</inner_angle>
+          <outer_angle>2.9</outer_angle>
+          <falloff>1</falloff>
+        </spot>
+        <direction>1 0 0</direction>
+      </light>
+
+      <light name="bottom_light" type="spot">
+        <pose>0.03 0 -0.05 0 0 0</pose>
+        <attenuation>
+          <range>50</range>
+          <linear>0</linear>
+          <constant>0.1</constant>
+          <quadratic>0.0025</quadratic>
+        </attenuation>
+        <diffuse>0.8 0.8 0.5 1</diffuse>
+        <specular>0.8 0.8 0.5 1</specular>
+        <spot>
+          <inner_angle>2.8</inner_angle>
+          <outer_angle>2.9</outer_angle>
+          <falloff>1</falloff>
+        </spot>
+        <direction>1 0 0</direction>
+      </light>
+
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>3.3</mass>
+        <inertia>
+          <ixx>0.0316667</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.0316667</iyy>
+          <iyz>0</iyz>
+          <izz>0.0625</izz>
+        </inertia>
+      </inertial>
+      <collision name='base_link_inertia_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.18 0.14 0.12</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__bottom_light_link_collision_1'>
+        <pose>0.03 0 -0.05 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.01 0.1 0.003</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__top_light_link_collision_2'>
+        <pose>0.05 0 0.059 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.01 0.1 0.003</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__front_left_leg_clip_link_collision_3'>
+        <pose>0.162635 0.162635 -0.0785 0 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.157</length>
+            <radius>0.012</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__front_left_leg_light_link_collision_4'>
+        <pose>0.159099 0.152028 -0.0785 0 -0 2.35619</pose>
+        <geometry>
+          <box>
+            <size>0.003 0.01 0.145</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__front_right_leg_clip_link_collision_5'>
+        <pose>0.162635 -0.162635 -0.0785 0 0 -1.5708</pose>
+        <geometry>
+          <cylinder>
+            <length>0.157</length>
+            <radius>0.012</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__front_right_leg_light_link_collision_6'>
+        <pose>0.159099 -0.152028 -0.0785 0 -0 0.785398</pose>
+        <geometry>
+          <box>
+            <size>0.003 0.01 0.145</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__os_sensor_link_collision_7'>
+        <pose>0 0 0.0944 0 -0 1.5708</pose>
+        <geometry>
+          <cylinder>
+            <length>0.0735</length>
+            <radius>0.0425</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__rear_left_leg_clip_link_collision_8'>
+        <pose>-0.162635 0.162635 -0.0785 0 -0 1.5708</pose>
+        <geometry>
+          <cylinder>
+            <length>0.157</length>
+            <radius>0.012</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__rear_right_leg_clip_link_collision_9'>
+        <pose>-0.162635 -0.162635 -0.0785 0 0 -3.14159</pose>
+        <geometry>
+          <cylinder>
+            <length>0.157</length>
+            <radius>0.012</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__rs_up_holder_link_collision_10'>
+        <pose>0.085 0 0.032 -1.5708 -0 -1.5708</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/holder_rs_up.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__sensor_holder_link_collision_11'>
+        <pose>0 0 -0.022 1.5708 0 -1.5708</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/holder_rs_down_bfox.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='base_link_fixed_joint_lump__rs_up_visual_visual'>
+        <pose>0.082 0 0.034 -1.5708 0 1.5708</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/realsense.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__rs_down_visual_visual_1'>
+        <pose>0.085 0 -0.02 1.5708 -0 1.5708</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/realsense.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__camera_front_visual_2'>
+        <pose>0.107 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/bluefox.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <ambient>1.0 1.0 1.0 0.2</ambient>
+          <diffuse>1.0 1.0 1.0 0.2</diffuse>
+          <specular>1.0 1.0 1.0 0.2</specular>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__back_cover_link_visual_3'>
+        <pose>-0.064 0 0.03 0 -0 1.5708</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/side_mrs.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__back_left_arm_link_visual_4'>
+        <pose>0 0 0 0 -0 2.35619</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/holybro_x500_arm.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__back_left_rotor_link_visual_5'>
+        <pose>-0.177484 0.177484 0.021 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/holybro_x500_motor.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__back_right_arm_link_visual_6'>
+        <pose>0 0 0 0 0 -2.35619</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/holybro_x500_arm.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__back_right_rotor_link_visual_7'>
+        <pose>-0.177484 -0.177484 0.021 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/holybro_x500_motor.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__battery_mount_left_link_visual_8'>
+        <pose>-0.02 0.03 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/holybro_x500_battery.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__battery_mount_right_link_visual_9'>
+        <pose>-0.02 -0.03 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/holybro_x500_battery.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__bottom_board_link_visual_10'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/holybro_x500_bottom_board.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__bottom_light_link_visual_11'>
+        <pose>0.03 0 -0.05 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.01 0.1 0.003</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>1.0 1.0 1.0 1.0</ambient>
+          <diffuse>1.0 1.0 1.0 1.0</diffuse>
+          <specular>1.0 1.0 1.0 1.0</specular>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__computer_board_link_visual_12'>
+        <pose>0 0 0.058 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.125 0.125 0.002</size>
+          </box>
+        </geometry>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__top_light_link_visual_13'>
+        <pose>0.05 0 0.059 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.01 0.1 0.003</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>1.0 1.0 1.0 1.0</ambient>
+          <diffuse>1.0 1.0 1.0 1.0</diffuse>
+          <specular>1.0 1.0 1.0 1.0</specular>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__front_left_arm_link_visual_14'>
+        <pose>0 0 0 0 -0 0.785398</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/holybro_x500_arm.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__front_left_leg_clip_link_visual_15'>
+        <pose>0.162635 0.162635 -0.157 0 -0 0.785398</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/holybro_x500_leg.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__front_left_leg_light_link_visual_16'>
+        <pose>0.159099 0.152028 -0.0785 0 -0 2.35619</pose>
+        <geometry>
+          <box>
+            <size>0.003 0.01 0.145</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>1.0 1.0 1.0 1.0</ambient>
+          <diffuse>1.0 1.0 1.0 1.0</diffuse>
+          <specular>1.0 1.0 1.0 1.0</specular>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__front_left_rotor_link_visual_17'>
+        <pose>0.177484 0.177484 0.021 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/holybro_x500_motor.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__front_right_arm_link_visual_18'>
+        <pose>0 0 0 0 0 -0.785398</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/holybro_x500_arm.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__front_right_leg_clip_link_visual_19'>
+        <pose>0.162635 -0.162635 -0.157 0 0 -0.785398</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/holybro_x500_leg.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__front_right_leg_light_link_visual_20'>
+        <pose>0.159099 -0.152028 -0.0785 0 -0 0.785398</pose>
+        <geometry>
+          <box>
+            <size>0.003 0.01 0.145</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>1.0 1.0 1.0 1.0</ambient>
+          <diffuse>1.0 1.0 1.0 1.0</diffuse>
+          <specular>1.0 1.0 1.0 1.0</specular>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__front_right_rotor_link_visual_21'>
+        <pose>0.177484 -0.177484 0.021 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/holybro_x500_motor.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__left_cover_link_visual_22'>
+        <pose>0 0.064 0.03 0 0 -3.14159</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/side_ctu.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__os_sensor_link_visual_23'>
+        <pose>0 0 0.06 0 -0 1.5708</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/os1_64.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__os_sensor_window_link_visual_24'>
+        <pose>0 0 0.0944 0 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.035</length>
+            <radius>0.038</radius>
+          </cylinder>
+        </geometry>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__pc_mount_link_visual_25'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/holybro_x500_pc_mount.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__pixhawk_link_visual_26'>
+        <pose>0 0 0.036 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/pixhawk.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__rear_left_leg_clip_link_visual_27'>
+        <pose>-0.162635 0.162635 -0.157 0 -0 2.35619</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/holybro_x500_leg.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__rear_right_leg_clip_link_visual_28'>
+        <pose>-0.162635 -0.162635 -0.157 0 0 -2.35619</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/holybro_x500_leg.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__right_cover_link_visual_29'>
+        <pose>0 -0.064 0.03 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/side_ctu.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__rs_up_holder_link_visual_30'>
+        <pose>0.085 0 0.032 -1.5708 -0 -1.5708</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/holder_rs_up.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__sensor_holder_link_visual_31'>
+        <pose>0 0 -0.022 1.5708 0 -1.5708</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/holder_rs_down_bfox.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='imu_joint' type='fixed'>
+      <pose>0 0 0 0 -0 0</pose>
+      <parent>base_link</parent>
+      <child>imu_link</child>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>0</lower>
+          <upper>0</upper>
+          <effort>0</effort>
+          <velocity>0</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='imu_link'>
+      <pose>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>0.015</mass>
+        <inertia>
+          <ixx>1e-05</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>1e-05</iyy>
+          <iyz>0</iyz>
+          <izz>1e-05</izz>
+        </inertia>
+      </inertial>
+    </link>
+    <joint name='rotor_0_joint' type='revolute'>
+      <parent>base_link</parent>
+      <child>rotor_0</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='rotor_0'>
+      <pose>0.177484 -0.177484 0.057 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>0.005</mass>
+        <inertia>
+          <ixx>0.0001</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.0001</iyy>
+          <iyz>0</iyz>
+          <izz>0.0001</izz>
+        </inertia>
+      </inertial>
+      <collision name='rotor_0_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.005</length>
+            <radius>0.127</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name='rotor_0_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/holybro_x500_prop.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='rotor_1_joint' type='revolute'>
+      <parent>base_link</parent>
+      <child>rotor_1</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='rotor_1'>
+      <pose>-0.177484 0.177484 0.057 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>0.005</mass>
+        <inertia>
+          <ixx>0.0001</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.0001</iyy>
+          <iyz>0</iyz>
+          <izz>0.0001</izz>
+        </inertia>
+      </inertial>
+      <collision name='rotor_1_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.005</length>
+            <radius>0.127</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name='rotor_1_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/holybro_x500_prop.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='rotor_2_joint' type='revolute'>
+      <parent>base_link</parent>
+      <child>rotor_2</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='rotor_2'>
+      <pose>0.177484 0.177484 0.057 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>0.005</mass>
+        <inertia>
+          <ixx>0.0001</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.0001</iyy>
+          <iyz>0</iyz>
+          <izz>0.0001</izz>
+        </inertia>
+      </inertial>
+      <collision name='rotor_2_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.005</length>
+            <radius>0.127</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name='rotor_2_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>-1 1 1</scale>
+            <uri>meshes/holybro_x500_prop.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='rotor_3_joint' type='revolute'>
+      <parent>base_link</parent>
+      <child>rotor_3</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='rotor_3'>
+      <pose>-0.177484 -0.177484 0.057 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>0.005</mass>
+        <inertia>
+          <ixx>0.0001</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.0001</iyy>
+          <iyz>0</iyz>
+          <izz>0.0001</izz>
+        </inertia>
+      </inertial>
+      <collision name='rotor_3_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.005</length>
+            <radius>0.127</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name='rotor_3_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>-1 1 1</scale>
+            <uri>meshes/holybro_x500_prop.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>
