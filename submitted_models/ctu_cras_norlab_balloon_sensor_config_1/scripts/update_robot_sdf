@@ -5,9 +5,13 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 MODEL_DIR="${DIR}/.."
 [ -z "${OUTPUT_FILE}" ] && OUTPUT_FILE="${MODEL_DIR}/model.sdf"
 
+sdf8_version="$(ign sdf --versions | grep '^8')" || true
+[ -z "$sdf8_version" ] && echo "libsdformat8 not found. It is required to update this robot's SDF. Please install libsdformat8-dev and try again." >&2 && exit 1
+echo "Found libsdformat ${sdf8_version}" >&2
+
 echo -e "Rendering Ignition Gazebo SDF of $(basename "$(realpath "$MODEL_DIR")")" >&2
 rosrun xacro xacro "${MODEL_DIR}/urdf/balloon.xacro" rendering_target:=sdf "$@" > "${OUTPUT_FILE}.urdf"
-ign sdf -p "${OUTPUT_FILE}.urdf" | "${DIR}/high_precision_constants.py" - > "${OUTPUT_FILE}"
+ign sdf --force-version "$sdf8_version" -p "${OUTPUT_FILE}.urdf" | "${DIR}/high_precision_constants.py" - > "${OUTPUT_FILE}"
 
 "${DIR}/clean_sdf" "${OUTPUT_FILE}"
 # fix resource paths
