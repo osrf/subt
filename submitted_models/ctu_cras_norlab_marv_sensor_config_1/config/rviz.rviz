@@ -218,6 +218,11 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        X1/mote_deployer:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         X1/rear_cam:
           Alpha: 1
           Show Axes: false
@@ -261,12 +266,17 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        X1/thermocam:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         X1/top_box:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        total_mass_60_282:
+        total_mass_60_806:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -522,6 +532,15 @@ Visualization Manager:
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
+    - Alpha: 0.20000000298023224
+      Class: rviz_plugin_tutorials/Imu
+      Color: 204; 51; 204
+      Enabled: false
+      History Length: 1
+      Name: Imu
+      Topic: imu/data
+      Unreliable: false
+      Value: false
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -550,7 +569,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 2.083726406097412
+      Distance: 3.18503475189209
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -565,10 +584,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.3353981077671051
+      Pitch: 0.5003980398178101
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.6022140979766846
+      Yaw: 0.537213921546936
     Saved: ~
 Window Geometry:
   Camera0:
