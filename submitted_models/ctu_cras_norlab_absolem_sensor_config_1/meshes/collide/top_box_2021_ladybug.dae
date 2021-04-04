@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <asset>
+    <contributor>
+      <author>Blender User</author>
+      <authoring_tool>Blender 2.92.0 commit date:2021-02-24, commit time:16:25, hash:02948a2cab44</authoring_tool>
+    </contributor>
+    <created>2021-03-30T17:07:13</created>
+    <modified>2021-03-30T17:07:13</modified>
+    <unit name="meter" meter="1"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  <library_images/>
+  <library_geometries>
+    <geometry id="Top_Box-mesh" name="Top Box">
+      <mesh>
+        <source id="Top_Box-mesh-positions">
+          <float_array id="Top_Box-mesh-positions-array" count="33">63 62.48852 -115 63 62.48868 115 -62.98685 62.4885 -115 -62.98586 62.48863 115 63 8.77381e-5 115 63 -7.05719e-5 -115 -63.01364 6.48499e-5 115 -63.01364 -9.34601e-5 -115 63 62.4886 -2.28882e-5 63 31.24431 -2.28882e-5 63 8.58308e-6 -2.28882e-5</float_array>
+          <technique_common>
+            <accessor source="#Top_Box-mesh-positions-array" count="11" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Top_Box-mesh-normals">
+          <float_array id="Top_Box-mesh-normals-array" count="39">0 0 1 1.81633e-7 -1 6.88304e-7 1.81633e-7 -1 6.88304e-7 0 0 1 -1 4.44647e-4 4.31201e-6 -1 4.28883e-4 0 1 0 0 0 0 -1 0 0 -1 -1.81671e-7 1 -7.41429e-7 -2.87647e-7 1 -5.36861e-7 -3.93624e-7 1 -7.41435e-7 1.81633e-7 -1 6.88304e-7</float_array>
+          <technique_common>
+            <accessor source="#Top_Box-mesh-normals-array" count="13" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Top_Box-mesh-map-0">
+          <float_array id="Top_Box-mesh-map-0-array" count="108">0.1484358 1.49424e-4 0.6232414 0.148499 0.1485019 8.52033e-4 0.6232414 0.7704679 0.1484352 0.6125946 0.6232415 0.6125949 0.6232414 0.928341 0.1484349 0.9283407 0.1484352 0.6125946 0.6232412 1.49376e-4 0.6232414 0.148499 0.1484358 1.49424e-4 0.1485019 8.52033e-4 0.1484991 0.4642449 1.52565e-4 8.50737e-4 0.1484991 0.4642449 1.49376e-4 0.4642435 1.52565e-4 8.50737e-4 0.7715913 0.1730552 0.7715913 0.4642451 0.6974164 0.1730552 0.6232415 0.4642451 0.6232414 0.1730552 0.6974164 0.1730552 0.6232415 0.4642451 0.1484352 0.6125946 0.1484991 0.4642449 0.6232415 0.4642451 0.6232415 0.6125949 0.1484352 0.6125946 0.6232414 0.1730552 0.6232415 0.4642451 0.1484991 0.4642449 0.6232414 0.1730552 0.1484991 0.4642449 0.1485019 8.52033e-4 0.1485019 8.52033e-4 0.6232414 0.148499 0.6232414 0.1730552 0.6974164 0.1730552 0.7715913 0.4642451 0.6232415 0.4642451 0.3845112 0.3187736 0.3845112 0.1609005 0.4586862 0.3187736 0.3845112 0.1609005 0.5328611 0.1609005 0.4586862 0.3187736 0.5328611 0.1609005 0.5328611 0.3187736 0.4586862 0.3187736 0.6232414 0.7704679 0.6232414 0.928341 0.1484352 0.6125946</float_array>
+          <technique_common>
+            <accessor source="#Top_Box-mesh-map-0-array" count="54" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Top_Box-mesh-colors-Top_Box-mesh-colors" name="Top_Box-mesh-colors">
+          <float_array id="Top_Box-mesh-colors-Top_Box-mesh-colors-array" count="216">1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</float_array>
+          <technique_common>
+            <accessor source="#Top_Box-mesh-colors-Top_Box-mesh-colors-array" count="54" stride="4">
+              <param name="R" type="float"/>
+              <param name="G" type="float"/>
+              <param name="B" type="float"/>
+              <param name="A" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="Top_Box-mesh-vertices">
+          <input semantic="POSITION" source="#Top_Box-mesh-positions"/>
+        </vertices>
+        <triangles count="18">
+          <input semantic="VERTEX" source="#Top_Box-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#Top_Box-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#Top_Box-mesh-map-0" offset="2" set="0"/>
+          <input semantic="COLOR" source="#Top_Box-mesh-colors-Top_Box-mesh-colors" offset="3" set="0"/>
+          <p>6 0 0 0 1 0 1 1 3 0 2 2 10 1 3 3 7 1 4 4 5 1 5 5 4 2 6 6 6 2 7 7 7 2 8 8 4 3 9 9 1 3 10 10 6 3 11 11 3 4 12 12 2 4 13 13 6 4 14 14 2 5 15 15 7 5 16 16 6 5 17 17 10 6 18 18 5 6 19 19 9 6 20 20 0 6 21 21 8 6 22 22 9 6 23 23 0 7 24 24 7 7 25 25 2 7 26 26 0 8 27 27 5 8 28 28 7 8 29 29 8 9 30 30 0 9 31 31 2 9 32 32 8 10 33 33 2 10 34 34 3 10 35 35 3 11 36 36 1 11 37 37 8 11 38 38 9 6 39 39 5 6 40 40 0 6 41 41 8 6 42 42 1 6 43 43 9 6 44 44 1 6 45 45 4 6 46 46 9 6 47 47 4 6 48 48 10 6 49 49 9 6 50 50 10 12 51 51 4 12 52 52 7 12 53 53</p>
+        </triangles>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_visual_scenes>
+    <visual_scene id="Scene" name="Scene">
+      <node id="Top_Box" name="Top_Box" type="NODE">
+        <matrix sid="transform">0.001 0 0 0 0 -7.58967e-10 -0.001 0 0 0.001 -7.58967e-10 3.72529e-9 0 0 0 1</matrix>
+        <instance_geometry url="#Top_Box-mesh" name="Top_Box"/>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#Scene"/>
+  </scene>
+</COLLADA>

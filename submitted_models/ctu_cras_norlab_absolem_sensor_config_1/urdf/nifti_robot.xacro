@@ -178,6 +178,32 @@
 	<xacro:arg default="0.000000" name="d435_pos_z"/>
 	<xacro:arg default="0.000000" name="d435_pos_y"/>
 	<xacro:arg default="0.000000" name="d435_pos_x"/>
+	<xacro:arg default="1.000000" name="ouster_quat_w"/>
+	<xacro:arg default="0.000000" name="ouster_quat_z"/>
+	<xacro:arg default="0.000000" name="ouster_quat_y"/>
+	<xacro:arg default="0.000000" name="ouster_quat_x"/>
+	<xacro:arg default="0.000000" name="ouster_gzrpy_y"/>
+	<xacro:arg default="0.000000" name="ouster_gzrpy_p"/>
+	<xacro:arg default="0.000000" name="ouster_gzrpy_r"/>
+	<xacro:arg default="0.000000" name="ouster_rpy_y"/>
+	<xacro:arg default="0.000000" name="ouster_rpy_p"/>
+	<xacro:arg default="0.000000" name="ouster_rpy_r"/>
+	<xacro:arg default="0.200000" name="ouster_pos_z"/>
+	<xacro:arg default="0.000000" name="ouster_pos_y"/>
+	<xacro:arg default="0.070000" name="ouster_pos_x"/>
+	<xacro:arg default="0.042087" name="camera_0_pos_x"/>
+	<xacro:arg default="0.000000" name="cliff_sensor_0_x"/>
+	<xacro:arg default="0.000000" name="cliff_sensor_0_y"/>
+	<xacro:arg default="0.000000" name="cliff_sensor_0_yaw"/>
+	<xacro:arg default="0.000000" name="cliff_sensor_1_x"/>
+	<xacro:arg default="0.000000" name="cliff_sensor_1_y"/>
+	<xacro:arg default="0.000000" name="cliff_sensor_1_yaw"/>
+	<xacro:arg default="0.000000" name="cliff_sensor_2_x"/>
+	<xacro:arg default="0.000000" name="cliff_sensor_2_y"/>
+	<xacro:arg default="0.000000" name="cliff_sensor_2_yaw"/>
+	<xacro:arg default="0.000000" name="cliff_sensor_3_x"/>
+	<xacro:arg default="0.000000" name="cliff_sensor_3_y"/>
+	<xacro:arg default="0.000000" name="cliff_sensor_3_yaw"/>
 	<xacro:arg default="0.070500" name="rover_referentialZ"/>
 	<xacro:arg default="0.600000" name="rover_vMaxRun"/>
 	<xacro:arg default="0.593620" name="rover_robotWidthFlippers"/>
@@ -193,6 +219,9 @@
 	<xacro:arg default="1.240000" name="rover_wMaxRun"/>
 	<xacro:arg default="0.300000" name="rover_vMaxTravel"/>
 	<xacro:arg default="0.240930" name="rover_robotWidthBody"/>
+	<xacro:arg default="0.500170" name="rover_robotLengthBody"/>
+	<xacro:arg default="-0.12200" name="rover_robotBodyShift"/>
+	<xacro:arg default="0.022000" name="rover_bodyEdgeCurvature"/> <!-- curvature of the front and rear bottom edges -->
 	<xacro:arg default="0.397000" name="rover_trackDistance"/>
 	<xacro:arg default="0.330000" name="rover_flipperLength"/>
 	<xacro:arg default="0.600000" name="rover_wMaxTravel"/>
@@ -212,19 +241,31 @@
 			 Example of value: '0 1 0 1' (don't forget to set alpha to 1!). -->
 	<xacro:arg name="body_color" default="" />
 
+	<!-- Body shape revision. Possible values are 2010, 2014 and 2021 -->
+	<xacro:arg name="revision" default="2014" />
+
 	<xacro:arg name="has_top_box" default="1" />
 	<!-- Distance from robot's back to top box' front panel. Default is the front-most position. -->
 	<xacro:arg name="top_box_j_x" default="0.4977" />
 
 	<xacro:arg name="has_sick_lidar" default="1" />
+	<xacro:arg name="has_ouster_lidar" default="0" />
 	<xacro:arg name="has_omnicam" default="1" />
+	<xacro:arg name="has_omnicam_vras" default="0" />
 	<xacro:arg name="has_omnicam_sensor_mount" default="1" />
 	<xacro:arg name="has_flippers" default="1" />
 	<xacro:arg name="has_differential" default="1" />
+	<xacro:arg name="has_new_realsense" default="0" />
+	<xacro:arg name="has_realsense_d435" default="0" />
+	<xacro:arg name="has_realsense_t265" default="0" />
+	<xacro:arg name="has_jetson" default="0" />
+
+	<xacro:arg name="num_cliff_sensors" default="0" />
 
 	<xacro:arg name="has_rear_sensor_item" default="1" />
 	<xacro:arg name="rear_sensor_item_x" default="0.084" />
 	<xacro:arg name="rear_sensor_item_y" default="0.02" />
+	<xacro:arg name="rear_sensor_item_height" default="0.35" />
 
 	<xacro:arg name="laser_pitch" default="0.0" />
 
@@ -286,9 +327,14 @@
     <xacro:arg name="perfect_odometry" default="False" /> <!-- If True, ground truth position will be published as odom frame. -->
 
     <xacro:arg name="simulate_sick_lidar" default="True" />
+    <xacro:arg name="simulate_ouster_lidar" default="True" />
     <xacro:arg name="simulate_omnicam" default="True" />
+    <xacro:arg name="simulate_omnicam_vras" default="True" />
     <xacro:arg name="simulate_realsense_d435" default="True" />
     <xacro:arg name="simulate_imu" default="True" />
+    <xacro:arg name="simulate_cliff_sensors" default="True" />
+
+    <xacro:arg name="visualize_sensors" default="False" />
 
     <xacro:arg name="differential_locked" default="true" />
 
@@ -325,7 +371,7 @@
 
 	<xacro:include filename="$(find ctu_cras_norlab_absolem_sensor_config_1)/urdf/utils.xacro" />
 
-	<xacro:macro name="calibrated_fixed_joint" params="name parent child prefix:=''">
+	<xacro:macro name="calibrated_fixed_joint" params="name parent child prefix:='' lump:='1'">
 			<!-- These arguments are filled by render_xacro.py from calibration data. -->
 			<xacro:if value="${prefix == ''}">
 					<xacro:property name="pref" value="${child}" />
@@ -335,14 +381,21 @@
 			</xacro:if>
 			<xacro:fixed_joint name="${name}" parent="$(arg prefix)${parent}" child="$(arg prefix)${child}"
 												 xyz="$(arg ${pref}_pos_x) $(arg ${pref}_pos_y) $(arg ${pref}_pos_z)"
-												 rpy="$(arg ${pref}_rpy_r) $(arg ${pref}_rpy_p) $(arg ${pref}_rpy_y)" />
+												 rpy="$(arg ${pref}_rpy_r) $(arg ${pref}_rpy_p) $(arg ${pref}_rpy_y)"
+												 lump="${lump}"/>
 	</xacro:macro>
 
 	<!-- SPECIAL LINKS -->
 
 	<!-- This is a virtual link that specifies the origin to which parts attachable to the top of the robot should be related. -->
 	<link name="$(arg prefix)rear_right_box" />
-	<xacro:fixed_joint name="rear_right_box_j" parent="$(arg prefix)base_link" child="$(arg prefix)rear_right_box" rpy="0 0 0" xyz="-0.379 -0.1265 0.185"/>
+	<xacro:if value="${'$(arg revision)' == '2021'}">
+		<xacro:fixed_joint name="rear_right_box_j" parent="$(arg prefix)base_link" child="$(arg prefix)rear_right_box" rpy="0 0 0"
+						   xyz="${-$(arg rover_robotLengthBody)/2} ${-$(arg rover_robotWidthBody)/2} 0.185"/>
+	</xacro:if>
+	<xacro:unless value="${'$(arg revision)' == '2021'}">
+		<xacro:fixed_joint name="rear_right_box_j" parent="$(arg prefix)base_link" child="$(arg prefix)rear_right_box" rpy="0 0 0" xyz="-0.379 -0.1265 0.185"/>
+	</xacro:unless>
 
 	<!-- INCLUDES -->
 
@@ -358,64 +411,75 @@
 	<xacro:if value="$(arg has_realsense_t265)">
 		<xacro:include filename="$(find ctu_cras_norlab_absolem_sensor_config_1)/urdf/t265_attach_to_robot.xacro" />
 	</xacro:if>
-	
+	<xacro:if value="$(arg has_ouster_lidar)">
+		<xacro:include filename="$(find ctu_cras_norlab_absolem_sensor_config_1)/urdf/ouster_lidar.xacro" />
+	</xacro:if>
+
 	<!-- NIFTI ROBOT LINKS AND JOINTS SPECIFICATION -->
 
 	<xacro:property name="body_color" value="$(arg body_color)" />
 	<link name="$(arg prefix)base_link">
+			<xacro:if value="${'$(arg revision)' == '2021'}">
+				<xacro:property name="body_mesh_name" value="body_2021.dae" />
+			</xacro:if>
+			<xacro:unless value="${'$(arg revision)' == '2021'}">
+				<xacro:property name="body_mesh_name" value="body.dae" />
+			</xacro:unless>
 			<xacro:if value="${len(body_color) == 0}">
 					<visual>
 							<origin xyz="0 0 0" rpy="0 0 0" />
 							<geometry>
 									<mesh scale="${body_scale} ${body_scale} ${body_scale}"
-												filename="package://ctu_cras_norlab_absolem_sensor_config_1/meshes/body.dae"/>
+												filename="package://ctu_cras_norlab_absolem_sensor_config_1/meshes/${body_mesh_name}"/>
 							</geometry>
 					</visual>
 			</xacro:if>
 			<xacro:if value="${len(body_color) > 0}">
 					<visual>
-							<origin rpy="0 0 0" xyz="-0.1220 0 0.118"/>
+							<origin rpy="0 0 0" xyz="$(arg rover_robotBodyShift) 0 0.118"/>
 							<geometry>
-									<box size="0.50017 $(arg rover_robotWidthBody) 0.1390" />
+									<box size="$(arg rover_robotLengthBody) $(arg rover_robotWidthBody) 0.1390" />
 							</geometry>
 							<material name="body_color">
 									<color rgba="$(arg body_color)"/>
 							</material>
 					</visual>
-					<visual>
-							<origin rpy="0 0 0" xyz="0.157 0 0.118"/>
-							<geometry>
-									<box size="0.056 0.12093 0.1390" />
-							</geometry>
-							<material name="body_color">
-									<color rgba="$(arg body_color)"/>
-							</material>
-					</visual>
-					<visual>
-							<origin rpy="0 0 0.785398" xyz="0.144 -0.076 0.118"/>
-							<geometry>
-									<box size="0.083 0.040 0.1390" />
-							</geometry>
-							<material name="body_color">
-									<color rgba="$(arg body_color)"/>
-							</material>
-					</visual>
-					<visual>
-							<origin rpy="0 0 -0.785398" xyz="0.144 0.076 0.118"/>
-							<geometry>
-									<box size="0.083 0.040 0.1390" />
-							</geometry>
-							<material name="body_color">
-									<color rgba="$(arg body_color)"/>
-							</material>
-					</visual>
+					<xacro:unless value="${'$(arg revision)' == '2021'}">
+						<visual>
+								<origin rpy="0 0 0" xyz="0.157 0 0.118"/>
+								<geometry>
+										<box size="0.056 0.12093 0.1390" />
+								</geometry>
+								<material name="body_color">
+										<color rgba="$(arg body_color)"/>
+								</material>
+						</visual>
+						<visual>
+								<origin rpy="0 0 0.785398" xyz="0.144 -0.076 0.118"/>
+								<geometry>
+										<box size="0.083 0.040 0.1390" />
+								</geometry>
+								<material name="body_color">
+										<color rgba="$(arg body_color)"/>
+								</material>
+						</visual>
+						<visual>
+								<origin rpy="0 0 -0.785398" xyz="0.144 0.076 0.118"/>
+								<geometry>
+										<box size="0.083 0.040 0.1390" />
+								</geometry>
+								<material name="body_color">
+										<color rgba="$(arg body_color)"/>
+								</material>
+						</visual>
+					</xacro:unless>
 			</xacro:if>
 			<xacro:if value="${$(arg simplified_collision)==0}">
 					<collision>
 							<origin xyz="0 0 0" rpy="0 0 0" />
 							<geometry>
 									<mesh scale="${body_scale} ${body_scale} ${body_scale}"
-												filename="package://ctu_cras_norlab_absolem_sensor_config_1/meshes/body.dae"/>
+												filename="package://ctu_cras_norlab_absolem_sensor_config_1/meshes/${body_mesh_name}"/>
 							</geometry>
 					</collision>
 			</xacro:if>
@@ -424,35 +488,45 @@
 							<origin xyz="0 0 0" rpy="0 0 0" />
 							<geometry>
 									<mesh scale="${body_scale} ${body_scale} ${body_scale}"
-												filename="package://ctu_cras_norlab_absolem_sensor_config_1/meshes/collide/body.dae"/>
+												filename="package://ctu_cras_norlab_absolem_sensor_config_1/meshes/collide/${body_mesh_name}"/>
 							</geometry>
 					</collision>
 			</xacro:if>
 			<xacro:if value="${$(arg simplified_collision)==2}">
 					<collision>
-							<origin rpy="0 0 0" xyz="-0.1220 0 0.118"/>
+							<xacro:if value="${'$(arg revision)' == '2021'}">
+								<xacro:property name="bodyCollHeight" value="${0.1390 - $(arg rover_bodyEdgeCurvature)}" />
+								<xacro:property name="bodyCollZshift" value="${0.118 + $(arg rover_bodyEdgeCurvature)/2}" />
+							</xacro:if>
+							<xacro:unless value="${'$(arg revision)' == '2021'}">
+								<xacro:property name="bodyCollHeight" value="0.1390" />
+								<xacro:property name="bodyCollZshift" value="0.118" />
+							</xacro:unless>
+							<origin rpy="0 0 0" xyz="$(arg rover_robotBodyShift) 0 ${bodyCollZshift}"/>
 							<geometry>
-									<box size="0.50017 $(arg rover_robotWidthBody) 0.1390" />
+									<box size="$(arg rover_robotLengthBody) $(arg rover_robotWidthBody) ${bodyCollHeight}" />
 							</geometry>
 					</collision>
-					<collision>
-							<origin rpy="0 0 0" xyz="0.157 0 0.118"/>
-							<geometry>
-									<box size="0.056 0.12093 0.1390" />
-							</geometry>
-					</collision>
-					<collision>
-							<origin rpy="0 0 0.785398" xyz="0.144 -0.076 0.118"/>
-							<geometry>
-									<box size="0.083 0.040 0.1390" />
-							</geometry>
-					</collision>
-					<collision>
-							<origin rpy="0 0 -0.785398" xyz="0.144 0.076 0.118"/>
-							<geometry>
-									<box size="0.083 0.040 0.1390" />
-							</geometry>
-					</collision>
+				    <xacro:unless value="${'$(arg revision)' == '2021'}">
+						<collision>
+								<origin rpy="0 0 0" xyz="0.157 0 0.118"/>
+								<geometry>
+										<box size="0.056 0.12093 0.1390" />
+								</geometry>
+						</collision>
+						<collision>
+								<origin rpy="0 0 0.785398" xyz="0.144 -0.076 0.118"/>
+								<geometry>
+										<box size="0.083 0.040 0.1390" />
+								</geometry>
+						</collision>
+						<collision>
+								<origin rpy="0 0 -0.785398" xyz="0.144 0.076 0.118"/>
+								<geometry>
+										<box size="0.083 0.040 0.1390" />
+								</geometry>
+						</collision>
+					</xacro:unless>
 					<collision>
 							<origin rpy="0 0 0" xyz="0 0.135 0.09"/>
 							<geometry>
@@ -477,6 +551,30 @@
 									<box size="0.055 0.020 0.075" />
 							</geometry>
 					</collision>
+					<xacro:if value="${'$(arg revision)' == '2021'}">
+						<collision>
+							<origin rpy="0 0 0" xyz="0 0 ${0.048 + $(arg rover_bodyEdgeCurvature)/2}"/>
+							<geometry>
+								<box size="${$(arg rover_robotLengthBody) - 2*$(arg rover_bodyEdgeCurvature)} $(arg rover_robotWidthBody) $(arg rover_bodyEdgeCurvature)" />
+							</geometry>
+						</collision>
+						<collision>
+							<!-- We enlarge the radius a tiny bit to avoid wrong contact forces on the interface between the bottom plate and the cylinder -->
+							<origin xyz="${$(arg rover_robotLengthBody)/2-$(arg rover_bodyEdgeCurvature)} 0 ${0.048 + $(arg rover_bodyEdgeCurvature)}"
+									rpy="${pi/2} 0 0"/>
+							<geometry>
+								<cylinder length="$(arg rover_robotWidthBody)" radius="${$(arg rover_bodyEdgeCurvature)*1.001}" />
+							</geometry>
+						</collision>
+						<collision>
+							<!-- We enlarge the radius a tiny bit to avoid wrong contact forces on the interface between the bottom plate and the cylinder -->
+							<origin xyz="${-$(arg rover_robotLengthBody)/2+$(arg rover_bodyEdgeCurvature)} 0 ${0.048 + $(arg rover_bodyEdgeCurvature)}"
+									rpy="${pi/2} 0 0"/>
+							<geometry>
+								<cylinder length="$(arg rover_robotWidthBody)" radius="${$(arg rover_bodyEdgeCurvature)*1.001}" />
+							</geometry>
+						</collision>
+					</xacro:if>
 			</xacro:if>
 			<xacro:if value="$(arg big_collision_box_on_top)">
 					<collision name="big_collision_box">
@@ -501,18 +599,18 @@
 	<xacro:if value="$(arg has_rear_sensor_item)">
 			<link name="$(arg prefix)rear_sensor_item">
 					<visual>
-							<origin xyz="0 0 ${0.35/2}" rpy="0 0 0" />
+							<origin xyz="0 0 ${$(arg rear_sensor_item_height)/2}" rpy="0 0 0" />
 							<geometry>
-									<box size="0.02 0.02 0.35"/>
+									<box size="0.02 0.02 $(arg rear_sensor_item_height)"/>
 							</geometry>
 							<material name="aluminium">
 									<color rgba="0.8 0.8 0.8 1"/>
 							</material>
 					</visual>
 					<collision>
-							<origin xyz="0 0 ${0.35/2}" rpy="0 0 0" />
+							<origin xyz="0 0 ${$(arg rear_sensor_item_height)/2}" rpy="0 0 0" />
 							<geometry>
-									<box size="0.02 0.02 0.35" />
+									<box size="0.02 0.02 $(arg rear_sensor_item_height)" />
 							</geometry>
 					</collision>
 			</link>
@@ -564,15 +662,31 @@
 									scale="${battery_scale}" mass="${battery_mass}" />
 			</inertial>
 	</link>
-	<xacro:fixed_joint name="battery_j" parent="$(arg prefix)base_link" child="$(arg prefix)battery" xyz="-0.2836 -0.0221 0.0722" rpy="0 0 0" />
+	<xacro:unless value="${'$(arg revision)' == '2021'}">
+		<xacro:fixed_joint name="battery_j" parent="$(arg prefix)base_link" child="$(arg prefix)battery" xyz="-0.2836 -0.0221 0.0722" rpy="0 0 0" />
+	</xacro:unless>
+	<xacro:if value="${'$(arg revision)' == '2021'}">
+		<xacro:fixed_joint name="battery_j" parent="$(arg prefix)base_link" child="$(arg prefix)battery" xyz="-0.12 0 0.12" rpy="0 ${pi/2} 0" />
+	</xacro:if>
 
 	<xacro:if value="$(arg has_top_box)">
+		<xacro:if value="${'$(arg revision)' == '2021'}">
+			<xacro:if value="$(arg has_omnicam)">
+				<xacro:property name="top_box_mesh_name" value="top_box_2021_ladybug.dae" />
+			</xacro:if>
+			<xacro:if value="$(arg has_omnicam_vras)">
+				<xacro:property name="top_box_mesh_name" value="top_box_2021_omnicam_vras.dae" />
+			</xacro:if>
+		</xacro:if>
+		<xacro:unless value="${'$(arg revision)' == '2021'}">
+			<xacro:property name="top_box_mesh_name" value="top_box.dae" />
+		</xacro:unless>
 			<link name="$(arg prefix)top_box">
 					<visual>
 							<origin xyz="0 0 0" rpy="0 0 0" />
 							<geometry>
 									<mesh scale="${top_box_scale} ${top_box_scale} ${top_box_scale}"
-												filename="package://ctu_cras_norlab_absolem_sensor_config_1/meshes/top_box.dae"/>
+												filename="package://ctu_cras_norlab_absolem_sensor_config_1/meshes/${top_box_mesh_name}"/>
 							</geometry>
 					</visual>
 					<xacro:if value="${$(arg simplified_collision)==0}">
@@ -580,7 +694,7 @@
 									<origin xyz="0 0 0" rpy="0 0 0" />
 									<geometry>
 											<mesh scale="${top_box_scale} ${top_box_scale} ${top_box_scale}"
-														filename="package://ctu_cras_norlab_absolem_sensor_config_1/meshes/top_box.dae"/>
+														filename="package://ctu_cras_norlab_absolem_sensor_config_1/meshes/${top_box_mesh_name}"/>
 									</geometry>
 							</collision>
 					</xacro:if>
@@ -589,25 +703,61 @@
 									<origin xyz="0 0 0" rpy="0 0 0" />
 									<geometry>
 											<mesh scale="${top_box_scale} ${top_box_scale} ${top_box_scale}"
-														filename="package://ctu_cras_norlab_absolem_sensor_config_1/meshes/collide/top_box.dae"/>
+														filename="package://ctu_cras_norlab_absolem_sensor_config_1/meshes/collide/${top_box_mesh_name}"/>
 									</geometry>
 							</collision>
 					</xacro:if>
 					<xacro:if value="${$(arg simplified_collision)==2}">
+							<!-- the box -->
 							<collision>
+								<xacro:if value="${'$(arg revision)' == '2021'}">
+									<xacro:if value="$(arg has_omnicam)">
+										<origin rpy="0 0 0" xyz="0 0 0.0315"/>
+										<geometry>
+											<box size="0.1270 0.231 0.06252" />
+										</geometry>
+									</xacro:if>
+									<xacro:if value="$(arg has_omnicam_vras)">
+										<!-- TODO -->
+									</xacro:if>
+								</xacro:if>
+								<xacro:unless value="${'$(arg revision)' == '2021'}">
 									<origin rpy="0 0 0" xyz="-0.0290 0 0.0315"/>
 									<geometry>
 											<box size="0.2000 0.1330 0.06252" />
 									</geometry>
+								</xacro:unless>
 							</collision>
+							<!-- GPS antenna -->
 							<collision>
-									<origin rpy="0 0 0" xyz="-0.09824 0.04127 0.0690"/>
+									<xacro:if value="${'$(arg revision)' == '2021'}">
+										<xacro:if value="$(arg has_omnicam)">
+											<origin rpy="0 0 0" xyz="-0.04 0.09 0.0690"/>
+										</xacro:if>
+										<xacro:if value="$(arg has_omnicam_vras)">
+											<origin rpy="0 0 0" xyz="fail"/>
+										</xacro:if>
+									</xacro:if>
+									<xacro:unless value="${'$(arg revision)' == '2021'}">
+										<origin rpy="0 0 0" xyz="-0.09824 0.04127 0.0690"/>
+									</xacro:unless>
 									<geometry>
 											<box size="0.0440 0.0440 0.01303" />
 									</geometry>
 							</collision>
+							<!-- E-stop -->
 							<collision>
-									<origin rpy="0 0 0" xyz="-0.07383 -0.04222 0.07996"/>
+									<xacro:if value="${'$(arg revision)' == '2021'}">
+										<xacro:if value="$(arg has_omnicam)">
+											<origin rpy="0 0 0" xyz="0.01474 -0.08352 0.07996"/>
+										</xacro:if>
+										<xacro:if value="$(arg has_omnicam_vras)">
+											<origin rpy="0 0 0" xyz="fail"/>
+										</xacro:if>
+									</xacro:if>
+									<xacro:unless value="${'$(arg revision)' == '2021'}">
+										<origin rpy="0 0 0" xyz="-0.07383 -0.04222 0.07996"/>
+									</xacro:unless>
 									<geometry>
 											<box size="0.03732 0.03523 0.03489" />
 									</geometry>
@@ -624,9 +774,21 @@
 					</inertial>
 			</link>
 			<xacro:property name="top_box_j_x" value="$(arg top_box_j_x)" />
-			<!-- Origin of top box is 0.071 m from the front side. And top_box_j_x is distance from robot's back to top box' front. -->
-			<xacro:fixed_joint name="top_box_j" parent="$(arg prefix)rear_right_box" child="$(arg prefix)top_box" xyz="${top_box_j_x-0.071} 0.0708 0.0" rpy="0 0 0"/>
+			<xacro:if value="${'$(arg revision)' == '2021'}">
+				<xacro:if value="$(arg has_omnicam)">
+					<!-- Origin of top box is 0.0635 m from the front side. And top_box_j_x is distance from robot's back to top box' front. -->
+					<xacro:fixed_joint name="top_box_j" parent="$(arg prefix)rear_right_box" child="$(arg prefix)top_box" xyz="${top_box_j_x-0.0635} ${$(arg rover_robotWidthBody)/2} 0.0" rpy="0 0 0"/>
+				</xacro:if>
+				<xacro:if value="$(arg has_omnicam_vras)">
+					<!-- -->
+				</xacro:if>
+			</xacro:if>
+			<xacro:unless value="${'$(arg revision)' == '2021'}">
+				<!-- Origin of top box is 0.071 m from the front side. And top_box_j_x is distance from robot's back to top box' front. -->
+				<xacro:fixed_joint name="top_box_j" parent="$(arg prefix)rear_right_box" child="$(arg prefix)top_box" xyz="${top_box_j_x-0.071} 0.0708 0.0" rpy="0 0 0"/>
+			</xacro:unless>
 	</xacro:if>
+
 	<link name="$(arg prefix)antenna">
 			<visual>
 					<origin xyz="0 0 0" rpy="0 0 0" />
@@ -677,7 +839,12 @@
 									scale="${antenna_scale}" mass="${antenna_mass}" />
 			</inertial>
 	</link>
-	<xacro:fixed_joint name="antenna_j" parent="$(arg prefix)base_link" child="$(arg prefix)antenna" xyz="-0.3720 0.0789 0.1551" rpy="0 0 0" />
+	<xacro:if value="${'$(arg revision)' == '2021'}">
+		<xacro:fixed_joint name="antenna_j" parent="$(arg prefix)base_link" child="$(arg prefix)antenna" xyz="${-$(arg rover_robotLengthBody)/2 + 0.05} 0.0789 0.1551" rpy="0 0 0" />
+	</xacro:if>
+	<xacro:unless value="${'$(arg revision)' == '2021'}">
+		<xacro:fixed_joint name="antenna_j" parent="$(arg prefix)base_link" child="$(arg prefix)antenna" xyz="-0.3720 0.0789 0.1551" rpy="0 0 0" />
+	</xacro:unless>
 
 	<xacro:macro name="track" params="prefix reflect">
 			<link name="$(arg prefix)${prefix}_track">
@@ -1039,7 +1206,12 @@
 					</inertial>
 			</link>
 
-			<xacro:fixed_joint name="omnicam_j" parent="$(arg prefix)top_box" child="$(arg prefix)omnicam" xyz="0.0023 -0.0017 0.1292" rpy="0 0 -0.628318530" />
+			<xacro:if value="${'$(arg revision)' == '2021'}">
+				<xacro:fixed_joint name="omnicam_j" parent="$(arg prefix)top_box" child="$(arg prefix)omnicam" xyz="-0.005 0 0.1292" rpy="0 0 -0.628318530" />
+			</xacro:if>
+			<xacro:unless value="${'$(arg revision)' == '2021'}">
+				<xacro:fixed_joint name="omnicam_j" parent="$(arg prefix)top_box" child="$(arg prefix)omnicam" xyz="0.0023 -0.0017 0.1292" rpy="0 0 -0.628318530" />
+			</xacro:unless>
 
 			<xacro:empty_link name="$(arg prefix)omnicam_forward" />
 			<xacro:fixed_joint name="omnicam_forward_j" parent="$(arg prefix)omnicam" child="$(arg prefix)omnicam_forward" xyz="0 0 0" rpy="0 0 0.628" />
@@ -1108,6 +1280,24 @@
 					</joint>
 			</xacro:if>
 
+	</xacro:if>
+
+	<!-- 3D lidar -->
+	<xacro:if value="$(arg has_ouster_lidar)">
+		<xacro:ouster_os0_128 name="laser" simulate="$(arg simulate_ouster_lidar)" visualize="$(arg visualize_sensors)" />
+		<xacro:calibrated_fixed_joint name="laser_j" parent="top_box" child="laser" prefix="ouster" lump="0"/>
+		<link name="$(arg prefix)ouster_holder">
+			<visual>
+				<origin xyz="0 0 0" />
+				<geometry>
+					<mesh filename="package://ctu_cras_norlab_absolem_sensor_config_1/meshes/ouster_holder_ladybug.dae" />
+				</geometry>
+			</visual>
+			<xacro:cylinder_inertial mass="0.2" radius="0.07" length="0.02"
+								xyz="0 0 -0.01" />
+		</link>
+		<xacro:fixed_joint name="ouster_holder_j" parent="$(arg prefix)omnicam_top" child="$(arg prefix)ouster_holder"
+			xyz="0 0 0.005" rpy="0 0 ${radians(36)}" />
 	</xacro:if>
 
     <gazebo>
@@ -1347,7 +1537,7 @@
 				<xacro:if value="${num == 5}">
 					<xacro:property name="rpy" value="0 ${-pi/2} 0" />
 				</xacro:if>
-				<xacro:fixed_joint name="${name}_sim_j" parent="${name}" child="${name}_sim" rpy="${rpy}" />
+				<xacro:fixed_joint name="${name}_sim_j" parent="${name}" child="${name}_sim" rpy="${rpy}" lump="1" />
 				<gazebo reference="$(arg prefix)${name}_sim">
 					<sensor name="omnicam_sensor${num}" type="camera">
 						<update_rate>6.0</update_rate>
@@ -1407,6 +1597,31 @@
     <xacro:if value="${($(arg has_new_realsense) or $(arg has_realsense_d435)) and $(arg simulate_realsense_d435)}">
         <xacro:include filename="$(find ctu_cras_norlab_absolem_sensor_config_1)/urdf/realsense.gazebo.xacro" />
     </xacro:if>
+
+	<xacro:if value="${$(arg num_cliff_sensors) > 0}">
+		<xacro:include filename="$(find ctu_cras_norlab_absolem_sensor_config_1)/urdf/tfmini_plus_lidar.xacro" />
+
+		<xacro:if value="${$(arg num_cliff_sensors) > 0}">
+			<xacro:tfmini_plus name="cliff_sensor_0" rate="10" simulate="$(arg simulate_cliff_sensors)" visualize="$(arg visualize_sensors)" />
+			<xacro:fixed_joint name="cliff_sensor_0_j" parent="$(arg prefix)rear_right_box" child="$(arg prefix)cliff_sensor_0" lump="0"
+							   xyz="$(arg cliff_sensor_0_x) $(arg cliff_sensor_0_y) 0.0185" rpy="0 ${pi/2} $(arg cliff_sensor_0_yaw)" />
+		</xacro:if>
+		<xacro:if value="${$(arg num_cliff_sensors) > 1}">
+			<xacro:tfmini_plus name="cliff_sensor_1" rate="10" simulate="$(arg simulate_cliff_sensors)" visualize="$(arg visualize_sensors)" />
+			<xacro:fixed_joint name="cliff_sensor_1_j" parent="$(arg prefix)rear_right_box" child="$(arg prefix)cliff_sensor_1" lump="0"
+							   xyz="$(arg cliff_sensor_1_x) $(arg cliff_sensor_1_y) 0.0185" rpy="0 ${pi/2} $(arg cliff_sensor_1_yaw)" />
+		</xacro:if>
+		<xacro:if value="${$(arg num_cliff_sensors) > 2}">
+			<xacro:tfmini_plus name="cliff_sensor_2" rate="10" simulate="$(arg simulate_cliff_sensors)" visualize="$(arg visualize_sensors)" />
+			<xacro:fixed_joint name="cliff_sensor_2_j" parent="$(arg prefix)rear_right_box" child="$(arg prefix)cliff_sensor_2" lump="0"
+							   xyz="$(arg cliff_sensor_2_x) $(arg cliff_sensor_2_y) 0.0185" rpy="0 ${pi/2} $(arg cliff_sensor_2_yaw)" />
+		</xacro:if>
+		<xacro:if value="${$(arg num_cliff_sensors) > 3}">
+			<xacro:tfmini_plus name="cliff_sensor_3" rate="10" simulate="$(arg simulate_cliff_sensors)" visualize="$(arg visualize_sensors)" />
+			<xacro:fixed_joint name="cliff_sensor_3_j" parent="$(arg prefix)rear_right_box" child="$(arg prefix)cliff_sensor_3" lump="0"
+							   xyz="$(arg cliff_sensor_3_x) $(arg cliff_sensor_3_y) 0.0185" rpy="0 ${pi/2} $(arg cliff_sensor_3_yaw)" />
+		</xacro:if>
+	</xacro:if>
 
     <xacro:macro name="stiff_joint_tags">
         <stopCfm value="0" />
@@ -1508,40 +1723,42 @@
 				</spot>
 				<direction>1 0 0</direction>
 			</light>
-			<light name="light_front_left" type="spot">
-				<pose>0.3 0.13 0.2 ${7*pi/8} ${pi/2} 0</pose>
-				<attenuation>
-					<range>30</range>
-					<linear>0</linear>
-					<constant>0.2</constant>
-					<quadratic>0.0025</quadratic>
-				</attenuation>
-				<diffuse>0.8 0.8 0.5 1</diffuse>
-				<specular>0.8 0.8 0.5 1</specular>
-				<spot>
-					<inner_angle>1.5</inner_angle>
-					<outer_angle>1.6</outer_angle>
-					<falloff>1</falloff>
-				</spot>
-				<direction>1 0 0</direction>
-			</light>
-			<light name="light_front_right" type="spot">
-				<pose>0.3 -0.13 0.2 ${9*pi/8} ${pi/2} 0</pose>
-				<attenuation>
-					<range>30</range>
-					<linear>0</linear>
-					<constant>0.2</constant>
-					<quadratic>0.0025</quadratic>
-				</attenuation>
-				<diffuse>0.8 0.8 0.5 1</diffuse>
-				<specular>0.8 0.8 0.5 1</specular>
-				<spot>
-					<inner_angle>1.5</inner_angle>
-					<outer_angle>1.6</outer_angle>
-					<falloff>1</falloff>
-				</spot>
-				<direction>1 0 0</direction>
-			</light>
+			<xacro:unless value="${'$(arg revision)' == '2021'}">
+				<light name="light_front_left" type="spot">
+					<pose>0.3 0.13 0.2 ${7*pi/8} ${pi/2} 0</pose>
+					<attenuation>
+						<range>30</range>
+						<linear>0</linear>
+						<constant>0.2</constant>
+						<quadratic>0.0025</quadratic>
+					</attenuation>
+					<diffuse>0.8 0.8 0.5 1</diffuse>
+					<specular>0.8 0.8 0.5 1</specular>
+					<spot>
+						<inner_angle>1.5</inner_angle>
+						<outer_angle>1.6</outer_angle>
+						<falloff>1</falloff>
+					</spot>
+					<direction>1 0 0</direction>
+				</light>
+				<light name="light_front_right" type="spot">
+					<pose>0.3 -0.13 0.2 ${9*pi/8} ${pi/2} 0</pose>
+					<attenuation>
+						<range>30</range>
+						<linear>0</linear>
+						<constant>0.2</constant>
+						<quadratic>0.0025</quadratic>
+					</attenuation>
+					<diffuse>0.8 0.8 0.5 1</diffuse>
+					<specular>0.8 0.8 0.5 1</specular>
+					<spot>
+						<inner_angle>1.5</inner_angle>
+						<outer_angle>1.6</outer_angle>
+						<falloff>1</falloff>
+					</spot>
+					<direction>1 0 0</direction>
+				</light>
+			</xacro:unless>
 			<light name="light_rear" type="spot">
 				<pose>-0.4 0 0.2 0 ${pi/2} 0</pose>
 				<attenuation>
@@ -1559,6 +1776,25 @@
 				</spot>
 				<direction>1 0 0</direction>
 			</light>
+			<xacro:if value="${'$(arg revision)' == '2021'}">
+				<light name="light_front" type="spot">
+					<pose>0.4 0 0.2 0 ${pi/2} ${pi}</pose>
+					<attenuation>
+						<range>30</range>
+						<linear>0</linear>
+						<constant>0.2</constant>
+						<quadratic>0.0025</quadratic>
+					</attenuation>
+					<diffuse>0.8 0.8 0.5 1</diffuse>
+					<specular>0.8 0.8 0.5 1</specular>
+					<spot>
+						<inner_angle>1.5</inner_angle>
+						<outer_angle>1.8</outer_angle>
+						<falloff>1</falloff>
+					</spot>
+					<direction>1 0 0</direction>
+				</light>
+			</xacro:if>
 		</gazebo>
 	
     <gazebo reference="$(arg prefix)imu">
@@ -1569,7 +1805,7 @@
 				<update_rate>50</update_rate>
 				<imu>
 					<angular_velocity>
-						<x>
+						<xacro:macro name="angular_imu_noise">
 							<noise type="gaussian">
 								<mean>0</mean>
 								<stddev>0.009</stddev>
@@ -1579,32 +1815,13 @@
 								<dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
 								<precision>0.00025</precision>
 							</noise>
-						</x>
-						<y>
-							<noise type="gaussian">
-								<mean>0</mean>
-								<stddev>0.009</stddev>
-								<bias_mean>0.00075</bias_mean>
-								<bias_stddev>0.005</bias_stddev>
-								<dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
-								<dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
-								<precision>0.00025</precision>
-							</noise>
-						</y>
-						<z>
-							<noise type="gaussian">
-								<mean>0</mean>
-								<stddev>0.009</stddev>
-								<bias_mean>0.00075</bias_mean>
-								<bias_stddev>0.005</bias_stddev>
-								<dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
-								<dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
-								<precision>0.00025</precision>
-							</noise>
-						</z>
+						</xacro:macro>
+						<x><xacro:angular_imu_noise/></x>
+						<y><xacro:angular_imu_noise/></y>
+						<z><xacro:angular_imu_noise/></z>
 					</angular_velocity>
 					<linear_acceleration>
-						<x>
+						<xacro:macro name="linear_imu_noise">
 							<noise type="gaussian">
 								<mean>0</mean>
 								<stddev>0.021</stddev>
@@ -1614,29 +1831,10 @@
 								<dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
 								<precision>0.005</precision>
 							</noise>
-						</x>
-						<y>
-							<noise type="gaussian">
-								<mean>0</mean>
-								<stddev>0.021</stddev>
-								<bias_mean>0.05</bias_mean>
-								<bias_stddev>0.0075</bias_stddev>
-								<dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
-								<dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
-								<precision>0.005</precision>
-							</noise>
-						</y>
-						<z>
-							<noise type="gaussian">
-								<mean>0</mean>
-								<stddev>0.021</stddev>
-								<bias_mean>0.05</bias_mean>
-								<bias_stddev>0.0075</bias_stddev>
-								<dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
-								<dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
-								<precision>0.005</precision>
-							</noise>
-						</z>
+						</xacro:macro>
+						<x><xacro:linear_imu_noise /></x>
+						<y><xacro:linear_imu_noise /></y>
+						<z><xacro:linear_imu_noise /></z>
 					</linear_acceleration>
 				</imu>
             </sensor>

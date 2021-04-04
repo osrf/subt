@@ -21,7 +21,7 @@ install(TARGETS laser_rotate_plugin flipper_control_plugin
         LIBRARY DESTINATION lib
         RUNTIME DESTINATION bin)
 
-install(DIRECTORY config launch meshes textures urdf
+install(DIRECTORY config launch meshes textures urdf worlds
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 
 install(FILES model.sdf model.config

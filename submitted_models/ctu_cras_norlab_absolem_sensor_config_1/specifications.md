@@ -66,7 +66,20 @@ This configuration has an endurance of approximately 2 hours. The endurance test
 ### Diversions from Physical Hardware of Absolem robot
 There is a little "tower" (or a "rod") to which we attach our communication device (Mobilicom MCU-30 Lite). This device is modeled just by the generic SubT comms plugin.
 
-The tracks and flippers have to be approximated by wheels, as DartSim/Ignition Gazebo have no support for tracked vehicles. There is a working model for ODE/Gazebo, but there is no straight way of transferring it to Ignition Gazebo. This approximation results in worse performance on obstacles, and it can even happen that a piece of terrain gets "stuck" right between two wheels and the robot would completely stop in a case that would not be a problem with real tracks. 
+The tracks and flippers have to be approximated by wheels, as DartSim/Ignition Gazebo have no support for tracked vehicles. There is a working model for ODE/Gazebo, but there is no straight way of transferring it to Ignition Gazebo. This approximation results in worse performance on obstacles, and it can even happen that a piece of terrain gets "stuck" right between two wheels and the robot would completely stop in a case that would not be a problem with real tracks.
+
+## Sensor Config Guide
+
+The robot has undergone a facelift in 2021 which removed the rotating lidar and rearranged the internals in the body. The body was also moved and extended a bit. The tracks are the same in all configs, but we allow the facelifted models to drive `0.6 m/s` instead of `0.4 m/s` as the facelift also did a very slight modification to the tracks which resulted in much lower vibrations when driving. `0.6 m/s` is the designed maximum speed and the robot can easily drive it, but earlier the vibrations made such speed practically unusable.
+
+- SC 1: before facelift, rotating lidar, Ladybug omnicamera
+- SC 2: before facelift, rotating lidar, Ladybug omnicamera, 12 motes
+- SC 3: after facelift, 3D lidar, Ladybug omnicamera
+- SC 4: after facelift, 3D lidar, Ladybug omnicamera, 12 motes
+- SC 5: after facelift, 3D lidar, Ladybug omnicamera, 12 motes, thermocamera
+- SC 6: after facelift, 3D lidar, custom omnicamera solution
+- SC 7: after facelift, 3D lidar, custom omnicamera solution, 12 motes
+- SC 8: after facelift, 3D lidar, custom omnicamera solution, 12 motes, thermocamera
 
 ## Validation and Specification Links
 * Vehicle Links:
@@ -79,6 +92,12 @@ The tracks and flippers have to be approximated by wheels, as DartSim/Ignition G
   * PointGrey Ladybug LB-3 omnicamera - https://flir.app.boxcn.net/s/ds1bkoq9eiq6ga714nmnmzgpotgd4gkf/file/418658016565
   * IMU: XSens MTi-G 710 - https://www.xsens.com/hubfs/Downloads/Leaflets/mti-g-710-series.pdf
   * Lights: the robot uses `1 m` of LED strips around the body. The total power output of these strips is about `20 W`.
+  * Ouster OS0-128 https://ouster.com/products/os0-lidar-sensor/
+  * Basler cam https://www.baslerweb.com/en/products/cameras/area-scan-cameras/ace/aca2040-35gc/ + fisheye lens https://www.mouser.com/datasheet/2/857/DG00212701000_Tech_Spec_for_SAP_2000036382_2000036-1628255.pdf
+  * Basler cam https://www.baslerweb.com/en/products/cameras/area-scan-cameras/ace2/a2a1920-51gcpro/ + lens https://www.baslerweb.com/en/products/vision-components/lenses/basler-lens-c125-0418-5m-p-f4mm/
+  * Benewake TFmini plus point lidar https://www.mouser.com/datasheet/2/1099/Benewake_10152020_TFmini_Plus-1954028.pdf
+  * IMU: XSens MTi-30 https://www.mouser.com/datasheet/2/693/mti-series-1358510.pdf
+  * Boson thermal camera: https://www.oemcameras.com/flir-boson-320x256-2mm.htm
     
 * Validation Video Links:
   * Endurance test: Our camera ended each shot after 28 minutes, and there was also a depleted camera battery for about 20-30 minutes until the personnel noticed the problem. Thus we had to upload the video in parts: https://www.youtube.com/watch?v=h-Do-KO95zQ, https://www.youtube.com/watch?v=s8UMUY6W91o, https://www.youtube.com/watch?v=Gd6QGNa3TIY,  https://www.youtube.com/watch?v=zLrsgmCoFgU, https://www.youtube.com/watch?v=L2g-bApQsSE

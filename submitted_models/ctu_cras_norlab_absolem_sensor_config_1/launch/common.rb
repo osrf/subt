@@ -52,6 +52,11 @@ def _spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw, _add
 
   diffDrive = ""
   for wheel in 0...numFlipperWheels
+    # we only want odometry from the first diffdrive
+    no_odom = ""
+    if wheel > 0
+      no_odom = "<odom_topic>unused_odom</odom_topic>\n"
+    end
     diffDrive += <<-HEREDOC
       <plugin filename="ignition-gazebo-diff-drive-system" name="ignition::gazebo::systems::DiffDrive">
         #{diffdriveJoints[wheel]}
@@ -62,6 +67,7 @@ def _spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw, _add
         <max_velocity>#{_max_velocity}</max_velocity>
         <min_acceleration>-#{_max_acceleration}</min_acceleration>
         <max_acceleration>#{_max_acceleration}</max_acceleration>
+        #{no_odom}
       </plugin>
     HEREDOC
   end
