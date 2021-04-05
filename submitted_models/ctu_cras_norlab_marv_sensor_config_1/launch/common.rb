@@ -25,6 +25,11 @@ def _spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw, _add
   # generate a bunch of DiffDrive plugins (one for each simulated wheel size)
   diff_drive = ""
   for wheel_num in 1..num_wheels
+    # we only want odometry from the first diffdrive
+    no_odom = ""
+    if wheel_num > 1
+      no_odom = "<odom_topic>unused_odom</odom_topic>\n"
+    end
     diff_drive += "
       <plugin filename=\"libignition-gazebo-diff-drive-system.so\"
               name=\"ignition::gazebo::systems::DiffDrive\">
@@ -39,6 +44,7 @@ def _spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw, _add
           <max_velocity>#{max_vel}</max_velocity>
           <min_acceleration>#{-max_accel}</min_acceleration>
           <max_acceleration>#{max_accel}</max_acceleration>
+          #{no_odom}
       </plugin>"
   end
 
