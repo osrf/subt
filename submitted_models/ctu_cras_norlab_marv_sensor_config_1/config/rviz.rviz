@@ -6,12 +6,9 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
-        - /RobotModel1/Status1
-        - /Camera01/Status1
-        - /Front Left Cliff Sensor1/Autocompute Value Bounds1
-        - /Front Right Cliff Sensor1/Autocompute Value Bounds1
-        - /Rear Left Cliff Sensor1/Autocompute Value Bounds1
-        - /Rear Right Cliff Sensor1/Autocompute Value Bounds1
+        - /Omnicam1
+        - /Body cams1
+        - /Cliff Sensors1
       Splitter Ratio: 0.6147058606147766
     Tree Height: 580
   - Class: rviz/Selection
@@ -32,7 +29,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: Camera0
+    SyncSource: Thermal camera
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -316,90 +313,98 @@ Visualization Manager:
       Use Fixed Frame: true
       Use rainbow: true
       Value: false
-    - Class: rviz/Image
+    - Class: rviz/Group
+      Displays:
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: omni/camera_0/image_raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Camera0
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: omni/camera_1/image_raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Camera1
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: omni/camera_2/image_raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Camera2
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: omni/camera_3/image_raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Camera3
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: omni/camera_4/image_raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Camera4
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
       Enabled: true
-      Image Topic: omni/camera_0/image_raw
-      Max Value: 1
-      Median window: 5
-      Min Value: 0
-      Name: Camera0
-      Normalize Range: true
-      Queue Size: 2
-      Transport Hint: raw
-      Unreliable: false
-      Value: true
-    - Class: rviz/Image
+      Name: Omnicam
+    - Class: rviz/Group
+      Displays:
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: front/image_raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Front Fisheye
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: rear/image_raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Rear Fisheye
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
       Enabled: true
-      Image Topic: omni/camera_1/image_raw
-      Max Value: 1
-      Median window: 5
-      Min Value: 0
-      Name: Camera1
-      Normalize Range: true
-      Queue Size: 2
-      Transport Hint: raw
-      Unreliable: false
-      Value: true
-    - Class: rviz/Image
-      Enabled: true
-      Image Topic: omni/camera_2/image_raw
-      Max Value: 1
-      Median window: 5
-      Min Value: 0
-      Name: Camera2
-      Normalize Range: true
-      Queue Size: 2
-      Transport Hint: raw
-      Unreliable: false
-      Value: true
-    - Class: rviz/Image
-      Enabled: true
-      Image Topic: omni/camera_3/image_raw
-      Max Value: 1
-      Median window: 5
-      Min Value: 0
-      Name: Camera3
-      Normalize Range: true
-      Queue Size: 2
-      Transport Hint: raw
-      Unreliable: false
-      Value: true
-    - Class: rviz/Image
-      Enabled: true
-      Image Topic: omni/camera_4/image_raw
-      Max Value: 1
-      Median window: 5
-      Min Value: 0
-      Name: Camera4
-      Normalize Range: true
-      Queue Size: 2
-      Transport Hint: raw
-      Unreliable: false
-      Value: true
-    - Class: rviz/Image
-      Enabled: true
-      Image Topic: front/image_raw
-      Max Value: 1
-      Median window: 5
-      Min Value: 0
-      Name: Front Fisheye
-      Normalize Range: true
-      Queue Size: 2
-      Transport Hint: raw
-      Unreliable: false
-      Value: true
-    - Class: rviz/Image
-      Enabled: true
-      Image Topic: rear/image_raw
-      Max Value: 1
-      Median window: 5
-      Min Value: 0
-      Name: Rear Fisheye
-      Normalize Range: true
-      Queue Size: 2
-      Transport Hint: raw
-      Unreliable: false
-      Value: true
+      Name: Body cams
     - Class: rviz/Image
       Enabled: true
       Image Topic: thermal_camera/image_raw
@@ -412,126 +417,130 @@ Visualization Manager:
       Transport Hint: raw
       Unreliable: false
       Value: true
-    - Alpha: 1
-      Autocompute Intensity Bounds: true
-      Autocompute Value Bounds:
-        Max Value: 12
-        Min Value: 0.10000000149011612
-        Value: false
-      Axis: Z
-      Channel Name: intensity
-      Class: rviz/LaserScan
-      Color: 255; 255; 255
-      Color Transformer: AxisColor
-      Decay Time: 0
+    - Class: rviz/Group
+      Displays:
+        - Alpha: 1
+          Autocompute Intensity Bounds: true
+          Autocompute Value Bounds:
+            Max Value: 0
+            Min Value: -2
+            Value: false
+          Axis: Z
+          Channel Name: intensity
+          Class: rviz/PointCloud2
+          Color: 255; 255; 255
+          Color Transformer: AxisColor
+          Decay Time: 0
+          Enabled: true
+          Invert Rainbow: false
+          Max Color: 255; 255; 255
+          Max Intensity: 0
+          Min Color: 0; 0; 0
+          Min Intensity: 0
+          Name: Front Left Cliff Sensor
+          Position Transformer: XYZ
+          Queue Size: 10
+          Selectable: true
+          Size (Pixels): 3
+          Size (m): 0.009999999776482582
+          Style: Boxes
+          Topic: front_left_cliff_scan
+          Unreliable: false
+          Use Fixed Frame: false
+          Use rainbow: true
+          Value: true
+        - Alpha: 1
+          Autocompute Intensity Bounds: true
+          Autocompute Value Bounds:
+            Max Value: 0
+            Min Value: -2
+            Value: false
+          Axis: Z
+          Channel Name: intensity
+          Class: rviz/PointCloud2
+          Color: 255; 255; 255
+          Color Transformer: AxisColor
+          Decay Time: 0
+          Enabled: true
+          Invert Rainbow: false
+          Max Color: 255; 255; 255
+          Max Intensity: 0
+          Min Color: 0; 0; 0
+          Min Intensity: 0
+          Name: Front Right Cliff Sensor
+          Position Transformer: XYZ
+          Queue Size: 10
+          Selectable: true
+          Size (Pixels): 3
+          Size (m): 0.009999999776482582
+          Style: Boxes
+          Topic: front_right_cliff_scan
+          Unreliable: false
+          Use Fixed Frame: false
+          Use rainbow: true
+          Value: true
+        - Alpha: 1
+          Autocompute Intensity Bounds: true
+          Autocompute Value Bounds:
+            Max Value: 0
+            Min Value: -2
+            Value: false
+          Axis: Z
+          Channel Name: intensity
+          Class: rviz/PointCloud2
+          Color: 255; 255; 255
+          Color Transformer: AxisColor
+          Decay Time: 0
+          Enabled: true
+          Invert Rainbow: false
+          Max Color: 255; 255; 255
+          Max Intensity: 0
+          Min Color: 0; 0; 0
+          Min Intensity: 0
+          Name: Rear Left Cliff Sensor
+          Position Transformer: XYZ
+          Queue Size: 10
+          Selectable: true
+          Size (Pixels): 3
+          Size (m): 0.009999999776482582
+          Style: Boxes
+          Topic: rear_left_cliff_scan
+          Unreliable: false
+          Use Fixed Frame: false
+          Use rainbow: true
+          Value: true
+        - Alpha: 1
+          Autocompute Intensity Bounds: true
+          Autocompute Value Bounds:
+            Max Value: 0
+            Min Value: -2
+            Value: false
+          Axis: Z
+          Channel Name: intensity
+          Class: rviz/PointCloud2
+          Color: 255; 255; 255
+          Color Transformer: AxisColor
+          Decay Time: 0
+          Enabled: true
+          Invert Rainbow: false
+          Max Color: 255; 255; 255
+          Max Intensity: 0
+          Min Color: 0; 0; 0
+          Min Intensity: 0
+          Name: Rear Right Cliff Sensor
+          Position Transformer: XYZ
+          Queue Size: 10
+          Selectable: true
+          Size (Pixels): 3
+          Size (m): 0.009999999776482582
+          Style: Boxes
+          Topic: rear_right_cliff_scan
+          Unreliable: false
+          Use Fixed Frame: false
+          Use rainbow: true
+          Value: true
       Enabled: true
-      Invert Rainbow: false
-      Max Color: 255; 255; 255
-      Max Intensity: 0
-      Min Color: 0; 0; 0
-      Min Intensity: 0
-      Name: Front Left Cliff Sensor
-      Position Transformer: XYZ
-      Queue Size: 10
-      Selectable: true
-      Size (Pixels): 7
-      Size (m): 0.009999999776482582
-      Style: Points
-      Topic: front_left_cliff_scan
-      Unreliable: false
-      Use Fixed Frame: true
-      Use rainbow: true
-      Value: true
-    - Alpha: 1
-      Autocompute Intensity Bounds: true
-      Autocompute Value Bounds:
-        Max Value: 12
-        Min Value: 0.10000000149011612
-        Value: false
-      Axis: Z
-      Channel Name: intensity
-      Class: rviz/LaserScan
-      Color: 255; 255; 255
-      Color Transformer: AxisColor
-      Decay Time: 0
-      Enabled: true
-      Invert Rainbow: false
-      Max Color: 255; 255; 255
-      Max Intensity: 0
-      Min Color: 0; 0; 0
-      Min Intensity: 0
-      Name: Front Right Cliff Sensor
-      Position Transformer: XYZ
-      Queue Size: 10
-      Selectable: true
-      Size (Pixels): 7
-      Size (m): 0.009999999776482582
-      Style: Points
-      Topic: front_right_cliff_scan
-      Unreliable: false
-      Use Fixed Frame: true
-      Use rainbow: true
-      Value: true
-    - Alpha: 1
-      Autocompute Intensity Bounds: true
-      Autocompute Value Bounds:
-        Max Value: 12
-        Min Value: 0.10000000149011612
-        Value: false
-      Axis: Z
-      Channel Name: intensity
-      Class: rviz/LaserScan
-      Color: 255; 255; 255
-      Color Transformer: AxisColor
-      Decay Time: 0
-      Enabled: true
-      Invert Rainbow: false
-      Max Color: 255; 255; 255
-      Max Intensity: 0
-      Min Color: 0; 0; 0
-      Min Intensity: 0
-      Name: Rear Left Cliff Sensor
-      Position Transformer: XYZ
-      Queue Size: 10
-      Selectable: true
-      Size (Pixels): 7
-      Size (m): 0.009999999776482582
-      Style: Points
-      Topic: rear_left_cliff_scan
-      Unreliable: false
-      Use Fixed Frame: true
-      Use rainbow: true
-      Value: true
-    - Alpha: 1
-      Autocompute Intensity Bounds: true
-      Autocompute Value Bounds:
-        Max Value: 12
-        Min Value: 0.10000000149011612
-        Value: false
-      Axis: Z
-      Channel Name: intensity
-      Class: rviz/LaserScan
-      Color: 255; 255; 255
-      Color Transformer: AxisColor
-      Decay Time: 0
-      Enabled: true
-      Invert Rainbow: false
-      Max Color: 255; 255; 255
-      Max Intensity: 0
-      Min Color: 0; 0; 0
-      Min Intensity: 0
-      Name: Rear Right Cliff Sensor
-      Position Transformer: XYZ
-      Queue Size: 10
-      Selectable: true
-      Size (Pixels): 7
-      Size (m): 0.009999999776482582
-      Style: Points
-      Topic: rear_right_cliff_scan
-      Unreliable: false
-      Use Fixed Frame: true
-      Use rainbow: true
-      Value: true
+      Name: Cliff Sensors
     - Alpha: 0.20000000298023224
       Class: rviz_plugin_tutorials/Imu
       Color: 204; 51; 204
@@ -569,25 +578,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 3.18503475189209
+      Distance: 1.6808446645736694
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.17275816202163696
-        Y: -0.12142525613307953
-        Z: 0.022263038903474808
+        X: -0.08932632952928543
+        Y: 0.0075026992708444595
+        Z: -0.17264990508556366
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.5003980398178101
+      Pitch: 0.4353979527950287
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.537213921546936
+      Yaw: 6.270399570465088
     Saved: ~
 Window Geometry:
   Camera0:

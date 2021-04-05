@@ -117,23 +117,23 @@
 
     <!-- Cliff sensors -->
     <group if="$(arg has_cliff_sensors)">
-      <include file="$(find subt_ros)/launch/models_common/lidar_2d.launch">
-        <arg name="gazebo_topic" value="$(arg link_prefix)/cliff_sensor_front_left/sensor/laser/scan" />
+      <include file="$(find subt_ros)/launch/models_common/lidar_3d.launch">
+        <arg name="gazebo_topic" value="$(arg link_prefix)/cliff_sensor_front_left/sensor/laser/scan/points" />
         <arg name="node_name_suffix" value="front_left_cliff_sensor" />
         <arg name="ros_topic" value="front_left_cliff_scan" />
       </include>
-      <include file="$(find subt_ros)/launch/models_common/lidar_2d.launch">
-        <arg name="gazebo_topic" value="$(arg link_prefix)/cliff_sensor_front_right/sensor/laser/scan" />
+      <include file="$(find subt_ros)/launch/models_common/lidar_3d.launch">
+        <arg name="gazebo_topic" value="$(arg link_prefix)/cliff_sensor_front_right/sensor/laser/scan/points" />
         <arg name="node_name_suffix" value="front_right_cliff_sensor" />
         <arg name="ros_topic" value="front_right_cliff_scan" />
       </include>
-      <include file="$(find subt_ros)/launch/models_common/lidar_2d.launch">
-        <arg name="gazebo_topic" value="$(arg link_prefix)/cliff_sensor_rear_left/sensor/laser/scan" />
+      <include file="$(find subt_ros)/launch/models_common/lidar_3d.launch">
+        <arg name="gazebo_topic" value="$(arg link_prefix)/cliff_sensor_rear_left/sensor/laser/scan/points" />
         <arg name="node_name_suffix" value="rear_left_cliff_sensor" />
         <arg name="ros_topic" value="rear_left_cliff_scan" />
       </include>
-      <include file="$(find subt_ros)/launch/models_common/lidar_2d.launch">
-        <arg name="gazebo_topic" value="$(arg link_prefix)/cliff_sensor_rear_right/sensor/laser/scan" />
+      <include file="$(find subt_ros)/launch/models_common/lidar_3d.launch">
+        <arg name="gazebo_topic" value="$(arg link_prefix)/cliff_sensor_rear_right/sensor/laser/scan/points" />
         <arg name="node_name_suffix" value="rear_right_cliff_sensor" />
         <arg name="ros_topic" value="rear_right_cliff_scan" />
       </include>
