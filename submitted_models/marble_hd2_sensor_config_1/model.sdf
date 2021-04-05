@@ -154,9 +154,9 @@
           <specular>1.0 1.0 1.0</specular>
           <pbr>
             <metal>
-              <albedo_map>materials/textures/HD2_Albedo.png</albedo_map>
-              <metalness_map>materials/textures/HD2_Metalness.png</metalness_map>
-              <roughness_map>materials/textures/HD2_Roughness.png</roughness_map>
+              <albedo_map>materials/textures/HD2_Albedo.jpg</albedo_map>
+              <metalness_map>materials/textures/HD2_Metalness.jpg</metalness_map>
+              <roughness_map>materials/textures/HD2_Roughness.jpg</roughness_map>
             </metal>
           </pbr>
           <!-- fallback to script if no PBR support-->
@@ -913,9 +913,9 @@
                         <specular>1.0 1.0 1.0</specular>
                         <pbr>
                           <metal>
-                            <albedo_map>materials/textures/HD2_Albedo.png</albedo_map>
-                            <metalness_map>materials/textures/HD2_Metalness.png</metalness_map>
-                            <roughness_map>materials/textures/HD2_Roughness.png</roughness_map>
+                            <albedo_map>materials/textures/HD2_Albedo.jpg</albedo_map>
+                            <metalness_map>materials/textures/HD2_Metalness.jpg</metalness_map>
+                            <roughness_map>materials/textures/HD2_Roughness.jpg</roughness_map>
                           </metal>
                         </pbr>
                         <script>
@@ -975,9 +975,9 @@
                         <specular>1.0 1.0 1.0</specular>
                         <pbr>
                           <metal>
-                            <albedo_map>materials/textures/HD2_Albedo.png</albedo_map>
-                            <metalness_map>materials/textures/HD2_Metalness.png</metalness_map>
-                            <roughness_map>materials/textures/HD2_Roughness.png</roughness_map>
+                            <albedo_map>materials/textures/HD2_Albedo.jpg</albedo_map>
+                            <metalness_map>materials/textures/HD2_Metalness.jpg</metalness_map>
+                            <roughness_map>materials/textures/HD2_Roughness.jpg</roughness_map>
                           </metal>
                         </pbr>
                         <!-- fallback to script if no PBR support-->
@@ -1036,8 +1036,7 @@
                       </camera>
                       <always_on>1</always_on>
                       <update_rate>30</update_rate>
-                      <!-- <pose frame="">0.424 0 0.542 0 0.0 0</pose>  -->
-                      <pose frame="">0.0 0 0.03 0 0.0 0</pose>
+                      <pose frame="">0.02 0 0.047725 0 0.0 0</pose>
                     </sensor>
 
                     <light name="flashlight_flashlight_light_source_lamp_light" type="spot">
@@ -1087,33 +1086,33 @@
                         <lower>-1.5708</lower>
                         <!-- 90 degrees both direction (mechanical interference)-->
                         <upper>1.5708</upper>
-                    <effort>10</effort>
-                </limit>
-                <dynamics>
-                    <spring_reference>0</spring_reference>
-                    <spring_stiffness>0</spring_stiffness>
-                    <damping>0.5</damping>
-                </dynamics>
-                <use_parent_model_frame>1</use_parent_model_frame>
-              </axis>
-            </joint>
-            <!-- Gimbal Joints Plugins -->
-            <plugin filename="libignition-gazebo-joint-controller-system.so" name="ignition::gazebo::systems::JointController">
-              <joint_name>pan_gimbal_joint</joint_name>
-              <use_force_commands>true</use_force_commands>
-              <p_gain>0.4</p_gain>
-              <i_gain>10</i_gain>
-            </plugin>
-            <plugin filename="libignition-gazebo-joint-controller-system.so" name="ignition::gazebo::systems::JointController">
-              <joint_name>tilt_gimbal_joint</joint_name>
-              <use_force_commands>true</use_force_commands>
-              <p_gain>0.4</p_gain>
-              <i_gain>10</i_gain>
-            </plugin>
-            <plugin filename="libignition-gazebo-joint-state-publisher-system.so" name="ignition::gazebo::systems::JointStatePublisher">
-              <joint_name>pan_gimbal_joint</joint_name>
-              <joint_name>tilt_gimbal_joint</joint_name>
-            </plugin>
-            <static>0</static>
-          </model>
-        </sdf>
+                        <effort>10</effort>
+                      </limit>
+                      <dynamics>
+                        <spring_reference>0</spring_reference>
+                        <spring_stiffness>0</spring_stiffness>
+                        <damping>0.5</damping>
+                      </dynamics>
+                      <use_parent_model_frame>1</use_parent_model_frame>
+                    </axis>
+                  </joint>
+                  <!-- Gimbal Joints Plugins -->
+                  <plugin filename="libignition-gazebo-joint-controller-system.so" name="ignition::gazebo::systems::JointController">
+                    <joint_name>pan_gimbal_joint</joint_name>
+                    <use_force_commands>true</use_force_commands>
+                    <p_gain>0.4</p_gain>
+                    <i_gain>10</i_gain>
+                  </plugin>
+                  <plugin filename="libignition-gazebo-joint-controller-system.so" name="ignition::gazebo::systems::JointController">
+                    <joint_name>tilt_gimbal_joint</joint_name>
+                    <use_force_commands>true</use_force_commands>
+                    <p_gain>0.4</p_gain>
+                    <i_gain>10</i_gain>
+                  </plugin>
+                  <plugin filename="libignition-gazebo-joint-state-publisher-system.so" name="ignition::gazebo::systems::JointStatePublisher">
+                    <joint_name>pan_gimbal_joint</joint_name>
+                    <joint_name>tilt_gimbal_joint</joint_name>
+                  </plugin>
+                  <static>0</static>
+                </model>
+              </sdf>

@@ -10,7 +10,10 @@
     <arg name="publish_optical_frame" default="1" doc="If true, optical frame publisher will be created. Otherwise you have to provide the optical publisher by some other means." />
 
     <!-- RGB camera -->
-    <include file="$(dirname)/rgb_camera.launch" pass_all_args="true" />
+    <include file="$(dirname)/rgb_camera.launch" pass_all_args="true">
+      <!-- rgbd_camera does not put the intermediate /image in the set_rate service path -->
+      <arg name="set_rate_ign_service" value="$(arg gazebo_topic)/set_rate" />
+    </include>
 
     <!-- 3D cloud -->
     <node pkg="ros_ign_bridge" type="parameter_bridge" respawn="true"

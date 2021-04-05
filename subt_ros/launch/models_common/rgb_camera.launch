@@ -5,6 +5,7 @@
     <arg name="gazebo_topic" doc="The Gazebo 'base' topic (i.e. the prefix before /image and /camera_info)." />
     <arg name="ros_topic" doc="The ROS topic to publish the camera on (prefix without /image_raw or /camera_info)." />
     <arg name="node_name_suffix" doc="Suffix of the generated nodes. Use to disambiguate if multiple cameras of any type are used." />
+    <arg name="set_rate_ign_service" default="$(arg gazebo_topic)/image/set_rate" doc="Gazebo service for setting rate of the camera. Keep the default when using RGB cameras." />
 
     <arg name="publish_optical_frame" default="1" doc="If true, optical frame publisher will be created. Otherwise you have to provide the optical publisher by some other means." />
 
@@ -24,8 +25,7 @@
 
     <!-- RGB optical publisher -->
     <node pkg="subt_ros" type="optical_frame_publisher" respawn="true"
-      name="optical_frame_publisher_$(arg node_name_suffix)">
-      if="$(arg publish_optical_frame)"
+      name="optical_frame_publisher_$(arg node_name_suffix)" if="$(arg publish_optical_frame)">
       <remap from="input/image" to="$(arg ros_topic)/image_raw" />
       <remap from="output/image" to="$(arg ros_topic)/optical/image_raw" />
       <remap from="input/camera_info" to="$(arg ros_topic)/camera_info" />
@@ -35,7 +35,7 @@
     <!-- Allow slowing down framerate of the camera. -->
     <include file="$(dirname)/set_rate_relay.launch">
       <arg name="name" value="ros_ign_bridge_$(arg node_name_suffix)_set_rate" />
-      <arg name="ign_service" value="$(arg gazebo_topic)/image/set_rate" />
+      <arg name="ign_service" value="$(arg set_rate_ign_service)" />
       <arg name="ros_service" value="$(arg ros_topic)/set_rate" />
     </include>
 </launch>
