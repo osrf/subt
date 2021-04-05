@@ -1,7 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<sdf version="1.7">
+<sdf version="1.6">
   <model name="lily">
     <link name="base_link">
+      <pose>0 0 0 0 -0 0</pose>
       <inertial>
         <pose>-0 -0 0.032102 0 -0 0</pose>
         <mass>5.61</mass>
@@ -776,32 +777,8 @@
       <gravity>1</gravity>
       <velocity_decay/>
     </link>
-    <joint name="back_camera_j" type="fixed">
-      <pose relative_to="base_link">-0.19 0.095 0.205 0 -0.523599 -3.1415926535897931</pose>
-      <parent>base_link</parent>
-      <child>ace2_camera_back</child>
-      <axis>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-        <xyz>0 0 1</xyz>
-        <limit>
-          <lower>-1e+16</lower>
-          <upper>1e+16</upper>
-        </limit>
-      </axis>
-      <physics>
-        <ode>
-          <limit>
-            <cfm>0</cfm>
-            <erp>0.2</erp>
-          </limit>
-        </ode>
-      </physics>
-    </joint>
     <link name="ace2_camera_back">
-      <pose relative_to="back_camera_j">0 0 0 0 -0 0</pose>
+      <pose>-0.19 0.095 0.205 0 -0.523599 -3.1415926535897931</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>1e-05</mass>
@@ -869,16 +846,16 @@
         </camera>
       </sensor>
     </link>
-    <joint name="HEBI_SIM_JOINT/L1_J1_base" type="fixed">
-      <pose relative_to="base_link">0.313934 0.18125 0 0 -0 0.523599</pose>
+    <joint name="back_camera_j" type="fixed">
+      <child>ace2_camera_back</child>
       <parent>base_link</parent>
-      <child>L1_J1_base/R8_9</child>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
@@ -894,7 +871,7 @@
       </physics>
     </joint>
     <link name="L1_J1_base/R8_9">
-      <pose relative_to="HEBI_SIM_JOINT/L1_J1_base">0 0 0 0 -0 0</pose>
+      <pose>0.313934 0.18125 0 0 -0 0.523599</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>0.001</mass>
@@ -916,26 +893,32 @@
         </geometry>
       </visual>
     </link>
-    <joint name="L1_J1_base" type="revolute">
-      <pose relative_to="base_link">0.313934 0.18125 0.051 0 -0 0.523599</pose>
+    <joint name="HEBI_SIM_JOINT/L1_J1_base" type="fixed">
+      <child>L1_J1_base/R8_9</child>
       <parent>base_link</parent>
-      <child>shoulder1_bracket/INPUT_INTERFACE</child>
       <axis>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0.5</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
       </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
     </joint>
     <link name="shoulder1_bracket/INPUT_INTERFACE">
-      <pose relative_to="L1_J1_base">0 0 0 0 -0 0</pose>
+      <pose>0.313934 0.18125 0.051 0 -0 0.523599</pose>
       <inertial>
         <pose>0 -0.01125 0.0275 0 -0 0</pose>
         <mass>0.215</mass>
@@ -1032,32 +1015,26 @@
       <gravity>1</gravity>
       <velocity_decay/>
     </link>
-    <joint name="shoulder1_bracket/OUTPUT_INTERFACE" type="fixed">
-      <pose relative_to="shoulder1_bracket/INPUT_INTERFACE">0 -0.0225 0.055 -1.5707963267948966 0 0</pose>
-      <parent>shoulder1_bracket/INPUT_INTERFACE</parent>
-      <child>L1_J2_shoulder/INPUT_INTERFACE</child>
+    <joint name="L1_J1_base" type="revolute">
+      <child>shoulder1_bracket/INPUT_INTERFACE</child>
+      <parent>base_link</parent>
       <axis>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
         <xyz>0 0 1</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0.5</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
-      <physics>
-        <ode>
-          <limit>
-            <cfm>0</cfm>
-            <erp>0.2</erp>
-          </limit>
-        </ode>
-      </physics>
     </joint>
     <link name="L1_J2_shoulder/INPUT_INTERFACE">
-      <pose relative_to="shoulder1_bracket/OUTPUT_INTERFACE">0 0 0 0 -0 0</pose>
+      <pose>0.325184 0.161764 0.106 -1.5707963267948966 -0 0.523599</pose>
       <inertial>
         <pose>-0.02396 -0.00161 0.02557 0 -0 0</pose>
         <mass>0.715</mass>
@@ -1153,16 +1130,16 @@
       <gravity>1</gravity>
       <velocity_decay/>
     </link>
-    <joint name="HEBI_SIM_JOINT/L1_J2_shoulder" type="fixed">
-      <pose relative_to="L1_J2_shoulder/INPUT_INTERFACE">0 0 0 0 -0 0</pose>
-      <parent>L1_J2_shoulder/INPUT_INTERFACE</parent>
-      <child>L1_J2_shoulder/R8_16</child>
+    <joint name="shoulder1_bracket/OUTPUT_INTERFACE" type="fixed">
+      <child>L1_J2_shoulder/INPUT_INTERFACE</child>
+      <parent>shoulder1_bracket/INPUT_INTERFACE</parent>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
@@ -1178,7 +1155,7 @@
       </physics>
     </joint>
     <link name="L1_J2_shoulder/R8_16">
-      <pose relative_to="HEBI_SIM_JOINT/L1_J2_shoulder">0 0 0 0 -0 0</pose>
+      <pose>0.325184 0.161764 0.106 -1.5707963267948966 -0 0.523599</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>0.001</mass>
@@ -1200,26 +1177,32 @@
         </geometry>
       </visual>
     </link>
-    <joint name="L1_J2_shoulder" type="revolute">
-      <pose relative_to="L1_J2_shoulder/INPUT_INTERFACE">0 0 0.051 0 -0 0</pose>
+    <joint name="HEBI_SIM_JOINT/L1_J2_shoulder" type="fixed">
+      <child>L1_J2_shoulder/R8_16</child>
       <parent>L1_J2_shoulder/INPUT_INTERFACE</parent>
-      <child>shoulder1_elbow/INPUT_INTERFACE</child>
       <axis>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0.5</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
       </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
     </joint>
     <link name="shoulder1_elbow/INPUT_INTERFACE">
-      <pose relative_to="L1_J2_shoulder">0 0 0 0 -0 0</pose>
+      <pose>0.299684 0.205932 0.106 -1.5707963267948966 -0 0.523599</pose>
       <inertial>
         <pose>0.1625 0 0.02 0 -0 0</pose>
         <mass>0.402</mass>
@@ -1363,32 +1346,26 @@
       <gravity>1</gravity>
       <velocity_decay/>
     </link>
-    <joint name="shoulder1_elbow/OUTPUT_JOINT" type="fixed">
-      <pose relative_to="shoulder1_elbow/INPUT_INTERFACE">0.325 -0 0 -3.1415926535897931 0 0</pose>
-      <parent>shoulder1_elbow/INPUT_INTERFACE</parent>
-      <child>L1_J3_elbow/INPUT_INTERFACE</child>
+    <joint name="L1_J2_shoulder" type="revolute">
+      <child>shoulder1_elbow/INPUT_INTERFACE</child>
+      <parent>L1_J2_shoulder/INPUT_INTERFACE</parent>
       <axis>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
         <xyz>0 0 1</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0.5</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
-      <physics>
-        <ode>
-          <limit>
-            <cfm>0</cfm>
-            <erp>0.2</erp>
-          </limit>
-        </ode>
-      </physics>
     </joint>
     <link name="L1_J3_elbow/INPUT_INTERFACE">
-      <pose relative_to="shoulder1_elbow/OUTPUT_JOINT">0 0 0 0 -0 0</pose>
+      <pose>0.581142 0.368432 0.106 1.5707963267948966 0 0.523599</pose>
       <inertial>
         <pose>-0.02396 -0.00161 0.02557 0 -0 0</pose>
         <mass>0.685</mass>
@@ -1484,16 +1461,16 @@
       <gravity>1</gravity>
       <velocity_decay/>
     </link>
-    <joint name="HEBI_SIM_JOINT/L1_J3_elbow" type="fixed">
-      <pose relative_to="L1_J3_elbow/INPUT_INTERFACE">0 0 0 0 -0 0</pose>
-      <parent>L1_J3_elbow/INPUT_INTERFACE</parent>
-      <child>L1_J3_elbow/R8_9</child>
+    <joint name="shoulder1_elbow/OUTPUT_JOINT" type="fixed">
+      <child>L1_J3_elbow/INPUT_INTERFACE</child>
+      <parent>shoulder1_elbow/INPUT_INTERFACE</parent>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
@@ -1509,7 +1486,7 @@
       </physics>
     </joint>
     <link name="L1_J3_elbow/R8_9">
-      <pose relative_to="HEBI_SIM_JOINT/L1_J3_elbow">0 0 0 0 -0 0</pose>
+      <pose>0.581142 0.368432 0.106 1.5707963267948966 0 0.523599</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>0.001</mass>
@@ -1531,26 +1508,32 @@
         </geometry>
       </visual>
     </link>
-    <joint name="L1_J3_elbow" type="revolute">
-      <pose relative_to="L1_J3_elbow/INPUT_INTERFACE">0 0 0.051 0 -0 0</pose>
+    <joint name="HEBI_SIM_JOINT/L1_J3_elbow" type="fixed">
+      <child>L1_J3_elbow/R8_9</child>
       <parent>L1_J3_elbow/INPUT_INTERFACE</parent>
-      <child>elbow1_foot/INPUT_INTERFACE</child>
       <axis>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0.5</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
       </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
     </joint>
     <link name="elbow1_foot/INPUT_INTERFACE">
-      <pose relative_to="L1_J3_elbow">0 0 0 0 -0 0</pose>
+      <pose>0.606642 0.324264 0.106 1.5707963267948966 0 0.523599</pose>
       <inertial>
         <pose>0.1625 0 0.02 0 -0 0</pose>
         <mass>0.402</mass>
@@ -1705,32 +1688,26 @@
         </contact>
       </sensor>
     </link>
-    <joint name="elbow1_foot/OUTPUT_JOINT" type="fixed">
-      <pose relative_to="elbow1_foot/INPUT_INTERFACE">0.325 0 0.02 -1.5707963267948966 -0 -1.5707963267948966</pose>
-      <parent>elbow1_foot/INPUT_INTERFACE</parent>
-      <child>foot1/INPUT_INTERFACE</child>
+    <joint name="L1_J3_elbow" type="revolute">
+      <child>elbow1_foot/INPUT_INTERFACE</child>
+      <parent>L1_J3_elbow/INPUT_INTERFACE</parent>
       <axis>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
         <xyz>0 0 1</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0.5</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
-      <physics>
-        <ode>
-          <limit>
-            <cfm>0</cfm>
-            <erp>0.2</erp>
-          </limit>
-        </ode>
-      </physics>
     </joint>
     <link name="foot1/INPUT_INTERFACE">
-      <pose relative_to="elbow1_foot/OUTPUT_JOINT">0 0 0 0 -0 0</pose>
+      <pose>0.898101 0.469444 0.106 -0.523599 1.5707963267948966 0</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>0.06</mass>
@@ -1752,16 +1729,16 @@
         </geometry>
       </visual>
     </link>
-    <joint name="HEBI_SIM_JOINT/L2_J1_base" type="fixed">
-      <pose relative_to="base_link">0.313934 -0.18125 0 0 0 -0.523599</pose>
-      <parent>base_link</parent>
-      <child>L2_J1_base/R8_9</child>
+    <joint name="elbow1_foot/OUTPUT_JOINT" type="fixed">
+      <child>foot1/INPUT_INTERFACE</child>
+      <parent>elbow1_foot/INPUT_INTERFACE</parent>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
@@ -1777,7 +1754,7 @@
       </physics>
     </joint>
     <link name="L2_J1_base/R8_9">
-      <pose relative_to="HEBI_SIM_JOINT/L2_J1_base">0 0 0 0 -0 0</pose>
+      <pose>0.313934 -0.18125 0 0 0 -0.523599</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>0.001</mass>
@@ -1799,26 +1776,32 @@
         </geometry>
       </visual>
     </link>
-    <joint name="L2_J1_base" type="revolute">
-      <pose relative_to="base_link">0.313934 -0.18125 0.051 0 0 -0.523599</pose>
+    <joint name="HEBI_SIM_JOINT/L2_J1_base" type="fixed">
+      <child>L2_J1_base/R8_9</child>
       <parent>base_link</parent>
-      <child>shoulder2_bracket/INPUT_INTERFACE</child>
       <axis>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0.5</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
       </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
     </joint>
     <link name="shoulder2_bracket/INPUT_INTERFACE">
-      <pose relative_to="L2_J1_base">0 0 0 0 -0 0</pose>
+      <pose>0.313934 -0.18125 0.051 0 0 -0.523599</pose>
       <inertial>
         <pose>0 0.01125 0.0275 0 -0 0</pose>
         <mass>0.215</mass>
@@ -1915,32 +1898,26 @@
       <gravity>1</gravity>
       <velocity_decay/>
     </link>
-    <joint name="shoulder2_bracket/OUTPUT_INTERFACE" type="fixed">
-      <pose relative_to="shoulder2_bracket/INPUT_INTERFACE">0 0.0225 0.055 1.5707963267948966 -0 0</pose>
-      <parent>shoulder2_bracket/INPUT_INTERFACE</parent>
-      <child>L2_J2_shoulder/INPUT_INTERFACE</child>
+    <joint name="L2_J1_base" type="revolute">
+      <child>shoulder2_bracket/INPUT_INTERFACE</child>
+      <parent>base_link</parent>
       <axis>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
         <xyz>0 0 1</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0.5</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
-      <physics>
-        <ode>
-          <limit>
-            <cfm>0</cfm>
-            <erp>0.2</erp>
-          </limit>
-        </ode>
-      </physics>
     </joint>
     <link name="L2_J2_shoulder/INPUT_INTERFACE">
-      <pose relative_to="shoulder2_bracket/OUTPUT_INTERFACE">0 0 0 0 -0 0</pose>
+      <pose>0.325184 -0.161764 0.106 1.5707963267948966 -0 -0.523599</pose>
       <inertial>
         <pose>-0.02396 -0.00161 0.02557 0 -0 0</pose>
         <mass>0.715</mass>
@@ -2036,16 +2013,16 @@
       <gravity>1</gravity>
       <velocity_decay/>
     </link>
-    <joint name="HEBI_SIM_JOINT/L2_J2_shoulder" type="fixed">
-      <pose relative_to="L2_J2_shoulder/INPUT_INTERFACE">0 0 0 0 -0 0</pose>
-      <parent>L2_J2_shoulder/INPUT_INTERFACE</parent>
-      <child>L2_J2_shoulder/R8_16</child>
+    <joint name="shoulder2_bracket/OUTPUT_INTERFACE" type="fixed">
+      <child>L2_J2_shoulder/INPUT_INTERFACE</child>
+      <parent>shoulder2_bracket/INPUT_INTERFACE</parent>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
@@ -2061,7 +2038,7 @@
       </physics>
     </joint>
     <link name="L2_J2_shoulder/R8_16">
-      <pose relative_to="HEBI_SIM_JOINT/L2_J2_shoulder">0 0 0 0 -0 0</pose>
+      <pose>0.325184 -0.161764 0.106 1.5707963267948966 -0 -0.523599</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>0.001</mass>
@@ -2083,26 +2060,32 @@
         </geometry>
       </visual>
     </link>
-    <joint name="L2_J2_shoulder" type="revolute">
-      <pose relative_to="L2_J2_shoulder/INPUT_INTERFACE">0 0 0.051 0 -0 0</pose>
+    <joint name="HEBI_SIM_JOINT/L2_J2_shoulder" type="fixed">
+      <child>L2_J2_shoulder/R8_16</child>
       <parent>L2_J2_shoulder/INPUT_INTERFACE</parent>
-      <child>shoulder2_elbow/INPUT_INTERFACE</child>
       <axis>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0.5</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
       </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
     </joint>
     <link name="shoulder2_elbow/INPUT_INTERFACE">
-      <pose relative_to="L2_J2_shoulder">0 0 0 0 -0 0</pose>
+      <pose>0.299684 -0.205932 0.106 1.5707963267948966 -0 -0.523599</pose>
       <inertial>
         <pose>0.1625 0 0.02 0 -0 0</pose>
         <mass>0.402</mass>
@@ -2246,32 +2229,26 @@
       <gravity>1</gravity>
       <velocity_decay/>
     </link>
-    <joint name="shoulder2_elbow/OUTPUT_JOINT" type="fixed">
-      <pose relative_to="shoulder2_elbow/INPUT_INTERFACE">0.325 -0 0 -3.1415926535897931 0 0</pose>
-      <parent>shoulder2_elbow/INPUT_INTERFACE</parent>
-      <child>L2_J3_elbow/INPUT_INTERFACE</child>
+    <joint name="L2_J2_shoulder" type="revolute">
+      <child>shoulder2_elbow/INPUT_INTERFACE</child>
+      <parent>L2_J2_shoulder/INPUT_INTERFACE</parent>
       <axis>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
         <xyz>0 0 1</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0.5</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
-      <physics>
-        <ode>
-          <limit>
-            <cfm>0</cfm>
-            <erp>0.2</erp>
-          </limit>
-        </ode>
-      </physics>
     </joint>
     <link name="L2_J3_elbow/INPUT_INTERFACE">
-      <pose relative_to="shoulder2_elbow/OUTPUT_JOINT">0 0 0 0 -0 0</pose>
+      <pose>0.581142 -0.368432 0.106 -1.5707963267948966 -0 -0.523599</pose>
       <inertial>
         <pose>-0.02396 -0.00161 0.02557 0 -0 0</pose>
         <mass>0.685</mass>
@@ -2367,16 +2344,16 @@
       <gravity>1</gravity>
       <velocity_decay/>
     </link>
-    <joint name="HEBI_SIM_JOINT/L2_J3_elbow" type="fixed">
-      <pose relative_to="L2_J3_elbow/INPUT_INTERFACE">0 0 0 0 -0 0</pose>
-      <parent>L2_J3_elbow/INPUT_INTERFACE</parent>
-      <child>L2_J3_elbow/R8_9</child>
+    <joint name="shoulder2_elbow/OUTPUT_JOINT" type="fixed">
+      <child>L2_J3_elbow/INPUT_INTERFACE</child>
+      <parent>shoulder2_elbow/INPUT_INTERFACE</parent>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
@@ -2392,7 +2369,7 @@
       </physics>
     </joint>
     <link name="L2_J3_elbow/R8_9">
-      <pose relative_to="HEBI_SIM_JOINT/L2_J3_elbow">0 0 0 0 -0 0</pose>
+      <pose>0.581142 -0.368432 0.106 -1.5707963267948966 -0 -0.523599</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>0.001</mass>
@@ -2414,26 +2391,32 @@
         </geometry>
       </visual>
     </link>
-    <joint name="L2_J3_elbow" type="revolute">
-      <pose relative_to="L2_J3_elbow/INPUT_INTERFACE">0 0 0.051 0 -0 0</pose>
+    <joint name="HEBI_SIM_JOINT/L2_J3_elbow" type="fixed">
+      <child>L2_J3_elbow/R8_9</child>
       <parent>L2_J3_elbow/INPUT_INTERFACE</parent>
-      <child>elbow2_foot/INPUT_INTERFACE</child>
       <axis>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0.5</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
       </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
     </joint>
     <link name="elbow2_foot/INPUT_INTERFACE">
-      <pose relative_to="L2_J3_elbow">0 0 0 0 -0 0</pose>
+      <pose>0.606642 -0.324264 0.106 -1.5707963267948966 -0 -0.523599</pose>
       <inertial>
         <pose>0.1625 0 0.02 0 -0 0</pose>
         <mass>0.402</mass>
@@ -2588,32 +2571,26 @@
         </contact>
       </sensor>
     </link>
-    <joint name="elbow2_foot/OUTPUT_JOINT" type="fixed">
-      <pose relative_to="elbow2_foot/INPUT_INTERFACE">0.325 0 0.02 -1.5707963267948966 -0 -1.5707963267948966</pose>
-      <parent>elbow2_foot/INPUT_INTERFACE</parent>
-      <child>foot2/INPUT_INTERFACE</child>
+    <joint name="L2_J3_elbow" type="revolute">
+      <child>elbow2_foot/INPUT_INTERFACE</child>
+      <parent>L2_J3_elbow/INPUT_INTERFACE</parent>
       <axis>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
         <xyz>0 0 1</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0.5</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
-      <physics>
-        <ode>
-          <limit>
-            <cfm>0</cfm>
-            <erp>0.2</erp>
-          </limit>
-        </ode>
-      </physics>
     </joint>
     <link name="foot2/INPUT_INTERFACE">
-      <pose relative_to="elbow2_foot/OUTPUT_JOINT">0 0 0 0 -0 0</pose>
+      <pose>0.898101 -0.469444 0.106 2.61799 -1.5707963267948966 0</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>0.06</mass>
@@ -2635,16 +2612,16 @@
         </geometry>
       </visual>
     </link>
-    <joint name="HEBI_SIM_JOINT/L3_J1_base" type="fixed">
-      <pose relative_to="base_link">0 0.2625 0 0 -0 1.5707963267948966</pose>
-      <parent>base_link</parent>
-      <child>L3_J1_base/R8_9</child>
+    <joint name="elbow2_foot/OUTPUT_JOINT" type="fixed">
+      <child>foot2/INPUT_INTERFACE</child>
+      <parent>elbow2_foot/INPUT_INTERFACE</parent>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
@@ -2660,7 +2637,7 @@
       </physics>
     </joint>
     <link name="L3_J1_base/R8_9">
-      <pose relative_to="HEBI_SIM_JOINT/L3_J1_base">0 0 0 0 -0 0</pose>
+      <pose>0 0.2625 0 0 -0 1.5707963267948966</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>0.001</mass>
@@ -2682,26 +2659,32 @@
         </geometry>
       </visual>
     </link>
-    <joint name="L3_J1_base" type="revolute">
-      <pose relative_to="base_link">0 0.2625 0.051 0 -0 1.5707963267948966</pose>
+    <joint name="HEBI_SIM_JOINT/L3_J1_base" type="fixed">
+      <child>L3_J1_base/R8_9</child>
       <parent>base_link</parent>
-      <child>shoulder3_bracket/INPUT_INTERFACE</child>
       <axis>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0.5</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
       </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
     </joint>
     <link name="shoulder3_bracket/INPUT_INTERFACE">
-      <pose relative_to="L3_J1_base">0 0 0 0 -0 0</pose>
+      <pose>0 0.2625 0.051 0 -0 1.5707963267948966</pose>
       <inertial>
         <pose>0 -0.01125 0.0275 0 -0 0</pose>
         <mass>0.215</mass>
@@ -2798,32 +2781,26 @@
       <gravity>1</gravity>
       <velocity_decay/>
     </link>
-    <joint name="shoulder3_bracket/OUTPUT_INTERFACE" type="fixed">
-      <pose relative_to="shoulder3_bracket/INPUT_INTERFACE">0 -0.0225 0.055 -1.5707963267948966 0 0</pose>
-      <parent>shoulder3_bracket/INPUT_INTERFACE</parent>
-      <child>L3_J2_shoulder/INPUT_INTERFACE</child>
+    <joint name="L3_J1_base" type="revolute">
+      <child>shoulder3_bracket/INPUT_INTERFACE</child>
+      <parent>base_link</parent>
       <axis>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
         <xyz>0 0 1</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0.5</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
-      <physics>
-        <ode>
-          <limit>
-            <cfm>0</cfm>
-            <erp>0.2</erp>
-          </limit>
-        </ode>
-      </physics>
     </joint>
     <link name="L3_J2_shoulder/INPUT_INTERFACE">
-      <pose relative_to="shoulder3_bracket/OUTPUT_INTERFACE">0 0 0 0 -0 0</pose>
+      <pose>0.0225 0.2625 0.106 -1.5707963267948966 0 1.5707963267948966</pose>
       <inertial>
         <pose>-0.02396 -0.00161 0.02557 0 -0 0</pose>
         <mass>0.715</mass>
@@ -2919,16 +2896,16 @@
       <gravity>1</gravity>
       <velocity_decay/>
     </link>
-    <joint name="HEBI_SIM_JOINT/L3_J2_shoulder" type="fixed">
-      <pose relative_to="L3_J2_shoulder/INPUT_INTERFACE">0 0 0 0 -0 0</pose>
-      <parent>L3_J2_shoulder/INPUT_INTERFACE</parent>
-      <child>L3_J2_shoulder/R8_16</child>
+    <joint name="shoulder3_bracket/OUTPUT_INTERFACE" type="fixed">
+      <child>L3_J2_shoulder/INPUT_INTERFACE</child>
+      <parent>shoulder3_bracket/INPUT_INTERFACE</parent>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
@@ -2944,7 +2921,7 @@
       </physics>
     </joint>
     <link name="L3_J2_shoulder/R8_16">
-      <pose relative_to="HEBI_SIM_JOINT/L3_J2_shoulder">0 0 0 0 -0 0</pose>
+      <pose>0.0225 0.2625 0.106 -1.5707963267948966 0 1.5707963267948966</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>0.001</mass>
@@ -2966,26 +2943,32 @@
         </geometry>
       </visual>
     </link>
-    <joint name="L3_J2_shoulder" type="revolute">
-      <pose relative_to="L3_J2_shoulder/INPUT_INTERFACE">0 0 0.051 0 -0 0</pose>
+    <joint name="HEBI_SIM_JOINT/L3_J2_shoulder" type="fixed">
+      <child>L3_J2_shoulder/R8_16</child>
       <parent>L3_J2_shoulder/INPUT_INTERFACE</parent>
-      <child>shoulder3_elbow/INPUT_INTERFACE</child>
       <axis>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0.5</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
       </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
     </joint>
     <link name="shoulder3_elbow/INPUT_INTERFACE">
-      <pose relative_to="L3_J2_shoulder">0 0 0 0 -0 0</pose>
+      <pose>-0.0285 0.2625 0.106 -1.5707963267948966 0 1.5707963267948966</pose>
       <inertial>
         <pose>0.1625 0 0.02 0 -0 0</pose>
         <mass>0.402</mass>
@@ -3129,32 +3112,26 @@
       <gravity>1</gravity>
       <velocity_decay/>
     </link>
-    <joint name="shoulder3_elbow/OUTPUT_JOINT" type="fixed">
-      <pose relative_to="shoulder3_elbow/INPUT_INTERFACE">0.325 -0 0 -3.1415926535897931 0 0</pose>
-      <parent>shoulder3_elbow/INPUT_INTERFACE</parent>
-      <child>L3_J3_elbow/INPUT_INTERFACE</child>
+    <joint name="L3_J2_shoulder" type="revolute">
+      <child>shoulder3_elbow/INPUT_INTERFACE</child>
+      <parent>L3_J2_shoulder/INPUT_INTERFACE</parent>
       <axis>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
         <xyz>0 0 1</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0.5</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
-      <physics>
-        <ode>
-          <limit>
-            <cfm>0</cfm>
-            <erp>0.2</erp>
-          </limit>
-        </ode>
-      </physics>
     </joint>
     <link name="L3_J3_elbow/INPUT_INTERFACE">
-      <pose relative_to="shoulder3_elbow/OUTPUT_JOINT">0 0 0 0 -0 0</pose>
+      <pose>-0.0285 0.5875 0.106 1.5707963267948966 -0 1.5707963267948966</pose>
       <inertial>
         <pose>-0.02396 -0.00161 0.02557 0 -0 0</pose>
         <mass>0.685</mass>
@@ -3250,16 +3227,16 @@
       <gravity>1</gravity>
       <velocity_decay/>
     </link>
-    <joint name="HEBI_SIM_JOINT/L3_J3_elbow" type="fixed">
-      <pose relative_to="L3_J3_elbow/INPUT_INTERFACE">0 0 0 0 -0 0</pose>
-      <parent>L3_J3_elbow/INPUT_INTERFACE</parent>
-      <child>L3_J3_elbow/R8_9</child>
+    <joint name="shoulder3_elbow/OUTPUT_JOINT" type="fixed">
+      <child>L3_J3_elbow/INPUT_INTERFACE</child>
+      <parent>shoulder3_elbow/INPUT_INTERFACE</parent>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
@@ -3275,7 +3252,7 @@
       </physics>
     </joint>
     <link name="L3_J3_elbow/R8_9">
-      <pose relative_to="HEBI_SIM_JOINT/L3_J3_elbow">0 0 0 0 -0 0</pose>
+      <pose>-0.0285 0.5875 0.106 1.5707963267948966 -0 1.5707963267948966</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>0.001</mass>
@@ -3297,26 +3274,32 @@
         </geometry>
       </visual>
     </link>
-    <joint name="L3_J3_elbow" type="revolute">
-      <pose relative_to="L3_J3_elbow/INPUT_INTERFACE">0 0 0.051 0 -0 0</pose>
+    <joint name="HEBI_SIM_JOINT/L3_J3_elbow" type="fixed">
+      <child>L3_J3_elbow/R8_9</child>
       <parent>L3_J3_elbow/INPUT_INTERFACE</parent>
-      <child>elbow3_foot/INPUT_INTERFACE</child>
       <axis>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0.5</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
       </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
     </joint>
     <link name="elbow3_foot/INPUT_INTERFACE">
-      <pose relative_to="L3_J3_elbow">0 0 0 0 -0 0</pose>
+      <pose>0.0225 0.5875 0.106 1.5707963267948966 -0 1.5707963267948966</pose>
       <inertial>
         <pose>0.1625 0 0.02 0 -0 0</pose>
         <mass>0.402</mass>
@@ -3471,32 +3454,26 @@
         </contact>
       </sensor>
     </link>
-    <joint name="elbow3_foot/OUTPUT_JOINT" type="fixed">
-      <pose relative_to="elbow3_foot/INPUT_INTERFACE">0.325 0 0.02 -1.5707963267948966 -0 -1.5707963267948966</pose>
-      <parent>elbow3_foot/INPUT_INTERFACE</parent>
-      <child>foot3/INPUT_INTERFACE</child>
+    <joint name="L3_J3_elbow" type="revolute">
+      <child>elbow3_foot/INPUT_INTERFACE</child>
+      <parent>L3_J3_elbow/INPUT_INTERFACE</parent>
       <axis>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
         <xyz>0 0 1</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0.5</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
-      <physics>
-        <ode>
-          <limit>
-            <cfm>0</cfm>
-            <erp>0.2</erp>
-          </limit>
-        </ode>
-      </physics>
     </joint>
     <link name="foot3/INPUT_INTERFACE">
-      <pose relative_to="elbow3_foot/OUTPUT_JOINT">0 0 0 0 -0 0</pose>
+      <pose>0.0425 0.9125 0.106 -1.5707963267948966 1.5707963267948966 0</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>0.06</mass>
@@ -3518,16 +3495,16 @@
         </geometry>
       </visual>
     </link>
-    <joint name="HEBI_SIM_JOINT/L4_J1_base" type="fixed">
-      <pose relative_to="base_link">0 -0.2625 0 0 0 -1.5707963267948966</pose>
-      <parent>base_link</parent>
-      <child>L4_J1_base/R8_9</child>
+    <joint name="elbow3_foot/OUTPUT_JOINT" type="fixed">
+      <child>foot3/INPUT_INTERFACE</child>
+      <parent>elbow3_foot/INPUT_INTERFACE</parent>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
@@ -3543,7 +3520,7 @@
       </physics>
     </joint>
     <link name="L4_J1_base/R8_9">
-      <pose relative_to="HEBI_SIM_JOINT/L4_J1_base">0 0 0 0 -0 0</pose>
+      <pose>0 -0.2625 0 0 0 -1.5707963267948966</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>0.001</mass>
@@ -3565,26 +3542,32 @@
         </geometry>
       </visual>
     </link>
-    <joint name="L4_J1_base" type="revolute">
-      <pose relative_to="base_link">0 -0.2625 0.051 0 0 -1.5707963267948966</pose>
+    <joint name="HEBI_SIM_JOINT/L4_J1_base" type="fixed">
+      <child>L4_J1_base/R8_9</child>
       <parent>base_link</parent>
-      <child>shoulder4_bracket/INPUT_INTERFACE</child>
       <axis>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0.5</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
       </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
     </joint>
     <link name="shoulder4_bracket/INPUT_INTERFACE">
-      <pose relative_to="L4_J1_base">0 0 0 0 -0 0</pose>
+      <pose>0 -0.2625 0.051 0 0 -1.5707963267948966</pose>
       <inertial>
         <pose>0 0.01125 0.0275 0 -0 0</pose>
         <mass>0.215</mass>
@@ -3681,32 +3664,26 @@
       <gravity>1</gravity>
       <velocity_decay/>
     </link>
-    <joint name="shoulder4_bracket/OUTPUT_INTERFACE" type="fixed">
-      <pose relative_to="shoulder4_bracket/INPUT_INTERFACE">0 0.0225 0.055 1.5707963267948966 -0 0</pose>
-      <parent>shoulder4_bracket/INPUT_INTERFACE</parent>
-      <child>L4_J2_shoulder/INPUT_INTERFACE</child>
+    <joint name="L4_J1_base" type="revolute">
+      <child>shoulder4_bracket/INPUT_INTERFACE</child>
+      <parent>base_link</parent>
       <axis>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
         <xyz>0 0 1</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0.5</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
-      <physics>
-        <ode>
-          <limit>
-            <cfm>0</cfm>
-            <erp>0.2</erp>
-          </limit>
-        </ode>
-      </physics>
     </joint>
     <link name="L4_J2_shoulder/INPUT_INTERFACE">
-      <pose relative_to="shoulder4_bracket/OUTPUT_INTERFACE">0 0 0 0 -0 0</pose>
+      <pose>0.0225 -0.2625 0.106 1.5707963267948966 0 -1.5707963267948966</pose>
       <inertial>
         <pose>-0.02396 -0.00161 0.02557 0 -0 0</pose>
         <mass>0.715</mass>
@@ -3802,16 +3779,16 @@
       <gravity>1</gravity>
       <velocity_decay/>
     </link>
-    <joint name="HEBI_SIM_JOINT/L4_J2_shoulder" type="fixed">
-      <pose relative_to="L4_J2_shoulder/INPUT_INTERFACE">0 0 0 0 -0 0</pose>
-      <parent>L4_J2_shoulder/INPUT_INTERFACE</parent>
-      <child>L4_J2_shoulder/R8_16</child>
+    <joint name="shoulder4_bracket/OUTPUT_INTERFACE" type="fixed">
+      <child>L4_J2_shoulder/INPUT_INTERFACE</child>
+      <parent>shoulder4_bracket/INPUT_INTERFACE</parent>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
@@ -3827,7 +3804,7 @@
       </physics>
     </joint>
     <link name="L4_J2_shoulder/R8_16">
-      <pose relative_to="HEBI_SIM_JOINT/L4_J2_shoulder">0 0 0 0 -0 0</pose>
+      <pose>0.0225 -0.2625 0.106 1.5707963267948966 0 -1.5707963267948966</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>0.001</mass>
@@ -3849,26 +3826,32 @@
         </geometry>
       </visual>
     </link>
-    <joint name="L4_J2_shoulder" type="revolute">
-      <pose relative_to="L4_J2_shoulder/INPUT_INTERFACE">0 0 0.051 0 -0 0</pose>
+    <joint name="HEBI_SIM_JOINT/L4_J2_shoulder" type="fixed">
+      <child>L4_J2_shoulder/R8_16</child>
       <parent>L4_J2_shoulder/INPUT_INTERFACE</parent>
-      <child>shoulder4_elbow/INPUT_INTERFACE</child>
       <axis>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0.5</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
       </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
     </joint>
     <link name="shoulder4_elbow/INPUT_INTERFACE">
-      <pose relative_to="L4_J2_shoulder">0 0 0 0 -0 0</pose>
+      <pose>-0.0285 -0.2625 0.106 1.5707963267948966 0 -1.5707963267948966</pose>
       <inertial>
         <pose>0.1625 0 0.02 0 -0 0</pose>
         <mass>0.402</mass>
@@ -4012,32 +3995,26 @@
       <gravity>1</gravity>
       <velocity_decay/>
     </link>
-    <joint name="shoulder4_elbow/OUTPUT_JOINT" type="fixed">
-      <pose relative_to="shoulder4_elbow/INPUT_INTERFACE">0.325 -0 0 -3.1415926535897931 0 0</pose>
-      <parent>shoulder4_elbow/INPUT_INTERFACE</parent>
-      <child>L4_J3_elbow/INPUT_INTERFACE</child>
+    <joint name="L4_J2_shoulder" type="revolute">
+      <child>shoulder4_elbow/INPUT_INTERFACE</child>
+      <parent>L4_J2_shoulder/INPUT_INTERFACE</parent>
       <axis>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
         <xyz>0 0 1</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0.5</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
-      <physics>
-        <ode>
-          <limit>
-            <cfm>0</cfm>
-            <erp>0.2</erp>
-          </limit>
-        </ode>
-      </physics>
     </joint>
     <link name="L4_J3_elbow/INPUT_INTERFACE">
-      <pose relative_to="shoulder4_elbow/OUTPUT_JOINT">0 0 0 0 -0 0</pose>
+      <pose>-0.0285 -0.5875 0.106 -1.5707963267948966 0 -1.5707963267948966</pose>
       <inertial>
         <pose>-0.02396 -0.00161 0.02557 0 -0 0</pose>
         <mass>0.685</mass>
@@ -4133,16 +4110,16 @@
       <gravity>1</gravity>
       <velocity_decay/>
     </link>
-    <joint name="HEBI_SIM_JOINT/L4_J3_elbow" type="fixed">
-      <pose relative_to="L4_J3_elbow/INPUT_INTERFACE">0 0 0 0 -0 0</pose>
-      <parent>L4_J3_elbow/INPUT_INTERFACE</parent>
-      <child>L4_J3_elbow/R8_9</child>
+    <joint name="shoulder4_elbow/OUTPUT_JOINT" type="fixed">
+      <child>L4_J3_elbow/INPUT_INTERFACE</child>
+      <parent>shoulder4_elbow/INPUT_INTERFACE</parent>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
@@ -4158,7 +4135,7 @@
       </physics>
     </joint>
     <link name="L4_J3_elbow/R8_9">
-      <pose relative_to="HEBI_SIM_JOINT/L4_J3_elbow">0 0 0 0 -0 0</pose>
+      <pose>-0.0285 -0.5875 0.106 -1.5707963267948966 0 -1.5707963267948966</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>0.001</mass>
@@ -4180,26 +4157,32 @@
         </geometry>
       </visual>
     </link>
-    <joint name="L4_J3_elbow" type="revolute">
-      <pose relative_to="L4_J3_elbow/INPUT_INTERFACE">0 0 0.051 0 -0 0</pose>
+    <joint name="HEBI_SIM_JOINT/L4_J3_elbow" type="fixed">
+      <child>L4_J3_elbow/R8_9</child>
       <parent>L4_J3_elbow/INPUT_INTERFACE</parent>
-      <child>elbow4_foot/INPUT_INTERFACE</child>
       <axis>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0.5</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
       </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
     </joint>
     <link name="elbow4_foot/INPUT_INTERFACE">
-      <pose relative_to="L4_J3_elbow">0 0 0 0 -0 0</pose>
+      <pose>0.0225 -0.5875 0.106 -1.5707963267948966 0 -1.5707963267948966</pose>
       <inertial>
         <pose>0.1625 0 0.02 0 -0 0</pose>
         <mass>0.402</mass>
@@ -4354,32 +4337,26 @@
         </contact>
       </sensor>
     </link>
-    <joint name="elbow4_foot/OUTPUT_JOINT" type="fixed">
-      <pose relative_to="elbow4_foot/INPUT_INTERFACE">0.325 0 0.02 -1.5707963267948966 -0 -1.5707963267948966</pose>
-      <parent>elbow4_foot/INPUT_INTERFACE</parent>
-      <child>foot4/INPUT_INTERFACE</child>
+    <joint name="L4_J3_elbow" type="revolute">
+      <child>elbow4_foot/INPUT_INTERFACE</child>
+      <parent>L4_J3_elbow/INPUT_INTERFACE</parent>
       <axis>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
         <xyz>0 0 1</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0.5</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
-      <physics>
-        <ode>
-          <limit>
-            <cfm>0</cfm>
-            <erp>0.2</erp>
-          </limit>
-        </ode>
-      </physics>
     </joint>
     <link name="foot4/INPUT_INTERFACE">
-      <pose relative_to="elbow4_foot/OUTPUT_JOINT">0 0 0 0 -0 0</pose>
+      <pose>0.0425 -0.9125 0.106 1.5707963267948966 -1.5707963267948966 0</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>0.06</mass>
@@ -4401,16 +4378,16 @@
         </geometry>
       </visual>
     </link>
-    <joint name="HEBI_SIM_JOINT/L5_J1_base" type="fixed">
-      <pose relative_to="base_link">-0.313934 0.18125 0 0 -0 2.61799</pose>
-      <parent>base_link</parent>
-      <child>L5_J1_base/R8_9</child>
+    <joint name="elbow4_foot/OUTPUT_JOINT" type="fixed">
+      <child>foot4/INPUT_INTERFACE</child>
+      <parent>elbow4_foot/INPUT_INTERFACE</parent>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
@@ -4426,7 +4403,7 @@
       </physics>
     </joint>
     <link name="L5_J1_base/R8_9">
-      <pose relative_to="HEBI_SIM_JOINT/L5_J1_base">0 0 0 0 -0 0</pose>
+      <pose>-0.313934 0.18125 0 0 -0 2.61799</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>0.001</mass>
@@ -4448,26 +4425,32 @@
         </geometry>
       </visual>
     </link>
-    <joint name="L5_J1_base" type="revolute">
-      <pose relative_to="base_link">-0.313934 0.18125 0.051 0 -0 2.61799</pose>
+    <joint name="HEBI_SIM_JOINT/L5_J1_base" type="fixed">
+      <child>L5_J1_base/R8_9</child>
       <parent>base_link</parent>
-      <child>shoulder5_bracket/INPUT_INTERFACE</child>
       <axis>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0.5</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
       </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
     </joint>
     <link name="shoulder5_bracket/INPUT_INTERFACE">
-      <pose relative_to="L5_J1_base">0 0 0 0 -0 0</pose>
+      <pose>-0.313934 0.18125 0.051 0 -0 2.61799</pose>
       <inertial>
         <pose>0 -0.01125 0.0275 0 -0 0</pose>
         <mass>0.215</mass>
@@ -4564,32 +4547,26 @@
       <gravity>1</gravity>
       <velocity_decay/>
     </link>
-    <joint name="shoulder5_bracket/OUTPUT_INTERFACE" type="fixed">
-      <pose relative_to="shoulder5_bracket/INPUT_INTERFACE">0 -0.0225 0.055 -1.5707963267948966 0 0</pose>
-      <parent>shoulder5_bracket/INPUT_INTERFACE</parent>
-      <child>L5_J2_shoulder/INPUT_INTERFACE</child>
+    <joint name="L5_J1_base" type="revolute">
+      <child>shoulder5_bracket/INPUT_INTERFACE</child>
+      <parent>base_link</parent>
       <axis>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
         <xyz>0 0 1</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0.5</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
-      <physics>
-        <ode>
-          <limit>
-            <cfm>0</cfm>
-            <erp>0.2</erp>
-          </limit>
-        </ode>
-      </physics>
     </joint>
     <link name="L5_J2_shoulder/INPUT_INTERFACE">
-      <pose relative_to="shoulder5_bracket/OUTPUT_INTERFACE">0 0 0 0 -0 0</pose>
+      <pose>-0.302684 0.200736 0.106 -1.5707963267948966 -0 2.61799</pose>
       <inertial>
         <pose>-0.02396 -0.00161 0.02557 0 -0 0</pose>
         <mass>0.715</mass>
@@ -4685,16 +4662,16 @@
       <gravity>1</gravity>
       <velocity_decay/>
     </link>
-    <joint name="HEBI_SIM_JOINT/L5_J2_shoulder" type="fixed">
-      <pose relative_to="L5_J2_shoulder/INPUT_INTERFACE">0 0 0 0 -0 0</pose>
-      <parent>L5_J2_shoulder/INPUT_INTERFACE</parent>
-      <child>L5_J2_shoulder/R8_16</child>
+    <joint name="shoulder5_bracket/OUTPUT_INTERFACE" type="fixed">
+      <child>L5_J2_shoulder/INPUT_INTERFACE</child>
+      <parent>shoulder5_bracket/INPUT_INTERFACE</parent>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
@@ -4710,7 +4687,7 @@
       </physics>
     </joint>
     <link name="L5_J2_shoulder/R8_16">
-      <pose relative_to="HEBI_SIM_JOINT/L5_J2_shoulder">0 0 0 0 -0 0</pose>
+      <pose>-0.302684 0.200736 0.106 -1.5707963267948966 -0 2.61799</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>0.001</mass>
@@ -4732,26 +4709,32 @@
         </geometry>
       </visual>
     </link>
-    <joint name="L5_J2_shoulder" type="revolute">
-      <pose relative_to="L5_J2_shoulder/INPUT_INTERFACE">0 0 0.051 0 -0 0</pose>
+    <joint name="HEBI_SIM_JOINT/L5_J2_shoulder" type="fixed">
+      <child>L5_J2_shoulder/R8_16</child>
       <parent>L5_J2_shoulder/INPUT_INTERFACE</parent>
-      <child>shoulder5_elbow/INPUT_INTERFACE</child>
       <axis>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0.5</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
       </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
     </joint>
     <link name="shoulder5_elbow/INPUT_INTERFACE">
-      <pose relative_to="L5_J2_shoulder">0 0 0 0 -0 0</pose>
+      <pose>-0.328184 0.156568 0.106 -1.5707963267948966 -0 2.61799</pose>
       <inertial>
         <pose>0.1625 0 0.02 0 -0 0</pose>
         <mass>0.402</mass>
@@ -4895,32 +4878,26 @@
       <gravity>1</gravity>
       <velocity_decay/>
     </link>
-    <joint name="shoulder5_elbow/OUTPUT_JOINT" type="fixed">
-      <pose relative_to="shoulder5_elbow/INPUT_INTERFACE">0.325 -0 0 -3.1415926535897931 0 0</pose>
-      <parent>shoulder5_elbow/INPUT_INTERFACE</parent>
-      <child>L5_J3_elbow/INPUT_INTERFACE</child>
+    <joint name="L5_J2_shoulder" type="revolute">
+      <child>shoulder5_elbow/INPUT_INTERFACE</child>
+      <parent>L5_J2_shoulder/INPUT_INTERFACE</parent>
       <axis>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
         <xyz>0 0 1</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0.5</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
-      <physics>
-        <ode>
-          <limit>
-            <cfm>0</cfm>
-            <erp>0.2</erp>
-          </limit>
-        </ode>
-      </physics>
     </joint>
     <link name="L5_J3_elbow/INPUT_INTERFACE">
-      <pose relative_to="shoulder5_elbow/OUTPUT_JOINT">0 0 0 0 -0 0</pose>
+      <pose>-0.609642 0.319068 0.106 1.5707963267948966 -0 2.61799</pose>
       <inertial>
         <pose>-0.02396 -0.00161 0.02557 0 -0 0</pose>
         <mass>0.685</mass>
@@ -5016,16 +4993,16 @@
       <gravity>1</gravity>
       <velocity_decay/>
     </link>
-    <joint name="HEBI_SIM_JOINT/L5_J3_elbow" type="fixed">
-      <pose relative_to="L5_J3_elbow/INPUT_INTERFACE">0 0 0 0 -0 0</pose>
-      <parent>L5_J3_elbow/INPUT_INTERFACE</parent>
-      <child>L5_J3_elbow/R8_9</child>
+    <joint name="shoulder5_elbow/OUTPUT_JOINT" type="fixed">
+      <child>L5_J3_elbow/INPUT_INTERFACE</child>
+      <parent>shoulder5_elbow/INPUT_INTERFACE</parent>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
@@ -5041,7 +5018,7 @@
       </physics>
     </joint>
     <link name="L5_J3_elbow/R8_9">
-      <pose relative_to="HEBI_SIM_JOINT/L5_J3_elbow">0 0 0 0 -0 0</pose>
+      <pose>-0.609642 0.319068 0.106 1.5707963267948966 -0 2.61799</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>0.001</mass>
@@ -5063,26 +5040,32 @@
         </geometry>
       </visual>
     </link>
-    <joint name="L5_J3_elbow" type="revolute">
-      <pose relative_to="L5_J3_elbow/INPUT_INTERFACE">0 0 0.051 0 -0 0</pose>
+    <joint name="HEBI_SIM_JOINT/L5_J3_elbow" type="fixed">
+      <child>L5_J3_elbow/R8_9</child>
       <parent>L5_J3_elbow/INPUT_INTERFACE</parent>
-      <child>elbow5_foot/INPUT_INTERFACE</child>
       <axis>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0.5</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
       </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
     </joint>
     <link name="elbow5_foot/INPUT_INTERFACE">
-      <pose relative_to="L5_J3_elbow">0 0 0 0 -0 0</pose>
+      <pose>-0.584142 0.363236 0.106 1.5707963267948966 -0 2.61799</pose>
       <inertial>
         <pose>0.1625 0 0.02 0 -0 0</pose>
         <mass>0.402</mass>
@@ -5237,32 +5220,26 @@
         </contact>
       </sensor>
     </link>
-    <joint name="elbow5_foot/OUTPUT_JOINT" type="fixed">
-      <pose relative_to="elbow5_foot/INPUT_INTERFACE">0.325 0 0.02 -1.5707963267948966 -0 -1.5707963267948966</pose>
-      <parent>elbow5_foot/INPUT_INTERFACE</parent>
-      <child>foot5/INPUT_INTERFACE</child>
+    <joint name="L5_J3_elbow" type="revolute">
+      <child>elbow5_foot/INPUT_INTERFACE</child>
+      <parent>L5_J3_elbow/INPUT_INTERFACE</parent>
       <axis>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
         <xyz>0 0 1</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0.5</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
-      <physics>
-        <ode>
-          <limit>
-            <cfm>0</cfm>
-            <erp>0.2</erp>
-          </limit>
-        </ode>
-      </physics>
     </joint>
     <link name="foot5/INPUT_INTERFACE">
-      <pose relative_to="elbow5_foot/OUTPUT_JOINT">0 0 0 0 -0 0</pose>
+      <pose>-0.855601 0.543056 0.106 -2.61799 1.5707963267948966 0</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>0.06</mass>
@@ -5284,16 +5261,16 @@
         </geometry>
       </visual>
     </link>
-    <joint name="HEBI_SIM_JOINT/L6_J1_base" type="fixed">
-      <pose relative_to="base_link">-0.313934 -0.18125 0 0 0 -2.61799</pose>
-      <parent>base_link</parent>
-      <child>L6_J1_base/R8_9</child>
+    <joint name="elbow5_foot/OUTPUT_JOINT" type="fixed">
+      <child>foot5/INPUT_INTERFACE</child>
+      <parent>elbow5_foot/INPUT_INTERFACE</parent>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
@@ -5309,7 +5286,7 @@
       </physics>
     </joint>
     <link name="L6_J1_base/R8_9">
-      <pose relative_to="HEBI_SIM_JOINT/L6_J1_base">0 0 0 0 -0 0</pose>
+      <pose>-0.313934 -0.18125 0 0 0 -2.61799</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>0.001</mass>
@@ -5331,26 +5308,32 @@
         </geometry>
       </visual>
     </link>
-    <joint name="L6_J1_base" type="revolute">
-      <pose relative_to="base_link">-0.313934 -0.18125 0.051 0 0 -2.61799</pose>
+    <joint name="HEBI_SIM_JOINT/L6_J1_base" type="fixed">
+      <child>L6_J1_base/R8_9</child>
       <parent>base_link</parent>
-      <child>shoulder6_bracket/INPUT_INTERFACE</child>
       <axis>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0.5</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
       </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
     </joint>
     <link name="shoulder6_bracket/INPUT_INTERFACE">
-      <pose relative_to="L6_J1_base">0 0 0 0 -0 0</pose>
+      <pose>-0.313934 -0.18125 0.051 0 0 -2.61799</pose>
       <inertial>
         <pose>0 0.01125 0.0275 0 -0 0</pose>
         <mass>0.215</mass>
@@ -5447,32 +5430,26 @@
       <gravity>1</gravity>
       <velocity_decay/>
     </link>
-    <joint name="shoulder6_bracket/OUTPUT_INTERFACE" type="fixed">
-      <pose relative_to="shoulder6_bracket/INPUT_INTERFACE">0 0.0225 0.055 1.5707963267948966 -0 0</pose>
-      <parent>shoulder6_bracket/INPUT_INTERFACE</parent>
-      <child>L6_J2_shoulder/INPUT_INTERFACE</child>
+    <joint name="L6_J1_base" type="revolute">
+      <child>shoulder6_bracket/INPUT_INTERFACE</child>
+      <parent>base_link</parent>
       <axis>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
         <xyz>0 0 1</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0.5</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
-      <physics>
-        <ode>
-          <limit>
-            <cfm>0</cfm>
-            <erp>0.2</erp>
-          </limit>
-        </ode>
-      </physics>
     </joint>
     <link name="L6_J2_shoulder/INPUT_INTERFACE">
-      <pose relative_to="shoulder6_bracket/OUTPUT_INTERFACE">0 0 0 0 -0 0</pose>
+      <pose>-0.302684 -0.200736 0.106 1.5707963267948966 -0 -2.61799</pose>
       <inertial>
         <pose>-0.02396 -0.00161 0.02557 0 -0 0</pose>
         <mass>0.715</mass>
@@ -5568,16 +5545,16 @@
       <gravity>1</gravity>
       <velocity_decay/>
     </link>
-    <joint name="HEBI_SIM_JOINT/L6_J2_shoulder" type="fixed">
-      <pose relative_to="L6_J2_shoulder/INPUT_INTERFACE">0 0 0 0 -0 0</pose>
-      <parent>L6_J2_shoulder/INPUT_INTERFACE</parent>
-      <child>L6_J2_shoulder/R8_16</child>
+    <joint name="shoulder6_bracket/OUTPUT_INTERFACE" type="fixed">
+      <child>L6_J2_shoulder/INPUT_INTERFACE</child>
+      <parent>shoulder6_bracket/INPUT_INTERFACE</parent>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
@@ -5593,7 +5570,7 @@
       </physics>
     </joint>
     <link name="L6_J2_shoulder/R8_16">
-      <pose relative_to="HEBI_SIM_JOINT/L6_J2_shoulder">0 0 0 0 -0 0</pose>
+      <pose>-0.302684 -0.200736 0.106 1.5707963267948966 -0 -2.61799</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>0.001</mass>
@@ -5615,26 +5592,32 @@
         </geometry>
       </visual>
     </link>
-    <joint name="L6_J2_shoulder" type="revolute">
-      <pose relative_to="L6_J2_shoulder/INPUT_INTERFACE">0 0 0.051 0 -0 0</pose>
+    <joint name="HEBI_SIM_JOINT/L6_J2_shoulder" type="fixed">
+      <child>L6_J2_shoulder/R8_16</child>
       <parent>L6_J2_shoulder/INPUT_INTERFACE</parent>
-      <child>shoulder6_elbow/INPUT_INTERFACE</child>
       <axis>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0.5</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
       </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
     </joint>
     <link name="shoulder6_elbow/INPUT_INTERFACE">
-      <pose relative_to="L6_J2_shoulder">0 0 0 0 -0 0</pose>
+      <pose>-0.328184 -0.156568 0.106 1.5707963267948966 -0 -2.61799</pose>
       <inertial>
         <pose>0.1625 0 0.02 0 -0 0</pose>
         <mass>0.402</mass>
@@ -5778,32 +5761,26 @@
       <gravity>1</gravity>
       <velocity_decay/>
     </link>
-    <joint name="shoulder6_elbow/OUTPUT_JOINT" type="fixed">
-      <pose relative_to="shoulder6_elbow/INPUT_INTERFACE">0.325 -0 0 -3.1415926535897931 0 0</pose>
-      <parent>shoulder6_elbow/INPUT_INTERFACE</parent>
-      <child>L6_J3_elbow/INPUT_INTERFACE</child>
+    <joint name="L6_J2_shoulder" type="revolute">
+      <child>shoulder6_elbow/INPUT_INTERFACE</child>
+      <parent>L6_J2_shoulder/INPUT_INTERFACE</parent>
       <axis>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
         <xyz>0 0 1</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0.5</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
-      <physics>
-        <ode>
-          <limit>
-            <cfm>0</cfm>
-            <erp>0.2</erp>
-          </limit>
-        </ode>
-      </physics>
     </joint>
     <link name="L6_J3_elbow/INPUT_INTERFACE">
-      <pose relative_to="shoulder6_elbow/OUTPUT_JOINT">0 0 0 0 -0 0</pose>
+      <pose>-0.609642 -0.319068 0.106 -1.5707963267948966 0 -2.61799</pose>
       <inertial>
         <pose>-0.02396 -0.00161 0.02557 0 -0 0</pose>
         <mass>0.685</mass>
@@ -5899,16 +5876,16 @@
       <gravity>1</gravity>
       <velocity_decay/>
     </link>
-    <joint name="HEBI_SIM_JOINT/L6_J3_elbow" type="fixed">
-      <pose relative_to="L6_J3_elbow/INPUT_INTERFACE">0 0 0 0 -0 0</pose>
-      <parent>L6_J3_elbow/INPUT_INTERFACE</parent>
-      <child>L6_J3_elbow/R8_9</child>
+    <joint name="shoulder6_elbow/OUTPUT_JOINT" type="fixed">
+      <child>L6_J3_elbow/INPUT_INTERFACE</child>
+      <parent>shoulder6_elbow/INPUT_INTERFACE</parent>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
@@ -5924,7 +5901,7 @@
       </physics>
     </joint>
     <link name="L6_J3_elbow/R8_9">
-      <pose relative_to="HEBI_SIM_JOINT/L6_J3_elbow">0 0 0 0 -0 0</pose>
+      <pose>-0.609642 -0.319068 0.106 -1.5707963267948966 0 -2.61799</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>0.001</mass>
@@ -5946,26 +5923,32 @@
         </geometry>
       </visual>
     </link>
-    <joint name="L6_J3_elbow" type="revolute">
-      <pose relative_to="L6_J3_elbow/INPUT_INTERFACE">0 0 0.051 0 -0 0</pose>
+    <joint name="HEBI_SIM_JOINT/L6_J3_elbow" type="fixed">
+      <child>L6_J3_elbow/R8_9</child>
       <parent>L6_J3_elbow/INPUT_INTERFACE</parent>
-      <child>elbow6_foot/INPUT_INTERFACE</child>
       <axis>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0.5</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
       </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
     </joint>
     <link name="elbow6_foot/INPUT_INTERFACE">
-      <pose relative_to="L6_J3_elbow">0 0 0 0 -0 0</pose>
+      <pose>-0.584142 -0.363236 0.106 -1.5707963267948966 0 -2.61799</pose>
       <inertial>
         <pose>0.1625 0 0.02 0 -0 0</pose>
         <mass>0.402</mass>
@@ -6120,32 +6103,26 @@
         </contact>
       </sensor>
     </link>
-    <joint name="elbow6_foot/OUTPUT_JOINT" type="fixed">
-      <pose relative_to="elbow6_foot/INPUT_INTERFACE">0.325 0 0.02 -1.5707963267948966 -0 -1.5707963267948966</pose>
-      <parent>elbow6_foot/INPUT_INTERFACE</parent>
-      <child>foot6/INPUT_INTERFACE</child>
+    <joint name="L6_J3_elbow" type="revolute">
+      <child>elbow6_foot/INPUT_INTERFACE</child>
+      <parent>L6_J3_elbow/INPUT_INTERFACE</parent>
       <axis>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
         <xyz>0 0 1</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
+        <dynamics>
+          <damping>0.5</damping>
+          <friction>0.5</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
-      <physics>
-        <ode>
-          <limit>
-            <cfm>0</cfm>
-            <erp>0.2</erp>
-          </limit>
-        </ode>
-      </physics>
     </joint>
     <link name="foot6/INPUT_INTERFACE">
-      <pose relative_to="elbow6_foot/OUTPUT_JOINT">0 0 0 0 -0 0</pose>
+      <pose>-0.855601 -0.543056 0.106 0.523599 -1.5707963267948966 0</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>0.06</mass>
@@ -6167,16 +6144,16 @@
         </geometry>
       </visual>
     </link>
-    <joint name="front_camera_j" type="fixed">
-      <pose relative_to="base_link">0.09 -0.095 0.205 0 -0.523599 0</pose>
-      <parent>base_link</parent>
-      <child>ace2_camera_front</child>
+    <joint name="elbow6_foot/OUTPUT_JOINT" type="fixed">
+      <child>foot6/INPUT_INTERFACE</child>
+      <parent>elbow6_foot/INPUT_INTERFACE</parent>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
@@ -6192,7 +6169,7 @@
       </physics>
     </joint>
     <link name="ace2_camera_front">
-      <pose relative_to="front_camera_j">0 0 0 0 -0 0</pose>
+      <pose>0.09 -0.095 0.205 0 -0.523599 0</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>1e-05</mass>
@@ -6260,16 +6237,16 @@
         </camera>
       </sensor>
     </link>
-    <joint name="imu_j" type="fixed">
-      <pose relative_to="base_link">0 0 0 0 -0 0</pose>
+    <joint name="front_camera_j" type="fixed">
+      <child>ace2_camera_front</child>
       <parent>base_link</parent>
-      <child>imu_base</child>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
@@ -6285,7 +6262,7 @@
       </physics>
     </joint>
     <link name="imu_base">
-      <pose relative_to="imu_j">0 0 0 0 -0 0</pose>
+      <pose>0 0 0 0 -0 0</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>1e-05</mass>
@@ -6389,19 +6366,21 @@
               </noise>
             </z>
           </linear_acceleration>
+          <angular_velocity/>
+          <linear_acceleration/>
         </imu>
       </sensor>
     </link>
-    <joint name="left_camera_j" type="fixed">
-      <pose relative_to="base_link">0.06 0.125 0.205 0 -0.523599 1.5707963267948966</pose>
+    <joint name="imu_j" type="fixed">
+      <child>imu_base</child>
       <parent>base_link</parent>
-      <child>ace2_camera_left</child>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
@@ -6417,7 +6396,7 @@
       </physics>
     </joint>
     <link name="ace2_camera_left">
-      <pose relative_to="left_camera_j">0 0 0 0 -0 0</pose>
+      <pose>0.06 0.125 0.205 0 -0.523599 1.5707963267948966</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>1e-05</mass>
@@ -6485,16 +6464,16 @@
         </camera>
       </sensor>
     </link>
-    <joint name="ouster_j" type="fixed">
-      <pose relative_to="base_link">0 0 0.261 0 -0 0</pose>
+    <joint name="left_camera_j" type="fixed">
+      <child>ace2_camera_left</child>
       <parent>base_link</parent>
-      <child>main_ouster_lidar</child>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
@@ -6510,7 +6489,7 @@
       </physics>
     </joint>
     <link name="main_ouster_lidar">
-      <pose relative_to="ouster_j">0 0 0 0 -0 0</pose>
+      <pose>0 0 0.261 0 -0 0</pose>
       <inertial>
         <pose>0 0 0.03675 0 -0 0</pose>
         <mass>0.5</mass>
@@ -6584,16 +6563,16 @@
         </lidar>
       </sensor>
     </link>
-    <joint name="right_camera_j" type="fixed">
-      <pose relative_to="base_link">-0.16 -0.125 0.205 -0 -0.523599 -1.5707963267948966</pose>
+    <joint name="ouster_j" type="fixed">
+      <child>main_ouster_lidar</child>
       <parent>base_link</parent>
-      <child>ace2_camera_right</child>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
@@ -6609,7 +6588,7 @@
       </physics>
     </joint>
     <link name="ace2_camera_right">
-      <pose relative_to="right_camera_j">0 0 0 0 -0 0</pose>
+      <pose>-0.16 -0.125 0.205 -0 -0.523599 -1.5707963267948966</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>1e-05</mass>
@@ -6677,16 +6656,16 @@
         </camera>
       </sensor>
     </link>
-    <joint name="up_camera_j" type="fixed">
-      <pose relative_to="base_link">-0.16 0.04 0.225 0 -1.5707963267948966 0</pose>
+    <joint name="right_camera_j" type="fixed">
+      <child>ace2_camera_right</child>
       <parent>base_link</parent>
-      <child>ace2_camera_up</child>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
         <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
@@ -6702,7 +6681,7 @@
       </physics>
     </joint>
     <link name="ace2_camera_up">
-      <pose relative_to="up_camera_j">0 0 0 0 -0 0</pose>
+      <pose>-0.16 0.04 0.225 0 -1.5707963267948966 0</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>1e-05</mass>
@@ -6770,6 +6749,30 @@
         </camera>
       </sensor>
     </link>
+    <joint name="up_camera_j" type="fixed">
+      <child>ace2_camera_up</child>
+      <parent>base_link</parent>
+      <axis>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+      </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
+    </joint>
     <plugin name="ignition::gazebo::systems::JointPositionController" filename="libignition-gazebo-joint-position-controller-system.so">
       <joint_name>L1_J1_base</joint_name>
       <p_gain>100</p_gain>

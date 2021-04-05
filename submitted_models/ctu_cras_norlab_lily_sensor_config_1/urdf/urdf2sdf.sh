@@ -11,8 +11,12 @@ tmp_file="__tmp.sdf"
 # some magic for hight precision constants script by MP
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
+sdf8_version="$(ign sdf --versions | grep '^8')" || true
+[ -z "$sdf8_version" ] && echo "libsdformat8 not found. It is required to update this robot's SDF. Please install libsdformat8-dev and try again." >&2 && exit 1
+echo "Found libsdformat ${sdf8_version}" >&2
+
 # main converion
-ign sdf -p $1 |
+ign sdf --force-version "$sdf8_version" -p $1 |
 "${DIR}/high_precision_constants.py" - |
 sed -e 's#model://ctu_cras_norlab_lily_sensor_config_1/##g' > $tmp_file
 
