@@ -13,7 +13,7 @@ For the purpose of the DARPA Subterranean challange the considered sensory paylo
 This ignition gazebo model is based on the official gazebo model of the [HEBI Lily kit](https://github.com/HebiRobotics/hebi_description/tree/cwbollinger/daisy_urdf). The parameters of simulated servomotors are set according to the real servomotors parameters including joint effort limits. 
 
 ## Dependencies
-To be able to control this robot model using velocity commands you need an additional package. Please clone the repository [ctu_cras_norlab_locomotion](https://github.com/comrob/subt/ctu_cras_norlab_locomotion) and follow the instructions specified in its README.
+To be able to control this robot model using velocity commands you need an additional package. Please clone the repository [ctu_cras_norlab_hexapod_controller](https://github.com/comrob/ctu_cras_norlab_hexapod_controller) and follow the instructions specified in its README.
 
 ## Usage Instructions 
 This robot may be launched using an ign launch command with the variable name `CTU_CRAS_NORLAB_LILY_SENSOR_CONFIG_1`.
@@ -47,7 +47,7 @@ The following specific sensors are declared payloads of this vehicle.
 * 6 communication breadcrumbs are also available as a payload for this robot in sensor configuration 2 (real robot will carry 4 or 8 breadcrumbs).
 
 ## Control
-The Lily robot is controlled by custom package `ctu_cras_norlab_locomotion`, available in the repository [ctu_cras_norlab_locomotion](https://github.com/comrob/subt/ctu_cras_norlab_locomotion).
+The Lily robot is controlled by custom package `hexapod_controller`, available in the repository [ctu_cras_norlab_hexapod_controller](https://github.com/comrob/ctu_cras_norlab_hexapod_controller).
 
 The controller allows for steering the robot using the `cmd_vel` command via basic open-loop locomotion control.
 
