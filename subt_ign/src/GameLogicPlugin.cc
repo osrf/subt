@@ -2783,7 +2783,7 @@ void GameLogicPluginPrivate::OnKineticEnergyEvent(
     stream
       << "- event:\n"
       << "  id: " << this->eventCounter << "\n"
-      << "  type: KineticEnergyThreshold Surpassed\n"
+      << "  type: collision\n"
       << "  time_sec: " << localSimTime.sec() << "\n"
       << "  robot: " << name << std::endl;
 
