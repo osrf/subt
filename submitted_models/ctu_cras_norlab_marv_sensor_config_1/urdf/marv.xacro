@@ -847,13 +847,14 @@
                         <xacro:macro name="angular_imu_noise">
                             <noise type="gaussian">
                                 <mean>0</mean>
-                                <stddev>2e-4</stddev>
-                                <bias_mean>0.0000075</bias_mean>
-                                <bias_stddev>0.0000008</bias_stddev>
+                                <stddev>0.009</stddev>
+                                <bias_mean>0.00075</bias_mean>
+                                <bias_stddev>0.005</bias_stddev>
                                 <xacro:if value="${'$(arg rendering_target)' == 'ign'}">
-                                    <dynamic_bias_stddev>0.0000004</dynamic_bias_stddev>
-                                    <dynamic_bias_correlation_time>1000.0</dynamic_bias_correlation_time>
+                                    <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                                    <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
                                 </xacro:if>
+                                <precision>0.00025</precision>
                             </noise>
                         </xacro:macro>
                         <x><xacro:angular_imu_noise/></x>
@@ -864,13 +865,14 @@
                         <xacro:macro name="linear_imu_noise">
                             <noise type="gaussian">
                                 <mean>0</mean>
-                                <stddev>1e-2</stddev>
-                                <bias_mean>0.1</bias_mean>
-                                <bias_stddev>0.001</bias_stddev>
+                                <stddev>0.021</stddev>
+                                <bias_mean>0.05</bias_mean>
+                                <bias_stddev>0.0075</bias_stddev>
                                 <xacro:if value="${'$(arg rendering_target)' == 'ign'}">
-                                    <dynamic_bias_stddev>0.002</dynamic_bias_stddev>
-                                    <dynamic_bias_correlation_time>300.0</dynamic_bias_correlation_time>
+                                    <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                                    <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
                                 </xacro:if>
+                                <precision>0.005</precision>
                             </noise>
                         </xacro:macro>
                         <x><xacro:linear_imu_noise /></x>
