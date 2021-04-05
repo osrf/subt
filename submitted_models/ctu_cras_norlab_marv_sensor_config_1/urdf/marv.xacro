@@ -815,21 +815,21 @@
     <gazebo reference="$(arg prefix)base_link">
         <xacro:led_stripe name="light_left" range="30" linear="0.2" constant="0.1" quadratic="0.0025"
             inner_angle="2.8" outer_angle="2.9"
-            pose="0 ${$(arg rover_bodyWidth)/2} ${rover_bodyZOffset + $(arg rover_bodyHeight)/2 - 0.03} ${pi/2} ${pi/2} 0" />
+            pose="0 ${$(arg rover_bodyWidth)/2+0.01} ${rover_bodyZOffset + $(arg rover_bodyHeight)/2 - 0.03} ${pi/2} ${pi/2} 0" />
         <xacro:led_stripe name="light_right" range="30" linear="0.2" constant="0.1" quadratic="0.0025"
             inner_angle="2.8" outer_angle="2.9"
-            pose="0 ${-$(arg rover_bodyWidth)/2} ${rover_bodyZOffset + $(arg rover_bodyHeight)/2 - 0.03} ${3*pi/2} ${pi/2} 0" />
+            pose="0 ${-$(arg rover_bodyWidth)/2-0.01} ${rover_bodyZOffset + $(arg rover_bodyHeight)/2 - 0.03} ${3*pi/2} ${pi/2} 0" />
         <xacro:led_stripe name="light_front" range="30" linear="0.2" constant="0.1" quadratic="0.0025"
             inner_angle="2.8" outer_angle="2.9"
-            pose="${$(arg rover_bodyLength)/2} 0 ${rover_bodyZOffset + $(arg rover_bodyHeight)/2 - 0.03} ${pi} ${pi/2} 0" />
+            pose="${$(arg rover_bodyLength)/2+0.01} 0 ${rover_bodyZOffset + $(arg rover_bodyHeight)/2 - 0.03} ${pi} ${pi/2} 0" />
         <xacro:led_stripe name="light_rear" range="40" linear="0" constant="0.2" quadratic="0.0025"
             inner_angle="2.8" outer_angle="2.9"
-            pose="${-$(arg rover_bodyLength)/2} 0 ${rover_bodyZOffset + $(arg rover_bodyHeight)/2 - 0.03} 0 ${pi/2} 0" />
+            pose="${-$(arg rover_bodyLength)/2-0.01} 0 ${rover_bodyZOffset + $(arg rover_bodyHeight)/2 - 0.03} 0 ${pi/2} 0" />
     </gazebo>
 
     <gazebo reference="$(arg prefix)top_box">
         <xacro:spot_light_up name="light_up"
-            pose="0 ${-rover_topBoxHighestStepWidth/2 - $(arg rover_topBoxHigherStepWidth)/2} ${$(arg rover_topBoxHeight)/2 - ($(arg rover_topBoxHeight) - $(arg rover_topBoxHigherStepHeight))} 0 ${pi} 0" />
+            pose="0 ${-rover_topBoxHighestStepWidth/2 - $(arg rover_topBoxHigherStepWidth)/2} ${$(arg rover_topBoxHeight)/2 - ($(arg rover_topBoxHeight) - $(arg rover_topBoxHigherStepHeight))+0.01} 0 ${pi} 0" />
     </gazebo>
 
     <!-- virtual link to specify IMU position -->
