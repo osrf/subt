@@ -53,7 +53,7 @@ The Emesent Hovermap has the following estimate commercial cost components:
 * Sensor suite: $15,000
 * Total: ~ $27,000
 
-Its weight is approximately 5.7 kg. 
+Its weight is approximately 5.36 kg. 
 
 ### Sensors
 This Emesent Hovermap with sensor configuration 1 includes the following sensors. The specifications for these instruments are provided below in the [Validation Links](#validation_links) section.
