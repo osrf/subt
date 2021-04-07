@@ -11,7 +11,7 @@ class UrbanGeneratorBase
       std::map<std::string, std::vector<ignition::math::Vector3d>> &_tileConnectionPoints);
 
   /// \brief Create world sections from tiles that are for a building environment
-  protected: void CreateUrbanBuildingWorldSections(std::vector<WorldSection> &_worldSections,
+  protected: void CreateUrbanFactoryWorldSections(std::vector<WorldSection> &_worldSections,
       std::map<std::string, std::vector<ignition::math::Vector3d>> &_tileConnectionPoints);
 
   /// \brief Create world sections that connect building and subway environments
@@ -58,10 +58,6 @@ class UrbanGeneratorDebug : UrbanGeneratorBase, public WorldGeneratorDebug
   /// \brief Create a world section from transitiion tile
   private: void CreateTransitionWorldSection();
 
-  /// \brief Randomly select a world section from the collection of prefab
-  /// world sections
-  private: WorldSection SelectWorldSection(TileType &_tileType) override;
-
   /// \brief World section with type URBAN_MS
   /// The transition tile is fixed to be the "Urban Straight Door Left"
   private: WorldSection transitionWorldSection;
@@ -101,18 +97,7 @@ void UrbanGeneratorBase::CreateUrbanSubwayWorldSections(std::vector<WorldSection
       s.id = nextId++;
       _worldSections.push_back(s);
     }
-    else if (t.first.find("Superpose") != std::string::npos)
-    {
-      WorldSection s = std::move(
-        CreateWorldSectionFromTile(t.first,
-        math::Vector3d(0, -tileSize, 0),
-        math::Quaterniond(0, 0, -IGN_PI/2),
-        NONE));
-      s.tileType = URBAN_S;
-      s.id = nextId++;
-      _worldSections.push_back(s);
-    }
-    else if (t.first.find("3 Way") != std::string::npos)
+    else if (t.first.find("3-Way") != std::string::npos)
     {
       WorldSection s = std::move(
         CreateWorldSectionFromTile(t.first,
@@ -127,8 +112,8 @@ void UrbanGeneratorBase::CreateUrbanSubwayWorldSections(std::vector<WorldSection
     {
       WorldSection s = std::move(
         CreateWorldSectionFromTile(t.first,
-        math::Vector3d(0, tileSize, 0),
-        math::Quaterniond(0, 0, IGN_PI/2),
+        math::Vector3d(0, -tileSize, 5),
+        math::Quaterniond(0, 0, -IGN_PI/2),
         NONE));
       s.tileType = URBAN_S;
       s.id = nextId++;
@@ -139,7 +124,7 @@ void UrbanGeneratorBase::CreateUrbanSubwayWorldSections(std::vector<WorldSection
       WorldSection s = std::move(
         CreateWorldSectionFromTile(t.first,
         math::Vector3d(0, -tileSize, 0),
-        math::Quaterniond(0, 0, -IGN_PI/2),
+        math::Quaterniond(0, 0, IGN_PI/2),
         NONE));
       s.tileType = URBAN_S;
       s.id = nextId++;
@@ -148,7 +133,7 @@ void UrbanGeneratorBase::CreateUrbanSubwayWorldSections(std::vector<WorldSection
   }
 }
 
-void UrbanGeneratorBase::CreateUrbanBuildingWorldSections(std::vector<WorldSection> &_worldSections,
+void UrbanGeneratorBase::CreateUrbanFactoryWorldSections(std::vector<WorldSection> &_worldSections,
     std::map<std::string, std::vector<ignition::math::Vector3d>> &_tileConnectionPoints)
 {
   static size_t nextId = _worldSections.size();
@@ -156,7 +141,7 @@ void UrbanGeneratorBase::CreateUrbanBuildingWorldSections(std::vector<WorldSecti
   for (const auto &t : _tileConnectionPoints)
   {
   // Might have to build these manually
-    if (t.first.find("2 Story") != std::string::npos)
+    if (t.first.compare("Urban 2 Story") == 0)
     {
       WorldSection s = std::move(
         CreateWorldSectionFromTile(t.first,
@@ -183,7 +168,7 @@ void UrbanGeneratorBase::CreateUrbanBuildingWorldSections(std::vector<WorldSecti
       WorldSection s = std::move(
         CreateWorldSectionFromTile(t.first,
         math::Vector3d(0, tileSize, 0),
-        math::Quaterniond(0, 0, IGN_PI/2),
+        math::Quaterniond(0, 0, -IGN_PI/2),
         NONE));
       s.tileType = URBAN_F;
       s.id = nextId++;
@@ -227,6 +212,17 @@ void UrbanGeneratorBase::CreateUrbanMixedWorldSections(std::vector<WorldSection>
       WorldSection s = std::move(
         CreateWorldSectionFromTile(t.first,
         math::Vector3d(0, tileSize, 0),
+        math::Quaterniond(0, 0, IGN_PI/2),
+        NONE));
+      s.tileType = URBAN_M;
+      s.id = nextId++;
+      _worldSections.push_back(s);
+    }
+    else if (t.first.find("Door Right Flipped") != std::string::npos)
+    {
+      WorldSection s = std::move(
+        CreateWorldSectionFromTile(t.first,
+        math::Vector3d(-16.021, 3.94, 0.94),
         math::Quaterniond(0, 0, IGN_PI/2),
         NONE));
       s.tileType = URBAN_M;
@@ -287,30 +283,20 @@ void UrbanGeneratorBase::SetConnectionOpeningTypes(math::Pose3d &_transform, std
   // be sure to convert to world frame
   std::string tileName = "";
   if (_s.tileType == URBAN_M)
-    tileName = _s.tiles[0].tileName; 
-  for (uint i = 0; i < _s.connectionPoints.size() - 1; i++)
+    tileName = _s.tiles[0].tileType; 
+  for (uint i = 0; i < _s.connectionPoints.size(); i++)
   {
     auto pose = _s.connectionPoints[i];
     ConnectionOpening op;
     op.pos = _transform.CoordPositionAdd(pose.first);
     op.rot = _transform.Rot() * pose.second;
     
-    // adjust tile types for mix structure tiles
+    // adjust opening tile types for mix structure tiles
     if (_s.tileType == URBAN_M)
     {
       if (tileName.find("Door") != std::string::npos)
       {
-        if (tileName.find("Extension") != std::string::npos)
-        {
-          if (pose.first.X() == 0.0 && pose.first.Y() != 0.0 && pose.first.Z() == 0.0)
-            op.tileType = URBAN_F;
-          else
-            op.tileType = URBAN_S;
-        }
-        if (pose.first.X() != 0.0 && pose.first.Y() != 0.0 && pose.first.Z() != 0.0)
-          op.tileType = URBAN_F;
-        else
-          op.tileType = URBAN_S;  
+        op.tileType = URBAN_S;  
       }
       else if (tileName.find("Platform") != std::string::npos)
       {
@@ -324,7 +310,6 @@ void UrbanGeneratorBase::SetConnectionOpeningTypes(math::Pose3d &_transform, std
     {
       op.tileType = _s.tileType;
     }
-
     _openings.push_back(op);
   }
 }
@@ -340,13 +325,13 @@ void UrbanGenerator::LoadTiles()
   }
   else if (this->subWorldType == URBAN_FACTORY)
   {
-    this->CreateUrbanBuildingWorldSections(this->worldSections, this->tileConnectionPoints);
+    this->CreateUrbanFactoryWorldSections(this->worldSections, this->tileConnectionPoints);
   }
   // Must be mixed
   else
   {
     this->CreateUrbanMixedWorldSections(this->transitionWorldSections, this->tileConnectionPoints);
-    this->CreateUrbanBuildingWorldSections(this->worldSections, this->tileConnectionPoints);
+    this->CreateUrbanFactoryWorldSections(this->worldSections, this->tileConnectionPoints);
     this->CreateUrbanSubwayWorldSections(this->worldSections, this->tileConnectionPoints);
   }
 }
@@ -386,7 +371,7 @@ void UrbanGenerator::Generate()
 
   // first connection opening is at entrance pos in staging area
   ConnectionOpening op;
-  op.rot = math::Quaterniond(0, 0, IGN_PI);
+  op.rot = math::Quaterniond(0, 0, -IGN_PI/2);
   op.pos += math::Vector3d(-16.021, 3.94, 0.919);
   op.tileType = URBAN_F;
   openings.push_back(op);
@@ -572,7 +557,7 @@ void UrbanGeneratorDebug::LoadTiles()
   WorldGeneratorDebug::LoadTiles();
   this->CreateTransitionWorldSection();
   this->CreateUrbanMixedWorldSections(this->worldSections, this->tileConnectionPoints);
-  this->CreateUrbanBuildingWorldSections(this->worldSections, this->tileConnectionPoints);
+  this->CreateUrbanFactoryWorldSections(this->worldSections, this->tileConnectionPoints);
   this->CreateUrbanSubwayWorldSections(this->worldSections, this->tileConnectionPoints);
 }
 
@@ -602,16 +587,6 @@ TileType UrbanGeneratorDebug::tileTypeFromName()
 }
 
 //////////////////////////////////////////////////
-WorldSection UrbanGeneratorDebug::SelectWorldSection(TileType &_tileType)
-{
-  TileType typeFromName = this->tileTypeFromName();
-  if (typeFromName == URBAN_S)
-    return this->transitionWorldSection;
-  else
-    return WorldGeneratorDebug::SelectWorldSection(_tileType);
-}
-
-//////////////////////////////////////////////////
 void UrbanGeneratorDebug::Generate()
 {
   this->LoadTiles();
@@ -622,12 +597,17 @@ void UrbanGeneratorDebug::Generate()
 
   // first connection opening is at entrance pos in staging area
   ConnectionOpening op;
-  op.rot = math::Quaterniond(0, 0, IGN_PI);
+  op.rot = math::Quaterniond(0, 0, -IGN_PI/2);
   op.pos += math::Vector3d(-16.021, 3.94, 0.919);
   op.tileType = URBAN_F;
   openings.push_back(op);
-  int tileCount = 2;
-
+  TileType tileTypeFromName = this->tileTypeFromName();
+  int tileCount;
+  if (tileTypeFromName == URBAN_S)
+    tileCount = 2;
+  else
+    tileCount = 1;
+  
   // loop through all openings in the world, starting from the staging area,
   // and add tiles to these connection points until we reach the specified
   // tile count
@@ -639,6 +619,8 @@ void UrbanGeneratorDebug::Generate()
     math::Vector3d connectionPoint = o.pos;
     math::Quaterniond rot = o.rot;
     TileType tileType = o.tileType;
+    if (tileTypeFromName == URBAN_M)
+      tileType = URBAN_M;
 
     bool selected = false;
     WorldSection selectedSection;
@@ -647,19 +629,22 @@ void UrbanGeneratorDebug::Generate()
     // point before giving up. Failure to add a tile is mostly due to
     // intersection with existing tiles in the world.
     int attempt = 0;
-    int maxAttempt = 2;
+    int maxAttempt = 5;
     while (!selected && attempt++ < maxAttempt)
     {
-      // Select the world section generated from the tile
-      WorldSection s = std::move(this->SelectWorldSection(tileType));
+      WorldSection s;
 
       // check if we need to pick transition tile
-      if (s.tileType != tileType)
+      if (this->tileTypeFromName() == URBAN_S && tileCount > 1)
+      {
         s = std::move(this->transitionWorldSection);
+      }
       else
+      {
+        s = std::move(this->SelectWorldSection(tileType));
         tileCount--;
-        
-      
+      }
+
       // Do nothing if tile count was reached
       if(tileCount == 0)
       {
@@ -675,14 +660,6 @@ void UrbanGeneratorDebug::Generate()
       {
         continue;
       }
-
-      // make sure we do not add a section that has zero openings
-      // if we have not reached the desired tile count yet.
-      bool valid = !(openings.empty() &&
-          s.connectionPoints.empty() &&
-          tileCount - s.tiles.size() > 0);
-      if (!valid)
-        continue;
 
       // set the world pose of the new section
       s.pose = transform;
@@ -811,8 +788,8 @@ void printUsage()
   usage += "    -d <tile>\t Generate world from tile for debugging\n";
   usage += "    -o <file>\t Output sdf filename\n";
   usage += "    -t <type>\t Urban Type:\n";
-  usage += "             \t    'subways' or 's',\n";
-  usage += "             \t    'buildings' or 'b',\n";
+  usage += "             \t    'subway' or 's',\n";
+  usage += "             \t    'factory' or 'b',\n";
   usage += "             \t    'mixed' or 'm'\n";
   usage += "    -s <seed>\t Seed\n";
   usage += "    -c <count>\t Min tile count\n";
@@ -920,9 +897,9 @@ int main(int argc, char **argv)
   {
     UrbanGenerator ug;
 
-    if (urbanType == "s" || urbanType == "subways")
+    if (urbanType == "s" || urbanType == "subway")
       ug.SetSubWorldType(SubWorldType::URBAN_SUBWAY);
-    else if (urbanType == "b" || urbanType == "buildings")
+    else if (urbanType == "b" || urbanType == "factory")
       ug.SetSubWorldType(SubWorldType::URBAN_FACTORY);
     else if (urbanType == "m" || urbanType == "mixed")
       ug.SetSubWorldType(SubWorldType::URBAN_MIXED);

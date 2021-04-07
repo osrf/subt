@@ -157,9 +157,20 @@ bool WorldGeneratorBase::IntersectionCheck(WorldSection &_section,
             }
             else if (this->worldType == "Urban")
             {
-
+              if (dist < 5)
+              {
+                double volume = region.XLength() * region.YLength()
+                    * region.ZLength();
+                double maxOverlapVolume = 500;
+                if (section.tileType == URBAN_S)
+                  maxOverlapVolume = 200;
+                if (volume < maxOverlapVolume)
+                {
+                  overlapAtConnection = true;
+                  break;
+                }
+              }
             }
-            // TODO for Urban circuit
           }
 
           if (!overlapAtConnection)
@@ -265,11 +276,14 @@ void WorldGenerator::LoadTiles()
     if (t.first.find("30") != std::string::npos)
       continue;
 
-    // Ignore disjointed tunnel tiles
+    // Ignore disjointed tiles
     if (t.first.find("Tunnel Tile 3") != std::string::npos)
       continue;
 
     if (t.first.find("Tunnel Tile 4") != std::string::npos)
+      continue;
+    
+    if (t.first.find("Superpose") != std::string::npos)
       continue;
 
     // Ignore all tiles not from world type
@@ -351,7 +365,7 @@ void WorldGenerator::LoadTiles()
     if (tileType == "Urban Starting Area")
     {
       bbox = transformAxisAlignedBox(
-          bbox, math::Pose3d(0, 0, 0, 0, 0, IGN_PI));
+          bbox, math::Pose3d(0, 0, 0, 0, 0, -IGN_PI/2));
     }
     if (tileType == "subt_tunnel_staging_area")
     {
@@ -409,8 +423,20 @@ void WorldGeneratorDebug::LoadTiles()
     }
 
     // If Urban Subway tile add transition tile
-    // TODO
-    // if (this->worldType == "Urban" && t.first.find(""))
+    if (this->worldType == "Urban")
+    {
+      if (this->tileName.find("Bend") != std::string::npos ||
+          this->tileName.find("Elevation") != std::string::npos ||
+          this->tileName.find("Intersection") != std::string::npos ||
+          this->tileName.compare("Urban Straight") == 0)
+      {
+          if (t.first.compare("Urban Straight Door Left") == 0)
+          {
+            std::cout << "Loading: " << t.first << std::endl;
+            this->tileConnectionPoints[t.first] = t.second;
+          }
+      }
+    }
     // Ignore all tiles except needed tile name
     if (this->tileName.find(t.first) == std::string::npos)
       continue;
@@ -494,7 +520,7 @@ void WorldGeneratorDebug::LoadTiles()
     if (tileType == "Urban Starting Area")
     {
       bbox = transformAxisAlignedBox(
-          bbox, math::Pose3d(0, 0, 0, 0, 0, IGN_PI/2));
+          bbox, math::Pose3d(0, 0, 0, 0, 0, -IGN_PI/2));
     }
     if (tileType == "subt_tunnel_staging_area")
     {
@@ -512,8 +538,11 @@ WorldSection WorldGeneratorDebug::SelectWorldSection(TileType &_tileType)
   WorldSection s;
   for (const auto &_s : this->worldSections)
   {
-    if (_s.tiles[0].tileType == this->tileName)
+    if (_s.tiles[0].tileType.compare(this->tileName) == 0)
+    {
       s = std::move(_s);
+      break;
+    }
   }
   if (s.tileType != _tileType)
     std::cout << "WARNING: Mis-matching TileType\t" << _tileType << " != " << s.tileType << std::endl;
