@@ -21,7 +21,7 @@ install(TARGETS GimbalControlPlugin
         LIBRARY DESTINATION lib
         RUNTIME DESTINATION bin)
 
-install(DIRECTORY launch meshes urdf materials
+install(DIRECTORY launch meshes urdf
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 
 install(FILES model.sdf model.config
