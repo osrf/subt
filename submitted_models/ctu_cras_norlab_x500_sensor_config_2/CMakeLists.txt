@@ -7,7 +7,7 @@ find_package(catkin REQUIRED)
 
 catkin_package()
 
-install(DIRECTORY launch urdf worlds
+install(DIRECTORY launch urdf worlds meshes materials
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 
 install(FILES model.sdf model.config
