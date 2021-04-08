@@ -171,6 +171,26 @@ bool WorldGeneratorBase::IntersectionCheck(WorldSection &_section,
                 }
               }
             }
+            if (this->worldType == "Tunnel")
+            {
+              if (dist < 5)
+              {
+                // make sure the overlapping region is small
+                double volume = region.XLength() * region.YLength()
+                    * region.ZLength();
+                double maxOverlapVolume = 100;
+                if (volume < maxOverlapVolume)
+                {
+                  overlapAtConnection = true;
+                  break;
+                }
+              }
+            }
+            else if (this->worldType == "Urban")
+            {
+
+            }
+            // TODO for Urban circuit
           }
 
           if (!overlapAtConnection)

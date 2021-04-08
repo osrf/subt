@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="name"/>
+  <node
+    pkg="topic_tools"
+    type="throttle"
+    name="mapping_server_cloud_throttle"
+    args="messages /cloud 0.1 /cloud_throttled"
+  />
+  <node
+    pkg="ros_ign_bridge"
+    type="parameter_bridge"
+    name="ros_ign_bridge_mapping_server_cloud"
+    args="/model/$(arg name)/cloud@sensor_msgs/PointCloud2]ignition.msgs.PointCloudPacked">
+    <remap from="/model/$(arg name)/cloud" to="/cloud_throttled"/>
+  </node>
+  <node
+    pkg="topic_tools"
+    type="throttle"
+    name="mapping_server_grid_throttle"
+    args="messages /grid 0.1 /grid_throttled"
+  />
+  <node
+    pkg="ros_ign_bridge"
+    type="parameter_bridge"
+    name="ros_ign_bridge_mapping_server_grid"
+    args="/model/$(arg name)/grid@nav_msgs/OccupancyGrid]ignition.msgs.OccupancyGrid">
+    <remap from="/model/$(arg name)/grid" to="/grid_throttled"/>
+  </node>
+  <node
+    pkg="topic_tools"
+    type="throttle"
+    name="mapping_server_poses_throttle"
+    args="messages /poses 1.0 /poses_throttled"
+  />
+  <node
+    pkg="ros_ign_bridge"
+    type="parameter_bridge"
+    name="ros_ign_bridge_mapping_server_poses"
+    args="/model/$(arg name)/poses@geometry_msgs/PoseArray]ignition.msgs.Pose_V">
+    <remap from="/model/$(arg name)/poses" to="/poses_throttled"/>
+  </node>
+  <node
+    pkg="topic_tools"
+    type="throttle"
+    name="mapping_server_markers_throttle"
+    args="messages /markers 1.0 /markers_throttled"
+  />
+  <node
+    pkg="ros_ign_bridge"
+    type="parameter_bridge"
+    name="ros_ign_bridge_mapping_server_markers"
+    args="/model/$(arg name)/markers@visualization_msgs/MarkerArray]ignition.msgs.Marker_V">
+    <remap from="/model/$(arg name)/markers" to="/markers_throttled"/>
+  </node>
+</launch>

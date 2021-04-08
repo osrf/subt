@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Includes the necessary relay nodes for an IMU (can be used multiple times). -->
+
+    <arg name="gazebo_topic" doc="The Gazebo topic on which the IMU is published" />
+
+    <arg name="node_name_suffix" default="imu" doc="Suffix of the generated nodes. Use to disambiguate if multiple IMUs are used." />
+    <arg name="ros_topic" default="$(arg node_name_suffix)/data" doc="The ROS topic to publish the data on." />
+
+    <node pkg="ros_ign_bridge" type="parameter_bridge" respawn="true"
+      name="ros_ign_bridge_$(arg node_name_suffix)"
+      args="$(arg gazebo_topic)@sensor_msgs/Imu[ignition.msgs.IMU">
+      <remap from="$(arg gazebo_topic)" to="$(arg ros_topic)"/>
+    </node>
+</launch>
