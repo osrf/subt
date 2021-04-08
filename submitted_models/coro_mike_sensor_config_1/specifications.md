@@ -32,6 +32,7 @@ $200  - D435
 Mike Sensor Config 1 uses:
 * 1 x Velodyne VLP-16, modeled by gpu_lidar plugin
 * 1 x D435i modeled by rgbd_camera plugin
+* 1 x Seek Thermal Compact modeled by thermal sensor system
 * 1 x Memsense MS-IMU3025 modeled by imu_sensor and magnetometer plugin
 * 1 x Kakute F7 - modeled by air_pressure plugin
 * 1 x SCD30 - modeled by GasEmitterDetector plugin

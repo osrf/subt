@@ -104,8 +104,8 @@
           </box>
         </geometry>
         <material>
-          <ambient>200 200 200 1</ambient>
-          <diffuse>200 200 200 1</diffuse>
+          <ambient>0.8 0.8 0.8 1</ambient>
+          <diffuse>0.8 0.8 0.8 1</diffuse>
         </material>
       </visual>
       <visual name="plate2_visual">
@@ -116,8 +116,8 @@
           </box>
         </geometry>
         <material>
-          <ambient>200 200 200 1</ambient>
-          <diffuse>200 200 200 1</diffuse>
+          <ambient>0.8 0.8 0.8 1</ambient>
+          <diffuse>0.8 0.8 0.8 1</diffuse>
         </material>
       </visual>
       <visual name="plate3_visual_was35_11_29">
@@ -128,8 +128,8 @@
           </box>
         </geometry>
         <material>
-          <ambient>240 240 240 1</ambient>
-          <diffuse>240 240 240 1</diffuse>
+          <ambient>0.8 0.8 0.8 1</ambient>
+          <diffuse>0.8 0.8 0.8 1</diffuse>
         </material>
       </visual>
 
@@ -141,8 +141,8 @@
           </box>
         </geometry>
         <material>
-          <ambient>200 200 200 1</ambient>
-          <diffuse>200 200 200 1</diffuse>
+          <ambient>0.8 0.8 0.8 1</ambient>
+          <diffuse>0.8 0.8 0.8 1</diffuse>
         </material>
       </visual>
       <visual name="beam2_visual">
@@ -153,8 +153,8 @@
           </box>
         </geometry>
         <material>
-          <ambient>200 200 200 1</ambient>
-          <diffuse>200 200 200 1</diffuse>
+          <ambient>0.8 0.8 0.8 1</ambient>
+          <diffuse>0.8 0.8 0.8 1</diffuse>
         </material>
       </visual>
       <visual name="beam3_visual">
@@ -165,8 +165,8 @@
           </box>
         </geometry>
         <material>
-          <ambient>200 200 200 1</ambient>
-          <diffuse>200 200 200 1</diffuse>
+          <ambient>0.8 0.8 0.8 1</ambient>
+          <diffuse>0.8 0.8 0.8 1</diffuse>
         </material>
       </visual>
       <visual name="beam4_visual">
@@ -177,8 +177,8 @@
           </box>
         </geometry>
         <material>
-          <ambient>200 200 200 1</ambient>
-          <diffuse>200 200 200 1</diffuse>
+          <ambient>0.8 0.8 0.8 1</ambient>
+          <diffuse>0.8 0.8 0.8 1</diffuse>
         </material>
       </visual>
 
@@ -1206,7 +1206,7 @@
         <limit>
           <lower>-1.79769e+308</lower>
           <upper>+1.79769e+308</upper>
-          <velocity>4</velocity>
+          <velocity>14</velocity>
           <!-- Torque in NM. -->
           <effort>60</effort>
         </limit>
@@ -1222,7 +1222,7 @@
         <limit>
           <lower>-1.79769e+308</lower>
           <upper>+1.79769e+308</upper>
-          <velocity>4</velocity>
+          <velocity>14</velocity>
           <effort>60</effort>
         </limit>
       </axis>
@@ -1236,7 +1236,7 @@
         <limit>
           <lower>-1.79769e+308</lower>
           <upper>+1.79769e+308</upper>
-          <velocity>4</velocity>
+          <velocity>14</velocity>
           <!-- Torque in NM. -->
           <effort>60</effort>
         </limit>
@@ -1251,7 +1251,7 @@
         <limit>
           <lower>-1.79769e+308</lower>
           <upper>+1.79769e+308</upper>
-          <velocity>4</velocity>
+          <velocity>14</velocity>
           <!-- Torque in NM. -->
           <effort>60</effort>
         </limit>

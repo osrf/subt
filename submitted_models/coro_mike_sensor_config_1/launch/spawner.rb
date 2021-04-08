@@ -64,26 +64,26 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
          <wheel link_name="front_left_wheel">
            <slip_compliance_lateral>0.172</slip_compliance_lateral>
            <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-           <wheel_normal_force>123.6</wheel_normal_force>
-           <wheel_radius>0.205</wheel_radius>
+           <wheel_normal_force>122.6</wheel_normal_force>
+           <wheel_radius>0.33</wheel_radius>
          </wheel>
          <wheel link_name="rear_left_wheel">
            <slip_compliance_lateral>0.172</slip_compliance_lateral>
            <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-           <wheel_normal_force>123.6</wheel_normal_force>
-           <wheel_radius>0.205</wheel_radius>
+           <wheel_normal_force>122.6</wheel_normal_force>
+           <wheel_radius>0.33</wheel_radius>
          </wheel>
          <wheel link_name="front_right_wheel">
            <slip_compliance_lateral>0.172</slip_compliance_lateral>
            <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-           <wheel_normal_force>123.6</wheel_normal_force>
-           <wheel_radius>0.205</wheel_radius>
+           <wheel_normal_force>122.6</wheel_normal_force>
+           <wheel_radius>0.33</wheel_radius>
          </wheel>
          <wheel link_name="rear_right_wheel">
            <slip_compliance_lateral>0.172</slip_compliance_lateral>
            <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-           <wheel_normal_force>123.6</wheel_normal_force>
-           <wheel_radius>0.205</wheel_radius>
+           <wheel_normal_force>122.6</wheel_normal_force>
+           <wheel_radius>0.33</wheel_radius>
          </wheel>
        </plugin>
       </include>
