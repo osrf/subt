@@ -40,7 +40,7 @@
                         </clip>
                     </camera>
                     <plugin filename="ignition-gazebo-thermal-sensor-system" name="ignition::gazebo::systems::ThermalSensor">
-                        <min_temp>233.15</min_temp>
+                        <min_temp>223.15</min_temp>
                         <max_temp>453.15</max_temp>
                         <resolution>0.06</resolution>
                     </plugin>
