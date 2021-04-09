@@ -65,6 +65,8 @@ MARV uses two custom-produced battery packs that are suitable for transport by a
 
 We will update this section with real-world measured values as soon as the robot is ready for testing (May 2021).
 
+The vehicle's endurance is currently set to 60 minutes until validation data can be provided.
+
 ## Diversions from Physical Hardware of MARV robot
 The tracks and flippers have to be approximated by wheels, as DartSim/Ignition Gazebo have no support for tracked vehicles. There is a working model for ODE/Gazebo, but there is no straight way of transferring it to Ignition Gazebo. This approximation results in worse performance on obstacles, and it can even happen that a piece of terrain gets "stuck" right between two wheels and the robot would completely stop in a case that would not be a problem with real tracks.
 
