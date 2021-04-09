@@ -89,11 +89,10 @@ __Do not change the SDF files directly, as the changes could be lost the next ti
 ## Validation and Specification Links
 * Vehicle Links:
   * https://tenderarena.cz/dodavatel/seznam-profilu-zadavatelu/detail/Z0003010/zakazka/319126
-
 * Sensor specification links:
   * Ouster OS0-128 https://ouster.com/products/os0-lidar-sensor/
   * Basler cam https://www.baslerweb.com/en/products/cameras/area-scan-cameras/ace/aca2040-35gc/ + fisheye lens https://www.mouser.com/datasheet/2/857/DG00212701000_Tech_Spec_for_SAP_2000036382_2000036-1628255.pdf
-  * Basler cam https://www.baslerweb.com/en/products/cameras/area-scan-cameras/ace2/a2a1920-51gcpro/ + lens https://www.baslerweb.com/en/products/vision-components/lenses/basler-lens-c125-0418-5m-p-f4mm/
+  * Basler cam https://www.baslerweb.com/en/products/cameras/area-scan-cameras/ace2/a2a1920-51gcpro/ + lens https://www.baslerweb.com/en/products/vision-components/lenses/basler-lens-c125-0418-5m-p-f4mm/ + Experimental validation: https://drive.google.com/drive/folders/1-KWMvjWSYYeLqPA0C3FCdKuHQAmOHN-z?usp=sharing
   * Benewake TFmini plus point lidar https://www.mouser.com/datasheet/2/1099/Benewake_10152020_TFmini_Plus-1954028.pdf
   * IMU: XSens MTi-30 https://www.mouser.com/datasheet/2/693/mti-series-1358510.pdf
   * Boson thermal camera: https://www.oemcameras.com/flir-boson-320x256-2mm.htm
