@@ -13,6 +13,10 @@
     <xacro:arg name="simulate_cameras" default="True"/>
     <xacro:arg name="simulate_imu" default="True"/>
 
+    <xacro:arg name="body_color_r" default="${str(234/255.0)}" />
+    <xacro:arg name="body_color_g" default="${str(167/255.0)}" />
+    <xacro:arg name="body_color_b" default="0" />
+
     <xacro:include filename="utils.xacro"/>
     <xacro:include filename="constants.urdf.xacro" />
     <xacro:include filename="spot_leg.urdf.xacro" />
@@ -36,6 +40,25 @@
                      izz="${(1/12) * base_mass * (base_length * base_length + base_width * base_width)}" />
         </inertial>
     </link>
+
+    <link name="$(arg prefix)battery">
+        <visual>
+            <geometry>
+                <box size="0.324 0.168 0.093" />
+            </geometry>
+            <material name="spot_color">
+                <color rgba="$(arg body_color_r) $(arg body_color_g) $(arg body_color_b) 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.324 0.168 0.093" />
+            </geometry>
+        </collision>
+        <xacro:box_inertial mass="4.0" depth="0.324" width="0.168" height="0.093" />
+    </link>
+    <xacro:solid_color_link_material link="$(arg prefix)battery" r="$(arg body_color_r)" g="$(arg body_color_g)" b="$(arg body_color_b)" />
+    <xacro:fixed_joint name="battery_joint" parent="$(arg prefix)base_link" child="$(arg prefix)battery" xyz="0 0 -0.03" />
 
     <xacro:empty_link name="$(arg prefix)body"/>
     <xacro:fixed_joint name="base_link_joint" parent="$(arg prefix)base_link" child="$(arg prefix)body" />

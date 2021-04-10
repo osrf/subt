@@ -8,7 +8,8 @@ def _spawner2(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw, _ad
     additionalSpawnPlugins = <<-HEREDOC
       <!--plugin>custom plugins for this sensor config go here</plugin-->
     HEREDOC
-    _spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw, additionalSpawnPlugins + _additionalSpawnPlugins)
+    _pid=[280, 0.3, 7]
+    _spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw, additionalSpawnPlugins + _additionalSpawnPlugins, )
   end
 end
 

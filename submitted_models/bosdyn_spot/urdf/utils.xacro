@@ -67,4 +67,19 @@
             </gazebo>
         </xacro:if>
     </xacro:macro>
+
+    <xacro:macro name="solid_color_link_material" params="link r g b">
+        <xacro:unless value="${'$(arg rendering_target)' == 'urdf'}">
+            <gazebo reference="${link}">
+                <visual>
+                    <material>
+                        <ambient>${r} ${g} ${b} 1</ambient>
+                        <diffuse>${r} ${g} ${b} 1</diffuse>
+                        <specular>${r} ${g} ${b} 1</specular>
+                        <emissive>0 0 0 0</emissive>
+                    </material>
+                </visual>
+            </gazebo>
+        </xacro:unless>
+    </xacro:macro>
 </root>

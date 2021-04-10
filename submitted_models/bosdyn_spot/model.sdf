@@ -141,6 +141,64 @@
         </ode>
       </physics>
     </joint>
+    <link name="battery">
+      <pose>0 0 -0.03 0 -0 0</pose>
+      <inertial>
+        <mass>4</mass>
+        <inertia>
+          <ixx>0.012291</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.037875</iyy>
+          <iyz>0</iyz>
+          <izz>0.0444</izz>
+        </inertia>
+      </inertial>
+      <collision name="battery_collision">
+        <geometry>
+          <box>
+            <size>0.324 0.168 0.093</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="battery_visual">
+        <geometry>
+          <box>
+            <size>0.324 0.168 0.093</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.917647 0.654902 0 1</ambient>
+          <diffuse>0.917647 0.654902 0 1</diffuse>
+          <specular>0.917647 0.654902 0 1</specular>
+          <emissive>0 0 0 0</emissive>
+        </material>
+      </visual>
+    </link>
+    <joint name="battery_joint" type="fixed">
+      <child>battery</child>
+      <parent>base_link</parent>
+      <axis>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+      </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
+    </joint>
     <link name="camera_back">
       <pose>-0.425 0 0.01 -0 0.3 3.1415926535897931</pose>
       <inertial>

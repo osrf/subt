@@ -19,6 +19,9 @@
     <group ns="$(arg name)">
         <!-- Custom vehicle topics just for this sensor config. -->
 
+        <!-- Override PID params to get something more suitable for this heavier robot -->
+        <rosparam command="load" file="$(dirname)/../config/ros_control/ros_control.yaml" subst_value="true" />
+
         <!-- "Omnicam" -->
 
         <group if="$(arg has_omnicam_vras)">

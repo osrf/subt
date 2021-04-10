@@ -185,5 +185,10 @@
       <command>roslaunch --wait subt_spot champ.launch name:=<%=robotName%></command>
     </executable>
   <% end %>
+  <% if local_variables.include?(:teleop) and teleop %>
+    <executable name='teleop'>
+      <command>env ROS_NAMESPACE=<%=robotName%> roslaunch --wait champ_teleop teleop.launch joy:=true</command>
+    </executable>
+  <% end %>
 
 </ignition>

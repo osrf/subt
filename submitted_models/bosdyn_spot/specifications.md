@@ -5,7 +5,7 @@ variable name `BOSDYN_SPOT`.
 
 For local testing, you can use the following command:
 
-    LC_ALL=C ign launch -v 4 ~/subt_ws/src/subt/submitted_models/bosdyn_spot/launch/example.ign robotName:=X1 ros:=true champ:=true
+    LC_ALL=C ign launch -v 4 ~/subt_ws/src/subt/submitted_models/bosdyn_spot/launch/example.ign robotName:=X1 ros:=true champ:=true teleop:=true
 
 This package contains just the bare robot body which is not expected to be run "standalone" as a robot
 in the SubT competition. It is expected that each team will develop their own sensor config based

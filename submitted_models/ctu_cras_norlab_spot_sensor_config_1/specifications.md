@@ -31,7 +31,7 @@ No additional restrictions have to be taken into account for this model.
 * Lidar: $10,000
 * Total price: $93,000
 
-Its weight is approximately 38 kg. 
+Its weight is approximately 38.66 kg (or 39.16 kg with breadcrumbs). 
 
 ## Sensors
 This sensor configuration of Spot includes the following sensors in addition to the base sensors of the platform
