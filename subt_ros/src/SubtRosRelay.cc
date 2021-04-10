@@ -234,7 +234,7 @@ SubtRosRelay::SubtRosRelay()
   rosbag::RecorderOptions recorderOptions;
   recorderOptions.append_date=false;
   recorderOptions.split=true;
-  recorderOptions.max_splits=0;
+  recorderOptions.max_splits=1;
 
   // This equation is sourced from line 133 in
   // http://docs.ros.org/en/noetic/api/rosbag/html/c++/record_8cpp_source.html
