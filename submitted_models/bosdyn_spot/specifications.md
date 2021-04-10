@@ -47,9 +47,8 @@ See the [Control section](#control) for more options how to control the robot.
 
 The simulator publishes information about contact of the lower legs with terrain. There are two
 types of topics. Both depend on the presence of plugin `ignition-gazebo-contact-system` in the
-simulation world. This has been added to the simulation worlds in https://github.com/osrf/subt/pull/834 .
-The PR has not yet been merged. For preliminary testing, you can try running `bosdyn_spot/launch/example.ign`
-which adds the required plugin.
+simulation world. This plugin is automatically a part of all competition worlds, but if you create
+your own worlds, you may need to add it manually.
 
 First type of contact information is the per-leg precise set of contacts. It is published on topic
 `leg_contacts/front_left` etc. of type `bosdyn_spot/ContactsStamped` and contains the exact positions
