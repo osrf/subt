@@ -56,12 +56,12 @@
           <range>
             <min>0.1</min>
             <max>50</max>
-            <resolution>0.003</resolution>
+            <resolution>0.01</resolution>
           </range>
           <noise>
             <type>gaussian</type>
             <mean>0</mean>
-            <stddev>0.03</stddev>
+            <stddev>0.01</stddev>
           </noise>
         </lidar>
       </sensor>
