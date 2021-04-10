@@ -368,6 +368,17 @@
             <mean>0</mean>
             <stddev>0.007</stddev>
           </noise>
+          <lens>
+            <intrinsics>
+              <fx>1020.51</fx>
+              <fy>1020.51</fy>
+              <cx>959.5</cx>
+              <cy>599.5</cy>
+              <s>0</s>
+            </intrinsics>
+            <type>stereographic</type>
+            <scale_to_hfov>1</scale_to_hfov>
+          </lens>
         </camera>
       </sensor>
     </link>
@@ -462,6 +473,17 @@
             <mean>0</mean>
             <stddev>0.007</stddev>
           </noise>
+          <lens>
+            <intrinsics>
+              <fx>1020.51</fx>
+              <fy>1020.51</fy>
+              <cx>959.5</cx>
+              <cy>599.5</cy>
+              <s>0</s>
+            </intrinsics>
+            <type>stereographic</type>
+            <scale_to_hfov>1</scale_to_hfov>
+          </lens>
         </camera>
       </sensor>
     </link>
@@ -556,6 +578,17 @@
             <mean>0</mean>
             <stddev>0.007</stddev>
           </noise>
+          <lens>
+            <intrinsics>
+              <fx>1020.51</fx>
+              <fy>1020.51</fy>
+              <cx>959.5</cx>
+              <cy>599.5</cy>
+              <s>0</s>
+            </intrinsics>
+            <type>stereographic</type>
+            <scale_to_hfov>1</scale_to_hfov>
+          </lens>
         </camera>
       </sensor>
     </link>
@@ -650,6 +683,17 @@
             <mean>0</mean>
             <stddev>0.007</stddev>
           </noise>
+          <lens>
+            <intrinsics>
+              <fx>1020.51</fx>
+              <fy>1020.51</fy>
+              <cx>959.5</cx>
+              <cy>599.5</cy>
+              <s>0</s>
+            </intrinsics>
+            <type>stereographic</type>
+            <scale_to_hfov>1</scale_to_hfov>
+          </lens>
         </camera>
       </sensor>
     </link>
@@ -744,6 +788,17 @@
             <mean>0</mean>
             <stddev>0.007</stddev>
           </noise>
+          <lens>
+            <intrinsics>
+              <fx>1020.51</fx>
+              <fy>1020.51</fy>
+              <cx>959.5</cx>
+              <cy>599.5</cy>
+              <s>0</s>
+            </intrinsics>
+            <type>stereographic</type>
+            <scale_to_hfov>1</scale_to_hfov>
+          </lens>
         </camera>
       </sensor>
     </link>
@@ -1044,7 +1099,7 @@
         <update_rate>30</update_rate>
         <visualize>0</visualize>
         <camera>
-          <horizontal_fov>1.65806</horizontal_fov>
+          <horizontal_fov>1.78634</horizontal_fov>
           <image>
             <width>640</width>
             <height>480</height>
@@ -1059,6 +1114,17 @@
             <mean>0</mean>
             <stddev>0.007</stddev>
           </noise>
+          <lens>
+            <intrinsics>
+              <fx>257.487</fx>
+              <fy>257.487</fy>
+              <cx>319.5</cx>
+              <cy>239.5</cy>
+              <s>0</s>
+            </intrinsics>
+            <type>stereographic</type>
+            <scale_to_hfov>1</scale_to_hfov>
+          </lens>
         </camera>
         <plugin name="subt::MonoCameraSystem" filename="mono-camera-system"/>
       </sensor>
@@ -1066,7 +1132,7 @@
         <update_rate>30</update_rate>
         <visualize>0</visualize>
         <camera>
-          <horizontal_fov>1.6057</horizontal_fov>
+          <horizontal_fov>1.78634</horizontal_fov>
           <image>
             <width>424</width>
             <height>240</height>
@@ -1081,6 +1147,13 @@
             <mean>0</mean>
             <stddev>0.007</stddev>
           </noise>
+          <intrinsics>
+            <fx>170.6</fx>
+            <fy>170.6</fy>
+            <cx>211.5</cx>
+            <cy>119.5</cy>
+            <s>0</s>
+          </intrinsics>
         </camera>
       </sensor>
     </link>
@@ -1126,7 +1199,7 @@
         <update_rate>30</update_rate>
         <visualize>0</visualize>
         <camera>
-          <horizontal_fov>1.65806</horizontal_fov>
+          <horizontal_fov>1.78634</horizontal_fov>
           <image>
             <width>640</width>
             <height>480</height>
@@ -1141,6 +1214,17 @@
             <mean>0</mean>
             <stddev>0.007</stddev>
           </noise>
+          <lens>
+            <intrinsics>
+              <fx>257.487</fx>
+              <fy>257.487</fy>
+              <cx>319.5</cx>
+              <cy>239.5</cy>
+              <s>0</s>
+            </intrinsics>
+            <type>stereographic</type>
+            <scale_to_hfov>1</scale_to_hfov>
+          </lens>
         </camera>
         <plugin name="subt::MonoCameraSystem" filename="mono-camera-system"/>
       </sensor>
@@ -1148,7 +1232,7 @@
         <update_rate>30</update_rate>
         <visualize>0</visualize>
         <camera>
-          <horizontal_fov>1.6057</horizontal_fov>
+          <horizontal_fov>1.78634</horizontal_fov>
           <image>
             <width>424</width>
             <height>240</height>
@@ -1163,6 +1247,13 @@
             <mean>0</mean>
             <stddev>0.007</stddev>
           </noise>
+          <intrinsics>
+            <fx>170.6</fx>
+            <fy>170.6</fy>
+            <cx>211.5</cx>
+            <cy>119.5</cy>
+            <s>0</s>
+          </intrinsics>
         </camera>
       </sensor>
     </link>
@@ -1208,7 +1299,7 @@
         <update_rate>30</update_rate>
         <visualize>0</visualize>
         <camera>
-          <horizontal_fov>1.65806</horizontal_fov>
+          <horizontal_fov>1.78634</horizontal_fov>
           <image>
             <width>640</width>
             <height>480</height>
@@ -1223,6 +1314,17 @@
             <mean>0</mean>
             <stddev>0.007</stddev>
           </noise>
+          <lens>
+            <intrinsics>
+              <fx>257.487</fx>
+              <fy>257.487</fy>
+              <cx>319.5</cx>
+              <cy>239.5</cy>
+              <s>0</s>
+            </intrinsics>
+            <type>stereographic</type>
+            <scale_to_hfov>1</scale_to_hfov>
+          </lens>
         </camera>
         <plugin name="subt::MonoCameraSystem" filename="mono-camera-system"/>
       </sensor>
@@ -1230,7 +1332,7 @@
         <update_rate>30</update_rate>
         <visualize>0</visualize>
         <camera>
-          <horizontal_fov>1.6057</horizontal_fov>
+          <horizontal_fov>1.78634</horizontal_fov>
           <image>
             <width>424</width>
             <height>240</height>
@@ -1245,6 +1347,13 @@
             <mean>0</mean>
             <stddev>0.007</stddev>
           </noise>
+          <intrinsics>
+            <fx>170.6</fx>
+            <fy>170.6</fy>
+            <cx>211.5</cx>
+            <cy>119.5</cy>
+            <s>0</s>
+          </intrinsics>
         </camera>
       </sensor>
     </link>
@@ -1290,7 +1399,7 @@
         <update_rate>30</update_rate>
         <visualize>0</visualize>
         <camera>
-          <horizontal_fov>1.65806</horizontal_fov>
+          <horizontal_fov>1.78634</horizontal_fov>
           <image>
             <width>640</width>
             <height>480</height>
@@ -1305,6 +1414,17 @@
             <mean>0</mean>
             <stddev>0.007</stddev>
           </noise>
+          <lens>
+            <intrinsics>
+              <fx>257.487</fx>
+              <fy>257.487</fy>
+              <cx>319.5</cx>
+              <cy>239.5</cy>
+              <s>0</s>
+            </intrinsics>
+            <type>stereographic</type>
+            <scale_to_hfov>1</scale_to_hfov>
+          </lens>
         </camera>
         <plugin name="subt::MonoCameraSystem" filename="mono-camera-system"/>
       </sensor>
@@ -1312,7 +1432,7 @@
         <update_rate>30</update_rate>
         <visualize>0</visualize>
         <camera>
-          <horizontal_fov>1.6057</horizontal_fov>
+          <horizontal_fov>1.78634</horizontal_fov>
           <image>
             <width>424</width>
             <height>240</height>
@@ -1327,6 +1447,13 @@
             <mean>0</mean>
             <stddev>0.007</stddev>
           </noise>
+          <intrinsics>
+            <fx>170.6</fx>
+            <fy>170.6</fy>
+            <cx>211.5</cx>
+            <cy>119.5</cy>
+            <s>0</s>
+          </intrinsics>
         </camera>
       </sensor>
     </link>
@@ -1372,7 +1499,7 @@
         <update_rate>30</update_rate>
         <visualize>0</visualize>
         <camera>
-          <horizontal_fov>1.65806</horizontal_fov>
+          <horizontal_fov>1.78634</horizontal_fov>
           <image>
             <width>640</width>
             <height>480</height>
@@ -1387,6 +1514,17 @@
             <mean>0</mean>
             <stddev>0.007</stddev>
           </noise>
+          <lens>
+            <intrinsics>
+              <fx>257.487</fx>
+              <fy>257.487</fy>
+              <cx>319.5</cx>
+              <cy>239.5</cy>
+              <s>0</s>
+            </intrinsics>
+            <type>stereographic</type>
+            <scale_to_hfov>1</scale_to_hfov>
+          </lens>
         </camera>
         <plugin name="subt::MonoCameraSystem" filename="mono-camera-system"/>
       </sensor>
@@ -1394,7 +1532,7 @@
         <update_rate>30</update_rate>
         <visualize>0</visualize>
         <camera>
-          <horizontal_fov>1.6057</horizontal_fov>
+          <horizontal_fov>1.78634</horizontal_fov>
           <image>
             <width>424</width>
             <height>240</height>
@@ -1409,6 +1547,13 @@
             <mean>0</mean>
             <stddev>0.007</stddev>
           </noise>
+          <intrinsics>
+            <fx>170.6</fx>
+            <fy>170.6</fy>
+            <cx>211.5</cx>
+            <cy>119.5</cy>
+            <s>0</s>
+          </intrinsics>
         </camera>
       </sensor>
     </link>
