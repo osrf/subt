@@ -87,6 +87,6 @@ The URDF files are not physically present, but are generated on-the-fly by calli
 
 * Sensor specification links:
   * Ouster OS0-128 https://ouster.com/products/os0-lidar-sensor/
-  * Basler cam https://www.baslerweb.com/en/products/cameras/area-scan-cameras/ace2/a2a1920-51gcpro/ + lens https://www.baslerweb.com/en/products/vision-components/lenses/basler-lens-c125-0418-5m-p-f4mm/
+  * Basler cam https://www.baslerweb.com/en/products/cameras/area-scan-cameras/ace2/a2a1920-51gcpro/ + lens https://www.baslerweb.com/en/products/vision-components/lenses/basler-lens-c125-0418-5m-p-f4mm/ + Experimental validation: https://drive.google.com/drive/folders/1-KWMvjWSYYeLqPA0C3FCdKuHQAmOHN-z?usp=sharing
   * IMU: XSens MTi-30 https://www.mouser.com/datasheet/2/693/mti-series-1358510.pdf
   * Lights: the robot uses LED strips around the body. The total power output of these strips is about `30 W`. It also has a ceiling-pointing light.

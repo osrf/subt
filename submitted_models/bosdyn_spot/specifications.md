@@ -116,9 +116,13 @@ All of these joints are revolute with limits.
 
 ### Single-joint control
 
+#### Effort control
+
 To control each joint separately via commanded effort, there are topics `cmd_force/front_left_hip_x` etc.
 of type `std_msgs/Float64`. There might be time sync problems when commanding each joint separately, so
 it is suggested to not used this interface and use the multi-commanding topic described further.
+
+#### Position control
 
 To control each joint separately via target position, there are topics `cmd_pos/front_left_hip_x` etc.
 of type `std_msgs/Float64`. There might be time sync problems when commanding each joint separately, so
@@ -135,7 +139,7 @@ PIDs at once using namespace: `pid_multituner`.
 There are two interfaces that allow commanding a set of joints at the same time (synchronously in a
 single simulation step). The is the preferred option because it should make the control algorithms
 more stable. Both interfaces are equivalent in what they can do and they differ just in the type of
-the input messasge.
+the input message.
 
 First interface is `joint_commands` of type `sensor_msgs/JointState`. It expects that the `name`
 field will contain a list of joints that should be affected by this command. In addition to this field,
