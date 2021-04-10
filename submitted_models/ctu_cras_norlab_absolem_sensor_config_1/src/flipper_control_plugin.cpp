@@ -127,7 +127,7 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
         if (this->angularSpeed != 0.0 && velocity == 0.0)
         {
           auto pos = _ecm.Component<components::JointPosition>(this->joint);
-          if (pos)
+          if (pos && !pos->Data().empty())
           {
             this->staticAngle = pos->Data()[0];
           }
@@ -154,7 +154,7 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
   // does not drift over time.
   protected: void correctStaticAnglePosition(const Entity& joint, const math::Angle& staticPos, EntityComponentManager& _ecm) {
     auto pos = _ecm.Component<components::JointPosition>(this->joint);
-    if (!pos)
+    if (!pos || pos->Data().empty())
       return;
 
     const math::Angle currentPos{pos->Data()[0]};

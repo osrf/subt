@@ -7,8 +7,12 @@ MODEL_DIR="${DIR}/.."
 source "${MODEL_DIR}/config/common.sh"
 source "${MODEL_DIR}/config/sdf.sh"
 
+sdf8_version="$(ign sdf --versions | grep '^8')" || true
+[ -z "$sdf8_version" ] && echo "libsdformat8 not found. It is required to update this robot's SDF. Please install libsdformat8-dev and try again." >&2 && exit 1
+echo "Found libsdformat ${sdf8_version}" >&2
+
 rosrun xacro xacro "${MODEL_DIR}/urdf/nifti_robot.xacro" ${config} > "${MODEL_DIR}/nifti_robot.sdf.urdf"
-ign sdf -p "${MODEL_DIR}/nifti_robot.sdf.urdf" | "${DIR}/high_precision_constants.py" - > "${MODEL_DIR}/model.sdf"
+ign sdf --force-version "$sdf8_version" -p "${MODEL_DIR}/nifti_robot.sdf.urdf" | "${DIR}/high_precision_constants.py" - > "${MODEL_DIR}/model.sdf"
 sed -i -e 's#model://ctu_cras_norlab_absolem_sensor_config_1/##g' \
   -e '/<surface>/{:a;N;/<\/surface>/!ba};/<surface>\n\s*<contact>\n\s*<ode\/>\n\s*<\/contact>\n\s*<friction>\n\s*<ode\/>\n\s*<\/friction>\n\s*<\/surface>/d' \
   -e '/<pose>\(-\?0 \?\)\{6\}<\/pose>/d' \
