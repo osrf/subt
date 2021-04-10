@@ -74,7 +74,9 @@ The real robot can climb stairs. The simulated model should be able to do it too
 control algorithm.
 
 ## Endurance characteristics
-This configuration has an endurance of approximately 75 minutes (value from datasheet discounted by projected consumption of the additional computational units and sensors) 
+This configuration has an endurance of approximately 75 minutes (value from datasheet discounted by projected consumption of the additional computational units and sensors)
+
+The endurance is limited to 60 minutes until validation data are provided.
 
 ## Diversions from Physical Hardware of HEBI Lily robot
 Provided data and configuration options of the real HEBI servomotors are surpasing the possibilities of the simulator.
