@@ -1834,7 +1834,7 @@
 			</gazebo>
 		</xacro:if>
 	</xacro:if>
-	
+
     <gazebo reference="$(arg prefix)imu">
 		<xacro:gazebo_invisible_tags />
         <xacro:if value="$(arg simulate_imu)">
