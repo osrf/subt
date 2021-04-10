@@ -186,6 +186,22 @@
             <collision>${name}/INPUT_INTERFACE_collision_4</collision>
           </contact>
         </sensor>
+        <collision>
+          <surface>
+            <contact>
+              <ode>
+                <kp>1e+10</kp>
+                <kd>1</kd>
+              </ode>
+            </contact>
+            <friction>
+              <ode>
+                <mu>10.0</mu>
+                <!--<mu2>10.0</mu2>-->
+              </ode>
+            </friction>
+          </surface>
+        </collision>
       </gazebo>
     </xacro:if>
 

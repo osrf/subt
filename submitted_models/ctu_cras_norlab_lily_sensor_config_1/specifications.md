@@ -36,7 +36,7 @@ Lily model is adapted from [hebi_description/](https://github.com/HebiRobotics/h
 * Lidar: $10,000
 * Total price: $92,000
 
-Its weight is approximately 33 kg.
+Its weight is approximately 32.7 kg.
 
 ## Sensors
 The following specific sensors are declared payloads of this vehicle.

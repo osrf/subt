@@ -4,15 +4,15 @@
     <link name="base_link">
       <pose>0 0 0 0 -0 0</pose>
       <inertial>
-        <pose>-0 -0 0.032102 0 -0 0</pose>
-        <mass>5.61</mass>
+        <pose>-0 -0 0.040962 0 -0 0</pose>
+        <mass>11.11</mass>
         <inertia>
-          <ixx>0.167789</ixx>
+          <ixx>0.191595</ixx>
           <ixy>0.00022057</ixy>
-          <ixz>-1.58279e-15</ixz>
-          <iyy>0.261849</iyy>
-          <iyz>-8.37493e-17</iyz>
-          <izz>0.424335</izz>
+          <ixz>-3.26559e-15</ixz>
+          <iyy>0.340655</iyy>
+          <iyz>-1.97566e-16</iyz>
+          <izz>0.516001</izz>
         </inertia>
       </inertial>
       <collision name="base_link_collision">
@@ -31,23 +31,7 @@
           </friction>
         </surface>
       </collision>
-      <collision name="base_link_collision_1">
-        <pose>-0.05 0 0.15 0 -0 0</pose>
-        <geometry>
-          <box>
-            <size>0.25 0.2 0.1</size>
-          </box>
-        </geometry>
-        <surface>
-          <contact>
-            <ode/>
-          </contact>
-          <friction>
-            <ode/>
-          </friction>
-        </surface>
-      </collision>
-      <collision name="base_link_fixed_joint_lump__base_to_leg1_link_collision_2">
+      <collision name="base_link_fixed_joint_lump__base_to_leg1_link_collision_1">
         <pose>0.156967 0.090625 -0.01 0.523599 -1.5707963267948966 0</pose>
         <geometry>
           <cylinder>
@@ -56,7 +40,7 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__L1_J1_base/INPUT_INTERFACE_collision_3">
+      <collision name="base_link_fixed_joint_lump__L1_J1_base/INPUT_INTERFACE_collision_2">
         <pose>0.313934 0.18125 0.0251 0 -0 0.523599</pose>
         <geometry>
           <cylinder>
@@ -73,7 +57,7 @@
           </friction>
         </surface>
       </collision>
-      <collision name="base_link_fixed_joint_lump__L1_J1_base/INPUT_INTERFACE_collision_4">
+      <collision name="base_link_fixed_joint_lump__L1_J1_base/INPUT_INTERFACE_collision_3">
         <pose>0.287953 0.16625 0.0251 0 -0 0.523599</pose>
         <geometry>
           <box>
@@ -89,7 +73,7 @@
           </friction>
         </surface>
       </collision>
-      <collision name="base_link_fixed_joint_lump__L1_J1_base/INPUT_INTERFACE_collision_5">
+      <collision name="base_link_fixed_joint_lump__L1_J1_base/INPUT_INTERFACE_collision_4">
         <pose>0.248982 0.14375 0.022 0 -0 0.523599</pose>
         <geometry>
           <box>
@@ -105,7 +89,7 @@
           </friction>
         </surface>
       </collision>
-      <collision name="base_link_fixed_joint_lump__L1_J1_base/INPUT_INTERFACE_collision_6">
+      <collision name="base_link_fixed_joint_lump__L1_J1_base/INPUT_INTERFACE_collision_5">
         <pose>0.220403 0.12725 0.021 0 -0 0.523599</pose>
         <geometry>
           <box>
@@ -121,7 +105,7 @@
           </friction>
         </surface>
       </collision>
-      <collision name="base_link_fixed_joint_lump__base_to_leg2_link_collision_7">
+      <collision name="base_link_fixed_joint_lump__base_to_leg2_link_collision_6">
         <pose>0.156967 -0.090625 -0.01 -0.523599 -1.5707963267948966 0</pose>
         <geometry>
           <cylinder>
@@ -130,7 +114,7 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__L2_J1_base/INPUT_INTERFACE_collision_8">
+      <collision name="base_link_fixed_joint_lump__L2_J1_base/INPUT_INTERFACE_collision_7">
         <pose>0.313934 -0.18125 0.0251 0 0 -0.523599</pose>
         <geometry>
           <cylinder>
@@ -147,7 +131,7 @@
           </friction>
         </surface>
       </collision>
-      <collision name="base_link_fixed_joint_lump__L2_J1_base/INPUT_INTERFACE_collision_9">
+      <collision name="base_link_fixed_joint_lump__L2_J1_base/INPUT_INTERFACE_collision_8">
         <pose>0.287953 -0.16625 0.0251 0 0 -0.523599</pose>
         <geometry>
           <box>
@@ -163,7 +147,7 @@
           </friction>
         </surface>
       </collision>
-      <collision name="base_link_fixed_joint_lump__L2_J1_base/INPUT_INTERFACE_collision_10">
+      <collision name="base_link_fixed_joint_lump__L2_J1_base/INPUT_INTERFACE_collision_9">
         <pose>0.248982 -0.14375 0.022 0 0 -0.523599</pose>
         <geometry>
           <box>
@@ -179,7 +163,7 @@
           </friction>
         </surface>
       </collision>
-      <collision name="base_link_fixed_joint_lump__L2_J1_base/INPUT_INTERFACE_collision_11">
+      <collision name="base_link_fixed_joint_lump__L2_J1_base/INPUT_INTERFACE_collision_10">
         <pose>0.220403 -0.12725 0.021 0 0 -0.523599</pose>
         <geometry>
           <box>
@@ -195,7 +179,7 @@
           </friction>
         </surface>
       </collision>
-      <collision name="base_link_fixed_joint_lump__base_to_leg3_link_collision_12">
+      <collision name="base_link_fixed_joint_lump__base_to_leg3_link_collision_11">
         <pose>0 0.13125 -0.01 1.5707963267948966 -1.5707963267948966 0</pose>
         <geometry>
           <cylinder>
@@ -204,7 +188,7 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__L3_J1_base/INPUT_INTERFACE_collision_13">
+      <collision name="base_link_fixed_joint_lump__L3_J1_base/INPUT_INTERFACE_collision_12">
         <pose>0 0.2625 0.0251 0 -0 1.5707963267948966</pose>
         <geometry>
           <cylinder>
@@ -221,7 +205,7 @@
           </friction>
         </surface>
       </collision>
-      <collision name="base_link_fixed_joint_lump__L3_J1_base/INPUT_INTERFACE_collision_14">
+      <collision name="base_link_fixed_joint_lump__L3_J1_base/INPUT_INTERFACE_collision_13">
         <pose>-0 0.2325 0.0251 0 -0 1.5707963267948966</pose>
         <geometry>
           <box>
@@ -237,7 +221,7 @@
           </friction>
         </surface>
       </collision>
-      <collision name="base_link_fixed_joint_lump__L3_J1_base/INPUT_INTERFACE_collision_15">
+      <collision name="base_link_fixed_joint_lump__L3_J1_base/INPUT_INTERFACE_collision_14">
         <pose>-0 0.1875 0.022 0 -0 1.5707963267948966</pose>
         <geometry>
           <box>
@@ -253,7 +237,7 @@
           </friction>
         </surface>
       </collision>
-      <collision name="base_link_fixed_joint_lump__L3_J1_base/INPUT_INTERFACE_collision_16">
+      <collision name="base_link_fixed_joint_lump__L3_J1_base/INPUT_INTERFACE_collision_15">
         <pose>-0 0.1545 0.021 0 -0 1.5707963267948966</pose>
         <geometry>
           <box>
@@ -269,7 +253,7 @@
           </friction>
         </surface>
       </collision>
-      <collision name="base_link_fixed_joint_lump__base_to_leg4_link_collision_17">
+      <collision name="base_link_fixed_joint_lump__base_to_leg4_link_collision_16">
         <pose>0 -0.13125 -0.01 -1.5707963267948966 -1.5707963267948966 0</pose>
         <geometry>
           <cylinder>
@@ -278,7 +262,7 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__L4_J1_base/INPUT_INTERFACE_collision_18">
+      <collision name="base_link_fixed_joint_lump__L4_J1_base/INPUT_INTERFACE_collision_17">
         <pose>0 -0.2625 0.0251 0 0 -1.5707963267948966</pose>
         <geometry>
           <cylinder>
@@ -295,7 +279,7 @@
           </friction>
         </surface>
       </collision>
-      <collision name="base_link_fixed_joint_lump__L4_J1_base/INPUT_INTERFACE_collision_19">
+      <collision name="base_link_fixed_joint_lump__L4_J1_base/INPUT_INTERFACE_collision_18">
         <pose>-0 -0.2325 0.0251 0 0 -1.5707963267948966</pose>
         <geometry>
           <box>
@@ -311,7 +295,7 @@
           </friction>
         </surface>
       </collision>
-      <collision name="base_link_fixed_joint_lump__L4_J1_base/INPUT_INTERFACE_collision_20">
+      <collision name="base_link_fixed_joint_lump__L4_J1_base/INPUT_INTERFACE_collision_19">
         <pose>-0 -0.1875 0.022 0 0 -1.5707963267948966</pose>
         <geometry>
           <box>
@@ -327,7 +311,7 @@
           </friction>
         </surface>
       </collision>
-      <collision name="base_link_fixed_joint_lump__L4_J1_base/INPUT_INTERFACE_collision_21">
+      <collision name="base_link_fixed_joint_lump__L4_J1_base/INPUT_INTERFACE_collision_20">
         <pose>-0 -0.1545 0.021 0 0 -1.5707963267948966</pose>
         <geometry>
           <box>
@@ -343,7 +327,7 @@
           </friction>
         </surface>
       </collision>
-      <collision name="base_link_fixed_joint_lump__base_to_leg5_link_collision_22">
+      <collision name="base_link_fixed_joint_lump__base_to_leg5_link_collision_21">
         <pose>-0.156967 0.090625 -0.01 2.61799 -1.5707963267948966 0</pose>
         <geometry>
           <cylinder>
@@ -352,7 +336,7 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__L5_J1_base/INPUT_INTERFACE_collision_23">
+      <collision name="base_link_fixed_joint_lump__L5_J1_base/INPUT_INTERFACE_collision_22">
         <pose>-0.313934 0.18125 0.0251 0 -0 2.61799</pose>
         <geometry>
           <cylinder>
@@ -369,7 +353,7 @@
           </friction>
         </surface>
       </collision>
-      <collision name="base_link_fixed_joint_lump__L5_J1_base/INPUT_INTERFACE_collision_24">
+      <collision name="base_link_fixed_joint_lump__L5_J1_base/INPUT_INTERFACE_collision_23">
         <pose>-0.287953 0.16625 0.0251 0 -0 2.61799</pose>
         <geometry>
           <box>
@@ -385,7 +369,7 @@
           </friction>
         </surface>
       </collision>
-      <collision name="base_link_fixed_joint_lump__L5_J1_base/INPUT_INTERFACE_collision_25">
+      <collision name="base_link_fixed_joint_lump__L5_J1_base/INPUT_INTERFACE_collision_24">
         <pose>-0.248982 0.14375 0.022 0 -0 2.61799</pose>
         <geometry>
           <box>
@@ -401,7 +385,7 @@
           </friction>
         </surface>
       </collision>
-      <collision name="base_link_fixed_joint_lump__L5_J1_base/INPUT_INTERFACE_collision_26">
+      <collision name="base_link_fixed_joint_lump__L5_J1_base/INPUT_INTERFACE_collision_25">
         <pose>-0.220403 0.12725 0.021 0 -0 2.61799</pose>
         <geometry>
           <box>
@@ -417,7 +401,7 @@
           </friction>
         </surface>
       </collision>
-      <collision name="base_link_fixed_joint_lump__base_to_leg6_link_collision_27">
+      <collision name="base_link_fixed_joint_lump__base_to_leg6_link_collision_26">
         <pose>-0.156967 -0.090625 -0.01 -2.61799 -1.5707963267948966 0</pose>
         <geometry>
           <cylinder>
@@ -426,7 +410,7 @@
           </cylinder>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__L6_J1_base/INPUT_INTERFACE_collision_28">
+      <collision name="base_link_fixed_joint_lump__L6_J1_base/INPUT_INTERFACE_collision_27">
         <pose>-0.313934 -0.18125 0.0251 0 0 -2.61799</pose>
         <geometry>
           <cylinder>
@@ -443,7 +427,7 @@
           </friction>
         </surface>
       </collision>
-      <collision name="base_link_fixed_joint_lump__L6_J1_base/INPUT_INTERFACE_collision_29">
+      <collision name="base_link_fixed_joint_lump__L6_J1_base/INPUT_INTERFACE_collision_28">
         <pose>-0.287953 -0.16625 0.0251 0 0 -2.61799</pose>
         <geometry>
           <box>
@@ -459,7 +443,7 @@
           </friction>
         </surface>
       </collision>
-      <collision name="base_link_fixed_joint_lump__L6_J1_base/INPUT_INTERFACE_collision_30">
+      <collision name="base_link_fixed_joint_lump__L6_J1_base/INPUT_INTERFACE_collision_29">
         <pose>-0.248982 -0.14375 0.022 0 0 -2.61799</pose>
         <geometry>
           <box>
@@ -475,7 +459,7 @@
           </friction>
         </surface>
       </collision>
-      <collision name="base_link_fixed_joint_lump__L6_J1_base/INPUT_INTERFACE_collision_31">
+      <collision name="base_link_fixed_joint_lump__L6_J1_base/INPUT_INTERFACE_collision_30">
         <pose>-0.220403 -0.12725 0.021 0 0 -2.61799</pose>
         <geometry>
           <box>
@@ -506,35 +490,7 @@
           </script>
         </material>
       </visual>
-      <visual name="base_link_visual_1">
-        <pose>0 -0.04 0.02 0 -0 0</pose>
-        <geometry>
-          <box>
-            <size>0.201 0.075 0.021</size>
-          </box>
-        </geometry>
-        <material>
-          <script>
-            <name>Gazebo/Black</name>
-            <uri>file://media/materials/scripts/gazebo.material</uri>
-          </script>
-        </material>
-      </visual>
-      <visual name="base_link_visual_2">
-        <pose>0 0.04 0.02 0 -0 0</pose>
-        <geometry>
-          <box>
-            <size>0.201 0.075 0.021</size>
-          </box>
-        </geometry>
-        <material>
-          <script>
-            <name>Gazebo/Black</name>
-            <uri>file://media/materials/scripts/gazebo.material</uri>
-          </script>
-        </material>
-      </visual>
-      <visual name="base_link_fixed_joint_lump__base_to_leg1_link_visual_3">
+      <visual name="base_link_fixed_joint_lump__base_to_leg1_link_visual_1">
         <pose>0.156967 0.090625 -0.01 0.523599 -1.5707963267948966 0</pose>
         <geometry>
           <cylinder>
@@ -543,7 +499,7 @@
           </cylinder>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__L1_J1_base/INPUT_INTERFACE_visual_4">
+      <visual name="base_link_fixed_joint_lump__L1_J1_base/INPUT_INTERFACE_visual_2">
         <pose>0.313934 0.18125 0 0 -0 0.523599</pose>
         <geometry>
           <mesh>
@@ -558,7 +514,7 @@
           </script>
         </material>
       </visual>
-      <visual name="base_link_fixed_joint_lump__base_to_leg2_link_visual_5">
+      <visual name="base_link_fixed_joint_lump__base_to_leg2_link_visual_3">
         <pose>0.156967 -0.090625 -0.01 -0.523599 -1.5707963267948966 0</pose>
         <geometry>
           <cylinder>
@@ -567,7 +523,7 @@
           </cylinder>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__L2_J1_base/INPUT_INTERFACE_visual_6">
+      <visual name="base_link_fixed_joint_lump__L2_J1_base/INPUT_INTERFACE_visual_4">
         <pose>0.313934 -0.18125 0 0 0 -0.523599</pose>
         <geometry>
           <mesh>
@@ -582,7 +538,7 @@
           </script>
         </material>
       </visual>
-      <visual name="base_link_fixed_joint_lump__base_to_leg3_link_visual_7">
+      <visual name="base_link_fixed_joint_lump__base_to_leg3_link_visual_5">
         <pose>0 0.13125 -0.01 1.5707963267948966 -1.5707963267948966 0</pose>
         <geometry>
           <cylinder>
@@ -591,7 +547,7 @@
           </cylinder>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__L3_J1_base/INPUT_INTERFACE_visual_8">
+      <visual name="base_link_fixed_joint_lump__L3_J1_base/INPUT_INTERFACE_visual_6">
         <pose>0 0.2625 0 0 -0 1.5707963267948966</pose>
         <geometry>
           <mesh>
@@ -606,7 +562,7 @@
           </script>
         </material>
       </visual>
-      <visual name="base_link_fixed_joint_lump__base_to_leg4_link_visual_9">
+      <visual name="base_link_fixed_joint_lump__base_to_leg4_link_visual_7">
         <pose>0 -0.13125 -0.01 -1.5707963267948966 -1.5707963267948966 0</pose>
         <geometry>
           <cylinder>
@@ -615,7 +571,7 @@
           </cylinder>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__L4_J1_base/INPUT_INTERFACE_visual_10">
+      <visual name="base_link_fixed_joint_lump__L4_J1_base/INPUT_INTERFACE_visual_8">
         <pose>0 -0.2625 0 0 0 -1.5707963267948966</pose>
         <geometry>
           <mesh>
@@ -630,7 +586,7 @@
           </script>
         </material>
       </visual>
-      <visual name="base_link_fixed_joint_lump__base_to_leg5_link_visual_11">
+      <visual name="base_link_fixed_joint_lump__base_to_leg5_link_visual_9">
         <pose>-0.156967 0.090625 -0.01 2.61799 -1.5707963267948966 0</pose>
         <geometry>
           <cylinder>
@@ -639,7 +595,7 @@
           </cylinder>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__L5_J1_base/INPUT_INTERFACE_visual_12">
+      <visual name="base_link_fixed_joint_lump__L5_J1_base/INPUT_INTERFACE_visual_10">
         <pose>-0.313934 0.18125 0 0 -0 2.61799</pose>
         <geometry>
           <mesh>
@@ -654,7 +610,7 @@
           </script>
         </material>
       </visual>
-      <visual name="base_link_fixed_joint_lump__base_to_leg6_link_visual_13">
+      <visual name="base_link_fixed_joint_lump__base_to_leg6_link_visual_11">
         <pose>-0.156967 -0.090625 -0.01 -2.61799 -1.5707963267948966 0</pose>
         <geometry>
           <cylinder>
@@ -663,7 +619,7 @@
           </cylinder>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__L6_J1_base/INPUT_INTERFACE_visual_14">
+      <visual name="base_link_fixed_joint_lump__L6_J1_base/INPUT_INTERFACE_visual_12">
         <pose>-0.313934 -0.18125 0 0 0 -2.61799</pose>
         <geometry>
           <mesh>
@@ -1556,10 +1512,15 @@
         </geometry>
         <surface>
           <contact>
-            <ode/>
+            <ode>
+              <kp>1e+10</kp>
+              <kd>1</kd>
+            </ode>
           </contact>
           <friction>
-            <ode/>
+            <ode>
+              <mu>10</mu>
+            </ode>
           </friction>
         </surface>
       </collision>
@@ -1572,10 +1533,15 @@
         </geometry>
         <surface>
           <contact>
-            <ode/>
+            <ode>
+              <kp>1e+10</kp>
+              <kd>1</kd>
+            </ode>
           </contact>
           <friction>
-            <ode/>
+            <ode>
+              <mu>10</mu>
+            </ode>
           </friction>
         </surface>
       </collision>
@@ -1589,10 +1555,15 @@
         </geometry>
         <surface>
           <contact>
-            <ode/>
+            <ode>
+              <kp>1e+10</kp>
+              <kd>1</kd>
+            </ode>
           </contact>
           <friction>
-            <ode/>
+            <ode>
+              <mu>10</mu>
+            </ode>
           </friction>
         </surface>
       </collision>
@@ -1606,10 +1577,15 @@
         </geometry>
         <surface>
           <contact>
-            <ode/>
+            <ode>
+              <kp>1e+10</kp>
+              <kd>1</kd>
+            </ode>
           </contact>
           <friction>
-            <ode/>
+            <ode>
+              <mu>10</mu>
+            </ode>
           </friction>
         </surface>
       </collision>
@@ -1622,10 +1598,15 @@
         </geometry>
         <surface>
           <contact>
-            <ode/>
+            <ode>
+              <kp>1e+10</kp>
+              <kd>1</kd>
+            </ode>
           </contact>
           <friction>
-            <ode/>
+            <ode>
+              <mu>10</mu>
+            </ode>
           </friction>
         </surface>
       </collision>
@@ -2439,10 +2420,15 @@
         </geometry>
         <surface>
           <contact>
-            <ode/>
+            <ode>
+              <kp>1e+10</kp>
+              <kd>1</kd>
+            </ode>
           </contact>
           <friction>
-            <ode/>
+            <ode>
+              <mu>10</mu>
+            </ode>
           </friction>
         </surface>
       </collision>
@@ -2455,10 +2441,15 @@
         </geometry>
         <surface>
           <contact>
-            <ode/>
+            <ode>
+              <kp>1e+10</kp>
+              <kd>1</kd>
+            </ode>
           </contact>
           <friction>
-            <ode/>
+            <ode>
+              <mu>10</mu>
+            </ode>
           </friction>
         </surface>
       </collision>
@@ -2472,10 +2463,15 @@
         </geometry>
         <surface>
           <contact>
-            <ode/>
+            <ode>
+              <kp>1e+10</kp>
+              <kd>1</kd>
+            </ode>
           </contact>
           <friction>
-            <ode/>
+            <ode>
+              <mu>10</mu>
+            </ode>
           </friction>
         </surface>
       </collision>
@@ -2489,10 +2485,15 @@
         </geometry>
         <surface>
           <contact>
-            <ode/>
+            <ode>
+              <kp>1e+10</kp>
+              <kd>1</kd>
+            </ode>
           </contact>
           <friction>
-            <ode/>
+            <ode>
+              <mu>10</mu>
+            </ode>
           </friction>
         </surface>
       </collision>
@@ -2505,10 +2506,15 @@
         </geometry>
         <surface>
           <contact>
-            <ode/>
+            <ode>
+              <kp>1e+10</kp>
+              <kd>1</kd>
+            </ode>
           </contact>
           <friction>
-            <ode/>
+            <ode>
+              <mu>10</mu>
+            </ode>
           </friction>
         </surface>
       </collision>
@@ -3322,10 +3328,15 @@
         </geometry>
         <surface>
           <contact>
-            <ode/>
+            <ode>
+              <kp>1e+10</kp>
+              <kd>1</kd>
+            </ode>
           </contact>
           <friction>
-            <ode/>
+            <ode>
+              <mu>10</mu>
+            </ode>
           </friction>
         </surface>
       </collision>
@@ -3338,10 +3349,15 @@
         </geometry>
         <surface>
           <contact>
-            <ode/>
+            <ode>
+              <kp>1e+10</kp>
+              <kd>1</kd>
+            </ode>
           </contact>
           <friction>
-            <ode/>
+            <ode>
+              <mu>10</mu>
+            </ode>
           </friction>
         </surface>
       </collision>
@@ -3355,10 +3371,15 @@
         </geometry>
         <surface>
           <contact>
-            <ode/>
+            <ode>
+              <kp>1e+10</kp>
+              <kd>1</kd>
+            </ode>
           </contact>
           <friction>
-            <ode/>
+            <ode>
+              <mu>10</mu>
+            </ode>
           </friction>
         </surface>
       </collision>
@@ -3372,10 +3393,15 @@
         </geometry>
         <surface>
           <contact>
-            <ode/>
+            <ode>
+              <kp>1e+10</kp>
+              <kd>1</kd>
+            </ode>
           </contact>
           <friction>
-            <ode/>
+            <ode>
+              <mu>10</mu>
+            </ode>
           </friction>
         </surface>
       </collision>
@@ -3388,10 +3414,15 @@
         </geometry>
         <surface>
           <contact>
-            <ode/>
+            <ode>
+              <kp>1e+10</kp>
+              <kd>1</kd>
+            </ode>
           </contact>
           <friction>
-            <ode/>
+            <ode>
+              <mu>10</mu>
+            </ode>
           </friction>
         </surface>
       </collision>
@@ -4205,10 +4236,15 @@
         </geometry>
         <surface>
           <contact>
-            <ode/>
+            <ode>
+              <kp>1e+10</kp>
+              <kd>1</kd>
+            </ode>
           </contact>
           <friction>
-            <ode/>
+            <ode>
+              <mu>10</mu>
+            </ode>
           </friction>
         </surface>
       </collision>
@@ -4221,10 +4257,15 @@
         </geometry>
         <surface>
           <contact>
-            <ode/>
+            <ode>
+              <kp>1e+10</kp>
+              <kd>1</kd>
+            </ode>
           </contact>
           <friction>
-            <ode/>
+            <ode>
+              <mu>10</mu>
+            </ode>
           </friction>
         </surface>
       </collision>
@@ -4238,10 +4279,15 @@
         </geometry>
         <surface>
           <contact>
-            <ode/>
+            <ode>
+              <kp>1e+10</kp>
+              <kd>1</kd>
+            </ode>
           </contact>
           <friction>
-            <ode/>
+            <ode>
+              <mu>10</mu>
+            </ode>
           </friction>
         </surface>
       </collision>
@@ -4255,10 +4301,15 @@
         </geometry>
         <surface>
           <contact>
-            <ode/>
+            <ode>
+              <kp>1e+10</kp>
+              <kd>1</kd>
+            </ode>
           </contact>
           <friction>
-            <ode/>
+            <ode>
+              <mu>10</mu>
+            </ode>
           </friction>
         </surface>
       </collision>
@@ -4271,10 +4322,15 @@
         </geometry>
         <surface>
           <contact>
-            <ode/>
+            <ode>
+              <kp>1e+10</kp>
+              <kd>1</kd>
+            </ode>
           </contact>
           <friction>
-            <ode/>
+            <ode>
+              <mu>10</mu>
+            </ode>
           </friction>
         </surface>
       </collision>
@@ -5088,10 +5144,15 @@
         </geometry>
         <surface>
           <contact>
-            <ode/>
+            <ode>
+              <kp>1e+10</kp>
+              <kd>1</kd>
+            </ode>
           </contact>
           <friction>
-            <ode/>
+            <ode>
+              <mu>10</mu>
+            </ode>
           </friction>
         </surface>
       </collision>
@@ -5104,10 +5165,15 @@
         </geometry>
         <surface>
           <contact>
-            <ode/>
+            <ode>
+              <kp>1e+10</kp>
+              <kd>1</kd>
+            </ode>
           </contact>
           <friction>
-            <ode/>
+            <ode>
+              <mu>10</mu>
+            </ode>
           </friction>
         </surface>
       </collision>
@@ -5121,10 +5187,15 @@
         </geometry>
         <surface>
           <contact>
-            <ode/>
+            <ode>
+              <kp>1e+10</kp>
+              <kd>1</kd>
+            </ode>
           </contact>
           <friction>
-            <ode/>
+            <ode>
+              <mu>10</mu>
+            </ode>
           </friction>
         </surface>
       </collision>
@@ -5138,10 +5209,15 @@
         </geometry>
         <surface>
           <contact>
-            <ode/>
+            <ode>
+              <kp>1e+10</kp>
+              <kd>1</kd>
+            </ode>
           </contact>
           <friction>
-            <ode/>
+            <ode>
+              <mu>10</mu>
+            </ode>
           </friction>
         </surface>
       </collision>
@@ -5154,10 +5230,15 @@
         </geometry>
         <surface>
           <contact>
-            <ode/>
+            <ode>
+              <kp>1e+10</kp>
+              <kd>1</kd>
+            </ode>
           </contact>
           <friction>
-            <ode/>
+            <ode>
+              <mu>10</mu>
+            </ode>
           </friction>
         </surface>
       </collision>
@@ -5971,10 +6052,15 @@
         </geometry>
         <surface>
           <contact>
-            <ode/>
+            <ode>
+              <kp>1e+10</kp>
+              <kd>1</kd>
+            </ode>
           </contact>
           <friction>
-            <ode/>
+            <ode>
+              <mu>10</mu>
+            </ode>
           </friction>
         </surface>
       </collision>
@@ -5987,10 +6073,15 @@
         </geometry>
         <surface>
           <contact>
-            <ode/>
+            <ode>
+              <kp>1e+10</kp>
+              <kd>1</kd>
+            </ode>
           </contact>
           <friction>
-            <ode/>
+            <ode>
+              <mu>10</mu>
+            </ode>
           </friction>
         </surface>
       </collision>
@@ -6004,10 +6095,15 @@
         </geometry>
         <surface>
           <contact>
-            <ode/>
+            <ode>
+              <kp>1e+10</kp>
+              <kd>1</kd>
+            </ode>
           </contact>
           <friction>
-            <ode/>
+            <ode>
+              <mu>10</mu>
+            </ode>
           </friction>
         </surface>
       </collision>
@@ -6021,10 +6117,15 @@
         </geometry>
         <surface>
           <contact>
-            <ode/>
+            <ode>
+              <kp>1e+10</kp>
+              <kd>1</kd>
+            </ode>
           </contact>
           <friction>
-            <ode/>
+            <ode>
+              <mu>10</mu>
+            </ode>
           </friction>
         </surface>
       </collision>
@@ -6037,10 +6138,15 @@
         </geometry>
         <surface>
           <contact>
-            <ode/>
+            <ode>
+              <kp>1e+10</kp>
+              <kd>1</kd>
+            </ode>
           </contact>
           <friction>
-            <ode/>
+            <ode>
+              <mu>10</mu>
+            </ode>
           </friction>
         </surface>
       </collision>
@@ -6147,6 +6253,116 @@
     <joint name="elbow6_foot/OUTPUT_JOINT" type="fixed">
       <child>foot6/INPUT_INTERFACE</child>
       <parent>elbow6_foot/INPUT_INTERFACE</parent>
+      <axis>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+      </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
+    </joint>
+    <link name="battery_left">
+      <pose>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0.04 0.02 0 -0 0</pose>
+        <mass>0.6</mass>
+        <inertia>
+          <ixx>0.00029585</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.0020421</iyy>
+          <iyz>0</iyz>
+          <izz>0.00229385</izz>
+        </inertia>
+      </inertial>
+      <visual name="battery_left_visual">
+        <pose>0 0.04 0.02 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.201 0.075 0.021</size>
+          </box>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <gravity>1</gravity>
+      <velocity_decay/>
+    </link>
+    <joint name="battery_left_j" type="fixed">
+      <child>battery_left</child>
+      <parent>base_link</parent>
+      <axis>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+      </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
+    </joint>
+    <link name="battery_right">
+      <pose>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 -0.04 0.02 0 -0 0</pose>
+        <mass>0.6</mass>
+        <inertia>
+          <ixx>0.00029585</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.0020421</iyy>
+          <iyz>0</iyz>
+          <izz>0.00229385</izz>
+        </inertia>
+      </inertial>
+      <visual name="battery_right_visual">
+        <pose>0 -0.04 0.02 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.201 0.075 0.021</size>
+          </box>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <gravity>1</gravity>
+      <velocity_decay/>
+    </link>
+    <joint name="battery_right_j" type="fixed">
+      <child>battery_right</child>
+      <parent>base_link</parent>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
@@ -6751,6 +6967,63 @@
     </link>
     <joint name="up_camera_j" type="fixed">
       <child>ace2_camera_up</child>
+      <parent>base_link</parent>
+      <axis>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <xyz>0 0 1</xyz>
+        <use_parent_model_frame>0</use_parent_model_frame>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+      </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
+    </joint>
+    <link name="upper_box">
+      <pose>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>-0.05 0 0.15 0 -0 0</pose>
+        <mass>5</mass>
+        <inertia>
+          <ixx>0.0208333</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.0302083</iyy>
+          <iyz>0</iyz>
+          <izz>0.0427083</izz>
+        </inertia>
+      </inertial>
+      <collision name="upper_box_collision">
+        <pose>-0.05 0 0.15 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.25 0.2 0.1</size>
+          </box>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <gravity>1</gravity>
+      <velocity_decay/>
+    </link>
+    <joint name="upper_box_j" type="fixed">
+      <child>upper_box</child>
       <parent>base_link</parent>
       <axis>
         <dynamics>

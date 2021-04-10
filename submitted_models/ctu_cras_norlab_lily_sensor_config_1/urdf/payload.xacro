@@ -30,10 +30,11 @@
       </collision>
       <!-- simplified inertia -->
       <!-- mass including chasis, onboard computer, breadcrumbs (???) etc.-->
-      <xacro:box_inertial x_size="0.4" y_size="0.2" z_size="0.1" mass="1.5"
+      <xacro:box_inertial x_size="0.4" y_size="0.2" z_size="0.1" mass="7"
                           xyz="0 0 0.05" rpy="0 0 0"/>
+    </link>
 
-      <!-- upper box -->
+    <link name="$(arg prefix)upper_box">
       <!--
       <visual>
         <origin xyz="-0.05 0 0.15" rpy="0 0 0" />
@@ -50,9 +51,12 @@
       </collision>
       <!-- simplified inertia -->
       <!-- mass including chasis, cameras, wifi, etc.-->
-      <xacro:box_inertial x_size="0.25" y_size="0.2" z_size="0.1" mass="1"
+      <xacro:box_inertial x_size="0.25" y_size="0.2" z_size="0.1" mass="5"
                           xyz="-0.05 0 0.15" rpy="0 0 0"/>
+    </link>
+    <xacro:fixed_joint name="upper_box_j" parent="$(arg prefix)base_link" child="$(arg prefix)upper_box" />
 
+    <link name="$(arg prefix)battery_right">
       <!-- battery-right -->
       <visual>
         <origin xyz="0.0 -0.04 0.02" rpy="0.0 0.0 0.0"/>
@@ -71,7 +75,10 @@
                                                                           izz="0.002293850039378397" />
       </inertial>
       <!-- AUTOGENERATE END -->
+    </link>
+    <xacro:fixed_joint name="battery_right_j" parent="$(arg prefix)base_link" child="$(arg prefix)battery_right" />
 
+    <link name="$(arg prefix)battery_left">
       <!-- battery-left -->
       <visual>
         <origin xyz="0.0 0.04 0.02" rpy="0.0 0.0 0.0"/>
@@ -92,9 +99,19 @@
       <!-- AUTOGENERATE END -->
 
     </link>
+    <xacro:fixed_joint name="battery_left_j" parent="$(arg prefix)base_link" child="$(arg prefix)battery_left" />
 
     <!-- material -->
-    <gazebo reference="base_link">
+    <gazebo reference="$(arg prefix)base_link">
+      <xacro:gazebo_black_material/>
+    </gazebo>
+    <gazebo reference="$(arg prefix)upper_box">
+      <xacro:gazebo_black_material/>
+    </gazebo>
+    <gazebo reference="$(arg prefix)battery_right">
+      <xacro:gazebo_black_material/>
+    </gazebo>
+    <gazebo reference="$(arg prefix)battery_left">
       <xacro:gazebo_black_material/>
     </gazebo>
   </xacro:macro>
