@@ -72,13 +72,13 @@ Based on the tests specified in the DARPA SubT Challenge [Model Preparation Guid
 
 * _x_ linear velocity range from -5.0 m/s to 5.0 m/s
 * _y_ linear velocity range from -5.0 m/s to 5.0 m/s
-* _z_ linear velocity range from -2.8 m/s to 2.8 m/s
-* _x_ linear acceleration range from -4.0 m/s<sup>2</sup> to 4.0 m/s<sup>2</sup>
-* _y_ linear acceleration range from -4.0 m/s<sup>2</sup> to 4.0 m/s<sup>2</sup>
-* _z_ linear acceleration range from -5.0 m/s<sup>2</sup> to 5.0 m/s<sup>2</sup>
+* _z_ linear velocity range from -3.0 m/s to 3.0 m/s
+* _x_ linear acceleration range from -2.0 m/s<sup>2</sup> to 2.0 m/s<sup>2</sup>
+* _y_ linear acceleration range from -2.0 m/s<sup>2</sup> to 2.0 m/s<sup>2</sup>
+* _z_ linear acceleration range from -9.8 m/s<sup>2</sup> to 9.8 m/s<sup>2</sup>
 * _x_ angular velocity range from -3.0 rad/s to 3.0 rad/s
 * _y_ angular velocity range from -3.0 rad/s to 3.0 rad/s
-* _z_ angular velocity range from -2.1 rad/s to 2.1 rad/s
+* _z_ angular velocity range from -1.75 rad/s to 1.75 rad/s
 * _x_ angular acceleration range from -15.0 rad/s<sup>2</sup> to 15 rad/s<sup>2</sup>
 * _y_ angular acceleration range from -15.0 rad/s<sup>2</sup> to 15.0 rad/s<sup>2</sup>
 * _z_ angular acceleration range from -5.0 rad/s<sup>2</sup> to 5.0 rad/s<sup>2</sup>

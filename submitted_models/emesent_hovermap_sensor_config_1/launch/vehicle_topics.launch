@@ -135,6 +135,13 @@
             <remap from="$(arg camera_prefix)/sensor/gimbal_camera/image" to="gimbal/image_raw"/>
         </node>
         <node
+            pkg="ros_ign_bridge"
+            type="parameter_bridge"
+            name="ros_ign_bridge_imu"
+            args="$(arg camera_prefix)/sensor/gimbal_imu/imu@sensor_msgs/Imu[ignition.msgs.IMU">
+            <remap from="$(arg camera_prefix)/sensor/gimbal_imu/imu" to="gimbal/imu/data"/>
+        </node>
+        <node
             pkg="subt_ros"
             type="optical_frame_publisher"
             name="rear_optical_frame_publisher">
