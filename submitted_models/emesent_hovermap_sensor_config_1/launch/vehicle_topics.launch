@@ -137,7 +137,7 @@
         <node
             pkg="ros_ign_bridge"
             type="parameter_bridge"
-            name="ros_ign_bridge_imu"
+            name="ros_ign_bridge_gimbal_imu"
             args="$(arg camera_prefix)/sensor/gimbal_imu/imu@sensor_msgs/Imu[ignition.msgs.IMU">
             <remap from="$(arg camera_prefix)/sensor/gimbal_imu/imu" to="gimbal/imu/data"/>
         </node>
