@@ -28,17 +28,10 @@
 #include <Eigen/Geometry>
 #include <memory>
 
-#include <ros/package.h>
-#include <ros/ros.h>
-
-#include <geometry_msgs/Twist.h>
-
 #include <limits>
 
 #include <Common.h>
 #include <SE3Controller.h>
-
-#include <thread>
 
 //}
 
@@ -113,11 +106,6 @@ private:
 
   std::atomic<bool> is_active_{true};
 
-  // | --------------------- spinner thread --------------------- |
-
-  std::thread thread_main_;
-  void        threadMain();
-
   // --------------------------------------------------------------
   // |               subscriber to velocity command               |
   // --------------------------------------------------------------
@@ -129,11 +117,10 @@ private:
   // |            subscriber for feedforward reference            |
   // --------------------------------------------------------------
 
-  void callbackFeedForward(const geometry_msgs::TwistConstPtr &msg);
+  void callbackFeedForward(const msgs::Twist &msg);
 
-  ros::Subscriber                     subscriber_feedforward_;
-  std::optional<geometry_msgs::Twist> feedforward_;
-  std::mutex                          mutex_feedforward_;
+  std::optional<msgs::Twist> feedforward_;
+  std::mutex                 mutex_feedforward_;
 };
 
 }  // namespace systems
@@ -149,13 +136,10 @@ private:
 
 void MRSMultirotorController::Configure(const Entity &entity, const std::shared_ptr<const sdf::Element> &sdf, EntityComponentManager &ecm, EventManager &) {
 
-  // init ros node
   int    argc = 0;
   char **argv = NULL;
-  ros::init(argc, argv, "mrs_multirotor_controller", ros::init_options::NoSigintHandler);
-  ros::NodeHandle ros_nh = ros::NodeHandle("~");
 
-  ROS_INFO("[%s]: initializing", ros::this_node::getName().c_str());
+  ignmsg << "[mrs_multirotor_controller]: initializing" << std::endl;
 
   {  // gazebo model
 
@@ -343,22 +327,17 @@ void MRSMultirotorController::Configure(const Entity &entity, const std::shared_
   ecm.CreateComponent(_gazebo_model_.Entity(), components::Actuators(rotor_velocities_msg_));
 
   // --------------------------------------------------------------
-  // |                   custom ROS subscribers                   |
+  // |                   custom Ignition subscribers                   |
   // --------------------------------------------------------------
 
   std::string robot_name = _gazebo_model_.Name(ecm);
 
-  subscriber_feedforward_ =
-      ros_nh.subscribe(robot_name + "/feedforward", 1, &MRSMultirotorController::callbackFeedForward, this, ros::TransportHints().tcpNoDelay());
-
-  // | --------------------- spinner thread --------------------- |
-
-  ROS_INFO("[%s]: initializing the main thread", ros::this_node::getName().c_str());
-  thread_main_ = std::thread(&MRSMultirotorController::threadMain, this);
+  ignition_node_.Subscribe(robot_name + "/feedforward",
+      &MRSMultirotorController::callbackFeedForward, this);
 
   // | ---------------- finish the initialization --------------- |
 
-  ROS_INFO("[%s]: initialized", ros::this_node::getName().c_str());
+  ignmsg << "[mrs_multirotor_controller]: initialized" << std::endl;
 
   is_initialized_ = true;
 }
@@ -387,14 +366,15 @@ void MRSMultirotorController::PreUpdate(const ignition::gazebo::UpdateInfo &_inf
     cmd_vel = cmd_vel_.value();
   }
 
-  geometry_msgs::Twist feedforward;
+  msgs::Twist feedforward;
 
   {
     std::scoped_lock lock(mutex_feedforward_);
 
     if (feedforward_.has_value()) {
       feedforward = feedforward_.value();
-      ROS_INFO_ONCE("[%s]: using the feedforward for control", ros::this_node::getName().c_str());
+      ignmsg << "[mrs_multirotor_controller]: using the feedforward for control"
+        << std::endl;
     }
   }
 
@@ -444,13 +424,13 @@ void MRSMultirotorController::PreUpdate(const ignition::gazebo::UpdateInfo &_inf
 
   SE3ControllerFeedforward cmd_feedforward;
 
-  cmd_feedforward.acceleration[0] = feedforward.linear.x;
-  cmd_feedforward.acceleration[1] = feedforward.linear.y;
-  cmd_feedforward.acceleration[2] = feedforward.linear.z;
+  cmd_feedforward.acceleration[0] = feedforward.linear().x();
+  cmd_feedforward.acceleration[1] = feedforward.linear().y();
+  cmd_feedforward.acceleration[2] = feedforward.linear().z();
 
-  cmd_feedforward.jerk[0] = feedforward.angular.x;
-  cmd_feedforward.jerk[1] = feedforward.angular.y;
-  cmd_feedforward.jerk[2] = feedforward.angular.z;
+  cmd_feedforward.jerk[0] = feedforward.angular().x();
+  cmd_feedforward.jerk[1] = feedforward.angular().y();
+  cmd_feedforward.jerk[2] = feedforward.angular().z();
 
   // | ------------ get the UAV model simulator data ------------ |
 
@@ -480,7 +460,7 @@ void MRSMultirotorController::OnTwist(const msgs::Twist &msg) {
     cmd_vel_ = msg;
   }
 
-  ROS_INFO_ONCE("[%s]: MRS controller at work", ros::this_node::getName().c_str());
+  ignmsg << "[mrs_multirotor_controller]: MRS controller at work" << std::endl;
 }
 
 //}
@@ -533,7 +513,7 @@ void MRSMultirotorController::PublishRotorVelocities(ignition::gazebo::EntityCom
 
 /* callbackFeedForward() //{ */
 
-void MRSMultirotorController::callbackFeedForward(const geometry_msgs::TwistConstPtr &msg) {
+void MRSMultirotorController::callbackFeedForward(const msgs::Twist &msg) {
 
   if (!is_initialized_) {
     return;
@@ -542,29 +522,14 @@ void MRSMultirotorController::callbackFeedForward(const geometry_msgs::TwistCons
   {
     std::scoped_lock lock(mutex_feedforward_);
 
-    feedforward_ = *msg;
+    feedforward_ = msg;
   }
 
-  ROS_INFO_ONCE("[%s]: getting feedforward reference", ros::this_node::getName().c_str());
+  ignmsg << "[mrs_multirotor_controller]: getting feedforward reference"
+    << std::endl;
 }
 
 //}
-
-/* threadMain() //{ */
-
-void MRSMultirotorController::threadMain() {
-
-  ros::Rate thread_rate(MAIN_THREAD_RATE);
-
-  while (ros::ok()) {
-
-    ROS_INFO_ONCE("[%s]: main thread spinning", ros::this_node::getName().c_str());
-
-    thread_rate.sleep();
-
-    ros::spinOnce();
-  }
-}
 
 //}
 

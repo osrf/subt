@@ -2,12 +2,7 @@ cmake_minimum_required(VERSION 3.1.2)
 
 project(ctu_cras_norlab_x500_sensor_config_1)
 
-find_package(catkin REQUIRED COMPONENTS
-  roscpp
-  message_runtime
-  std_msgs
-  geometry_msgs
-)
+find_package(catkin REQUIRED)
 
 find_package(ignition-gazebo4 REQUIRED)
 find_package(ignition-transport9 REQUIRED)
@@ -17,9 +12,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-catkin_package(
-  CATKIN_DEPENDS message_runtime roscpp std_msgs geometry_msgs
-)
+catkin_package()
 
 include_directories(
   include
