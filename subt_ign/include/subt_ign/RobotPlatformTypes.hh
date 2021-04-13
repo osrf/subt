@@ -19,23 +19,32 @@
 /// \brief List of robot platform types. This is used to count unique robot
 /// types.
 const std::vector<std::string> robotPlatformTypes = {
+  "ABSOLEM",
+  "ALLIE",
+  "ANYMAL_B",
+  "ANYMAL_C",
+  "DS1",
+  "DTR",
+  "FREYJA",
+  "GAGARIN"
+  "HD2",
+  "HUSKY",
+  "KAREN",
+  "KLOUBAK",
+  "M100",
+  "OZBOT_ATR",
+  "PAM",
+  "QAV500",
+  "R2",
+  "R3",
+  "RMF",
+  "SHAFTER",
+  "TEAMBASE",
   "X1",
   "X2",
   "X3",
   "X4",
-  "HUSKY",
-  "TEAMBASE",
-  "ANYMAL_B",
-  "M100",
-  "FREYJA",
-  "KLOUBAK",
-  "HD2",
-  "QAV500",
-  "R2",
-  "DS1",
-  "OZBOT_ATR",
-  "ABSOLEM",
-  "GAGARIN"
+  "X500",
 };
 
 #endif
