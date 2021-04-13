@@ -43,8 +43,8 @@
           </box>
         </geometry>
         <material>
-          <ambient>14 14 14 1</ambient>
-          <diffuse>14 14 14 1</diffuse>
+          <ambient>0.06 0.06 0.06 1</ambient>
+          <diffuse>0.06 0.06 0.06 1</diffuse>
         </material>
       </visual>
       <visual name="chassis_top_visual">
@@ -55,8 +55,8 @@
           </box>
         </geometry>
         <material>
-          <ambient>140 240 140 1</ambient>
-          <diffuse>140 240 140 1</diffuse>
+          <ambient>0.55 0.95 0.55 1</ambient>
+          <diffuse>0.55 0.95 0.55 1</diffuse>
         </material>
       </visual>
 
@@ -68,8 +68,8 @@
           </box>
         </geometry>
         <material>
-          <ambient>140 140 140 1</ambient>
-          <diffuse>140 140 140 1</diffuse>
+          <ambient>0.55 0.55 0.55 1</ambient>
+          <diffuse>0.55 0.55 0.55 1</diffuse>
         </material>
       </visual>
       <visual name="sensor_mount_2">
@@ -80,8 +80,8 @@
           </box>
         </geometry>
         <material>
-          <ambient>140 140 140 1</ambient>
-          <diffuse>140 140 140 1</diffuse>
+          <ambient>0.55 0.55 0.55 1</ambient>
+          <diffuse>0.55 0.55 0.55 1</diffuse>
         </material>
       </visual>
       <visual name="sensor_mount_3">
@@ -92,8 +92,8 @@
           </box>
         </geometry>
         <material>
-          <ambient>140 140 140 1</ambient>
-          <diffuse>140 140 140 1</diffuse>
+          <ambient>0.55 0.55 0.55 1</ambient>
+          <diffuse>0.55 0.55 0.55 1</diffuse>
         </material>
       </visual>
       <visual name="sensor_mount_4">
@@ -104,8 +104,8 @@
           </box>
         </geometry>
         <material>
-          <ambient>140 140 140 1</ambient>
-          <diffuse>140 140 140 1</diffuse>
+          <ambient>0.55 0.55 0.55 1</ambient>
+          <diffuse>0.55 0.55 0.55 1</diffuse>
         </material>
       </visual>
       <visual name="sensor_mount_5">
@@ -116,8 +116,8 @@
           </box>
         </geometry>
         <material>
-          <ambient>140 140 140 1</ambient>
-          <diffuse>140 140 140 1</diffuse>
+          <ambient>0.55 0.55 0.55 1</ambient>
+          <diffuse>0.55 0.55 0.55 1</diffuse>
         </material>
       </visual>
       
@@ -130,8 +130,8 @@
           </cylinder>
         </geometry>
         <material>
-          <ambient>14 14 14 1</ambient>
-          <diffuse>14 14 14 1</diffuse>
+          <ambient>0.06 0.06 0.06 1</ambient>
+          <diffuse>0.06 0.06 0.06 1</diffuse>
         </material>
       </visual>
       <visual name="antenna_visual_2">
@@ -143,8 +143,8 @@
           </cylinder>
         </geometry>
         <material>
-          <ambient>14 14 14 1</ambient>
-          <diffuse>14 14 14 1</diffuse>
+          <ambient>0.06 0.06 0.06 1</ambient>
+          <diffuse>0.06 0.06 0.06 1</diffuse>
         </material>
       </visual>
 
@@ -158,8 +158,8 @@
           </cylinder>
         </geometry>
         <material>
-          <ambient>14 14 14 1</ambient>
-          <diffuse>14 14 14 1</diffuse>
+          <ambient>0.06 0.06 0.06 1</ambient>
+          <diffuse>0.06 0.06 0.06 1</diffuse>
         </material>
       </visual>
       <visual name="axle_visual_rear">
@@ -171,8 +171,8 @@
           </cylinder>
         </geometry>
         <material>
-          <ambient>14 14 14 1</ambient>
-          <diffuse>14 14 14 1</diffuse>
+          <ambient>0.06 0.06 0.06 1</ambient>
+          <diffuse>0.06 0.06 0.06 1</diffuse>
         </material>
       </visual>
 
@@ -438,7 +438,7 @@
         <pose>0.069 -0.03 0.235 0 0 3.141592653589793</pose>
         <always_on>1</always_on>
         <update_rate>30</update_rate>
-        <camera name="camera_front">
+        <camera name="camera_rear">
           <horizontal_fov>2.4</horizontal_fov>
           <lens>
             <intrinsics>
@@ -562,8 +562,8 @@
           </cylinder>
         </geometry>
         <material>
-          <ambient>14 14 14 1</ambient>
-          <diffuse>14 14 14 1</diffuse>
+          <ambient>0.06 0.06 0.06 1</ambient>
+          <diffuse>0.06 0.06 0.06 1</diffuse>
         </material>
       </visual>
       <sensor name="planar_laser" type="gpu_ray">
@@ -613,8 +613,8 @@
           </cylinder>
         </geometry>
         <material>
-          <ambient>11 11 11</ambient>
-          <diffuse>11 11 11</diffuse>
+          <ambient>0.04 0.04 0.04 1</ambient>
+          <diffuse>0.04 0.04 0.04 1</diffuse>
         </material>
       </visual>
     </link>
@@ -638,8 +638,8 @@
           </cylinder>
         </geometry>
         <material>
-          <ambient>11 11 11</ambient>
-          <diffuse>11 11 11</diffuse>
+          <ambient>0.04 0.04 0.04 1</ambient>
+          <diffuse>0.04 0.04 0.04 1</diffuse>
         </material>
       </visual>
     </link>
@@ -691,8 +691,8 @@
           </cylinder>
         </geometry>
         <material>
-          <ambient>0 0 0</ambient>
-          <diffuse>0 0 0</diffuse>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
         </material>
       </visual>
     </link>
@@ -743,8 +743,8 @@
           </cylinder>
         </geometry>
         <material>
-          <ambient>0 0 0</ambient>
-          <diffuse>0 0 0</diffuse>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
         </material>
       </visual>
     </link>
@@ -795,8 +795,8 @@
           </cylinder>
         </geometry>
         <material>
-          <ambient>0 0 0</ambient>
-          <diffuse>0 0 0</diffuse>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
         </material>
       </visual>
     </link>
@@ -847,8 +847,8 @@
           </cylinder>
         </geometry>
         <material>
-          <ambient>0 0 0</ambient>
-          <diffuse>0 0 0</diffuse>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
         </material>
       </visual>
     </link>
