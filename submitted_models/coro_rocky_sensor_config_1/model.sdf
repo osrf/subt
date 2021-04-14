@@ -386,26 +386,75 @@
           <diffuse>0.0 0.0 0.0 1.0</diffuse>
         </material>
       </visual>
-
+      <visual name="camera_left_visual">
+        <pose>0.085 0.07 0.27 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.015 0.01 0.015</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.0 0.0 0.0 1.0</ambient>
+          <diffuse>0.0 0.0 0.0 1.0</diffuse>
+        </material>
+      </visual>
+      <visual name="camera_lens_left_visual">
+        <pose>0.085 0.08 0.27 1.5707963267948966 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.011</length>
+            <radius>0.005</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.0 0.0 0.0 1.0</ambient>
+          <diffuse>0.0 0.0 0.0 1.0</diffuse>
+        </material>
+      </visual>
+      <visual name="camera_right_visual">
+        <pose>0.085 -0.07 0.27 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.015 0.01 0.015</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.0 0.0 0.0 1.0</ambient>
+          <diffuse>0.0 0.0 0.0 1.0</diffuse>
+        </material>
+      </visual>
+      <visual name="camera_lens_right_visual">
+        <pose>0.085 -0.08 0.27 1.5707963267948966 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.011</length>
+            <radius>0.005</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.0 0.0 0.0 1.0</ambient>
+          <diffuse>0.0 0.0 0.0 1.0</diffuse>
+        </material>
+      </visual>
 
       
-      <!-- Real robot has 2 x B0203 with LN008 each with a 180 deg hor x 130 deg vert FOV
-           Since fisheye cameras are not modeled, wide HD cameras are used in the model -->
-      <sensor name="camera_front" type="camera">
+      <!-- Real robot has 2 x B0247 with LN008 each with a 180 deg hor x 130 deg vert FOV
+           Since fisheye cameras are not modeled, four cameras are used in the model -->
+       <sensor name="camera_front" type="camera">
         <pose>0.111 0.03 0.235 0 0 0</pose>
         <always_on>1</always_on>
-        <update_rate>30</update_rate>
+        <update_rate>25</update_rate>
         <camera name="camera_front">
-          <horizontal_fov>2.4</horizontal_fov>
+          <horizontal_fov>1.658</horizontal_fov>
           <lens>
             <intrinsics>
               <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
-              <fx>248.819</fx>
-              <fy>248.819</fy>
+              <fx>329.9</fx>
+              <fy>329.9</fy>
               <!-- cx = ( width - 1 ) / 2 -->
-              <cx>639.5</cx>
+              <cx>359.5</cx>
               <!-- cy = ( height - 1 ) / 2 -->
-              <cy>359.5</cy>
+              <cy>539.5</cy>
               <s>0</s>
             </intrinsics>
           </lens>
@@ -418,8 +467,8 @@
             <center>0.5 0.5</center>
           </distortion>
           <image>
-            <width>1280</width>
-            <height>720</height>
+            <width>720</width>
+            <height>1080</height>
             <format>R8G8B8</format>
           </image>
           <clip>
@@ -437,18 +486,18 @@
       <sensor name="camera_rear" type="camera">
         <pose>0.069 -0.03 0.235 0 0 3.141592653589793</pose>
         <always_on>1</always_on>
-        <update_rate>30</update_rate>
+        <update_rate>25</update_rate>
         <camera name="camera_rear">
-          <horizontal_fov>2.4</horizontal_fov>
+          <horizontal_fov>1.658</horizontal_fov>
           <lens>
             <intrinsics>
               <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
-              <fx>248.819</fx>
-              <fy>248.819</fy>
+              <fx>329.9</fx>
+              <fy>329.9</fy>
               <!-- cx = ( width - 1 ) / 2 -->
-              <cx>639.5</cx>
+              <cx>359.5</cx>
               <!-- cy = ( height - 1 ) / 2 -->
-              <cy>359.5</cy>
+              <cy>539.5</cy>
               <s>0</s>
             </intrinsics>
           </lens>
@@ -461,8 +510,8 @@
             <center>0.5 0.5</center>
           </distortion>
           <image>
-            <width>1280</width>
-            <height>720</height>
+            <width>720</width>
+            <height>1080</height>
             <format>R8G8B8</format>
           </image>
           <clip>
@@ -477,10 +526,95 @@
         </camera>
       </sensor>
 
-      
+      <sensor name="camera_left" type="camera">
+        <pose>0.085 0.09 0.27 0 0 1.5707963267948966</pose>
+        <always_on>1</always_on>
+        <update_rate>25</update_rate>
+        <camera name="camera_left">
+          <horizontal_fov>1.658</horizontal_fov>
+          <lens>
+            <intrinsics>
+              <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+              <fx>329.9</fx>
+              <fy>329.9</fy>
+              <!-- cx = ( width - 1 ) / 2 -->
+              <cx>359.5</cx>
+              <!-- cy = ( height - 1 ) / 2 -->
+              <cy>539.5</cy>
+              <s>0</s>
+            </intrinsics>
+          </lens>
+          <distortion>
+            <k1>0.0</k1>
+            <k2>0.0</k2>
+            <k3>0.0</k3>
+            <p1>0.0</p1>
+            <p2>0.0</p2>
+            <center>0.5 0.5</center>
+          </distortion>
+          <image>
+            <width>720</width>
+            <height>1080</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.01</near>
+            <far>300</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+      </sensor>
+
+      <sensor name="camera_right" type="camera">
+        <pose>0.085 -0.09 0.27 0 0 -1.5707963267948966</pose>
+        <always_on>1</always_on>
+        <update_rate>25</update_rate>
+        <camera name="camera_right">
+          <horizontal_fov>1.658</horizontal_fov>
+          <lens>
+            <intrinsics>
+              <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+              <fx>329.9</fx>
+              <fy>329.9</fy>
+              <!-- cx = ( width - 1 ) / 2 -->
+              <cx>359.5</cx>
+              <!-- cy = ( height - 1 ) / 2 -->
+              <cy>539.5</cy>
+              <s>0</s>
+            </intrinsics>
+          </lens>
+          <distortion>
+            <k1>0.0</k1>
+            <k2>0.0</k2>
+            <k3>0.0</k3>
+            <p1>0.0</p1>
+            <p2>0.0</p2>
+            <center>0.5 0.5</center>
+          </distortion>
+          <image>
+            <width>720</width>
+            <height>1080</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.01</near>
+            <far>300</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+      </sensor>
+
 
       <light name="light_front_left" type="spot">
-        <pose>0.11 0.08 0.235 1.5 0 -0.75</pose>
+        <pose>0.11 0.08 0.235 1.5 0 0</pose>
         <attenuation>
           <range>25</range>
           <linear>0</linear>
@@ -498,7 +632,7 @@
         <cast_shadows>1</cast_shadows>
       </light>
       <light name="light_front_right" type="spot">
-        <pose>0.11 -0.08 0.235 1.5 0 -2.25 </pose>
+        <pose>0.11 -0.08 0.235 1.5 0 3.14</pose>
         <attenuation>
           <range>25</range>
           <linear>0</linear>
