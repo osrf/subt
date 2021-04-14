@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>emesent_hovermap_sensor_config_1</name>
+  <version>0.0.1</version>
+  <description>
+    The emesent_hovermap_sensor_config_1 package
+  </description>
+
+  <maintainer email="peter.milani@emesent.io">Peter Milani</maintainer>
+
+
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <buildtool_depend>roslaunch</buildtool_depend>
+  <buildtool_depend>urdf</buildtool_depend>
+  <buildtool_depend>xacro</buildtool_depend>
+
+  <build_depend>ignition-common3</build_depend>
+  <exec_depend>ignition-common3</exec_depend>
+  <build_depend>ignition-gazebo4</build_depend>
+  <exec_depend>ignition-gazebo4</exec_depend>
+
+</package>
