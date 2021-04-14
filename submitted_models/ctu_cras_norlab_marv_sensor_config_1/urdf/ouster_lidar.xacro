@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<root xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:property name="ouster_os0_128_mass" value="0.5" scope="global" />
+
+    <xacro:macro name="ouster_os0_128" params="name simulate:=1 visualize:=0 horiz_samples:=2048 rate:=10">
+        <xacro:property name="ouster_void" value="${payload_mass.append(ouster_os0_128_mass)}" scope="global" />
+        <link name="$(arg prefix)${name}">
+            <visual>
+                <geometry>
+                    <mesh filename="package://ctu_cras_norlab_marv_sensor_config_1/meshes/ouster-os0.dae"/>
+                </geometry>
+            </visual>
+            <collision>
+                <origin rpy="0 0 0" xyz="0 0 ${0.0735/2}"/>
+                <geometry>
+                    <cylinder length="0.0735" radius="0.0435"/>
+                </geometry>
+            </collision>
+            <xacro:cylinder_inertial mass="${ouster_os0_128_mass}" radius="0.0435" length="0.0735" xyz="0 0 ${0.0735/2}" />
+        </link>
+        <gazebo reference="$(arg prefix)${name}">
+            <xacro:if value="${simulate and '$(arg rendering_target)' == 'ign'}">
+                <sensor name="laser" type="gpu_lidar">
+                    <pose>0 0 0.035925 0 0 0</pose> <!-- Geometrical center of the lidar is a bit off, this is from datasheet. -->
+                    <update_rate>${rate}</update_rate>
+                    <visualize>${visualize}</visualize>
+                    <always_on>1</always_on>
+                    <lidar>
+                        <scan>
+                            <horizontal>
+                                <samples>${horiz_samples}</samples>
+                                <resolution>1</resolution>
+                                <min_angle>-3.1459</min_angle>
+                                <max_angle>3.1459</max_angle>
+                            </horizontal>
+                            <vertical>
+                                <samples>128</samples>
+                                <resolution>1</resolution>
+                                <min_angle>-${pi/4}</min_angle>
+                                <max_angle>${pi/4}</max_angle>
+                            </vertical>
+                        </scan>
+                        <range>
+                            <min>0.1</min>
+                            <max>50</max>
+                            <resolution>0.01</resolution>
+                        </range>
+                        <noise>
+                            <type>gaussian</type>
+                            <mean>0</mean>
+                            <stddev>0.01</stddev>
+                        </noise>
+                    </lidar>
+                </sensor>
+            </xacro:if>
+        </gazebo>
+    </xacro:macro>
+</root>
