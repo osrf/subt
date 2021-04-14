@@ -42,7 +42,7 @@ Its weight is approximately 32.7 kg.
 The following specific sensors are declared payloads of this vehicle.
 
 * Ouster OS0-128 3D lidar modeled by `gpu_lidar` sensor. It runs configured to produce 2048x128 scans at 10 Hz. It has a very wide vertical field of view (90 degrees) and short range (about 50 meters).
-* 5x RGB global shutter camera Basler a2A1920-51gcPRO with 4 mm lens modeled by `camera` sensor. Each camera provides 86 degrees of horizontal FOV. Resolution is 1920x1200 px. According to datasheet, the camera can run on frequencies up to 51 Hz, but the robot doesn't have sufficient computational and communication capacity to transmit such high frequency data. We thus lowered the framerate of the simulated camera to 9 Hz. We verified in real life that we are able to transmit the 9 Hz images and process them (the 5 cameras more or less saturate a Gigabit link with this framerate).
+* 5x RGB global shutter camera Basler a2A1920-51gcPRO with 4 mm lens modeled by `camera` sensor. Each camera provides 86.5 degrees of horizontal FOV. Resolution is 1920x1200 px. According to datasheet, the camera can run on frequencies up to 51 Hz, but the robot doesn't have sufficient computational and communication capacity to transmit such high frequency data. We thus lowered the framerate of the simulated camera to 9 Hz. We verified in real life that we are able to transmit the 9 Hz images and process them (the 5 cameras more or less saturate a Gigabit link with this framerate).
 * XSens MTI-30 AHRS: modeled by `imu` sensor.
 * 6 communication breadcrumbs are also available as a payload for this robot in sensor configuration 2 (real robot will carry 4 or 8 breadcrumbs).
 
@@ -102,7 +102,7 @@ They can also be created on demand by calling script `scripts/xacro2urdf.sh`.
 
 * Sensor specification links:
   * [Ouster OS0-128](https://ouster.com/products/os0-lidar-sensor/)
-  * [Basler cam](https://www.baslerweb.com/en/products/cameras/area-scan-cameras/ace2/a2a1920-51gcpro/) + [lens](https://www.baslerweb.com/en/products/vision-components/lenses/basler-lens-c125-0418-5m-p-f4mm/)
+  * [Basler cam](https://www.baslerweb.com/en/products/cameras/area-scan-cameras/ace2/a2a1920-51gcpro/) + [lens](https://www.baslerweb.com/en/products/vision-components/lenses/basler-lens-c125-0418-5m-p-f4mm/) + Experimental validation: https://drive.google.com/drive/folders/1-KWMvjWSYYeLqPA0C3FCdKuHQAmOHN-z?usp=sharing
   * IMU: [XSens MTi-30](https://www.mouser.com/datasheet/2/693/mti-series-1358510.pdf)
   * Lights: the robot uses LED strips around the body. The total power output of these strips is about `30 W`. It also has a ceiling-pointing light.
 
