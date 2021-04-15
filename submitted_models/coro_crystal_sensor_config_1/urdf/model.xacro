@@ -128,14 +128,26 @@
         <mesh filename='package://coro_crystal_sensor_config_1/meshes/realsense_d435.dae' scale='0.001 0.001 0.001'/>
       </geometry>
     </visual>
-    <visual name='camera_front_visual'>
-      <origin xyz='0.08 0 0.03' rpy='0 -0 0'/>
+    <visual name='camera_left_visual'>
+      <origin xyz='0.085 -0.015 0.03' rpy='0 -0 0.785398'/>
       <geometry>
-        <box size='0.01 0.04 0.04'/>
+        <box size='0.01 0.02 0.02'/>
       </geometry>
     </visual>
-    <visual name='camera_lens_front_visual'>
-      <origin xyz='0.09 0 0.03' rpy='0 1.5708 0'/>
+    <visual name='camera_lens_left_visual'>
+      <origin xyz='0.092 -0.008 0.03' rpy='-0.785398 1.5708 0'/>
+      <geometry>
+        <cylinder radius='0.005' length='0.011'/>
+      </geometry>
+    </visual>
+    <visual name='camera_right_visual'>
+      <origin xyz='0.085 0.015 0.03' rpy='0 0 -0.785398'/>
+      <geometry>
+        <box size='0.01 0.02 0.02'/>
+      </geometry>
+    </visual>
+    <visual name='camera_lens_right_visual'>
+      <origin xyz='0.092 0.008 0.03' rpy='0.785398 1.5708 0'/>
       <geometry>
         <cylinder radius='0.005' length='0.011'/>
       </geometry>
@@ -160,11 +172,18 @@
       <image width='640' height='360' format='R8G8B8' hfov='1.50098' near='0.01' far='300' />
     </camera>
   </sensor>
-  <sensor name='camera_front' update_rate='30'>
+  <sensor name='camera_left' update_rate='25'>
     <parent link='${robot_namespace}/base_link'/>
-    <origin xyz='0.1 0 0.03' rpy='0 -0 0'/>
+    <origin xyz='0.098 -0.002 0.03' rpy='0 -0 0.785398'/>
     <camera>
-      <image width='1280' height='720' format='R8G8B8' hfov='2.4' near='0.01' far='300' />
+      <image width='720' height='1080' format='R8G8B8' hfov='1.658' near='0.01' far='300' />
+    </camera>
+  </sensor>
+  <sensor name='camera_right' update_rate='25'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0.098 0.002 0.03' rpy='0 0 -0.785398'/>
+    <camera>
+      <image width='720' height='1080' format='R8G8B8' hfov='1.658' near='0.01' far='300' />
     </camera>
   </sensor>
   <sensor name='bottom_laser' update_rate='50'>
