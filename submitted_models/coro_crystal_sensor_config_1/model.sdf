@@ -260,7 +260,25 @@
 
 	    
       <light name="light_source1" type="spot">
-        <pose frame="">0.09 0.0 0.065 -0.01 -1.570796327 0</pose>
+        <pose frame="">0.09 0.01 0.065 -0.01 -1.570796327 0.75</pose>
+        <attenuation>
+          <range>15</range>
+          <linear>0</linear>
+          <constant>0.1</constant>
+          <quadratic>0.01</quadratic>
+        </attenuation>
+        <diffuse>0.8 0.8 0.5 1</diffuse>
+        <specular>0.8 0.8 0.5 1</specular>
+        <spot>
+          <inner_angle>1.5</inner_angle>
+          <outer_angle>2.5</outer_angle>
+          <falloff>1</falloff>
+        </spot>
+        <direction>0 0 -1</direction>
+        <cast_shadows>1</cast_shadows>
+      </light>
+      <light name="light_source2" type="spot">
+        <pose frame="">0.09 -0.01 0.065 -0.01 -1.570796327 -0.750</pose>
         <attenuation>
           <range>15</range>
           <linear>0</linear>
