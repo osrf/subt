@@ -8,7 +8,7 @@
       <mass value='3.461'/>
       <inertia ixx='0.0324' ixy='0' ixz='0' iyy='0.0324' iyz='0' izz='0.0519'/>
     </inertial>
-    <collision name='${robot_namespace}/base_link_inertia_collision'>
+    <collision name='base_link_inertia_collision'>
       <origin xyz='0.01 0 -0.0275' rpy='0 -0 0'/>
       <geometry>
         <box size='0.43 0.4 0.255'/>
@@ -188,26 +188,50 @@
         <mesh filename='package://coro_bandicoot_sensor_config_1/meshes/realsense_d435.dae' scale='0.001 0.001 0.001'/>
       </geometry>
     </visual>
-    <visual name='camera_front_visual'>
-      <origin xyz='0.21 0.18 -0.1' rpy='0 -0 0'/>
+    <visual name='camera_front_left_visual'>
+      <origin xyz='0.205 0.19 -0.1' rpy='0 -0 0.785398'/>
       <geometry>
-        <box size='0.01 0.04 0.04'/>
+        <box size='0.01 0.02 0.02'/>
       </geometry>
     </visual>
-    <visual name='camera_lens_front_visual'>
-      <origin xyz='0.22 0.18 -0.1' rpy='0 1.5708 0'/>
+    <visual name='camera_lens_front_left_visual'>
+      <origin xyz='0.212 0.197 -0.1' rpy='-0.785398 1.5708 0'/>
       <geometry>
         <cylinder radius='0.005' length='0.011'/>
       </geometry>
     </visual>
-    <visual name='camera_rear_visual'>
-      <origin xyz='-0.075 0 0.05' rpy='0 -0 0'/>
+    <visual name='camera_front_right_visual'>
+      <origin xyz='0.205 0.17 -0.1' rpy='0 0 -0.785398'/>
       <geometry>
-        <box size='0.01 0.04 0.04'/>
+        <box size='0.01 0.02 0.02'/>
       </geometry>
     </visual>
-    <visual name='camera_lens_rear_visual'>
-      <origin xyz='-0.085 0 0.05' rpy='0 1.5708 0'/>
+    <visual name='camera_lens_front_right_visual'>
+      <origin xyz='0.212 0.163 -0.1' rpy='0.785398 1.5708 0'/>
+      <geometry>
+        <cylinder radius='0.005' length='0.011'/>
+      </geometry>
+    </visual>
+    <visual name='camera_rear_left_visual'>
+      <origin xyz='-0.08 0.01 0.05' rpy='0 0 -0.785398'/>
+      <geometry>
+        <box size='0.01 0.02 0.02'/>
+      </geometry>
+    </visual>
+    <visual name='camera_lens_rear_left_visual'>
+      <origin xyz='-0.087 0.017 0.05' rpy='0.785398 1.5708 0'/>
+      <geometry>
+        <cylinder radius='0.005' length='0.011'/>
+      </geometry>
+    </visual>
+    <visual name='camera_rear_right_visual'>
+      <origin xyz='-0.08 -0.01 0.05' rpy='0 -0 0.785398'/>
+      <geometry>
+        <box size='0.01 0.02 0.02'/>
+      </geometry>
+    </visual>
+    <visual name='camera_lens_rear_right_visual'>
+      <origin xyz='-0.087 -0.017 0.05' rpy='-0.785398 1.5708 0'/>
       <geometry>
         <cylinder radius='0.005' length='0.011'/>
       </geometry>
@@ -243,18 +267,32 @@
       <image width='640' height='360' format='R8G8B8' hfov='1.50098' near='0.01' far='300' />
     </camera>
   </sensor>
-  <sensor name='camera_front' update_rate='30'>
+  <sensor name='camera_front_left' update_rate='25'>
     <parent link='${robot_namespace}/base_link'/>
-    <origin xyz='0.23 0.18 -0.1' rpy='0 -0 0'/>
+    <origin xyz='0.219 0.204 -0.1' rpy='0 -0 0.785398'/>
     <camera>
-      <image width='1280' height='720' format='R8G8B8' hfov='2.4' near='0.01' far='300' />
+      <image width='720' height='1080' format='R8G8B8' hfov='1.658' near='0.01' far='300' />
     </camera>
   </sensor>
-  <sensor name='camera_rear' update_rate='30'>
+  <sensor name='camera_front_right' update_rate='25'>
     <parent link='${robot_namespace}/base_link'/>
-    <origin xyz='-0.095 0 0.05' rpy='0 -0 3.14159'/>
+    <origin xyz='0.219 0.156 -0.1' rpy='0 0 -0.785398'/>
     <camera>
-      <image width='1280' height='720' format='R8G8B8' hfov='2.4' near='0.01' far='300' />
+      <image width='720' height='1080' format='R8G8B8' hfov='1.658' near='0.01' far='300' />
+    </camera>
+  </sensor>
+  <sensor name='camera_rear_left' update_rate='25'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='-0.094 0.024 0.05' rpy='0 -0 2.35619'/>
+    <camera>
+      <image width='720' height='1080' format='R8G8B8' hfov='1.658' near='0.01' far='300' />
+    </camera>
+  </sensor>
+  <sensor name='camera_rear_right' update_rate='25'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='-0.094 -0.024 0.05' rpy='0 0 -2.35619'/>
+    <camera>
+      <image width='720' height='1080' format='R8G8B8' hfov='1.658' near='0.01' far='300' />
     </camera>
   </sensor>
   <sensor name='bottom_laser' update_rate='50'>
@@ -292,7 +330,7 @@
         <cylinder radius='0.178' length='0.01'/>
       </geometry>
     </collision>
-    <visual name='${robot_namespace}/rotor_1_visual'>
+    <visual name='rotor_1_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
         <mesh filename='package://coro_bandicoot_sensor_config_1/meshes/propeller_ccw.dae' scale='0.178 0.178 0.178'/>
