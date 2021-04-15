@@ -190,70 +190,105 @@
     </group>
 
 
-    
-
-    <!-- top scan -->
-    <group if="$(arg top_scan)">
-      <node
-        pkg="ros_ign_bridge"
-        type="parameter_bridge"
-        name="ros_ign_bridge_gpu_lidar_top"
-        args="$(arg sensor_prefix)/top_laser/scan@sensor_msgs/LaserScan[ignition.msgs.LaserScan">
-        <remap from="$(arg sensor_prefix)/top_laser/scan" to="top_scan"/>
-      </node>
-    </group>
-
-
-    <!-- Front monocular camera -->
+    <!-- Front Left monocular camera -->
     <node
-	pkg="ros_ign_bridge"
-	type="parameter_bridge"
-	name="ros_ign_bridge_camera_front"
-	args="$(arg sensor_prefix)/camera_front/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
-      <remap from="$(arg sensor_prefix)/camera_front/camera_info" to="camera_front/camera_info"/>
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_camera_front_left"
+      args="$(arg sensor_prefix)/camera_front_left/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+      <remap from="$(arg sensor_prefix)/camera_front_left/camera_info" to="camera_front_left/camera_info"/>
     </node>
     <node
-	pkg="ros_ign_image"
-	type="image_bridge"
-	name="ros_ign_image_camera_front"
-	args="$(arg sensor_prefix)/camera_front/image">
-      <remap from="$(arg sensor_prefix)/camera_front/image" to="camera_front/image_raw"/>
+      pkg="ros_ign_image"
+      type="image_bridge"
+      name="ros_ign_image_camera_front_left"
+      args="$(arg sensor_prefix)/camera_front_left/image">
+      <remap from="$(arg sensor_prefix)/camera_front_left/image" to="camera_front_left/image_raw"/>
     </node>
     <node
       pkg="subt_ros"
       type="optical_frame_publisher"
-      name="optical_frame_publisher_front">
-      <remap from="input/image" to="camera_front/image_raw" />
-      <remap from="output/image" to="camera_front/optical/image_raw" />
-      <remap from="input/camera_info" to="camera_front/camera_info" />
-      <remap from="output/camera_info" to="camera_front/optical/camera_info" />
+      name="optical_frame_publisher_front_left">
+      <remap from="input/image" to="camera_front_left/image_raw" />
+      <remap from="output/image" to="camera_front_left/optical/image_raw" />
+      <remap from="input/camera_info" to="camera_front_left/camera_info" />
+      <remap from="output/camera_info" to="camera_front_left/optical/camera_info" />
     </node>
 
-    <!-- Rear monocular camera -->
+    <!-- Front Right monocular camera -->
     <node
-	pkg="ros_ign_bridge"
-	type="parameter_bridge"
-	name="ros_ign_bridge_camera_rear"
-	args="$(arg sensor_prefix)/camera_rear/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
-      <remap from="$(arg sensor_prefix)/camera_rear/camera_info" to="camera_rear/camera_info"/>
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_camera_front_right"
+      args="$(arg sensor_prefix)/camera_front_right/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+      <remap from="$(arg sensor_prefix)/camera_front_right/camera_info" to="camera_front_right/camera_info"/>
     </node>
     <node
-	pkg="ros_ign_image"
-	type="image_bridge"
-	name="ros_ign_image_camera_rear"
-	args="$(arg sensor_prefix)/camera_rear/image">
-      <remap from="$(arg sensor_prefix)/camera_rear/image" to="camera_rear/image_raw"/>
+      pkg="ros_ign_image"
+      type="image_bridge"
+      name="ros_ign_image_camera_front_right"
+      args="$(arg sensor_prefix)/camera_front_right/image">
+      <remap from="$(arg sensor_prefix)/camera_front_right/image" to="camera_front_right/image_raw"/>
     </node>
     <node
       pkg="subt_ros"
       type="optical_frame_publisher"
-      name="optical_frame_publisher_rear">
-      <remap from="input/image" to="camera_rear/image_raw" />
-      <remap from="output/image" to="camera_rear/optical/image_raw" />
-      <remap from="input/camera_info" to="camera_rear/camera_info" />
-      <remap from="output/camera_info" to="camera_rear/optical/camera_info" />
+      name="optical_frame_publisher_front_right">
+      <remap from="input/image" to="camera_front_right/image_raw" />
+      <remap from="output/image" to="camera_front_right/optical/image_raw" />
+      <remap from="input/camera_info" to="camera_front_right/camera_info" />
+      <remap from="output/camera_info" to="camera_front_right/optical/camera_info" />
     </node>
 
+    <!-- Rear Left monocular camera -->
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_camera_rear_left"
+      args="$(arg sensor_prefix)/camera_rear_left/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+      <remap from="$(arg sensor_prefix)/camera_rear_left/camera_info" to="camera_rear_left/camera_info"/>
+    </node>
+    <node
+      pkg="ros_ign_image"
+      type="image_bridge"
+      name="ros_ign_image_camera_rear_left"
+      args="$(arg sensor_prefix)/camera_rear_left/image">
+      <remap from="$(arg sensor_prefix)/camera_rear_left/image" to="camera_rear_left/image_raw"/>
+    </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_rear_left">
+      <remap from="input/image" to="camera_rear_left/image_raw" />
+      <remap from="output/image" to="camera_rear_left/optical/image_raw" />
+      <remap from="input/camera_info" to="camera_rear_left/camera_info" />
+      <remap from="output/camera_info" to="camera_rear_left/optical/camera_info" />
+    </node>
+
+    <!-- Rear Right monocular camera -->
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_camera_rear_right"
+      args="$(arg sensor_prefix)/camera_rear_right/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+      <remap from="$(arg sensor_prefix)/camera_rear_right/camera_info" to="camera_rear_right/camera_info"/>
+    </node>
+    <node
+      pkg="ros_ign_image"
+      type="image_bridge"
+      name="ros_ign_image_camera_rear_right"
+      args="$(arg sensor_prefix)/camera_rear_right/image">
+      <remap from="$(arg sensor_prefix)/camera_rear_right/image" to="camera_rear_right/image_raw"/>
+    </node>
+    <node
+      pkg="subt_ros"
+      type="optical_frame_publisher"
+      name="optical_frame_publisher_rear_right">
+      <remap from="input/image" to="camera_rear_right/image_raw" />
+      <remap from="output/image" to="camera_rear_right/optical/image_raw" />
+      <remap from="input/camera_info" to="camera_rear_right/camera_info" />
+      <remap from="output/camera_info" to="camera_rear_right/optical/camera_info" />
+    </node>
 
     
     <!-- bottom scan -->
