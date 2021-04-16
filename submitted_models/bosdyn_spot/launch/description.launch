@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="name" doc="Name of Vehicle"/>
+  <arg name="print_command" default="$(dirname)/../scripts/print_robot_urdf" />
+
+  <param name="$(arg name)/robot_description" command="$(arg print_command) name:=$(arg name)" />
+</launch>
