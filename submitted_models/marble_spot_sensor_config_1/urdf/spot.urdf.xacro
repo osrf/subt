@@ -28,8 +28,8 @@
       $(find ctu_cras_norlab_spot_sensor_config_1)/urdf/imu.xacro :
       $(find ctu_cras_norlab_spot_sensor_config_1)/urdf/mote_deployer.xacro :
       $(find ctu_cras_norlab_spot_sensor_config_1)/urdf/ouster_lidar.xacro :
-      $(find ctu_cras_norlab_spot_sensor_config_3)/urdf/ouster_lidar_alt.xacro :
-      $(find ctu_cras_norlab_spot_sensor_config_3)/urdf/flir_cameras.xacro :
+      $(find marble_spot_sensor_config_1)/urdf/ouster_lidar_alt.xacro :
+      $(find marble_spot_sensor_config_1)/urdf/flir_cameras.xacro :
     " />
 
     <!-- Append to this list in included payload Xacro files to count their weight to the total robot mass -->
