@@ -39,6 +39,7 @@ const std::vector<std::string> robotPlatformTypes = {
   "R3",
   "RMF",
   "SHAFTER",
+  "SPOT",
   "TEAMBASE",
   "X1",
   "X2",
