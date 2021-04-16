@@ -53,6 +53,13 @@
     <node
       pkg="ros_ign_bridge"
       type="parameter_bridge"
+      name="ros_ign_bridge_feedforward"
+      args="/model/$(arg name)/feedforward@geometry_msgs/Twist]ignition.msgs.Twist">
+      <remap from="/model/$(arg name)/feedforward" to="feedforward"/>
+    </node>
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
       name="ros_ign_bridge_velocity_control_enable"
       args="/model/$(arg name)/velocity_controller/enable@std_msgs/Bool]ignition.msgs.Boolean">
       <remap from="/model/$(arg name)/velocity_controller/enable" to="velocity_controller/enable"/>
