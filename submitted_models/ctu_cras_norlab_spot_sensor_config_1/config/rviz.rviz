@@ -1,0 +1,1198 @@
+Panels:
+  - Class: rviz/Displays
+    Help Height: 85
+    Name: Displays
+    Property Tree Widget:
+      Expanded:
+        - /Robot model1/Status1
+        - /Mono1
+        - /Depth1
+        - /Points1
+        - /VRAS Omnicam1
+      Splitter Ratio: 0.6631853580474854
+    Tree Height: 313
+  - Class: rviz/Selection
+    Name: Selection
+  - Class: rviz/Tool Properties
+    Expanded:
+      - /2D Pose Estimate1
+      - /2D Nav Goal1
+      - /Publish Point1
+    Name: Tool Properties
+    Splitter Ratio: 0.5886790156364441
+  - Class: rviz/Views
+    Expanded:
+      - /Current View1
+      - /Robot left side1/Focal Point1
+    Name: Views
+    Splitter Ratio: 0.4786096215248108
+  - Class: rviz/Time
+    Experimental: false
+    Name: Time
+    SyncMode: 0
+    SyncSource: Left
+Preferences:
+  PromptSaveOnExit: true
+Toolbars:
+  toolButtonStyle: 2
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Alpha: 1
+      Class: rviz/RobotModel
+      Collision Enabled: false
+      Enabled: true
+      Links:
+        All Links Enabled: true
+        Expand Joint Details: false
+        Expand Link Details: false
+        Expand Tree: false
+        Link Tree Style: Links in Alphabetic Order
+        X1/base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        X1/body:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        X1/camera_0:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        X1/camera_1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        X1/camera_2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        X1/camera_3:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        X1/camera_4:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        X1/camera_back:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        X1/camera_frontleft:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        X1/camera_frontright:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        X1/camera_left:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        X1/camera_right:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        X1/front_left_ee:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        X1/front_left_hip:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        X1/front_left_lower_leg:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        X1/front_left_upper_leg:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        X1/front_rail:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        X1/front_right_ee:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        X1/front_right_hip:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        X1/front_right_lower_leg:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        X1/front_right_upper_leg:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        X1/imu:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        X1/imu_vras:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        X1/laser:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        X1/payload:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        X1/rear_left_ee:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        X1/rear_left_hip:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        X1/rear_left_lower_leg:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        X1/rear_left_upper_leg:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        X1/rear_rail:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        X1/rear_right_ee:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        X1/rear_right_hip:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        X1/rear_right_lower_leg:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        X1/rear_right_upper_leg:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        total_mass_34_66:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+      Name: Robot model
+      Robot Description: robot_description
+      TF Prefix: ""
+      Update Interval: 0
+      Value: true
+      Visual Enabled: true
+    - Class: rviz/TF
+      Enabled: true
+      Frame Timeout: 15
+      Frames:
+        All Enabled: true
+        X1:
+          Value: true
+        X1/base_link:
+          Value: true
+        X1/body:
+          Value: true
+        X1/camera_0:
+          Value: true
+        X1/camera_0/camera_0:
+          Value: true
+        X1/camera_0/camera_0_optical:
+          Value: true
+        X1/camera_1:
+          Value: true
+        X1/camera_1/camera_1:
+          Value: true
+        X1/camera_1/camera_1_optical:
+          Value: true
+        X1/camera_2:
+          Value: true
+        X1/camera_2/camera_2:
+          Value: true
+        X1/camera_2/camera_2_optical:
+          Value: true
+        X1/camera_3:
+          Value: true
+        X1/camera_3/camera_3:
+          Value: true
+        X1/camera_3/camera_3_optical:
+          Value: true
+        X1/camera_4:
+          Value: true
+        X1/camera_4/camera_4:
+          Value: true
+        X1/camera_4/camera_4_optical:
+          Value: true
+        X1/camera_back:
+          Value: true
+        X1/camera_back/back_depth:
+          Value: true
+        X1/camera_back/back_depth_optical:
+          Value: true
+        X1/camera_back/back_fisheye_image:
+          Value: true
+        X1/camera_back/back_fisheye_image_optical:
+          Value: true
+        X1/camera_frontleft:
+          Value: true
+        X1/camera_frontleft/frontleft_depth:
+          Value: true
+        X1/camera_frontleft/frontleft_depth_optical:
+          Value: true
+        X1/camera_frontleft/frontleft_fisheye_image:
+          Value: true
+        X1/camera_frontleft/frontleft_fisheye_image_optical:
+          Value: true
+        X1/camera_frontright:
+          Value: true
+        X1/camera_frontright/frontright_depth:
+          Value: true
+        X1/camera_frontright/frontright_depth_optical:
+          Value: true
+        X1/camera_frontright/frontright_fisheye_image:
+          Value: true
+        X1/camera_frontright/frontright_fisheye_image_optical:
+          Value: true
+        X1/camera_left:
+          Value: true
+        X1/camera_left/left_depth:
+          Value: true
+        X1/camera_left/left_depth_optical:
+          Value: true
+        X1/camera_left/left_fisheye_image:
+          Value: true
+        X1/camera_left/left_fisheye_image_optical:
+          Value: true
+        X1/camera_right:
+          Value: true
+        X1/camera_right/right_depth:
+          Value: true
+        X1/camera_right/right_depth_optical:
+          Value: true
+        X1/camera_right/right_fisheye_image:
+          Value: true
+        X1/camera_right/right_fisheye_image_optical:
+          Value: true
+        X1/front_left_ee:
+          Value: true
+        X1/front_left_hip:
+          Value: true
+        X1/front_left_lower_leg:
+          Value: true
+        X1/front_left_lower_leg/contact:
+          Value: true
+        X1/front_left_upper_leg:
+          Value: true
+        X1/front_rail:
+          Value: true
+        X1/front_right_ee:
+          Value: true
+        X1/front_right_hip:
+          Value: true
+        X1/front_right_lower_leg:
+          Value: true
+        X1/front_right_lower_leg/contact:
+          Value: true
+        X1/front_right_upper_leg:
+          Value: true
+        X1/imu:
+          Value: true
+        X1/imu/imu:
+          Value: true
+        X1/imu_vras:
+          Value: true
+        X1/imu_vras/imu:
+          Value: true
+        X1/laser:
+          Value: true
+        X1/laser/laser:
+          Value: true
+        X1/payload:
+          Value: true
+        X1/rear_left_ee:
+          Value: true
+        X1/rear_left_hip:
+          Value: true
+        X1/rear_left_lower_leg:
+          Value: true
+        X1/rear_left_lower_leg/contact:
+          Value: true
+        X1/rear_left_upper_leg:
+          Value: true
+        X1/rear_rail:
+          Value: true
+        X1/rear_right_ee:
+          Value: true
+        X1/rear_right_hip:
+          Value: true
+        X1/rear_right_lower_leg:
+          Value: true
+        X1/rear_right_lower_leg/contact:
+          Value: true
+        X1/rear_right_upper_leg:
+          Value: true
+        example:
+          Value: true
+        world:
+          Value: true
+      Marker Scale: 0.6000000238418579
+      Name: TF
+      Show Arrows: true
+      Show Axes: true
+      Show Names: true
+      Tree:
+        X1:
+          X1/base_link:
+            {}
+          X1/body:
+            {}
+          X1/camera_0:
+            X1/camera_0/camera_0:
+              X1/camera_0/camera_0_optical:
+                {}
+          X1/camera_1:
+            X1/camera_1/camera_1:
+              X1/camera_1/camera_1_optical:
+                {}
+          X1/camera_2:
+            X1/camera_2/camera_2:
+              X1/camera_2/camera_2_optical:
+                {}
+          X1/camera_3:
+            X1/camera_3/camera_3:
+              X1/camera_3/camera_3_optical:
+                {}
+          X1/camera_4:
+            X1/camera_4/camera_4:
+              X1/camera_4/camera_4_optical:
+                {}
+          X1/camera_back:
+            X1/camera_back/back_depth:
+              X1/camera_back/back_depth_optical:
+                {}
+            X1/camera_back/back_fisheye_image:
+              X1/camera_back/back_fisheye_image_optical:
+                {}
+          X1/camera_frontleft:
+            X1/camera_frontleft/frontleft_depth:
+              X1/camera_frontleft/frontleft_depth_optical:
+                {}
+            X1/camera_frontleft/frontleft_fisheye_image:
+              X1/camera_frontleft/frontleft_fisheye_image_optical:
+                {}
+          X1/camera_frontright:
+            X1/camera_frontright/frontright_depth:
+              X1/camera_frontright/frontright_depth_optical:
+                {}
+            X1/camera_frontright/frontright_fisheye_image:
+              X1/camera_frontright/frontright_fisheye_image_optical:
+                {}
+          X1/camera_left:
+            X1/camera_left/left_depth:
+              X1/camera_left/left_depth_optical:
+                {}
+            X1/camera_left/left_fisheye_image:
+              X1/camera_left/left_fisheye_image_optical:
+                {}
+          X1/camera_right:
+            X1/camera_right/right_depth:
+              X1/camera_right/right_depth_optical:
+                {}
+            X1/camera_right/right_fisheye_image:
+              X1/camera_right/right_fisheye_image_optical:
+                {}
+          X1/front_left_ee:
+            {}
+          X1/front_left_hip:
+            {}
+          X1/front_left_lower_leg:
+            X1/front_left_lower_leg/contact:
+              {}
+          X1/front_left_upper_leg:
+            {}
+          X1/front_rail:
+            {}
+          X1/front_right_ee:
+            {}
+          X1/front_right_hip:
+            {}
+          X1/front_right_lower_leg:
+            X1/front_right_lower_leg/contact:
+              {}
+          X1/front_right_upper_leg:
+            {}
+          X1/imu:
+            X1/imu/imu:
+              {}
+          X1/imu_vras:
+            X1/imu_vras/imu:
+              {}
+          X1/laser:
+            X1/laser/laser:
+              {}
+          X1/payload:
+            {}
+          X1/rear_left_ee:
+            {}
+          X1/rear_left_hip:
+            {}
+          X1/rear_left_lower_leg:
+            X1/rear_left_lower_leg/contact:
+              {}
+          X1/rear_left_upper_leg:
+            {}
+          X1/rear_rail:
+            {}
+          X1/rear_right_ee:
+            {}
+          X1/rear_right_hip:
+            {}
+          X1/rear_right_lower_leg:
+            X1/rear_right_lower_leg/contact:
+              {}
+          X1/rear_right_upper_leg:
+            {}
+      Update Interval: 0
+      Value: true
+    - Alpha: 0.5
+      Cell Size: 1
+      Class: rviz/Grid
+      Color: 160; 160; 164
+      Enabled: true
+      Line Style:
+        Line Width: 0.029999999329447746
+        Value: Lines
+      Name: Base link grid (1 m)
+      Normal Cell Count: 0
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Plane: XY
+      Plane Cell Count: 10
+      Reference Frame: X1
+      Value: true
+    - Alpha: 0.5
+      Cell Size: 10
+      Class: rviz/Grid
+      Color: 160; 160; 164
+      Enabled: true
+      Line Style:
+        Line Width: 0.029999999329447746
+        Value: Lines
+      Name: Fixed frame grid (10 m)
+      Normal Cell Count: 0
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Plane: XY
+      Plane Cell Count: 10
+      Reference Frame: <Fixed Frame>
+      Value: true
+    - Class: rviz/Group
+      Displays:
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: left/image_raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Left
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: frontleft/image_raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Front Left
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: frontright/image_raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Front Right
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: right/image_raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Right
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: back/image_raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Back
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+      Enabled: true
+      Name: Mono
+    - Class: rviz/Group
+      Displays:
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: tof_left/depth
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Left Depth
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: tof_frontleft/depth
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Front Left Depth
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: tof_frontright/depth
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Front Right Depth
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: tof_right/depth
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Right Depth
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: tof_back/depth
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Back Depth
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+      Enabled: true
+      Name: Depth
+    - Class: rviz/Group
+      Displays:
+        - Alpha: 1
+          Autocompute Intensity Bounds: true
+          Autocompute Value Bounds:
+            Max Value: 1
+            Min Value: -1
+            Value: false
+          Axis: Z
+          Channel Name: intensity
+          Class: rviz/PointCloud2
+          Color: 255; 255; 255
+          Color Transformer: AxisColor
+          Decay Time: 0
+          Enabled: true
+          Invert Rainbow: false
+          Max Color: 255; 255; 255
+          Max Intensity: 4096
+          Min Color: 0; 0; 0
+          Min Intensity: 0
+          Name: Left PCL
+          Position Transformer: XYZ
+          Queue Size: 10
+          Selectable: true
+          Size (Pixels): 3
+          Size (m): 0.009999999776482582
+          Style: Flat Squares
+          Topic: tof_left/depth/points
+          Unreliable: false
+          Use Fixed Frame: true
+          Use rainbow: true
+          Value: true
+        - Alpha: 1
+          Autocompute Intensity Bounds: true
+          Autocompute Value Bounds:
+            Max Value: 1
+            Min Value: -1
+            Value: false
+          Axis: Z
+          Channel Name: intensity
+          Class: rviz/PointCloud2
+          Color: 255; 255; 255
+          Color Transformer: AxisColor
+          Decay Time: 0
+          Enabled: true
+          Invert Rainbow: false
+          Max Color: 255; 255; 255
+          Max Intensity: 4096
+          Min Color: 0; 0; 0
+          Min Intensity: 0
+          Name: Front Left PCL
+          Position Transformer: XYZ
+          Queue Size: 10
+          Selectable: true
+          Size (Pixels): 3
+          Size (m): 0.009999999776482582
+          Style: Flat Squares
+          Topic: tof_frontleft/depth/points
+          Unreliable: false
+          Use Fixed Frame: true
+          Use rainbow: true
+          Value: true
+        - Alpha: 1
+          Autocompute Intensity Bounds: true
+          Autocompute Value Bounds:
+            Max Value: 1
+            Min Value: -1
+            Value: false
+          Axis: Z
+          Channel Name: intensity
+          Class: rviz/PointCloud2
+          Color: 255; 255; 255
+          Color Transformer: AxisColor
+          Decay Time: 0
+          Enabled: true
+          Invert Rainbow: false
+          Max Color: 255; 255; 255
+          Max Intensity: 4096
+          Min Color: 0; 0; 0
+          Min Intensity: 0
+          Name: Front Right PCL
+          Position Transformer: XYZ
+          Queue Size: 10
+          Selectable: true
+          Size (Pixels): 3
+          Size (m): 0.009999999776482582
+          Style: Flat Squares
+          Topic: tof_frontright/depth/points
+          Unreliable: false
+          Use Fixed Frame: true
+          Use rainbow: true
+          Value: true
+        - Alpha: 1
+          Autocompute Intensity Bounds: true
+          Autocompute Value Bounds:
+            Max Value: 1
+            Min Value: -1
+            Value: false
+          Axis: Z
+          Channel Name: intensity
+          Class: rviz/PointCloud2
+          Color: 255; 255; 255
+          Color Transformer: AxisColor
+          Decay Time: 0
+          Enabled: true
+          Invert Rainbow: false
+          Max Color: 255; 255; 255
+          Max Intensity: 4096
+          Min Color: 0; 0; 0
+          Min Intensity: 0
+          Name: Right PCL
+          Position Transformer: XYZ
+          Queue Size: 10
+          Selectable: true
+          Size (Pixels): 3
+          Size (m): 0.009999999776482582
+          Style: Flat Squares
+          Topic: tof_right/depth/points
+          Unreliable: false
+          Use Fixed Frame: true
+          Use rainbow: true
+          Value: true
+        - Alpha: 1
+          Autocompute Intensity Bounds: true
+          Autocompute Value Bounds:
+            Max Value: 1
+            Min Value: -1
+            Value: false
+          Axis: Z
+          Channel Name: intensity
+          Class: rviz/PointCloud2
+          Color: 255; 255; 255
+          Color Transformer: AxisColor
+          Decay Time: 0
+          Enabled: true
+          Invert Rainbow: false
+          Max Color: 255; 255; 255
+          Max Intensity: 4096
+          Min Color: 0; 0; 0
+          Min Intensity: 0
+          Name: Back PCL
+          Position Transformer: XYZ
+          Queue Size: 10
+          Selectable: true
+          Size (Pixels): 3
+          Size (m): 0.009999999776482582
+          Style: Flat Squares
+          Topic: tof_back/depth/points
+          Unreliable: false
+          Use Fixed Frame: true
+          Use rainbow: true
+          Value: true
+      Enabled: false
+      Name: Points
+    - Alpha: 1
+      Class: rviz_plugin_tutorials/Imu
+      Color: 204; 51; 204
+      Enabled: false
+      History Length: 1
+      Name: Body IMU
+      Topic: imu/data
+      Unreliable: false
+      Value: false
+    - Alpha: 1
+      Class: rviz_plugin_tutorials/Imu
+      Color: 204; 51; 204
+      Enabled: false
+      History Length: 1
+      Name: Payload IMU
+      Topic: imu_vras/data
+      Unreliable: false
+      Value: false
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 45.6143684387207
+        Min Value: -3.9196484088897705
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 255; 255; 255
+      Color Transformer: AxisColor
+      Decay Time: 0
+      Enabled: false
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 0
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: Ouster
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.029999999329447746
+      Style: Flat Squares
+      Topic: points
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: false
+    - Class: rviz/Group
+      Displays:
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: omni/camera_0/image_raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Omni Front
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: omni/camera_1/image_raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Omni Right
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: omni/camera_2/image_raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Omni Rear
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: omni/camera_3/image_raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Omni Left
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: omni/camera_4/image_raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Omni Up
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+      Enabled: true
+      Name: VRAS Omnicam
+  Enabled: true
+  Global Options:
+    Background Color: 48; 48; 48
+    Default Light: true
+    Fixed Frame: X1
+    Frame Rate: 30
+  Name: root
+  Tools:
+    - Class: rviz/Interact
+      Hide Inactive Objects: true
+    - Class: rviz/MoveCamera
+    - Class: rviz/Select
+    - Class: rviz/FocusCamera
+    - Class: rviz/Measure
+    - Class: rviz/SetInitialPose
+      Theta std deviation: 0.2617993950843811
+      Topic: /initialpose
+      X std deviation: 0.5
+      Y std deviation: 0.5
+    - Class: rviz/SetGoal
+      Topic: /move_base_simple/goal
+    - Class: rviz/PublishPoint
+      Single click: true
+      Topic: /clicked_point
+  Value: true
+  Views:
+    Current:
+      Class: rviz/ThirdPersonFollower
+      Distance: 2.429633378982544
+      Enable Stereo Rendering:
+        Stereo Eye Separation: 0.05999999865889549
+        Stereo Focal Distance: 1
+        Swap Stereo Eyes: false
+        Value: false
+      Focal Point:
+        X: -0.7089881896972656
+        Y: 0.7545500993728638
+        Z: 1.2227055776747875e-5
+      Focal Shape Fixed Size: false
+      Focal Shape Size: 0.05000000074505806
+      Invert Z Axis: false
+      Name: Current View
+      Near Clip Distance: 0.10000000149011612
+      Pitch: 0.7147965431213379
+      Target Frame: base_link
+      Value: ThirdPersonFollower (rviz)
+      Yaw: 1.4216936826705933
+    Saved:
+      - Class: rviz/Orbit
+        Distance: 5
+        Enable Stereo Rendering:
+          Stereo Eye Separation: 0.05999999865889549
+          Stereo Focal Distance: 1
+          Swap Stereo Eyes: false
+          Value: false
+        Focal Point:
+          X: 0
+          Y: 0
+          Z: 0
+        Focal Shape Fixed Size: false
+        Focal Shape Size: 0.05000000074505806
+        Invert Z Axis: false
+        Name: Robot orbit
+        Near Clip Distance: 0.009999999776482582
+        Pitch: 0.7853981852531433
+        Target Frame: base_link
+        Value: Orbit (rviz)
+        Yaw: 0.785398006439209
+      - Class: rviz/ThirdPersonFollower
+        Distance: 5
+        Enable Stereo Rendering:
+          Stereo Eye Separation: 0.05999999865889549
+          Stereo Focal Distance: 1
+          Swap Stereo Eyes: false
+          Value: false
+        Focal Point:
+          X: 0
+          Y: 0
+          Z: 0
+        Focal Shape Fixed Size: false
+        Focal Shape Size: 0.05000000074505806
+        Invert Z Axis: false
+        Name: Robot 3rd person
+        Near Clip Distance: 3
+        Pitch: 0.25
+        Target Frame: base_link
+        Value: ThirdPersonFollower (rviz)
+        Yaw: 3.141590118408203
+      - Class: rviz/ThirdPersonFollower
+        Distance: 10
+        Enable Stereo Rendering:
+          Stereo Eye Separation: 0.05999999865889549
+          Stereo Focal Distance: 1
+          Swap Stereo Eyes: false
+          Value: false
+        Focal Point:
+          X: 0
+          Y: 0
+          Z: 0
+        Focal Shape Fixed Size: false
+        Focal Shape Size: 0.05000000074505806
+        Invert Z Axis: false
+        Name: Robot top-down
+        Near Clip Distance: 8
+        Pitch: 1.5697963237762451
+        Target Frame: base_link
+        Value: ThirdPersonFollower (rviz)
+        Yaw: 3.141590118408203
+      - Class: rviz/ThirdPersonFollower
+        Distance: 5
+        Enable Stereo Rendering:
+          Stereo Eye Separation: 0.05999999865889549
+          Stereo Focal Distance: 1
+          Swap Stereo Eyes: false
+          Value: false
+        Focal Point:
+          X: 1
+          Y: 0
+          Z: 0
+        Focal Shape Fixed Size: false
+        Focal Shape Size: 0.05000000074505806
+        Invert Z Axis: false
+        Name: Robot left side
+        Near Clip Distance: 4.5
+        Pitch: 0
+        Target Frame: base_link
+        Value: ThirdPersonFollower (rviz)
+        Yaw: 1.5700000524520874
+      - Class: rviz/ThirdPersonFollower
+        Distance: 5
+        Enable Stereo Rendering:
+          Stereo Eye Separation: 0.05999999865889549
+          Stereo Focal Distance: 1
+          Swap Stereo Eyes: false
+          Value: false
+        Focal Point:
+          X: 1
+          Y: 0
+          Z: 0
+        Focal Shape Fixed Size: false
+        Focal Shape Size: 0.05000000074505806
+        Invert Z Axis: false
+        Name: Robot right side
+        Near Clip Distance: 4.5
+        Pitch: 0
+        Target Frame: base_link
+        Value: ThirdPersonFollower (rviz)
+        Yaw: -1.5700000524520874
+      - Class: rviz/FPS
+        Enable Stereo Rendering:
+          Stereo Eye Separation: 0.05999999865889549
+          Stereo Focal Distance: 1
+          Swap Stereo Eyes: false
+          Value: false
+        Invert Z Axis: false
+        Name: Robot top-down
+        Near Clip Distance: 8
+        Pitch: 1.5697963237762451
+        Position:
+          X: 0
+          Y: 0
+          Z: 10
+        Target Frame: base_link
+        Value: FPS (rviz)
+        Yaw: 0
+      - Angle: 0
+        Class: rviz/TopDownOrtho
+        Enable Stereo Rendering:
+          Stereo Eye Separation: 0.05999999865889549
+          Stereo Focal Distance: 1
+          Swap Stereo Eyes: false
+          Value: false
+        Invert Z Axis: false
+        Name: Robot top-down
+        Near Clip Distance: 0.009999999776482582
+        Scale: 100
+        Target Frame: base_link
+        Value: TopDownOrtho (rviz)
+        X: 0
+        Y: 0
+      - Angle: 0
+        Class: rviz/TopDownOrtho
+        Enable Stereo Rendering:
+          Stereo Eye Separation: 0.05999999865889549
+          Stereo Focal Distance: 1
+          Swap Stereo Eyes: false
+          Value: false
+        Invert Z Axis: false
+        Name: Fixed frame top-down
+        Near Clip Distance: 0.009999999776482582
+        Scale: 4
+        Target Frame: <Fixed Frame>
+        Value: TopDownOrtho (rviz)
+        X: 0
+        Y: 0
+      - Class: rviz/FPS
+        Enable Stereo Rendering:
+          Stereo Eye Separation: 0.05999999865889549
+          Stereo Focal Distance: 1
+          Swap Stereo Eyes: false
+          Value: false
+        Invert Z Axis: false
+        Name: Fixed frame 1st person
+        Near Clip Distance: 1
+        Pitch: 1
+        Position:
+          X: -2
+          Y: 0
+          Z: 5
+        Target Frame: <Fixed Frame>
+        Value: FPS (rviz)
+        Yaw: 0
+      - Class: rviz/ThirdPersonFollower
+        Distance: 36.92524719238281
+        Enable Stereo Rendering:
+          Stereo Eye Separation: 0.05999999865889549
+          Stereo Focal Distance: 1
+          Swap Stereo Eyes: false
+          Value: false
+        Focal Point:
+          X: 0.4568486213684082
+          Y: 0.32300829887390137
+          Z: 7.213062417577021e-6
+        Focal Shape Fixed Size: false
+        Focal Shape Size: 0.05000000074505806
+        Invert Z Axis: false
+        Name: ThirdPersonFollower
+        Near Clip Distance: 0.10000000149011612
+        Pitch: 0.5397967100143433
+        Target Frame: base_link
+        Value: ThirdPersonFollower (rviz)
+        Yaw: 6.276592254638672
+Window Geometry:
+  Back:
+    collapsed: false
+  Back Depth:
+    collapsed: false
+  Displays:
+    collapsed: false
+  Front Left:
+    collapsed: false
+  Front Left Depth:
+    collapsed: false
+  Front Right:
+    collapsed: false
+  Front Right Depth:
+    collapsed: false
+  Height: 1052
+  Hide Left Dock: false
+  Hide Right Dock: false
+  Left:
+    collapsed: false
+  Left Depth:
+    collapsed: false
+  Omni Front:
+    collapsed: false
+  Omni Left:
+    collapsed: false
+  Omni Rear:
+    collapsed: false
+  Omni Right:
+    collapsed: false
+  Omni Up:
+    collapsed: false
+  QMainWindow State: 000000ff00000000fd0000000400000000000001ae000001e8fc020000000bfb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afc0000013f000001e8000000e60100001cfa000000000100000002fb000000100044006900730070006c0061007900730100000000000001e20000015600fffffffb0000000a005600690065007700730100000000ffffffff0000010000fffffffb0000001000500061006e006f00720061006d00610000000248000000d50000000000000000fb0000000600520047004200000002e80000010c0000000000000000fb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000000c0049006e0066007200610031000000034d000000a70000000000000000000000010000017800000416fc0200000002fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000001200530065006c0065006300740069006f006e010000025a000000b20000000000000000000000020000073d00000123fc0100000006fb00000014004f006d006e0069002000460072006f006e007401000000000000015b0000008200fffffffb00000014004f006d006e00690020005200690067006800740100000161000001650000008100fffffffb00000012004f006d006e00690020005200650061007201000002cc000001630000007c00fffffffb00000012004f006d006e00690020004c0065006600740100000435000001650000007900fffffffb0000000e004f006d006e006900200055007001000005a00000019d0000007000fffffffb0000000a00560069006500770073030000004e00000080000002e100000197000000030000073d000000d2fc010000000cfb00000014004c0065006600740020004400650070007400680100000000000000cf0000007e00fffffffb00000008004c00650066007401000000d5000000b50000005000fffffffb0000002000460072006f006e00740020004c0065006600740020004400650070007400680100000190000000c5000000a700fffffffb0000001400460072006f006e00740020004c006500660074010000025b000000da0000007900fffffffb0000002200460072006f006e0074002000520069006700680074002000440065007000740068010000033b000000d8000000af00fffffffb0000001600460072006f006e00740020005200690067006800740100000419000000b20000008100fffffffb000000160052006900670068007400200044006500700074006801000004d10000009d0000008700fffffffb0000000a0052006900670068007401000005740000009e0000005900fffffffb00000014004200610063006b0020004400650070007400680100000618000000970000008300fffffffb00000008004200610063006b01000006b5000000880000005500fffffffb0000000800540069006d00650000000450000002ed000002eb00fffffffb0000000800540069006d0065010000000000000450000000000000000000000589000001e800000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730000000000ffffffff0000000000000000
+  Right:
+    collapsed: false
+  Right Depth:
+    collapsed: false
+  Selection:
+    collapsed: false
+  Time:
+    collapsed: false
+  Tool Properties:
+    collapsed: false
+  Views:
+    collapsed: false
+  Width: 1853
+  X: 67
+  Y: 28

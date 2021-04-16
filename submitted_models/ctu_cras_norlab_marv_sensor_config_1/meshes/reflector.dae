@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <asset>
+    <contributor>
+      <author>Blender User</author>
+      <authoring_tool>Blender 2.92.0 commit date:2021-02-24, commit time:16:25, hash:02948a2cab44</authoring_tool>
+    </contributor>
+    <created>2021-03-13T01:45:10</created>
+    <modified>2021-03-13T01:45:10</modified>
+    <unit name="meter" meter="1"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  <library_effects>
+    <effect id="Material_002-effect">
+      <profile_COMMON>
+        <technique sid="common">
+          <lambert>
+            <emission>
+              <color sid="emission">0.3645575 0.3628713 0.1835204 1</color>
+            </emission>
+            <diffuse>
+              <color sid="diffuse">0.8 0.8 0.8 1</color>
+            </diffuse>
+            <reflectivity>
+              <float sid="specular">1</float>
+            </reflectivity>
+            <index_of_refraction>
+              <float sid="ior">1.45</float>
+            </index_of_refraction>
+          </lambert>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="Material_001-effect">
+      <profile_COMMON>
+        <technique sid="common">
+          <lambert>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <diffuse>
+              <color sid="diffuse">0.01738771 0.01738771 0.01738771 1</color>
+            </diffuse>
+            <reflectivity>
+              <float sid="specular">0.3255033</float>
+            </reflectivity>
+          </lambert>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_images/>
+  <library_materials>
+    <material id="Material_002-material" name="Material.002">
+      <instance_effect url="#Material_002-effect"/>
+    </material>
+    <material id="Material_001-material" name="Material.001">
+      <instance_effect url="#Material_001-effect"/>
+    </material>
+  </library_materials>
+  <library_geometries>
+    <geometry id="Reflector_LED_Custom_001-mesh" name="Reflector LED Custom.001">
+      <mesh>
+        <source id="Reflector_LED_Custom_001-mesh-positions">
+          <float_array id="Reflector_LED_Custom_001-mesh-positions-array" count="99">39.07154 -17.33005 -4.722427 39.07154 -16.63132 1.911783 16.57156 -1.936544 5.446885 39.07155 21.95912 5.002828 16.57156 8.090342 5.446885 39.07155 21.44699 6.548352 39.07154 -16.63132 -11.35663 16.57156 -1.936545 -4.553111 39.07155 20.93484 8.093877 39.07155 22.98341 1.91178 39.07155 17.67604 13.40257 39.07155 20.59153 8.653139 39.07155 23.50745 -6.380983 39.07155 23.68213 -4.722429 39.07154 -14.58275 8.093879 39.07154 -11.32395 13.40257 39.07155 23.50745 -3.063877 39.07155 22.98341 -11.35664 16.57156 8.090341 -4.553111 39.07155 23.33277 -1.405325 39.07155 16.79517 -11.35664 16.57156 8.090342 -2.053113 16.57156 6.590342 -2.053113 16.57156 -0.4365463 -2.053112 16.57156 -1.936545 -2.053112 16.57156 6.590342 -4.553111 16.57156 -0.4365454 5.446885 16.57156 -1.936544 2.946885 16.57156 -0.4365454 2.946885 16.57156 -0.4365454 -4.553111 16.57156 6.590342 2.946885 16.57156 8.090342 2.946885 16.57156 6.590342 5.446885</float_array>
+          <technique_common>
+            <accessor source="#Reflector_LED_Custom_001-mesh-positions-array" count="33" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Reflector_LED_Custom_001-mesh-normals">
+          <float_array id="Reflector_LED_Custom_001-mesh-normals-array" count="90">0.5348824 0.8402789 -0.08849978 0.5010028 -0.8215171 -0.2722241 0.5629772 0.8219264 0.08656674 0.5010023 -0.8215157 -0.2722294 0.5010023 -0.8215165 -0.2722269 0.4806122 -0.7473552 -0.4587725 0.5930193 -0.8007592 0.08433777 0.4755232 0.7497158 -0.4602218 0.4955502 0.8244909 -0.2732124 0.4806123 -0.7473558 -0.4587715 0.5401377 -0.8369474 -0.08814936 0.5678948 -0.8185737 0.08621329 0.540138 -0.8369475 -0.08814859 0.5401381 -0.8369473 -0.08814787 1 0 0 0.2894366 0 0.9571972 0.2894362 0 0.9571973 0.2894366 0 0.9571973 0.2894363 0 0.9571973 0 0 1 0.5646536 0.825328 0 0.5646533 0.8253283 0 0.5646532 0.8253282 0 0.3333609 0 -0.9427993 0.3333606 0 -0.9427994 0.3333603 0 -0.9427996 0.3333607 0 -0.9427994 0.5652429 -0.8249245 0 0.5652425 -0.8249248 0 0.5652428 -0.8249247 8.95102e-7</float_array>
+          <technique_common>
+            <accessor source="#Reflector_LED_Custom_001-mesh-normals-array" count="30" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="Reflector_LED_Custom_001-mesh-vertices">
+          <input semantic="POSITION" source="#Reflector_LED_Custom_001-mesh-positions"/>
+        </vertices>
+        <triangles material="Material_002-material" count="37">
+          <input semantic="VERTEX" source="#Reflector_LED_Custom_001-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#Reflector_LED_Custom_001-mesh-normals" offset="1"/>
+          <p>0 0 2 0 1 0 3 1 5 1 4 1 6 2 7 2 0 2 4 3 5 3 8 3 9 4 3 4 4 4 4 5 11 5 10 5 12 6 13 6 4 6 2 7 15 7 14 7 1 8 2 8 14 8 4 9 8 9 11 9 13 10 16 10 4 10 17 11 12 11 18 11 19 12 9 12 4 12 16 13 19 13 4 13 21 14 22 14 25 14 25 14 18 14 21 14 26 14 2 14 27 14 27 14 28 14 26 14 4 14 32 14 30 14 30 14 31 14 4 14 17 15 18 15 25 15 25 16 29 16 17 16 29 17 7 17 17 17 7 18 6 18 17 18 6 19 20 19 17 19 27 20 2 20 0 20 0 21 24 21 27 21 0 22 7 22 24 22 15 23 2 23 26 23 26 24 32 24 15 24 32 25 4 25 15 25 4 26 10 26 15 26 12 27 4 27 31 27 31 28 21 28 12 28 21 29 18 29 12 29 23 14 24 14 7 14 7 14 29 14 23 14</p>
+        </triangles>
+      </mesh>
+    </geometry>
+    <geometry id="Reflector_LED_Custom-mesh" name="Reflector LED Custom">
+      <mesh>
+        <source id="Reflector_LED_Custom-mesh-positions">
+          <float_array id="Reflector_LED_Custom-mesh-positions-array" count="228">16.57156 -3.436542 -6.053112 39.07154 -18.63212 -1.703524 39.07154 -19.01302 -5.320051 39.07154 -17.33005 -4.722427 39.07154 -16.63132 1.911783 39.07155 24.9394 1.913003 39.07155 23.82266 5.283071 16.57156 9.590342 6.946885 39.07155 24.9394 -12.55311 39.07155 25.3203 -8.936581 16.57156 9.590341 -6.053112 16.57156 -3.436542 5.446885 16.57156 -3.436542 6.946885 39.07154 -12.46477 14.44103 16.57156 -3.436542 3.188699 39.07154 -16.01773 8.653139 39.07155 21.95912 5.002828 39.07155 21.44699 6.548352 39.07154 -16.63132 -11.35663 39.07155 20.93484 8.093877 39.07155 22.98341 1.91178 39.07155 25.27269 -1.251459 39.07155 25.60598 -6.224187 39.07155 25.7012 -5.320053 39.07154 -18.25122 1.913005 39.07155 17.67604 13.40257 39.07155 20.59153 8.653139 39.07155 23.50745 -6.380983 39.07155 23.68213 -4.722429 39.07154 -18.63212 -8.936578 39.07154 -14.58275 8.093879 39.07154 -11.32395 13.40257 39.07155 23.50745 -3.063877 39.07155 25.51075 -7.128318 39.07155 23.26429 6.968104 39.07155 22.70591 8.653139 39.07155 22.98341 -11.35664 39.07154 -18.25122 -12.55311 39.07155 25.10605 0.3307719 39.07155 19.15296 14.44102 39.07154 -18.44167 0.1047415 39.07154 -18.34644 1.008872 39.07155 23.33277 -1.405325 39.07155 18.19257 -12.55311 39.07155 16.79517 -11.35664 39.07155 25.60598 -4.415922 16.57156 8.090342 -2.053113 14.07156 6.590342 -2.053113 14.07156 8.090342 -2.053113 16.57156 6.590342 -2.053113 14.07156 -3.436542 3.188699 14.07156 -3.436542 -6.053112 16.57156 -0.4365463 -2.053112 14.07156 -1.936545 -2.053112 14.07156 -0.4365463 -2.053112 16.57156 -1.936545 -2.053112 14.07156 9.590341 -6.053112 14.07156 9.590342 6.946885 16.57156 6.590342 -4.553111 16.57156 -0.4365454 5.446885 16.57156 -1.936544 2.946885 16.57156 -0.4365454 2.946885 14.07156 -0.4365454 -4.553111 16.57156 -0.4365454 -4.553111 16.57156 6.590342 2.946885 14.07156 8.090342 2.946885 14.07156 6.590342 2.946885 16.57156 8.090342 2.946885 14.07156 6.590342 -4.553111 14.07156 -1.936544 2.946885 16.57156 6.590342 5.446885 14.07156 -3.436542 5.446885 14.07156 -3.436542 6.946885 14.07156 -0.4365454 2.946885 14.07156 -0.4365454 5.446885 14.07156 6.590342 5.446885</float_array>
+          <technique_common>
+            <accessor source="#Reflector_LED_Custom-mesh-positions-array" count="76" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Reflector_LED_Custom-mesh-normals">
+          <float_array id="Reflector_LED_Custom-mesh-normals-array" count="231">-0.5689793 -0.8178284 0.08613508 -0.4998896 0.8221274 0.2724281 -0.5782098 0.8114002 -0.08545833 -0.3723945 -0.9280746 0 -0.4880477 -0.872817 0 -0.5718058 0.820389 -3.42377e-7 -0.5782098 0.8114004 -0.08545631 -0.5189979 -0.8113877 0.2688706 -0.4826517 -0.7463998 0.4581863 -0.5651653 -0.8204399 -0.08641016 -0.5782097 0.8114004 -0.08545905 -0.5782099 0.8114004 -0.0854578 -0.4998893 0.8221272 0.2724293 -0.5651655 -0.8204396 -0.0864107 -0.5479221 0.8319281 0.08761948 -0.472728 0.7509989 0.4610089 -0.5479218 0.831928 0.0876224 -0.5689793 -0.8178283 0.08613592 -0.4998891 0.8221269 0.2724305 -0.5548316 -0.8319628 0 1 -1.10769e-5 0 1 3.32305e-5 0 1 1.47691e-5 0 1 1.66154e-5 0 1 0 0 1 -3.77811e-6 0 1 5.96972e-5 0 1 -1.90823e-4 0 1 1.14248e-6 0 1 1.61633e-6 0 1 -2.4899e-7 -1.32543e-7 1 0 1.87082e-7 1 1.00929e-5 0 1 -4.62864e-6 0 1 -1.00385e-5 0 1 3.08125e-5 0 1 -1.7497e-7 1.41717e-7 1 0 -1.33287e-7 1 8.83766e-6 0 1 -3.77812e-6 0 1 -9.49439e-6 0 1 3.16488e-5 0 1 6.32961e-6 0 1 8.86138e-5 0 1 4.43086e-5 0 -0.544322 -0.834262 0.08786678 -0.5818987 0.8087878 0.08518379 -0.5443218 -0.8342623 0.08786571 -0.5818989 0.808788 0.08518153 0 0 1 1.27156e-7 0 1 0 -1 0 -0.2775397 0 -0.9607142 -0.2775397 0 -0.9607142 -0.9214296 0 -0.3885455 0 1 0 0 1 0 -0.3160054 0 0.9487575 -0.3160055 1.53352e-7 0.9487574 0 1 3.8147e-7 0 1 3.8147e-7 0 0 -1 -3.8147e-7 -1 0 -3.81469e-7 -1 0 0 1 -1.52588e-7 0 1 -2.28882e-7 -3.8147e-7 -1 0 -3.81469e-7 -1 0 -1 0 0 -1 -1.10071e-6 0 -1 3.91251e-7 0 -1 -4.50474e-6 0 -1 3.61914e-7 0 -1 2.03451e-6 0 -1 -1.565e-6 0 -2.17149e-7 0 1 0 0 1</float_array>
+          <technique_common>
+            <accessor source="#Reflector_LED_Custom-mesh-normals-array" count="77" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="Reflector_LED_Custom-mesh-vertices">
+          <input semantic="POSITION" source="#Reflector_LED_Custom-mesh-positions"/>
+        </vertices>
+        <triangles material="Material_001-material" count="123">
+          <input semantic="VERTEX" source="#Reflector_LED_Custom-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#Reflector_LED_Custom-mesh-normals" offset="1"/>
+          <p>0 0 2 0 1 0 5 1 7 1 6 1 8 2 10 2 9 2 11 3 13 3 12 3 14 4 15 4 11 4 10 5 7 5 21 5 22 6 10 6 23 6 24 7 15 7 14 7 11 8 15 8 13 8 29 9 2 9 0 9 33 10 10 10 22 10 9 11 10 11 33 11 7 12 35 12 34 12 37 13 29 13 0 13 21 14 7 14 38 14 7 15 39 15 35 15 38 16 7 16 5 16 0 17 1 17 40 17 6 18 7 18 34 18 0 19 40 19 14 19 1 20 2 20 29 20 29 21 40 21 1 21 29 22 37 22 40 22 37 23 41 23 40 23 37 24 24 24 41 24 37 25 15 25 24 25 37 26 3 26 15 26 3 27 4 27 15 27 4 28 30 28 15 28 30 24 13 24 15 24 30 29 31 29 13 29 31 30 39 30 13 30 31 31 25 31 39 31 25 24 26 24 39 24 26 24 35 24 39 24 26 24 19 24 35 24 19 24 17 24 35 24 17 24 16 24 35 24 16 32 20 32 35 32 20 33 34 33 35 33 20 24 42 24 34 24 42 34 6 34 34 34 42 24 32 24 6 24 32 35 28 35 6 35 37 36 43 36 18 36 18 24 3 24 37 24 43 37 44 37 18 37 43 24 36 24 44 24 43 24 8 24 36 24 8 24 27 24 36 24 8 38 28 38 27 38 8 24 6 24 28 24 8 39 5 39 6 39 8 40 38 40 5 40 8 24 9 24 38 24 9 41 21 41 38 41 9 42 45 42 21 42 9 24 33 24 45 24 33 43 22 43 45 43 22 44 23 44 45 44 41 45 24 45 14 45 10 46 21 46 45 46 40 47 41 47 14 47 10 48 45 48 23 48 46 49 48 49 47 49 47 50 49 50 46 50 0 51 14 51 50 51 50 51 51 51 0 51 52 49 54 49 53 49 53 49 55 49 52 49 37 52 0 52 10 52 10 53 8 53 37 53 8 54 43 54 37 54 56 55 57 55 7 55 7 56 10 56 56 56 39 57 7 57 12 57 12 58 13 58 39 58 62 59 54 59 52 59 52 60 63 60 62 60 64 61 66 61 65 61 65 61 67 61 64 61 58 62 49 62 47 62 47 63 68 63 58 63 53 64 69 64 60 64 60 65 55 65 53 65 14 51 11 51 71 51 71 51 50 51 14 51 11 51 12 51 72 51 72 51 71 51 11 51 0 61 51 61 56 61 56 61 10 61 0 61 60 61 69 61 73 61 73 61 61 61 60 61 7 49 57 49 72 49 72 49 12 49 7 49 73 55 74 55 59 55 59 55 61 55 73 55 59 61 74 61 75 61 75 61 70 61 59 61 64 66 70 66 75 66 75 67 66 67 64 67 65 68 66 68 75 68 51 69 50 69 53 69 53 70 62 70 51 70 62 68 56 68 51 68 50 71 71 71 53 71 71 68 72 68 53 68 62 72 68 72 56 72 68 68 47 68 56 68 47 68 48 68 56 68 48 73 65 73 56 73 72 68 57 68 74 68 74 68 69 68 72 68 69 68 53 68 72 68 74 68 73 68 69 68 57 68 75 68 74 68 57 68 65 68 75 68 57 74 56 74 65 74 54 68 62 68 53 68 58 75 68 75 62 75 62 76 63 76 58 76 46 51 67 51 65 51 65 51 48 51 46 51</p>
+        </triangles>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_visual_scenes>
+    <visual_scene id="Scene" name="Scene">
+      <node id="Reflector_LED_Custom_001" name="Reflector LED Custom.001" type="NODE">
+        <matrix sid="transform">9.99987e-4 0 0 -0.0138748 0 9.99987e-4 0 -0.003306625 0 0 9.99987e-4 -4.42537e-4 0 0 0 1</matrix>
+        <instance_geometry url="#Reflector_LED_Custom_001-mesh" name="Reflector LED Custom.001">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="Material_002-material" target="#Material_002-material"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+      <node id="Reflector_LED_Custom" name="Reflector LED Custom" type="NODE">
+        <matrix sid="transform">9.99987e-4 0 0 -0.0138748 0 9.99987e-4 0 -0.003306625 0 0 9.99987e-4 -4.42537e-4 0 0 0 1</matrix>
+        <instance_geometry url="#Reflector_LED_Custom-mesh" name="Reflector LED Custom">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="Material_001-material" target="#Material_001-material"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#Scene"/>
+  </scene>
+</COLLADA>

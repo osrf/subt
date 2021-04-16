@@ -1,0 +1,168 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- <env name="IGN_TRANSPORT_TOPIC_STATISTICS" value="1"/> -->
+    <arg name="world_name"/>
+    <arg name="name"/>
+    <arg name="uav" default="0"/>
+    <arg name="link_name" value="base_link"/>
+    <arg name="model_prefix" value="/world/$(arg world_name)/model/$(arg name)"/>
+    <arg name="velodyne_prefix" value="$(arg model_prefix)/link/encoder_rotating"/>
+    <arg name="imu_prefix" value="$(arg model_prefix)/link/base_link"/>
+    <arg name="base_prefix" value="$(arg model_prefix)/link/base_link"/>
+    <arg name="camera_prefix" value="$(arg model_prefix)/link/gimbal_tilt"/>
+    <group ns="$(arg name)">
+        <!-- IMU -->
+        <node
+            pkg="ros_ign_bridge"
+            type="parameter_bridge"
+            name="ros_ign_bridge_imu"
+            args="$(arg imu_prefix)/sensor/imu/imu@sensor_msgs/Imu[ignition.msgs.IMU">
+            <remap from="$(arg imu_prefix)/sensor/imu/imu" to="imu/data"/>
+        </node>
+
+        <!-- POSE -->
+        <node
+            pkg="ros_ign_bridge"
+            type="parameter_bridge"
+            name="ros_ign_bridge_pose"
+            args="/model/$(arg name)/pose@tf2_msgs/TFMessage[ignition.msgs.Pose_V">
+            <remap from="/model/$(arg name)/pose" to="pose"/>
+        </node>
+        <node
+            pkg="ros_ign_bridge"
+            type="parameter_bridge"
+            name="ros_ign_bridge_pose_static"
+            args="/model/$(arg name)/pose_static@tf2_msgs/TFMessage[ignition.msgs.Pose_V">
+            <remap from="/model/$(arg name)/pose_static" to="pose_static"/>
+        </node>
+
+        <!-- Velocity Controller -->
+        <node
+            pkg="ros_ign_bridge"
+            type="parameter_bridge"
+            name="ros_ign_bridge_twist"
+            args="/model/$(arg name)/cmd_vel@geometry_msgs/Twist]ignition.msgs.Twist">
+            <remap from="/model/$(arg name)/cmd_vel" to="cmd_vel"/>
+        </node>
+        <node
+            pkg="ros_ign_bridge"
+            type="parameter_bridge"
+            name="ros_ign_bridge_velocity_control_enable"
+            args="/model/$(arg name)/velocity_controller/enable@std_msgs/Bool]ignition.msgs.Boolean">
+            <remap from="/model/$(arg name)/velocity_controller/enable" to="velocity_controller/enable"/>
+        </node>
+
+        <!-- UAV -->
+        <node
+            pkg="ros_ign_bridge"
+            type="parameter_bridge"
+            name="ros_ign_bridge_magnetometer"
+            args="$(arg base_prefix)/sensor/magnetometer/magnetometer@sensor_msgs/MagneticField[ignition.msgs.Magnetometer">
+        <remap from="$(arg base_prefix)/sensor/magnetometer/magnetometer" to="magnetic_field"/>
+        </node>
+        <node
+            pkg="ros_ign_bridge"
+            type="parameter_bridge"
+            name="ros_ign_bridge_fluid_pressure"
+            args="$(arg base_prefix)/sensor/air_pressure/air_pressure@sensor_msgs/FluidPressure[ignition.msgs.FluidPressure">
+        <remap from="$(arg base_prefix)/sensor/air_pressure/air_pressure" to="air_pressure"/>
+        </node>
+
+
+        <!-- LIDAR -->
+
+        <node
+            pkg="ros_ign_bridge"
+            type="parameter_bridge"
+            name="ros_ign_bridge_lidar3d"
+            args="$(arg velodyne_prefix)/sensor/gpu_lidar/scan/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
+            <remap from="$(arg velodyne_prefix)/sensor/gpu_lidar/scan/points" to="points"/>
+        </node>
+        <node
+            pkg="ros_ign_bridge"
+            type="parameter_bridge"
+            name="ros_ign_bridge_encoder"
+            args="/model/$(arg name)/joint/encoder_joint/cmd_vel@std_msgs/Float64]ignition.msgs.Double">
+            <remap from="/model/$(arg name)/joint/encoder_joint/cmd_vel" to="lidar_gimbal/pan_rate_cmd_double"/>
+        </node>
+
+        <!-- BATTERY -->
+        <node
+            pkg="ros_ign_bridge"
+            type="parameter_bridge"
+            name="ros_ign_bridge_battery_state"
+            args="/model/$(arg name)/battery/linear_battery/state@sensor_msgs/BatteryState[ignition.msgs.BatteryState">
+            <remap from="/model/$(arg name)/battery/linear_battery/state" to="battery_state"/>
+        </node>
+
+        <!-- GAS SENSOR -->
+        <node
+            pkg="ros_ign_bridge"
+            type="parameter_bridge"
+            name="ros_ign_bridge_gas"
+            args="/model/$(arg name)/gas_detected@std_msgs/Bool[ignition.msgs.Boolean">
+            <remap from="/model/$(arg name)/gas_detected" to="gas_detected"/>
+        </node>
+
+        <!-- GIMBAL SYSTEM -->
+        <node
+            pkg="ros_ign_bridge"
+            type="parameter_bridge"
+            name="ros_ign_bridge_gimbal_cmd"
+            args="/model/$(arg name)/gimbal/cmd_vel@geometry_msgs/Twist]ignition.msgs.Twist">
+            <remap from="/model/$(arg name)/gimbal/cmd_vel" to="gimbal/cmd_vel"/>
+        </node>
+        <node
+            pkg="ros_ign_bridge"
+            type="parameter_bridge"
+            name="ros_ign_bridge_gimbal_enable"
+            args="/model/$(arg name)/gimbal/enable@std_msgs/Bool]ignition.msgs.Boolean">
+            <remap from="/model/$(arg name)/gimbal/enable" to="gimbal/enable"/>
+        </node>
+
+        <node
+            pkg="ros_ign_bridge"
+            type="parameter_bridge"
+            name="ros_ign_bridge_gimbal_camera"
+            args="$(arg camera_prefix)/sensor/gimbal_camera/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+            <remap from="$(arg camera_prefix)/sensor/gimbal_camera/camera_info" to="gimbal/camera_info"/>
+        </node>
+        <node
+            pkg="ros_ign_image"
+            type="image_bridge"
+            name="ros_ign_image_gimbal_camera"
+            args="$(arg camera_prefix)/sensor/gimbal_camera/image">
+            <remap from="$(arg camera_prefix)/sensor/gimbal_camera/image" to="gimbal/image_raw"/>
+        </node>
+        <node
+            pkg="ros_ign_bridge"
+            type="parameter_bridge"
+            name="ros_ign_bridge_gimbal_imu"
+            args="$(arg camera_prefix)/sensor/gimbal_imu/imu@sensor_msgs/Imu[ignition.msgs.IMU">
+            <remap from="$(arg camera_prefix)/sensor/gimbal_imu/imu" to="gimbal/imu/data"/>
+        </node>
+        <node
+            pkg="subt_ros"
+            type="optical_frame_publisher"
+            name="rear_optical_frame_publisher">
+            <remap from="input/image" to="gimbal/image_raw" />
+            <remap from="output/image" to="gimbal/optical/image_raw" />
+            <remap from="input/camera_info" to="gimbal/camera_info" />
+            <remap from="output/camera_info" to="gimbal/optical/camera_info" />
+        </node>
+        
+        <!-- Joint Publisher (Publishes to topic but doesn't control...)-->
+        <node
+            pkg="ros_ign_bridge"
+            type="parameter_bridge"
+            name="ros_ign_bridge_joint_state_publisher"
+            args="$(arg model_prefix)/joint_state@sensor_msgs/JointState[ignition.msgs.Model">
+            <remap from="$(arg model_prefix)/joint_state" to="joint_state"/>
+        </node>
+
+        <node
+            pkg="subt_ros"
+            type="pose_tf_broadcaster"
+            name="pose_tf_broadcaster"/>
+    </group>
+</launch>

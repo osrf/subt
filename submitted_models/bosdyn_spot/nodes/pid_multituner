@@ -1,0 +1,41 @@
+#!/usr/bin/env python
+
+"""
+This node is a meta-commander for tuning all PIDs on the Spot at the same time.
+Just set a value via dynamic reconfigure to this and the same change will be
+propagated to all of the position-controlled joints' PIDs.
+"""
+
+import rospy
+from control_toolbox.cfg import ParametersConfig
+from dynamic_reconfigure.server import Server
+from dynamic_reconfigure.client import Client
+
+clients = []
+
+
+def update(config, level):
+    for client in clients:
+        client.update_configuration(config)
+
+    return config
+
+
+if __name__ == '__main__':
+    rospy.init_node("pid_multituner")
+
+    for leg in ("front_left", "front_right", "rear_left", "rear_right"):
+        for motor in ("hip_x", "hip_y", "knee"):
+            clients.append(Client("joint_group_position_controller/gains/{}_{}".format(leg, motor)))
+
+    config = clients[0].get_configuration()
+    rospy.set_param("~p", config["p"])
+    rospy.set_param("~i", config["i"])
+    rospy.set_param("~d", config["d"])
+    rospy.set_param("~i_clamp_min", config["i_clamp_min"])
+    rospy.set_param("~i_clamp_max", config["i_clamp_max"])
+    rospy.set_param("~antiwindup", config["antiwindup"])
+
+    dyn_server = Server(ParametersConfig, update)
+
+    rospy.spin()

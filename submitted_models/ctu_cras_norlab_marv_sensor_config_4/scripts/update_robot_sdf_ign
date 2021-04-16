@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -e
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+MODEL_DIR="${DIR}/.."
+BASE_MODEL_DIR="${MODEL_DIR}/../ctu_cras_norlab_marv_sensor_config_1"
+[ -z "${OUTPUT_FILE}" ] && OUTPUT_FILE="${MODEL_DIR}/model.sdf"
+
+# load local modifications of configuration and pass them to update_robot_sdf_ign of sensor config 1
+
+config=""
+for file in "${MODEL_DIR}/config/common.yaml" "${MODEL_DIR}/config/sim.yaml" "${MODEL_DIR}/config/ign.yaml"; do
+  [ -f "$file" ] && config="${config} $("${BASE_MODEL_DIR}/scripts/yaml_to_xacro_args" "$file")"
+done
+
+OUTPUT_FILE="$OUTPUT_FILE" "${BASE_MODEL_DIR}/scripts/update_robot_sdf_ign" $config "$@"
+
+sed -i -e 's#<uri>\([^>]*\)</uri>#<uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/CTU_CRAS_NORLAB_MARV_SENSOR_CONFIG_1/tip/files/\1</uri>#' "${OUTPUT_FILE}"
+sed -i -e 's#_map>\([^>]*\)</#_map>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/CTU_CRAS_NORLAB_MARV_SENSOR_CONFIG_1/tip/files/\1</#' "${OUTPUT_FILE}"
