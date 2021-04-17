@@ -6,6 +6,11 @@
   <arg name="joint"/>
   <arg name="joint_prefix" value="/model/$(arg name)/joint"/>
 
+  <arg name="contacts_manager_cmd" />
+  <arg name="contacts_manager_name" />
+  <arg name="control_manager_cmd" />
+  <arg name="control_manager_name" />
+
   <!-- Position controller (send NaN to disable it). It tries to keep the initial position by default. -->
   <node pkg="ros_ign_bridge" type="parameter_bridge" name="ros_ign_bridge_$(arg leg)_$(arg joint)_position_controller"
     args="$(arg joint_prefix)/$(arg leg)_$(arg joint)/0/cmd_pos@std_msgs/Float64]ignition.msgs.Double" respawn="true">
@@ -21,7 +26,9 @@
   <!-- Position controller PID parameters configuration -->
   <group ns="joint_group_position_controller">
     <group ns="gains">
-      <node name="$(arg leg)_$(arg joint)" pkg="nodelet" type="nodelet" args="load bosdyn_spot/PidControlBridge /$(arg name)/control_manager" respawn="true">
+      <arg name="control_manager_abs_name" value="/$(arg name)/$(arg control_manager_name)" if="$(eval control_manager_name != '')" />
+      <arg name="control_manager_abs_name" value="" if="$(eval control_manager_name == '')" />
+      <node name="$(arg leg)_$(arg joint)" pkg="nodelet" type="nodelet" args="$(arg control_manager_cmd) bosdyn_spot/PidControlBridge $(arg control_manager_abs_name)" respawn="true">
         <param name="ign_topic" value="$(arg joint_prefix)/$(arg leg)_$(arg joint)/0/set_pos_pid" />
       </node>
     </group>
