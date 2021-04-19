@@ -1,0 +1,416 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="null_end_effector" params="name">
+    <link name="${name}/INPUT_INTERFACE">
+      <collision>
+        <origin xyz="0 0 0.0005" rpy="0 0 0"/>
+          <geometry>
+            <box size="0.001 0.001 0.001" rpy="0 0 0"/>
+          </geometry>
+      </collision>
+      <visual>
+        <origin xyz="0 0 0.0005" rpy="0 0 0"/>
+          <geometry>
+            <box size="0.001 0.001 0.001" rpy="0 0 0"/>
+          </geometry>
+      </visual>
+      <inertial>
+        <origin xyz="0 0 0.0005" rpy="0 0 0"/>
+          <mass value="0.001"/>
+        <inertia
+          ixx="0.001" ixy="0.0" ixz="0.0"
+          iyy="0.001" iyz="0.0"
+          izz="0.001"/>
+      </inertial>
+    </link>
+  </xacro:macro>
+
+  <xacro:macro name="parallel_gripper_outer_subassembly" params="name prefix">
+    <link name="${name}/${prefix}_finger">
+      <visual>
+        <origin xyz="-0.006 -0.0055 -0.0045" rpy="${pi/2} 0 ${pi/2}" />
+        <geometry>
+          <mesh filename="package://ctu_cras_norlab_lily_sensor_config_1/meshes/PM-2221-01.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <xacro:silver_material/>
+      </visual>
+      <collision>
+        <origin xyz="-0.006 -0.0055 -0.0045" rpy="${pi/2} 0 ${pi/2}" />
+        <geometry>
+          <mesh filename="package://ctu_cras_norlab_lily_sensor_config_1/meshes/PM-2221-01.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 0.015 0" rpy="${0.5*pi} 0 ${0.0*pi}"/>
+        <mass value="0.022"/>
+        <!-- h = 0.007 w = 0.011 d = 0.03 -->
+        <inertia
+          ixx="${1/12 * 0.022 * (0.007*0.007 + 0.03*0.03)}" ixy="0.0" ixz="0.0"
+          iyy="${1/12 * 0.022 * (0.011*0.011 + 0.03*0.03)}" iyz="0.0"
+          izz="${1/12 * 0.022 * (0.011*0.011 + 0.007*0.007)}"/>
+      </inertial>
+      <self_collide>true</self_collide>
+    </link>
+    <gazebo reference="${name}/${prefix}_finger">
+      <xacro:gazebo_silver_material/>
+    </gazebo>
+
+    <link name="${name}/${prefix}_outer_linkage">
+      <visual>
+        <origin xyz="-0.0115 0.029 -0.004" rpy="${pi/2} 0 0" />
+        <geometry>
+          <mesh filename="package://ctu_cras_norlab_lily_sensor_config_1/meshes/PM-2358-02.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <xacro:black_material/>
+      </visual>
+      <inertial>
+        <origin xyz="0 0.015 0.007" rpy="0 0 0"/>
+        <mass value="0.010"/>
+        <!-- h = 0.03 w = 0.025 d = 0.03 -->
+        <inertia
+          ixx="${1/12 * 0.010 * (0.03*0.03 + 0.03*0.03)}" ixy="0.0" ixz="0.0"
+          iyy="${1/12 * 0.010 * (0.023*0.023 + 0.03*0.03)}" iyz="0.0"
+          izz="${1/12 * 0.010 * (0.023*0.023 + 0.03*0.03)}"/>
+      </inertial>
+    </link>
+    <gazebo reference="${name}/${prefix}_outer_linkage">
+      <xacro:gazebo_black_material/>
+    </gazebo>
+
+    <link name="${name}/${prefix}_gripper">
+      <visual>
+        <origin xyz="-0.006 -0.0115 -0.0036" rpy="${0.5*pi} ${0.0*pi} ${0.5*pi}" />
+        <geometry>
+          <mesh filename="package://ctu_cras_norlab_lily_sensor_config_1/meshes/PM-2360-02.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <xacro:black_material/>
+      </visual>
+      <collision>
+        <origin xyz="-0.006 -0.0115 -0.0036" rpy="${0.5*pi} ${0.0*pi} ${0.5*pi}" />
+        <geometry>
+          <mesh filename="package://ctu_cras_norlab_lily_sensor_config_1/meshes/PM-2360-02.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 -0.005 0.02" rpy="0 0 0"/>
+        <mass value="0.014"/>
+        <inertia
+          ixx="${1/12 * 0.014 * ( 0.01*0.01 + 0.05*0.05 )}" ixy="0.0" ixz="0.0"
+          iyy="${1/12 * 0.014 * ( 0.01*0.01 + 0.05*0.05 )}" iyz="0.0"
+          izz="${1/12 * 0.014 * ( 0.01*0.01 + 0.01*0.01 )}"/>
+      </inertial>
+    </link>
+    <gazebo reference="${name}/${prefix}_gripper">
+      <xacro:gazebo_black_material/>
+    </gazebo>
+
+    <link name="${name}/${prefix}_gripper_bend">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 ${0.5*pi} 0"/>
+        <geometry>
+          <cylinder length="0.02" radius=".002" />
+        </geometry>
+        <xacro:silver_material/>
+      </visual>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 ${0.5*pi} 0"/>
+        <mass value="0.001"/>
+        <!-- Approximated as slender rod -->
+        <inertia
+          ixx="${1/12 * 0.001 * (3*pow(0.002, 2) + 0.02*0.02)}" ixy="0.0" ixz="0.0"
+          iyy="${1/12 * 0.001 * (3*pow(0.002, 2) + 0.02*0.02)}" iyz="0.0"
+          izz="${1/2  * 0.001 * pow(0.002, 2)}"/>
+      </inertial>
+    </link>
+    <gazebo reference="${name}/${prefix}_gripper_bend">
+      <xacro:gazebo_silver_material/>
+    </gazebo>
+
+    <joint name="${name}/${prefix}_gripper_finger_${prefix}_gripper_bend" type="fixed">
+      <origin xyz="0.0 -0.0075 0.0165" rpy="0 0 0" />
+      <parent link="${name}/${prefix}_gripper"/>
+      <child link="${name}/${prefix}_gripper_bend"/>
+    </joint>
+    <gazebo reference="${name}/${prefix}_gripper_finger_${prefix}_gripper_bend">
+      <disableFixedJointLumping>true</disableFixedJointLumping>
+      <preserveFixedJoint>true</preserveFixedJoint>
+    </gazebo>
+
+    <joint name="${name}/input_${prefix}_finger" type="revolute">
+      <xacro:if value="${prefix == 'l'}">
+        <origin xyz="0 0.01265 .0115" rpy="0 0 0" />
+      </xacro:if>
+      <xacro:if value="${prefix == 'r'}">
+        <origin xyz="0 -0.01265 .0115" rpy="0 0 ${pi}" />
+        <mimic joint="${name}/input_l_finger" multiplier="1.0" offset="0" />
+      </xacro:if>
+      <parent link="${name}/INPUT_INTERFACE"/>
+      <child link="${name}/${prefix}_finger"/>
+      <limit effort="1000" velocity="1000" lower="0" upper="${0.37*pi}"/>
+    </joint>
+    <gazebo reference="${name}/input_${prefix}_finger">
+      <physics>
+        <ode>
+          <implicit_spring_damper>true</implicit_spring_damper>
+        </ode>
+      </physics>
+    </gazebo>
+
+    <joint name="${name}/${prefix}_finger_${prefix}_outer_linkage" type="fixed">
+      <origin xyz="0 0.015 0" rpy="0 0 0" />
+      <parent link="${name}/${prefix}_finger"/>
+      <child link="${name}/${prefix}_outer_linkage"/>
+    </joint>
+
+    <joint name="${name}/${prefix}_outer_linkage_${prefix}_gripper" type="revolute">
+      <origin xyz="0 0.025 0.018" rpy="0 0 0" />
+      <parent link="${name}/${prefix}_outer_linkage"/>
+      <child link="${name}/${prefix}_gripper"/>
+      <mimic joint="${name}/input_l_finger" multiplier="-1.0" />
+      <limit effort="1000" velocity="1000" lower="${-pi/2}" upper="0"/>
+    </joint>
+  </xacro:macro>
+
+  <xacro:macro name="parallel_gripper_inner_subassembly" params="name prefix">
+    <link name="${name}/${prefix}_inner_linkage">
+      <visual>
+        <origin xyz="-0.0115 -0.004 -0.004" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://ctu_cras_norlab_lily_sensor_config_1/meshes/PM-2359-02.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <xacro:black_material/>
+      </visual>
+      <inertial>
+        <origin xyz="0 0 0.0215" rpy="${pi/2} 0 0"/>
+        <mass value="0.010"/>
+        <!-- h = 0.05, w = 0.02 d = 0.005 -->
+        <inertia
+          ixx="${1/12 * 0.010 * (0.05*0.05 + 0.005*0.005)}" ixy="0.0" ixz="0.0"
+          iyy="${1/12 * 0.010 * (0.02*0.02 + 0.005*0.005)}" iyz="0.0"
+          izz="${1/12 * 0.010 * (0.02*0.02 + 0.05*0.05)}"/>
+      </inertial>
+    </link>
+    <gazebo reference="${name}/${prefix}_inner_linkage">
+      <xacro:gazebo_black_material />
+    </gazebo>
+
+    <joint name="${name}/center_hub_${prefix}_inner_linkage" type="continuous">
+      <xacro:if value="${prefix == 'l'}">
+        <origin xyz="0 0.005 0.023" rpy="${-0.36*pi} 0 0" />
+      </xacro:if>
+      <xacro:if value="${prefix == 'r'}">
+        <origin xyz="0 -0.005 0.023" rpy="${-0.36*pi} 0 ${pi}" />
+      </xacro:if>
+      <parent link="${name}/center_hub" />
+      <child link="${name}/${prefix}_inner_linkage" />
+      <mimic joint="${name}/input_l_finger" multiplier="1.0" />
+    </joint>
+  </xacro:macro>
+
+  <xacro:macro name="gripper" params="name type:=Custom mass:=0.0 com_trans:='0 0 0' output_trans:='0 0 0'">
+    <xacro:property name="com_trans_list" value="${map(float, com_trans.split(' '))}" />
+    <xacro:if value="${ com_trans_list[0] + com_trans_list[1] + com_trans_list[2] >= 0.01 }">
+      <xacro:property name="len" value="${sqrt( pow(com_trans_list[0], 2) + pow(com_trans_list[1], 2) + pow(com_trans_list[2], 2) )}" />
+    </xacro:if>
+    <xacro:unless value="${ com_trans_list[0] + com_trans_list[1] + com_trans_list[2] >= 0.01 }">
+      <xacro:property name="len" value="0.1" />
+    </xacro:unless>
+
+    <!-- touch sensor -->
+    <!-- Can't touch this! HAMMER-TIME -->
+    <xacro:if value="${type == 'Touch'}">
+      <link name="${name}/INPUT_INTERFACE">
+        <visual>
+          <origin xyz="0 0 0.0005" rpy="0 0 0" />
+          <geometry>
+            <box size="0.001 0.001 0.001" rpy="0 0 0" />
+          </geometry>
+        </visual>
+        <inertial>
+          <origin xyz="${com_trans}" rpy="0 0 0" />
+          <mass value="${mass}" />
+          <inertia
+            ixx="${2.0/5.0 * mass * pow(len, 2)}" ixy="0.0" ixz="0.0"
+            iyy="${2.0/5.0 * mass * pow(len, 2)}" iyz="0.0"
+            izz="${2.0/5.0 * mass * pow(len, 2)}" />
+        </inertial>
+      </link>
+    </xacro:if>
+
+    <xacro:if value="${type == 'Custom'}">
+      <link name="${name}/INPUT_INTERFACE">
+        <visual>
+          <origin xyz="0 0 0.0005" rpy="0 0 0" />
+          <geometry>
+            <box size="0.001 0.001 0.001" rpy="0 0 0" />
+          </geometry>
+        </visual>
+        <inertial>
+          <origin xyz="${com_trans}" rpy="0 0 0" />
+          <mass value="${mass}" />
+          <inertia
+            ixx="${2.0/5.0 * mass * pow(len, 2)}" ixy="0.0" ixz="0.0"
+            iyy="${2.0/5.0 * mass * pow(len, 2)}" iyz="0.0"
+            izz="${2.0/5.0 * mass * pow(len, 2)}" />
+        </inertial>
+      </link>
+    </xacro:if>
+
+    <xacro:if value="${type.endswith('Parallel')}">
+      <!-- The base body of the gripper -->
+      <link name="${name}/INPUT_INTERFACE">
+        <visual>
+          <origin xyz="0 0 0.00375" />
+            <geometry>
+            <cylinder length="0.0075" radius=".0225" />
+          </geometry>
+          <xacro:black_material/>
+        </visual>
+        <inertial>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <mass value="0.072"/>
+          <!-- Approximated as solid cylinder -->
+          <inertia
+            ixx="${1.0/12.0 * 0.072 * (3*pow(0.0225, 2) + pow(0.0075, 2))}" ixy="0.0" ixz="0.0"
+            iyy="${1.0/12.0 * 0.072 * (3*pow(0.0225, 2) + pow(0.0075, 2))}" iyz="0.0"
+            izz="${1.0/2.0  * 0.072 * pow(0.0225, 2)}"/>
+        </inertial>
+      </link>
+      <gazebo reference="${name}/INPUT_INTERFACE">
+        <xacro:gazebo_black_material/>
+      </gazebo>
+
+      <!-- Tree branch for center hub -->
+      <link name="${name}/center_hub">
+        <visual>
+          <origin xyz="-0.0225 0.0225 0" rpy="${pi/2} 0 0" />
+          <geometry>
+            <mesh filename="package://ctu_cras_norlab_lily_sensor_config_1/meshes/PM-2357-02.stl" scale="0.001 0.001 0.001"/>
+          </geometry>
+          <xacro:black_material/>
+        </visual>
+        <inertial>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <mass value="0.010"/>
+          <!-- Approximated as hollow sphere -->
+          <inertia
+            ixx="${0.66*0.010*pow(0.0225, 2)}" ixy="0.0" ixz="0.0"
+            iyy="${0.66*0.010*pow(0.0225, 2)}" iyz="0.0"
+            izz="${0.66*0.010*pow(0.0225, 2)}"/>
+        </inertial>
+      </link>
+      <gazebo reference="${name}/center_hub">
+        <xacro:gazebo_black_material/>
+      </gazebo>
+
+      <joint name="${name}/input_center_hub" type="fixed">
+        <origin xyz="0 0 0.0045" rpy="0 0 0" />
+        <parent link="${name}/INPUT_INTERFACE"/>
+        <child link="${name}/center_hub"/>
+      </joint>
+
+      <link name="${name}/center_pinion">
+        <visual>
+          <origin xyz="-0.0145 -0.008 0.0038" rpy="${0.5*pi} ${0.0*pi} ${0.5*pi}" />
+          <geometry>
+            <mesh filename="package://ctu_cras_norlab_lily_sensor_config_1/meshes/PM-2291-01.stl" scale="0.001 0.001 0.001"/>
+          </geometry>
+          <xacro:silver_material/>
+        </visual>
+        <collision>
+          <origin xyz="-0.0145 -0.008 0.004" rpy="${0.5*pi} ${0.0*pi} ${0.5*pi}" />
+          <geometry>
+            <mesh filename="package://ctu_cras_norlab_lily_sensor_config_1/meshes/PM-2291-01.stl" scale="0.001 0.001 0.001"/>
+          </geometry>
+        </collision>
+        <inertial>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <mass value="0.010"/>
+          <!-- Approximated as hollow sphere -->
+          <inertia
+            ixx="${0.66*0.010*pow(0.0225, 2)}" ixy="0.0" ixz="0.0"
+            iyy="${0.66*0.010*pow(0.0225, 2)}" iyz="0.0"
+            izz="${0.66*0.010*pow(0.0225, 2)}"/>
+        </inertial>
+      </link>
+      <gazebo reference="${name}/center_pinion">
+        <self_collide>true</self_collide>
+        <xacro:gazebo_silver_material/>
+      </gazebo>
+
+      <joint name="${name}/center_hub_pinion" type="prismatic">
+        <parent link="${name}/center_hub"/>
+        <child link="${name}/center_pinion"/>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <axis xyz="0 0 1" />
+        <limit effort="1000" velocity="1000" lower="-1.0" upper="1.0"/>
+        <!-- Don't actually want the pinion to move (only needed fore gazebo)
+             so set multiplier very small -->
+        <mimic joint="${name}/input_l_finger" multiplier="0.00001" offset="0" />
+        <physics>
+          <ode>
+            <implicit_spring_damper>true</implicit_spring_damper>
+          </ode>
+        </physics>
+      </joint>
+      <gazebo reference="${name}/center_hub_pinion">
+        <disableFixedJointLumping>true</disableFixedJointLumping>
+        <preserveFixedJoint>true</preserveFixedJoint>
+      </gazebo>
+
+      <!-- Tree branches for fingers, outer linkages, and grippers -->
+      <xacro:parallel_gripper_outer_subassembly name="${name}" prefix="l"/>
+      <xacro:parallel_gripper_outer_subassembly name="${name}" prefix="r"/>
+
+      <!-- Tree branches for inner linkages -->
+      <xacro:parallel_gripper_inner_subassembly name="${name}" prefix="l"/>
+      <xacro:parallel_gripper_inner_subassembly name="${name}" prefix="r"/>
+      <gazebo>
+        <joint name="${name}/l_inner_outer_pin" type="revolute">
+          <pose>0 0 0.0439 0 0 0</pose>
+          <parent>${name}/l_gripper_bend</parent>
+          <child>${name}/l_inner_linkage</child>
+          <axis>
+            <xyz>-1 0 0</xyz>
+            <limit>
+              <lower>${-2*pi}</lower>
+              <upper>${2*pi}</upper>
+              <effort>1000</effort>
+              <velocity>1000</velocity>
+            </limit>
+          </axis>
+        </joint>
+        <joint name="${name}/r_inner_outer_pin" type="revolute">
+          <pose>0 0 0.0439 0 0 0</pose>
+          <parent>${name}/r_gripper_bend</parent>
+          <child>${name}/r_inner_linkage</child>
+          <axis>
+            <xyz>-1 0 0</xyz>
+            <limit>
+              <lower>${-2*pi}</lower>
+              <upper>${2*pi}</upper>
+              <effort>1000</effort>
+              <velocity>1000</velocity>
+            </limit>
+          </axis>
+        </joint>
+
+        <!-- Add constraint between gripper fingers (they mirror each other) using a gearbox -->
+        <joint name="${name}/finger_gearbox" type="gearbox">
+          <parent>${name}/r_finger</parent>
+          <child>${name}/l_finger</child>
+          <gearbox_reference_body>${name}/INPUT_INTERFACE</gearbox_reference_body>
+          <gearbox_ratio>1</gearbox_ratio>
+          <axis>
+            <xyz>1 0 0</xyz>
+          </axis>
+          <axis2>
+            <xyz>1 0 0</xyz>
+          </axis2>
+        </joint>
+      </gazebo>
+    </xacro:if>
+
+  </xacro:macro>
+</robot>
+

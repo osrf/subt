@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<launch>
+  <env name="IGN_TRANSPORT_TOPIC_STATISTICS" value="1"/>
+  <arg name="world_name"/>
+  <arg name="name"/>
+  <arg name="link_prefix" value="/world/$(arg world_name)/model/$(arg name)/link"/>
+  <arg name="joint_prefix" value="/model/$(arg name)/joint"/>
+  <!-- use breadcrumbs -->
+  <arg name="breadcrumbs" default="0"/>
+  <arg name="run_controller" default="false" doc="Only to be used in local development. Bridge containers do not have the package." />
+
+  <include file="$(dirname)/description.launch">
+    <arg name="name" value="$(arg name)" />
+  </include>
+
+  <group ns="$(arg name)">
+
+    <!-- Common -->
+
+    <include file="$(find subt_ros)/launch/models_common/all_robots.launch">
+      <arg name="name" value="$(arg name)" />
+      <arg name="world_name" value="$(arg world_name)" />
+    </include>
+
+    <include file="$(find subt_ros)/launch/models_common/all_ugvs.launch">
+      <arg name="name" value="$(arg name)" />
+      <arg name="world_name" value="$(arg world_name)" />
+    </include>
+
+    <!-- Mapping Server -->
+    <include file="$(find subt_ros)/launch/models_common/mapping_server_relays.launch">
+      <arg name="name" value="$(arg name)"/>
+    </include>
+
+    <!-- Leg control -->
+
+    <include file="$(dirname)/leg_topics.launch" pass_all_args="true"><arg name="leg" value="1" /></include>
+    <include file="$(dirname)/leg_topics.launch" pass_all_args="true"><arg name="leg" value="2" /></include>
+    <include file="$(dirname)/leg_topics.launch" pass_all_args="true"><arg name="leg" value="3" /></include>
+    <include file="$(dirname)/leg_topics.launch" pass_all_args="true"><arg name="leg" value="4" /></include>
+    <include file="$(dirname)/leg_topics.launch" pass_all_args="true"><arg name="leg" value="5" /></include>
+    <include file="$(dirname)/leg_topics.launch" pass_all_args="true"><arg name="leg" value="6" /></include>
+
+    <!-- Leg controller - has to be launched from solution container by the participants! -->
+    <!-- The package can be obtained at https://github.com/comrob/ctu_cras_norlab_hexapod_controller -->
+    <include file="$(find hexapod_controller)/launch/lily.launch" if="$(arg run_controller)">
+      <arg name="robot_name" value="$(arg name)"/>
+    </include>
+
+  <!--SENSORS-->
+    
+    <!-- cameras -->
+    <include file="$(dirname)/ace2_camera.launch" pass_all_args="true">
+      <arg name="camera" value="front" />
+    </include>
+    
+    <include file="$(dirname)/ace2_camera.launch" pass_all_args="true">
+      <arg name="camera" value="back" />
+    </include>
+    
+    <include file="$(dirname)/ace2_camera.launch" pass_all_args="true">
+      <arg name="camera" value="left" />
+    </include>
+    
+    <include file="$(dirname)/ace2_camera.launch" pass_all_args="true">
+      <arg name="camera" value="right" />
+    </include>
+
+    <include file="$(dirname)/ace2_camera.launch" pass_all_args="true">
+      <arg name="camera" value="up" />
+    </include>
+
+    <!--LIDAR-->
+    <include file="$(find subt_ros)/launch/models_common/lidar_3d.launch">
+      <arg name="gazebo_topic" value="$(arg link_prefix)/main_ouster_lidar/sensor/laser/scan/points" />
+    </include>
+
+    <!--CONTACTS-->
+    <node name="contacts_manager" pkg="nodelet" type="nodelet" args="manager" respawn="true" />
+    <node name="ros_ign_bridge_leg_contact" pkg="nodelet" type="nodelet" args="load ctu_cras_norlab_lily_sensor_config_1/LogicalContactBridge contacts_manager" respawn="true">
+      <remap from="logical_contacts" to="leg_contacts" />
+      <param name="ign_topic" value="/model/$(arg name)/leg_collisions" />
+    </node>
+
+    <!-- Breadcrumbs -->
+    <include if="$(eval breadcrumbs > 0)" file="$(find subt_ros)/launch/models_common/breadcrumbs.launch">
+      <arg name="name" value="$(arg name)" />
+    </include>
+
+    <!--IMU-->
+    <include file="$(find subt_ros)/launch/models_common/imu.launch">
+      <arg name="gazebo_topic" value="$(arg link_prefix)/imu_base/sensor/imu/imu" />
+    </include>
+  </group>
+
+  <!-- As URDF->SDF conversion "swallows" all fixed joints (and thus static transforms), we need to re-create them from the URDF  -->
+  <!-- Due to an internal limitation of robot_state_publisher, it has to be created in the global namespace. -->
+  <node name="$(anon robot_state_publisher)" pkg="robot_state_publisher" type="robot_state_publisher">
+    <remap from="/tf" to="/nonexistent" /> <!-- published by ign_ros bridge -->
+    <remap from="robot_description" to="/$(arg name)/robot_description" />
+  </node>
+</launch>
