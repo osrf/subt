@@ -1,11 +1,11 @@
 # Boston Dynamics Spot - CTU-CRAS-Norlab sensor config
 This specifications.md file is a description and proof of virtual model validation for the
 Boston Dynamics Spot robot configured by team CTU-CRAS-Norlab. This robot may be launched using an
-ign launch command with the variable name `marble_spot_sensor_config_1`.
+ign launch command with the variable name `CTU_CRAS_NORLAB_SPOT_SENSOR_CONFIG_3`.
 
 For local testing, you can use the following command:
 
-    LC_ALL=C ign launch -v 4 ~/subt_ws/src/subt/submitted_models/marble_spot_sensor_config_1/launch/example.ign robotName:=X1 ros:=true champ:=true
+    LC_ALL=C ign launch -v 4 ~/subt_ws/src/subt/submitted_models/ctu_cras_norlab_spot_sensor_config_3/launch/example.ign robotName:=X1 ros:=true champ:=true
 
 This specifications.md file describes mainly the additional sensory payload of our Spot. Refer to
 [bosdyn_spot/specifications.md](../bosdyn_spot/specifications.md) for information about the robot base,
@@ -17,7 +17,7 @@ This sensor config carries 3 wide-angle RGB cameras with global shutter, an IMU 
 ## Usage Instructions
 
 See [bosdyn_spot/specifications.md](../bosdyn_spot/specifications.md). There is no diversion from
-the principles described there, just substitute `bosdyn_spot` with `marble_spot_sensor_config_1`.
+the principles described there, just substitute `bosdyn_spot` with `ctu_cras_norlab_spot_sensor_config_3`.
 
 ## Usage Rights
 No additional restrictions have to be taken into account for this model.
@@ -30,7 +30,7 @@ No additional restrictions have to be taken into account for this model.
 * Lidar: $6,000
 * Total price: $88,500
 
-vehicle weight: TODO
+Its weight is approximately 38 kg. 
 
 ## Sensors
 This sensor configuration of Spot includes the following sensors in addition to the base sensors of the platform

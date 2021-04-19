@@ -16,7 +16,7 @@ def _rosExecutables2(_name, _worldName)
   # description.launch is included from vehicle_topics.launch
   <<-HEREDOC
   <executable name='topics'>
-    <command>roslaunch --wait marble_spot_sensor_config_1 vehicle_topics.launch world_name:=#{_worldName} name:=#{_name} breadcrumbs:=0</command>
+    <command>roslaunch --wait ctu_cras_norlab_spot_sensor_config_1 vehicle_topics.launch world_name:=#{_worldName} name:=#{_name} breadcrumbs:=0</command>
   </executable>
   HEREDOC
 end
