@@ -8,6 +8,7 @@
   <arg name="breadcrumbs" default="0"/>
   <arg name="description_print_command" default="" />
   <arg name="relay_points" default="1" />
+  <arg name="nodelets" default="0" doc="Most body-related bridges can run as nodelets, but it can be problematic (spurious broken bonds)." />
 
   <include file="$(dirname)/description.launch" pass_all_args="true">
     <arg name="print_command" value="$(arg description_print_command)" if="$(eval description_print_command != '')" />
@@ -67,22 +68,32 @@
 
     <!-- Control -->
 
+    <arg name="control_manager_cmd" value="load" if="$(arg nodelets)" />
+    <arg name="control_manager_name" value="control_manager" if="$(arg nodelets)" />
+    <arg name="contacts_manager_cmd" value="load" if="$(arg nodelets)" />
+    <arg name="contacts_manager_name" value="contacts_manager" if="$(arg nodelets)" />
+
+    <arg name="control_manager_cmd" value="standalone" unless="$(arg nodelets)" />
+    <arg name="control_manager_name" value="" unless="$(arg nodelets)" />
+    <arg name="contacts_manager_cmd" value="standalone" unless="$(arg nodelets)" />
+    <arg name="contacts_manager_name" value="" unless="$(arg nodelets)" />
+
     <include file="$(dirname)/leg.launch" pass_all_args="true"><arg name="leg" value="front_left" /></include>
     <include file="$(dirname)/leg.launch" pass_all_args="true"><arg name="leg" value="front_right" /></include>
     <include file="$(dirname)/leg.launch" pass_all_args="true"><arg name="leg" value="rear_left" /></include>
     <include file="$(dirname)/leg.launch" pass_all_args="true"><arg name="leg" value="rear_right" /></include>
 
     <!-- Contact relay -->
-    <node name="contacts_manager" pkg="nodelet" type="nodelet" args="manager" respawn="true" />
-    <node name="ros_ign_bridge_leg_contact" pkg="nodelet" type="nodelet" args="load bosdyn_spot/LogicalContactBridge contacts_manager" respawn="true">
+    <node name="contacts_manager" pkg="nodelet" type="nodelet" args="manager" respawn="true" if="$(arg nodelets)" />
+    <node name="ros_ign_bridge_leg_contact" pkg="nodelet" type="nodelet" args="$(arg contacts_manager_cmd) bosdyn_spot/LogicalContactBridge $(arg contacts_manager_name)" respawn="true">
       <remap from="logical_contacts" to="leg_contacts" />
       <param name="ign_topic" value="/model/$(arg name)/leg_collisions" />
     </node>
 
     <rosparam command="load" file="$(find bosdyn_spot)/config/ros_control/ros_control.yaml" subst_value="true" />
-    <node name="control_manager" pkg="nodelet" type="nodelet" args="manager" respawn="true" />
+    <node name="control_manager" pkg="nodelet" type="nodelet" args="manager" respawn="true" if="$(arg nodelets)"/>
 
-    <node pkg="nodelet" type="nodelet" name="ros_ign_bridge_joint_trajectory_command" args="load bosdyn_spot/JointTrajectoryBridge control_manager" respawn="true">
+    <node pkg="nodelet" type="nodelet" name="ros_ign_bridge_joint_trajectory_command" args="$(arg control_manager_cmd) bosdyn_spot/JointTrajectoryBridge $(arg control_manager_name)" respawn="true">
       <remap from="~trajectory" to="joint_group_position_controller/command"/>
       <param name="ign_topic" value="/model/$(arg name)/joint_trajectory" />
     </node>
