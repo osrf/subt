@@ -32,6 +32,7 @@ const std::vector<std::string> robotPlatformTypes = {
   "HUSKY",
   "KAREN",
   "KLOUBAK",
+  "LILY",
   "M100",
   "MARV",
   "OZBOT_ATR",
