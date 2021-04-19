@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(ctu_cras_norlab_spot_sensor_config_3)
+project(marble_spot_sensor_config_1)
 
 find_package(catkin REQUIRED)
 
