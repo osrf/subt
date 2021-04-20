@@ -80,6 +80,7 @@ private:
   std::string _robot_namespace_;
   std::string _cmd_vel_topic_{"cmd_vel"};
   std::string _enable_topic_{"enable"};
+  std::string _feedforward_topic_{"feedforward"};
 
   std::string _gazebo_model_entity_name_;
 
@@ -112,6 +113,7 @@ private:
 
   std::optional<msgs::Twist> cmd_vel_;
   std::mutex                 mutex_cmd_vel_;
+  bool cmd_vel_received_ = false;
 
   // --------------------------------------------------------------
   // |            subscriber for feedforward reference            |
@@ -121,6 +123,7 @@ private:
 
   std::optional<msgs::Twist> feedforward_;
   std::mutex                 mutex_feedforward_;
+  bool feedforward_received_ = false;
 };
 
 }  // namespace systems
@@ -330,10 +333,9 @@ void MRSMultirotorController::Configure(const Entity &entity, const std::shared_
   // |                   custom Ignition subscribers                   |
   // --------------------------------------------------------------
 
-  std::string robot_name = _gazebo_model_.Name(ecm);
-
-  ignition_node_.Subscribe(robot_name + "/feedforward",
-      &MRSMultirotorController::callbackFeedForward, this);
+  std::string feedforwardTopic{_robot_namespace_ + "/" + _feedforward_topic_};
+  ignition_node_.Subscribe(feedforwardTopic, &MRSMultirotorController::callbackFeedForward, this);
+  ignmsg << "MRSMultirotorController subscribing to Twist messages on [" << feedforwardTopic << "]" << std::endl;
 
   // | ---------------- finish the initialization --------------- |
 
@@ -373,8 +375,6 @@ void MRSMultirotorController::PreUpdate(const ignition::gazebo::UpdateInfo &_inf
 
     if (feedforward_.has_value()) {
       feedforward = feedforward_.value();
-      ignmsg << "[mrs_multirotor_controller]: using the feedforward for control"
-        << std::endl;
     }
   }
 
@@ -459,8 +459,11 @@ void MRSMultirotorController::OnTwist(const msgs::Twist &msg) {
 
     cmd_vel_ = msg;
   }
-
-  ignmsg << "[mrs_multirotor_controller]: MRS controller at work" << std::endl;
+  
+  if (!cmd_vel_received_) {
+    ignmsg << "[mrs_multirotor_controller]: MRS controller at work" << std::endl;
+    cmd_vel_received_ = true;
+  }
 }
 
 //}
@@ -525,8 +528,11 @@ void MRSMultirotorController::callbackFeedForward(const msgs::Twist &msg) {
     feedforward_ = msg;
   }
 
-  ignmsg << "[mrs_multirotor_controller]: getting feedforward reference"
-    << std::endl;
+  if (!feedforward_received_) {
+    ignmsg << "[mrs_multirotor_controller]: getting feedforward reference"
+      << std::endl;
+    feedforward_received_ = true;
+  }
 }
 
 //}

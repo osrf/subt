@@ -2206,6 +2206,7 @@ void GameLogicPluginPrivate::Finish(const ignition::msgs::Time &_simTime)
       completeMsg.mutable_header()->mutable_stamp()->CopyFrom(
           this->simTime);
       completeMsg.set_data("recording_complete");
+      this->state = "recording_complete";
       this->startPub.Publish(completeMsg);
 
       std::lock_guard<std::mutex> lock(this->eventCounterMutex);

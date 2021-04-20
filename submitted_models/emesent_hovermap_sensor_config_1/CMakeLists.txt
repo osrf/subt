@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 2.8.3)
 project(emesent_hovermap_sensor_config_1)
 
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_C_STANDARD 17)
 set(IGN_PLUGIN_VER 0)
 
 find_package(ignition-gazebo4 REQUIRED)

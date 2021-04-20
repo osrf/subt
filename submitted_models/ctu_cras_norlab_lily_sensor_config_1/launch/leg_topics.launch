@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="leg" />
+  <arg name="joint_prefix" />
+  <arg name="link_prefix" />
+
+  <!-- coxa joint -->
+  <node
+    pkg="ros_ign_bridge"
+    type="parameter_bridge"
+    name="ros_ign_bridge_L$(arg leg)_J1_base_pos"
+    args="$(arg joint_prefix)/L$(arg leg)_J1_base/0/cmd_pos@std_msgs/Float64]ignition.msgs.Double">
+    <remap from="$(arg joint_prefix)/L$(arg leg)_J1_base/0/cmd_pos" to="cmd_pos/L$(arg leg)_J1_base"/>
+  </node>
+
+  <!-- femur joint -->
+  <node
+    pkg="ros_ign_bridge"
+    type="parameter_bridge"
+    name="ros_ign_bridge_L$(arg leg)_J2_shoulder_pos"
+    args="$(arg joint_prefix)/L$(arg leg)_J2_shoulder/0/cmd_pos@std_msgs/Float64]ignition.msgs.Double">
+    <remap from="$(arg joint_prefix)/L$(arg leg)_J2_shoulder/0/cmd_pos" to="cmd_pos/L$(arg leg)_J2_shoulder"/>
+  </node>
+
+  <!-- tibia joint-->
+  <node
+    pkg="ros_ign_bridge"
+    type="parameter_bridge"
+    name="ros_ign_bridge_L$(arg leg)_J3_elbow_pos"
+    args="$(arg joint_prefix)/L$(arg leg)_J3_elbow/0/cmd_pos@std_msgs/Float64]ignition.msgs.Double">
+    <remap from="$(arg joint_prefix)/L$(arg leg)_J3_elbow/0/cmd_pos" to="cmd_pos/L$(arg leg)_J3_elbow"/>
+  </node>
+
+  <!-- Contact relay -->
+  <node name="ros_ign_bridge_$(arg leg)_leg_contact" pkg="nodelet" type="nodelet" args="load ctu_cras_norlab_lily_sensor_config_1/FootContactBridge contacts_manager" respawn="true">
+    <param name="ign_topic" value="$(arg link_prefix)/elbow$(arg leg)_foot/INPUT_INTERFACE/sensor/contact/contact" />
+    <remap from="contacts" to="leg_contacts/$(arg leg)" />
+  </node>
+</launch>
