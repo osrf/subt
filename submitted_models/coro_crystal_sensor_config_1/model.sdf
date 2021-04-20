@@ -608,9 +608,10 @@
           </noise>
         </camera>
       </sensor>
-      
+
+
       <sensor name="bottom_laser" type="gpu_ray">
-        <pose>0.0 0 -0.14 0 -1.57 0</pose>
+        <pose>-0.065 -0.08 -0.01 0 -1.57 0</pose>
         <update_rate>50</update_rate>
         <lidar>
           <scan>
