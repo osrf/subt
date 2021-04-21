@@ -45,6 +45,7 @@
 #include <ignition/gazebo/components/Static.hh>
 #include <ignition/gazebo/components/SourceFilePath.hh>
 #include <ignition/gazebo/components/World.hh>
+#include <ignition/gazebo/components/HaltMotion.hh>
 #include <ignition/gazebo/Conversions.hh>
 #include <ignition/gazebo/EntityComponentManager.hh>
 #include <ignition/gazebo/Events.hh>
@@ -76,6 +77,7 @@ IGNITION_ADD_PLUGIN(
     subt::GameLogicPlugin,
     ignition::gazebo::System,
     subt::GameLogicPlugin::ISystemConfigure,
+    subt::GameLogicPlugin::ISystemPreUpdate,
     subt::GameLogicPlugin::ISystemPostUpdate)
 
 using namespace ignition;
@@ -532,6 +534,9 @@ class subt::GameLogicPluginPrivate
 
   /// \brief Mutex to protect the eventCounter.
   public: std::mutex eventCounterMutex;
+
+  public: std::map<std::string, ignition::gazebo::Entity> robotEntityMap;
+  public: std::set<std::string> haltedRobots;
 };
 
 //////////////////////////////////////////////////
@@ -1020,6 +1025,38 @@ void GameLogicPluginPrivate::OnEvent(const ignition::msgs::Pose &_msg)
 }
 
 //////////////////////////////////////////////////
+void GameLogicPlugin::PreUpdate(const UpdateInfo &_info,
+                                 EntityComponentManager &_ecm)
+{
+  if (_info.dt < std::chrono::steady_clock::duration::zero())
+  {
+    ignwarn << "Detected jump back in time ["
+        << std::chrono::duration_cast<std::chrono::seconds>(_info.dt).count()
+        << "s]. System may not work properly." << std::endl;
+  }
+
+  if (_info.paused)
+    return;
+
+  if (!this->dataPtr->started)
+    return;
+
+  for (std::string robotName : this->dataPtr->haltedRobots)
+  {
+    if (this->dataPtr->robotEntityMap.find(robotName) ==
+        this->dataPtr->robotEntityMap.end())
+        return;
+    gazebo::Entity robotEntity = this->dataPtr->robotEntityMap.at(robotName);
+    auto *haltMotionComp = _ecm.Component<components::HaltMotion>(robotEntity);
+    if (haltMotionComp && !haltMotionComp->Data())
+    {
+      haltMotionComp->Data() = true;
+    }
+  }
+
+}
+
+//////////////////////////////////////////////////
 void GameLogicPlugin::PostUpdate(
     const ignition::gazebo::UpdateInfo &_info,
     const ignition::gazebo::EntityComponentManager &_ecm)
@@ -1167,6 +1204,20 @@ void GameLogicPlugin::PostUpdate(
                   this->dataPtr.get());
             }
           }
+          return true;
+        });
+
+
+    _ecm.Each<gazebo::components::HaltMotion>(
+        [&](const gazebo::Entity &_entity,
+            const gazebo::components::HaltMotion *) -> bool
+        {
+          auto robotName = _ecm.Component<gazebo::components::Name>(_entity);
+          if (robotName)
+          {
+            this->dataPtr->robotEntityMap[robotName->Data()] = _entity;
+          }
+
           return true;
         });
 
@@ -2768,6 +2819,8 @@ void GameLogicPluginPrivate::OnKineticEnergyEvent(
     const ignition::msgs::Double &/*_msg*/,
     const transport::MessageInfo &_info)
 {
+  if (!this->dataPtr->started)
+    return;
   ignition::msgs::Time localSimTime(this->simTime);
   std::vector<std::string> topicParts = common::split(_info.Topic(), "/");
   std::string name = "_unknown_";
@@ -2790,5 +2843,6 @@ void GameLogicPluginPrivate::OnKineticEnergyEvent(
     this->LogEvent(stream.str());
     this->PublishRobotEvent(localSimTime, "kinetic", name, this->eventCounter);
     this->eventCounter++;
+    this->haltedRobots.emplace(name);
   }
 }
