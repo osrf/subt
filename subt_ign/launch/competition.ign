@@ -354,6 +354,12 @@
             name="ignition::gazebo::systems::Contact">
     </plugin>
 
+    <plugin entity_name="<%= $worldName %>"
+            entity_type="world"
+            filename="ignition-gazebo-particle-emitter2-system"
+            name="ignition::gazebo::systems::ParticleEmitter2">
+    </plugin>
+
     <!-- The SubT challenge logic plugin -->
     <plugin entity_name="<%= $worldName %>"
             entity_type="world"
