@@ -1,0 +1,65 @@
+# General configuration and dimensions of MARV
+
+# Geometry
+rover_bodyWidth: 0.3600
+rover_bodyLength: 0.6000
+rover_bodyHeight: 0.2360
+rover_bodyEdgeCurvature: 0.0440 # curvature of the front and rear bottom edges
+rover_topBoxWidth: 0.2700
+rover_topBoxLength: 0.1000
+rover_topBoxHeight: 0.1800
+rover_topBoxX: 0.06
+rover_topBoxLowerStepWidth: 0.0500
+rover_topBoxLowerStepHeight: 0.070
+rover_topBoxHigherStepWidth: 0.0300
+rover_topBoxHigherStepHeight: 0.1250
+rover_flipperLength: 0.4980
+rover_flipperWidth: 0.0750
+rover_flipperBigRadius: 0.1165
+rover_flipperSmallRadius: 0.0780
+rover_flipperBeltThickness: 0.0180
+rover_flipperBodyGap: 0.0305
+rover_flipperJointX: 0.2560 # w.r.t. referential frame
+rover_flipperJointZ: 0.0000 # w.r.t. referential frame
+rover_flipperBaseAngleOffset: 0.0000
+has_flippers: True
+bullet_antenna_height: 0.2
+bullet_antenna_radius: 0.01
+
+# Locomotion
+rover_maxTrackSpeed: 1.0  # m/s
+rover_maxTrackAcceleration: 3.0  # m/s^2
+rover_maxFlipperRotationVelocity: 1.0 # rad/s
+rover_maxFlipperRotationEffort: 120 # Nm
+
+# Payload
+has_ouster_lidar: True
+has_omnicam_vras: True
+has_boson_thermocam: False
+has_mote_deployer: False
+has_cliff_sensors: True
+
+# Mobilicom
+has_mobilicom: True
+mobilicom_antenna_l_rotation: -0.5
+mobilicom_antenna_l_tilt: 0.0
+mobilicom_antenna_r_rotation: 0.0
+mobilicom_antenna_r_tilt: 0
+mobilicom_antennas_length: 0.17
+mobilicom_has_antenna_box: False
+mobilicom_is_lite: True
+mobilicom_parent_link: rear_right_box
+mobilicom_pitch: 0
+mobilicom_roll: 0
+mobilicom_yaw: 1.570796327
+mobilicom_shift_x: 0.05
+mobilicom_shift_y: 0.3
+mobilicom_shift_z: 0.0
+
+# model workarounds
+flipper_inflation_ratio: 1.0
+flipper_inward_enlargement: 0.0
+big_collision_box_on_top: False
+big_collision_box_height: 0.4
+big_collision_box_width: 0.5
+big_collision_box_depth: 0.85

@@ -1,0 +1,25 @@
+<?xml version='3.0' encoding='UTF-8'?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" version="1.1.0" name="lily">
+  <xacro:arg name="name" default="" />
+  <xacro:if value="${len('$(arg name)') == 0}">
+    <xacro:arg name="prefix" default="" />
+  </xacro:if>
+  <xacro:unless value="${len('$(arg name)') == 0}">
+    <xacro:arg name="prefix" default="$(arg name)/" />
+  </xacro:unless>
+
+  <!-- HEBI Lily Hexapod Kit -->
+  <xacro:include filename="$(find ctu_cras_norlab_lily_sensor_config_1)/urdf/hebi.xacro"/>
+
+  <!-- legs -->
+  <xacro:left_leg leg_num="1" angle="${30*pi/180}" offset="0.3625" />
+  <xacro:right_leg leg_num="2" angle="${-30*pi/180}" offset="0.3625" />
+  <xacro:left_leg leg_num="3" angle="${90*pi/180}" offset="0.2625" />
+  <xacro:right_leg leg_num="4" angle="${-90*pi/180}" offset="0.2625" />
+  <xacro:left_leg leg_num="5" angle="${150*pi/180}" offset="0.3625" />
+  <xacro:right_leg leg_num="6" angle="${-150*pi/180}" offset="0.3625" />
+  
+  <!-- base with payload -->
+  <xacro:base />
+
+</robot>

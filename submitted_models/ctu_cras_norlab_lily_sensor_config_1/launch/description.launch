@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="name" doc="Name of Vehicle"/>
+  <!-- [!] package name here -->
+  <param name="$(arg name)/robot_description" command="$(find xacro)/xacro --xacro-ns '$(find ctu_cras_norlab_lily_sensor_config_1)/urdf/lily.xacro' name:=$(arg name)"/>
+</launch>

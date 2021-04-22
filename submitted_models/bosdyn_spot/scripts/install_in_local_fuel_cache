@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+set -e
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+# Install the model in local Ignition Fuel cache so that it is available even before being uploaded to Fuel by Open Robotics.
+
+path="${DIR}/../../../../../install/share/bosdyn_spot"
+if [ ! -d "$path" ]; then
+  path="$1"
+fi
+
+if [ ! -d "$path" ]; then
+  echo "ERROR: Provide a path to the bosdyn_spot folder in either install/share or devel/share as an argument to this script." >&2
+  exit 1
+fi
+
+path="$(realpath "$path")"
+
+cache_path="${IGN_FUEL_CACHE_PATH:-${HOME}/.ignition/fuel}/fuel.ignitionrobotics.org/openrobotics/models/bosdyn_spot/1"
+mkdir -p "$cache_path"
+
+for f in model.sdf model.config meshes textures; do
+  ln -sf "${path}/${f}" "${cache_path}/${f}"
+done
+
+echo "INFO: Done, the model was installed in ${cache_path}."

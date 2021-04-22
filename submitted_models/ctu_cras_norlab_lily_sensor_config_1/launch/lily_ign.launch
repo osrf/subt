@@ -1,0 +1,36 @@
+<launch>
+
+  <!-- solving issue with relative paths to model meshes in the scrab_urdf file-->
+  <!-- based on: https://answers.gazebosim.org//question/1684/when-importing-a-urdf-model-how-are-package-uris-parsed/-->
+  <!-- [!] package name here -->
+  <env name="GAZEBO_MODEL_PATH" value="$(find ctu_cras_norlab_lily_sensor_config_1)"/>
+
+  <!-- run GAZEBO -->
+  <!-- inspired by https://github.com/ignitionrobotics/ros_ign/blob/melodic/ros_ign_gazebo_demos/launch/create.launch#L14-->
+  <arg name="gui" default="true"/>
+  <arg name="paused" default="false"/>
+  <!--
+  <arg name="world_name" default="$(find ctu_cras_norlab_lily)/worlds/empty_ig" />
+  -->
+  <arg name="world_name" default="empty"/>
+
+  <arg name="ign_args" default=""/>
+
+  <!-- [!] package name here -->
+  <include file="$(find ros_ign_gazebo)/launch/ign_gazebo.launch">
+    <arg name="ign_args" value="-v 4 $(arg world_name).sdf"/>
+  </include>
+  
+  <!-- find robot model -->
+  <param name="robot_description" value="$(find ctu_cras_norlab_lily_sensor_config_1)/lily.sdf" />
+  <!-- spawning robot to the runing simulation -->
+  <!-- based on this: https://answers.gazebosim.org//question/26037/how-to-spawn-sdf-object-in-ignition-gazebo/ -->
+  <!-- [!] package name here -->
+  <node
+    pkg="ros_ign_gazebo"
+    type="create"
+    name="spawn_sdf"
+    args="-world $(arg world_name) -name spawned -file $(find ctu_cras_norlab_lily_sensor_config_1)/lily.sdf -v 4 -z 1"
+  />
+
+</launch>

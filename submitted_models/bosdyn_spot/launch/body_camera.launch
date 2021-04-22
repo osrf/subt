@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="name"/>
+  <arg name="world_name"/>
+  <arg name="camera"/>
+  <arg name="relay_points" default="1" />
+  <arg name="link_prefix" value="/world/$(arg world_name)/model/$(arg name)/link"/>
+
+  <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
+    <arg name="node_name_suffix" value="camera_$(arg camera)" />
+    <arg name="gazebo_topic" value="$(arg link_prefix)/camera_$(arg camera)/sensor/$(arg camera)_fisheye_image/mono" />
+    <arg name="ros_topic" value="$(arg camera)" />
+  </include>
+  <include file="$(find subt_ros)/launch/models_common/depth_camera.launch">
+    <arg name="node_name_suffix" value="camera_$(arg camera)_depth" />
+    <arg name="gazebo_topic" value="$(arg link_prefix)/camera_$(arg camera)/sensor/$(arg camera)_depth" />
+    <arg name="ros_topic" value="tof_$(arg camera)" />
+    <arg name="relay_points" value="$(arg relay_points)" />
+  </include>
+</launch>
