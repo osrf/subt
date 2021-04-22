@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<launch>
+    <arg name="joy_dev" default="/dev/input/js0" />
+    <arg name="joystick" default="true" />
+    <arg name="config" default="$(dirname)/../config/teleop_config.yaml"/>
+    <arg name="base_config" default="$(find subt_example)/config/logitech_config.yaml"/>
+    <arg name="robot_config" default="$(find subt_example)/config/robot_config.yaml"/>
+
+    <rosparam command="load" file="$(arg base_config)" />
+
+    <include file="$(find subt_example)/launch/teleop.launch" pass_all_args="true" />
+</launch>

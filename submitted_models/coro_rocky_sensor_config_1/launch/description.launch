@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="name" doc="Name of Vehicle"/>
+  <param name="$(arg name)/robot_description" command="$(find xacro)/xacro '$(find coro_rocky_sensor_config_1)/urdf/rocky.xacro' name:=$(arg name)"/>
+</launch>

@@ -1,0 +1,33 @@
+<class_libraries>
+    <library path="lib/liblogical_contact_bridge">
+        <class name="bosdyn_spot/LogicalContactBridge" type="subt::LogicalContactBridge" base_class_type="nodelet::Nodelet">
+            <description>
+                Nodelet for converting Ignition Gazebo logical contact messages to bosdyn_spot/LogicalContact.
+            </description>
+        </class>
+    </library>
+
+    <library path="lib/libfoot_contact_bridge">
+        <class name="bosdyn_spot/FootContactBridge" type="subt::FootContactBridge" base_class_type="nodelet::Nodelet">
+            <description>
+                Nodelet for converting Ignition Gazebo foot contact messages to bosdyn_spot/ContactsStamped.
+            </description>
+        </class>
+    </library>
+
+    <library path="lib/libpid_control_bridge">
+        <class name="bosdyn_spot/PidControlBridge" type="subt::PidControlBridge" base_class_type="nodelet::Nodelet">
+            <description>
+                ROS Bridge for configuration of ConfigurableJointPositionControllerSystem.
+            </description>
+        </class>
+    </library>
+
+    <library path="lib/libjoint_trajectory_bridge">
+        <class name="bosdyn_spot/JointTrajectoryBridge" type="subt::JointTrajectoryBridge" base_class_type="nodelet::Nodelet">
+            <description>
+                ROS Bridge for JointTrajectory messages.
+            </description>
+        </class>
+    </library>
+</class_libraries>

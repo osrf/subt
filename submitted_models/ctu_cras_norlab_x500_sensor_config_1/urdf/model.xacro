@@ -1,0 +1,428 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name='ctu_cras_norlab_x500_sensor_config_1' xmlns:xacro='http://ros.org/wiki/xacro'>
+  <xacro:arg name="name" default="ctu_cras_norlab_x500_sensor_config_1"/>
+  <xacro:property name="robot_namespace" value="$(arg name)"/>
+  <link name='${robot_namespace}/base_link'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='3.3'/>
+      <inertia ixx='0.0316667' ixy='0' ixz='0' iyy='0.0316667' iyz='0' izz='0.0625'/>
+    </inertial>
+    <collision name='base_link_inertia_collision'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.18 0.14 0.12'/>
+      </geometry>
+    </collision>
+    <collision name='base_link_fixed_joint_lump__bottom_light_link_collision_1'>
+      <origin xyz='0.03 0 -0.05' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.01 0.1 0.003'/>
+      </geometry>
+    </collision>
+    <collision name='base_link_fixed_joint_lump__top_light_link_collision_2'>
+      <origin xyz='0.05 0 0.059' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.01 0.1 0.003'/>
+      </geometry>
+    </collision>
+    <collision name='base_link_fixed_joint_lump__front_left_leg_clip_link_collision_3'>
+      <origin xyz='0.162635 0.162635 -0.0785' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.012' length='0.157'/>
+      </geometry>
+    </collision>
+    <collision name='base_link_fixed_joint_lump__front_left_leg_light_link_collision_4'>
+      <origin xyz='0.159099 0.152028 -0.0785' rpy='0 -0 2.35619'/>
+      <geometry>
+        <box size='0.003 0.01 0.145'/>
+      </geometry>
+    </collision>
+    <collision name='base_link_fixed_joint_lump__front_right_leg_clip_link_collision_5'>
+      <origin xyz='0.162635 -0.162635 -0.0785' rpy='0 0 -1.5708'/>
+      <geometry>
+        <cylinder radius='0.012' length='0.157'/>
+      </geometry>
+    </collision>
+    <collision name='base_link_fixed_joint_lump__front_right_leg_light_link_collision_6'>
+      <origin xyz='0.159099 -0.152028 -0.0785' rpy='0 -0 0.785398'/>
+      <geometry>
+        <box size='0.003 0.01 0.145'/>
+      </geometry>
+    </collision>
+    <collision name='base_link_fixed_joint_lump__os_sensor_link_collision_7'>
+      <origin xyz='0 0 0.0944' rpy='0 -0 1.5708'/>
+      <geometry>
+        <cylinder radius='0.0425' length='0.0735'/>
+      </geometry>
+    </collision>
+    <collision name='base_link_fixed_joint_lump__rear_left_leg_clip_link_collision_8'>
+      <origin xyz='-0.162635 0.162635 -0.0785' rpy='0 -0 1.5708'/>
+      <geometry>
+        <cylinder radius='0.012' length='0.157'/>
+      </geometry>
+    </collision>
+    <collision name='base_link_fixed_joint_lump__rear_right_leg_clip_link_collision_9'>
+      <origin xyz='-0.162635 -0.162635 -0.0785' rpy='0 0 -3.14159'/>
+      <geometry>
+        <cylinder radius='0.012' length='0.157'/>
+      </geometry>
+    </collision>
+    <collision name='base_link_fixed_joint_lump__rs_up_holder_link_collision_10'>
+      <origin xyz='0.085 0 0.032' rpy='-1.5708 -0 -1.5708'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_x500_sensor_config_1/meshes/holders/holder_rs_up.dae' scale='1 1 1'/>
+      </geometry>
+    </collision>
+    <collision name='base_link_fixed_joint_lump__sensor_holder_link_collision_11'>
+      <origin xyz='0 0 -0.022' rpy='1.5708 0 -1.5708'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_x500_sensor_config_1/meshes/holders/holder_rs_down_bfox.dae' scale='1 1 1'/>
+      </geometry>
+    </collision>
+    <visual name='base_link_fixed_joint_lump__rs_up_visual_visual'>
+      <origin xyz='0.082 0 0.034' rpy='-1.5708 0 1.5708'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_x500_sensor_config_1/meshes/sensors/realsense.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__rs_down_visual_visual_1'>
+      <origin xyz='0.085 0 -0.02' rpy='1.5708 -0 1.5708'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_x500_sensor_config_1/meshes/sensors/realsense.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__camera_front_visual_2'>
+      <origin xyz='0.107 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_x500_sensor_config_1/meshes/sensors/bluefox.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__back_cover_link_visual_3'>
+      <origin xyz='-0.064 0 0.03' rpy='0 -0 1.5708'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_x500_sensor_config_1/meshes/holders/side_mrs.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__back_left_arm_link_visual_4'>
+      <origin xyz='0 0 0' rpy='0 -0 2.35619'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_x500_sensor_config_1/meshes/holybro/holybro_x500_arm.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__back_left_rotor_link_visual_5'>
+      <origin xyz='-0.177484 0.177484 0.021' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_x500_sensor_config_1/meshes/holybro/holybro_x500_motor.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__back_right_arm_link_visual_6'>
+      <origin xyz='0 0 0' rpy='0 0 -2.35619'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_x500_sensor_config_1/meshes/holybro/holybro_x500_arm.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__back_right_rotor_link_visual_7'>
+      <origin xyz='-0.177484 -0.177484 0.021' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_x500_sensor_config_1/meshes/holybro/holybro_x500_motor.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__battery_mount_left_link_visual_8'>
+      <origin xyz='-0.02 0.03 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_x500_sensor_config_1/meshes/holybro/holybro_x500_battery.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__battery_mount_right_link_visual_9'>
+      <origin xyz='-0.02 -0.03 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_x500_sensor_config_1/meshes/holybro/holybro_x500_battery.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__bottom_board_link_visual_10'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_x500_sensor_config_1/meshes/holybro/holybro_x500_bottom_board.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__bottom_light_link_visual_11'>
+      <origin xyz='0.03 0 -0.05' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.01 0.1 0.003'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__computer_board_link_visual_12'>
+      <origin xyz='0 0 0.058' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.125 0.125 0.002'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__top_light_link_visual_13'>
+      <origin xyz='0.05 0 0.059' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.01 0.1 0.003'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__front_left_arm_link_visual_14'>
+      <origin xyz='0 0 0' rpy='0 -0 0.785398'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_x500_sensor_config_1/meshes/holybro/holybro_x500_arm.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__front_left_leg_clip_link_visual_15'>
+      <origin xyz='0.162635 0.162635 -0.157' rpy='0 -0 0.785398'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_x500_sensor_config_1/meshes/holybro/holybro_x500_leg.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__front_left_leg_light_link_visual_16'>
+      <origin xyz='0.159099 0.152028 -0.0785' rpy='0 -0 2.35619'/>
+      <geometry>
+        <box size='0.003 0.01 0.145'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__front_left_rotor_link_visual_17'>
+      <origin xyz='0.177484 0.177484 0.021' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_x500_sensor_config_1/meshes/holybro/holybro_x500_motor.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__front_right_arm_link_visual_18'>
+      <origin xyz='0 0 0' rpy='0 0 -0.785398'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_x500_sensor_config_1/meshes/holybro/holybro_x500_arm.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__front_right_leg_clip_link_visual_19'>
+      <origin xyz='0.162635 -0.162635 -0.157' rpy='0 0 -0.785398'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_x500_sensor_config_1/meshes/holybro/holybro_x500_leg.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__front_right_leg_light_link_visual_20'>
+      <origin xyz='0.159099 -0.152028 -0.0785' rpy='0 -0 0.785398'/>
+      <geometry>
+        <box size='0.003 0.01 0.145'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__front_right_rotor_link_visual_21'>
+      <origin xyz='0.177484 -0.177484 0.021' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_x500_sensor_config_1/meshes/holybro/holybro_x500_motor.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__left_cover_link_visual_22'>
+      <origin xyz='0 0.064 0.03' rpy='0 0 -3.14159'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_x500_sensor_config_1/meshes/holders/side_ctu.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__os_sensor_link_visual_23'>
+      <origin xyz='0 0 0.06' rpy='0 -0 1.5708'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_x500_sensor_config_1/meshes/sensors/os1_64.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__os_sensor_window_link_visual_24'>
+      <origin xyz='0 0 0.0944' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.038' length='0.035'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__pc_mount_link_visual_25'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_x500_sensor_config_1/meshes/holybro/holybro_x500_pc_mount.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__pixhawk_link_visual_26'>
+      <origin xyz='0 0 0.036' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_x500_sensor_config_1/meshes/sensors/pixhawk.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__rear_left_leg_clip_link_visual_27'>
+      <origin xyz='-0.162635 0.162635 -0.157' rpy='0 -0 2.35619'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_x500_sensor_config_1/meshes/holybro/holybro_x500_leg.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__rear_right_leg_clip_link_visual_28'>
+      <origin xyz='-0.162635 -0.162635 -0.157' rpy='0 0 -2.35619'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_x500_sensor_config_1/meshes/holybro/holybro_x500_leg.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__right_cover_link_visual_29'>
+      <origin xyz='0 -0.064 0.03' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_x500_sensor_config_1/meshes/holders/side_ctu.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__rs_up_holder_link_visual_30'>
+      <origin xyz='0.085 0 0.032' rpy='-1.5708 -0 -1.5708'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_x500_sensor_config_1/meshes/holders/holder_rs_up.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__sensor_holder_link_visual_31'>
+      <origin xyz='0 0 -0.022' rpy='1.5708 0 -1.5708'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_x500_sensor_config_1/meshes/holders/holder_rs_down_bfox.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+  </link>
+  <sensor name='front_laser' update_rate='20'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0 0 0.0944' rpy='0 -0 0'/>
+  </sensor>
+  <sensor name='rs_up' update_rate='30'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0.82 0 0.034' rpy='0 -1.5708 0'/>
+    <camera>
+      <image width='1280' height='720' format='R8G8B8' hfov='1.50098' near='0.01' far='300' />
+    </camera>
+  </sensor>
+  <sensor name='rs_down' update_rate='20'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0.85 0 -0.2' rpy='0 1.5708 0'/>
+    <camera>
+      <image width='1280' height='720' format='R8G8B8' hfov='1.50098' near='0.01' far='300' />
+    </camera>
+  </sensor>
+  <sensor name='camera_front' update_rate='60'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0.107 0 0' rpy='0 -0 0'/>
+    <camera>
+      <image width='1600' height='1200' format='R8G8B8' hfov='1.74533' near='0.01' far='300' />
+    </camera>
+  </sensor>
+  <sensor name='imu_sensor' update_rate='250'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0 0 0' rpy='0 -0 0'/>
+  </sensor>
+  <link name='${robot_namespace}/imu_link'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='0.015'/>
+      <inertia ixx='1e-05' ixy='0' ixz='0' iyy='1e-05' iyz='0' izz='1e-05'/>
+    </inertial>
+  </link>
+  <link name='${robot_namespace}/rotor_0'>
+    <inertial>
+      <origin xyz='-0.177484 0.177484 -0.057' rpy='0 -0 0'/>
+      <mass value='0.005'/>
+      <inertia ixx='0.0001' ixy='0' ixz='0' iyy='0.0001' iyz='0' izz='0.0001'/>
+    </inertial>
+    <collision name='rotor_0_collision'>
+      <origin xyz='-0.177484 0.177484 -0.057' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.127' length='0.005'/>
+      </geometry>
+    </collision>
+    <visual name='rotor_0_visual'>
+      <origin xyz='-0.177484 0.177484 -0.057' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_x500_sensor_config_1/meshes/holybro/holybro_x500_prop.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/rotor_1'>
+    <inertial>
+      <origin xyz='0.177484 -0.177484 -0.057' rpy='0 -0 0'/>
+      <mass value='0.005'/>
+      <inertia ixx='0.0001' ixy='0' ixz='0' iyy='0.0001' iyz='0' izz='0.0001'/>
+    </inertial>
+    <collision name='rotor_1_collision'>
+      <origin xyz='0.177484 -0.177484 -0.057' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.127' length='0.005'/>
+      </geometry>
+    </collision>
+    <visual name='rotor_1_visual'>
+      <origin xyz='0.177484 -0.177484 -0.057' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_x500_sensor_config_1/meshes/holybro/holybro_x500_prop.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/rotor_2'>
+    <inertial>
+      <origin xyz='-0.177484 -0.177484 -0.057' rpy='0 -0 0'/>
+      <mass value='0.005'/>
+      <inertia ixx='0.0001' ixy='0' ixz='0' iyy='0.0001' iyz='0' izz='0.0001'/>
+    </inertial>
+    <collision name='rotor_2_collision'>
+      <origin xyz='-0.177484 -0.177484 -0.057' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.127' length='0.005'/>
+      </geometry>
+    </collision>
+    <visual name='rotor_2_visual'>
+      <origin xyz='-0.177484 -0.177484 -0.057' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_x500_sensor_config_1/meshes/holybro/holybro_x500_prop.dae' scale='-1 1 1'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/rotor_3'>
+    <inertial>
+      <origin xyz='0.177484 0.177484 -0.057' rpy='0 -0 0'/>
+      <mass value='0.005'/>
+      <inertia ixx='0.0001' ixy='0' ixz='0' iyy='0.0001' iyz='0' izz='0.0001'/>
+    </inertial>
+    <collision name='rotor_3_collision'>
+      <origin xyz='0.177484 0.177484 -0.057' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.127' length='0.005'/>
+      </geometry>
+    </collision>
+    <visual name='rotor_3_visual'>
+      <origin xyz='0.177484 0.177484 -0.057' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_x500_sensor_config_1/meshes/holybro/holybro_x500_prop.dae' scale='-1 1 1'/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name='imu_joint' type='fixed'>
+    <origin xyz='0 0 0' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/imu_link'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='1 0 0'/>
+    <limit lower='0' upper='0' effort='0' velocity='0'/>
+  </joint>
+  <joint name='rotor_0_joint' type='revolute'>
+    <origin xyz='0.177484 -0.177484 0.057' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rotor_0'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 0 1'/>
+    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+  </joint>
+  <joint name='rotor_1_joint' type='revolute'>
+    <origin xyz='-0.177484 0.177484 0.057' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rotor_1'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 0 1'/>
+    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+  </joint>
+  <joint name='rotor_2_joint' type='revolute'>
+    <origin xyz='0.177484 0.177484 0.057' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rotor_2'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 0 1'/>
+    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+  </joint>
+  <joint name='rotor_3_joint' type='revolute'>
+    <origin xyz='-0.177484 -0.177484 0.057' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rotor_3'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 0 1'/>
+    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+  </joint>
+</robot>

@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<root xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- Mass properties from datasheet -->
+    <xacro:property name="imu_mass" value="0.08" scope="global" />
+
+    <xacro:macro name="imu_sensor" params="name simulate:=1 visualize:=0">
+        <!-- virtual link to specify IMU position -->
+        <link name="$(arg prefix)${name}">
+            <xacro:if value="${visualize}">
+                <visual>
+                    <geometry>
+                        <box size="0.05 0.03 0.02" />
+                    </geometry>
+                </visual>
+            </xacro:if>
+            <xacro:default_inertial />
+        </link>
+
+        <gazebo reference="$(arg prefix)${name}">
+            <xacro:if value="$(arg simulate_imu)">
+                <sensor name="imu" type="imu">
+                    <always_on>1</always_on>
+                    <update_rate>50</update_rate>
+                    <imu>
+                        <angular_velocity>
+                            <xacro:macro name="angular_imu_noise">
+                                <noise type="gaussian">
+                                    <mean>0</mean>
+                                    <stddev>0.009</stddev>
+                                    <bias_mean>0.00075</bias_mean>
+                                    <bias_stddev>0.005</bias_stddev>
+                                    <xacro:if value="${'$(arg rendering_target)' == 'ign'}">
+                                        <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                                        <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                                        <precision>0.00025</precision>
+                                    </xacro:if>
+                                </noise>
+                            </xacro:macro>
+                            <x><xacro:angular_imu_noise/></x>
+                            <y><xacro:angular_imu_noise/></y>
+                            <z><xacro:angular_imu_noise/></z>
+                        </angular_velocity>
+                        <linear_acceleration>
+                            <xacro:macro name="linear_imu_noise">
+                                <noise type="gaussian">
+                                    <mean>0</mean>
+                                    <stddev>0.021</stddev>
+                                    <bias_mean>0.05</bias_mean>
+                                    <bias_stddev>0.0075</bias_stddev>
+                                    <xacro:if value="${'$(arg rendering_target)' == 'ign'}">
+                                        <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                                        <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                                        <precision>0.005</precision>
+                                    </xacro:if>
+                                </noise>
+                            </xacro:macro>
+                            <x><xacro:linear_imu_noise /></x>
+                            <y><xacro:linear_imu_noise /></y>
+                            <z><xacro:linear_imu_noise /></z>
+                        </linear_acceleration>
+                    </imu>
+                </sensor>
+            </xacro:if>
+        </gazebo>
+    </xacro:macro>
+</root>

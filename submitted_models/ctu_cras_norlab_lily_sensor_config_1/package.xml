@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>ctu_cras_norlab_lily_sensor_config_1</name>
+  <version>0.1.0</version>
+  <description>The ctu_cras_norlab_lily_sensor_config_1 package describes six-legged platform equipped with:
+    - 5 Basler Ace 2 Pro a2A1920-51gcPRO RGB cameras with 86° FOV lenses (Basler C125-0418-5M-P f4mm)
+    - Ouster OS0-128 lidar
+    - IMU
+    - Gas sensor
+  </description>
+
+  <author email="petr.cizek@fel.cvut.cz">Petr Cizek</author>
+  <author email="jiri.kubik@fel.cvut.cz">Jiri Kubik</author>
+  <author email="david.valouch@fel.cvut.cz">David Valouch</author>
+  <author email="peckama2@fel.cvut.cz">Martin Pecka</author>
+
+  <maintainer email="jiri.kubik@fel.cvut.cz">Jiri Kubik</maintainer>
+  <maintainer email="petr.cizek@fel.cvut.cz">Petr Cizek</maintainer>
+  <maintainer email="david.valouch@fel.cvut.cz">David Valouch</maintainer>
+
+  <license>Apache Licence2.0</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>ignition-gazebo4</depend>
+  <depend>ros_ign_bridge</depend>
+  <build_depend>message_generation</build_depend>
+  <depend>message_runtime</depend>  
+
+  <depend>geometry_msgs</depend>
+  <depend>nodelet</depend>
+  <depend>roscpp</depend>
+  <depend>std_msgs</depend>
+
+  <exec_depend>ros_ign_image</exec_depend>
+  <exec_depend>roslaunch</exec_depend>
+  <exec_depend>rospy</exec_depend>
+  <exec_depend>subt_ros</exec_depend>
+  <exec_depend>xacro</exec_depend>
+
+  <export>
+    <nodelet plugin="${prefix}/nodelets.xml" />
+  </export>
+</package>
