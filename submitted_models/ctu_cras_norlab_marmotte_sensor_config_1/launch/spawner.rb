@@ -41,20 +41,6 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <static_publisher>true</static_publisher>
         <static_update_frequency>1</static_update_frequency>
       </plugin>
-      <!-- Battery plugin -->
-      <plugin filename="libignition-gazebo-linearbatteryplugin-system.so"
-        name="ignition::gazebo::systems::LinearBatteryPlugin">
-        <battery_name>linear_battery</battery_name>
-        <voltage>12.694</voltage>
-        <open_circuit_voltage_constant_coef>12.694</open_circuit_voltage_constant_coef>
-        <open_circuit_voltage_linear_coef>-3.1424</open_circuit_voltage_linear_coef>
-        <initial_charge>78.4</initial_charge>
-        <capacity>78.4</capacity>
-        <resistance>0.061523</resistance>
-        <smooth_current_tau>1.9499</smooth_current_tau>
-        <power_load>9.9</power_load>
-        <start_on_motion>true</start_on_motion>
-      </plugin>
       <!-- Gas Sensor plugin -->
       <plugin filename="libGasEmitterDetectorPlugin.so"
         name="subt::GasDetector">
@@ -113,6 +99,20 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
           <wheel_normal_force>63.765</wheel_normal_force>
           <wheel_radius>0.129</wheel_radius>
         </wheel>
+      </plugin>
+      <!-- Battery plugin -->
+      <plugin filename="libignition-gazebo-linearbatteryplugin-system.so"
+        name="ignition::gazebo::systems::LinearBatteryPlugin">
+        <battery_name>linear_battery</battery_name>
+        <voltage>12.694</voltage>
+        <open_circuit_voltage_constant_coef>12.694</open_circuit_voltage_constant_coef>
+        <open_circuit_voltage_linear_coef>-3.1424</open_circuit_voltage_linear_coef>
+        <initial_charge>78.4</initial_charge>
+        <capacity>78.4</capacity>
+        <resistance>0.061523</resistance>
+        <smooth_current_tau>1.9499</smooth_current_tau>
+        <power_load>9.9</power_load>
+        <start_on_motion>true</start_on_motion>
       </plugin>
     </include>
     </sdf>
