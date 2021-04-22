@@ -80,20 +80,6 @@ def _spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw, _add
         <use_pose_vector_msg>true</use_pose_vector_msg>
         <static_publisher>false</static_publisher>
       </plugin>
-      <!-- Battery plugin -->
-      <plugin filename="libignition-gazebo-linearbatteryplugin-system.so"
-        name="ignition::gazebo::systems::LinearBatteryPlugin">
-        <battery_name>linear_battery</battery_name>
-        <voltage>12.694</voltage>
-        <open_circuit_voltage_constant_coef>12.694</open_circuit_voltage_constant_coef>
-        <open_circuit_voltage_linear_coef>-3.1424</open_circuit_voltage_linear_coef>
-        <initial_charge>78.4</initial_charge>
-        <capacity>78.4</capacity>
-        <resistance>0.061523</resistance>
-        <smooth_current_tau>1.9499</smooth_current_tau>
-        <power_load>9.9</power_load>
-        <start_on_motion>true</start_on_motion>
-      </plugin>
       <!-- Gas Sensor plugin -->
       <plugin filename="libGasEmitterDetectorPlugin.so"
         name="subt::GasDetector">
@@ -113,6 +99,20 @@ def _spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw, _add
         <topic>/model/#{_name}/leg_collisions</topic>
       </plugin>
       #{_additionalSpawnPlugins}
+      <!-- Battery plugin -->
+      <plugin filename="libignition-gazebo-linearbatteryplugin-system.so"
+        name="ignition::gazebo::systems::LinearBatteryPlugin">
+        <battery_name>linear_battery</battery_name>
+        <voltage>12.694</voltage>
+        <open_circuit_voltage_constant_coef>12.694</open_circuit_voltage_constant_coef>
+        <open_circuit_voltage_linear_coef>-3.1424</open_circuit_voltage_linear_coef>
+        <initial_charge>78.4</initial_charge>
+        <capacity>78.4</capacity>
+        <resistance>0.061523</resistance>
+        <smooth_current_tau>1.9499</smooth_current_tau>
+        <power_load>9.9</power_load>
+        <start_on_motion>true</start_on_motion>
+      </plugin>
     </include>
     </sdf>
   </spawn>
