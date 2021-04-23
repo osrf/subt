@@ -1039,21 +1039,43 @@ void GameLogicPlugin::PreUpdate(const UpdateInfo &_info,
     return;
 
   if (!this->dataPtr->started)
-    return;
-
-  for (std::string robotName : this->dataPtr->haltedRobots)
   {
-    if (this->dataPtr->robotEntityMap.find(robotName) ==
-        this->dataPtr->robotEntityMap.end())
-        return;
-    gazebo::Entity robotEntity = this->dataPtr->robotEntityMap.at(robotName);
-    auto *haltMotionComp = _ecm.Component<components::HaltMotion>(robotEntity);
-    if (haltMotionComp && !haltMotionComp->Data())
+    _ecm.Each<gazebo::components::Sensor,
+              gazebo::components::ParentEntity>(
+        [&](const gazebo::Entity &,
+            const gazebo::components::Sensor *,
+            const gazebo::components::ParentEntity *_parent) -> bool
+        {
+          // Get the model. We are assuming that a sensor is attached to
+          // a link.
+          auto model = _ecm.Component<gazebo::components::ParentEntity>(
+              _parent->Data());
+
+          if (model)
+          {
+            if (!_ecm.Component<components::HaltMotion>(model->Data()))
+            {
+              _ecm.CreateComponent(model->Data(),components::HaltMotion(false));
+            }
+          }
+          return true;
+        });
+  }
+  else
+  {
+    for (std::string robotName : this->dataPtr->haltedRobots)
     {
-      haltMotionComp->Data() = true;
+      if (this->dataPtr->robotEntityMap.find(robotName) ==
+          this->dataPtr->robotEntityMap.end())
+          return;
+      gazebo::Entity robotEntity = this->dataPtr->robotEntityMap.at(robotName);
+      auto *haltMotionComp = _ecm.Component<components::HaltMotion>(robotEntity);
+      if (haltMotionComp && !haltMotionComp->Data())
+      {
+        haltMotionComp->Data() = true;
+      }
     }
   }
-
 }
 
 //////////////////////////////////////////////////
@@ -2819,7 +2841,7 @@ void GameLogicPluginPrivate::OnKineticEnergyEvent(
     const ignition::msgs::Double &/*_msg*/,
     const transport::MessageInfo &_info)
 {
-  if (!this->dataPtr->started)
+  if (!this->started)
     return;
   ignition::msgs::Time localSimTime(this->simTime);
   std::vector<std::string> topicParts = common::split(_info.Topic(), "/");
