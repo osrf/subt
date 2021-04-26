@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="name"/>
+  <arg name="world_name"/>
+  <arg name="leg"/>
+  <arg name="link_prefix" value="/world/$(arg world_name)/model/$(arg name)/link"/>
+
+  <arg name="contacts_manager_cmd" />
+  <arg name="contacts_manager_name" />
+  <arg name="control_manager_cmd" />
+  <arg name="control_manager_name" />
+
+  <!-- Contact relay -->
+  <node name="ros_ign_bridge_$(arg leg)_leg_contact" pkg="nodelet" type="nodelet" args="$(arg contacts_manager_cmd) bosdyn_spot/FootContactBridge $(arg contacts_manager_name)" respawn="true">
+    <param name="ign_topic" value="$(arg link_prefix)/$(arg leg)_lower_leg/sensor/contact/contact" />
+    <remap from="contacts" to="leg_contacts/$(arg leg)" />
+  </node>
+
+  <include file="$(dirname)/leg_joint.launch" pass_all_args="true"><arg name="joint" value="hip_x" /></include>
+  <include file="$(dirname)/leg_joint.launch" pass_all_args="true"><arg name="joint" value="hip_y" /></include>
+  <include file="$(dirname)/leg_joint.launch" pass_all_args="true"><arg name="joint" value="knee" /></include>
+</launch>

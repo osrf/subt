@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="name"/>
+  <arg name="world_name"/>
+  <arg name="leg"/>
+  <arg name="joint"/>
+  <arg name="joint_prefix" value="/model/$(arg name)/joint"/>
+
+  <arg name="contacts_manager_cmd" />
+  <arg name="contacts_manager_name" />
+  <arg name="control_manager_cmd" />
+  <arg name="control_manager_name" />
+
+  <!-- Position controller (send NaN to disable it). It tries to keep the initial position by default. -->
+  <node pkg="ros_ign_bridge" type="parameter_bridge" name="ros_ign_bridge_$(arg leg)_$(arg joint)_position_controller"
+    args="$(arg joint_prefix)/$(arg leg)_$(arg joint)/0/cmd_pos@std_msgs/Float64]ignition.msgs.Double" respawn="true">
+    <remap from="$(arg joint_prefix)/$(arg leg)_$(arg joint)/0/cmd_pos" to="cmd_pos/$(arg leg)_$(arg joint)"/>
+  </node>
+
+  <!-- Effort actuator (send 0 to disable it). -->
+  <node pkg="ros_ign_bridge" type="parameter_bridge" name="ros_ign_bridge_$(arg leg)_$(arg joint)_motor"
+    args="$(arg joint_prefix)/$(arg leg)_$(arg joint)/cmd_force@std_msgs/Float64]ignition.msgs.Double" respawn="true">
+    <remap from="$(arg joint_prefix)/$(arg leg)_$(arg joint)/cmd_force" to="cmd_force/$(arg leg)_$(arg joint)"/>
+  </node>
+
+  <!-- Position controller PID parameters configuration -->
+  <group ns="joint_group_position_controller">
+    <group ns="gains">
+      <arg name="control_manager_abs_name" value="/$(arg name)/$(arg control_manager_name)" if="$(eval control_manager_name != '')" />
+      <arg name="control_manager_abs_name" value="" if="$(eval control_manager_name == '')" />
+      <node name="$(arg leg)_$(arg joint)" pkg="nodelet" type="nodelet" args="$(arg control_manager_cmd) bosdyn_spot/PidControlBridge $(arg control_manager_abs_name)" respawn="true">
+        <param name="ign_topic" value="$(arg joint_prefix)/$(arg leg)_$(arg joint)/0/set_pos_pid" />
+      </node>
+    </group>
+  </group>
+</launch>

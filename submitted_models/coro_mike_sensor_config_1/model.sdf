@@ -1,0 +1,1261 @@
+<?xml version="1.0"?>
+<sdf version="1.6">
+  <model name="coro_mike_sensor_config_1">
+    <pose>0 0 0.1275 0 0 0</pose>
+    <enable_wind>1</enable_wind>
+
+    <link name="base_link">
+      <inertial>
+        <pose>0 -0.14 0.11 0 0 0</pose>
+        <mass>15</mass>
+        <inertia>
+          <ixx>0.147</ixx>
+          <iyy>1.056</iyy>
+          <izz>1.071</izz>
+        </inertia>
+      </inertial>
+      
+      <collision name="chassis_collision">
+        <pose>0 -0.14 0.11 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.89 0.23 0.255</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="chassis_collision2">
+        <pose>0 -0.41 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.8 0.03 0.03</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="tower_collision">
+        <pose>0.345 -0.125 0.39 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.2 0.2 0.34</size>
+          </box>
+        </geometry>
+      </collision>
+  
+      <visual name="chassis_main_visual">
+        <pose>0 -0.14 0.11 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.89 0.23 0.255</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.6 0.6 0.6 1.0</ambient>
+          <diffuse>0.6 0.6 0.6 1.0</diffuse>
+        </material>
+      </visual>
+
+      <visual name="chassis_main_outside_visual1">
+        <pose>0 -0.41 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.8 0.03 0.03</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.6 0.6 0.6 1.0</ambient>
+          <diffuse>0.6 0.6 0.6 1.0</diffuse>
+        </material>
+      </visual>
+      <visual name="chassis_main_outside_visual2">
+        <pose>0 -0.33 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.06 0.16 0.03</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.6 0.6 0.6 1.0</ambient>
+          <diffuse>0.6 0.6 0.6 1.0</diffuse>
+        </material>
+      </visual>
+
+      <visual name="chassis_joint_visual">
+        <pose>0 0 0.04 1.5707963267948966 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.05</length>
+            <radius>0.05</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.0 0.0 0.0 1.0</ambient>
+          <diffuse>0.0 0.0 0.0 1.0</diffuse>
+        </material>
+      </visual>
+      
+
+
+      
+
+      <visual name="plate1_visual">
+        <pose>0.345 -0.125 0.54 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.2 0.2 0.005</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.8 0.8 0.8 1</ambient>
+          <diffuse>0.8 0.8 0.8 1</diffuse>
+        </material>
+      </visual>
+      <visual name="plate2_visual">
+        <pose>0.345 -0.125 0.43 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.2 0.2 0.005</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.8 0.8 0.8 1</ambient>
+          <diffuse>0.8 0.8 0.8 1</diffuse>
+        </material>
+      </visual>
+      <visual name="plate3_visual_was35_11_29">
+        <pose>0.345 -0.125 0.24 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.2 0.2 0.005</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.8 0.8 0.8 1</ambient>
+          <diffuse>0.8 0.8 0.8 1</diffuse>
+        </material>
+      </visual>
+
+      <visual name="beam1_visual">
+        <pose>0.436 -0.034 0.39 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.02 0.02 0.3</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.8 0.8 0.8 1</ambient>
+          <diffuse>0.8 0.8 0.8 1</diffuse>
+        </material>
+      </visual>
+      <visual name="beam2_visual">
+        <pose>0.436 -0.216 0.39 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.02 0.02 0.3</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.8 0.8 0.8 1</ambient>
+          <diffuse>0.8 0.8 0.8 1</diffuse>
+        </material>
+      </visual>
+      <visual name="beam3_visual">
+        <pose>0.254 -0.034 0.39 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.02 0.02 0.3</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.8 0.8 0.8 1</ambient>
+          <diffuse>0.8 0.8 0.8 1</diffuse>
+        </material>
+      </visual>
+      <visual name="beam4_visual">
+        <pose>0.254 -0.216 0.39 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.02 0.02 0.3</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.8 0.8 0.8 1</ambient>
+          <diffuse>0.8 0.8 0.8 1</diffuse>
+        </material>
+      </visual>
+
+
+      <visual name="emergency_stop_bottom_visual">
+        <pose>0.2 -0.15 0.245 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.015</length>
+            <radius>0.015</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.7059 0.7059 0.7059 1.0</ambient>
+          <diffuse>0.7059 0.7059 0.7059 1.0</diffuse>
+        </material>
+      </visual>
+      <visual name="emergency_stop_top_visual">
+        <pose>0.2 -0.15 0.255 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.005</length>
+            <radius>0.02</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>1.0 0.0 0.0 1.0</ambient>
+          <diffuse>1.0 0.0 0.0 1.0</diffuse>
+        </material>
+      </visual>
+      
+
+      <visual name="d435i_realsense_camera_visual">
+        <pose>0.405 -0.125 0.513 0 0.46 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>meshes/realsense_d435.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <visual name="vlp16_visual1">
+        <pose>0.345 -0.125 0.432 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/VLP16_base_1.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="vlp_visual2">
+        <pose>0.345 -0.125 0.432 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/VLP16_base_2.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="vlp_visual3">
+        <pose>0.345 -0.125 0.432 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/VLP16_scan.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <visual name="camera_front_visual">
+        <pose>0.435 -0.065 0.525 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.01 0.03 0.03</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.0 0.0 0.0 1.0</ambient>
+          <diffuse>0.0 0.0 0.0 1.0</diffuse>
+        </material>
+      </visual>
+      <visual name="camera_lens_front_visual">
+        <pose>0.445 -0.065 0.525 0 1.5707963267948966 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.011</length>
+            <radius>0.005</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.0 0.0 0.0 1.0</ambient>
+          <diffuse>0.0 0.0 0.0 1.0</diffuse>
+        </material>
+      </visual>
+
+      <visual name="camera_rear_visual">
+        <pose>0.255 -0.125 0.525 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.01 0.03 0.03</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.0 0.0 0.0 1.0</ambient>
+          <diffuse>0.0 0.0 0.0 1.0</diffuse>
+        </material>
+      </visual>
+      <visual name="camera_lens_rear_visual">
+        <pose>0.245 -0.125 0.525 0 1.5707963267948966 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.011</length>
+            <radius>0.005</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.0 0.0 0.0 1.0</ambient>
+          <diffuse>0.0 0.0 0.0 1.0</diffuse>
+        </material>
+      </visual>
+
+      <visual name="camera_left_visual">
+        <pose>0.345 -0.035 0.525 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.03 0.01 0.03</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.0 0.0 0.0 1.0</ambient>
+          <diffuse>0.0 0.0 0.0 1.0</diffuse>
+        </material>
+      </visual>
+      <visual name="camera_lens_left_visual">
+        <pose>0.345 -0.025 0.525 1.5707963267948966 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.011</length>
+            <radius>0.005</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.0 0.0 0.0 1.0</ambient>
+          <diffuse>0.0 0.0 0.0 1.0</diffuse>
+        </material>
+      </visual>
+
+      <visual name="camera_right_visual">
+        <pose>0.345 -0.215 0.525 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.03 0.01 0.03</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.0 0.0 0.0 1.0</ambient>
+          <diffuse>0.0 0.0 0.0 1.0</diffuse>
+        </material>
+      </visual>
+      <visual name="camera_lens_right_visual">
+        <pose>0.345 -0.225 0.525 1.5707963267948966 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.011</length>
+            <radius>0.005</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.0 0.0 0.0 1.0</ambient>
+          <diffuse>0.0 0.0 0.0 1.0</diffuse>
+        </material>
+      </visual>
+
+      <visual name="light_front_visual">
+        <pose>0.435 -0.125 0.562 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.04 0.13 0.04</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.0 0.0 0.0 1.0</ambient>
+          <diffuse>0.0 0.0 0.0 1.0</diffuse>
+        </material>
+      </visual>
+      <light name="light_front" type="spot">
+        <pose>0.465 -0.125 0.562 0 -1.5707963267948966 0</pose>
+        <attenuation>
+          <range>25</range>
+          <linear>0</linear>
+          <constant>0.1</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <diffuse>0.8 0.8 0.5 1.0</diffuse>
+        <specular>0.8 0.8 0.5 1</specular>
+        <spot>
+          <inner_angle>1.571</inner_angle>
+          <outer_angle>2.1</outer_angle>
+          <falloff>1</falloff>
+        </spot>
+        <direction>1 0 0</direction>
+        <cast_shadows>1</cast_shadows>
+      </light>
+      
+      <visual name="light_rear_visual">
+        <pose>0.255 -0.125 0.562 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.04 0.12 0.04</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.0 0.0 0.0 1.0</ambient>
+          <diffuse>0.0 0.0 0.0 1.0</diffuse>
+        </material>
+      </visual>
+      <light name="light_rear" type="spot">
+        <pose>0.225 -0.125 0.562 0 1.5707963267948966 0</pose>
+        <attenuation>
+          <range>25</range>
+          <linear>0</linear>
+          <constant>0.1</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <diffuse>0.8 0.8 0.5 1.0</diffuse>
+        <specular>0.8 0.8 0.5 1</specular>
+        <spot>
+          <inner_angle>1.571</inner_angle>
+          <outer_angle>2.1</outer_angle>
+          <falloff>1</falloff>
+        </spot>
+        <direction>1 0 0</direction>
+        <cast_shadows>1</cast_shadows>
+      </light>
+      
+      <visual name="light_left_visual">
+        <pose>0.345 -0.035 0.562 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.12 0.04 0.04</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.0 0.0 0.0 1.0</ambient>
+          <diffuse>0.0 0.0 0.0 1.0</diffuse>
+        </material>
+      </visual>
+      <light name="light_left" type="spot">
+        <pose>0.345 0.025 0.562 1.5707963267948966 0 0</pose>
+        <attenuation>
+          <range>25</range>
+          <linear>0</linear>
+          <constant>0.1</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <diffuse>0.8 0.8 0.5 1.0</diffuse>
+        <specular>0.8 0.8 0.5 1</specular>
+        <spot>
+          <inner_angle>1.571</inner_angle>
+          <outer_angle>2.1</outer_angle>
+          <falloff>1</falloff>
+        </spot>
+        <direction>1 0 0</direction>
+        <cast_shadows>1</cast_shadows>
+      </light>
+      
+      <visual name="light_right_visual">
+        <pose>0.345 -0.215 0.562 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.12 0.04 0.04</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.0 0.0 0.0 1.0</ambient>
+          <diffuse>0.0 0.0 0.0 1.0</diffuse>
+        </material>
+      </visual>
+      <light name="light_right" type="spot">
+        <pose>0.345 -0.245 0.562 -1.5707963267948966 0 0</pose>
+        <attenuation>
+          <range>25</range>
+          <linear>0</linear>
+          <constant>0.1</constant>
+          <quadratic>0.005</quadratic>
+        </attenuation>
+        <diffuse>0.8 0.8 0.5 1.0</diffuse>
+        <specular>0.8 0.8 0.5 1</specular>
+        <spot>
+          <inner_angle>1.571</inner_angle>
+          <outer_angle>2.1</outer_angle>
+          <falloff>1</falloff>
+        </spot>
+        <direction>1 0 0</direction>
+        <cast_shadows>1</cast_shadows>
+      </light>
+
+
+      <!-- thermal camera -->
+      <visual name="thermal_camera_visual">
+        <pose> 0.425 -0.185 0.524 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.02 0.03 0.03</size>
+          </box>
+        </geometry>
+      </visual>
+      <sensor name="thermal_camera" type="thermal">
+        <pose> 0.44 -0.17 0.574 0 0 0</pose>
+        <camera name="thermal_camera">
+          <horizontal_fov>0.628</horizontal_fov>
+          <lens>
+            <intrinsics>
+              <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+              <fx>317.173</fx>
+              <fy>317.173</fy>
+              <!-- cx = ( width - 1 ) / 2 -->
+              <cx>102.5</cx>
+              <!-- cy = ( height - 1 ) / 2 -->
+              <cy>77.5</cy>
+              <s>0</s>
+            </intrinsics>
+          </lens>
+          <image>
+            <width>206</width>
+            <height>156</height>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>300</far>
+          </clip>
+        </camera>
+        <always_on>1</always_on>
+        <update_rate>9</update_rate>
+      </sensor>
+
+
+
+      <!-- Real robot has 2 x B0203 with LN008 each with a 180 deg hor x 130 deg vert FOV
+           Since fisheye cameras are not modeled, four cameras are used in the model -->
+      <sensor name="camera_front" type="camera">
+        <pose>0.455 -0.065 0.525 0 0 0</pose>
+        <always_on>1</always_on>
+        <update_rate>25</update_rate>
+        <camera name="camera_front">
+          <horizontal_fov>1.658</horizontal_fov>
+          <lens>
+            <intrinsics>
+              <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+              <fx>329.9</fx>
+              <fy>329.9</fy>
+              <!-- cx = ( width - 1 ) / 2 -->
+              <cx>359.5</cx>
+              <!-- cy = ( height - 1 ) / 2 -->
+              <cy>539.5</cy>
+              <s>0</s>
+            </intrinsics>
+          </lens>
+          <distortion>
+            <k1>0.0</k1>
+            <k2>0.0</k2>
+            <k3>0.0</k3>
+            <p1>0.0</p1>
+            <p2>0.0</p2>
+            <center>0.5 0.5</center>
+          </distortion>
+          <image>
+            <width>720</width>
+            <height>1080</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.01</near>
+            <far>300</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+      </sensor>
+
+      <sensor name="camera_rear" type="camera">
+        <pose>0.235 -0.125 0.525 0 0 3.141592653589793</pose>
+        <always_on>1</always_on>
+        <update_rate>25</update_rate>
+        <camera name="camera_front">
+          <horizontal_fov>1.658</horizontal_fov>
+          <lens>
+            <intrinsics>
+              <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+              <fx>329.9</fx>
+              <fy>329.9</fy>
+              <!-- cx = ( width - 1 ) / 2 -->
+              <cx>359.5</cx>
+              <!-- cy = ( height - 1 ) / 2 -->
+              <cy>539.5</cy>
+              <s>0</s>
+            </intrinsics>
+          </lens>
+          <distortion>
+            <k1>0.0</k1>
+            <k2>0.0</k2>
+            <k3>0.0</k3>
+            <p1>0.0</p1>
+            <p2>0.0</p2>
+            <center>0.5 0.5</center>
+          </distortion>
+          <image>
+            <width>720</width>
+            <height>1080</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.01</near>
+            <far>300</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+      </sensor>
+
+      <sensor name="camera_left" type="camera">
+        <pose>0.345 -0.015 0.525 0 0 1.5707963267948966</pose>
+        <always_on>1</always_on>
+        <update_rate>25</update_rate>
+        <camera name="camera_front">
+          <horizontal_fov>1.658</horizontal_fov>
+          <lens>
+            <intrinsics>
+              <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+              <fx>329.9</fx>
+              <fy>329.9</fy>
+              <!-- cx = ( width - 1 ) / 2 -->
+              <cx>359.5</cx>
+              <!-- cy = ( height - 1 ) / 2 -->
+              <cy>539.5</cy>
+              <s>0</s>
+            </intrinsics>
+          </lens>
+          <distortion>
+            <k1>0.0</k1>
+            <k2>0.0</k2>
+            <k3>0.0</k3>
+            <p1>0.0</p1>
+            <p2>0.0</p2>
+            <center>0.5 0.5</center>
+          </distortion>
+          <image>
+            <width>720</width>
+            <height>1080</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.01</near>
+            <far>300</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+      </sensor>
+
+      <sensor name="camera_right" type="camera">
+        <pose>0.345 -0.235 0.525 0 0 -1.5707963267948966</pose>
+        <always_on>1</always_on>
+        <update_rate>25</update_rate>
+        <camera name="camera_front">
+          <horizontal_fov>1.658</horizontal_fov>
+          <lens>
+            <intrinsics>
+              <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+              <fx>329.9</fx>
+              <fy>329.9</fy>
+              <!-- cx = ( width - 1 ) / 2 -->
+              <cx>359.5</cx>
+              <!-- cy = ( height - 1 ) / 2 -->
+              <cy>539.5</cy>
+              <s>0</s>
+            </intrinsics>
+          </lens>
+          <distortion>
+            <k1>0.0</k1>
+            <k2>0.0</k2>
+            <k3>0.0</k3>
+            <p1>0.0</p1>
+            <p2>0.0</p2>
+            <center>0.5 0.5</center>
+          </distortion>
+          <image>
+            <width>720</width>
+            <height>1080</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.01</near>
+            <far>300</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+      </sensor>
+
+
+
+      <sensor name="front_laser" type="gpu_lidar">
+        <visualize>0</visualize>
+        <update_rate>10</update_rate>
+        <lidar>
+          <scan>
+            <horizontal>
+              <samples>1800</samples>
+              <resolution>1</resolution>
+              <min_angle>-3.1459</min_angle>
+              <max_angle>3.1459</max_angle>
+            </horizontal>
+            <vertical>
+              <samples>16</samples>
+              <resolution>1</resolution>
+              <min_angle>-0.261799</min_angle>
+              <max_angle>0.261799</max_angle>
+            </vertical>
+          </scan>
+          <range>
+            <min>0.05</min>
+            <max>100</max>
+            <resolution>0.01</resolution>
+          </range>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.01</stddev>
+          </noise>
+        </lidar>
+        <pose frame="">0.345 -0.125 0.47 0 -0 0</pose>
+      </sensor>
+
+      
+      <!-- Based on Intel realsense D435 (intrinsics and distortion not modeled)-->
+      <sensor name="rgbd_front" type="rgbd_camera">
+        <pose>0.435 -0.125 0.513 0 0.46 0</pose>
+        <always_on>1</always_on>
+        <update_rate>30</update_rate>
+        <camera name="rgbd_front">
+          <horizontal_fov>1.50098</horizontal_fov>
+          <lens>
+            <intrinsics>
+              <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+              <fx>343.159</fx>
+              <fy>343.159</fy>
+              <!-- cx = ( width - 1 ) / 2 -->
+              <cx>319.5</cx>
+              <!-- cy = ( height - 1 ) / 2 -->
+              <cy>179.5</cy>
+              <s>0</s>
+            </intrinsics>
+          </lens>
+          <distortion>
+            <k1>0.0</k1>
+            <k2>0.0</k2>
+            <k3>0.0</k3>
+            <p1>0.0</p1>
+            <p2>0.0</p2>
+            <center>0.5 0.5</center>
+          </distortion>
+          <image>
+            <width>640</width>
+            <height>360</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.01</near>
+            <far>300</far>
+          </clip>
+          <depth_camera>
+            <clip>
+              <near>0.1</near>
+              <far>10</far>
+            </clip>
+          </depth_camera>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+      </sensor>
+
+      
+  
+      <!-- MS-IMU3025 -->
+      <sensor name="imu_sensor" type="imu">
+        <pose>0 -0.125 0 0 0 0</pose>
+        <always_on>1</always_on>
+        <update_rate>50</update_rate>
+        <imu>
+          <angular_velocity>
+            <x>
+              <noise type="gaussian">
+                <mean>0</mean>
+                <stddev>0.009</stddev>
+                <bias_mean>0.00075</bias_mean>
+                <bias_stddev>0.005</bias_stddev>
+                <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                <precision>0.00025</precision>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0</mean>
+                <stddev>0.009</stddev>
+                <bias_mean>0.00075</bias_mean>
+                <bias_stddev>0.005</bias_stddev>
+                <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                <precision>0.00025</precision>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0</mean>
+                <stddev>0.009</stddev>
+                <bias_mean>0.00075</bias_mean>
+                <bias_stddev>0.005</bias_stddev>
+                <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                <precision>0.00025</precision>
+              </noise>
+            </z>
+          </angular_velocity>
+          <linear_acceleration>
+            <x>
+              <noise type="gaussian">
+                <mean>0</mean>
+                <stddev>0.021</stddev>
+                <bias_mean>0.05</bias_mean>
+                <bias_stddev>0.0075</bias_stddev>
+                <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                <precision>0.005</precision>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0</mean>
+                <stddev>0.021</stddev>
+                <bias_mean>0.05</bias_mean>
+                <bias_stddev>0.0075</bias_stddev>
+                <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                <precision>0.005</precision>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0</mean>
+                <stddev>0.021</stddev>
+                <bias_mean>0.05</bias_mean>
+                <bias_stddev>0.0075</bias_stddev>
+                <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                <precision>0.005</precision>
+              </noise>
+            </z>
+          </linear_acceleration>
+        </imu>
+      </sensor>
+      <sensor name="air_pressure" type="air_pressure">
+        <always_on>1</always_on>
+        <update_rate>20</update_rate>
+        <air_pressure>
+          <reference_altitude>0</reference_altitude>
+          <noise type="gaussian">
+            <mean>0.00000008</mean>
+          </noise>
+        </air_pressure>
+      </sensor>
+      <sensor name="magnetometer" type="magnetometer">
+        <always_on>1</always_on>
+        <update_rate>50</update_rate>
+        <magnetometer>
+          <x>
+            <noise type="gaussian">
+              <mean>0.000000080</mean>
+              <bias_mean>0.000000400</bias_mean>
+            </noise>
+          </x>
+          <y>
+            <noise type="gaussian">
+              <mean>0.000000080</mean>
+              <bias_mean>0.000000400</bias_mean>
+            </noise>
+          </y>
+          <z>
+            <noise type="gaussian">
+              <mean>0.000000080</mean>
+              <bias_mean>0.000000400</bias_mean>
+            </noise>
+          </z>
+        </magnetometer>
+      </sensor>
+    </link>
+
+    <link name="body_left">
+      <inertial>
+        <pose>0 0.14 0.11 0 0 0</pose>
+        <mass>15</mass>
+        <inertia>
+          <ixx>0.147</ixx>
+          <iyy>1.056</iyy>
+          <izz>1.071</izz>
+        </inertia>
+      </inertial>
+      
+      <collision name="body_left_collision">
+        <pose>0 0.14 0.11 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.89 0.23 0.255</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="chassis_left_collision2">
+        <pose>0 0.41 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.8 0.03 0.03</size>
+          </box>
+        </geometry>
+      </collision>
+      
+
+      <visual name="chassis_left_visual">
+        <pose>0 0.14 0.11 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.89 0.23 0.255</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.6 0.6 0.6 1.0</ambient>
+          <diffuse>0.6 0.6 0.6 1.0</diffuse>
+        </material>
+      </visual>
+      <visual name="chassis_left_outside_visual1">
+        <pose>0 0.41 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.8 0.03 0.03</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.6 0.6 0.6 1.0</ambient>
+          <diffuse>0.6 0.6 0.6 1.0</diffuse>
+        </material>
+      </visual>
+      <visual name="chassis_left_outside_visual2">
+        <pose>0 0.33 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.06 0.16 0.03</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.6 0.6 0.6 1.0</ambient>
+          <diffuse>0.6 0.6 0.6 1.0</diffuse>
+        </material>
+      </visual>
+
+    </link>
+
+    <link name="front_left_wheel">
+      <pose>0.375 0.34 0 0 0 0</pose>
+      <inertial>
+        <mass>5.0</mass>
+        <inertia>
+          <ixx>0.030</ixx>
+          <iyy>0.056</iyy>
+          <izz>0.030</izz>
+        </inertia>
+      </inertial>
+      <collision name="front_left_wheel_collision">
+        <pose>0 0 0 -1.5707963267948966 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.06</length>
+            <radius>0.33</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>1</mu2>
+              <slip1>0.0016</slip1>
+              <slip2>0</slip2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name="front_left_wheel_visual">
+        <pose>0 0 0 1.5707963267948966 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/wheel_left.dae</uri>
+            <scale>3.25 3.25 1.3</scale>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="front_left_axle">
+        <pose>0 -0.02 0 -1.5707963267948966 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.16</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.1 0.1 0.1 1.0</ambient>
+          <diffuse>0.1 0.1 0.1 1.0</diffuse>
+        </material>
+      </visual>
+    </link>
+
+    <link name="front_right_wheel">
+      <pose>0.375 -0.34 0 0 0 0</pose>
+      <inertial>
+        <mass>5</mass>
+        <inertia>
+          <ixx>0.030</ixx>
+          <iyy>0.056</iyy>
+          <izz>0.030</izz>
+        </inertia>
+      </inertial>
+      <collision name="front_right_wheel_collision">
+        <pose>0 0 0 1.5707963267948966 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.06</length>
+            <radius>0.33</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>1</mu2>
+              <slip1>0.0016</slip1>
+              <slip2>0</slip2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name="front_right_wheel_visual">
+        <pose>0 0 0 1.5707963267948966 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/wheel_right.dae</uri>
+            <scale>3.25 3.25 1.3</scale>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="front_right_axle">
+        <pose>0 0.02 0 -1.5707963267948966 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.16</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.1 0.1 0.1 1.0</ambient>
+          <diffuse>0.1 0.1 0.1 1.0</diffuse>
+        </material>
+      </visual>
+    </link>
+
+    <link name="rear_left_wheel">
+      <pose>-0.375 0.34 0 0 0 0</pose>
+      <inertial>
+        <mass>5</mass>
+        <inertia>
+          <ixx>0.030</ixx>
+          <iyy>0.056</iyy>
+          <izz>0.030</izz>
+        </inertia>
+      </inertial>
+      <collision name="rear_left_wheel_collision">
+        <pose>0 0 0 -1.5707963267948966 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.06</length>
+            <radius>0.33</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>1</mu2>
+              <slip1>0.0016</slip1>
+              <slip2>0</slip2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name="rear_left_wheel_visual">
+        <pose>0 0 0 1.5707963267948966 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/wheel_left.dae</uri>
+            <scale>3.25 3.25 1.3</scale>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="rear_left_axle">
+        <pose>0 -0.02 0 -1.5707963267948966 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.16</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.1 0.1 0.1 1.0</ambient>
+          <diffuse>0.1 0.1 0.1 1.0</diffuse>
+        </material>
+      </visual>
+    </link>
+
+    <link name="rear_right_wheel">
+      <pose>-0.375 -0.34 0 0 0 0</pose>
+      <inertial>
+        <mass>5</mass>
+        <inertia>
+          <ixx>0.030</ixx>
+          <iyy>0.056</iyy>
+          <izz>0.030</izz>
+        </inertia>
+      </inertial>
+      <collision name="rear_right_wheel_collision">
+        <pose>0 0 0 1.5707963267948966 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.06</length>
+            <radius>0.33</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>1</mu2>
+              <slip1>0.0016</slip1>
+              <slip2>0</slip2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name="rear_right_wheel_visual">
+        <pose>0 0 0 1.5707963267948966 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/wheel_right.dae</uri>
+            <scale>3.25 3.25 1.3</scale>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="front_right_axle">
+        <pose>0 0.02 0 -1.5707963267948966 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.16</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.1 0.1 0.1 1.0</ambient>
+          <diffuse>0.1 0.1 0.1 1.0</diffuse>
+        </material>
+      </visual>
+    </link>
+
+
+    <joint name="Center Pivot" type="revolute">
+      <child>body_left</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>0 -1 0</xyz>
+        <limit>
+          <lower>-0.5585</lower>
+          <upper>0.5585</upper>
+          <effort>30</effort>
+          <velocity>1</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+
+
+    <joint name="front_left_wheel_joint" type="revolute">
+      <child>front_left_wheel</child>
+      <parent>body_left</parent>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1.79769e+308</lower>
+          <upper>+1.79769e+308</upper>
+          <velocity>14</velocity>
+          <!-- Torque in NM. -->
+          <effort>60</effort>
+        </limit>
+        <use_parent_model_frame>1</use_parent_model_frame>
+      </axis>
+    </joint>
+
+    <joint name="rear_left_wheel_joint" type="revolute">
+      <parent>body_left</parent>
+      <child>rear_left_wheel</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1.79769e+308</lower>
+          <upper>+1.79769e+308</upper>
+          <velocity>14</velocity>
+          <effort>60</effort>
+        </limit>
+      </axis>
+    </joint>
+
+    <joint name="rear_right_wheel_joint" type="revolute">
+      <parent>base_link</parent>
+      <child>rear_right_wheel</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1.79769e+308</lower>
+          <upper>+1.79769e+308</upper>
+          <velocity>14</velocity>
+          <!-- Torque in NM. -->
+          <effort>60</effort>
+        </limit>
+      </axis>
+    </joint>
+
+    <joint name="front_right_wheel_joint" type="revolute">
+      <parent>base_link</parent>
+      <child>front_right_wheel</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1.79769e+308</lower>
+          <upper>+1.79769e+308</upper>
+          <velocity>14</velocity>
+          <!-- Torque in NM. -->
+          <effort>60</effort>
+        </limit>
+      </axis>
+    </joint>
+  </model>
+</sdf>
