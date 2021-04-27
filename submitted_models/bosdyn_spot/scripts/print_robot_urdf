@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -e
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+MODEL_DIR="${DIR}/.."
+
+config=""
+for file in "${MODEL_DIR}/config/model/common.yaml" "${MODEL_DIR}/config/model/urdf.yaml"; do
+  config="${config} $("${DIR}/yaml_to_xacro_args" "$file")"
+done
+
+echo -e "Rendering URDF of $(basename "$(realpath "$MODEL_DIR")") with the following Xacro arguments:\n${config}" "$@" >&2
+rosrun xacro xacro "${MODEL_DIR}/urdf/spot.urdf.xacro" ${config} "$@"

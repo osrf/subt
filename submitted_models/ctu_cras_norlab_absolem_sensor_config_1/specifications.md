@@ -9,9 +9,9 @@ This configuration is based BlueBotics Absolem tracked robot. The robot is equip
 ## Usage Instructions
 The robot motion is controlled via standard `cmd_vel` commands.
 
-Flippers can be velocity-controlled by publishing to topics `flippers_cmd_vel/front_left` (`front_right`, `rear_left`, `rear_right`) (`std_msgs/Float64`) for velocity control or topics `flippers_cmd_pos/front_left`, etc. for position control. Maximum angular velocity of the flippers is `pi/4 rad/s`. The effort limits in the model were set so that the robot can support itself with the flippers, but cannot use them to lift itself on all four flippers. This is how the real flippers work. The current position of the flippers is published to `joint_states` as `front_left_flipper_j` etc. The flippers can continuously rotate.
+Flippers can be controlled by publishing to topics `flippers_cmd_vel/front_left` (`front_right`, `rear_left`, `rear_right`) (`std_msgs/Float64`) for velocity control or topics `flippers_cmd_pos/front_left`, etc. for position control. Relative positional control is available on `flippers_cmd_pos_rel/front_left` etc. Maximum angular velocity of the flippers is `pi/4 rad/s`. The effort limits in the model were set so that the robot can support itself with the flippers, but cannot use them to lift itself on all four flippers. This is how the real flippers work. The current position of the flippers is published to `joint_states` as `front_left_flipper_j` etc. The flippers can continuously rotate.
 
-The laser rotation is velocity-controlled by publishing to topic `scanning_speed_cmd` (`std_msgs/Float64`). The laser has hard stops at `+-2.36 rad` and maximum rotation velocity is `1.2 rad/s`. The laser has an automatic controller that reverses the rotation direction at a given angle (currently ca. `1.6 rad`). The current position of the laser is published to `joint_states` as `laser_j`. The default (zero) position of the laser is such that the scanning plane is levelled with ground.
+The laser rotation is velocity-controlled by publishing to topic `lidar_gimbal/roll_rate_cmd_double` (`std_msgs/Float64`). The laser has hard stops at `+-2.36 rad` and maximum rotation velocity is `1.2 rad/s`. The laser has an automatic controller that reverses the rotation direction at a given angle (currently ca. `1.6 rad`). The current position of the laser is published to `joint_states` as `laser_j`. The default (zero) position of the laser is such that the scanning plane is levelled with ground.
 
 The robot is equipped with two more passive joints which connect the tracks to `base_link`. They are called `left_track_j` and `right_track_j`. These joints are connected via a differential with lockable brake. The differential makes sure that `angle(left_track_j) == -angle(right_track_j)` at all times. This model configuration has the differential brake applied in zero position, which means the tracks cannot move relative to the robot body. 
 
@@ -42,7 +42,7 @@ The following specific sensors are declared payloads of this vehicle:
 ### Control
 This robot is controlled by the DiffDrive plugin.  It accepts twist inputs which drives the vehicle along the x-direction and around the z-axis. We add additional 8 pseudo-wheels where the robot's tracks are to better approximate a track vehicle (flippers are subdivided to 5 pseudo-wheels). Currently, we are not aware of a track-vehicle plugin for ignition-gazebo.  A TrackedVehicle plugin does exist in gazebo8+, but it is not straightforward to port to ignition-gazebo.  We hope to work with other SubT teams and possibly experts among the ignition-gazebo developers to address this in the future.
 
-Flippers provide a velocity control interface, but a positional controller and a higher-level control policy are strongly suggested.
+Flippers provide interfaces for velocity control and absolute and relative positional control. The positional controllers move flippers to the given position using the maximum speed of the flippers.
 
 ### Motion characteristics
 

@@ -482,7 +482,9 @@ class subt::GameLogicPluginPrivate
     {subt::ArtifactType::TYPE_ROPE,
       ignition::math::Vector3d(0.004, -0.03, 0.095)},
     {subt::ArtifactType::TYPE_VENT,
-      ignition::math::Vector3d(0, 0, 0.138369)}
+      ignition::math::Vector3d(0, 0, 0.138369)},
+    {subt::ArtifactType::TYPE_CUBE,
+      ignition::math::Vector3d(0, 0, 0.2)}
   };
 
   /// \brief Event manager for pausing simulation
@@ -2204,6 +2206,7 @@ void GameLogicPluginPrivate::Finish(const ignition::msgs::Time &_simTime)
       completeMsg.mutable_header()->mutable_stamp()->CopyFrom(
           this->simTime);
       completeMsg.set_data("recording_complete");
+      this->state = "recording_complete";
       this->startPub.Publish(completeMsg);
 
       std::lock_guard<std::mutex> lock(this->eventCounterMutex);

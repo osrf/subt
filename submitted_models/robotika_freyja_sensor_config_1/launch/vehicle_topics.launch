@@ -272,6 +272,18 @@
         args="/model/$(arg name)/breadcrumb/deploy@std_msgs/Empty]ignition.msgs.Empty">
         <remap from="/model/$(arg name)/breadcrumb/deploy" to="breadcrumb/deploy"/>
       </node>
+      <node
+        pkg="ros_ign_bridge"
+        type="parameter_bridge"
+        name="ros_ign_bridge_breadcrumbs_remaining"
+        args="/model/$(arg name)/breadcrumb/deploy/remaining@std_msgs/Int32[ignition.msgs.Int32">
+        <remap from="/model/$(arg name)/breadcrumb/deploy/remaining" to="breadcrumb/remaining"/>
+      </node>
     </group>
+    
+    <!-- Mapping Server -->
+    <include file="$(find subt_ros)/launch/models_common/mapping_server_relays.launch">
+      <arg name="name" value="$(arg name)"/>
+    </include>
   </group>
 </launch>

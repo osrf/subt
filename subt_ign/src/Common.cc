@@ -138,7 +138,10 @@ bool FullWorldPath(const std::string &_worldName,
   }
   else if (_worldName.find("simple") == std::string::npos &&
            _worldName.find("_qual") == std::string::npos &&
-           _worldName.find("_stix") == std::string::npos)
+           _worldName.find("_stix") == std::string::npos &&
+           _worldName.find("niosh_") == std::string::npos &&
+           _worldName.find("satsop_") == std::string::npos &&
+           _worldName.find("finals_") == std::string::npos)
   {
     return false;
   }

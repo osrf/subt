@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Include this launch file in vehicle_topics.launch of all UAVs. -->
+
+    <arg name="name" doc="Name of the robot" />
+    <arg name="world_name" doc="Name of the world" />
+
+    <arg name="link_name" default="base_link" doc="Name of the link to which magnetometer and pressure sensor are attached. Name without namespace." />
+
+    <arg name="sensor_prefix" value="/world/$(arg world_name)/model/$(arg name)/link/$(arg link_name)/sensor"/>
+
+    <node pkg="ros_ign_bridge" type="parameter_bridge" respawn="true"
+      name="ros_ign_bridge_velocity_control_enable"
+      args="/model/$(arg name)/velocity_controller/enable@std_msgs/Bool]ignition.msgs.Boolean">
+      <remap from="/model/$(arg name)/velocity_controller/enable" to="velocity_controller/enable"/>
+    </node>
+
+    <node pkg="ros_ign_bridge" type="parameter_bridge" respawn="true"
+      name="ros_ign_bridge_magnetometer"
+      args="$(arg sensor_prefix)/magnetometer/magnetometer@sensor_msgs/MagneticField[ignition.msgs.Magnetometer">
+      <remap from="$(arg sensor_prefix)/magnetometer/magnetometer" to="magnetic_field"/>
+    </node>
+
+    <node pkg="ros_ign_bridge" type="parameter_bridge" respawn="true"
+      name="ros_ign_bridge_fluid_pressure"
+      args="$(arg sensor_prefix)/air_pressure/air_pressure@sensor_msgs/FluidPressure[ignition.msgs.FluidPressure">
+      <remap from="$(arg sensor_prefix)/air_pressure/air_pressure" to="air_pressure"/>
+    </node>
+</launch>
