@@ -67,14 +67,9 @@
 
   # CommsBrokerPlugin parameters
   # (default parameters can be found in subt_rf_model.h)
-  $commsFadingExponent = 2.5
-  $commsScalingFactor = 1.0
+  $commsFadingExponent = 1.5
+  $commsScalingFactor = 0.55
   $commsRangePerHop = 2.0
-  if $circuit == "cave" || $circuit == "finals"
-    $commsFadingExponent = 1.5
-    $commsScalingFactor = 0.55
-    $commsRangePerHop = 2.0
-  end
 
   # spawn world offset
   if $circuit == "urban"
