@@ -7,7 +7,7 @@
         <link name="$(arg prefix)${name}">
             <visual>
                 <geometry>
-                    <mesh filename="package://ctu_cras_norlab_spot_sensor_config_1/meshes/ouster-os0.dae"/>
+                    <mesh filename="package://marble_spot_sensor_config_2/meshes/ouster-os0.dae"/>
                 </geometry>
             </visual>
             <collision>
@@ -42,13 +42,13 @@
                         </scan>
                         <range>
                             <min>0.1</min>
-                            <max>50</max>
-                            <resolution>0.003</resolution>
+                            <max>120</max>
+                            <resolution>0.01</resolution>
                         </range>
                         <noise>
                             <type>gaussian</type>
                             <mean>0</mean>
-                            <stddev>0.03</stddev>
+                            <stddev>0.01</stddev>
                         </noise>
                     </lidar>
                 </sensor>

@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<robot name="ctu_cras_norlab_spot_sensor_config_1" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="marble_spot_sensor_config_1" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
     <xacro:arg name="has_flir_cameras" default="1" />
     <xacro:arg name="has_ouster_lidar" default="0" />
@@ -11,7 +11,7 @@
     <xacro:arg name="simulate_ouster_lidar_alt" default="True" />
     <xacro:arg name="simulate_omnicam_vras" default="True" />
     <xacro:arg name="simulate_flircams" default="True" />
-    <xacro:arg name="simulate_imu" default="False" />
+    <xacro:arg name="simulate_imu" default="True" />
 
     <xacro:arg name="visualize_sensors" default="0" />
 
@@ -24,10 +24,10 @@
 
     <!-- Colon-separated list of payload Xacro files to include. Whitespace around is ignored. -->
     <xacro:arg name="payload_xacros" default="
-      $(find ctu_cras_norlab_spot_sensor_config_1)/urdf/basler_cameras.xacro :
-      $(find ctu_cras_norlab_spot_sensor_config_1)/urdf/imu.xacro :
-      $(find ctu_cras_norlab_spot_sensor_config_1)/urdf/mote_deployer.xacro :
-      $(find ctu_cras_norlab_spot_sensor_config_1)/urdf/ouster_lidar.xacro :
+      $(find marble_spot_sensor_config_1)/urdf/basler_cameras.xacro :
+      $(find marble_spot_sensor_config_1)/urdf/imu.xacro :
+      $(find marble_spot_sensor_config_1)/urdf/mote_deployer.xacro :
+      $(find marble_spot_sensor_config_1)/urdf/ouster_lidar.xacro :
       $(find marble_spot_sensor_config_1)/urdf/ouster_lidar_alt.xacro :
       $(find marble_spot_sensor_config_1)/urdf/flir_cameras.xacro :
     " />
@@ -58,7 +58,7 @@
             <!-- <pose>0.325 0 0.005 1.5708 0 1.5708</pose> -->
             <origin rpy="1.5708 0 1.5708" xyz="0.325 0 0.005"/>
             <geometry>
-                <mesh filename="package://ctu_cras_norlab_spot_sensor_config_1/meshes/spot_sensor_rig_assembly.dae" />
+                <mesh filename="package://marble_spot_sensor_config_1/meshes/spot_sensor_rig_assembly.dae" />
             </geometry>
         </visual>
         <collision>
@@ -159,7 +159,7 @@
     </xacro:if>
 
     <!-- LIGHTS -->
-    <xacro:include filename="$(find ctu_cras_norlab_spot_sensor_config_1)/urdf/lights.xacro" />
+    <xacro:include filename="$(find marble_spot_sensor_config_1)/urdf/lights.xacro" />
     <gazebo reference="$(arg prefix)payload">
         <xacro:led_stripe name="light_left" range="20" linear="0.2" constant="0.1" quadratic="0.0025"
             inner_angle="2.8" outer_angle="2.9"

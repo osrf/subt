@@ -1,4 +1,4 @@
-# Boston Dynamics Spot - Marble sensor config
+# Boston Dynamics Spot - Marble sensor config 2
 This specifications.md file is a description and proof of virtual model validation for the
 Boston Dynamics Spot robot configured by team Marble. This robot may be launched using an
 ign launch command with the variable name `marble_spot_sensor_config_2`.

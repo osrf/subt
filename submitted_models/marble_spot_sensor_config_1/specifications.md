@@ -1,6 +1,6 @@
-# Boston Dynamics Spot - CTU-CRAS-Norlab sensor config
+# Boston Dynamics Spot - Marble sensor config 1
 This specifications.md file is a description and proof of virtual model validation for the
-Boston Dynamics Spot robot configured by team CTU-CRAS-Norlab. This robot may be launched using an
+Boston Dynamics Spot robot configured by team Marble. This robot may be launched using an
 ign launch command with the variable name `marble_spot_sensor_config_1`.
 
 For local testing, you can use the following command:

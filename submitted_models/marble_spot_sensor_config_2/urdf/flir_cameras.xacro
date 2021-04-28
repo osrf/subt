@@ -95,7 +95,7 @@
         <xacro:flir_backly_base name="${name}" hfov_deg="${hfov_deg}" frame_rate="10" resolution_x="808" resolution_y="608"
             fisheye="${fisheye}" simulate="${simulate}" visualize="${visualize}"
             camera_length="0.0555" origin_to_camera_front_dist="0.0524" camera_mass="${flir_backly_mass}"
-            camera_mesh="package://ctu_cras_norlab_spot_sensor_config_1/meshes/basler_ace2_pro.dae"
+            camera_mesh="package://marble_spot_sensor_config_2/meshes/basler_ace2_pro.dae"
             lens_length="${lens_length}" lens_back_focal_distance="${lens_back_focal_distance}"
             lens_entrance_pupil_position="${lens_entrance_pupil_position}" lens_mass="${lens_mass}" lens_mesh="${lens_mesh}"
             near_clip="${near_clip}"
@@ -105,6 +105,6 @@
     <xacro:macro name="flir_backfly_cam" params="name simulate:=1 visualize:=0">
         <xacro:flir_backly_link name="${name}" hfov_deg="80" simulate="${simulate}" visualize="${visualize}"
             lens_back_focal_distance="0.00809" lens_entrance_pupil_position="0.01066" lens_length="0.03974" lens_mass="${lens_mass}"
-            lens_mesh="package://ctu_cras_norlab_spot_sensor_config_1/meshes/evetar_lens.dae" />
+            lens_mesh="package://marble_spot_sensor_config_2/meshes/evetar_lens.dae" />
     </xacro:macro>
 </root>
