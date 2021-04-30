@@ -3561,10 +3561,21 @@
         <visualize>0</visualize>
         <camera name="thermal_camera">
           <horizontal_fov>1.6057</horizontal_fov>
+          <lens>
+            <intrinsics>
+              <fx>154.51</fx>
+              <fy>154.51</fy>
+              <cx>160.5</cx>
+              <cy>128.5</cy>
+              <s>0</s>
+            </intrinsics>
+            <type>stereographic</type>
+            <scale_to_hfov>1</scale_to_hfov>
+          </lens>
           <image>
             <width>320</width>
             <height>256</height>
-            <format>L16</format>
+            <format>L8</format>
           </image>
           <clip>
             <near>0.2</near>
@@ -3572,9 +3583,9 @@
           </clip>
         </camera>
         <plugin name="ignition::gazebo::systems::ThermalSensor" filename="ignition-gazebo-thermal-sensor-system">
-          <min_temp>223.15</min_temp>
-          <max_temp>453.15</max_temp>
-          <resolution>0.06</resolution>
+          <min_temp>253.15</min_temp>
+          <max_temp>673.15</max_temp>
+          <resolution>1.6</resolution>
         </plugin>
       </sensor>
     </link>
