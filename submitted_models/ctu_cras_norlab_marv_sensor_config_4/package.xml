@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>ctu_cras_norlab_marv_sensor_config_4</name>
+  <version>1.0.0</version>
+  <description>CTU-CRAS-Norlab MARV Sensor config 4 tracked vehicle package has:
+    - 5 Basler Ace 2 Pro a2A1920-51gcPRO RGB cameras with 86° FOV lenses (Basler C125-0418-5M-P f4mm)
+    - 2 Basler Ace acA2040-35gc RGB cameras with 138° FOV fisheye lenses (Evetar M118B029520IR)
+    - Ouster OS0-128 lidar
+    - 4 TFMini plus point lidars
+    - IMU Xsens MTI-30
+    - Gas sensor
+    - Thermal camera FLIR Boson 92° FOV
+    - 12 communication breadcrumbs
+    - Weight: about 61 kg
+  </description>
+
+  <author email="peckama2@fel.cvut.cz">Martin Pecka</author>
+  <maintainer email="peckama2@fel.cvut.cz">Martin Pecka</maintainer>
+
+  <license>BSD-3</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <exec_depend>roslaunch</exec_depend>
+  <exec_depend>ctu_cras_norlab_marv_sensor_config_1</exec_depend>
+</package>

@@ -416,8 +416,8 @@
     <include>
       <name>fog_emitter_1</name>
       <static>true</static>
-      <pose>32 80 -9.98 0 -1.57 1.57</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fog Emitter</uri>
+      <pose>32 80 -9.98 0 0 0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fog Emitter2</uri>
     </include>
     <model name="fog_emitter_1_detector">
       <pose>32 80 -9.98 0 -1.57 1.57</pose>
@@ -461,7 +461,7 @@
             }
           </match>
         </input>
-        <output type="ignition.msgs.ParticleEmitter" topic="/model/fog_emitter_1/particle_emitter/fog_generator">
+        <output type="ignition.msgs.ParticleEmitter" topic="/model/fog_emitter_1/link/link/particle_emitter/fog_generator/cmd">
           emitting:{data: 1}
         </output>
       </plugin>
@@ -495,7 +495,7 @@
             }
           </match>
         </input>
-        <output type="ignition.msgs.ParticleEmitter" topic="/model/fog_emitter_1/particle_emitter/fog_generator">
+        <output type="ignition.msgs.ParticleEmitter" topic="/model/fog_emitter_1/link/link/particle_emitter/fog_generator/cmd">
           emitting:{data: 0}
         </output>
       </plugin>
@@ -506,8 +506,8 @@
     <include>
       <name>fog_emitter_2</name>
       <static>true</static>
-      <pose>92 -40 0.02 0.0 -1.57 0.0</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fog Emitter</uri>
+      <pose>92 -40 0.02 0.0 0 0.0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fog Emitter2</uri>
     </include>
     <model name="fog_emitter_2_detector">
       <pose>92 -40 0.02 0.0 -1.57 0.0</pose>
@@ -551,7 +551,7 @@
             }
           </match>
         </input>
-        <output type="ignition.msgs.ParticleEmitter" topic="/model/fog_emitter_2/particle_emitter/fog_generator_1">
+        <output type="ignition.msgs.ParticleEmitter" topic="/model/fog_emitter_2/link/link/particle_emitter/fog_generator/cmd">
           emitting:{data: 1}
         </output>
       </plugin>
@@ -585,7 +585,7 @@
             }
           </match>
         </input>
-        <output type="ignition.msgs.ParticleEmitter" topic="/model/fog_emitter_2/particle_emitter/fog_generator_1">
+        <output type="ignition.msgs.ParticleEmitter" topic="/model/fog_emitter_2/link/link/particle_emitter/fog_generator/cmd">
           emitting:{data: 0}
         </output>
       </plugin>

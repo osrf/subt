@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<root xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:property name="tfmini_plus_mass" value="0.012" scope="global" />
+
+    <xacro:macro name="tfmini_plus" params="name simulate:=1 visualize:=0 rate:=10">
+        <xacro:property name="tfmini_plus_void" value="${payload_mass.append(tfmini_plus_mass)}" scope="global" />
+        <link name="$(arg prefix)${name}">
+            <visual>
+                <geometry>
+                    <mesh filename="package://ctu_cras_norlab_marv_sensor_config_1/meshes/tfmini_plus_lidar.dae"/>
+                </geometry>
+            </visual>
+            <collision>
+                <origin rpy="0 0 0" xyz="${0.021/2} 0 ${0.0185/2}"/>
+                <geometry>
+                    <box size="0.021 0.035 0.0185"/>
+                </geometry>
+            </collision>
+            <xacro:box_inertial mass="${tfmini_plus_mass}" width="0.035" depth="0.021" height="0.0185" xyz="${0.021/2} 0 ${0.0185/2}" />
+        </link>
+        <gazebo reference="$(arg prefix)${name}">
+            <xacro:property name="fov" value="${radians(3.6)}" />
+            <xacro:if value="${simulate and '$(arg rendering_target)' == 'ign'}">
+                <sensor name="laser" type="gpu_lidar">
+                    <pose>0.021 0 ${0.0185/2} 0 0 0</pose>
+                    <update_rate>${rate}</update_rate>
+                    <visualize>${visualize}</visualize>
+                    <always_on>1</always_on>
+                    <lidar>
+                        <scan>
+                            <horizontal>
+                                <samples>3</samples>
+                                <resolution>1</resolution>
+                                <min_angle>${-fov/2}</min_angle>
+                                <max_angle>${fov/2}</max_angle>
+                            </horizontal>
+                            <vertical>
+                                <samples>3</samples>
+                                <resolution>1</resolution>
+                                <min_angle>${-fov/2}</min_angle>
+                                <max_angle>${fov/2}</max_angle>
+                            </vertical>
+                        </scan>
+                        <range>
+                            <min>0.1</min>
+                            <max>12</max>
+                            <resolution>0.01</resolution>
+                        </range>
+                        <noise>
+                            <type>gaussian</type>
+                            <mean>0</mean>
+                            <stddev>0.015</stddev>
+                        </noise>
+                    </lidar>
+                </sensor>
+            </xacro:if>
+        </gazebo>
+    </xacro:macro>
+</root>
