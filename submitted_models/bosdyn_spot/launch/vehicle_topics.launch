@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<launch>
+  <env name="IGN_TRANSPORT_TOPIC_STATISTICS" value="1"/>
+  <arg name="world_name"/>
+  <arg name="name"/>
+  <arg name="link_prefix" value="/world/$(arg world_name)/model/$(arg name)/link"/>
+  <arg name="joint_prefix" value="/model/$(arg name)/joint"/>
+  <arg name="breadcrumbs" default="0"/>
+  <arg name="description_print_command" default="" />
+  <arg name="relay_points" default="1" />
+  <arg name="nodelets" default="0" doc="Most body-related bridges can run as nodelets, but it can be problematic (spurious broken bonds)." />
+
+  <include file="$(dirname)/description.launch" pass_all_args="true">
+    <arg name="print_command" value="$(arg description_print_command)" if="$(eval description_print_command != '')" />
+  </include>
+
+  <group ns="$(arg name)">
+    <include file="$(find subt_ros)/launch/models_common/all_robots.launch">
+      <arg name="name" value="$(arg name)" />
+      <arg name="world_name" value="$(arg world_name)" />
+    </include>
+
+    <include file="$(find subt_ros)/launch/models_common/all_ugvs.launch">
+      <arg name="name" value="$(arg name)" />
+      <arg name="world_name" value="$(arg world_name)" />
+    </include>
+
+    <!-- Mapping Server -->
+    <include file="$(find subt_ros)/launch/models_common/mapping_server_relays.launch">
+      <arg name="name" value="$(arg name)"/>
+    </include>
+
+    <!-- Actuators -->
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_multi_joint_command"
+      args="/model/$(arg name)/joint_commands@sensor_msgs/JointState]ignition.msgs.Model">
+      <remap from="/model/$(arg name)/joint_commands" to="joint_commands"/>
+    </node>
+    
+    <!-- Cameras -->
+    <include file="$(dirname)/body_camera.launch" pass_all_args="true">
+      <arg name="camera" value="frontleft" />
+    </include>
+    <include file="$(dirname)/body_camera.launch" pass_all_args="true">
+      <arg name="camera" value="frontright" />
+    </include>
+    <include file="$(dirname)/body_camera.launch" pass_all_args="true">
+      <arg name="camera" value="left" />
+    </include>
+    <include file="$(dirname)/body_camera.launch" pass_all_args="true">
+      <arg name="camera" value="right" />
+    </include>
+    <include file="$(dirname)/body_camera.launch" pass_all_args="true">
+      <arg name="camera" value="back" />
+    </include>
+
+    <!--IMU-->
+    <include file="$(find subt_ros)/launch/models_common/imu.launch">
+      <arg name="gazebo_topic" value="$(arg link_prefix)/imu/sensor/imu/imu" />
+    </include>
+
+    <!-- Breadcrumbs -->
+    <include if="$(eval breadcrumbs > 0)" file="$(find subt_ros)/launch/models_common/breadcrumbs.launch">
+      <arg name="name" value="$(arg name)" />
+    </include>
+
+    <!-- Control -->
+
+    <arg name="control_manager_cmd" value="load" if="$(arg nodelets)" />
+    <arg name="control_manager_name" value="control_manager" if="$(arg nodelets)" />
+    <arg name="contacts_manager_cmd" value="load" if="$(arg nodelets)" />
+    <arg name="contacts_manager_name" value="contacts_manager" if="$(arg nodelets)" />
+
+    <arg name="control_manager_cmd" value="standalone" unless="$(arg nodelets)" />
+    <arg name="control_manager_name" value="" unless="$(arg nodelets)" />
+    <arg name="contacts_manager_cmd" value="standalone" unless="$(arg nodelets)" />
+    <arg name="contacts_manager_name" value="" unless="$(arg nodelets)" />
+
+    <include file="$(dirname)/leg.launch" pass_all_args="true"><arg name="leg" value="front_left" /></include>
+    <include file="$(dirname)/leg.launch" pass_all_args="true"><arg name="leg" value="front_right" /></include>
+    <include file="$(dirname)/leg.launch" pass_all_args="true"><arg name="leg" value="rear_left" /></include>
+    <include file="$(dirname)/leg.launch" pass_all_args="true"><arg name="leg" value="rear_right" /></include>
+
+    <!-- Contact relay -->
+    <node name="contacts_manager" pkg="nodelet" type="nodelet" args="manager" respawn="true" if="$(arg nodelets)" />
+    <node name="ros_ign_bridge_leg_contact" pkg="nodelet" type="nodelet" args="$(arg contacts_manager_cmd) bosdyn_spot/LogicalContactBridge $(arg contacts_manager_name)" respawn="true">
+      <remap from="logical_contacts" to="leg_contacts" />
+      <param name="ign_topic" value="/model/$(arg name)/leg_collisions" />
+    </node>
+
+    <rosparam command="load" file="$(find bosdyn_spot)/config/ros_control/ros_control.yaml" subst_value="true" />
+    <node name="control_manager" pkg="nodelet" type="nodelet" args="manager" respawn="true" if="$(arg nodelets)"/>
+
+    <node pkg="nodelet" type="nodelet" name="ros_ign_bridge_joint_trajectory_command" args="$(arg control_manager_cmd) bosdyn_spot/JointTrajectoryBridge $(arg control_manager_name)" respawn="true">
+      <remap from="~trajectory" to="joint_group_position_controller/command"/>
+      <param name="ign_topic" value="/model/$(arg name)/joint_trajectory" />
+    </node>
+
+    <node name="pid_multituner" pkg="bosdyn_spot" type="pid_multituner" />
+
+    <!-- Launch subt_spot/launch/champ.launch to get the controller running. The controller should run in the solution container. -->
+  </group>
+  
+</launch>

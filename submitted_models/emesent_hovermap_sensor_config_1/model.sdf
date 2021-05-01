@@ -1,0 +1,853 @@
+<?xml version='1.0' encoding='utf-8'?>
+<sdf version='1.6'>
+  <model name='emesent_hovermap_sensor_config_1'>
+    <pose>0 0 0.2 0 0 0</pose>
+    <link name='base_link'>
+      <pose>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>5.281</mass>
+        <inertia>
+          <ixx>0.105225</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.11353</iyy>
+          <iyz>0</iyz>
+          <izz>0.133861</izz>
+        </inertia>
+      </inertial>
+      <collision name='base_link_fixed_joint_lump__body_collision'>
+        <pose>0.11 -0 0 0 -0 1.5708</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/navi-drone-hipoly.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__body_collision_1'>
+        <pose>0.11 -0 0 0 -0 1.5708</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/navi-guard.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__hovermap_base_collision_2'>
+        <pose>0.1195 -0 -0.0115 0 -0 1.5708</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/ST-LIDAR-case-2.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__gimbal_base_collision_3'>
+        <pose>0.18 0 0.035 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.07 0.05 0.03</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name='base_link_fixed_joint_lump__body_visual'>
+        <pose>0.11 -0 0 0 -0 1.5708</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/navi-drone-hipoly-mount.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__body_visual_1'>
+        <pose>0.11 -0 0 0 -0 1.5708</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/navi-guard.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__hovermap_base_visual_2'>
+        <pose>0.1195 -0 -0.0115 0 -0 1.5708</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/ST-LIDAR-case-2.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__gimbal_base_visual_3'>
+          <pose>0.18 0 0.035 0 -0 0</pose>
+          <geometry>
+              <box>
+                  <size>0.07 0.05 0.03</size>
+              </box>
+          </geometry>
+      </visual>
+      <velocity_decay/>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <sensor name='imu' type='imu'>
+          <always_on>1</always_on>
+          <update_rate>100</update_rate>
+          <imu>
+              <angular_velocity>
+                  <x>
+                      <noise type="gaussian">
+                          <mean>0</mean>
+                          <stddev>0.009</stddev>
+                          <bias_mean>0.00075</bias_mean>
+                          <bias_stddev>0.005</bias_stddev>
+                          <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                          <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                          <precision>0.00025</precision>
+                      </noise>
+                  </x>
+                  <y>
+                      <noise type="gaussian">
+                          <mean>0</mean>
+                          <stddev>0.009</stddev>
+                          <bias_mean>0.00075</bias_mean>
+                          <bias_stddev>0.005</bias_stddev>
+                          <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                          <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                          <precision>0.00025</precision>
+                      </noise>
+                  </y>
+                  <z>
+                      <noise type="gaussian">
+                          <mean>0</mean>
+                          <stddev>0.009</stddev>
+                          <bias_mean>0.00075</bias_mean>
+                          <bias_stddev>0.005</bias_stddev>
+                          <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                          <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                          <precision>0.00025</precision>
+                      </noise>
+                  </z>
+              </angular_velocity>
+              <linear_acceleration>
+                  <x>
+                      <noise type="gaussian">
+                          <mean>0</mean>
+                          <stddev>0.021</stddev>
+                          <bias_mean>0.05</bias_mean>
+                          <bias_stddev>0.0075</bias_stddev>
+                          <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                          <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                          <precision>0.005</precision>
+                      </noise>
+                  </x>
+                  <y>
+                      <noise type="gaussian">
+                          <mean>0</mean>
+                          <stddev>0.021</stddev>
+                          <bias_mean>0.05</bias_mean>
+                          <bias_stddev>0.0075</bias_stddev>
+                          <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                          <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                          <precision>0.005</precision>
+                      </noise>
+                  </y>
+                  <z>
+                      <noise type="gaussian">
+                          <mean>0</mean>
+                          <stddev>0.021</stddev>
+                          <bias_mean>0.05</bias_mean>
+                          <bias_stddev>0.0075</bias_stddev>
+                          <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                          <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                          <precision>0.005</precision>
+                      </noise>
+                  </z>
+              </linear_acceleration>
+          </imu>
+      </sensor>
+      <sensor name="air_pressure" type="air_pressure">
+        <always_on>1</always_on>
+        <update_rate>20</update_rate>
+        <air_pressure>
+          <reference_altitude>0</reference_altitude>
+          <noise type="gaussian">
+            <mean>0.00000008</mean>
+          </noise>
+        </air_pressure>
+      </sensor>
+      <sensor name="magnetometer" type="magnetometer">
+        <always_on>1</always_on>
+        <update_rate>20</update_rate>
+        <magnetometer>
+          <x>
+            <noise type="gaussian">
+              <mean>0.000000080</mean>
+              <bias_mean>0.000000400</bias_mean>
+            </noise>
+          </x>
+          <y>
+            <noise type="gaussian">
+              <mean>0.000000080</mean>
+              <bias_mean>0.000000400</bias_mean>
+            </noise>
+          </y>
+          <z>
+            <noise type="gaussian">
+              <mean>0.000000080</mean>
+              <bias_mean>0.000000400</bias_mean>
+            </noise>
+          </z>
+        </magnetometer>
+      </sensor>
+    </link>
+    <link name='gimbal_pan'>
+      <pose>0.2 0 0.05 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>0.0001</mass>
+        <inertia>
+          <ixx>0.00058083</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.0005</iyy>
+          <iyz>0</iyz>
+          <izz>0.00059083</izz>
+        </inertia>
+      </inertial>
+      <collision name='gimbal_pan_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.001 0.001</size>
+          </box>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <visual name='gimbal_pan_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/gimbal_pan.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <gravity>1</gravity>
+      <velocity_decay/>
+    </link>
+    <joint name='gimbal_pan_joint' type='revolute'>
+      <child>gimbal_pan</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1.5708</lower>
+          <upper>1.5708</upper>
+          <effort>10</effort>
+          <velocity>5</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name='gimbal_roll'>
+      <pose>0.2 0 0.125 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>0.0001</mass>
+        <inertia>
+          <ixx>0.00058083</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.0005</iyy>
+          <iyz>0</iyz>
+          <izz>0.00059083</izz>
+        </inertia>
+      </inertial>
+      <collision name='gimbal_roll_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.001 0.001</size>
+          </box>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <visual name='gimbal_roll_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/gimbal_roll.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <gravity>1</gravity>
+      <velocity_decay/>
+    </link>
+    <joint name='gimbal_roll_joint' type='revolute'>
+      <child>gimbal_roll</child>
+      <parent>gimbal_pan</parent>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>-0.785398</lower>
+          <upper>0.785398</upper>
+          <effort>10</effort>
+          <velocity>5</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name='gimbal_tilt'>
+      <pose>0.218 0 0.125 0 -0 0</pose>
+      <inertial>
+        <pose>-2.4e-05 0.002445 -2e-05 0 -0 0</pose>
+        <mass>0.0001</mass>
+        <inertia>
+          <ixx>0.00216206</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.00106169</iyy>
+          <iyz>0</iyz>
+          <izz>0.00218206</izz>
+        </inertia>
+      </inertial>
+      <collision name='gimbal_tilt_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.001 0.001</size>
+          </box>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <visual name='gimbal_tilt_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/gimbal_tilt.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='gimbal_tilt_fixed_joint_lump__gimbal_flashlight_visual_2'>
+        <pose>-0.012 -0.025 -0.01 0 0 -1.57</pose>
+        <geometry>
+          <mesh>
+            <scale>0.005 0.005 0.005</scale>
+            <uri>meshes/spotlight.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <velocity_decay/>
+      <velocity_decay/>
+      <sensor name='gimbal_camera' type='camera'>
+        <update_rate>10</update_rate>
+        <camera name='gimbal_camera_sensor'>
+          <horizontal_fov>1.287</horizontal_fov>
+          <image>
+            <width>4096</width>
+            <height>2160</height>
+          </image>
+          <clip>
+            <near>0.02</near>
+            <far>300</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+        <pose>0 0.005 0.002 0 -0 0</pose>
+      </sensor>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <light name='light_source' type='spot'>
+        <pose>0.03 -0.02 -0.01 0 -1.57 0</pose>
+        <attenuation>
+          <range>40</range>
+          <linear>0</linear>
+          <constant>0.02</constant>
+          <quadratic>0.02</quadratic>
+        </attenuation>
+        <diffuse>220 210 175 1</diffuse>
+        <specular>220 210 175 1</specular>
+        <spot>
+          <inner_angle>0.7</inner_angle>
+          <outer_angle>1</outer_angle>
+          <falloff>1</falloff>
+        </spot>
+        <cast_shadows>1</cast_shadows>
+        <direction>0 0 -1</direction>
+      </light>
+      <sensor name='gimbal_imu' type='imu'>
+        <always_on>1</always_on>
+        <update_rate>100</update_rate>
+        <imu>
+            <angular_velocity>
+                <x>
+                    <noise type="gaussian">
+                        <mean>0</mean>
+                        <stddev>0.009</stddev>
+                        <bias_mean>0.00075</bias_mean>
+                        <bias_stddev>0.005</bias_stddev>
+                        <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                        <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                        <precision>0.00025</precision>
+                    </noise>
+                </x>
+                <y>
+                    <noise type="gaussian">
+                        <mean>0</mean>
+                        <stddev>0.009</stddev>
+                        <bias_mean>0.00075</bias_mean>
+                        <bias_stddev>0.005</bias_stddev>
+                        <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                        <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                        <precision>0.00025</precision>
+                    </noise>
+                </y>
+                <z>
+                    <noise type="gaussian">
+                        <mean>0</mean>
+                        <stddev>0.009</stddev>
+                        <bias_mean>0.00075</bias_mean>
+                        <bias_stddev>0.005</bias_stddev>
+                        <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                        <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                        <precision>0.00025</precision>
+                    </noise>
+                </z>
+            </angular_velocity>
+            <linear_acceleration>
+                <x>
+                    <noise type="gaussian">
+                        <mean>0</mean>
+                        <stddev>0.021</stddev>
+                        <bias_mean>0.05</bias_mean>
+                        <bias_stddev>0.0075</bias_stddev>
+                        <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                        <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                        <precision>0.005</precision>
+                    </noise>
+                </x>
+                <y>
+                    <noise type="gaussian">
+                        <mean>0</mean>
+                        <stddev>0.021</stddev>
+                        <bias_mean>0.05</bias_mean>
+                        <bias_stddev>0.0075</bias_stddev>
+                        <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                        <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                        <precision>0.005</precision>
+                    </noise>
+                </y>
+                <z>
+                    <noise type="gaussian">
+                        <mean>0</mean>
+                        <stddev>0.021</stddev>
+                        <bias_mean>0.05</bias_mean>
+                        <bias_stddev>0.0075</bias_stddev>
+                        <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                        <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                        <precision>0.005</precision>
+                    </noise>
+                </z>
+            </linear_acceleration>
+        </imu>
+    </sensor>
+    </link>
+    <joint name='gimbal_tilt_joint' type='revolute'>
+      <child>gimbal_tilt</child>
+      <parent>gimbal_roll</parent>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-0.785398</lower>
+          <upper>0.785398</upper>
+          <effort>10</effort>
+          <velocity>5</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name='encoder_rotating'>
+      <pose>0.1745 -0 -0.0525 0 -1.0472 -0</pose>
+      <inertial>
+        <pose>0 0 -0.000891 -3.14159 -0 0</pose>
+        <mass>0.0001</mass>
+        <inertia>
+          <ixx>2.46865e-05</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>2.46865e-05</iyy>
+          <iyz>-1.65708e-18</iyz>
+          <izz>1.66667e-05</izz>
+        </inertia>
+      </inertial>
+      <collision name='encoder_rotating_collision'>
+        <pose>0 0 -0.0125 -3.14159 -0 1.5708</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/ST-LIDAR-hipoly.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='encoder_rotating_visual'>
+        <pose>0 0 -0.0125 -3.14159 -0 1.5708</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/ST-LIDAR-hipoly.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <gravity>1</gravity>
+      <velocity_decay/>
+      <sensor name='gpu_lidar' type='gpu_lidar'>
+        <always_on>1</always_on>
+        <update_rate>20</update_rate>
+        <pose>0 0 -0.1 0 1.5707963267 0</pose>
+        <visualize>false</visualize>
+        <lidar>
+          <scan>
+            <horizontal>
+              <samples>900</samples>
+              <resolution>1</resolution>
+              <min_angle>-3.141592</min_angle>
+              <max_angle>3.141592</max_angle>
+            </horizontal>
+            <vertical>
+              <samples>16</samples>
+              <resolution>1</resolution>
+              <min_angle>-0.261799</min_angle>
+              <max_angle>0.261799</max_angle>
+            </vertical>
+          </scan>
+          <range>
+            <min>0.05</min>
+            <max>100</max>
+            <resolution>0.01</resolution>
+          </range>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.01</stddev>
+          </noise>
+        </lidar>
+      </sensor>
+    </link>
+    <joint name='encoder_joint' type='revolute'>
+      <child>encoder_rotating</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+          <velocity>5</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name='rotor_0'>
+      <pose>0.24 -0.24 0.035 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 1.5708</pose>
+        <mass>0.02</mass>
+        <inertia>
+          <ixx>2.32667e-06</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>6.03333e-05</iyy>
+          <iyz>0</iyz>
+          <izz>6.23266e-05</izz>
+        </inertia>
+      </inertial>
+      <collision name='rotor_0_collision_collision'>
+        <pose>0 0 0.04 0 -0 1.01342</pose>
+        <geometry>
+          <box>
+            <size>0.38 0.036 0.01</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name='rotor_0_collision_collision_1'>
+        <pose>0 0 -0.0375 0 0 -0.604152</pose>
+        <geometry>
+          <box>
+            <size>0.35492 0.036 0.01</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name='rotor_0_visual_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/navi-15in-CW-tex.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='rotor_0_visual_visual_1'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/navi-14in-CW-tex.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='rotor_0_joint' type='revolute'>
+      <child>rotor_0</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name='rotor_1'>
+      <pose>-0.24 0.24 0.035 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 1.5708</pose>
+        <mass>0.02</mass>
+        <inertia>
+          <ixx>2.32667e-06</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>6.03333e-05</iyy>
+          <iyz>0</iyz>
+          <izz>6.23266e-05</izz>
+        </inertia>
+      </inertial>
+      <collision name='rotor_1_collision_collision'>
+        <pose>0 0 0.04 0 -0 1.01342</pose>
+        <geometry>
+          <box>
+            <size>0.38 0.036 0.01</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name='rotor_1_collision_collision_1'>
+        <pose>0 0 -0.0375 0 0 -0.604152</pose>
+        <geometry>
+          <box>
+            <size>0.35492 0.036 0.01</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name='rotor_1_visual_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/navi-15in-CW-tex.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='rotor_1_visual_visual_1'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/navi-14in-CW-tex.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='rotor_1_joint' type='revolute'>
+      <child>rotor_1</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name='rotor_2'>
+      <pose>0.24 0.24 0.035 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 1.5708</pose>
+        <mass>0.02</mass>
+        <inertia>
+          <ixx>2.32667e-06</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>6.03333e-05</iyy>
+          <iyz>0</iyz>
+          <izz>6.23266e-05</izz>
+        </inertia>
+      </inertial>
+      <collision name='rotor_2_collision_collision'>
+        <pose>0 0 0.04 0 0 -1.01342</pose>
+        <geometry>
+          <box>
+            <size>0.38 0.036 0.01</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name='rotor_2_collision_collision_1'>
+        <pose>0 0 -0.0375 0 -0 0.604152</pose>
+        <geometry>
+          <box>
+            <size>0.35492 0.036 0.01</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name='rotor_2_visual_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/navi-15in-CCW-tex.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='rotor_2_visual_visual_1'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/navi-14in-CCW-tex.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='rotor_2_joint' type='revolute'>
+      <child>rotor_2</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name='rotor_3'>
+      <pose>-0.24 -0.24 0.035 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 1.5708</pose>
+        <mass>0.02</mass>
+        <inertia>
+          <ixx>2.32667e-06</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>6.03333e-05</iyy>
+          <iyz>0</iyz>
+          <izz>6.23266e-05</izz>
+        </inertia>
+      </inertial>
+      <collision name='rotor_3_collision_collision'>
+        <pose>0 0 0.04 0 0 -1.01342</pose>
+        <geometry>
+          <box>
+            <size>0.38 0.036 0.01</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name='rotor_3_collision_collision_1'>
+        <pose>0 0 -0.0375 0 -0 0.604152</pose>
+        <geometry>
+          <box>
+            <size>0.35492 0.036 0.01</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name='rotor_3_visual_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/navi-15in-CCW-tex.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='rotor_3_visual_visual_1'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/navi-14in-CCW-tex.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='rotor_3_joint' type='revolute'>
+      <child>rotor_3</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>0</use_parent_model_frame>
+      </axis>
+    </joint>
+  </model>
+</sdf>

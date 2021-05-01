@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<root xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:property name="thermocam_mass" value="0.024" scope="global" /> <!-- https://flir.netx.net/file/asset/15754/original/attachment -->
+
+    <xacro:macro name="boson_thermocam" params="name simulate:=1 visualize:=0">
+        <!-- Thermal camera - FLIR Boson 320 20320H092 -->
+        <xacro:property name="thermocam_void" value="${payload_mass.append(thermocam_mass)}" scope="global" />
+        <link name="$(arg prefix)${name}">
+            <visual>
+                <origin xyz="0 0 ${0.021/2}" />
+                <geometry>
+                    <mesh filename="package://ctu_cras_norlab_marv_sensor_config_1/meshes/flir_boson.dae" />
+                </geometry>
+            </visual>
+            <collision>
+                <origin xyz="${0.043/2 - 0.006} 0 0" />
+                <geometry>
+                    <box size="0.043 0.021 0.021"/>
+                </geometry>
+            </collision>
+            <xacro:box_inertial mass="${thermocam_mass}" width="0.021" height="0.021" depth="0.043" xyz="${0.043/2 - 0.006} 0 0" />
+        </link>
+        <xacro:if value="${simulate}">
+            <gazebo reference="$(arg prefix)${name}">
+                <sensor name="thermal_camera" type="thermal_camera">
+                    <pose>0.030 0 0 0 0 0</pose>
+                    <always_on>1</always_on>
+                    <update_rate>8.6</update_rate>
+                    <visualize>${visualize}</visualize>
+                    <camera name="thermal_camera">
+                        <horizontal_fov>${92 * pi/180}</horizontal_fov>
+                        <image>
+                            <width>320</width>
+                            <height>256</height>
+                            <format>L16</format>
+                        </image>
+                        <clip>
+                            <near>0.2</near>
+                            <far>50</far>
+                        </clip>
+                    </camera>
+                    <plugin filename="ignition-gazebo-thermal-sensor-system" name="ignition::gazebo::systems::ThermalSensor">
+                        <min_temp>223.15</min_temp>
+                        <max_temp>453.15</max_temp>
+                        <resolution>0.06</resolution>
+                    </plugin>
+                </sensor>
+            </gazebo>
+        </xacro:if>
+    </xacro:macro>
+</root>

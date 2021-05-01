@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<%
+  base_launch = `rospack find bosdyn_spot`.chomp + "/launch"
+  base_dir = File.realpath(File.join(File.dirname(__FILE__), ".."))
+
+  ros_param=''
+  if defined?(ros) and ros
+    ros_param='ros:=true'
+  end
+
+  champ_param=''
+  if defined?(champ) and champ
+    champ_param='champ:=true'
+  end
+
+  headless_param=''
+  if defined?(headless) and headless
+    headless_param='headless:=true'
+  end
+
+  teleop_param=''
+  if defined?(teleop) and teleop
+    teleop_param='teleop:=true'
+  end
+%>
+<ignition version='1.0'>
+  <executable name='include'>
+    <command>ign launch -v4 <%= File.join(base_launch, "example.ign") %> base_dir:=<%= base_dir %> robotName:=<%= robotName %> <%= ros_param %> <%= champ_param %> <%= headless_param %> <%= teleop_param %></command>
+  </executable>
+</ignition>

@@ -206,4 +206,11 @@
       <arg name="name" value="$(arg name)"/>
     </include>
   </group>
+
+  <!-- As URDF->SDF conversion "swallows" all fixed joints (and thus static transforms), we need to re-create them from the URDF  -->
+  <!-- Due to an internal limitation of robot_state_publisher, it has to be created in the global namespace. -->
+  <node name="$(anon robot_state_publisher)" pkg="robot_state_publisher" type="robot_state_publisher">
+    <remap from="/tf" to="/nonexistent" /> <!-- published by ign_ros bridge -->
+    <remap from="robot_description" to="/$(arg name)/robot_description" />
+  </node>
 </launch>
