@@ -1758,6 +1758,17 @@
             <mean>0</mean>
             <stddev>0.007</stddev>
           </noise>
+          <lens>
+            <intrinsics>
+              <fx>1020.51</fx>
+              <fy>1020.51</fy>
+              <cx>959.5</cx>
+              <cy>599.5</cy>
+              <s>0</s>
+            </intrinsics>
+            <type>stereographic</type>
+            <scale_to_hfov>1</scale_to_hfov>
+          </lens>
         </camera>
       </sensor>
     </link>
@@ -1852,6 +1863,17 @@
             <mean>0</mean>
             <stddev>0.007</stddev>
           </noise>
+          <lens>
+            <intrinsics>
+              <fx>1020.51</fx>
+              <fy>1020.51</fy>
+              <cx>959.5</cx>
+              <cy>599.5</cy>
+              <s>0</s>
+            </intrinsics>
+            <type>stereographic</type>
+            <scale_to_hfov>1</scale_to_hfov>
+          </lens>
         </camera>
       </sensor>
     </link>
@@ -1946,6 +1968,17 @@
             <mean>0</mean>
             <stddev>0.007</stddev>
           </noise>
+          <lens>
+            <intrinsics>
+              <fx>1020.51</fx>
+              <fy>1020.51</fy>
+              <cx>959.5</cx>
+              <cy>599.5</cy>
+              <s>0</s>
+            </intrinsics>
+            <type>stereographic</type>
+            <scale_to_hfov>1</scale_to_hfov>
+          </lens>
         </camera>
       </sensor>
     </link>
@@ -2040,6 +2073,17 @@
             <mean>0</mean>
             <stddev>0.007</stddev>
           </noise>
+          <lens>
+            <intrinsics>
+              <fx>1020.51</fx>
+              <fy>1020.51</fy>
+              <cx>959.5</cx>
+              <cy>599.5</cy>
+              <s>0</s>
+            </intrinsics>
+            <type>stereographic</type>
+            <scale_to_hfov>1</scale_to_hfov>
+          </lens>
         </camera>
       </sensor>
     </link>
@@ -2448,10 +2492,21 @@
         <visualize>0</visualize>
         <camera name="thermal_camera">
           <horizontal_fov>1.6057</horizontal_fov>
+          <lens>
+            <intrinsics>
+              <fx>154.51</fx>
+              <fy>154.51</fy>
+              <cx>160.5</cx>
+              <cy>128.5</cy>
+              <s>0</s>
+            </intrinsics>
+            <type>stereographic</type>
+            <scale_to_hfov>1</scale_to_hfov>
+          </lens>
           <image>
             <width>320</width>
             <height>256</height>
-            <format>L16</format>
+            <format>L8</format>
           </image>
           <clip>
             <near>0.6</near>
@@ -2459,9 +2514,9 @@
           </clip>
         </camera>
         <plugin name="ignition::gazebo::systems::ThermalSensor" filename="ignition-gazebo-thermal-sensor-system">
-          <min_temp>233.15</min_temp>
-          <max_temp>453.15</max_temp>
-          <resolution>0.06</resolution>
+          <min_temp>253.15</min_temp>
+          <max_temp>673.15</max_temp>
+          <resolution>1.6</resolution>
         </plugin>
       </sensor>
     </link>
@@ -2556,6 +2611,17 @@
             <mean>0</mean>
             <stddev>0.007</stddev>
           </noise>
+          <lens>
+            <intrinsics>
+              <fx>1020.51</fx>
+              <fy>1020.51</fy>
+              <cx>959.5</cx>
+              <cy>599.5</cy>
+              <s>0</s>
+            </intrinsics>
+            <type>stereographic</type>
+            <scale_to_hfov>1</scale_to_hfov>
+          </lens>
         </camera>
       </sensor>
     </link>
@@ -2636,12 +2702,12 @@
           <range>
             <min>0.1</min>
             <max>50</max>
-            <resolution>0.003</resolution>
+            <resolution>0.01</resolution>
           </range>
           <noise>
             <type>gaussian</type>
             <mean>0</mean>
-            <stddev>0.03</stddev>
+            <stddev>0.01</stddev>
           </noise>
         </lidar>
       </sensor>
