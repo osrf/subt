@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name='ctu_cras_norlab_husky_sensor_config_1' xmlns:xacro='http://ros.org/wiki/xacro'>
+  <xacro:arg name="name" default="ctu_cras_norlab_husky_sensor_config_1"/>
+  <xacro:property name="robot_namespace" value="$(arg name)"/>
+  <link name='${robot_namespace}/base_link'>
+    <collision name='base_link_collision'>
+      <origin xyz='0 0 0.12' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.9874 0.5709 0.05'/>
+      </geometry>
+    </collision>
+    <collision name='base_link_collision_bottom'>
+      <origin xyz='0 0 0.046' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.8 0.5709 0.095'/>
+      </geometry>
+    </collision>
+    <collision name='base_link_collision_1'>
+      <origin xyz='0 0 0.185625' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.78992 0.5709 0.12375'/>
+      </geometry>
+    </collision>
+    <visual name='base_link_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_husky_sensor_config_1/meshes/base_link.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__front_bumper_link_visual_3'>
+      <origin xyz='0.48 0 0.091' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_husky_sensor_config_1/meshes/bumper.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__rear_bumper_link_visual_4'>
+      <origin xyz='-0.48 0 0.091' rpy='0 -0 3.14159'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_husky_sensor_config_1/meshes/bumper.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__top_chassis_link_visual_5'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_husky_sensor_config_1/meshes/top_chassis.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/front_left_wheel_link'>
+    <collision name='front_left_wheel_link_collision'>
+      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.1651' length='0.1143'/>
+      </geometry>
+    </collision>
+    <visual name='front_left_wheel_link_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_husky_sensor_config_1/meshes/wheel.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/front_right_wheel_link'>
+    <collision name='front_right_wheel_link_collision'>
+      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.1651' length='0.1143'/>
+      </geometry>
+    </collision>
+    <visual name='front_right_wheel_link_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_husky_sensor_config_1/meshes/wheel.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/rear_left_wheel_link'>
+    <collision name='rear_left_wheel_link_collision'>
+      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.1651' length='0.1143'/>
+      </geometry>
+    </collision>
+    <visual name='rear_left_wheel_link_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_husky_sensor_config_1/meshes/wheel.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/rear_right_wheel_link'>
+    <collision name='rear_right_wheel_link_collision'>
+      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.1651' length='0.1143'/>
+      </geometry>
+    </collision>
+    <visual name='rear_right_wheel_link_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_husky_sensor_config_1/meshes/wheel.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name='front_left_wheel_joint' type='revolute'>
+    <origin xyz='0.256 0.2854 0.03282' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/front_left_wheel_link'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 1 0'/>
+    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+  </joint>
+  <joint name='front_right_wheel_joint' type='revolute'>
+    <origin xyz='0.256 -0.2854 0.03282' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/front_right_wheel_link'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 1 0'/>
+    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+  </joint>
+  <joint name='rear_left_wheel_joint' type='revolute'>
+    <origin xyz='-0.256 0.2854 0.03282' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rear_left_wheel_link'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 1 0'/>
+    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+  </joint>
+  <joint name='rear_right_wheel_joint' type='revolute'>
+    <origin xyz='-0.256 -0.2854 0.03282' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rear_right_wheel_link'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 1 0'/>
+    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+  </joint>
+
+  <link name='${robot_namespace}/sensor_rack'>
+    <collision name='collision_base'>
+      <origin xyz='0.275 0.2 0.075' rpy='0 0 0'/>
+      <geometry>
+        <box size='0.56 0.4 0.15'/>
+      </geometry>
+    </collision>
+    <collision name='collision_top'>
+      <origin xyz='0.15 0.2 0.215' rpy='0 0 0'/>
+      <geometry>
+        <box size='0.28 0.4 0.13'/>
+      </geometry>
+    </collision>
+    <collision name='collision_laser'>
+      <origin xyz='0.505 0.2 0.17' rpy='0 0.17 0'/>
+      <geometry>
+        <box size='0.135 0.13 0.13'/>
+      </geometry>
+    </collision>
+    <visual name='sensor_rack_visual'>
+      <origin xyz='0 0 0.0' rpy='0 0 0'/>
+      <geometry>
+        <mesh filename='package://ctu_cras_norlab_husky_sensor_config_1/meshes/sensor_rack_lowres_shallow_laser.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name='base_link_JOINT_0' type='fixed'>
+    <origin xyz='-0.283 -0.198243 0.224' rpy='0 0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/sensor_rack'/>
+  </joint>
+</robot>
