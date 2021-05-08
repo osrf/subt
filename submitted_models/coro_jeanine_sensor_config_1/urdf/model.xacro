@@ -216,28 +216,28 @@
       <image width='640' height='360' format='R8G8B8' hfov='1.50098' near='0.01' far='300' />
     </camera>
   </sensor>
-  <sensor name='camera_front' update_rate='30'>
+  <sensor name='camera_front' update_rate='25'>
     <parent link='${robot_namespace}/base_link'/>
     <origin xyz='0.11 0.06 0.42' rpy='0 -0 0'/>
     <camera>
       <image width='720' height='1080' format='R8G8B8' hfov='1.658' near='0.01' far='300' />
     </camera>
   </sensor>
-  <sensor name='camera_rear' update_rate='30'>
+  <sensor name='camera_rear' update_rate='25'>
     <parent link='${robot_namespace}/base_link'/>
     <origin xyz='-0.11 0 0.42' rpy='0 -0 3.14159'/>
     <camera>
       <image width='720' height='1080' format='R8G8B8' hfov='1.658' near='0.01' far='300' />
     </camera>
   </sensor>
-  <sensor name='camera_left' update_rate='30'>
+  <sensor name='camera_left' update_rate='25'>
     <parent link='${robot_namespace}/base_link'/>
     <origin xyz='0 0.11 0.42' rpy='0 -0 1.5708'/>
     <camera>
       <image width='720' height='1080' format='R8G8B8' hfov='1.658' near='0.01' far='300' />
     </camera>
   </sensor>
-  <sensor name='camera_right' update_rate='30'>
+  <sensor name='camera_right' update_rate='25'>
     <parent link='${robot_namespace}/base_link'/>
     <origin xyz='0 -0.11 0.42' rpy='0 0 -1.5708'/>
     <camera>
@@ -263,7 +263,7 @@
     <visual name='front_left_wheel_tire_visual'>
       <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
       <geometry>
-        <mesh filename='package://coro_jeanine_sensor_config_1/meshes/wheel_left.dae' scale='1.41 1.41 1.71'/>
+        <mesh filename='package://coro_jeanine_sensor_config_1/meshes/wheel_left.dae' scale='1.22 1.22 1.71'/>
       </geometry>
     </visual>
     <visual name='front_left_wheel_axle_visual'>
@@ -282,13 +282,13 @@
     <collision name='front_right_wheel_collision'>
       <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
       <geometry>
-        <cylinder radius='0.145' length='0.075'/>
+        <cylinder radius='0.1275' length='0.075'/>
       </geometry>
     </collision>
     <visual name='front_right_wheel_tire_visual'>
       <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
       <geometry>
-        <mesh filename='package://coro_jeanine_sensor_config_1/meshes/wheel_right.dae' scale='1.41 1.41 1.71'/>
+        <mesh filename='package://coro_jeanine_sensor_config_1/meshes/wheel_right.dae' scale='1.22 1.22 1.71'/>
       </geometry>
     </visual>
     <visual name='front_right_wheel_axle_visual'>
@@ -307,13 +307,13 @@
     <collision name='rear_left_wheel_collision'>
       <origin xyz='0 0 0' rpy='-1.5708 0 0'/>
       <geometry>
-        <cylinder radius='0.145' length='0.075'/>
+        <cylinder radius='0.1275' length='0.075'/>
       </geometry>
     </collision>
     <visual name='rear_left_wheel_tire_visual'>
       <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
       <geometry>
-        <mesh filename='package://coro_jeanine_sensor_config_1/meshes/wheel_left.dae' scale='1.41 1.41 1.71'/>
+        <mesh filename='package://coro_jeanine_sensor_config_1/meshes/wheel_left.dae' scale='1.22 1.22 1.71'/>
       </geometry>
     </visual>
     <visual name='rear_left_wheel_axle_visual'>
@@ -332,13 +332,13 @@
     <collision name='rear_right_wheel_collision'>
       <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
       <geometry>
-        <cylinder radius='0.145' length='0.075'/>
+        <cylinder radius='0.1275' length='0.075'/>
       </geometry>
     </collision>
     <visual name='rear_right_wheel_tire_visual'>
       <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
       <geometry>
-        <mesh filename='package://coro_jeanine_sensor_config_1/meshes/wheel_right.dae' scale='1.41 1.41 1.71'/>
+        <mesh filename='package://coro_jeanine_sensor_config_1/meshes/wheel_right.dae' scale='1.22 1.22 1.71'/>
       </geometry>
     </visual>
     <visual name='rear_right_wheel_axle_visual'>
