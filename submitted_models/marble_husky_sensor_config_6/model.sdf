@@ -328,8 +328,8 @@
             <lens>
                 <intrinsics>
                     <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
-                    <fx>59.55</fx>
-                    <fy>59.55</fy>
+                    <fx>186.4</fx>
+                    <fy>186.4</fy>
                     <!-- cx = ( width + 1 ) / 2 -->
                     <cx>112.5</cx>
                     <!-- cy = ( height + 1 ) / 2 -->
@@ -598,7 +598,7 @@
             <range>
               <min>0.8</min>
               <max>120</max>
-              <resolution>0.003</resolution>
+              <resolution>0.01</resolution>
             </range>
             <noise>
               <type>gaussian</type>
@@ -633,7 +633,7 @@
             <range>
               <min>0.8</min>
               <max>120</max>
-              <resolution>0.003</resolution>
+              <resolution>0.01</resolution>
             </range>
             <noise>
               <type>gaussian</type>

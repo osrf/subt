@@ -92,3 +92,14 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
   HEREDOC
 end
 
+def rosExecutables(_name, _worldName)
+  <<-HEREDOC
+  <executable name='robot_description'>
+    <command>roslaunch --wait marble_husky_sensor_config_3 description.launch world_name:=#{_worldName} name:=#{_name}</command>
+  </executable>
+  <executable name='topics'>
+    <command>roslaunch --wait marble_husky_sensor_config_3 vehicle_topics.launch world_name:=#{_worldName} name:=#{_name}</command>
+  </executable>
+  HEREDOC
+end
+
