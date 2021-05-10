@@ -26,7 +26,7 @@ Ouster OS1 - Gen 1 = $8000 * 2 (Requested price catalog)
 Picco Flexx TOF Cameras = $400*2 
 Total = $18700
 
-Its weight is approximately 85 lbs (two-person heft).
+Its weight is approximately 125 lbs (two-person heft).
 
 ### Sensors
 This MARBLE Husky with sensor configuration 1 includes the following sensors. The specifications for these instruments are provided below in the [Validation Links](#validation_links) section.
