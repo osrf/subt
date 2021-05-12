@@ -73,10 +73,22 @@ def spawn_preview_model(args):
     etree.SubElement(plugin, 'publish_sensor_pose').text = 'true'
     etree.SubElement(plugin, 'publish_collision_pose').text = 'false'
     etree.SubElement(plugin, 'publish_visual_pose').text = 'false'
-    etree.SubElement(plugin, 'publish_nested_model_pose').text = 'true'
+    etree.SubElement(plugin, 'publish_nested_model_pose').text = 'false'
     etree.SubElement(plugin, 'use_pose_vector_msg').text = 'true'
     etree.SubElement(plugin, 'static_publisher').text = 'true'
     etree.SubElement(plugin, 'static_update_frequency').text = '1'
+
+    plugin = etree.SubElement(model, 'plugin',
+                    filename='libignition-gazebo-pose-publisher-system.so',
+                    name='ignition::gazebo::systems::PosePublisher')
+
+    etree.SubElement(plugin, 'publish_link_pose').text = 'false'
+    etree.SubElement(plugin, 'publish_sensor_pose').text = 'false'
+    etree.SubElement(plugin, 'publish_collision_pose').text = 'false'
+    etree.SubElement(plugin, 'publish_visual_pose').text = 'false'
+    etree.SubElement(plugin, 'publish_nested_model_pose').text = 'true'
+    etree.SubElement(plugin, 'use_pose_vector_msg').text = 'true'
+    etree.SubElement(plugin, 'static_publisher').text = 'false'
 
     sdf_esc = etree.tostring(sdf, encoding="unicode",
                              with_tail=False).replace('"', r'\"').replace('\n', '')
