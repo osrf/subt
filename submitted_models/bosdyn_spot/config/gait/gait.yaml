@@ -1,0 +1,12 @@
+knee_orientation : ">>"
+pantograph_leg : false
+odom_scaler: 1.0
+max_linear_velocity_x : 1.5
+max_linear_velocity_y : 0.25
+max_angular_velocity_z : 0.5
+# the following parameters affect stability of the gait
+com_x_translation : -0.1
+swing_height : 0.08
+stance_depth : -0.01
+stance_duration : 0.3 # affects max speed and stability
+nominal_height : 0.48

@@ -1,0 +1,199 @@
+<?xml version="1.0" ?>
+<robot name="marble_spot_sensor_config_1" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:arg name="has_flir_cameras" default="1" />
+    <xacro:arg name="has_ouster_lidar" default="0" />
+    <xacro:arg name="has_ouster_lidar_alt" default="1" />
+    <xacro:arg name="has_omnicam_vras" default="0" />
+    <xacro:arg name="has_big_collision_box_on_top" default="0" />
+
+    <xacro:arg name="simulate_ouster_lidar" default="False" />
+    <xacro:arg name="simulate_ouster_lidar_alt" default="True" />
+    <xacro:arg name="simulate_omnicam_vras" default="True" />
+    <xacro:arg name="simulate_flircams" default="True" />
+    <xacro:arg name="simulate_imu" default="True" />
+
+    <xacro:arg name="visualize_sensors" default="0" />
+
+    <xacro:property name="payload_z_top" value="0.105" />
+
+    <!-- Include the basic Spot URDF -->
+    <xacro:include filename="$(find bosdyn_spot)/urdf/spot.urdf.xacro"/>
+
+    <!-- Here is place for all custom URDF code for this sensor config. -->
+
+    <!-- Colon-separated list of payload Xacro files to include. Whitespace around is ignored. -->
+    <xacro:arg name="payload_xacros" default="
+      $(find marble_spot_sensor_config_1)/urdf/basler_cameras.xacro :
+      $(find marble_spot_sensor_config_1)/urdf/imu.xacro :
+      $(find marble_spot_sensor_config_1)/urdf/mote_deployer.xacro :
+      $(find marble_spot_sensor_config_1)/urdf/ouster_lidar.xacro :
+      $(find marble_spot_sensor_config_1)/urdf/ouster_lidar_alt.xacro :
+      $(find marble_spot_sensor_config_1)/urdf/flir_cameras.xacro :
+    " />
+
+    <!-- Append to this list in included payload Xacro files to count their weight to the total robot mass -->
+    <xacro:property name="payload_mass" value="${[]}" />
+
+    <!-- PAYLOAD INCLUDES -->
+
+    <!-- The included models should have collision elements specified for all physical links to be filtered out by laser filtering. -->
+    <!-- If the payload has non-negligible weight, it should append its weight to Xacro property payload_mass, e.g. by including this line: -->
+    <!-- <xacro:property name="mobilicom_void" value="${payload_mass.append(mobilicom_mass)}" scope="global" /> -->
+    <!-- This loop includes all Xacro files defined in payload_xacros arg. The looping itself is implemented via recursion. -->
+    <xacro:macro name="include_payload_xacros" params="xacros">
+        <xacro:if value="${len(xacros) > 0}">
+            <xacro:include filename="${xacros[0]}" />
+            <xacro:include_payload_xacros xacros="${xacros[1:]}" />
+        </xacro:if>
+    </xacro:macro>
+    <xacro:include_payload_xacros xacros='${[x.strip() for x in "$(arg payload_xacros)".split(":") if x.strip() != ""]}' />
+
+
+    <!-- Payload housing model -->
+
+    <xacro:property name="payload_housing_mass" value="3.0" />
+    <link name="$(arg prefix)payload">
+        <visual>
+            <!-- <pose>0.325 0 0.005 1.5708 0 1.5708</pose> -->
+            <origin rpy="1.5708 0 1.5708" xyz="0.325 0 0.005"/>
+            <geometry>
+                <mesh filename="package://marble_spot_sensor_config_1/meshes/spot_sensor_rig_assembly.dae" />
+            </geometry>
+        </visual>
+        <collision>
+            <xacro:if value="$(arg has_big_collision_box_on_top)">
+                <xacro:property name="coll_box_width" value="0.4" />
+                <xacro:property name="coll_box_length" value="1.0" />
+                <xacro:property name="coll_box_height" value="0.3" />
+            </xacro:if>
+            <xacro:unless value="$(arg has_big_collision_box_on_top)">
+                <xacro:property name="coll_box_width" value="0.191" />
+                <xacro:property name="coll_box_length" value="0.76" />
+                <xacro:property name="coll_box_height" value="0.181" />
+            </xacro:unless>
+            <origin rpy="0 0 0" xyz="0.02 0 ${coll_box_height/2}"/>
+            <geometry>
+                <box size="${coll_box_length} ${coll_box_width} ${coll_box_height}" />
+            </geometry>
+        </collision>
+        <visual> <origin rpy="0 0 0" xyz="-0.075 0 ${coll_box_height/2}"/>
+            <geometry>
+                <box size="${coll_box_length-0.15} ${coll_box_width-0.04} ${coll_box_height+0.05}" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="-0.13 0.03 0.2"/>
+            <geometry>
+                <box size="0.05 0.1 0.22" />
+            </geometry>
+        </collision>
+        <collision>
+            <origin rpy="0 0 0" xyz="-0.24 -0.045 0.2"/>
+            <geometry>
+                <cylinder length="0.22" radius="0.02" />
+            </geometry>
+        </collision>
+        <xacro:box_inertial mass="${payload_housing_mass}"
+            width="0.191" height="0.181" depth="0.76" xyz="0.02 0 ${0.181/2}" />
+        <xacro:default_inertial />
+    </link>
+    <xacro:fixed_joint name="payload_j" parent="$(arg prefix)rear_rail" child="$(arg prefix)payload" xyz="0.2 0 0" />
+    <xacro:property name="payload_void" value="${payload_mass.append(payload_housing_mass)}" scope="global" />
+
+    <!-- Payload IMU -->
+    <xacro:imu_sensor name="imu_vras" simulate="$(arg simulate_imu)" visualize="$(arg visualize_sensors)" />
+    <xacro:fixed_joint name="imu_vras_j" parent="$(arg prefix)payload" child="$(arg prefix)imu_vras"
+        xyz="0.05 0 0.015" rpy="0 0 ${pi/2}" />
+
+    <!-- 3D lidar -->
+    <xacro:if value="$(arg has_ouster_lidar)">
+        <xacro:ouster_os0_128 name="laser" simulate="$(arg simulate_ouster_lidar)" visualize="$(arg visualize_sensors)" />
+        <xacro:fixed_joint name="laser_j" parent="$(arg prefix)payload" child="$(arg prefix)laser"
+            xyz="0.365 0 ${payload_z_top + 0.06}" rpy="0 0.35 0" />
+    </xacro:if>
+    
+    <!-- 3D lidar -->
+    <xacro:if value="$(arg has_ouster_lidar_alt)">
+        <xacro:ouster_os1_64 name="laser" simulate="$(arg simulate_ouster_lidar_alt)" visualize="$(arg visualize_sensors)" />
+        <xacro:fixed_joint name="laser_j" parent="$(arg prefix)payload" child="$(arg prefix)laser"
+            xyz="0.305 0 0.2325" rpy="0 0.0 0" />
+    </xacro:if>
+
+    <!-- Omnicamera -->
+    <xacro:if value="$(arg has_omnicam_vras)">
+        <xacro:basler_ace_omnicam name="camera_0" simulate="$(arg simulate_omnicam_vras)" visualize="$(arg visualize_sensors)" />
+        <xacro:fixed_joint name="camera_0_j" parent="$(arg prefix)payload" child="$(arg prefix)camera_0"
+            xyz="0.317 0 ${payload_z_top + 0.029}" rpy="${pi} 0 0" />
+
+        <xacro:basler_ace_omnicam name="camera_1" simulate="$(arg simulate_omnicam_vras)" visualize="$(arg visualize_sensors)" />
+        <xacro:fixed_joint name="camera_1_j" parent="$(arg prefix)payload" child="$(arg prefix)camera_1"
+            xyz="0.265 -0.01 ${payload_z_top}" rpy="0 0 ${-pi/2}" />
+
+        <xacro:basler_ace_omnicam name="camera_2" simulate="$(arg simulate_omnicam_vras)" visualize="$(arg visualize_sensors)" />
+        <xacro:fixed_joint name="camera_2_j" parent="$(arg prefix)payload" child="$(arg prefix)camera_2"
+            xyz="-0.275 0 ${payload_z_top + 0.029}" rpy="${pi} 0 ${-pi}" />
+
+        <xacro:basler_ace_omnicam name="camera_3" simulate="$(arg simulate_omnicam_vras)" visualize="$(arg visualize_sensors)" />
+        <xacro:fixed_joint name="camera_3_j" parent="$(arg prefix)payload" child="$(arg prefix)camera_3"
+            xyz="0.265 0.01 ${payload_z_top - 0.03}" rpy="0 0 ${-3*pi/2}" />
+
+        <xacro:basler_ace_omnicam name="camera_4" simulate="$(arg simulate_omnicam_vras)" visualize="$(arg visualize_sensors)" />
+        <xacro:fixed_joint name="camera_4_j" parent="$(arg prefix)payload" child="$(arg prefix)camera_4"
+            xyz="0.215 -0.0145 ${payload_z_top - 0.05}" rpy="${pi} ${-pi/2} ${pi/2}" />
+    </xacro:if>
+
+    <!-- Marble FLIR Cameras -->
+    <xacro:if value="$(arg has_flir_cameras)">
+        <xacro:flir_backfly_cam name="front_tower_cam" simulate="$(arg simulate_flircams)"/>
+        <xacro:fixed_joint name="camera_0_j" parent="$(arg prefix)payload" child="$(arg prefix)front_tower_cam"
+            xyz="0.3734 -0.0269 0.1504" rpy="0 0 0" />
+
+        <xacro:flir_backfly_cam name="right_tower_cam" simulate="$(arg simulate_flircams)"/>
+        <xacro:fixed_joint name="camera_1_j" parent="$(arg prefix)payload" child="$(arg prefix)right_tower_cam"
+            xyz="0.3000 -0.03 0.1504" rpy="0 0 ${-pi/2}" />
+
+        <xacro:flir_backfly_cam name="left_tower_cam" simulate="$(arg simulate_flircams)"/>
+        <xacro:fixed_joint name="camera_3_j" parent="$(arg prefix)payload" child="$(arg prefix)left_tower_cam"
+            xyz="0.3000 0.03 0.1504" rpy="0 0 ${-3*pi/2}" />
+    </xacro:if>
+
+    <!-- LIGHTS -->
+    <xacro:include filename="$(find marble_spot_sensor_config_1)/urdf/lights.xacro" />
+    <gazebo reference="$(arg prefix)payload">
+        <xacro:led_stripe name="light_left" range="20" linear="0.2" constant="0.1" quadratic="0.0025"
+            inner_angle="2.8" outer_angle="2.9"
+            pose="0.275 0.1 ${payload_z_top+0.025} 0 ${-pi/2} ${pi/2}" />
+        <xacro:led_stripe name="light_right" range="20" linear="0.2" constant="0.1" quadratic="0.0025"
+            inner_angle="2.8" outer_angle="2.9"
+            pose="0.275 -0.1 ${payload_z_top-0.005} 0 ${-pi/2} ${-pi/2}" />
+        <xacro:led_stripe name="light_front" range="20" linear="0.2" constant="0.1" quadratic="0.0025"
+            inner_angle="2.8" outer_angle="2.9"
+            pose="0.375 0 ${payload_z_top-0.005} 0 ${-pi/2} 0" />
+        <xacro:led_stripe name="light_rear" range="20" linear="0.2" constant="0.1" quadratic="0.0025"
+            inner_angle="2.8" outer_angle="2.9"
+            pose="-0.36 0 ${payload_z_top+0.035} 0 ${-pi/2} ${-pi}" />
+        <xacro:spot_light_up name="light_up"
+            pose="0.19 0 ${payload_z_top + 0.04} 0 ${pi} 0" />
+    </gazebo>
+
+    <!-- Mote deployer (only sensor config 2) -->
+    <xacro:if value="$(arg has_mote_deployer)">
+        <!-- The link is included automatically in the payload xacro -->
+        <xacro:fixed_joint name="mote_deployer_j" parent="$(arg prefix)payload" child="$(arg prefix)mote_deployer"
+                           xyz="-0.295 0 -0.025" rpy="0 0 ${pi}" />
+    </xacro:if>
+
+    <!-- Compute total mass. You'll find it in the git-ignored file model.sdf.urdf as link named "total_mass_*". -->
+    <xacro:if value="${'$(arg rendering_target)' == 'ign'}">
+        <xacro:property name="total_mass" value="${
+          base_mass + 4 * (hip_mass + upper_leg_mass + lower_leg_mass) +
+          fsum(payload_mass)
+        }" />
+
+        <!-- This is a workaround for outputting the total mass of the robot. You'll find it in the URDF file. -->
+        <xacro:property name="total_mass_str" value="${str(total_mass).replace('.', '_')}" />
+        <link name="total_mass_${total_mass_str}" />
+        <xacro:fixed_joint name="total_mass_j" parent="$(arg prefix)base_link" child="total_mass_${total_mass_str}" />
+    </xacro:if>
+</robot>

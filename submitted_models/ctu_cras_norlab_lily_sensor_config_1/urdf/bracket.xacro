@@ -1,0 +1,369 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="bracket" params="name child type">
+  <xacro:property name="bracket_type" value="${type}"/>
+  <link name="${name}/INPUT_INTERFACE">
+
+    <!-- Light bracket -->
+    <xacro:if value="${bracket_type.startswith('X5Light')}">
+      <visual>
+        <xacro:if value="${bracket_type.endswith('Left')}">
+          <origin xyz="0 0 0" rpy="${pi/2} 0 ${pi/2}"/>
+          <geometry>
+            <mesh filename="package://ctu_cras_norlab_lily_sensor_config_1/meshes/PM-2132-01L.stl" scale="0.001 0.001 0.001"/>
+          </geometry>
+        </xacro:if>
+        <xacro:if value="${bracket_type.endswith('Right')}">
+          <origin xyz="0 0 0" rpy="${pi/2} 0 ${-pi/2}"/>
+          <geometry>
+            <mesh filename="package://ctu_cras_norlab_lily_sensor_config_1/meshes/PM-2132-01R.stl" scale="0.001 0.001 0.001"/>
+          </geometry>
+        </xacro:if>
+        <xacro:beige_material/>
+      </visual>
+      <collision>
+        <xacro:if value="${bracket_type.endswith('Left')}">
+          <origin xyz="0 0 0" rpy="${pi/2} 0 ${pi/2}"/>
+          <geometry>
+            <mesh filename="package://ctu_cras_norlab_lily_sensor_config_1/meshes/PM-2132-01L.stl" scale="0.001 0.001 0.001"/>
+          </geometry>
+        </xacro:if>
+        <xacro:if value="${bracket_type.endswith('Right')}">
+          <origin xyz="0 0 0" rpy="${pi/2} 0 ${-pi/2}"/>
+          <geometry>
+            <mesh filename="package://ctu_cras_norlab_lily_sensor_config_1/meshes/PM-2132-01R.stl" scale="0.001 0.001 0.001"/>
+          </geometry>
+        </xacro:if>
+      </collision>
+      <!-- NOTE: inertia is just modelled as small sphere, and could be improved. -->
+      <inertial>
+        <xacro:if value="${bracket_type.endswith('Left')}">
+          <origin xyz="0 .0215 .02" rpy="0 0 0" />
+        </xacro:if>
+        <xacro:if value="${bracket_type.endswith('Right')}">
+          <origin xyz="0 -.0215 .02" rpy="0 0 0" />
+        </xacro:if>
+        <mass value="0.1"/>
+        <inertia ixx="${0.4 * 0.1 * 0.06 * 0.06}" ixy="0.0" ixz="0.0" iyy="${0.4 * 0.1 * 0.06 * 0.06}" iyz="0.0" izz="${0.4 * 0.1 * 0.06 * 0.06}"/>
+      </inertial>
+    </xacro:if>
+
+    <xacro:if value="${bracket_type.startswith('R8Light')}">
+      <visual>
+        <xacro:if value="${bracket_type.endswith('Left')}">
+          <origin xyz="0 0 0" rpy="0 0 ${pi}"/>
+        </xacro:if>
+        <xacro:if value="${bracket_type.endswith('Right')}">
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:if>
+        <geometry>
+          <mesh filename="package://ctu_cras_norlab_lily_sensor_config_1/meshes/A-2220-01.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <xacro:black_material/>
+      </visual>
+      <collision>
+        <xacro:if value="${bracket_type.endswith('Left')}">
+          <origin xyz="0 0 0" rpy="${pi/2} 0 ${pi/2}"/>
+        </xacro:if>
+        <xacro:if value="${bracket_type.endswith('Right')}">
+          <origin xyz="0 0 0" rpy="${pi/2} 0 ${-pi/2}"/>
+        </xacro:if>
+        <geometry>
+          <mesh filename="package://ctu_cras_norlab_lily_sensor_config_1/meshes/A-2220-01.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+      <!-- NOTE: inertia is just modelled as small sphere, and could be improved. -->
+      <inertial>
+        <xacro:if value="${bracket_type.endswith('Left')}">
+          <origin xyz="0 .0215 .02" rpy="0 0 0" />
+        </xacro:if>
+        <xacro:if value="${bracket_type.endswith('Right')}">
+          <origin xyz="0 -.0215 .02" rpy="0 0 0" />
+        </xacro:if>
+        <mass value="0.1"/>
+        <inertia ixx="${0.4 * 0.1 * 0.06 * 0.06}" ixy="0.0" ixz="0.0" iyy="${0.4 * 0.1 * 0.06 * 0.06}" iyz="0.0" izz="${0.4 * 0.1 * 0.06 * 0.06}"/>
+      </inertial>
+    </xacro:if>
+
+    <!-- Heavy bracket -->
+    <xacro:if value="${bracket_type.startswith('X5Heavy')}">
+      <visual>
+        <xacro:if value="${bracket_type.endswith('RightOutside')}">
+          <origin xyz="0 0 0.005" rpy="${pi/2} 0 ${pi/2}"/>
+        </xacro:if>
+        <xacro:if value="${bracket_type.endswith('RightInside')}">
+          <origin xyz="0 0 0.005" rpy="${pi/2} 0 ${-pi/2}"/>
+        </xacro:if>
+        <xacro:if value="${bracket_type.endswith('LeftOutside')}">
+          <origin xyz="0 0 0.005" rpy="${pi/2} 0 ${-pi/2}"/>
+        </xacro:if>
+        <xacro:if value="${bracket_type.endswith('LeftInside')}">
+          <origin xyz="0 0 0.005" rpy="${pi/2} 0 ${pi/2}"/>
+        </xacro:if>
+        <geometry>
+          <mesh filename="package://ctu_cras_norlab_lily_sensor_config_1/meshes/PM-2149-01.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <xacro:black_material/>
+      </visual>
+      <visual>
+        <xacro:if value="${bracket_type.endswith('RightOutside')}">
+          <origin xyz="0 -.03 .04" rpy="${pi/2} 0 0"/>
+        </xacro:if>
+        <xacro:if value="${bracket_type.endswith('RightInside')}">
+          <origin xyz="0 .03 .04" rpy="${pi/2} 0 0"/>
+        </xacro:if>
+        <xacro:if value="${bracket_type.endswith('LeftOutside')}">
+          <origin xyz="0 -.03 .04" rpy="${pi/2} 0 0"/>
+        </xacro:if>
+        <xacro:if value="${bracket_type.endswith('LeftInside')}">
+          <origin xyz="0 -.03 .04" rpy="${pi/2} 0 ${pi}"/>
+        </xacro:if>
+        <geometry>
+          <xacro:if value="${bracket_type.startswith('X5HeavyRight') or bracket_type.startswith('R5HeavyRight')}">
+            <mesh filename="package://ctu_cras_norlab_lily_sensor_config_1/meshes/PM-2150-01R.stl" scale="0.001 0.001 0.001"/>
+          </xacro:if>
+          <xacro:if value="${bracket_type.startswith('X5HeavyLeft') or bracket_type.startswith('R5HeavyLeft')}">
+            <mesh filename="package://ctu_cras_norlab_lily_sensor_config_1/meshes/PM-2150-01L.stl" scale="0.001 0.001 0.001"/>
+          </xacro:if>
+        </geometry>
+        <xacro:black_material/>
+      </visual>
+
+      <collision>
+        <xacro:if value="${bracket_type.endswith('RightOutside')}">
+          <origin xyz="0 0 0.005" rpy="${pi/2} 0 ${pi/2}"/>
+        </xacro:if>
+        <xacro:if value="${bracket_type.endswith('RightInside')}">
+          <origin xyz="0 0 0.005" rpy="${pi/2} 0 ${-pi/2}"/>
+        </xacro:if>
+        <xacro:if value="${bracket_type.endswith('LeftOutside')}">
+          <origin xyz="0 0 0.005" rpy="${pi/2} 0 ${-pi/2}"/>
+        </xacro:if>
+        <xacro:if value="${bracket_type.endswith('LeftInside')}">
+          <origin xyz="0 0 0.005" rpy="${pi/2} 0 ${pi/2}"/>
+        </xacro:if>
+        <geometry>
+          <mesh filename="package://ctu_cras_norlab_lily_sensor_config_1/meshes/PM-2149-01.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+      <collision>
+        <xacro:if value="${bracket_type.endswith('RightOutside')}">
+          <origin xyz="0 -.03 .04" rpy="${pi/2} 0 0"/>
+        </xacro:if>
+        <xacro:if value="${bracket_type.endswith('RightInside')}">
+          <origin xyz="0 .03 .04" rpy="${pi/2} 0 0"/>
+        </xacro:if>
+        <xacro:if value="${bracket_type.endswith('LeftOutside')}">
+          <origin xyz="0 .03 .04" rpy="${pi/2} 0 ${pi}"/>
+        </xacro:if>
+        <xacro:if value="${bracket_type.endswith('LeftInside')}">
+          <origin xyz="0 -.03 .04" rpy="${pi/2} 0 ${pi}"/>
+        </xacro:if>
+        <geometry>
+          <xacro:if value="${bracket_type.startswith('X5HeavyRight') or bracket_type.startswith('R5HeavyRight')}">
+            <mesh filename="package://ctu_cras_norlab_lily_sensor_config_1/meshes/PM-2150-01R.stl" scale="0.001 0.001 0.001"/>
+          </xacro:if>
+          <xacro:if value="${bracket_type.startswith('X5HeavyLeft') or bracket_type.startswith('R5HeavyLeft')}">
+            <mesh filename="package://ctu_cras_norlab_lily_sensor_config_1/meshes/PM-2150-01L.stl" scale="0.001 0.001 0.001"/>
+          </xacro:if>
+        </geometry>
+      </collision>
+
+      <!-- NOTE: inertia is just modelled as small sphere, and could be improved. -->
+      <inertial>
+        <xacro:if value="${bracket_type.endswith('RightOutside')}">
+          <origin xyz="0 ${0.5 * -.0375} .0275" rpy="0 0 0" />
+        </xacro:if>
+        <xacro:if value="${bracket_type.endswith('RightInside')}">
+          <origin xyz="0 ${0.5 * .0225} .0275" rpy="0 0 0" />
+        </xacro:if>
+        <xacro:if value="${bracket_type.endswith('LeftOutside')}">
+          <origin xyz="0 ${0.5 * .0375} .0275" rpy="0 0 0" />
+        </xacro:if>
+        <xacro:if value="${bracket_type.endswith('LeftInside')}">
+          <origin xyz="0 ${0.5 * -.0225} .0275" rpy="0 0 0" />
+        </xacro:if>
+        <mass value="0.215"/>
+        <inertia ixx="${0.4 * 0.215 * 0.06 * 0.06}" ixy="0.0" ixz="0.0" iyy="${0.4 * 0.215 * 0.06 * 0.06}" iyz="0.0" izz="${0.4 * 0.215 * 0.06 * 0.06}"/>
+      </inertial>
+    </xacro:if>
+
+    <xacro:if value="${bracket_type.startswith('R8Heavy')}">
+      <visual>
+        <xacro:if value="${bracket_type.endswith('RightOutside')}">
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:if>
+        <xacro:if value="${bracket_type.endswith('RightInside')}">
+          <origin xyz="0 0 0" rpy="0 0 ${pi}"/>
+        </xacro:if>
+        <xacro:if value="${bracket_type.endswith('LeftOutside')}">
+          <origin xyz="0 0 0" rpy="0 0 ${pi}"/>
+        </xacro:if>
+        <xacro:if value="${bracket_type.endswith('LeftInside')}">
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:if>
+        <geometry>
+          <xacro:if value="${bracket_type.endswith('Outside')}">
+            <mesh filename="package://ctu_cras_norlab_lily_sensor_config_1/meshes/A-2221-01-Outside.stl" scale="0.001 0.001 0.001"/>
+          </xacro:if>
+          <xacro:if value="${bracket_type.endswith('Inside')}">
+            <mesh filename="package://ctu_cras_norlab_lily_sensor_config_1/meshes/A-2221-01-Inside.stl" scale="0.001 0.001 0.001"/>
+          </xacro:if>
+        </geometry>
+        <xacro:black_material/>
+      </visual>
+      
+      <!-- COLLISION -->
+      <!-- merged from automatically generated results-->
+      <!-- geometry simplification from file: A-2221-01-Inside.scad-->
+      <!-- (1/4) horizontal cylinder -->
+      <collision>
+        <xacro:if value="${bracket_type.endswith('RightOutside')}">
+          <origin xyz="0 0 0.005" rpy="${pi/2} 0 ${pi/2}"/>
+        </xacro:if>
+        <xacro:if value="${bracket_type.endswith('RightInside')}">
+          <!-- origin manually offseted by xyz="0.0 0.0 0.005" -->
+          <origin xyz="0 0 ${0.005+0.005}" rpy="${pi/2} 0 ${-pi/2}"/>
+        </xacro:if>
+        <xacro:if value="${bracket_type.endswith('LeftOutside')}">
+          <origin xyz="0 0 0.005" rpy="${pi/2} 0 ${-pi/2}"/>
+        </xacro:if>
+        <xacro:if value="${bracket_type.endswith('LeftInside')}">
+          <!-- origin manually offseted by xyz="0.0 0.0 0.005" -->
+          <origin xyz="0 0 ${0.005+0.005}" rpy="${pi/2} 0 ${pi/2}"/>
+        </xacro:if>
+        <geometry>
+          <xacro:if value="${bracket_type.endswith('Outside')}">
+            <mesh filename="package://ctu_cras_norlab_lily_sensor_config_1/meshes/A-2221-01-Outside.stl" scale="0.001 0.001 0.001"/>
+          </xacro:if>
+          <xacro:if value="${bracket_type.endswith('Inside')}">
+            <!--
+            <mesh filename="package://ctu_cras_norlab_lily_sensor_config_1/meshes/A-2221-01-Inside.stl" scale="0.001 0.001 0.001"/>
+            -->
+            <!-- adding cylinder -->
+            <cylinder length="0.011" radius="0.0275" />
+          </xacro:if>
+        </geometry>
+      </collision>
+
+      <!-- (2/4) horizontal connector -->
+      <collision>
+        <xacro:if value="${bracket_type.endswith('RightInside')}">
+          <!-- origin manually offseted by xyz="0.0 -0.02 0.005"-->
+          <origin xyz="0 -0.02 ${0.005+0.005}" rpy="${pi/2} 0 ${-pi/2}"/>
+        </xacro:if>
+        <xacro:if value="${bracket_type.endswith('LeftInside')}">
+          <!-- origin manually offseted by xyz="0.0 -0.02 0.005" -->
+          <origin xyz="0 -0.02 ${0.005+0.005}" rpy="${pi/2} 0 ${pi/2}"/>
+        </xacro:if>
+        <geometry>
+          <xacro:if value="${bracket_type.endswith('Inside')}">
+            <!--
+            <mesh filename="package://ctu_cras_norlab_lily_sensor_config_1/meshes/A-2221-01-Inside.stl" scale="0.001 0.001 0.001"/>
+            -->
+            <!-- adding box -->
+            <box size="0.055 0.04 0.011" />
+          </xacro:if>
+        </geometry>
+      </collision>
+
+      <!-- (3/4) vertical connector -->
+      <collision>
+        <xacro:if value="${bracket_type.endswith('RightInside')}">
+          <!-- origin manually offseted by xyz="0.0 -0.03 0.03"-->
+          <origin xyz="0 -0.03 ${0.005+0.03}" rpy="${pi/2} 0 ${-pi/2}"/>
+        </xacro:if>
+        <xacro:if value="${bracket_type.endswith('LeftInside')}">
+          <!-- origin manually offseted by xyz="0.0 -0.03 0.03" -->
+          <origin xyz="0 -0.03 ${0.005+0.03}" rpy="${pi/2} 0 ${pi/2}"/>
+        </xacro:if>
+        <geometry>
+          <xacro:if value="${bracket_type.endswith('Inside')}">
+            <!--
+            <mesh filename="package://ctu_cras_norlab_lily_sensor_config_1/meshes/A-2221-01-Inside.stl" scale="0.001 0.001 0.001"/>
+            -->
+            <!-- adding box -->
+            <box size="0.12 0.02 0.06" />
+          </xacro:if>
+        </geometry>
+      </collision>
+
+      <!-- (4/4) vertical cylinder -->
+      <collision>
+        <xacro:if value="${bracket_type.endswith('RightInside')}">
+          <!-- origin manually offseted by xyz="0.0 -0.03 0.055" and r=pi/2 -->
+          <origin xyz="0 -0.03 ${0.005+0.055}" rpy="${pi/2 + pi/2} 0 ${-pi/2}"/>
+        </xacro:if>
+        <xacro:if value="${bracket_type.endswith('LeftInside')}">
+          <!-- origin manually offseted by xyz="0.0 -0.03 0.055" and r=pi/2 -->
+          <origin xyz="0 -0.03 ${0.005+0.055}" rpy="${pi/2 + pi/2} 0 ${pi/2}"/>
+        </xacro:if>
+        <geometry>
+          <xacro:if value="${bracket_type.endswith('Inside')}">
+            <!--
+            <mesh filename="package://ctu_cras_norlab_lily_sensor_config_1/meshes/A-2221-01-Inside.stl" scale="0.001 0.001 0.001"/>
+            -->
+            <!-- adding box -->
+            <cylinder length="0.02" radius="0.0375" />
+          </xacro:if>
+        </geometry>
+      </collision>
+      <!-- end of merge from automatically generated results-->
+
+      <!-- NOTE: inertia is just modelled as small sphere, and could be improved. -->
+      <inertial>
+        <xacro:if value="${bracket_type.endswith('RightOutside')}">
+          <origin xyz="0 ${0.5 * -.0375} .0275" rpy="0 0 0" />
+        </xacro:if>
+        <xacro:if value="${bracket_type.endswith('RightInside')}">
+          <origin xyz="0 ${0.5 * .0225} .0275" rpy="0 0 0" />
+        </xacro:if>
+        <xacro:if value="${bracket_type.endswith('LeftOutside')}">
+          <origin xyz="0 ${0.5 * .0375} .0275" rpy="0 0 0" />
+        </xacro:if>
+        <xacro:if value="${bracket_type.endswith('LeftInside')}">
+          <origin xyz="0 ${0.5 * -.0225} .0275" rpy="0 0 0" />
+        </xacro:if>
+        <mass value="0.215"/>
+        <inertia ixx="${0.4 * 0.215 * 0.06 * 0.06}" ixy="0.0" ixz="0.0" iyy="${0.4 * 0.215 * 0.06 * 0.06}" iyz="0.0" izz="${0.4 * 0.215 * 0.06 * 0.06}"/>
+      </inertial>
+    </xacro:if>
+  </link>
+  <gazebo reference="${name}/INPUT_INTERFACE">
+    <xacro:if value="${bracket_type.startswith('X5Light')}">
+      <xacro:gazebo_beige_material/>
+    </xacro:if>
+    <xacro:if value="${bracket_type.startswith('X5Heavy') or bracket_type.startswith('R8')}">
+      <xacro:gazebo_black_material/>
+    </xacro:if>
+  </gazebo>
+
+  <joint name="${name}/OUTPUT_INTERFACE" type="fixed">
+    <parent link="${name}/INPUT_INTERFACE"/>
+    <child link="${child}/INPUT_INTERFACE"/>
+    <xacro:if value="${bracket_type.endswith('RightOutside')}">
+      <origin xyz="0 -.0375 .055" rpy="${pi/2} 0 0"/>
+    </xacro:if>
+    <xacro:if value="${bracket_type.endswith('RightInside')}">
+      <origin xyz="0 .0225 .055" rpy="${pi/2} 0 0"/>
+    </xacro:if>
+    <xacro:if value="${bracket_type.endswith('LeftOutside')}">
+      <origin xyz="0 .0375 .055" rpy="${-pi/2} 0 0"/>
+    </xacro:if>
+    <xacro:if value="${bracket_type.endswith('LeftInside')}">
+      <origin xyz="0 -.0225 .055" rpy="${-pi/2} 0 0"/>
+    </xacro:if>
+    <xacro:if value="${bracket_type.endswith('Left')}">
+      <origin xyz="0 .043 .04" rpy="${-pi/2} 0 0"/>
+    </xacro:if>
+    <xacro:if value="${bracket_type.endswith('Right')}">
+      <origin xyz="0 -.043 .04" rpy="${pi/2} 0 0"/>
+    </xacro:if>
+  </joint>
+  <gazebo reference="${name}/OUTPUT_INTERFACE">
+    <disableFixedJointLumping>true</disableFixedJointLumping>
+    <preserveFixedJoint>true</preserveFixedJoint>
+  </gazebo>
+  </xacro:macro>
+</robot>

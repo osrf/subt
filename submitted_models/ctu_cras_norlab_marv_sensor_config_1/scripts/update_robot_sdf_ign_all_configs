@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -e
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+SUBMITTED_MODELS_DIR="${DIR}/../.."
+
+for config in "${SUBMITTED_MODELS_DIR}"/ctu_cras_norlab_marv_sensor_config_*; do
+  "${config}/scripts/update_robot_sdf_ign"
+done

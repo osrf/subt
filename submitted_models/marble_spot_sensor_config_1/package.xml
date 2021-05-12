@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>marble_spot_sensor_config_1</name>
+  <version>1.0.0</version>
+  <description>Boston Dynamics Spot of Marble team</description>
+
+  <author email="brett.fotheringham@ssci.com">Brett Fotheringham</author>
+  <maintainer email="brett.fotheringham@ssci.com">Brett Fotheringham</maintainer>
+
+  <license>BSD-3</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <exec_depend>bosdyn_spot</exec_depend>
+  <exec_depend>ctu_cras_norlab_spot_sensor_config_1</exec_depend>
+  <exec_depend>ros_ign_bridge</exec_depend>
+  <exec_depend>ros_ign_image</exec_depend>
+  <exec_depend>roslaunch</exec_depend>
+  <exec_depend>subt_ros</exec_depend>
+  <exec_depend>xacro</exec_depend>
+</package>

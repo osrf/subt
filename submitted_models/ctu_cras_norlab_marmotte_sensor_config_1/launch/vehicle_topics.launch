@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<launch>
+  <env name="IGN_TRANSPORT_TOPIC_STATISTICS" value="1"/>
+  <arg name="world_name"/>
+  <arg name="name"/>
+  <arg name="link_name" value="sensor_rack"/>
+  <arg name="link_prefix" value="/world/$(arg world_name)/model/$(arg name)/link"/>
+  <arg name="sensor_prefix" value="$(arg link_prefix)/$(arg link_name)/sensor"/>
+  <arg name="breadcrumbs" default="0"/>
+
+  <group ns="$(arg name)">
+    
+    <!-- Common -->
+
+    <include file="$(find subt_ros)/launch/models_common/all_robots.launch">
+      <arg name="name" value="$(arg name)" />
+      <arg name="world_name" value="$(arg world_name)" />
+    </include>
+
+    <include file="$(find subt_ros)/launch/models_common/all_ugvs.launch">
+      <arg name="name" value="$(arg name)" />
+      <arg name="world_name" value="$(arg world_name)" />
+    </include>
+
+    <!-- Mapping Server -->
+    <include file="$(find subt_ros)/launch/models_common/mapping_server_relays.launch">
+      <arg name="name" value="$(arg name)"/>
+    </include>
+    
+    <!--Basler camera 0 -->
+    <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
+      <arg name="node_name_suffix" value="camera_0" />
+      <arg name="gazebo_topic" value="$(arg sensor_prefix)/camera_0" />
+      <arg name="ros_topic" value="omni/camera_0" />
+    </include>
+
+    <!--Basler camera 1 -->
+    <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
+      <arg name="node_name_suffix" value="camera_1" />
+      <arg name="gazebo_topic" value="$(arg sensor_prefix)/camera_1" />
+      <arg name="ros_topic" value="omni/camera_1" />
+    </include>
+
+    <!--Basler camera 2 -->
+    <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
+      <arg name="node_name_suffix" value="camera_2" />
+      <arg name="gazebo_topic" value="$(arg sensor_prefix)/camera_2" />
+      <arg name="ros_topic" value="omni/camera_2" />
+    </include>
+
+    <!--Basler camera 3 -->
+    <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
+      <arg name="node_name_suffix" value="camera_3" />
+      <arg name="gazebo_topic" value="$(arg sensor_prefix)/camera_3" />
+      <arg name="ros_topic" value="omni/camera_3" />
+    </include>
+
+    <!--Basler camera 4 -->
+    <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
+      <arg name="node_name_suffix" value="camera_4" />
+      <arg name="gazebo_topic" value="$(arg sensor_prefix)/camera_4" />
+      <arg name="ros_topic" value="omni/camera_4" />
+    </include>
+
+    <!--Basler camera 5 -->
+    <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
+      <arg name="node_name_suffix" value="camera_5" />
+      <arg name="gazebo_topic" value="$(arg sensor_prefix)/camera_5" />
+      <arg name="ros_topic" value="omni/camera_5" />
+    </include>
+
+    <!--Rear-faced RGBD camera -->
+    <include file="$(find subt_ros)/launch/models_common/rgbd_camera.launch">
+      <arg name="node_name_suffix" value="camera_realsense" />
+      <arg name="gazebo_topic" value="$(arg sensor_prefix)/camera_realsense" />
+      <arg name="ros_topic" value="rear" />
+      <arg name="points_ros_topic" value="rgbd_camera/depth/points" />
+    </include>
+
+    <!--Robosense RS-LiDAR-16 or Leishen C16 Series -->
+    <include file="$(find subt_ros)/launch/models_common/lidar_3d.launch">
+      <arg name="gazebo_topic" value="$(arg sensor_prefix)/front_lidar/scan/points" />
+    </include>
+
+    <!--IMU-->
+    <include file="$(find subt_ros)/launch/models_common/imu.launch">
+      <arg name="gazebo_topic" value="$(arg sensor_prefix)/imu_sensor/imu" />
+    </include>
+
+    <!-- Breadcrumbs -->
+    <include if="$(eval breadcrumbs > 0)" file="$(find subt_ros)/launch/models_common/breadcrumbs.launch">
+      <arg name="name" value="$(arg name)" />
+    </include>
+  </group>
+</launch>

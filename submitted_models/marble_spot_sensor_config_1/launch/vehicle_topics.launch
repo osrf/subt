@@ -1,0 +1,88 @@
+<launch>
+    <arg name="world_name"/>
+    <arg name="name"/>
+    <arg name="link_prefix" value="/world/$(arg world_name)/model/$(arg name)/link"/>
+    <arg name="joint_prefix" value="/model/$(arg name)/joint"/>
+    <arg name="breadcrumbs" default="0"/>
+    <arg name="has_omnicam_vras" default="0"/>
+    <arg name="has_ouster_lidar" default="1"/>
+    <arg name="has_flir_cameras" default="1" />
+    <arg name="description_print_command" default="$(find marble_spot_sensor_config_1)/scripts/print_robot_urdf" />
+
+    <!-- Include default Spot topics. -->
+    <include file="$(find bosdyn_spot)/launch/vehicle_topics.launch">
+        <arg name="world_name" value="$(arg world_name)"/>
+        <arg name="name" value="$(arg name)"/>
+        <arg name="breadcrumbs" value="$(arg breadcrumbs)"/>
+        <arg name="description_print_command" value="$(arg description_print_command)" />
+    </include>
+
+    <group ns="$(arg name)">
+        <!-- Custom vehicle topics just for this sensor config. -->
+
+        <!-- "Omnicam" -->
+
+        <group if="$(arg has_omnicam_vras)">
+            <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
+                <arg name="node_name_suffix" value="omnicam_vras_front" />
+                <arg name="gazebo_topic" value="$(arg link_prefix)/camera_0/sensor/camera_0" />
+                <arg name="ros_topic" value="omni/camera_0" />
+            </include>
+
+            <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
+                <arg name="node_name_suffix" value="omnicam_vras_right" />
+                <arg name="gazebo_topic" value="$(arg link_prefix)/camera_1/sensor/camera_1" />
+                <arg name="ros_topic" value="omni/camera_1" />
+            </include>
+
+            <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
+                <arg name="node_name_suffix" value="omnicam_vras_rear" />
+                <arg name="gazebo_topic" value="$(arg link_prefix)/camera_2/sensor/camera_2" />
+                <arg name="ros_topic" value="omni/camera_2" />
+            </include>
+
+            <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
+                <arg name="node_name_suffix" value="omnicam_vras_left" />
+                <arg name="gazebo_topic" value="$(arg link_prefix)/camera_3/sensor/camera_3" />
+                <arg name="ros_topic" value="omni/camera_3" />
+            </include>
+
+            <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
+                <arg name="node_name_suffix" value="omnicam_vras_up" />
+                <arg name="gazebo_topic" value="$(arg link_prefix)/camera_4/sensor/camera_4" />
+                <arg name="ros_topic" value="omni/camera_4" />
+            </include>
+        </group>
+
+        <group if="$(arg has_flir_cameras)">
+            <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
+                <arg name="node_name_suffix" value="tower_cam_front" />
+                <arg name="gazebo_topic" value="$(arg link_prefix)/front_tower_cam/sensor/front_tower_cam" />
+                <arg name="ros_topic" value="tower/front_cam" />
+            </include>
+
+            <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
+                <arg name="node_name_suffix" value="tower_cam_right" />
+                <arg name="gazebo_topic" value="$(arg link_prefix)/right_tower_cam/sensor/right_tower_cam" />
+                <arg name="ros_topic" value="tower/right_cam" />
+            </include>
+
+            <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
+                <arg name="node_name_suffix" value="tower_cam_left" />
+                <arg name="gazebo_topic" value="$(arg link_prefix)/left_tower_cam/sensor/left_tower_cam" />
+                <arg name="ros_topic" value="tower/left_cam" />
+            </include>
+        </group>
+
+        <!-- 3D Lidar -->
+        <include if="$(arg has_ouster_lidar)" file="$(find subt_ros)/launch/models_common/lidar_3d.launch">
+            <arg name="gazebo_topic" value="$(arg link_prefix)/laser/sensor/laser/scan/points" />
+        </include>
+
+        <!--IMU-->
+        <include file="$(find subt_ros)/launch/models_common/imu.launch">
+            <arg name="gazebo_topic" value="$(arg link_prefix)/imu_vras/sensor/imu/imu" />
+            <arg name="node_name_suffix" value="imu_vras" />
+        </include>
+    </group>
+</launch>
