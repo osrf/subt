@@ -58,21 +58,21 @@
       </geometry>
     </collision>
     <visual name='visual_chassis'>
-      <origin xyz='-0.34 0 0.03' rpy='0 -0 0'/>
+      <origin xyz='-0.33 0 -0.19' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='meshes/k2.dae' scale='1 1 1'/>
+        <mesh filename='package://robotika_kloubak_sensor_config_3/meshes/k2.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='rs_holder_front'>
-      <origin xyz='0.06 0.015 0.5185' rpy='0 -0 0'/>
+      <origin xyz='0.06 0.015 0.2985' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='meshes/rs_holder.dae' scale='1 1 1'/>
+        <mesh filename='package://robotika_kloubak_sensor_config_3/meshes/rs_holder.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='visual_depth_camera_front_slope'>
-      <origin xyz='0.163 0.012 0.544' rpy='1.91986 0 1.56329'/>
+      <origin xyz='0.163 0.012 0.324' rpy='1.91986 0 1.56329'/>
       <geometry>
-        <mesh filename='meshes/realsense_d435.dae' scale='1 1 1'/>
+        <mesh filename='package://robotika_kloubak_sensor_config_3/meshes/realsense_d435.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
@@ -143,22 +143,16 @@
         <box size='0.03 0.2 0.06'/>
       </geometry>
     </collision>
-    <visual name='visual_chassis'>
-      <origin xyz='-0.01 0 -0.19' rpy='0 -0 0'/>
-      <geometry>
-        <mesh filename='meshes/k2.dae' scale='1 1 1'/>
-      </geometry>
-    </visual>
     <visual name='rs_holder_back'>
-      <origin xyz='-0.44 -0.023 0.375' rpy='0 -0 -3.14159'/>
+      <origin xyz='-0.105 -0.023 0.377' rpy='0 -0 -3.14159'/>
       <geometry>
-        <mesh filename='meshes/rs_holder.dae' scale='1 1 1'/>
+        <mesh filename='package://robotika_kloubak_sensor_config_3/meshes/rs_holder.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='visual_depth_camera_back_slope'>
-      <origin xyz='-0.543 0.015 0.401' rpy='-1.91986 -0 1.56329'/>
+      <origin xyz='-0.208 0.015 0.403' rpy='-1.91986 -0 1.56329'/>
       <geometry>
-        <mesh filename='meshes/realsense_d435.dae' scale='1 1 1'/>
+        <mesh filename='package://robotika_kloubak_sensor_config_3/meshes/realsense_d435.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
@@ -207,12 +201,6 @@
         <box size='0.04 0.42 0.04'/>
       </geometry>
     </collision>
-    <visual name='visual'>
-      <origin xyz='-0.0132 0 0' rpy='0 -0 0'/>
-      <geometry>
-        <mesh filename='meshes/k2.dae' scale='1 1 1'/>
-      </geometry>
-    </visual>
   </link>
   <link name='${robot_namespace}/front_left_wheel'>
     <inertial>
@@ -226,12 +214,6 @@
         <cylinder radius='0.147' length='0.08'/>
       </geometry>
     </collision>
-    <visual name='tire_visual'>
-      <origin xyz='0 0 0' rpy='0 -0 0'/>
-      <geometry>
-        <mesh filename='meshes/k2.dae' scale='1 1 1'/>
-      </geometry>
-    </visual>
   </link>
   <link name='${robot_namespace}/front_right_wheel'>
     <inertial>
@@ -245,12 +227,6 @@
         <cylinder radius='0.147' length='0.08'/>
       </geometry>
     </collision>
-    <visual name='tire_visual'>
-      <origin xyz='0 0 0' rpy='0 -0 0'/>
-      <geometry>
-        <mesh filename='meshes/k2.dae' scale='1 1 1'/>
-      </geometry>
-    </visual>
   </link>
   <link name='${robot_namespace}/rear_left_wheel'>
     <inertial>
@@ -264,12 +240,6 @@
         <cylinder radius='0.147' length='0.08'/>
       </geometry>
     </collision>
-    <visual name='tire_visual'>
-      <origin xyz='0 0 0' rpy='0 -0 0'/>
-      <geometry>
-        <mesh filename='meshes/k2.dae' scale='1 1 1'/>
-      </geometry>
-    </visual>
   </link>
   <link name='${robot_namespace}/rear_right_wheel'>
     <inertial>
@@ -283,12 +253,6 @@
         <cylinder radius='0.147' length='0.08'/>
       </geometry>
     </collision>
-    <visual name='tire_visual'>
-      <origin xyz='0 0 0' rpy='0 -0 0'/>
-      <geometry>
-        <mesh filename='meshes/k2.dae' scale='1 1 1'/>
-      </geometry>
-    </visual>
   </link>
   <joint name='front_left_wheel_joint' type='revolute'>
     <origin xyz='0 0.25 0.172' rpy='0 -0 0'/>
