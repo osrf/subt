@@ -1067,7 +1067,7 @@ void GameLogicPlugin::PreUpdate(const UpdateInfo &_info,
     {
       if (this->dataPtr->robotEntityMap.find(robotName) ==
           this->dataPtr->robotEntityMap.end())
-          return;
+          continue;
       gazebo::Entity robotEntity = this->dataPtr->robotEntityMap.at(robotName);
       auto *haltMotionComp = _ecm.Component<components::HaltMotion>(robotEntity);
       if (haltMotionComp && !haltMotionComp->Data())
