@@ -63,7 +63,7 @@ We are unable to provide validation video links and data links at this time due 
 
 * Sensor specification links:
   * FLIR Backfly Camera - https://flir.app.boxcn.net/s/iicqenjhtth41dt13951qh5toidx29ih + lens --> https://www.bhphotovideo.com/c/product/414239-REG/Tamron_13FM28IR_13FM28IR_2_8_mm_f_1_2.html
-  * Ouster 3D Lidar (64 Channel) - https://ouster.com/products/os1-lidar-sensor/
+  * Ouster Gen 1 3D Lidar (64 Channel) - https://data.ouster.io/downloads/datasheets/datasheet-gen1-v2p0-os1.pdf
   * RPLidar S1 Planar Lidar - https://www.slamtec.com/en/Lidar/S1Spec
   * Picco Flexx Camera - https://www.automation24.com/development-kit-pmd-vision-r-camboard-pico-flexx-700-000-094
 
