@@ -411,8 +411,8 @@
             <horizontal>
               <samples>1024</samples>
               <resolution>1</resolution>
-              <min_angle>-3.1459</min_angle>
-              <max_angle>3.1459</max_angle>
+              <min_angle>-3.14159</min_angle>
+              <max_angle>3.14159</max_angle>
             </horizontal>
             <vertical>
               <samples>64</samples>
@@ -424,12 +424,12 @@
           <range>
             <min>0.8</min>
             <max>120</max>
-            <resolution>0.003</resolution>
+            <resolution>0.01</resolution>
           </range>
           <noise>
             <type>gaussian</type>
             <mean>0</mean>
-            <stddev>0.03</stddev>
+            <stddev>0.01</stddev>
           </noise>
         </lidar>
         <pose frame="">0.424 0 0.387 0 -0 0</pose>
