@@ -127,28 +127,40 @@
      "X1" => "base_link",
      "EXPLORER_X1" => "base_link",
      "EXPLORER_R2" => "Rear_Rocker_Link",
-     "CSIRO_DATA61_OZBOT_ATR" => "base_link"
+     "CSIRO_DATA61_OZBOT_ATR" => "base_link",
+     "CORO_ALLIE" => "base_link",
+     "CORO_KAREN" => "base_link",
+     "CORO_MIKE" => "base_link",
    }
 
   MARSUPIAL_VALID_ROBOT_PAIRS = {
-    "X1" => ["X3", "MARBLE_QAV500", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER", "CORO_PAM", "CTU_CRAS_NORLAB_X500"],
-    "EXPLORER_X1" =>["X3", "MARBLE_QAV500", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER", "CORO_PAM", "CTU_CRAS_NORLAB_X500"],
-    "EXPLORER_R2" =>["X3", "X4", "SSCI_X4", "SOPHISTICATED_ENGINEERING_X4", "EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER", "CORO_PAM", "CTU_CRAS_NORLAB_X500"],
-    "CSIRO_DATA61_OZBOT_ATR" =>["X3", "X4", "SSCI_X4", "SOPHISTICATED_ENGINEERING_X4","EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER", "CORO_PAM", "CTU_CRAS_NORLAB_X500"]
+    "X1" => ["X3", "MARBLE_QAV500", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER", "CORO_PAM", "CTU_CRAS_NORLAB_X500", "CORO_CRYSTAL"],
+    "CORO_ALLIE" => ["CERBERUS_RMF", "CORO_CRYSTAL"],
+    "CORO_KAREN" => ["CERBERUS_RMF", "CORO_PAM", "CTU_CRAS_NORLAB_X500","CORO_CRYSTAL"],
+    "CORO_MIKE" => ["X3", "X4", "SSCI_X4", "SOPHISTICATED_ENGINEERING_X4", "CERBERUS_M100", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER", "CORO_PAM", "CTU_CRAS_NORLAB_X500", "CORO_CRYSTAL"],
+    "EXPLORER_X1" =>["X3", "MARBLE_QAV500", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER", "CORO_PAM", "CTU_CRAS_NORLAB_X500", "CORO_CRYSTAL"],
+    "EXPLORER_R2" => ["X3", "X4", "SSCI_X4", "SOPHISTICATED_ENGINEERING_X4", "EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER", "CORO_PAM", "CTU_CRAS_NORLAB_X500", "CORO_CRYSTAL"],
+    "CSIRO_DATA61_OZBOT_ATR" =>["X3", "X4", "SSCI_X4", "SOPHISTICATED_ENGINEERING_X4","EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER", "CORO_PAM", "CTU_CRAS_NORLAB_X500", "CORO_CRYSTAL"]
   }
 
   MARSUPIAL_PARENT_ROBOT_POSITION_OFFSETS = {
     "X1" => Vector3d.new(0, 0, 0.717),
     "EXPLORER_X1" => Vector3d.new(0, 0, 0.717),
     "EXPLORER_R2" => Vector3d.new(-0.402375, 0, 0.6874),
-    "CSIRO_DATA61_OZBOT_ATR" => Vector3d.new(-0.15, 0, 0.528)
+    "CSIRO_DATA61_OZBOT_ATR" => Vector3d.new(-0.15, 0, 0.528),
+    "CORO_ALLIE" => Vector3d.new(-0.18, 0, 0.320),
+    "CORO_KAREN" => Vector3d.new(-0.18, 0, 0.5),
+    "CORO_MIKE" => Vector3d.new(-0.2, 0, 0.5775)
   }
 
   MARSUPIAL_PARENT_ROBOT_ROTATION_OFFSETS = {
     "X1" => AngularVector3d.new(0, 0, 0),
     "EXPLORER_X1" => AngularVector3d.new(0, 0, 0),
     "EXPLORER_R2" => AngularVector3d.new(0, 0, -3.1416),
-    "CSIRO_DATA61_OZBOT_ATR" => AngularVector3d.new(0, 0, -3.1416)
+    "CSIRO_DATA61_OZBOT_ATR" => AngularVector3d.new(0, 0, -3.1416),
+    "CORO_ALLIE" => AngularVector3d.new(0, 0, 0),
+    "CORO_KAREN" => AngularVector3d.new(0, 0, 0),
+    "CORO_MIKE" => AngularVector3d.new(0, 0, 0)
   }
   
   allExecutables = ""
@@ -410,6 +422,12 @@
             entity_type="world"
             filename="ignition-gazebo-contact-system"
             name="ignition::gazebo::systems::Contact">
+    </plugin>
+
+    <plugin entity_name="<%= $worldName %>"
+            entity_type="world"
+            filename="ignition-gazebo-particle-emitter2-system"
+            name="ignition::gazebo::systems::ParticleEmitter2">
     </plugin>
 
     <!-- The SubT challenge logic plugin -->

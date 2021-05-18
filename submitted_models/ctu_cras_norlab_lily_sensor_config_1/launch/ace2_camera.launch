@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- based on ctu_cras_norlab_spot camera.launch -->
+  <arg name="name"/>
+  <arg name="world_name"/>
+  <arg name="camera"/>
+  <arg name="relay_points" default="1" />
+  <arg name="link_prefix" value="/world/$(arg world_name)/model/$(arg name)/link"/>
+
+  <!-- hard-coded to the sub-folder -->
+  <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
+    <arg name="node_name_suffix" value="camera_$(arg camera)" />
+    <arg name="gazebo_topic" value="$(arg link_prefix)/ace2_camera_$(arg camera)/sensor/camera_$(arg camera)" />
+    <arg name="ros_topic" value="$(arg camera)" />
+  </include>
+
+</launch>

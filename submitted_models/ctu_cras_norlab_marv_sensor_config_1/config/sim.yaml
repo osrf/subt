@@ -1,0 +1,15 @@
+# Common simulation parameters
+
+num_wheels: 8 # Number of small wheels that approximate each flipper
+num_breadcrumbs: 0
+
+# Which sensors to simulate (if False, they will be a part of the model but not producing data)
+simulate_ouster_lidar: True
+simulate_omnicam_vras: True
+simulate_body_cams: True
+simulate_imu: True
+
+# model workarounds
+flipper_inflation_ratio: 1.0
+flipper_inward_enlargement: 0.0
+big_collision_box_on_top: False

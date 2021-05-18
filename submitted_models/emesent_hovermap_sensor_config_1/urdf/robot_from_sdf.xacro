@@ -1,0 +1,345 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name='emesent_hovermap_sensor_config_1' xmlns:xacro='http://ros.org/wiki/xacro'>
+  <xacro:arg name="name" default="emesent_hovermap_sensor_config_1"/>
+  <xacro:property name="robot_namespace" value="$(arg name)"/>
+  <link name='${robot_namespace}/base_link'>
+    <inertial>
+      <origin xyz='-0.003069 0 -0.050337' rpy='0 -0 0'/>
+      <mass value='5.281'/>
+      <inertia ixx='0.105225' ixy='0' ixz='0' iyy='0.11353' iyz='0' izz='0.133861'/>
+    </inertial>
+    <collision name='base_link_fixed_joint_lump__body_collision'>
+      <origin xyz='0.11 0 0' rpy='0 -0 1.5708'/>
+      <geometry>
+        <mesh filename='package://emesent_hovermap_sensor_config_1/meshes/navi-drone-hipoly-mount.dae' scale='1 1 1'/>
+      </geometry>
+    </collision>
+    <collision name='base_link_fixed_joint_lump__body_collision_1'>
+      <origin xyz='0.11 0 0' rpy='0 -0 1.5708'/>
+      <geometry>
+        <mesh filename='package://emesent_hovermap_sensor_config_1/meshes/navi-guard.dae' scale='1 1 1'/>
+      </geometry>
+    </collision>
+    <collision name='base_link_fixed_joint_lump__hovermap_base_collision_2'>
+      <origin xyz='0.1195 0 -0.0115' rpy='0 -0 1.5708'/>
+      <geometry>
+        <mesh filename='package://emesent_hovermap_sensor_config_1/meshes/ST-LIDAR-case-2.dae' scale='1 1 1'/>
+      </geometry>
+    </collision>
+    <collision name='base_link_fixed_joint_lump__gimbal_base_collision_3'>
+      <origin xyz='0.18 0 0.035' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.07 0.05 0.03'/>
+      </geometry>
+    </collision>
+    <visual name='base_link_fixed_joint_lump__body_visual'>
+      <origin xyz='0.11 0 0' rpy='0 -0 1.5708'/>
+      <geometry>
+        <mesh filename='package://emesent_hovermap_sensor_config_1/meshes/navi-drone-hipoly-mount.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__body_visual_1'>
+      <origin xyz='0.11 0 0' rpy='0 -0 1.5708'/>
+      <geometry>
+        <mesh filename='package://emesent_hovermap_sensor_config_1/meshes/navi-guard.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__hovermap_base_visual_2'>
+      <origin xyz='0.1195 0 -0.0115' rpy='0 -0 1.5708'/>
+      <geometry>
+        <mesh filename='package://emesent_hovermap_sensor_config_1/meshes/ST-LIDAR-case-2.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='base_link_fixed_joint_lump__gimbal_base_visual_3'>
+      <origin xyz='0.18 0 0.035' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.07 0.05 0.03'/>
+      </geometry>
+    </visual>
+  </link>
+  <sensor name='imu' update_rate='100'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0 0 0' rpy='0 -0 0'/>
+  </sensor>
+  <link name='${robot_namespace}/gimbal_pan'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='0.025'/>
+      <inertia ixx='0.00058083' ixy='0' ixz='0' iyy='3.0833e-05' iyz='0' izz='0.00059083'/>
+    </inertial>
+    <collision name='gimbal_pan_collision'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.001 0.001 0.001'/>
+      </geometry>
+    </collision>
+    <visual name='gimbal_pan_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://emesent_hovermap_sensor_config_1/meshes/gimbal_pan.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/gimbal_roll'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='0.025'/>
+      <inertia ixx='0.00058083' ixy='0' ixz='0' iyy='3.0833e-05' iyz='0' izz='0.00059083'/>
+    </inertial>
+    <collision name='gimbal_roll_collision'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.001 0.001 0.001'/>
+      </geometry>
+    </collision>
+    <visual name='gimbal_roll_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://emesent_hovermap_sensor_config_1/meshes/gimbal_roll.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/gimbal_tilt'>
+    <inertial>
+      <origin xyz='-2.4e-05 0.002445 -2e-05' rpy='0 -0 0'/>
+      <mass value='0.0501'/>
+      <inertia ixx='0.00216206' ixy='0' ixz='0' iyy='0.00106169' iyz='0' izz='0.00218206'/>
+    </inertial>
+    <collision name='gimbal_tilt_collision'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.001 0.001 0.001'/>
+      </geometry>
+    </collision>
+    <visual name='gimbal_tilt_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://emesent_hovermap_sensor_config_1/meshes/gimbal_tilt.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='gimbal_tilt_fixed_joint_lump__gimbal_flashlight_visual_2'>
+      <origin xyz='-0.012 -0.025 -0.01' rpy='0 0 -1.57'/>
+      <geometry>
+        <mesh filename='package://emesent_hovermap_sensor_config_1/meshes/spotlight.dae' scale='0.005 0.005 0.005'/>
+      </geometry>
+    </visual>
+  </link>
+  <sensor name='gimbal_camera' update_rate='10'>
+    <parent link='${robot_namespace}/gimbal_tilt'/>
+    <origin xyz='0 0.005 0' rpy='0 -0 0'/>
+    <camera>
+      <image width='300' height='300' hfov='1.287' near='0.02' far='300' />
+    </camera>
+  </sensor>
+  <link name='${robot_namespace}/encoder_rotating'>
+    <inertial>
+      <origin xyz='0 0 -0.000891' rpy='-3.14159 0 0'/>
+      <mass value='0.101'/>
+      <inertia ixx='2.46865e-05' ixy='0' ixz='0' iyy='2.46865e-05' iyz='-1.65708e-18' izz='1.66667e-05'/>
+    </inertial>
+    <collision name='encoder_rotating_collision'>
+      <origin xyz='0 0 -0.0125' rpy='-3.14159 -0 1.5708'/>
+      <geometry>
+        <mesh filename='package://emesent_hovermap_sensor_config_1/meshes/ST-LIDAR-hipoly.dae' scale='1 1 1'/>
+      </geometry>
+    </collision>
+    <visual name='encoder_rotating_visual'>
+      <origin xyz='0 0 -0.0125' rpy='-3.14159 -0 1.5708'/>
+      <geometry>
+        <mesh filename='package://emesent_hovermap_sensor_config_1/meshes/ST-LIDAR-hipoly.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+  </link>
+  <sensor name='gpu_lidar' update_rate='20'>
+    <parent link='${robot_namespace}/encoder_rotating'/>
+    <origin xyz='0 0 0' rpy='0 -0 0'/>
+  </sensor>
+  <link name='${robot_namespace}/rotor_0'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 1.5708'/>
+      <mass value='0.02'/>
+      <inertia ixx='2.32667e-06' ixy='0' ixz='0' iyy='6.03333e-05' iyz='0' izz='6.23266e-05'/>
+    </inertial>
+    <collision name='rotor_0_collision_collision'>
+      <origin xyz='0 0 0.04' rpy='0 -0 1.01342'/>
+      <geometry>
+        <box size='0.38 0.036 0.01'/>
+      </geometry>
+    </collision>
+    <collision name='rotor_0_collision_collision_1'>
+      <origin xyz='0 0 -0.0375' rpy='0 0 -0.604152'/>
+      <geometry>
+        <box size='0.35492 0.036 0.01'/>
+      </geometry>
+    </collision>
+    <visual name='rotor_0_visual_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://emesent_hovermap_sensor_config_1/meshes/navi-15in-CW-tex.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='rotor_0_visual_visual_1'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://emesent_hovermap_sensor_config_1/meshes/navi-14in-CW-tex.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/rotor_1'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 1.5708'/>
+      <mass value='0.02'/>
+      <inertia ixx='2.32667e-06' ixy='0' ixz='0' iyy='6.03333e-05' iyz='0' izz='6.23266e-05'/>
+    </inertial>
+    <collision name='rotor_1_collision_collision'>
+      <origin xyz='0 0 0.04' rpy='0 -0 1.01342'/>
+      <geometry>
+        <box size='0.38 0.036 0.01'/>
+      </geometry>
+    </collision>
+    <collision name='rotor_1_collision_collision_1'>
+      <origin xyz='0 0 -0.0375' rpy='0 0 -0.604152'/>
+      <geometry>
+        <box size='0.35492 0.036 0.01'/>
+      </geometry>
+    </collision>
+    <visual name='rotor_1_visual_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://emesent_hovermap_sensor_config_1/meshes/navi-15in-CW-tex.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='rotor_1_visual_visual_1'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://emesent_hovermap_sensor_config_1/meshes/navi-14in-CW-tex.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/rotor_2'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 1.5708'/>
+      <mass value='0.02'/>
+      <inertia ixx='2.32667e-06' ixy='0' ixz='0' iyy='6.03333e-05' iyz='0' izz='6.23266e-05'/>
+    </inertial>
+    <collision name='rotor_2_collision_collision'>
+      <origin xyz='0 0 0.04' rpy='0 0 -1.01342'/>
+      <geometry>
+        <box size='0.38 0.036 0.01'/>
+      </geometry>
+    </collision>
+    <collision name='rotor_2_collision_collision_1'>
+      <origin xyz='0 0 -0.0375' rpy='0 -0 0.604152'/>
+      <geometry>
+        <box size='0.35492 0.036 0.01'/>
+      </geometry>
+    </collision>
+    <visual name='rotor_2_visual_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://emesent_hovermap_sensor_config_1/meshes/navi-15in-CCW-tex.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='rotor_2_visual_visual_1'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://emesent_hovermap_sensor_config_1/meshes/navi-14in-CCW-tex.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/rotor_3'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 1.5708'/>
+      <mass value='0.02'/>
+      <inertia ixx='2.32667e-06' ixy='0' ixz='0' iyy='6.03333e-05' iyz='0' izz='6.23266e-05'/>
+    </inertial>
+    <collision name='rotor_3_collision_collision'>
+      <origin xyz='0 0 0.04' rpy='0 0 -1.01342'/>
+      <geometry>
+        <box size='0.38 0.036 0.01'/>
+      </geometry>
+    </collision>
+    <collision name='rotor_3_collision_collision_1'>
+      <origin xyz='0 0 -0.0375' rpy='0 -0 0.604152'/>
+      <geometry>
+        <box size='0.35492 0.036 0.01'/>
+      </geometry>
+    </collision>
+    <visual name='rotor_3_visual_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://emesent_hovermap_sensor_config_1/meshes/navi-15in-CCW-tex.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+    <visual name='rotor_3_visual_visual_1'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://emesent_hovermap_sensor_config_1/meshes/navi-14in-CCW-tex.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name='gimbal_pan_joint' type='revolute'>
+    <origin xyz='0.2 0 0.5' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/gimbal_pan'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 0 1'/>
+    <limit lower='-1.5708' upper='1.5708' effort='10' velocity='20'/>
+  </joint>
+  <joint name='gimbal_roll_joint' type='revolute'>
+    <origin xyz='0 0 0.09' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/gimbal_pan'/>
+    <child link='${robot_namespace}/gimbal_roll'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='1 0 0'/>
+    <limit lower='-0.785398' upper='0.785398' effort='10' velocity='20'/>
+  </joint>
+  <joint name='gimbal_tilt_joint' type='revolute'>
+    <origin xyz='0.018 0 0.09' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/gimbal_roll'/>
+    <child link='${robot_namespace}/gimbal_tilt'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 1 0'/>
+    <limit lower='-0.785398' upper='0.785398' effort='10' velocity='20'/>
+  </joint>
+  <joint name='encoder_joint' type='revolute'>
+    <origin xyz='0.1745 0 -0.0525' rpy='0 -1.0472 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/encoder_rotating'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 0 1'/>
+    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+  </joint>
+  <joint name='rotor_0_joint' type='revolute'>
+    <origin xyz='0.24 -0.24 0.035' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rotor_0'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 0 1'/>
+    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+  </joint>
+  <joint name='rotor_1_joint' type='revolute'>
+    <origin xyz='-0.24 0.24 0.035' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rotor_1'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 0 1'/>
+    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+  </joint>
+  <joint name='rotor_2_joint' type='revolute'>
+    <origin xyz='0.24 0.24 0.035' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rotor_2'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 0 1'/>
+    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+  </joint>
+  <joint name='rotor_3_joint' type='revolute'>
+    <origin xyz='-0.24 -0.24 0.035' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rotor_3'/>
+    <dynamics damping='0' friction='0' />
+    <axis xyz='0 0 1'/>
+    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+  </joint>
+</robot>

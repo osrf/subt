@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<root xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:macro name="inertia_meshlab" params="ixx ixy ixz iyy iyz izz scale mass">
+        <inertia
+                ixx="${ixx*scale*scale}" ixy="${ixy*scale*scale}" ixz="${ixz*scale*scale}"
+                iyy="${iyy*scale*scale}" iyz="${iyz*scale*scale}"
+                izz="${izz*scale*scale}"/>
+    </xacro:macro>
+
+    <xacro:macro name="sphere_inertial" params="radius mass xyz:='0 0 0'">
+        <inertial>
+            <mass value="${mass}" />
+            <origin xyz="${xyz}" rpy="0 0 0"/>
+            <inertia ixx="${2.0/5 * mass * radius * radius}" ixy="0.0" ixz="0.0"
+                     iyy="${2.0/5 * mass * radius * radius}" iyz="0.0"
+                     izz="${2.0/5 * mass * radius * radius}" />
+        </inertial>
+    </xacro:macro>
+
+    <xacro:macro name="box_inertial" params="width height depth mass xyz:='0 0 0' rpy:='0 0 0'">
+        <inertial>
+            <mass value="${mass}" />
+            <origin xyz="${xyz}" rpy="${rpy}"/>
+            <inertia ixx="${1.0/12 * mass * (width * width + height * height)}" ixy="0.0" ixz="0.0"
+                     iyy="${1.0/12 * mass * (height * height + depth * depth)}" iyz="0.0"
+                     izz="${1.0/12 * mass * (width * width + depth * depth)}" />
+        </inertial>
+    </xacro:macro>
+
+    <xacro:macro name="cylinder_inertial" params="radius length mass xyz:='0 0 0' rpy:='0 0 0'">
+        <inertial>
+            <mass value="${mass}" />
+            <origin xyz="${xyz}" rpy="${rpy}"/>
+            <inertia ixx="${1.0/12 * mass * (3 * radius * radius + length * length)}" ixy="0.0" ixz="0.0"
+                     iyy="${1.0/12 * mass * (3 * radius * radius + length * length)}" iyz="0.0"
+                     izz="${0.5 * mass * radius * radius}" />
+        </inertial>
+    </xacro:macro>
+
+    <xacro:macro name="default_inertial">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="1e-5" />
+            <inertia ixx="1e-3" ixy="1e-6" ixz="1e-6"
+                     iyy="1e-3" iyz="1e-6"
+                     izz="1e-3" />
+        </inertial>
+    </xacro:macro>
+
+    <xacro:macro name="empty_link" params="name">
+        <link name="${name}">
+            <xacro:default_inertial />
+            <selfCollide>false</selfCollide>
+        </link>
+    </xacro:macro>
+
+    <xacro:macro name="fixed_joint" params="name parent child xyz:='0 0 0' rpy:='0 0 0' lump:=0">
+        <joint name="${name}" type="fixed">
+            <parent link="${parent}"/>
+            <child link="${child}"/>
+            <origin xyz="${xyz}" rpy="${rpy}"/>
+        </joint>
+        <xacro:if value="${lump == 0}">
+            <!-- workaround for https://github.com/osrf/sdformat/issues/378 -->
+            <gazebo reference="${name}">
+                <preserveFixedJoint>true</preserveFixedJoint>
+            </gazebo>
+        </xacro:if>
+    </xacro:macro>
+
+    <xacro:macro name="box_inertial_link" params="name parent width height depth mass xyz:='0 0 0' rpy:='0 0 0'">
+        <link name="${name}">
+            <xacro:box_inertial width="${width}" height="${height}" depth="${depth}" mass="${mass}" xyz="${xyz}" rpy="${rpy}" />
+        </link>
+        <xacro:fixed_joint name="${name}_j" parent="${parent}" child="${name}" />
+    </xacro:macro>
+
+    <xacro:macro name="gazebo_default_tags">
+        <selfCollide>false</selfCollide>
+        <kinematic>false</kinematic>
+    </xacro:macro>
+
+    <xacro:macro name="solid_color_link_material" params="link r g b">
+        <xacro:unless value="${'$(arg rendering_target)' == 'urdf'}">
+            <gazebo reference="${link}">
+                <visual>
+                    <material>
+                        <ambient>0 0 0 0</ambient>
+                        <xacro:if value="${'$(arg rendering_target)' == 'gz'}">
+                            <diffuse>${r} ${g} ${b} 1</diffuse>
+                        </xacro:if>
+                        <!-- Ignition Gazebo seems to use much brighter colors... -->
+                        <xacro:if value="${'$(arg rendering_target)' == 'ign'}">
+                            <diffuse>${max(0, r - 60/255.0)} ${max(0, g - 60/255.0)} ${max(0, b - 60/255.0)} 1</diffuse>
+                        </xacro:if>
+                        <specular>0 0 0 0</specular>
+                        <emissive>0 0 0 0</emissive>
+                    </material>
+                </visual>
+            </gazebo>
+        </xacro:unless>
+    </xacro:macro>
+
+</root>

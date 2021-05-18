@@ -27,11 +27,24 @@
                     <update_rate>8.6</update_rate>
                     <visualize>${visualize}</visualize>
                     <camera name="thermal_camera">
-                        <horizontal_fov>${92 * pi/180}</horizontal_fov>
+                        <xacro:property name="hfov" value="${radians(92)}" />
+                        <xacro:property name="width" value="320" />
+                        <xacro:property name="height" value="256" />
+                        <horizontal_fov>${hfov}</horizontal_fov>
+                        <lens>
+                            <intrinsics>
+                                <xacro:property name="focal_length" value="${320 / (2 * tan(radians(92) / 2))}" />
+                                <fx>${focal_length}</fx>
+                                <fy>${focal_length}</fy>
+                                <cx>${(width + 1) / 2.0}</cx>
+                                <cy>${(height + 1) / 2.0}</cy>
+                                <s>0</s>
+                            </intrinsics>
+                        </lens>
                         <image>
-                            <width>320</width>
-                            <height>256</height>
-                            <format>L16</format>
+                            <width>${width}</width>
+                            <height>${height}</height>
+                            <format>L8</format>
                         </image>
                         <clip>
                             <near>0.6</near>
@@ -39,9 +52,9 @@
                         </clip>
                     </camera>
                     <plugin filename="ignition-gazebo-thermal-sensor-system" name="ignition::gazebo::systems::ThermalSensor">
-                        <min_temp>233.15</min_temp>
-                        <max_temp>453.15</max_temp>
-                        <resolution>0.06</resolution>
+                        <min_temp>253.15</min_temp>
+                        <max_temp>673.15</max_temp>
+                        <resolution>1.6</resolution>
                     </plugin>
                 </sensor>
             </gazebo>

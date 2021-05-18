@@ -53,6 +53,13 @@
     <node
       pkg="ros_ign_bridge"
       type="parameter_bridge"
+      name="ros_ign_bridge_feedforward"
+      args="/model/$(arg name)/feedforward@geometry_msgs/Twist]ignition.msgs.Twist">
+      <remap from="/model/$(arg name)/feedforward" to="feedforward"/>
+    </node>
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
       name="ros_ign_bridge_velocity_control_enable"
       args="/model/$(arg name)/velocity_controller/enable@std_msgs/Bool]ignition.msgs.Boolean">
       <remap from="/model/$(arg name)/velocity_controller/enable" to="velocity_controller/enable"/>
@@ -122,6 +129,11 @@
         <remap from="input/camera_info" to="depth/camera_info" />
         <remap from="output/camera_info" to="optical/depth/camera_info" />
       </node>
+      <include file="$(find subt_ros)/launch/models_common/set_rate_relay.launch">
+        <arg name="name" value="ros_ign_bridge_rgbd_up_set_rate" />
+        <arg name="ign_service" value="$(arg sensor_prefix)/rs_up/set_rate" />
+        <arg name="ros_service" value="set_rate" />
+      </include>
     </group>
 
     <!--DOWN RGBD camera -->
@@ -179,6 +191,11 @@
         <remap from="input/camera_info" to="depth/camera_info" />
         <remap from="output/camera_info" to="optical/depth/camera_info" />
       </node>
+      <include file="$(find subt_ros)/launch/models_common/set_rate_relay.launch">
+        <arg name="name" value="ros_ign_bridge_rgbd_down_set_rate" />
+        <arg name="ign_service" value="$(arg sensor_prefix)/rs_down/set_rate" />
+        <arg name="ros_service" value="set_rate" />
+      </include>
     </group>
 
     <!--Front RGB camera -->
@@ -206,6 +223,11 @@
       <remap from="input/camera_info" to="front/camera_info" />
       <remap from="output/camera_info" to="front/optical/camera_info" />
       </node>
+      <include file="$(find subt_ros)/launch/models_common/set_rate_relay.launch">
+        <arg name="name" value="ros_ign_bridge_camera_front_set_rate" />
+        <arg name="ign_service" value="$(arg sensor_prefix)/camera_front/image/set_rate" />
+        <arg name="ros_service" value="camera_front/set_rate" />
+      </include>
     </group>
 
     <!-- 3D lidar -->
@@ -217,6 +239,11 @@
         args="$(arg sensor_prefix)/front_laser/scan/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
         <remap from="$(arg sensor_prefix)/front_laser/scan/points" to="points"/>
       </node>
+      <include file="$(find subt_ros)/launch/models_common/set_rate_relay.launch">
+        <arg name="name" value="ros_ign_bridge_front_laser_set_rate" />
+        <arg name="ign_service" value="$(arg sensor_prefix)/front_laser/scan/set_rate" />
+        <arg name="ros_service" value="front_laser/set_rate" />
+      </include>
     </group>
 
     <!-- UAV -->

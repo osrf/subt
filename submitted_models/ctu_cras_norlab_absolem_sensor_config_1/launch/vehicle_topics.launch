@@ -9,6 +9,8 @@
   <arg name="revision" default="2014" />
   <arg name="has_cliff_sensors" default="0" />
   <arg name="has_thermal_camera" default="0" />
+  <arg name="has_omnicam" default="1" />
+  <arg name="has_omnicam_vras" default="0" />
 
   <include file="$(dirname)/description.launch" pass_all_args="true">
     <arg name="print_command" value="$(arg description_print_command)" if="$(eval description_print_command != '')" />
@@ -111,41 +113,75 @@
 
     <!-- Omnicamera -->
 
-    <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
-      <arg name="node_name_suffix" value="omnicam_0" />
-      <arg name="gazebo_topic" value="$(arg link_prefix)/base_link/sensor/omnicam_sensor0" />
-      <arg name="ros_topic" value="omni/camera_0" />
-    </include>
+    <group if="$(arg has_omnicam)">
+      <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
+        <arg name="node_name_suffix" value="omnicam_0" />
+        <arg name="gazebo_topic" value="$(arg link_prefix)/base_link/sensor/omnicam_sensor0" />
+        <arg name="ros_topic" value="omni/camera_0" />
+      </include>
 
-    <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
-      <arg name="node_name_suffix" value="omnicam_1" />
-      <arg name="gazebo_topic" value="$(arg link_prefix)/base_link/sensor/omnicam_sensor1" />
-      <arg name="ros_topic" value="omni/camera_1" />
-    </include>
+      <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
+        <arg name="node_name_suffix" value="omnicam_1" />
+        <arg name="gazebo_topic" value="$(arg link_prefix)/base_link/sensor/omnicam_sensor1" />
+        <arg name="ros_topic" value="omni/camera_1" />
+      </include>
 
-    <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
-      <arg name="node_name_suffix" value="omnicam_2" />
-      <arg name="gazebo_topic" value="$(arg link_prefix)/base_link/sensor/omnicam_sensor2" />
-      <arg name="ros_topic" value="omni/camera_2" />
-    </include>
+      <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
+        <arg name="node_name_suffix" value="omnicam_2" />
+        <arg name="gazebo_topic" value="$(arg link_prefix)/base_link/sensor/omnicam_sensor2" />
+        <arg name="ros_topic" value="omni/camera_2" />
+      </include>
 
-    <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
-      <arg name="node_name_suffix" value="omnicam_3" />
-      <arg name="gazebo_topic" value="$(arg link_prefix)/base_link/sensor/omnicam_sensor3" />
-      <arg name="ros_topic" value="omni/camera_3" />
-    </include>
+      <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
+        <arg name="node_name_suffix" value="omnicam_3" />
+        <arg name="gazebo_topic" value="$(arg link_prefix)/base_link/sensor/omnicam_sensor3" />
+        <arg name="ros_topic" value="omni/camera_3" />
+      </include>
 
-    <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
-      <arg name="node_name_suffix" value="omnicam_4" />
-      <arg name="gazebo_topic" value="$(arg link_prefix)/base_link/sensor/omnicam_sensor4" />
-      <arg name="ros_topic" value="omni/camera_4" />
-    </include>
+      <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
+        <arg name="node_name_suffix" value="omnicam_4" />
+        <arg name="gazebo_topic" value="$(arg link_prefix)/base_link/sensor/omnicam_sensor4" />
+        <arg name="ros_topic" value="omni/camera_4" />
+      </include>
 
-    <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
-      <arg name="node_name_suffix" value="omnicam_5" />
-      <arg name="gazebo_topic" value="$(arg link_prefix)/base_link/sensor/omnicam_sensor5" />
-      <arg name="ros_topic" value="omni/camera_5" />
-    </include>
+      <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
+        <arg name="node_name_suffix" value="omnicam_5" />
+        <arg name="gazebo_topic" value="$(arg link_prefix)/base_link/sensor/omnicam_sensor5" />
+        <arg name="ros_topic" value="omni/camera_5" />
+      </include>
+    </group>
+
+    <group if="$(arg has_omnicam_vras)">
+      <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
+        <arg name="node_name_suffix" value="omnicam_vras_front" />
+        <arg name="gazebo_topic" value="$(arg link_prefix)/camera_0/sensor/camera_0" />
+        <arg name="ros_topic" value="omni/camera_0" />
+      </include>
+
+      <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
+        <arg name="node_name_suffix" value="omnicam_vras_right" />
+        <arg name="gazebo_topic" value="$(arg link_prefix)/camera_1/sensor/camera_1" />
+        <arg name="ros_topic" value="omni/camera_1" />
+      </include>
+
+      <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
+        <arg name="node_name_suffix" value="omnicam_vras_rear" />
+        <arg name="gazebo_topic" value="$(arg link_prefix)/camera_2/sensor/camera_2" />
+        <arg name="ros_topic" value="omni/camera_2" />
+      </include>
+
+      <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
+        <arg name="node_name_suffix" value="omnicam_vras_left" />
+        <arg name="gazebo_topic" value="$(arg link_prefix)/camera_3/sensor/camera_3" />
+        <arg name="ros_topic" value="omni/camera_3" />
+      </include>
+
+      <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
+        <arg name="node_name_suffix" value="omnicam_vras_up" />
+        <arg name="gazebo_topic" value="$(arg link_prefix)/camera_4/sensor/camera_4" />
+        <arg name="ros_topic" value="omni/camera_4" />
+      </include>
+    </group>
 
     <!-- Thermal camera (if used) -->
     <include if="$(arg has_thermal_camera)" file="$(find subt_ros)/launch/models_common/thermal_camera.launch">
@@ -170,4 +206,11 @@
       <arg name="name" value="$(arg name)"/>
     </include>
   </group>
+
+  <!-- As URDF->SDF conversion "swallows" all fixed joints (and thus static transforms), we need to re-create them from the URDF  -->
+  <!-- Due to an internal limitation of robot_state_publisher, it has to be created in the global namespace. -->
+  <node name="$(anon robot_state_publisher)" pkg="robot_state_publisher" type="robot_state_publisher">
+    <remap from="/tf" to="/nonexistent" /> <!-- published by ign_ros bridge -->
+    <remap from="robot_description" to="/$(arg name)/robot_description" />
+  </node>
 </launch>

@@ -35,7 +35,7 @@
       </sensor>
 
       <sensor name="rs_up" type="rgbd_camera">
-          <pose>0.82 0 0.034 0 -1.57079632679 0</pose>
+          <pose>0.082 0 0.034 0 -1.57079632679 0</pose>
           <always_on>1</always_on>
           <update_rate>30</update_rate>
           <camera name="rs_up">
@@ -84,7 +84,7 @@
       </sensor>
 
       <sensor name="rs_down" type="rgbd_camera">
-          <pose>0.85 0 -0.20 0 1.57079632679 0</pose>
+          <pose>0.085 0 -0.20 0 1.57079632679 0</pose>
           <always_on>1</always_on>
           <update_rate>30</update_rate>
           <camera name="rs_down">
@@ -141,8 +141,8 @@
               <lens>
                   <intrinsics>
                       <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
-                      <fx>671.28</fx>
-                      <fy>671.28</fy>
+                      <fx>701.93225</fx>
+                      <fy>701.93225</fy>
                       <!-- cx = ( width - 1 ) / 2 -->
                       <cx>799.5</cx>
                       <!-- cy = ( height - 1 ) / 2 -->
