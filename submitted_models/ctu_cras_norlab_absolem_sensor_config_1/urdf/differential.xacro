@@ -13,9 +13,7 @@
                 <cylinder radius="0.01" length="0.28"/>
             </geometry>
         </collision>
-        <xacro:cylinder_inertial radius="0.01" length="0.28" mass="0.5">
-            <origin xyz="0 0 0" rpy="${pi/2} 0 0" />
-        </xacro:cylinder_inertial>
+        <xacro:cylinder_inertial radius="0.01" length="0.28" mass="0.5" xyz="0 0 0" rpy="${pi/2} 0 0" />
         <selfCollide>false</selfCollide>
     </link>
 
@@ -41,9 +39,7 @@
                 <box size="0.07 0.01 0.03" />
             </geometry>
         </collision>
-        <xacro:box_inertial width="0.07" height="0.01" depth="0.03" mass="0.1">
-            <origin xyz="0.03 0.14 0" rpy="0 0 0" />
-        </xacro:box_inertial>
+        <xacro:box_inertial width="0.07" height="0.01" depth="0.03" mass="0.1" xyz="0.03 0.14 0" rpy="0 0 0" />
         <selfCollide>false</selfCollide>
     </link>
     <xacro:fixed_joint name="differential_hinge_l_j" parent="$(arg prefix)differential" child="$(arg prefix)differential_hinge_l" xyz="0 0 0" rpy="0 0 0" />
@@ -61,9 +57,7 @@
                 <box size="0.07 0.01 0.03" />
             </geometry>
         </collision>
-        <xacro:box_inertial width="0.07" height="0.01" depth="0.03" mass="0.1">
-            <origin xyz="-0.03 -0.14 0" rpy="0 0 0" />
-        </xacro:box_inertial>
+        <xacro:box_inertial width="0.07" height="0.01" depth="0.03" mass="0.1" xyz="-0.03 -0.14 0" rpy="0 0 0"/>
         <selfCollide>false</selfCollide>
     </link>
     <xacro:fixed_joint name="differential_hinge_r_j" parent="$(arg prefix)differential" child="$(arg prefix)differential_hinge_r" xyz="0 0 0" rpy="0 0 0" />
@@ -81,9 +75,7 @@
                 <cylinder radius="0.005" length="0.155" />
             </geometry>
         </collision>
-        <xacro:cylinder_inertial radius="0.005" length="0.155" mass="0.1">
-            <origin xyz="0 0 -0.075" rpy="0 0 0" />
-        </xacro:cylinder_inertial>
+        <xacro:cylinder_inertial radius="0.005" length="0.155" mass="0.1" xyz="0 0 -0.075" rpy="0 0 0"/>
         <selfCollide>false</selfCollide>
     </link>
     <joint name="differential_arm_l_j" type="revolute">
@@ -108,9 +100,7 @@
                 <cylinder radius="0.005" length="0.155" />
             </geometry>
         </collision>
-        <xacro:cylinder_inertial radius="0.005" length="0.155" mass="0.1">
-            <origin xyz="0 0 -0.075" rpy="0 0 0" />
-        </xacro:cylinder_inertial>
+        <xacro:cylinder_inertial radius="0.005" length="0.155" mass="0.1" xyz="0 0 -0.075" rpy="0 0 0" />
         <selfCollide>false</selfCollide>
     </link>
     <joint name="differential_arm_r_j" type="revolute">
