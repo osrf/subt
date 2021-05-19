@@ -1149,48 +1149,52 @@ void GameLogicPlugin::PreUpdate(const UpdateInfo &_info,
           return true;
         });
   }
-
-  // Check for crashes
-  for (auto &ke : this->dataPtr->keInfo)
+  else
   {
-    ignition::gazebo::Link link(ke.second.link);
-    if (std::nullopt != link.WorldKineticEnergy(_ecm))
+    // Check for crashes
+    for (auto &ke : this->dataPtr->keInfo)
     {
-      double currKineticEnergy = *link.WorldKineticEnergy(_ecm);
-
-      // We only care about positive values of this (the links looses energy)
-      double deltaKE = ke.second.prevKineticEnergy - currKineticEnergy;
-      ke.second.prevKineticEnergy = currKineticEnergy;
-
-      // Crash if past the threshold.
-      if (ke.second.kineticEnergyThreshold > 0 &&
-          deltaKE >= ke.second.kineticEnergyThreshold)
+      ignition::gazebo::Link link(ke.second.link);
+      if (std::nullopt != link.WorldKineticEnergy(_ecm))
       {
-        int64_t sec, nsec;
-        std::tie(sec, nsec) = ignition::math::durationToSecNsec(_info.simTime);
-        ignition::msgs::Time localSimTime;
-        localSimTime.set_sec(sec);
-        localSimTime.set_nsec(nsec);
+        double currKineticEnergy = *link.WorldKineticEnergy(_ecm);
 
-        std::lock_guard<std::mutex> lock(this->dataPtr->eventCounterMutex);
-        // _resp.set_report_status("scoring finished");
-        std::ostringstream stream;
-        stream
-          << "- event:\n"
-          << "  id: " << this->dataPtr->eventCounter << "\n"
-          << "  type: kinetic\n"
-          << "  time_sec: " << localSimTime.sec() << "\n"
-          << "  robot: " << ke.second.robotName << std::endl;
-        this->dataPtr->LogEvent(stream.str());
-        this->dataPtr->PublishRobotEvent(
-            localSimTime, "kinetic", ke.second.robotName,
-            this->dataPtr->eventCounter);
-        this->dataPtr->eventCounter++;
+        // We only care about positive values of this (the links looses energy)
+        double deltaKE = ke.second.prevKineticEnergy - currKineticEnergy;
+        ke.second.prevKineticEnergy = currKineticEnergy;
 
-        auto *haltMotionComp = _ecm.Component<components::HaltMotion>(ke.first);
-        if (haltMotionComp && !haltMotionComp->Data())
+        // Crash if past the threshold.
+        if (ke.second.kineticEnergyThreshold > 0 &&
+            deltaKE >= ke.second.kineticEnergyThreshold)
         {
-          haltMotionComp->Data() = true;
+          int64_t sec, nsec;
+          std::tie(sec, nsec) =
+            ignition::math::durationToSecNsec(_info.simTime);
+          ignition::msgs::Time localSimTime;
+          localSimTime.set_sec(sec);
+          localSimTime.set_nsec(nsec);
+
+          std::lock_guard<std::mutex> lock(this->dataPtr->eventCounterMutex);
+          // _resp.set_report_status("scoring finished");
+          std::ostringstream stream;
+          stream
+            << "- event:\n"
+            << "  id: " << this->dataPtr->eventCounter << "\n"
+            << "  type: kinetic\n"
+            << "  time_sec: " << localSimTime.sec() << "\n"
+            << "  robot: " << ke.second.robotName << std::endl;
+          this->dataPtr->LogEvent(stream.str());
+          this->dataPtr->PublishRobotEvent(
+              localSimTime, "kinetic", ke.second.robotName,
+              this->dataPtr->eventCounter);
+          this->dataPtr->eventCounter++;
+
+          auto *haltMotionComp =
+            _ecm.Component<components::HaltMotion>(ke.first);
+          if (haltMotionComp && !haltMotionComp->Data())
+          {
+            haltMotionComp->Data() = true;
+          }
         }
       }
     }
