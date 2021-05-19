@@ -1,0 +1,170 @@
+<?xml version="1.0"?>
+<!-- Usage: ign launch path/to/example.ign robotName:=<X1>
+
+   Parameters:
+    robotName: Name to be assigned to model
+-->
+
+<%
+  require_relative 'spawner'
+
+  # Modify these as needed
+  $enableGroundTruth = true
+  $headless =  local_variables.include?(:headless) ? :headless : false
+
+%>
+
+<%
+
+  unless local_variables.include?(:robotName)
+    raise "missing parameters. robotName is a required parameter"
+  end
+
+  # This assumes that this launch file is in a directory below the model
+  modelURI = File.expand_path("../", File.dirname(__FILE__))
+  $worldName = 'example'
+  worldFile = File.join(File.expand_path("../worlds", File.dirname(__FILE__)), "#{$worldName}.sdf")
+
+%>
+
+<ignition version='1.0'>
+  <env>
+    <name>IGN_GAZEBO_SYSTEM_PLUGIN_PATH</name>
+    <value>$LD_LIBRARY_PATH</value>
+  </env>
+
+  <!-- Start ROS first. This is a bit hacky for now. -->
+  <!-- Make sure to source /opt/ros/melodic/setup.bash -->
+  <executable name='ros'>
+    <command>roslaunch subt_ros competition_init.launch world_name:=<%=$worldName%> vehicle_topics:=0 enable_ground_truth:=<%=($enableGroundTruth)?"1":"0"%> robot_names:=<%=robotName%></command>
+  </executable>
+
+  <plugin name="ignition::launch::GazeboServer"
+          filename="libignition-launch-gazebo.so">
+    <world_file><%= worldFile %></world_file>
+    <run>true</run>
+    <levels>false</levels>
+    <record>
+      <enabled>false</enabled>
+    </record>
+
+    <plugin entity_name="<%= $worldName %>"
+            entity_type="world"
+            filename="libignition-gazebo-physics-system.so"
+            name="ignition::gazebo::systems::Physics">
+    </plugin>
+
+    <plugin entity_name="<%= $worldName %>"
+            entity_type="world"
+            filename="libignition-gazebo-sensors-system.so"
+            name="ignition::gazebo::systems::Sensors">
+            <render_engine>ogre2</render_engine>
+    </plugin>
+    <plugin entity_name="<%= $worldName %>"
+            entity_type="world"
+            filename="libignition-gazebo-user-commands-system.so"
+            name="ignition::gazebo::systems::UserCommands">
+    </plugin>
+    <plugin entity_name="<%= $worldName %>"
+            entity_type="world"
+            filename="libignition-gazebo-scene-broadcaster-system.so"
+            name="ignition::gazebo::systems::SceneBroadcaster">
+    </plugin>
+    <plugin entity_name="<%= $worldName %>"
+            entity_type="world"
+            filename="libignition-gazebo-imu-system.so"
+            name="ignition::gazebo::systems::Imu">
+    </plugin>
+
+    <plugin entity_name="<%= $worldName %>"
+            entity_type="world"
+            filename="libignition-gazebo-magnetometer-system.so"
+            name="ignition::gazebo::systems::Magnetometer">
+    </plugin>
+
+    <plugin entity_name="<%= $worldName %>"
+            entity_type="world"
+            filename="libignition-gazebo-air-pressure-system.so"
+            name="ignition::gazebo::systems::AirPressure">
+    </plugin>
+  </plugin>
+
+  <%if !$headless %>
+  <executable_wrapper>
+    <plugin name="ignition::launch::GazeboGui"
+          filename="libignition-launch-gazebogui.so">
+      <world_name><%= $worldName %></world_name>
+      <window_title>SubT Simulator</window_title>
+      <window_icon><%= ENV['SUBT_IMAGES_PATH'] %>/SubT_logo.svg</window_icon>
+      <plugin filename="GzScene3D" name="3D View">
+        <ignition-gui>
+          <title>3D View</title>
+          <property type="bool" key="showTitleBar">false</property>
+          <property type="string" key="state">docked</property>
+        </ignition-gui>
+
+        <engine>ogre2</engine>
+        <scene>scene</scene>
+        <ambient_light>0.2 0.2 0.1</ambient_light>
+        <background_color>0.8 0.8 0.8</background_color>
+        <camera_pose>-6.3 -4.2 3.6 0 0.268 0.304</camera_pose>
+        <service>/world/<%= $worldName %>/scene/info</service>
+        <pose_topic>/world/<%= $worldName %>/pose/info</pose_topic>
+        <scene_topic>/world/<%= $worldName %>/scene/info</scene_topic>
+        <deletion_topic>/world/<%= $worldName %>/scene/deletion</deletion_topic>
+      </plugin>
+      <plugin filename="WorldControl" name="World control">
+        <ignition-gui>
+          <title>World control</title>
+          <property type="bool" key="showTitleBar">false</property>
+          <property type="bool" key="resizable">false</property>
+          <property type="double" key="height">72</property>
+          <property type="double" key="width">121</property>
+          <property type="double" key="z">1</property>
+
+          <property type="string" key="state">floating</property>
+          <anchors target="3D View">
+            <line own="left" target="left"/>
+            <line own="bottom" target="bottom"/>
+          </anchors>
+        </ignition-gui>
+
+        <play_pause>true</play_pause>
+        <step>true</step>
+        <start_paused>true</start_paused>
+        <service>/world/<%= $worldName %>/control</service>
+        <stats_topic>/world/<%= $worldName %>/stats</stats_topic>
+
+      </plugin>
+
+      <plugin filename="WorldStats" name="World stats">
+        <ignition-gui>
+          <title>World stats</title>
+          <property type="bool" key="showTitleBar">false</property>
+          <property type="bool" key="resizable">false</property>
+          <property type="double" key="height">110</property>
+          <property type="double" key="width">290</property>
+          <property type="double" key="z">1</property>
+
+          <property type="string" key="state">floating</property>
+          <anchors target="3D View">
+            <line own="right" target="right"/>
+            <line own="bottom" target="bottom"/>
+          </anchors>
+        </ignition-gui>
+
+        <sim_time>true</sim_time>
+        <real_time>true</real_time>
+        <real_time_factor>true</real_time_factor>
+        <iterations>true</iterations>
+        <topic>/world/<%= $worldName %>/stats</topic>
+      </plugin>
+    </plugin>
+  </executable_wrapper>
+  <%end%>
+
+<%= spawner(robotName, modelURI, $worldName, 0, 0, 0, 0, 0, 0) %>
+<%= rosExecutables(robotName, $worldName) %>
+ 
+</ignition>
+
