@@ -1166,7 +1166,19 @@ void GameLogicPlugin::PreUpdate(const UpdateInfo &_info,
 
         // We only care about positive values of this (the links looses energy)
         double deltaKE = ke.second.prevKineticEnergy - currKineticEnergy;
+
+        // Debug: Compute the factor needed to hit the threshold.
+        if (deltaKE > 0.01)
+        {
+          double factor = ke.second.kineticEnergyThreshold / deltaKE;
+          std::cout << "KE[" << deltaKE << "] Thresh[" << ke.second.kineticEnergyThreshold << "] Factor[" << factor << "]\n";
+        }
+
+        // Apply KE factor.
+        deltaKE *= robotPlatformTypes.at(
+          this->dataPtr->robotFullTypes[ke.second.robotName].first);
         ke.second.prevKineticEnergy = currKineticEnergy;
+
 
         // Crash if past the threshold.
         if (ke.second.kineticEnergyThreshold > 0 &&
@@ -1297,22 +1309,23 @@ void GameLogicPlugin::PostUpdate(
                 model->Data());
 
               // Store unique robot platform information.
-              for (const std::string &type : robotPlatformTypes)
+              for (const std::pair<std::string, double> &typeKE :
+                  robotPlatformTypes)
               {
                 std::string platformNameUpper = filePath->Data();
                 std::transform(platformNameUpper.begin(),
                     platformNameUpper.end(),
                     platformNameUpper.begin(), ::toupper);
-                if (platformNameUpper.find(type) != std::string::npos)
+                if (platformNameUpper.find(typeKE.first) != std::string::npos)
                 {
-                  this->dataPtr->robotTypes.insert(type);
+                  this->dataPtr->robotTypes.insert(typeKE.first);
 
                   // The full type is in the directory name, which is third
                   // from the end (.../TYPE/VERSION/model.sdf).
                   std::vector<std::string> pathParts =
                     ignition::common::split(platformNameUpper, "/");
                   this->dataPtr->robotFullTypes[mName->Data()] =
-                    {type, pathParts[pathParts.size()-3]};
+                    {typeKE.first, pathParts[pathParts.size()-3]};
                 }
               }
 
