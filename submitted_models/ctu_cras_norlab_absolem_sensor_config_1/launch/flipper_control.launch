@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="robot_name"/>
+  <arg name="joint_prefix"/>
+
+  <arg name="joint_namespace" value="/model/$(arg robot_name)/joint/$(arg joint_prefix)_flipper_j"/>
+
+  <node pkg="ros_ign_bridge" type="parameter_bridge" respawn="true"
+    name="ros_ign_bridge_$(arg joint_prefix)_flipper"
+    args="$(arg joint_namespace)/cmd_vel@std_msgs/Float64]ignition.msgs.Double">
+    <remap from="$(arg joint_namespace)/cmd_vel" to="flippers_cmd_vel/$(arg joint_prefix)"/>
+  </node>
+  <node pkg="ros_ign_bridge" type="parameter_bridge" respawn="true"
+    name="ros_ign_bridge_$(arg joint_prefix)_flipper_pos"
+    args="$(arg joint_namespace)/cmd_pos@std_msgs/Float64]ignition.msgs.Double">
+    <remap from="$(arg joint_namespace)/cmd_pos" to="flippers_cmd_pos/$(arg joint_prefix)"/>
+  </node>
+  <node pkg="ros_ign_bridge" type="parameter_bridge" respawn="true"
+    name="ros_ign_bridge_front_$(arg joint_prefix)_pos_rel"
+    args="$(arg joint_namespace)/cmd_pos_rel@std_msgs/Float64]ignition.msgs.Double">
+    <remap from="$(arg joint_namespace)/cmd_pos_rel" to="flippers_cmd_pos_rel/$(arg joint_prefix)"/>
+  </node>
+  <node pkg="ros_ign_bridge" type="parameter_bridge" respawn="true"
+    name="ros_ign_bridge_$(arg joint_prefix)_flipper_torque"
+    args="$(arg joint_namespace)/cmd_max_torque@std_msgs/Float64]ignition.msgs.Double">
+    <remap from="$(arg joint_namespace)/cmd_max_torque" to="flippers_cmd_max_torque/$(arg joint_prefix)"/>
+  </node>
+</launch>

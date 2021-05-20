@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <asset>
+    <contributor>
+      <author>Blender User</author>
+      <authoring_tool>Blender 2.92.0 commit date:2021-02-24, commit time:16:25, hash:02948a2cab44</authoring_tool>
+    </contributor>
+    <created>2021-03-30T13:58:10</created>
+    <modified>2021-03-30T13:58:10</modified>
+    <unit name="meter" meter="1"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  <library_images/>
+  <library_geometries>
+    <geometry id="Body-mesh" name="Body">
+      <mesh>
+        <source id="Body-mesh-positions">
+          <float_array id="Body-mesh-positions-array" count="36">-291.4154 183.6202 -118.5659 -293.9905 186.3828 -118.5659 -293.9905 186.383 122.3657 295.0613 186.383 122.3657 293.518 186.3828 -118.5659 293.518 47.38412 -118.5658 295.0612 47.38432 122.3658 -291.4154 47.38428 122.3658 -291.4154 47.38412 -118.5658 -291.4154 183.6204 122.3657 -293.9905 183.6202 -118.5659 -293.9905 183.6204 122.3657</float_array>
+          <technique_common>
+            <accessor source="#Body-mesh-positions-array" count="12" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Body-mesh-normals">
+          <float_array id="Body-mesh-normals-array" count="51">0 7.28016e-7 1 0 7.13547e-7 1 0 0 1 0 1 -8.80771e-7 -1 -1.42995e-7 0 -1 1.42995e-7 0 0 1 -8.83084e-7 0 0 -1 -1 0 0 0 -1 7.87035e-7 0 -1 8.85392e-7 0.9999796 -4.66559e-7 -0.006404876 0.9999796 -1.27696e-7 -0.006405293 0 -1 6.65229e-7 0 -1 8.37231e-7 0 -7.13547e-7 -1 0 -7.28017e-7 -1</float_array>
+          <technique_common>
+            <accessor source="#Body-mesh-normals-array" count="17" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Body-mesh-map-0">
+          <float_array id="Body-mesh-map-0-array" count="120">0.6523438 0.6835938 0.03710937 0.2509766 0.7529297 0.5996094 0.009765625 0.6064453 0.6298828 0.6064453 0.9736328 0.9941406 0.03710937 0.2509766 0.6523438 0.6835938 0.009765625 0.6835938 0.7294922 0.7597656 0.7304688 0.9111328 0.009765625 0.6835938 0.7529297 0.5996094 0.9755859 0.4873047 0.9755859 0.5996094 0.9755859 0.4873047 0.7529297 0.5996094 0.7529297 0.4873047 0.009765625 0.6835938 0.6533203 0.9882813 0.009765625 0.9892578 0.03515625 0.1240234 0.03027331 0.1240234 0.03027331 0.1298828 0.03320312 0.2509766 0.03710937 0.2509766 0.03320312 0.2558594 0.9736328 0.4267578 0.9736328 0.4423828 0.7480469 0.4267578 0.7480469 0.4423828 0.7480469 0.4267578 0.9736328 0.4423828 0.9736328 0.4550781 0.7480469 0.4550781 0.7480469 0.4423828 0.9736328 0.4423828 0.9736328 0.4550781 0.7480469 0.4423828 0.9736328 0.8828125 0.7539063 0.8828125 0.7539063 0.734375 0.9736328 0.8828125 0.7539063 0.734375 0.9736328 0.7382813 0.009765625 0.6064453 0.01074206 0.2685547 0.6318359 0.2685547 0.009765625 0.6064453 0.6318359 0.2685547 0.6298828 0.6064453 0.009765625 0.9892578 0.6533203 0.9882813 0.03515625 0.1240234 0.6533203 0.9882813 0.7539063 0.6103516 0.03515625 0.1240234 0.03515625 0.1240234 0.7539063 0.6103516 0.01074206 0.2685547</float_array>
+          <technique_common>
+            <accessor source="#Body-mesh-map-0-array" count="60" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Body-mesh-colors-Body-mesh-colors" name="Body-mesh-colors">
+          <float_array id="Body-mesh-colors-Body-mesh-colors-array" count="240">1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</float_array>
+          <technique_common>
+            <accessor source="#Body-mesh-colors-Body-mesh-colors-array" count="60" stride="4">
+              <param name="R" type="float"/>
+              <param name="G" type="float"/>
+              <param name="B" type="float"/>
+              <param name="A" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="Body-mesh-vertices">
+          <input semantic="POSITION" source="#Body-mesh-positions"/>
+        </vertices>
+        <triangles count="20">
+          <input semantic="VERTEX" source="#Body-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#Body-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#Body-mesh-map-0" offset="2" set="0"/>
+          <input semantic="COLOR" source="#Body-mesh-colors-Body-mesh-colors" offset="3" set="0"/>
+          <p>3 0 0 0 9 0 1 1 7 0 2 2 7 1 3 3 6 1 4 4 3 1 5 5 9 2 6 6 3 2 7 7 2 2 8 8 3 3 9 9 4 3 10 10 2 3 11 11 7 4 12 12 0 4 13 13 8 4 14 14 0 5 15 15 7 5 16 16 9 5 17 17 2 6 18 18 4 6 19 19 1 6 20 20 0 7 21 21 10 7 22 22 1 7 23 23 11 2 24 24 9 2 25 25 2 2 26 26 1 8 27 27 10 8 28 28 2 8 29 29 11 8 30 30 2 8 31 31 10 8 32 32 0 9 33 33 9 9 34 34 11 9 35 35 10 10 36 36 0 10 37 37 11 10 38 38 3 11 39 39 6 11 40 40 5 11 41 41 3 12 42 42 5 12 43 43 4 12 44 44 7 13 45 45 8 13 46 46 5 13 47 47 7 14 48 48 5 14 49 49 6 14 50 50 1 7 51 51 4 7 52 52 0 7 53 53 4 15 54 54 5 15 55 55 0 15 56 56 0 16 57 57 5 16 58 58 8 16 59 59</p>
+        </triangles>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_visual_scenes>
+    <visual_scene id="Scene" name="Scene">
+      <node id="Body" name="Body" type="NODE">
+        <matrix sid="transform">0.001 0 0 0 0 -7.58967e-10 -0.001 2.32831e-10 0 0.001 -7.58967e-10 0 0 0 0 1</matrix>
+        <instance_geometry url="#Body-mesh" name="Body"/>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#Scene"/>
+  </scene>
+</COLLADA>

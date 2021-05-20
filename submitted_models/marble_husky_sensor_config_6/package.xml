@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>marble_husky_sensor_config_6</name>
+  <version>0.1.0</version>
+  <description>The marble_husky_sensor_config_6 package
+    - Has two pico flexx tof cameras
+    - An RP Lidar S1
+    - Two OS1-64 3D Laser C
+    - IMU
+    - gas sensor
+    - A planar lidar (RPLidar S1)
+    - A microstrain 3DMGX5-25 IMU (AHRS)
+    - Weight: about 85 lbs
+  </description>
+  <maintainer email="fotheringhambrett@gmail.com">Brett A. Fotheringham</maintainer>
+  <author email="njohnson@ssci.com">Neil Johnson</author>
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <exec_depend>roslaunch</exec_depend>
+  <exec_depend>urdf</exec_depend>
+  <exec_depend>xacro</exec_depend>
+
+</package>
