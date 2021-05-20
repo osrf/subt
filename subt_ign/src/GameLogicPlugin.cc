@@ -553,6 +553,12 @@ class subt::GameLogicPluginPrivate
 
   /// \brief Kinetic energy information for each robot.
   public: std::map<gazebo::Entity, KineticEnergyInfo> keInfo;
+
+  // \brief Height used to determine the KE threshold.
+  // Increasing this value will lower the threshold, meaning a
+  // less violent collision will disable the robot. This value can be
+  // adjusted via this plugin's SDF parameters.
+  public: double keHeight = 0.077;
 };
 
 //////////////////////////////////////////////////
@@ -627,6 +633,9 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
           this->dataPtr->elevationStepSize).first;
     }
   }
+
+  this->dataPtr->keHeight =
+    _sdf->Get<double>("ke_height", this->dataPtr->keHeight).first;
 
   const sdf::ElementPtr rosElem =
     const_cast<sdf::Element*>(_sdf.get())->GetElement("ros");
@@ -1044,11 +1053,6 @@ void GameLogicPluginPrivate::OnEvent(const ignition::msgs::Pose &_msg)
 void GameLogicPlugin::PreUpdate(const UpdateInfo &_info,
     EntityComponentManager &_ecm)
 {
-  // Height used to determine the KE threshold. Increasing this value will
-  // lower the threshold, meaning a less violent collision will disable
-  // the robot.
-  const double keHeight = 0.077;
-
   if (!this->dataPtr->started)
   {
     _ecm.Each<gazebo::components::Sensor,
@@ -1135,7 +1139,8 @@ void GameLogicPlugin::PreUpdate(const UpdateInfo &_info,
               // v is velocity of the robot. We are using the velocity acheived
               // by falling from a height.
               this->dataPtr->keInfo[model->Data()].kineticEnergyThreshold =
-                0.5 * mass * std::pow(sqrt((2 * keHeight) / 9.8) * 9.8, 2);
+                0.5 * mass * std::pow(
+                    sqrt((2 * this->dataPtr->keHeight) / 9.8) * 9.8, 2);
               this->dataPtr->keInfo[model->Data()].robotName = mName->Data();
 
               // Create a halt motion component if one is not
