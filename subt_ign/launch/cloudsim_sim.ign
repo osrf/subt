@@ -435,9 +435,9 @@
             entity_type="world"
             filename="libGameLogicPlugin.so"
             name="subt::GameLogicPlugin">
-      <!-- The collection of artifacts to locate -->
       <world_name><%= $worldName %></world_name>
       <ros><%= $ros %></ros>
+      <ke_height>0.077</ke_height>
 
       <duration_seconds><%= $durationSec %></duration_seconds>
 
