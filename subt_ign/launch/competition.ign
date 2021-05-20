@@ -120,6 +120,7 @@
      "EXPLORER_R2" => "Rear_Rocker_Link",
      "CSIRO_DATA61_OZBOT_ATR" => "base_link",
      "CORO_ALLIE" => "base_link",
+     "CORO_JEANINE" => "base_link",
      "CORO_KAREN" => "base_link",
      "CORO_MIKE" => "base_link",
    }
@@ -127,6 +128,7 @@
   MARSUPIAL_VALID_ROBOT_PAIRS = {
     "X1" => ["X3", "MARBLE_QAV500", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER", "CORO_PAM", "CTU_CRAS_NORLAB_X500", "CORO_CRYSTAL"],
     "CORO_ALLIE" => ["CERBERUS_RMF", "CORO_PAM", "CORO_CRYSTAL"],
+    "CORO_JEANINE" => ["CERBERUS_RMF", "CORO_PAM", "CORO_CRYSTAL"],
     "CORO_KAREN" => ["CERBERUS_RMF", "CORO_PAM", "CORO_CRYSTAL"],
     "CORO_MIKE" => ["CERBERUS_RMF", "CORO_PAM", "CORO_CRYSTAL"],
     "EXPLORER_X1" =>["X3", "MARBLE_QAV500", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER", "CORO_PAM", "CTU_CRAS_NORLAB_X500", "CORO_CRYSTAL"],
@@ -140,6 +142,7 @@
     "EXPLORER_R2" => Vector3d.new(-0.402375, 0, 0.6874),
     "CSIRO_DATA61_OZBOT_ATR" => Vector3d.new(-0.15, 0, 0.528),
     "CORO_ALLIE" => Vector3d.new(0.13, 0, 0.66),
+    "CORO_JEANINE" => Vector3d.new(0, 0, 0.58),
     "CORO_KAREN" => Vector3d.new(0.37, 0, 0.86),
     "CORO_MIKE" => Vector3d.new(0.345, -0.125, 0.92)
   }
@@ -150,6 +153,7 @@
     "EXPLORER_R2" => AngularVector3d.new(0, 0, -3.1416),
     "CSIRO_DATA61_OZBOT_ATR" => AngularVector3d.new(0, 0, -3.1416),
     "CORO_ALLIE" => AngularVector3d.new(0, 0, 0),
+    "CORO_JEANINE" => AngularVector3d.new(0, 0, 0),
     "CORO_KAREN" => AngularVector3d.new(0, 0, 0),
     "CORO_MIKE" => AngularVector3d.new(0, 0, 0)
   }
