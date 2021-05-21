@@ -1,7 +1,7 @@
 <!---This is a Markdown description of a robot model submitted for inclusion in the DARPA Subterranean Challenge Technology Repository -->
 
-# MARBLE Husky Sensor Config 6
-This specifications.md file is a description and proof of virtual model validation for the MARBLE Husky with Sensor Configuration 6. This robot may be launched using an ign launch command with the variable name `marble_husky_sensor_config_6`.
+# MARBLE Husky Sensor Config 5
+This specifications.md file is a description and proof of virtual model validation for the MARBLE Husky with Sensor Configuration 5. This robot may be launched using an ign launch command with the variable name `marble_husky_sensor_config_5`.
 
 ## Description
 This configuration is based on Clearpath Robotics Husky ground robot. The marble sensor suite is located at the front of the husky and includes 2 3D LIDARs, 1 Planar LIDAR, 4 RGB Cameras, and 2 Picco Flexx TOF cameras  
