@@ -31,7 +31,7 @@ const std::map<std::string, double> robotPlatformTypes = {
   {"HD2", 1},
   {"HOVERMAP", 1},
   {"HUSKY", 1},
-  {"JEANINE" 1},
+  {"JEANINE", 1},
   {"KAREN", 1},
   {"KLOUBAK", 1},
   {"LILY", 1},
@@ -52,7 +52,7 @@ const std::map<std::string, double> robotPlatformTypes = {
   {"X2", 1},
   {"X3", 7},
   {"X4", 7.2},
-  {"X500", 1},
+  {"X500", 1}
 };
 
 #endif
