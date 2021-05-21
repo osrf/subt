@@ -1192,12 +1192,11 @@ void GameLogicPlugin::PreUpdate(const UpdateInfo &_info,
           localSimTime.set_nsec(nsec);
 
           std::lock_guard<std::mutex> lock(this->dataPtr->eventCounterMutex);
-          // _resp.set_report_status("scoring finished");
           std::ostringstream stream;
           stream
             << "- event:\n"
             << "  id: " << this->dataPtr->eventCounter << "\n"
-            << "  type: kinetic\n"
+            << "  type: collision\n"
             << "  time_sec: " << localSimTime.sec() << "\n"
             << "  robot: " << ke.second.robotName << std::endl;
           this->dataPtr->LogEvent(stream.str());
