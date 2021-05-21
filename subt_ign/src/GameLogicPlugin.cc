@@ -1201,7 +1201,7 @@ void GameLogicPlugin::PreUpdate(const UpdateInfo &_info,
             << "  robot: " << ke.second.robotName << std::endl;
           this->dataPtr->LogEvent(stream.str());
           this->dataPtr->PublishRobotEvent(
-              localSimTime, "kinetic", ke.second.robotName,
+              localSimTime, "collision", ke.second.robotName,
               this->dataPtr->eventCounter);
           this->dataPtr->eventCounter++;
 
