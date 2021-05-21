@@ -68,6 +68,20 @@
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/subt_tunnel_staging_area</uri>
     </include>
 
+    <include>
+      <static>true</static>
+      <name>tunnel</name>
+      <pose>19.9059 -0.431901 0 0 0 -1.5754</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6 Rails</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>stairs</name>
+      <pose>0 21 0 0 0 0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban%20Stairwell%20Platform%20Centered%20Lights</uri>
+    </include>
+
     <!-- Barriers -->
     <include>
       <name>barrier_0_-1</name>
