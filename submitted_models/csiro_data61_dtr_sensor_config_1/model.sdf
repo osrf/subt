@@ -585,6 +585,16 @@
         <update_rate>15</update_rate>
         <visualize>0</visualize>
         <camera name="camera_front_sensor">
+          <lens>
+            <intrinsics>
+              <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+              <fx>1008</fx>
+              <fy>1008</fy>
+              <cx>1007.5</cx>
+              <cy>755.5</cy>
+              <s>0</s>
+            </intrinsics>
+          </lens>
           <image>
             <width>2016</width>
             <height>1512</height>
@@ -608,6 +618,16 @@
         <update_rate>15</update_rate>
         <visualize>0</visualize>
         <camera name="camera_left_sensor">
+          <lens>
+            <intrinsics>
+              <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+              <fx>1008</fx>
+              <fy>1008</fy>
+              <cx>1007.5</cx>
+              <cy>755.5</cy>
+              <s>0</s>
+            </intrinsics>
+          </lens>
           <image>
             <width>2016</width>
             <height>1512</height>
@@ -632,6 +652,16 @@
         <update_rate>15</update_rate>
         <visualize>0</visualize>
         <camera name="camera_rear_sensor">
+          <lens>
+            <intrinsics>
+              <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+              <fx>1008</fx>
+              <fy>1008</fy>
+              <cx>1007.5</cx>
+              <cy>755.5</cy>
+              <s>0</s>
+            </intrinsics>
+          </lens>
           <image>
             <width>2016</width>
             <height>1512</height>
@@ -656,6 +686,16 @@
         <update_rate>15</update_rate>
         <visualize>0</visualize>
         <camera name="camera_right_sensor">
+          <lens>
+            <intrinsics>
+              <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+              <fx>1008</fx>
+              <fy>1008</fy>
+              <cx>1007.5</cx>
+              <cy>755.5</cy>
+              <s>0</s>
+            </intrinsics>
+          </lens>
           <image>
             <width>2016</width>
             <height>1512</height>
