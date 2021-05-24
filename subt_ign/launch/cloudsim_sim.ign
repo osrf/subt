@@ -47,7 +47,7 @@
   end
 
   if !defined?(logPath) || logPath == nil || logPath.empty?
-    $logPath = '/tmp/ign/logs'
+    $logPath = '/tmp/ign/logs/gazebo'
   else
     $logPath = logPath
   end
