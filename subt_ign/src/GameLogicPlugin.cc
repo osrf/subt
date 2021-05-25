@@ -1140,7 +1140,7 @@ void GameLogicPlugin::PreUpdate(const UpdateInfo &_info,
               // by falling from a height.
               this->dataPtr->keInfo[model->Data()].kineticEnergyThreshold =
                 0.5 * mass * std::pow(
-                    sqrt((2 * this->dataPtr->keHeight) / 9.8) * 9.8, 2);
+                    sqrt(2 * this->dataPtr->keHeight * 9.8), 2);
               this->dataPtr->keInfo[model->Data()].robotName = mName->Data();
 
               // Create a halt motion component if one is not
