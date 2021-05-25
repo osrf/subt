@@ -1210,6 +1210,7 @@ void GameLogicPlugin::PreUpdate(const UpdateInfo &_info,
             _ecm.Component<components::HaltMotion>(ke.first);
           if (haltMotionComp && !haltMotionComp->Data())
           {
+            igndbg << "Robot[" << ke.second.robotName  << "] has crashed!\n";
             haltMotionComp->Data() = true;
           }
         }
