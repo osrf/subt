@@ -42,17 +42,35 @@
       pkg="ros_ign_bridge"
       type="parameter_bridge"
       name="ros_ign_bridge_uav_input"
-      args="/$(arg name)/input@mav_msgs/Actuators]ignition.msgs.Actuators">
+      args="/model/$(arg name)/input@mav_msgs/Actuators]ignition.msgs.Actuators">
+      <remap from="/model/$(arg name)/input" to="input"/>
+    </node>
+    
+    <!-- Goal Pose -->
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_uav_goal"
+      args="/model/$(arg name)/goal@geometry_msgs/PoseStamped[ignition.msgs.Pose">
+      <remap from="/model/$(arg name)/goal" to="goal"/>
     </node>
 
     <!-- Robot's state -->
-
     <node
       pkg="ros_ign_bridge"
       type="parameter_bridge"
       name="ros_ign_bridge_pose"
       args="/model/$(arg name)/pose@tf2_msgs/TFMessage[ignition.msgs.Pose_V">
       <remap from="/model/$(arg name)/pose" to="pose"/>
+    </node>
+
+    <!-- Joint states -->
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_joint_states"
+      args="/world/$(arg world_name)/model/$(arg name)/joint_state@sensor_msgs/JointState[ignition.msgs.Model">
+      <remap from="/world/$(arg world_name)/model/$(arg name)/joint_state" to="/$(arg name)/joint_states"/>
     </node>
 
     <node
@@ -75,6 +93,39 @@
       pkg="subt_ros"
       type="pose_tf_broadcaster"
       name="pose_tf_broadcaster"/>
+
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_gas"
+      args="/model/$(arg name)/gas_detected@std_msgs/Bool[ignition.msgs.Boolean">
+      <remap from="/model/$(arg name)/gas_detected" to="gas_detected"/>
+    </node>
+
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_magnetometer"
+      args="$(arg sensor_prefix)/magnetometer/magnetometer@sensor_msgs/MagneticField[ignition.msgs.Magnetometer">
+      <remap from="$(arg sensor_prefix)/magnetometer/magnetometer" to="magnetic_field"/>
+    </node>
+
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_fluid_pressure"
+      args="$(arg sensor_prefix)/air_pressure/air_pressure@sensor_msgs/FluidPressure[ignition.msgs.FluidPressure">
+      <remap from="$(arg sensor_prefix)/air_pressure/air_pressure" to="air_pressure"/>
+    </node>
+
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_imu"
+      args="$(arg sensor_prefix)/imu_sensor/imu@sensor_msgs/Imu[ignition.msgs.IMU">
+      <remap from="$(arg sensor_prefix)/imu_sensor/imu" to="imu/data"/>
+    </node>
+
   </group>
 
 </launch>

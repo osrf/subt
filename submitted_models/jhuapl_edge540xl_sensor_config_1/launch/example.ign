@@ -165,7 +165,7 @@
 
 <plugin name="ignition::launch::GazeboFactory"
         filename="libignition-launch-gazebo-factory.so">
-<%= spawner(robotName, modelURI, $worldName, 0, 0, 0.2, 0, 0, 0, plantURDF) %>
+<%= spawner(robotName, modelURI, $worldName, 0, 0, 0.2, 0, 0, 0) %>
 </plugin>
 <%= rosExecutables(robotName, $worldName) %>
 

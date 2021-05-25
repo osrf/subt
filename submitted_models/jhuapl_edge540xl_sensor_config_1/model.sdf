@@ -109,12 +109,12 @@
       </sensor>
       <sensor name="camera_front" type="rgbd_camera">
         <camera name="camera_front">
-          <horizontal_fov>1.0472</horizontal_fov>
+          <horizontal_fov>1.5184</horizontal_fov>
           <lens>
             <intrinsics>
               <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
-              <fx>277.1</fx>
-              <fy>277.1</fy>
+              <fx>168.61097</fx>
+              <fy>168.61097</fy>
               <!-- cx = ( width + 1 ) / 2 -->
               <cx>160.5</cx>
               <!-- cy = ( height + 1 ) / 2 -->
@@ -155,6 +155,40 @@
         <update_rate>20</update_rate>
         <visualize>0</visualize>
         <pose frame="">0.438 0 0.272 0 -0 0</pose>
+      </sensor>
+      <sensor name="air_pressure" type="air_pressure">
+          <always_on>1</always_on>
+          <update_rate>20</update_rate>
+          <air_pressure>
+              <reference_altitude>0</reference_altitude>
+              <noise type="gaussian">
+                <mean>0.00000008</mean>
+              </noise>
+          </air_pressure>
+      </sensor>
+      <sensor name="magnetometer" type="magnetometer">
+          <always_on>1</always_on>
+          <update_rate>20</update_rate>
+          <magnetometer>
+              <x>
+                <noise type="gaussian">
+                  <mean>0.000000080</mean>
+                  <bias_mean>0.000000400</bias_mean>
+                </noise>
+              </x>
+              <y>
+                <noise type="gaussian">
+                  <mean>0.000000080</mean>
+                  <bias_mean>0.000000400</bias_mean>
+                </noise>
+              </y>
+              <z>
+                <noise type="gaussian">
+                  <mean>0.000000080</mean>
+                  <bias_mean>0.000000400</bias_mean>
+                </noise>
+              </z>
+          </magnetometer>
       </sensor>
     </link>
     <joint name='aileron_left_hinge' type='revolute'>
