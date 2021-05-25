@@ -21,16 +21,17 @@
 
     <!-- Probably it's better to add this plugin in the launch files -->
     <!-- Adding it here for testing -->
-    <!-- <plugin filename="libLocalWindPlugin.so" name="subt::LocalWindPlugin"> -->
-    <!--   <localWind> -->
-    <!--     <tile> 1 </tile> -->
-    <!--     <magnitude> 1 3 0 </magnitude> -->
-    <!--   </localWind> -->
-    <!--   <localWind> -->
-    <!--     <tile> 1 </tile> -->
-    <!--     <magnitude> 1 3 0 </magnitude> -->
-    <!--   </localWind> -->
-    <!-- </plugin> -->
+    <plugin filename="libLocalWindPlugin.so" name="subt::LocalWindPlugin">
+      <scaling>0.8</scaling>
+      <localWind>
+        <tile> 1 </tile>
+        <magnitude> 1 3 0 </magnitude>
+      </localWind>
+      <localWind>
+        <tile> 1 </tile>
+        <magnitude> 1 3 0 </magnitude>
+      </localWind>
+    </plugin>
 
     <!-- The staging area -->
     <include>
