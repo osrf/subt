@@ -27,7 +27,7 @@ const std::map<std::string, double> robotPlatformTypes = {
   {"DS1", 6}, // UAV, prop guards
   {"DTR", 1},
   {"FREYJA", 1},
-  {"GAGARIN", 6}, // UAV, prop guards
+  {"GAGARIN", 1}, // UAV, collision tolerant
   {"HD2", 1},
   {"HOVERMAP", 6}, // UAV, prop guards
   {"HUSKY", 1},
@@ -43,7 +43,7 @@ const std::map<std::string, double> robotPlatformTypes = {
   {"QAV500", 6}, // UAV, prop guards
   {"R2", 1},
   {"R3", 1},
-  {"RMF", 6}, // UAV, prop guards
+  {"RMF", 1}, // UAV, collision tolerant
   {"ROCKY", 1},
   {"SHAFTER", 8}, // UAV, no prop guards
   {"SPOT", 1},
@@ -51,7 +51,7 @@ const std::map<std::string, double> robotPlatformTypes = {
   {"X1", 1},
   {"X2", 1},
   {"X3", 8}, // UAV, no prop guards
-  {"X6", 8}, // UAV, no prop guards
+  {"X4", 8}, // UAV, no prop guards
   {"X500", 8} // UAV, no prop guards
 };
 
