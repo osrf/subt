@@ -23,36 +23,36 @@ const std::map<std::string, double> robotPlatformTypes = {
   {"ALLIE", 1},
   {"ANYMAL_B", 1},
   {"ANYMAL_C", 1},
-  {"CRYSTAL", 1},
-  {"DS1", 1},
+  {"CRYSTAL", 8}, // UAV, no prop guards
+  {"DS1", 6}, // UAV, prop guards
   {"DTR", 1},
   {"FREYJA", 1},
-  {"GAGARIN", 1},
+  {"GAGARIN", 6}, // UAV, prop guards
   {"HD2", 1},
-  {"HOVERMAP", 1},
+  {"HOVERMAP", 6}, // UAV, prop guards
   {"HUSKY", 1},
   {"JEANINE", 1},
   {"KAREN", 1},
   {"KLOUBAK", 1},
   {"LILY", 1},
-  {"M100", 1},
+  {"M100", 8}, // UAV, no prop guards
   {"MARV", 1},
   {"MIKE", 1},
   {"OZBOT_ATR", 1},
-  {"PAM", 1},
-  {"QAV500", 1},
+  {"PAM", 6}, // UAV, prop guards
+  {"QAV500", 6}, // UAV, prop guards
   {"R2", 1},
   {"R3", 1},
-  {"RMF", 1},
+  {"RMF", 6}, // UAV, prop guards
   {"ROCKY", 1},
-  {"SHAFTER", 1},
+  {"SHAFTER", 8}, // UAV, no prop guards
   {"SPOT", 1},
   {"TEAMBASE", 1},
   {"X1", 1},
   {"X2", 1},
-  {"X3", 7.2},
-  {"X4", 7.2},
-  {"X500", 14}
+  {"X3", 8}, // UAV, no prop guards
+  {"X6", 8}, // UAV, no prop guards
+  {"X500", 8} // UAV, no prop guards
 };
 
 #endif

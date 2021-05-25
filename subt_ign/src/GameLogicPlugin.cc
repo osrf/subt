@@ -1168,17 +1168,18 @@ void GameLogicPlugin::PreUpdate(const UpdateInfo &_info,
         double deltaKE = ke.second.prevKineticEnergy - currKineticEnergy;
 
         // Debug: Compute the factor needed to hit the threshold.
-        if (deltaKE > 0.01)
-        {
-          double factor = ke.second.kineticEnergyThreshold / deltaKE;
-          std::cout << "KE[" << deltaKE << "] Thresh[" << ke.second.kineticEnergyThreshold << "] Factor[" << factor << "]\n";
-        }
+        // if (deltaKE > 0.01)
+        // {
+        //   double factor = ke.second.kineticEnergyThreshold / deltaKE;
+        //   std::cout << "KE[" << deltaKE << "] Thresh["
+        //   << ke.second.kineticEnergyThreshold << "] Factor["
+        //   << factor << "]\n";
+        // }
 
         // Apply KE factor.
         deltaKE *= robotPlatformTypes.at(
           this->dataPtr->robotFullTypes[ke.second.robotName].first);
         ke.second.prevKineticEnergy = currKineticEnergy;
-
 
         // Crash if past the threshold.
         if (ke.second.kineticEnergyThreshold > 0 &&
