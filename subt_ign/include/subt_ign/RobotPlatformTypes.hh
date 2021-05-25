@@ -50,9 +50,9 @@ const std::map<std::string, double> robotPlatformTypes = {
   {"TEAMBASE", 1},
   {"X1", 1},
   {"X2", 1},
-  {"X3", 7},
+  {"X3", 7.2},
   {"X4", 7.2},
-  {"X500", 1}
+  {"X500", 14}
 };
 
 #endif
