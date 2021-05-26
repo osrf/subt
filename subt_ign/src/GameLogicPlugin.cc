@@ -533,9 +533,9 @@ class subt::GameLogicPluginPrivate
   /// fall model.
   public: std::map<std::string, std::pair<int, int>> rockFallsMax;
 
-  /// \brief Map of model name to {sim_time_sec, deployments_over_max}. This
-  /// map is used to log when no more dynamic collapses are possible.
-  public: std::map<std::string, int> dynamicCollapseMax;
+  /// \brief Map of model name to bool. This map is used to log when no more
+  /// dynamic collapses are possible.
+  public: std::map<std::string, bool> dynamicCollapseMax;
 
   /// \brief Map of model name to deployments_over_max. This map
   /// is used to log when no more breadcrumb deployments are possible.
@@ -1442,7 +1442,7 @@ void GameLogicPlugin::PostUpdate(
 
         // Subscribe to remaining dynamic collapse deploy topics. We are doing a
         // blanket subscribe even though a model in this function may not be
-        // a rock fall.
+        // a dynamic collapse.
         if (this->dataPtr->dynamicCollapseMax.find(_nameComp->Data()) ==
             this->dataPtr->dynamicCollapseMax.end())
         {
@@ -1453,6 +1453,7 @@ void GameLogicPlugin::PostUpdate(
               &GameLogicPluginPrivate::OnDynamicCollapseDeployRemainingEvent,
               this->dataPtr.get());
         }
+
         {
           std::lock_guard<std::mutex> lock(this->dataPtr->posesMutex);
           this->dataPtr->poses[_nameComp->Data()] = _poseComp->Data();
