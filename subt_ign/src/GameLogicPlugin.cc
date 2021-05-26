@@ -222,6 +222,13 @@ class subt::GameLogicPluginPrivate
     const ignition::msgs::Int32 &_msg,
     const transport::MessageInfo &_info);
 
+  /// \brief Dynamic collapse remaining subscription callback.
+  /// \param[in] _msg Remaining count.
+  /// \param[in] _info Message information.
+  public: void OnDynamicCollapseDeployRemainingEvent(
+    const ignition::msgs::Int32 &_msg,
+    const transport::MessageInfo &_info);
+
   /// \brief Rock fall remaining subscription callback.
   /// \param[in] _msg Remaining count.
   /// \param[in] _info Message information.
@@ -525,6 +532,10 @@ class subt::GameLogicPluginPrivate
   /// map is used to log when no more rock falls are possible for a rock
   /// fall model.
   public: std::map<std::string, std::pair<int, int>> rockFallsMax;
+
+  /// \brief Map of model name to bool. This map is used to log when no more
+  /// dynamic collapses are possible.
+  public: std::map<std::string, bool> dynamicCollapseMax;
 
   /// \brief Map of model name to deployments_over_max. This map
   /// is used to log when no more breadcrumb deployments are possible.
@@ -868,6 +879,39 @@ void GameLogicPluginPrivate::OnBreadcrumbDeployRemainingEvent(
     }
 
     this->breadcrumbsMax[name]++;
+  }
+}
+
+//////////////////////////////////////////////////
+void GameLogicPluginPrivate::OnDynamicCollapseDeployRemainingEvent(
+    const ignition::msgs::Int32 &/*_msg*/,
+    const transport::MessageInfo &_info)
+{
+  ignition::msgs::Time localSimTime(this->simTime);
+  std::vector<std::string> topicParts = common::split(_info.Topic(), "/");
+  std::string name = "_unknown_";
+
+  // Get the name of the model from the topic name, where the topic name
+  // look like '/model/{model_name}/deploy'.
+  if (topicParts.size() > 1)
+    name = topicParts[1];
+
+  if (!this->dynamicCollapseMax[name])
+  {
+    std::lock_guard<std::mutex> lock(this->eventCounterMutex);
+    std::ostringstream stream;
+    stream
+      << "- event:\n"
+      << "  id: " << this->eventCounter << "\n"
+      << "  type: dynamic_collapse\n"
+      << "  time_sec: " << localSimTime.sec() << "\n"
+      << "  model: " << name << std::endl;
+
+    this->LogEvent(stream.str());
+    this->PublishRegionEvent(localSimTime, "dynamic_collapse", "", name,
+        "dynamic_collapse", this->eventCounter);
+    this->eventCounter++;
+    this->dynamicCollapseMax[name] = true;
   }
 }
 
@@ -1393,6 +1437,20 @@ void GameLogicPlugin::PostUpdate(
           this->dataPtr->rockFallsMax[_nameComp->Data()] = {0, 0};
           this->dataPtr->node.Subscribe(deployRemainingTopic,
               &GameLogicPluginPrivate::OnRockFallDeployRemainingEvent,
+              this->dataPtr.get());
+        }
+
+        // Subscribe to remaining dynamic collapse deploy topics. We are doing a
+        // blanket subscribe even though a model in this function may not be
+        // a dynamic collapse.
+        if (this->dataPtr->dynamicCollapseMax.find(_nameComp->Data()) ==
+            this->dataPtr->dynamicCollapseMax.end())
+        {
+          std::string deployRemainingTopic = std::string("/model/") +
+                  _nameComp->Data() + "/breadcrumbs/Wall/deploy/remaining";
+          this->dataPtr->dynamicCollapseMax[_nameComp->Data()] = false;
+          this->dataPtr->node.Subscribe(deployRemainingTopic,
+              &GameLogicPluginPrivate::OnDynamicCollapseDeployRemainingEvent,
               this->dataPtr.get());
         }
 

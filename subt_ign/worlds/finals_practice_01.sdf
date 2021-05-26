@@ -2867,9 +2867,11 @@
         <delay_ms>2500</delay_ms>
         <output type="ignition.msgs.ParticleEmitter" topic="/model/debris_wall_1_fog_emitter_1/link/link/particle_emitter/dust_generator/cmd">
           emitting:{data: 0}
+          rate:{data: 0}
         </output>
         <output type="ignition.msgs.ParticleEmitter" topic="/model/debris_wall_1_fog_emitter_2/link/link/particle_emitter/dust_generator/cmd">
           emitting:{data: 0}
+          rate:{data: 0}
         </output>
       </plugin>
     </model>
