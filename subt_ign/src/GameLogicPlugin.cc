@@ -31,6 +31,13 @@
 #include <mutex>
 #include <utility>
 
+#include <ignition/gazebo/Link.hh>
+#include <ignition/gazebo/components/AngularVelocity.hh>
+#include <ignition/gazebo/components/HaltMotion.hh>
+#include <ignition/gazebo/components/CanonicalLink.hh>
+#include <ignition/gazebo/components/Inertial.hh>
+#include <ignition/gazebo/components/Link.hh>
+#include <ignition/gazebo/components/LinearVelocity.hh>
 #include <ignition/gazebo/components/BatterySoC.hh>
 #include <ignition/gazebo/components/DetachableJoint.hh>
 #include <ignition/gazebo/components/Performer.hh>
@@ -76,12 +83,30 @@ IGNITION_ADD_PLUGIN(
     subt::GameLogicPlugin,
     ignition::gazebo::System,
     subt::GameLogicPlugin::ISystemConfigure,
+    subt::GameLogicPlugin::ISystemPreUpdate,
     subt::GameLogicPlugin::ISystemPostUpdate)
 
 using namespace ignition;
 using namespace gazebo;
 using namespace systems;
 using namespace subt;
+
+/// \brief Kinetic energy information used to determine when a crash occurs.
+class KineticEnergyInfo
+{
+  /// \brief Value of the previous iteration's kinetic energy.
+  public: double prevKineticEnergy{0.0};
+
+  /// \brief Threshold past which a crash has happened. Negative number
+  /// indicates that unlimited kinetic energy is allowed.
+  public: double kineticEnergyThreshold{-1.0};
+
+  /// \brief The link used to get kinetic energy.
+  public: gazebo::Entity link;
+
+  /// \brief Name of the robot.
+  public: std::string robotName;
+};
 
 class subt::GameLogicPluginPrivate
 {
@@ -525,6 +550,15 @@ class subt::GameLogicPluginPrivate
 
   /// \brief Mutex to protect the eventCounter.
   public: std::mutex eventCounterMutex;
+
+  /// \brief Kinetic energy information for each robot.
+  public: std::map<gazebo::Entity, KineticEnergyInfo> keInfo;
+
+  // \brief Height used to determine the KE threshold.
+  // Increasing this value will lower the threshold, meaning a
+  // less violent collision will disable the robot. This value can be
+  // adjusted via this plugin's SDF parameters.
+  public: double keHeight = 0.077;
 };
 
 //////////////////////////////////////////////////
@@ -599,6 +633,9 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
           this->dataPtr->elevationStepSize).first;
     }
   }
+
+  this->dataPtr->keHeight =
+    _sdf->Get<double>("ke_height", this->dataPtr->keHeight).first;
 
   const sdf::ElementPtr rosElem =
     const_cast<sdf::Element*>(_sdf.get())->GetElement("ros");
@@ -1013,6 +1050,176 @@ void GameLogicPluginPrivate::OnEvent(const ignition::msgs::Pose &_msg)
 }
 
 //////////////////////////////////////////////////
+void GameLogicPlugin::PreUpdate(const UpdateInfo &_info,
+    EntityComponentManager &_ecm)
+{
+  if (!this->dataPtr->started)
+  {
+    _ecm.Each<gazebo::components::Sensor,
+                 gazebo::components::ParentEntity>(
+        [&](const gazebo::Entity &,
+            const gazebo::components::Sensor *,
+            const gazebo::components::ParentEntity *_parent) -> bool
+        {
+          // Get the model. We are assuming that a sensor is attached to
+          // a link.
+          auto model = _ecm.Component<gazebo::components::ParentEntity>(
+              _parent->Data());
+          if (model)
+          {
+            // Get the model name
+            auto mName =
+              _ecm.Component<gazebo::components::Name>(model->Data());
+
+            // Skip if we already have information for this robot.
+            if (this->dataPtr->keInfo.find(model->Data()) !=
+                this->dataPtr->keInfo.end()) {
+              return true;
+            }
+
+            std::vector<Entity> links = _ecm.EntitiesByComponents(
+                components::ParentEntity(model->Data()), components::Link());
+
+            // Get the mass for the robot by summing the mass of each link,
+            // and use the canonical link for KE computation.
+            double mass = 0.0;
+            for (const Entity &link : links)
+            {
+              auto inertial = _ecm.Component<components::Inertial>(link);
+              auto canonical =  _ecm.Component<components::CanonicalLink>(link);
+              mass += inertial->Data().MassMatrix().Mass();
+
+              if (canonical)
+              {
+                this->dataPtr->keInfo[model->Data()].link += link;
+                // Create a world pose component if one is not present.
+                if (!_ecm.Component<components::WorldPose>(link))
+                {
+                  _ecm.CreateComponent(link, components::WorldPose());
+                }
+
+                // Create an inertial component if one is not present.
+                if (!_ecm.Component<components::Inertial>(link))
+                {
+                  _ecm.CreateComponent(link, components::Inertial());
+                }
+
+                // Create a world linear velocity component if one is not
+                // present.
+                if (!_ecm.Component<components::WorldLinearVelocity>(link))
+                {
+                  _ecm.CreateComponent(link,
+                      components::WorldLinearVelocity());
+                }
+
+                // Create an angular velocity component if one is not present.
+                if (!_ecm.Component<components::AngularVelocity>(link))
+                {
+                  _ecm.CreateComponent(link,
+                      components::AngularVelocity());
+                }
+
+                // Create a world angular velocity component if one is not
+                // present.
+                if (!_ecm.Component<components::WorldAngularVelocity>(
+                      link))
+                {
+                  _ecm.CreateComponent(link,
+                      components::WorldAngularVelocity());
+                }
+              }
+            }
+
+            if (mass > 0)
+            {
+              // This sets the kinetic energy threshold for the robot. It is
+              // based on the kinetic energy formula KE = 0.5 * M * v * v
+              //
+              // M is the mass of the robot.
+              // v is velocity of the robot. We are using the velocity acheived
+              // by falling from a height.
+              this->dataPtr->keInfo[model->Data()].kineticEnergyThreshold =
+                0.5 * mass * std::pow(
+                    sqrt(2 * this->dataPtr->keHeight * 9.8), 2);
+              this->dataPtr->keInfo[model->Data()].robotName = mName->Data();
+
+              // Create a halt motion component if one is not
+              // present.
+              if (!_ecm.Component<components::HaltMotion>(model->Data()))
+              {
+                 _ecm.CreateComponent(model->Data(), components::HaltMotion());
+              }
+            }
+          }
+          return true;
+        });
+  }
+  else
+  {
+    // Check for crashes
+    for (auto &ke : this->dataPtr->keInfo)
+    {
+      ignition::gazebo::Link link(ke.second.link);
+      if (std::nullopt != link.WorldKineticEnergy(_ecm))
+      {
+        double currKineticEnergy = *link.WorldKineticEnergy(_ecm);
+
+        // We only care about positive values of this (the links looses energy)
+        double deltaKE = ke.second.prevKineticEnergy - currKineticEnergy;
+
+        // Debug: Compute the factor needed to hit the threshold.
+        // if (deltaKE > 0.01)
+        // {
+        //   double factor = ke.second.kineticEnergyThreshold / deltaKE;
+        //   std::cout << "KE[" << deltaKE << "] Thresh["
+        //   << ke.second.kineticEnergyThreshold << "] Factor["
+        //   << factor << "]\n";
+        // }
+
+        // Apply KE factor.
+        deltaKE *= robotPlatformTypes.at(
+          this->dataPtr->robotFullTypes[ke.second.robotName].first);
+        ke.second.prevKineticEnergy = currKineticEnergy;
+
+        // Crash if past the threshold.
+        if (ke.second.kineticEnergyThreshold > 0 &&
+            deltaKE >= ke.second.kineticEnergyThreshold)
+        {
+          int64_t sec, nsec;
+          std::tie(sec, nsec) =
+            ignition::math::durationToSecNsec(_info.simTime);
+          ignition::msgs::Time localSimTime;
+          localSimTime.set_sec(sec);
+          localSimTime.set_nsec(nsec);
+
+          std::lock_guard<std::mutex> lock(this->dataPtr->eventCounterMutex);
+          std::ostringstream stream;
+          stream
+            << "- event:\n"
+            << "  id: " << this->dataPtr->eventCounter << "\n"
+            << "  type: collision\n"
+            << "  time_sec: " << localSimTime.sec() << "\n"
+            << "  robot: " << ke.second.robotName << std::endl;
+          this->dataPtr->LogEvent(stream.str());
+          this->dataPtr->PublishRobotEvent(
+              localSimTime, "collision", ke.second.robotName,
+              this->dataPtr->eventCounter);
+          this->dataPtr->eventCounter++;
+
+          auto *haltMotionComp =
+            _ecm.Component<components::HaltMotion>(ke.first);
+          if (haltMotionComp && !haltMotionComp->Data())
+          {
+            igndbg << "Robot[" << ke.second.robotName  << "] has crashed!\n";
+            haltMotionComp->Data() = true;
+          }
+        }
+      }
+    }
+  }
+}
+
+//////////////////////////////////////////////////
 void GameLogicPlugin::PostUpdate(
     const ignition::gazebo::UpdateInfo &_info,
     const ignition::gazebo::EntityComponentManager &_ecm)
@@ -1103,22 +1310,23 @@ void GameLogicPlugin::PostUpdate(
                 model->Data());
 
               // Store unique robot platform information.
-              for (const std::string &type : robotPlatformTypes)
+              for (const std::pair<std::string, double> &typeKE :
+                  robotPlatformTypes)
               {
                 std::string platformNameUpper = filePath->Data();
                 std::transform(platformNameUpper.begin(),
                     platformNameUpper.end(),
                     platformNameUpper.begin(), ::toupper);
-                if (platformNameUpper.find(type) != std::string::npos)
+                if (platformNameUpper.find(typeKE.first) != std::string::npos)
                 {
-                  this->dataPtr->robotTypes.insert(type);
+                  this->dataPtr->robotTypes.insert(typeKE.first);
 
                   // The full type is in the directory name, which is third
                   // from the end (.../TYPE/VERSION/model.sdf).
                   std::vector<std::string> pathParts =
                     ignition::common::split(platformNameUpper, "/");
                   this->dataPtr->robotFullTypes[mName->Data()] =
-                    {type, pathParts[pathParts.size()-3]};
+                    {typeKE.first, pathParts[pathParts.size()-3]};
                 }
               }
 
