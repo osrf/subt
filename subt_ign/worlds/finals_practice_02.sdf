@@ -605,7 +605,7 @@
           <transparency>0.5</transparency>
           <geometry>
             <box>
-              <size>30 20 20</size>
+              <size>20 20 20</size>
             </box>
           </geometry>
         </visual>
@@ -622,12 +622,12 @@
         <topic>/subt_performer_detector</topic>
         <geometry>
           <box>
-            <size>40 20 20</size>
+            <size>20 20 20</size>
           </box>
         </geometry>
         <header_data>
             <key>type</key>
-            <value>fog</value>
+            <value>dynamic_collapse_1</value>
         </header_data>
       </plugin>
 
@@ -635,26 +635,26 @@
       <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
         <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
           <match field='header.data'>{ key: "frame_id" value: "performer_detector_debris_wall_1" }</match>
-          <match field='header.data'>{ key: "state" value: "1" }</match>
+          <match field='header.data'>{ key: "state" value: "0" }</match>
         </input>
         <delay_ms>2500</delay_ms>
         <output type="ignition.msgs.Empty" topic="/model/debris_wall_1/breadcrumbs/Wall/deploy"/>
       </plugin>
 
-      <!-- This plugin listens for the "enter" event from the performer
+      <!-- This plugin listens for the "leave" event from the performer
            detector and starts the fog -->
       <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
         <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
           <match field="header.data">
             {
             key: "type"
-            value: "fog"
+            value: "dynamic_collapse_1"
             }
           </match>
           <match field="header.data">
             {
             key: "state"
-            value: "1"
+            value: "0"
             }
           </match>
         </input>
@@ -666,20 +666,20 @@
         </output>
       </plugin>
 
-      <!-- This plugin listens for the "enter" event from the performer
-           detector and starts the fog -->
+      <!-- This plugin listens for the "leave" event from the performer
+           detector and stop the fog with a delay-->
       <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
         <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
           <match field="header.data">
             {
             key: "type"
-            value: "fog"
+            value: "dynamic_collapse_1"
             }
           </match>
           <match field="header.data">
             {
             key: "state"
-            value: "1"
+            value: "0"
             }
           </match>
         </input>
@@ -740,7 +740,7 @@
           <transparency>0.5</transparency>
           <geometry>
             <box>
-              <size>40 20 20</size>
+              <size>20 20 20</size>
             </box>
           </geometry>
         </visual>
@@ -757,12 +757,12 @@
         <topic>/subt_performer_detector</topic>
         <geometry>
           <box>
-            <size>40 20 20</size>
+            <size>20 20 20</size>
           </box>
         </geometry>
         <header_data>
             <key>type</key>
-            <value>fog</value>
+            <value>dynamic_collapse_2</value>
         </header_data>
       </plugin>
 
@@ -770,26 +770,26 @@
       <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
         <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
           <match field='header.data'>{ key: "frame_id" value: "performer_detector_debris_wall_2" }</match>
-          <match field='header.data'>{ key: "state" value: "1" }</match>
+          <match field='header.data'>{ key: "state" value: "0" }</match>
         </input>
         <delay_ms>2500</delay_ms>
         <output type="ignition.msgs.Empty" topic="/model/debris_wall_2/breadcrumbs/Wall/deploy"/>
       </plugin>
 
-      <!-- This plugin listens for the "enter" event from the performer
+      <!-- This plugin listens for the "leave" event from the performer
            detector and starts the fog -->
       <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
         <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
           <match field="header.data">
             {
             key: "type"
-            value: "fog"
+            value: "dynamic_collapse_2"
             }
           </match>
           <match field="header.data">
             {
             key: "state"
-            value: "1"
+            value: "0"
             }
           </match>
         </input>
@@ -801,20 +801,20 @@
         </output>
       </plugin>
 
-      <!-- This plugin listens for the "enter" event from the performer
-           detector and starts the fog -->
+      <!-- This plugin listens for the "leave" event from the performer
+           detector and stops the fog with a delay-->
       <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
         <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
           <match field="header.data">
             {
             key: "type"
-            value: "fog"
+            value: "dynamic_collapse_2"
             }
           </match>
           <match field="header.data">
             {
             key: "state"
-            value: "1"
+            value: "0"
             }
           </match>
         </input>

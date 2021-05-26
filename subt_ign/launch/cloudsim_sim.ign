@@ -47,7 +47,7 @@
   end
 
   if !defined?(logPath) || logPath == nil || logPath.empty?
-    $logPath = '/tmp/ign/logs'
+    $logPath = '/tmp/ign/logs/gazebo'
   else
     $logPath = logPath
   end
@@ -441,6 +441,7 @@
             name="subt::GameLogicPlugin">
       <world_name><%= $worldName %></world_name>
       <ros><%= $ros %></ros>
+      <ke_height>0.078</ke_height>
 
       <duration_seconds><%= $durationSec %></duration_seconds>
 
