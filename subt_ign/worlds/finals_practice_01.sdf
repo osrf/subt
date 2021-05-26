@@ -2773,18 +2773,21 @@
     </include>
     <!-- END ROCK FALL 1 -->
 
-    <!-- START ROCK FALL 2: Global obstacle -->
-    <!--Performer detector at Rock Fall #1-->
-    <model name="performer_detector_rockfall_2">
+
+    <!-- DEBRIS WALL 1 -->
+    <!-- To trigger, with a robot named X1:
+         ign service -s /world/finals_practice_02/set_pose /set_pose - -reqtype ignition.msgs.Pose - -reptype ignition.msgs.Boolean - -timeout 300 - -req 'name: "X1", position {x:130 y:0 z:-9.5}'
+    -->
+    <model name="performer_detector_debris_wall_1">
       <static>true</static>
-      <pose>22 30 0 0 -0 0</pose>
-      <!-- Uncomment to visualize performer detector -->
-      <!--link name='body'>
+      <pose>22 30 0 0 0 0</pose>
+      <!--Uncomment <link> to preview detector region-->
+	<!--<link name='body'>
         <visual name="v1">
           <transparency>0.5</transparency>
           <geometry>
             <box>
-              <size>15 15 15</size>
+              <size>8 18 10</size>
             </box>
           </geometry>
         </visual>
@@ -2794,24 +2797,39 @@
           <specular>0.5 0.5 0.5 1</specular>
         </material>
         <cast_shadows>false</cast_shadows>
-      </link-->
+      </link>--> 
       <plugin filename="libignition-gazebo-performer-detector-system.so"
         name="ignition::gazebo::systems::PerformerDetector">
         <topic>/subt_performer_detector</topic>
         <geometry>
           <box>
-            <size>15 15 15</size>
+            <size>8 18 10</size>
           </box>
         </geometry>
+        <header_data>
+            <key>type</key>
+            <value>dynamic_collapse</value>
+        </header_data>
       </plugin>
 
-      <!--TriggeredPublisher that publishes on the "deploy" topic of dynamic_rocks_2 when a performer enters the region defined in performer_detector_rockfall_2-->
+      <!--Triggered by performer_detector_debris_wall_1 -->
+      <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
+        <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
+          <match field='header.data'>{ key: "frame_id" value: "performer_detector_debris_wall_1" }</match>
+          <match field='header.data'>{ key: "state" value: "0" }</match>
+        </input>
+        <delay_ms>2500</delay_ms>
+        <output type="ignition.msgs.Empty" topic="/model/debris_wall_1/breadcrumbs/Wall/deploy"/>
+      </plugin>
+
+      <!-- This plugin listens for the "leave" event from the performer
+           detector and starts the fog -->
       <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
         <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
           <match field="header.data">
             {
-            key: "frame_id"
-            value: "performer_detector_rockfall_2"
+            key: "type"
+            value: "dynamic_collapse"
             }
           </match>
           <match field="header.data">
@@ -2821,20 +2839,73 @@
             }
           </match>
         </input>
-        <output type="ignition.msgs.Empty" topic="/model/dynamic_rocks_2/breadcrumbs/Rock/deploy"/>
+        <output type="ignition.msgs.ParticleEmitter" topic="/model/debris_wall_1_fog_emitter_1/link/link/particle_emitter/dust_generator/cmd">
+          emitting:{data: 1}
+        </output>
+        <output type="ignition.msgs.ParticleEmitter" topic="/model/debris_wall_1_fog_emitter_2/link/link/particle_emitter/dust_generator/cmd">
+          emitting:{data: 1}
+        </output>
+      </plugin>
+
+      <!-- This plugin listens for the "leave" event from the performer
+           detector and stops the fog with a delay -->
+      <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
+        <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
+          <match field="header.data">
+            {
+            key: "type"
+            value: "dynamic_collapse"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "state"
+            value: "0"
+            }
+          </match>
+        </input>
+        <delay_ms>2500</delay_ms>
+        <output type="ignition.msgs.ParticleEmitter" topic="/model/debris_wall_1_fog_emitter_1/link/link/particle_emitter/dust_generator/cmd">
+          emitting:{data: 0}
+        </output>
+        <output type="ignition.msgs.ParticleEmitter" topic="/model/debris_wall_1_fog_emitter_2/link/link/particle_emitter/dust_generator/cmd">
+          emitting:{data: 0}
+        </output>
       </plugin>
     </model>
 
-    <!-- Dynamic Rocks 2, this is associated with
-         performer_detector_rockfall_2 -->
+    <model name="debris_wall_1">
+      <static>true</static>
+      <plugin filename="libignition-gazebo-breadcrumbs-system.so" name="ignition::gazebo::systems::Breadcrumbs">
+        <max_deployments>1</max_deployments>
+        <allow_renaming>true</allow_renaming>
+        <breadcrumb>
+          <sdf version="1.6">
+            <include>
+              <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Wall debris</uri>
+              <name>Wall</name>
+              <pose>22 30 0 0 -0 0</pose>
+            </include>
+          </sdf>
+        </breadcrumb>
+      </plugin>
+    </model>
+
     <include>
-      <name>dynamic_rocks_2</name>
-      <pose>22 30 -2.3 0 -0 1.57</pose>
-      <uri>
-        https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Large Rock Fall
-      </uri>
-    </include>
-    <!-- END ROCK FALL 2 -->
+      <name>debris_wall_1_fog_emitter_1</name>
+      <static>true</static>
+      <pose>22 24 0 0 -0 0</pose>
+
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Dust Emitter Dense</uri>
+    </include>  
+    <include>
+      <name>debris_wall_1_fog_emitter_2</name>
+      <static>true</static>
+      <pose>22 36 0 0 -0 0</pose>
+
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Dust Emitter Dense</uri>
+    </include>  
+    <!-- END DEBRIS WALL 1 -->
 
     <!-- START ROCK FALL 3: Local obstacle-->
     <!--Performer detector at Rock Fall #3-->
