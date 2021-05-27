@@ -378,6 +378,21 @@
         <elevation_step_size>5</elevation_step_size>
       </logging>
     </plugin>
+
+    <plugin entity_name="<%= $worldName %>"
+            entity_type="world"
+            filename="libLocalWindPlugin.so"
+            name="subt::LocalWind">
+      <scaling>0.8</scaling>
+      <localWind>
+        <tile> 1 </tile>
+        <magnitude> 1 3 0 </magnitude>
+      </localWind>
+      <localWind>
+        <tile> 4 </tile>
+        <magnitude> 1 5 1 </magnitude>
+      </localWind>
+    </plugin>
   </plugin>
 
   <%if !$headless %>

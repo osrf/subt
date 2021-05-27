@@ -18,22 +18,22 @@
        <temperature>288</temperature>
        <temperature_gradient>0.2</temperature_gradient>
     </atmosphere>
-
+ 
     <!-- Probably it's better to add this plugin in the launch files -->
     <!-- Adding it here for testing -->
-    <plugin filename="libLocalWindPlugin.so" name="subt::LocalWindPlugin">
-      <scaling>0.8</scaling>
-      <localWind>
-        <tile> 1 </tile>
-        <magnitude> 1 3 0 </magnitude>
-      </localWind>
-      <localWind>
-        <tile> 1 </tile>
-        <magnitude> 1 3 0 </magnitude>
-      </localWind>
-    </plugin>
+    <!-- <plugin filename="libLocalWindPlugin.so" name="subt::LocalWind"> -->
+    <!--   <scaling>0.8</scaling> -->
+    <!--   <localWind> -->
+    <!--     <tile> 1 </tile> -->
+    <!--     <magnitude> 1 3 0 </magnitude> -->
+    <!--   </localWind> -->
+    <!--   <localWind> -->
+    <!--     <tile> 4 </tile> -->
+    <!--     <magnitude> 1 5 1 </magnitude> -->
+    <!--   </localWind> -->
+    <!-- </plugin> -->
 
-    <!-- The staging area -->
+   <!-- The staging area -->
     <include>
       <static>true</static>
       <name>staging_area</name>
