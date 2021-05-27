@@ -227,13 +227,11 @@ void LocalWind::PreUpdate(
       // Skip links for which the wind is disabled
       // This assumption also implies links with windMode enabled
       // were populated with
+      if (!_windMode->Data())
+      {
+        return true;
+      }
 
-      // if (!_windMode->Data())
-      // {
-      // 	return true;
-      // }
-
-      // ignerr << "HERE4 " << " \n";
       auto linkName  = _ecm.Component<gazebo::components::Name>(_entity);
       if (linkName){
 	ignerr << linkName->Data() << "\n";
@@ -250,8 +248,8 @@ void LocalWind::PreUpdate(
 
       // Get Tile defined for that XYZ
       //auto linkTile = this->dataPtr->visibilityTable.getTile(linkPosition);
-      auto tilesMap = this->dataPtr->visibilityTable.Vertices();
-      auto linkTile = tilesMap[roundedPos];
+      const auto &tilesMap = this->dataPtr->visibilityTable.Vertices();
+      const auto linkTile = tilesMap.at(roundedPos);
       //auto linkTile = this->dataPtr->visibilityTable.Vertices[linkPosition];
       
       // ignerr << "Position: " << std::get<0>(roundedPos) << " "
