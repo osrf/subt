@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>barcs_qav500_sensor_config_1</name>
+  <version>0.1.0</version>
+  <description>
+    The barcs_qav500_sensor_config_1 package is derived from marble's air
+    vehicle system's submission. Sensor packages have been changed by barcs team.
+    This sensor configuration has:
+    - a 3D Lidar, (same as X1 medium lidar on underside)
+    - an HD camera
+    - air pressure sensor
+    - magnetometer
+    - Microstrain 3DM-GX5-15 IMU
+    - 2 Pico flexx cameras, one facing up towards ceiling, other facing down towards ground.
+  </description>
+  <maintainer email="derek.vasquez@ssci.com">Derek Vasquez</maintainer>
+  <author email="derek.vasquez@ssci.com">Derek Vasquez</author>
+  <author email="hector.escobar@ssci.com">Hector Escobar</author>
+
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <exec_depend>roslaunch</exec_depend>
+  <exec_depend>subt_ros</exec_depend>
+  <exec_depend>urdf</exec_depend>
+  <exec_depend>xacro</exec_depend>
+
+</package>
