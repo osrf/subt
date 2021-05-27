@@ -47,6 +47,7 @@
 #include <ignition/gazebo/components/GpuLidar.hh>
 #include <ignition/gazebo/components/RgbdCamera.hh>
 #include <ignition/gazebo/components/ParentEntity.hh>
+#include <ignition/gazebo/components/ParticleEmitter.hh>
 #include <ignition/gazebo/components/Pose.hh>
 #include <ignition/gazebo/components/Sensor.hh>
 #include <ignition/gazebo/components/Static.hh>
@@ -227,6 +228,13 @@ class subt::GameLogicPluginPrivate
   /// \param[in] _info Message information.
   public: void OnDynamicCollapseDeployRemainingEvent(
     const ignition::msgs::Int32 &_msg,
+    const transport::MessageInfo &_info);
+
+  /// \brief Fog command subscription callback.
+  /// \param[in] _msg Particle emitter message.
+  /// \param[in] _info Message information.
+  public: void OnFogCmdEvent(
+    const ignition::msgs::ParticleEmitter &_msg,
     const transport::MessageInfo &_info);
 
   /// \brief Rock fall remaining subscription callback.
@@ -570,6 +578,9 @@ class subt::GameLogicPluginPrivate
   // less violent collision will disable the robot. This value can be
   // adjusted via this plugin's SDF parameters.
   public: double keHeight = 0.077;
+
+  /// \brief The fog emitters.
+  public: std::set<std::string> fogEmitters;
 };
 
 //////////////////////////////////////////////////
@@ -912,6 +923,38 @@ void GameLogicPluginPrivate::OnDynamicCollapseDeployRemainingEvent(
         "dynamic_collapse", this->eventCounter);
     this->eventCounter++;
     this->dynamicCollapseMax[name] = true;
+  }
+}
+
+//////////////////////////////////////////////////
+void GameLogicPluginPrivate::OnFogCmdEvent(
+    const ignition::msgs::ParticleEmitter &_msg,
+    const transport::MessageInfo &_info)
+{
+  ignition::msgs::Time localSimTime(this->simTime);
+  std::vector<std::string> topicParts = common::split(_info.Topic(), "/");
+  std::string name = "_unknown_";
+
+  // Get the name of the model from the topic name, where the topic name
+  // look like '/model/{model_name}/...
+  if (topicParts.size() > 1)
+    name = topicParts[1];
+
+  if (_msg.has_emitting() && _msg.emitting().data())
+  {
+    std::lock_guard<std::mutex> lock(this->eventCounterMutex);
+    std::ostringstream stream;
+    stream
+      << "- event:\n"
+      << "  id: " << this->eventCounter << "\n"
+      << "  type: fog\n"
+      << "  time_sec: " << localSimTime.sec() << "\n"
+      << "  model: " << name << std::endl;
+
+    this->LogEvent(stream.str());
+    this->PublishRegionEvent(localSimTime, "fog", "", name, "fog",
+        this->eventCounter);
+    this->eventCounter++;
   }
 }
 
@@ -1414,6 +1457,42 @@ void GameLogicPlugin::PostUpdate(
       this->dataPtr->Start(this->dataPtr->simTime);
     }
   }
+
+  // Subscribe to fog emitter command events.
+  _ecm.Each<gazebo::components::ParticleEmitter,
+            gazebo::components::ParentEntity,
+            gazebo::components::Name>(
+      [&](const gazebo::Entity &,
+          const gazebo::components::ParticleEmitter *,
+          const gazebo::components::ParentEntity *_parent,
+          const gazebo::components::Name *_nameComp) -> bool
+      {
+        auto model = _ecm.Component<gazebo::components::ParentEntity>(
+            _parent->Data());
+        if (model && _nameComp->Data().find("fog") != std::string::npos)
+        {
+          // Get the model name
+          auto modelName =
+            _ecm.Component<gazebo::components::Name>(model->Data());
+          if (modelName)
+          {
+            std::string fogTopic = std::string("/model/") +
+              modelName->Data() + "/link/link/particle_emitter/" +
+              _nameComp->Data() + "/cmd";
+
+            if (this->dataPtr->fogEmitters.find(fogTopic) ==
+                this->dataPtr->fogEmitters.end())
+            {
+              this->dataPtr->fogEmitters.insert(fogTopic);
+              this->dataPtr->node.Subscribe(fogTopic,
+                  &GameLogicPluginPrivate::OnFogCmdEvent,
+                  this->dataPtr.get());
+            }
+          }
+        }
+
+        return true;
+      });
 
   // Update pose information
   _ecm.Each<gazebo::components::Model,
