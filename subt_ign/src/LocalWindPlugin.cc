@@ -66,11 +66,6 @@ class subt::LocalWindPrivate
 
   /// \brief boolean to confirm if the plugin is properly configured
   public: bool initialized{false};
-
-  /// \brief boolean to populate the links with worldLin components
-  /// in the first iteration of the plugin
-  // public: bool linksInitialized{false};
-
 };
 
 //////////////////////////////////////////////////
@@ -90,14 +85,6 @@ void LocalWindPrivate::Load(
 {
   this->forceApproximationScalingFactor =
     _sdf->Get<double>("scaling", this->forceApproximationScalingFactor).first;
-  // <localWind>
-  //     <tile> 1 </tile>
-  //     <magnitude> 1 3 0 </magnitude>
-  // </localWind>
-  // <localWind>
-  //     <tile> 1 </tile>
-  //     <magnitude> 1 3 0 </magnitude>
-  // </localWind>
 
   // Iterate over all the localWind instances defined
   // inside the plugin
@@ -107,7 +94,7 @@ void LocalWindPrivate::Load(
   {
     // Check if valid
     if (localWindElement->HasElement("tile") &&
-	localWindElement->HasElement("magnitude"))
+        localWindElement->HasElement("magnitude"))
     {
       auto tile = localWindElement->Get<uint64_t>(
           "tile",std::numeric_limits<uint64_t>::max()).first;
@@ -116,13 +103,13 @@ void LocalWindPrivate::Load(
 
       // Avoid duplicates in the plugin definition
       if ( this->windTiles.find(tile) == this->windTiles.end() ) {
-	this->windTiles[tile] = magnitude;
+        this->windTiles[tile] = magnitude;
       }
       else
       {
-	ignerr << "Tile #" << tile << " was already added. Remove duplicated"
-	       << " tiles\n";
-	return;
+        ignerr << "Tile #" << tile << " was already added. Remove duplicated"
+               << " tiles\n";
+        return;
       }
     }
     else
@@ -192,22 +179,17 @@ void LocalWind::PreUpdate(
   // Init each new link added to the world
   _ecm.EachNew<gazebo::components::Link, gazebo::components::WindMode>(
       [&](const gazebo::Entity &_entity,
-	  gazebo::components::Link *,
-	  const gazebo::components::WindMode *_windMode) -> bool
+          gazebo::components::Link *,
+          const gazebo::components::WindMode *_windMode) -> bool
   {
-    // auto linkName  = _ecm.Component<gazebo::components::Name>(_entity);
-    // if (linkName){
-    //   ignerr << "New link: " << linkName->Data() << "\n";
-    // }
-
     if (_windMode->Data())
     {
       // Create a WorldLinearVelocity component on the link so that
       // physics can populate it
       if (!_ecm.Component<gazebo::components::WorldLinearVelocity>(_entity))
       {
-	_ecm.CreateComponent(_entity,
-			     gazebo::components::WorldLinearVelocity());
+        _ecm.CreateComponent(_entity,
+                             gazebo::components::WorldLinearVelocity());
       }
     }
     return true;
@@ -216,13 +198,13 @@ void LocalWind::PreUpdate(
   gazebo::Link link;
 
   _ecm.Each<gazebo::components::Link, gazebo::components::Inertial,
-	    gazebo::components::WindMode,
-	    gazebo::components::WorldLinearVelocity>(
+            gazebo::components::WindMode,
+            gazebo::components::WorldLinearVelocity>(
     [&](const gazebo::Entity &_entity, const gazebo::components::Link *,
-	const gazebo::components::Inertial *_inertial,
-	const gazebo::components::WindMode *_windMode,
-	const gazebo::components::WorldLinearVelocity *_linkVel
-	) -> bool
+        const gazebo::components::Inertial *_inertial,
+        const gazebo::components::WindMode *_windMode,
+        const gazebo::components::WorldLinearVelocity *_linkVel
+        ) -> bool
     {
       // Skip links for which the wind is disabled
       // This assumption also implies links with windMode enabled
@@ -230,11 +212,6 @@ void LocalWind::PreUpdate(
       if (!_windMode->Data())
       {
         return true;
-      }
-
-      auto linkName  = _ecm.Component<gazebo::components::Name>(_entity);
-      if (linkName){
-	ignerr << linkName->Data() << "\n";
       }
 
       // Get XYZ of each link
@@ -247,123 +224,28 @@ void LocalWind::PreUpdate(
       auto roundedPos = std::make_tuple(x, y, z);
 
       // Get Tile defined for that XYZ
-      //auto linkTile = this->dataPtr->visibilityTable.getTile(linkPosition);
       const auto &tilesMap = this->dataPtr->visibilityTable.Vertices();
       const auto linkTile = tilesMap.at(roundedPos);
-      //auto linkTile = this->dataPtr->visibilityTable.Vertices[linkPosition];
       
-      // ignerr << "Position: " << std::get<0>(roundedPos) << " "
-      // 	     << std::get<1>(roundedPos) << " "
-      // 	     << std::get<2>(roundedPos) << " "
-      // 	     << " current tile: " << linkTile << "\n";
+      ignerr << "Position: " << std::get<0>(roundedPos) << " "
+             << std::get<1>(roundedPos) << " "
+             << std::get<2>(roundedPos) << " "
+             << " current tile: " << linkTile << "\n";
 
       // If Tile is in the tiles defined by the plugin, apply force
       auto tileLocalWind = this->dataPtr->windTiles.find(linkTile);
       if(tileLocalWind != this->dataPtr->windTiles.end())
       {
-	link.ResetEntity(_entity);
-	
-	math::Vector3d windForce =
-	  _inertial->Data().MassMatrix().Mass() *
-	  this->dataPtr->forceApproximationScalingFactor *
-	  (tileLocalWind->second - _linkVel->Data());
+        link.ResetEntity(_entity);
 
-	// Apply force at center of mass
-	link.AddWorldForce(_ecm, windForce);
+        math::Vector3d windForce =
+          _inertial->Data().MassMatrix().Mass() *
+          this->dataPtr->forceApproximationScalingFactor *
+          (tileLocalWind->second - _linkVel->Data());
+
+        // Apply force at center of mass
+        link.AddWorldForce(_ecm, windForce);
       }
       return true;
     });
-
-  // if (!this->dataPtr->linksInitialized)
-  // {
-  //   _ecm.Each<gazebo::components::Link, gazebo::components::WindMode>(
-  //       [&](const gazebo::Entity &_entity, gazebo::components::Link *,
-  // 	    gazebo::components::WindMode *_windMode) -> bool
-  //   {
-  //     auto linkName  = _ecm.Component<gazebo::components::Name>(_entity);
-  //     if (linkName){
-  // 	ignerr << linkName->Data() << "\n";
-  //     }
-      
-  //     if (_windMode->Data())
-  //     {
-  // 	ignerr << "Configure: " << " \n";
-  // 	// Create a WorldLinearVelocity component on the link so that
-  // 	// physics can populate it
-  // 	if (!_ecm.Component<gazebo::components::WorldLinearVelocity>(_entity))
-  // 	{
-  // 	  _ecm.CreateComponent(_entity,
-  // 			       gazebo::components::WorldLinearVelocity());
-  // 	}
-  //     }
-  //     return true;
-  //   });
-  //   this->dataPtr->linksInitialized = true;
-  // }
-
-  // else{
-  //   gazebo::Link link;
-
-  //   // _ecm.Each<gazebo::components::Link, gazebo::components::Inertial,
-  //   // 	      gazebo::components::WindMode>(
-  //   //      [&](const gazebo::Entity &_entity, const gazebo::components::Link *,
-  //   // 	     const gazebo::components::Inertial *_inertial,
-  //   // 	     const gazebo::components::WindMode *_windMode
-  //   // 	     ) -> bool
-  //   // {
-  //   //   //ignerr << "HERE3: " << _entity << " \n";
-  //   //   return true;
-  //   // });
-  
-  //   _ecm.Each<gazebo::components::Link, gazebo::components::Inertial,
-  //             gazebo::components::WindMode,
-  //             gazebo::components::WorldLinearVelocity>(
-  //     [&](const gazebo::Entity &_entity, const gazebo::components::Link *,
-  //         const gazebo::components::Inertial *_inertial,
-  // 	  const gazebo::components::WindMode *_windMode,
-  // 	  const gazebo::components::WorldLinearVelocity *_linkVel
-  // 	  ) -> bool
-  //     {
-  // 	ignerr << "HERE2: " << " \n";
-  // 	// ignerr << "Current Link: " << _linkName << " \n";
-  // 	// Skip links for which the wind is disabled
-  // 	// This assumption also implies links with windMode enabled
-  // 	// were populated with 
-  // 	if (!_windMode->Data())
-  // 	{
-  // 	  return true;
-  // 	}
-
-  // 	// Get XYZ of each link
-  // 	math::Pose3d linkWorldPose = worldPose(_entity, _ecm);
-  // 	math::Vector3d linkPosition = linkWorldPose.Pos();
-
-  // 	int32_t x = std::round(linkPosition.X());
-  // 	int32_t y = std::round(linkPosition.Y());
-  // 	int32_t z = std::round(linkPosition.Z());
-  // 	auto roundedPos = std::make_tuple(x, y, z);
-      
-  // 	// Get Tile defined for that XYZ
-  // 	//auto linkTile = this->dataPtr->visibilityTable.getTile(linkPosition);
-  // 	auto tilesMap = this->dataPtr->visibilityTable.Vertices();
-  // 	auto linkTile = tilesMap[roundedPos];
-  // 	//auto linkTile = this->dataPtr->visibilityTable.Vertices[linkPosition];
-
-  // 	// If Tile is in the tiles defined by the plugin, apply force
-  // 	auto tileLocalWind = this->dataPtr->windTiles.find(linkTile);
-  // 	if(tileLocalWind != this->dataPtr->windTiles.end())
-  // 	{
-  // 	  link.ResetEntity(_entity);
-	
-  // 	  math::Vector3d windForce =
-  // 	    _inertial->Data().MassMatrix().Mass() *
-  // 	    this->dataPtr->forceApproximationScalingFactor *
-  // 	    (tileLocalWind->second - _linkVel->Data());
-
-  // 	  // Apply force at center of mass
-  // 	  link.AddWorldForce(_ecm, windForce);
-  // 	}
-  // 	return true;
-  //     });
-  // }
 }
