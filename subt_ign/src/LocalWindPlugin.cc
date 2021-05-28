@@ -227,7 +227,7 @@ void LocalWind::PreUpdate(
       const auto &tilesMap = this->dataPtr->visibilityTable.Vertices();
       const auto linkTile = tilesMap.at(roundedPos);
       
-      ignerr << "Position: " << std::get<0>(roundedPos) << " "
+      igndbg << "Position: " << std::get<0>(roundedPos) << " "
              << std::get<1>(roundedPos) << " "
              << std::get<2>(roundedPos) << " "
              << " current tile: " << linkTile << "\n";
