@@ -344,6 +344,13 @@
     <authorization_key><%= $websocketAuthKey %></authorization_key>
     <admin_authorization_key><%= $websocketAdminAuthKey %></admin_authorization_key>
     <max_connections><%= $websocketMaxConnections  %></max_connections>
+    <queue_size_per_connection>10</queue_size_per_connection>
+    <subscription_limit_per_connection>
+      <subscription>
+        <msg_type>ignition.msgs.PointCloudPacked</msg_type>
+        <limit>1</limit>
+      </subscription>
+    </subscription_limit_per_connection>
     <ssl>
       <cert_file><%= $websocketSSLCertFile %></cert_file>
       <private_key_file><%= $websocketSSLKeyFile %></private_key_file>
