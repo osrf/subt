@@ -6,7 +6,7 @@ Coordinated Robotics Bandicoot with Sensor Configuration 1. This robot may be la
 a `ign launch` command with the variable name `coro_bandicoot_sensor_config_1`.
 
 ## Description
-Bandicoot is a quadrotor UAV with a 3D LIDAR and cameras.  Bandicoot weighs 3.6KG.  Bandicoot is based on the Pam type UAV with significant modifications to reduce weight and better position the 3D LIDAR.
+Bandicoot is a quadrotor UAV with a 3D LIDAR and cameras.  Bandicoot weighs 3.278KG.  Bandicoot is based on the Pam type UAV with significant modifications to reduce weight and better position the 3D LIDAR.
 
 ## Usage Instructions
 The robot can be used in the same by sending Twist commands to the vehicle_name/cmd_vel ROS topic.
@@ -16,7 +16,7 @@ The robot can be used in the same by sending Twist commands to the vehicle_name/
 
 
 ## Cost and Scale
-Bandicoot has an estimated duplication cost of USD 11310. It weighs 3.6KG.
+Bandicoot has an estimated duplication cost of USD 11310. It weighs 3.278KG.
 Cost breakdown:
 $8000 - Ouster OS0-64 LIDAR
 $1300 - MS-IMU3025
@@ -44,7 +44,14 @@ Based on the tests specified in the DARPA SubT Challenge [Model Preparation
 Guide](https://subtchallenge.com/resources/Simulation_Model_Preparation_Guide.pdf), this vehicle has the following motion
 constraint characteristics:
 
-Validation is not complete so speed is limited to 4m/S.
+
+* _x_ velocity range from -4.5 m/s to 4.5 m/s
+* _x_ acceleration range from -5.0 m/s<sup>2</sup> to 5.0 m/s<sup>2</sup>
+* _y_ velocity range from -4.5 m/s to 4.5 m/s
+* _y_ acceleration range from -5.0 m/s<sup>2</sup> to 5.0 m/s<sup>2</sup>
+* _z_ velocity range from -3.0 m/s to 3.0 m/s
+* _z_ acceleration range from -3.0 m/s<sup>2</sup> to 3.0 m/s<sup>2</sup>
+* _z_ velocity range from -1.9 rad/s to 1.9 rad/s
 
 
 The constraints can be found in the following locations within the simulation model package:
@@ -52,7 +59,7 @@ The constraints can be found in the following locations within the simulation mo
 
 
 ## Endurance Characteristics
-Validation is not complete so battery life is set to 10 minutes.
+The vehicle has a battery life of 20:45
 
 
 ## Diversions from Physical Hardware of Bandicoot
@@ -68,3 +75,4 @@ Validation is not complete so battery life is set to 10 minutes.
 * Arducam LN008 - https://www.arducam.com/product/m25156h14/
 * Kakute F7 - http://www.holybro.com/product/kakute-f7-v1-5/
 
+Validation data uploaded to Box.
