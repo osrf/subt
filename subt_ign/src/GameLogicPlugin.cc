@@ -1285,6 +1285,9 @@ void GameLogicPlugin::PreUpdate(const UpdateInfo &_info,
             << "- event:\n"
             << "  id: " << this->dataPtr->eventCounter << "\n"
             << "  type: collision\n"
+            << "  ke: " << deltaKE  << "\n"
+            << "  ke_threshold: " << ke.second.kineticEnergyThreshold  << "\n"
+            << "  link: " << *link.Name(_ecm) << "\n"
             << "  time_sec: " << localSimTime.sec() << "\n"
             << "  robot: " << ke.second.robotName << std::endl;
           this->dataPtr->LogEvent(stream.str());
@@ -1297,7 +1300,10 @@ void GameLogicPlugin::PreUpdate(const UpdateInfo &_info,
             _ecm.Component<components::HaltMotion>(ke.first);
           if (haltMotionComp && !haltMotionComp->Data())
           {
-            igndbg << "Robot[" << ke.second.robotName  << "] has crashed!\n";
+            igndbg << "Robot[" << ke.second.robotName  << "] has crashed "
+              << "with a KE of [" << deltaKE << "] and a KE threshold "
+              << "of [" << ke.second.kineticEnergyThreshold << "] on "
+              << "link [" << *link.Name(_ecm) << "]!\n";
             haltMotionComp->Data() = true;
           }
         }
