@@ -350,6 +350,10 @@
         <msg_type>ignition.msgs.PointCloudPacked</msg_type>
         <limit>1</limit>
       </subscription>
+      <subscription>
+        <msg_type>ignition.msgs.Image</msg_type>
+        <limit>6</limit>
+      </subscription>
     </subscription_limit_per_connection>
     <ssl>
       <cert_file><%= $websocketSSLCertFile %></cert_file>
