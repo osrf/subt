@@ -9,6 +9,7 @@ RUN sudo apt-get update -qq \
         atop \
         cmake \
         cppcheck \
+        expect \
         gdb \
         git \
         gnutls-bin \
@@ -29,6 +30,7 @@ RUN sudo apt-get update -qq \
         ruby2.5 \
         ruby2.5-dev \
         software-properties-common \
+        tcl8.6 \
         vim \
         net-tools \
         iputils-ping \
