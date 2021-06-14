@@ -193,7 +193,7 @@
       <light name="light_left" type="spot">
         <pose>0.275 0.1 0.13 1.5707963267948966 -1.5707963267948966 0</pose>
         <cast_shadows>1</cast_shadows>
-        <attenuation>ign sdf -p
+        <attenuation>
           <range>20</range>
           <linear>0.2</linear>
           <constant>0.1</constant>
