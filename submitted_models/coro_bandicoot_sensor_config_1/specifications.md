@@ -45,9 +45,9 @@ Guide](https://subtchallenge.com/resources/Simulation_Model_Preparation_Guide.pd
 constraint characteristics:
 
 
-* _x_ velocity range from -4.5 m/s to 4.5 m/s
+* _x_ velocity range from -6.5 m/s to 6.5 m/s
 * _x_ acceleration range from -5.0 m/s<sup>2</sup> to 5.0 m/s<sup>2</sup>
-* _y_ velocity range from -4.5 m/s to 4.5 m/s
+* _y_ velocity range from -6.0 m/s to 6.0 m/s
 * _y_ acceleration range from -5.0 m/s<sup>2</sup> to 5.0 m/s<sup>2</sup>
 * _z_ velocity range from -3.0 m/s to 3.0 m/s
 * _z_ acceleration range from -3.0 m/s<sup>2</sup> to 3.0 m/s<sup>2</sup>
