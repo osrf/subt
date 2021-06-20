@@ -2,12 +2,12 @@
 <robot name="ctu_cras_norlab_absolem_sensor_config_1" xmlns:xacro="http://www.ros.org/wiki/xacro">
 	<xacro:arg name="name" default="" />
 	<xacro:if value="${len('$(arg name)') == 0}">
-		<xacro:arg name="prefix" default="" />	
+		<xacro:arg name="prefix" default="" />
 	</xacro:if>
 	<xacro:unless value="${len('$(arg name)') == 0}">
-		<xacro:arg name="prefix" default="$(arg name)/" />	
+		<xacro:arg name="prefix" default="$(arg name)/" />
 	</xacro:unless>
-	
+
 	<xacro:arg default="744.85132" name="camera_4_fy"/>
 	<xacro:arg default="747.96984" name="camera_4_fx"/>
 	<xacro:arg default="1616" name="camera_3_height"/>
@@ -317,8 +317,9 @@
 	<!-- ARGUMENTS FOR SAFE EXPLORATION -->
 	<xacro:arg name="base_link_cog_offset" default="0.0" />
 
-	
+
 	<xacro:arg name="rendering_target" default="urdf" /> <!-- Pass either "urdf" or "sdf" to tell the parser what is the desired target format. -->
+	<xacro:arg name="wheels_instead_of_tracks" default="true" />
 
     <!-- 17.0 for real max torque, 3.0; 40.0 for real 6.0 -->
     <xacro:arg name="max_flipper_torque" default="17.0" />
@@ -357,7 +358,7 @@
 
     <xacro:arg name="laser_update_rate" default="1000.0" />
 
-	
+
 	<!-- MEASURED CONSTANTS -->
 
 	<xacro:property name="body_scale" value="1.0" />
@@ -946,13 +947,45 @@
 									</material>
 							</visual>
 					</xacro:if>
-					<collision>
-							<origin rpy="0 0 0" xyz="0 0 0"/>
+					<xacro:if value="${$(arg wheels_instead_of_tracks)}">
+						<collision>
+								<origin rpy="0 0 0" xyz="0 0 0"/>
+								<geometry>
+										<box size="0.01 0.01 0.01"/>
+								</geometry>
+						</collision>
+						<xacro:default_inertial />
+					</xacro:if>
+					<xacro:unless value="${$(arg wheels_instead_of_tracks)}">
+						<collision>
+							<origin xyz="0 0 0.01855" rpy="${pi/2} 0 ${pi/2}" />
 							<geometry>
-									<box size="0.01 0.01 0.01"/>
+								<box size="$(arg rover_trackWidth) ${2*$(arg rover_trackWheelRadius)} $(arg rover_trackLength)"/>
 							</geometry>
-					</collision>
-					<xacro:default_inertial />
+						</collision>
+						<collision>
+							<origin rpy="${pi/2} 0 0" xyz="${$(arg rover_trackLength)/2} ${-reflect*$(arg track_inward_enlargement)} 0.01855"/>
+							<geometry>
+								<!-- enlarged because of laser filtering problems -->
+								<cylinder radius="$(arg rover_trackWheelRadius)" length="${$(arg rover_trackWidth)+$(arg track_inward_enlargement)}"/>
+							</geometry>
+						</collision>
+						<collision>
+							<origin rpy="${pi/2} 0 0" xyz="${-$(arg rover_trackLength)/2} 0 0.01855"/>
+							<geometry>
+								<cylinder radius="$(arg rover_trackWheelRadius)" length="$(arg rover_trackWidth)"/>
+							</geometry>
+						</collision>
+						<inertial>
+							<origin xyz="0 0 0.0141" rpy="0 0 0"/>
+							<mass value="${track_mass}"/>
+							<xacro:inertia_meshlab
+									ixx="0.002731" ixy="0" ixz="0"
+									iyy="0.032554" iyz="0.000015"
+									izz="0.031391"
+									scale="${track_scale}" mass="${track_mass}" />
+						</inertial>
+					</xacro:unless>
 			</link>
 			<joint name="${prefix}_track_j" type="revolute">
 					<parent link="$(arg prefix)base_link"/>
@@ -966,15 +999,17 @@
 							<xacro:track_joint_properties track_fixed="$(arg robot_fixed)" track_angle="$(arg right_track_angle)" />
 					</xacro:if>
 			</joint>
-		
-			<xacro:fake_wheel prefix="${prefix}" reflect="${reflect}" num_wheels="8" wheel_num="1" />
-			<xacro:fake_wheel prefix="${prefix}" reflect="${reflect}" num_wheels="8" wheel_num="2" />
-			<xacro:fake_wheel prefix="${prefix}" reflect="${reflect}" num_wheels="8" wheel_num="3" />
-			<xacro:fake_wheel prefix="${prefix}" reflect="${reflect}" num_wheels="8" wheel_num="4" />
-			<xacro:fake_wheel prefix="${prefix}" reflect="${reflect}" num_wheels="8" wheel_num="5" />
-			<xacro:fake_wheel prefix="${prefix}" reflect="${reflect}" num_wheels="8" wheel_num="6" />
-			<xacro:fake_wheel prefix="${prefix}" reflect="${reflect}" num_wheels="8" wheel_num="7" />
-			<xacro:fake_wheel prefix="${prefix}" reflect="${reflect}" num_wheels="8" wheel_num="8" />
+
+			<xacro:if value="${$(arg wheels_instead_of_tracks)}">
+				<xacro:fake_wheel prefix="${prefix}" reflect="${reflect}" num_wheels="8" wheel_num="1" />
+				<xacro:fake_wheel prefix="${prefix}" reflect="${reflect}" num_wheels="8" wheel_num="2" />
+				<xacro:fake_wheel prefix="${prefix}" reflect="${reflect}" num_wheels="8" wheel_num="3" />
+				<xacro:fake_wheel prefix="${prefix}" reflect="${reflect}" num_wheels="8" wheel_num="4" />
+				<xacro:fake_wheel prefix="${prefix}" reflect="${reflect}" num_wheels="8" wheel_num="5" />
+				<xacro:fake_wheel prefix="${prefix}" reflect="${reflect}" num_wheels="8" wheel_num="6" />
+				<xacro:fake_wheel prefix="${prefix}" reflect="${reflect}" num_wheels="8" wheel_num="7" />
+				<xacro:fake_wheel prefix="${prefix}" reflect="${reflect}" num_wheels="8" wheel_num="8" />
+			</xacro:if>
 	</xacro:macro>
 
 	<xacro:macro name="fake_wheel" params="prefix reflect num_wheels wheel_num">
@@ -983,10 +1018,10 @@
 						<xacro:if value="${wheel_num == 1}">
 							<origin rpy="${pi/2} 0 0" xyz="0 ${-reflect*$(arg track_inward_enlargement)} 0"/>
 							<geometry>
-									<cylinder radius="$(arg rover_trackWheelRadius)" length="${$(arg rover_trackWidth)+$(arg track_inward_enlargement)}"/>									
+									<cylinder radius="$(arg rover_trackWheelRadius)" length="${$(arg rover_trackWidth)+$(arg track_inward_enlargement)}"/>
 							</geometry>
 						</xacro:if>
-						
+
 						<xacro:unless value="${wheel_num == 1}">
 							<origin rpy="${pi/2} 0 0" xyz="0 0 0"/>
 							<geometry>
@@ -994,7 +1029,7 @@
 							</geometry>
 						</xacro:unless>
 					</collision>
-				
+
 					<inertial>
 							<origin xyz="0 0 0.0141" rpy="0 0 0"/>
 							<mass value="${track_mass/num_wheels}"/>
@@ -1012,7 +1047,7 @@
 					<origin xyz="${$(arg rover_trackLength)/2 - (wheel_num-1)*$(arg rover_trackLength)/(num_wheels-1)} 0 0.01855" rpy="0 0 0" />
 			</joint>
 	</xacro:macro>
-	
+
 	<xacro:macro name="track_joint_properties" params="track_fixed track_angle reflect:=^">
 			<origin xyz="0 ${reflect*$(arg rover_trackDistance)/2.0} 0" rpy="0 ${track_angle} 0" />
 
@@ -1045,13 +1080,57 @@
 												filename="package://ctu_cras_norlab_absolem_sensor_config_1/meshes/flipper.dae"/>
 							</geometry>
 					</visual>
-					<collision>
-							<origin rpy="0 0 0" xyz="0 0 0"/>
+
+					<xacro:if value="${$(arg wheels_instead_of_tracks)}">
+						<collision>
+								<origin rpy="0 0 0" xyz="0 0 0"/>
+								<geometry>
+										<box size="0.01 0.01 0.01"/>
+								</geometry>
+						</collision>
+						<xacro:default_inertial />
+					</xacro:if>
+					<xacro:unless value="${$(arg wheels_instead_of_tracks)}">
+						<collision name="${prefix1}_${prefix2}_flipper_collision_large_wheel">
+							<origin rpy="${pi/2} 0 0" xyz="0 ${-reflect_y*$(arg flipper_inward_enlargement)*do_inward_enlargement/2.0} 0"/>
 							<geometry>
-									<box size="0.01 0.01 0.01"/>
+								<cylinder length="${$(arg rover_flipperWidth)+$(arg flipper_inward_enlargement)*do_inward_enlargement}" radius="$(arg rover_trackWheelRadius)" />
 							</geometry>
-					</collision>
-					<xacro:default_inertial />
+						</collision>
+						<collision name="${prefix1}_${prefix2}_flipper_collision_small_wheel">
+							<origin rpy="${pi/2} 0 0" xyz="${reflect_y*$(arg rover_flipperLength)} ${-reflect_y*$(arg flipper_inward_enlargement)*do_inward_enlargement/2.0} 0.0"/>
+							<geometry>
+								<cylinder length="${$(arg rover_flipperWidth)+$(arg flipper_inward_enlargement)*do_inward_enlargement}" radius="${0.029 + 0.029*($(arg flipper_inflation_ratio)-1)*do_inward_enlargement}" />
+							</geometry>
+						</collision>
+						<collision name="${prefix1}_${prefix2}_flipper_collision_top_bar">
+							<origin rpy="0 0.184162095 ${(1-reflect_y)*pi/2}" xyz="${reflect_y*$(arg rover_flipperLength)/2.0} ${-reflect_y*$(arg flipper_inward_enlargement)*do_inward_enlargement/2.0} 0.0325"/>
+							<geometry>
+								<box size="$(arg rover_flipperLength) ${$(arg rover_flipperWidth)+$(arg flipper_inward_enlargement)*do_inward_enlargement} ${0.055 + 0.055*($(arg flipper_inflation_ratio)-1)*do_inward_enlargement}" />
+							</geometry>
+						</collision>
+						<collision name="${prefix1}_${prefix2}_flipper_collision_bottom_bar">
+							<origin rpy="0 -0.184162095 ${(1-reflect_y)*pi/2}" xyz="${reflect_y*$(arg rover_flipperLength)/2} ${-reflect_y*$(arg flipper_inward_enlargement)*do_inward_enlargement/2.0} -0.0325"/>
+							<geometry>
+								<box size="$(arg rover_flipperLength) ${$(arg rover_flipperWidth)+$(arg flipper_inward_enlargement)*do_inward_enlargement} ${0.055 + 0.055*($(arg flipper_inflation_ratio)-1)*do_inward_enlargement}" />
+							</geometry>
+						</collision>
+						<collision name="${prefix1}_${prefix2}_flipper_collision_middle_bar">
+							<origin rpy="0 -0.02 ${(1-reflect_y)*pi/2}" xyz="${reflect_y*($(arg rover_flipperLength)/2.0 + 0.001)} ${-reflect_y*$(arg flipper_inward_enlargement)*do_inward_enlargement/2.0} 0.004"/>
+							<geometry>
+								<box size="0.20 ${$(arg rover_flipperWidth)+$(arg flipper_inward_enlargement)*do_inward_enlargement} 0.07" />
+							</geometry>
+						</collision>
+						<inertial>
+							<origin xyz="${reflect_y*0.08} 0 0.0" rpy="0 0 0"/>
+							<mass value="${flipper_mass}"/>
+							<xacro:inertia_meshlab
+									ixx="1.7491e-003" ixy="2.8512e-007" ixz="1.8277e-003"
+									iyy="1.2277e-002" iyz="-3.6288e-007"
+									izz="1.0941e-002"
+									scale="${flipper_scale}" mass="${flipper_mass}" />
+						</inertial>
+					</xacro:unless>
 <!--					<sensor name="${prefix1}_${prefix2}_flipper_contact" type="contact">-->
 <!--							<contact>-->
 <!--									<collision>${prefix1}_${prefix2}_flipper_collision_wheel1</collision>-->
@@ -1074,12 +1153,14 @@
 			<xacro:if value="${reflect_x == -1 and reflect_y == -1}">
 					<xacro:flipper_joint flipper_fixed="$(arg robot_fixed)" flipper_angle="$(arg rear_right_flipper_angle)" />
 			</xacro:if>
-		
-			<xacro:flipper_fake_wheel prefix1="${prefix1}" prefix2="${prefix2}" reflect_y="${reflect_y}" do_inward_enlargement="${do_inward_enlargement}" num_wheels="5" wheel_num="1" />
-			<xacro:flipper_fake_wheel prefix1="${prefix1}" prefix2="${prefix2}" reflect_y="${reflect_y}" do_inward_enlargement="${do_inward_enlargement}" num_wheels="5" wheel_num="2" />
-			<xacro:flipper_fake_wheel prefix1="${prefix1}" prefix2="${prefix2}" reflect_y="${reflect_y}" do_inward_enlargement="${do_inward_enlargement}" num_wheels="5" wheel_num="3" />
-			<xacro:flipper_fake_wheel prefix1="${prefix1}" prefix2="${prefix2}" reflect_y="${reflect_y}" do_inward_enlargement="${do_inward_enlargement}" num_wheels="5" wheel_num="4" />
-			<xacro:flipper_fake_wheel prefix1="${prefix1}" prefix2="${prefix2}" reflect_y="${reflect_y}" do_inward_enlargement="${do_inward_enlargement}" num_wheels="5" wheel_num="5" />
+
+			<xacro:if value="${$(arg wheels_instead_of_tracks)}">
+				<xacro:flipper_fake_wheel prefix1="${prefix1}" prefix2="${prefix2}" reflect_y="${reflect_y}" do_inward_enlargement="${do_inward_enlargement}" num_wheels="5" wheel_num="1" />
+				<xacro:flipper_fake_wheel prefix1="${prefix1}" prefix2="${prefix2}" reflect_y="${reflect_y}" do_inward_enlargement="${do_inward_enlargement}" num_wheels="5" wheel_num="2" />
+				<xacro:flipper_fake_wheel prefix1="${prefix1}" prefix2="${prefix2}" reflect_y="${reflect_y}" do_inward_enlargement="${do_inward_enlargement}" num_wheels="5" wheel_num="3" />
+				<xacro:flipper_fake_wheel prefix1="${prefix1}" prefix2="${prefix2}" reflect_y="${reflect_y}" do_inward_enlargement="${do_inward_enlargement}" num_wheels="5" wheel_num="4" />
+				<xacro:flipper_fake_wheel prefix1="${prefix1}" prefix2="${prefix2}" reflect_y="${reflect_y}" do_inward_enlargement="${do_inward_enlargement}" num_wheels="5" wheel_num="5" />
+			</xacro:if>
 
 			<link name="$(arg prefix)${prefix1}_${prefix2}_flipper_end_point"/>
 			<joint name="${prefix1}_${prefix2}_flipper_end_point_j" type="fixed">
@@ -1088,7 +1169,7 @@
 					<origin xyz="${reflect_y * ($(arg rover_flipperLength) + 0.0176)} 0 0" rpy="0 $(arg rover_flipperOffset) 0"/>
 			</joint>
 	</xacro:macro>
-	
+
 	<xacro:macro name="flipper_fake_wheel" params="prefix1 prefix2 reflect_y do_inward_enlargement num_wheels wheel_num">
 			<link name="$(arg prefix)${prefix1}_${prefix2}_flipper_wheel${wheel_num}">
 					<collision name="${prefix1}_${prefix2}_flipper_wheel${wheel_num}_collision">
@@ -1279,7 +1360,7 @@
 
 			<xacro:empty_link name="$(arg prefix)omnicam_bottom" />
 			<xacro:fixed_joint name="omnicam_bottom_j" parent="$(arg prefix)omnicam_forward" child="$(arg prefix)omnicam_bottom" xyz="0 0 -0.066" rpy="0 0 0" />
-			
+
 			<xacro:empty_link name="$(arg prefix)camera_0" />
 			<xacro:calibrated_fixed_joint name="camera_0_j" parent="omnicam" child="camera_0" />
 			<xacro:empty_link name="$(arg prefix)camera_1" />
@@ -1418,7 +1499,7 @@
 						<rotation_angular_limit>1.618994</rotation_angular_limit>
 					</plugin>
         </xacro:if>
-			
+
 				<plugin filename="libignition-gazebo-joint-state-publisher-system.so" name="ignition::gazebo::systems::JointStatePublisher">
 					<!--joint_name>left_track_j</joint_name>
 					<joint_name>right_track_j</joint_name-->
@@ -1428,7 +1509,7 @@
 						<joint_name>rear_left_flipper_j</joint_name>
 						<joint_name>rear_right_flipper_j</joint_name>
 					</xacro:if>
-					<xacro:if value="$(arg has_sick_lidar)">	
+					<xacro:if value="$(arg has_sick_lidar)">
 						<joint_name>laser_j</joint_name>
 					</xacro:if>
 				</plugin>
@@ -1539,22 +1620,24 @@
 	<gazebo reference="$(arg prefix)left_track"><xacro:gazebo_track_tags /></gazebo>
 	<gazebo reference="$(arg prefix)right_track"><xacro:gazebo_track_tags /></gazebo>
 
-	<gazebo reference="$(arg prefix)left_track_wheel1"><xacro:gazebo_track_wheel_tags /></gazebo>
-	<gazebo reference="$(arg prefix)right_track_wheel1"><xacro:gazebo_track_wheel_tags /></gazebo>
-	<gazebo reference="$(arg prefix)left_track_wheel2"><xacro:gazebo_track_wheel_tags /></gazebo>
-	<gazebo reference="$(arg prefix)right_track_wheel2"><xacro:gazebo_track_wheel_tags /></gazebo>
-	<gazebo reference="$(arg prefix)left_track_wheel3"><xacro:gazebo_track_wheel_tags /></gazebo>
-	<gazebo reference="$(arg prefix)right_track_wheel3"><xacro:gazebo_track_wheel_tags /></gazebo>
-	<gazebo reference="$(arg prefix)left_track_wheel4"><xacro:gazebo_track_wheel_tags /></gazebo>
-	<gazebo reference="$(arg prefix)right_track_wheel4"><xacro:gazebo_track_wheel_tags /></gazebo>
-	<gazebo reference="$(arg prefix)left_track_wheel5"><xacro:gazebo_track_wheel_tags /></gazebo>
-	<gazebo reference="$(arg prefix)right_track_wheel5"><xacro:gazebo_track_wheel_tags /></gazebo>
-	<gazebo reference="$(arg prefix)left_track_wheel6"><xacro:gazebo_track_wheel_tags /></gazebo>
-	<gazebo reference="$(arg prefix)right_track_wheel6"><xacro:gazebo_track_wheel_tags /></gazebo>
-	<gazebo reference="$(arg prefix)left_track_wheel7"><xacro:gazebo_track_wheel_tags /></gazebo>
-	<gazebo reference="$(arg prefix)right_track_wheel7"><xacro:gazebo_track_wheel_tags /></gazebo>
-	<gazebo reference="$(arg prefix)left_track_wheel8"><xacro:gazebo_track_wheel_tags /></gazebo>
-	<gazebo reference="$(arg prefix)right_track_wheel8"><xacro:gazebo_track_wheel_tags /></gazebo>
+	<xacro:if value="${$(arg wheels_instead_of_tracks)}">
+		<gazebo reference="$(arg prefix)left_track_wheel1"><xacro:gazebo_track_wheel_tags /></gazebo>
+		<gazebo reference="$(arg prefix)right_track_wheel1"><xacro:gazebo_track_wheel_tags /></gazebo>
+		<gazebo reference="$(arg prefix)left_track_wheel2"><xacro:gazebo_track_wheel_tags /></gazebo>
+		<gazebo reference="$(arg prefix)right_track_wheel2"><xacro:gazebo_track_wheel_tags /></gazebo>
+		<gazebo reference="$(arg prefix)left_track_wheel3"><xacro:gazebo_track_wheel_tags /></gazebo>
+		<gazebo reference="$(arg prefix)right_track_wheel3"><xacro:gazebo_track_wheel_tags /></gazebo>
+		<gazebo reference="$(arg prefix)left_track_wheel4"><xacro:gazebo_track_wheel_tags /></gazebo>
+		<gazebo reference="$(arg prefix)right_track_wheel4"><xacro:gazebo_track_wheel_tags /></gazebo>
+		<gazebo reference="$(arg prefix)left_track_wheel5"><xacro:gazebo_track_wheel_tags /></gazebo>
+		<gazebo reference="$(arg prefix)right_track_wheel5"><xacro:gazebo_track_wheel_tags /></gazebo>
+		<gazebo reference="$(arg prefix)left_track_wheel6"><xacro:gazebo_track_wheel_tags /></gazebo>
+		<gazebo reference="$(arg prefix)right_track_wheel6"><xacro:gazebo_track_wheel_tags /></gazebo>
+		<gazebo reference="$(arg prefix)left_track_wheel7"><xacro:gazebo_track_wheel_tags /></gazebo>
+		<gazebo reference="$(arg prefix)right_track_wheel7"><xacro:gazebo_track_wheel_tags /></gazebo>
+		<gazebo reference="$(arg prefix)left_track_wheel8"><xacro:gazebo_track_wheel_tags /></gazebo>
+		<gazebo reference="$(arg prefix)right_track_wheel8"><xacro:gazebo_track_wheel_tags /></gazebo>
+	</xacro:if>
 
     <xacro:if value="$(arg has_flippers)">
 		<gazebo reference="$(arg prefix)front_left_flipper"><xacro:gazebo_flipper_tags /></gazebo>
@@ -1562,26 +1645,28 @@
 		<gazebo reference="$(arg prefix)rear_left_flipper"><xacro:gazebo_flipper_tags /></gazebo>
 		<gazebo reference="$(arg prefix)rear_right_flipper"><xacro:gazebo_flipper_tags /></gazebo>
 
-		<gazebo reference="$(arg prefix)front_left_flipper_wheel1"><xacro:gazebo_flipper_wheel_tags /></gazebo>
-		<gazebo reference="$(arg prefix)front_right_flipper_wheel1"><xacro:gazebo_flipper_wheel_tags /></gazebo>
-		<gazebo reference="$(arg prefix)rear_left_flipper_wheel1"><xacro:gazebo_flipper_wheel_tags /></gazebo>
-		<gazebo reference="$(arg prefix)rear_right_flipper_wheel1"><xacro:gazebo_flipper_wheel_tags /></gazebo>
-		<gazebo reference="$(arg prefix)front_left_flipper_wheel2"><xacro:gazebo_flipper_wheel_tags /></gazebo>
-		<gazebo reference="$(arg prefix)front_right_flipper_wheel2"><xacro:gazebo_flipper_wheel_tags /></gazebo>
-		<gazebo reference="$(arg prefix)rear_left_flipper_wheel2"><xacro:gazebo_flipper_wheel_tags /></gazebo>
-		<gazebo reference="$(arg prefix)rear_right_flipper_wheel2"><xacro:gazebo_flipper_wheel_tags /></gazebo>
-		<gazebo reference="$(arg prefix)front_left_flipper_wheel3"><xacro:gazebo_flipper_wheel_tags /></gazebo>
-		<gazebo reference="$(arg prefix)front_right_flipper_wheel3"><xacro:gazebo_flipper_wheel_tags /></gazebo>
-		<gazebo reference="$(arg prefix)rear_left_flipper_wheel3"><xacro:gazebo_flipper_wheel_tags /></gazebo>
-		<gazebo reference="$(arg prefix)rear_right_flipper_wheel3"><xacro:gazebo_flipper_wheel_tags /></gazebo>
-		<gazebo reference="$(arg prefix)front_left_flipper_wheel4"><xacro:gazebo_flipper_wheel_tags /></gazebo>
-		<gazebo reference="$(arg prefix)front_right_flipper_wheel4"><xacro:gazebo_flipper_wheel_tags /></gazebo>
-		<gazebo reference="$(arg prefix)rear_left_flipper_wheel4"><xacro:gazebo_flipper_wheel_tags /></gazebo>
-		<gazebo reference="$(arg prefix)rear_right_flipper_wheel4"><xacro:gazebo_flipper_wheel_tags /></gazebo>
-		<gazebo reference="$(arg prefix)front_left_flipper_wheel5"><xacro:gazebo_flipper_wheel_tags /></gazebo>
-		<gazebo reference="$(arg prefix)front_right_flipper_wheel5"><xacro:gazebo_flipper_wheel_tags /></gazebo>
-		<gazebo reference="$(arg prefix)rear_left_flipper_wheel5"><xacro:gazebo_flipper_wheel_tags /></gazebo>
-		<gazebo reference="$(arg prefix)rear_right_flipper_wheel5"><xacro:gazebo_flipper_wheel_tags /></gazebo>
+		<xacro:if value="${$(arg wheels_instead_of_tracks)}">
+			<gazebo reference="$(arg prefix)front_left_flipper_wheel1"><xacro:gazebo_flipper_wheel_tags /></gazebo>
+			<gazebo reference="$(arg prefix)front_right_flipper_wheel1"><xacro:gazebo_flipper_wheel_tags /></gazebo>
+			<gazebo reference="$(arg prefix)rear_left_flipper_wheel1"><xacro:gazebo_flipper_wheel_tags /></gazebo>
+			<gazebo reference="$(arg prefix)rear_right_flipper_wheel1"><xacro:gazebo_flipper_wheel_tags /></gazebo>
+			<gazebo reference="$(arg prefix)front_left_flipper_wheel2"><xacro:gazebo_flipper_wheel_tags /></gazebo>
+			<gazebo reference="$(arg prefix)front_right_flipper_wheel2"><xacro:gazebo_flipper_wheel_tags /></gazebo>
+			<gazebo reference="$(arg prefix)rear_left_flipper_wheel2"><xacro:gazebo_flipper_wheel_tags /></gazebo>
+			<gazebo reference="$(arg prefix)rear_right_flipper_wheel2"><xacro:gazebo_flipper_wheel_tags /></gazebo>
+			<gazebo reference="$(arg prefix)front_left_flipper_wheel3"><xacro:gazebo_flipper_wheel_tags /></gazebo>
+			<gazebo reference="$(arg prefix)front_right_flipper_wheel3"><xacro:gazebo_flipper_wheel_tags /></gazebo>
+			<gazebo reference="$(arg prefix)rear_left_flipper_wheel3"><xacro:gazebo_flipper_wheel_tags /></gazebo>
+			<gazebo reference="$(arg prefix)rear_right_flipper_wheel3"><xacro:gazebo_flipper_wheel_tags /></gazebo>
+			<gazebo reference="$(arg prefix)front_left_flipper_wheel4"><xacro:gazebo_flipper_wheel_tags /></gazebo>
+			<gazebo reference="$(arg prefix)front_right_flipper_wheel4"><xacro:gazebo_flipper_wheel_tags /></gazebo>
+			<gazebo reference="$(arg prefix)rear_left_flipper_wheel4"><xacro:gazebo_flipper_wheel_tags /></gazebo>
+			<gazebo reference="$(arg prefix)rear_right_flipper_wheel4"><xacro:gazebo_flipper_wheel_tags /></gazebo>
+			<gazebo reference="$(arg prefix)front_left_flipper_wheel5"><xacro:gazebo_flipper_wheel_tags /></gazebo>
+			<gazebo reference="$(arg prefix)front_right_flipper_wheel5"><xacro:gazebo_flipper_wheel_tags /></gazebo>
+			<gazebo reference="$(arg prefix)rear_left_flipper_wheel5"><xacro:gazebo_flipper_wheel_tags /></gazebo>
+			<gazebo reference="$(arg prefix)rear_right_flipper_wheel5"><xacro:gazebo_flipper_wheel_tags /></gazebo>
+		</xacro:if>
     </xacro:if>
 
     <xacro:if value="$(arg has_sick_lidar)">
