@@ -35,7 +35,7 @@
       </sensor>
 
       <sensor name="rs_up" type="rgbd_camera">
-          <pose>0.082 0 0.034 0 -1.57079632679 0</pose>
+          <pose>0.082 0 0.06 0 -1.57079632679 0</pose>
           <always_on>1</always_on>
           <update_rate>30</update_rate>
           <camera name="rs_up">
@@ -84,7 +84,7 @@
       </sensor>
 
       <sensor name="rs_down" type="rgbd_camera">
-          <pose>0.085 0 -0.20 0 1.57079632679 0</pose>
+          <pose>0.085 0 -0.046 0 1.57079632679 0</pose>
           <always_on>1</always_on>
           <update_rate>30</update_rate>
           <camera name="rs_down">
