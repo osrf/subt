@@ -440,6 +440,9 @@
 	<xacro:if value="$(arg has_boson_thermocam)">
 		<xacro:include filename="$(find ctu_cras_norlab_absolem_sensor_config_1)/urdf/boson_thermocam.xacro" />
 	</xacro:if>
+	<xacro:if value="$(arg has_omnicam_vras)">
+		<xacro:include filename="$(find ctu_cras_norlab_absolem_sensor_config_1)/urdf/basler_cameras.xacro" />
+	</xacro:if>
 
 	<!-- NIFTI ROBOT LINKS AND JOINTS SPECIFICATION -->
 
@@ -718,6 +721,14 @@
 												filename="package://ctu_cras_norlab_absolem_sensor_config_1/meshes/${top_box_mesh_name}"/>
 							</geometry>
 					</visual>
+					<xacro:if value="${'$(arg revision)' == '2021' and $(arg has_omnicam_vras)}">
+						<visual>
+							<origin rpy="0 ${3*pi/2} 0" xyz="-0.075 0.0 0.12" />
+							<geometry>
+								<mesh filename="package://ctu_cras_norlab_absolem_sensor_config_1/meshes/reflector.dae" />
+							</geometry>
+						</visual>
+					</xacro:if>
 					<xacro:if value="${$(arg simplified_collision)==0}">
 							<collision>
 									<origin xyz="0 0 0" rpy="0 0 0" />
@@ -792,7 +803,37 @@
 				<!-- Origin of top box is 0.0635 m from the front side. And top_box_j_x is distance from robot's back to top box' front. -->
 				<xacro:fixed_joint name="top_box_j" parent="$(arg prefix)rear_right_box" child="$(arg prefix)top_box" xyz="${top_box_j_x-0.0635} ${$(arg rover_robotWidthBody)/2} 0.0" rpy="0 0 0"/>
 				<xacro:if value="$(arg has_omnicam_vras)">
-					<!-- -->
+					<link name="$(arg prefix)top_box_step">
+						<xacro:property name="top_box_step_width" value="0.12" />
+						<xacro:property name="top_box_step_height" value="0.1" />
+						<visual>
+							<origin rpy="0 0 0" xyz="0 0 ${top_box_step_height/2}"/>
+							<geometry>
+								<box size="0.1270 ${top_box_step_width} ${top_box_step_height}" />
+							</geometry>
+							<material name="body_color">
+								<color rgba="0 ${94/255.0} ${184/255.0} 1.0"/>
+							</material>
+						</visual>
+						<visual>
+							<origin rpy="0 $(arg ouster_rpy_p) 0" xyz="${$(arg ouster_pos_x) - 0.01} 0 ${$(arg ouster_pos_z) - 0.075}"/>
+							<geometry>
+								<cylinder radius="0.025" length="0.05" />
+							</geometry>
+							<material name="body_color">
+								<color rgba="0 ${94/255.0} ${184/255.0} 1.0"/>
+							</material>
+						</visual>
+						<collision>
+							<origin rpy="0 0 0" xyz="0 0 ${top_box_step_height/2}"/>
+							<geometry>
+								<box size="0.1270 ${top_box_step_width} ${top_box_step_height}" />
+							</geometry>
+						</collision>
+						<xacro:box_inertial mass="1.0" width="${top_box_step_width}" height="${top_box_step_height}" depth="0.1270" xyz="0 0 ${top_box_step_height/2}" />
+					</link>
+					<xacro:fixed_joint name="top_box_step_j" parent="$(arg prefix)top_box" child="$(arg prefix)top_box_step" xyz="0 0 0.06252" />
+					<xacro:solid_color_link_material link="$(arg prefix)top_box_step" r="0" g="${94/255.0}" b="${184/255.0}" />
 				</xacro:if>
 			</xacro:if>
 			<xacro:unless value="${'$(arg revision)' == '2021'}">
@@ -852,7 +893,12 @@
 			</inertial>
 	</link>
 	<xacro:if value="${'$(arg revision)' == '2021'}">
-		<xacro:fixed_joint name="antenna_j" parent="$(arg prefix)base_link" child="$(arg prefix)antenna" xyz="${-$(arg rover_robotLengthBody)/2 + 0.12} 0.0789 0.1551" rpy="0 0 0" />
+		<xacro:if value="$(arg has_omnicam)">
+			<xacro:fixed_joint name="antenna_j" parent="$(arg prefix)base_link" child="$(arg prefix)antenna" xyz="${-$(arg rover_robotLengthBody)/2 + 0.12} 0.0789 0.1551" rpy="0 0 0" />
+		</xacro:if>
+		<xacro:if value="$(arg has_omnicam_vras)">
+			<xacro:fixed_joint name="antenna_j" parent="$(arg prefix)base_link" child="$(arg prefix)antenna" xyz="${-$(arg rover_robotLengthBody)/2 + 0.12} 0.1 0.1551" rpy="0 0 0" />
+		</xacro:if>
 	</xacro:if>
 	<xacro:unless value="${'$(arg revision)' == '2021'}">
 		<xacro:fixed_joint name="antenna_j" parent="$(arg prefix)base_link" child="$(arg prefix)antenna" xyz="-0.3720 0.0789 0.1551" rpy="0 0 0" />
@@ -1294,22 +1340,49 @@
 
 	</xacro:if>
 
+	<!-- Omnicamera -->
+	<xacro:if value="$(arg has_omnicam_vras)">
+		<xacro:basler_ace_omnicam name="camera_0" simulate="$(arg simulate_omnicam_vras)" visualize="$(arg visualize_sensors)" />
+		<xacro:fixed_joint name="camera_0_j" parent="$(arg prefix)rear_right_box" child="$(arg prefix)camera_0"
+						   xyz="${$(arg rover_robotLengthBody) - 0.11} ${$(arg rover_robotWidthBody)/2} 0.01" lump="0" />
+		<link name="$(arg prefix)front_camera_holder"><visual><geometry><box size="0.04 0.025 0.01" /></geometry></visual></link>
+		<xacro:fixed_joint name="front_camera_holder_j" parent="$(arg prefix)camera_0" child="$(arg prefix)front_camera_holder" xyz="0.02 0 -0.005" />
+
+		<xacro:basler_ace_omnicam name="camera_1" simulate="$(arg simulate_omnicam_vras)" visualize="$(arg visualize_sensors)" />
+		<xacro:fixed_joint name="camera_1_j" parent="$(arg prefix)rear_right_box" child="$(arg prefix)camera_1"
+						   xyz="${$(arg rover_robotLengthBody)/2-0.02} 0.083 0" rpy="0 0 ${-pi/2}" lump="0" />
+
+		<xacro:basler_ace_omnicam name="camera_2" simulate="$(arg simulate_omnicam_vras)" visualize="$(arg visualize_sensors)" />
+		<xacro:fixed_joint name="camera_2_j" parent="$(arg prefix)rear_right_box" child="$(arg prefix)camera_2"
+						   xyz="0.05 ${$(arg rover_robotWidthBody)/2} 0" rpy="0 0 ${-pi}" lump="0" />
+
+		<xacro:basler_ace_omnicam name="camera_3" simulate="$(arg simulate_omnicam_vras)" visualize="$(arg visualize_sensors)" />
+		<xacro:fixed_joint name="camera_3_j" parent="$(arg prefix)rear_right_box" child="$(arg prefix)camera_3"
+						   xyz="${$(arg rover_robotLengthBody)/2-0.02} ${$(arg rover_robotWidthBody) - 0.083} 0" rpy="0 0 ${-3*pi/2}" lump="0" />
+
+		<xacro:basler_ace_omnicam name="camera_4" simulate="$(arg simulate_omnicam_vras)" visualize="$(arg visualize_sensors)" />
+		<xacro:fixed_joint name="camera_4_j" parent="$(arg prefix)top_box" child="$(arg prefix)camera_4"
+						   xyz="-0.048 -0.0145 ${0.06252 + top_box_step_height - 0.08}" rpy="${pi} ${-pi/2} ${pi/2}" lump="0" />
+	</xacro:if>
+
 	<!-- 3D lidar -->
 	<xacro:if value="$(arg has_ouster_lidar)">
 		<xacro:ouster_os0_128 name="laser" simulate="$(arg simulate_ouster_lidar)" visualize="$(arg visualize_sensors)" />
 		<xacro:calibrated_fixed_joint name="laser_j" parent="top_box" child="laser" prefix="ouster" lump="0"/>
-		<link name="$(arg prefix)ouster_holder">
-			<visual>
-				<origin xyz="0 0 0" />
-				<geometry>
-					<mesh filename="package://ctu_cras_norlab_absolem_sensor_config_1/meshes/ouster_holder_ladybug.dae" />
-				</geometry>
-			</visual>
-			<xacro:cylinder_inertial mass="0.2" radius="0.07" length="0.02"
-								xyz="0 0 -0.01" />
-		</link>
-		<xacro:fixed_joint name="ouster_holder_j" parent="$(arg prefix)omnicam_top" child="$(arg prefix)ouster_holder"
-			xyz="0 0 0.005" rpy="0 0 ${radians(36)}" />
+		<xacro:if value="$(arg has_omnicam)">
+			<link name="$(arg prefix)ouster_holder">
+				<visual>
+					<origin xyz="0 0 0" />
+					<geometry>
+						<mesh filename="package://ctu_cras_norlab_absolem_sensor_config_1/meshes/ouster_holder_ladybug.dae" />
+					</geometry>
+				</visual>
+				<xacro:cylinder_inertial mass="0.2" radius="0.07" length="0.02"
+										 xyz="0 0 -0.01" />
+			</link>
+			<xacro:fixed_joint name="ouster_holder_j" parent="$(arg prefix)omnicam_top" child="$(arg prefix)ouster_holder"
+							   xyz="0 0 0.005" rpy="0 0 ${radians(36)}" />
+		</xacro:if>
 	</xacro:if>
 
 	<!-- Thermal camera -->
@@ -1643,9 +1716,15 @@
 
 	<!-- Mote deployer -->
     <xacro:if value="$(arg has_mote_deployer)">
-        <!-- The link is included automatically in the payload xacro -->
-        <xacro:fixed_joint name="mote_deployer_j" parent="$(arg prefix)rear_right_box" child="$(arg prefix)mote_deployer"
-            xyz="0.09 0.16 -0.01" rpy="0 0 ${pi}" />
+		<!-- The link is included automatically in the payload xacro -->
+		<xacro:if value="$(arg has_omnicam)">
+			<xacro:fixed_joint name="mote_deployer_j" parent="$(arg prefix)rear_right_box" child="$(arg prefix)mote_deployer"
+							   xyz="0.09 0.16 -0.01" rpy="0 0 ${pi}" />
+		</xacro:if>
+		<xacro:if value="$(arg has_omnicam_vras)">
+			<xacro:fixed_joint name="mote_deployer_j" parent="$(arg prefix)rear_right_box" child="$(arg prefix)mote_deployer"
+							   xyz="0.09 0.18 -0.01" rpy="0 0 ${pi}" />
+		</xacro:if>
     </xacro:if>
 
     <xacro:macro name="stiff_joint_tags">
