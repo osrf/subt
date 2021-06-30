@@ -53,7 +53,7 @@ const std::map<std::string, double> robotPlatformTypes = {
   {"X2", 1},
   {"X3", 8}, // UAV, no prop guards
   {"X4", 8}, // UAV, no prop guards
-  {"X500", 8} // UAV, no prop guards
+  {"X500", 5} // UAV, no prop guards
 };
 
 #endif
