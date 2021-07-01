@@ -422,6 +422,7 @@
             entity_type="world"
             filename="libignition-gazebo-imu-system.so"
             name="ignition::gazebo::systems::Imu">
+      <output_orientation>false<output_orientation>
     </plugin>
 
     <plugin entity_name="<%= $worldName %>"
