@@ -37,6 +37,7 @@ RUN sudo apt-get update -qq \
         atop \
         cmake \
         cppcheck \
+        expect \
         gdb \
         git \
         gnutls-bin \
@@ -58,6 +59,7 @@ RUN sudo apt-get update -qq \
         ruby2.5-dev \
         software-properties-common \
         sudo \
+        tcl8.6 \
         vim \
         wget \
         net-tools \

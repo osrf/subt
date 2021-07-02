@@ -31,7 +31,7 @@ No additional restrictions have to be taken into account for this model.
 * Lidar: $10,000
 * Total price: $93,000
 
-Its weight is approximately 38.66 kg (or 39.16 kg with breadcrumbs). 
+Its weight is approximately 41.5 kg (or 42 kg with breadcrumbs). 
 
 ## Sensors
 This sensor configuration of Spot includes the following sensors in addition to the base sensors of the platform
@@ -84,6 +84,7 @@ The URDF files are not physically present, but are generated on-the-fly by calli
 
 ## Validation and Specification Links
 * See [bosdyn_spot/specifications.md](../bosdyn_spot/specifications.md).
+* Mass measurement: http://ptak.felk.cvut.cz/darpa-subt/qualification_videos/spot/mass/ 
 
 * Sensor specification links:
   * Ouster OS0-128 https://ouster.com/products/os0-lidar-sensor/

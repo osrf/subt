@@ -46,7 +46,7 @@
 
     <!-- Payload housing model -->
 
-    <xacro:property name="payload_housing_mass" value="3.0" />
+    <xacro:property name="payload_housing_mass" value="5.84" />
     <link name="$(arg prefix)payload">
         <visual>
             <geometry>
