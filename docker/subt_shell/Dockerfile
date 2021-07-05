@@ -67,11 +67,14 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu 
  && sudo /bin/sh -c 'apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654' \
  && sudo apt-get update -qq \
  && sudo apt-get install -y -qq \
+    libpcl-dev \
+    libpcl-conversions-dev \
     python-catkin-tools \
     python-rosdep \
     python-rosinstall \
     ros-melodic-desktop \
     ros-melodic-joystick-drivers \
+    ros-melodic-pcl-ros \
     ros-melodic-pointcloud-to-laserscan \
     ros-melodic-robot-localization \
     ros-melodic-spacenav-node \
