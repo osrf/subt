@@ -39,7 +39,7 @@ cloudCallback(const sensor_msgs::PointCloud2::ConstPtr& msg) {
   voxel_filter_.filter(*cloud_filtered);
 
   // Determine if additional down sampling is required
-  while(cloud_filtered->width * cloud_filtered->height > 60000)
+  while(cloud_filtered->width * cloud_filtered->height > 600000)
   {
     // Increase new leaf size and down sample again until the cloud size is below the initial cloud size
     leaf_size_ = leaf_size_ + 0.02f;
