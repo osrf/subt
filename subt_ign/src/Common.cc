@@ -106,6 +106,7 @@ bool FullWorldPath(const std::string &_worldName,
   const std::string tunnelPrefix = "tunnel_circuit_";
   const std::string urbanPrefix = "urban_circuit_";
   const std::string cavePrefix = "cave_circuit_";
+  const std::string finalPrefix = "final_event_";
   if (0 == _worldName.compare(0, tunnelPrefix.size(), tunnelPrefix))
   {
     std::string suffix = _worldName.substr(tunnelPrefix.size());
@@ -135,6 +136,12 @@ bool FullWorldPath(const std::string &_worldName,
       worldsDirectory = ignition::common::joinPaths(worldsDirectory,
           "cave_circuit", suffix);
     }
+  }
+  else if (_worldName.find(finalPrefix) != std::string::npos)
+  {
+    std::string suffix = _worldName.substr(finalPrefix.size());
+    worldsDirectory = ignition::common::joinPaths(worldsDirectory,
+        "final_event", suffix);
   }
   else if (_worldName.find("simple") == std::string::npos &&
            _worldName.find("_qual") == std::string::npos &&

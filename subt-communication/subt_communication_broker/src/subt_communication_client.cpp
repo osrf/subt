@@ -452,8 +452,11 @@ bool CommsClient::OnMessageRos(subt_msgs::DatagramRos::Request &_req,
 
   std::lock_guard<std::mutex> lock(this->mutex);
 
-  this->neighbors[_req.src_address] =
-      std::make_pair(ros::Time::now().toSec(), _req.rssi);
+  if (_req.rssi > std::numeric_limits<double>::lowest())
+  {
+    this->neighbors[_req.src_address] =
+        std::make_pair(ros::Time::now().toSec(), _req.rssi);
+  }
 
   for (auto cb : this->callbacks)
   {
