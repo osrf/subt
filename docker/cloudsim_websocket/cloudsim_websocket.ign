@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!-- This launch file is used by CloudSim to run the websocket server.
+
+     For more information, please refer to
+         https://github.com/osrf/subt/wiki/Cloudsim
+
+    Usage: ign launch cloudsim_websocket.ign websocketAuthKey:=AUTH_KEY websocketAdminAuthKey:=ADMIN_AUTH_KEY websocketMaxConnections:=CONNECTION_COUNT
+-->
+<%
+  $websocketAuthKey = ""
+  if defined?(websocketAuthKey) && websocketAuthKey != nil && !websocketAuthKey.empty?
+    $websocketAuthKey = websocketAuthKey
+  end
+
+  $websocketAdminAuthKey = ""
+  if defined?(websocketAdminAuthKey) && websocketAdminAuthKey != nil && !websocketAdminAuthKey.empty?
+    $websocketAdminAuthKey = websocketAdminAuthKey
+  end
+
+  $websocketMaxConnections = "-1"
+  if defined?(websocketMaxConnections) && websocketMaxConnections != nil && !websocketMaxConnections.empty?
+    $websocketMaxConnections = websocketMaxConnections
+  end
+%>
+
+<ignition version='1.0'>
+  <env>
+    <name>IGN_GAZEBO_SYSTEM_PLUGIN_PATH</name>
+    <value>$LD_LIBRARY_PATH</value>
+  </env>
+
+  <!-- Run the websocket server -->
+  <plugin name="ignition::launch::WebsocketServer"
+          filename="libignition-launch-websocket-server.so">
+    <publication_hz>30</publication_hz>
+    <port>9002</port>
+    <max_connections><%= $websocketMaxConnections  %></max_connections>
+    <authorization_key><%= $websocketAuthKey %></authorization_key>
+    <admin_authorization_key><%= $websocketAdminAuthKey %></admin_authorization_key>
+  </plugin>
+</ignition>

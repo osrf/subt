@@ -261,6 +261,15 @@
     $ros = false
   end
 
+  # Get whether the websocket server should be enabled. Default to true.
+  if !defined?(websocket) || websocket == nil || websocket.empty?
+    $websocket = true
+  elsif websocket.upcase == 'TRUE' || websocket == '1'
+    $websocket = true
+  else
+    $websocket = false
+  end
+
   # Check if durationSec is not defined or is empty/nil. In this case, set
   # durationSec to zero, which equats to an infinite run time.
   if !defined?(durationSec) || durationSec == nil || durationSec.empty?
@@ -337,18 +346,20 @@
   </env>
 
   <!-- Run the websocket server -->
-  <plugin name="ignition::launch::WebsocketServer"
-          filename="libignition-launch-websocket-server.so">
-    <publication_hz>30</publication_hz>
-    <port>9002</port>
-    <authorization_key><%= $websocketAuthKey %></authorization_key>
-    <admin_authorization_key><%= $websocketAdminAuthKey %></admin_authorization_key>
-    <max_connections><%= $websocketMaxConnections  %></max_connections>
-    <ssl>
-      <cert_file><%= $websocketSSLCertFile %></cert_file>
-      <private_key_file><%= $websocketSSLKeyFile %></private_key_file>
-    </ssl>
-  </plugin>
+  <%if $websocket %>
+    <plugin name="ignition::launch::WebsocketServer"
+            filename="libignition-launch-websocket-server.so">
+      <publication_hz>30</publication_hz>
+      <port>9002</port>
+      <authorization_key><%= $websocketAuthKey %></authorization_key>
+      <admin_authorization_key><%= $websocketAdminAuthKey %></admin_authorization_key>
+      <max_connections><%= $websocketMaxConnections  %></max_connections>
+      <ssl>
+        <cert_file><%= $websocketSSLCertFile %></cert_file>
+        <private_key_file><%= $websocketSSLKeyFile %></private_key_file>
+      </ssl>
+    </plugin>
+  <%end%>
 
   <plugin name="ignition::launch::GazeboServer"
           filename="libignition-launch-gazebo.so">
