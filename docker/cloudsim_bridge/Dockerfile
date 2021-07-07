@@ -80,16 +80,7 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu 
     python-catkin-tools \
     python-rosdep \
     python-rosinstall \
-    ros-melodic-desktop \
-    ros-melodic-joystick-drivers \
-    ros-melodic-pointcloud-to-laserscan \
-    ros-melodic-robot-localization \
-    ros-melodic-spacenav-node \
-    ros-melodic-tf2-sensor-msgs \
-    ros-melodic-twist-mux \
-    ros-melodic-rviz-imu-plugin \
-    ros-melodic-rotors-control \
-    ros-melodic-theora-image-transport \
+    ros-melodic-ros-base \
  && sudo rosdep init \
  && sudo apt-get clean
 
@@ -109,7 +100,7 @@ RUN sudo apt-get update \
 # install the ros to ign bridge
 RUN sudo apt-get update \
  && sudo apt-get install -y \
-    ros-melodic-ros-ign \
+    ros-melodic-ros-ign-bridge ros-melodic-ros-ign-image \
  && sudo apt-get clean -qq
 
 # Make a couple folders for organizing docker volumes
@@ -123,7 +114,8 @@ WORKDIR /home/$USERNAME
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
  && git config --global http.postBuffer 1048576000 \
- && git clone https://github.com/osrf/subt
+ && git clone --depth 1 https://github.com/osrf/subt \
+ && rm -rf subt/.git
 
 # Install dependencies
 RUN . /opt/ros/melodic/setup.sh \
@@ -136,11 +128,13 @@ RUN . /opt/ros/melodic/setup.sh \
     --skip-keys=ignition-plugin1 \
     --skip-keys=ignition-common3 \
     --skip-keys=ignition-launch2 \
+    --skip-keys=ignition-gazebo4 \
  && sudo apt-get clean -qq
 
 WORKDIR /home/$USERNAME/subt_ws
 
-RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && catkin_make -DCMAKE_BUILD_TYPE=Release install'
+RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && catkin_make -DCMAKE_BUILD_TYPE=Release install && rm -rf build devel'
+
 RUN /bin/sh -c 'echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc' \
  && /bin/sh -c 'echo ". ~/subt_ws/install/setup.sh" >> ~/.bashrc'
 
