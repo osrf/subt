@@ -19,6 +19,13 @@
     <remap from="/model/$(arg name)/cloud" to="/cloud_throttled_downsampled"/>
   </node>
   <node
+    pkg="ros_ign_bridge"
+    type="parameter_bridge"
+    name="ros_ign_bridge_mapping_server_cloud_size"
+    args="/model/$(arg name)/cloud_size@std_msgs/Int32]ignition.msgs.Int32">
+    <remap from="/model/$(arg name)/cloud_size" to="/cloud_throttled_size"/>
+  </node>
+  <node
     pkg="topic_tools"
     type="throttle"
     name="mapping_server_grid_throttle"

@@ -1,4 +1,5 @@
 #include <ros/ros.h>
+#include <std_msgs/Int32.h>
 #include <sensor_msgs/PointCloud2.h>
 #include <pcl_conversions/pcl_conversions.h>
 #include <pcl/PCLPointCloud2.h>
@@ -13,7 +14,7 @@ class PCDownSampler {
     
     ros::Subscriber cloud_sub_;
     ros::Publisher cloud_pub_;
-    
+    ros::Publisher original_size_pub_;
     
     float leaf_size_;
     
@@ -28,6 +29,11 @@ class PCDownSampler {
 
 void PCDownSampler::
 cloudCallback(const sensor_msgs::PointCloud2::ConstPtr& msg) {
+  // Publish original size
+  std_msgs::Int32 size_msg;
+  size_msg.data = msg->height * msg->width;
+  original_size_pub_.publish(size_msg);
+
   // Convert cloud to PCL format
   pcl::PCLPointCloud2::Ptr cloud(new pcl::PCLPointCloud2 ());
   pcl_conversions::toPCL(*msg, *cloud);
@@ -93,6 +99,7 @@ PCDownSampler::PCDownSampler() {
   leaf_size_ = 0.1f;
   cloud_sub_ = nh_.subscribe<sensor_msgs::PointCloud2>("/cloud_throttled", 1, &PCDownSampler::cloudCallback, this);
   cloud_pub_ = nh_.advertise<sensor_msgs::PointCloud2>("/cloud_throttled_downsampled", 1, true);
+  original_size_pub_ = nh_.advertise<std_msgs::Int32>("/cloud_throttled_size", 1, true);
 }
 
 //////////////////////////////////////////////////
