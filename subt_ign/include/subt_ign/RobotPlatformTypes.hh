@@ -36,6 +36,7 @@ const std::map<std::string, double> robotPlatformTypes = {
   {"KLOUBAK", 1},
   {"LILY", 1},
   {"M100", 8}, // UAV, no prop guards
+  {"MARMOTTE", 1},
   {"MARV", 1},
   {"MIKE", 1},
   {"OZBOT_ATR", 1},

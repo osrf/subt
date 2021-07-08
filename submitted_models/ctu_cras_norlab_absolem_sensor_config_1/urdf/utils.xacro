@@ -66,4 +66,20 @@
             </gazebo>
         </xacro:if>
     </xacro:macro>
+
+    <xacro:macro name="solid_color_link_material" params="link r g b">
+        <xacro:unless value="${'$(arg rendering_target)' == 'urdf'}">
+            <gazebo reference="${link}">
+                <visual>
+                    <material>
+                        <ambient>0 0 0 0</ambient>
+                        <!-- Ignition Gazebo seems to use much brighter colors... -->
+                        <diffuse>${max(0, r - 60/255.0)} ${max(0, g - 60/255.0)} ${max(0, b - 60/255.0)} 1</diffuse>
+                        <specular>0 0 0 0</specular>
+                        <emissive>0 0 0 0</emissive>
+                    </material>
+                </visual>
+            </gazebo>
+        </xacro:unless>
+    </xacro:macro>
 </root>

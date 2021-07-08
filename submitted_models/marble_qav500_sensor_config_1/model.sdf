@@ -420,8 +420,27 @@
             <sensor name="tof_top" type="depth_camera">
                 <pose>0.24 0 0.055 0 -1.57 0</pose>
                 <camera name="tof_top">
-                    
                     <horizontal_fov>1.0821</horizontal_fov>
+                    <lens>
+                      <intrinsics>
+                        <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+                        <fx>186.4</fx>
+                        <fy>186.4</fy>
+                        <!-- cx = ( width + 1 ) / 2 -->
+                        <cx>112.5</cx>
+                        <!-- cy = ( height + 1 ) / 2 -->
+                        <cy>86</cy>
+                        <s>0</s>
+                      </intrinsics>
+                    </lens>
+                    <distortion>
+                      <k1>0.0</k1>
+                      <k2>0.0</k2>
+                      <k3>0.0</k3>
+                      <p1>0.0</p1>
+                      <p2>0.0</p2>
+                      <center>0.5 0.5</center>
+                    </distortion>
                     <image>
                         <width>224</width>
                         <height>171</height>
@@ -456,8 +475,27 @@
             <sensor name="tof_bottom" type="depth_camera">
                 <pose>0.24 0 0.00 0 1.57 0</pose>
                 <camera name="tof_bottom">
-                    
                     <horizontal_fov>1.0821</horizontal_fov>
+                    <lens>
+                      <intrinsics>
+                        <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+                        <fx>186.4</fx>
+                        <fy>186.4</fy>
+                        <!-- cx = ( width + 1 ) / 2 -->
+                        <cx>112.5</cx>
+                        <!-- cy = ( height + 1 ) / 2 -->
+                        <cy>86</cy>
+                        <s>0</s>
+                      </intrinsics>
+                    </lens>
+                    <distortion>
+                      <k1>0.0</k1>
+                      <k2>0.0</k2>
+                      <k3>0.0</k3>
+                      <p1>0.0</p1>
+                      <p2>0.0</p2>
+                      <center>0.5 0.5</center>
+                    </distortion>
                     <image>
                         <width>224</width>
                         <height>171</height>
