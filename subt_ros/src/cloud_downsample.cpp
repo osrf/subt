@@ -89,7 +89,7 @@ publishCloud(const pcl::PointCloud<pcl::PointXYZ>::Ptr& cloud, const std_msgs::H
 
   msg.header.seq = header.seq;
   msg.header.stamp = header.stamp;
-  msg.header.frame_id = header.frame_id;
+  msg.header.frame_id = "artifact_origin";
   cloud_pub_.publish(msg);
 }
 
