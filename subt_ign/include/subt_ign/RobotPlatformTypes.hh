@@ -20,12 +20,12 @@
 /// \brief List of robot platform types and kinetic energy threshold factor. This is used to count unique robot types and determine crashes.
 const std::map<std::string, double> robotPlatformTypes = {
   {"ABSOLEM", 1},
-  {"ALLIE", 1},
+  {"ALLIE", 0.7},
   {"ANYMAL_B", 1},
   {"ANYMAL_C", 1},
   {"CRYSTAL", 8}, // UAV, no prop guards
   {"DS1", 6}, // UAV, prop guards
-  {"DTR", 1},
+  {"DTR", 0.7},
   {"FREYJA", 1},
   {"GAGARIN", 1}, // UAV, collision tolerant
   {"HD2", 1},
