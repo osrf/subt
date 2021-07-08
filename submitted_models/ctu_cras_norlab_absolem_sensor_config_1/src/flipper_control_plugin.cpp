@@ -6,6 +6,7 @@
 #include <ignition/transport/Node.hh>
 
 #include "ignition/gazebo/components/JointPosition.hh"
+#include "ignition/gazebo/components/JointEffortLimitsCmd.hh"
 #include "ignition/gazebo/components/JointVelocityCmd.hh"
 #include "ignition/gazebo/components/JointAxis.hh"
 #include "ignition/gazebo/Model.hh"
@@ -207,14 +208,7 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
   protected: void UpdateMaxTorque(const double maxTorqueCmd, EntityComponentManager& _ecm)
   {
     const auto torque = math::clamp(maxTorqueCmd, 0.0, this->maxTorque);
-    // TODO max effort cannot be changed during run time, waiting for resolution of
-    //  https://github.com/ignitionrobotics/ign-physics/issues/96
-    static bool informed{false};
-    if (!informed)
-    {
-      ignwarn << "FlipperControlPlugin: Max torque commands are not yet supported." << std::endl;
-      informed = true;
-    }
+    _ecm.SetComponentData<components::JointEffortLimitsCmd>(this->joint, {{-torque, torque}});
   }
 
   public: void OnCmdTorque(const msgs::Double &_msg)
