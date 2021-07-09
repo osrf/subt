@@ -140,7 +140,7 @@
 
   MARSUPIAL_PARENT_ROBOT_POSITION_OFFSETS = {
     "X1" => Vector3d.new(0, 0, 0.717),
-    "MARBLE_HUSKY" => Vector3d.new(-0.06, 0, 0.392),
+    "MARBLE_HUSKY" => Vector3d.new(-0.06, 0, 0.43),
     "EXPLORER_X1" => Vector3d.new(0, 0, 0.717),
     "EXPLORER_R2" => Vector3d.new(-0.402375, 0, 0.6874),
     "CSIRO_DATA61_OZBOT_ATR" => Vector3d.new(-0.15, 0, 0.528),
@@ -304,7 +304,7 @@
     <record>
       <enabled>true</enabled>
       <!-- This path is used by cloudsim, please do not change -->
-      <path>/tmp/ign/logs</path>
+      <path>/tmp/ign/logs/gazebo</path>
       <overwrite>true</overwrite>
     </record>
     <%if defined?(seed) && seed != nil && !seed.empty?%>
@@ -565,7 +565,7 @@
             <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>
             <use_pose_vector_msg>true</use_pose_vector_msg>
             <static_publisher>true</static_publisher>
-            <static_update_frequency>50</static_update_frequency>
+            <static_update_frequency>1</static_update_frequency>
           </plugin>
           <!-- Battery plugin -->
           <plugin filename="libignition-gazebo-linearbatteryplugin-system.so"
@@ -708,7 +708,7 @@
             <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>
             <use_pose_vector_msg>true</use_pose_vector_msg>
             <static_publisher>true</static_publisher>
-            <static_update_frequency>50</static_update_frequency>
+            <static_update_frequency>1</static_update_frequency>
           </plugin>
           <!-- Battery plugin -->
           <plugin filename="libignition-gazebo-linearbatteryplugin-system.so"
@@ -828,7 +828,7 @@
           <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>
           <use_pose_vector_msg>true</use_pose_vector_msg>
           <static_publisher>true</static_publisher>
-          <static_update_frequency>50</static_update_frequency>
+          <static_update_frequency>1</static_update_frequency>
         </plugin>
         <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
           name="ignition::gazebo::systems::MulticopterMotorModel">
@@ -1033,7 +1033,7 @@
           <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>
           <use_pose_vector_msg>true</use_pose_vector_msg>
           <static_publisher>true</static_publisher>
-          <static_update_frequency>50</static_update_frequency>
+          <static_update_frequency>1</static_update_frequency>
         </plugin>
         <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
           name="ignition::gazebo::systems::MulticopterMotorModel">
