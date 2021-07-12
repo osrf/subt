@@ -29,6 +29,7 @@
 
 #include <subt_communication_broker/common_types.h>
 #include <subt_communication_broker/protobuf/datagram.pb.h>
+#include <subt_communication_broker/protobuf/endpoint_registration.pb.h>
 #include <subt_communication_broker/protobuf/neighbor_m.pb.h>
 #include <subt_communication_model/subt_communication_model.h>
 #include <subt_rf_interface/subt_rf_interface.h>
@@ -53,6 +54,8 @@ pose_update_function;
   /// \brief Map of endpoints
   using EndPoints_M = std::map<std::string, std::vector<BrokerClientInfo>>;
 
+  struct BrokerPrivate;
+
   /// \brief Store messages, and exposes an API for registering new clients,
   /// bind to a particular address, push new messages or get the list of
   /// messages already stored in the queue.
@@ -62,7 +65,7 @@ pose_update_function;
     public: Broker();
 
     /// \brief Destructor.
-    public: virtual ~Broker() = default;
+    public: virtual ~Broker();
 
     /// \brief Start handling services
     ///
@@ -83,29 +86,39 @@ pose_update_function;
     public: void NotifyNeighbors();
 
     /// \brief Dispatch all incoming messages.
-   public: void DispatchMessages();
+   public: bool DispatchMessages();
 
     /// \brief This method associates an endpoint with a broker client and its
     /// address. An endpoint is constructed as an address followed by ':',
     /// followed by the port. E.g.: "192.168.1.5:8000" is a valid endpoint.
-    /// \param[in] _clientAddress Address of the broker client.
+    /// \param[in] _clientId ID of a registered client.
     /// \param[in] _endpoint End point requested to bind.
-    /// \return True if the operation succeed or false otherwise (if the client
-    /// was already bound to the same endpoint).
-    private: bool Bind(const std::string &_clientAddress,
-                       const std::string &_endpoint);
+    /// \return ID that should be used for unbinding the endpoint. If
+    /// invalidEndpointId is returned, the binding request failed (e.g. due to
+    /// wrong endpoint specification, or if the _clientId is wrong).
+    public: EndpointID Bind(ClientID _clientId, const std::string &_endpoint);
 
-    /// \brief Register a new client for message handling.
-    /// \param[in] _id Unique ID of the client.
-    /// \return True if the operation succeed of false otherwise (if the same
-    /// id was already registered).
-    public: bool Register(const std::string &_id);
+    /// \brief This method cancels the association between a client and an
+    /// endpoint. When all equal endpoints on the same client are unbound,
+    /// the client will stop receiving messages for the given endpoint.
+    /// \param[in] _endpointId ID of the endpoint to unbind. It has to be an ID
+    /// received from a previous call to Bind().
+    /// \return Whether the unbind was successful. It may fail e.g. when the
+    /// given ID is invalid and the broker doesn't know it.
+    public: bool Unbind(EndpointID _endpointId);
 
-    /// \brief Unregister a client and unbind from all the endpoints.
-    /// \param[in] _id Unique ID of the client.
-    /// \return True if the operation succeed or false otherwise (if there is
-    /// no client registered for this ID).
-    public: bool Unregister(const std::string &_id);
+    /// \brief Register a new client for message handling. Multiple clients for
+    /// the same address are allowed even from a single process.
+    /// \param[in] _clientAddress Address of the client.
+    /// \return ID of the client (should be later used for unregistration).
+    /// If the returned ID is invalidClientId, the registration failed.
+    public: ClientID Register(const std::string &_clientAddress);
+
+    /// \brief Unregister a client and unbind from all its endpoints.
+    /// \param[in] _clientId The ID received from the Register() call.
+    /// \return True if the operation succeeded or false otherwise (if there is
+    /// no client registered for this ID or the ID is invalid).
+    public: bool Unregister(ClientID _clientId);
 
     /// \brief Set the radio configuration for address
     /// \param[in] address
@@ -128,29 +141,45 @@ pose_update_function;
     /// \param[in] f Function that finds pose based on name
     public: void SetPoseUpdateFunction(pose_update_function f);
 
+    /// \brief Get the Ignition partition this broker is running in.
+    /// \return The partition name. The reference gets invalid when the broker
+    /// object goes out of scope.
+    public: const std::string& IgnPartition() const;
+
     /// \brief Callback executed when a new registration request is received.
     /// \param[in] _req The address contained in the request.
-    /// \param[out] _rep The result of the service. True when the registration
-    /// went OK or false otherwise (e.g.: the same address was already
-    /// registered).
+    /// \param[out] _rep An ID of the registered client. This ID should be used
+    /// when unregistering this client. If registration failed, invalidClientId
+    /// value is returned.
     private: bool OnAddrRegistration(const ignition::msgs::StringMsg &_req,
-                                     ignition::msgs::Boolean &_rep);
+                                     ignition::msgs::UInt32 &_rep);
 
     /// \brief Callback executed when a new unregistration request is received.
-    /// \param[in] _req The address contained in the request.
+    /// \param[in] _req ID of the client to unregister.
     /// \param[out] _rep The result of the service. True when the unregistration
-    /// went OK or false otherwise (e.g.: the address wasn't registered).
-    private: bool OnAddrUnregistration(const ignition::msgs::StringMsg &_req,
+    /// went OK or false otherwise (e.g.: the ID wasn't registered).
+    private: bool OnAddrUnregistration(const ignition::msgs::UInt32 &_req,
                                        ignition::msgs::Boolean &_rep);
 
-    /// \brief Callback executed when a new registration request is received.
-    /// \param[in] _req The end point contained in the request. The first
-    /// string is the client address and the second string is the end point.
-    /// \param[out] _rep The result of the service. True when the registration
-    /// went OK of false otherwise (e.g.: _req doesn't contain two strings).
+    /// \brief Callback executed when a new endpoint registration request is
+    /// received.
+    /// \param[in] _req The endpoint to register together with ID of the client
+    /// to which this registration belongs.
+    /// \param[out] _rep An ID of the endpoint. This ID should be used
+    /// when unregistering this endpoint. If registration failed,
+    /// invalidEndpointId value is returned.
     private: bool OnEndPointRegistration(
-                                        const ignition::msgs::StringMsg_V &_req,
-                                        ignition::msgs::Boolean &_rep);
+      const subt::msgs::EndpointRegistration &_req,
+      ignition::msgs::UInt32 &_rep);
+
+    /// \brief Callback executed when a new endpoint unregistration request is
+    /// received.
+    /// \param[in] _req ID of the endpoint to unregister.
+    /// \param[out] _rep The result of the service. True when the unregistration
+    /// went OK or false otherwise (e.g.: the ID wasn't registered).
+    private: bool OnEndPointUnregistration(
+      const ignition::msgs::UInt32 &_req,
+      ignition::msgs::Boolean &_rep);
 
     /// \brief Callback executed when a new request is received.
     /// \param[in] _req The datagram contained in the request.
@@ -185,6 +214,9 @@ pose_update_function;
 
     /// \brief Pose update function
    private: pose_update_function pose_update_f;
+
+    /// \brief Private definitions and data
+    private: std::unique_ptr<BrokerPrivate> dataPtr;
   };
 
 }

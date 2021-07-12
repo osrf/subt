@@ -1,0 +1,35 @@
+<!--
+Copyright (C) 2021 Open Source Robotics Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<launch>
+    <param name="/robot_names" value="c1,c2,c3,b" />
+    <param name="/use_sim_time" value="true" />
+
+    <!-- To be sure other tests using ignition transport won't influence. -->
+    <env name="IGN_PARTITION" value="$(anon ign_partition)" />
+
+    <!--
+    These helper nodes will be restarted for each <test> tag, which is desired
+    to keep the tests independent. rostest will also make sure the <test> nodes
+    are executed serially, so no need for a different IGN_PARTITION for each
+    of them.
+    -->
+    <node pkg="subt_ros" type="test_broker" name="test_broker" output="screen" />
+    <node pkg="subt_ros" type="subt_ros_relay" name="relay" output="screen" />
+
+    <test test-name="comms_relay_unicast" pkg="subt_ros" type="test_comms_client_unicast" />
+    <test test-name="comms_relay_multicast" pkg="subt_ros" type="test_comms_client_multicast" />
+    <test test-name="comms_relay_broadcast" pkg="subt_ros" type="test_comms_client_broadcast" />
+</launch>

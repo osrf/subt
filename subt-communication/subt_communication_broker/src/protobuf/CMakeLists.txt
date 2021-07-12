@@ -10,6 +10,7 @@ include(${PROJECT_SOURCE_DIR}/cmake/Protobuf.cmake)
 
 set(PROTO_MESSAGES
   datagram.proto
+  endpoint_registration.proto
   neighbor_m.proto
 )
 
