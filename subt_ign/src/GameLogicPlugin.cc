@@ -2390,6 +2390,10 @@ bool GameLogicPluginPrivate::OnFinishCall(const ignition::msgs::Boolean &_req,
   ignition::msgs::Time localSimTime(this->simTime);
   if (this->started && _req.data() && !this->finished)
   {
+    ignmsg << "User triggered OnFinishCall." << std::endl;
+    this->Log(localSimTime) << "User triggered OnFinishCall." << std::endl;
+    this->logStream.flush();
+
     this->Finish(localSimTime);
     _res.set_data(true);
   }
