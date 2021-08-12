@@ -1113,7 +1113,7 @@ void GameLogicPluginPrivate::OnEvent(const ignition::msgs::Pose &_msg)
         // there should be only 1 key-value pair. Just in case, we will grab
         // only the first. The key is currently always "type", which we can
         // ignore when sending the ROS message.
-        if (regionEventType.empty())
+        if (regionEventType.empty() && data.first == "type")
         {
           if (data.second.find("performer_detector_rockfall") ==
               std::string::npos)
