@@ -1,0 +1,2113 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <world name="final_prelim_02">
+
+    <physics name="1ms" type="ode">
+      <max_step_size>0.004</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+
+    <scene>
+      <ambient>0.1 0.1 0.1 1.0</ambient>
+      <background>0 0 0 1.0</background>
+      <grid>false</grid>
+      <origin_visual>false</origin_visual>
+    </scene>
+
+    <atmosphere type="adiabatic">
+      <temperature>288</temperature>
+      <temperature_gradient>0.2</temperature_gradient>
+    </atmosphere>
+
+    <include>
+      <static>true</static>
+      <name>staging_area</name>
+      <pose>-13 0 -0.01 0 -0 -1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Finals Staging Area</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>base_station</name>
+      <pose>-30 0 0 0 0 0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fiducial</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>artifact_origin</name>
+      <pose>-10.5 0 0 0 0 0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fiducial</uri>
+    </include>
+
+    <include>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/4-Way Finals Transition 2 Lights</uri>
+      <name>tile_1</name>
+      <pose>-1 0 0 0 0 1.5708</pose>
+    </include>
+    <include>
+      <name>tile_2</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6 Lights</uri>
+      <pose>-1 -19 0 0 0 -3.1415</pose>
+    </include>
+    <include>
+      <name>tile_3</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Universal Straight 2.5</uri>
+      <pose>-1 -8 0 0 -0 0</pose>
+    </include>
+    <include>
+      <name>tile_4</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rough Tunnel Tile 4-way Intersection Lights</uri>
+      <pose>-1 -38 5 0 -0 0</pose>
+    </include>
+    <include>
+      <name>tile_5</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1 Lights</uri>
+      <pose>19 0 0 0 -0 0</pose>
+    </include>
+    <include>
+      <name>tile_6</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Universal Straight 2.5</uri>
+      <pose>8 0 0 0 -0 1.5708</pose>
+    </include>
+    <include>
+      <name>tile_7</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rough Tunnel Tile Straight Lights</uri>
+      <pose>19 20 0 0 -0 0</pose>
+    </include>
+    <include>
+      <name>tile_8</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 5 Lights</uri>
+      <pose>-1 20 0 0 -0 0</pose>
+    </include>
+    <include>
+      <name>tile_9</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Universal Straight 5</uri>
+      <pose>0 8 0 0 -0 0</pose>
+    </include>
+    <include>
+      <name>tile_10</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rough Tunnel Tile 4-way Intersection Lights</uri>
+      <pose>19 40 0 0 -0 0</pose>
+    </include>
+    <include>
+      <name>tile_11</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 4 Lights</uri>
+      <pose>-1 40 0 0 -0 0</pose>
+    </include>
+    <include>
+      <name>tile_12</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rough Tunnel Tile 90-degree Turn Lights</uri>
+      <pose>-19 40 0 0 -0 1.5708</pose>
+    </include>
+    <include>
+      <name>tile_13</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1 Lights</uri>
+      <pose>-1 60 0 0 -0 0</pose>
+    </include>
+    <include>
+      <name>tile_14</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 1 Lights</uri>
+      <pose>-19 60 0 0 -0 0</pose>
+    </include>
+    <include>
+      <name>tile_15</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rough Tunnel Tile Straight</uri>
+      <pose>19 -38 5 0 -0 1.5708</pose>
+    </include>
+    <include>
+      <name>tile_16</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rough Tunnel Tile 90-degree Turn</uri>
+      <pose>39 -38 5 0 -0 3.14159</pose>
+    </include>
+    <include>
+      <name>tile_17</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rough Tunnel Tile 4-way Intersection</uri>
+      <pose>39 -18 5 0 -0 0</pose>
+    </include>
+    <include>
+      <name>tile_18</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 2</uri>
+      <pose>59 -48 5 0 0 1.5708</pose>
+    </include>
+    <include>
+      <name>tile_19</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 2</uri>
+      <pose>59 -18 5 0 0 -1.5708</pose>
+    </include>
+    <include>
+      <name>tile_20</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban 2 Story</uri>
+      <pose>90 -48 -5 0 -0 0</pose>
+    </include>
+    <include>
+      <name>tile_21</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Universal Straight 2.5</uri>
+      <pose>69 -48 5 0 -0 1.5708</pose>
+    </include>
+    <include>
+      <name>tile_22</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Stairwell Platform</uri>
+      <pose>59 40 -11.69 0 -0 1.5708</pose>
+    </include>
+    <include>
+      <name>tile_23</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Straight Door Left Extension</uri>
+      <pose>90 -8 5 0 -0 0</pose>
+    </include>
+    <include>
+      <name>tile_24</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Tunnel Transition Straight</uri>
+      <pose>34 40 0 0 -0 1.5708</pose>
+    </include>
+    <include>
+      <name>tile_25</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Service Room Straight</uri>
+      <pose>99 40 -10 0 -0 1.5708</pose>
+    </include>
+    <include>
+      <name>tile_26</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Service Room Straight</uri>
+      <pose>139 40 -10 0 -0 1.5708</pose>
+    </include>
+    <include>
+      <name>tile_27</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Straight</uri>
+      <pose>130 -8 5 0 0 -1.5708</pose>
+    </include>
+    <include>
+      <name>tile_28</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Cave Transition</uri>
+      <pose>169.981 -53 5 0 0 -1.5708</pose>
+    </include>
+    <include>
+      <name>tile_29</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Universal Straight 2.5</uri>
+      <pose>-30 60 0 0 0 -1.5708</pose>
+    </include>
+    <include>
+      <name>tile_30</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Bend Mixed</uri>
+      <pose>170 -8 5 0 0 -1.5708</pose>
+    </include>
+    <include>
+      <name>tile_31</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 3 Way 01 Type B</uri>
+      <pose>195 -53 5 0 -0 1.5708</pose>
+    </include>
+    <include>
+      <name>tile_32</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Elevation Type B</uri>
+      <pose>194.999 -28 5 0 -0 3.1415</pose>
+    </include>
+    <include>
+      <name>tile_33</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 3 Way 01 Type B</uri>
+      <pose>195 -3 15 0 0 -1.5708</pose>
+    </include>
+    <include>
+      <name>tile_34</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave U Turn Elevation Type A</uri>
+      <pose>293 -3 -10 0 0 -1.5708</pose>
+    </include>
+    <include>
+      <name>tile_35</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Transition Type A to and from Type B</uri>
+      <pose>232 -3 15 0 -0 1.5708</pose>
+    </include>
+    <include>
+      <name>tile_36</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Split Type A</uri>
+      <pose>218 47 -10 0 0 -1.5708</pose>
+    </include>
+    <include>
+      <name>tile_37</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Universal Shift 5x5</uri>
+      <pose>161.333 42.7782 -10 0 0 -1.5708</pose>
+    </include>
+    <include>
+      <name>tile_38</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Universal Shift 5x5</uri>
+      <pose>166 43 -10 0 -0 1.5708</pose>
+    </include>
+    <include>
+      <name>tile_39</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Universal Straight 10</uri>
+      <pose>263 -3 15 0 -0 1.5708</pose>
+    </include>
+    <include>
+      <name>tile_40</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Universal Straight 2.5</uri>
+      <pose>257 -3 15 0 -0 1.5708</pose>
+    </include>
+    <include>
+      <name>tile_41</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 02 Type B</uri>
+      <pose>145 -53 5 0 -0 3.14159</pose>
+    </include>
+    <include>
+      <name>tile_42</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cavern Type A</uri>
+      <pose>145 -240 -20 0 -0 1.5708</pose>
+    </include>
+    <include>
+      <name>tile_43</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 3 Way Elevation 02 Type A</uri>
+      <pose>145 -165 5 0 -0 0</pose>
+    </include>
+    <include>
+      <name>tile_44</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Transition Type A to and from Type B</uri>
+      <pose>145 -90 5 0 -0 0</pose>
+    </include>
+    <include>
+      <name>tile_45</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 03 Type A</uri>
+      <pose>45 -240 -20 0 0 -3.14159</pose>
+    </include>
+    <include>
+      <name>tile_46</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Straight Type A</uri>
+      <pose>95 -240 -20 0 -0 1.5708</pose>
+    </include>
+    <include>
+      <name>tile_47</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave 3 Way 02 Type A</uri>
+      <pose>195 -190 -20 0 -0 3.14159</pose>
+    </include>
+    <include>
+      <name>tile_48</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Transition Type A to and from Type B</uri>
+      <pose>195 -90 5 0 -0 0</pose>
+    </include>
+    <include>
+      <name>tile_49</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Vertical Shaft Straight Top Type A</uri>
+      <pose>195 -140 5 0 -0 0</pose>
+    </include>
+    <include>
+      <name>tile_50</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Vertical Shaft Type A</uri>
+      <pose>195 -140 -20 0 -0 0</pose>
+    </include>
+    <include>
+      <name>tile_51</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Vertical Shaft Straight Bottom Type A</uri>
+      <pose>195 -140 -20 0 -0 0</pose>
+    </include>
+    <include>
+      <name>tile_52</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave U Turn 01 Type A</uri>
+      <pose>270 -240 -20 0 -0 3.1415</pose>
+    </include>
+    <include>
+      <name>tile_53</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Elevation 01 Type A</uri>
+      <pose>195 -215 5 0 -0 3.1415</pose>
+    </include>
+    <include>
+      <name>tile_54</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cap Type A</uri>
+      <pose>195 -265 80 0 -0 3.1415</pose>
+    </include>
+    <include>
+      <name>tile_55</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cap Type A</uri>
+      <pose>295 -215 -20 0 -0 0</pose>
+    </include>
+    <include>
+      <name>tile_56</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cap Type A</uri>
+      <pose>195 -115 -20 0 -0 0</pose>
+    </include>
+    <include>
+      <name>tile_57</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cap Type A</uri>
+      <pose>145 -265 5 0 -0 3.1415</pose>
+    </include>
+    <include>
+      <name>tile_58</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Cap Type B</uri>
+      <pose>170 22 15 0 0 -1.5708</pose>
+    </include>
+    <include>
+      <name>tile_59</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Corner 02 Type B</uri>
+      <pose>195 22 15 0 -0 1.5708</pose>
+    </include>
+    <include>
+      <name>tile_60</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile blocker</uri>
+      <pose>66.8964 -8.06715 5.8754 0 -0 0</pose>
+    </include>
+    <include>
+      <name>tile_61</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Service Room Centered</uri>
+      <pose>90 -48 -5 0 -0 3.1415</pose>
+    </include>
+    <include>
+      <name>tile_62</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Service Room Centered</uri>
+      <pose>90 -48 -5 0 0 -1.5708</pose>
+    </include>
+    <include>
+      <name>tile_63</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rough Tunnel Tile 4-way Intersection</uri>
+      <pose>19 -18 5 0 -0 0</pose>
+    </include>
+    <include>
+      <name>tile_64</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rough Tunnel Tile 90-degree Turn</uri>
+      <pose>19 2 5 0 -0 0</pose>
+    </include>
+    <include>
+      <name>tile_65</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rough Tunnel Tile 90-degree Turn</uri>
+      <pose>39 2 5 0 0 -1.5708</pose>
+    </include>
+    <include>
+      <name>tile_66</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 2</uri>
+      <pose>-21 -38 5 0 -0 0</pose>
+    </include>
+    <include>
+      <name>tile_67</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 2</uri>
+      <pose>-21 -58 5 0 -0 1.5708</pose>
+    </include>
+    <include>
+      <name>tile_68</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 2</uri>
+      <pose>-1.00001 -58 5 0 -0 3.14159</pose>
+    </include>
+    <include>
+      <name>tile_69</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile blocker</uri>
+      <pose>6 -18 5 0 -0 0</pose>
+    </include>
+    <include>
+      <name>tile_70</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile blocker</uri>
+      <pose>19 -31 5 0 -0 0</pose>
+    </include>
+    <include>
+      <name>tile_71</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 2</uri>
+      <pose>39 0 0 0 0 -1.5708</pose>
+    </include>
+    <include>
+      <name>tile_72</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 2</uri>
+      <pose>19 -18 0 0 -0 1.5708</pose>
+    </include>
+    <include>
+      <name>tile_73</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 2</uri>
+      <pose>39 -18 0 0 -0 3.14159</pose>
+    </include>
+    <include>
+      <name>tile_74</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rough Tunnel Tile Vertical Shaft</uri>
+      <pose>39 60 -5 0 -0 1.5708</pose>
+    </include>
+    <include>
+      <name>tile_75</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rough Tunnel Tile 90-degree Turn</uri>
+      <pose>19 60 0 0 -0 0</pose>
+    </include>
+    <include>
+      <name>tile_76</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile blocker</uri>
+      <pose>52 60 -5 0 -0 0</pose>
+    </include>
+    <include>
+      <name>tile_77</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 2</uri>
+      <pose>19 60 0 0 0 -3.14159</pose>
+    </include>
+    <include>
+      <name>tile_78</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rough Tunnel Tile 90-degree Turn</uri>
+      <pose>19 80 0 0 0 -1.5708</pose>
+    </include>
+    <include>
+      <name>tile_79</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <pose>-1 80 0 0 -0 0</pose>
+    </include>
+    <include>
+      <name>tile_80</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <pose>-1 80 -5 0 0 -1.5708</pose>
+    </include>
+    <include>
+      <name>tile_81</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 6</uri>
+      <pose>-21 80 -5 0 -0 1.5708</pose>
+    </include>
+    <include>
+      <name>tile_82</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 2</uri>
+      <pose>-41 80 0 0 -0 0</pose>
+    </include>
+    <include>
+      <name>tile_83</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile 2</uri>
+      <pose>-41 60 0 0 -0 1.5708</pose>
+    </include>
+    <include>
+      <name>tile_84</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile Blocker</uri>
+      <pose>-19 73 0 0 -0 0</pose>
+    </include>
+    <include>
+      <name>tile_85</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rough Tunnel Tile Straight</uri>
+      <pose>-1 100 5 0 -0 0</pose>
+    </include>
+    <include>
+      <name>tile_86</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Tile blocker</uri>
+      <pose>-1 112 5 0 -0 0</pose>
+    </include>
+    <include>
+      <name>tile_87</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Universal Straight 10</uri>
+      <pose>59 -33 5 0 0 0</pose>
+    </include>
+
+    <!-- Artifacts -->
+    <include>
+      <static>true</static>
+      <name>rescue_randy_1</name>
+      <pose>-10 -40.227400 5.003640 0 0 3.14159</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rescue Randy Sitting</uri>
+    </include>
+    <include>
+      <static>true</static>
+      <name>rescue_randy_2</name>
+      <pose>140.883000 48.976100 -10.004600 0 0 0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rescue Randy Sitting</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>phone_1</name>
+      <pose>-16.978700 68.315900 0.000079 -1.570800 0 -0.657628</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Samsung J8 Black</uri>
+    </include>
+    <include>
+      <name>phone_2</name>
+      <static>true</static>
+      <pose>289.828000 11.922900 12.225400 -1.530430 0.000003 1.124200</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Samsung J8 Black</uri>
+    </include>
+
+    <include>
+      <name>extinguisher_1</name>
+      <static>true</static>
+      <pose>35.666900 -12.644300 0 0 0 0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fire Extinguisher</uri>
+    </include>
+    <include>
+      <name>extinguisher_2</name>
+      <static>true</static>
+      <pose>28.918000 3.111500 5 0 0 0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fire Extinguisher</uri>
+    </include>
+
+    <include>
+      <name>drill_1</name>
+      <static>true</static>
+      <pose>-35.0655 63.0475 0 0 0 0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Black and Decker Cordless Drill</uri>
+    </include>
+    <include>
+      <static>true</static>
+      <name>drill_2</name>
+      <pose>8.4463 42.0775 -0.0062 0 0 0.513170</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Black and Decker Cordless Drill</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>backpack_1</name>
+      <pose>64.312800 37.872900 -5.670560 0 0 -3.141590</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/JanSport Backpack Red</uri>
+    </include>
+    <include>
+      <static>true</static>
+      <name>backpack_2</name>
+      <pose>247.081000 -224.517000 -19.925100 0 0 -1.317850</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/JanSport Backpack Red</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>cube_1</name>
+      <pose>77.17900 -11.300 5.75 0 0.25 0.2</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/SubT Challenge Cube</uri>
+    </include>
+    <include>
+      <static>true</static>
+      <name>cube_2</name>
+      <pose>146.906000 -240.659000 -10.970400 -0.157422 0 0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/SubT Challenge Cube</uri>
+    </include>
+
+    <include>
+      <name>rope_1</name>
+      <pose>155.027000 -85.443000 5.961290 0 -0.115450 0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Climbing Rope</uri>
+    </include>
+    <include>
+      <name>rope_2</name>
+      <pose>196.471000 -265.029000 80.028400 0 0 0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Climbing Rope</uri>
+    </include>
+
+    <include>
+      <name>helmet_1</name>
+      <pose>198.211000 38.173000 -10.176600 0.047240 0.063979 -1.233040</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Climbing Helmet With Light</uri>
+    </include>
+    <include>
+      <name>helmet_2</name>
+      <pose>48.187600 -226.241000 -14.191000 0 -0.105038 0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Climbing Helmet With Light</uri>
+    </include>
+
+    <include>
+      <name>vent_1</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Vent</uri>
+      <pose>99.964100 36.338800 -5.970060 3.141590 -1.570790 3.141590</pose>
+    </include>
+    <include>
+      <name>vent_2</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Vent</uri>
+      <pose>82.503500 -62.837600 4.293750 3.141590 -1.570790 3.141590</pose>
+    </include>
+
+    <include>
+      <name>gas_1</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Gas</uri>
+      <pose>90 -80 -5 0 0 -3.1415</pose>
+    </include>
+
+    <include>
+      <name>gas_2</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Gas</uri>
+      <pose>122 -48 -5 0 0 -1.5708</pose>
+    </include>
+
+    <wind>
+      <linear_velocity>0.000000 0.000000 0.000000</linear_velocity>
+    </wind>
+
+    <!-- Load the plugin for the wind -->
+    <plugin name="ignition::gazebo::systems::WindEffects" filename="libignition-gazebo-wind-effects-system.so">
+      <horizontal>
+        <magnitude>
+          <time_for_rise>10</time_for_rise>
+          <sin>
+            <amplitude_percent>0.05</amplitude_percent>
+            <period>60</period>
+          </sin>
+          <noise type="gaussian">
+           <mean>0</mean>
+           <stddev>0.0002</stddev>
+          </noise>
+        </magnitude>
+        <direction>
+          <time_for_rise>30</time_for_rise>
+          <sin>
+            <amplitude>5</amplitude>
+            <period>20</period>
+          </sin>
+          <noise type="gaussian">
+           <mean>0</mean>
+           <stddev>0.03</stddev>
+          </noise>
+        </direction>
+      </horizontal>
+      <Vertical>
+        <noise type="gaussian">
+         <mean>0</mean>
+         <stddev>0.03</stddev>
+        </noise>
+      </Vertical>
+    </plugin>
+
+    <!-- Dynamic obstacles -->
+
+    <!-- START FOG EMITTER 1 -->
+    <!-- To trigger, with a robot named X1:
+         ign service -s /world/final_prelim_02/set_pose /set_pose - -reqtype ignition.msgs.Pose - -reptype ignition.msgs.Boolean - -timeout 300 - -req 'name: "X1", position {x:100 y:40 z:-10}'
+    -->
+    <include>
+      <name>fog_emitter_1</name>
+      <static>true</static>
+      <pose>120 40 -10 0 0 1.5716</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fog Emitter2</uri>
+    </include>
+    <model name="fog_emitter_1_detector">
+      <pose>120 40 -10 0 0 1.5716</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fog Emitter2</uri>
+      <static>true</static>
+      <!--Uncomment <link> to preview detector region-->
+      <!-- <link name='body'>
+        <visual name="v1">
+          <transparency>0.5</transparency>
+          <geometry>
+            <box>
+              <size>10 30 10</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.0 1.0 0.0 0.5</ambient>
+            <diffuse>0.0 1.0 0.0 0.5</diffuse>
+            <specular>0.5 0.5 0.5 0.5</specular>
+          </material>
+        </visual>
+        <cast_shadows>false</cast_shadows>
+      </link> -->
+      <!-- This plugin detects when entities (performers) enter and leave
+           the defined region. A message is published on the <topic> when these
+           events occur -->
+      <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+        <topic>/subt_performer_detector</topic>
+        <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>10 30 10</size>
+            </box>
+          </geometry>
+          <header_data>
+              <key>type</key>
+              <value>fog</value>
+          </header_data>
+      </plugin>
+      <!-- This plugin listens for the "enter" event from the performer
+           detector and starts the fog -->
+      <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
+        <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
+          <match field="header.data">
+            {
+            key: "frame_id"
+            value: "fog_emitter_1_detector"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "type"
+            value: "fog"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "state"
+            value: "1"
+            }
+          </match>
+        </input>
+        <output type="ignition.msgs.ParticleEmitter" topic="/model/fog_emitter_1/link/link/particle_emitter/fog_generator/cmd">
+          emitting:{data: 1}
+        </output>
+      </plugin>
+      <!-- This plugin listens for the "leave" event from the performer
+           detector and stops the fog only if there are no entities in the
+           region ("count" of zero) -->
+      <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
+        <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
+          <match field="header.data">
+            {
+            key: "frame_id"
+            value: "fog_emitter_1_detector"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "type"
+            value: "fog"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "state"
+            value: "0"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "count"
+            value: "0"
+            }
+          </match>
+        </input>
+        <output type="ignition.msgs.ParticleEmitter" topic="/model/fog_emitter_1/link/link/particle_emitter/fog_generator/cmd">
+          emitting:{data: 0}
+        </output>
+      </plugin>
+    </model>
+    <!-- END FOG EMITTER 1 -->
+
+    <!-- START FOG EMITTER 2 -->
+    <!-- To trigger, with a robot named X1:
+         ign service -s /world/final_prelim_02/set_pose /set_pose - -reqtype ignition.msgs.Pose - -reptype ignition.msgs.Boolean - -timeout 300 - -req 'name: "X1", position {x:15 y:-38 z:5}'
+    -->
+    <include>
+      <name>fog_emitter_2</name>
+      <static>true</static>
+      <pose>30 -38 5 0 0 1.5716</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fog Emitter2</uri>
+    </include>
+    <model name="fog_emitter_2_detector">
+      <pose>30 -38 5 0 0 1.5716</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fog Emitter2</uri>
+      <static>true</static>
+      <!--Uncomment <link> to preview detector region-->
+      <!-- <link name='body'>
+        <visual name="v1">
+          <transparency>0.5</transparency>
+          <geometry>
+            <box>
+              <size>10 30 10</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.0 1.0 0.0 0.5</ambient>
+            <diffuse>0.0 1.0 0.0 0.5</diffuse>
+            <specular>0.5 0.5 0.5 0.5</specular>
+          </material>
+        </visual>
+        <cast_shadows>false</cast_shadows>
+      </link> -->
+      <!-- This plugin detects when entities (performers) enter and leave
+           the defined region. A message is published on the <topic> when these
+           events occur -->
+      <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+        <topic>/subt_performer_detector</topic>
+        <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>10 30 10</size>
+            </box>
+          </geometry>
+          <header_data>
+              <key>type</key>
+              <value>fog</value>
+          </header_data>
+      </plugin>
+      <!-- This plugin listens for the "enter" event from the performer
+           detector and starts the fog -->
+      <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
+        <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
+          <match field="header.data">
+            {
+            key: "frame_id"
+            value: "fog_emitter_2_detector"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "type"
+            value: "fog"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "state"
+            value: "1"
+            }
+          </match>
+        </input>
+        <output type="ignition.msgs.ParticleEmitter" topic="/model/fog_emitter_2/link/link/particle_emitter/fog_generator/cmd">
+          emitting:{data: 1}
+        </output>
+      </plugin>
+      <!-- This plugin listens for the "leave" event from the performer
+           detector and stops the fog only if there are no entities in the
+           region ("count" of zero) -->
+      <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
+        <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
+          <match field="header.data">
+            {
+            key: "frame_id"
+            value: "fog_emitter_2_detector"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "type"
+            value: "fog"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "state"
+            value: "0"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "count"
+            value: "0"
+            }
+          </match>
+        </input>
+        <output type="ignition.msgs.ParticleEmitter" topic="/model/fog_emitter_2/link/link/particle_emitter/fog_generator/cmd">
+          emitting:{data: 0}
+        </output>
+      </plugin>
+    </model>
+    <!-- END FOG EMITTER 2 -->
+
+    <!-- DEBRIS WALL 1 (URBAN) -->
+    <!-- To trigger, with a robot named X1:
+         ign service -s /world/final_prelim_02/set_pose /set_pose - -reqtype ignition.msgs.Pose - -reptype ignition.msgs.Boolean - -timeout 300 - -req 'name: "X1", position {x:100 y:-8 z:5}'
+    -->
+    <model name="performer_detector_debris_wall_1">
+      <static>true</static>
+      <pose>130 -8 5 0 -0 1.5716</pose>
+      <!--Uncomment <link> to preview detector region-->
+        <!--<link name='body'>
+        <visual name="v1">
+          <transparency>0.5</transparency>
+          <geometry>
+            <box>
+              <size>10 30 10</size>
+            </box>
+          </geometry>
+        </visual>
+        <material>
+          <ambient>0.0 1.0 0.0 1</ambient>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+          <specular>0.5 0.5 0.5 1</specular>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </link>-->
+
+      <plugin filename="libignition-gazebo-performer-detector-system.so"
+        name="ignition::gazebo::systems::PerformerDetector">
+        <topic>/subt_performer_detector</topic>
+        <geometry>
+          <box>
+            <size>10 30 10</size>
+          </box>
+        </geometry>
+        <header_data>
+            <key>type</key>
+            <value>dynamic_collapse</value>
+        </header_data>
+      </plugin>
+
+      <!--Triggered by performer_detector_debris_wall_1 -->
+      <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
+        <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
+          <match field='header.data'>{ key: "frame_id" value: "performer_detector_debris_wall_1" }</match>
+          <match field='header.data'>{ key: "state" value: "0" }</match>
+          <match field="header.data">{ key: "count" value: "0" }</match>
+        </input>
+        <delay_ms>2500</delay_ms>
+        <output type="ignition.msgs.Empty" topic="/model/debris_wall_1/breadcrumbs/Wall/deploy"/>
+      </plugin>
+
+      <!-- This plugin listens for the "leave" event from the performer
+           detector and starts the fog -->
+      <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
+        <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
+          <match field='header.data'>
+            {
+            key: "frame_id"
+            value: "performer_detector_debris_wall_1"
+            }
+          </match>
+
+          <match field="header.data">
+            {
+            key: "type"
+            value: "dynamic_collapse"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "state"
+            value: "0"
+            }
+          </match>
+          <match field="header.data">{ key: "count" value: "0" }</match>
+        </input>
+        <output type="ignition.msgs.ParticleEmitter" topic="/model/debris_wall_1_fog_emitter_1/link/link/particle_emitter/dust_generator/cmd">
+          emitting:{data: 1}
+        </output>
+        <output type="ignition.msgs.ParticleEmitter" topic="/model/debris_wall_1_fog_emitter_2/link/link/particle_emitter/dust_generator/cmd">
+          emitting:{data: 1}
+        </output>
+      </plugin>
+
+      <!-- This plugin listens for the "leave" event from the performer
+           detector and stops the fog with a delay -->
+      <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
+        <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
+          <match field='header.data'>
+            {
+            key: "frame_id"
+            value: "performer_detector_debris_wall_1"
+            }
+          </match>
+
+          <match field="header.data">
+            {
+            key: "type"
+            value: "dynamic_collapse"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "state"
+            value: "0"
+            }
+          </match>
+          <match field="header.data">{ key: "count" value: "0" }</match>
+        </input>
+        <delay_ms>2500</delay_ms>
+        <output type="ignition.msgs.ParticleEmitter" topic="/model/debris_wall_1_fog_emitter_1/link/link/particle_emitter/dust_generator/cmd">
+          emitting:{data: 0}
+          rate:{data: 0}
+        </output>
+        <output type="ignition.msgs.ParticleEmitter" topic="/model/debris_wall_1_fog_emitter_2/link/link/particle_emitter/dust_generator/cmd">
+          emitting:{data: 0}
+          rate:{data: 0}
+        </output>
+      </plugin>
+    </model>
+
+    <model name="debris_wall_1">
+      <static>true</static>
+      <plugin filename="libignition-gazebo-breadcrumbs-system.so" name="ignition::gazebo::systems::Breadcrumbs">
+        <max_deployments>1</max_deployments>
+        <allow_renaming>true</allow_renaming>
+        <breadcrumb>
+          <sdf version="1.6">
+            <include>
+              <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Wall debris</uri>
+              <name>Wall</name>
+              <pose>130 -8 5 0 0 1.5716</pose>
+            </include>
+          </sdf>
+        </breadcrumb>
+      </plugin>
+    </model>
+
+    <include>
+      <name>debris_wall_1_fog_emitter_1</name>
+      <static>true</static>
+      <pose>130 0 3.5 0 -0 1.5716</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Dust Emitter Dense</uri>
+    </include>
+    <include>
+      <name>debris_wall_1_fog_emitter_2</name>
+      <static>true</static>
+      <pose>130 -15 6.5 0 -0 1.5716</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Dust Emitter Dense</uri>
+    </include>
+    <!-- END DEBRIS WALL 1 -->
+
+    <!-- DEBRIS WALL 2 (TUNNEL) -->
+    <!-- To trigger, with a robot named X1:
+         ign service -s /world/final_prelim_02/set_pose /set_pose - -reqtype ignition.msgs.Pose - -reptype ignition.msgs.Boolean - -timeout 300 - -req 'name: "X1", position {x:-40 y:65 z:2}'
+    -->
+    <model name="performer_detector_debris_wall_2">
+      <static>true</static>
+      <pose>-30 60 0 0 -0 1.5716</pose>
+      <!--Uncomment <link> to preview detector region-->
+        <!--<link name='body'>
+        <visual name="v1">
+          <transparency>0.5</transparency>
+          <geometry>
+            <box>
+              <size>10 30 10</size>
+            </box>
+          </geometry>
+        </visual>
+        <material>
+          <ambient>0.0 1.0 0.0 1</ambient>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+          <specular>0.5 0.5 0.5 1</specular>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </link>-->
+
+      <plugin filename="libignition-gazebo-performer-detector-system.so"
+        name="ignition::gazebo::systems::PerformerDetector">
+        <topic>/subt_performer_detector</topic>
+        <geometry>
+          <box>
+            <size>10 30 10</size>
+          </box>
+        </geometry>
+        <header_data>
+            <key>type</key>
+            <value>dynamic_collapse</value>
+        </header_data>
+      </plugin>
+
+      <!--Triggered by performer_detector_debris_wall_2 -->
+      <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
+        <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
+          <match field='header.data'>{ key: "frame_id" value: "performer_detector_debris_wall_2" }</match>
+          <match field='header.data'>{ key: "state" value: "0" }</match>
+          <match field="header.data">{ key: "count" value: "0" }</match>
+        </input>
+        <delay_ms>2500</delay_ms>
+        <output type="ignition.msgs.Empty" topic="/model/debris_wall_2/breadcrumbs/Wall/deploy"/>
+      </plugin>
+
+      <!-- This plugin listens for the "leave" event from the performer
+           detector and starts the fog -->
+      <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
+        <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
+          <match field='header.data'>
+            {
+            key: "frame_id"
+            value: "performer_detector_debris_wall_2"
+            }
+          </match>
+
+          <match field="header.data">
+            {
+            key: "type"
+            value: "dynamic_collapse"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "state"
+            value: "0"
+            }
+          </match>
+          <match field="header.data">{ key: "count" value: "0" }</match>
+        </input>
+        <output type="ignition.msgs.ParticleEmitter" topic="/model/debris_wall_2_fog_emitter_1/link/link/particle_emitter/dust_generator/cmd">
+          emitting:{data: 1}
+        </output>
+        <output type="ignition.msgs.ParticleEmitter" topic="/model/debris_wall_2_fog_emitter_2/link/link/particle_emitter/dust_generator/cmd">
+          emitting:{data: 1}
+        </output>
+      </plugin>
+
+      <!-- This plugin listens for the "leave" event from the performer
+           detector and stops the fog with a delay -->
+      <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
+        <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
+          <match field='header.data'>
+            {
+            key: "frame_id"
+            value: "performer_detector_debris_wall_2"
+            }
+          </match>
+
+          <match field="header.data">
+            {
+            key: "type"
+            value: "dynamic_collapse"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "state"
+            value: "0"
+            }
+          </match>
+          <match field="header.data">{ key: "count" value: "0" }</match>
+        </input>
+        <delay_ms>2500</delay_ms>
+        <output type="ignition.msgs.ParticleEmitter" topic="/model/debris_wall_2_fog_emitter_1/link/link/particle_emitter/dust_generator/cmd">
+          emitting:{data: 0}
+          rate:{data: 0}
+        </output>
+        <output type="ignition.msgs.ParticleEmitter" topic="/model/debris_wall_2_fog_emitter_2/link/link/particle_emitter/dust_generator/cmd">
+          emitting:{data: 0}
+          rate:{data: 0}
+        </output>
+      </plugin>
+    </model>
+
+    <model name="debris_wall_2">
+      <static>true</static>
+      <plugin filename="libignition-gazebo-breadcrumbs-system.so" name="ignition::gazebo::systems::Breadcrumbs">
+        <max_deployments>1</max_deployments>
+        <allow_renaming>true</allow_renaming>
+        <breadcrumb>
+          <sdf version="1.6">
+            <include>
+              <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Wall debris</uri>
+              <name>Wall</name>
+              <pose>-30 60 0 0 0 1.5716</pose>
+            </include>
+          </sdf>
+        </breadcrumb>
+      </plugin>
+    </model>
+
+    <include>
+      <name>debris_wall_2_fog_emitter_1</name>
+      <static>true</static>
+      <pose>-30 68 -1.5 0.173755 -0 1.5716</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Dust Emitter Dense</uri>
+    </include>
+    <include>
+      <name>debris_wall_2_fog_emitter_2</name>
+      <static>true</static>
+      <pose>-30 53 1.5 0.173755 0 1.5716</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Dust Emitter Dense</uri>
+    </include>
+    <!-- END DEBRIS WALL 2 -->
+
+    <!-- START ROCK FALL 1: Local obstacle-->
+    <!-- To trigger, with a robot named X1:
+         ign service -s /world/final_prelim_02/set_pose /set_pose - -reqtype ignition.msgs.Pose - -reptype ignition.msgs.Boolean - -timeout 300 - -req 'name: "X1", position {x:210 y:-3 z:15.5}'
+    -->
+    <!--Performer detector at Rock Fall #1-->
+    <model name="performer_detector_rockfall_1">
+      <static>true</static>
+      <pose>195 -2.5 20 0 -0 1.5708</pose>
+      <!--Uncomment <link> to preview detector region-->
+        <!--<link name='body'>
+        <visual name="v1">
+          <transparency>0.5</transparency>
+          <geometry>
+            <box>
+              <size>20 20 12</size>
+            </box>
+          </geometry>
+        </visual>
+        <material>
+          <ambient>0.0 1.0 0.0 1</ambient>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+          <specular>0.5 0.5 0.5 1</specular>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </link>-->
+      <plugin filename="libignition-gazebo-performer-detector-system.so"
+        name="ignition::gazebo::systems::PerformerDetector">
+        <topic>/subt_performer_detector</topic>
+        <geometry>
+          <box>
+            <size>20 20 12</size>
+          </box>
+        </geometry>
+      </plugin>
+
+      <!--TriggeredPublisher that publishes on the "deploy" topic of dynamic_rocks_1 when a performer enters the region defined in performer_detector_rockfall_1-->
+      <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
+        <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
+          <match field="header.data">
+            {
+            key: "frame_id"
+            value: "performer_detector_rockfall_1"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "state"
+            value: "1"
+            }
+          </match>
+        </input>
+        <output type="ignition.msgs.Empty" topic="/model/dynamic_rocks_1/breadcrumbs/Rock/deploy"/>
+      </plugin>
+    </model>
+
+    <!-- Dynamic Rocks 1, this is associated with
+         performer_detector_rockfall_1 -->
+    <include>
+      <name>dynamic_rocks_1</name>
+      <pose>195 -2.5 21.1 0 -0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Medium Rock Fall</uri>
+    </include>
+    <!-- END ROCK FALL 1 -->
+
+    <!-- START ROCK FALL 2: Global obstacle-->
+    <!-- To trigger, with a robot named X1:
+         ign service -s /world/final_prelim_02/set_pose /set_pose - -reqtype ignition.msgs.Pose - -reptype ignition.msgs.Boolean - -timeout 300 - -req 'name: "X1", position {x:54.5 y:-200 z:-16.7}'
+    -->
+    <!--Performer detector at Rock Fall #2-->
+    <model name="performer_detector_rockfall_2">
+      <static>true</static>
+      <pose>49.561900 -207.080000 -15 0 0 1.5708</pose>
+      <!--Uncomment <link> to preview detector region-->
+        <!--<link name='body'>
+        <visual name="v1">
+          <transparency>0.5</transparency>
+          <geometry>
+            <box>
+              <size>30 30 12</size>
+            </box>
+          </geometry>
+        </visual>
+        <material>
+          <ambient>0.0 1.0 0.0 1</ambient>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+          <specular>0.5 0.5 0.5 1</specular>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </link>-->
+      <plugin filename="libignition-gazebo-performer-detector-system.so"
+        name="ignition::gazebo::systems::PerformerDetector">
+        <topic>/subt_performer_detector</topic>
+        <geometry>
+          <box>
+            <size>30 30 12</size>
+          </box>
+        </geometry>
+      </plugin>
+
+      <!--TriggeredPublisher that publishes on the "deploy" topic of dynamic_rocks_2 when a performer enters the region defined in performer_detector_rockfall_2-->
+      <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
+        <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
+          <match field="header.data">
+            {
+            key: "frame_id"
+            value: "performer_detector_rockfall_2"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "state"
+            value: "0"
+            }
+          </match>
+        </input>
+        <output type="ignition.msgs.Empty" topic="/model/dynamic_rocks_2/breadcrumbs/Rock/deploy"/>
+      </plugin>
+    </model>
+
+    <!-- Dynamic Rocks 2, this is associated with
+         performer_detector_rockfall_2 -->
+    <include>
+      <name>dynamic_rocks_2</name>
+      <pose>49.561900 -207.080000 -18.791300 0 -0.286350 0.968561</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Large Rock Fall</uri>
+    </include>
+    <!-- END ROCK FALL 2 -->
+
+      <!-- Auto generated: level_generator 115 101 83 12.5 -->
+    <plugin name="ignition::gazebo" filename="dummy">
+      <level name="level0">
+        <ref>tile_82</ref>
+        <ref>tile_83</ref>
+        <pose>-41 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level1">
+        <ref>drill_1</ref>
+        <pose>-35.0655 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level2">
+        <ref>tile_29</ref>
+        <ref>Wall</ref>
+        <ref>debris_wall_2_fog_emitter_1</ref>
+        <ref>debris_wall_2_fog_emitter_2</ref>
+        <pose>-30 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level3">
+        <ref>tile_66</ref>
+        <ref>tile_67</ref>
+        <ref>tile_81</ref>
+        <pose>-21 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level4">
+        <ref>tile_12</ref>
+        <ref>tile_14</ref>
+        <ref>tile_84</ref>
+        <pose>-19 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level5">
+        <ref>phone_1</ref>
+        <pose>-16.9787 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level6">
+        <ref>rescue_randy_1</ref>
+        <pose>-10 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level7">
+        <ref>tile_68</ref>
+        <pose>-1.00001 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level8">
+        <ref>tile_1</ref>
+        <ref>tile_2</ref>
+        <ref>tile_3</ref>
+        <ref>tile_4</ref>
+        <ref>tile_8</ref>
+        <ref>tile_11</ref>
+        <ref>tile_13</ref>
+        <ref>tile_79</ref>
+        <ref>tile_80</ref>
+        <ref>tile_85</ref>
+        <ref>tile_86</ref>
+        <pose>-1 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level9">
+        <ref>tile_9</ref>
+        <pose>0 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level10">
+        <ref>tile_69</ref>
+        <pose>6 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level11">
+        <ref>tile_6</ref>
+        <pose>8 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level12">
+        <ref>drill_2</ref>
+        <pose>8.4463 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level13">
+        <ref>tile_5</ref>
+        <ref>tile_7</ref>
+        <ref>tile_10</ref>
+        <ref>tile_15</ref>
+        <ref>tile_63</ref>
+        <ref>tile_64</ref>
+        <ref>tile_70</ref>
+        <ref>tile_72</ref>
+        <ref>tile_75</ref>
+        <ref>tile_77</ref>
+        <ref>tile_78</ref>
+        <pose>19 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level14">
+        <ref>extinguisher_2</ref>
+        <pose>28.918 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level15">
+        <ref>fog_emitter_2</ref>
+        <pose>30 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level16">
+        <ref>tile_24</ref>
+        <pose>34 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level17">
+        <ref>extinguisher_1</ref>
+        <pose>35.6669 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level18">
+        <ref>tile_16</ref>
+        <ref>tile_17</ref>
+        <ref>tile_65</ref>
+        <ref>tile_71</ref>
+        <ref>tile_73</ref>
+        <ref>tile_74</ref>
+        <pose>39 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level19">
+        <ref>tile_45</ref>
+        <pose>45 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level20">
+        <ref>helmet_2</ref>
+        <pose>48.1876 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level21">
+        <ref>dynamic_rocks_2</ref>
+        <pose>49.5619 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level22">
+        <ref>tile_76</ref>
+        <pose>52 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level23">
+        <ref>tile_18</ref>
+        <ref>tile_19</ref>
+        <ref>tile_22</ref>
+        <ref>tile_87</ref>
+        <pose>59 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level24">
+        <ref>backpack_1</ref>
+        <pose>64.3128 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level25">
+        <ref>tile_60</ref>
+        <pose>66.8964 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level26">
+        <ref>tile_21</ref>
+        <pose>69 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level27">
+        <ref>cube_1</ref>
+        <pose>77.179 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level28">
+        <ref>vent_2</ref>
+        <pose>82.5035 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level29">
+        <ref>tile_20</ref>
+        <ref>tile_23</ref>
+        <ref>tile_61</ref>
+        <ref>tile_62</ref>
+        <ref>gas_1</ref>
+        <pose>90 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level30">
+        <ref>tile_46</ref>
+        <pose>95 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level31">
+        <ref>tile_25</ref>
+        <pose>99 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level32">
+        <ref>vent_1</ref>
+        <pose>99.9641 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level33">
+        <ref>fog_emitter_1</ref>
+        <pose>120 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level34">
+        <ref>gas_2</ref>
+        <pose>122 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level35">
+        <ref>tile_27</ref>
+        <ref>Wall</ref>
+        <ref>debris_wall_1_fog_emitter_1</ref>
+        <ref>debris_wall_1_fog_emitter_2</ref>
+        <pose>130 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level36">
+        <ref>tile_26</ref>
+        <pose>139 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level37">
+        <ref>rescue_randy_2</ref>
+        <pose>140.883 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level38">
+        <ref>tile_41</ref>
+        <ref>tile_42</ref>
+        <ref>tile_43</ref>
+        <ref>tile_44</ref>
+        <ref>tile_57</ref>
+        <pose>145 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level39">
+        <ref>cube_2</ref>
+        <pose>146.906 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level40">
+        <ref>rope_1</ref>
+        <pose>155.027 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level41">
+        <ref>tile_37</ref>
+        <pose>161.333 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level42">
+        <ref>tile_38</ref>
+        <pose>166 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level43">
+        <ref>tile_28</ref>
+        <pose>169.981 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level44">
+        <ref>tile_30</ref>
+        <ref>tile_58</ref>
+        <pose>170 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level45">
+        <ref>tile_32</ref>
+        <pose>194.999 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level46">
+        <ref>tile_31</ref>
+        <ref>tile_33</ref>
+        <ref>tile_47</ref>
+        <ref>tile_48</ref>
+        <ref>tile_49</ref>
+        <ref>tile_50</ref>
+        <ref>tile_51</ref>
+        <ref>tile_53</ref>
+        <ref>tile_54</ref>
+        <ref>tile_56</ref>
+        <ref>tile_59</ref>
+        <ref>dynamic_rocks_1</ref>
+        <pose>195 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level47">
+        <ref>rope_2</ref>
+        <pose>196.471 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level48">
+        <ref>helmet_1</ref>
+        <pose>198.211 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level49">
+        <ref>tile_36</ref>
+        <pose>218 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level50">
+        <ref>tile_35</ref>
+        <pose>232 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level51">
+        <ref>backpack_2</ref>
+        <pose>247.081 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level52">
+        <ref>tile_40</ref>
+        <pose>257 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level53">
+        <ref>tile_39</ref>
+        <pose>263 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level54">
+        <ref>tile_52</ref>
+        <pose>270 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level55">
+        <ref>phone_2</ref>
+        <pose>289.828 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level56">
+        <ref>tile_34</ref>
+        <pose>293 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level57">
+        <ref>tile_55</ref>
+        <pose>295 -76.5145 30.0142 0 0 0</pose>
+        <geometry><box><size>215.625 579.029 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level58">
+        <ref>rope_2</ref>
+        <pose>127 -265.029 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level59">
+        <ref>tile_54</ref>
+        <ref>tile_57</ref>
+        <pose>127 -265 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level60">
+        <ref>cube_2</ref>
+        <pose>127 -240.659 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level61">
+        <ref>tile_42</ref>
+        <ref>tile_45</ref>
+        <ref>tile_46</ref>
+        <ref>tile_52</ref>
+        <pose>127 -240 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level62">
+        <ref>helmet_2</ref>
+        <pose>127 -226.241 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level63">
+        <ref>backpack_2</ref>
+        <pose>127 -224.517 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level64">
+        <ref>tile_53</ref>
+        <ref>tile_55</ref>
+        <pose>127 -215 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level65">
+        <ref>dynamic_rocks_2</ref>
+        <pose>127 -207.08 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level66">
+        <ref>tile_47</ref>
+        <pose>127 -190 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level67">
+        <ref>tile_43</ref>
+        <pose>127 -165 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level68">
+        <ref>tile_49</ref>
+        <ref>tile_50</ref>
+        <ref>tile_51</ref>
+        <pose>127 -140 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level69">
+        <ref>tile_56</ref>
+        <pose>127 -115 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level70">
+        <ref>tile_44</ref>
+        <ref>tile_48</ref>
+        <pose>127 -90 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level71">
+        <ref>rope_1</ref>
+        <pose>127 -85.443 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level72">
+        <ref>gas_1</ref>
+        <pose>127 -80 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level73">
+        <ref>vent_2</ref>
+        <pose>127 -62.8376 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level74">
+        <ref>tile_67</ref>
+        <ref>tile_68</ref>
+        <pose>127 -58 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level75">
+        <ref>tile_28</ref>
+        <ref>tile_31</ref>
+        <ref>tile_41</ref>
+        <pose>127 -53 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level76">
+        <ref>tile_18</ref>
+        <ref>tile_20</ref>
+        <ref>tile_21</ref>
+        <ref>tile_61</ref>
+        <ref>tile_62</ref>
+        <ref>gas_2</ref>
+        <pose>127 -48 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level77">
+        <ref>rescue_randy_1</ref>
+        <pose>127 -40.2274 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level78">
+        <ref>tile_4</ref>
+        <ref>tile_15</ref>
+        <ref>tile_16</ref>
+        <ref>tile_66</ref>
+        <ref>fog_emitter_2</ref>
+        <pose>127 -38 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level79">
+        <ref>tile_87</ref>
+        <pose>127 -33 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level80">
+        <ref>tile_70</ref>
+        <pose>127 -31 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level81">
+        <ref>tile_32</ref>
+        <pose>127 -28 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level82">
+        <ref>tile_2</ref>
+        <pose>127 -19 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level83">
+        <ref>tile_17</ref>
+        <ref>tile_19</ref>
+        <ref>tile_63</ref>
+        <ref>tile_69</ref>
+        <ref>tile_72</ref>
+        <ref>tile_73</ref>
+        <pose>127 -18 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level84">
+        <ref>debris_wall_1_fog_emitter_2</ref>
+        <pose>127 -15 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level85">
+        <ref>extinguisher_1</ref>
+        <pose>127 -12.6443 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level86">
+        <ref>cube_1</ref>
+        <pose>127 -11.3 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level87">
+        <ref>tile_60</ref>
+        <pose>127 -8.06715 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level88">
+        <ref>tile_3</ref>
+        <ref>tile_23</ref>
+        <ref>tile_27</ref>
+        <ref>tile_30</ref>
+        <ref>Wall</ref>
+        <pose>127 -8 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level89">
+        <ref>tile_33</ref>
+        <ref>tile_34</ref>
+        <ref>tile_35</ref>
+        <ref>tile_39</ref>
+        <ref>tile_40</ref>
+        <pose>127 -3 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level90">
+        <ref>dynamic_rocks_1</ref>
+        <pose>127 -2.5 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level91">
+        <ref>tile_1</ref>
+        <ref>tile_5</ref>
+        <ref>tile_6</ref>
+        <ref>tile_71</ref>
+        <ref>debris_wall_1_fog_emitter_1</ref>
+        <pose>127 0 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level92">
+        <ref>tile_64</ref>
+        <ref>tile_65</ref>
+        <pose>127 2 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level93">
+        <ref>extinguisher_2</ref>
+        <pose>127 3.1115 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level94">
+        <ref>tile_9</ref>
+        <pose>127 8 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level95">
+        <ref>phone_2</ref>
+        <pose>127 11.9229 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level96">
+        <ref>tile_7</ref>
+        <ref>tile_8</ref>
+        <pose>127 20 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level97">
+        <ref>tile_58</ref>
+        <ref>tile_59</ref>
+        <pose>127 22 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level98">
+        <ref>vent_1</ref>
+        <pose>127 36.3388 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level99">
+        <ref>backpack_1</ref>
+        <pose>127 37.8729 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level100">
+        <ref>helmet_1</ref>
+        <pose>127 38.173 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level101">
+        <ref>tile_10</ref>
+        <ref>tile_11</ref>
+        <ref>tile_12</ref>
+        <ref>tile_22</ref>
+        <ref>tile_24</ref>
+        <ref>tile_25</ref>
+        <ref>tile_26</ref>
+        <ref>fog_emitter_1</ref>
+        <pose>127 40 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level102">
+        <ref>drill_2</ref>
+        <pose>127 42.0775 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level103">
+        <ref>tile_37</ref>
+        <pose>127 42.7782 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level104">
+        <ref>tile_38</ref>
+        <pose>127 43 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level105">
+        <ref>tile_36</ref>
+        <pose>127 47 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level106">
+        <ref>rescue_randy_2</ref>
+        <pose>127 48.9761 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level107">
+        <ref>debris_wall_2_fog_emitter_2</ref>
+        <pose>127 53 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level108">
+        <ref>tile_13</ref>
+        <ref>tile_14</ref>
+        <ref>tile_29</ref>
+        <ref>tile_74</ref>
+        <ref>tile_75</ref>
+        <ref>tile_76</ref>
+        <ref>tile_77</ref>
+        <ref>tile_83</ref>
+        <ref>Wall</ref>
+        <pose>127 60 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level109">
+        <ref>drill_1</ref>
+        <pose>127 63.0475 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level110">
+        <ref>debris_wall_2_fog_emitter_1</ref>
+        <pose>127 68 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level111">
+        <ref>phone_1</ref>
+        <pose>127 68.3159 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level112">
+        <ref>tile_84</ref>
+        <pose>127 73 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level113">
+        <ref>tile_78</ref>
+        <ref>tile_79</ref>
+        <ref>tile_80</ref>
+        <ref>tile_81</ref>
+        <ref>tile_82</ref>
+        <pose>127 80 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level114">
+        <ref>tile_85</ref>
+        <pose>127 100 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+      <level name="level115">
+        <ref>tile_86</ref>
+        <pose>127 112 30.0142 0 0 0</pose>
+        <geometry><box><size>566 189.375 266.028</size></box></geometry>
+        <buffer>12.5</buffer>
+      </level>
+    </plugin>
+  </world>
+</sdf>
