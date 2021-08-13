@@ -86,6 +86,5 @@
             <arg name="gazebo_topic" value="$(arg link_prefix)/imu_vras/sensor/imu/imu" />
             <arg name="node_name_suffix" value="imu_vras" />
         </include>
-
     </group>
 </launch>
