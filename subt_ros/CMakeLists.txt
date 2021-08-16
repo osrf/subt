@@ -40,6 +40,7 @@ find_package(ignition-common3 REQUIRED)
 find_package(ignition-math6 REQUIRED)
 find_package(ignition-msgs6 REQUIRED)
 find_package(ignition-transport9 REQUIRED)
+find_package(PCL REQUIRED)
 
 catkin_package(
   CATKIN_DEPENDS
@@ -51,6 +52,7 @@ catkin_package(
 
 include_directories(
   ${catkin_INCLUDE_DIRS}
+  ${PCL_INCLUDE_DIRS}
 )
 
 ## Pose->TF broadcaster
@@ -60,6 +62,16 @@ add_executable(pose_tf_broadcaster
 
 target_link_libraries(pose_tf_broadcaster
   ${catkin_LIBRARIES}
+)
+
+## Cloud Downsample
+add_executable(cloud_downsampler
+  src/cloud_downsample.cpp
+)
+
+target_link_libraries(cloud_downsampler
+  ${catkin_LIBRARIES}
+  ${PCL_LIBRARIES}
 )
 
 add_executable(optical_frame_publisher src/OpticalFramePublisher.cc)
@@ -114,7 +126,7 @@ target_link_libraries(set_rate_relay
 )
 add_dependencies(set_rate_relay ${catkin_EXPORTED_TARGETS})
 
-install(TARGETS pose_tf_broadcaster subt_ros_relay set_pose_relay bridge_logger
+install(TARGETS pose_tf_broadcaster cloud_downsampler subt_ros_relay set_pose_relay bridge_logger
   optical_frame_publisher set_rate_relay
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )

@@ -1113,7 +1113,7 @@ void GameLogicPluginPrivate::OnEvent(const ignition::msgs::Pose &_msg)
         // there should be only 1 key-value pair. Just in case, we will grab
         // only the first. The key is currently always "type", which we can
         // ignore when sending the ROS message.
-        if (regionEventType.empty())
+        if (regionEventType.empty() && data.first == "type")
         {
           if (data.second.find("performer_detector_rockfall") ==
               std::string::npos)
@@ -2390,6 +2390,10 @@ bool GameLogicPluginPrivate::OnFinishCall(const ignition::msgs::Boolean &_req,
   ignition::msgs::Time localSimTime(this->simTime);
   if (this->started && _req.data() && !this->finished)
   {
+    ignmsg << "User triggered OnFinishCall." << std::endl;
+    this->Log(localSimTime) << "User triggered OnFinishCall." << std::endl;
+    this->logStream.flush();
+
     this->Finish(localSimTime);
     _res.set_data(true);
   }

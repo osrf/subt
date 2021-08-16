@@ -66,7 +66,8 @@ bool VisibilityModel::Initialized() const
 /////////////////////////////////////////////
 rf_power VisibilityModel::ComputeReceivedPower(const double &_txPower,
                                                radio_state &_txState,
-                                               radio_state &_rxState)
+                                               radio_state &_rxState,
+                                               bool &_usingBreadcrumbs)
 {
   // Use this->visibilityTable.Cost(_txState, _rxState) to compute
   // pathloss and thus, received power
@@ -87,11 +88,13 @@ rf_power VisibilityModel::ComputeReceivedPower(const double &_txPower,
   if (visibilityCost.route.empty())
   {
     // No breadcrumbs in the route
+    _usingBreadcrumbs = false;
     range = _txState.pose.Pos().Distance(_rxState.pose.Pos());
   }
   else
   {
     // One or more breadcrumbs to cross.
+    _usingBreadcrumbs = true;
     double distSourceToFirstBreadcrumb =
       _txState.pose.Pos().Distance(visibilityCost.posFirstBreadcrumb);
     double distLastBreadcrumbToDestination =
@@ -235,7 +238,8 @@ bool VisibilityModel::VisualizeVisibility(const ignition::msgs::StringMsg &_req,
       // Set and calculate rf power
       tx.pose.Set(from.X(), from.Y(), from.Z(), 0, 0, 0);
       rx.pose.Set(to.X(), to.Y(), to.Z(), 0, 0, 0);
-      rf_power rf_pow = ComputeReceivedPower(txPower, tx, rx);
+      bool usingBreadcrumbs;
+      rf_power rf_pow = ComputeReceivedPower(txPower, tx, rx, usingBreadcrumbs);
       // Based on rx_power, noise value, and modulation, compute the bit error rate (BER)
       double ber = QPSKPowerToBER( dbmToPow(rf_pow.mean), dbmToPow(noise_floor) );
       int num_bytes = 100; // Hardcoded number of bytes

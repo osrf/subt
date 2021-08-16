@@ -273,5 +273,10 @@
         <remap from="/model/$(arg name)/breadcrumb/deploy" to="breadcrumb/deploy"/>
       </node>
     </group>
+
+    <!-- Mapping Server -->
+    <include file="$(find subt_ros)/launch/models_common/mapping_server_relays.launch">
+      <arg name="name" value="$(arg name)"/>
+    </include>
   </group>
 </launch>
