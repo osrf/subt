@@ -154,9 +154,9 @@
     </include>
 
     <include>
-      <name>gas_1</name>
-      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Gas</uri>
-      <pose>108 -68.5 0 0 0 -1.570790</pose>
+      <name>cube_3</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/SubT Challenge Cube</uri>
+      <pose>110.975000 -59.478300 2.336390 0 0 -1.570790</pose>
     </include>
 
     <include>
@@ -729,7 +729,7 @@
     <model name="performer_detector_debris_wall_2">
 
       <static>true</static>
-      <pose>191 -48.5 0 0 0 0</pose>
+      <pose>166 -68.5 2 0 0 0</pose>
       <!--Uncomment <link> to preview detector region-->
       <!--link name='body'>
         <visual name="v1">
@@ -836,7 +836,7 @@
             <include>
               <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Wall debris</uri>
               <name>Wall</name>
-              <pose>191 -48.5 0 0 0 0</pose>
+              <pose>166 -68.5 0 0 0 1.5708</pose>
             </include>
           </sdf>
         </breadcrumb>
@@ -846,13 +846,13 @@
     <include>
       <name>debris_wall_2_fog_emitter_1</name>
       <static>true</static>
-      <pose>191 -52 0 0 0 0</pose>
+      <pose>173 -68.5 0 0 0 0</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Dust Emitter Dense</uri>
     </include>
     <include>
       <name>debris_wall_2_fog_emitter_2</name>
       <static>true</static>
-      <pose>191 -38.5 0 0 0 0</pose>
+      <pose>160 -68.5 0 0 0 0</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Dust Emitter Dense</uri>
     </include>
     <!-- END DEBRIS WALL 2 -->
@@ -1183,8 +1183,8 @@
         <buffer>12.5</buffer>
       </level>
       <level name="level25">
-        <ref>gas_1</ref>
-        <pose>108 6.7605 7.5 0 0 0</pose>
+        <ref>cube_3</ref>
+        <pose>110.975 6.7605 7.5 0 0 0</pose>
         <geometry><box><size>170.625 488.479 113</size></box></geometry>
         <buffer>12.5</buffer>
       </level>
