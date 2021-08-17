@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="VLP-16">
+
+  <!-- XACRO FOR VELODYNE PULLED FROM: http://wiki.ros.org/velodyne_description !-->
+
+  <xacro:include filename="$(find csiro_data61_spot_sensor_config_1)/urdf/nav_backpack/utils/colours.xacro"/>
+  <xacro:property name="M_PI" value="3.1415926535897931" />
+  <xacro:macro name="VLP-16" params="*origin parent:=base_link name:=velodyne topic:=/velodyne_points organize_cloud:=false hz:=20 lasers:=16 samples:=1875 collision_range:=0.3 min_range:=0.9 max_range:=130.0 noise:=0.008 min_angle:=-${M_PI} max_angle:=${M_PI} gpu:=false">
+
+    <joint name="$(arg prefix)${name}_base_mount_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="$(arg prefix)${parent}"/>
+      <child link="$(arg prefix)${name}_base_link"/>
+    </joint>
+
+    <link name="$(arg prefix)${name}_base_link">
+      <inertial>
+        <mass value="0.83"/>
+        <origin xyz="0 0 0.03585"/>
+        <inertia ixx="${(0.83 * (3.0*0.0516*0.0516 + 0.0717*0.0717)) / 12.0}" ixy="0" ixz="0"
+          iyy="${(0.83 * (3.0*0.0516*0.0516 + 0.0717*0.0717)) / 12.0}" iyz="0"
+          izz="${0.5 * 0.83 * (0.0516*0.0516)}"/>
+      </inertial>
+      <visual>
+        <geometry>
+          <mesh filename="package://csiro_data61_spot_sensor_config_1/meshes/VLP16_base_1.dae" />
+        </geometry>
+      </visual>
+      <visual>
+        <geometry>
+          <mesh filename="package://csiro_data61_spot_sensor_config_1/meshes/VLP16_base_2.dae" />
+        </geometry>
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0.03585"/>
+        <geometry>
+          <cylinder radius="0.0516" length="0.0717"/>
+        </geometry>
+      </collision>
+    </link>
+    <gazebo reference="$(arg prefix)${name}_base_link">
+      <xacro:colour_light_gray/>
+    </gazebo>
+
+    <joint name="$(arg prefix)${name}_base_scan_joint" type="fixed" >
+      <origin xyz="0 0 0.0377" rpy="0 0 0" />
+      <parent link="$(arg prefix)${name}_base_link" />
+      <child link="$(arg prefix)${name}"/>
+    </joint>
+
+    <link name="$(arg prefix)${name}">
+      <inertial>
+        <mass value="0.01"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1e-7" ixy="0" ixz="0" iyy="1e-7" iyz="0" izz="1e-7"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 -0.0377" />
+        <geometry>
+          <mesh filename="package://csiro_data61_spot_sensor_config_1/meshes/VLP16_scan.dae" />
+        </geometry>
+      </visual>
+    </link>
+
+    <!-- Gazebo requires the velodyne_gazebo_plugins package -->
+    <gazebo reference="$(arg prefix)${name}">
+      <xacro:colour_black/>
+      <sensor name="nav_gpu_lidar" type="gpu_lidar">
+        <update_rate>20</update_rate>
+        <lidar>
+          <scan>
+            <horizontal>
+              <samples>900</samples>
+              <resolution>1</resolution>
+              <min_angle>-3.1415926535897931</min_angle>
+              <max_angle>3.1415926535897931</max_angle>
+            </horizontal>
+            <vertical>
+              <samples>16</samples>
+              <resolution>1</resolution>
+              <min_angle>-0.261799</min_angle>
+              <max_angle>0.261799</max_angle>
+            </vertical>
+          </scan>
+          <range>
+            <min>0.3</min>
+            <max>100</max>
+            <resolution>0.001</resolution>
+          </range>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.01</stddev>
+          </noise>
+        </lidar>
+        <alwaysOn>1</alwaysOn>
+        <visualize>true</visualize>
+        <pose>0 0 0 0 0 0</pose>
+      </sensor>
+    </gazebo>
+
+  </xacro:macro>
+</robot>

@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:include filename="$(find csiro_data61_spot_sensor_config_1)/urdf/nav_backpack/utils/colours.xacro"/>
+
+  <xacro:property name="barn_mass" value="2.20929"/>
+
+  <xacro:macro name="barn" params="x y z parent">
+
+    <!-- Compute Barn -->
+    <link name="$(arg prefix)barn_link">
+      <inertial>
+        <origin
+          xyz="-0.10131000000000001 0.00328 0.07316"
+          rpy="0 0 0" />
+        <mass value="2.20929" />
+        <inertia
+          ixx="0.01404988945"
+          ixy="0.00039919709"
+          ixz="3.4933e-07"
+          iyy="0.011889400100000001"
+          iyz="0.00027583377"
+          izz="0.01838763661" />
+      </inertial>
+      <visual>
+        <geometry>
+          <mesh filename="package://csiro_data61_spot_sensor_config_1/meshes/barn.STL"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://csiro_data61_spot_sensor_config_1/meshes/barn.STL"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <gazebo reference="$(arg prefix)barn_link">
+      <xacro:colour_black/>
+      <selfCollide>false</selfCollide>
+      <gravity>true</gravity>
+    </gazebo>
+
+    <joint name="$(arg prefix)${parent}_to_$(arg prefix)barn_link" type="fixed">
+      <origin xyz="${x} ${y} ${z}"/>
+      <parent link="$(arg prefix)${parent}"/>
+      <child link="$(arg prefix)barn_link"/>
+    </joint>
+
+  </xacro:macro>
+</robot>
