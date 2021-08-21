@@ -20,12 +20,6 @@
         <mesh filename='package://cerberus_rmf_obelix_sensor_config_1/meshes/rmf_obelix.dae' scale='1 1 1'/>
       </geometry>
     </visual>
-    <visual name='center_flashlight_led'>
-      <origin xyz='0.05 0 0.22' rpy='0 -0 1.5708'/>
-      <geometry>
-        <mesh filename='package://cerberus_rmf_obelix_sensor_config_1/meshes/cree_xhp70.dae' scale='1 1 1'/>
-      </geometry>
-    </visual>
     <visual name='ouster_os0_visual'>
       <origin xyz='0 0 0.18' rpy='0 -0 1.5708'/>
       <geometry>

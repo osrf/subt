@@ -34,16 +34,6 @@
                     </mesh>
                 </geometry>
             </visual>
-
-            <visual name="center_flashlight_led">
-                <pose frame="">0.05 0 0.210 0 0 1.5708</pose>
-                <geometry>
-                    <mesh>
-                        <scale>1 1 1</scale>
-                        <uri>meshes/cree_xhp70.dae</uri>
-                    </mesh>
-                </geometry>
-            </visual>
             <light name="center_light_source" type="spot">
                 <pose frame="">0.05 0 0.220 0 -1.5707926535897934 0</pose>
                 <attenuation>

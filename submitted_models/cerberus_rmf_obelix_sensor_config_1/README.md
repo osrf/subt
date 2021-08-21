@@ -11,7 +11,7 @@ https://github.com/osrf/subt/wiki/Get%20Started
 ``` bash
 cd ~/subt_ws/src/subt/submitted_models
 
-git clone https://github.com/ntnu-arl/darpa_virtual_model_submit.git cerberus_rmf_obelix_sensor_config_1
+git clone https://github.com/ntnu-arl/darpa_virtual_model_submit.git submitted_models/cerberus_rmf_obelix_sensor_config_1
 
 cd ~/subt_ws/
 catkin_make install
