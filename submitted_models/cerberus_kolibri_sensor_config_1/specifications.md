@@ -56,7 +56,7 @@ Guide](https://subtchallenge.com/resources/Simulation_Model_Preparation_Guide.pd
 * _z_ angular acceleration 0.5 rad/s<sup>2</sup> 
 
 (*) The values above were derived from giving max RC stick input, but since the platform was originally designed for aerial manipulation, the stick inputs are very slow. Since it was difficult to satisfy the test requirements using our existing autonomy stack, we decided to go with this measurement even though it is very pessimistic.
-(**) The OMAV cannot roll by design. Pitching the body was disabled for our customized SubT version due to odometry drift.
+(**) The OMAV does not roll, and pitching the body was disabled for our customized SubT version due to odometry drift.
 
 The constraints can be found in the following location within the simulation model controller plugin: 
 Lines 47-52 in the file src/subt/submitted_models/cerberus_kolibri_sensor_config_1/voliro_controller_plugin/kolibri_controller.hh. 
