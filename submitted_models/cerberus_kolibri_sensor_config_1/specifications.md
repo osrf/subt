@@ -1,10 +1,10 @@
 <!-- This is a Markdown description of a robot model submitted for inclusion in the DARPA Subterranean Challenge Technology Repository -->
 
 # CERBERUS-Kolibri
-This specifications.md file is a description and proof of virtual model validation for the CERBERUS Kolibri heavy omnidirectional tri-copter with Sensor Configuration 1. This robot may be launched using a `roslaunch` command with the variable name `CERBERUS_KOLIBRI_SENSOR_CONFIG_1`.
+This specifications.md file is a description and proof of virtual model validation for the CERBERUS Kolibri omnidirectional tri-copter with Sensor Configuration 1. This robot may be launched using a `roslaunch` command with the variable name `CERBERUS_KOLIBRI_SENSOR_CONFIG_1`.
 
 ## Description
-The Kolibri is a heavy autonomous omnidirectional tricopter for mapping with 6 cameras and an OS-0 lidar. The platform is a customized version of a Voliro - a novel third-party OMAV, that we customized with a state-of-the-art autonomy stack.
+The Kolibri is an autonomous omnidirectional tricopter for mapping with 6 cameras and an OS-0 lidar. The platform is a customized version of a Voliro - a novel third-party OMAV, that we customized with a state-of-the-art autonomy stack.
 
 ## Usage Instructions
 Install the SubT workspace according to https://github.com/osrf/subt/wiki/Catkin%20System%20Setup
