@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>cerberus_kolibri_sensor_config_1</name>
+  <version>0.1.0</version>
+  <description>
+    The cerberus_kolibri_sensor_config_1 package, a customized Voliro OMAV outfitted with an OS0 lidar, 6 cameras and imu. The package is loosely derived from the cerberus_m100_sensor_config_1 and cerberus_anymal packages.
+  </description>
+  <maintainer email="olov.andersson@gmail.com">Olov Andersson</maintainer>
+  <author email="olov.andersson@gmail.com">Olov Andersson</author>
+
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <buildtool_depend>roslaunch</buildtool_depend>
+  <buildtool_depend>urdf</buildtool_depend>
+  <buildtool_depend>xacro</buildtool_depend>
+
+</package>
