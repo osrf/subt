@@ -76,7 +76,7 @@ Guide], this vehicle has the following endurance characteristics.
 * Original OMAV manufucturer: [Link](http://voliro.com)
 * LIDAR - Ouster OS0: [Link](https://www.dataspeedinc.com/app/uploads/2020/05/Ouster-OS0-Lidar-Datasheet.pdf)
 * Six Grayscale and Color Cameras - Sony IMX287: [Link](https://www.sony-semicon.co.jp/products/common/pdf/IMX273_287_296_297_Flyer.pdf)
-* IMU - Bosch BMI085 IMU: [Link](https://www.vectornav.com/products/vn-100)
+* IMU - Bosch BMI085 IMU: [Link](https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bmi085-ds001.pdf)
 
 * Linear and Angular Acceleration and Speed Validation Video: [Link](https://drive.google.com/file/d/181paS8Xs5BYX2FdfhRD7w-OfjpCqRHmQ/view?usp=sharing) 
 * Linear and Angular Acceleration and Speed Validation Data: [Link](https://drive.google.com/file/d/1vFJhYtik9gus2S0WheV2vLFC43g0EBC4/view?usp=sharing)
