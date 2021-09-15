@@ -175,10 +175,10 @@ Gazebo state information and server console messages are logged on the Ignition 
 
 ## Websocket Connections
 
-The simulation server contains a websocket server that can forward topic information to clients using the websocket protocol. The websocket server is available publicly and clients are free to connect at any time. However, established connections need to perform an authentication process before being able to receive simulation data. 
+The simulation server contains a websocket server that can forward topic information using the websocket protocol. The websocket server is available publicly and clients are free to connect at any time. However, established connections need to perform an authentication process before being able to receive simulation data. For information about the websocket server, refer to the [Websocket Server documentation](https://github.com/ignitionrobotics/ign-launch/blob/ign-launch4/plugins/websocket_server/WebsocketServer.hh#L35).
 
 ## Mapping Server
 
-A mapping server is launched to perform real-time simulation processing. The mapping server is launched in a separate [`AWS EC2 c5.4xlarge`](https://aws.amazon.com/ec2/instance-types/c5/) instance, and cannot be accessed directly by team solutions. Instead, team solutions can interact with the mapping server by publishing to specific topics to have their data processed.
+A mapping server is launched to perform simulation processing and aid DARPA in the evaluation of submissions. The mapping server is launched in a separate [`AWS EC2 c5.4xlarge`](https://aws.amazon.com/ec2/instance-types/c5/) instance, and cannot be accessed directly by team solutions. Instead, team solutions can interact with the mapping server by publishing to specific topics to have their data processed. For more information on how to interact with the mapping server, refer to the [Mapping Server section of the API article](https://github.com/osrf/subt/wiki/api#mapping-server).
 
 **[Next, running Cloudsim locally](https://github.com/osrf/subt/wiki/Cloudsim%20Docker%20Compose)**
