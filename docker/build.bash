@@ -40,6 +40,11 @@ image_plus_tag=$image_name:latest-$(date +%F_%H%M)
 
 shift
 
+# Clone the repository outside of Docker to prevent exposure of SSH keys
+mkdir -p subt_ws/src
+git clone git@github.com:osrf/subt_private -b update_playback_events subt_ws/src/subt_private
+
+
 docker build --rm -t $image_plus_tag --build-arg user_id=$user_id "$@" -f $DIR/$image_name/Dockerfile .
 docker tag $image_plus_tag $image_name:latest
 

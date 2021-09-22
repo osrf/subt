@@ -34,6 +34,8 @@ find_package(ignition-fuel_tools5 REQUIRED)
 find_package(ignition-math6 REQUIRED)
 find_package(ignition-msgs6 REQUIRED)
 find_package(ignition-transport9 REQUIRED)
+find_package(ignition-sensors4 REQUIRED)
+find_package(ignition-rendering4 REQUIRED)
 find_package(ignition-plugin1 REQUIRED COMPONENTS loader register)
 find_package(ignition-launch3 REQUIRED)
 find_package(sdformat10 REQUIRED)
@@ -140,6 +142,37 @@ foreach(PLUGIN ${SUBT_IGN_PLUGINS})
   add_library(${PLUGIN} SHARED src/${PLUGIN}.cc)
   target_link_libraries(${PLUGIN} PUBLIC SubtCommon SubtProtobuf)
 endforeach()
+
+# Create the libPlaybackSensors.so library.
+set(playback_sensors_name PlaybackSensors)
+add_library(${playback_sensors_name} SHARED
+  src/PlaybackSensors.cc
+)
+
+target_include_directories(${playback_sensors_name}
+  PRIVATE
+    ${CATKIN_DEVEL_PREFIX}/include)
+target_link_libraries(${playback_sensors_name}
+  PRIVATE
+    ignition-gazebo${IGN_GAZEBO_VER}::core
+    ignition-common3::ignition-common3
+    ignition-math6::ignition-math6
+    ignition-msgs6::ignition-msgs6
+    ignition-plugin1::loader
+    ignition-transport9::ignition-transport9
+    ignition-sensors4::ignition-sensors4
+    ignition-sensors4::camera
+    ignition-rendering4::ignition-rendering4
+    sdformat10::sdformat10
+    ignition-gazebo${IGN_GAZEBO_VER}-rendering
+    ${catkin_LIBRARIES}
+)
+
+install(TARGETS ${playback_sensors_name}
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+
 
 install(
   TARGETS SubtProtobuf SubtCommon ${SUBT_IGN_PLUGINS}
@@ -272,6 +305,14 @@ add_custom_command(TARGET unzip_dat PRE_BUILD
   COMMAND ${CMAKE_COMMAND} -E tar xvf finals_practice_03.dat.zip
   DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/worlds/finals_practice_03.dat.zip
 COMMENT "Unpacking finals_practice_03.dat.zip"
+VERBATIM)
+
+# Unzip the final_event_03.dat.zip file
+add_custom_command(TARGET unzip_dat PRE_BUILD
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/worlds/final_event/03
+  COMMAND ${CMAKE_COMMAND} -E tar xvf final_event_03.dat.zip
+  DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/worlds/final_event/03/final_event_03.dat.zip
+COMMENT "Unpacking final_event_03.dat.zip"
 VERBATIM)
 
 install(PROGRAMS
