@@ -48,12 +48,6 @@
     <% elsif $worldName.include?('urban_circuit_') &&
           !$worldName.include?('practice') %>
       <world_file>urban_circuit/<%= worldNumber %>/<%= $worldName %>.sdf</world_file>
-    <% elsif $worldName.include?('final_event') &&
-          !$worldName.include?('practice') %>
-      <world_file>final_event/<%= worldNumber %>/<%= $worldName %>.sdf</world_file>
-    <% elsif $worldName.include?('final_prelim') &&
-          !$worldName.include?('practice') %>
-      <world_file>final_prelim/<%= worldNumber %>/<%= $worldName %>.sdf</world_file>
     <% else %>
       <world_file><%= $worldName %>.sdf</world_file>
     <% end %>
@@ -63,8 +57,9 @@
     <run>true</run>
     <levels>false</levels>
     <record>
-      <enabled>false</enabled>
-      <path>/tmp/unused-logs</path>
+      <enabled>true</enabled>
+      <!-- This path is used by cloudsim, please do not change -->
+      <path>/tmp/ign/logs</path>
     </record>
     <%if defined?(seed) && seed != nil && !seed.empty?%>
     <seed><%= seed %></seed>
@@ -94,16 +89,7 @@
             name="ignition::gazebo::systems::SceneBroadcaster">
     </plugin>
 
-    <plugin entity_name="<%= $worldName %>"
-            entity_type="world"
-            filename="libPlaybackSensors.so"
-            name="subt::PlaybackSensors">
-
-            <type>traj</type>
-    </plugin>
-
-
-    <plugin entity_name="<%= $worldName %>"
+    <!--<plugin entity_name="<%= $worldName %>"
             entity_type="world"
             filename="libignition-gazebo-imu-system.so"
             name="ignition::gazebo::systems::Imu">
@@ -120,8 +106,10 @@
             filename="libignition-gazebo-air-pressure-system.so"
             name="ignition::gazebo::systems::AirPressure">
     </plugin>
+-->
     </plugin>
-    <!--
+
+
   <executable_wrapper>
     <plugin name="ignition::launch::GazeboGui"
           filename="libignition-launch-gazebogui.so">
@@ -140,6 +128,10 @@
         <ambient_light>1.0 1.0 1.0</ambient_light>
         <background_color>1.0 1.0 1.0</background_color>
 
+        <!-- Perspective -->
+        <!-- <camera_pose>-120 70 70 0 0.568 -1.0</camera_pose> -->
+
+        <!-- Top down -->
         <camera_pose>-40 -80 190 0 1.5708 1.5708</camera_pose>
       </plugin>
       <plugin filename="WorldControl" name="World control">
@@ -188,8 +180,18 @@
         <iterations>true</iterations>
         <topic>/world/<%= $worldName %>/stats</topic>
       </plugin>
+      <!-- Entity tree -->
+      <!-- <plugin filename="EntityTree" name="Entity tree">
+        <ignition-gui>
+          <title>Entity tree</title>
+        </ignition-gui>
+      </plugin> -->
+
+      <!-- Transform Control -->
+      <!-- <plugin filename="TransformControl" name="Transform Control">
+        <service>/world/<%= $worldName %>/gui/transform_mode</service>
+      </plugin> -->
     </plugin>
   </executable_wrapper>
-  -->
 
 </ignition>
