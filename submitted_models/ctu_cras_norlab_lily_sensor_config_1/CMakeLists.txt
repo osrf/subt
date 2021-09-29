@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.10.0)
 project(ctu_cras_norlab_lily_sensor_config_1)
 
 ## make params
-set(IGN_GAZEBO_VER 4)
+set(IGN_GAZEBO_VER 6)
 
 set(DEPS roscpp ros_ign_bridge nodelet)
 set(MSG_DEPS std_msgs geometry_msgs)

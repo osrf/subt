@@ -4,8 +4,8 @@ project(emesent_hovermap_sensor_config_1)
 set(CMAKE_CXX_STANDARD 17)
 set(IGN_PLUGIN_VER 0)
 
-find_package(ignition-gazebo4 REQUIRED)
-find_package(ignition-common3 REQUIRED)
+find_package(ignition-gazebo6 REQUIRED)
+find_package(ignition-common4 REQUIRED)
 ign_find_package(ignition-plugin0 REQUIRED COMPONENTS register)
 
 find_package(catkin REQUIRED)
@@ -13,7 +13,7 @@ find_package(catkin REQUIRED)
 catkin_package()
 
 add_library(GimbalControlPlugin src/ign_gimbal.cpp)
-target_link_libraries(GimbalControlPlugin PRIVATE ignition-gazebo4::core ignition-common3::ignition-common3)
+target_link_libraries(GimbalControlPlugin PRIVATE ignition-gazebo6::core ignition-common4::ignition-common4)
 
 install(TARGETS GimbalControlPlugin
         ARCHIVE DESTINATION lib

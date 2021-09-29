@@ -9,9 +9,9 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 
-find_package(ignition-gazebo4 REQUIRED)
-find_package(ignition-transport9 REQUIRED)
-find_package(ignition-common3 REQUIRED)
+find_package(ignition-gazebo6 REQUIRED)
+find_package(ignition-transport11 REQUIRED)
+find_package(ignition-common4 REQUIRED)
 find_package(Eigen3 REQUIRED)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -36,9 +36,9 @@ add_library(ackermannrocky SHARED
 target_link_libraries(ackermannrocky
   PUBLIC ${catkin_LIBRARIES}
   PRIVATE ignition-plugin1::ignition-plugin1
-  PRIVATE ignition-gazebo4::ignition-gazebo4
-  PRIVATE ignition-common3::ignition-common3
-  PRIVATE ignition-transport9::ignition-transport9
+  PRIVATE ignition-gazebo6::ignition-gazebo6
+  PRIVATE ignition-common4::ignition-common4
+  PRIVATE ignition-transport11::ignition-transport11
   PRIVATE Eigen3::Eigen
 )
 

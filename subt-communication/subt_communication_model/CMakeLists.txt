@@ -16,17 +16,17 @@ set(RUN_DEPENDS
 #######################################
 
 find_package(catkin REQUIRED ${BUILD_DEPENDS})
-find_package(ignition-common3 REQUIRED)
+find_package(ignition-common4 REQUIRED)
 
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
-  ${ignition-common3_INCLUDE_DIRS}
+  ${ignition-common4_INCLUDE_DIRS}
   )
 
 set(project_libs
   ${catkin_LIBRARIES}
-  ${ignition-common3_LIBRARIES})
+  ${ignition-common4_LIBRARIES})
 
 # Set this project to use C++11
 set (CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")

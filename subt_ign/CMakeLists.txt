@@ -24,19 +24,19 @@ find_package(catkin REQUIRED
     rosbag
 )
 
-find_package(ignition-gazebo4 REQUIRED)
-set(IGN_GAZEBO_VER ${ignition-gazebo4_VERSION_MAJOR})
+find_package(ignition-gazebo6 REQUIRED)
+set(IGN_GAZEBO_VER ${ignition-gazebo6_VERSION_MAJOR})
 
 file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include)
 
-find_package(ignition-common3 REQUIRED COMPONENTS graphics)
-find_package(ignition-fuel_tools5 REQUIRED)
+find_package(ignition-common4 REQUIRED COMPONENTS graphics)
+find_package(ignition-fuel_tools7 REQUIRED)
 find_package(ignition-math6 REQUIRED)
-find_package(ignition-msgs6 REQUIRED)
-find_package(ignition-transport9 REQUIRED)
+find_package(ignition-msgs8 REQUIRED)
+find_package(ignition-transport11 REQUIRED)
 find_package(ignition-plugin1 REQUIRED COMPONENTS loader register)
-find_package(ignition-launch3 REQUIRED)
-find_package(sdformat10 REQUIRED)
+find_package(ignition-launch5 REQUIRED)
+find_package(sdformat12 REQUIRED)
 find_package(yaml-cpp REQUIRED)
 
 find_package(PkgConfig REQUIRED)
@@ -81,7 +81,7 @@ set_target_properties(${protobuf_lib_name}
   PROPERTIES POSITION_INDEPENDENT_CODE ON COMPILE_FLAGS "-Wno-unused-parameter" )
 target_link_libraries(${protobuf_lib_name}
   PRIVATE
-  ignition-msgs6::ignition-msgs6
+  ignition-msgs8::ignition-msgs8
 )
 install(TARGETS ${protobuf_lib_name}
   ARCHIVE DESTINATION lib
@@ -114,12 +114,12 @@ target_include_directories(SubtCommon
 target_link_libraries(SubtCommon
   PUBLIC
   ignition-gazebo${IGN_GAZEBO_VER}::core
-  ignition-common3::ignition-common3
-  ignition-common3::graphics
-  ignition-transport9::ignition-transport9
-  ignition-transport9::ignition-transport9-log
-  ignition-launch3::ignition-launch3
-  ignition-fuel_tools5::ignition-fuel_tools5
+  ignition-common4::ignition-common4
+  ignition-common4::graphics
+  ignition-transport11::ignition-transport11
+  ignition-transport11::ignition-transport11-log
+  ignition-launch5::ignition-launch5
+  ignition-fuel_tools7::ignition-fuel_tools7
   ${catkin_LIBRARIES}
   ${LIBFCL_LIBRARIES}
   ${YAML_CPP_LIBRARIES}
