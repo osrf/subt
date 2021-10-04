@@ -252,7 +252,9 @@ void generateLevel(const std::string &_sdfFile, const math::Vector3d &_size,
       filter = [](const std::string &_name,
       const std::string &/*_type*/)
   {
-    return modelsToIgnore.count(_name) > 0;
+    return modelsToIgnore.count(_name) > 0 ||
+      _name.find("fog") != std::string::npos ||
+      _name.find("dynamic_rocks") != std::string::npos;
   };
 
   std::vector<VertexData> vertexData;

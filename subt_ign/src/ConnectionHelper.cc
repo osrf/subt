@@ -211,6 +211,7 @@ std::map<std::string, std::vector<ignition::math::Vector3d>>
     {"Cave Tunnel Transition", {{0, 25, 0}, {0, -25, 0}, {-25, 0, 0}}},
     {"Cave Tunnel Transition Lights", {{0, 25, 0}, {0, -25, 0}, {-25, 0, 0}}},
     {"Urban Cave Transition", {{0, -12, 0}, {0, 12, 0}, {-25, 0, 0}}},
+    {"Urban Cave Transition Lights", {{0, -12, 0}, {0, 12, 0}, {-25, 0, 0}}},
     {"Urban Cave Transition 2", {{0, -12, 0}, {0, 12, 0}, {-25, 0, 0}}},
     {"Urban Cave Transition Straight", {{0, -5, 0}, {0, 5, 0}}},
     {"Urban Cave Transition Straight Large", {{0, -5, 0}, {0, 5, 0}}},
@@ -222,6 +223,7 @@ std::map<std::string, std::vector<ignition::math::Vector3d>>
     {"4-Way Finals Transition 2", {{8, 0, 0}, {-8, 0, 0}, {0, 8, 0}, {0, -8, 0}}},
     {"4-Way Finals Transition 2 Lights", {{8, 0, 0}, {-8, 0, 0}, {0, 8, 0}, {0, -8, 0}}},
     {"Finals Staging Area", {{0, 5, 0}}},
+    {"NIOSH Staging Connector Finals", {{0, 0, 0}, {-1, 6.5, 0}}},
   };
 
 std::map<std::string, subt::ConnectionHelper::ConnectionType>
@@ -404,6 +406,7 @@ std::map<std::string, subt::ConnectionHelper::ConnectionType>
     {"Cave Tunnel Transition", subt::ConnectionHelper::STRAIGHT},
     {"Cave Tunnel Transition Lights", subt::ConnectionHelper::STRAIGHT},
     {"Urban Cave Transition", subt::ConnectionHelper::STRAIGHT},
+    {"Urban Cave Transition Lights", subt::ConnectionHelper::STRAIGHT},
     {"Urban Cave Transition 2", subt::ConnectionHelper::STRAIGHT},
     {"Urban Cave Transition Straight", subt::ConnectionHelper::STRAIGHT},
     {"Urban Cave Transition Straight Large", subt::ConnectionHelper::STRAIGHT},
@@ -414,6 +417,7 @@ std::map<std::string, subt::ConnectionHelper::ConnectionType>
     {"4-Way Finals Transition", subt::ConnectionHelper::TURN},
     {"4-Way Finals Transition 2", subt::ConnectionHelper::TURN},
     {"4-Way Finals Transition 2 Lights", subt::ConnectionHelper::TURN},
+    {"NIOSH Staging Connector Finals", subt::ConnectionHelper::STRAIGHT},
   };
 
   std::map<std::string, subt::ConnectionHelper::CircuitType>
@@ -596,6 +600,7 @@ std::map<std::string, subt::ConnectionHelper::ConnectionType>
     {"Cave Tunnel Transition", subt::ConnectionHelper::TRANSITION},
     {"Cave Tunnel Transition Lights", subt::ConnectionHelper::TRANSITION},
     {"Urban Cave Transition", subt::ConnectionHelper::TRANSITION},
+    {"Urban Cave Transition Lights", subt::ConnectionHelper::TRANSITION},
     {"Urban Cave Transition Straight", subt::ConnectionHelper::TRANSITION},
     {"Urban Tunnel Transition", subt::ConnectionHelper::TRANSITION},
     {"Urban Tunnel Transition 2", subt::ConnectionHelper::TRANSITION},
@@ -604,6 +609,7 @@ std::map<std::string, subt::ConnectionHelper::ConnectionType>
     {"4-Way Finals Transition", subt::ConnectionHelper::TRANSITION},
     {"4-Way Finals Transition 2", subt::ConnectionHelper::TRANSITION},
     {"4-Way Finals Transition 2 Lights", subt::ConnectionHelper::TRANSITION},
+    {"NIOSH Staging Connector Finals", subt::ConnectionHelper::TRANSITION},
   };
 
 using namespace ignition;

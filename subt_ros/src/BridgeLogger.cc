@@ -22,6 +22,7 @@
 #include <std_msgs/String.h>
 #include <sensor_msgs/BatteryState.h>
 #include <sensor_msgs/CompressedImage.h>
+#include <sensor_msgs/FluidPressure.h>
 #include <sensor_msgs/Image.h>
 #include <sensor_msgs/Imu.h>
 #include <sensor_msgs/LaserScan.h>
@@ -226,6 +227,11 @@ void BridgeLogger::OnSensorMsg(const topic_tools::ShapeShifter::ConstPtr &_msg,
   else if (_msg->getDataType() == "sensor_msgs/MagneticField")
   {
     const auto msg = _msg->instantiate<sensor_msgs::MagneticField>();
+    seq = msg->header.seq;
+  }
+  else if (_msg->getDataType() == "sensor_msgs/FluidPressure")
+  {
+    const auto msg = _msg->instantiate<sensor_msgs::FluidPressure>();
     seq = msg->header.seq;
   }
   else
