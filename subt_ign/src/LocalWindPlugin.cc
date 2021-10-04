@@ -86,10 +86,10 @@ void LocalWindPrivate::Load(
   this->forceApproximationScalingFactor =
     _sdf->Get<double>("scaling", this->forceApproximationScalingFactor).first;
 
-  // Iterate over all the localWind instances defined
+  // Iterate over all the local_wind instances defined
   // inside the plugin
   auto sdfClone = _sdf->Clone();
-  sdf::ElementPtr localWindElement = sdfClone->GetElement("localWind");
+  sdf::ElementPtr localWindElement = sdfClone->GetElement("local_wind");
   while (localWindElement)
   {
     // Check if valid
@@ -114,7 +114,7 @@ void LocalWindPrivate::Load(
     }
     else
     {
-      ignerr << "Parsing problem. Each localWind element requires a tile"
+      ignerr << "Parsing problem. Each local_wind element requires a tile"
              << "and a magnitude\n";
       return;
     }
@@ -159,22 +159,13 @@ void LocalWind::Configure(
 //////////////////////////////////////////////////
 void LocalWind::PreUpdate(
     const gazebo::UpdateInfo &_info,
-    gazebo::EntityComponentManager &_ecm)  
+    gazebo::EntityComponentManager &_ecm)
 {
-
   if (!this->dataPtr->initialized)
     return;
 
   if (_info.paused)
     return;
-
-  // \TODO(anyone) Support rewind
-  if (_info.dt < std::chrono::steady_clock::duration::zero())
-  {
-    ignwarn << "Detected jump back in time ["
-        << std::chrono::duration_cast<std::chrono::seconds>(_info.dt).count()
-        << "s]. System may not work properly." << std::endl;
-  }
 
   // Init each new link added to the world
   _ecm.EachNew<gazebo::components::Link, gazebo::components::WindMode>(
@@ -226,7 +217,7 @@ void LocalWind::PreUpdate(
       // Get Tile defined for that XYZ
       const auto &tilesMap = this->dataPtr->visibilityTable.Vertices();
       const auto linkTile = tilesMap.at(roundedPos);
-      
+
       igndbg << "Position: " << std::get<0>(roundedPos) << " "
              << std::get<1>(roundedPos) << " "
              << std::get<2>(roundedPos) << " "
