@@ -133,6 +133,7 @@ list(APPEND SUBT_IGN_PLUGINS
   ControllerPlugin
   GameLogicPlugin
   GasEmitterDetectorPlugin
+  LocalWindPlugin
   VisibilityPlugin
 )
 
