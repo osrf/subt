@@ -106,12 +106,12 @@ RUN . /opt/ros/melodic/setup.sh \
  && rosdep update \
  && sudo apt-get update \
  && rosdep install -y --from-paths . --ignore-src -r \
-    --skip-keys=ignition-transport9 \
+    --skip-keys=ignition-transport11 \
     --skip-keys=ignition-math6 \
-    --skip-keys=ignition-msgs6 \
+    --skip-keys=ignition-msgs8 \
     --skip-keys=ignition-plugin1 \
-    --skip-keys=ignition-common3 \
-    --skip-keys=ignition-launch2 \
+    --skip-keys=ignition-common4 \
+    --skip-keys=ignition-launch5 \
  && sudo apt-get clean -qq
 
 WORKDIR /home/$USERNAME/subt_ws

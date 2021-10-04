@@ -36,10 +36,10 @@ generate_messages(
   geometry_msgs
 )
 
-find_package(ignition-common3 REQUIRED)
+find_package(ignition-common4 REQUIRED)
 find_package(ignition-math6 REQUIRED)
-find_package(ignition-msgs6 REQUIRED)
-find_package(ignition-transport9 REQUIRED)
+find_package(ignition-msgs8 REQUIRED)
+find_package(ignition-transport11 REQUIRED)
 find_package(PCL REQUIRED)
 
 catkin_package(
@@ -85,7 +85,7 @@ target_link_libraries(bridge_logger
   PUBLIC
     ${catkin_LIBRARIES}
   PRIVATE
-    ignition-common3::ignition-common3
+    ignition-common4::ignition-common4
 )
 
 add_executable(subt_ros_relay src/SubtRosRelay.cc)
@@ -93,10 +93,10 @@ target_include_directories(subt_ros_relay
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 target_link_libraries(subt_ros_relay
   PUBLIC
-    ignition-common3::ignition-common3
+    ignition-common4::ignition-common4
     ignition-math6::ignition-math6
-    ignition-msgs6::ignition-msgs6
-    ignition-transport9::ignition-transport9
+    ignition-msgs8::ignition-msgs8
+    ignition-transport11::ignition-transport11
     ${catkin_LIBRARIES}
 )
 add_dependencies(subt_ros_relay ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
@@ -106,10 +106,10 @@ target_include_directories(set_pose_relay
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 target_link_libraries(set_pose_relay
   PUBLIC
-    ignition-common3::ignition-common3
+    ignition-common4::ignition-common4
     ignition-math6::ignition-math6
-    ignition-msgs6::ignition-msgs6
-    ignition-transport9::ignition-transport9
+    ignition-msgs8::ignition-msgs8
+    ignition-transport11::ignition-transport11
     ${catkin_LIBRARIES}
 )
 add_dependencies(set_pose_relay ${catkin_EXPORTED_TARGETS})
@@ -119,9 +119,9 @@ target_include_directories(set_rate_relay
   PRIVATE ${CATKIN_DEVEL_PREFIX}/include)
 target_link_libraries(set_rate_relay
   PUBLIC
-    ignition-common3::ignition-common3
-    ignition-msgs6::ignition-msgs6
-    ignition-transport9::ignition-transport9
+    ignition-common4::ignition-common4
+    ignition-msgs8::ignition-msgs8
+    ignition-transport11::ignition-transport11
     ${catkin_LIBRARIES}
 )
 add_dependencies(set_rate_relay ${catkin_EXPORTED_TARGETS})

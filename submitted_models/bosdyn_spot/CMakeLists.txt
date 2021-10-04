@@ -3,7 +3,7 @@ project(bosdyn_spot)
 
 set(CMAKE_CXX_STANDARD 17)
 
-set(IGN_GAZEBO_VER 4)
+set(IGN_GAZEBO_VER 6)
 find_package(ignition-gazebo${IGN_GAZEBO_VER} REQUIRED)
 
 set(DEPS control_toolbox dynamic_reconfigure ros_ign_bridge nodelet roscpp)
