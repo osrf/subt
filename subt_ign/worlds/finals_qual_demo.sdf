@@ -758,16 +758,30 @@
     </wind>
 
     <!-- Load the plugin for localized wind -->
+    <!-- This example applies wind to a few cave tiles
+         near the staging area -->
     <plugin filename="libLocalWindPlugin.so"
             name="subt::LocalWind">
       <scaling>0.8</scaling>
       <local_wind>
-        <tile>1</tile>
-        <magnitude>1 3 0</magnitude>
+        <tile>29</tile>
+        <!-- magnitutude in the origin coordinate frame -->
+        <magnitude>0 2 0</magnitude>
       </local_wind>
       <local_wind>
-        <tile>4</tile>
-        <magnitude>1 5 1</magnitude>
+        <tile>28</tile>
+        <!-- magnitutude in the origin coordinate frame -->
+        <magnitude>0 2 0</magnitude>
+      </local_wind>
+      <local_wind>
+        <tile>38</tile>
+        <!-- magnitutude in the origin coordinate frame -->
+        <magnitude>0 0 1</magnitude>
+      </local_wind>
+      <local_wind>
+        <tile>37</tile>
+        <!-- magnitutude in the origin coordinate frame -->
+        <magnitude>1 0 0</magnitude>
       </local_wind>
     </plugin>
 

@@ -218,15 +218,15 @@ void LocalWind::PreUpdate(
       const auto &tilesMap = this->dataPtr->visibilityTable.Vertices();
       const auto linkTile = tilesMap.at(roundedPos);
 
-      igndbg << "Position: " << std::get<0>(roundedPos) << " "
-             << std::get<1>(roundedPos) << " "
-             << std::get<2>(roundedPos) << " "
-             << " current tile: " << linkTile << "\n";
-
       // If Tile is in the tiles defined by the plugin, apply force
       auto tileLocalWind = this->dataPtr->windTiles.find(linkTile);
       if(tileLocalWind != this->dataPtr->windTiles.end())
       {
+        igndbg << "Position: " << std::get<0>(roundedPos) << " "
+          << std::get<1>(roundedPos) << " "
+          << std::get<2>(roundedPos) << " "
+          << " current tile: " << linkTile << "\n";
+
         link.ResetEntity(_entity);
 
         math::Vector3d windForce =
