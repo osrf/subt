@@ -34,7 +34,7 @@ inline double dbmToPow(double x) { return 0.001 * pow(10., x / 10.); }
 inline double QPSKPowerToBER(double P, double N) { return erfc(sqrt(P / N)); }
 
 /////////////////////////////////////////////
-std::tuple<bool, double>
+std::tuple<bool, double, bool>
 attempt_send(const radio_configuration& radio,
              rf_interface::radio_state& tx_state,
              rf_interface::radio_state& rx_state,
@@ -68,7 +68,7 @@ attempt_send(const radio_configuration& radio,
   {
     // ignwarn << "Bitrate limited: " << bits_sent << "bits sent (limit: "
     // << radio.capacity  * epoch_duration.toSec() << std::endl;
-    return std::make_tuple(false, std::numeric_limits<double>::lowest());
+    return std::make_tuple(false, std::numeric_limits<double>::lowest(), false);
   }
 
   // Record these bytes
@@ -76,9 +76,11 @@ attempt_send(const radio_configuration& radio,
   tx_state.bytes_sent_this_epoch += num_bytes;
 
   // Get the received power based on TX power and position of each node
+  bool usingBreadcrumbs;
   auto rx_power_dist = radio.pathloss_f(radio.default_tx_power,
                                         tx_state,
-                                        rx_state);
+                                        rx_state,
+                                        usingBreadcrumbs);
 
   double rx_power = rx_power_dist.mean;
   if(rx_power_dist.variance > 0.0) {
@@ -113,7 +115,7 @@ attempt_send(const radio_configuration& radio,
   bool packet_received = rand_draw > packet_drop_prob;
 
   if(!packet_received)
-    return std::make_tuple(false, std::numeric_limits<double>::lowest());
+    return std::make_tuple(false, std::numeric_limits<double>::lowest(), false);
 
   // Maintain running window of bytes received over the last epoch, e.g.,
   // 1s
@@ -140,14 +142,14 @@ attempt_send(const radio_configuration& radio,
     // ignwarn < <"Bitrate limited: " <<  bits_received
     // << "bits received (limit: " << radio.capacity * epoch_duration.toSec()
     // << )\n";
-    return std::make_tuple(false, std::numeric_limits<double>::lowest());
+    return std::make_tuple(false, std::numeric_limits<double>::lowest(), false);
   }
 
   // Record these bytes
   rx_state.bytes_received.push_back(std::make_pair(now, num_bytes));
   rx_state.bytes_received_this_epoch += num_bytes;
 
-  return std::make_tuple(true, rx_power);
+  return std::make_tuple(true, rx_power, usingBreadcrumbs);
 }
 
 }

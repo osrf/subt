@@ -37,6 +37,7 @@ RUN sudo apt-get update -qq \
         atop \
         cmake \
         cppcheck \
+        expect \
         gdb \
         git \
         gnutls-bin \
@@ -58,6 +59,7 @@ RUN sudo apt-get update -qq \
         ruby2.5-dev \
         software-properties-common \
         sudo \
+        tcl8.6 \
         vim \
         wget \
         net-tools \
@@ -77,11 +79,14 @@ VOLUME /root/.aws
 RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' \
  && sudo apt-get update \
  && sudo apt-get install -y \
+    libpcl-dev \
+    libpcl-conversions-dev \
     python-catkin-tools \
     python-rosdep \
     python-rosinstall \
     ros-melodic-desktop \
     ros-melodic-joystick-drivers \
+    ros-melodic-pcl-ros \
     ros-melodic-pointcloud-to-laserscan \
     ros-melodic-robot-localization \
     ros-melodic-spacenav-node \

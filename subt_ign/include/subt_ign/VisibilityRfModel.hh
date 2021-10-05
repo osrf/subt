@@ -80,12 +80,14 @@ namespace subt
         /// Compute received power function that will be given to
         /// communcation model.
         ///
-        /// @param tx_power Transmit power (dBm)
-        /// @param tx_state Transmitter state
-        /// @param rx_state Receiver state
+        /// @param _txPower Transmit power (dBm)
+        /// @param _txState Transmitter state
+        /// @param _rxState Receiver state
+        /// @param _usingBreadCrumbs True if one or more breadcrumbs were used
         public: rf_power ComputeReceivedPower(const double &_txPower,
                                               radio_state &_txState,
-                                              radio_state &_rxState);
+                                              radio_state &_rxState,
+                                              bool &_usingBreadcrumbs);
 
         /// \brief Whether the visibility model has been successfully
         /// initialized.

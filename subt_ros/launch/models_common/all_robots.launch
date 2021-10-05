@@ -40,4 +40,9 @@
       args="/model/$(arg name)/gas_detected@std_msgs/Bool[ignition.msgs.Boolean">
       <remap from="/model/$(arg name)/gas_detected" to="gas_detected"/>
     </node>
+    <node pkg="ros_ign_bridge" type="parameter_bridge" name="ros_ign_bridge_gas_ppm" respawn="true"
+      args="/model/$(arg name)/gas_detected/ppm@std_msgs/Float64[ignition.msgs.Double">
+      <remap from="/model/$(arg name)/gas_detected/ppm" to="gas_detected/ppm"/>
+    </node>
+
 </launch>

@@ -5,8 +5,8 @@
   <link name='${robot_namespace}/base_link'>
     <inertial>
       <origin xyz='0 -0.14 0.11' rpy='0 -0 0'/>
-      <mass value='15'/>
-      <inertia ixx='0.147' ixy='0' ixz='0' iyy='1.056' iyz='0' izz='1.071'/>
+      <mass value='27.85'/>
+      <inertia ixx='0.274' ixy='0' ixz='0' iyy='1.961' iyz='0' izz='1.989'/>
     </inertial>
     <collision name='chassis_collision'>
       <origin xyz='0 -0.14 0.11' rpy='0 -0 0'/>
@@ -268,8 +268,8 @@
   <link name='${robot_namespace}/body_left'>
     <inertial>
       <origin xyz='0 0.14 0.11' rpy='0 -0 0'/>
-      <mass value='15'/>
-      <inertia ixx='0.147' ixy='0' ixz='0' iyy='1.056' iyz='0' izz='1.071'/>
+      <mass value='27.85'/>
+      <inertia ixx='0.274' ixy='0' ixz='0' iyy='1.961' iyz='0' izz='1.989'/>
     </inertial>
     <collision name='body_left_collision'>
       <origin xyz='0 0.14 0.11' rpy='0 -0 0'/>
