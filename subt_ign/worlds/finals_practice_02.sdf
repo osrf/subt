@@ -776,6 +776,7 @@
         <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
           <match field='header.data'>{ key: "frame_id" value: "performer_detector_debris_wall_2" }</match>
           <match field='header.data'>{ key: "state" value: "0" }</match>
+          <match field="header.data">{ key: "count" value: "0" }</match>
         </input>
         <delay_ms>2500</delay_ms>
         <output type="ignition.msgs.Empty" topic="/model/debris_wall_2/breadcrumbs/Wall/deploy"/>
@@ -797,6 +798,7 @@
             value: "0"
             }
           </match>
+          <match field="header.data">{ key: "count" value: "0" }</match>
         </input>
         <output type="ignition.msgs.ParticleEmitter" topic="/model/debris_wall_2_fog_emitter_1/link/link/particle_emitter/dust_generator/cmd">
           emitting:{data: 1}
@@ -822,6 +824,7 @@
             value: "0"
             }
           </match>
+          <match field="header.data">{ key: "count" value: "0" }</match>
         </input>
         <delay_ms>2500</delay_ms>
         <output type="ignition.msgs.ParticleEmitter" topic="/model/debris_wall_2_fog_emitter_1/link/link/particle_emitter/dust_generator/cmd">
