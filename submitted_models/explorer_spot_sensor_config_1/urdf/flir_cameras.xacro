@@ -1,0 +1,110 @@
+<?xml version="1.0"?>
+<root xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- Mass properties from datasheet -->
+    <xacro:property name="flir_backly_mass" value="0.105" scope="global" />
+    <xacro:property name="lens_mass" value="0.127" scope="global" />
+
+    <xacro:property name="c_mount_flange_distance" value="0.017526" scope="global" />
+    <xacro:property name="c_mount_radius" value="${0.025/2}" scope="global" />
+
+    <xacro:macro name="flir_backly_base" params="name hfov_deg frame_rate resolution_x resolution_y fisheye:=0 camera_length origin_to_camera_front_dist camera_mass camera_mesh lens_length lens_back_focal_distance lens_entrance_pupil_position lens_mass lens_mesh near_clip:=-1 simulate:=1 visualize:=0">
+        <xacro:property name="camera_width" value="0.029"/>
+        <xacro:property name="camera_height" value="0.029"/>
+
+        <xacro:property name="sensor_chip_pos" value="${origin_to_camera_front_dist - c_mount_flange_distance}" />
+        <xacro:property name="lens_back_pos" value="${sensor_chip_pos + lens_back_focal_distance}" />
+
+        <xacro:property name="basler_void" value="${payload_mass.append(camera_mass + lens_mass)}" scope="global" />
+
+        <link name="$(arg prefix)${name}">
+            <visual>
+                <origin xyz="0 0 ${camera_height/2}" rpy="0 0 0" />
+                <geometry>
+                    <!-- The origin of the mesh is center above tripod screw -->
+                    <mesh filename="${camera_mesh}"/>
+                </geometry>
+            </visual>
+            <visual>
+                <!-- The origin of the mesh is at the back of the lens -->
+                <origin xyz="${lens_back_pos} 0 ${camera_height/2}" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="${lens_mesh}"/>
+                </geometry>
+            </visual>
+            <collision name="${name}_collision">
+                <origin rpy="0 0 0" xyz="${origin_to_camera_front_dist - camera_length/2} 0 ${camera_height/2}"/>
+                <geometry>
+                    <box size="${camera_length} ${camera_width} ${camera_height}" />
+                </geometry>
+            </collision>
+            <collision name="${name}_lens_collision">
+                <origin rpy="0 ${pi/2} 0" xyz="${lens_back_pos + lens_length/2} 0 ${camera_height/2}"/>
+                <geometry>
+                    <cylinder length="${lens_length}" radius="${c_mount_radius}" />
+                </geometry>
+            </collision>
+            <xacro:box_inertial mass="${camera_mass + lens_mass}"
+                width="${camera_width}" height="${camera_height}" depth="${camera_length + lens_length - (c_mount_flange_distance - lens_back_focal_distance)}"
+                xyz="${origin_to_camera_front_dist + (lens_length - (c_mount_flange_distance - lens_back_focal_distance))/2 - camera_length/2} 0 ${camera_height/2}" />
+        </link>
+        <xacro:if value="${simulate}">
+            <gazebo reference="$(arg prefix)${name}">
+                <xacro:property name="cam_type" value="camera"/>
+                <sensor name="${name}" type="${cam_type}">
+                    <!-- I think the simulated sensor should be placed in the middle of the entrance pupil. -->
+                    <xacro:property name="virtual_lens_origin" value="${lens_back_pos + lens_length - lens_entrance_pupil_position}" />
+                    <pose>${virtual_lens_origin} 0 ${camera_height/2} 0 0 0</pose>
+                    <update_rate>${frame_rate}</update_rate>
+                    <visualize>1</visualize>
+                    <camera>
+                        <horizontal_fov>${radians(hfov_deg)}</horizontal_fov>
+                        <image>
+                            <width>${resolution_x}</width>
+                            <height>${resolution_y}</height>
+                            <format>R8G8B8</format>
+                        </image>
+                        <clip>
+                            <xacro:property name="clip" value="${lens_entrance_pupil_position * 1.1 if near_clip == -1 else near_clip}" />
+                            <near>${clip}</near>
+                            <far>300</far>
+                        </clip>
+                        <noise>
+                            <type>gaussian</type>
+                            <mean>0.0</mean>
+                            <stddev>0.007</stddev>
+                        </noise>
+                        <lens>
+                            <intrinsics>
+                                <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+                                <fx>481.5</fx>
+                                <fy>481.5</fy>
+                                <!-- cx = ( width + 1 ) / 2 -->
+                                <cx>404.5</cx>
+                                <!-- cy = ( height + 1 ) / 2 -->
+                                <cy>304.5</cy>
+                                <s>0</s>
+                            </intrinsics>
+                        </lens>
+                    </camera>
+                </sensor>
+            </gazebo>
+        </xacro:if>
+    </xacro:macro>
+
+    <xacro:macro name="flir_backly_link" params="name hfov_deg fisheye:=0 lens_length lens_back_focal_distance lens_entrance_pupil_position lens_mass lens_mesh near_clip:=-1 simulate:=1 visualize:=0">
+        <xacro:flir_backly_base name="${name}" hfov_deg="${hfov_deg}" frame_rate="10" resolution_x="808" resolution_y="608"
+            fisheye="${fisheye}" simulate="${simulate}" visualize="${visualize}"
+            camera_length="0.0555" origin_to_camera_front_dist="0.0524" camera_mass="${flir_backly_mass}"
+            camera_mesh="package://marble_spot_sensor_config_1/meshes/basler_ace2_pro.dae"
+            lens_length="${lens_length}" lens_back_focal_distance="${lens_back_focal_distance}"
+            lens_entrance_pupil_position="${lens_entrance_pupil_position}" lens_mass="${lens_mass}" lens_mesh="${lens_mesh}"
+            near_clip="${near_clip}"
+            />
+    </xacro:macro>
+
+    <xacro:macro name="flir_backfly_cam" params="name simulate:=1 visualize:=0">
+        <xacro:flir_backly_link name="${name}" hfov_deg="80" simulate="${simulate}" visualize="${visualize}"
+            lens_back_focal_distance="0.00809" lens_entrance_pupil_position="0.01066" lens_length="0.03974" lens_mass="${lens_mass}"
+            lens_mesh="package://marble_spot_sensor_config_1/meshes/evetar_lens.dae" />
+    </xacro:macro>
+</root>

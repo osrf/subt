@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<launch>
+    <env name="IGN_TRANSPORT_TOPIC_STATISTICS" value="1"/>
+    <arg name="world_name"/>
+    <arg name="name"/>
+    <arg name="link_prefix" value="/world/$(arg world_name)/model/$(arg name)/link"/>
+    <arg name="joint_prefix" value="/model/$(arg name)/joint"/>
+    <arg name="breadcrumbs" default="0"/>
+    <arg name="has_velodyne_16_lidar" default="1"/>
+    <arg name="has_rgbd_camera" default="1"/>
+    <arg name="description_print_command" default="$(find explorer_spot_sensor_config_1)/scripts/print_robot_urdf" />
+
+    <!-- Include default Spot topics. -->
+    <include file="$(find bosdyn_spot)/launch/vehicle_topics.launch">
+        <arg name="world_name" value="$(arg world_name)"/>
+        <arg name="name" value="$(arg name)"/>
+        <arg name="breadcrumbs" value="$(arg breadcrumbs)"/>
+        <arg name="description_print_command" value="$(arg description_print_command)" />
+    </include>
+
+    <group ns="$(arg name)">
+      <!-- RGBD Camera -->
+      <group if="$(arg has_rgbd_camera)">
+          <include file="$(find subt_ros)/launch/models_common/rgbd_camera.launch">
+              <arg name="node_name_suffix" value="front_camera" />
+              <arg name="gazebo_topic" value="$(arg link_prefix)/body/sensor/front_camera" />
+              <arg name="ros_topic" value="front_camera" />
+              <arg name="points_ros_topic" value="front_camera/points" />
+          </include>
+
+          <include file="$(find subt_ros)/launch/models_common/rgbd_camera.launch">
+              <arg name="node_name_suffix" value="right_camera" />
+              <arg name="gazebo_topic" value="$(arg link_prefix)/body/sensor/right_camera" />
+              <arg name="ros_topic" value="right_camera" />
+              <arg name="points_ros_topic" value="right_camera/points" />
+          </include>
+
+          <include file="$(find subt_ros)/launch/models_common/rgbd_camera.launch">
+              <arg name="node_name_suffix" value="left_camera" />
+              <arg name="gazebo_topic" value="$(arg link_prefix)/body/sensor/left_camera" />
+              <arg name="ros_topic" value="left_camera" />
+              <arg name="points_ros_topic" value="left_camera/points" />
+          </include>
+
+          <include file="$(find subt_ros)/launch/models_common/rgbd_camera.launch">
+              <arg name="node_name_suffix" value="rear_camera" />
+              <arg name="gazebo_topic" value="$(arg link_prefix)/body/sensor/rear_camera" />
+              <arg name="ros_topic" value="rear_camera" />
+              <arg name="points_ros_topic" value="rear_camera/points" />
+          </include>
+      </group>
+
+      <!-- 3D Lidar -->
+      <include file="$(find subt_ros)/launch/models_common/lidar_3d.launch">
+          <arg name="gazebo_topic" value="$(arg link_prefix)/body/sensor/front_laser/scan/points" />
+      </include>
+
+      <!--IMU-->
+      <include file="$(find subt_ros)/launch/models_common/imu.launch">
+          <arg name="gazebo_topic" value="$(arg link_prefix)/imu_vras/sensor/imu/imu" />
+          <arg name="node_name_suffix" value="imu_vras" />
+      </include>
+    </group>
+</launch>
