@@ -269,10 +269,76 @@
       <pose>185.0 -10.0 0.0 0.0 0.0 0.0</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Transition Type A to and from Type B</uri>
     </include>
+
+    <model name="performer_detector_minecart">
+      <static>true</static>
+      <pose>110 -40.0 0 0 0 0</pose>
+      <link name="link">
+        <visual name="v1">
+          <transparency>0.5</transparency>
+          <geometry>
+            <box>
+              <size>8 8 8</size>
+            </box>
+          </geometry>
+        </visual>
+        <material>
+          <ambient>0.0 1.0 0.0 1</ambient>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+          <specular>0.5 0.5 0.5 1</specular>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </link>
+
+      <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+        <topic>/subt_performer_detector</topic>
+        <geometry>
+          <box>
+            <size>8 8 8</size>
+          </box>
+        </geometry>
+        <header_data>
+          <key>type</key>
+          <value>minecart</value>
+        </header_data>
+      </plugin>
+      <!-- This plugin listens for the "enter" event from the performer
+           detector and starts the fog -->
+      <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
+        <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
+          <match field="header.data">
+            {
+            key: "type"
+            value: "minecart"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "state"
+            value: "1"
+            }
+          </match>
+        </input>
+        <output type="ignition.msgs.Empty" topic="/minecart/detach">
+          unused:true
+        </output>
+      </plugin>
+    </model>
+
     <include>
       <name>tile_47</name>
       <pose>97.5 -40.0 0.0 0.0 0.0 1.5708</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Tunnel Tile 6</uri>
+
+      <!-- This attachs the mine cart to this model. The
+           performer_detector_minecart model has a plugin that breaks
+           the connection. -->
+      <plugin filename="ignition-gazebo-detachable-joint-system" name="ignition::gazebo::systems::DetachableJoint">
+        <parent_link>link</parent_link>
+        <child_model>minecart</child_model>
+        <child_link>chassis</child_link>
+        <topic>/minecart/detach</topic>
+      </plugin>
     </include>
     <include>
       <name>tile_48</name>
@@ -524,6 +590,12 @@
         </trajectory>
       </script>
     </actor>
+
+    <include>
+      <name>minecart</name>
+      <pose>90 -40 4.63478 0.28421 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Mine Cart</uri>
+    </include>
 
     <!-- artifacts -->
     <include>
