@@ -161,7 +161,7 @@
     <include>
       <name>tile_24</name>
       <pose>40.0 187.5 10.0 0.0 0.0 -1.5708</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Straight Door Left</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Urban Platform</uri>
     </include>
     <include>
       <name>tile_25</name>
@@ -517,6 +517,270 @@
       <pose>235.032000 90.046800 25.038000 0.0 0.0 3.1415</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Cap Type A</uri>
     </include>
+
+    <include>
+      <pose>40.0 187.5 10.15 0.0 0.0 0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/R160 Subway Car</uri>
+    </include>
+
+    <model name="performer_detector_subway_right">
+      <pose>38.2 187.5 12.15 0 0 0</pose>
+      <static>true</static>
+      <!--
+      <link name="link">
+        <visual name="v1">
+          <transparency>0.5</transparency>
+          <geometry>
+            <box>
+              <size>2 18 3</size>
+            </box>
+          </geometry>
+        </visual>
+        <material>
+          <ambient>0.0 1.0 0.0 1</ambient>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+          <specular>0.5 0.5 0.5 1</specular>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </link>
+-->
+
+      <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+        <topic>/subt_performer_detector</topic>
+        <geometry>
+          <box>
+            <size>2 18 3</size>
+          </box>
+        </geometry>
+        <header_data>
+          <key>type</key>
+          <value>subway-right</value>
+        </header_data>
+      </plugin>
+      <!-- This plugin listens for the "enter" event from the performer
+           detector and starts the fog -->
+      <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
+        <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
+          <match field="header.data">
+            {
+            key: "type"
+            value: "subway-right"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "state"
+            value: "1"
+            }
+          </match>
+        </input>
+
+        <output type="ignition.msgs.Double" topic="/rightside_door1_rightpanel">
+          data: -1.0
+        </output>
+        <output type="ignition.msgs.Double" topic="/rightside_door1_leftpanel">
+          data: -1.0
+        </output>
+        <output type="ignition.msgs.Double" topic="/rightside_door2_rightpanel">
+          data: -1.0
+        </output>
+        <output type="ignition.msgs.Double" topic="/rightside_door2_leftpanel">
+          data: -1.0
+        </output>
+        <output type="ignition.msgs.Double" topic="/rightside_door3_rightpanel">
+          data: -1.0
+        </output>
+        <output type="ignition.msgs.Double" topic="/rightside_door3_leftpanel">
+          data: -1.0
+        </output>
+        <output type="ignition.msgs.Double" topic="/rightside_door4_rightpanel">
+          data: -1.0
+        </output>
+        <output type="ignition.msgs.Double" topic="/rightside_door4_leftpanel">
+          data: -1.0
+        </output>
+      </plugin>
+
+      <!-- This plugin listens for the "leave" event from the performer
+           detector and starts the fog -->
+      <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
+        <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
+          <match field="header.data">
+            {
+            key: "type"
+            value: "subway-right"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "state"
+            value: "0"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "count"
+            value: "0"
+            }
+          </match>
+
+        </input>
+
+        <output type="ignition.msgs.Double" topic="/rightside_door1_rightpanel">
+          data: 0.0
+        </output>
+        <output type="ignition.msgs.Double" topic="/rightside_door1_leftpanel">
+          data: 0.0
+        </output>
+        <output type="ignition.msgs.Double" topic="/rightside_door2_rightpanel">
+          data: 0.0
+        </output>
+        <output type="ignition.msgs.Double" topic="/rightside_door2_leftpanel">
+          data: 0.0
+        </output>
+        <output type="ignition.msgs.Double" topic="/rightside_door3_rightpanel">
+          data: 0.0
+        </output>
+        <output type="ignition.msgs.Double" topic="/rightside_door3_leftpanel">
+          data: 0.0
+        </output>
+        <output type="ignition.msgs.Double" topic="/rightside_door4_rightpanel">
+          data: 0.0
+        </output>
+        <output type="ignition.msgs.Double" topic="/rightside_door4_leftpanel">
+          data: 0.0
+        </output>
+
+      </plugin>
+    </model>
+
+    <model name="performer_detector_subway_left">
+      <pose>41.8 187.5 12.15 0 0 0</pose>
+      <static>true</static>
+      <!--
+      <link name="link">
+        <visual name="v1">
+          <transparency>0.5</transparency>
+          <geometry>
+            <box>
+              <size>2 18 3</size>
+            </box>
+          </geometry>
+        </visual>
+        <material>
+          <ambient>0.0 1.0 0.0 1</ambient>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+          <specular>0.5 0.5 0.5 1</specular>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </link>
+-->
+
+      <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+        <topic>/subt_performer_detector</topic>
+        <geometry>
+          <box>
+            <size>2 18 3</size>
+          </box>
+        </geometry>
+        <header_data>
+          <key>type</key>
+          <value>subway-left</value>
+        </header_data>
+      </plugin>
+      <!-- This plugin listens for the "enter" event from the performer
+           detector and starts the fog -->
+      <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
+        <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
+          <match field="header.data">
+            {
+            key: "type"
+            value: "subway-left"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "state"
+            value: "1"
+            }
+          </match>
+        </input>
+        <output type="ignition.msgs.Double" topic="/leftside_door1_rightpanel">
+          data: -1.0
+        </output>
+        <output type="ignition.msgs.Double" topic="/leftside_door1_leftpanel">
+          data: -1.0
+        </output>
+        <output type="ignition.msgs.Double" topic="/leftside_door2_rightpanel">
+          data: -1.0
+        </output>
+        <output type="ignition.msgs.Double" topic="/leftside_door2_leftpanel">
+          data: -1.0
+        </output>
+        <output type="ignition.msgs.Double" topic="/leftside_door3_rightpanel">
+          data: -1.0
+        </output>
+        <output type="ignition.msgs.Double" topic="/leftside_door3_leftpanel">
+          data: -1.0
+        </output>
+        <output type="ignition.msgs.Double" topic="/leftside_door4_rightpanel">
+          data: -1.0
+        </output>
+        <output type="ignition.msgs.Double" topic="/leftside_door4_leftpanel">
+          data: -1.0
+        </output>
+      </plugin>
+
+      <!-- This plugin listens for the "leave" event from the performer
+           detector and starts the fog -->
+      <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
+        <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
+          <match field="header.data">
+            {
+            key: "type"
+            value: "subway-left"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "state"
+            value: "0"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "count"
+            value: "0"
+            }
+          </match>
+        </input>
+        <output type="ignition.msgs.Double" topic="/leftside_door1_rightpanel">
+          data: 0.0
+        </output>
+        <output type="ignition.msgs.Double" topic="/leftside_door1_leftpanel">
+          data: 0.0
+        </output>
+        <output type="ignition.msgs.Double" topic="/leftside_door2_rightpanel">
+          data: 0.0
+        </output>
+        <output type="ignition.msgs.Double" topic="/leftside_door2_leftpanel">
+          data: 0.0
+        </output>
+        <output type="ignition.msgs.Double" topic="/leftside_door3_rightpanel">
+          data: 0.0
+        </output>
+        <output type="ignition.msgs.Double" topic="/leftside_door3_leftpanel">
+          data: 0.0
+        </output>
+        <output type="ignition.msgs.Double" topic="/leftside_door4_rightpanel">
+          data: 0.0
+        </output>
+        <output type="ignition.msgs.Double" topic="/leftside_door4_leftpanel">
+          data: 0.0
+        </output>
+      </plugin>
+    </model>
+
 
     <actor name="subt_actor_walking">
       <skin>
@@ -1082,7 +1346,6 @@
       </level>
       <level name="level21">
         <ref>tile_17</ref>
-        <ref>tile_24</ref>
         <ref>tile_31</ref>
         <ref>tile_66</ref>
         <ref>tile_67</ref>
@@ -1698,12 +1961,6 @@
         <ref>tile_31</ref>
         <ref>tile_32</ref>
         <pose>81.516 147.5 38.9545 0 0 0</pose>
-        <geometry><box><size>407.032 93.75 178.211</size></box></geometry>
-        <buffer>12.5</buffer>
-      </level>
-      <level name="level112">
-        <ref>tile_24</ref>
-        <pose>81.516 187.5 38.9545 0 0 0</pose>
         <geometry><box><size>407.032 93.75 178.211</size></box></geometry>
         <buffer>12.5</buffer>
       </level>
