@@ -1247,7 +1247,10 @@ void GameLogicPlugin::PreUpdate(const UpdateInfo &_info,
     for (auto &ke : this->dataPtr->keInfo)
     {
       ignition::gazebo::Link link(ke.second.link);
-      if (std::nullopt != link.WorldKineticEnergy(_ecm))
+      if (std::nullopt != link.WorldKineticEnergy(_ecm) &&
+          robotPlatformTypes.find(
+          this->dataPtr->robotFullTypes[ke.second.robotName].first) !=
+          robotPlatformTypes.end())
       {
         double currKineticEnergy = *link.WorldKineticEnergy(_ecm);
 

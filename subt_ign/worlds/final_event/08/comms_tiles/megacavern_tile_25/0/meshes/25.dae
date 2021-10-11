@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+  <asset>
+    <contributor>
+      <author/>
+      <authoring_tool>FBX COLLADA exporter</authoring_tool>
+      <comments/>
+    </contributor>
+    <created>2021-07-30T21:38:42Z</created>
+    <keywords/>
+    <modified>2021-07-30T21:38:42Z</modified>
+    <revision/>
+    <subject/>
+    <title/>
+    <unit meter="0.025400" name="centimeter"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  <library_geometries>
+    <geometry id="FBXASC0505-lib" name="FBXASC0505Mesh">
+      <mesh>
+        <source id="FBXASC0505-POSITION">
+          <float_array id="FBXASC0505-POSITION-array" count="36">
+58.506348 -35.317993 240.559956
+169.603760 14.207153 240.559956
+-169.603638 15.346802 240.559925
+-105.910065 -109.881226 240.559956
+138.907227 109.881226 240.559956
+15.004456 81.802368 240.559956
+58.506348 -35.317993 -0.000050
+169.603760 14.207153 -0.000050
+-169.603638 15.346802 -0.000050
+-105.910065 -109.881226 -0.000050
+138.907227 109.881226 -0.000050
+15.004456 81.802368 -0.000050
+</float_array>
+          <technique_common>
+            <accessor source="#FBXASC0505-POSITION-array" count="12" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="FBXASC0505-Normal0">
+          <float_array id="FBXASC0505-Normal0-array" count="180">
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+-0.000000 0.000000 1.000000
+-0.000000 0.000000 1.000000
+-0.000000 0.000000 1.000000
+0.000000 0.000000 -1.000000
+0.000000 0.000000 -1.000000
+0.000000 0.000000 -1.000000
+0.000000 0.000000 -1.000000
+0.000000 0.000000 -1.000000
+0.000000 0.000000 -1.000000
+0.000000 0.000000 -1.000000
+0.000000 0.000000 -1.000000
+0.000000 0.000000 -1.000000
+0.000000 0.000000 -1.000000
+0.000000 0.000000 -1.000000
+0.000000 0.000000 -1.000000
+0.952190 0.305505 0.000000
+0.952190 0.305505 0.000000
+0.952190 0.305505 0.000000
+0.952190 0.305505 0.000000
+0.952190 0.305505 0.000000
+0.952190 0.305505 0.000000
+-0.280387 0.959887 0.000000
+-0.221016 0.975270 0.000000
+-0.221016 0.975270 0.000000
+-0.221016 0.975270 0.000000
+-0.280387 0.959887 0.000000
+-0.280387 0.959887 0.000000
+0.407158 -0.913358 0.000000
+0.410089 -0.912046 0.000000
+0.410089 -0.912046 0.000000
+0.410089 -0.912046 0.000000
+0.407158 -0.913358 0.000000
+0.407158 -0.913358 0.000000
+0.410089 -0.912046 0.000000
+0.413015 -0.910724 0.000000
+0.413015 -0.910724 0.000000
+0.413015 -0.910724 0.000000
+0.410089 -0.912046 0.000000
+0.410089 -0.912046 0.000000
+-0.338704 0.940893 0.000000
+-0.280387 0.959887 0.000000
+-0.280387 0.959887 0.000000
+-0.280387 0.959887 0.000000
+-0.338704 0.940893 0.000000
+-0.338704 0.940893 0.000000
+-0.891333 -0.453350 0.000000
+-0.891333 -0.453350 0.000000
+-0.891333 -0.453350 0.000000
+-0.891333 -0.453350 0.000000
+-0.891332 -0.453350 0.000000
+-0.891333 -0.453350 0.000000
+</float_array>
+          <technique_common>
+            <accessor source="#FBXASC0505-Normal0-array" count="60" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="FBXASC0505-VERTEX">
+          <input semantic="POSITION" source="#FBXASC0505-POSITION"/>
+        </vertices>
+        <triangles count="20">
+          <input semantic="VERTEX" offset="0" source="#FBXASC0505-VERTEX"/>
+          <input semantic="NORMAL" offset="1" source="#FBXASC0505-Normal0"/>
+          <p> 1 0 4 1 5 2 5 3 0 4 1 5 3 6 0 7 5 8 5 9 2 10 3 11 11 12 10 13 7 14 7 15 6 16 11 17 11 18 6 19 9 20 9 21 8 22 11 23 4 24 1 25 7 26 7 27 10 28 4 29 5 30 4 31 10 32 10 33 11 34 5 35 1 36 0 37 6 38 6 39 7 40 1 41 0 42 3 43 9 44 9 45 6 46 0 47 2 48 5 49 11 50 11 51 8 52 2 53 3 54 2 55 8 56 8 57 9 58 3 59</p>
+        </triangles>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_visual_scenes>
+    <visual_scene id="25" name="25">
+      <node name="FBXASC0505" id="FBXASC0505" layer="Comms" sid="FBXASC0505">
+        <matrix sid="matrix">1.000000 0.000000 0.000000 423.353882 0.000000 1.000000 0.000000 3360.345947 0.000000 0.000000 1.000000 -166.533203 0.000000 0.000000 0.000000 1.000000</matrix>
+        <instance_geometry url="#FBXASC0505-lib"/>
+        <extra>
+          <technique profile="FCOLLADA">
+            <visibility>1.000000</visibility>
+          </technique>
+        </extra>
+      </node>
+      <extra>
+        <technique profile="MAX3D">
+          <frame_rate>30.000000</frame_rate>
+        </technique>
+        <technique profile="FCOLLADA">
+          <start_time>0.000000</start_time>
+          <end_time>1.000000</end_time>
+        </technique>
+      </extra>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#25"/>
+  </scene>
+</COLLADA>
