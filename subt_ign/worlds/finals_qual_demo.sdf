@@ -225,7 +225,6 @@
     </include>
     <include>
       <name>tile_38</name>
-      <!--pose>175.0 -107.5 25.0 0.0 0.0 -3.14159</pose--> <!-- to use for offset of other tiles-->
       <pose>75.0 -107.5 0.0 0.0 0.0 -3.14159</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Cave Elevation 02 Type A</uri>
     </include>
@@ -862,6 +861,78 @@
       <pose>90 -40 4.63478 0.28421 0 1.5708</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Mine Cart</uri>
     </include>
+
+    <include>
+      <name>tile_83</name>
+      <pose>58.0 172. 10.0 0.0 0.0 -1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Service Room</uri>
+    </include>
+
+    <include>
+      <name>universal_with_door</name>
+      <pose>60 187.5 11.5 0 0 -1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Universal Straight 2.5</uri>
+    </include>
+    <include>
+      <name>hinged_door</name>
+      <pose>60 186.5 11.849 0 0 0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Hinged Door</uri>
+    </include>
+    <model name="performer_detector_door">
+      <pose>55 186.5 14.3 0 0 0</pose>
+      <static>true</static>
+      <link name="link">
+        <visual name="v1">
+          <transparency>0.5</transparency>
+          <geometry>
+            <box>
+              <size>8 8 10</size>
+            </box>
+          </geometry>
+        </visual>
+        <material>
+          <ambient>0.0 1.0 0.0 1</ambient>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+          <specular>0.5 0.5 0.5 1</specular>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </link>
+
+      <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+        <topic>/subt_performer_detector</topic>
+        <geometry>
+          <box>
+            <size>2 18 3</size>
+          </box>
+        </geometry>
+        <header_data>
+          <key>type</key>
+          <value>door</value>
+        </header_data>
+      </plugin>
+      <!-- This plugin listens for the "enter" event from the performer
+           detector and starts the fog -->
+      <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
+        <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
+          <match field="header.data">
+            {
+            key: "type"
+            value: "door"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "state"
+            value: "1"
+            }
+          </match>
+        </input>
+
+        <output type="ignition.msgs.Double" topic="/hinge">
+          data: 10.0
+        </output>
+      </plugin>
+    </model>
 
     <!-- artifacts -->
     <include>
