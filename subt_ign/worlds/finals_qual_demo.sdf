@@ -780,7 +780,6 @@
       </plugin>
     </model>
 
-
     <actor name="subt_actor_walking">
       <skin>
         <filename>https://fuel.ignitionrobotics.org/1.0/Mingfei/models/actor/tip/files/meshes/walk.dae</filename>
@@ -878,6 +877,7 @@
       <pose>60 186.5 11.849 0 0 0</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Wide Hinged Door</uri>
     </include>
+
     <model name="performer_detector_door">
       <pose>55 186.5 14.3 0 0 0</pose>
       <static>true</static>
@@ -1273,6 +1273,124 @@
           <stddev>0.03</stddev>
         </noise>
       </vertical>
+    </plugin>
+
+
+    <!-- Load the plugin for localized wind -->
+    <!-- This example applies wind to a few cave tiles
+         near the staging area -->
+    <plugin filename="libLocalWindPlugin.so"
+      name="subt::LocalWind">
+      <scaling>0.8</scaling>
+      <local_wind>
+        <tile>30</tile>
+        <!-- magnitutude in the origin coordinate frame -->
+        <linear_velocity>1 1 0</linear_velocity>
+        <noise type="gaussian">
+          <mean>0</mean>
+          <stddev>0.0002</stddev>
+        </noise>
+      </local_wind>
+
+      <local_wind>
+        <tile>29</tile>
+        <!-- magnitutude in the origin coordinate frame -->
+        <linear_velocity>0 2 0</linear_velocity>
+        <noise type="gaussian">
+          <mean>0</mean>
+          <stddev>0.0002</stddev>
+        </noise>
+      </local_wind>
+
+      <local_wind>
+        <tile>28</tile>
+        <!-- magnitutude in the origin coordinate frame -->
+        <linear_velocity>0 4 0</linear_velocity>
+        <noise type="gaussian">
+          <mean>0</mean>
+          <stddev>0.0002</stddev>
+        </noise>
+      </local_wind>
+
+      <local_wind>
+        <tile>64</tile>
+        <!-- magnitutude in the origin coordinate frame -->
+        <linear_velocity>0 5 1</linear_velocity>
+        <noise type="gaussian">
+          <mean>0</mean>
+          <stddev>0.0002</stddev>
+        </noise>
+      </local_wind>
+
+      <local_wind>
+        <tile>38</tile>
+        <!-- magnitutude in the origin coordinate frame -->
+        <linear_velocity>0 3 2</linear_velocity>
+        <noise type="gaussian">
+          <mean>0</mean>
+          <stddev>0.0002</stddev>
+        </noise>
+      </local_wind>
+
+      <local_wind>
+        <tile>37</tile>
+        <!-- magnitutude in the origin coordinate frame -->
+        <linear_velocity>0 4 1</linear_velocity>
+        <noise type="gaussian">
+          <mean>0</mean>
+          <stddev>0.0002</stddev>
+        </noise>
+      </local_wind>
+
+      <local_wind>
+        <tile>14</tile>
+        <!-- magnitutude in the origin coordinate frame -->
+        <linear_velocity>0 4 0</linear_velocity>
+        <noise type="gaussian">
+          <mean>0</mean>
+          <stddev>0.0002</stddev>
+        </noise>
+      </local_wind>
+
+      <local_wind>
+        <tile>13</tile>
+        <!-- magnitutude in the origin coordinate frame -->
+        <linear_velocity>0 3 0</linear_velocity>
+        <noise type="gaussian">
+          <mean>0</mean>
+          <stddev>0.0002</stddev>
+        </noise>
+      </local_wind>
+
+      <local_wind>
+        <tile>12</tile>
+        <!-- magnitutude in the origin coordinate frame -->
+        <linear_velocity>0 1 0</linear_velocity>
+        <noise type="gaussian">
+          <mean>0</mean>
+          <stddev>0.0002</stddev>
+        </noise>
+      </local_wind>
+
+      <local_wind>
+        <tile>63</tile>
+        <!-- magnitutude in the origin coordinate frame -->
+        <linear_velocity>1 0 0</linear_velocity>
+        <noise type="gaussian">
+          <mean>0</mean>
+          <stddev>0.0002</stddev>
+        </noise>
+      </local_wind>
+
+      <local_wind>
+        <tile>77</tile>
+        <!-- magnitutude in the origin coordinate frame -->
+        <linear_velocity>0 1 0</linear_velocity>
+        <noise type="gaussian">
+          <mean>0</mean>
+          <stddev>0.0002</stddev>
+        </noise>
+      </local_wind>
     </plugin>
 
       <!-- Auto generated: level_generator 50 50 50 12.5 -->
