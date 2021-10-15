@@ -255,7 +255,6 @@
         <topic>/minecart/detach</topic>
       </plugin>
     </include>
-
     <include>
       <name>tile_48</name>
       <pose>77.5 -40.0 5.0 0.0 0.0 1.5708</pose>
@@ -874,13 +873,6 @@
       <pose>118.52 -108.57 78.06 3.0812 -1.5353 1.5708</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Climbing Rope</uri>
     </include>
-    <!--
-    <include>
-      <name>rope_2</name>
-      <pose>107.67 -155.19 0.551 0.18 0.2350 0.02127</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Climbing Rope</uri>
-    </include>
--->
     <include>
       <name>helmet_1</name>
       <pose>186.42 -10.0 0.5821 0.0 0.0917 1.3985</pose>
@@ -1131,7 +1123,6 @@
       </vertical>
     </plugin>
 
-      <!-- Auto generated: level_generator 50 50 50 12.5 -->
       <!-- Auto generated: level_generator 50 50 50 12.5 -->
     <plugin name="ignition::gazebo" filename="dummy">
       <level name="level0">
