@@ -167,7 +167,7 @@
         <lidar>
           <scan>
             <horizontal>
-              <samples>1800</samples>
+              <samples>1024</samples>
               <resolution>1</resolution>
               <min_angle>-3.1459</min_angle>
               <max_angle>3.1459</max_angle>
@@ -180,8 +180,8 @@
             </vertical>
           </scan>
           <range>
-            <min>0.05</min>
-            <max>100</max>
+            <min>0.25</min>
+            <max>55</max>
             <resolution>0.01</resolution>
           </range>
           <noise>
@@ -392,7 +392,6 @@
         </camera>
       </sensor>
 
-
       <sensor name="camera_back_right" type="camera">
         <pose>-.3 -0.1 -0.05 0 0.090000 -2.35619449</pose>
         <always_on>1</always_on>
@@ -432,12 +431,6 @@
             </noise>
         </camera>
       </sensor>
-
-          
-    </link>
-
-    <plugin filename="libKolibriController.so"
-    name="kolibri_controller::KolibriController">
-    </plugin>  
+    </link>  
   </model>
 </sdf>
