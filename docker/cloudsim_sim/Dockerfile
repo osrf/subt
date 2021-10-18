@@ -80,14 +80,8 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.osrfoundation.org/g
 # install ign-dome
 RUN sudo apt-get update \
 &&  sudo apt-get install -y \
-    ignition-dome \
+    ignition-fortress \
  && sudo apt-get clean
-
-# install the ros to ign bridge
-RUN sudo apt-get update \
- && sudo apt-get install -y \
-    ros-melodic-ros-ign \
- && sudo apt-get clean -qq
 
 # Make a couple folders for organizing docker volumes
 RUN mkdir ~/workspaces ~/other
@@ -99,7 +93,8 @@ WORKDIR /home/$USERNAME
 RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
  && git config --global http.postBuffer 1048576000 \
- && git clone https://github.com/osrf/subt
+ && git clone https://github.com/osrf/subt -b fortress \
+ && git clone https://github.com/ignitionrobotics/ros_ign -b melodic
 
 # Install dependencies
 RUN . /opt/ros/melodic/setup.sh \
@@ -116,7 +111,7 @@ RUN . /opt/ros/melodic/setup.sh \
 
 WORKDIR /home/$USERNAME/subt_ws
 
-RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && catkin_make -DCMAKE_BUILD_TYPE=Release install'
+RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && IGNITION_VERSION=fortress catkin_make -DCMAKE_BUILD_TYPE=Release install'
 RUN /bin/sh -c 'echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc' \
  && /bin/sh -c 'echo ". ~/subt_ws/install/setup.sh" >> ~/.bashrc'
 
