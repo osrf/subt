@@ -274,6 +274,30 @@ add_custom_command(TARGET unzip_dat PRE_BUILD
 COMMENT "Unpacking finals_practice_03.dat.zip"
 VERBATIM)
 
+# Unzip the final_event_03.dat.zip file
+add_custom_command(TARGET unzip_dat PRE_BUILD
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/worlds/final_event/03
+  COMMAND ${CMAKE_COMMAND} -E tar xvf final_event_03.dat.zip
+  DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/worlds/final_event/03/final_event_03.dat.zip
+COMMENT "Unpacking final_event_03.dat.zip"
+VERBATIM)
+
+# Unzip the final_event/06/final_event_06.dat.zip file
+add_custom_command(TARGET unzip_dat PRE_BUILD
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/worlds/final_event/06
+  COMMAND ${CMAKE_COMMAND} -E tar xvf final_event_06.dat.zip
+  DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/worlds/final_event/06/final_event_06.dat.zip
+COMMENT "Unpacking final_event_06.dat.zip"
+VERBATIM)
+
+# Unzip the final_event_07.dat.zip file
+add_custom_command(TARGET unzip_dat PRE_BUILD
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/worlds/final_event/07
+  COMMAND ${CMAKE_COMMAND} -E tar xvf final_event_07.dat.zip
+  DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/worlds/final_event/07/final_event_07.dat.zip
+COMMENT "Unpacking final_event_07.dat.zip"
+VERBATIM)
+
 install(PROGRAMS
   scripts/subt_docker.bash
   scripts/subt_docker_list.bash
