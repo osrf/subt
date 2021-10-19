@@ -128,7 +128,6 @@
       <world_name><%= $worldName %></world_name>
       <window_title>SubT Simulator</window_title>
       <window_icon><%= ENV['SUBT_IMAGES_PATH'] %>/SubT_logo.svg</window_icon>
-      <!-- 3D scene -->
       <plugin filename="MinimalScene" name="3D View">
         <ignition-gui>
           <title>3D View</title>
@@ -143,7 +142,6 @@
         <camera_pose>-40 -80 190 0 1.5708 1.5708</camera_pose>
       </plugin>
       
-      <!-- Plugins that add functionality to the scene -->
       <plugin filename="EntityContextMenuPlugin" name="Entity context menu">
         <ignition-gui>
           <property key="state" type="string">floating</property>
@@ -218,7 +216,6 @@
         </ignition-gui>
       </plugin>
       
-      <!-- World control -->
       <plugin filename="WorldControl" name="World control">
         <ignition-gui>
           <title>World control</title>
