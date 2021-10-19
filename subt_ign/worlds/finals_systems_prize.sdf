@@ -1,7 +1,6 @@
 <?xml version="1.0" ?>
-
 <sdf version="1.6">
-  <world name="finals_prelim2">
+  <world name="finals_systems_prize">
 
     <physics name="1ms" type="ode">
       <max_step_size>0.004</max_step_size>
@@ -912,293 +911,294 @@
     <include>
       <static>true</static>
       <name>vent_1</name>
-      <pose>7.312 12.424 -0.507 0 0 0</pose>
+      <pose>6.575500 12.307600 -0.195501 -1.570800 0 0</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Vent</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>vent_2</name>
-      <pose>-3.309 31.078 -0.467 0 0 0</pose>
+      <pose>-3.672600 30.251400 -0.193420 2.768030 -1.570790 3.140390</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Vent</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>vent_3</name>
-      <pose>-15.2 57.564 -0.769 0 0 0</pose>
+      <pose>-15.678300 57.564000 -0.164767 3.141593 -1.570790 -3.141590</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Vent</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>vent_4</name>
-      <pose>26.466 76.766 -0.149 0 0 0</pose>
+      <pose>25.318300 76.766000 0.781828 3.141590 -1.570790 3.141590</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Vent</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>cube_1</name>
-      <pose>-6.635 41.498 -2.636 0 0 0</pose>
+      <pose>-11.919200 40.037800 0.029090 0 0 -0.388221</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/SubT Challenge Cube</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>cube_2</name>
-      <pose>29.475 35.244 -2.831 0 0 0</pose>
+      <pose>35.864900 42.461600 -0.482133 0 0 -0.258423</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/SubT Challenge Cube</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>cube_3</name>
-      <pose>36.606 42.438 -0.943 0 0 0</pose>
+      <pose>29.397400 37.670400 -2.291130 0 0 -0.269233</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/SubT Challenge Cube</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>backpack_1</name>
-      <pose>-17.249 67.032 -3.073 0 0 0</pose>
+      <pose>-17.295500 67.063300 -2.634680 0 0 -2.1623701	L16	backpack	prize	urban	-8.249	67.032	-3.073	-17.249	67.032	-3.073
+</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/JanSport Backpack Red</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>backpack_2</name>
-      <pose>-6.267 82.562 -3.225 0 0 0</pose>
+      <pose>-6.312160 82.638300 -2.898620 0 0 -1.036170</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/JanSport Backpack Red</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>backpack_3</name>
-      <pose>14.25 76.367 0.735 0 0 0</pose>
+      <pose>12.596400 76.591000 1.256550 0 0 2.541830</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/JanSport Backpack Red</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>backpack_4</name>
-      <pose>28.282 47.555 -2.462 0 0 0</pose>
+      <pose>27.861400 47.849100 -1.572020 0 0 1.210560</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/JanSport Backpack Red</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>backpack_5</name>
-      <pose>20.217 5.221 -2.283 0 0 0</pose>
+      <pose>20.217000 5.643300 -1.064280 0 0 0</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/JanSport Backpack Red</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>phone_1</name>
-      <pose>19.716 56.422 0.396 0 0 0</pose>
+      <pose>19.411000 56.181900 0.763613 -1.570800 0 1.570800</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Samsung J8 Black</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>phone_2</name>
-      <pose>17.317 78.55 -3.434 0 0 0</pose>
+      <pose>16.794800 78.971900 -2.800760 -1.570800 0 -1.645910</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Samsung J8 Black</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>phone_3</name>
-      <pose>29.384 16.876 -1.032 0 0 0</pose>
+      <pose>28.926900 16.713900 -0.463459 -1.666100 0.833458 -0.027835</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Samsung J8 Black</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>phone_4</name>
-      <pose>47.409 107.671 -3.996 0 0 0</pose>
+      <pose>46.787300 109.513000 -3.245100 -1.570810 1.164600 -1.355810</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Samsung J8 Black</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>rescue_randy_1</name>
-      <pose>13.83 43.323 -2.132 0 0 1.570800</pose>
+      <pose>13.830000 43.323000 -2.167050 0 0 -3.141590</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Rescue Randy Sitting</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>rescue_randy_2</name>
-      <pose>17.412 27.885 -2.804 0 0 1.570800</pose>
+      <pose>16.666900 27.642400 -2.292430 -2.292430 0.453119 1.980030</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Rescue Randy Sitting</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>rescue_randy_3</name>
-      <pose>58.591 64.533 -2.128 0 0 1.570800</pose>
+      <pose>57.899400 64.703300 -2.039180 -0.036414 0.068138 2.260290</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Rescue Randy Sitting</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>extinguisher_1</name>
-      <pose>12.302 21.275 -1.779 0 0 0</pose>
+      <pose>11.925200 22.835900 -1.695780 0 0 -0.428601</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Fire Extinguisher</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>extinguisher_2</name>
-      <pose>23.304 37.46 -2.221 0 0 0</pose>
+      <pose>22.709000 37.489200 -1.969500 0 0 1.469560</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Fire Extinguisher</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>extinguisher_3</name>
-      <pose>32.835 44.808 -2.334 0 0 0</pose>
+      <pose>32.140600 44.888600 -2.052340 0 0 -1.858110</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Fire Extinguisher</uri>
     </include>
 
     <include>
       <static>true</static>
-      <name>extinguisher_3</name>
-      <pose>15.11 73.428 -2.567 0 0 0</pose>
+      <name>extinguisher_4</name>
+      <pose>14.529900 73.742000 -2.088990 0 0 -1.570800</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Fire Extinguisher</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>drill_1</name>
-      <pose>28.586 28.319 -3.33 0 0 0</pose>
+      <pose>27.829400 28.316100 -2.819190 0 0 1.367890</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Black and Decker Cordless Drill</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>drill_2</name>
-      <pose>23.279 62.883 -3.4 0 0 0</pose>
+      <pose>24.012600 64.325100 -2.694140 0 0 -2.219330</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Black and Decker Cordless Drill</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>drill_3</name>
-      <pose>35.827 77.094 -3.647 0 0 0</pose>
+      <pose>35.184000 77.164700 -3.098500 -0.249450 -0.022581 -1.86252k</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Black and Decker Cordless Drill</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>drill_4</name>
-      <pose>12.45 2.903 -2.064 0 0 0</pose>
+      <pose>11.969200 2.942780 -1.584330 0 0 2.863940</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Black and Decker Cordless Drill</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>rope_1</name>
-      <pose>32.178 -1.821 -1.455 0 0 0</pose>
+      <pose>32.043400 -1.985200 -0.934133 0 -1.278760 -2.257500</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Climbing Rope</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>rope_2</name>
-      <pose>46.554 45.34 -2.267 0 0 0</pose>
+      <pose>46.190200 45.009300 -1.791050 -3.054680 -1.570790 -3.141290</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Climbing Rope</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>rope_3</name>
-      <pose>54.11 81.295 -3.227 0 0 0</pose>
+      <pose>53.447000 81.329600 -2.802200 0 1.216490 0</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Climbing Rope</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>rope_4</name>
-      <pose>53.419 108.1 -1.968 0 0 0</pose>
+      <pose>52.749200 109.888000 -1.306630 0 0 -1.462410</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Climbing Rope</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>rope_5</name>
-      <pose>59.968 102.119 -3.579 0 0 0</pose>
+      <pose>56.078500 98.630200 -3.452370 0 0.386743 -0.709539</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Climbing Rope</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>helmet_1</name>
-      <pose>34.848 -18.02 -1.94 0 0 0</pose>
+      <pose>34.106900 -20.151200 -1.337880 0 0.155933 -1.688760</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Climbing Helmet With Light</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>helmet_2</name>
-      <pose>33.219 31.199 -2.881 0 0 0</pose>
+      <pose>32.676500 31.351600 -2.467850 0 -1.084970 2.8674</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Climbing Helmet With Light</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>helmet_3</name>
-      <pose>41.708 63.537 -3.006 0 0 0</pose>
+      <pose>41.095300 63.672200 -2.583450 0 0.120548 0.615600</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Climbing Helmet With Light</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>helmet_4</name>
-      <pose>49.785 89.678 -3.046 0 0 0</pose>
+      <pose>49.310300 89.636800 -2.952420 0.165430 0.513258 -2.778320</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Climbing Helmet With Light</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>helmet_5</name>
-      <pose>51.583 140.839 -0.512 0 0 0</pose>
+      <pose>52.084800 141.950000 0.427375 0.165570 0.182454 -0.953977</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Climbing Helmet With Light</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>gas_1</name>
-      <pose>-6.635 41.498 -2.636 0 0 0</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Gas</uri>
+      <pose>-6.666270 41.074300 -2.636000 0 0 -0.376695</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Gas Small</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>gas_2</name>
-      <pose>-21.428 38.415 -2.642 0 0 0</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Gas</uri>
+      <pose>-22.343500 38.142500 -2.205020 0 0 -1.953190</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Gas Small</uri>
     </include>
 
     <include>
       <static>true</static>
       <name>gas_3</name>
-      <pose>16.247 49.573 -2.636 0 0 0</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Gas</uri>
+      <pose>15.335900 49.637300 -2.181300 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Gas Small</uri>
     </include>
 
     <!-- START FOG EMITTER 1 -->
     <include>
       <name>fog_emitter_1</name>
       <static>true</static>
-      <pose>2.743770 85.6522 -2.60148 0 0 -1.45619</pose>
+      <pose>2.54411 87.3868 -2.60148 0 0 -1.45619</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fog Emitter2</uri>
     </include>
 
     <model name="fog_emitter_1_detector">
-      <pose>2.743770 85.6522 1.87768 0 0 0</pose>
+      <pose>2.72233 85.8386 1.87768 0 0 0</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fog Emitter2</uri>
       <static>true</static>
       <!--<link name='body'>
@@ -1302,11 +1302,11 @@
     <include>
       <name>fog_emitter_2</name>
       <static>true</static>
-      <pose>27.266400 77.979800 -3.080640 0 0 -0.216463</pose>
+      <pose>57.6507 86.2231 -3.35972 0 0 -0.216463</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fog Emitter2</uri>
     </include>
     <model name="fog_emitter_2_detector">
-      <pose>27.266400 77.979800 -3.080640 0 0 0.0</pose>
+      <pose>56.6371 86.2231 -3.35972 0 0 0.0</pose>
       <static>true</static>
 
       <!--<link name='body'>
@@ -1617,6 +1617,159 @@
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Dust Emitter Dense</uri>
     </include>
     <!-- END DEBRIS WALL 1 -->
+
+    <!-- DEBRIS WALL 2 (TUNNEL) -->
+    <!-- To trigger, with a robot named X1:
+         ign service -s /world/final_event_08/set_pose /set_pose - -reqtype ignition.msgs.Pose - -reptype ignition.msgs.Boolean - -timeout 300 - -req 'name: "X1", position {x:22 y:28.5 z:-1}'
+    -->
+    <model name="performer_detector_debris_wall_2">
+      <static>true</static>
+      <pose>22.2787 28.4715 -2.85154 0 0 0</pose>
+      <!--Uncomment <link> to preview detector region-->
+      <!--<link name='body'>
+        <visual name="v1">
+          <transparency>0.5</transparency>
+          <geometry>
+            <box>
+              <size>25 10 10</size>
+            </box>
+          </geometry>
+        </visual>
+        <material>
+          <ambient>0.0 1.0 0.0 1</ambient>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+          <specular>0.5 0.5 0.5 1</specular>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </link>-->
+
+      <plugin filename="libignition-gazebo-performer-detector-system.so"
+        name="ignition::gazebo::systems::PerformerDetector">
+        <topic>/subt_performer_detector</topic>
+        <geometry>
+          <box>
+            <size>25 10 10</size>
+          </box>
+        </geometry>
+        <header_data>
+            <key>type</key>
+            <value>dynamic_collapse</value>
+        </header_data>
+      </plugin>
+
+      <!--Triggered by performer_detector_debris_wall_2 -->
+      <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
+        <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
+          <match field='header.data'>{ key: "frame_id" value: "performer_detector_debris_wall_2" }</match>
+          <match field='header.data'>{ key: "state" value: "0" }</match>
+          <match field="header.data">{ key: "count" value: "0" }</match>
+        </input>
+        <delay_ms>2500</delay_ms>
+        <output type="ignition.msgs.Empty" topic="/model/debris_wall_2/breadcrumbs/Wall/deploy"/>
+      </plugin>
+
+      <!-- This plugin listens for the "leave" event from the performer
+           detector and starts the fog -->
+      <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
+        <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
+          <match field='header.data'>
+            {
+            key: "frame_id"
+            value: "performer_detector_debris_wall_2"
+            }
+          </match>
+
+          <match field="header.data">
+            {
+            key: "type"
+            value: "dynamic_collapse"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "state"
+            value: "0"
+            }
+          </match>
+          <match field="header.data">{ key: "count" value: "0" }</match>
+        </input>
+        <output type="ignition.msgs.ParticleEmitter" topic="/model/debris_wall_2_fog_emitter_1/link/link/particle_emitter/dust_generator/cmd">
+          emitting:{data: 1}
+        </output>
+        <output type="ignition.msgs.ParticleEmitter" topic="/model/debris_wall_2_fog_emitter_2/link/link/particle_emitter/dust_generator/cmd">
+          emitting:{data: 1}
+        </output>
+      </plugin>
+
+      <!-- This plugin listens for the "leave" event from the performer
+           detector and stops the fog with a delay -->
+      <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
+        <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
+          <match field='header.data'>
+            {
+            key: "frame_id"
+            value: "performer_detector_debris_wall_2"
+            }
+          </match>
+
+          <match field="header.data">
+            {
+            key: "type"
+            value: "dynamic_collapse"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "state"
+            value: "0"
+            }
+          </match>
+          <match field="header.data">{ key: "count" value: "0" }</match>
+        </input>
+        <delay_ms>2500</delay_ms>
+        <output type="ignition.msgs.ParticleEmitter" topic="/model/debris_wall_2_fog_emitter_1/link/link/particle_emitter/dust_generator/cmd">
+          emitting:{data: 0}
+          rate:{data: 0}
+        </output>
+        <output type="ignition.msgs.ParticleEmitter" topic="/model/debris_wall_2_fog_emitter_2/link/link/particle_emitter/dust_generator/cmd">
+          emitting:{data: 0}
+          rate:{data: 0}
+        </output>
+      </plugin>
+    </model>
+
+    <model name="debris_wall_2">
+      <static>true</static>
+      <plugin filename="libignition-gazebo-breadcrumbs-system.so" name="ignition::gazebo::systems::Breadcrumbs">
+        <max_deployments>1</max_deployments>
+        <allow_renaming>true</allow_renaming>
+        <breadcrumb>
+          <sdf version="1.6">
+            <include>
+              <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Tunnel Wall debris</uri>
+              <name>Wall</name>
+              <pose>22.2787 28.4715 -2.85154 0 -0 1.46565</pose>
+            </include>
+          </sdf>
+        </breadcrumb>
+      </plugin>
+    </model>
+
+    <include>
+      <name>debris_wall_2_fog_emitter_1</name>
+      <static>true</static>
+      <pose>28.27 27.9611 -2.85154 0 0 1.46565</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Dust Emitter Dense</uri>
+    </include>
+    <include>
+      <name>debris_wall_2_fog_emitter_2</name>
+      <static>true</static>
+      <pose>16.27 29.2251 -2.85154 0 0 1.46565</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Dust Emitter Dense</uri>
+    </include>
+    <!-- END DEBRIS WALL 2 -->
+
+
 
 
     <model name='detectors'>
