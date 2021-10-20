@@ -253,6 +253,11 @@ void LocalWind::PreUpdate(
 
       // Get Tile defined for that XYZ
       const auto &tilesMap = this->dataPtr->visibilityTable.Vertices();
+
+      // Skip if the robot position is not in the tile.
+      if (tilesMap.find(roundedPos) == tilesMap.end())
+        return true;
+
       const auto linkTile = tilesMap.at(roundedPos);
 
       // If Tile is in the tiles defined by the plugin, apply force
