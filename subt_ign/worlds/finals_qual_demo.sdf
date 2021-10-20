@@ -492,7 +492,7 @@
         </header_data>
       </plugin>
       <!-- This plugin listens for the "enter" event from the performer
-           detector and starts the fog -->
+           detector and opens the subway car doors -->
       <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
         <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
           <match field="header.data">
