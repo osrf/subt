@@ -797,6 +797,80 @@
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Mine Cart</uri>
     </include>
 
+    <include>
+      <name>tile_87</name>
+      <pose>58.0 172. 10.0 0.0 0.0 -1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Service Room</uri>
+    </include>
+
+    <include>
+      <name>universal_with_door</name>
+      <pose>60 187.5 11.5 0 0 -1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Universal Straight 2.5</uri>
+    </include>
+    <include>
+      <name>wide_hinged_door</name>
+      <pose>60 186.5 11.849 0 0 0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Wide Hinged Door</uri>
+    </include>
+    <model name="performer_detector_door">
+      <pose>55 186.5 14.3 0 0 0</pose>
+      <static>true</static>
+      <!--
+      <link name="link">
+        <visual name="v1">
+          <transparency>0.5</transparency>
+          <geometry>
+            <box>
+              <size>8 8 10</size>
+            </box>
+          </geometry>
+        </visual>
+        <material>
+          <ambient>0.0 1.0 0.0 1</ambient>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+          <specular>0.5 0.5 0.5 1</specular>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </link>
+      -->
+
+      <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+        <topic>/subt_performer_detector</topic>
+        <geometry>
+          <box>
+            <size>2 18 3</size>
+          </box>
+        </geometry>
+        <header_data>
+          <key>type</key>
+          <value>door</value>
+        </header_data>
+      </plugin>
+      <!-- This plugin listens for the "enter" event from the performer
+           detector and opens the door. -->
+      <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
+        <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
+          <match field="header.data">
+            {
+            key: "type"
+            value: "door"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "state"
+            value: "1"
+            }
+          </match>
+        </input>
+
+        <output type="ignition.msgs.Double" topic="/hinge">
+          data: 10.0
+        </output>
+      </plugin>
+    </model>
+
     <!-- artifacts -->
     <include>
       <name>backpack_1</name>
@@ -1235,7 +1309,6 @@
         <ref>tile_67</ref>
         <ref>tile_76</ref>
         <ref>tile_78</ref>
-        <ref></ref>
         <pose>40 19.3545 38.28 0 0 0</pose>
         <geometry><box><size>93.75 482.709 179.56</size></box></geometry>
         <buffer>12.5</buffer>
@@ -1784,7 +1857,6 @@
       </level>
       <level name="level96">
         <ref>tile_24</ref>
-        <ref></ref>
         <pose>81.516 187.5 38.28 0 0 0</pose>
         <geometry><box><size>407.032 93.75 179.56</size></box></geometry>
         <buffer>12.5</buffer>
