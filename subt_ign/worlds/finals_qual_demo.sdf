@@ -797,7 +797,7 @@
     </include>
 
     <include>
-      <name>tile_83</name>
+      <name>tile_87</name>
       <pose>58.0 172. 10.0 0.0 0.0 -1.5708</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Urban Service Room</uri>
     </include>
@@ -816,6 +816,7 @@
     <model name="performer_detector_door">
       <pose>55 186.5 14.3 0 0 0</pose>
       <static>true</static>
+      <!--
       <link name="link">
         <visual name="v1">
           <transparency>0.5</transparency>
@@ -832,6 +833,7 @@
         </material>
         <cast_shadows>false</cast_shadows>
       </link>
+      -->
 
       <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
         <topic>/subt_performer_detector</topic>
@@ -846,7 +848,7 @@
         </header_data>
       </plugin>
       <!-- This plugin listens for the "enter" event from the performer
-           detector and starts the fog -->
+           detector and opens the door. -->
       <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
         <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
           <match field="header.data">
@@ -1425,7 +1427,6 @@
         <ref>tile_67</ref>
         <ref>tile_76</ref>
         <ref>tile_78</ref>
-        <ref></ref>
         <pose>40 19.3545 38.28 0 0 0</pose>
         <geometry><box><size>93.75 482.709 179.56</size></box></geometry>
         <buffer>12.5</buffer>
@@ -1974,7 +1975,6 @@
       </level>
       <level name="level96">
         <ref>tile_24</ref>
-        <ref></ref>
         <pose>81.516 187.5 38.28 0 0 0</pose>
         <geometry><box><size>407.032 93.75 179.56</size></box></geometry>
         <buffer>12.5</buffer>
