@@ -1,0 +1,3257 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <world name="final_event_05">
+
+    <physics name="1ms" type="ode">
+      <max_step_size>0.004</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+
+    <scene>
+      <ambient>0.1 0.1 0.1 1.0</ambient>
+      <background>0 0 0 1.0</background>
+      <grid>false</grid>
+      <origin_visual>false</origin_visual>
+    </scene>
+
+    <atmosphere type="adiabatic">
+       <temperature>288</temperature>
+       <temperature_gradient>0.7</temperature_gradient>
+    </atmosphere>
+
+    <!-- The staging area -->
+    <include>
+      <static>true</static>
+      <name>staging_area</name>
+      <!-- <pose>-31.948 52.98 8.822 0 0 3.14159</pose> -->
+      <pose>-13 0 -0.01 0 0 -1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Finals Staging Area</uri>
+    </include>
+
+    <!-- The base station - use an empty fiducial model-->
+    <include>
+      <static>true</static>
+      <name>base_station</name>
+      <pose>-30 0 0 0 -0 0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fiducial</uri>
+    </include>
+
+    <!-- Fiducial marking the origin for artifacts reports -->
+    <include>
+      <static>true</static>
+      <name>artifact_origin</name>
+      <pose>-10.5 0 0 0 -0 0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fiducial</uri>
+    </include>
+
+    <!-- Floor 1 -->
+    <!-- <include>
+      <static>true</static>
+      <name>floor1_tile_1</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor1_tile_01</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor1_tile_2</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor1_tile_02</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor1_tile_3</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor1_tile_03</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor1_tile_4</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor1_tile_04</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor1_tile_5</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor1_tile_05</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor1_tile_6</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor1_tile_06</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor1_tile_7</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor1_tile_07</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor1_tile_8</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor1_tile_08</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor1_tile_9</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor1_tile_09</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor1_tile_10</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor1_tile_10</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor1_tile_11</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor1_tile_11</uri>
+    </include> -->
+
+    <!-- Floor 2 -->
+    <!-- <include>
+      <static>true</static>
+      <name>floor2_tile_1</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor2_tile_01</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor2_tile_2</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor2_tile_02</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor2_tile_3</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor2_tile_03</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor2_tile_4</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor2_tile_04</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor2_tile_5</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor2_tile_05</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor2_tile_6</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor2_tile_06</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor2_tile_7</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor2_tile_07</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor2_tile_8</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor2_tile_08</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor2_tile_9</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor2_tile_09</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor2_tile_10</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor2_tile_10</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor2_tile_11</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor2_tile_11</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor2_tile_12</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor2_tile_12</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor2_tile_13</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor2_tile_13</uri>
+    </include> -->
+
+    <!-- Floor 3 -->
+    <!-- <include>
+      <static>true</static>
+      <name>floor3_tile_1</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor3_tile_01</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor3_tile_2</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor3_tile_02</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor3_tile_3</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor3_tile_03</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor3_tile_4</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor3_tile_04</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor3_tile_5</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor3_tile_05</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor3_tile_6</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor3_tile_06</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor3_tile_7</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor3_tile_07</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor3_tile_8</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor3_tile_08</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor3_tile_9</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor3_tile_09</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor3_tile_10</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor3_tile_10</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor3_tile_11</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor3_tile_11</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor3_tile_12</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor3_tile_12</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor3_tile_13</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor3_tile_13</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor3_tile_14</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor3_tile_14</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor3_tile_15</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor3_tile_15</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor3_tile_16</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_floor3_tile_16</uri>
+    </include> -->
+
+    <!-- Stairs -->
+    <!-- <include>
+      <static>true</static>
+      <name>floor1_stairs</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_stairs_01</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor2_stairs</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_stairs_02</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>floor3_stairs</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/satsop_stairs_03</uri>
+    </include> -->
+
+    <include>
+      <static>true</static>
+      <name>satsop</name>
+      <pose>38.899 31.4877 -8.832 0 0 1.5708</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Satsop</uri>
+    </include>
+
+    <!-- Lights -->
+    <light type="point" name="light_0">
+      <pose>10.1218 -11.5965 -2.3504 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_1">
+      <pose>2.75296 -11.6695 5.341 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_2">
+      <pose>-3.38773 12.086 -4.45652 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_3">
+      <pose>-3.65894 -11.4518 -4.45652 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_4">
+      <pose>4.22116 -10.7693 -4.45652 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_5">
+      <pose>65.6067 10.2477 3.6099 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_6">
+      <pose>48.9903 55.0847 4.4306 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_7">
+      <pose>58.5231 47.0044 4.4306 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_8">
+      <pose>57.4755 2.60287 1.5776 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_9">
+      <pose>66.5797 17.5932 3.6099 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_10">
+      <pose>67.072 4.9759 2.4225 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_11">
+      <pose>53.2818 2.62345 2.3699 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_12">
+      <pose>55.0125 8.03086 4.8499 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_13">
+      <pose>60.6989 8.03088 4.8499 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_14">
+      <pose>62.4093 25.9358 4.8499 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_15">
+      <pose>38.0336 1.7387 4.8499 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_16">
+      <pose>1.80676 41.4511 4.1103 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_17">
+      <pose>-1.52312 63.4409 4.7392 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_18">
+      <pose>0.394441 47.578 4.1103 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_19">
+      <pose>10.9137 -7.9393 2.8703 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_20">
+      <pose>-3.43011 33.6143 2.9086 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_21">
+      <pose>-11.8332 35.251 3.4903 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_22">
+      <pose>17.9268 35.2511 3.4903 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_23">
+      <pose>16.7813 59.5003 4.1103 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_24">
+      <pose>14.7936 47.0394 5.4805 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_25">
+      <pose>9.86682 25.9511 4.1103 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_26">
+      <pose>8.00688 11.0234 2.9208 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_27">
+      <pose>20.4069 10.4511 4.1103 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_28">
+      <pose>24.5085 3.07955 2.0692 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_29">
+      <pose>20.4563 4.83073 2.0692 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_30">
+      <pose>-0.390487 0.654956 4.8004 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_31">
+      <pose>16.1163 4.83072 2.0692 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_32">
+      <pose>-3.07599 0.701346 -4.45652 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_33">
+      <pose>32.3801 -10.2649 -5.07652 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_34">
+      <pose>17.7322 -9.80218 -6.52917 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_35">
+      <pose>1.66952 52.6579 -3.13347 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_36">
+      <pose>3.25659 33.6195 -6.03702 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_37">
+      <pose>2.81098 8.52727 -5.42707 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_38">
+      <pose>2.89644 21.5087 -5.87553 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_39">
+      <pose>3.47213 -4.84223 -4.45652 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_40">
+      <pose>8.24257 39.894 3.4903 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_41">
+      <pose>48.3212 -6.65067 6.0791 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_42">
+      <pose>73.5649 22.127 3.8106 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_43">
+      <pose>75.0746 46.4084 4.9377 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_44">
+      <pose>23.9632 8.85084 -3.3758 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_45">
+      <pose>7.78753 24.1605 -3.3758 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_46">
+      <pose>12.6649 40.1485 -3.3758 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_47">
+      <pose>8.53225 43.9259 -3.3758 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_48">
+      <pose>24.3583 55.543 -3.3758 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_49">
+      <pose>15.7602 62.8744 -3.3758 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_50">
+      <pose>40.3437 71.2901 -5.36615 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_51">
+      <pose>55.8812 54.804 -3.3758 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_52">
+      <pose>67.1389 34.9812 -3.3758 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_53">
+      <pose>63.2038 16.8283 -3.3758 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_54">
+      <pose>10.9648 1.6357 -3.3758 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_55">
+      <pose>77.9783 38.149 -5.80347 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_56">
+      <pose>77.9782 60.8422 -5.80347 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <light type="point" name="light_57">
+      <pose>81.8833 70.6455 -3.40763 0 -0 1.5708</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>8.0</range>
+        <linear>0.01</linear>
+        <constant>0.005</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <!-- Artifacts -->
+    <include>
+      <name>backpack_1</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/JanSport Backpack Red</uri>
+      <pose>5.99899 39.9529 3.79543 0 0 1.61059</pose>
+    </include>
+
+    <include>
+      <name>backpack_2</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/JanSport Backpack Red</uri>
+      <pose>6.6 8.3 0 0 0 1.5707</pose>
+    </include>
+
+    <include>
+      <name>backpack_3</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/JanSport Backpack Red</uri>
+      <pose>5.7664 43.8042 -8.82855 0 0 1.5708</pose>
+    </include>
+
+    <include>
+      <name>backpack_4</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/JanSport Backpack Red</uri>
+      <pose>-5.78134 46.5408 -18.5 0 0 3.14</pose>
+    </include>
+
+    <include>
+      <name>rescue_randy_1</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rescue Randy Sitting</uri>
+      <pose>20.6107 32.5893 1.16426 0.05494 0 -1.64263</pose>
+    </include>
+
+    <include>
+      <name>rescue_randy_2</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rescue Randy Sitting</uri>
+      <pose>7.207 -12.3147 -6.630 -0.056063 0.043437 1.63397</pose>
+    </include>
+
+    <include>
+      <name>rescue_randy_3</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rescue Randy Sitting</uri>
+      <pose>59.151 19.9331 -8.85127 0 0.07111 0.806171</pose>
+    </include>
+
+    <include>
+      <name>rescue_randy_4</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Rescue Randy Sitting</uri>
+      <pose>30.4867 60.2533 -19.3817 0 0 3.14</pose>
+    </include>
+
+    <include>
+      <name>phone_1</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Samsung J8 Black</uri>
+      <pose>0.2963 20.3200 0.0 -0.208 0 0</pose>
+    </include>
+
+    <include>
+      <name>phone_2</name>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Samsung J8 Black</uri>
+      <pose>77.6744 61.0693 -8.829940 -1.5708 0 0</pose>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>vent_1</name>
+      <pose>67.7995 4.882420 1.5 0 -1.5708 0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Vent</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>vent_2</name>
+      <pose>19.821 -7.33415 -6.6 0 -1.5708 1.56105</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Vent</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>vent_3</name>
+      <pose>73.8261 71.8838 -6.5 0 -1.5708 0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Vent</uri>
+    </include>
+
+
+    <include>
+      <static>true</static>
+      <name>gas_1</name>
+      <pose>6.27342 50.9563 -19.3877 0 0 0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Gas Small</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>cube_1</name>
+      <pose>-6.4 71.3241 0 0 0 0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/SubT Challenge Cube</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>cube_2</name>
+      <pose>15.6497 59.1407 -8.82883 0 0 0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/SubT Challenge Cube</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>cube_3</name>
+      <pose>39.6488 -4.38717 -19.3844 0 0 -0.266792</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/SubT Challenge Cube</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>cube_4</name>
+      <pose>67.5946 -4.20717 -19.3892 0 0 0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/SubT Challenge Cube</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>extinguisher_1</name>
+      <pose>45.2603 55.6548 0 0 0 -1.65611</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fire Extinguisher</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <name>extinguisher_2</name>
+      <pose>24.23780 11.6908 0.572 0 0 -0.511</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fire Extinguisher</uri>
+    </include>
+
+    <!-- Obstacles -->
+    <!-- START FOG EMITTER 1 -->
+    <include>
+      <name>fog_emitter_1</name>
+      <static>true</static>
+      <pose>1.9 41 0.0 0 0 0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fog Emitter2 Small</uri>
+    </include>
+    <model name="fog_emitter_1_detector">
+      <pose>1.9 41 3 0 0 0</pose>
+      <static>true</static>
+      <!-- Uncomment to debug fog emitter
+      <link name='body'>
+        <visual name="v1">
+          <transparency>0.5</transparency>
+          <geometry>
+            <box>
+              <size>6 6 6</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.0 1.0 0.0 0.5</ambient>
+            <diffuse>0.0 1.0 0.0 0.5</diffuse>
+            <specular>0.5 0.5 0.5 0.5</specular>
+          </material>
+        </visual>
+        <cast_shadows>false</cast_shadows>
+      </link>
+      -->
+      <!-- This plugin detects when entities (performers) enter and leave
+           the defined region. A message is published on the <topic> when these
+           events occur -->
+      <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+        <topic>/subt_performer_detector</topic>
+        <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>6 6 6</size>
+            </box>
+          </geometry>
+          <header_data>
+              <key>type</key>
+              <value>fog</value>
+          </header_data>
+      </plugin>
+    <!-- This plugin listens for the "enter" event from the performer
+           detector and starts the fog -->
+      <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
+        <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
+          <match field="header.data">
+            {
+            key: "frame_id"
+            value: "fog_emitter_1_detector"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "type"
+            value: "fog"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "state"
+            value: "1"
+            }
+          </match>
+        </input>
+        <output type="ignition.msgs.ParticleEmitter" topic="/model/fog_emitter_1/link/link/particle_emitter/fog_generator/cmd">
+          emitting:{data: 1}
+        </output>
+      </plugin>
+      <!-- This plugin listens for the "leave" event from the performer
+           detector and stops the fog only if there are no entities in the
+           region ("count" of zero) -->
+      <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
+        <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
+          <match field="header.data">
+            {
+            key: "frame_id"
+            value: "fog_emitter_1_detector"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "type"
+            value: "fog"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "state"
+            value: "0"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "count"
+            value: "0"
+            }
+          </match>
+        </input>
+        <output type="ignition.msgs.ParticleEmitter" topic="/model/fog_emitter_1/link/link/particle_emitter/fog_generator/cmd">
+          emitting:{data: 0}
+        </output>
+      </plugin>
+    </model>
+    <!-- END FOG EMITTER 1 -->
+
+    <!-- START FOG EMITTER 2 -->
+    <include>
+      <name>fog_emitter_2</name>
+      <static>true</static>
+      <pose>1.2 17.5 0.0 0.0 0 0.0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Fog Emitter2 Small</uri>
+    </include>
+    <model name="fog_emitter_2_detector">
+      <pose>1.2 17.5 1.25 0.0 0 0.0</pose>
+      <static>true</static>
+      <!-- Uncomment to debug fog emitter
+      <link name='body'>
+        <visual name="v1">
+          <transparency>0.5</transparency>
+          <geometry>
+            <box>
+              <size>7 6 2.5</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.0 1.0 0.0 0.5</ambient>
+            <diffuse>0.0 1.0 0.0 0.5</diffuse>
+            <specular>0.5 0.5 0.5 0.5</specular>
+          </material>
+        </visual>
+        <cast_shadows>false</cast_shadows>
+      </link>
+      -->
+      <!-- This plugin detects when entities (performers) enter and leave
+           the defined region. A message is published on the <topic> when these
+           events occur -->
+      <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+        <topic>/subt_performer_detector</topic>
+        <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>7 6 2.5</size>
+            </box>
+          </geometry>
+          <header_data>
+              <key>type</key>
+              <value>fog</value>
+          </header_data>
+      </plugin>
+    <!-- This plugin listens for the "enter" event from the performer
+           detector and starts the fog -->
+      <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
+        <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
+          <match field="header.data">
+            {
+            key: "frame_id"
+            value: "fog_emitter_2_detector"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "type"
+            value: "fog"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "state"
+            value: "1"
+            }
+          </match>
+        </input>
+        <output type="ignition.msgs.ParticleEmitter" topic="/model/fog_emitter_2/link/link/particle_emitter/fog_generator/cmd">
+          emitting:{data: 1}
+        </output>
+      </plugin>
+      <!-- This plugin listens for the "leave" event from the performer
+           detector and stops the fog only if there are no entities in the
+           region ("count" of zero) -->
+      <plugin name="ignition::gazebo::systems::TriggeredPublisher" filename="libignition-gazebo-triggered-publisher-system.so">
+        <input type="ignition.msgs.Pose" topic="/subt_performer_detector">
+          <match field="header.data">
+            {
+            key: "frame_id"
+            value: "fog_emitter_2_detector"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "type"
+            value: "fog"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "state"
+            value: "0"
+            }
+          </match>
+          <match field="header.data">
+            {
+            key: "count"
+            value: "0"
+            }
+          </match>
+        </input>
+        <output type="ignition.msgs.ParticleEmitter" topic="/model/fog_emitter_2/link/link/particle_emitter/fog_generator/cmd">
+          emitting:{data: 0}
+        </output>
+      </plugin>
+    </model>
+    <!-- END FOG EMITTER 2 -->
+
+    <wind>
+      <linear_velocity>0.000000 0.000000 0.000000</linear_velocity>
+    </wind>
+
+    <!-- Load the plugin for the wind -->
+    <plugin name="ignition::gazebo::systems::WindEffects" filename="libignition-gazebo-wind-effects-system.so">
+      <horizontal>
+        <magnitude>
+          <time_for_rise>10</time_for_rise>
+          <sin>
+            <amplitude_percent>0.05</amplitude_percent>
+            <period>60</period>
+          </sin>
+          <noise type="gaussian">
+            <mean>0</mean>
+            <stddev>0.0002</stddev>
+          </noise>
+        </magnitude>
+        <direction>
+          <time_for_rise>30</time_for_rise>
+          <sin>
+            <amplitude>5</amplitude>
+            <period>20</period>
+          </sin>
+          <noise type="gaussian">
+            <mean>0</mean>
+            <stddev>0.03</stddev>
+          </noise>
+        </direction>
+      </horizontal>
+      <vertical>
+        <noise type="gaussian">
+          <mean>0</mean>
+          <stddev>0.03</stddev>
+        </noise>
+      </vertical>
+    </plugin>
+
+    <!-- Levels -->
+    <!-- ToDo -->
+
+    <!-- Detectors -->
+    <model name='detectors'>
+      <!--<pose>38.899 31.4877 -8.832 0 0 0</pose>-->
+      <static>true</static>
+
+    <!--Uncomment <link> to preview detector region-->
+      <!--<link name='detector2'>
+      <pose>41.8918 0.998111 1.168 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 3</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>41.8918 0.998111 1.168 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 3</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+      <!--<link name='detector3'>
+      <pose>37.0529 1.01759 1.168 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 3</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>37.0529 1.01759 1.168 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 3</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector4'>
+      <pose>10.3992 -12.0457 0.168 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 2 2</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>10.3992 -12.0457 0.168 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 2 2</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>stairs</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector5'>
+      <pose>9.91758 36.9686 2.472 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>10 10 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>9.91758 36.9686 2.472 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>10 10 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector6'>
+      <pose>17.8349 48.2131 1.00624 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 2</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>17.8349 48.2131 1.00624 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 2</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>stairs</value>
+      </header_data>
+    </plugin>
+
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector7'>
+      <pose>20.0522 55.3039 1.2 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 3 2</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>20.0522 55.3039 1.2 0 0 0</pose>
+      <geometry>
+        <box>
+            <size>1 3 2</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>stairs</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector8'>
+      <pose>14.8228 56.857 0.94942 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>2 2 2</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>14.8228 56.857 0.94942 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>2 2 2</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector9'>
+      <pose>11.8347 -6.4379 1.9355 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>5 2 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>11.8347 -6.4379 1.9355 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>5 2 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector10'>
+      <pose>68.4061 40.1005 1.0667 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>2 2 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>68.4061 40.1005 1.0667 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>2 2 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector11'>
+      <pose>67.1071 45.8141 1.16624 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>3.5 1 2</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>67.1071 45.8141 1.16624 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>3.5 1 2</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>stairs</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector12'>
+      <pose>71.2678 45.7551 1.2754 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1.5 1 2</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>71.2678 45.7551 1.2754 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1.5 1 2</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>stairs</value>
+      </header_data>
+    </plugin>
+
+  <!-- Second level -->
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector13'>
+      <pose>17.7539 55.7383 -5.74188 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>3.5 3 8</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>17.7539 55.7383 -5.74188 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>3.5 3 8</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>stairs</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector14'>
+      <pose>14.3724 57.5165 -7.63297 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>2 2 2</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>14.3724 57.5165 -7.63297 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>2 2 2</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector15'>
+      <pose>50.9159 63.4816 -7.832 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>5 5 3</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>50.9159 63.4816 -7.832 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>5 5 3</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector16'>
+      <pose>70.8581 61.9286 -7.62176 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>2 1 2</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>70.8581 61.9286 -7.62176 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>2 1 2</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector17'>
+      <pose>80.0593 49.1943 -7.44946 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>80.0593 49.1943 -7.44946 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector18'>
+      <pose>80.0594 38.4879 -7.44946 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>80.0594 38.4879 -7.44946 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector19'>
+      <pose>80.0594 28.2879 -7.44946 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>80.0594 28.2879 -7.44946 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector20'>
+      <pose>72.342 66.7149 -7.44946 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>72.342 66.7149 -7.44946 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector21'>
+      <pose>62.463 49.8395 -9.49217 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>4 4 4</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>62.463 49.8395 -9.49217 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>4 4 4</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>vertical</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector22'>
+      <pose>67.9217 46.016 -8.30598 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>3 2 2</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>67.9217 46.016 -8.30598 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>3 2 2</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>stairs</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector23'>
+      <pose>5.89894 46.763 -8.832 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>2 3 4</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>5.89894 46.763 -8.832 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>2 3 4</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>vertical</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector24'>
+      <pose>0.689215 27.3076 -7.832 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>0.689215 27.3076 -7.832 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector25'>
+      <pose>0.68922 26.0168 -7.832 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>0.68922 26.0168 -7.832 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector26'>
+      <pose>0.689261 14.8451 -7.832 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>0.689261 14.8451 -7.832 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector27'>
+      <pose>0.689266 13.5289 -7.832 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>0.689266 13.5289 -7.832 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector28'>
+      <pose>0.689298 4.81996 -7.832 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>0.689298 4.81996 -7.832 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector29'>
+      <pose>0.689315 0.13656 -7.832 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>0.689315 0.13656 -7.832 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector30'>
+      <pose>0.68932 -1.04734 -7.832 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>0.68932 -1.04734 -7.832 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector31'>
+      <pose>0.689341 -6.92754 -7.832 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>0.689341 -6.92754 -7.832 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector32'>
+      <pose>5.50714 -7.57862 -7.832 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>5.50714 -7.57862 -7.832 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector33'>
+      <pose>10.3898 -10.7419 -7.832 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>10.3898 -10.7419 -7.832 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>stairs</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector34'>
+      <pose>23.468 -6.90436 -7.73577 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>23.468 -6.90436 -7.73577 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector35'>
+      <pose>30.7425 -7.40643 -7.73577 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>30.7425 -7.40643 -7.73577 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector36'>
+      <pose>77.1295 41.047 -7.44946 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>77.1295 41.047 -7.44946 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+
+  <!-- Level 3 -->
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector37'>
+      <pose>77.3725 56.8295 -18.1306 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>77.3725 56.8295 -18.1306 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector38'>
+      <pose>77.8989 69.2011 -15.832 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 8</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>77.8989 69.2011 -15.832 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 8</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector39'>
+      <pose>82.4226 69.5394 -18.1652 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>82.4226 69.5394 -18.1652 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector40'>
+      <pose>72.3038 67.4539 -17.9622 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>72.3038 67.4539 -17.9622 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector41'>
+      <pose>63.3889 66.8122 -17.9622 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>63.3889 66.8122 -17.9622 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector42'>
+      <pose>55.1374 66.8122 -18.0261 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>55.1374 66.8122 -18.0261 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector43'>
+      <pose>69.6292 56.085 -18.2243 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 3 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>69.6292 56.085 -18.2243 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 3 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector44'>
+      <pose>67.1023 47.2172 -18.2243 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>67.1023 47.2172 -18.2243 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>stairs</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector45'>
+      <pose>24.1111 69.6225 -15.832 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 5 8</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>24.1111 69.6225 -15.832 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 5 8</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector46'>
+      <pose>8.23517 67.5973 -18.1712 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>8.23517 67.5973 -18.1712 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector47'>
+      <pose>-2.24133 67.5972 -18.1712 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>-2.24133 67.5972 -18.1712 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector48'>
+      <pose>18.2976 55.2115 -18.1712 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>18.2976 55.2115 -18.1712 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>stairs</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector49'>
+      <pose>14.7056 -4.76269 -18.1304 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>14.7056 -4.76269 -18.1304 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>stairs</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector50'>
+      <pose>9.92013 -3.86441 -18.0158 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>3 1 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>9.92013 -3.86441 -18.0158 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>3 1 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector51'>
+      <pose>37.4485 -10.4203 -18.1533 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>37.4485 -10.4203 -18.1533 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector52'>
+      <pose>39.0201 -12.8568 -18.1533 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>39.0201 -12.8568 -18.1533 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector53'>
+      <pose>75.8077 -11.3415 -18.1533 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>75.8077 -11.3415 -18.1533 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector54'>
+      <pose>75.8075 35.173 -18.1533 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>75.8075 35.173 -18.1533 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector55'>
+      <pose>75.8075 23.951 -18.1533 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>75.8075 23.951 -18.1533 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector56'>
+      <pose>75.6506 10.726 -18.1533 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>75.6506 10.726 -18.1533 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector57'>
+      <pose>75.6506 -1.61516 -18.1533 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>75.6506 -1.61516 -18.1533 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector58'>
+      <pose>70.0604 2.68341 -18.1533 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 3 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>70.0604 2.68341 -18.1533 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 3 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+
+    <!--Uncomment <link> to preview detector region-->
+    <!--<link name='detector59'>
+      <pose>61.7409 9.68428 -18.1533 0 0 0</pose>
+      <visual name="v1">
+        <transparency>0.2</transparency>
+        <geometry>
+          <box>
+            <size>1 1 5</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.0 1.0 0.0 1</diffuse>
+        </material>
+      </visual>
+      <cast_shadows>false</cast_shadows>
+    </link>-->
+    <plugin filename="libignition-gazebo-performer-detector-system.so" name="ignition::gazebo::systems::PerformerDetector">
+      <topic>/subt_performer_detector</topic>
+      <pose>61.7409 9.68428 -18.1533 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>1 1 5</size>
+        </box>
+      </geometry>
+      <header_data>
+        <key>type</key>
+        <value>decision</value>
+      </header_data>
+    </plugin>
+  </model>
+  </world>
+</sdf>
