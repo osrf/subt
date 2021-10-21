@@ -63,6 +63,8 @@ graph {
   83  [label="83::Cave Cap Type A::tile_83"];
   84  [label="84::Cave Cap Type A::tile_84"];
   85  [label="85::Cave Cap Type A::tile_85"];
+  87  [label="87::Urban Service Room::tile_87"];
+  1   [label="1::Universal Straight 2.5::universal_with_door"];
 
   /* ==== Edges ==== */
 
@@ -75,6 +77,7 @@ graph {
   22 -- 57  [label=3];
   23 -- 59  [label=6];
   24 -- 31  [label=6];
+  24 -- 1   [label=3];
   25 -- 32  [label=3];
   26 -- 66  [label=1];
   27 -- 68  [label=3];
@@ -125,4 +128,5 @@ graph {
   72 -- 74  [label=3];
   75 -- 76  [label=1];
   76 -- 77  [label=3];
+  87 -- 1   [label=1];
 }
