@@ -198,6 +198,7 @@ Processor::Processor(const std::string &_path, const std::string &_configPath, c
 
     std::vector<std::string> camPoseParts =
       ignition::common::split(_cameraPose, " ");
+    this->SpawnLight();
     this->SpawnCamera(camPoseParts[0], camPoseParts[1], camPoseParts[2]);
 
     this->markerNode->Subscribe("/clock", &Processor::ClockCb , this);
@@ -447,6 +448,40 @@ Processor::Processor(const std::string &_path, const std::string &_configPath, c
   std::this_thread::sleep_for(std::chrono::seconds(60));
 }
 
+//////////////////////////////////////////////////
+void Processor::SpawnLight()
+{
+  std::function<void(const ignition::msgs::Boolean &, const bool)> cb =
+      [](const ignition::msgs::Boolean &/*_rep*/, const bool _result)
+  {
+    if (!_result)
+      std::cerr << "Error spawning camera request" << std::endl;
+  };
+
+  std::string spawnStr = R"spawn(<?xml version="1.0"?>
+    <sdf version="1.6">
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 100 0 0 0</pose>
+      <diffuse>1.0 1.0 1.0 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>2000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+    </sdf>)spawn";
+
+  ignition::msgs::EntityFactory req;
+  req.set_sdf(spawnStr);
+  req.set_allow_renaming(false);
+  // for factory service requests
+  std::string createService = "/world/" + this->worldName + "/create";
+  this->markerNode->Request(createService, req, cb);
+}
 
 //////////////////////////////////////////////////
 void Processor::SpawnCamera(const std::string &_camPosX,

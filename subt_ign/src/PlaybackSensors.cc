@@ -482,8 +482,9 @@ std::string PlaybackSensors::CreateSensor(
   }
 
   // Create within ign-sensors
-  auto sensorId = this->dataPtr->sensorManager.CreateSensor(_sdf);
-  auto sensor = this->dataPtr->sensorManager.Sensor(sensorId);
+  auto sensor = this->dataPtr->sensorManager.CreateSensor<
+      ignition::sensors::CameraSensor>(_sdf);
+  //auto sensor = this->dataPtr->sensorManager.Sensor(sensorId);
 
   // Make sure to pin the parent model
   auto parentModel = this->dataPtr->ecm->EntityByComponents(ignition::gazebo::components::Name("spawned_camera"));
@@ -496,7 +497,7 @@ std::string PlaybackSensors::CreateSensor(
     return std::string();
   }
 
-  this->dataPtr->sensorIds.insert(sensorId);
+  this->dataPtr->sensorIds.insert(sensor->Id());
   this->dataPtr->cameras.push_back(sensor);
 
   // Set the scene so it can create the rendering sensor

@@ -226,6 +226,8 @@ class Processor
   /// \brief Destructor
   public: ~Processor();
 
+  public: void SpawnLight();
+
   public: void SpawnCamera(const std::string &_camPosX,
               const std::string &_camPosY, const std::string &_camPosZ);
 

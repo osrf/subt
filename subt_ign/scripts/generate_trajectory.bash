@@ -1,22 +1,26 @@
 #!/bin/bash
 #
-# Usage: ./generate_trajectory.bash <path_to_log_files> <output_path> <world_name> <camera_pose>
+# Usage: ./generate_trajectory.bash <path_to_state_log_file> <video_output_path> <world_name> "<camera_pose>"
 #
 # Example usage:
 #
-# ./generate_trajectory.bash ~/Downloads/log /tmp/output/ cave_qual
+# ./generate_trajectory.bash ~/Downloads/log/gazebo /tmp/output/ final_event_01 "195 0 317"
 #
 # Notes:
 #   1. You will need the path_tracer executable in your PATH.
-#   2. Requires Ignition Citadel
-#   3. If you kill this before docker full starts, then use
-#      `docker kill <ID>` to kill the docker container.
-
-# Start clean
-# pkill -f "path_tracer"
-# pkill -f "ign gazebo"
-# docker kill $(docker ps -q)
-# pkill -f "ign gazebo"
+#   2. Requires Ignition Fortress
+#   3. A set of decent camera poses for some worlds:
+#          final_prelim_01 "163 30 310"
+#          final_prelim_02 "140 -100 400"
+#          final_prelim_03 "90 0 260"
+#          final_event_01 "195 0 317"
+#          final_event_02 "91 32 300"
+#          final_event_03 "247 0 421"
+#          final_event_04 "161 140 382"
+#          final_event_05 "30 30 100"
+#          final_event_06 "79 95 367"
+#          final_event_07 "100 -60 410"
+#          final_event_08 "25 58 180"
 
 logDir=$1
 destDir=$2
@@ -24,8 +28,6 @@ worldName=$3
 cameraPose=$4
 partition=`hostname`"_PATH_TRACER"
 
-export IGN_TRANSPORT_RCVHWM=0 
-export IGN_TRANSPORT_SNDHWM=0 
 export IGN_TRANSPORT_TOPIC_STATISTICS=1
 
 # Make sure processes in the container can connect to the x server
@@ -52,8 +54,6 @@ docker run -t \
   -e QT_X11_NO_MITSHM=1 \
   -e XAUTHORITY=$XAUTH \
   -e IGN_PARTITION=$partition \
-  -e IGN_TRANSPORT_RCVHWM=0 \
-  -e IGN_TRANSPORT_SNDHWM=0 \
   -e IGN_TRANSPORT_TOPIC_STATISTICS=1 \
   -v "$XAUTH:$XAUTH" \
   -v "/tmp/.X11-unix:/tmp/.X11-unix" \
