@@ -6,7 +6,7 @@
             <pose frame="">0 0 0 0 -0 0</pose>
             <inertial>
                 <pose frame="">0 0 0 0 -0 0</pose>
-                <mass>1.55</mass>
+                <mass>9.25</mass>
                 <inertia>
                     <ixx>0.025</ixx>
                     <ixy>0</ixy>
@@ -259,6 +259,7 @@
             <sensor name="imu_sensor" type="imu">
                 <always_on>1</always_on>
                 <update_rate>250</update_rate>
+                <enable_orientation>0</enable_orientation>
                 <imu>
                     <angular_velocity>
                         <x>
@@ -569,6 +570,91 @@
                     </mesh>
                 </geometry>
             </visual>
+            
+            <!--<visual name="lidar1_mount">
+              <pose>0.0 0.0 0.295 0 0 0</pose>
+              <geometry>
+                <box>
+                  <size>0.1825 0.1825 0.075</size>
+                </box>
+              </geometry>
+              <material>
+                <ambient>0.55 0.55 0.55 1</ambient>
+                <diffuse>0.55 0.55 0.55 1</diffuse>
+              </material>
+            </visual>-->
+            <visual name="lidar_mount">
+              <pose>0.0 0.0 0.295 0 0 0</pose>
+              <geometry>
+                <box>
+                  <size>0.1025 0.1025 0.075</size>
+                </box>
+              </geometry>
+              <material>
+                <ambient>0.55 0.55 0.55 1</ambient>
+                <diffuse>0.55 0.55 0.55 1</diffuse>
+              </material>
+            </visual>
+            <visual name="camera1_mount">
+              <pose>0.07125 0 0.295 0 0 0</pose>
+              <geometry>
+                <box>
+                  <size>0.04 0.04 0.075</size>
+                </box>
+              </geometry>
+              <material>
+                <ambient>0.55 0.55 0.55 1</ambient>
+                <diffuse>0.55 0.55 0.55 1</diffuse>
+              </material>
+            </visual>
+            <visual name="camera2_mount">
+              <pose>0 0.07125 0.295 0 0 0</pose>
+              <geometry>
+                <box>
+                  <size>0.04 0.04 0.075</size>
+                </box>
+              </geometry>
+              <material>
+                <ambient>0.55 0.55 0.55 1</ambient>
+                <diffuse>0.55 0.55 0.55 1</diffuse>
+              </material>
+            </visual>
+            <visual name="camera3_mount">
+              <pose>0 -0.07125 0.295 0 0 0</pose>
+              <geometry>
+                <box>
+                  <size>0.04 0.04 0.075</size>
+                </box>
+              </geometry>
+              <material>
+                <ambient>0.55 0.55 0.55 1</ambient>
+                <diffuse>0.55 0.55 0.55 1</diffuse>
+              </material>
+            </visual>
+            <visual name="camera4_mount">
+              <pose>-0.07125 0 0.295 0 0 0</pose>
+              <geometry>
+                <box>
+                  <size>0.04 0.04 0.075</size>
+                </box>
+              </geometry>
+              <material>
+                <ambient>0.55 0.55 0.55 1</ambient>
+                <diffuse>0.55 0.55 0.55 1</diffuse>
+              </material>
+            </visual>
+            <visual name="lidar2_mount">
+              <pose>-0.105 0 0.24 0 -1.5708 0</pose>
+              <geometry>
+                <box>
+                  <size>0.07 0.07 0.01</size>
+                </box>
+              </geometry>
+              <material>
+                <ambient>0.55 0.55 0.55 1</ambient>
+                <diffuse>0.55 0.55 0.55 1</diffuse>
+              </material>
+            </visual>
 
             <sensor name="front_laser" type="gpu_lidar">
                 <pose>0 0 0.33 5e-06 0 0 -0 0</pose>
@@ -659,7 +745,7 @@
                         </vertical>
                     </scan>
                     <range>
-                        <min>0.1</min>
+                        <min>0.25</min>
                         <max>50</max>
                     </range>
                     <noise>

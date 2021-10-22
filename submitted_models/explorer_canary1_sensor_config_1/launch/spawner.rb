@@ -20,7 +20,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>
         <use_pose_vector_msg>true</use_pose_vector_msg>
         <static_publisher>true</static_publisher>
-        <static_update_frequency>1</static_update_frequency>
+        <static_update_frequency>1000</static_update_frequency>
       </plugin>
       <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
         name="ignition::gazebo::systems::MulticopterMotorModel">
@@ -31,7 +31,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <timeConstantUp>0.0125</timeConstantUp>
         <timeConstantDown>0.025</timeConstantDown>
         <maxRotVelocity>800.0</maxRotVelocity>
-        <motorConstant>8.54858e-06</motorConstant>
+        <motorConstant>5.129148e-05</motorConstant>
         <momentConstant>0.016</momentConstant>
         <commandSubTopic>command/motor_speed</commandSubTopic>
         <motorNumber>0</motorNumber>
@@ -50,7 +50,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <timeConstantUp>0.0125</timeConstantUp>
         <timeConstantDown>0.025</timeConstantDown>
         <maxRotVelocity>800.0</maxRotVelocity>
-        <motorConstant>8.54858e-06</motorConstant>
+        <motorConstant>5.129148e-05</motorConstant>
         <momentConstant>0.016</momentConstant>
         <commandSubTopic>command/motor_speed</commandSubTopic>
         <motorNumber>1</motorNumber>
@@ -69,7 +69,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <timeConstantUp>0.0125</timeConstantUp>
         <timeConstantDown>0.025</timeConstantDown>
         <maxRotVelocity>800.0</maxRotVelocity>
-        <motorConstant>8.54858e-06</motorConstant>
+        <motorConstant>5.129148e-05</motorConstant>
         <momentConstant>0.016</momentConstant>
         <commandSubTopic>command/motor_speed</commandSubTopic>
         <motorNumber>2</motorNumber>
@@ -88,7 +88,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <timeConstantUp>0.0125</timeConstantUp>
         <timeConstantDown>0.025</timeConstantDown>
         <maxRotVelocity>800.0</maxRotVelocity>
-        <motorConstant>8.54858e-06</motorConstant>
+        <motorConstant>5.129148e-05</motorConstant>
         <momentConstant>0.016</momentConstant>
         <commandSubTopic>command/motor_speed</commandSubTopic>
         <motorNumber>3</motorNumber>
@@ -126,25 +126,25 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <rotorConfiguration>
           <rotor>
             <jointName>rotor_0_joint</jointName>
-            <forceConstant>8.54858e-06</forceConstant>
+            <forceConstant>5.129148e-05</forceConstant>
             <momentConstant>0.016</momentConstant>
             <direction>1</direction>
           </rotor>
           <rotor>
             <jointName>rotor_1_joint</jointName>
-            <forceConstant>8.54858e-06</forceConstant>
+            <forceConstant>5.129148e-05</forceConstant>
             <momentConstant>0.016</momentConstant>
             <direction>1</direction>
           </rotor>
           <rotor>
             <jointName>rotor_2_joint</jointName>
-            <forceConstant>8.54858e-06</forceConstant>
+            <forceConstant>5.129148e-05</forceConstant>
             <momentConstant>0.016</momentConstant>
             <direction>-1</direction>
           </rotor>
           <rotor>
             <jointName>rotor_3_joint</jointName>
-            <forceConstant>8.54858e-06</forceConstant>
+            <forceConstant>5.129148e-05</forceConstant>
             <momentConstant>0.016</momentConstant>
             <direction>-1</direction>
           </rotor>

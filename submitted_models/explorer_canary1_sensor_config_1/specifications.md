@@ -51,5 +51,5 @@ in physical properties. However, there are few diversions:
 
 # <a name="validation_links"></a>Canary1 Validation and Specification Links
 
-* https://autonomoustuff.com/product/velodyne-puck-vlp-16/
-* https://www.mouser.com/datasheet/2/693/mti-100-series-1540263.pdf
+* https://www.amtechs.co.jp/product/VLP-16-Puck.pdf
+* https://data.ouster.io/downloads/datasheets/datasheet-revd-v2p1-os0.pdf?__hstc=34987006.1615e6c550c7c10f70939cc54a917b79.1606276933776.1621366418434.1634865387151.13&__hssc=34987006.1.1634865387151&__hsfp=3056247791
