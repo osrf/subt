@@ -33,6 +33,7 @@ find_package(ignition-common4 REQUIRED COMPONENTS graphics)
 find_package(ignition-fuel_tools7 REQUIRED)
 find_package(ignition-math6 REQUIRED)
 find_package(ignition-msgs8 REQUIRED)
+find_package(ignition-sensors6 REQUIRED)
 find_package(ignition-transport11 REQUIRED)
 find_package(ignition-plugin1 REQUIRED COMPONENTS loader register)
 find_package(ignition-launch5 REQUIRED)
@@ -118,6 +119,7 @@ target_link_libraries(SubtCommon
   ignition-common4::graphics
   ignition-transport11::ignition-transport11
   ignition-transport11::ignition-transport11-log
+  ignition-sensors6::ignition-sensors6
   ignition-launch5::ignition-launch5
   ignition-fuel_tools7::ignition-fuel_tools7
   ${catkin_LIBRARIES}
@@ -133,6 +135,7 @@ list(APPEND SUBT_IGN_PLUGINS
   ControllerPlugin
   GameLogicPlugin
   GasEmitterDetectorPlugin
+  LocalWindPlugin
   VisibilityPlugin
 )
 
