@@ -125,25 +125,25 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
           <rotorConfiguration>
             <rotor>
               <jointName>rotor_0_joint</jointName>
-              <forceConstant>0.02</forceConstant>
+              <forceConstant>0.0225</forceConstant>
               <momentConstant>1.6754e-2</momentConstant>
               <direction>1</direction>
             </rotor>
             <rotor>
               <jointName>rotor_1_joint</jointName>
-              <forceConstant>0.02</forceConstant>
+              <forceConstant>0.0225</forceConstant>
               <momentConstant>1.6754e-2</momentConstant>
               <direction>1</direction>
             </rotor>
             <rotor>
               <jointName>rotor_2_joint</jointName>
-              <forceConstant>0.02</forceConstant>
+              <forceConstant>0.0225</forceConstant>
               <momentConstant>1.6754e-2</momentConstant>
               <direction>-1</direction>
             </rotor>
             <rotor>
               <jointName>rotor_3_joint</jointName>
-              <forceConstant>0.02</forceConstant>
+              <forceConstant>0.0225</forceConstant>
               <momentConstant>1.6754e-2</momentConstant>
               <direction>-1</direction>
             </rotor>
