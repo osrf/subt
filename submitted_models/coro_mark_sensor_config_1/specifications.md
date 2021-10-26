@@ -6,17 +6,17 @@ Coordinated Robotics Mark with Sensor Configuration 1. This robot may be launche
 a `ign launch` command with the variable name `coro_mark_sensor_config_1`.
 
 ## Description
-Mark is a quadrotor UAV with a D435i cameras.  Mark weighs 2.5KG.
+Mark is a quadrotor UAV with a D435i cameras.  Mark weighs 2.265KG.
 
 ## Usage Instructions
-The robot can be used in the same by sending Twist commands to the vehicle_name/cmd_vel ROS topic.
+The robot can be used by sending Twist commands to the vehicle_name/cmd_vel ROS topic.
 
 
 ## Usage Rights
 
 
 ## Cost and Scale
-Mark has an estimated duplication cost of USD 1310. It weighs 2.5KG.
+Mark has an estimated duplication cost of USD 1310. It weighs 2.265KG.
 Cost breakdown:
 $370 - Frame / motors / props / batteries / controllers
 $280 -  Computer
@@ -42,7 +42,14 @@ Based on the tests specified in the DARPA SubT Challenge [Model Preparation
 Guide](https://subtchallenge.com/resources/Simulation_Model_Preparation_Guide.pdf), this vehicle has the following motion
 constraint characteristics:
 
-Limited to default 4m/s as tests are not completed.
+* _x_ velocity range from -7.8 m/s to 7.6 m/s
+* _x_ acceleration range from -5.7 m/s<sup>2</sup> to 4.8 m/s<sup>2</sup>
+* _y_ velocity range from -5.5 m/s to 6.2 m/s
+* _y_ acceleration range from -5.1 m/s<sup>2</sup> to 5.0 m/s<sup>2</sup>
+* _z_ velocity range from -4.8 m/s to 6.1 m/s
+* _z_ acceleration range from -9.6 m/s<sup>2</sup> to 5.1 m/s<sup>2</sup>
+* _z_ velocity range from -3.3 rad/s to 3.1 rad/s
+* _z_ acceleration range from -5.0 rad/s<sup>2</sup> to 4.2 rad/s<sup>2</sup>
 
 
 The constraints can be found in the following locations within the simulation model package:
@@ -50,7 +57,8 @@ The constraints can be found in the following locations within the simulation mo
 
 
 ## Endurance Characteristics
-Limited to default 10 minutes as tests are not completed.
+This vehicle has a battery life of 15 minutes.
+
 
 
 ## Diversions from Physical Hardware of Mark
@@ -61,5 +69,3 @@ Limited to default 10 minutes as tests are not completed.
 * D435i RGBD Camera - https://www.intelrealsense.com/depth-camera-d435i/
 * Kakute F7 - http://www.holybro.com/product/kakute-f7-v1-5/
 * Garmin LIDAR-Lite v3HP - https://buy.garmin.com/en-US/US/p/557294
-
-Testing links - to be added.

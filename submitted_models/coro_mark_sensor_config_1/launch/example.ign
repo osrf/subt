@@ -10,7 +10,7 @@
 
   # Modify these as needed
   $enableGroundTruth = true
-  $headless = false
+  $headless =  local_variables.include?(:headless) ? :headless : false
 
 %>
 
@@ -163,9 +163,8 @@
   </executable_wrapper>
   <%end%>
 
-<plugin name="ignition::launch::GazeboFactory" filename="libignition-launch-gazebo-factory.so">
 <%= spawner(robotName, modelURI, $worldName, 0, 0, 0, 0, 0, 0) %>
-</plugin>
 <%= rosExecutables(robotName, $worldName) %>
  
 </ignition>
+

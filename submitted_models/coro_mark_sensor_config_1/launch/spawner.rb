@@ -110,9 +110,9 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <velocityGain>3.2 3.2 2.7</velocityGain>
         <attitudeGain>2 3 0.2</attitudeGain>
         <angularRateGain>0.4 0.52 0.2</angularRateGain>
-        <maximumLinearAcceleration>3 3 3</maximumLinearAcceleration>
-        <maximumLinearVelocity>4 4 4</maximumLinearVelocity>
-        <maximumAngularVelocity>3 3 3</maximumAngularVelocity>
+        <maximumLinearAcceleration>5.2 5.0 5.1</maximumLinearAcceleration>
+        <maximumLinearVelocity>7.7 5.8 5.4</maximumLinearVelocity>
+        <maximumAngularVelocity>3 3 3.2</maximumAngularVelocity>
         <linearVelocityNoiseMean>0 0 0.05</linearVelocityNoiseMean>
         <!-- linearVelocityNoiseStdDev based on error values reported in the paper Shen et. al., -->
         <!-- Vision-Based State Estimation and Trajectory Control Towards High-Speed Flight with a Quadrotor -->
@@ -161,7 +161,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <capacity>9.0</capacity>
         <resistance>0.061523</resistance>
         <smooth_current_tau>1.9499</smooth_current_tau>
-        <power_load>6.6</power_load>
+        <power_load>4.4</power_load>
         <start_on_motion>true</start_on_motion>
       </plugin>
       <!-- Gas Sensor plugin -->
