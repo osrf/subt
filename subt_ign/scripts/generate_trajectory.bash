@@ -6,6 +6,7 @@
 #
 # ./generate_trajectory.bash ~/Downloads/log/gazebo /tmp/output/ final_event_01 "195 0 317"
 #
+#
 # Notes:
 #   1. You will need the path_tracer executable in your PATH.
 #   2. Requires Ignition Fortress
@@ -21,7 +22,9 @@
 #          final_event_06 "79 95 367"
 #          final_event_07 "100 -60 410"
 #          final_event_08 "25 58 180"
-
+#
+# See also https://github.com/osrf/subt/wiki/Path-Tracer-Tutorial
+#
 logDir=$1
 destDir=$2
 worldName=$3
@@ -46,7 +49,6 @@ then
     chmod a+r $XAUTH
 fi
 
-
 # Run the simulation world.
 docker run -t \
   -l "subt-path" \
@@ -66,7 +68,7 @@ docker run -t \
   --security-opt seccomp=unconfined \
   --gpus all \
   osrf/subt-virtual-testbed:cloudsim_sim_fortress \
-  -v 4 path_tracer.ign worldName:=$worldName &
+  path_tracer.ign worldName:=$worldName &
 
 # Wait for docker to start
 sleep 120 
