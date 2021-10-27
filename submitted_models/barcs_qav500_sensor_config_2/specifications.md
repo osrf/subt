@@ -20,11 +20,11 @@ This QAV500 with sensor configuration 1 includes the following sensors. The spec
 
 The following specific sensors are declared payloads of this vehicle:
 
-* HD Camera, modeled by camera plugin
+* Blackfly S camera, modeled by camera plugin
   - 1x fixed, forward-looking
 * A Velodyne VLP-16 Lidar, modeled by the gpu_lidar plugin
 * Microstrain IMU: 3DM-GX5-15, modeled by imu_sensor plugin. Notes on modeling of the IMU are included in the model.sdf file.
-* 2x lidarlite point lidars, modeled by gpu_ray plugin
+* 2x LIDAR-Lite point lidars, modeled by gpu_ray plugin
   - 1 fixed on the front top
   - 1 fixed on the front bottom
 
@@ -54,5 +54,8 @@ The endurance and motion characteristics above are approximated to match existin
   * https://www.getfpv.com/qav500-v2-fpv-quadcopter.html
 
 * Sensor specification links:
-  * [LIDAR - Velodyne VLP-16](https://velodynelidar.com/products/puck/)
+  * [LIDAR - Velodyne VLP-16](https://www.amtechs.co.jp/product/VLP-16-Puck.pdf)
+  * Picoflexx TOF camera (depth image and point cloud) - https://pmdtec.com/picofamily/wp-content/uploads/2018/03/PMD_DevKit_Brief_CB_pico_flexx_CE_V0218-1.pdf
+  * Color Camera - FLIR - Blackfly S USB3 Model ##BFS-U3-16S2C-CS: [Link](https://www.flir.com/products/blackfly-s-usb3?model=BFS-U3-16S2C-CS)  
+  * LIDAR-Lite - https://www.garmin.com/en-US/p/578152#specs
   * IMU: Microstrain 3DM-GX5-15 - datasheet: https://www.microstrain.com/sites/default/files/applications/files/3dm-gx5-15_datasheet_8400-0094_rev_m.pdf
