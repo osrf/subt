@@ -55,21 +55,6 @@
 
     <!-- RGBD -->
     <node
-      pkg="ros_ign_bridge"
-      type="parameter_bridge"
-      name="ros_ign_bridge_front"
-      args="$(arg sensor_prefix)/camera_front/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
-      <remap from="$(arg sensor_prefix)/camera_front/points" to="front/depth/points"/>
-    </node>
-    <node
-      pkg="ros_ign_image"
-      type="image_bridge"
-      name="ros_ign_depth_front"
-      args="$(arg sensor_prefix)/camera_front/depth_image">
-      <remap from="$(arg sensor_prefix)/camera_front/depth_image" to="front/depth"/>
-    </node>
-
-    <node
      pkg="ros_ign_bridge"
      type="parameter_bridge"
      name="ros_ign_bridge_info_front"
@@ -93,20 +78,6 @@
      <remap from="input/camera_info" to="front/camera_info" />
      <remap from="output/camera_info" to="front/optical/camera_info" />
    </node>
-
-    <node
-      pkg="subt_ros"
-      type="optical_frame_publisher"
-      name="optical_frame_publisher_depth"
-      args="depth">
-      <remap from="input/image" to="front/depth" />
-      <remap from="output/image" to="front/optical/depth" />
-    </node>
-    <include file="$(find subt_ros)/launch/models_common/set_rate_relay.launch">
-      <arg name="name" value="ros_ign_bridge_rgbd_set_rate" />
-      <arg name="ign_service" value="$(arg sensor_prefix)/camera_front/set_rate" />
-      <arg name="ros_service" value="front/set_rate" />
-    </include>
 
     <!-- Top TOF -->
     <node
