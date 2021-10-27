@@ -53,7 +53,7 @@
       <remap from="/model/$(arg name)/velocity_controller/enable" to="velocity_controller/enable"/>
     </node>
 
-    <!-- RGBD -->
+    <!-- HD Camera -->
     <node
      pkg="ros_ign_bridge"
      type="parameter_bridge"
