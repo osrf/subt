@@ -178,6 +178,7 @@
       <sensor name="imu_sensor" type="imu">
           <always_on>1</always_on>
           <update_rate>250</update_rate>
+          <enable_orientation>0</enable_orientation>
               <imu>
                   <angular_velocity>
                       <x>
