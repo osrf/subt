@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 
 <sdf version="1.6">
-  <world name="finals_prelim1">
+  <world name="finals_systems_prelim1">
 
     <physics name="1ms" type="ode">
       <max_step_size>0.004</max_step_size>
@@ -46,7 +46,7 @@
     <include>
       <name>megacavern</name>
       <pose>80.11 -36.666 -1.107 0 0 1.11418329</pose>
-      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/megacavern</uri>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/SystemsMegacavern</uri>
     </include>
 
     <!--
@@ -926,7 +926,7 @@
     <include>
       <static>true</static>
       <name>rescue_randy_1</name>
-      <pose>-11.089000 39.525700 -2.202190 -0.030171 0.024828 -0.278138</pose>
+      <pose>-11.089000 39.517000 -2.202190 -0.030171 0.024828 -0.278138</pose>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Rescue Randy Sitting</uri>
     </include>
 
