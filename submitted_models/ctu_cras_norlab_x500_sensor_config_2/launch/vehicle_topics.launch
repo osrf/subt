@@ -122,6 +122,10 @@
         <remap from="$(arg sensor_prefix)/air_pressure/air_pressure" to="air_pressure"/>
       </node>
     </group>
-
+    
+    <!-- Mapping Server -->
+    <include file="$(find subt_ros)/launch/models_common/mapping_server_relays.launch">
+      <arg name="name" value="$(arg name)"/>
+    </include>
   </group>
 </launch>
