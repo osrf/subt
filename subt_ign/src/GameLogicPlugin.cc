@@ -1362,6 +1362,44 @@ void GameLogicPlugin::PostUpdate(
           return true;
         });
 
+    // This function is used to record the presence of a TEAMBASE model.
+    _ecm.EachNew<gazebo::components::ParentEntity>(
+        [&](const gazebo::Entity &,
+            const gazebo::components::ParentEntity *_parent) -> bool
+    {
+          // Get the model.
+          auto model = _ecm.Component<gazebo::components::ParentEntity>(
+              _parent->Data());
+          if (model)
+          {
+            ignition::gazebo::Model mdl(model->Data());
+
+            // Get the teambase_link, which should only be present in a
+            // TEAMBASE model
+            ignition::gazebo::Entity teambaseLink = mdl.LinkByName(_ecm,
+                "teambase_link");
+
+            // Get the filepath for the model, which should be empty for
+            // the TEAMBASE model since it is created via an
+            // Ignition launch file.
+            auto filePath =
+              _ecm.Component<gazebo::components::SourceFilePath>(
+              model->Data());
+
+            // Confirm that the model has the teambase_link and no filepath.
+            // Then store this model as the TEAMBASE.
+            if (filePath && filePath->Data().empty() && teambaseLink !=
+                ignition::gazebo::kNullEntity )
+            {
+              // Get the model name
+              auto mName = mdl.Name(_ecm);
+              this->dataPtr->robotNames.insert(mName);
+              this->dataPtr->robotFullTypes[mName] = {"TEAMBASE", "TEAMBASE"};
+            }
+          }
+          return true;
+    });
+
     _ecm.Each<gazebo::components::Sensor,
               gazebo::components::ParentEntity>(
         [&](const gazebo::Entity &,
