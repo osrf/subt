@@ -1261,7 +1261,7 @@
       <model name='#{_name}'>
         <pose>#{_x} #{_y} #{_z} 0 0 #{_yaw}</pose>
         <static>true</static>
-        <link name='link'>
+        <link name='teambase_link'>
           <pose>0 0 0.05 0 0 0</pose>
           <visual name='visual'>
             <geometry>
