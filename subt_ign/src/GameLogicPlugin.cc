@@ -776,6 +776,12 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
     this->dataPtr->worldName.find("final") != std::string::npos ? 25 :
     this->dataPtr->reportCountLimit;
 
+  if (this->dataPtr->worldName == "finals_systems_prize")
+  {
+    this->dataPtr->reportCountLimit = 45;
+    this->dataPtr->artifactCount = 40;
+  }
+
   // Make sure that there are score files.
   this->dataPtr->UpdateScoreFiles(this->dataPtr->simTime);
 }
