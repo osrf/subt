@@ -16,7 +16,7 @@ BASE_MODEL_DIR="${MODEL_DIR}/../bosdyn_spot"
 # load local modifications of configuration and apply them over the config from bosdyn_spot
 
 config=""
-for file in "${BASE_MODEL_DIR}/config/model/common.yaml" "${BASE_MODEL_DIR}/config/model/ign.yaml"; do
+for file in "${BASE_MODEL_DIR}/config/model/common.yaml" "${BASE_MODEL_DIR}/config/model/ign.yaml" "${MODEL_DIR}/config/model/common.yaml" "${MODEL_DIR}/config/model/ign.yaml"; do
   [ -f "$file" ] && config="${config} $("${BASE_MODEL_DIR}/scripts/yaml_to_xacro_args" "$file")"
 done
 

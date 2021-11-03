@@ -4,15 +4,23 @@
     <!-- Include the basic Spot URDF -->
     <xacro:include filename="$(find bosdyn_spot)/urdf/spot.urdf.xacro"/>
 
+    <!-- Here is place for all custom URDF code for this sensor config. -->
+
+    <!-- Colon-separated list of payload Xacro files to include. Whitespace around is ignored. -->
+    <xacro:arg name="payload_xacros" default="
+      $(find csiro_data61_spot_sensor_config_1)/urdf/nav_backpack/nav_backpack.xacro :
+      $(find csiro_data61_spot_sensor_config_1)/urdf/nav_backpack/barn.xacro :
+    " />
+
+    <!-- CSIRO DATA61 Standardised perception payload -->
+    <xacro:property name="nav_backpack" x="0.141" y="0.0" z="0.186" parent="base_link" spawn_cameras="true" spawn_logical_cameras="true" spawn_lights="true"/>
+
+    <!-- Custom spot compute unit -->
+    <xacro:property name="barn" x="-0.0412" y="0.0" z="0.085" parent="base_link"/>
+
     <!-- PAYLOAD INCLUDES -->
     <xacro:include filename="$(find csiro_data61_spot_sensor_config_1)/urdf/nav_backpack/nav_backpack.xacro"/>
     <xacro:include filename="$(find csiro_data61_spot_sensor_config_1)/urdf/nav_backpack/barn.xacro"/>
-
-    <!-- CSIRO DATA61 Standardised perception payload -->
-    <xacro:nav_backpack x="0.141" y="0.0" z="0.183" parent="base_link" spawn_cameras="true" spawn_logical_cameras="true" spawn_lights="true"/>
-
-    <!-- Custom spot compute unit -->
-    <xacro:barn x="-0.0412" y="0.0" z="0.085" parent="base_link"/>
 
     <!-- Compute total mass. You'll find it in the git-ignored file model.sdf.urdf as link named "total_mass_*". -->
     <xacro:if value="${'$(arg rendering_target)' == 'ign'}">

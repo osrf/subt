@@ -233,7 +233,7 @@
       <parent link="$(arg prefix)nav_base_link"/>
       <child link="$(arg prefix)encoder_rotating_link"/>
       <axis xyz="0 0 1"/>
-      <limit effort="1" velocity="6.30"/>
+      <limit effort="1" velocity="6.30" lower="-6.3" upper="6.3"/>
       <origin xyz="0.0 0.0 0.030797115"/>
     </joint>
 
