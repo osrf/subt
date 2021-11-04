@@ -29,9 +29,9 @@ Based on the tests specified in the DARPA SubT Challenge [Model Preparation
 Guide](https://subtchallenge.com/resources/Simulation_Model_Preparation_Guide.pdf), this vehicle has the following motion
 constraint characteristics:
 
-* _x_ and _y_ velocity range from -4.0 m/s to 4.0 m/s. _z_ velocity ranges from -1.5 m/s to 1.5 m/s.
-* _x_, _y_ acceleration range from -3.9 m/s<sup>2</sup> to 3.9 m/s<sup>2</sup>. _z_ acceleration ranges from -2 m/s<sup>2</sup> to 2 m/s<sup>2</sup>.
-* Angular velocity ranges from -1.2 rad/s to 1.2 rad/s.
+* _x_ and _y_ velocity range from -5.5 m/s to 5.5 m/s. _z_ velocity ranges from -1.6 m/s to 1.6 m/s.
+* _x_, _y_ acceleration range from -2.1 m/s<sup>2</sup> to 2.1 m/s<sup>2</sup>. _z_ acceleration ranges from -4 m/s<sup>2</sup> to 4 m/s<sup>2</sup>.
+* Angular velocity ranges from -0.8 rad/s to 0.8 rad/s.
 
 The constraints can be found in the following locations within the simulation model package:
 
@@ -42,12 +42,13 @@ Based on the tests specified in the DARPA SubT Challenge [Model Preparation
 Guide](https://subtchallenge.com/resources/Simulation_Model_Preparation_Guide.pdf), this vehicle has the following
 endurance characteristics:
 
-* Battery life of 1100 seconds
+* Battery life of 1020 seconds
 
 ## Diversions from Physical Hardware of Canary1
 Virtual Canary1 is a faithful representation of real-world Canary1 both in appearance and
 in physical properties. However, there are few diversions:
 * It does not model long-range Rajant communication of the real robot.
+* Since there are no fisheye camera models in the sim, it uses 4 simulated cameras to get the full 360 degree field of view around the simulated robot that the 2 fisheye cameras get for the real robot.
 
 # <a name="validation_links"></a>Canary1 Validation and Specification Links
 

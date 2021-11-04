@@ -68,15 +68,16 @@ roslaunch lego_loam_bor run.launch robot_name:=X3 use_ground_truth:=true
 
 
 ## What sensors it has 
-1. 3D medium range lidar, 
-2. IMU, 
-3. Gas sensor,
-4. Pressure sensor, 
-5. Magnetometer, 
-6. Three realsense camera [Up, Down, Front]
+1. 3D medium range lidar (Velodyne)
+2. 3D medium range lidar (Ouster)
+3. IMU
+4. Gas sensor
+5. Pressure sensor
+6. Magnetometer
+7. 2 fisheye cameras (simulated by 4 cameras since the are no fisheye models in the sim)
 
 
 ## Who do I talk to? 
 
-Fan Yang
-(fanyang2@andrew.cmu.edu)
+John Keller
+(jkeller2@andrew.cmu.edu)
