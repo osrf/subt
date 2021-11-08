@@ -79,7 +79,7 @@ Guide], this vehicle has the following endurance characteristics.
 * Base Platform: Autonomous Robots Lab - Resilient Micro Flyer Obelix
 * IMU - Generic Analog Devices IMU: [Link](https://store.mrobotics.io/mRo-PixRacer-Pro-p/m10064c.htm)
 * 3D Lidar Ouster OS0-64: [Link](https://ouster.com/products/os0-lidar-sensor/)
-* RGB Camera - FLIR Blackfly S USB3 Model ##BFS-U3-16S2C-CS: [Camera](https://www.flir.com/products/blackfly-s-usb3?model=BFS-U3-16S2C-CS) [Lens](https://www.m12lenses.com/2-1mm-F1-8-Mega-Pixel-Board-Lens-p/pt-02118bmp.htm)
+* RGB Camera - FLIR Blackfly S USB3 Model ##BFS-U3-16S2C-CS: [Camera](https://www.flir.com/products/blackfly-s-usb3?model=BFS-U3-16S2C-CS) [Lens](http://www.m12lenses.com/3-6mm-F1-8-5MP-M12-Mount-CCTV-Lens-p/pt-03618-5mp.htm)
 * Linear Acceleration and Speed Validation Video: [Link](https://youtu.be/SKuDyiVHIew)
 * Linear Acceleration and Speed Validation Data: [Link](https://drive.google.com/file/d/1tufNXwWsiig21aGcyZbx9EFLVhFCNDA8/view?usp=sharing)
 * Angular Acceleration and Speed Validation Video: [Link](https://youtu.be/y3MnuECQexQ)
