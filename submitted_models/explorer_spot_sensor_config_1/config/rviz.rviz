@@ -4,11 +4,12 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
+        - /Robot model1
         - /Mono1
         - /Depth1
-        - /Tower FLIR Cameras1
+        - /Tower RGBD Cameras1
       Splitter Ratio: 0.6631853580474854
-    Tree Height: 1393
+    Tree Height: 646
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -28,7 +29,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: Left
+    SyncSource: ""
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -46,159 +47,8 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        alpha/base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        alpha/battery:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        alpha/body:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        alpha/camera_back:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        alpha/camera_frontleft:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        alpha/camera_frontright:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        alpha/camera_left:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        alpha/camera_right:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        alpha/front_left_ee:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        alpha/front_left_hip:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        alpha/front_left_lower_leg:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        alpha/front_left_upper_leg:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        alpha/front_rail:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        alpha/front_right_ee:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        alpha/front_right_hip:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        alpha/front_right_lower_leg:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        alpha/front_right_upper_leg:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        alpha/front_tower_cam:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        alpha/imu:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        alpha/imu_vras:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        alpha/laser:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        alpha/left_tower_cam:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        alpha/payload:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        alpha/rear_left_ee:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        alpha/rear_left_hip:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        alpha/rear_left_lower_leg:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        alpha/rear_left_upper_leg:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        alpha/rear_rail:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        alpha/rear_right_ee:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        alpha/rear_right_hip:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        alpha/rear_right_lower_leg:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        alpha/rear_right_upper_leg:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        alpha/right_tower_cam:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
       Name: Robot model
-      Robot Description: alpha/robot_description
+      Robot Description: explorer_spot/robot_description
       TF Prefix: ""
       Update Interval: 0
       Value: true
@@ -233,7 +83,7 @@ Visualization Manager:
         Z: 0
       Plane: XY
       Plane Cell Count: 10
-      Reference Frame: alpha
+      Reference Frame: explorer_spot
       Value: true
     - Alpha: 0.5
       Cell Size: 10
@@ -257,7 +107,7 @@ Visualization Manager:
       Displays:
         - Class: rviz/Image
           Enabled: true
-          Image Topic: alpha/left/image_raw
+          Image Topic: /explorer_spot/left/optical/image_raw
           Max Value: 1
           Median window: 5
           Min Value: 0
@@ -269,7 +119,7 @@ Visualization Manager:
           Value: true
         - Class: rviz/Image
           Enabled: true
-          Image Topic: alpha/frontleft/image_raw
+          Image Topic: /explorer_spot/frontleft/optical/image_raw
           Max Value: 1
           Median window: 5
           Min Value: 0
@@ -281,7 +131,7 @@ Visualization Manager:
           Value: true
         - Class: rviz/Image
           Enabled: true
-          Image Topic: alpha/frontright/image_raw
+          Image Topic: /explorer_spot/frontright/optical/image_raw
           Max Value: 1
           Median window: 5
           Min Value: 0
@@ -293,7 +143,7 @@ Visualization Manager:
           Value: true
         - Class: rviz/Image
           Enabled: true
-          Image Topic: alpha/right/image_raw
+          Image Topic: /explorer_spot/right/optical/image_raw
           Max Value: 1
           Median window: 5
           Min Value: 0
@@ -305,7 +155,7 @@ Visualization Manager:
           Value: true
         - Class: rviz/Image
           Enabled: true
-          Image Topic: alpha/back/image_raw
+          Image Topic: /explorer_spot/back/optical/image_raw
           Max Value: 1
           Median window: 5
           Min Value: 0
@@ -321,7 +171,7 @@ Visualization Manager:
       Displays:
         - Class: rviz/Image
           Enabled: true
-          Image Topic: alpha/tof_left/depth
+          Image Topic: /explorer_spot/back/optical/image_raw
           Max Value: 1
           Median window: 5
           Min Value: 0
@@ -333,7 +183,7 @@ Visualization Manager:
           Value: true
         - Class: rviz/Image
           Enabled: true
-          Image Topic: alpha/tof_frontleft/depth
+          Image Topic: /explorer_spot/back/optical/image_raw
           Max Value: 1
           Median window: 5
           Min Value: 0
@@ -345,7 +195,7 @@ Visualization Manager:
           Value: true
         - Class: rviz/Image
           Enabled: true
-          Image Topic: alpha/tof_frontright/depth
+          Image Topic: /explorer_spot/tof_frontright/optical/depth
           Max Value: 1
           Median window: 5
           Min Value: 0
@@ -357,7 +207,7 @@ Visualization Manager:
           Value: true
         - Class: rviz/Image
           Enabled: true
-          Image Topic: alpha/tof_right/depth
+          Image Topic: /explorer_spot/tof_right/optical/depth
           Max Value: 1
           Median window: 5
           Min Value: 0
@@ -369,7 +219,7 @@ Visualization Manager:
           Value: true
         - Class: rviz/Image
           Enabled: true
-          Image Topic: alpha/tof_back/depth
+          Image Topic: /explorer_spot/tof_back/optical/depth
           Max Value: 1
           Median window: 5
           Min Value: 0
@@ -399,14 +249,14 @@ Visualization Manager:
       Max Intensity: 0
       Min Color: 0; 0; 0
       Min Intensity: 0
-      Name: Ouster
+      Name: Velodyne
       Position Transformer: XYZ
       Queue Size: 10
       Selectable: true
       Size (Pixels): 3
       Size (m): 0.009999999776482582
       Style: Flat Squares
-      Topic: /alpha/points
+      Topic: /explorer_spot/points
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
@@ -415,47 +265,179 @@ Visualization Manager:
       Displays:
         - Class: rviz/Image
           Enabled: true
-          Image Topic: /alpha/tower/left_cam/optical/image_raw
+          Image Topic: /explorer_spot/left_camera/optical/image_raw
           Max Value: 1
           Median window: 5
           Min Value: 0
-          Name: FLIR Left
+          Name: RGBD Left
           Normalize Range: true
           Queue Size: 2
           Transport Hint: raw
           Unreliable: false
           Value: true
+        - Alpha: 1
+          Autocompute Intensity Bounds: true
+          Autocompute Value Bounds:
+            Max Value: 10
+            Min Value: -10
+            Value: true
+          Axis: Z
+          Channel Name: intensity
+          Class: rviz/PointCloud2
+          Color: 255; 255; 255
+          Color Transformer: RGB8
+          Decay Time: 0
+          Enabled: true
+          Invert Rainbow: false
+          Max Color: 255; 255; 255
+          Max Intensity: 4096
+          Min Color: 0; 0; 0
+          Min Intensity: 0
+          Name: Left Points
+          Position Transformer: XYZ
+          Queue Size: 10
+          Selectable: true
+          Size (Pixels): 3
+          Size (m): 0.009999999776482582
+          Style: Flat Squares
+          Topic: /explorer_spot/left_camera/points
+          Unreliable: false
+          Use Fixed Frame: true
+          Use rainbow: true
+          Value: true
         - Class: rviz/Image
           Enabled: true
-          Image Topic: /alpha/tower/front_cam/optical/image_raw
+          Image Topic: /explorer_spot/front_camera/optical/image_raw
           Max Value: 1
           Median window: 5
           Min Value: 0
-          Name: FLIR Front
+          Name: RGBD Front
           Normalize Range: true
           Queue Size: 2
           Transport Hint: raw
           Unreliable: false
           Value: true
+        - Alpha: 1
+          Autocompute Intensity Bounds: true
+          Autocompute Value Bounds:
+            Max Value: 10
+            Min Value: -10
+            Value: true
+          Axis: Z
+          Channel Name: intensity
+          Class: rviz/PointCloud2
+          Color: 255; 255; 255
+          Color Transformer: RGB8
+          Decay Time: 0
+          Enabled: true
+          Invert Rainbow: false
+          Max Color: 255; 255; 255
+          Max Intensity: 4096
+          Min Color: 0; 0; 0
+          Min Intensity: 0
+          Name: Front Points
+          Position Transformer: XYZ
+          Queue Size: 10
+          Selectable: true
+          Size (Pixels): 3
+          Size (m): 0.009999999776482582
+          Style: Flat Squares
+          Topic: /explorer_spot/front_camera/points
+          Unreliable: false
+          Use Fixed Frame: true
+          Use rainbow: true
+          Value: true
         - Class: rviz/Image
           Enabled: true
-          Image Topic: /alpha/tower/right_cam/optical/image_raw
+          Image Topic: /explorer_spot/right_camera/optical/depth
           Max Value: 1
           Median window: 5
           Min Value: 0
-          Name: FLIR Right
+          Name: Right Image
           Normalize Range: true
           Queue Size: 2
           Transport Hint: raw
           Unreliable: false
+          Value: true
+        - Alpha: 1
+          Autocompute Intensity Bounds: true
+          Autocompute Value Bounds:
+            Max Value: 10
+            Min Value: -10
+            Value: true
+          Axis: Z
+          Channel Name: intensity
+          Class: rviz/PointCloud2
+          Color: 255; 255; 255
+          Color Transformer: RGB8
+          Decay Time: 0
+          Enabled: true
+          Invert Rainbow: false
+          Max Color: 255; 255; 255
+          Max Intensity: 4096
+          Min Color: 0; 0; 0
+          Min Intensity: 0
+          Name: Right Points
+          Position Transformer: XYZ
+          Queue Size: 10
+          Selectable: true
+          Size (Pixels): 3
+          Size (m): 0.009999999776482582
+          Style: Flat Squares
+          Topic: /explorer_spot/right_camera/points
+          Unreliable: false
+          Use Fixed Frame: true
+          Use rainbow: true
+          Value: true
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: /explorer_spot/rear_camera/optical/image_raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Rear Image
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+        - Alpha: 1
+          Autocompute Intensity Bounds: true
+          Autocompute Value Bounds:
+            Max Value: 10
+            Min Value: -10
+            Value: true
+          Axis: Z
+          Channel Name: intensity
+          Class: rviz/PointCloud2
+          Color: 255; 255; 255
+          Color Transformer: RGB8
+          Decay Time: 0
+          Enabled: true
+          Invert Rainbow: false
+          Max Color: 255; 255; 255
+          Max Intensity: 4096
+          Min Color: 0; 0; 0
+          Min Intensity: 0
+          Name: Rear Points
+          Position Transformer: XYZ
+          Queue Size: 10
+          Selectable: true
+          Size (Pixels): 3
+          Size (m): 0.009999999776482582
+          Style: Flat Squares
+          Topic: /explorer_spot/rear_camera/points
+          Unreliable: false
+          Use Fixed Frame: true
+          Use rainbow: true
           Value: true
       Enabled: true
-      Name: Tower FLIR Cameras
+      Name: Tower RGBD Cameras
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: alpha
+    Fixed Frame: explorer_spot
     Frame Rate: 30
   Name: root
   Tools:
@@ -690,12 +672,6 @@ Window Geometry:
     collapsed: false
   Displays:
     collapsed: false
-  FLIR Front:
-    collapsed: false
-  FLIR Left:
-    collapsed: false
-  FLIR Right:
-    collapsed: false
   Front Left:
     collapsed: false
   Front Left Depth:
@@ -704,17 +680,25 @@ Window Geometry:
     collapsed: false
   Front Right Depth:
     collapsed: false
-  Height: 2132
+  Height: 1385
   Hide Left Dock: false
   Hide Right Dock: false
   Left:
     collapsed: false
   Left Depth:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd0000000400000000000001ae00000620fc020000000bfb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001e000000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afc0000013f00000620000000e60100001cfa000000000100000002fb000000100044006900730070006c0061007900730100000000000001e20000015600fffffffb0000000a005600690065007700730100000000ffffffff0000010000fffffffb0000001000500061006e006f00720061006d00610000000248000000d50000000000000000fb0000000600520047004200000002e80000010c0000000000000000fb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000000c0049006e0066007200610031000000034d000000a70000000000000000000000010000017800000416fc0200000002fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000f0000000123fc0100000006fb000000120046004c004900520020004c0065006600740100000000000004e70000007100fffffffb000000140046004c00490052002000460072006f006e007401000004ed0000050b0000007a00fffffffb000000140046004c0049005200200052006900670068007401000009fe000005020000007a00fffffffb00000012004f006d006e00690020004c00650066007401000008b3000002e90000000000000000fb0000000e004f006d006e00690020005500700100000ba20000035e0000000000000000fb0000000a00560069006500770073030000004e00000080000002e1000001970000000300000f00000000d2fc010000000cfb00000014004c0065006600740020004400650070007400680100000000000001b40000007e00fffffffb00000008004c00650066007401000001ba0000017d0000005000fffffffb0000002000460072006f006e00740020004c006500660074002000440065007000740068010000033d0000019e000000a700fffffffb0000001400460072006f006e00740020004c00650066007401000004e1000001cb0000007900fffffffb0000002200460072006f006e007400200052006900670068007400200044006500700074006801000006b2000001c6000000af00fffffffb0000001600460072006f006e0074002000520069006700680074010000087e000001770000008100fffffffb000000160052006900670068007400200044006500700074006801000009fb0000014a0000008700fffffffb0000000a005200690067006800740100000b4b0000014d0000005900fffffffb00000014004200610063006b0020004400650070007400680100000c9e0000013e0000008300fffffffb00000008004200610063006b0100000de20000011e0000005500fffffffb0000000800540069006d00650000000450000002ed000002eb00fffffffb0000000800540069006d0065010000000000000450000000000000000000000d4c0000062000000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730000000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000400000000000001ae00000335fc020000000bfb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001e000000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afc0000013f00000335000000e60100001cfa000000000100000002fb000000100044006900730070006c0061007900730100000000000001e20000015600fffffffb0000000a005600690065007700730100000000ffffffff0000010000fffffffb0000001000500061006e006f00720061006d00610000000248000000d50000000000000000fb0000000600520047004200000002e80000010c0000000000000000fb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000000c0049006e0066007200610031000000034d000000a70000000000000000000000010000017800000416fc0200000002fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000001200530065006c0065006300740069006f006e010000025a000000b2000000000000000000000002000009bd00000123fc0100000007fb0000001200520047004200440020004c00650066007401000000000000026e0000007b00fffffffb000000140052004700420044002000460072006f006e007401000002740000026b0000008400fffffffb000000160052006900670068007400200049006d00610067006501000004e5000002820000008600fffffffb00000014005200650061007200200049006d006100670065010000076d000002500000008100fffffffb00000012004f006d006e00690020004c00650066007401000008b3000002e90000000000000000fb0000000e004f006d006e00690020005500700100000ba20000035e0000000000000000fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000009bd000000d2fc010000000cfb00000014004c0065006600740020004400650070007400680100000000000001180000007e00fffffffb00000008004c006500660074010000011e000000f50000005000fffffffb0000002000460072006f006e00740020004c00650066007400200044006500700074006801000002190000010c000000a700fffffffb0000001400460072006f006e00740020004c006500660074010000032b000001270000007900fffffffb0000002200460072006f006e0074002000520069006700680074002000440065007000740068010000045800000125000000af00fffffffb0000001600460072006f006e00740020005200690067006800740100000583000000f20000008100fffffffb0000001600520069006700680074002000440065007000740068010000067b000000d50000008700fffffffb0000000a005200690067006800740100000756000000d70000005900fffffffb00000014004200610063006b0020004400650070007400680100000833000000cc0000008300fffffffb00000008004200610063006b0100000905000000b80000005500fffffffb0000000800540069006d00650000000450000002ed000004f300fffffffb0000000800540069006d00650100000000000004500000000000000000000008090000033500000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730000000000ffffffff0000000000000000
+  RGBD Front:
+    collapsed: false
+  RGBD Left:
+    collapsed: false
+  Rear Image:
+    collapsed: false
   Right:
     collapsed: false
   Right Depth:
+    collapsed: false
+  Right Image:
     collapsed: false
   Selection:
     collapsed: false
@@ -724,6 +708,6 @@ Window Geometry:
     collapsed: false
   Views:
     collapsed: false
-  Width: 3840
-  X: 2560
-  Y: 0
+  Width: 2493
+  X: 67
+  Y: 27
