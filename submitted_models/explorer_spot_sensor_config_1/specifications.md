@@ -28,9 +28,9 @@ No additional restrictions have to be taken into account for this model.
 * IMU: $1,500
 * Computers: $1,500
 * Lidar: $5,000
-* Total price: $87,500
+* Total price: $85,500
 
-vehicle weight: TODO
+vehicle weight: 40kg (37kg base mass + 3kg sensor payload)
 
 ## Sensors
 This sensor configuration of Spot includes the following sensors in addition to the base sensors of the platform
@@ -61,6 +61,8 @@ by consumption of the sensors and computers).
 See [bosdyn_spot/specifications.md](../bosdyn_spot/specifications.md).
 
 Cameras have no distortion as the simulator doesn't support it.
+
+The Velodyne lidar produces the 360 degree scans in a single instant in simulation, as opposed to the 100 ms-long interval it takes the real lidar.
 
 ## Changing parameters of the robot
 Most parameters affecting the simulation model performance are in the `config/model` folder,
