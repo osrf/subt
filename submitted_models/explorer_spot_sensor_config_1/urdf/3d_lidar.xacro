@@ -38,8 +38,8 @@ limitations under the License.
   <xacro:macro name="velodyne_lidar" params="name
                                              update_rate:=10
                                              vertical_lasers:=16
-                                             samples:=1800
-                                             resolution:=1
+                                             samples:=180
+                                             resolution:=0.1
                                              min_angle:=${-pi}
                                              max_angle:=${pi}
                                              min_vertical_angle:=${-pi/12}  max_vertical_angle:=${pi/12}

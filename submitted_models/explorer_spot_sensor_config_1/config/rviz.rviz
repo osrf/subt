@@ -4,7 +4,6 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /Robot model1
         - /Mono1
         - /Depth1
         - /Tower RGBD Cameras1
@@ -29,7 +28,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: Front Points
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -47,6 +46,177 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
+        explorer_spot/base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        explorer_spot/battery:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        explorer_spot/body:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        explorer_spot/camera_back:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        explorer_spot/camera_frontleft:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        explorer_spot/camera_frontright:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        explorer_spot/camera_left:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        explorer_spot/camera_right:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        explorer_spot/front_camera_frame_optical:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        explorer_spot/front_camera_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        explorer_spot/front_laser:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        explorer_spot/front_left_ee:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        explorer_spot/front_left_hip:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        explorer_spot/front_left_lower_leg:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        explorer_spot/front_left_upper_leg:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        explorer_spot/front_rail:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        explorer_spot/front_right_ee:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        explorer_spot/front_right_hip:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        explorer_spot/front_right_lower_leg:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        explorer_spot/front_right_upper_leg:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        explorer_spot/imu:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        explorer_spot/imu_vras:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        explorer_spot/left_camera_frame_optical:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        explorer_spot/left_camera_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        explorer_spot/payload:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        explorer_spot/rear_camera_frame_optical:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        explorer_spot/rear_camera_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        explorer_spot/rear_left_ee:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        explorer_spot/rear_left_hip:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        explorer_spot/rear_left_lower_leg:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        explorer_spot/rear_left_upper_leg:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        explorer_spot/rear_rail:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        explorer_spot/rear_right_ee:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        explorer_spot/rear_right_hip:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        explorer_spot/rear_right_lower_leg:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        explorer_spot/rear_right_upper_leg:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        explorer_spot/right_camera_frame_optical:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        explorer_spot/right_camera_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
       Name: Robot model
       Robot Description: explorer_spot/robot_description
       TF Prefix: ""
