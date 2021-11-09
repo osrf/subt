@@ -6,7 +6,7 @@
   <model name="explorer_spot_sensor_config_1">
     <link name="base_link">
       <inertial>
-        <mass>16</mass>
+        <mass>19</mass>
         <inertia>
           <ixx>0.0973333</ixx>
           <ixy>0</ixy>
@@ -128,8 +128,8 @@
         <lidar>
           <scan>
             <horizontal>
-              <samples>18000</samples>
-              <resolution>0.1</resolution>
+              <samples>1800</samples>
+              <resolution>1</resolution>
               <min_angle>-3.14159</min_angle>
               <max_angle>3.14159</max_angle>
             </horizontal>
@@ -595,6 +595,7 @@
             </z>
           </linear_acceleration>
         </imu>
+        <enable_orientation>0</enable_orientation>
       </sensor>
     </link>
     <joint name="imu_vras_j" type="fixed">
@@ -1768,6 +1769,7 @@
             </z>
           </linear_acceleration>
         </imu>
+        <enable_orientation>0</enable_orientation>
       </sensor>
     </link>
     <joint name="imu_j" type="fixed">
