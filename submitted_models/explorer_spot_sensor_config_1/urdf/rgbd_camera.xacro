@@ -27,6 +27,7 @@ limitations under the License.
     pointCloudCutoff: Minimum distance for points.
     pointCloudCutoffMax: Maximum distance for points.
   -->
+  <xacro:property name="d435_mass" value="0.5" scope="global" />
   <xacro:macro name="rgbd_camera"
                params="name:=camera
                        robot_namespace:=/
@@ -41,6 +42,7 @@ limitations under the License.
                        pitch:=0
                        yaw:=0">
 
+    <xacro:property name="d435_void" value="${payload_mass.append(d435_mass)}" scope="global" />
     <link name="${name}_link">
       <visual>
         <origin xyz="0 0 0" rpy="${roll} ${pitch} ${yaw}"/>

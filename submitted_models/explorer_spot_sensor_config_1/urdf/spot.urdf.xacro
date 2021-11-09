@@ -21,7 +21,6 @@
 
     <!-- Include the basic Spot URDF -->
     <xacro:include filename="$(find bosdyn_spot)/urdf/spot.urdf.xacro"/>
-    <xacro:include filename="$(find explorer_spot_sensor_config_1)/urdf/3d_lidar.xacro" />
 
     <!-- Here is place for all custom URDF code for this sensor config. -->
 
@@ -34,6 +33,7 @@
       $(find explorer_spot_sensor_config_1)/urdf/ouster_lidar_alt.xacro :
       $(find explorer_spot_sensor_config_1)/urdf/flir_cameras.xacro :
       $(find explorer_spot_sensor_config_1)/urdf/rgbd_camera.xacro :
+      $(find explorer_spot_sensor_config_1)/urdf/3d_lidar.xacro :
     " />
 
     <!-- Append to this list in included payload Xacro files to count their weight to the total robot mass -->

@@ -34,11 +34,12 @@ limitations under the License.
     robot_namespace: The robot namespace.
     topic: ROS topic name where the 3D points are published.
   -->
+  <xacro:property name="vlp16_mass" value="1.0" scope="global" />
   <xacro:macro name="velodyne_lidar" params="name
                                              update_rate:=10
                                              vertical_lasers:=16
                                              samples:=1800
-                                             resolution:=0.1
+                                             resolution:=1
                                              min_angle:=${-pi}
                                              max_angle:=${pi}
                                              min_vertical_angle:=${-pi/12}  max_vertical_angle:=${pi/12}
@@ -47,6 +48,7 @@ limitations under the License.
                                              noise_stddev:=0.01
                                              robot_namespace:=/
                                              topic:=points">
+    <xacro:property name="vlp16_void" value="${payload_mass.append(vlp16_mass)}" scope="global" />
     <link name="${name}">
       <!--visual name="${name}_visual">>
         <geometry>
