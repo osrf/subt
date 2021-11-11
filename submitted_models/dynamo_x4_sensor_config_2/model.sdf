@@ -144,6 +144,7 @@
             <sensor name="imu_sensor" type="imu">
                 <always_on>1</always_on>
                 <update_rate>250</update_rate>
+                <enable_orientation>0</enable_orientation>
                 <imu>
                     <angular_velocity>
                         <x>
@@ -294,12 +295,12 @@
                     <lens>
                         <intrinsics>
                             <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
-                            <fx>554.3</fx>
-                            <fy>554.3</fy>
+                            <fx>1108.5125</fx>
+                            <fy>1108.5125</fy>
                             <!-- cx = ( width + 1 ) / 2 -->
-                            <cx>320.5</cx>
+                            <cx>640.5</cx>
                             <!-- cy = ( height + 1 ) / 2 -->
-                            <cy>240.5</cy>
+                            <cy>480.5</cy>
                             <s>0</s>
                         </intrinsics>
                     </lens>
