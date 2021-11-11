@@ -80,12 +80,6 @@
         <box size='0.02 0.025 0.025'/>
       </geometry>
     </visual>
-    <visual name='laser_visual'>
-      <origin xyz='0.08 0 0.3' rpy='0 -0 0'/>
-      <geometry>
-        <cylinder radius='0.03' length='0.1'/>
-      </geometry>
-    </visual>
   </link>
   <sensor name='imu_sensor' update_rate='250'>
     <parent link='${name}/base_link'/>
