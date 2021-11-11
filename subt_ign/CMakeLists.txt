@@ -144,6 +144,65 @@ foreach(PLUGIN ${SUBT_IGN_PLUGINS})
   target_link_libraries(${PLUGIN} PUBLIC SubtCommon SubtProtobuf)
 endforeach()
 
+# Create the libPlaybackEventRecorder.so library.
+set(playback_event_recorder_name PlaybackEventRecorder)
+add_library(${playback_event_recorder_name} SHARED
+  src/PlaybackEventRecorder.cc
+)
+
+target_include_directories(${playback_event_recorder_name}
+  PRIVATE
+    ${CATKIN_DEVEL_PREFIX}/include)
+target_link_libraries(${playback_event_recorder_name}
+  PRIVATE
+    ignition-gazebo${IGN_GAZEBO_VER}::core
+    ignition-common4::ignition-common4
+    ignition-launch5::ignition-launch5
+    ignition-math6::ignition-math6
+    ignition-msgs8::ignition-msgs8
+    ignition-plugin1::loader
+    ignition-transport11::ignition-transport11
+    sdformat12::sdformat12
+    ${catkin_LIBRARIES}
+    ${YAML_CPP_LIBRARIES}
+)
+
+install(TARGETS ${playback_event_recorder_name}
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+
+# Create the libPlaybackSensors.so library.
+set(playback_sensors_name PlaybackSensors)
+add_library(${playback_sensors_name} SHARED
+  src/PlaybackSensors.cc
+)
+
+target_include_directories(${playback_sensors_name}
+  PRIVATE
+    ${CATKIN_DEVEL_PREFIX}/include)
+target_link_libraries(${playback_sensors_name}
+  PRIVATE
+    ignition-gazebo${IGN_GAZEBO_VER}::core
+    ignition-common4::ignition-common4
+    ignition-math6::ignition-math6
+    ignition-msgs8::ignition-msgs8
+    ignition-plugin1::loader
+    ignition-transport11::ignition-transport11
+    ignition-sensors6::ignition-sensors6
+    ignition-sensors6::camera
+    ignition-rendering6::ignition-rendering6
+    sdformat12::sdformat12
+    ignition-gazebo${IGN_GAZEBO_VER}-rendering
+    ${catkin_LIBRARIES}
+)
+
+install(TARGETS ${playback_sensors_name}
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+
+
 install(
   TARGETS SubtProtobuf SubtCommon ${SUBT_IGN_PLUGINS}
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}

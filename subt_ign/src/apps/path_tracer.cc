@@ -54,6 +54,12 @@ MarkerColor::MarkerColor(const YAML::Node &_node)
 }
 
 //////////////////////////////////////////////////
+MarkerColor::MarkerColor(const MarkerColor &_clr)
+  :ambient(_clr.ambient), diffuse(_clr.diffuse), emissive(_clr.emissive)
+{
+}
+
+//////////////////////////////////////////////////
 MarkerColor::MarkerColor(const ignition::math::Color &_ambient,
     const ignition::math::Color &_diffuse,
     const ignition::math::Color &_emissive)
@@ -62,8 +68,10 @@ MarkerColor::MarkerColor(const ignition::math::Color &_ambient,
 }
 
 //////////////////////////////////////////////////
-Processor::Processor(const std::string &_path, const std::string &_configPath)
+Processor::Processor(const std::string &_path, const std::string &_configPath, const std::string &_partition, const std::string &_cameraPose, const std::string &_worldName, bool _onlyCheck)
 {
+  this->worldName = _worldName;
+
   YAML::Node cfg;
   if (!_configPath.empty())
   {
@@ -173,15 +181,35 @@ Processor::Processor(const std::string &_path, const std::string &_configPath)
                   {1.0, 0.761, 0.4, 1.0}));
   }
 
-  // Create the transport node with the partition used by simulation
-  // world.
-  ignition::transport::NodeOptions opts;
-  opts.SetPartition("PATH_TRACER");
-  this->markerNode = std::make_unique<ignition::transport::Node>(opts);
-  this->ClearMarkers();
+  ignition::msgs::Boolean boolRep;
+  bool result = false;
+  bool executed = false;
 
-  // Subscribe to the artifact poses.
-  this->SubscribeToArtifactPoseTopics();
+
+  if (!_onlyCheck)
+  {
+    // Create the transport node with the partition used by simulation
+    // world.
+    ignition::transport::NodeOptions opts;
+    opts.SetPartition(_partition);
+    this->markerNode = std::make_unique<ignition::transport::Node>(opts);
+    this->ClearMarkers();
+    this->Pause(true);
+
+    std::vector<std::string> camPoseParts =
+      ignition::common::split(_cameraPose, " ");
+    this->SpawnLight();
+    this->SpawnCamera(camPoseParts[0], camPoseParts[1], camPoseParts[2]);
+
+    this->markerNode->Subscribe("/clock", &Processor::ClockCb , this);
+
+    // recorder stats
+    this->markerNode->Subscribe("/camera/stats",
+        &Processor::RecorderStatsCb , this);
+
+    // Subscribe to the artifact poses.
+    this->SubscribeToArtifactPoseTopics();
+  }
 
   // Playback the log file.
   std::unique_lock<std::mutex> lock(this->mutex);
@@ -189,37 +217,8 @@ Processor::Processor(const std::string &_path, const std::string &_configPath)
 
   this->cv.wait(lock);
 
-  // Create a transport node that uses the default partition.
-  ignition::transport::Node node;
-
-  // Subscribe to the robot pose topic
-  bool subscribed = false;
-  for (int i = 0; i < 5 && !subscribed; ++i)
-  {
-    std::vector<std::string> topics;
-    node.TopicList(topics);
-
-    // Subscribe to the first /dynamic_pose/info topic
-    for (auto const &topic : topics)
-    {
-      if (topic.find("/dynamic_pose/info") != std::string::npos)
-      {
-        // Subscribe to a topic by registering a callback.
-        if (!node.Subscribe(topic, &Processor::Cb, this))
-        {
-          std::cerr << "Error subscribing to topic ["
-            << topic << "]" << std::endl;
-          return;
-        }
-        subscribed = true;
-        break;
-      }
-    }
-    std::this_thread::sleep_for(std::chrono::seconds(1));
-  }
-
-  // Wait for log playback to end.
-  playbackThread.join();
+  std::vector<std::string> scoredArtifacts;
+  std::set<std::string> artifactProximity;
 
   // Process the events log file.
   std::string eventsFilepath = _path + "/events.yml";
@@ -260,7 +259,7 @@ Processor::Processor(const std::string &_path, const std::string &_configPath)
 
         // Read the reported pose.
         std::stringstream stream;
-        stream << events[i]["reported_pose"].as<std::string>();
+        stream << events[i]["reported_pose_world_frame"].as<std::string>();
         stream >> reportedPos;
 
         int sec = events[i]["time_sec"].as<int>();
@@ -268,8 +267,40 @@ Processor::Processor(const std::string &_path, const std::string &_configPath)
         data->type = REPORT;
         data->pos = reportedPos;
         data->score = events[i]["points_scored"].as<int>();
+        if (data->score > 0)
+        {
+          this->scoreTimes.push_back(sec);
+          scoredArtifacts.push_back(
+              events[i]["closest_artifact_name"].as<std::string>());
+        }
 
         this->logData[sec].push_back(std::move(data));
+      }
+      else if (events[i]["type"].as<std::string>() == "finished")
+      {
+        int sec = events[i]["time_sec"].as<int>();
+        std::unique_ptr<PhaseData> data = std::make_unique<PhaseData>();
+        data->type = PHASE;
+        this->logData[sec].push_back(std::move(data));
+      }
+      else if (events[i]["type"].as<std::string>() == "started")
+      {
+        int sec = events[i]["time_sec"].as<int>();
+        std::unique_ptr<PhaseData> data = std::make_unique<PhaseData>();
+        data->type = PHASE;
+        this->logData[sec].push_back(std::move(data));
+      }
+      else if (events[i]["type"].as<std::string>() == "detect")
+      {
+        if (events[i]["state"].as<std::string>() == "enter")
+        {
+          if (events[i]["extra"] && events[i]["extra"]["type"] &&
+              events[i]["extra"]["type"].as<std::string>() ==
+              "artifact_proximity")
+          {
+            artifactProximity.insert(events[i]["detector"].as<std::string>());
+          }
+        }
       }
     }
   }
@@ -278,11 +309,232 @@ Processor::Processor(const std::string &_path, const std::string &_configPath)
     std::cerr << "Missing " << eventsFilepath
       << ". There will be no artifact report visualization.\n";
   }
+
+  // Make sure there is a zero second event.
+  std::unique_ptr<PhaseData> data = std::make_unique<PhaseData>();
+  data->type = PHASE;
+  this->logData[0].push_back(std::move(data));
+
+  for (const std::string &artifact : scoredArtifacts)
+  {
+    if (artifactProximity.find(artifact) == artifactProximity.end())
+      std::cerr << "Scored artifact not approached for " << artifact << ".\n";
+  }
+
+  // Create a transport node that uses the default partition.
+  ignition::transport::Node node;
+
+  // Subscribe to the robot pose topic
+  bool subscribed = false;
+  for (int i = 0; i < 5 && !subscribed; ++i)
+  {
+    std::vector<std::string> topics;
+    node.TopicList(topics);
+
+    // Subscribe to the first /dynamic_pose/info topic
+    for (auto const &topic : topics)
+    {
+      if (topic.find("/dynamic_pose/info") != std::string::npos)
+      {
+        // Subscribe to a topic by registering a callback.
+        if (!node.Subscribe(topic, &Processor::Cb, this))
+        {
+          std::cerr << "Error subscribing to topic ["
+            << topic << "]" << std::endl;
+          return;
+        }
+        subscribed = true;
+        break;
+      }
+    }
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+  }
+
+  // Wait for log playback to end.
+  playbackThread.join();
+
+  // This block loop is for run validation. Safe to ignore for path
+  // visualization.
+  if (_onlyCheck)
+  {
+    for (std::map<int, std::vector<std::unique_ptr<Data>>>::iterator iter =
+        this->logData.begin(); iter != this->logData.end(); ++iter)
+    {
+      for (std::unique_ptr<Data> &data : iter->second)
+      {
+        if (data->type == REPORT)
+        {
+          const ReportData *report = static_cast<const ReportData*>(data.get());
+          if (report->score > 0)
+          {
+            std::cout << "- scored:\n";
+
+            std::map<std::string, ignition::math::Vector3d> scorePoses;
+            // Get the most recent poses of the robots.
+            for (auto iter2 = this->logData.begin();
+                iter2 != this->logData.end() && iter2->first <= iter->first;
+                ++iter2)
+            {
+              for (std::unique_ptr<Data> &data2 : iter2->second)
+              {
+                if (data2->type == ROBOT)
+                {
+                  const RobotPoseData *poseData =
+                    static_cast<const RobotPoseData*>(data2.get());
+                  for (std::map<std::string, std::vector<ignition::math::Pose3d>>::const_iterator poseIter = poseData->poses.begin(); poseIter != poseData->poses.end(); poseIter++)
+                  {
+                    //if (poseIter->first != "breadcrumb_node")
+                    {
+                      scorePoses[poseIter->first] =
+                        (*(poseIter->second.rbegin())).Pos();
+                    }
+                  }
+                }
+              }
+            }
+
+            for (const auto &p : scorePoses)
+            {
+              std::cout << "  " << p.first << ": " << p.second << std::endl;
+            }
+          }
+
+        }
+      }
+    }
+
+    return;
+  }
+
+
   // Display all of the artifacts using visual markers.
   this->DisplayArtifacts();
 
+  // Start video recording
+  ignition::msgs::VideoRecord startRecordReq;
+  startRecordReq.set_start(true);
+  startRecordReq.set_format("mp4");
+  startRecordReq.set_save_filename("/tmp/ign/0000-robot_paths.mp4");
+  result = false;
+  executed = false;
+
+  // Make sure we actually start recording
+  while (!result || !executed)
+  {
+    std::cout << "Start recording \n";
+    executed = this->markerNode->Request("/subt/camera/record_video",
+        startRecordReq, 2000, boolRep, result);
+  }
+
   // Display all of the poses using visual markers.
   this->DisplayPoses();
+
+  ignition::msgs::VideoRecord endRecordReq;
+  endRecordReq.set_stop(true);
+  result = false;
+  executed = false;
+
+  // Make sure we actually move
+  while (!result || !executed)
+  {
+    std::cout << "End recording \n";
+    executed = this->markerNode->Request("/subt/camera/record_video",
+        endRecordReq, 2000, boolRep, result);
+
+  }
+
+  this->Pause(false);
+  // Wait a bit for the video recorder to stop.
+  std::this_thread::sleep_for(std::chrono::seconds(60));
+}
+
+//////////////////////////////////////////////////
+void Processor::SpawnLight()
+{
+  std::function<void(const ignition::msgs::Boolean &, const bool)> cb =
+      [](const ignition::msgs::Boolean &/*_rep*/, const bool _result)
+  {
+    if (!_result)
+      std::cerr << "Error spawning camera request" << std::endl;
+  };
+
+  std::string spawnStr = R"spawn(<?xml version="1.0"?>
+    <sdf version="1.6">
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 100 0 0 0</pose>
+      <diffuse>1.0 1.0 1.0 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>2000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+    </sdf>)spawn";
+
+  ignition::msgs::EntityFactory req;
+  req.set_sdf(spawnStr);
+  req.set_allow_renaming(false);
+  // for factory service requests
+  std::string createService = "/world/" + this->worldName + "/create";
+  this->markerNode->Request(createService, req, cb);
+}
+
+//////////////////////////////////////////////////
+void Processor::SpawnCamera(const std::string &_camPosX,
+    const std::string &_camPosY, const std::string &_camPosZ)
+{
+  std::function<void(const ignition::msgs::Boolean &, const bool)> cb =
+      [](const ignition::msgs::Boolean &/*_rep*/, const bool _result)
+  {
+    if (!_result)
+      std::cerr << "Error spawning camera request" << std::endl;
+  };
+
+  std::string spawnStr = R"spawn(<?xml version="1.0"?>
+    <sdf version="1.6">
+    <model name="spawned_camera">
+      <static>true</static>
+      <pose>)spawn" + _camPosX + " " + _camPosY + " " + _camPosZ + " " + R"spawn(0 1.5708 1.5708</pose>
+      <link name="link">
+        <sensor name="camera" type="camera">
+          <camera>
+            <horizontal_fov>1.5708</horizontal_fov>
+            <image>
+              <width>1920</width>
+              <height>1080</height>
+            </image>
+            <clip>
+              <near>1.0</near>
+              <far>1000</far>
+            </clip>
+          </camera>
+          <always_on>1</always_on>
+          <update_rate>30</update_rate>
+          <visualize>true</visualize>
+          <topic>camera</topic>
+
+          <plugin
+            filename="ignition-gazebo-camera-video-recorder-system"
+            name="ignition::gazebo::systems::CameraVideoRecorder">
+            <service>/subt/camera/record_video</service>
+            <use_sim_time>true</use_sim_time>
+          </plugin>
+
+        </sensor>
+      </link>
+    </model>
+    </sdf>)spawn";
+
+  ignition::msgs::EntityFactory req;
+  req.set_sdf(spawnStr);
+  req.set_allow_renaming(false);
+  // for factory service requests
+  std::string createService = "/world/" + this->worldName + "/create";
+  this->markerNode->Request(createService, req, cb);
 }
 
 //////////////////////////////////////////////////
@@ -362,6 +614,28 @@ void Processor::SubscribeToArtifactPoseTopics()
 }
 
 /////////////////////////////////////////////////
+void Processor::ClockCb(const ignition::msgs::Clock &_msg)
+{
+  std::lock_guard<std::mutex> lock(this->stepMutex);
+  //std::cout << "ClockCb[" << _msg.sim().sec() << "]\n";
+  this->simTime = _msg.sim().sec();
+  if (this->simTime >= this->nextSimTime)
+    this->stepCv.notify_one();
+
+  /*std::lock_guard<std::mutex> lock(this->stepMutex);
+  if (this->nextSimTime > 0 && this->simTime.sim().sec() >= this->nextSimTime)
+    this->stepCv.notify_one();
+    */
+}
+
+/////////////////////////////////////////////////
+void Processor::RecorderStatsCb(const ignition::msgs::Time &_msg)
+{
+  std::lock_guard<std::mutex> lock(this->recorderStatsMutex);
+  this->recorderStatsMsg = _msg;
+}
+
+/////////////////////////////////////////////////
 void Processor::ArtifactCb(const ignition::msgs::Pose_V &_msg)
 {
   // Process each pose in the message.
@@ -387,32 +661,90 @@ void Processor::ArtifactCb(const ignition::msgs::Pose_V &_msg)
 }
 
 //////////////////////////////////////////////////
+void Processor::Pause(bool _pause)
+{
+  ignition::msgs::WorldControl msg;
+  ignition::msgs::Boolean boolRep;
+  bool result;
+  result = false;
+
+  msg.set_pause(_pause);
+  bool executed = this->markerNode->Request(
+      "/world/" + this->worldName + "/control", msg, 2000, boolRep, result);
+  if (!executed || !result)
+    std::cerr << "\n!!! ERROR: Unable to pause simulation\n";
+}
+
+//////////////////////////////////////////////////
+void Processor::StepUntil(int _sec)
+{
+  ignition::msgs::WorldControl msg;
+  ignition::msgs::Boolean boolRep;
+  bool result;
+  result = false;
+
+  msg.mutable_run_to_sim_time()->set_sec(_sec);
+
+  std::unique_lock<std::mutex> lock(this->stepMutex);
+  this->markerNode->Request(
+      "/world/" + this->worldName + "/control", msg, 500, boolRep, result);
+  this->stepCv.wait(lock);
+}
+
+//////////////////////////////////////////////////
 void Processor::DisplayPoses()
 {
+  this->startSimTime = this->simTime;
+  // Iterate through all the stored poses.
   for (std::map<int, std::vector<std::unique_ptr<Data>>>::iterator iter =
        this->logData.begin(); iter != this->logData.end(); ++iter)
   {
-    auto start = std::chrono::steady_clock::now();
-    printf("\r %ds/%ds (%06.2f%%)", iter->first, this->logData.rbegin()->first,
-        static_cast<double>(iter->first) / this->logData.rbegin()->first * 100);
-    fflush(stdout);
-
+    // Display new visual markers.
     for (std::unique_ptr<Data> &data : iter->second)
     {
       data->Render(this);
     }
 
-    // Get the next time stamp, and sleep the correct amount of time.
+    // Get the next time stamp, and run simulation to thattime.
     auto next = std::next(iter, 1);
     if (next != this->logData.end())
     {
-      int sleepTime = (((next->first - iter->first) / this->rtf)*1000);
-      auto duration = std::chrono::steady_clock::now() - start;
-      std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime)  -
-          std::chrono::duration_cast<std::chrono::nanoseconds>(
-            duration));
+      // This is the next sim time that contains new visual data.
+      this->nextSimTime = next->first + this->startSimTime;
+
+      // Debug output
+      printf("%ds/%ds (%06.2f%%) start=%d currDelta=%d nextDelta=%d next=%d curr=%d\n",
+          iter->first, this->logData.rbegin()->first,
+          static_cast<double>(iter->first) / this->logData.rbegin()->first*100,
+          this->startSimTime, iter->first, next->first, this->nextSimTime,
+          this->simTime);
+      // Step simulation to the new timestamp
+      this->StepUntil(this->nextSimTime);
     }
+
+    /*double dt = 0;
+    {
+      std::lock_guard<std::mutex> lock(this->recorderStatsMutex);
+      dt = this->simTime - this->recorderStatsMsg.sec();
+      // std::cerr << "simtime vs recorder stats time : "
+      //           << this->simTime << " vs " << this->recorderStatsMsg.sec()
+      //           << " " << dt << std::endl;
+    }
+    if (dt > 10)
+    {
+      std::cout << "Pausing to catch up. Dt[" << dt << "]\n";
+      while (dt >= 5)
+      {
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        std::lock_guard<std::mutex> lock(this->recorderStatsMutex);
+        dt = this->simTime - this->recorderStatsMsg.sec();
+      }
+      std::cout << "Resuming playback\n";
+    }*/
   }
+
+  // Wait a bit for the video recorder to catch up.
+  std::this_thread::sleep_for(std::chrono::seconds(15));
 }
 
 /////////////////////////////////////////////////
@@ -463,13 +795,14 @@ void Processor::SpawnMarker(MarkerColor &_color,
   // call accomplishes.
   ignition::msgs::Set(markerMsg.mutable_pose(),
       ignition::math::Pose3d(_pos.X(), _pos.Y(), _pos.Z(), 0, 0, 0));
-  this->markerNode->Request("/marker", markerMsg);
+  this->markerNode->Request("/camera/marker", markerMsg);
 }
 
 //////////////////////////////////////////////////
 void Processor::Cb(const ignition::msgs::Pose_V &_msg)
 {
   std::unique_ptr<RobotPoseData> data(new RobotPoseData);
+  int sec = _msg.header().stamp().sec();
 
   // Process each pose in the message.
   for (int i = 0; i < _msg.pose_size(); ++i)
@@ -477,6 +810,7 @@ void Processor::Cb(const ignition::msgs::Pose_V &_msg)
     // Only conder robots.
     std::string name = _msg.pose(i).name();
     if (name.find("_wheel") != std::string::npos ||
+        name.find("Rock") != std::string::npos ||
         name.find("rotor_") != std::string::npos || name == "base_link") {
       continue;
     }
@@ -490,15 +824,26 @@ void Processor::Cb(const ignition::msgs::Pose_V &_msg)
       this->prevPose[name] = pose;
     }
 
+    // The following line is here to capture robot poses close to
+    // artifact report attempts.
+    bool forceRecord = false;
+    /*for (int t : scoreTimes)
+    {
+      if (std::abs(t-sec) < 4)
+      {
+        forceRecord = true;
+        break;
+      }
+    }*/
+
     // Filter poses.
-    if (this->prevPose[name].Pos().Distance(pose.Pos()) > 1.0)
+    if (this->prevPose[name].Pos().Distance(pose.Pos()) > 1.0 || forceRecord)
     {
       data->poses[name].push_back(pose);
       this->prevPose[name] = pose;
     }
   }
 
-  int sec = _msg.header().stamp().sec();
   // Store data.
   if (!data->poses.empty())
     this->logData[sec].push_back(std::move(data));
@@ -531,7 +876,7 @@ void ReportData::Render(Processor *_p)
   {
     _p->SpawnMarker(_p->artifactColors["correct_report_color"], this->pos,
         ignition::msgs::Marker::SPHERE,
-        ignition::math::Vector3d(4, 4, 4));
+        ignition::math::Vector3d(10, 10, 10));
   }
   else
   {
@@ -542,13 +887,24 @@ void ReportData::Render(Processor *_p)
 }
 
 /////////////////////////////////////////////////
+void PhaseData::Render(Processor *)
+{
+  // no-op
+}
+
+/////////////////////////////////////////////////
 int main(int _argc, char **_argv)
 {
   // Create and run the processor.
-  if (_argc > 2)
-    Processor p(_argv[1], _argv[2]);
+  if (_argc == 7)
+    Processor p(_argv[1], _argv[2], _argv[3], _argv[4], _argv[5], true);
+  else if (_argc == 6)
+    Processor p(_argv[1], _argv[2], _argv[3], _argv[4], _argv[5], false);
   else
-    Processor p(_argv[1]);
+    std::cerr << "Invalid number of arguments. \n"
+      << "./path_tracer <log_directory> <path_tracer_config.yml> "
+      << "<ign_partition> \"<camera_pos>\" <world_name>" << std::endl;
+
   std::cout << "\nPlayback complete.\n";
   return 0;
 }

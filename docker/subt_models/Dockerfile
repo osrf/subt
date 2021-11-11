@@ -38,8 +38,8 @@ WORKDIR /home/$USERNAME
 # install ign-dome, download the public models, and uninstall ign-dome again to keep the image smaller
 RUN sudo apt-get update \
  && sudo apt-get install -y \
-    libignition-fuel-tools5-dev \
+    libignition-fuel-tools7-dev \
  && ign fuel download -v 4 -j 8 --type model -u "https://fuel.ignitionrobotics.org/OpenRobotics/collections/SubT Tech Repo" \
- && sudo apt-get remove libignition-fuel-tools5-dev -y \
+ && sudo apt-get remove libignition-fuel-tools7-dev -y \
  && sudo apt-get autoremove -y \
  && sudo apt-get clean

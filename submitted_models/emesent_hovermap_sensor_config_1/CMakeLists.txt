@@ -6,7 +6,7 @@ set(IGN_PLUGIN_VER 0)
 
 find_package(ignition-gazebo6 REQUIRED)
 find_package(ignition-common4 REQUIRED)
-ign_find_package(ignition-plugin0 REQUIRED COMPONENTS register)
+ign_find_package(ignition-plugin1 REQUIRED COMPONENTS register)
 
 find_package(catkin REQUIRED)
 
