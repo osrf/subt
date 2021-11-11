@@ -27,7 +27,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
     <spawn name='#{_name}'>
       <name>#{_name}</name>
       <allow_renaming>false</allow_renaming>
-      <pose>#{_x} #{_y} #{_z + 0.125} #{_roll} #{_pitch} #{_yaw}</pose>
+      <pose>#{_x} #{_y} #{_z + 0.2} #{_roll} #{_pitch} #{_yaw}</pose>
       <world>#{_worldName}</world>
       <is_performer>true</is_performer>
       <sdf version='1.6'>
@@ -44,7 +44,7 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
           <publish_nested_model_pose>#{$enableGroundTruth}</publish_nested_model_pose>
           <use_pose_vector_msg>true</use_pose_vector_msg>
           <static_publisher>true</static_publisher>
-          <static_update_frequency>100</static_update_frequency>
+          <static_update_frequency>1</static_update_frequency>
         </plugin>
         <plugin filename="libignition-gazebo-multicopter-motor-model-system.so"
           name="ignition::gazebo::systems::MulticopterMotorModel">
