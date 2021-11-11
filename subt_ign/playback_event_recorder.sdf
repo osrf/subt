@@ -1,0 +1,110 @@
+<?xml version='1.0'?>
+<!--
+  Playback event recorder.
+
+  This world is used by the record_playback_events.bash script.
+  Videos will be saved to a timestamped directory inside the directory
+  where the bash script is run.
+
+  To set whether or not the gui camera should follow the entity
+  during video recording, change the <camera_follow> sdf parameter in the
+  PlaybackEventRecorder plugin to either true or false.
+
+  Usage: bash record_playback_events.bash <path_to_log_dir>
+-->
+
+<sdf version='1.6'>
+
+  <world name='default'>
+<!--
+    <gui fullscreen="0">
+    <plugin filename="GzScene3D" name="3D View">
+      <ignition-gui>
+        <title>3D View</title>
+        <property type="bool" key="showTitleBar">false</property>
+        <property type="string" key="state">docked</property>
+      </ignition-gui>
+      <engine>ogre2</engine>
+      <scene>scene</scene>
+      <ambient_light>0.4 0.4 0.4</ambient_light>
+      <background_color>0.8 0.8 0.8</background_color>
+      <camera_pose>6 0 6 0 0.5 3.14</camera_pose>
+    </plugin>
+
+    <plugin filename="WorldControl" name="World control">
+      <ignition-gui>
+        <title>World control</title>
+        <property type="bool" key="showTitleBar">false</property>
+        <property type="bool" key="resizable">false</property>
+        <property type="double" key="height">72</property>
+        <property type="double" key="width">121</property>
+        <property type="double" key="z">1</property>
+
+        <property type="string" key="state">floating</property>
+        <anchors target="3D View">
+          <line own="left" target="left"/>
+          <line own="bottom" target="bottom"/>
+        </anchors>
+      </ignition-gui>
+
+      <play_pause>true</play_pause>
+      <step>true</step>
+      <start_paused>true</start_paused>
+    </plugin>
+
+    <plugin filename="WorldStats" name="World stats">
+      <ignition-gui>
+        <title>World stats</title>
+        <property type="bool" key="showTitleBar">false</property>
+        <property type="bool" key="resizable">false</property>
+        <property type="double" key="height">110</property>
+        <property type="double" key="width">290</property>
+        <property type="double" key="z">1</property>
+
+        <property type="string" key="state">floating</property>
+        <anchors target="3D View">
+          <line own="right" target="right"/>
+          <line own="bottom" target="bottom"/>
+        </anchors>
+      </ignition-gui>
+
+      <sim_time>true</sim_time>
+      <real_time>true</real_time>
+      <real_time_factor>true</real_time_factor>
+      <iterations>true</iterations>
+    </plugin>
+    </gui>
+-->
+
+    <plugin filename='ignition-gazebo-scene-broadcaster-system'
+            name='ignition::gazebo::systems::SceneBroadcaster'>
+      <state_hertz>25</state_hertz>
+    </plugin>
+    <plugin
+      filename='ignition-gazebo-log-system'
+      name='ignition::gazebo::systems::LogPlayback'>
+      <playback_path>tmp_record/gazebo</playback_path>
+    </plugin>
+
+    <plugin
+      filename="ignition-gazebo-user-commands-system"
+      name="ignition::gazebo::systems::UserCommands">
+    </plugin>
+
+    <plugin
+        filename="libPlaybackEventRecorder.so"
+        name="subt::PlaybackEventRecorder">
+      <log_path>tmp_record/gazebo</log_path>
+      <exit_on_finish>true</exit_on_finish>
+      <spawn_light>true</spawn_light>
+      <render_engine>ogre2</render_engine>
+    </plugin>
+
+    <plugin
+        filename="libPlaybackSensors.so"
+        name="subt::PlaybackSensors">
+    </plugin>
+
+  </world>
+</sdf>
+
