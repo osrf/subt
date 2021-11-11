@@ -1,29 +1,5 @@
 def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
   <<-HEREDOC
-    _config=8
-    uav=1
-    laserScan=0
-    stereoCam=0
-    rgbdCam=0
-    if _config == "2"
-      rgbdCam=1
-    end
-    if _config == "3" or _config == "4"
-      laserScan=1
-    end
-    if _config == "5"
-      stereoCam=1
-    if _config == "6"
-      laserScan=1
-      topScan=1
-      bottomScan=1
-      rgbdCam=1
-    end
-    if _config == "8"
-      laserScan=1
-      topScan=1
-      bottomScan=1
-      rgbdCam=1
     <spawn name='#{_name}'>
       <name>#{_name}</name>
       <allow_renaming>false</allow_renaming>
