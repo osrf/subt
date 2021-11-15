@@ -363,7 +363,6 @@
         <always_on>1</always_on>
         <update_rate>50</update_rate>
         <imu>
-          <enable_orientation>0</enable_orientation>
           <angular_velocity>
             <x>
               <noise type="gaussian">
@@ -434,6 +433,7 @@
               </noise>
             </z>
           </linear_acceleration>
+          <enable_orientation>0</enable_orientation>
         </imu>
         <pose>0 0 0.15 -3.1415926535897931 -0 0</pose>
       </sensor>
