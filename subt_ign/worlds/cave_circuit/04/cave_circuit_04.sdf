@@ -6,7 +6,7 @@
       <real_time_factor>1</real_time_factor>
       <real_time_update_rate>1000</real_time_update_rate>
     </physics>
-    
+
     <scene>
       <ambient>0.1 0.1 0.1 1</ambient>
       <background>0 0 0 1</background>
@@ -612,158 +612,225 @@
       <name>rope_4</name>
       <pose>613.37 -464.653 2.23388 0.097602 -1.50292 0.845112</pose>
     </include>
-      <!-- Auto generated: level_generator 50 50 50 10 -->
+
+    <!-- Auto generated: level_generator 180 180 135 40 -->
     <plugin name="ignition::gazebo" filename="dummy">
       <level name="level0">
         <ref>tile_115</ref>
         <pose>37.5 -237.537 82.5 0 0 0</pose>
-        <geometry><box><size>93.75 975.074 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
       <level name="level1">
         <ref>tile_128</ref>
         <pose>137.412 -237.537 82.5 0 0 0</pose>
-        <geometry><box><size>93.75 975.074 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
       <level name="level2">
         <ref>tile_9</ref>
         <pose>137.5 -237.537 82.5 0 0 0</pose>
-        <geometry><box><size>93.75 975.074 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
       <level name="level3">
         <ref>tile_10</ref>
         <pose>137.85 -237.537 82.5 0 0 0</pose>
-        <geometry><box><size>93.75 975.074 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
       <level name="level4">
-        <ref>tile_1</ref>
-        <pose>162.5 -237.537 82.5 0 0 0</pose>
-        <geometry><box><size>93.75 975.074 315</size></box></geometry>
-        <buffer>10</buffer>
+        <ref>rescue_randy_1</ref>
+        <pose>143.017 -237.537 82.5 0 0 0</pose>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
       <level name="level5">
-        <ref>tile_4</ref>
-        <pose>187.5 -237.537 82.5 0 0 0</pose>
-        <geometry><box><size>93.75 975.074 315</size></box></geometry>
-        <buffer>10</buffer>
+        <ref>tile_1</ref>
+        <pose>162.5 -237.537 82.5 0 0 0</pose>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
       <level name="level6">
+        <ref>rope_3</ref>
+        <pose>187.48 -237.537 82.5 0 0 0</pose>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level7">
+        <ref>tile_4</ref>
+        <pose>187.5 -237.537 82.5 0 0 0</pose>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level8">
+        <ref>helmet_2</ref>
+        <pose>196.311 -237.537 82.5 0 0 0</pose>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level9">
+        <ref>rope_2</ref>
+        <pose>215.715 -237.537 82.5 0 0 0</pose>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level10">
         <ref>tile_5</ref>
         <ref>tile_6</ref>
         <ref>tile_7</ref>
         <ref>tile_8</ref>
         <pose>237.5 -237.537 82.5 0 0 0</pose>
-        <geometry><box><size>93.75 975.074 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level7">
+      <level name="level11">
         <ref>tile_2</ref>
         <pose>262.5 -237.537 82.5 0 0 0</pose>
-        <geometry><box><size>93.75 975.074 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level8">
+      <level name="level12">
+        <ref>helmet_3</ref>
+        <pose>271.499 -237.537 82.5 0 0 0</pose>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level13">
+        <ref>helmet_1</ref>
+        <pose>285.22 -237.537 82.5 0 0 0</pose>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level14">
         <ref>tile_3</ref>
         <ref>tile_77</ref>
         <ref>tile_117</ref>
         <pose>287.5 -237.537 82.5 0 0 0</pose>
-        <geometry><box><size>93.75 975.074 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level9">
+      <level name="level15">
         <ref>tile_127</ref>
         <pose>287.506 -237.537 82.5 0 0 0</pose>
-        <geometry><box><size>93.75 975.074 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level10">
+      <level name="level16">
+        <ref>backpack_3</ref>
+        <pose>293.15 -237.537 82.5 0 0 0</pose>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level17">
         <ref>tile_28</ref>
         <ref>tile_80</ref>
         <pose>312.5 -237.537 82.5 0 0 0</pose>
-        <geometry><box><size>93.75 975.074 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level11">
+      <level name="level18">
         <ref>tile_23</ref>
         <ref>tile_78</ref>
         <ref>tile_79</ref>
         <pose>337.5 -237.537 82.5 0 0 0</pose>
-        <geometry><box><size>93.75 975.074 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level12">
+      <level name="level19">
         <ref>tile_29</ref>
         <pose>362.5 -237.537 82.5 0 0 0</pose>
-        <geometry><box><size>93.75 975.074 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level13">
+      <level name="level20">
+        <ref>phone_3</ref>
+        <pose>362.715 -237.537 82.5 0 0 0</pose>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level21">
         <ref>tile_30</ref>
         <pose>387.5 -237.537 82.5 0 0 0</pose>
-        <geometry><box><size>93.75 975.074 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level14">
-        <ref>dynamic_rocks_3</ref>
-        <pose>393.788 -237.537 82.5 0 0 0</pose>
-        <geometry><box><size>93.75 975.074 315</size></box></geometry>
-        <buffer>10</buffer>
+      <level name="level22">
+        <ref>phone_2</ref>
+        <pose>410.066 -237.537 82.5 0 0 0</pose>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level15">
+      <level name="level23">
         <ref>tile_27</ref>
         <ref>tile_76</ref>
         <ref>tile_125</ref>
         <pose>412.5 -237.537 82.5 0 0 0</pose>
-        <geometry><box><size>93.75 975.074 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level16">
+      <level name="level24">
+        <ref>rescue_randy_4</ref>
+        <pose>442.134 -237.537 82.5 0 0 0</pose>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level25">
         <ref>tile_32</ref>
         <pose>462.5 -237.537 82.5 0 0 0</pose>
-        <geometry><box><size>93.75 975.074 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level17">
+      <level name="level26">
         <ref>tile_31</ref>
         <pose>487.5 -237.537 82.5 0 0 0</pose>
-        <geometry><box><size>93.75 975.074 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level18">
+      <level name="level27">
+        <ref>helmet_4</ref>
+        <pose>497.722 -237.537 82.5 0 0 0</pose>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level28">
+        <ref>rescue_randy_2</ref>
+        <pose>519.652 -237.537 82.5 0 0 0</pose>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level29">
         <ref>tile_33</ref>
         <ref>tile_81</ref>
         <pose>537.5 -237.537 82.5 0 0 0</pose>
-        <geometry><box><size>93.75 975.074 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level19">
+      <level name="level30">
         <ref>tile_126</ref>
         <pose>537.67 -237.537 82.5 0 0 0</pose>
-        <geometry><box><size>93.75 975.074 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level20">
+      <level name="level31">
         <ref>tile_75</ref>
         <pose>562.5 -237.537 82.5 0 0 0</pose>
-        <geometry><box><size>93.75 975.074 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level21">
-        <ref>dynamic_rocks_2</ref>
-        <pose>577.974 -237.537 82.5 0 0 0</pose>
-        <geometry><box><size>93.75 975.074 315</size></box></geometry>
-        <buffer>10</buffer>
-      </level>
-      <level name="level22">
+      <level name="level32">
         <ref>tile_121</ref>
         <pose>587.5 -237.537 82.5 0 0 0</pose>
-        <geometry><box><size>93.75 975.074 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level23">
+      <level name="level33">
+        <ref>phone_1</ref>
+        <pose>599.202 -237.537 82.5 0 0 0</pose>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level34">
         <ref>tile_42</ref>
         <ref>tile_43</ref>
         <ref>tile_44</ref>
@@ -771,10 +838,22 @@
         <ref>tile_47</ref>
         <ref>tile_53</ref>
         <pose>612.5 -237.537 82.5 0 0 0</pose>
-        <geometry><box><size>93.75 975.074 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level24">
+      <level name="level35">
+        <ref>rope_4</ref>
+        <pose>613.37 -237.537 82.5 0 0 0</pose>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level36">
+        <ref>rope_1</ref>
+        <pose>613.657 -237.537 82.5 0 0 0</pose>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level37">
         <ref>tile_34</ref>
         <ref>tile_35</ref>
         <ref>tile_54</ref>
@@ -784,105 +863,147 @@
         <ref>tile_74</ref>
         <ref>tile_122</ref>
         <pose>637.5 -237.537 82.5 0 0 0</pose>
-        <geometry><box><size>93.75 975.074 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level25">
+      <level name="level38">
+        <ref>backpack_1</ref>
+        <pose>639.547 -237.537 82.5 0 0 0</pose>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level39">
         <ref>tile_48</ref>
         <ref>tile_49</ref>
         <ref>tile_123</ref>
         <pose>662.5 -237.537 82.5 0 0 0</pose>
-        <geometry><box><size>93.75 975.074 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level26">
+      <level name="level40">
+        <ref>backpack_4</ref>
+        <pose>686.344 -237.537 82.5 0 0 0</pose>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level41">
         <ref>tile_60</ref>
         <pose>687.5 -237.537 82.5 0 0 0</pose>
-        <geometry><box><size>93.75 975.074 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level27">
+      <level name="level42">
+        <ref>backpack_2</ref>
+        <pose>709.305 -237.537 82.5 0 0 0</pose>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level43">
         <ref>tile_46</ref>
         <ref>tile_50</ref>
         <ref>tile_51</ref>
         <ref>tile_55</ref>
         <pose>712.5 -237.537 82.5 0 0 0</pose>
-        <geometry><box><size>93.75 975.074 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level28">
+      <level name="level44">
         <ref>tile_36</ref>
         <pose>737.5 -237.537 82.5 0 0 0</pose>
-        <geometry><box><size>93.75 975.074 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level29">
+      <level name="level45">
         <ref>tile_56</ref>
         <pose>762.5 -237.537 82.5 0 0 0</pose>
-        <geometry><box><size>93.75 975.074 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level30">
-        <ref>dynamic_rocks_1</ref>
-        <pose>762.63 -237.537 82.5 0 0 0</pose>
-        <geometry><box><size>93.75 975.074 315</size></box></geometry>
-        <buffer>10</buffer>
-      </level>
-      <level name="level31">
+      <level name="level46">
         <ref>tile_41</ref>
         <pose>787.5 -237.537 82.5 0 0 0</pose>
-        <geometry><box><size>93.75 975.074 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level32">
+      <level name="level47">
         <ref>tile_37</ref>
         <ref>tile_38</ref>
         <ref>tile_52</ref>
         <pose>812.5 -237.537 82.5 0 0 0</pose>
-        <geometry><box><size>93.75 975.074 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level33">
+      <level name="level48">
+        <ref>rescue_randy_3</ref>
+        <pose>835.939 -237.537 82.5 0 0 0</pose>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level49">
+        <ref>rescue_randy_5</ref>
+        <pose>842.586 -237.537 82.5 0 0 0</pose>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level50">
         <ref>tile_124</ref>
         <pose>862.275 -237.537 82.5 0 0 0</pose>
-        <geometry><box><size>93.75 975.074 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level34">
+      <level name="level51">
         <ref>tile_39</ref>
         <ref>tile_40</ref>
         <pose>862.5 -237.537 82.5 0 0 0</pose>
-        <geometry><box><size>93.75 975.074 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>337.5 1235.07 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level35">
+      <level name="level52">
         <ref>tile_126</ref>
         <pose>450 -675.074 82.5 0 0 0</pose>
-        <geometry><box><size>925 93.75 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level36">
+      <level name="level53">
         <ref>tile_42</ref>
         <ref>tile_43</ref>
         <ref>tile_121</ref>
         <pose>450 -675 82.5 0 0 0</pose>
-        <geometry><box><size>925 93.75 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level37">
+      <level name="level54">
+        <ref>rope_1</ref>
+        <pose>450 -671.262 82.5 0 0 0</pose>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level55">
         <ref>tile_54</ref>
         <pose>450 -650 82.5 0 0 0</pose>
-        <geometry><box><size>925 93.75 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level38">
+      <level name="level56">
         <ref>tile_45</ref>
         <ref>tile_81</ref>
         <pose>450 -625 82.5 0 0 0</pose>
-        <geometry><box><size>925 93.75 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level39">
+      <level name="level57">
+        <ref>rescue_randy_2</ref>
+        <pose>450 -592.864 82.5 0 0 0</pose>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level58">
+        <ref>backpack_1</ref>
+        <pose>450 -583.574 82.5 0 0 0</pose>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level59">
         <ref>tile_34</ref>
         <ref>tile_36</ref>
         <ref>tile_37</ref>
@@ -890,22 +1011,16 @@
         <ref>tile_53</ref>
         <ref>tile_122</ref>
         <pose>450 -575 82.5 0 0 0</pose>
-        <geometry><box><size>925 93.75 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level40">
-        <ref>dynamic_rocks_2</ref>
-        <pose>450 -566.13 82.5 0 0 0</pose>
-        <geometry><box><size>925 93.75 315</size></box></geometry>
-        <buffer>10</buffer>
-      </level>
-      <level name="level41">
+      <level name="level60">
         <ref>tile_123</ref>
         <pose>450 -550 82.5 0 0 0</pose>
-        <geometry><box><size>925 93.75 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level42">
+      <level name="level61">
         <ref>tile_38</ref>
         <ref>tile_40</ref>
         <ref>tile_41</ref>
@@ -913,184 +1028,275 @@
         <ref>tile_47</ref>
         <ref>tile_48</ref>
         <pose>450 -525 82.5 0 0 0</pose>
-        <geometry><box><size>925 93.75 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level43">
+      <level name="level62">
         <ref>tile_33</ref>
         <ref>tile_35</ref>
         <ref>tile_39</ref>
         <pose>450 -475 82.5 0 0 0</pose>
-        <geometry><box><size>925 93.75 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level44">
+      <level name="level63">
+        <ref>rescue_randy_3</ref>
+        <pose>450 -466.222 82.5 0 0 0</pose>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level64">
+        <ref>rope_4</ref>
+        <pose>450 -464.653 82.5 0 0 0</pose>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level65">
         <ref>tile_32</ref>
         <pose>450 -425 82.5 0 0 0</pose>
-        <geometry><box><size>925 93.75 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level45">
+      <level name="level66">
+        <ref>helmet_4</ref>
+        <pose>450 -411.849 82.5 0 0 0</pose>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level67">
         <ref>tile_31</ref>
         <ref>tile_49</ref>
         <pose>450 -400 82.5 0 0 0</pose>
-        <geometry><box><size>925 93.75 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level46">
+      <level name="level68">
         <ref>tile_30</ref>
         <pose>450 -375 82.5 0 0 0</pose>
-        <geometry><box><size>925 93.75 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level47">
-        <ref>dynamic_rocks_3</ref>
-        <pose>450 -364.514 82.5 0 0 0</pose>
-        <geometry><box><size>925 93.75 315</size></box></geometry>
-        <buffer>10</buffer>
-      </level>
-      <level name="level48">
+      <level name="level69">
         <ref>tile_28</ref>
         <ref>tile_51</ref>
         <pose>450 -325 82.5 0 0 0</pose>
-        <geometry><box><size>925 93.75 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level49">
+      <level name="level70">
+        <ref>phone_3</ref>
+        <pose>450 -289.593 82.5 0 0 0</pose>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level71">
+        <ref>backpack_3</ref>
+        <pose>450 -278.946 82.5 0 0 0</pose>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level72">
+        <ref>backpack_2</ref>
+        <pose>450 -278.678 82.5 0 0 0</pose>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level73">
         <ref>tile_128</ref>
         <pose>450 -275.006 82.5 0 0 0</pose>
-        <geometry><box><size>925 93.75 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level50">
+      <level name="level74">
         <ref>tile_29</ref>
         <pose>450 -275 82.5 0 0 0</pose>
-        <geometry><box><size>925 93.75 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level51">
+      <level name="level75">
         <ref>tile_127</ref>
         <pose>450 -274.988 82.5 0 0 0</pose>
-        <geometry><box><size>925 93.75 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level52">
+      <level name="level76">
         <ref>tile_5</ref>
         <ref>tile_27</ref>
         <ref>tile_50</ref>
         <pose>450 -250 82.5 0 0 0</pose>
-        <geometry><box><size>925 93.75 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level53">
+      <level name="level77">
         <ref>tile_9</ref>
         <ref>tile_23</ref>
         <pose>450 -225 82.5 0 0 0</pose>
-        <geometry><box><size>925 93.75 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level54">
+      <level name="level78">
         <ref>tile_4</ref>
         <pose>450 -200 82.5 0 0 0</pose>
-        <geometry><box><size>925 93.75 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level55">
+      <level name="level79">
+        <ref>rescue_randy_5</ref>
+        <pose>450 -181.972 82.5 0 0 0</pose>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level80">
         <ref>tile_6</ref>
         <ref>tile_52</ref>
         <ref>tile_55</ref>
         <pose>450 -175 82.5 0 0 0</pose>
-        <geometry><box><size>925 93.75 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level56">
+      <level name="level81">
+        <ref>rope_3</ref>
+        <pose>450 -169.875 82.5 0 0 0</pose>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level82">
         <ref>tile_124</ref>
         <pose>450 -150.06 82.5 0 0 0</pose>
-        <geometry><box><size>925 93.75 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level57">
+      <level name="level83">
         <ref>tile_10</ref>
         <pose>450 -150 82.5 0 0 0</pose>
-        <geometry><box><size>925 93.75 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level58">
-        <ref>dynamic_rocks_1</ref>
-        <pose>450 -149.09 82.5 0 0 0</pose>
-        <geometry><box><size>925 93.75 315</size></box></geometry>
-        <buffer>10</buffer>
+      <level name="level84">
+        <ref>rescue_randy_1</ref>
+        <pose>450 -145.658 82.5 0 0 0</pose>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level59">
+      <level name="level85">
+        <ref>helmet_1</ref>
+        <pose>450 -126.712 82.5 0 0 0</pose>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level86">
         <ref>tile_3</ref>
         <ref>tile_56</ref>
         <ref>tile_57</ref>
         <pose>450 -125 82.5 0 0 0</pose>
-        <geometry><box><size>925 93.75 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level60">
+      <level name="level87">
         <ref>tile_7</ref>
         <pose>450 -75 82.5 0 0 0</pose>
-        <geometry><box><size>925 93.75 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level61">
+      <level name="level88">
         <ref>tile_2</ref>
         <ref>tile_60</ref>
         <ref>tile_61</ref>
         <pose>450 -50 82.5 0 0 0</pose>
-        <geometry><box><size>925 93.75 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level62">
+      <level name="level89">
+        <ref>backpack_4</ref>
+        <pose>450 -44.4365 82.5 0 0 0</pose>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level90">
         <ref>tile_1</ref>
         <ref>tile_62</ref>
         <ref>tile_115</ref>
         <pose>450 0 82.5 0 0 0</pose>
-        <geometry><box><size>925 93.75 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level63">
+      <level name="level91">
+        <ref>helmet_2</ref>
+        <pose>450 5.28961 82.5 0 0 0</pose>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level92">
         <ref>tile_8</ref>
         <ref>tile_117</ref>
         <pose>450 25 82.5 0 0 0</pose>
-        <geometry><box><size>925 93.75 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level64">
+      <level name="level93">
+        <ref>rope_2</ref>
+        <pose>450 36.6224 82.5 0 0 0</pose>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level94">
         <ref>tile_80</ref>
         <pose>450 50 82.5 0 0 0</pose>
-        <geometry><box><size>925 93.75 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level65">
+      <level name="level95">
         <ref>tile_74</ref>
         <pose>450 75 82.5 0 0 0</pose>
-        <geometry><box><size>925 93.75 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level66">
+      <level name="level96">
         <ref>tile_77</ref>
         <ref>tile_79</ref>
         <pose>450 100 82.5 0 0 0</pose>
-        <geometry><box><size>925 93.75 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level67">
+      <level name="level97">
+        <ref>helmet_3</ref>
+        <pose>450 100.481 82.5 0 0 0</pose>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level98">
+        <ref>phone_2</ref>
+        <pose>450 139.655 82.5 0 0 0</pose>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level99">
         <ref>tile_75</ref>
         <ref>tile_76</ref>
         <ref>tile_78</ref>
         <pose>450 150 82.5 0 0 0</pose>
-        <geometry><box><size>925 93.75 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
-      <level name="level68">
+      <level name="level100">
+        <ref>rescue_randy_4</ref>
+        <pose>450 153.075 82.5 0 0 0</pose>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level101">
+        <ref>phone_1</ref>
+        <pose>450 154.454 82.5 0 0 0</pose>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
+      </level>
+      <level name="level102">
         <ref>tile_125</ref>
         <pose>450 200 82.5 0 0 0</pose>
-        <geometry><box><size>925 93.75 315</size></box></geometry>
-        <buffer>10</buffer>
+        <geometry><box><size>1185 337.5 485</size></box></geometry>
+        <buffer>40</buffer>
       </level>
     </plugin>
+
   </world>
 </sdf>

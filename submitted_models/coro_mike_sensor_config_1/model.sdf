@@ -7,11 +7,11 @@
     <link name="base_link">
       <inertial>
         <pose>0 -0.14 0.11 0 0 0</pose>
-        <mass>15</mass>
+        <mass>27.85</mass>
         <inertia>
-          <ixx>0.147</ixx>
-          <iyy>1.056</iyy>
-          <izz>1.071</izz>
+          <ixx>0.274</ixx>
+          <iyy>1.961</iyy>
+          <izz>1.989</izz>
         </inertia>
       </inertial>
       
@@ -506,14 +506,22 @@
           <image>
             <width>206</width>
             <height>156</height>
+            <format>L8</format>
           </image>
           <clip>
             <near>0.1</near>
-            <far>300</far>
+            <far>100</far>
           </clip>
         </camera>
         <always_on>1</always_on>
         <update_rate>9</update_rate>
+        <plugin
+          filename="ignition-gazebo-thermal-sensor-system"
+          name="ignition::gazebo::systems::ThermalSensor">
+          <min_temp>253.15</min_temp>
+          <max_temp>673.15</max_temp>
+          <resolution>1.6</resolution>
+        </plugin>
       </sensor>
 
 
@@ -785,6 +793,7 @@
         <always_on>1</always_on>
         <update_rate>50</update_rate>
         <imu>
+          <enable_orientation>0</enable_orientation>
           <angular_velocity>
             <x>
               <noise type="gaussian">
@@ -896,11 +905,11 @@
     <link name="body_left">
       <inertial>
         <pose>0 0.14 0.11 0 0 0</pose>
-        <mass>15</mass>
+        <mass>27.85</mass>
         <inertia>
-          <ixx>0.147</ixx>
-          <iyy>1.056</iyy>
-          <izz>1.071</izz>
+          <ixx>0.274</ixx>
+          <iyy>1.961</iyy>
+          <izz>1.989</izz>
         </inertia>
       </inertial>
       

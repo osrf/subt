@@ -65,7 +65,8 @@ struct rf_power
 /// Function signature for computing pathloss.
 typedef std::function<rf_power(const double&, // tx_power
                                radio_state&, // tx_state
-                               radio_state&  //rx_state
+                               radio_state&,  //rx_state
+                               bool& // using breadcumbs?
                                )> pathloss_function;
 
 

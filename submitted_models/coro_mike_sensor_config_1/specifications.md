@@ -7,7 +7,7 @@ a `ign launch` command with the variable name `coro_mike_sensor_config_1`.
 
 ## Description
 Mike is a four-wheel skid steer ground vehicle using bicycle wheels and with a central joint
-splitting the robot into left and right. Mike weighs ~50 kg and uses a motor for each wheel.
+splitting the robot into left and right. Mike weighs 75.7 kg and uses a motor for each wheel.
 Mike can carry and launch a drone from atop the sensor platform.
 
 ## Usage Instructions
@@ -52,11 +52,13 @@ Based on the tests specified in the DARPA SubT Challenge [Model Preparation
 Guide](https://subtchallenge.com/resources/Simulation_Model_Preparation_Guide.pdf), this vehicle has the following motion
 constraint characteristics:
 
-Limited to 1.0 m/s until validation is complete.
+X velocity is +-3m/s
+X acceleration is +-4m/s
+Z turn rate is +-2 rad/s
 
 
 ## Endurance Characteristics
-Limited to 1 hour until validation is complete.
+Endurance is calculated as 64.7 minutes.
 
 
 ## Diversions from Physical Hardware of Mike

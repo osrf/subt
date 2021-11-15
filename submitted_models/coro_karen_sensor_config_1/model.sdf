@@ -324,6 +324,7 @@
         <always_on>1</always_on>
         <update_rate>50</update_rate>
         <imu>
+          <enable_orientation>0</enable_orientation>
           <angular_velocity>
             <x>
               <noise type="gaussian">
@@ -463,6 +464,7 @@
           <image>
             <width>206</width>
             <height>156</height>
+            <format>L8</format>
           </image>
           <clip>
             <near>0.1</near>
@@ -471,6 +473,13 @@
         </camera>
         <always_on>1</always_on>
         <update_rate>9</update_rate>
+        <plugin
+          filename="ignition-gazebo-thermal-sensor-system"
+          name="ignition::gazebo::systems::ThermalSensor">
+          <min_temp>253.15</min_temp>
+          <max_temp>673.15</max_temp>
+          <resolution>1.6</resolution>
+        </plugin>
       </sensor>
 
 

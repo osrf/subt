@@ -133,6 +133,7 @@
             <always_on>1</always_on>
             <update_rate>50</update_rate>
             <imu>
+                    <enable_orientation>0</enable_orientation>
                     <angular_velocity>
                         <x>
                             <noise type="gaussian">
@@ -554,6 +555,7 @@
             <always_on>1</always_on>
             <update_rate>50</update_rate>
             <imu>
+                    <enable_orientation>0</enable_orientation>
                     <angular_velocity>
                         <x>
                             <noise type="gaussian">

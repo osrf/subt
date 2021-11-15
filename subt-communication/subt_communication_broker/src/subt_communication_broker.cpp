@@ -216,7 +216,8 @@ void Broker::DispatchMessages()
 
         bool sendPacket;
         double rssi;
-        std::tie(sendPacket, rssi) =
+        bool usingBreadcrumbs;
+        std::tie(sendPacket, rssi, usingBreadcrumbs) =
           communication_function(txNode->second->radio,
                                  txNode->second->rf_state,
                                  rxNode->second->rf_state,
@@ -224,6 +225,9 @@ void Broker::DispatchMessages()
 
         if (sendPacket)
         {
+          // When using a breadcrumb we don't include the rssi
+          if (usingBreadcrumbs)
+            rssi = std::numeric_limits<double>::lowest();
           msg.set_rssi(rssi);
 
           if (!this->node.Request(client.address, msg))

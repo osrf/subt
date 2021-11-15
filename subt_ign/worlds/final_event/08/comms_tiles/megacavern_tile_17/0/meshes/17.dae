@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+  <asset>
+    <contributor>
+      <author/>
+      <authoring_tool>FBX COLLADA exporter</authoring_tool>
+      <comments/>
+    </contributor>
+    <created>2021-07-30T21:38:40Z</created>
+    <keywords/>
+    <modified>2021-07-30T21:38:40Z</modified>
+    <revision/>
+    <subject/>
+    <title/>
+    <unit meter="0.025400" name="centimeter"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  <library_geometries>
+    <geometry id="FBXASC0497-lib" name="FBXASC0497Mesh">
+      <mesh>
+        <source id="FBXASC0497-POSITION">
+          <float_array id="FBXASC0497-POSITION-array" count="24">
+-97.711792 114.443970 240.559956
+29.447998 145.229858 240.559956
+-36.809814 -145.229858 240.559956
+97.711670 -113.105347 240.559956
+-97.711792 114.443970 -0.000050
+29.447998 145.229858 -0.000050
+-36.809814 -145.229858 -0.000050
+97.711670 -113.105347 -0.000050
+</float_array>
+          <technique_common>
+            <accessor source="#FBXASC0497-POSITION-array" count="8" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="FBXASC0497-Normal0">
+          <float_array id="FBXASC0497-Normal0-array" count="108">
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 -1.000000
+0.000000 0.000000 -1.000000
+0.000000 0.000000 -1.000000
+0.000000 0.000000 -1.000000
+0.000000 0.000000 -1.000000
+0.000000 0.000000 -1.000000
+0.966815 0.255476 0.000000
+0.966815 0.255476 0.000000
+0.966815 0.255476 0.000000
+0.966815 0.255476 0.000000
+0.966815 0.255476 0.000000
+0.966815 0.255476 0.000000
+-0.235306 0.971921 0.000000
+-0.235306 0.971921 0.000000
+-0.235306 0.971921 0.000000
+-0.235306 0.971921 0.000000
+-0.235306 0.971921 0.000000
+-0.235306 0.971921 0.000000
+-0.973582 -0.228337 0.000000
+-0.973582 -0.228337 0.000000
+-0.973582 -0.228337 0.000000
+-0.973582 -0.228337 0.000000
+-0.973582 -0.228337 0.000000
+-0.973582 -0.228337 0.000000
+0.232275 -0.972650 0.000000
+0.232275 -0.972650 0.000000
+0.232275 -0.972650 0.000000
+0.232275 -0.972650 0.000000
+0.232275 -0.972650 0.000000
+0.232275 -0.972650 0.000000
+</float_array>
+          <technique_common>
+            <accessor source="#FBXASC0497-Normal0-array" count="36" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="FBXASC0497-VERTEX">
+          <input semantic="POSITION" source="#FBXASC0497-POSITION"/>
+        </vertices>
+        <triangles count="12">
+          <input semantic="VERTEX" offset="0" source="#FBXASC0497-VERTEX"/>
+          <input semantic="NORMAL" offset="1" source="#FBXASC0497-Normal0"/>
+          <p> 3 0 1 1 0 2 0 3 2 4 3 5 4 6 5 7 7 8 7 9 6 10 4 11 1 12 3 13 7 14 7 15 5 16 1 17 0 18 1 19 5 20 5 21 4 22 0 23 2 24 0 25 4 26 4 27 6 28 2 29 3 30 2 31 6 32 6 33 7 34 3 35</p>
+        </triangles>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_visual_scenes>
+    <visual_scene id="17" name="17">
+      <node name="FBXASC0497" id="FBXASC0497" layer="Comms" sid="FBXASC0497">
+        <matrix sid="matrix">1.000000 0.000000 0.000000 1676.046997 0.000000 1.000000 0.000000 3284.925293 0.000000 0.000000 1.000000 -166.533203 0.000000 0.000000 0.000000 1.000000</matrix>
+        <instance_geometry url="#FBXASC0497-lib"/>
+        <extra>
+          <technique profile="FCOLLADA">
+            <visibility>1.000000</visibility>
+          </technique>
+        </extra>
+      </node>
+      <extra>
+        <technique profile="MAX3D">
+          <frame_rate>30.000000</frame_rate>
+        </technique>
+        <technique profile="FCOLLADA">
+          <start_time>0.000000</start_time>
+          <end_time>1.000000</end_time>
+        </technique>
+      </extra>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#17"/>
+  </scene>
+</COLLADA>

@@ -86,5 +86,10 @@
             <arg name="gazebo_topic" value="$(arg link_prefix)/imu_vras/sensor/imu/imu" />
             <arg name="node_name_suffix" value="imu_vras" />
         </include>
+
+        <!-- Mapping Server -->
+        <include file="$(find subt_ros)/launch/models_common/mapping_server_relays.launch">
+          <arg name="name" value="$(arg name)"/>
+        </include>
     </group>
 </launch>
