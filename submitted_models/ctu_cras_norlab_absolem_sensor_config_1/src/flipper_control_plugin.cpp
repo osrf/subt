@@ -115,25 +115,20 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
         _sdf->Get<double>(
             "position_correction_tolerance", this->positionCorrectionTolerance.Radian()).first);
 
-    std::string topicTorque {"/model/" + this->model.Name(_ecm) + "/joint/" + this->jointName + "/cmd_max_torque"};
-    if (_sdf->HasElement("topic_max_torque"))
-      topicTorque = _sdf->Get<std::string>("topic_max_torque");
-    this->node.Subscribe(topicTorque, &FlipperControlPlugin::OnCmdTorque, this);
+    const auto topicPrefix = "/model/" + this->model.Name(_ecm) + "/joint/" + this->jointName;
 
-    std::string topicVel {"/model/" + this->model.Name(_ecm) + "/joint/" + this->jointName + "/cmd_vel"};
-    if (_sdf->HasElement("topic_vel"))
-      topicVel = _sdf->Get<std::string>("topic_vel");
-    this->node.Subscribe(topicVel, &FlipperControlPlugin::OnCmdVel, this);
+    std::string topicTorque = _sdf->Get("topic_max_torque", topicPrefix + "/cmd_max_torque").first;
+    this->node.Subscribe(gazebo::validTopic({topicTorque}), &FlipperControlPlugin::OnCmdTorque, this);
 
-    std::string topicPosAbs {"/model/" + this->model.Name(_ecm) + "/joint/" + this->jointName + "/cmd_pos"};
-    if (_sdf->HasElement("topic_pos_abs"))
-      topicPosAbs = _sdf->Get<std::string>("topic_pos_abs");
-    this->node.Subscribe(topicPosAbs, &FlipperControlPlugin::OnCmdPosAbs, this);
+    std::string topicVel = _sdf->Get("topic_vel", topicPrefix + "/cmd_vel").first;
+    this->node.Subscribe(gazebo::validTopic({topicVel}), &FlipperControlPlugin::OnCmdVel, this);
 
-    std::string topicPosRel {"/model/" + this->model.Name(_ecm) + "/joint/" + this->jointName + "/cmd_pos_rel"};
-    if (_sdf->HasElement("topic_pos_rel"))
-      topicPosRel = _sdf->Get<std::string>("topic_pos_rel");
-    this->node.Subscribe(topicPosRel, &FlipperControlPlugin::OnCmdPosRel, this);
+    std::string topicPosAbs = _sdf->Get("topic_pos_abs", topicPrefix + "/cmd_pos").first;
+    this->node.Subscribe(gazebo::validTopic({topicPosAbs}), &FlipperControlPlugin::OnCmdPosAbs, this);
+
+    std::string topicPosRel = _sdf->Get("topic_pos_rel", topicPrefix + "/cmd_pos_rel").first;
+    this->node.Subscribe(gazebo::validTopic({topicPosRel}), &FlipperControlPlugin::OnCmdPosRel, this);
+
 
     // cached command for flipper joint velocity; the joint has 1 axis, so this vector needs to hold 1 item
     this->velocityCommand.push_back(0.0);
