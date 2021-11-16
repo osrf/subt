@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Includes nodes necessary for using a 3D lidar. Can be used multiple times. -->
+
+    <arg name="gazebo_topic" doc="The Gazebo topic on which the points are published" />
+
+    <arg name="node_name_suffix" default="lidar3d" doc="Suffix of the generated nodes. Use to disambiguate if multiple 3D lidars are used." />
+    <arg name="ros_topic" default="points" doc="The ROS topic to publish the data on." />
+
+    <node pkg="ros_ign_bridge" type="parameter_bridge" respawn="true"
+      name="ros_ign_bridge_$(arg node_name_suffix)"
+      args="$(arg gazebo_topic)@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
+      <remap from="$(arg gazebo_topic)" to="$(arg ros_topic)"/>
+    </node>
+
+    <!-- Allow slowing down framerate of the lidar. -->
+    <include file="$(dirname)/set_rate_relay.launch">
+        <arg name="name" value="ros_ign_bridge_$(arg node_name_suffix)_set_rate" />
+        <arg name="ign_service" value="$(eval gazebo_topic.replace('/points', '/set_rate'))" />
+        <arg name="ros_service" value="$(arg ros_topic)/set_rate" />
+    </include>
+</launch>

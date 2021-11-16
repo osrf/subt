@@ -21,4 +21,4 @@ export ROSCONSOLE_STDOUT_LINE_BUFFERED=1
 # atop process monitoring
 atop -R -w /home/developer/.ros/atop_log &
 
-ign launch cloudsim_bridge.ign -v 4 $@
+unbuffer ign launch cloudsim_bridge.ign -v 4 "$@" 2>&1 | tee /home/developer/.ros/bridge.log

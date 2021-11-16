@@ -1,0 +1,317 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name='coro_rocky_sensor_config_1' xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:arg name="name" default="coro_rocky_sensor_config_1"/>
+  <xacro:property name="robot_namespace" value="$(arg name)"/>
+  <link name='${robot_namespace}/base_link'>
+    <inertial>
+      <origin xyz='0 0 0.07' rpy='0 -0 0'/>
+      <mass value='3.176'/>
+      <inertia ixx='0.007' ixy='0' ixz='0' iyy='0.0483' iyz='0' izz='0.0477'/>
+    </inertial>
+    <collision name='chassis_collision'>
+      <origin xyz='0 0 0.05' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.44 0.11 0.12'/>
+      </geometry>
+    </collision>
+    <collision name='tower_collision'>
+      <origin xyz='0.085 0 0.2' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.04 0.24 0.25'/>
+      </geometry>
+    </collision>
+    <visual name='chassis_main_visual'>
+      <origin xyz='0 0 0.03' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.44 0.11 0.06'/>
+      </geometry>
+    </visual>
+    <visual name='chassis_top_visual'>
+      <origin xyz='0 0 0.08' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.22 0.11 0.04'/>
+      </geometry>
+    </visual>
+    <visual name='sensor_mount_1'>
+      <origin xyz='0.09 0 0.25' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.002 0.13 0.06'/>
+      </geometry>
+    </visual>
+    <visual name='sensor_mount_2'>
+      <origin xyz='0.084 -0.076 0.24' rpy='0 0 -0.5'/>
+      <geometry>
+        <box size='0.002 0.025 0.04'/>
+      </geometry>
+    </visual>
+    <visual name='sensor_mount_3'>
+      <origin xyz='0.084 0.076 0.24' rpy='0 -0 0.5'/>
+      <geometry>
+        <box size='0.002 0.025 0.04'/>
+      </geometry>
+    </visual>
+    <visual name='sensor_mount_4'>
+      <origin xyz='0.085 -0.06 0.18' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.01 0.01 0.2'/>
+      </geometry>
+    </visual>
+    <visual name='sensor_mount_5'>
+      <origin xyz='0.085 0.06 0.18' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.01 0.01 0.2'/>
+      </geometry>
+    </visual>
+    <visual name='antenna_visual_1'>
+      <origin xyz='0.098 0.06 0.3' rpy='0 0.4 0'/>
+      <geometry>
+        <cylinder radius='0.005' length='0.05'/>
+      </geometry>
+    </visual>
+    <visual name='antenna_visual_2'>
+      <origin xyz='0.072 0.06 0.3' rpy='0 -0.4 0'/>
+      <geometry>
+        <cylinder radius='0.005' length='0.05'/>
+      </geometry>
+    </visual>
+    <visual name='axle_visual_front'>
+      <origin xyz='0.21 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.01' length='0.21'/>
+      </geometry>
+    </visual>
+    <visual name='axle_visual_rear'>
+      <origin xyz='-0.21 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.01' length='0.21'/>
+      </geometry>
+    </visual>
+    <visual name='d435_realsense_camera_visual'>
+      <origin xyz='0.09 0 0.26' rpy='0 0.46 0'/>
+      <geometry>
+        <mesh filename='package://coro_rocky_sensor_config_1/meshes/realsense_d435.dae' scale='0.001 0.001 0.001'/>
+      </geometry>
+    </visual>
+    <visual name='camera_front_visual'>
+      <origin xyz='0.095 0.03 0.235' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.01 0.03 0.03'/>
+      </geometry>
+    </visual>
+    <visual name='camera_lens_front_visual'>
+      <origin xyz='0.105 0.03 0.235' rpy='0 1.5708 0'/>
+      <geometry>
+        <cylinder radius='0.005' length='0.011'/>
+      </geometry>
+    </visual>
+    <visual name='camera_rear_visual'>
+      <origin xyz='0.085 -0.03 0.235' rpy='0 -0 0'/>
+      <geometry>
+        <box size='0.01 0.03 0.03'/>
+      </geometry>
+    </visual>
+    <visual name='camera_lens_rear_visual'>
+      <origin xyz='0.075 -0.03 0.235' rpy='0 1.5708 0'/>
+      <geometry>
+        <cylinder radius='0.005' length='0.011'/>
+      </geometry>
+    </visual>
+  </link>
+  <sensor name='imu_sensor' update_rate='50'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0 0 0' rpy='0 -0 0'/>
+  </sensor>
+  <sensor name='air_pressure' update_rate='20'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0 0 0' rpy='0 -0 0'/>
+  </sensor>
+  <sensor name='rs_front' update_rate='30'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0.122 0 0.257' rpy='0 0.46 0'/>
+    <camera>
+      <image width='640' height='360' format='R8G8B8' hfov='1.50098' near='0.01' far='300' />
+    </camera>
+  </sensor>
+  <sensor name='camera_front' update_rate='30'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0.111 0.03 0.235' rpy='0 -0 0'/>
+    <camera>
+      <image width='1280' height='720' format='R8G8B8' hfov='2.4' near='0.01' far='300' />
+    </camera>
+  </sensor>
+  <sensor name='camera_rear' update_rate='30'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0.069 -0.03 0.235' rpy='0 -0 3.14159'/>
+    <camera>
+      <image width='1280' height='720' format='R8G8B8' hfov='2.4' near='0.01' far='300' />
+    </camera>
+  </sensor>
+  <link name='${robot_namespace}/front_left_wheel_steering_link'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='0.05'/>
+      <inertia ixx='0.000153' ixy='0' ixz='0' iyy='0.00025' iyz='0' izz='0.000153'/>
+    </inertial>
+    <visual name='steering_link_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.003' length='0.01'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/front_right_wheel_steering_link'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='0.05'/>
+      <inertia ixx='0.000153' ixy='0' ixz='0' iyy='0.00025' iyz='0' izz='0.000153'/>
+    </inertial>
+    <visual name='steering_link_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <cylinder radius='0.003' length='0.01'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/front_left_wheel'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='0.2'/>
+      <inertia ixx='0.000358' ixy='0' ixz='0' iyy='0.0005625' iyz='0' izz='0.000358'/>
+    </inertial>
+    <collision name='collision'>
+      <origin xyz='0 0 0' rpy='-1.5708 0 0'/>
+      <geometry>
+        <cylinder radius='0.075' length='0.068'/>
+      </geometry>
+    </collision>
+    <visual name='tire_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://coro_rocky_sensor_config_1/meshes/wheel.dae' scale='0.433 0.618 0.433'/>
+      </geometry>
+    </visual>
+    <visual name='axis_visual'>
+      <origin xyz='0 -0.02 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.008' length='0.04'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/front_right_wheel'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='0.2'/>
+      <inertia ixx='0.000358' ixy='0' ixz='0' iyy='0.0005625' iyz='0' izz='0.000358'/>
+    </inertial>
+    <collision name='collision'>
+      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.075' length='0.068'/>
+      </geometry>
+    </collision>
+    <visual name='tire_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://coro_rocky_sensor_config_1/meshes/wheel.dae' scale='0.433 0.618 0.433'/>
+      </geometry>
+    </visual>
+    <visual name='axis_visual'>
+      <origin xyz='0 0.02 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.008' length='0.04'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/rear_left_wheel'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='0.2'/>
+      <inertia ixx='0.000358' ixy='0' ixz='0' iyy='0.0005625' iyz='0' izz='0.000358'/>
+    </inertial>
+    <collision name='collision'>
+      <origin xyz='0 0 0' rpy='-1.5708 0 0'/>
+      <geometry>
+        <cylinder radius='0.075' length='0.068'/>
+      </geometry>
+    </collision>
+    <visual name='tire_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://coro_rocky_sensor_config_1/meshes/wheel.dae' scale='0.433 0.618 0.433'/>
+      </geometry>
+    </visual>
+    <visual name='axis_visual'>
+      <origin xyz='0 -0.02 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.008' length='0.04'/>
+      </geometry>
+    </visual>
+  </link>
+  <link name='${robot_namespace}/rear_right_wheel'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='0.2'/>
+      <inertia ixx='0.000358' ixy='0' ixz='0' iyy='0.0005625' iyz='0' izz='0.000358'/>
+    </inertial>
+    <collision name='collision'>
+      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.075' length='0.068'/>
+      </geometry>
+    </collision>
+    <visual name='tire_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://coro_rocky_sensor_config_1/meshes/wheel.dae' scale='0.433 0.618 0.433'/>
+      </geometry>
+    </visual>
+    <visual name='axis_visual'>
+      <origin xyz='0 0.02 0' rpy='1.5708 -0 0'/>
+      <geometry>
+        <cylinder radius='0.008' length='0.04'/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name='front_left_wheel_steering_joint' type='revolute'>
+    <origin xyz='0.21 0.11 0' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/front_left_wheel_steering_link'/>
+    <axis xyz='0 0 1'/>
+    <limit lower='-0.6' upper='0.6' effort='3' velocity='6'/>
+  </joint>
+  <joint name='front_right_wheel_steering_joint' type='revolute'>
+    <origin xyz='0.21 -0.11 0' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/front_right_wheel_steering_link'/>
+    <axis xyz='0 0 1'/>
+    <limit lower='-0.6' upper='0.6' effort='3' velocity='6'/>
+  </joint>
+  <joint name='front_left_wheel_joint' type='revolute'>
+    <origin xyz='0.21 0.1425 0' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/front_left_wheel_steering_link'/>
+    <child link='${robot_namespace}/front_left_wheel'/>
+    <axis xyz='0 1 0'/>
+    <limit lower='-1.79769e+308' upper='1.79769e+308' effort='9' velocity='40'/>
+  </joint>
+  <joint name='front_right_wheel_joint' type='revolute'>
+    <origin xyz='0.21 -0.1425 0' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/front_right_wheel_steering_link'/>
+    <child link='${robot_namespace}/front_right_wheel'/>
+    <axis xyz='0 1 0'/>
+    <limit lower='-1.79769e+308' upper='1.79769e+308' effort='9' velocity='40'/>
+  </joint>
+  <joint name='rear_left_wheel_joint' type='revolute'>
+    <origin xyz='-0.21 0.1425 0' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rear_left_wheel'/>
+    <axis xyz='0 1 0'/>
+    <limit lower='-1.79769e+308' upper='1.79769e+308' effort='9' velocity='40'/>
+  </joint>
+  <joint name='rear_right_wheel_joint' type='revolute'>
+    <origin xyz='-0.21 -0.1425 0' rpy='0 -0 0'/>
+    <parent link='${robot_namespace}/base_link'/>
+    <child link='${robot_namespace}/rear_right_wheel'/>
+    <axis xyz='0 1 0'/>
+    <limit lower='-1.79769e+308' upper='1.79769e+308' effort='9' velocity='40'/>
+  </joint>
+</robot>

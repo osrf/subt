@@ -377,7 +377,8 @@ void Processor::ArtifactCb(const ignition::msgs::Pose_V &_msg)
         name.find("extinguisher") == 0 ||
         name.find("phone") == 0 ||
         name.find("rope") == 0 ||
-        name.find("helmet") == 0)
+        name.find("helmet") == 0 ||
+        name.find("cube") == 0)
     {
       ignition::math::Pose3d pose = ignition::msgs::Convert(_msg.pose(i));
       this->artifacts[name] = pose;

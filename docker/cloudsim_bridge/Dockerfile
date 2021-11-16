@@ -5,6 +5,7 @@ FROM nvidia/opengl:1.0-glvnd-devel-ubuntu18.04
 RUN export DEBIAN_FRONTEND=noninteractive \
  && apt-get update \
  && apt-get install --no-install-recommends -y \
+    curl \
     tzdata \
     sudo \
     wget \
@@ -37,6 +38,7 @@ RUN sudo apt-get update -qq \
         atop \
         cmake \
         cppcheck \
+        expect \
         gdb \
         git \
         gnutls-bin \
@@ -58,10 +60,13 @@ RUN sudo apt-get update -qq \
         ruby2.5-dev \
         software-properties-common \
         sudo \
+        tcl8.6 \
         vim \
         wget \
         net-tools \
         iputils-ping \
+        libyaml-cpp-dev \
+        xvfb \
         g++-8 \
  && sudo apt-get clean -qq
 
@@ -77,11 +82,14 @@ VOLUME /root/.aws
 RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' \
  && sudo apt-get update \
  && sudo apt-get install -y \
+    libpcl-dev \
+    libpcl-conversions-dev \
     python-catkin-tools \
     python-rosdep \
     python-rosinstall \
     ros-melodic-desktop \
     ros-melodic-joystick-drivers \
+    ros-melodic-pcl-ros \
     ros-melodic-pointcloud-to-laserscan \
     ros-melodic-robot-localization \
     ros-melodic-spacenav-node \
@@ -90,6 +98,7 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu 
     ros-melodic-rviz-imu-plugin \
     ros-melodic-rotors-control \
     ros-melodic-theora-image-transport \
+    ros-melodic-control-toolbox \
  && sudo rosdep init \
  && sudo apt-get clean
 
@@ -100,7 +109,7 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.osrfoundation.org/g
  && sudo /bin/sh -c 'wget http://packages.osrfoundation.org/gazebo.key -O - | apt-key add -' \
  && sudo /bin/sh -c 'apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654'
 
-# install ign-dome and the ign-bridge
+# install ign-dome
 RUN sudo apt-get update \
 &&  sudo apt-get install -y \
     ignition-dome \

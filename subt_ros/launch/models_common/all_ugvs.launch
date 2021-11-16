@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Include this launch file in vehicle_topics.launch of all UGVs. -->
+
+    <arg name="name" doc="Name of the robot" />
+    <arg name="world_name" doc="Name of the world" />
+
+    <!-- Odometry -->
+    <node pkg="ros_ign_bridge" type="parameter_bridge" name="ros_ign_bridge_odom" respawn="true"
+      args="/model/$(arg name)/odometry@nav_msgs/Odometry[ignition.msgs.Odometry">
+      <remap from="/model/$(arg name)/odometry" to="odom"/>
+    </node>
+</launch>

@@ -58,39 +58,9 @@
       </geometry>
     </collision>
     <visual name='visual_chassis'>
-      <origin xyz='0 0 0.2' rpy='0 -0 0'/>
+      <origin xyz='-0.33 0 -0.19' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='meshes/chassis_front.dae' scale='1 1 1'/>
-      </geometry>
-    </visual>
-    <visual name='visual_light'>
-      <origin xyz='0.09 0 0.36' rpy='0 -0 0'/>
-      <geometry>
-        <mesh filename='meshes/light.dae' scale='1 1 1'/>
-      </geometry>
-    </visual>
-    <visual name='visual_lidar_front'>
-      <origin xyz='0.015 0 0.38' rpy='0 -0 0'/>
-      <geometry>
-        <mesh filename='meshes/lidar.dae' scale='1 1 1'/>
-      </geometry>
-    </visual>
-    <visual name='visual_camera_front'>
-      <origin xyz='0.114 0 0.36' rpy='0 -0 0'/>
-      <geometry>
-        <mesh filename='meshes/camera.dae' scale='1 1 1'/>
-      </geometry>
-    </visual>
-    <visual name='visual_depth_camera_shield_front'>
-      <origin xyz='0.15 0 0.31' rpy='0 -0 0'/>
-      <geometry>
-        <mesh filename='meshes/depth_camera_shield.dae' scale='1 1 1'/>
-      </geometry>
-    </visual>
-    <visual name='visual_depth_camera_front'>
-      <origin xyz='0.15 0 0.313' rpy='0 -0 0'/>
-      <geometry>
-        <mesh filename='meshes/depth_camera.dae' scale='1 1 1'/>
+        <mesh filename='package://robotika_kloubak_sensor_config_3/meshes/k2.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
@@ -154,42 +124,6 @@
         <box size='0.03 0.2 0.06'/>
       </geometry>
     </collision>
-    <visual name='visual_chassis'>
-      <origin xyz='-0.35 0 -0.02' rpy='0 -0 0'/>
-      <geometry>
-        <mesh filename='meshes/chassis_back.dae' scale='1 1 1'/>
-      </geometry>
-    </visual>
-    <visual name='visual_light'>
-      <origin xyz='-0.46 0 0.2' rpy='0 -0 -3.14159'/>
-      <geometry>
-        <mesh filename='meshes/light.dae' scale='1 1 1'/>
-      </geometry>
-    </visual>
-    <visual name='visual_lidar_back'>
-      <origin xyz='-0.385 0 0.22' rpy='0 -0 -3.14159'/>
-      <geometry>
-        <mesh filename='meshes/lidar.dae' scale='1 1 1'/>
-      </geometry>
-    </visual>
-    <visual name='visual_camera_back'>
-      <origin xyz='-0.484 0 0.2' rpy='0 -0 -3.14159'/>
-      <geometry>
-        <mesh filename='meshes/camera.dae' scale='1 1 1'/>
-      </geometry>
-    </visual>
-    <visual name='visual_depth_camera_shield_back'>
-      <origin xyz='-0.55 0 0.09' rpy='0 -0 0'/>
-      <geometry>
-        <mesh filename='meshes/depth_camera_shield.dae' scale='1 1 1'/>
-      </geometry>
-    </visual>
-    <visual name='visual_depth_camera_back'>
-      <origin xyz='-0.55 0 0.093' rpy='0 -0 0'/>
-      <geometry>
-        <mesh filename='meshes/depth_camera.dae' scale='1 1 1'/>
-      </geometry>
-    </visual>
   </link>
   <sensor name='imu_sensor_back' update_rate='50'>
     <parent link='${robot_namespace}/chassis_back'/>
@@ -229,12 +163,6 @@
         <box size='0.04 0.42 0.04'/>
       </geometry>
     </collision>
-    <visual name='visual'>
-      <origin xyz='0 0 0' rpy='0 -0 0'/>
-      <geometry>
-        <box size='0.04 0.42 0.04'/>
-      </geometry>
-    </visual>
   </link>
   <link name='${robot_namespace}/front_left_wheel'>
     <inertial>
@@ -248,18 +176,6 @@
         <cylinder radius='0.15' length='0.08'/>
       </geometry>
     </collision>
-    <visual name='tire_visual'>
-      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
-      <geometry>
-        <mesh filename='meshes/wheel_left.dae' scale='1.431 1.431 1.569'/>
-      </geometry>
-    </visual>
-    <visual name='motor_visual'>
-      <origin xyz='0 -0.02 0' rpy='1.5708 -0 0'/>
-      <geometry>
-        <cylinder radius='0.08' length='0.04'/>
-      </geometry>
-    </visual>
   </link>
   <link name='${robot_namespace}/front_right_wheel'>
     <inertial>
@@ -273,18 +189,6 @@
         <cylinder radius='0.15' length='0.08'/>
       </geometry>
     </collision>
-    <visual name='tire_visual'>
-      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
-      <geometry>
-        <mesh filename='meshes/wheel_right.dae' scale='1.431 1.431 1.569'/>
-      </geometry>
-    </visual>
-    <visual name='motor_visual'>
-      <origin xyz='0 0.02 0' rpy='1.5708 -0 0'/>
-      <geometry>
-        <cylinder radius='0.08' length='0.04'/>
-      </geometry>
-    </visual>
   </link>
   <link name='${robot_namespace}/rear_left_wheel'>
     <inertial>
@@ -298,18 +202,6 @@
         <cylinder radius='0.15' length='0.08'/>
       </geometry>
     </collision>
-    <visual name='tire_visual'>
-      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
-      <geometry>
-        <mesh filename='meshes/wheel_left.dae' scale='1.431 1.431 1.569'/>
-      </geometry>
-    </visual>
-    <visual name='motor_visual'>
-      <origin xyz='0 -0.02 0' rpy='1.5708 -0 0'/>
-      <geometry>
-        <cylinder radius='0.08' length='0.04'/>
-      </geometry>
-    </visual>
   </link>
   <link name='${robot_namespace}/rear_right_wheel'>
     <inertial>
@@ -323,18 +215,6 @@
         <cylinder radius='0.15' length='0.08'/>
       </geometry>
     </collision>
-    <visual name='tire_visual'>
-      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
-      <geometry>
-        <mesh filename='meshes/wheel_right.dae' scale='1.431 1.431 1.569'/>
-      </geometry>
-    </visual>
-    <visual name='motor_visual'>
-      <origin xyz='0 0.02 0' rpy='1.5708 -0 0'/>
-      <geometry>
-        <cylinder radius='0.08' length='0.04'/>
-      </geometry>
-    </visual>
   </link>
   <joint name='front_left_wheel_joint' type='revolute'>
     <origin xyz='0 0.25 0.18' rpy='0 -0 0'/>

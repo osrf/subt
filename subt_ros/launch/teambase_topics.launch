@@ -2,4 +2,11 @@
 <launch>
   <arg name="name" default="TEAMBASE"/>
   <node pkg="tf2_ros" type="static_transform_publisher" name="tf_teambase_static" args="0 0 0.05 0 0 0 $(arg name) $(arg name)/link"/>
+
+  <!-- Mapping Server -->
+  <group ns="$(arg name)">
+    <include file="$(find subt_ros)/launch/models_common/mapping_server_relays.launch">
+      <arg name="name" value="$(arg name)"/>
+    </include>
+  </group>
 </launch>

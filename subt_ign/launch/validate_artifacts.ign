@@ -66,6 +66,9 @@ ign service -s /artifact/move_to \
     <% elsif $worldName.include?('final_event') &&
           !$worldName.include?('practice') %>
           <world_file>final_event/<%= worldNumber %>/<%= $worldName %>.sdf</world_file>
+    <% elsif $worldName.include?('final_prelim') &&
+          !$worldName.include?('practice') %>
+      <world_file>final_prelim/<%= worldNumber %>/<%= $worldName %>.sdf</world_file>
     <% else %>
       <world_file><%= $worldName %>.sdf</world_file>
     <% end %>
@@ -101,6 +104,26 @@ ign service -s /artifact/move_to \
             entity_type="world"
             filename="libignition-gazebo-scene-broadcaster-system.so"
             name="ignition::gazebo::systems::SceneBroadcaster">
+    </plugin>
+
+    <!-- The SubT challenge logic plugin -->
+    <plugin entity_name="<%= $worldName %>"
+            entity_type="world"
+            filename="libGameLogicPlugin.so"
+            name="subt::GameLogicPlugin">
+      <!-- The collection of artifacts to locate -->
+      <world_name><%= $worldName %></world_name>
+      <ros>false</ros>
+
+      <duration_seconds><%= $durationSec %></duration_seconds>
+
+      <logging>
+        <!-- Use the <path> element to control where to record the log file.
+             The HOME path is used by default -->
+        <path>/tmp/ign/logs</path>
+        <filename_prefix>subt_<%= $circuit %></filename_prefix>
+        <elevation_step_size>5</elevation_step_size>
+      </logging>
     </plugin>
 
     <!-- The SubT challenge logic plugin -->
@@ -204,6 +227,46 @@ ign service -s /artifact/move_to \
     </plugin>
   </executable_wrapper>
   <%end%>
+
+  <!-- The SubT challenge comms broker plugin -->
+  <plugin entity_name="<%= $worldName %>"
+          entity_type="world"
+          name="subt::CommsBrokerPlugin"
+          filename="libCommsBrokerPlugin.so">
+    <generate_table>true</generate_table>
+    <world_name><%= $worldName %></world_name>
+    <comms_model>
+      <comms_model_type>visibility_range</comms_model_type>
+
+      <range_config>
+        <max_range>500.0</max_range>
+        <fading_exponent>0</fading_exponent>
+        <L0>40</L0>
+        <sigma>10.0</sigma>
+        <scaling_factor>1</scaling_factor>
+        <range_per_hop>2.0</range_per_hop>
+      </range_config>
+
+      <visibility_config>
+        <visibility_cost_to_fading_exponent>0.2</visibility_cost_to_fading_exponent>
+        <comms_cost_max>10</comms_cost_max>
+      </visibility_config>
+
+      <radio_config>
+        <capacity>1000000</capacity>
+        <tx_power>20</tx_power>
+        <noise_floor>-90</noise_floor>
+        <modulation>QPSK</modulation>
+      </radio_config>
+    </comms_model>
+  </plugin>
+
+  <!-- The SubT challenge base station plugin -->
+  <plugin entity_name="base_station"
+          entity_type="model"
+          name="subt::BaseStationPlugin"
+          filename="libBaseStationPlugin.so">
+  </plugin>
 
   <plugin name="ignition::launch::GazeboFactory"
           filename="libignition-launch-gazebo-factory.so">

@@ -55,6 +55,23 @@ namespace subt
               TURN = 1,
             };
 
+    /// \brief Enum of circuit type
+    public: enum CircuitType
+            {
+              /// \brief Tunnel tiles
+              TUNNEL       = 0,
+              /// \brief Urban tiles
+              URBAN        = 1,
+              /// \brief Cave tiles
+              CAVE         = 2,
+              /// \brief Universal tiles
+              UNIVERSAL    = 3,
+              /// \brief Transition tiles
+              TRANSITION   = 4,
+              /// \brief Staging are
+              STAGING_AREA = 5,
+            };
+
     /// \brief Compute the connection point between two tiles.
     /// This uses a reference list of connection points for each tile type.
     /// The function iterates over the connection points transformed into the
@@ -75,6 +92,10 @@ namespace subt
     /// \brief Map of tile type to connection type
     public: static std::map<std::string, subt::ConnectionHelper::ConnectionType>
                       connectionTypes;
+
+    /// \brief Map of tile type to circuit type
+    public: static std::map<std::string, subt::ConnectionHelper::CircuitType>
+                      circuitTypes;
   };
 }
 #endif

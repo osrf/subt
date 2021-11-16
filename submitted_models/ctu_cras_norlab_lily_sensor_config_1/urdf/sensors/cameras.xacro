@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <!-- based on ctu_cras_norlab_spot camera -->
+
+    <!-- basler ace 2 camera -->
+    <!-- url: https://www.baslerweb.com/en/products/cameras/area-scan-cameras/ace2/a2a1920-51gcpro/ -->
+    <!-- housing Size (L x W x H)	55.5 mm x 29 mm x 29 mm -->
+    <!-- 	Weight (typical)	105g -->
+    <!-- parameters copied from datasheet -->
+    <!-- [!] resolution is kinda huge -->
+    <xacro:macro name="ace2_camera" params="suffix simulate:=1 visualize:=0" >
+        <link name="$(arg prefix)ace2_camera_${suffix}">
+            <xacro:default_inertial />
+            <xacro:if value="${visualize}">
+
+                <!-- camera body -->
+                <visual>
+                    <origin xyz="-0.025 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                    <geometry>
+                        <box size="0.0555 0.029 0.029" />
+                    </geometry>
+                </visual>
+
+                <!-- camera lens -->
+                <visual>    
+                    <origin xyz="0.025 0.0 0.00" rpy="0.0 ${pi/2} 0.0"/>
+                    <geometry>
+                        <cylinder length="0.04" radius="0.0125" />
+                    </geometry>
+                </visual>
+
+            </xacro:if>
+
+            <!-- inertia effect negligible, therefore included in payload itself. -->
+       
+        </link>
+
+        <!-- material -->
+        <gazebo reference="ace2_camera_${suffix}">
+            <xacro:gazebo_black_material/>
+        </gazebo>
+
+        <!-- plugins -->
+        <gazebo reference="ace2_camera_${suffix}">
+            <!-- RGB camera -->
+            <sensor name="camera_${suffix}" type="camera">
+                <pose>0 0 0 0 0 0</pose>
+                <!-- real camera can do up to 51 Hz, but we don't have ways to process such a high frequency -->
+                <update_rate>9</update_rate>
+                <visualize>${visualize}</visualize>
+                <camera>
+                    <horizontal_fov>${radians(86.5)}</horizontal_fov>
+                    <image>
+                        <width>1920</width>
+                        <height>1200</height>
+                        <format>R8G8B8</format>
+                    </image>
+                    <clip>
+                        <near>0.1</near>
+                        <far>300.0</far>
+                    </clip>
+                    <noise>
+                        <type>gaussian</type>
+                        <mean>0.0</mean>
+                        <stddev>0.007</stddev>
+                    </noise>
+                    <lens>
+                        <intrinsics>
+                            <fx>1020.51</fx>
+                            <fy>1020.51</fy>
+                            <cx>959.5</cx>
+                            <cy>599.5</cy>
+                            <s>0</s>
+                        </intrinsics>
+                    </lens>
+                </camera>
+            </sensor>
+
+        </gazebo>
+        
+    </xacro:macro>
+</robot>

@@ -1,0 +1,106 @@
+graph {
+  /* ==== Vertices ==== */
+
+  /* Base station / Staging area */
+  0   [label="0::base_station::BaseStation"];
+
+  101 [label="101::satsop_floor1_tile_01::floor1_tile_1"];
+  102 [label="102::satsop_floor1_tile_02::floor1_tile_2"];
+  103 [label="103::satsop_floor1_tile_03::floor1_tile_3"];
+  104 [label="104::satsop_floor1_tile_04::floor1_tile_4"];
+  105 [label="105::satsop_floor1_tile_05::floor1_tile_5"];
+  106 [label="106::satsop_floor1_tile_06::floor1_tile_6"];
+  107 [label="107::satsop_floor1_tile_07::floor1_tile_7"];
+  108 [label="108::satsop_floor1_tile_08::floor1_tile_8"];
+  109 [label="109::satsop_floor1_tile_09::floor1_tile_9"];
+  110 [label="110::satsop_floor1_tile_10::floor1_tile_10"];
+  111 [label="111::satsop_floor1_tile_11::floor1_tile_11"];
+  201 [label="201::satsop_floor2_tile_01::floor2_tile_1"];
+  202 [label="202::satsop_floor2_tile_02::floor2_tile_2"];
+  203 [label="203::satsop_floor2_tile_03::floor2_tile_3"];
+  204 [label="204::satsop_floor2_tile_04::floor2_tile_4"];
+  205 [label="205::satsop_floor2_tile_05::floor2_tile_5"];
+  206 [label="206::satsop_floor2_tile_06::floor2_tile_6"];
+  207 [label="207::satsop_floor2_tile_07::floor2_tile_7"];
+  208 [label="208::satsop_floor2_tile_08::floor2_tile_8"];
+  209 [label="209::satsop_floor2_tile_09::floor2_tile_9"];
+  210 [label="210::satsop_floor2_tile_10::floor2_tile_10"];
+  211 [label="211::satsop_floor2_tile_11::floor2_tile_11"];
+  212 [label="212::satsop_floor2_tile_12::floor2_tile_12"];
+  213 [label="213::satsop_floor2_tile_13::floor2_tile_13"];
+  301 [label="301::satsop_floor3_tile_01::floor3_tile_1"];
+  302 [label="302::satsop_floor3_tile_02::floor3_tile_2"];
+  303 [label="303::satsop_floor3_tile_03::floor3_tile_3"];
+  304 [label="304::satsop_floor3_tile_04::floor3_tile_4"];
+  305 [label="305::satsop_floor3_tile_05::floor3_tile_5"];
+  306 [label="306::satsop_floor3_tile_06::floor3_tile_6"];
+  307 [label="307::satsop_floor3_tile_07::floor3_tile_7"];
+  308 [label="308::satsop_floor3_tile_08::floor3_tile_8"];
+  309 [label="309::satsop_floor3_tile_09::floor3_tile_9"];
+  310 [label="310::satsop_floor3_tile_10::floor3_tile_10"];
+  311 [label="311::satsop_floor3_tile_11::floor3_tile_11"];
+  312 [label="312::satsop_floor3_tile_12::floor3_tile_12"];
+  313 [label="313::satsop_floor3_tile_13::floor3_tile_13"];
+  314 [label="314::satsop_floor3_tile_14::floor3_tile_14"];
+  315 [label="315::satsop_floor3_tile_15::floor3_tile_15"];
+  316 [label="316::satsop_floor3_tile_16::floor3_tile_16"];
+  401 [label="401::satsop_stairs_01::floor1_stairs"];
+  402 [label="402::satsop_stairs_02::floor2_stairs"];
+  403 [label="403::satsop_stairs_03::floor3_stairs"];
+
+  /* ==== Edges ==== */
+
+  /* Floor 1 */
+  0   -- 101 [label=2];
+  101 -- 102 [label=2];
+  102 -- 108 [label=2];
+  108 -- 109 [label=2];
+  108 -- 110 [label=2];
+  109 -- 103 [label=2];
+  109 -- 104 [label=2];
+  109 -- 105 [label=2];
+  110 -- 107 [label=2];
+  110 -- 111 [label=2];
+  111 -- 106 [label=2];
+  401 -- 109 [label=2]; /* Stairs */
+  402 -- 111 [label=2]; /* Stairs */
+  403 -- 102 [label=2]; /* Stairs */
+
+  /* Floor 2 */
+  201 -- 202 [label=2];
+  201 -- 209 [label=2];
+  202 -- 203 [label=2];
+  204 -- 211 [label=2];
+  204 -- 205 [label=2];
+  205 -- 206 [label=2];
+  205 -- 213 [label=2];
+  206 -- 207 [label=2];
+  207 -- 208 [label=2];
+  210 -- 211 [label=2];
+  210 -- 212 [label=2];
+  212 -- 213 [label=2];
+  401 -- 211 [label=2]; /* Stairs */
+  402 -- 213 [label=2]; /* Stairs */
+  403 -- 209 [label=2]; /* Stairs */
+
+  /* Floor 3 */
+  301 -- 302 [label=2];
+  301 -- 310 [label=2];
+  301 -- 311 [label=2];
+  302 -- 303 [label=2];
+  303 -- 304 [label=2];
+  304 -- 313 [label=2];
+  305 -- 313 [label=2];
+  305 -- 316 [label=2];
+  306 -- 307 [label=2];
+  307 -- 316 [label=2];
+  307 -- 308 [label=2];
+  308 -- 309 [label=2];
+  308 -- 314 [label=2];
+  309 -- 310 [label=2];
+  312 -- 313 [label=2];
+  315 -- 316 [label=2];
+  401 -- 313 [label=2]; /* Stairs */
+  402 -- 316 [label=2]; /* Stairs */
+  403 -- 301 [label=2]; /* Stairs */
+}

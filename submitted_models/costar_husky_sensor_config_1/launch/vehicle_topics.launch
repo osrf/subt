@@ -135,5 +135,10 @@
       args="/model/$(arg name)/gas_detected@std_msgs/Bool[ignition.msgs.Boolean">
       <remap from="/model/$(arg name)/gas_detected" to="gas_detected"/>
     </node>
+    
+    <!-- Mapping Server -->
+    <include file="$(find subt_ros)/launch/models_common/mapping_server_relays.launch">
+      <arg name="name" value="$(arg name)"/>
+    </include>
   </group>
 </launch>

@@ -1,0 +1,199 @@
+<?xml version='1.0'?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:macro name="left_leg" params="leg_num angle offset">
+       
+        <!-- joning rod to the base link -->
+        <joint name="base_leg${leg_num}_rod" type="fixed">
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <parent link="$(arg prefix)base_link"/>
+            <child link="$(arg prefix)base_to_leg${leg_num}_link"/>
+        </joint>
+
+        <!-- rod from base link to the first servo -->
+        <link name="$(arg prefix)base_to_leg${leg_num}_link">
+            <visual>    
+                <origin xyz="${offset*cos(angle)/2} ${offset*sin(angle)/2} -0.01" rpy="0 ${-pi/2} ${angle}" />
+                <geometry>
+                    <cylinder length="${offset}" radius="0.015" />
+                </geometry>
+            </visual>
+            <collision>    
+                <origin xyz="${offset*cos(angle)/2} ${offset*sin(angle)/2} -0.01" rpy="0 ${-pi/2} ${angle}" />
+                <geometry>
+                    <cylinder length="${offset}" radius="0.015" />
+                </geometry>
+            </collision>
+        </link>
+
+        <!-- inertia -->
+        <xacro:cylinder_inertial radius="0.015" length="0.015" mass="0.095"
+            xyz="${offset*cos(angle)/2} ${offset*sin(angle)/2} -0.01" rpy="0 ${-pi/2} ${angle}"/>
+
+        <!-- HEBI LEG starts here -->
+        <joint name="base_leg${leg_num}_joint" type="fixed">
+            <origin xyz="${offset*cos(angle)} ${offset*sin(angle)} 0" rpy="0 0 ${angle}" />
+            <parent link="$(arg prefix)base_to_leg${leg_num}_link"/>
+            <child link="$(arg prefix)L${leg_num}_J1_base/INPUT_INTERFACE"/>
+        </joint>
+
+        <xacro:actuator type="R8_9" name="$(arg prefix)L${leg_num}_J1_base" child="$(arg prefix)shoulder${leg_num}_bracket"/>
+        <xacro:bracket type="R8HeavyLeftInside" name="$(arg prefix)shoulder${leg_num}_bracket" child="$(arg prefix)L${leg_num}_J2_shoulder"/>
+        <xacro:actuator type="R8_16" name="$(arg prefix)L${leg_num}_J2_shoulder" child="$(arg prefix)shoulder${leg_num}_elbow"/>
+        <xacro:link type="R8" extension="0.325" twist="${pi}" name="$(arg prefix)shoulder${leg_num}_elbow" child="$(arg prefix)L${leg_num}_J3_elbow"/>
+        <xacro:actuator type="R8_9" name="$(arg prefix)L${leg_num}_J3_elbow" child="$(arg prefix)elbow${leg_num}_foot"/>
+        <xacro:link type="R8" extension="0.325" twist="${0}" name="$(arg prefix)elbow${leg_num}_foot" output="Inline" child="$(arg prefix)foot${leg_num}" contact="1"/>
+        <xacro:gripper type="Touch" name="$(arg prefix)foot${leg_num}" mass="0.06"/>
+
+        <!-- 
+        <xacro:if value="${'$(arg target)' == 'ign'}">
+        -->
+        
+        <!-- PID -->
+        <gazebo>
+            <plugin
+            filename="libignition-gazebo-joint-position-controller-system.so"
+            name="ignition::gazebo::systems::JointPositionController">
+            <joint_name>L${leg_num}_J1_base</joint_name>
+            <p_gain>100</p_gain>
+            <i_gain>0.1</i_gain>
+            <d_gain>0.01</d_gain>
+            <i_max>1</i_max>
+            <i_min>-1</i_min>
+            <cmd_max>1000</cmd_max>
+            <cmd_min>-1000</cmd_min>
+            </plugin>
+        </gazebo>
+
+        <gazebo>
+            <plugin
+            filename="libignition-gazebo-joint-position-controller-system.so"
+            name="ignition::gazebo::systems::JointPositionController">
+            <joint_name>L${leg_num}_J2_shoulder</joint_name>
+            <p_gain>100</p_gain>
+            <i_gain>0.1</i_gain>
+            <d_gain>0.01</d_gain>
+            <i_max>1</i_max>
+            <i_min>-1</i_min>
+            <cmd_max>1000</cmd_max>
+            <cmd_min>-1000</cmd_min>
+            </plugin>
+        </gazebo>
+
+        <gazebo>
+            <plugin
+            filename="libignition-gazebo-joint-position-controller-system.so"
+            name="ignition::gazebo::systems::JointPositionController">
+            <joint_name>L${leg_num}_J3_elbow</joint_name>
+            <p_gain>100</p_gain>
+            <i_gain>0.1</i_gain>
+            <d_gain>0.01</d_gain>
+            <i_max>1</i_max>
+            <i_min>-1</i_min>
+            <cmd_max>1000</cmd_max>
+            <cmd_min>-1000</cmd_min>
+            </plugin>
+        </gazebo>
+        <!-- 
+        </xacro:if>
+        -->
+    </xacro:macro>
+
+    <xacro:macro name="right_leg" params="leg_num angle offset">
+
+        <!-- joning rod to the base link -->
+        <joint name="base_leg${leg_num}_rod" type="fixed">
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <parent link="$(arg prefix)base_link"/>
+            <child link="$(arg prefix)base_to_leg${leg_num}_link"/>
+        </joint>
+
+        <!-- rod from base link to the first servo -->
+        <link name="$(arg prefix)base_to_leg${leg_num}_link">
+            <visual>    
+                <origin xyz="${offset*cos(angle)/2} ${offset*sin(angle)/2} -0.01" rpy="0 ${-pi/2} ${angle}" />
+                <geometry>
+                    <cylinder length="${offset}" radius="0.015" />
+                </geometry>
+            </visual>
+            <collision>    
+                <origin xyz="${offset*cos(angle)/2} ${offset*sin(angle)/2} -0.01" rpy="0 ${-pi/2} ${angle}" />
+                <geometry>
+                    <cylinder length="${offset}" radius="0.015" />
+                </geometry>
+            </collision>
+        </link>
+
+        <!-- inertia -->
+        <xacro:cylinder_inertial radius="0.015" length="0.015" mass="0.095"
+            xyz="${offset*cos(angle)/2} ${offset*sin(angle)/2} -0.01" rpy="0 ${-pi/2} ${angle}"/>
+
+        <!-- HEBI LEG starts here -->
+        <joint name="base_leg${leg_num}_joint" type="fixed">
+            <origin xyz="${offset*cos(angle)} ${offset*sin(angle)} 0" rpy="0 0 ${angle}" />
+            <parent link="$(arg prefix)base_to_leg${leg_num}_link"/>
+            <child link="$(arg prefix)L${leg_num}_J1_base/INPUT_INTERFACE"/>
+        </joint>
+        <xacro:actuator type="R8_9" name="$(arg prefix)L${leg_num}_J1_base" child="$(arg prefix)shoulder${leg_num}_bracket"/>
+        <xacro:bracket type="R8HeavyRightInside" name="$(arg prefix)shoulder${leg_num}_bracket" child="$(arg prefix)L${leg_num}_J2_shoulder"/>
+        <xacro:actuator type="R8_16" name="$(arg prefix)L${leg_num}_J2_shoulder" child="$(arg prefix)shoulder${leg_num}_elbow"/>
+        <xacro:link type="R8" extension="0.325" twist="${pi}" name="$(arg prefix)shoulder${leg_num}_elbow" child="$(arg prefix)L${leg_num}_J3_elbow"/>
+        <xacro:actuator type="R8_9" name="$(arg prefix)L${leg_num}_J3_elbow" child="$(arg prefix)elbow${leg_num}_foot"/>
+        <xacro:link type="R8" extension="0.325" twist="${0}" name="$(arg prefix)elbow${leg_num}_foot" output="Inline" child="$(arg prefix)foot${leg_num}" contact="1"/>
+        <xacro:gripper type="Touch" name="$(arg prefix)foot${leg_num}" mass="0.06"/>
+        
+        <!-- 
+        <xacro:if value="${'$(arg target)' == 'ign'}">
+        -->
+
+        <!-- PID -->
+        <gazebo>
+            <plugin
+            filename="libignition-gazebo-joint-position-controller-system.so"
+            name="ignition::gazebo::systems::JointPositionController">
+            <joint_name>L${leg_num}_J1_base</joint_name>
+            <p_gain>100</p_gain>
+            <i_gain>0.1</i_gain>
+            <d_gain>0.01</d_gain>
+            <i_max>1</i_max>
+            <i_min>-1</i_min>
+            <cmd_max>1000</cmd_max>
+            <cmd_min>-1000</cmd_min>
+            </plugin>
+        </gazebo>
+
+        <gazebo>
+            <plugin
+            filename="libignition-gazebo-joint-position-controller-system.so"
+            name="ignition::gazebo::systems::JointPositionController">
+            <joint_name>L${leg_num}_J2_shoulder</joint_name>
+            <p_gain>100</p_gain>
+            <i_gain>0.1</i_gain>
+            <d_gain>0.01</d_gain>
+            <i_max>1</i_max>
+            <i_min>-1</i_min>
+            <cmd_max>1000</cmd_max>
+            <cmd_min>-1000</cmd_min>
+            </plugin>
+        </gazebo>
+
+        <gazebo>
+            <plugin
+            filename="libignition-gazebo-joint-position-controller-system.so"
+            name="ignition::gazebo::systems::JointPositionController">
+            <joint_name>L${leg_num}_J3_elbow</joint_name>
+            <p_gain>100</p_gain>
+            <i_gain>0.1</i_gain>
+            <d_gain>0.01</d_gain>
+            <i_max>1</i_max>
+            <i_min>-1</i_min>
+            <cmd_max>1000</cmd_max>
+            <cmd_min>-1000</cmd_min>
+            </plugin>
+        </gazebo>
+        <!-- 
+        </xacro:if>
+        -->
+    </xacro:macro>
+
+</robot>

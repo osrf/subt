@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -e
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+MODEL_DIR="${DIR}/.."
+[ -z "${OUTPUT_FILE}" ] && OUTPUT_FILE="${MODEL_DIR}/model.sdf"
+
+config=""
+for file in "${MODEL_DIR}/config/common.yaml" "${MODEL_DIR}/config/sim.yaml" "${MODEL_DIR}/config/ign.yaml"; do
+  config="${config} $("${DIR}/yaml_to_xacro_args" "$file")"
+done
+
+sdf8_version="$(ign sdf --versions | grep '^8')" || true
+[ -z "$sdf8_version" ] && echo "libsdformat8 not found. It is required to update this robot's SDF. Please install libsdformat8-dev and try again." >&2 && exit 1
+echo "Found libsdformat ${sdf8_version}" >&2
+
+echo -e "Rendering Ignition Gazebo SDF of $(basename "$(realpath "$MODEL_DIR")") with the following Xacro arguments:\n${config}" "$@" >&2
+rosrun xacro xacro "${MODEL_DIR}/urdf/marv.xacro" ${config} "$@" > "${OUTPUT_FILE}.urdf"
+ign sdf --force-version "$sdf8_version" -p "${OUTPUT_FILE}.urdf" | "${DIR}/high_precision_constants.py" - > "${OUTPUT_FILE}"
+
+"${DIR}/clean_sdf" "${OUTPUT_FILE}"
+# fix resource paths
+sed -i -e 's#model://ctu_cras_norlab_marv_sensor_config_1/##g' "${OUTPUT_FILE}"
+# ign sdf cannot transfer material properties of just one visual, so we have to add the material here
+sed -i -e 's#\(<visual name="base_link_fixed_joint_lump__chassis_visual">\)#\1\n        <material>\n          <diffuse>1 1 1 1</diffuse>\n          <pbr>\n            <metal>\n              <albedo_map>textures/chassis.png</albedo_map>\n              <emissive_map>textures/chassis_emissive.png</emissive_map>\n            </metal>\n          </pbr>\n        </material>#' "${OUTPUT_FILE}"

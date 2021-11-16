@@ -106,6 +106,8 @@ bool FullWorldPath(const std::string &_worldName,
   const std::string tunnelPrefix = "tunnel_circuit_";
   const std::string urbanPrefix = "urban_circuit_";
   const std::string cavePrefix = "cave_circuit_";
+  const std::string finalPrefix = "final_event_";
+  const std::string finalPrelimPrefix = "final_prelim_";
   if (0 == _worldName.compare(0, tunnelPrefix.size(), tunnelPrefix))
   {
     std::string suffix = _worldName.substr(tunnelPrefix.size());
@@ -136,9 +138,24 @@ bool FullWorldPath(const std::string &_worldName,
           "cave_circuit", suffix);
     }
   }
+  else if (_worldName.find(finalPrefix) != std::string::npos)
+  {
+    std::string suffix = _worldName.substr(finalPrefix.size());
+    worldsDirectory = ignition::common::joinPaths(worldsDirectory,
+        "final_event", suffix);
+  }
+  else if (_worldName.find(finalPrelimPrefix) != std::string::npos)
+  {
+    std::string suffix = _worldName.substr(finalPrelimPrefix.size());
+    worldsDirectory = ignition::common::joinPaths(worldsDirectory,
+        "final_prelim", suffix);
+  }
   else if (_worldName.find("simple") == std::string::npos &&
            _worldName.find("_qual") == std::string::npos &&
-           _worldName.find("_stix") == std::string::npos)
+           _worldName.find("_stix") == std::string::npos &&
+           _worldName.find("niosh_") == std::string::npos &&
+           _worldName.find("satsop_") == std::string::npos &&
+           _worldName.find("finals_") == std::string::npos)
   {
     return false;
   }

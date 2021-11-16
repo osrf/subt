@@ -8,4 +8,4 @@ if [ $# -ne 2 ]; then
   exit
 fi
 
-echo "200670743174.dkr.ecr.us-east-1.amazonaws.com/subt/$1:$2"
+echo "138467776890.dkr.ecr.us-east-1.amazonaws.com/subt/$1:$2"

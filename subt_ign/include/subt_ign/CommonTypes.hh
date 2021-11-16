@@ -80,6 +80,7 @@ namespace subt
     TYPE_GAS,
     TYPE_HELMET,
     TYPE_ROPE,
+    TYPE_CUBE,
     Count
   };
 

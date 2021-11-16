@@ -9,9 +9,9 @@ This configuration is based BlueBotics Absolem tracked robot. The robot is equip
 ## Usage Instructions
 The robot motion is controlled via standard `cmd_vel` commands.
 
-Flippers can be velocity-controlled by publishing to topics `flippers_cmd_vel/front_left` (`front_right`, `rear_left`, `rear_right`) (`std_msgs/Float64`) for velocity control or topics `flippers_cmd_pos/front_left`, etc. for position control. Maximum angular velocity of the flippers is `pi/4 rad/s`. The effort limits in the model were set so that the robot can support itself with the flippers, but cannot use them to lift itself on all four flippers. This is how the real flippers work. The current position of the flippers is published to `joint_states` as `front_left_flipper_j` etc. The flippers can continuously rotate.
+Flippers can be controlled by publishing to topics `flippers_cmd_vel/front_left` (`front_right`, `rear_left`, `rear_right`) (`std_msgs/Float64`) for velocity control or topics `flippers_cmd_pos/front_left`, etc. for position control. Relative positional control is available on `flippers_cmd_pos_rel/front_left` etc. Maximum angular velocity of the flippers is `pi/4 rad/s`. The effort limits in the model were set so that the robot can support itself with the flippers, but cannot use them to lift itself on all four flippers. This is how the real flippers work. The current position of the flippers is published to `joint_states` as `front_left_flipper_j` etc. The flippers can continuously rotate.
 
-The laser rotation is velocity-controlled by publishing to topic `scanning_speed_cmd` (`std_msgs/Float64`). The laser has hard stops at `+-2.36 rad` and maximum rotation velocity is `1.2 rad/s`. The laser has an automatic controller that reverses the rotation direction at a given angle (currently ca. `1.6 rad`). The current position of the laser is published to `joint_states` as `laser_j`. The default (zero) position of the laser is such that the scanning plane is levelled with ground.
+The laser rotation is velocity-controlled by publishing to topic `lidar_gimbal/roll_rate_cmd_double` (`std_msgs/Float64`). The laser has hard stops at `+-2.36 rad` and maximum rotation velocity is `1.2 rad/s`. The laser has an automatic controller that reverses the rotation direction at a given angle (currently ca. `1.6 rad`). The current position of the laser is published to `joint_states` as `laser_j`. The default (zero) position of the laser is such that the scanning plane is levelled with ground.
 
 The robot is equipped with two more passive joints which connect the tracks to `base_link`. They are called `left_track_j` and `right_track_j`. These joints are connected via a differential with lockable brake. The differential makes sure that `angle(left_track_j) == -angle(right_track_j)` at all times. This model configuration has the differential brake applied in zero position, which means the tracks cannot move relative to the robot body. 
 
@@ -42,7 +42,7 @@ The following specific sensors are declared payloads of this vehicle:
 ### Control
 This robot is controlled by the DiffDrive plugin.  It accepts twist inputs which drives the vehicle along the x-direction and around the z-axis. We add additional 8 pseudo-wheels where the robot's tracks are to better approximate a track vehicle (flippers are subdivided to 5 pseudo-wheels). Currently, we are not aware of a track-vehicle plugin for ignition-gazebo.  A TrackedVehicle plugin does exist in gazebo8+, but it is not straightforward to port to ignition-gazebo.  We hope to work with other SubT teams and possibly experts among the ignition-gazebo developers to address this in the future.
 
-Flippers provide a velocity control interface, but a positional controller and a higher-level control policy are strongly suggested.
+Flippers provide interfaces for velocity control and absolute and relative positional control. The positional controllers move flippers to the given position using the maximum speed of the flippers.
 
 ### Motion characteristics
 
@@ -66,7 +66,20 @@ This configuration has an endurance of approximately 2 hours. The endurance test
 ### Diversions from Physical Hardware of Absolem robot
 There is a little "tower" (or a "rod") to which we attach our communication device (Mobilicom MCU-30 Lite). This device is modeled just by the generic SubT comms plugin.
 
-The tracks and flippers have to be approximated by wheels, as DartSim/Ignition Gazebo have no support for tracked vehicles. There is a working model for ODE/Gazebo, but there is no straight way of transferring it to Ignition Gazebo. This approximation results in worse performance on obstacles, and it can even happen that a piece of terrain gets "stuck" right between two wheels and the robot would completely stop in a case that would not be a problem with real tracks. 
+The tracks and flippers have to be approximated by wheels, as DartSim/Ignition Gazebo have no support for tracked vehicles. There is a working model for ODE/Gazebo, but there is no straight way of transferring it to Ignition Gazebo. This approximation results in worse performance on obstacles, and it can even happen that a piece of terrain gets "stuck" right between two wheels and the robot would completely stop in a case that would not be a problem with real tracks.
+
+## Sensor Config Guide
+
+The robot has undergone a facelift in 2021 which removed the rotating lidar and rearranged the internals in the body. The body was also moved and extended a bit. The tracks are the same in all configs, but we allow the facelifted models to drive `0.6 m/s` instead of `0.4 m/s` as the facelift also did a very slight modification to the tracks which resulted in much lower vibrations when driving. `0.6 m/s` is the designed maximum speed and the robot can easily drive it, but earlier the vibrations made such speed practically unusable.
+
+- SC 1: before facelift, rotating lidar, Ladybug omnicamera
+- SC 2: before facelift, rotating lidar, Ladybug omnicamera, 12 motes
+- SC 3: after facelift, 3D lidar, Ladybug omnicamera
+- SC 4: after facelift, 3D lidar, Ladybug omnicamera, 12 motes
+- SC 5: after facelift, 3D lidar, Ladybug omnicamera, 12 motes, thermocamera
+- SC 6: after facelift, 3D lidar, custom omnicamera solution
+- SC 7: after facelift, 3D lidar, custom omnicamera solution, 12 motes
+- SC 8: after facelift, 3D lidar, custom omnicamera solution, 12 motes, thermocamera
 
 ## Validation and Specification Links
 * Vehicle Links:
@@ -79,6 +92,12 @@ The tracks and flippers have to be approximated by wheels, as DartSim/Ignition G
   * PointGrey Ladybug LB-3 omnicamera - https://flir.app.boxcn.net/s/ds1bkoq9eiq6ga714nmnmzgpotgd4gkf/file/418658016565
   * IMU: XSens MTi-G 710 - https://www.xsens.com/hubfs/Downloads/Leaflets/mti-g-710-series.pdf
   * Lights: the robot uses `1 m` of LED strips around the body. The total power output of these strips is about `20 W`.
+  * Ouster OS0-128 https://ouster.com/products/os0-lidar-sensor/
+  * Basler cam https://www.baslerweb.com/en/products/cameras/area-scan-cameras/ace/aca2040-35gc/ + fisheye lens https://www.mouser.com/datasheet/2/857/DG00212701000_Tech_Spec_for_SAP_2000036382_2000036-1628255.pdf
+  * Basler cam https://www.baslerweb.com/en/products/cameras/area-scan-cameras/ace2/a2a1920-51gcpro/ + lens https://www.baslerweb.com/en/products/vision-components/lenses/basler-lens-c125-0418-5m-p-f4mm/
+  * Benewake TFmini plus point lidar https://www.mouser.com/datasheet/2/1099/Benewake_10152020_TFmini_Plus-1954028.pdf
+  * IMU: XSens MTi-30 https://www.mouser.com/datasheet/2/693/mti-series-1358510.pdf
+  * Boson thermal camera: https://www.oemcameras.com/flir-boson-320x256-2mm.htm
     
 * Validation Video Links:
   * Endurance test: Our camera ended each shot after 28 minutes, and there was also a depleted camera battery for about 20-30 minutes until the personnel noticed the problem. Thus we had to upload the video in parts: https://www.youtube.com/watch?v=h-Do-KO95zQ, https://www.youtube.com/watch?v=s8UMUY6W91o, https://www.youtube.com/watch?v=Gd6QGNa3TIY,  https://www.youtube.com/watch?v=zLrsgmCoFgU, https://www.youtube.com/watch?v=L2g-bApQsSE

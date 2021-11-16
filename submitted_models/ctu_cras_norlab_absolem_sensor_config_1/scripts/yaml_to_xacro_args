@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -e
+
+# convert the given yaml file to a list of key:=value intended to be passed to xacro
+# this script does not support nested YAML structures
+
+file="$1"
+sed 's/: \?/:=/' < "$file" | sed '/^#.*$/d' | sed 's/#.*$//' | sed 's/:=\s*True\s*$/:=1/i' | sed 's/:=\s*False\s*$/:=0/i' | tr "\n" " "

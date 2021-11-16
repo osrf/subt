@@ -1,0 +1,50 @@
+revision: 2021
+
+has_jetson: False
+has_realsense_d435: False
+
+top_box_j_x: 0.45
+
+rover_robotBodyShift: 0
+rover_robotLengthBody: 0.59
+
+has_sick_lidar: False
+
+has_ouster_lidar: True
+ouster_pos_x: 0.07
+ouster_pos_z: 0.205
+ouster_rpy_p: 0.25
+
+mobilicom_pitch: 0.0
+mobilicom_shift_x: 0.07
+mobilicom_shift_y: -0.01
+mobilicom_shift_z: 0.05
+mobilicom_antennas_radius: 0.005
+mobilicom_antennas_length: 0.1
+mobilicom_use_visual_mesh: True
+mobilicom_antenna_l_rotation: -0.5
+mobilicom_antenna_l_tilt: 2.5
+mobilicom_antenna_r_rotation: 0.0
+mobilicom_antenna_r_tilt: 2.0
+
+rear_sensor_item_height: 0.1
+rear_sensor_item_x: 0.11
+
+num_cliff_sensors: 4
+cliff_sensor_0_x: 0.57
+cliff_sensor_0_y: 0.24
+cliff_sensor_0_yaw: 1.5707963267948966
+cliff_sensor_1_x: 0.57
+cliff_sensor_1_y: 0.00
+cliff_sensor_1_yaw: -1.5707963267948966
+cliff_sensor_2_x: 0.02
+cliff_sensor_2_y: 0.24
+cliff_sensor_2_yaw: 1.5707963267948966
+cliff_sensor_3_x: 0.02
+cliff_sensor_3_y: 0.00
+cliff_sensor_3_yaw: -1.5707963267948966
+
+big_collision_box_height: 0.5
+big_collision_box_width: 0.5
+big_collision_box_length: 0.75
+big_collision_box_x: 0
