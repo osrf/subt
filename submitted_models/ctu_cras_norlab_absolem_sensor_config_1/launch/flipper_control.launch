@@ -25,4 +25,9 @@
     args="$(arg joint_namespace)/cmd_max_torque@std_msgs/Float64]ignition.msgs.Double">
     <remap from="$(arg joint_namespace)/cmd_max_torque" to="flippers_cmd_max_torque/$(arg joint_prefix)"/>
   </node>
+  <node pkg="ros_ign_bridge" type="parameter_bridge" respawn="true"
+    name="ros_ign_bridge_$(arg joint_prefix)_flipper_pos_max_vel"
+    args="$(arg joint_namespace)/cmd_pos_max_vel@std_msgs/Float64]ignition.msgs.Double">
+    <remap from="$(arg joint_namespace)/cmd_pos_max_vel" to="flippers_cmd_pos_max_vel/$(arg joint_prefix)"/>
+  </node>
 </launch>
