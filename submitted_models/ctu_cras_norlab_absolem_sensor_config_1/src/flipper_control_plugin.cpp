@@ -1,4 +1,5 @@
 #include <memory>
+#include <mutex>
 #include <optional>
 #include <ignition/gazebo/System.hh>
 
@@ -158,6 +159,7 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
       return;
     }
 
+    std::lock_guard<std::mutex> lock(this->cmdMutex);
     const auto& angle = _ecm.ComponentDefault<components::JointPosition>(this->joint)->Data()[0];
 
     if (this->cmdVel.has_value())
@@ -219,31 +221,37 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
 
   public: void OnCmdTorque(const msgs::Double &_msg)
   {
+    std::lock_guard<std::mutex> lock(this->cmdMutex);
     this->cmdTorque = _msg.data();
   }
 
   public: void OnCmdVel(const msgs::Double &_msg)
   {
+    std::lock_guard<std::mutex> lock(this->cmdMutex);
     this->cmdVel = _msg.data();
   }
 
   public: void OnCmdPosAbs(const msgs::Double &_msg)
   {
+    std::lock_guard<std::mutex> lock(this->cmdMutex);
     this->cmdPosAbs = _msg.data();
   }
 
   public: void OnCmdPosRel(const msgs::Double &_msg)
   {
+    std::lock_guard<std::mutex> lock(this->cmdMutex);
     this->cmdPosRel = _msg.data();
   }
 
   public: void OnCmdPosMaxVel(const msgs::Double &_msg)
   {
+    std::lock_guard<std::mutex> lock(this->cmdMutex);
     this->positionCorrectionMaxVelocity = _msg.data();
   }
 
   public: void Reset(EntityComponentManager& _ecm)
   {
+    std::lock_guard<std::mutex> lock(this->cmdMutex);
     this->angularSpeed = 0;
     this->staticAngle.reset();
     this->positionCorrectionMaxVelocity.reset();
@@ -273,6 +281,7 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
   protected: math::Angle positionCorrectionTolerance{math::Angle::Pi / 180.0};  // 1 degree
   protected: double maxAngularVelocity{0.5};
   protected: std::vector<double> velocityCommand;
+  protected: std::mutex cmdMutex;
 };
 
 }
