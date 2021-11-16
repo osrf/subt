@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- this is just a local testing file used from example.ign -->
+<launch>
+    <node pkg="ros_ign_bridge" type="parameter_bridge" name="$(anon ros_ign_bridge)" args="/clock@rosgraph_msgs/Clock[ignition.msgs.Clock" />
+</launch>

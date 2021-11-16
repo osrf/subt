@@ -1,0 +1,149 @@
+<?xml version="1.0" ?>
+<robot name="bosdyn_spot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:arg name="name" default=""/>
+    <xacro:if value="${len('$(arg name)') == 0}">
+        <xacro:arg name="prefix" default=""/>
+    </xacro:if>
+    <xacro:unless value="${len('$(arg name)') == 0}">
+        <xacro:arg name="prefix" default="$(arg name)/"/>
+    </xacro:unless>
+
+    <!-- Pass either "urdf" or "ign" to tell the parser what is the desired target format. -->
+    <xacro:arg name="rendering_target" default="urdf"/>
+    <xacro:arg name="simulate_cameras" default="True"/>
+    <xacro:arg name="simulate_imu" default="True"/>
+
+    <xacro:arg name="body_color_r" default="${str(234/255.0)}" />
+    <xacro:arg name="body_color_g" default="${str(167/255.0)}" />
+    <xacro:arg name="body_color_b" default="0" />
+
+    <xacro:include filename="utils.xacro"/>
+    <xacro:include filename="constants.urdf.xacro" />
+    <xacro:include filename="spot_leg.urdf.xacro" />
+    <xacro:include filename="camera.xacro" />
+
+    <link name="$(arg prefix)base_link">
+        <visual>
+            <geometry>
+                <mesh filename="package://bosdyn_spot/meshes/body.dae" />
+            </geometry>
+        </visual>
+        <collision>
+            <geometry>
+                <mesh filename="package://bosdyn_spot/meshes/body_collision.stl" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="${base_mass}"/>
+            <inertia ixx="${(1/12) * base_mass * (base_width * base_width + base_height * base_height)}" ixy="0.0" ixz="0.0"
+                     iyy="${(1/12) * base_mass * (base_length * base_length + base_height * base_height)}" iyz="0.0"
+                     izz="${(1/12) * base_mass * (base_length * base_length + base_width * base_width)}" />
+        </inertial>
+    </link>
+
+    <link name="$(arg prefix)battery">
+        <visual>
+            <geometry>
+                <box size="0.324 0.168 0.093" />
+            </geometry>
+            <material name="spot_color">
+                <color rgba="$(arg body_color_r) $(arg body_color_g) $(arg body_color_b) 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.324 0.168 0.093" />
+            </geometry>
+        </collision>
+        <xacro:box_inertial mass="4.0" depth="0.324" width="0.168" height="0.093" />
+    </link>
+    <xacro:solid_color_link_material link="$(arg prefix)battery" r="$(arg body_color_r)" g="$(arg body_color_g)" b="$(arg body_color_b)" />
+    <xacro:fixed_joint name="battery_joint" parent="$(arg prefix)base_link" child="$(arg prefix)battery" xyz="0 0 -0.03" />
+
+    <xacro:empty_link name="$(arg prefix)body"/>
+    <xacro:fixed_joint name="base_link_joint" parent="$(arg prefix)base_link" child="$(arg prefix)body" />
+
+    <xacro:empty_link name="$(arg prefix)front_rail"/>
+    <xacro:fixed_joint name="front_rail_joint" parent="$(arg prefix)body" child="$(arg prefix)front_rail" xyz="0.223 0 0.0805" />
+
+    <xacro:empty_link name="$(arg prefix)rear_rail"/>
+    <xacro:fixed_joint name="rear_rail_joint" parent="$(arg prefix)body" child="$(arg prefix)rear_rail" xyz="-0.223 0 0.0805" />
+
+    <xacro:spot_leg leg_name="front_left" prefix="$(arg prefix)" />
+    <xacro:spot_leg leg_name="front_right" prefix="$(arg prefix)" />
+    <xacro:spot_leg leg_name="rear_left" prefix="$(arg prefix)" />
+    <xacro:spot_leg leg_name="rear_right" prefix="$(arg prefix)" />
+
+    <!-- virtual link to specify IMU position -->
+    <xacro:empty_link name="$(arg prefix)imu"/>
+    <xacro:fixed_joint name="imu_j" parent="$(arg prefix)base_link" child="$(arg prefix)imu" />
+
+    <gazebo reference="$(arg prefix)imu">
+        <xacro:if value="$(arg simulate_imu)">
+            <sensor name="imu" type="imu">
+                <always_on>1</always_on>
+                <update_rate>50</update_rate>
+                <imu>
+                    <angular_velocity>
+                        <xacro:macro name="angular_imu_noise">
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>0.009</stddev>
+                                <bias_mean>0.00075</bias_mean>
+                                <bias_stddev>0.005</bias_stddev>
+                                <xacro:if value="${'$(arg rendering_target)' == 'ign'}">
+                                    <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                                    <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                                    <precision>0.00025</precision>
+                                </xacro:if>
+                            </noise>
+                        </xacro:macro>
+                        <x><xacro:angular_imu_noise/></x>
+                        <y><xacro:angular_imu_noise/></y>
+                        <z><xacro:angular_imu_noise/></z>
+                    </angular_velocity>
+                    <linear_acceleration>
+                        <xacro:macro name="linear_imu_noise">
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>0.021</stddev>
+                                <bias_mean>0.05</bias_mean>
+                                <bias_stddev>0.0075</bias_stddev>
+                                <xacro:if value="${'$(arg rendering_target)' == 'ign'}">
+                                    <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                                    <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                                    <precision>0.005</precision>
+                                </xacro:if>
+                            </noise>
+                        </xacro:macro>
+                        <x><xacro:linear_imu_noise /></x>
+                        <y><xacro:linear_imu_noise /></y>
+                        <z><xacro:linear_imu_noise /></z>
+                    </linear_acceleration>
+                </imu>
+            </sensor>
+        </xacro:if>
+    </gazebo>
+
+    <!-- Body cameras -->
+
+    <xacro:spot_camera prefix="$(arg prefix)" name="frontleft" simulate="$(arg simulate_cameras)" />
+    <xacro:fixed_joint name="camera_frontleft_j" parent="$(arg prefix)base_link" child="$(arg prefix)camera_frontleft"
+        xyz="0.415 0.037 -0.01" rpy="1.355558 0.353917 -0.554196" />
+
+    <xacro:spot_camera prefix="$(arg prefix)" name="frontright" simulate="$(arg simulate_cameras)" />
+    <xacro:fixed_joint name="camera_frontright_j" parent="$(arg prefix)base_link" child="$(arg prefix)camera_frontright"
+        xyz="0.415 -0.037 -0.01" rpy="-1.355558 0.353917 0.554196" />
+
+    <xacro:spot_camera prefix="$(arg prefix)" name="left" simulate="$(arg simulate_cameras)" />
+    <xacro:fixed_joint name="camera_left_j" parent="$(arg prefix)base_link" child="$(arg prefix)camera_left"
+        xyz="-0.125 0.12 0.035" rpy="0 0.2 ${pi/2}" />
+
+    <xacro:spot_camera prefix="$(arg prefix)" name="right" simulate="$(arg simulate_cameras)" />
+    <xacro:fixed_joint name="camera_right_j" parent="$(arg prefix)base_link" child="$(arg prefix)camera_right"
+        xyz="-0.125 -0.12 0.035" rpy="0 0.2 ${-pi/2}" />
+
+    <xacro:spot_camera prefix="$(arg prefix)" name="back" simulate="$(arg simulate_cameras)" />
+    <xacro:fixed_joint name="camera_back_j" parent="$(arg prefix)base_link" child="$(arg prefix)camera_back"
+        xyz="-0.425 0 0.01" rpy="0 0.3 ${-pi}" />
+</robot>

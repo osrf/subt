@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- This is a single xacro file you can include to get
+  all of the HEBI components -->
+
+  <xacro:macro name="red_material">
+    <material name="red">
+      <color rgba=".82 0.06 0.06 1"/>
+    </material>
+  </xacro:macro>
+  <xacro:macro name="gazebo_red_material">
+    <material>Gazebo/Red</material>
+  </xacro:macro>
+
+  <xacro:macro name="silver_material">
+    <material name="silver">
+      <color rgba="0.6 0.6 0.6 1"/>
+    </material>
+  </xacro:macro>
+  <xacro:macro name="gazebo_silver_material">
+    <material>Gazebo/Grey</material>
+  </xacro:macro>
+
+  <xacro:macro name="black_material">
+    <material name="black">
+      <color rgba="0.1 0.1 0.1 1"/>
+    </material>
+  </xacro:macro>
+  <xacro:macro name="gazebo_black_material">
+    <material>Gazebo/Black</material>
+  </xacro:macro>
+
+  <xacro:macro name="beige_material">
+    <material name="beige">
+      <color rgba="0.96 0.945 0.871 1"/>
+    </material>
+  </xacro:macro>
+  <xacro:macro name="gazebo_beige_material">
+    <visual>
+      <material>
+          <ambient>0.96 0.945 0.871 1</ambient>
+          <diffuse>0.96 0.945 0.871 1</diffuse>
+      </material>
+    </visual>
+  </xacro:macro>
+
+  <xacro:include filename="./actuator.xacro"/>
+  <xacro:include filename="./link.xacro"/>
+  <xacro:include filename="./bracket.xacro"/>
+  <xacro:include filename="./end_effector.xacro"/>
+  <!-- utils must be included before payload since payload use macros from utils -->
+  <xacro:include filename="./utils.xacro"/>
+  <xacro:include filename="./legs.xacro"/>
+  <xacro:include filename="./payload.xacro"/>
+  
+  <!-- This automatically loads the gazebo plugin for xacro models
+       which include hebi.xacro -->
+  <!--
+  <gazebo>
+    <plugin name="hebi_gazebo_plugin" filename="libhebi_gazebo_plugin.so"/>
+  </gazebo>
+  -->
+</robot>

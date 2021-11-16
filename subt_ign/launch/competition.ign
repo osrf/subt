@@ -67,14 +67,9 @@
 
   # CommsBrokerPlugin parameters
   # (default parameters can be found in subt_rf_model.h)
-  $commsFadingExponent = 2.5
-  $commsScalingFactor = 1.0
+  $commsFadingExponent = 1.5
+  $commsScalingFactor = 0.55
   $commsRangePerHop = 2.0
-  if $circuit == "cave" || $circuit == "finals"
-    $commsFadingExponent = 1.5
-    $commsScalingFactor = 0.55
-    $commsRangePerHop = 2.0
-  end
 
   # spawn world offset
   if $circuit == "urban"
@@ -123,28 +118,44 @@
      "X1" => "base_link",
      "EXPLORER_X1" => "base_link",
      "EXPLORER_R2" => "Rear_Rocker_Link",
-     "CSIRO_DATA61_OZBOT_ATR" => "base_link"
+     "CSIRO_DATA61_OZBOT_ATR" => "base_link",
+     "CORO_ALLIE" => "base_link",
+     "CORO_JEANINE" => "base_link",
+     "CORO_KAREN" => "base_link",
+     "CORO_MIKE" => "base_link",
    }
 
   MARSUPIAL_VALID_ROBOT_PAIRS = {
-    "X1" => ["X3", "MARBLE_QAV500", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER"],
-    "EXPLORER_X1" =>["X3", "MARBLE_QAV500", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER"],
-    "EXPLORER_R2" =>["X3", "X4", "SSCI_X4", "SOPHISTICATED_ENGINEERING_X4", "EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER"],
-    "CSIRO_DATA61_OZBOT_ATR" =>["X3", "X4", "SSCI_X4", "SOPHISTICATED_ENGINEERING_X4","EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER"]
+    "X1" => ["X3", "MARBLE_QAV500", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER", "CORO_PAM", "CTU_CRAS_NORLAB_X500", "CORO_CRYSTAL"],
+    "CORO_ALLIE" => ["CERBERUS_RMF", "CORO_PAM", "CORO_CRYSTAL"],
+    "CORO_JEANINE" => ["CERBERUS_RMF", "CORO_PAM", "CORO_CRYSTAL"],
+    "CORO_KAREN" => ["CERBERUS_RMF", "CORO_PAM", "CORO_CRYSTAL"],
+    "CORO_MIKE" => ["CERBERUS_RMF", "CORO_PAM", "CORO_CRYSTAL"],
+    "EXPLORER_X1" =>["X3", "MARBLE_QAV500", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER", "CORO_PAM", "CTU_CRAS_NORLAB_X500", "CORO_CRYSTAL"],
+    "EXPLORER_R2" =>["X3", "X4", "SSCI_X4", "SOPHISTICATED_ENGINEERING_X4", "EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER", "CORO_PAM", "CTU_CRAS_NORLAB_X500", "CORO_CRYSTAL", "EMESENT_HOVERMAP"],
+    "CSIRO_DATA61_OZBOT_ATR" =>["X3", "X4", "SSCI_X4", "SOPHISTICATED_ENGINEERING_X4","EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER", "CORO_PAM", "CTU_CRAS_NORLAB_X500", "CORO_CRYSTAL", "EMESENT_HOVERMAP"]
   }
 
   MARSUPIAL_PARENT_ROBOT_POSITION_OFFSETS = {
     "X1" => Vector3d.new(0, 0, 0.717),
     "EXPLORER_X1" => Vector3d.new(0, 0, 0.717),
     "EXPLORER_R2" => Vector3d.new(-0.402375, 0, 0.6874),
-    "CSIRO_DATA61_OZBOT_ATR" => Vector3d.new(-0.15, 0, 0.528)
+    "CSIRO_DATA61_OZBOT_ATR" => Vector3d.new(-0.15, 0, 0.528),
+    "CORO_ALLIE" => Vector3d.new(0.13, 0, 0.66),
+    "CORO_JEANINE" => Vector3d.new(0, 0, 0.58),
+    "CORO_KAREN" => Vector3d.new(0.37, 0, 0.86),
+    "CORO_MIKE" => Vector3d.new(0.345, -0.125, 0.92)
   }
 
   MARSUPIAL_PARENT_ROBOT_ROTATION_OFFSETS = {
     "X1" => AngularVector3d.new(0, 0, 0),
     "EXPLORER_X1" => AngularVector3d.new(0, 0, 0),
     "EXPLORER_R2" => AngularVector3d.new(0, 0, -3.1416),
-    "CSIRO_DATA61_OZBOT_ATR" => AngularVector3d.new(0, 0, -3.1416)
+    "CSIRO_DATA61_OZBOT_ATR" => AngularVector3d.new(0, 0, -3.1416),
+    "CORO_ALLIE" => AngularVector3d.new(0, 0, 0),
+    "CORO_JEANINE" => AngularVector3d.new(0, 0, 0),
+    "CORO_KAREN" => AngularVector3d.new(0, 0, 0),
+    "CORO_MIKE" => AngularVector3d.new(0, 0, 0)
   }
 
   allExecutables = ""
@@ -278,6 +289,9 @@
     <% elsif $worldName.include?('final_event') &&
           !$worldName.include?('practice') %>
       <world_file>final_event/<%= worldNumber %>/<%= $worldName %>.sdf</world_file>
+    <% elsif $worldName.include?('final_prelim') &&
+          !$worldName.include?('practice') %>
+      <world_file>final_prelim/<%= worldNumber %>/<%= $worldName %>.sdf</world_file>
     <% else %>
       <world_file><%= $worldName %>.sdf</world_file>
     <% end %>
@@ -289,7 +303,7 @@
     <record>
       <enabled>true</enabled>
       <!-- This path is used by cloudsim, please do not change -->
-      <path>/tmp/ign/logs</path>
+      <path>/tmp/ign/logs/gazebo</path>
       <overwrite>true</overwrite>
     </record>
     <%if defined?(seed) && seed != nil && !seed.empty?%>
@@ -336,6 +350,18 @@
             name="ignition::gazebo::systems::AirPressure">
     </plugin>
 
+    <plugin entity_name="<%= $worldName %>"
+            entity_type="world"
+            filename="ignition-gazebo-contact-system"
+            name="ignition::gazebo::systems::Contact">
+    </plugin>
+
+    <plugin entity_name="<%= $worldName %>"
+            entity_type="world"
+            filename="ignition-gazebo-particle-emitter2-system"
+            name="ignition::gazebo::systems::ParticleEmitter2">
+    </plugin>
+
     <!-- The SubT challenge logic plugin -->
     <plugin entity_name="<%= $worldName %>"
             entity_type="world"
@@ -344,6 +370,7 @@
       <!-- The collection of artifacts to locate -->
       <world_name><%= $worldName %></world_name>
       <ros>false</ros>
+      <ke_height>0.24</ke_height>
 
       <duration_seconds><%= $durationSec %></duration_seconds>
 
@@ -1274,7 +1301,7 @@
       <model name='#{_name}'>
         <pose>#{_x} #{_y} #{_z} 0 0 #{_yaw}</pose>
         <static>true</static>
-        <link name='link'>
+        <link name='teambase_link'>
           <pose>0 0 0.05 0 0 0</pose>
           <visual name='visual'>
             <geometry>

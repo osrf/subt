@@ -66,7 +66,8 @@ bool VisibilityModel::Initialized() const
 /////////////////////////////////////////////
 rf_power VisibilityModel::ComputeReceivedPower(const double &_txPower,
                                                radio_state &_txState,
-                                               radio_state &_rxState)
+                                               radio_state &_rxState,
+                                               bool &_usingBreadcrumbs)
 {
   // Use this->visibilityTable.Cost(_txState, _rxState) to compute
   // pathloss and thus, received power
@@ -87,11 +88,13 @@ rf_power VisibilityModel::ComputeReceivedPower(const double &_txPower,
   if (visibilityCost.route.empty())
   {
     // No breadcrumbs in the route
+    _usingBreadcrumbs = false;
     range = _txState.pose.Pos().Distance(_rxState.pose.Pos());
   }
   else
   {
     // One or more breadcrumbs to cross.
+    _usingBreadcrumbs = true;
     double distSourceToFirstBreadcrumb =
       _txState.pose.Pos().Distance(visibilityCost.posFirstBreadcrumb);
     double distLastBreadcrumbToDestination =
@@ -195,9 +198,13 @@ bool VisibilityModel::VisualizeVisibility(const ignition::msgs::StringMsg &_req,
   indexToColor[4] = ignition::math::Color(1, 0, 0);
   indexToColor[5] = ignition::math::Color(1, 1, 1);
 
-  for (int i = 0; i < 6; ++i)
+  // there are six colors but white is currently not used
+  for (int i = 0; i < 5; ++i)
   {
-    markerMsg.set_id(i);
+    // marker id 0 is reserved in ign-gazebo
+    // so start with 1
+    int id = i+1;
+    markerMsg.set_id(id);
 
     ignition::msgs::Material *matMsg = markerMsg.mutable_material();
     ignition::msgs::Set(matMsg->mutable_ambient(), indexToColor[i]);
@@ -206,7 +213,7 @@ bool VisibilityModel::VisualizeVisibility(const ignition::msgs::StringMsg &_req,
      ignition::msgs::Set(markerMsg.mutable_scale(),
                          ignition::math::Vector3d(1.0, 1.0, 1.0));
 
-     perCostMarkers.insert(std::make_pair(i, markerMsg));
+     perCostMarkers.insert(std::make_pair(id, markerMsg));
   }
 
   std::string modelName = _req.data();
@@ -235,7 +242,8 @@ bool VisibilityModel::VisualizeVisibility(const ignition::msgs::StringMsg &_req,
       // Set and calculate rf power
       tx.pose.Set(from.X(), from.Y(), from.Z(), 0, 0, 0);
       rx.pose.Set(to.X(), to.Y(), to.Z(), 0, 0, 0);
-      rf_power rf_pow = ComputeReceivedPower(txPower, tx, rx);
+      bool usingBreadcrumbs;
+      rf_power rf_pow = ComputeReceivedPower(txPower, tx, rx, usingBreadcrumbs);
       // Based on rx_power, noise value, and modulation, compute the bit error rate (BER)
       double ber = QPSKPowerToBER( dbmToPow(rf_pow.mean), dbmToPow(noise_floor) );
       int num_bytes = 100; // Hardcoded number of bytes
@@ -243,7 +251,7 @@ bool VisibilityModel::VisualizeVisibility(const ignition::msgs::StringMsg &_req,
       // Scale packet drop probability to align with the color scheme
       int pdp = floor(packet_drop_prob*5.00001);
 
-      auto m = perCostMarkers.find(static_cast<int>(pdp));
+      auto m = perCostMarkers.find(static_cast<int>(pdp)+1);
 
       if (m == perCostMarkers.end())
       {
@@ -257,11 +265,11 @@ bool VisibilityModel::VisualizeVisibility(const ignition::msgs::StringMsg &_req,
     }
   }
 
-  this->node.Request("/marker", perCostMarkers[0]);
-  this->node.Request("/marker", perCostMarkers[1]);
-  this->node.Request("/marker", perCostMarkers[2]);
-  this->node.Request("/marker", perCostMarkers[3]);
-  this->node.Request("/marker", perCostMarkers[4]);
+  for (int i = 0; i < 5; i++)
+  {
+    int id = i+1;
+    this->node.Request("/marker", perCostMarkers[id]);
+  }
 
   _rep.set_data(true);
   return true;

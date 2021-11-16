@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+  <asset><contributor><author></author><authoring_tool>FBX COLLADA exporter</authoring_tool><comments></comments></contributor><created>2021-03-07T20:20:42Z</created><keywords></keywords><modified>2021-03-07T20:20:42Z</modified><revision></revision><subject></subject><title></title><unit meter="1.000000" name="centimeter"></unit><up_axis>Y_UP</up_axis></asset>
+  <library_images>
+    <image id="ctu_logo.jpg-image" name="ctu_logo.jpg"><init_from>../materials/textures/ctu_logo.jpg</init_from></image>
+  </library_images>
+  <library_materials>
+    <material id="ctu_logoMaterial" name="ctu_logoMaterial">
+      <instance_effect url="#ctu_logoMaterial-fx"/>
+    </material>
+  </library_materials>
+  <library_effects>
+    <effect id="ctu_logoMaterial-fx" name="ctu_logoMaterial">
+      <profile_COMMON>
+        <technique sid="standard">
+          <phong>
+            <emission>
+              <color sid="emission">0.000000  0.000000 0.000000 1.000000</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0.000000  0.000000 0.000000 1.000000</color>
+            </ambient>
+            <diffuse>
+              <texture texture="ctu_logo.jpg-image" texcoord="CHANNEL0">
+                <extra>
+                  <technique profile="MAYA">
+                    <wrapU sid="wrapU0">TRUE</wrapU>
+                    <wrapV sid="wrapV0">TRUE</wrapV>
+                    <blend_mode>ADD</blend_mode>
+                  </technique>
+                </extra>
+              </texture>
+            </diffuse>
+            <specular>
+              <color sid="specular">0.019922  0.019922 0.019922 1.000000</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">29.948882</float>
+            </shininess>
+            <reflective>
+              <color sid="reflective">0.000000  0.000000 0.000000 1.000000</color>
+            </reflective>
+            <reflectivity>
+              <float sid="reflectivity">1.000000</float>
+            </reflectivity>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_geometries>
+    <geometry id="Box-lib" name="BoxMesh">
+      <mesh>
+        <source id="Box-POSITION">
+          <float_array id="Box-POSITION-array" count="72">
+0.045000 0.001000 0.029500
+0.045000 -0.001000 0.029500
+0.045000 -0.001000 -0.029500
+0.045000 0.001000 -0.029500
+-0.045000 0.001000 -0.029500
+-0.045000 -0.001000 -0.029500
+-0.045000 -0.001000 0.029500
+-0.045000 0.001000 0.029500
+-0.045000 0.001000 -0.029500
+-0.045000 0.001000 0.029500
+0.045000 0.001000 0.029500
+0.045000 0.001000 -0.029500
+-0.045000 -0.001000 0.029500
+-0.045000 -0.001000 -0.029500
+0.045000 -0.001000 -0.029500
+0.045000 -0.001000 0.029500
+-0.045000 0.001000 0.029500
+-0.045000 -0.001000 0.029500
+0.045000 -0.001000 0.029500
+0.045000 0.001000 0.029500
+0.045000 0.001000 -0.029500
+0.045000 -0.001000 -0.029500
+-0.045000 -0.001000 -0.029500
+-0.045000 0.001000 -0.029500
+</float_array>
+          <technique_common>
+            <accessor source="#Box-POSITION-array" count="24" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Box-Normal0">
+          <float_array id="Box-Normal0-array" count="72">
+1.000000 0.000000 0.000000
+1.000000 0.000000 0.000000
+1.000000 0.000000 0.000000
+1.000000 0.000000 0.000000
+-1.000000 0.000000 0.000000
+-1.000000 0.000000 0.000000
+-1.000000 0.000000 0.000000
+-1.000000 0.000000 0.000000
+0.000000 1.000000 0.000000
+0.000000 1.000000 0.000000
+0.000000 1.000000 0.000000
+0.000000 1.000000 0.000000
+0.000000 -1.000000 0.000000
+0.000000 -1.000000 0.000000
+0.000000 -1.000000 0.000000
+0.000000 -1.000000 0.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 -1.000000
+0.000000 0.000000 -1.000000
+0.000000 0.000000 -1.000000
+0.000000 0.000000 -1.000000
+</float_array>
+          <technique_common>
+            <accessor source="#Box-Normal0-array" count="24" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Box-UV0">
+          <float_array id="Box-UV0-array" count="56">
+0.000000 1.000000
+0.000000 0.000000
+1.000000 0.000000
+1.000000 1.000000
+0.000000 1.000000
+0.000000 0.000000
+1.000000 0.000000
+1.000000 1.000000
+0.000000 1.000000
+0.000000 0.000000
+1.000000 0.000000
+1.000000 1.000000
+0.000000 1.000000
+0.000000 0.000000
+1.000000 0.000000
+1.000000 1.000000
+0.000000 1.000000
+0.000000 0.000000
+1.000000 0.000000
+1.000000 1.000000
+0.000000 1.000000
+0.000000 0.000000
+1.000000 0.000000
+1.000000 1.000000
+0.000000 0.000000
+0.000000 0.000000
+0.000000 0.000000
+0.000000 0.000000
+</float_array>
+          <technique_common>
+            <accessor source="#Box-UV0-array" count="28" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="Box-VERTEX">
+          <input semantic="POSITION" source="#Box-POSITION"/>
+        </vertices>
+        <polylist count="6" material="ctu_logoMaterial"><input semantic="VERTEX" offset="0" source="#Box-VERTEX"/><input semantic="NORMAL" offset="1" source="#Box-Normal0"/><input semantic="TEXCOORD" offset="2" set="0" source="#Box-UV0"/><vcount>4 4 4 4 4 4 </vcount><p> 0 0 0 1 1 1 2 2 2 3 3 3 4 4 4 5 5 5 6 6 6 7 7 7 8 8 24 9 9 25 10 10 26 11 11 27 12 12 12 13 13 13 14 14 14 15 15 15 16 16 16 17 17 17 18 18 18 19 19 19 20 20 20 21 21 21 22 22 22 23 23 23</p></polylist>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_visual_scenes>
+    <visual_scene id="Untitled-Scene" name="Untitled-Scene">
+      <node name="Box" id="Box" sid="Box"><matrix sid="matrix">1.000000 0.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000</matrix><instance_geometry url="#Box-lib"><bind_material><technique_common><instance_material symbol="ctu_logoMaterial" target="#ctu_logoMaterial"/></technique_common></bind_material></instance_geometry><extra><technique profile="FCOLLADA"><visibility>1.000000</visibility></technique></extra></node>
+      <extra><technique profile="MAX3D"><frame_rate>29.970030</frame_rate></technique><technique profile="FCOLLADA"><start_time>0.000000</start_time><end_time>6.673333</end_time></technique></extra>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#Untitled-Scene"></instance_visual_scene>
+  </scene>
+</COLLADA>

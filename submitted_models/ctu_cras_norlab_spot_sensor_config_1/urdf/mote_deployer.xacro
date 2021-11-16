@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<root xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:arg name="num_breadcrumbs" default="0" />
+    <xacro:arg name="has_mote_deployer" default="${'0' if $(arg num_breadcrumbs) == 0 else '1'}" />
+
+    <xacro:property name="mote_deployer_mass" value="0.5" scope="global" />
+
+    <xacro:if value="$(arg has_mote_deployer)">
+        <xacro:property name="mote_deployer_void" value="${payload_mass.append(mote_deployer_mass)}" scope="global" />
+        <link name="$(arg prefix)mote_deployer">
+            <visual>
+                <geometry>
+                    <mesh filename="package://ctu_cras_norlab_spot_sensor_config_1/meshes/mote_deployer.dae" />
+                </geometry>
+            </visual>
+            <collision>
+                <origin xyz="${0.189/2-0.01} ${-0.072/2+0.012} ${0.131/2}" />
+                <geometry>
+                    <box size="0.189 0.072 0.131" />
+                </geometry>
+            </collision>
+            <xacro:box_inertial width="0.072" height="0.131" depth="0.189" mass="${mote_deployer_mass}" xyz="${0.189/2-0.01} ${-0.072/2+0.012} ${0.131/2}" />
+        </link>
+    </xacro:if>
+</root>

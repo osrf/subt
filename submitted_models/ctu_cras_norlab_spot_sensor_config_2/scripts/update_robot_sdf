@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+set -e
+
+# This script re-generates the model.sdf file in the root of this package based on the Xacro files.
+# This script is only intended to be run from the source space and is intentionally not a part of
+# the installed package.
+
+# If you want to test some local changes, you can pass arguments to this script and it will relay
+# them to the Xacro call (usually the key:=value pairs for setting xacro args).
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+MODEL_DIR="${DIR}/.."
+BOSDYN_MODEL_DIR="${MODEL_DIR}/../bosdyn_spot"
+BASE_MODEL_DIR="${MODEL_DIR}/../ctu_cras_norlab_spot_sensor_config_1"
+[ -z "${OUTPUT_FILE}" ] && OUTPUT_FILE="${MODEL_DIR}/model.sdf"
+
+# load local modifications of configuration and apply them over the config from ctu_cras_norlab_spot_sensor_config_1
+
+config=""
+for file in "${MODEL_DIR}/config/model/common.yaml" "${MODEL_DIR}/config/model/ign.yaml"; do
+  [ -f "$file" ] && config="${config} $("${BOSDYN_MODEL_DIR}/scripts/yaml_to_xacro_args" "$file")"
+done
+
+OUTPUT_FILE="$OUTPUT_FILE" "${BASE_MODEL_DIR}/scripts/update_robot_sdf" $config "$@"
+
+sed -i -e 's#<uri>\(meshes/[^>]*\)</uri>#<uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/ctu_cras_norlab_spot_sensor_config_1/tip/files/\1</uri>#' "${OUTPUT_FILE}"

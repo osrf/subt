@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>ctu_cras_norlab_marmotte_sensor_config_1</name>
+  <version>0.0.1</version>
+  <description>The ctu_cras_norlab_marmotte_sensor_config_1 track vehicle package, based on the HD2 model from Team MARBLE:
+    - The robotic platform is the wide version of the "HD2 Treaded ATR Tank Robot Platform" from SuperDroid Robots
+    - The sensor rack sitting on top of the HD2 includes:
+      - A Robosense RS-LiDAR-16 (or the new equivalent Leishen C16, depending on how many we break)
+      - An omnivision setup of 6 Basler Ace2 (a2A1920-51gcPRO) cameras with C125-0418-5M-P Basler Lens
+      - LED spotlights pointing in the same direction as the cameras
+      - Xsens MTi-100 IMU
+      - Rear-facing Intel Realsense D435i
+    - The model includes the default SubT gas sensor
+    - Weight: Approx. 52kg 
+      - HD2 platform with 4 motors and 2 batteries: 41kg
+      - Sensor rack: 11 kg
+
+    The model of the HD2 platform is based on the Team MARBLE's HD2, namely on the hd2 mesh and texture files; and on the relevant sdf description. 
+    Thanks to the original authors Derek Vasquez (dvasquez@ssci.com), Neil Johnson (njohnson@ssci.com) and Hector Escobar (hescobar@ssci.com) 
+    for making our lives easier!    
+  </description>
+  <maintainer email="kubelvla@gmail.com">Vladimir Kubelka</maintainer>
+  <author email="kubelvla@gmail.com">Vladimir Kubelka</author>
+  <author email="peckama2@fel.cvut.cz">Martin Pecka</author>
+  <author email="dominic.baril.1@ulaval.ca">Dominic Baril</author>
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <exec_depend>roslaunch</exec_depend>
+  <exec_depend>subt_ros</exec_depend>
+  <exec_depend>urdf</exec_depend>
+  <exec_depend>xacro</exec_depend>
+</package>

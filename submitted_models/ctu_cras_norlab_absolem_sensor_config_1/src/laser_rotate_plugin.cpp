@@ -89,18 +89,11 @@ class LaserRotatePlugin : public System, public ISystemConfigure, public ISystem
       }
     }
 
-    auto pos = _ecm.Component<components::JointPosition>(this->joint);
-    if (!pos)
-    {
-      _ecm.CreateComponent(this->joint, components::JointPosition());
-      pos = _ecm.Component<components::JointPosition>(this->joint);
-    }
-
-    const auto jointPosition = pos->Data()[0];
+    auto& jointPosition = _ecm.ComponentDefault<components::JointPosition>(this->joint)->Data().at(0);
 
     if (this->rotationVelocitySigned == 0.0)
     {
-      *pos = components::JointPosition({this->staticAngle});
+      jointPosition = this->staticAngle;
     }
     else if (jointPosition >= rotationAngularLimit)
     {
@@ -111,15 +104,7 @@ class LaserRotatePlugin : public System, public ISystemConfigure, public ISystem
       this->rotationVelocitySigned = std::abs(this->rotationVelocitySigned);
     }
 
-    auto vel = _ecm.Component<components::JointVelocityCmd>(this->joint);
-    if (!vel)
-    {
-      _ecm.CreateComponent(this->joint, components::JointVelocityCmd({this->rotationVelocitySigned}));
-    }
-    else
-    {
-       *vel = components::JointVelocityCmd({this->rotationVelocitySigned});
-    }
+    _ecm.SetComponentData<components::JointVelocityCmd>(this->joint, {this->rotationVelocitySigned});
   }
 
   public: void PostUpdate(const UpdateInfo& _info, const EntityComponentManager& _ecm) override
@@ -187,17 +172,8 @@ class LaserRotatePlugin : public System, public ISystemConfigure, public ISystem
 
     if (this->joint != kNullEntity)
     {
-      auto pos = _ecm.Component<components::JointPosition>(this->joint);
-      if (pos)
-      {
-        *pos = components::JointPosition({0.0});
-      }
-
-      auto vel = _ecm.Component<components::JointVelocityCmd>(this->joint);
-      if (vel)
-      {
-        *vel = components::JointVelocityCmd({this->initialScanningSpeed});
-      }
+      _ecm.SetComponentData<components::JointPosition>(this->joint, {0.0});
+      _ecm.SetComponentData<components::JointVelocityCmd>(this->joint, {this->initialScanningSpeed});
     }
   }
 

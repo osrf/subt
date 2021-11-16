@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>ctu_cras_norlab_husky_sensor_config_1</name>
+  <version>0.1.0</version>
+  <description>The ctu_cras_norlab_husky_sensor_config_1 skid-steered robot package, based on the Husky model from Team MARBLE:
+    - The robotic platform is a standard Clearpath Husky
+    - The sensor rack sitting on top of the Husky includes:
+      - A Robosense RS-LiDAR-16 (or the new equivalent Leishen C16, depending on how many we break)
+      - An omnivision setup of 6 Basler Ace2 (a2A1920-51gcPRO) cameras with C125-0418-5M-P Basler Lens
+      - LED spotlights pointing in the same direction as the cameras
+      - Xsens MTi-100 IMU
+      - Rear-facing Intel Realsense D435i
+    - The model includes the default SubT gas sensor
+    - Weight: Approx. 61kg
+      - Husky: 50kg
+      - Sensor rack: 11 kg
+
+    The model of the Husky platform is based on the Team MARBLE's Husky, namely on the mesh and texture files; and on the relevant sdf description.
+    Thanks to the original authors Brett A. Fotheringham(fotheringhambrett@gmail.com), Derek Vasquez (dvasquez@ssci.com), Neil Johnson (njohnson@ssci.com)
+    and Hector Escobar (hescobar@ssci.com) for making our lives easier!
+  </description>
+  <maintainer email="kubelvla@gmail.com">Vladimir Kubelka</maintainer>
+  <author email="kubelvla@gmail.com">Vladimir Kubelka</author>
+  <author email="peckama2@fel.cvut.cz">Martin Pecka</author>
+  <author email="dominic.baril.1@ulaval.ca">Dominic Baril</author>
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <exec_depend>roslaunch</exec_depend>
+  <exec_depend>subt_ros</exec_depend>
+  <exec_depend>urdf</exec_depend>
+  <exec_depend>xacro</exec_depend>
+</package>

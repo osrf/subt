@@ -1,0 +1,1230 @@
+<?xml version='1.0' encoding='utf-8'?>
+<sdf version="1.6">
+  <model name="marble_husky_sensor_config_5">
+    <link name="base_link">
+      <inertial>
+        <pose>-0.000543 -0.084945 0.062329 0 -0 0</pose>
+        <mass>46.064</mass>
+        <inertia>
+          <ixx>0.615397</ixx>
+          <ixy>-0.0240585</ixy>
+          <ixz>-0.120749</ixz>
+          <iyy>1.75388</iyy>
+          <iyz>-0.0028322</iyz>
+          <izz>2.03641</izz>
+        </inertia>
+      </inertial>
+      <collision name="base_link_collision">
+        <pose>0 0 0.12 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.9874 0.5709 0.05</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="base_link_collision_bottom">
+        <pose>0 0 0.046 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.80 0.5709 0.095</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="base_link_collision_1">
+        <pose>0 0 0.185625 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.78992 0.5709 0.12375</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="base_link_fixed_joint_lump__camera/camera_link_collision_2">
+        <pose>0.478 0 0.285 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.0078 0.13 0.0192</size>
+          </box>
+        </geometry>
+        <surface>
+          <contact>
+            <ode>
+              <kp>1e+13</kp>
+              <kd>1</kd>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu2>1</mu2>
+              <fdir1>0 0 0</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name="base_link_fixed_joint_lump__camera/camera_link_collision_3">
+        <pose>0.473 0 0.260 0 0.5236 0</pose>
+        <geometry>
+          <box>
+            <size>0.0078 0.13 0.0192</size>
+          </box>
+        </geometry>
+        <surface>
+          <contact>
+            <ode>
+              <kp>1e+13</kp>
+              <kd>1</kd>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu2>1</mu2>
+              <fdir1>0 0 0</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name="base_link_fixed_joint_lump__velodyne_base_link_collision_6">
+        <pose>0.424 0 0.327 0 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.0717</length>
+            <radius>0.0516</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <collision name="base_link_fixed_joint_lump__sensor_tower_8">
+       <pose>0.374 0 0.215 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.2 0.25 0.225</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="base_link_fixed_joint_lump__computer_block_9">
+       <pose>0.050 0 0.185 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.30 0.355 0.175</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="base_link_visual">
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/MARBLE_HUSKY_SENSOR_CONFIG_1/tip/files/meshes/base_link.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="base_link_fixed_joint_lump__front_bumper_link_visual_3">
+        <pose>0.48 0 0.091 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/MARBLE_HUSKY_SENSOR_CONFIG_1/tip/files/meshes/bumper.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="base_link_fixed_joint_lump__rear_bumper_link_visual_4">
+        <pose>-0.48 0 0.091 0 -0 3.14159</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/MARBLE_HUSKY_SENSOR_CONFIG_1/tip/files/meshes/bumper.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="base_link_fixed_joint_lump__top_chassis_link_visual_5">
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/MARBLE_HUSKY_SENSOR_CONFIG_1/tip/files/meshes/top_chassis.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <!-- Rail on top of husky -->
+      <visual name="base_link_fixed_joint_lump__user_rail_link_visual_13">
+        <pose>0.272 0 0.245 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/MARBLE_HUSKY_SENSOR_CONFIG_1/tip/files/meshes/user_rail.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <!-- 2D planar lidar at bottom of sensor suite -->
+      <visual name="base_link_fixed_joint_lump__planar_lidar_link_visual_14">
+        <pose>0.474 0 0.127 0 -0 0</pose>
+        <geometry>
+          <cylinder>
+              <radius>0.045</radius>
+              <length>0.05</length>
+          </cylinder>
+        </geometry>
+      </visual>
+      <visual name="base_link_fixed_joint_lump__sensor_tower_16">
+       <pose>0.374 0 0.215 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.2 0.25 0.225</size>
+          </box>
+        </geometry>
+      </visual>
+      <visual name="base_link_fixed_joint_lump__computer_block_17">
+       <pose>0.050 0 0.185 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.30 0.355 0.175</size>
+          </box>
+        </geometry>
+      </visual>
+
+      <!-- Based on RPLidar S1 -->
+      <sensor name="planar_laser" type="gpu_ray">
+          <pose>0.485 0 0.166 0 -0 0</pose>
+          <update_rate>20</update_rate>
+          <lidar>
+              <scan>
+                  <horizontal>
+                      <samples>920</samples>
+                      <resolution>1</resolution>
+                      <min_angle>-3.14159</min_angle>
+                      <max_angle>3.14159</max_angle>
+                  </horizontal>
+              </scan>
+              <range>
+                  <min>0.04</min>
+                  <max>25</max>
+                  <resolution>0.03</resolution>
+              </range>
+              <noise>
+                  <type>gaussian</type>
+                  <mean>0</mean>
+                  <stddev>0.01</stddev>
+              </noise>
+          </lidar>
+      </sensor>
+      <gravity>1</gravity>
+      <velocity_decay/>
+    
+
+  <!-- to XZY Euler angles. We put these into this rotation converter:
+        https://www.andre-gaschler.com/rotationconverter/
+
+        Gazebo expects ZYX Euler angles in radians. We copied this out from the 
+        website:
+        [ x: -1.344521, y: 0.4763404, z: 0.4653087 ]
+        [ x: -1.7970717, y: 0.4763404, z: -0.4653087 ]
+        -1.7970717 0.4763404 -0.4653087
+      -->
+      <visual name="tof_left_camera_visual">
+        <pose>0.527 0.015 0.429 -1.344521 0.4763404 0.4653087</pose>
+        <geometry>
+          <mesh>
+            <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/MARBLE_HUSKY_SENSOR_CONFIG_1/tip/files/meshes/realsense.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="tof_left_camera_mount_visual">
+        <pose>0.5105 0.01 0.439 -1.344521 0.4763404 0.4653087</pose>
+        <geometry>
+          <box>
+            <size>0.04 0.135 0.0385</size>
+          </box>
+        </geometry>
+      </visual>
+      <collision name="tof_left_camera_mount_collision">
+        <pose>0.5105 0.01 0.439 -1.344521 0.4763404 0.4653087</pose>
+        <geometry>
+          <box>
+            <size>0.04 0.135 0.0385</size>
+          </box>
+        </geometry>
+      </collision>
+      <sensor name="tof_left" type="depth_camera">
+        <pose>0.527 0.015 0.429 -1.344521 0.4763404 0.4653087</pose>
+        <always_on>1</always_on>
+        <update_rate>10</update_rate>
+        <camera name="tof_left">
+            <horizontal_fov>1.0821</horizontal_fov>
+            <lens>
+                <intrinsics>
+                    <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+                    <fx>186.4</fx>
+                    <fy>186.4</fy>
+                    <!-- cx = ( width + 1 ) / 2 -->
+                    <cx>112.5</cx>
+                    <!-- cy = ( height + 1 ) / 2 -->
+                    <cy>86</cy>
+                    <s>0</s>
+                </intrinsics>
+            </lens>
+            <distortion>
+                <k1>0.0</k1>
+                <k2>0.0</k2>
+                <k3>0.0</k3>
+                <p1>0.0</p1>
+                <p2>0.0</p2>
+                <center>0.5 0.5</center>
+            </distortion>
+            <image>
+                <width>224</width>
+                <height>171</height>
+                <format>R8G8B8</format>
+            </image>
+            <clip>
+                <near>0.1</near>
+                <far>4.0</far>
+            </clip>
+            <depth_camera>
+              <output>depths</output>
+              <clip>
+                <near>0.1</near>
+                <far>4.0</far>
+              </clip>
+            </depth_camera>
+            <noise>
+                <type>gaussian</type>
+                <mean>0</mean>
+                <stddev>0.007</stddev>
+            </noise>
+        </camera>
+      </sensor>
+      <visual name="tof_right_camera_visual">
+        <pose>0.527 -0.015 0.429 -1.7970717 0.4763404 -0.4653087</pose>
+        <geometry>
+          <mesh>
+            <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/MARBLE_HUSKY_SENSOR_CONFIG_1/tip/files/meshes/realsense.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="tof_right_camera_mount_visual">
+        <pose>0.5105 -0.01 0.439 -1.7970717 0.4763404 -0.4653087</pose>
+        <geometry>
+          <box>
+            <size>0.04 0.135 0.0385</size>
+          </box>
+        </geometry>
+      </visual>
+      <collision name="tof_right_camera_mount_collision">
+        <pose>0.5105 -0.01 0.439 -1.7970717 0.4763404 -0.4653087</pose>
+        <geometry>
+          <box>
+            <size>0.04 0.135 0.0385</size>
+          </box>
+        </geometry>
+      </collision>
+      <sensor name="tof_right" type="depth_camera">
+        <pose>0.527 -0.015 0.429 -1.7970717 0.4763404 -0.4653087</pose>
+        <always_on>1</always_on>
+        <update_rate>10</update_rate>
+        <camera name="tof_right">
+            <horizontal_fov>1.0821</horizontal_fov>
+            <lens>
+                <intrinsics>
+                    <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+                    <fx>186.4</fx>
+                    <fy>186.4</fy>
+                    <!-- cx = ( width + 1 ) / 2 -->
+                    <cx>112.5</cx>
+                    <!-- cy = ( height + 1 ) / 2 -->
+                    <cy>86</cy>
+                    <s>0</s>
+                </intrinsics>
+            </lens>
+            <distortion>
+                <k1>0.0</k1>
+                <k2>0.0</k2>
+                <k3>0.0</k3>
+                <p1>0.0</p1>
+                <p2>0.0</p2>
+                <center>0.5 0.5</center>
+            </distortion>
+            <image>
+                <width>224</width>
+                <height>171</height>
+                <format>R8G8B8</format>
+            </image>
+            <clip>
+                <near>0.1</near>
+                <far>4.0</far>
+            </clip>
+            <depth_camera>
+              <output>depths</output>
+              <clip>
+                  <near>0.1</near>
+                  <far>4.0</far>
+              </clip>
+            </depth_camera>
+            <noise>
+                <type>gaussian</type>
+                <mean>0</mean>
+                <stddev>0.007</stddev>
+            </noise>
+        </camera>
+      </sensor>
+
+      <visual name="sensor_head_visual">
+        <pose>0.4379 0 .54818 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.1 0.1 0.125</size>
+          </box>
+        </geometry>
+      </visual>
+      <collision name="sensor_head_collision">
+        <pose>0.4379 0 0.54818 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.1 0.1 0.125</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="sensor_tower_support_visual">
+        <pose>0.4379 0 0.39918 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.04 0.04 0.25</size>
+          </box>
+        </geometry>
+      </visual>
+      <collision name="sensor_tower_support_collision">
+        <pose>0.4379 0 0.39918 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.04 0.04 0.25</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="vertical_lidar_support_visual">
+        <pose>0.4029 0 0.44418 0 0 0</pose>/
+        <geometry>
+          <box>
+            <size>0.2 0.04 0.04</size>
+          </box>
+        </geometry>
+      </visual>
+      <collision name="vertical_lidar_support_collision">
+        <pose>0.4029 0 0.44418 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.2 0.04 0.04</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="diagonal_lidar_support_visual">
+        <pose>0.3779 0 0.36418 0 0.8854 0</pose>
+        <geometry>
+          <box>
+            <size>0.180 0.04 0.04</size>
+          </box>
+        </geometry>
+      </visual>
+      <collision name="diagonal_lidar_support_collision">
+        <pose>0.3779 0 0.36418 0 0.8854 0</pose>
+        <geometry>
+          <box>
+            <size>0.180 0.04 0.04</size>
+          </box>
+        </geometry>
+      </collision>
+        <sensor name="imu_sensor" type="imu">
+          <always_on>1</always_on>
+          <update_rate>200</update_rate>
+          <imu>
+                    <enable_orientation>0</enable_orientation>
+                    <angular_velocity>
+                        <x>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>0.009</stddev>
+                                <bias_mean>0.00075</bias_mean>
+                                <bias_stddev>0.005</bias_stddev>
+                                <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                                <precision>0.00025</precision>
+                            </noise>
+                        </x>
+                        <y>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>0.009</stddev>
+                                <bias_mean>0.00075</bias_mean>
+                                <bias_stddev>0.005</bias_stddev>
+                                <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                                <precision>0.00025</precision>
+                            </noise>
+                        </y>
+                        <z>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>0.009</stddev>
+                                <bias_mean>0.00075</bias_mean>
+                                <bias_stddev>0.005</bias_stddev>
+                                <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                                <precision>0.00025</precision>
+                            </noise>
+                        </z>
+                    </angular_velocity>
+                    <linear_acceleration>
+                        <x>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>0.021</stddev>
+                                <bias_mean>0.05</bias_mean>
+                                <bias_stddev>0.0075</bias_stddev>
+                                <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                                <precision>0.005</precision>
+                            </noise>
+                        </x>
+                        <y>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>0.021</stddev>
+                                <bias_mean>0.05</bias_mean>
+                                <bias_stddev>0.0075</bias_stddev>
+                                <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                                <precision>0.005</precision>
+                            </noise>
+                        </y>
+                        <z>
+                            <noise type="gaussian">
+                                <mean>0</mean>
+                                <stddev>0.021</stddev>
+                                <bias_mean>0.05</bias_mean>
+                                <bias_stddev>0.0075</bias_stddev>
+                                <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                                <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                                <precision>0.005</precision>
+                            </noise>
+                        </z>
+                    </linear_acceleration>
+                </imu>
+        </sensor>
+
+        <!-- Bottom cylinder of Ouster/Velodyne 3D Lidar -->
+        <visual name="base_link_fixed_joint_lump__velodyne_base_link_visual_10">
+          <pose>0.4379 0 0.61018 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/MARBLE_HUSKY_SENSOR_CONFIG_1/tip/files/meshes/VLP16_base_1.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <!-- Top cylinder of Ouster/Velodyne 3D Lidar -->
+        <visual name="base_link_fixed_joint_lump__velodyne_base_link_visual_11">
+          <pose>0.4379 0 0.61018 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/MARBLE_HUSKY_SENSOR_CONFIG_1/tip/files/meshes/VLP16_base_2.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <!-- Main cylinder of Ouster/Velodyne 3D Lidar -->
+        <visual name="base_link_fixed_joint_lump__velodyne_visual_12">
+          <pose>0.4379 0 0.61018 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/MARBLE_HUSKY_SENSOR_CONFIG_1/tip/files/meshes/VLP16_scan.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+
+        <!-- Bottom cylinder of Vertical Ouster/Velodyne 3D Lidar -->
+        <visual name="base_link_fixed_joint_lump__velodyne_base_link_visual_13">
+          <pose>0.31037 0 0.44818 0 -1.5708 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/MARBLE_HUSKY_SENSOR_CONFIG_1/tip/files/meshes/VLP16_base_1.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <!-- Top cylinder of Vertical Ouster/Velodyne 3D Lidar -->
+        <visual name="base_link_fixed_joint_lump__velodyne_base_link_visual_14">
+          <pose>0.31037 0 0.44818 0 -1.5708 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/MARBLE_HUSKY_SENSOR_CONFIG_1/tip/files/meshes/VLP16_base_2.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <!-- Main cylinder of Vertical Ouster/Velodyne 3D Lidar -->
+        <visual name="base_link_fixed_joint_lump__velodyne_visual_15">
+          <pose>0.31037 0 0.44818 0 -1.5708 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/MARBLE_HUSKY_SENSOR_CONFIG_1/tip/files/meshes/VLP16_scan.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+
+        <!-- OS1-64 3D Laser Configuration (10x2048 or 10x1024 or 20x1024 or 20x512 as possible (rate) x (hor. res.) configs)-->
+        <sensor name="front_laser" type="gpu_lidar">
+          <visualize>0</visualize>
+          <update_rate>10</update_rate>
+          <lidar>
+            <scan>
+              <horizontal>
+                <!-- Resolution can't be above 16k, see
+                https://bitbucket.org/ignitionrobotics/ign-sensors/issues/8 -->
+                <samples>1024</samples>
+                <resolution>1</resolution>
+                <min_angle>-3.14159</min_angle>
+                <max_angle>3.14159</max_angle>
+              </horizontal>
+              <vertical>
+                <samples>64</samples>
+                <resolution>1</resolution>
+                <min_angle>-0.2897</min_angle>
+                <max_angle>0.2897</max_angle>
+              </vertical>
+            </scan>
+            <range>
+              <min>0.8</min>
+              <max>120</max>
+              <resolution>0.01</resolution>
+            </range>
+            <noise>
+              <type>gaussian</type>
+              <mean>0</mean>
+              <stddev>0.01</stddev>
+            </noise>
+          </lidar>
+          <pose>0.4379 0 0.67018 0 -0 0</pose>
+        </sensor>
+
+        <!-- OS1-64 3D Laser Configuration (10x2048 or 10x1024 or 20x1024 or 20x512 as possible (rate) x (hor. res.) configs)-->
+        <sensor name="vert_laser" type="gpu_lidar">
+          <visualize>0</visualize>
+          <update_rate>10</update_rate>
+          <lidar>
+            <scan>
+              <horizontal>
+                <!-- Resolution can't be above 16k, see
+                https://bitbucket.org/ignitionrobotics/ign-sensors/issues/8 -->
+                <samples>1024</samples>
+                <resolution>1</resolution>
+                <min_angle>-3.14159</min_angle>
+                <max_angle>3.14159</max_angle>
+              </horizontal>
+              <vertical>
+                <samples>64</samples>
+                <resolution>1</resolution>
+                <min_angle>-0.2897</min_angle>
+                <max_angle>0.2897</max_angle>
+              </vertical>
+            </scan>
+            <range>
+              <min>0.8</min>
+              <max>120</max>
+              <resolution>0.01</resolution>
+            </range>
+            <noise>
+              <type>gaussian</type>
+              <mean>0</mean>
+              <stddev>0.01</stddev>
+            </noise>
+          </lidar>
+          <pose>0.31037 0 0.44818 0 -1.5708 0</pose>
+        </sensor>
+
+        <visual name="camera_front_visual">
+            <pose>0.5179 0 0.53718 0 1.5709 0</pose>
+            <geometry>
+              <cylinder>
+                <length>0.065</length>
+                <radius>0.03</radius>
+              </cylinder>
+            </geometry>
+        </visual>
+        <collision name="camera_front_collision">
+          <pose>0.5179 0 0.53718 0 1.5709 0</pose>
+          <geometry>
+            <cylinder>
+              <length>0.065</length>
+              <radius>0.03</radius>
+            </cylinder>
+          </geometry>
+        </collision>
+
+        <sensor name="camera_front" type="camera">
+          <pose>0.5579 0.0 0.53718 0 0 0</pose>
+          <always_on>1</always_on>
+          <update_rate>10</update_rate>
+          <camera name="camera_front">
+              <horizontal_fov>1.39626</horizontal_fov>
+              <lens>
+                  <intrinsics>
+                      <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+                      <fx>481.5</fx>
+                      <fy>481.5</fy>
+                      <!-- cx = ( width + 1 ) / 2 -->
+                      <cx>404.5</cx>
+                      <!-- cy = ( height + 1 ) / 2 -->
+                      <cy>304.5</cy>
+                      <s>0</s>
+                  </intrinsics>
+              </lens>
+              <distortion>
+                  <k1>0.0</k1>
+                  <k2>0.0</k2>
+                  <k3>0.0</k3>
+                  <p1>0.0</p1>
+                  <p2>0.0</p2>
+                  <center>0.5 0.5</center>
+              </distortion>
+              <image>
+                  <width>808</width>
+                  <height>608</height>
+                  <format>R8G8B8</format>
+              </image>
+              <clip>
+                  <near>0.01</near>
+                  <far>300</far>
+              </clip>
+              <noise>
+                  <type>gaussian</type>
+                  <mean>0</mean>
+                  <stddev>0.007</stddev>
+              </noise>
+          </camera>
+        </sensor>
+
+        <visual name="camera_back_visual">
+            <pose>0.3579 0 0.53718 0 1.5709 0</pose>
+            <geometry>
+              <cylinder>
+                <length>0.065</length>
+                <radius>0.03</radius>
+              </cylinder>
+            </geometry>
+        </visual>
+        <collision name="camera_back_collision">
+          <pose>0.3579 0 0.53718 0 1.5709 0</pose>
+          <geometry>
+            <cylinder>
+              <length>0.065</length>
+              <radius>0.03</radius>
+            </cylinder>
+          </geometry>
+        </collision>
+        <sensor name="camera_back" type="camera">
+            <pose>0.3179 0.0 0.53718 0 0 3.14159</pose>
+            <always_on>1</always_on>
+            <update_rate>10</update_rate>
+            <camera name="camera_back">
+                <!--<cameraInfoTopicName>camera_info</cameraInfoTopicName>-->
+                <!--<hackBaseline>0.07</hackBaseline>-->
+                <horizontal_fov>1.39626</horizontal_fov>
+                <lens>
+                    <intrinsics>
+                        <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+                        <fx>481.5</fx>
+                        <fy>481.5</fy>
+                        <!-- cx = ( width + 1 ) / 2 -->
+                        <cx>404.5</cx>
+                        <!-- cy = ( height + 1 ) / 2 -->
+                        <cy>304.5</cy>
+                        <s>0</s>
+                    </intrinsics>
+                </lens>
+                <distortion>
+                    <k1>0.0</k1>
+                    <k2>0.0</k2>
+                    <k3>0.0</k3>
+                    <p1>0.0</p1>
+                    <p2>0.0</p2>
+                    <center>0.5 0.5</center>
+                </distortion>
+                <image>
+                    <width>808</width>
+                    <height>608</height>
+                    <format>R8G8B8</format>
+                </image>
+                <clip>
+                    <near>0.01</near>
+                    <far>300</far>
+                </clip>
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0</mean>
+                    <stddev>0.007</stddev>
+                </noise>
+            </camera>
+        </sensor>
+
+        <visual name="camera_left_visual">
+          <pose>0.4379 0.08 0.53718 1.5709 0 0</pose>
+          <geometry>
+            <cylinder>
+              <length>0.065</length>
+              <radius>0.03</radius>
+            </cylinder>
+          </geometry>
+        </visual>
+        <collision name="camera_left_collision">
+          <pose>0.4379 0.08 0.53718 1.5709 0 0</pose>
+          <geometry>
+            <cylinder>
+              <length>0.065</length>
+              <radius>0.03</radius>
+            </cylinder>
+          </geometry>
+        </collision>
+        <sensor name="camera_left" type="camera">
+            <pose>0.4379 0.12 0.53718 0 0 1.5708</pose>
+            <always_on>1</always_on>
+            <update_rate>10</update_rate>
+            <camera name="camera_left">
+                <!--<cameraInfoTopicName>camera_info</cameraInfoTopicName>-->
+                <!--<hackBaseline>0.07</hackBaseline>-->
+                <horizontal_fov>1.39626</horizontal_fov>
+                <lens>
+                    <intrinsics>
+                        <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+                        <fx>481.5</fx>
+                        <fy>481.5</fy>
+                        <!-- cx = ( width + 1 ) / 2 -->
+                        <cx>404.5</cx>
+                        <!-- cy = ( height + 1 ) / 2 -->
+                        <cy>304.5</cy>
+                        <s>0</s>
+                    </intrinsics>
+                </lens>
+                <distortion>
+                    <k1>0.0</k1>
+                    <k2>0.0</k2>
+                    <k3>0.0</k3>
+                    <p1>0.0</p1>
+                    <p2>0.0</p2>
+                    <center>0.5 0.5</center>
+                </distortion>
+                <image>
+                    <width>808</width>
+                    <height>608</height>
+                    <format>R8G8B8</format>
+                </image>
+                <clip>
+                    <near>0.01</near>
+                    <far>300</far>
+                </clip>
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0</mean>
+                    <stddev>0.007</stddev>
+                </noise>
+            </camera>
+        </sensor>
+
+        <visual name="camera_right_visual">
+          <pose>0.4379 -0.08 0.53718 1.5709 0 0</pose>
+          <geometry>
+              <cylinder>
+                <length>0.065</length>
+                <radius>0.03</radius>
+              </cylinder>
+          </geometry>
+        </visual>
+        <collision name="camera_right_collision">
+          <pose>0.4379 -0.08 0.53718 1.5709 0 0</pose>
+          <geometry>
+              <cylinder>
+                <length>0.065</length>
+                <radius>0.03</radius>
+              </cylinder>
+          </geometry>
+        </collision>
+        <sensor name="camera_right" type="camera">
+            <pose>0.4379 -0.12 0.53718 0 0 -1.5708</pose>
+            <always_on>1</always_on>
+            <update_rate>10</update_rate>
+            <camera name="camera_right">
+                <!--<cameraInfoTopicName>camera_info</cameraInfoTopicName>-->
+                <!--<hackBaseline>0.07</hackBaseline>-->
+                <horizontal_fov>1.39626</horizontal_fov>
+                <lens>
+                    <intrinsics>
+                        <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+                        <fx>481.5</fx>
+                        <fy>481.5</fy>
+                        <!-- cx = ( width + 1 ) / 2 -->
+                        <cx>404.5</cx>
+                        <!-- cy = ( height + 1 ) / 2 -->
+                        <cy>304.5</cy>
+                        <s>0</s>
+                    </intrinsics>
+                </lens>
+                <distortion>
+                    <k1>0.0</k1>
+                    <k2>0.0</k2>
+                    <k3>0.0</k3>
+                    <p1>0.0</p1>
+                    <p2>0.0</p2>
+                    <center>0.5 0.5</center>
+                </distortion>
+                <image>
+                    <width>808</width>
+                    <height>608</height>
+                    <format>R8G8B8</format>
+                </image>
+                <clip>
+                    <near>0.01</near>
+                    <far>300</far>
+                </clip>
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0</mean>
+                    <stddev>0.007</stddev>
+                </noise>
+            </camera>
+        </sensor>
+
+      <light name="flashlight_flashlight_light_source_lamp_light_front" type="spot">
+        <pose>0.5179 0 0.53718 3.14159 1.5709 0</pose>
+        <attenuation>
+          <range>35</range>
+          <linear>0</linear>
+          <constant>0.1</constant>
+          <quadratic>0.0025</quadratic>
+        </attenuation>
+        <diffuse>0.8 0.8 0.5 1</diffuse>
+        <specular>0.8 0.8 0.5 1</specular>
+        <spot>
+          <inner_angle>1.8</inner_angle>
+          <outer_angle>1.9</outer_angle>
+          <falloff>1</falloff>
+        </spot>
+        <direction>0 0 -1</direction>
+      </light>
+
+      <light name="flashlight_flashlight_light_source_lamp_light_left" type="spot">
+        <pose>0.4379 0.12 0.53718 1.5708 0 0</pose>
+        <attenuation>
+          <range>35</range>
+          <linear>0</linear>
+          <constant>0.1</constant>
+          <quadratic>0.0025</quadratic>
+        </attenuation>
+        <diffuse>0.8 0.8 0.5 1</diffuse>
+        <specular>0.8 0.8 0.5 1</specular>
+        <spot>
+          <inner_angle>1.8</inner_angle>
+          <outer_angle>1.9</outer_angle>
+          <falloff>1</falloff>
+        </spot>
+        <direction>0 0 -1</direction>
+      </light>
+
+      <light name="flashlight_flashlight_light_source_lamp_light_right" type="spot">
+        <pose>0.4379 -0.12 0.53718 -1.5708 0 0</pose>
+        <attenuation>
+          <range>35</range>
+          <linear>0</linear>
+          <constant>0.1</constant>
+          <quadratic>0.0025</quadratic>
+        </attenuation>
+        <diffuse>0.8 0.8 0.5 1</diffuse>
+        <specular>0.8 0.8 0.5 1</specular>
+        <spot>
+          <inner_angle>1.8</inner_angle>
+          <outer_angle>1.9</outer_angle>
+          <falloff>1</falloff>
+        </spot>
+        <direction>0 0 -1</direction>
+      </light>
+      <light name="flashlight_flashlight_light_source_lamp_light_back" type="spot">
+        <pose>0.3579 0 0.53718 3.14159 -1.5709 0</pose>
+        <attenuation>
+          <range>35</range>
+          <linear>0</linear>
+          <constant>0.1</constant>
+          <quadratic>0.0025</quadratic>
+        </attenuation>
+        <diffuse>0.8 0.8 0.5 1</diffuse>
+        <specular>0.8 0.8 0.5 1</specular>
+        <spot>
+          <inner_angle>1.8</inner_angle>
+          <outer_angle>1.9</outer_angle>
+          <falloff>1</falloff>
+        </spot>
+        <direction>0 0 -1</direction>
+      </light>
+    </link>
+
+    <link name="front_left_wheel_link">
+      <pose>0.256 0.2854 0.03282 0 -0 0</pose>
+      <inertial>
+        <mass>2.637</mass>
+        <inertia>
+          <ixx>0.02467</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.04411</iyy>
+          <iyz>0</iyz>
+          <izz>0.02467</izz>
+        </inertia>
+      </inertial>
+      <collision name="front_left_wheel_link_collision">
+        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1143</length>
+            <radius>0.1651</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode>
+              <kp>1e+07</kp>
+              <kd>1</kd>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>1</mu2>
+              <slip1>0.00062</slip1>
+              <slip2>0</slip2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name="front_left_wheel_link_visual">
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/MARBLE_HUSKY_SENSOR_CONFIG_1/tip/files/meshes/wheel.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <gravity>1</gravity>
+      <velocity_decay/>
+    </link>
+    <joint name="front_left_wheel_joint" type="revolute">
+      <child>front_left_wheel_link</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>1</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name="front_right_wheel_link">
+      <pose>0.256 -0.2854 0.03282 0 -0 0</pose>
+      <inertial>
+        <mass>2.637</mass>
+        <inertia>
+          <ixx>0.02467</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.04411</iyy>
+          <iyz>0</iyz>
+          <izz>0.02467</izz>
+        </inertia>
+      </inertial>
+      <collision name="front_right_wheel_link_collision">
+        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1143</length>
+            <radius>0.1651</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode>
+              <kp>1e+07</kp>
+              <kd>1</kd>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>1</mu2>
+              <slip1>0.00062</slip1>
+              <slip2>0</slip2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name="front_right_wheel_link_visual">
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/MARBLE_HUSKY_SENSOR_CONFIG_1/tip/files/meshes/wheel.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <gravity>1</gravity>
+      <velocity_decay/>
+    </link>
+    <joint name="front_right_wheel_joint" type="revolute">
+      <child>front_right_wheel_link</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>1</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name="rear_left_wheel_link">
+      <pose>-0.256 0.2854 0.03282 0 -0 0</pose>
+      <inertial>
+        <mass>2.637</mass>
+        <inertia>
+          <ixx>0.02467</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.04411</iyy>
+          <iyz>0</iyz>
+          <izz>0.02467</izz>
+        </inertia>
+      </inertial>
+      <collision name="rear_left_wheel_link_collision">
+        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1143</length>
+            <radius>0.1651</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode>
+              <kp>1e+07</kp>
+              <kd>1</kd>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>1</mu2>
+              <slip1>0.00062</slip1>
+              <slip2>0</slip2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name="rear_left_wheel_link_visual">
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/MARBLE_HUSKY_SENSOR_CONFIG_1/tip/files/meshes/wheel.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <gravity>1</gravity>
+      <velocity_decay/>
+    </link>
+    <joint name="rear_left_wheel_joint" type="revolute">
+      <child>rear_left_wheel_link</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>1</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name="rear_right_wheel_link">
+      <pose>-0.256 -0.2854 0.03282 0 -0 0</pose>
+      <inertial>
+        <mass>2.637</mass>
+        <inertia>
+          <ixx>0.02467</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.04411</iyy>
+          <iyz>0</iyz>
+          <izz>0.02467</izz>
+        </inertia>
+      </inertial>
+      <collision name="rear_right_wheel_link_collision">
+        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1143</length>
+            <radius>0.1651</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode>
+              <kp>1e+07</kp>
+              <kd>1</kd>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>1</mu2>
+              <slip1>0.00062</slip1>
+              <slip2>0</slip2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name="rear_right_wheel_link_visual">
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/MARBLE_HUSKY_SENSOR_CONFIG_1/tip/files/meshes/wheel.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <gravity>1</gravity>
+      <velocity_decay/>
+    </link>
+    <joint name="rear_right_wheel_joint" type="revolute">
+      <child>rear_right_wheel_link</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>1</use_parent_model_frame>
+      </axis>
+    </joint>
+
+  </model>
+</sdf>

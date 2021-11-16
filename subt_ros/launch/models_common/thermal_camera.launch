@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Includes nodes necessary for using a thermal camera. Can be used multiple times. -->
+
+    <arg name="gazebo_topic" doc="The Gazebo 'base' topic (i.e. the prefix before /thermal_camera and /camera_info)" />
+    <arg name="ros_topic" doc="The ROS topic to publish the camera on (prefix without /image_raw or /camera_info)." />
+    <arg name="node_name_suffix" doc="Suffix of the generated nodes. Use to disambiguate if multiple cameras of any type are used." />
+    <arg name="sensor_name" doc="The last element of the Gazebo image topic" />
+
+    <arg name="publish_optical_frame" default="1" doc="If true, optical frame publisher will be created. Otherwise you have to provide the optical publisher by some other means." />
+
+    <!-- Camera info -->
+    <node pkg="ros_ign_bridge" type="parameter_bridge" respawn="true"
+      name="ros_ign_bridge_$(arg node_name_suffix)"
+      args="$(arg gazebo_topic)/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+      <remap from="$(arg gazebo_topic)/camera_info" to="$(arg ros_topic)/camera_info"/>
+    </node>
+
+    <!-- Thermal image -->
+    <node pkg="ros_ign_image" type="image_bridge" respawn="true"
+      name="ros_ign_image_$(arg node_name_suffix)"
+      args="$(arg gazebo_topic)/$(arg sensor_name)">
+      <remap from="$(arg gazebo_topic)/$(arg sensor_name)" to="$(arg ros_topic)/image_raw"/>
+    </node>
+
+    <!-- Optical frame publisher -->
+    <node pkg="subt_ros" type="optical_frame_publisher" respawn="true"
+      if="$(arg publish_optical_frame)"
+      name="optical_frame_publisher_$(arg node_name_suffix)">
+      <remap from="input/image" to="$(arg ros_topic)/image_raw" />
+      <remap from="output/image" to="$(arg ros_topic)/optical/image_raw" />
+      <remap from="input/camera_info" to="$(arg ros_topic)/camera_info" />
+      <remap from="output/camera_info" to="$(arg ros_topic)/optical/camera_info" />
+    </node>
+
+    <!-- Allow slowing down framerate of the camera. -->
+    <include file="$(dirname)/set_rate_relay.launch">
+      <arg name="name" value="ros_ign_bridge_$(arg node_name_suffix)_set_rate" />
+      <arg name="ign_service" value="$(arg gazebo_topic)/$(arg sensor_name)/set_rate" />
+      <arg name="ros_service" value="$(arg ros_topic)/set_rate" />
+    </include>
+</launch>

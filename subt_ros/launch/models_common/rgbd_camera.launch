@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Includes nodes necessary for using an RGBD camera. Can be used multiple times. -->
+
+    <arg name="gazebo_topic" doc="The Gazebo 'base' topic (i.e. the prefix before /depth_image and /camera_info)." />
+    <arg name="ros_topic" doc="The ROS topic to publish the camera on (prefix without /depth or /camera_info)." />
+    <arg name="node_name_suffix" doc="Suffix of the generated nodes. Use to disambiguate if multiple cameras of any type are used." />
+    <arg name="points_ros_topic" doc="ROS topic to which 3D points will be published" />
+
+    <arg name="publish_optical_frame" default="1" doc="If true, optical frame publisher will be created. Otherwise you have to provide the optical publisher by some other means." />
+
+    <!-- RGB camera -->
+    <include file="$(dirname)/rgb_camera.launch" pass_all_args="true">
+      <!-- rgbd_camera does not put the intermediate /image in the set_rate service path -->
+      <arg name="set_rate_ign_service" value="$(arg gazebo_topic)/set_rate" />
+    </include>
+
+    <!-- 3D cloud -->
+    <node pkg="ros_ign_bridge" type="parameter_bridge" respawn="true"
+      name="ros_ign_bridge_rgbd_$(arg node_name_suffix)"
+      args="$(arg gazebo_topic)/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
+      <remap from="$(arg gazebo_topic)/points" to="$(arg points_ros_topic)"/>
+    </node>
+
+    <!-- Depth image -->
+    <node pkg="ros_ign_image" type="image_bridge" respawn="true"
+      name="ros_ign_image_depth_$(arg node_name_suffix)"
+      args="$(arg gazebo_topic)/depth_image">
+      <remap from="$(arg gazebo_topic)/depth_image" to="$(arg ros_topic)/depth"/>
+    </node>
+
+    <!-- Depth optical frame publisher -->
+    <node pkg="subt_ros" type="optical_frame_publisher" respawn="true"
+      if="$(arg publish_optical_frame)"
+      name="optical_frame_publisher_depth_$(arg node_name_suffix)"
+      args="depth">
+      <remap from="input/image" to="$(arg ros_topic)/depth" />
+      <remap from="output/image" to="$(arg ros_topic)/optical/depth" />
+    </node>
+</launch>

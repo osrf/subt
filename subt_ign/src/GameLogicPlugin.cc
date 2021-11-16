@@ -31,6 +31,13 @@
 #include <mutex>
 #include <utility>
 
+#include <ignition/gazebo/Link.hh>
+#include <ignition/gazebo/components/AngularVelocity.hh>
+#include <ignition/gazebo/components/HaltMotion.hh>
+#include <ignition/gazebo/components/CanonicalLink.hh>
+#include <ignition/gazebo/components/Inertial.hh>
+#include <ignition/gazebo/components/Link.hh>
+#include <ignition/gazebo/components/LinearVelocity.hh>
 #include <ignition/gazebo/components/BatterySoC.hh>
 #include <ignition/gazebo/components/DetachableJoint.hh>
 #include <ignition/gazebo/components/Performer.hh>
@@ -40,6 +47,7 @@
 #include <ignition/gazebo/components/GpuLidar.hh>
 #include <ignition/gazebo/components/RgbdCamera.hh>
 #include <ignition/gazebo/components/ParentEntity.hh>
+#include <ignition/gazebo/components/ParticleEmitter.hh>
 #include <ignition/gazebo/components/Pose.hh>
 #include <ignition/gazebo/components/Sensor.hh>
 #include <ignition/gazebo/components/Static.hh>
@@ -76,12 +84,30 @@ IGNITION_ADD_PLUGIN(
     subt::GameLogicPlugin,
     ignition::gazebo::System,
     subt::GameLogicPlugin::ISystemConfigure,
+    subt::GameLogicPlugin::ISystemPreUpdate,
     subt::GameLogicPlugin::ISystemPostUpdate)
 
 using namespace ignition;
 using namespace gazebo;
 using namespace systems;
 using namespace subt;
+
+/// \brief Kinetic energy information used to determine when a crash occurs.
+class KineticEnergyInfo
+{
+  /// \brief Value of the previous iteration's kinetic energy.
+  public: double prevKineticEnergy{0.0};
+
+  /// \brief Threshold past which a crash has happened. Negative number
+  /// indicates that unlimited kinetic energy is allowed.
+  public: double kineticEnergyThreshold{-1.0};
+
+  /// \brief The link used to get kinetic energy.
+  public: gazebo::Entity link;
+
+  /// \brief Name of the robot.
+  public: std::string robotName;
+};
 
 class subt::GameLogicPluginPrivate
 {
@@ -195,6 +221,20 @@ class subt::GameLogicPluginPrivate
   /// \param[in] _info Message information.
   public: void OnBreadcrumbDeployRemainingEvent(
     const ignition::msgs::Int32 &_msg,
+    const transport::MessageInfo &_info);
+
+  /// \brief Dynamic collapse remaining subscription callback.
+  /// \param[in] _msg Remaining count.
+  /// \param[in] _info Message information.
+  public: void OnDynamicCollapseDeployRemainingEvent(
+    const ignition::msgs::Int32 &_msg,
+    const transport::MessageInfo &_info);
+
+  /// \brief Fog command subscription callback.
+  /// \param[in] _msg Particle emitter message.
+  /// \param[in] _info Message information.
+  public: void OnFogCmdEvent(
+    const ignition::msgs::ParticleEmitter &_msg,
     const transport::MessageInfo &_info);
 
   /// \brief Rock fall remaining subscription callback.
@@ -482,7 +522,9 @@ class subt::GameLogicPluginPrivate
     {subt::ArtifactType::TYPE_ROPE,
       ignition::math::Vector3d(0.004, -0.03, 0.095)},
     {subt::ArtifactType::TYPE_VENT,
-      ignition::math::Vector3d(0, 0, 0.138369)}
+      ignition::math::Vector3d(0, 0, 0.138369)},
+    {subt::ArtifactType::TYPE_CUBE,
+      ignition::math::Vector3d(0, 0, 0.2)}
   };
 
   /// \brief Event manager for pausing simulation
@@ -498,6 +540,10 @@ class subt::GameLogicPluginPrivate
   /// map is used to log when no more rock falls are possible for a rock
   /// fall model.
   public: std::map<std::string, std::pair<int, int>> rockFallsMax;
+
+  /// \brief Map of model name to bool. This map is used to log when no more
+  /// dynamic collapses are possible.
+  public: std::map<std::string, bool> dynamicCollapseMax;
 
   /// \brief Map of model name to deployments_over_max. This map
   /// is used to log when no more breadcrumb deployments are possible.
@@ -523,6 +569,18 @@ class subt::GameLogicPluginPrivate
 
   /// \brief Mutex to protect the eventCounter.
   public: std::mutex eventCounterMutex;
+
+  /// \brief Kinetic energy information for each robot.
+  public: std::map<gazebo::Entity, KineticEnergyInfo> keInfo;
+
+  // \brief Height used to determine the KE threshold.
+  // Increasing this value will lower the threshold, meaning a
+  // less violent collision will disable the robot. This value can be
+  // adjusted via this plugin's SDF parameters.
+  public: double keHeight = 0.077;
+
+  /// \brief The fog emitters.
+  public: std::set<std::string> fogEmitters;
 };
 
 //////////////////////////////////////////////////
@@ -597,6 +655,9 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
           this->dataPtr->elevationStepSize).first;
     }
   }
+
+  this->dataPtr->keHeight =
+    _sdf->Get<double>("ke_height", this->dataPtr->keHeight).first;
 
   const sdf::ElementPtr rosElem =
     const_cast<sdf::Element*>(_sdf.get())->GetElement("ros");
@@ -715,6 +776,12 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
     this->dataPtr->worldName.find("final") != std::string::npos ? 25 :
     this->dataPtr->reportCountLimit;
 
+  if (this->dataPtr->worldName == "finals_systems_prize")
+  {
+    this->dataPtr->reportCountLimit = 45;
+    this->dataPtr->artifactCount = 40;
+  }
+
   // Make sure that there are score files.
   this->dataPtr->UpdateScoreFiles(this->dataPtr->simTime);
 }
@@ -829,6 +896,71 @@ void GameLogicPluginPrivate::OnBreadcrumbDeployRemainingEvent(
     }
 
     this->breadcrumbsMax[name]++;
+  }
+}
+
+//////////////////////////////////////////////////
+void GameLogicPluginPrivate::OnDynamicCollapseDeployRemainingEvent(
+    const ignition::msgs::Int32 &/*_msg*/,
+    const transport::MessageInfo &_info)
+{
+  ignition::msgs::Time localSimTime(this->simTime);
+  std::vector<std::string> topicParts = common::split(_info.Topic(), "/");
+  std::string name = "_unknown_";
+
+  // Get the name of the model from the topic name, where the topic name
+  // look like '/model/{model_name}/deploy'.
+  if (topicParts.size() > 1)
+    name = topicParts[1];
+
+  if (!this->dynamicCollapseMax[name])
+  {
+    std::lock_guard<std::mutex> lock(this->eventCounterMutex);
+    std::ostringstream stream;
+    stream
+      << "- event:\n"
+      << "  id: " << this->eventCounter << "\n"
+      << "  type: dynamic_collapse\n"
+      << "  time_sec: " << localSimTime.sec() << "\n"
+      << "  model: " << name << std::endl;
+
+    this->LogEvent(stream.str());
+    this->PublishRegionEvent(localSimTime, "dynamic_collapse", "", name,
+        "dynamic_collapse", this->eventCounter);
+    this->eventCounter++;
+    this->dynamicCollapseMax[name] = true;
+  }
+}
+
+//////////////////////////////////////////////////
+void GameLogicPluginPrivate::OnFogCmdEvent(
+    const ignition::msgs::ParticleEmitter &_msg,
+    const transport::MessageInfo &_info)
+{
+  ignition::msgs::Time localSimTime(this->simTime);
+  std::vector<std::string> topicParts = common::split(_info.Topic(), "/");
+  std::string name = "_unknown_";
+
+  // Get the name of the model from the topic name, where the topic name
+  // look like '/model/{model_name}/...
+  if (topicParts.size() > 1)
+    name = topicParts[1];
+
+  if (_msg.has_emitting() && _msg.emitting().data())
+  {
+    std::lock_guard<std::mutex> lock(this->eventCounterMutex);
+    std::ostringstream stream;
+    stream
+      << "- event:\n"
+      << "  id: " << this->eventCounter << "\n"
+      << "  type: fog\n"
+      << "  time_sec: " << localSimTime.sec() << "\n"
+      << "  model: " << name << std::endl;
+
+    this->LogEvent(stream.str());
+    this->PublishRegionEvent(localSimTime, "fog", "", name, "fog",
+        this->eventCounter);
+    this->eventCounter++;
   }
 }
 
@@ -987,7 +1119,7 @@ void GameLogicPluginPrivate::OnEvent(const ignition::msgs::Pose &_msg)
         // there should be only 1 key-value pair. Just in case, we will grab
         // only the first. The key is currently always "type", which we can
         // ignore when sending the ROS message.
-        if (regionEventType.empty())
+        if (regionEventType.empty() && data.first == "type")
         {
           if (data.second.find("performer_detector_rockfall") ==
               std::string::npos)
@@ -1007,6 +1139,185 @@ void GameLogicPluginPrivate::OnEvent(const ignition::msgs::Pose &_msg)
     this->PublishRegionEvent(localSimTime,
         regionEventType, _msg.name(), frameId, state, this->eventCounter);
     this->eventCounter++;
+  }
+}
+
+//////////////////////////////////////////////////
+void GameLogicPlugin::PreUpdate(const UpdateInfo &_info,
+    EntityComponentManager &_ecm)
+{
+  if (!this->dataPtr->started)
+  {
+    _ecm.Each<gazebo::components::Sensor,
+                 gazebo::components::ParentEntity>(
+        [&](const gazebo::Entity &,
+            const gazebo::components::Sensor *,
+            const gazebo::components::ParentEntity *_parent) -> bool
+        {
+          // Get the model. We are assuming that a sensor is attached to
+          // a link.
+          auto model = _ecm.Component<gazebo::components::ParentEntity>(
+              _parent->Data());
+          if (model)
+          {
+            // Get the model name
+            auto mName =
+              _ecm.Component<gazebo::components::Name>(model->Data());
+
+            // Skip if we already have information for this robot.
+            if (this->dataPtr->keInfo.find(model->Data()) !=
+                this->dataPtr->keInfo.end()) {
+              return true;
+            }
+
+            std::vector<Entity> links = _ecm.EntitiesByComponents(
+                components::ParentEntity(model->Data()), components::Link());
+
+            // Get the mass for the robot by summing the mass of each link,
+            // and use the canonical link for KE computation.
+            double mass = 0.0;
+            for (const Entity &link : links)
+            {
+              auto inertial = _ecm.Component<components::Inertial>(link);
+              auto canonical =  _ecm.Component<components::CanonicalLink>(link);
+              mass += inertial->Data().MassMatrix().Mass();
+
+              if (canonical)
+              {
+                this->dataPtr->keInfo[model->Data()].link += link;
+                // Create a world pose component if one is not present.
+                if (!_ecm.Component<components::WorldPose>(link))
+                {
+                  _ecm.CreateComponent(link, components::WorldPose());
+                }
+
+                // Create an inertial component if one is not present.
+                if (!_ecm.Component<components::Inertial>(link))
+                {
+                  _ecm.CreateComponent(link, components::Inertial());
+                }
+
+                // Create a world linear velocity component if one is not
+                // present.
+                if (!_ecm.Component<components::WorldLinearVelocity>(link))
+                {
+                  _ecm.CreateComponent(link,
+                      components::WorldLinearVelocity());
+                }
+
+                // Create an angular velocity component if one is not present.
+                if (!_ecm.Component<components::AngularVelocity>(link))
+                {
+                  _ecm.CreateComponent(link,
+                      components::AngularVelocity());
+                }
+
+                // Create a world angular velocity component if one is not
+                // present.
+                if (!_ecm.Component<components::WorldAngularVelocity>(
+                      link))
+                {
+                  _ecm.CreateComponent(link,
+                      components::WorldAngularVelocity());
+                }
+              }
+            }
+
+            if (mass > 0)
+            {
+              // This sets the kinetic energy threshold for the robot. It is
+              // based on the kinetic energy formula KE = 0.5 * M * v * v
+              //
+              // M is the mass of the robot.
+              // v is velocity of the robot. We are using the velocity acheived
+              // by falling from a height.
+              this->dataPtr->keInfo[model->Data()].kineticEnergyThreshold =
+                0.5 * mass * std::pow(
+                    sqrt(2 * this->dataPtr->keHeight * 9.8), 2);
+              this->dataPtr->keInfo[model->Data()].robotName = mName->Data();
+
+              // Create a halt motion component if one is not
+              // present.
+              if (!_ecm.Component<components::HaltMotion>(model->Data()))
+              {
+                 _ecm.CreateComponent(model->Data(), components::HaltMotion());
+              }
+            }
+          }
+          return true;
+        });
+  }
+  else
+  {
+    // Check for crashes
+    for (auto &ke : this->dataPtr->keInfo)
+    {
+      ignition::gazebo::Link link(ke.second.link);
+      if (std::nullopt != link.WorldKineticEnergy(_ecm) &&
+          robotPlatformTypes.find(
+          this->dataPtr->robotFullTypes[ke.second.robotName].first) !=
+          robotPlatformTypes.end())
+      {
+        double currKineticEnergy = *link.WorldKineticEnergy(_ecm);
+
+        // We only care about positive values of this (the links looses energy)
+        double deltaKE = ke.second.prevKineticEnergy - currKineticEnergy;
+
+        // Debug: Compute the factor needed to hit the threshold.
+        // if (deltaKE > 0.01)
+        // {
+        //   double factor = ke.second.kineticEnergyThreshold / deltaKE;
+        //   std::cout << "KE[" << deltaKE << "] Thresh["
+        //   << ke.second.kineticEnergyThreshold << "] Factor["
+        //   << factor << "]\n";
+        // }
+
+        // Apply KE factor.
+        deltaKE *= robotPlatformTypes.at(
+          this->dataPtr->robotFullTypes[ke.second.robotName].first);
+        ke.second.prevKineticEnergy = currKineticEnergy;
+
+        // Crash if past the threshold.
+        if (ke.second.kineticEnergyThreshold > 0 &&
+            deltaKE >= ke.second.kineticEnergyThreshold)
+        {
+          int64_t sec, nsec;
+          std::tie(sec, nsec) =
+            ignition::math::durationToSecNsec(_info.simTime);
+          ignition::msgs::Time localSimTime;
+          localSimTime.set_sec(sec);
+          localSimTime.set_nsec(nsec);
+
+          std::lock_guard<std::mutex> lock(this->dataPtr->eventCounterMutex);
+          std::ostringstream stream;
+          stream
+            << "- event:\n"
+            << "  id: " << this->dataPtr->eventCounter << "\n"
+            << "  type: collision\n"
+            << "  ke: " << deltaKE  << "\n"
+            << "  ke_threshold: " << ke.second.kineticEnergyThreshold  << "\n"
+            << "  link: " << *link.Name(_ecm) << "\n"
+            << "  time_sec: " << localSimTime.sec() << "\n"
+            << "  robot: " << ke.second.robotName << std::endl;
+          this->dataPtr->LogEvent(stream.str());
+          this->dataPtr->PublishRobotEvent(
+              localSimTime, "collision", ke.second.robotName,
+              this->dataPtr->eventCounter);
+          this->dataPtr->eventCounter++;
+
+          auto *haltMotionComp =
+            _ecm.Component<components::HaltMotion>(ke.first);
+          if (haltMotionComp && !haltMotionComp->Data())
+          {
+            igndbg << "Robot[" << ke.second.robotName  << "] has crashed "
+              << "with a KE of [" << deltaKE << "] and a KE threshold "
+              << "of [" << ke.second.kineticEnergyThreshold << "] on "
+              << "link [" << *link.Name(_ecm) << "]!\n";
+            haltMotionComp->Data() = true;
+          }
+        }
+      }
+    }
   }
 }
 
@@ -1057,6 +1368,44 @@ void GameLogicPlugin::PostUpdate(
           return true;
         });
 
+    // This function is used to record the presence of a TEAMBASE model.
+    _ecm.EachNew<gazebo::components::ParentEntity>(
+        [&](const gazebo::Entity &,
+            const gazebo::components::ParentEntity *_parent) -> bool
+    {
+          // Get the model.
+          auto model = _ecm.Component<gazebo::components::ParentEntity>(
+              _parent->Data());
+          if (model)
+          {
+            ignition::gazebo::Model mdl(model->Data());
+
+            // Get the teambase_link, which should only be present in a
+            // TEAMBASE model
+            ignition::gazebo::Entity teambaseLink = mdl.LinkByName(_ecm,
+                "teambase_link");
+
+            // Get the filepath for the model, which should be empty for
+            // the TEAMBASE model since it is created via an
+            // Ignition launch file.
+            auto filePath =
+              _ecm.Component<gazebo::components::SourceFilePath>(
+              model->Data());
+
+            // Confirm that the model has the teambase_link and no filepath.
+            // Then store this model as the TEAMBASE.
+            if (filePath && filePath->Data().empty() && teambaseLink !=
+                ignition::gazebo::kNullEntity )
+            {
+              // Get the model name
+              auto mName = mdl.Name(_ecm);
+              this->dataPtr->robotNames.insert(mName);
+              this->dataPtr->robotFullTypes[mName] = {"TEAMBASE", "TEAMBASE"};
+            }
+          }
+          return true;
+    });
+
     _ecm.Each<gazebo::components::Sensor,
               gazebo::components::ParentEntity>(
         [&](const gazebo::Entity &,
@@ -1101,22 +1450,23 @@ void GameLogicPlugin::PostUpdate(
                 model->Data());
 
               // Store unique robot platform information.
-              for (const std::string &type : robotPlatformTypes)
+              for (const std::pair<std::string, double> &typeKE :
+                  robotPlatformTypes)
               {
                 std::string platformNameUpper = filePath->Data();
                 std::transform(platformNameUpper.begin(),
                     platformNameUpper.end(),
                     platformNameUpper.begin(), ::toupper);
-                if (platformNameUpper.find(type) != std::string::npos)
+                if (platformNameUpper.find(typeKE.first) != std::string::npos)
                 {
-                  this->dataPtr->robotTypes.insert(type);
+                  this->dataPtr->robotTypes.insert(typeKE.first);
 
                   // The full type is in the directory name, which is third
                   // from the end (.../TYPE/VERSION/model.sdf).
                   std::vector<std::string> pathParts =
                     ignition::common::split(platformNameUpper, "/");
                   this->dataPtr->robotFullTypes[mName->Data()] =
-                    {type, pathParts[pathParts.size()-3]};
+                    {typeKE.first, pathParts[pathParts.size()-3]};
                 }
               }
 
@@ -1161,6 +1511,42 @@ void GameLogicPlugin::PostUpdate(
     }
   }
 
+  // Subscribe to fog emitter command events.
+  _ecm.Each<gazebo::components::ParticleEmitter,
+            gazebo::components::ParentEntity,
+            gazebo::components::Name>(
+      [&](const gazebo::Entity &,
+          const gazebo::components::ParticleEmitter *,
+          const gazebo::components::ParentEntity *_parent,
+          const gazebo::components::Name *_nameComp) -> bool
+      {
+        auto model = _ecm.Component<gazebo::components::ParentEntity>(
+            _parent->Data());
+        if (model && _nameComp->Data().find("fog") != std::string::npos)
+        {
+          // Get the model name
+          auto modelName =
+            _ecm.Component<gazebo::components::Name>(model->Data());
+          if (modelName)
+          {
+            std::string fogTopic = std::string("/model/") +
+              modelName->Data() + "/link/link/particle_emitter/" +
+              _nameComp->Data() + "/cmd";
+
+            if (this->dataPtr->fogEmitters.find(fogTopic) ==
+                this->dataPtr->fogEmitters.end())
+            {
+              this->dataPtr->fogEmitters.insert(fogTopic);
+              this->dataPtr->node.Subscribe(fogTopic,
+                  &GameLogicPluginPrivate::OnFogCmdEvent,
+                  this->dataPtr.get());
+            }
+          }
+        }
+
+        return true;
+      });
+
   // Update pose information
   _ecm.Each<gazebo::components::Model,
             gazebo::components::Name,
@@ -1183,6 +1569,20 @@ void GameLogicPlugin::PostUpdate(
           this->dataPtr->rockFallsMax[_nameComp->Data()] = {0, 0};
           this->dataPtr->node.Subscribe(deployRemainingTopic,
               &GameLogicPluginPrivate::OnRockFallDeployRemainingEvent,
+              this->dataPtr.get());
+        }
+
+        // Subscribe to remaining dynamic collapse deploy topics. We are doing a
+        // blanket subscribe even though a model in this function may not be
+        // a dynamic collapse.
+        if (this->dataPtr->dynamicCollapseMax.find(_nameComp->Data()) ==
+            this->dataPtr->dynamicCollapseMax.end())
+        {
+          std::string deployRemainingTopic = std::string("/model/") +
+                  _nameComp->Data() + "/breadcrumbs/Wall/deploy/remaining";
+          this->dataPtr->dynamicCollapseMax[_nameComp->Data()] = false;
+          this->dataPtr->node.Subscribe(deployRemainingTopic,
+              &GameLogicPluginPrivate::OnDynamicCollapseDeployRemainingEvent,
               this->dataPtr.get());
         }
 
@@ -2037,6 +2437,10 @@ bool GameLogicPluginPrivate::OnFinishCall(const ignition::msgs::Boolean &_req,
   ignition::msgs::Time localSimTime(this->simTime);
   if (this->started && _req.data() && !this->finished)
   {
+    ignmsg << "User triggered OnFinishCall." << std::endl;
+    this->Log(localSimTime) << "User triggered OnFinishCall." << std::endl;
+    this->logStream.flush();
+
     this->Finish(localSimTime);
     _res.set_data(true);
   }
@@ -2204,6 +2608,7 @@ void GameLogicPluginPrivate::Finish(const ignition::msgs::Time &_simTime)
       completeMsg.mutable_header()->mutable_stamp()->CopyFrom(
           this->simTime);
       completeMsg.set_data("recording_complete");
+      this->state = "recording_complete";
       this->startPub.Publish(completeMsg);
 
       std::lock_guard<std::mutex> lock(this->eventCounterMutex);

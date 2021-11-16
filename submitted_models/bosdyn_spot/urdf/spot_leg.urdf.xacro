@@ -1,0 +1,169 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:arg name="leg_kp" default="1e+07" />
+    <xacro:arg name="leg_kd" default="100.0" />
+    <xacro:arg name="leg_mu1" default="0.8" />
+    <xacro:arg name="leg_mu2" default="0.8" />
+    <xacro:arg name="leg_fdir1" default="" />
+
+    <xacro:arg name="max_knee_effort" default="80" />
+    <xacro:arg name="max_knee_velocity" default="15" />
+    <xacro:arg name="max_hip_x_effort" default="80" />
+    <xacro:arg name="max_hip_x_velocity" default="15" />
+    <xacro:arg name="max_hip_y_effort" default="80" />
+    <xacro:arg name="max_hip_y_velocity" default="15" />
+
+    <xacro:macro name="spot_leg" params="leg_name prefix" >
+
+        <xacro:if value="${leg_name == 'front_left'}">
+            <xacro:property name="base_to_hip_xyz"            value="${base_to_hip_x} ${base_to_hip_y} 0" />
+            <xacro:property name="hip_to_upper_leg_xyz"       value="0 ${hip_to_upper_leg_y} 0" />
+        </xacro:if>
+        <xacro:if value="${leg_name == 'front_right'}">
+            <xacro:property name="base_to_hip_xyz"            value="${base_to_hip_x} -${base_to_hip_y} 0" />
+            <xacro:property name="hip_to_upper_leg_xyz"       value="0 -${hip_to_upper_leg_y} 0" />
+        </xacro:if>
+        <xacro:if value="${leg_name == 'rear_left'}">
+            <xacro:property name="base_to_hip_xyz"            value="-${base_to_hip_x} ${base_to_hip_y} 0" />
+            <xacro:property name="hip_to_upper_leg_xyz"       value="0 ${hip_to_upper_leg_y} 0" />
+        </xacro:if>
+        <xacro:if value="${leg_name == 'rear_right'}">
+            <xacro:property name="base_to_hip_xyz"            value="-${base_to_hip_x} -${base_to_hip_y} 0" />
+            <xacro:property name="hip_to_upper_leg_xyz"       value="0 -${hip_to_upper_leg_y} 0" />
+        </xacro:if>
+
+        <link name="${prefix}${leg_name}_hip">
+            <visual>
+                <geometry>
+                    <mesh filename="package://bosdyn_spot/meshes/${leg_name}_hip.dae" />
+                </geometry>
+            </visual>
+            <collision>
+                <geometry>
+                    <mesh filename="package://bosdyn_spot/meshes/${leg_name}_hip_collision.stl" />
+                </geometry>
+            </collision>
+            <inertial>
+                <mass value="${hip_mass}"/>
+                <inertia ixx="${(1/12) * hip_mass * (hip_width * hip_width + hip_height * hip_height)}" ixy="0.0" ixz="0.0"
+                            iyy="${(1/12) * hip_mass * (hip_length * hip_length + hip_height * hip_height)}" iyz="0.0"
+                            izz="${(1/12) * hip_mass * (hip_length * hip_length + hip_width * hip_width)}" />     
+            </inertial>
+        </link>
+        <joint name="${leg_name}_hip_x" type="revolute">
+            <origin xyz="${base_to_hip_xyz}" rpy="0 0 0" />
+            <axis xyz="1 0 0" />
+            <parent link="${prefix}base_link" />
+            <child link="${prefix}${leg_name}_hip" />
+            <limit effort="$(arg max_hip_x_effort)" velocity="$(arg max_hip_x_velocity)" lower="-0.78539816339744827899" upper="0.78539816339744827899" />
+        </joint>
+        <link name="${prefix}${leg_name}_upper_leg">
+            <visual>
+                <geometry>
+                    <mesh filename="package://bosdyn_spot/meshes/${leg_name}_upper_leg.dae" />
+                </geometry>
+            </visual>
+            <collision>
+                <geometry>
+                    <mesh filename="package://bosdyn_spot/meshes/${leg_name}_upper_leg_collision.stl" />
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="0 0 -0.14" rpy="0 0 0" />
+                <mass value="${upper_leg_mass}"/>
+                <inertia ixx="${(1/12) * upper_leg_mass * (upper_leg_width * upper_leg_width + upper_leg_height * upper_leg_height)}" ixy="0.0" ixz="0.0"
+                            iyy="${(1/12) * upper_leg_mass * (upper_leg_length * upper_leg_length + upper_leg_height * upper_leg_height)}" iyz="0.0"
+                            izz="${(1/12) * upper_leg_mass * (upper_leg_length * upper_leg_length + upper_leg_width * upper_leg_width)}" />     
+            </inertial>
+        </link>
+        <joint name="${leg_name}_hip_y" type="revolute">
+            <origin xyz="${hip_to_upper_leg_xyz}" rpy="0 0 0" />
+            <axis xyz="0 1 0" />
+            <parent link="${prefix}${leg_name}_hip" />
+            <child link="${prefix}${leg_name}_upper_leg" />
+            <limit effort="$(arg max_hip_y_effort)" velocity="$(arg max_hip_y_velocity)" lower="-0.89884456477707963539" upper="2.2951079663725435509" />
+        </joint>
+        <link name="${prefix}${leg_name}_lower_leg">
+            <visual>
+                <geometry>
+                    <mesh filename="package://bosdyn_spot/meshes/${leg_name}_lower_leg.dae" />
+                </geometry>
+            </visual>
+            <collision>
+                <geometry>
+                    <mesh filename="package://bosdyn_spot/meshes/${leg_name}_lower_leg_collision.stl" scale="0.82 0.97 0.98"/>
+                </geometry>
+            </collision>
+            <collision>
+                <origin xyz="0 0 -${lower_leg_to_foot_z - 0.04 + 0.003}" />
+                <geometry>
+                    <sphere radius="0.04" />
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="0 0 -0.16" rpy="0 0 0" />
+                <mass value="${lower_leg_mass}"/>
+                <inertia ixx="${(1/12) * lower_leg_mass * (lower_leg_width * lower_leg_width + lower_leg_height * lower_leg_height)}" ixy="0.0" ixz="0.0"
+                            iyy="${(1/12) * lower_leg_mass * (lower_leg_length * lower_leg_length + lower_leg_height * lower_leg_height)}" iyz="0.0"
+                            izz="${(1/12) * lower_leg_mass * (lower_leg_length * lower_leg_length + lower_leg_width * lower_leg_width)}" />     
+            </inertial>
+        </link>
+         <gazebo reference="${prefix}${leg_name}_lower_leg">
+            <kp>$(arg leg_kp)</kp>
+            <kd>$(arg leg_kd)</kd>
+            <mu1>$(arg leg_mu1)</mu1>
+            <mu2>$(arg leg_mu2)</mu2>
+             <xacro:if value="${'$(arg leg_fdir1)' != ''}">
+                 <fdir1>$(arg leg_fdir1)</fdir1>
+             </xacro:if>
+             <sensor name="contact" type="contact">
+                <contact>
+                    <collision>${leg_name}_lower_leg_collision</collision>
+                    <collision>${leg_name}_lower_leg_collision_1</collision>
+                </contact>
+             </sensor>
+        </gazebo>
+        <joint name="${leg_name}_knee" type="revolute">
+            <origin xyz="${upper_leg_to_lower_leg_x} 0 -${upper_leg_to_lower_leg_z}" rpy="0 0 0" />
+            <axis xyz="0 1 0" />
+            <parent link="${prefix}${leg_name}_upper_leg" />
+            <child link="${prefix}${leg_name}_lower_leg" />
+            <limit effort="$(arg max_knee_effort)" velocity="$(arg max_knee_velocity)" lower="-2.7929" upper="-0.254801" />
+        </joint>
+        <xacro:empty_link name="${prefix}${leg_name}_ee" />
+        <xacro:fixed_joint name="${leg_name}_foot" parent="${prefix}${leg_name}_lower_leg" child="${prefix}${leg_name}_ee" xyz="0 0 -${lower_leg_to_foot_z}" />
+
+        <!-- Not actually used now, but doesn't hurt to have it here ready for future use with ros_ign_control. -->
+        <transmission name="${leg_name}_hip_x_trans">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="${leg_name}_hip_x">
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="${leg_name}_hip_x_actuator">
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+        <transmission name="${leg_name}_hip_y_trans">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="${leg_name}_hip_y">
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="${leg_name}_hip_y_actuator">
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+        <transmission name="${leg_name}_knee_trans">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="${leg_name}_knee">
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="${leg_name}_knee_actuator">
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+
+    </xacro:macro>
+</robot>

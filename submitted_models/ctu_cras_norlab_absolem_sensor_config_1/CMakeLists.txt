@@ -21,9 +21,12 @@ install(TARGETS laser_rotate_plugin flipper_control_plugin
         LIBRARY DESTINATION lib
         RUNTIME DESTINATION bin)
 
-install(DIRECTORY launch meshes textures urdf
+install(DIRECTORY config launch meshes textures urdf worlds
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 
 install(FILES model.sdf model.config
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+
+install(PROGRAMS scripts/print_robot_urdf scripts/yaml_to_xacro_args
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/scripts)
 

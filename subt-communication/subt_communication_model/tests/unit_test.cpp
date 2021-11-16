@@ -51,10 +51,11 @@ TEST(range_based, co_located)
 
   bool send_packet;
   double rssi;
-  std::tie(send_packet, rssi) = attempt_send(radio,
-                                             tx,  // TX state
-                                             rx,  // RX state
-                                             1000);    // 1Kb packet
+  bool usingBreadcrumbs;
+  std::tie(send_packet, rssi, usingBreadcrumbs) = attempt_send(radio,
+                                                    tx,  // TX state
+                                                    rx,  // RX state
+                                                    1000);    // 1Kb packet
 
   ASSERT_TRUE(send_packet);
 }

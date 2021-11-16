@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<root xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:macro name="spot_light_up" params="name pose">
+        <light name="${name}" type="spot">
+            <pose>${pose}</pose>
+            <attenuation>
+                <range>60</range>
+                <linear>0</linear>
+                <constant>0.1</constant>
+                <quadratic>0.0025</quadratic>
+            </attenuation>
+            <diffuse>0.8 0.8 0.5 1</diffuse>
+            <specular>0.8 0.8 0.5 1</specular>
+            <spot>
+                <inner_angle>${pi/3}</inner_angle>
+                <outer_angle>${pi/2}</outer_angle>
+                <falloff>1</falloff>
+            </spot>
+            <direction>0 0 -1</direction>
+        </light>
+    </xacro:macro>
+</root>
