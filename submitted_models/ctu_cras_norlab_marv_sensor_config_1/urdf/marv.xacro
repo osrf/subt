@@ -762,7 +762,7 @@
         </xacro:macro>
         <xacro:flipper_wheel_tags wheel_num="${$(arg num_wheels)}" />
 
-        <xacro:if value="${'$(arg rendering_target)' == 'ign'}">
+        <xacro:if value="${'$(arg rendering_target)' == 'ign' and $(arg num_wheels) > 0}">
             <gazebo>
                 <xacro:property name="inflation_coef" value="$(arg flipper_inflation_ratio)" />
                 <xacro:property name="small_wheel_radius" value="${$(arg rover_flipperSmallRadius) * inflation_coef}" />
