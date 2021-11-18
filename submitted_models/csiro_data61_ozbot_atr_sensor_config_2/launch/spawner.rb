@@ -11,38 +11,20 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
       <name>#{_name}</name>
       <uri>#{_modelURI}</uri>
 
-      <!-- Track drive -->
-      <plugin filename="libignition-gazebo-diff-drive-system.so"
-              name="ignition::gazebo::systems::DiffDrive">
-        <left_joint>left_1_wheel_joint</left_joint>
-        <right_joint>right_1_wheel_joint</right_joint>
-        <left_joint>left_2_wheel_joint</left_joint>
-        <right_joint>right_2_wheel_joint</right_joint>
-        <left_joint>left_3_wheel_joint</left_joint>
-        <right_joint>right_3_wheel_joint</right_joint>
-        <left_joint>left_4_wheel_joint</left_joint>
-        <right_joint>right_4_wheel_joint</right_joint>
-        <left_joint>left_5_wheel_joint</left_joint>
-        <right_joint>right_5_wheel_joint</right_joint>
-        <left_joint>left_6_wheel_joint</left_joint>
-        <right_joint>right_6_wheel_joint</right_joint>
-        <left_joint>left_7_wheel_joint</left_joint>
-        <right_joint>right_7_wheel_joint</right_joint>
-        <left_joint>left_8_wheel_joint</left_joint>
-        <right_joint>right_8_wheel_joint</right_joint>
-        <left_joint>left_9_wheel_joint</left_joint>
-        <right_joint>right_9_wheel_joint</right_joint>
-        <left_joint>left_10_wheel_joint</left_joint>
-        <right_joint>right_10_wheel_joint</right_joint>
-        <left_joint>left_11_wheel_joint</left_joint>
-        <right_joint>right_11_wheel_joint</right_joint>
-        <wheel_separation>0.5</wheel_separation>
-        <wheel_radius>0.14</wheel_radius>
-        <min_velocity>-1.2</min_velocity>
-        <max_velocity>1.2</max_velocity>
-        <min_acceleration>-1.0</min_acceleration>
-        <max_acceleration>1.0</max_acceleration>
+      <!-- Tracked vehicle controller -->
+      <plugin name="ignition::gazebo::systems::TrackedVehicle" filename="ignition-gazebo-tracked-vehicle-system">
+        <left_track><link>left_track</link></left_track>
+        <right_track><link>right_track</link></right_track>
+        <tracks_separation>#{0.5}</tracks_separation>
+        <tracks_height>0.28</tracks_height>
+        <steering_efficiency>0.5</steering_efficiency>
         <topic>/model/#{_name}/cmd_vel_relay</topic>
+        <linear_velocity>
+          <min_velocity>-1.2</min_velocity>
+          <max_velocity>1.2</max_velocity>
+          <min_acceleration>-1.0</min_acceleration>
+          <max_acceleration>1.0</max_acceleration>
+        </linear_velocity>
       </plugin>
 
       <!-- Joint state for lidar gimbal -->
@@ -112,142 +94,6 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         </breadcrumb>
       </plugin>
 
-      <!-- Wheel slip -->
-      <plugin filename="libignition-gazebo-wheel-slip-system.so"
-        name="ignition::gazebo::systems::WheelSlip">
-        <wheel link_name="left_10_wheel">
-          <slip_compliance_lateral>00165</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-          <wheel_normal_force>65.255</wheel_normal_force>
-          <wheel_radius>0.14</wheel_radius>
-        </wheel>
-        <wheel link_name="left_11_wheel">
-          <slip_compliance_lateral>0.002249</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-          <wheel_normal_force>65.255</wheel_normal_force>
-          <wheel_radius>0.14</wheel_radius>
-        </wheel>
-        <wheel link_name="left_1_wheel">
-          <slip_compliance_lateral>0.002841</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-          <wheel_normal_force>65.255</wheel_normal_force>
-          <wheel_radius>0.14</wheel_radius>
-        </wheel>
-        <wheel link_name="left_2_wheel">
-          <slip_compliance_lateral>0.001713</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-          <wheel_normal_force>65.255</wheel_normal_force>
-          <wheel_radius>0.14</wheel_radius>
-        </wheel>
-        <wheel link_name="left_3_wheel">
-          <slip_compliance_lateral>0.001353</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-          <wheel_normal_force>65.255</wheel_normal_force>
-          <wheel_radius>0.14</wheel_radius>
-        </wheel>
-        <wheel link_name="left_4_wheel">
-          <slip_compliance_lateral>7.424569e-4</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-          <wheel_normal_force>65.255</wheel_normal_force>
-          <wheel_radius>0.14</wheel_radius>
-        </wheel>
-        <wheel link_name="left_5_wheel">
-          <slip_compliance_lateral>1.856142e-4</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-          <wheel_normal_force>65.255</wheel_normal_force>
-          <wheel_radius>0.14</wheel_radius>
-        </wheel>
-        <wheel link_name="left_6_wheel">
-          <slip_compliance_lateral>0.0</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-          <wheel_normal_force>65.255</wheel_normal_force>
-          <wheel_radius>0.14</wheel_radius>
-        </wheel>
-        <wheel link_name="left_7_wheel">
-          <slip_compliance_lateral>1.856142e-4</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-          <wheel_normal_force>65.255</wheel_normal_force>
-          <wheel_radius>0.14</wheel_radius>
-        </wheel>
-        <wheel link_name="left_8_wheel">
-          <slip_compliance_lateral>7.424569e-4</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-          <wheel_normal_force>65.255</wheel_normal_force>
-          <wheel_radius>0.14</wheel_radius>
-        </wheel>
-        <wheel link_name="left_9_wheel">
-          <slip_compliance_lateral>0.00131</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-          <wheel_normal_force>65.255</wheel_normal_force>
-          <wheel_radius>0.14</wheel_radius>
-        </wheel>
-        <wheel link_name="right_10_wheel">
-          <slip_compliance_lateral>0.00165</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-          <wheel_normal_force>65.255</wheel_normal_force>
-          <wheel_radius>0.14</wheel_radius>
-        </wheel>
-        <wheel link_name="right_11_wheel">
-          <slip_compliance_lateral>0.002249</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-          <wheel_normal_force>65.255</wheel_normal_force>
-          <wheel_radius>0.14</wheel_radius>
-        </wheel>
-        <wheel link_name="right_1_wheel">
-          <slip_compliance_lateral>0.002841</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-          <wheel_normal_force>65.255</wheel_normal_force>
-          <wheel_radius>0.14</wheel_radius>
-        </wheel>
-        <wheel link_name="right_2_wheel">
-          <slip_compliance_lateral>0.001713</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-          <wheel_normal_force>65.255</wheel_normal_force>
-          <wheel_radius>0.14</wheel_radius>
-        </wheel>
-        <wheel link_name="right_3_wheel">
-          <slip_compliance_lateral>0.001353</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-          <wheel_normal_force>65.255</wheel_normal_force>
-          <wheel_radius>0.14</wheel_radius>
-        </wheel>
-        <wheel link_name="right_4_wheel">
-          <slip_compliance_lateral>7.424569e-4</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-          <wheel_normal_force>65.255</wheel_normal_force>
-          <wheel_radius>0.14</wheel_radius>
-        </wheel>
-        <wheel link_name="right_5_wheel">
-          <slip_compliance_lateral>1.856142e-4</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-          <wheel_normal_force>65.255</wheel_normal_force>
-          <wheel_radius>0.14</wheel_radius>
-        </wheel>
-        <wheel link_name="right_6_wheel">
-          <slip_compliance_lateral>0</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-          <wheel_normal_force>65.255</wheel_normal_force>
-          <wheel_radius>0.14</wheel_radius>
-        </wheel>
-        <wheel link_name="right_7_wheel">
-          <slip_compliance_lateral>1.856142e-4</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-          <wheel_normal_force>65.255</wheel_normal_force>
-          <wheel_radius>0.14</wheel_radius>
-        </wheel>
-        <wheel link_name="right_8_wheel">
-          <slip_compliance_lateral>7.424569e-4</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-          <wheel_normal_force>65.255</wheel_normal_force>
-          <wheel_radius>0.14</wheel_radius>
-        </wheel>
-        <wheel link_name="right_9_wheel">
-          <slip_compliance_lateral>0.00131</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-          <wheel_normal_force>65.255</wheel_normal_force>
-          <wheel_radius>0.14</wheel_radius>
-        </wheel>
-      </plugin>
     </include>
     </sdf>
   </spawn>
