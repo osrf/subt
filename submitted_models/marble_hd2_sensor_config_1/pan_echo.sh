@@ -1,1 +1,1 @@
-rostopic echo /X1/joint_state/position[4]
+rostopic echo /X1/joint_state/position[0]

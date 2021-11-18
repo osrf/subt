@@ -6,7 +6,9 @@
 -->
 
 <%
-  require_relative 'spawner'
+  #require_relative 'spawner'
+  _base_dir = defined?(base_dir) ? base_dir.tr('"', '') : File.realpath(File.join(File.dirname(__FILE__), ".."))
+  load File.join(_base_dir, "launch", "spawner.rb")
 
   # Modify these as needed
   $enableGroundTruth = true
@@ -20,7 +22,8 @@
   end
 
   # This assumes that this launch file is in a directory below the model
-  modelURI = File.expand_path("../", File.dirname(__FILE__))
+  _model_base_dir = defined?(model_base_dir) ? model_base_dir.tr('"', '') : "../"
+  modelURI = File.expand_path(_model_base_dir, File.dirname(__FILE__))
   $worldName = 'example'
   worldFile = File.join(File.expand_path("../worlds", File.dirname(__FILE__)), "#{$worldName}.sdf")
 
@@ -34,9 +37,11 @@
 
   <!-- Start ROS first. This is a bit hacky for now. -->
   <!-- Make sure to source /opt/ros/melodic/setup.bash -->
+<% if local_variables.include?(:ros) and ros %>
   <executable name='ros'>
     <command>roslaunch subt_ros competition_init.launch world_name:=<%=$worldName%> vehicle_topics:=0 enable_ground_truth:=<%=($enableGroundTruth)?"1":"0"%> robot_names:=<%=robotName%></command>
   </executable>
+<% end %>
 
   <plugin name="ignition::launch::GazeboServer"
           filename="libignition-launch-gazebo.so">
@@ -162,8 +167,13 @@
   </executable_wrapper>
   <%end%>
 
-<%= spawner(robotName, modelURI, $worldName, 0, 0, 0, 0, 0, 0) %>
-<%= rosExecutables(robotName, $worldName) %>
+<plugin name="ignition::launch::GazeboFactory"
+        filename="ignition-launch-gazebo-factory">
+  <%= spawner(robotName, modelURI, $worldName, 0, 0, 0, 0, 0, 0) %>
+</plugin>
+<% if local_variables.include?(:ros) and ros %>
+  <%= rosExecutables(robotName, $worldName) %>
+<% end %>
  
 </ignition>
 

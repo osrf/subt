@@ -10,24 +10,20 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
     <include>
       <name>#{_name}</name>
       <uri>#{_modelURI}</uri>
-      <!-- Diff drive -->
-      <plugin filename="libignition-gazebo-diff-drive-system.so"
-              name="ignition::gazebo::systems::DiffDrive">
-        <left_joint>front_left_wheel_joint</left_joint>
-        <left_joint>front_middle_left_wheel_joint</left_joint>
-        <left_joint>rear_middle_left_wheel_joint</left_joint>
-        <left_joint>rear_left_wheel_joint</left_joint>
-        <right_joint>front_right_wheel_joint</right_joint>
-        <right_joint>front_middle_right_wheel_joint</right_joint>
-        <right_joint>rear_middle_right_wheel_joint</right_joint>
-        <right_joint>rear_right_wheel_joint</right_joint>
-        <wheel_separation>#{0.525}</wheel_separation>
-        <wheel_radius>0.129</wheel_radius>
+      <!-- Tracked vehicle controller -->
+      <plugin name="ignition::gazebo::systems::TrackedVehicle" filename="ignition-gazebo-tracked-vehicle-system">
+        <left_track><link>left_track</link></left_track>
+        <right_track><link>right_track</link></right_track>
+        <tracks_separation>#{0.525}</tracks_separation>
+        <tracks_height>0.258</tracks_height>
+        <steering_efficiency>0.5</steering_efficiency>
         <topic>/model/#{_name}/cmd_vel_relay</topic>
-        <min_velocity>-1</min_velocity>
-        <max_velocity>1</max_velocity>
-        <min_acceleration>-3</min_acceleration>
-        <max_acceleration>3</max_acceleration>
+        <linear_velocity>
+          <min_velocity>-1</min_velocity>
+          <max_velocity>1</max_velocity>
+          <min_acceleration>-3</min_acceleration>
+          <max_acceleration>3</max_acceleration>
+        </linear_velocity>
       </plugin>
       <!-- Publish robot state information -->
       <plugin filename="libignition-gazebo-pose-publisher-system.so"
@@ -62,75 +58,6 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <update_rate>10</update_rate>
         <type>gas</type>
       </plugin>
-      <plugin filename="libignition-gazebo-breadcrumbs-system.so"
-            name="ignition::gazebo::systems::Breadcrumbs">
-        <topic>/model/#{_name}/breadcrumb/deploy</topic>
-        <max_deployments>12</max_deployments>
-        <disable_physics_time>3.0</disable_physics_time>
-        <topic_statistics>true</topic_statistics>
-        <breadcrumb>
-          <sdf version="1.6">
-            <model name="#{_name}__breadcrumb__">
-              <pose>-0.45 0 0 0 0 0</pose>
-              <include>
-                <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Breadcrumb Node</uri>
-             </include>
-           </model>
-         </sdf>
-        </breadcrumb>
-      </plugin>
-      <!-- Wheel slip -->
-      <plugin filename="libignition-gazebo-wheel-slip-system.so"
-        name="ignition::gazebo::systems::WheelSlip">
-        <wheel link_name="front_left_wheel_link">
-          <slip_compliance_lateral>0.086</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-          <wheel_normal_force>41.47103925</wheel_normal_force>
-          <wheel_radius>0.129</wheel_radius>
-        </wheel>
-        <wheel link_name="front_middle_left_wheel_link">
-          <slip_compliance_lateral>0.086</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-          <wheel_normal_force>41.47103925</wheel_normal_force>
-          <wheel_radius>0.129</wheel_radius>
-        </wheel>
-        <wheel link_name="rear_middle_left_wheel_link">
-          <slip_compliance_lateral>0.086</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-          <wheel_normal_force>41.47103925</wheel_normal_force>
-          <wheel_radius>0.129</wheel_radius>
-        </wheel>
-        <wheel link_name="rear_left_wheel_link">
-          <slip_compliance_lateral>0.086</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0.25</slip_compliance_longitudinal>
-          <wheel_normal_force>41.47103925</wheel_normal_force>
-          <wheel_radius>0.129</wheel_radius>
-        </wheel>
-        <wheel link_name="front_right_wheel_link">
-          <slip_compliance_lateral>0.086</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-          <wheel_normal_force>41.47103925</wheel_normal_force>
-          <wheel_radius>0.129</wheel_radius>
-        </wheel>
-        <wheel link_name="front_middle_right_wheel_link">
-          <slip_compliance_lateral>0.086</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-          <wheel_normal_force>41.47103925</wheel_normal_force>
-          <wheel_radius>0.129</wheel_radius>
-        </wheel>
-        <wheel link_name="rear_middle_right_wheel_link">
-          <slip_compliance_lateral>0.086</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-          <wheel_normal_force>41.47103925</wheel_normal_force>
-          <wheel_radius>0.129</wheel_radius>
-        </wheel>
-        <wheel link_name="rear_right_wheel_link">
-          <slip_compliance_lateral>0.086</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-          <wheel_normal_force>41.47103925</wheel_normal_force>
-          <wheel_radius>0.129</wheel_radius>
-        </wheel>
-      </plugin>
     </include>
     </sdf>
   </spawn>
@@ -143,7 +70,7 @@ def rosExecutables(_name, _worldName)
     <command>roslaunch --wait marble_hd2_sensor_config_1 description.launch world_name:=#{_worldName} name:=#{_name}</command>
   </executable>
   <executable name='topics'>
-    <command>roslaunch --wait marble_hd2_sensor_config_1 vehicle_topics.launch world_name:=#{_worldName} name:=#{_name} breadcrumbs:=1 thermal:=1</command>
+    <command>roslaunch --wait marble_hd2_sensor_config_1 vehicle_topics.launch world_name:=#{_worldName} name:=#{_name} thermal:=1</command>
   </executable>
   HEREDOC
 end

@@ -142,7 +142,7 @@
         <pose>0 0 -0.135 0 0 1.57</pose>
         <geometry>
           <mesh>
-            <uri>meshes/hd2.dae</uri>
+            <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/MARBLE_HD2_SENSOR_CONFIG_1/tip/files/meshes/hd2.dae</uri>
             <submesh>
               <name>Body</name>
               <center>false</center>
@@ -154,15 +154,15 @@
           <specular>1.0 1.0 1.0</specular>
           <pbr>
             <metal>
-              <albedo_map>materials/textures/HD2_Albedo.jpg</albedo_map>
-              <metalness_map>materials/textures/HD2_Metalness.jpg</metalness_map>
-              <roughness_map>materials/textures/HD2_Roughness.jpg</roughness_map>
+              <albedo_map>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/MARBLE_HD2_SENSOR_CONFIG_1/tip/files/materials/textures/HD2_Albedo.jpg</albedo_map>
+              <metalness_map>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/MARBLE_HD2_SENSOR_CONFIG_1/tip/files/materials/textures/HD2_Metalness.jpg</metalness_map>
+              <roughness_map>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/MARBLE_HD2_SENSOR_CONFIG_1/tip/files/materials/textures/HD2_Roughness.jpg</roughness_map>
             </metal>
           </pbr>
           <!-- fallback to script if no PBR support-->
           <script>
-            <uri>materials/scripts/</uri>
-            <uri>materials/textures/</uri>
+            <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/MARBLE_HD2_SENSOR_CONFIG_1/tip/files/materials/scripts/</uri>
+            <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/MARBLE_HD2_SENSOR_CONFIG_1/tip/files/materials/textures/</uri>
             <name>HD/HD2_Diffuse</name>
           </script>
         </material>
@@ -352,8 +352,8 @@
             <horizontal>
                             <samples>1024</samples>
                             <resolution>1</resolution>
-                            <min_angle>-3.1459</min_angle>
-                            <max_angle>3.1459</max_angle>
+                            <min_angle>-3.14159</min_angle>
+                            <max_angle>3.14159</max_angle>
                           </horizontal>
                           <vertical>
                             <samples>64</samples>
@@ -453,23 +453,23 @@
                 </imu>
                     </sensor>
                   </link>
-                  <!-- Left Side Wheels  -->
-                  <link name="front_left_wheel_link">
-                    <pose frame="">0.360 0.26 0.00 0 -0 0</pose>
+                  <!-- Left Track  -->
+                  <link name="left_track">
+                    <pose frame="">0 0.26 0.00 0 -0 0</pose>
                     <inertial>
                       <pose frame="">0 0 0 0 -0 0</pose>
-                      <mass>1.5</mass>
-                      <inertia>
-                        <ixx>0.02467</ixx>
+                      <mass>6.0</mass>
+                      <inertia> <!-- Inertia of a 6 kg box 0.1x0.258x0.72 m -->
+                        <ixx>0.03828</ixx>
                         <ixy>0</ixy>
                         <ixz>0</ixz>
-                        <iyy>0.04411</iyy>
+                        <iyy>0.2925</iyy>
                         <iyz>0</iyz>
-                        <izz>0.02467</izz>
+                        <izz>0.2642</izz>
                       </inertia>
                     </inertial>
                     <collision name="front_left_wheel_link_collision">
-                      <pose frame="">0 0 0 1.5707963267948966 -0 0</pose>
+                      <pose frame="">0.360 0 0 1.5707963267948966 -0 0</pose>
                       <geometry>
                         <cylinder>
                           <length>0.1</length>
@@ -485,8 +485,8 @@
                         </contact>
                         <friction>
                           <ode>
-                            <mu>0.5</mu>
-                            <mu2>1</mu2>
+                            <mu>1</mu>
+                            <mu2>150</mu2>
                             <slip1>0.001</slip1>
                             <slip2>0</slip2>
                             <fdir1>0 0 1</fdir1>
@@ -494,153 +494,8 @@
                         </friction>
                       </surface>
                     </collision>
-                  </link>
-                  <joint name="front_left_wheel_joint" type="revolute">
-                    <child>front_left_wheel_link</child>
-                    <parent>base_link</parent>
-                    <axis>
-                      <xyz>0 1 0</xyz>
-                      <limit>
-                        <lower>-1e+16</lower>
-                        <upper>1e+16</upper>
-                      </limit>
-                      <dynamics>
-                        <spring_reference>0</spring_reference>
-                        <spring_stiffness>0</spring_stiffness>
-                      </dynamics>
-                      <use_parent_model_frame>1</use_parent_model_frame>
-                    </axis>
-                  </joint>
-                  <link name="front_middle_left_wheel_link">
-                    <pose frame="">0.120 0.26 0.00 0 -0 0</pose>
-                    <inertial>
-                      <pose frame="">0 0 0 0 -0 0</pose>
-                      <mass>1.5</mass>
-                      <inertia>
-                        <ixx>0.02467</ixx>
-                        <ixy>0</ixy>
-                        <ixz>0</ixz>
-                        <iyy>0.04411</iyy>
-                        <iyz>0</iyz>
-                        <izz>0.02467</izz>
-                      </inertia>
-                    </inertial>
-                    <collision name="front_middle_left_wheel_link_collision">
-                      <pose frame="">0 0 0 1.5707963267948966 -0 0</pose>
-                      <geometry>
-                        <cylinder>
-                          <length>0.1</length>
-                          <radius>0.129</radius>
-                        </cylinder>
-                      </geometry>
-                      <surface>
-                        <contact>
-                          <ode>
-                            <kp>1e+07</kp>
-                            <kd>1</kd>
-                          </ode>
-                        </contact>
-                        <friction>
-                          <ode>
-                            <mu>0.5</mu>
-                            <mu2>1</mu2>
-                            <slip1>0.001</slip1>
-                            <slip2>0</slip2>
-                            <fdir1>0 0 1</fdir1>
-                          </ode>
-                        </friction>
-                      </surface>
-                    </collision>
-                  </link>
-                  <joint name="front_middle_left_wheel_joint" type="revolute">
-                    <child>front_middle_left_wheel_link</child>
-                    <parent>base_link</parent>
-                    <axis>
-                      <xyz>0 1 0</xyz>
-                      <limit>
-                        <lower>-1e+16</lower>
-                        <upper>1e+16</upper>
-                      </limit>
-                      <dynamics>
-                        <spring_reference>0</spring_reference>
-                        <spring_stiffness>0</spring_stiffness>
-                      </dynamics>
-                      <use_parent_model_frame>1</use_parent_model_frame>
-                    </axis>
-                  </joint>
-                  <link name="rear_middle_left_wheel_link">
-                    <pose frame="">-0.120 0.26 0.00 0 -0 0</pose>
-                    <inertial>
-                      <pose frame="">0 0 0 0 -0 0</pose>
-                      <mass>1.5</mass>
-                      <inertia>
-                        <ixx>0.02467</ixx>
-                        <ixy>0</ixy>
-                        <ixz>0</ixz>
-                        <iyy>0.04411</iyy>
-                        <iyz>0</iyz>
-                        <izz>0.02467</izz>
-                      </inertia>
-                    </inertial>
-                    <collision name="rear_middle_left_wheel_link_collision">
-                      <pose frame="">0 0 0 1.5707963267948966 -0 0</pose>
-                      <geometry>
-                        <cylinder>
-                          <length>0.1</length>
-                          <radius>0.129</radius>
-                        </cylinder>
-                      </geometry>
-                      <surface>
-                        <contact>
-                          <ode>
-                            <kp>1e+07</kp>
-                            <kd>1</kd>
-                          </ode>
-                        </contact>
-                        <friction>
-                          <ode>
-                            <mu>0.5</mu>
-                            <mu2>1</mu2>
-                            <slip1>0.001</slip1>
-                            <slip2>0</slip2>
-                            <fdir1>0 0 1</fdir1>
-                          </ode>
-                        </friction>
-                      </surface>
-                    </collision>
-                  </link>
-                  <joint name="rear_middle_left_wheel_joint" type="revolute">
-                    <child>rear_middle_left_wheel_link</child>
-                    <parent>base_link</parent>
-                    <axis>
-                      <xyz>0 1 0</xyz>
-                      <limit>
-                        <lower>-1e+16</lower>
-                        <upper>1e+16</upper>
-                      </limit>
-                      <dynamics>
-                        <spring_reference>0</spring_reference>
-                        <spring_stiffness>0</spring_stiffness>
-                      </dynamics>
-                      <use_parent_model_frame>1</use_parent_model_frame>
-                    </axis>
-                  </joint>
-                  <link name="rear_left_wheel_link">
-                    <pose frame="">-0.36 0.26 0.0 0 -0 0</pose>
-                    <inertial>
-                      <pose frame="">0 0 0 0 -0 0</pose>
-                      <mass>1.5</mass>
-                      <inertia>
-                        <ixx>0.02467</ixx>
-                        <ixy>0</ixy>
-                        <ixz>0</ixz>
-                        <iyy>0.04411</iyy>
-                        <iyz>0</iyz>
-                        <izz>0.02467</izz>
-                      </inertia>
-                    </inertial>
                     <collision name="rear_left_wheel_link_collision">
-                      <pose frame="">0 0 0 1.5707963267948966 -0 0</pose>
+                      <pose frame="">-0.36 0 0 1.5707963267948966 -0 0</pose>
                       <geometry>
                         <cylinder>
                           <length>0.1</length>
@@ -656,8 +511,32 @@
                         </contact>
                         <friction>
                           <ode>
-                            <mu>0.5</mu>
-                            <mu2>1</mu2>
+                            <mu>1</mu>
+                            <mu2>150</mu2>
+                            <slip1>0.001</slip1>
+                            <slip2>0</slip2>
+                            <fdir1>0 0 1</fdir1>
+                          </ode>
+                        </friction>
+                      </surface>
+                    </collision>
+                    <collision name="left_track_box_collision">
+                      <geometry>
+                        <box>
+                          <size>0.72 0.1 0.258</size>
+                        </box>
+                      </geometry>
+                      <surface>
+                        <contact>
+                          <ode>
+                            <kp>1e+07</kp>
+                            <kd>1</kd>
+                          </ode>
+                        </contact>
+                        <friction>
+                          <ode>
+                            <mu>1</mu>
+                            <mu2>150</mu2>
                             <slip1>0.001</slip1>
                             <slip2>0</slip2>
                             <fdir1>0 0 1</fdir1>
@@ -666,39 +545,27 @@
                       </surface>
                     </collision>
                   </link>
-                  <joint name="rear_left_wheel_joint" type="revolute">
-                    <child>rear_left_wheel_link</child>
+                  <joint name="left_track_j" type="fixed">
+                    <child>left_track</child>
                     <parent>base_link</parent>
-                    <axis>
-                      <xyz>0 1 0</xyz>
-                      <limit>
-                        <lower>-1e+16</lower>
-                        <upper>1e+16</upper>
-                      </limit>
-                      <dynamics>
-                        <spring_reference>0</spring_reference>
-                        <spring_stiffness>0</spring_stiffness>
-                      </dynamics>
-                      <use_parent_model_frame>1</use_parent_model_frame>
-                    </axis>
                   </joint>
-                  <!-- Right Side Wheels -->
-                  <link name="front_right_wheel_link">
-                    <pose frame="">0.360 -0.26 0.00 0 -0 0</pose>
+                  <!-- Right Track  -->
+                  <link name="right_track">
+                    <pose frame="">0 -0.26 0.00 0 -0 0</pose>
                     <inertial>
                       <pose frame="">0 0 0 0 -0 0</pose>
-                      <mass>1.5</mass>
-                      <inertia>
-                        <ixx>0.02467</ixx>
+                      <mass>6.0</mass>
+                      <inertia> <!-- Inertia of a 6 kg box 0.1x0.258x0.72 m -->
+                        <ixx>0.03828</ixx>
                         <ixy>0</ixy>
                         <ixz>0</ixz>
-                        <iyy>0.04411</iyy>
+                        <iyy>0.2925</iyy>
                         <iyz>0</iyz>
-                        <izz>0.02467</izz>
+                        <izz>0.2642</izz>
                       </inertia>
                     </inertial>
                     <collision name="front_right_wheel_link_collision">
-                      <pose frame="">0 0 0 1.5707963267948966 -0 0</pose>
+                      <pose frame="">0.360 0 0 1.5707963267948966 -0 0</pose>
                       <geometry>
                         <cylinder>
                           <length>0.1</length>
@@ -714,8 +581,8 @@
                         </contact>
                         <friction>
                           <ode>
-                            <mu>0.5</mu>
-                            <mu2>1</mu2>
+                            <mu>1</mu>
+                            <mu2>150</mu2>
                             <slip1>0.001</slip1>
                             <slip2>0</slip2>
                             <fdir1>0 0 1</fdir1>
@@ -723,153 +590,8 @@
                         </friction>
                       </surface>
                     </collision>
-                  </link>
-                  <joint name="front_right_wheel_joint" type="revolute">
-                    <child>front_right_wheel_link</child>
-                    <parent>base_link</parent>
-                    <axis>
-                      <xyz>0 1 0</xyz>
-                      <limit>
-                        <lower>-1e+16</lower>
-                        <upper>1e+16</upper>
-                      </limit>
-                      <dynamics>
-                        <spring_reference>0</spring_reference>
-                        <spring_stiffness>0</spring_stiffness>
-                      </dynamics>
-                      <use_parent_model_frame>1</use_parent_model_frame>
-                    </axis>
-                  </joint>
-                  <link name="front_middle_right_wheel_link">
-                    <pose frame="">0.120 -0.26 0.00 0 -0 0</pose>
-                    <inertial>
-                      <pose frame="">0 0 0 0 -0 0</pose>
-                      <mass>1.5</mass>
-                      <inertia>
-                        <ixx>0.02467</ixx>
-                        <ixy>0</ixy>
-                        <ixz>0</ixz>
-                        <iyy>0.04411</iyy>
-                        <iyz>0</iyz>
-                        <izz>0.02467</izz>
-                      </inertia>
-                    </inertial>
-                    <collision name="front_middle_right_wheel_link_collision">
-                      <pose frame="">0 0 0 1.5707963267948966 -0 0</pose>
-                      <geometry>
-                        <cylinder>
-                          <length>0.1</length>
-                          <radius>0.129</radius>
-                        </cylinder>
-                      </geometry>
-                      <surface>
-                        <contact>
-                          <ode>
-                            <kp>1e+07</kp>
-                            <kd>1</kd>
-                          </ode>
-                        </contact>
-                        <friction>
-                          <ode>
-                            <mu>0.5</mu>
-                            <mu2>1</mu2>
-                            <slip1>0.001</slip1>
-                            <slip2>0</slip2>
-                            <fdir1>0 0 1</fdir1>
-                          </ode>
-                        </friction>
-                      </surface>
-                    </collision>
-                  </link>
-                  <joint name="front_middle_right_wheel_joint" type="revolute">
-                    <child>front_middle_right_wheel_link</child>
-                    <parent>base_link</parent>
-                    <axis>
-                      <xyz>0 1 0</xyz>
-                      <limit>
-                        <lower>-1e+16</lower>
-                        <upper>1e+16</upper>
-                      </limit>
-                      <dynamics>
-                        <spring_reference>0</spring_reference>
-                        <spring_stiffness>0</spring_stiffness>
-                      </dynamics>
-                      <use_parent_model_frame>1</use_parent_model_frame>
-                    </axis>
-                  </joint>
-                  <link name="rear_middle_right_wheel_link">
-                    <pose frame="">-0.120 -0.26 0.00 0 -0 0</pose>
-                    <inertial>
-                      <pose frame="">0 0 0 0 -0 0</pose>
-                      <mass>1.5</mass>
-                      <inertia>
-                        <ixx>0.02467</ixx>
-                        <ixy>0</ixy>
-                        <ixz>0</ixz>
-                        <iyy>0.04411</iyy>
-                        <iyz>0</iyz>
-                        <izz>0.02467</izz>
-                      </inertia>
-                    </inertial>
-                    <collision name="rear_middle_right_wheel_link_collision">
-                      <pose frame="">0 0 0 1.5707963267948966 -0 0</pose>
-                      <geometry>
-                        <cylinder>
-                          <length>0.1</length>
-                          <radius>0.129</radius>
-                        </cylinder>
-                      </geometry>
-                      <surface>
-                        <contact>
-                          <ode>
-                            <kp>1e+07</kp>
-                            <kd>1</kd>
-                          </ode>
-                        </contact>
-                        <friction>
-                          <ode>
-                            <mu>0.5</mu>
-                            <mu2>1</mu2>
-                            <slip1>0.001</slip1>
-                            <slip2>0</slip2>
-                            <fdir1>0 0 1</fdir1>
-                          </ode>
-                        </friction>
-                      </surface>
-                    </collision>
-                  </link>
-                  <joint name="rear_middle_right_wheel_joint" type="revolute">
-                    <child>rear_middle_right_wheel_link</child>
-                    <parent>base_link</parent>
-                    <axis>
-                      <xyz>0 1 0</xyz>
-                      <limit>
-                        <lower>-1e+16</lower>
-                        <upper>1e+16</upper>
-                      </limit>
-                      <dynamics>
-                        <spring_reference>0</spring_reference>
-                        <spring_stiffness>0</spring_stiffness>
-                      </dynamics>
-                      <use_parent_model_frame>1</use_parent_model_frame>
-                    </axis>
-                  </joint>
-                  <link name="rear_right_wheel_link">
-                    <pose frame="">-0.36 -0.26 0.0 0 -0 0</pose>
-                    <inertial>
-                      <pose frame="">0 0 0 0 -0 0</pose>
-                      <mass>1.5</mass>
-                      <inertia>
-                        <ixx>0.02467</ixx>
-                        <ixy>0</ixy>
-                        <ixz>0</ixz>
-                        <iyy>0.04411</iyy>
-                        <iyz>0</iyz>
-                        <izz>0.02467</izz>
-                      </inertia>
-                    </inertial>
                     <collision name="rear_right_wheel_link_collision">
-                      <pose frame="">0 0 0 1.5707963267948966 -0 0</pose>
+                      <pose frame="">-0.36 0 0 1.5707963267948966 -0 0</pose>
                       <geometry>
                         <cylinder>
                           <length>0.1</length>
@@ -885,8 +607,32 @@
                         </contact>
                         <friction>
                           <ode>
-                            <mu>0.5</mu>
-                            <mu2>1</mu2>
+                            <mu>1</mu>
+                            <mu2>150</mu2>
+                            <slip1>0.001</slip1>
+                            <slip2>0</slip2>
+                            <fdir1>0 0 1</fdir1>
+                          </ode>
+                        </friction>
+                      </surface>
+                    </collision>
+                    <collision name="right_track_box_collision">
+                      <geometry>
+                        <box>
+                          <size>0.72 0.1 0.258</size>
+                        </box>
+                      </geometry>
+                      <surface>
+                        <contact>
+                          <ode>
+                            <kp>1e+07</kp>
+                            <kd>1</kd>
+                          </ode>
+                        </contact>
+                        <friction>
+                          <ode>
+                            <mu>1</mu>
+                            <mu2>150</mu2>
                             <slip1>0.001</slip1>
                             <slip2>0</slip2>
                             <fdir1>0 0 1</fdir1>
@@ -895,22 +641,24 @@
                       </surface>
                     </collision>
                   </link>
-                  <joint name="rear_right_wheel_joint" type="revolute">
-                    <child>rear_right_wheel_link</child>
+                  <joint name="right_track_j" type="fixed">
+                    <child>right_track</child>
                     <parent>base_link</parent>
-                    <axis>
-                      <xyz>0 1 0</xyz>
-                      <limit>
-                        <lower>-1e+16</lower>
-                        <upper>1e+16</upper>
-                      </limit>
-                      <dynamics>
-                        <spring_reference>0</spring_reference>
-                        <spring_stiffness>0</spring_stiffness>
-                      </dynamics>
-                      <use_parent_model_frame>1</use_parent_model_frame>
-                    </axis>
                   </joint>
+                  <plugin name='ignition::gazebo::systems::TrackController' filename='libignition-gazebo-track-controller-system.so'>
+                    <link>left_track</link>
+                    <min_velocity>-1</min_velocity>
+                    <max_velocity>1</max_velocity>
+                    <min_acceleration>-3</min_acceleration>
+                    <max_acceleration>3</max_acceleration>
+                  </plugin>
+                  <plugin name='ignition::gazebo::systems::TrackController' filename='libignition-gazebo-track-controller-system.so'>
+                    <link>right_track</link>
+                    <min_velocity>-1</min_velocity>
+                    <max_velocity>1</max_velocity>
+                    <min_acceleration>-3</min_acceleration>
+                    <max_acceleration>3</max_acceleration>
+                  </plugin>
                   <!-- Gimbal Links + Joints -->
                   <link name="pan_gimbal_link">
                     <pose frame="">0.4056 -0.01122 0.4904 0 -0 0</pose>
@@ -948,7 +696,7 @@
                       <pose>0 0 0 0 0 1.57</pose>
                       <geometry>
                         <mesh>
-                          <uri>meshes/hd2.dae</uri>
+                          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/MARBLE_HD2_SENSOR_CONFIG_1/tip/files/meshes/hd2.dae</uri>
                           <submesh>
                             <name>CameraPivot</name>
                             <center>true</center>
@@ -960,14 +708,14 @@
                         <specular>1.0 1.0 1.0</specular>
                         <pbr>
                           <metal>
-                            <albedo_map>materials/textures/HD2_Albedo.jpg</albedo_map>
-                            <metalness_map>materials/textures/HD2_Metalness.jpg</metalness_map>
-                            <roughness_map>materials/textures/HD2_Roughness.jpg</roughness_map>
+                            <albedo_map>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/MARBLE_HD2_SENSOR_CONFIG_1/tip/files/materials/textures/HD2_Albedo.jpg</albedo_map>
+                            <metalness_map>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/MARBLE_HD2_SENSOR_CONFIG_1/tip/files/materials/textures/HD2_Metalness.jpg</metalness_map>
+                            <roughness_map>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/MARBLE_HD2_SENSOR_CONFIG_1/tip/files/materials/textures/HD2_Roughness.jpg</roughness_map>
                           </metal>
                         </pbr>
                         <script>
-                          <uri>materials/scripts/</uri>
-                          <uri>materials/textures/</uri>
+                          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/MARBLE_HD2_SENSOR_CONFIG_1/tip/files/materials/scripts/</uri>
+                          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/MARBLE_HD2_SENSOR_CONFIG_1/tip/files/materials/textures/</uri>
                           <name>HD2/HD2_Diffuse</name>
                         </script>
                       </material>
@@ -1010,7 +758,7 @@
                       <pose>0.005 0.015 0.038 0 0 -1.570796</pose>
                       <geometry>
                         <mesh>
-                          <uri>meshes/hd2.dae</uri>
+                          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/MARBLE_HD2_SENSOR_CONFIG_1/tip/files/meshes/hd2.dae</uri>
                           <submesh>
                             <name>CameraTilt</name>
                             <center>true</center>
@@ -1022,15 +770,15 @@
                         <specular>1.0 1.0 1.0</specular>
                         <pbr>
                           <metal>
-                            <albedo_map>materials/textures/HD2_Albedo.jpg</albedo_map>
-                            <metalness_map>materials/textures/HD2_Metalness.jpg</metalness_map>
-                            <roughness_map>materials/textures/HD2_Roughness.jpg</roughness_map>
+                            <albedo_map>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/MARBLE_HD2_SENSOR_CONFIG_1/tip/files/materials/textures/HD2_Albedo.jpg</albedo_map>
+                            <metalness_map>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/MARBLE_HD2_SENSOR_CONFIG_1/tip/files/materials/textures/HD2_Metalness.jpg</metalness_map>
+                            <roughness_map>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/MARBLE_HD2_SENSOR_CONFIG_1/tip/files/materials/textures/HD2_Roughness.jpg</roughness_map>
                           </metal>
                         </pbr>
                         <!-- fallback to script if no PBR support-->
                         <script>
-                          <uri>materials/scripts/</uri>
-                          <uri>materials/textures/</uri>
+                          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/MARBLE_HD2_SENSOR_CONFIG_1/tip/files/materials/scripts/</uri>
+                          <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/MARBLE_HD2_SENSOR_CONFIG_1/tip/files/materials/textures/</uri>
                           <name>HD/HD2_Diffuse</name>
                         </script>
                       </material>
@@ -1084,7 +832,7 @@
                       <always_on>1</always_on>
                       <update_rate>30</update_rate>
                       <!-- <pose frame="">0.424 0 0.542 0 0.0 0</pose>  -->
-                      <pose frame="">0.0 0 0.03 0 0.0 0</pose>
+                      <pose frame="">0.02 0 0.047725 0 0.0 0</pose>
                     </sensor>
 
                     <light name="flashlight_flashlight_light_source_lamp_light" type="spot">
