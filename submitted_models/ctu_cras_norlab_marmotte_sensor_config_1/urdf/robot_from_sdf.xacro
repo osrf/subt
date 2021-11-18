@@ -49,132 +49,52 @@
     <child link='${robot_namespace}/sensor_rack'/>
   </joint>
 
-  <link name='${robot_namespace}/front_left_wheel_link'>
+  <link name='${robot_namespace}/left_track'>
     <collision name='front_left_wheel_link_collision'>
-      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <origin xyz='0.36 0 0' rpy='1.5708 -0 0'/>
       <geometry>
         <cylinder radius='0.129' length='0.1'/>
       </geometry>
     </collision>
-  </link>
-  <link name='${robot_namespace}/front_middle_left_wheel_link'>
-    <collision name='front_middle_left_wheel_link_collision'>
-      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
-      <geometry>
-        <cylinder radius='0.129' length='0.1'/>
-      </geometry>
-    </collision>
-  </link>
-  <link name='${robot_namespace}/rear_middle_left_wheel_link'>
-    <collision name='rear_middle_left_wheel_link_collision'>
-      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
-      <geometry>
-        <cylinder radius='0.129' length='0.1'/>
-      </geometry>
-    </collision>
-  </link>
-  <link name='${robot_namespace}/rear_left_wheel_link'>
     <collision name='rear_left_wheel_link_collision'>
-      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <origin xyz='-0.36 0 0' rpy='1.5708 -0 0'/>
       <geometry>
         <cylinder radius='0.129' length='0.1'/>
       </geometry>
     </collision>
+    <collision name='left_track_box_collision'>
+      <geometry>
+        <box size='0.72 0.1 0.258'/>
+      </geometry>
+    </collision>
   </link>
-  <link name='${robot_namespace}/front_right_wheel_link'>
+  <link name='${robot_namespace}/right_track'>
     <collision name='front_right_wheel_link_collision'>
-      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <origin xyz='0.36 0 0' rpy='1.5708 -0 0'/>
       <geometry>
         <cylinder radius='0.129' length='0.1'/>
       </geometry>
     </collision>
-  </link>
-  <link name='${robot_namespace}/front_middle_right_wheel_link'>
-    <collision name='front_middle_right_wheel_link_collision'>
-      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
-      <geometry>
-        <cylinder radius='0.129' length='0.1'/>
-      </geometry>
-    </collision>
-  </link>
-  <link name='${robot_namespace}/rear_middle_right_wheel_link'>
-    <collision name='rear_middle_right_wheel_link_collision'>
-      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
-      <geometry>
-        <cylinder radius='0.129' length='0.1'/>
-      </geometry>
-    </collision>
-  </link>
-  <link name='${robot_namespace}/rear_right_wheel_link'>
     <collision name='rear_right_wheel_link_collision'>
-      <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+      <origin xyz='-0.36 0 0' rpy='1.5708 -0 0'/>
       <geometry>
         <cylinder radius='0.129' length='0.1'/>
       </geometry>
     </collision>
+    <collision name='right_track_box_collision'>
+      <geometry>
+        <box size='0.72 0.1 0.258'/>
+      </geometry>
+    </collision>
   </link>
-  <joint name='front_left_wheel_joint' type='revolute'>
-    <origin xyz='0.36 0.26 0' rpy='0 -0 0'/>
+  <joint name='left_track_j' type='fixed'>
+    <origin xyz='0 0.26 0' rpy='0 0 0'/>
     <parent link='${robot_namespace}/base_link'/>
-    <child link='${robot_namespace}/front_left_wheel_link'/>
-    <dynamics damping='0' friction='0' />
-    <axis xyz='0 1 0'/>
-    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+    <child link='${robot_namespace}/left_track'/>
   </joint>
-  <joint name='front_middle_left_wheel_joint' type='revolute'>
-    <origin xyz='0.12 0.26 0' rpy='0 -0 0'/>
+  <joint name='right_track_j' type='fixed'>
+    <origin xyz='0 -0.26 0' rpy='0 0 0'/>
     <parent link='${robot_namespace}/base_link'/>
-    <child link='${robot_namespace}/front_middle_left_wheel_link'/>
-    <dynamics damping='0' friction='0' />
-    <axis xyz='0 1 0'/>
-    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
-  </joint>
-  <joint name='rear_middle_left_wheel_joint' type='revolute'>
-    <origin xyz='-0.12 0.26 0' rpy='0 -0 0'/>
-    <parent link='${robot_namespace}/base_link'/>
-    <child link='${robot_namespace}/rear_middle_left_wheel_link'/>
-    <dynamics damping='0' friction='0' />
-    <axis xyz='0 1 0'/>
-    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
-  </joint>
-  <joint name='rear_left_wheel_joint' type='revolute'>
-    <origin xyz='-0.36 0.26 0' rpy='0 -0 0'/>
-    <parent link='${robot_namespace}/base_link'/>
-    <child link='${robot_namespace}/rear_left_wheel_link'/>
-    <dynamics damping='0' friction='0' />
-    <axis xyz='0 1 0'/>
-    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
-  </joint>
-  <joint name='front_right_wheel_joint' type='revolute'>
-    <origin xyz='0.36 -0.26 0' rpy='0 -0 0'/>
-    <parent link='${robot_namespace}/base_link'/>
-    <child link='${robot_namespace}/front_right_wheel_link'/>
-    <dynamics damping='0' friction='0' />
-    <axis xyz='0 1 0'/>
-    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
-  </joint>
-  <joint name='front_middle_right_wheel_joint' type='revolute'>
-    <origin xyz='0.12 -0.26 0' rpy='0 -0 0'/>
-    <parent link='${robot_namespace}/base_link'/>
-    <child link='${robot_namespace}/front_middle_right_wheel_link'/>
-    <dynamics damping='0' friction='0' />
-    <axis xyz='0 1 0'/>
-    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
-  </joint>
-  <joint name='rear_middle_right_wheel_joint' type='revolute'>
-    <origin xyz='-0.12 -0.26 0' rpy='0 -0 0'/>
-    <parent link='${robot_namespace}/base_link'/>
-    <child link='${robot_namespace}/rear_middle_right_wheel_link'/>
-    <dynamics damping='0' friction='0' />
-    <axis xyz='0 1 0'/>
-    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
-  </joint>
-  <joint name='rear_right_wheel_joint' type='revolute'>
-    <origin xyz='-0.36 -0.26 0' rpy='0 -0 0'/>
-    <parent link='${robot_namespace}/base_link'/>
-    <child link='${robot_namespace}/rear_right_wheel_link'/>
-    <dynamics damping='0' friction='0' />
-    <axis xyz='0 1 0'/>
-    <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+    <child link='${robot_namespace}/right_track'/>
   </joint>
 </robot>
