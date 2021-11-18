@@ -810,1066 +810,150 @@
         <use_parent_model_frame>0</use_parent_model_frame>
       </axis>
     </joint>
-    <link name="left_00_wheel">
-      <pose>0 0.2 -0.04 0 -0 0</pose>
+    <link name="left_track">
+      <pose>0 0.2 0 0 -0 0</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
-        <mass>1</mass>
-        <inertia>
-          <ixx>0.00185733</ixx>
+        <mass>10</mass>
+        <inertia> <!-- 10 kg box 0.1 x 0.2 x 0.64 m -->
+          <ixx>0.04167</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.00185733</iyy>
+          <iyy>0.3747</iyy>
           <iyz>0</iyz>
-          <izz>0.002048</izz>
+          <izz>0.3500</izz>
         </inertia>
       </inertial>
-      <collision name="left_00_wheel_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+      <collision name="left_02_wheel_collision"> <!-- middle -->
+        <pose>0.1975 0 -0.04 1.5707963267948966 -0 0</pose>
         <geometry>
           <cylinder>
             <length>0.1</length>
             <radius>0.064</radius>
           </cylinder>
         </geometry>
-        <surface>
-          <contact>
-            <ode/>
-          </contact>
-          <friction>
-            <ode/>
-          </friction>
-        </surface>
+      </collision>
+      <collision name="left_05_wheel_collision"> <!-- front -->
+        <pose>0.322 0 0.117 1.5707963267948966 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1</length>
+            <radius>0.084</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <collision name="left_14_wheel_collision"> <!-- rear -->
+        <pose>-0.32 0 -0.02 1.5707963267948966 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1</length>
+            <radius>0.084</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <collision name="left_bottom_box_collision"> <!-- bottom box -->
+        <pose>-0.06175 0 -0.04 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.5175 0.1 0.128</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="left_front_box_collision"> <!-- front box -->
+        <pose>0.267 0 0.0322 0 -0.8011 0</pose>
+        <geometry>
+          <box>
+            <size>0.20 0.1 0.128</size>
+          </box>
+        </geometry>
       </collision>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
     </link>
-    <joint name="left_00_wheel_joint" type="revolute">
-      <child>left_00_wheel</child>
+    <joint name="left_track_j" type="fixed">
+      <child>left_track</child>
       <parent>base_link</parent>
-      <axis>
-        <xyz>0 1 0</xyz>
-        <limit>
-          <lower>-1e+16</lower>
-          <upper>1e+16</upper>
-        </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
-      </axis>
     </joint>
-    <link name="left_01_wheel">
-      <pose>0.089375 0.2 -0.04 0 -0 0</pose>
+    <link name="right_track">
+      <pose>0 -0.2 0 0 -0 0</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
-        <mass>1</mass>
-        <inertia>
-          <ixx>0.00185733</ixx>
+        <mass>10</mass>
+        <inertia> <!-- 10 kg box 0.1 x 0.2 x 0.64 m -->
+          <ixx>0.04167</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.00185733</iyy>
+          <iyy>0.3747</iyy>
           <iyz>0</iyz>
-          <izz>0.002048</izz>
+          <izz>0.3500</izz>
         </inertia>
       </inertial>
-      <collision name="left_01_wheel_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+      <collision name="right_02_wheel_collision"> <!-- middle -->
+        <pose>0.1975 0 -0.04 1.5707963267948966 -0 0</pose>
         <geometry>
           <cylinder>
             <length>0.1</length>
             <radius>0.064</radius>
           </cylinder>
         </geometry>
-        <surface>
-          <contact>
-            <ode/>
-          </contact>
-          <friction>
-            <ode/>
-          </friction>
-        </surface>
       </collision>
-      <gravity>1</gravity>
-      <velocity_decay/>
-      <self_collide>0</self_collide>
-    </link>
-    <joint name="left_01_wheel_joint" type="revolute">
-      <child>left_01_wheel</child>
-      <parent>base_link</parent>
-      <axis>
-        <xyz>0 1 0</xyz>
-        <limit>
-          <lower>-1e+16</lower>
-          <upper>1e+16</upper>
-        </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
-      </axis>
-    </joint>
-    <link name="left_02_wheel">
-      <pose>0.17875 0.2 -0.04 0 -0 0</pose>
-      <inertial>
-        <pose>0 0 0 0 -0 0</pose>
-        <mass>1</mass>
-        <inertia>
-          <ixx>0.00185733</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.00185733</iyy>
-          <iyz>0</iyz>
-          <izz>0.002048</izz>
-        </inertia>
-      </inertial>
-      <collision name="left_02_wheel_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+      <collision name="right_05_wheel_collision"> <!-- front -->
+        <pose>0.322 0 0.117 1.5707963267948966 -0 0</pose>
         <geometry>
           <cylinder>
             <length>0.1</length>
-            <radius>0.064</radius>
+            <radius>0.084</radius>
           </cylinder>
         </geometry>
-        <surface>
-          <contact>
-            <ode/>
-          </contact>
-          <friction>
-            <ode/>
-          </friction>
-        </surface>
       </collision>
-      <gravity>1</gravity>
-      <velocity_decay/>
-      <self_collide>0</self_collide>
-    </link>
-    <joint name="left_02_wheel_joint" type="revolute">
-      <child>left_02_wheel</child>
-      <parent>base_link</parent>
-      <axis>
-        <xyz>0 1 0</xyz>
-        <limit>
-          <lower>-1e+16</lower>
-          <upper>1e+16</upper>
-        </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
-      </axis>
-    </joint>
-    <link name="left_03_wheel">
-      <pose>0.251875 0.2 0.01 0 -0 0</pose>
-      <inertial>
-        <pose>0 0 0 0 -0 0</pose>
-        <mass>1</mass>
-        <inertia>
-          <ixx>0.00185733</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.00185733</iyy>
-          <iyz>0</iyz>
-          <izz>0.002048</izz>
-        </inertia>
-      </inertial>
-      <collision name="left_03_wheel_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+      <collision name="right_14_wheel_collision"> <!-- rear -->
+        <pose>-0.32 0 -0.02 1.5707963267948966 -0 0</pose>
         <geometry>
           <cylinder>
             <length>0.1</length>
-            <radius>0.064</radius>
+            <radius>0.084</radius>
           </cylinder>
         </geometry>
-        <surface>
-          <contact>
-            <ode/>
-          </contact>
-          <friction>
-            <ode/>
-          </friction>
-        </surface>
       </collision>
-      <gravity>1</gravity>
-      <velocity_decay/>
-      <self_collide>0</self_collide>
-    </link>
-    <joint name="left_03_wheel_joint" type="revolute">
-      <child>left_03_wheel</child>
-      <parent>base_link</parent>
-      <axis>
-        <xyz>0 1 0</xyz>
-        <limit>
-          <lower>-1e+16</lower>
-          <upper>1e+16</upper>
-        </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
-      </axis>
-    </joint>
-    <link name="left_04_wheel">
-      <pose>0.296563 0.2 0.06 0 -0 0</pose>
-      <inertial>
-        <pose>0 0 0 0 -0 0</pose>
-        <mass>1</mass>
-        <inertia>
-          <ixx>0.00185733</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.00185733</iyy>
-          <iyz>0</iyz>
-          <izz>0.002048</izz>
-        </inertia>
-      </inertial>
-      <collision name="left_04_wheel_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+      <collision name="right_bottom_box_collision"> <!-- bottom box -->
+        <pose>-0.06175 0 -0.04 0 0 0</pose>
         <geometry>
-          <cylinder>
-            <length>0.1</length>
-            <radius>0.064</radius>
-          </cylinder>
+          <box>
+            <size>0.5175 0.1 0.128</size>
+          </box>
         </geometry>
-        <surface>
-          <contact>
-            <ode/>
-          </contact>
-          <friction>
-            <ode/>
-          </friction>
-        </surface>
       </collision>
-      <gravity>1</gravity>
-      <velocity_decay/>
-      <self_collide>0</self_collide>
-    </link>
-    <joint name="left_04_wheel_joint" type="revolute">
-      <child>left_04_wheel</child>
-      <parent>base_link</parent>
-      <axis>
-        <xyz>0 1 0</xyz>
-        <limit>
-          <lower>-1e+16</lower>
-          <upper>1e+16</upper>
-        </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
-      </axis>
-    </joint>
-    <link name="left_05_wheel">
-      <pose>0.34125 0.2 0.11 0 -0 0</pose>
-      <inertial>
-        <pose>0 0 0 0 -0 0</pose>
-        <mass>1</mass>
-        <inertia>
-          <ixx>0.00185733</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.00185733</iyy>
-          <iyz>0</iyz>
-          <izz>0.002048</izz>
-        </inertia>
-      </inertial>
-      <collision name="left_05_wheel_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
+      <collision name="right_front_box_collision"> <!-- front box -->
+        <pose>0.267 0 0.0322 0 -0.8011 0</pose>
         <geometry>
-          <cylinder>
-            <length>0.1</length>
-            <radius>0.064</radius>
-          </cylinder>
+          <box>
+            <size>0.20 0.1 0.128</size>
+          </box>
         </geometry>
-        <surface>
-          <contact>
-            <ode/>
-          </contact>
-          <friction>
-            <ode/>
-          </friction>
-        </surface>
       </collision>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
     </link>
-    <joint name="left_05_wheel_joint" type="revolute">
-      <child>left_05_wheel</child>
+    <joint name="right_track_j" type="fixed">
+      <child>right_track</child>
       <parent>base_link</parent>
-      <axis>
-        <xyz>0 1 0</xyz>
-        <limit>
-          <lower>-1e+16</lower>
-          <upper>1e+16</upper>
-        </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
-      </axis>
     </joint>
-    <link name="left_11_wheel">
-      <pose>-0.08125 0.2 -0.04 0 -0 0</pose>
-      <inertial>
-        <pose>0 0 0 0 -0 0</pose>
-        <mass>1</mass>
-        <inertia>
-          <ixx>0.00185733</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.00185733</iyy>
-          <iyz>0</iyz>
-          <izz>0.002048</izz>
-        </inertia>
-      </inertial>
-      <collision name="left_11_wheel_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.1</length>
-            <radius>0.064</radius>
-          </cylinder>
-        </geometry>
-        <surface>
-          <contact>
-            <ode/>
-          </contact>
-          <friction>
-            <ode/>
-          </friction>
-        </surface>
-      </collision>
-      <gravity>1</gravity>
-      <velocity_decay/>
-      <self_collide>0</self_collide>
-    </link>
-    <joint name="left_11_wheel_joint" type="revolute">
-      <child>left_11_wheel</child>
-      <parent>base_link</parent>
-      <axis>
-        <xyz>0 1 0</xyz>
-        <limit>
-          <lower>-1e+16</lower>
-          <upper>1e+16</upper>
-        </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
-      </axis>
-    </joint>
-    <link name="left_12_wheel">
-      <pose>-0.1625 0.2 -0.04 0 -0 0</pose>
-      <inertial>
-        <pose>0 0 0 0 -0 0</pose>
-        <mass>1</mass>
-        <inertia>
-          <ixx>0.00185733</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.00185733</iyy>
-          <iyz>0</iyz>
-          <izz>0.002048</izz>
-        </inertia>
-      </inertial>
-      <collision name="left_12_wheel_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.1</length>
-            <radius>0.064</radius>
-          </cylinder>
-        </geometry>
-        <surface>
-          <contact>
-            <ode/>
-          </contact>
-          <friction>
-            <ode/>
-          </friction>
-        </surface>
-      </collision>
-      <gravity>1</gravity>
-      <velocity_decay/>
-      <self_collide>0</self_collide>
-    </link>
-    <joint name="left_12_wheel_joint" type="revolute">
-      <child>left_12_wheel</child>
-      <parent>base_link</parent>
-      <axis>
-        <xyz>0 1 0</xyz>
-        <limit>
-          <lower>-1e+16</lower>
-          <upper>1e+16</upper>
-        </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
-      </axis>
-    </joint>
-    <link name="left_13_wheel">
-      <pose>-0.24375 0.2 -0.04 0 -0 0</pose>
-      <inertial>
-        <pose>0 0 0 0 -0 0</pose>
-        <mass>1</mass>
-        <inertia>
-          <ixx>0.00185733</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.00185733</iyy>
-          <iyz>0</iyz>
-          <izz>0.002048</izz>
-        </inertia>
-      </inertial>
-      <collision name="left_13_wheel_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.1</length>
-            <radius>0.064</radius>
-          </cylinder>
-        </geometry>
-        <surface>
-          <contact>
-            <ode/>
-          </contact>
-          <friction>
-            <ode/>
-          </friction>
-        </surface>
-      </collision>
-      <gravity>1</gravity>
-      <velocity_decay/>
-      <self_collide>0</self_collide>
-    </link>
-    <joint name="left_13_wheel_joint" type="revolute">
-      <child>left_13_wheel</child>
-      <parent>base_link</parent>
-      <axis>
-        <xyz>0 1 0</xyz>
-        <limit>
-          <lower>-1e+16</lower>
-          <upper>1e+16</upper>
-        </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
-      </axis>
-    </joint>
-    <link name="left_14_wheel">
-      <pose>-0.325 0.2 -0.04 0 -0 0</pose>
-      <inertial>
-        <pose>0 0 0 0 -0 0</pose>
-        <mass>1</mass>
-        <inertia>
-          <ixx>0.00185733</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.00185733</iyy>
-          <iyz>0</iyz>
-          <izz>0.002048</izz>
-        </inertia>
-      </inertial>
-      <collision name="left_14_wheel_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.1</length>
-            <radius>0.064</radius>
-          </cylinder>
-        </geometry>
-        <surface>
-          <contact>
-            <ode/>
-          </contact>
-          <friction>
-            <ode/>
-          </friction>
-        </surface>
-      </collision>
-      <gravity>1</gravity>
-      <velocity_decay/>
-      <self_collide>0</self_collide>
-    </link>
-    <joint name="left_14_wheel_joint" type="revolute">
-      <child>left_14_wheel</child>
-      <parent>base_link</parent>
-      <axis>
-        <xyz>0 1 0</xyz>
-        <limit>
-          <lower>-1e+16</lower>
-          <upper>1e+16</upper>
-        </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
-      </axis>
-    </joint>
-    <link name="right_00_wheel">
-      <pose>0 -0.2 -0.04 0 -0 0</pose>
-      <inertial>
-        <pose>0 0 0 0 -0 0</pose>
-        <mass>1</mass>
-        <inertia>
-          <ixx>0.00185733</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.00185733</iyy>
-          <iyz>0</iyz>
-          <izz>0.002048</izz>
-        </inertia>
-      </inertial>
-      <collision name="right_00_wheel_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.1</length>
-            <radius>0.064</radius>
-          </cylinder>
-        </geometry>
-        <surface>
-          <contact>
-            <ode/>
-          </contact>
-          <friction>
-            <ode/>
-          </friction>
-        </surface>
-      </collision>
-      <gravity>1</gravity>
-      <velocity_decay/>
-      <self_collide>0</self_collide>
-    </link>
-    <joint name="right_00_wheel_joint" type="revolute">
-      <child>right_00_wheel</child>
-      <parent>base_link</parent>
-      <axis>
-        <xyz>0 1 0</xyz>
-        <limit>
-          <lower>-1e+16</lower>
-          <upper>1e+16</upper>
-        </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
-      </axis>
-    </joint>
-    <link name="right_01_wheel">
-      <pose>0.089375 -0.2 -0.04 0 -0 0</pose>
-      <inertial>
-        <pose>0 0 0 0 -0 0</pose>
-        <mass>1</mass>
-        <inertia>
-          <ixx>0.00185733</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.00185733</iyy>
-          <iyz>0</iyz>
-          <izz>0.002048</izz>
-        </inertia>
-      </inertial>
-      <collision name="right_01_wheel_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.1</length>
-            <radius>0.064</radius>
-          </cylinder>
-        </geometry>
-        <surface>
-          <contact>
-            <ode/>
-          </contact>
-          <friction>
-            <ode/>
-          </friction>
-        </surface>
-      </collision>
-      <gravity>1</gravity>
-      <velocity_decay/>
-      <self_collide>0</self_collide>
-    </link>
-    <joint name="right_01_wheel_joint" type="revolute">
-      <child>right_01_wheel</child>
-      <parent>base_link</parent>
-      <axis>
-        <xyz>0 1 0</xyz>
-        <limit>
-          <lower>-1e+16</lower>
-          <upper>1e+16</upper>
-        </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
-      </axis>
-    </joint>
-    <link name="right_02_wheel">
-      <pose>0.17875 -0.2 -0.04 0 -0 0</pose>
-      <inertial>
-        <pose>0 0 0 0 -0 0</pose>
-        <mass>1</mass>
-        <inertia>
-          <ixx>0.00185733</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.00185733</iyy>
-          <iyz>0</iyz>
-          <izz>0.002048</izz>
-        </inertia>
-      </inertial>
-      <collision name="right_02_wheel_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.1</length>
-            <radius>0.064</radius>
-          </cylinder>
-        </geometry>
-        <surface>
-          <contact>
-            <ode/>
-          </contact>
-          <friction>
-            <ode/>
-          </friction>
-        </surface>
-      </collision>
-      <gravity>1</gravity>
-      <velocity_decay/>
-      <self_collide>0</self_collide>
-    </link>
-    <joint name="right_02_wheel_joint" type="revolute">
-      <child>right_02_wheel</child>
-      <parent>base_link</parent>
-      <axis>
-        <xyz>0 1 0</xyz>
-        <limit>
-          <lower>-1e+16</lower>
-          <upper>1e+16</upper>
-        </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
-      </axis>
-    </joint>
-    <link name="right_03_wheel">
-      <pose>0.251875 -0.2 0.01 0 -0 0</pose>
-      <inertial>
-        <pose>0 0 0 0 -0 0</pose>
-        <mass>1</mass>
-        <inertia>
-          <ixx>0.00185733</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.00185733</iyy>
-          <iyz>0</iyz>
-          <izz>0.002048</izz>
-        </inertia>
-      </inertial>
-      <collision name="right_03_wheel_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.1</length>
-            <radius>0.064</radius>
-          </cylinder>
-        </geometry>
-        <surface>
-          <contact>
-            <ode/>
-          </contact>
-          <friction>
-            <ode/>
-          </friction>
-        </surface>
-      </collision>
-      <gravity>1</gravity>
-      <velocity_decay/>
-      <self_collide>0</self_collide>
-    </link>
-    <joint name="right_03_wheel_joint" type="revolute">
-      <child>right_03_wheel</child>
-      <parent>base_link</parent>
-      <axis>
-        <xyz>0 1 0</xyz>
-        <limit>
-          <lower>-1e+16</lower>
-          <upper>1e+16</upper>
-        </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
-      </axis>
-    </joint>
-    <link name="right_04_wheel">
-      <pose>0.296563 -0.2 0.06 0 -0 0</pose>
-      <inertial>
-        <pose>0 0 0 0 -0 0</pose>
-        <mass>1</mass>
-        <inertia>
-          <ixx>0.00185733</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.00185733</iyy>
-          <iyz>0</iyz>
-          <izz>0.002048</izz>
-        </inertia>
-      </inertial>
-      <collision name="right_04_wheel_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.1</length>
-            <radius>0.064</radius>
-          </cylinder>
-        </geometry>
-        <surface>
-          <contact>
-            <ode/>
-          </contact>
-          <friction>
-            <ode/>
-          </friction>
-        </surface>
-      </collision>
-      <gravity>1</gravity>
-      <velocity_decay/>
-      <self_collide>0</self_collide>
-    </link>
-    <joint name="right_04_wheel_joint" type="revolute">
-      <child>right_04_wheel</child>
-      <parent>base_link</parent>
-      <axis>
-        <xyz>0 1 0</xyz>
-        <limit>
-          <lower>-1e+16</lower>
-          <upper>1e+16</upper>
-        </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
-      </axis>
-    </joint>
-    <link name="right_05_wheel">
-      <pose>0.34125 -0.2 0.11 0 -0 0</pose>
-      <inertial>
-        <pose>0 0 0 0 -0 0</pose>
-        <mass>1</mass>
-        <inertia>
-          <ixx>0.00185733</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.00185733</iyy>
-          <iyz>0</iyz>
-          <izz>0.002048</izz>
-        </inertia>
-      </inertial>
-      <collision name="right_05_wheel_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.1</length>
-            <radius>0.064</radius>
-          </cylinder>
-        </geometry>
-        <surface>
-          <contact>
-            <ode/>
-          </contact>
-          <friction>
-            <ode/>
-          </friction>
-        </surface>
-      </collision>
-      <gravity>1</gravity>
-      <velocity_decay/>
-      <self_collide>0</self_collide>
-    </link>
-    <joint name="right_05_wheel_joint" type="revolute">
-      <child>right_05_wheel</child>
-      <parent>base_link</parent>
-      <axis>
-        <xyz>0 1 0</xyz>
-        <limit>
-          <lower>-1e+16</lower>
-          <upper>1e+16</upper>
-        </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
-      </axis>
-    </joint>
-    <link name="right_11_wheel">
-      <pose>-0.08125 -0.2 -0.04 0 -0 0</pose>
-      <inertial>
-        <pose>0 0 0 0 -0 0</pose>
-        <mass>1</mass>
-        <inertia>
-          <ixx>0.00185733</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.00185733</iyy>
-          <iyz>0</iyz>
-          <izz>0.002048</izz>
-        </inertia>
-      </inertial>
-      <collision name="right_11_wheel_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.1</length>
-            <radius>0.064</radius>
-          </cylinder>
-        </geometry>
-        <surface>
-          <contact>
-            <ode/>
-          </contact>
-          <friction>
-            <ode/>
-          </friction>
-        </surface>
-      </collision>
-      <gravity>1</gravity>
-      <velocity_decay/>
-      <self_collide>0</self_collide>
-    </link>
-    <joint name="right_11_wheel_joint" type="revolute">
-      <child>right_11_wheel</child>
-      <parent>base_link</parent>
-      <axis>
-        <xyz>0 1 0</xyz>
-        <limit>
-          <lower>-1e+16</lower>
-          <upper>1e+16</upper>
-        </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
-      </axis>
-    </joint>
-    <link name="right_12_wheel">
-      <pose>-0.1625 -0.2 -0.04 0 -0 0</pose>
-      <inertial>
-        <pose>0 0 0 0 -0 0</pose>
-        <mass>1</mass>
-        <inertia>
-          <ixx>0.00185733</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.00185733</iyy>
-          <iyz>0</iyz>
-          <izz>0.002048</izz>
-        </inertia>
-      </inertial>
-      <collision name="right_12_wheel_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.1</length>
-            <radius>0.064</radius>
-          </cylinder>
-        </geometry>
-        <surface>
-          <contact>
-            <ode/>
-          </contact>
-          <friction>
-            <ode/>
-          </friction>
-        </surface>
-      </collision>
-      <gravity>1</gravity>
-      <velocity_decay/>
-      <self_collide>0</self_collide>
-    </link>
-    <joint name="right_12_wheel_joint" type="revolute">
-      <child>right_12_wheel</child>
-      <parent>base_link</parent>
-      <axis>
-        <xyz>0 1 0</xyz>
-        <limit>
-          <lower>-1e+16</lower>
-          <upper>1e+16</upper>
-        </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
-      </axis>
-    </joint>
-    <link name="right_13_wheel">
-      <pose>-0.24375 -0.2 -0.04 0 -0 0</pose>
-      <inertial>
-        <pose>0 0 0 0 -0 0</pose>
-        <mass>1</mass>
-        <inertia>
-          <ixx>0.00185733</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.00185733</iyy>
-          <iyz>0</iyz>
-          <izz>0.002048</izz>
-        </inertia>
-      </inertial>
-      <collision name="right_13_wheel_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.1</length>
-            <radius>0.064</radius>
-          </cylinder>
-        </geometry>
-        <surface>
-          <contact>
-            <ode/>
-          </contact>
-          <friction>
-            <ode/>
-          </friction>
-        </surface>
-      </collision>
-      <gravity>1</gravity>
-      <velocity_decay/>
-      <self_collide>0</self_collide>
-    </link>
-    <joint name="right_13_wheel_joint" type="revolute">
-      <child>right_13_wheel</child>
-      <parent>base_link</parent>
-      <axis>
-        <xyz>0 1 0</xyz>
-        <limit>
-          <lower>-1e+16</lower>
-          <upper>1e+16</upper>
-        </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
-      </axis>
-    </joint>
-    <link name="right_14_wheel">
-      <pose>-0.325 -0.2 -0.04 0 -0 0</pose>
-      <inertial>
-        <pose>0 0 0 0 -0 0</pose>
-        <mass>1</mass>
-        <inertia>
-          <ixx>0.00185733</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.00185733</iyy>
-          <iyz>0</iyz>
-          <izz>0.002048</izz>
-        </inertia>
-      </inertial>
-      <collision name="right_14_wheel_collision">
-        <pose>0 0 0 1.5707963267948966 -0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.1</length>
-            <radius>0.064</radius>
-          </cylinder>
-        </geometry>
-        <surface>
-          <contact>
-            <ode/>
-          </contact>
-          <friction>
-            <ode/>
-          </friction>
-        </surface>
-      </collision>
-      <gravity>1</gravity>
-      <velocity_decay/>
-      <self_collide>0</self_collide>
-    </link>
-    <joint name="right_14_wheel_joint" type="revolute">
-      <child>right_14_wheel</child>
-      <parent>base_link</parent>
-      <axis>
-        <xyz>0 1 0</xyz>
-        <limit>
-          <lower>-1e+16</lower>
-          <upper>1e+16</upper>
-        </limit>
-        <dynamics>
-          <damping>0.5</damping>
-          <friction>0</friction>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-        <use_parent_model_frame>0</use_parent_model_frame>
-      </axis>
-    </joint>
+    <plugin name='ignition::gazebo::systems::TrackController' filename='libignition-gazebo-track-controller-system.so'>
+      <link>left_track</link>
+      <min_velocity>-3</min_velocity>
+      <max_velocity>3</max_velocity>
+      <min_acceleration>-10</min_acceleration>
+      <max_acceleration>10</max_acceleration>
+    </plugin>
+    <plugin name='ignition::gazebo::systems::TrackController' filename='libignition-gazebo-track-controller-system.so'>
+      <link>right_track</link>
+      <min_velocity>-3</min_velocity>
+      <max_velocity>3</max_velocity>
+      <min_acceleration>-10</min_acceleration>
+      <max_acceleration>10</max_acceleration>
+    </plugin>
     <static>0</static>
   </model>
 </sdf>
