@@ -99,11 +99,11 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__computer_block_9">
-       <pose>0.050 0 0.185 0 -0 0</pose>
+      <collision name="base_link_fixed_joint_lump__landing_pad_9">
+        <pose>0.0 0 0.155 0 -0 0</pose>
         <geometry>
           <box>
-            <size>0.30 0.355 0.175</size>
+            <size>0.500 0.385 0.155</size>
           </box>
         </geometry>
       </collision>
@@ -170,11 +170,11 @@
           </box>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__computer_block_17">
-       <pose>0.050 0 0.185 0 -0 0</pose>
+      <visual name="base_link_fixed_joint_lump__landing_pad_17">
+       <pose>0.0 0 0.155 0 -0 0</pose>
         <geometry>
           <box>
-            <size>0.30 0.355 0.175</size>
+            <size>0.500 0.385 0.155</size>
           </box>
         </geometry>
       </visual>
@@ -432,7 +432,7 @@
           <always_on>1</always_on>
           <update_rate>200</update_rate>
           <imu>
-                    <enable_orientation>0</enable_orientation>
+                      <enable_orientation>0</enable_orientation>
                     <angular_velocity>
                         <x>
                             <noise type="gaussian">

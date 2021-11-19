@@ -116,6 +116,7 @@
 
   MARSUPIAL_PARENT_LINK_NAMES = {
      "X1" => "base_link",
+     "MARBLE_HUSKY" => "base_link",
      "EXPLORER_X1" => "base_link",
      "EXPLORER_R2" => "Rear_Rocker_Link",
      "CSIRO_DATA61_OZBOT_ATR" => "base_link",
@@ -127,6 +128,7 @@
 
   MARSUPIAL_VALID_ROBOT_PAIRS = {
     "X1" => ["X3", "MARBLE_QAV500", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER", "CORO_PAM", "CTU_CRAS_NORLAB_X500", "CORO_CRYSTAL"],
+    "MARBLE_HUSKY" =>["X3", "MARBLE_QAV500", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER", "CORO_PAM", "CTU_CRAS_NORLAB_X500", "CORO_CRYSTAL"],
     "CORO_ALLIE" => ["CERBERUS_RMF", "CORO_PAM", "CORO_CRYSTAL"],
     "CORO_JEANINE" => ["CERBERUS_RMF", "CORO_PAM", "CORO_CRYSTAL"],
     "CORO_KAREN" => ["CERBERUS_RMF", "CORO_PAM", "CORO_CRYSTAL"],
@@ -138,6 +140,7 @@
 
   MARSUPIAL_PARENT_ROBOT_POSITION_OFFSETS = {
     "X1" => Vector3d.new(0, 0, 0.717),
+    "MARBLE_HUSKY" => Vector3d.new(-0.06, 0, 0.43),
     "EXPLORER_X1" => Vector3d.new(0, 0, 0.717),
     "EXPLORER_R2" => Vector3d.new(-0.402375, 0, 0.6874),
     "CSIRO_DATA61_OZBOT_ATR" => Vector3d.new(-0.15, 0, 0.528),
@@ -149,6 +152,7 @@
 
   MARSUPIAL_PARENT_ROBOT_ROTATION_OFFSETS = {
     "X1" => AngularVector3d.new(0, 0, 0),
+    "MARBLE_HUSKY" => AngularVector3d.new(0, 0, 0),
     "EXPLORER_X1" => AngularVector3d.new(0, 0, 0),
     "EXPLORER_R2" => AngularVector3d.new(0, 0, -3.1416),
     "CSIRO_DATA61_OZBOT_ATR" => AngularVector3d.new(0, 0, -3.1416),

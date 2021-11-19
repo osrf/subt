@@ -84,14 +84,14 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
       <plugin filename="libignition-gazebo-linearbatteryplugin-system.so"
         name="ignition::gazebo::systems::LinearBatteryPlugin">
         <battery_name>linear_battery</battery_name>
-        <voltage>57.6</voltage>
-        <open_circuit_voltage_constant_coef>57.6</open_circuit_voltage_constant_coef>
-        <open_circuit_voltage_linear_coef>-25.6</open_circuit_voltage_linear_coef>
-        <initial_charge>50.0</initial_charge>
-        <capacity>50.0</capacity>
-        <resistance>0.00046875</resistance>
+        <voltage>12.694</voltage>
+        <open_circuit_voltage_constant_coef>12.694</open_circuit_voltage_constant_coef>
+        <open_circuit_voltage_linear_coef>-3.1424</open_circuit_voltage_linear_coef>
+        <initial_charge>78.4</initial_charge>
+        <capacity>78.4</capacity>
+        <resistance>0.061523</resistance>
         <smooth_current_tau>1.9499</smooth_current_tau>
-        <power_load>15.00</power_load>
+        <power_load>1.903846154</power_load>
         <start_on_motion>true</start_on_motion>
       </plugin>
 
