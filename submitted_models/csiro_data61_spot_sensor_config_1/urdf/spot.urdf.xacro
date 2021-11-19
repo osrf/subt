@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+<robot name="csiro_data61_spot_sensor_config_1" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- Include the basic Spot URDF -->
+    <xacro:include filename="$(find bosdyn_spot)/urdf/spot.urdf.xacro"/>
+
+    <!-- Here is place for all custom URDF code for this sensor config. -->
+
+    <!-- Colon-separated list of payload Xacro files to include. Whitespace around is ignored. -->
+    <xacro:arg name="payload_xacros" default="
+      $(find csiro_data61_spot_sensor_config_1)/urdf/nav_backpack/nav_backpack.xacro :
+      $(find csiro_data61_spot_sensor_config_1)/urdf/nav_backpack/barn.xacro :
+    " />
+
+    <!-- CSIRO DATA61 Standardised perception payload -->
+    <xacro:property name="nav_backpack" x="0.141" y="0.0" z="0.186" parent="base_link" spawn_cameras="true" spawn_logical_cameras="true" spawn_lights="true"/>
+
+    <!-- Custom spot compute unit -->
+    <xacro:property name="barn" x="-0.0412" y="0.0" z="0.085" parent="base_link"/>
+
+    <!-- PAYLOAD INCLUDES -->
+    <xacro:include filename="$(find csiro_data61_spot_sensor_config_1)/urdf/nav_backpack/nav_backpack.xacro"/>
+    <xacro:include filename="$(find csiro_data61_spot_sensor_config_1)/urdf/nav_backpack/barn.xacro"/>
+
+    <!-- Compute total mass. You'll find it in the git-ignored file model.sdf.urdf as link named "total_mass_*". -->
+    <xacro:if value="${'$(arg rendering_target)' == 'ign'}">
+        <xacro:property name="total_mass" value="${
+          base_mass + 4 * (hip_mass + upper_leg_mass + lower_leg_mass) + nav_backpack_mass + barn_mass
+        }" />
+        <!-- This is a workaround for outputting the total mass of the robot. You'll find it in the URDF file. -->
+        <xacro:property name="total_mass_str" value="${str(total_mass).replace('.', '_')}" />
+        <link name="total_mass_${total_mass_str}" />
+        <xacro:fixed_joint name="total_mass_j" parent="$(arg prefix)base_link" child="total_mass_${total_mass_str}" />
+    </xacro:if>
+</robot>

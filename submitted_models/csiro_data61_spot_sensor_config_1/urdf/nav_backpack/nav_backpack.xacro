@@ -1,0 +1,296 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- include utility functions -->
+  <xacro:include filename="$(find csiro_data61_spot_sensor_config_1)/urdf/nav_backpack/utils/standard_inertia_tensors.xacro"/>
+  <xacro:include filename="$(find csiro_data61_spot_sensor_config_1)/urdf/nav_backpack/utils/colours.xacro"/>
+
+  <!-- include sensors -->
+  <xacro:include filename="$(find csiro_data61_spot_sensor_config_1)/urdf/nav_backpack/sensors/light.xacro"/>
+  <xacro:include filename="$(find csiro_data61_spot_sensor_config_1)/urdf/nav_backpack/sensors/camera.xacro"/>
+  <xacro:include filename="$(find csiro_data61_spot_sensor_config_1)/urdf/nav_backpack/sensors/VLP-16.urdf.xacro"/>
+
+  <xacro:property name="nav_backpack_mass" value="3.90857"/>
+
+  <xacro:macro name="nav_backpack" params="x y z parent spawn_cameras:=true spawn_logical_cameras:=true spawn_lights:=true">
+
+  <xacro:property name="imu_x_offset" value="-0.00609080"/>
+  <xacro:property name="imu_y_offset" value="-0.0051777295"/>
+  <xacro:property name="imu_z_offset" value="0.0"/>
+
+    <!-- Body -->
+    <link name="$(arg prefix)nav_base_link">
+      <xacro:box_inertial x="0.171" y="0.171" z="0.140" mass="2.089"/>
+      <visual>
+        <geometry>
+          <mesh filename="package://csiro_data61_spot_sensor_config_1/meshes/PPV4_Sim_Base.STL"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://csiro_data61_spot_sensor_config_1/meshes/PPV4_Sim_Base.STL"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <gazebo reference="$(arg prefix)nav_base_link">
+      <xacro:colour_silver/>
+      <selfCollide>false</selfCollide>
+      <gravity>true</gravity>
+    </gazebo>
+
+    <joint name="$(arg prefix)${parent}_to_$(arg prefix)nav_base_link" type="fixed">
+      <origin xyz="${x} ${y} ${z}"/>
+      <parent link="$(arg prefix)${parent}"/>
+      <child link="$(arg prefix)nav_base_link"/>
+    </joint>
+
+    <!-- Protective birdcage -->
+    <link name="$(arg prefix)birdcage_link">
+  		<inertial>
+          <origin
+            xyz="0.0017800000000000001 -0.00035999999999999997 0.024480000000000002"
+            rpy="0 0 0" />
+          <mass value="0.83157" />
+          <inertia
+            ixx="0.01681737787"
+            ixy="-3.2462510000000004e-05"
+            ixz="1.4180940000000001e-05"
+            iyy="0.01589517162"
+            iyz="-3.29827e-05"
+            izz="0.00868994901" />
+      </inertial>
+      <visual>
+        <geometry>
+          <mesh filename="package://csiro_data61_spot_sensor_config_1/meshes/birdcage.STL"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://csiro_data61_spot_sensor_config_1/meshes/birdcage.STL"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <gazebo reference="$(arg prefix)birdcage_link">
+      <xacro:colour_dark_gray/>
+      <selfCollide>false</selfCollide>
+      <gravity>true</gravity>
+    </gazebo>
+    <joint name="$(arg prefix)nav_base_link_to_$(arg prefix)birdcage_link" type="fixed">
+      <origin xyz="0 0 0"/>
+      <parent link="$(arg prefix)nav_base_link"/>
+      <child link="$(arg prefix)birdcage_link"/>
+    </joint>
+
+    <!-- IMU -->
+    <link name="$(arg prefix)nav_imu">
+      <xacro:box_inertial x="0.01" y="0.01" z="0.01" mass="0.1"/>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.01 0.01 0.01"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.01 0.01 0.01"/>
+        </geometry>
+      </collision>
+    </link>
+    <gazebo reference="$(arg prefix)nav_imu">
+      <visual>
+        <material>
+          <ambient>0.1 0.1 0.1 1</ambient>
+          <diffuse>0.1 0.1 0.1 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+        </material>
+      </visual>
+      <selfCollide>false</selfCollide>
+      <gravity>true</gravity>
+      <sensor name="nav_imu" type="imu">
+        <always_on>1</always_on>
+        <update_rate>100</update_rate>
+        <imu>
+          <angular_velocity>
+            <x>
+              <noise type="gaussian">
+                <mean>0</mean>
+                <stddev>0.009</stddev>
+                <bias_mean>0.00075</bias_mean>
+                <bias_stddev>0.005</bias_stddev>
+                <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                <precision>0.00025</precision>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0</mean>
+                <stddev>0.009</stddev>
+                <bias_mean>0.00075</bias_mean>
+                <bias_stddev>0.005</bias_stddev>
+                <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                <precision>0.00025</precision>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0</mean>
+                <stddev>0.009</stddev>
+                <bias_mean>0.00075</bias_mean>
+                <bias_stddev>0.005</bias_stddev>
+                <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                <precision>0.00025</precision>
+              </noise>
+            </z>
+        </angular_velocity>
+        <linear_acceleration>
+            <x>
+              <noise type="gaussian">
+                <mean>0</mean>
+                <stddev>0.021</stddev>
+                <bias_mean>0.05</bias_mean>
+                <bias_stddev>0.0075</bias_stddev>
+                <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                <precision>0.005</precision>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0</mean>
+                <stddev>0.021</stddev>
+                <bias_mean>0.05</bias_mean>
+                <bias_stddev>0.0075</bias_stddev>
+                <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                <precision>0.005</precision>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0</mean>
+                <stddev>0.021</stddev>
+                <bias_mean>0.05</bias_mean>
+                <bias_stddev>0.0075</bias_stddev>
+                <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                <precision>0.005</precision>
+              </noise>
+            </z>
+          </linear_acceleration>
+      </imu>
+      </sensor>
+    </gazebo>
+
+    <!-- @warning this is a fixed joint of type `revolute` since gazebo will collapse this joint otherwise, causing sensor frame issues with the plugin -->
+    <joint name="$(arg prefix)nav_base_link_to_$(arg prefix)nav_imu" type="revolute">
+      <axis xyz="1 0 0" />
+      <limit effort="0" lower="0" upper="0" velocity="0"/>
+      <origin xyz="${imu_x_offset} ${imu_y_offset} ${imu_z_offset}"/>
+      <parent link="$(arg prefix)nav_base_link"/>
+      <child link="$(arg prefix)nav_imu"/>
+    </joint>
+
+    <transmission name="$(arg prefix)nav_base_link_to_$(arg prefix)nav_imu_transmission">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="$(arg prefix)nav_base_link_to_$(arg prefix)nav_imu">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="$(arg prefix)nav_base_link_to_$(arg prefix)nav_imu_motor">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <!-- Rotor -->
+    <link name="$(arg prefix)encoder_rotating_link">
+      <xacro:cylinder_inertial radius="0.08" length="0.1" mass="0.488"/>
+      <visual>
+        <geometry>
+          <mesh filename="package://csiro_data61_spot_sensor_config_1/meshes/PPV4_Sim_Laser_Assembly.STL"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://csiro_data61_spot_sensor_config_1/meshes/PPV4_Sim_Laser_Assembly.STL"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <gazebo reference="$(arg prefix)encoder_rotating_link">
+      <xacro:colour_silver/>
+      <selfCollide>false</selfCollide>
+      <gravity>true</gravity>
+    </gazebo>
+
+    <!-- named lidar gimbal for convention -->
+    <joint name="$(arg prefix)lidar_gimbal" type="continuous">
+      <parent link="$(arg prefix)nav_base_link"/>
+      <child link="$(arg prefix)encoder_rotating_link"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="1" velocity="6.30" lower="-6.3" upper="6.3"/>
+      <origin xyz="0.0 0.0 0.030797115"/>
+    </joint>
+
+    <transmission name="$(arg prefix)lidar_gimbal_transmission">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="$(arg prefix)lidar_gimbal_transmission">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="$(arg prefix)lidar_gimbal_transmission">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <!-- Velodyne -->
+    <xacro:VLP-16 parent="encoder_rotating_link" name="nav_velodyne" topic="velodyne_points" hz="20" samples="360" min_range="0.2" noise="0.015" gpu="true">
+      <origin xyz="-0.0180 0.0 0.072502549" rpy="-0.7853981634 0.0 -1.570796327"/>
+    </xacro:VLP-16>
+
+    <!-- SENSORS -->
+    <xacro:if value="${spawn_cameras}">
+      <!-- Front -->
+      <xacro:nav_backpack_camera name="nav_camera_front" parent="nav_imu">
+        <origin xyz="${0.065627261-imu_x_offset} ${0.0-imu_y_offset} ${0.018619594-imu_z_offset}" rpy="0 -0.2617993878 0"/>
+      </xacro:nav_backpack_camera>
+      <!-- Left -->
+      <xacro:nav_backpack_camera name="nav_camera_left" parent="nav_imu">
+        <origin xyz="${0.0-imu_x_offset} ${0.065627261-imu_y_offset} ${0.018619594-imu_z_offset}" rpy="0 -0.2617993878 1.57"/>
+      </xacro:nav_backpack_camera>
+      <!-- Back -->
+      <xacro:nav_backpack_camera name="nav_camera_rear" parent="nav_imu">
+        <origin xyz="${-0.065627261-imu_x_offset} ${0.0-imu_y_offset} ${0.018619594-imu_z_offset}" rpy="0 -0.2617993878 3.14"/>
+      </xacro:nav_backpack_camera>
+      <!-- Right -->
+      <xacro:nav_backpack_camera name="nav_camera_right" parent="nav_imu">
+        <origin xyz="${0.0-imu_x_offset} ${-0.065627261-imu_y_offset} ${0.018619594-imu_z_offset}" rpy="0 -0.2617993878 -1.57"/>
+      </xacro:nav_backpack_camera>
+    </xacro:if>
+
+    <xacro:if value="${spawn_lights}">
+      <!-- Front - Note: Pose is from base_link as lights are not tied to associated link -->
+      <xacro:nav_backpack_light name="nav_light_front" parent="nav_base_link" pose="${x+0.04} ${y+0.0} ${z+0.240} 0.0 -1.571 0.0">
+        <origin xyz="0.04 0.0 0.240" rpy="0 0 0"/>
+      </xacro:nav_backpack_light>
+      <!-- Left - Note: Pose is from base_link as lights are not tied to associated link -->
+      <xacro:nav_backpack_light name="nav_light_left" parent="nav_base_link" pose="${x+0.0} ${y+0.04} ${z+0.240} 0.0 -1.571 1.571">
+        <origin xyz="0.0 0.04 0.240" rpy="0 0 1.57"/>
+      </xacro:nav_backpack_light>
+      <!-- Back - Note: Pose is from base_link as lights are not tied to associated link -->
+      <xacro:nav_backpack_light name="nav_light_rear" parent="nav_base_link" pose="${x-0.04} ${y+0.0} ${z+0.240} 0.0 -1.571 3.14">
+        <origin xyz="-0.04 0.0 0.240" rpy="0 0 3.14"/>
+      </xacro:nav_backpack_light>
+      <!-- Right - Note: Pose is from base_link as lights are not tied to associated link -->
+      <xacro:nav_backpack_light name="nav_light_right" parent="nav_base_link" pose="${x+0.0} ${y-0.04} ${z+0.240} 0.0 -1.571 -1.571">
+        <origin xyz="0.0 -0.04 0.240" rpy="0 0 -1.57"/>
+      </xacro:nav_backpack_light>
+    </xacro:if>
+
+  </xacro:macro>
+</robot>

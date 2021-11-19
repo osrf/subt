@@ -776,6 +776,12 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
     this->dataPtr->worldName.find("final") != std::string::npos ? 25 :
     this->dataPtr->reportCountLimit;
 
+  if (this->dataPtr->worldName == "finals_systems_prize")
+  {
+    this->dataPtr->reportCountLimit = 45;
+    this->dataPtr->artifactCount = 40;
+  }
+
   // Make sure that there are score files.
   this->dataPtr->UpdateScoreFiles(this->dataPtr->simTime);
 }
@@ -1113,7 +1119,7 @@ void GameLogicPluginPrivate::OnEvent(const ignition::msgs::Pose &_msg)
         // there should be only 1 key-value pair. Just in case, we will grab
         // only the first. The key is currently always "type", which we can
         // ignore when sending the ROS message.
-        if (regionEventType.empty())
+        if (regionEventType.empty() && data.first == "type")
         {
           if (data.second.find("performer_detector_rockfall") ==
               std::string::npos)
@@ -1247,7 +1253,10 @@ void GameLogicPlugin::PreUpdate(const UpdateInfo &_info,
     for (auto &ke : this->dataPtr->keInfo)
     {
       ignition::gazebo::Link link(ke.second.link);
-      if (std::nullopt != link.WorldKineticEnergy(_ecm))
+      if (std::nullopt != link.WorldKineticEnergy(_ecm) &&
+          robotPlatformTypes.find(
+          this->dataPtr->robotFullTypes[ke.second.robotName].first) !=
+          robotPlatformTypes.end())
       {
         double currKineticEnergy = *link.WorldKineticEnergy(_ecm);
 
@@ -1285,6 +1294,9 @@ void GameLogicPlugin::PreUpdate(const UpdateInfo &_info,
             << "- event:\n"
             << "  id: " << this->dataPtr->eventCounter << "\n"
             << "  type: collision\n"
+            << "  ke: " << deltaKE  << "\n"
+            << "  ke_threshold: " << ke.second.kineticEnergyThreshold  << "\n"
+            << "  link: " << *link.Name(_ecm) << "\n"
             << "  time_sec: " << localSimTime.sec() << "\n"
             << "  robot: " << ke.second.robotName << std::endl;
           this->dataPtr->LogEvent(stream.str());
@@ -1297,7 +1309,10 @@ void GameLogicPlugin::PreUpdate(const UpdateInfo &_info,
             _ecm.Component<components::HaltMotion>(ke.first);
           if (haltMotionComp && !haltMotionComp->Data())
           {
-            igndbg << "Robot[" << ke.second.robotName  << "] has crashed!\n";
+            igndbg << "Robot[" << ke.second.robotName  << "] has crashed "
+              << "with a KE of [" << deltaKE << "] and a KE threshold "
+              << "of [" << ke.second.kineticEnergyThreshold << "] on "
+              << "link [" << *link.Name(_ecm) << "]!\n";
             haltMotionComp->Data() = true;
           }
         }
@@ -1352,6 +1367,44 @@ void GameLogicPlugin::PostUpdate(
           }
           return true;
         });
+
+    // This function is used to record the presence of a TEAMBASE model.
+    _ecm.EachNew<gazebo::components::ParentEntity>(
+        [&](const gazebo::Entity &,
+            const gazebo::components::ParentEntity *_parent) -> bool
+    {
+          // Get the model.
+          auto model = _ecm.Component<gazebo::components::ParentEntity>(
+              _parent->Data());
+          if (model)
+          {
+            ignition::gazebo::Model mdl(model->Data());
+
+            // Get the teambase_link, which should only be present in a
+            // TEAMBASE model
+            ignition::gazebo::Entity teambaseLink = mdl.LinkByName(_ecm,
+                "teambase_link");
+
+            // Get the filepath for the model, which should be empty for
+            // the TEAMBASE model since it is created via an
+            // Ignition launch file.
+            auto filePath =
+              _ecm.Component<gazebo::components::SourceFilePath>(
+              model->Data());
+
+            // Confirm that the model has the teambase_link and no filepath.
+            // Then store this model as the TEAMBASE.
+            if (filePath && filePath->Data().empty() && teambaseLink !=
+                ignition::gazebo::kNullEntity )
+            {
+              // Get the model name
+              auto mName = mdl.Name(_ecm);
+              this->dataPtr->robotNames.insert(mName);
+              this->dataPtr->robotFullTypes[mName] = {"TEAMBASE", "TEAMBASE"};
+            }
+          }
+          return true;
+    });
 
     _ecm.Each<gazebo::components::Sensor,
               gazebo::components::ParentEntity>(
@@ -2384,6 +2437,10 @@ bool GameLogicPluginPrivate::OnFinishCall(const ignition::msgs::Boolean &_req,
   ignition::msgs::Time localSimTime(this->simTime);
   if (this->started && _req.data() && !this->finished)
   {
+    ignmsg << "User triggered OnFinishCall." << std::endl;
+    this->Log(localSimTime) << "User triggered OnFinishCall." << std::endl;
+    this->logStream.flush();
+
     this->Finish(localSimTime);
     _res.set_data(true);
   }

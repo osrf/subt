@@ -182,7 +182,8 @@ bool CommsBrokerPlugin::Load(const tinyxml2::XMLElement *_elem)
                 this->visibilityModel.get(),
                 std::placeholders::_1,
                 std::placeholders::_2,
-                std::placeholders::_3);
+                std::placeholders::_3,
+                std::placeholders::_4);
   }
 
   // Default comms model type is log_normal_range (will always work)

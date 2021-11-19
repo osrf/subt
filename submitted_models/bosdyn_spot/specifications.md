@@ -174,19 +174,20 @@ Based on the tests specified in the DARPA SubT Challenge
 [Model Preparation Guide](https://www.subtchallenge.com/resources/Simulation_Model_Preparation_Guide.pdf),
 this vehicle has the following motion constraint characteristics.
 
-The tests have not yet been conducted due to Covid restrictions and unavailability of the real hardware.
-Team CTU-CRAS-Norlab is planning to rent a Spot at the end of April or beginning of May, so that is
-when we will fill the missing validation data. But we hope that team CoSTAR or MARBLE will be able
-to do the tests earlier.
-
-Maximum forward speed is `1.6 m/s` with an almost instant acceleration to this speed from zero
-(`TODO m/s^2` from IMU, `TODO m/s^2` from odometry).
+Maximum forward speed is about `1.5 m/s` with maximum observed acceleration `4 m/s^2` (from odometry).
 Configuration of the maximum forward speed in simulation has no single defining value. It is a
 result of the configuration of gait and and PID controllers. There is a default velocity smoother
 in the support package that caps the _commanded_ velocity to 1.5 m/s.
 
-Maximum turning speed is `TODO 1 rad/s` with an almost instant acceleration to this speed from zero
-(`TODO rad/s^2` from both IMU and odometry).
+Maximum sideways (strafing) speed tops at `0.9 m/s` with maximum observed acceleration `3 m/s^2` (from odometry).
+Configuration of the maximum sideways speed in simulation has no single defining value. It is a
+result of the configuration of gait and and PID controllers. There is a default velocity smoother
+in the support package that caps the _commanded_ velocity to 0.9 m/s.
+
+Maximum turning speed is `1.5 rad/s` with maximum observed acceleration `3 rad/s^2` (from odometry).
+Configuration of the maximum rotation speed in simulation has no single defining value. It is a
+result of the configuration of gait and and PID controllers. There is a default velocity smoother
+in the support package that caps the _commanded_ velocity to 1.5 rad/s.
 
 Minimum turning radius is 0, as the robot can turn in place.
 
@@ -194,7 +195,8 @@ The real robot can climb stairs. The simulated model should be able to do it too
 control algorithm.
 
 ## Endurance Characteristics
-This configuration has an endurance of approximately 90 minutes (value from datasheet).
+This configuration has an endurance of approximately 87 minutes (from full to completely depleted
+battery).
 
 ## Diversions from Physical Hardware of Spot robot
 The fisheye lens does not use any fisheye projection as the simulator doesn't support that.
@@ -226,13 +228,7 @@ The URDF files are not physically present, but are generated on-the-fly by calli
 * Sensor specification links:
   * N/A (no specification of the used sensors has been published)
     
-* Validation Video Links:
-  * Endurance test: TODO
-  * Maximum linear speed: TODO
-  * Maximum angular speed: TODO
-  * Rotation in place: TODO
-  
-* Validation Data Links:
-  * Recordings of validation tests: TODO
+* Validation Links:
+  * http://ptak.felk.cvut.cz/darpa-subt/qualification_videos/spot/
   * Total mass measurement: TODO
 

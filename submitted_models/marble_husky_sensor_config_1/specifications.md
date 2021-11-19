@@ -43,7 +43,7 @@ The following specific sensors are declared payloads of this vehicle:
   - 1x fixed, downward-facing at about 45 degrees (for examining terrain)
   - 1x gimballed (on the Trossen turret)
 * Ouster 3D Lidar (64 Channel), modeled by gpu_lidar plugin
-* Microstrain IMU: 3DM-GX5-25, modeled by imu_sensor plugin. Notes on modeling of the IMU are included in the model.sdf file.  (located under the 3D lidar, installed at same x,y location as 3D lidar)
+* Microstrain IMU: 3DM-GX5-25, modeled by imu_sensor plugin.  (located under the 3D lidar, installed at same x,y location as 3D lidar)
 - RPLidar S1 Planar Lidar (under the 3D lidar), modeled by gpu_ray plugin
 - Vividia HTI-301 LWIR Camera (not modeled because thermal camera not yet supported in simulator) - located on the turret next to the D435i and light.  
 * 12 communication breadcrumbs are also available as a payload for this robot in sensor configuration 2.
@@ -86,16 +86,6 @@ The physical robot has 3 communication breadcrumbs. 12 breadcrumbs are included 
   * RPLidar S1 Planar Lidar - https://www.slamtec.com/en/Lidar/S1Spec
   * Vividia HTI-301 LWIR Camera - https://www.oasisscientific.com/store/p504/Vividia_HTi_HT-301_Thermal_Imaging_Camera_for_Android_Phone_and_Tablet_with_IR_Resolution_384x288.html  
   * IMU: Microstrain 3DM-GX5-25 - datasheet: https://www.microstrain.com/sites/default/files/applications/files/3dm-gx5-25_datasheet_8400-0093_rev_n.pdf
-    ~~* Explanation of sensor parameter derivations:
-	We derived the stddev terms as follows:
-
-	accelerometer noise density = 0.00002 g/sqrt(Hz) 
-		=> convert to m/s^2 => 1.962e-4 m/s^2
-	gyro noise density = 0.005 deg/s/sqrt(Hz)
-		=> convert to rad/sec => 8.72664e-5 radians
-
-	Other terms are difficult to extract from datasheet, so we used similar terms to previous IMU models proposed (of similar or worse quality) such as the ADIS 16448 (which has worse performance than this IMU). ~~
-    - IMU model is standardized to match other available models.
 
 * \<Validation Video Link(s), e.g.,https://youtu.be/xxxxxxxxx/\>
 * \<Validation Data Link(s), e.g., https://drive.google.com/file/xxxxxxxxx/\>

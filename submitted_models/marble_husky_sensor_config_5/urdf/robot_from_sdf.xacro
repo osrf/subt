@@ -119,31 +119,31 @@
     <visual name='base_link_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://marble_husky_sensor_config_5/meshes/base_link.dae' scale='1 1 1'/>
+        <mesh filename='package://marble_husky_sensor_config_1/meshes/base_link.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='base_link_fixed_joint_lump__front_bumper_link_visual_3'>
       <origin xyz='0.48 0 0.091' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://marble_husky_sensor_config_5/meshes/bumper.dae' scale='1 1 1'/>
+        <mesh filename='package://marble_husky_sensor_config_1/meshes/bumper.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='base_link_fixed_joint_lump__rear_bumper_link_visual_4'>
       <origin xyz='-0.48 0 0.091' rpy='0 -0 3.14159'/>
       <geometry>
-        <mesh filename='package://marble_husky_sensor_config_5/meshes/bumper.dae' scale='1 1 1'/>
+        <mesh filename='package://marble_husky_sensor_config_1/meshes/bumper.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='base_link_fixed_joint_lump__top_chassis_link_visual_5'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://marble_husky_sensor_config_5/meshes/top_chassis.dae' scale='1 1 1'/>
+        <mesh filename='package://marble_husky_sensor_config_1/meshes/top_chassis.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='base_link_fixed_joint_lump__user_rail_link_visual_13'>
       <origin xyz='0.272 0 0.245' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://marble_husky_sensor_config_5/meshes/user_rail.dae' scale='1 1 1'/>
+        <mesh filename='package://marble_husky_sensor_config_1/meshes/user_rail.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='base_link_fixed_joint_lump__planar_lidar_link_visual_14'>
@@ -167,7 +167,7 @@
     <visual name='tof_left_camera_visual'>
       <origin xyz='0.527 0.015 0.429' rpy='-1.34452 0.47634 0.465309'/>
       <geometry>
-        <mesh filename='package://marble_husky_sensor_config_5/meshes/realsense.dae' scale='1 1 1'/>
+        <mesh filename='package://marble_husky_sensor_config_1/meshes/realsense.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='tof_left_camera_mount_visual'>
@@ -179,7 +179,7 @@
     <visual name='tof_right_camera_visual'>
       <origin xyz='0.527 -0.015 0.429' rpy='-1.79707 0.47634 -0.465309'/>
       <geometry>
-        <mesh filename='package://marble_husky_sensor_config_5/meshes/realsense.dae' scale='1 1 1'/>
+        <mesh filename='package://marble_husky_sensor_config_1/meshes/realsense.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='tof_right_camera_mount_visual'>
@@ -215,37 +215,37 @@
     <visual name='base_link_fixed_joint_lump__velodyne_base_link_visual_10'>
       <origin xyz='0.4379 0 0.61018' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://marble_husky_sensor_config_5/meshes/VLP16_base_1.dae' scale='1 1 1'/>
+        <mesh filename='package://marble_husky_sensor_config_1/meshes/VLP16_base_1.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='base_link_fixed_joint_lump__velodyne_base_link_visual_11'>
       <origin xyz='0.4379 0 0.61018' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://marble_husky_sensor_config_5/meshes/VLP16_base_2.dae' scale='1 1 1'/>
+        <mesh filename='package://marble_husky_sensor_config_1/meshes/VLP16_base_2.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='base_link_fixed_joint_lump__velodyne_visual_12'>
       <origin xyz='0.4379 0 0.61018' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://marble_husky_sensor_config_5/meshes/VLP16_scan.dae' scale='1 1 1'/>
+        <mesh filename='package://marble_husky_sensor_config_1/meshes/VLP16_scan.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='base_link_fixed_joint_lump__velodyne_base_link_visual_13'>
       <origin xyz='0.31037 0 0.44818' rpy='3.14159 -1.57079 3.14159'/>
       <geometry>
-        <mesh filename='package://marble_husky_sensor_config_5/meshes/VLP16_base_1.dae' scale='1 1 1'/>
+        <mesh filename='package://marble_husky_sensor_config_1/meshes/VLP16_base_1.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='base_link_fixed_joint_lump__velodyne_base_link_visual_14'>
       <origin xyz='0.31037 0 0.44818' rpy='3.14159 -1.57079 3.14159'/>
       <geometry>
-        <mesh filename='package://marble_husky_sensor_config_5/meshes/VLP16_base_2.dae' scale='1 1 1'/>
+        <mesh filename='package://marble_husky_sensor_config_1/meshes/VLP16_base_2.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='base_link_fixed_joint_lump__velodyne_visual_15'>
       <origin xyz='0.31037 0 0.44818' rpy='3.14159 -1.57079 3.14159'/>
       <geometry>
-        <mesh filename='package://marble_husky_sensor_config_5/meshes/VLP16_scan.dae' scale='1 1 1'/>
+        <mesh filename='package://marble_husky_sensor_config_1/meshes/VLP16_scan.dae' scale='1 1 1'/>
       </geometry>
     </visual>
     <visual name='camera_front_visual'>
@@ -346,7 +346,7 @@
     <visual name='front_left_wheel_link_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://marble_husky_sensor_config_5/meshes/wheel.dae' scale='1 1 1'/>
+        <mesh filename='package://marble_husky_sensor_config_1/meshes/wheel.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
@@ -365,7 +365,7 @@
     <visual name='front_right_wheel_link_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://marble_husky_sensor_config_5/meshes/wheel.dae' scale='1 1 1'/>
+        <mesh filename='package://marble_husky_sensor_config_1/meshes/wheel.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
@@ -384,7 +384,7 @@
     <visual name='rear_left_wheel_link_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://marble_husky_sensor_config_5/meshes/wheel.dae' scale='1 1 1'/>
+        <mesh filename='package://marble_husky_sensor_config_1/meshes/wheel.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>
@@ -403,7 +403,7 @@
     <visual name='rear_right_wheel_link_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
-        <mesh filename='package://marble_husky_sensor_config_5/meshes/wheel.dae' scale='1 1 1'/>
+        <mesh filename='package://marble_husky_sensor_config_1/meshes/wheel.dae' scale='1 1 1'/>
       </geometry>
     </visual>
   </link>

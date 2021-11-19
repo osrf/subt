@@ -134,8 +134,8 @@
     "CORO_KAREN" => ["CERBERUS_RMF", "CORO_PAM", "CORO_CRYSTAL"],
     "CORO_MIKE" => ["CERBERUS_RMF", "CORO_PAM", "CORO_CRYSTAL"],
     "EXPLORER_X1" =>["X3", "MARBLE_QAV500", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER", "CORO_PAM", "CTU_CRAS_NORLAB_X500", "CORO_CRYSTAL"],
-    "EXPLORER_R2" =>["X3", "X4", "SSCI_X4", "SOPHISTICATED_ENGINEERING_X4", "EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER", "CORO_PAM", "CTU_CRAS_NORLAB_X500", "CORO_CRYSTAL"],
-    "CSIRO_DATA61_OZBOT_ATR" =>["X3", "X4", "SSCI_X4", "SOPHISTICATED_ENGINEERING_X4","EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER", "CORO_PAM", "CTU_CRAS_NORLAB_X500", "CORO_CRYSTAL"]
+    "EXPLORER_R2" =>["X3", "X4", "SSCI_X4", "SOPHISTICATED_ENGINEERING_X4", "EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER", "CORO_PAM", "CTU_CRAS_NORLAB_X500", "CORO_CRYSTAL", "EMESENT_HOVERMAP"],
+    "CSIRO_DATA61_OZBOT_ATR" =>["X3", "X4", "SSCI_X4", "SOPHISTICATED_ENGINEERING_X4","EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER", "CORO_PAM", "CTU_CRAS_NORLAB_X500", "CORO_CRYSTAL", "EMESENT_HOVERMAP"]
   }
 
   MARSUPIAL_PARENT_ROBOT_POSITION_OFFSETS = {
@@ -293,6 +293,9 @@
     <% elsif $worldName.include?('final_event') &&
           !$worldName.include?('practice') %>
       <world_file>final_event/<%= worldNumber %>/<%= $worldName %>.sdf</world_file>
+    <% elsif $worldName.include?('final_prelim') &&
+          !$worldName.include?('practice') %>
+      <world_file>final_prelim/<%= worldNumber %>/<%= $worldName %>.sdf</world_file>
     <% else %>
       <world_file><%= $worldName %>.sdf</world_file>
     <% end %>
@@ -1262,7 +1265,7 @@
       <model name='#{_name}'>
         <pose>#{_x} #{_y} #{_z} 0 0 #{_yaw}</pose>
         <static>true</static>
-        <link name='link'>
+        <link name='teambase_link'>
           <pose>0 0 0.05 0 0 0</pose>
           <visual name='visual'>
             <geometry>

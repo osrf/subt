@@ -94,15 +94,15 @@ void printGraph(std::vector<VertexData> &_vertexData,
             _vertexData[i].tileType);
           if (ct1It == subt::ConnectionHelper::circuitTypes.end())
           {
-            ignwarn << "No circuit information for: " << _vertexData[i].tileType
-                    << std::endl;
+            std::cerr << "No circuit information for: "
+              << _vertexData[i].tileType << std::endl;
           }
           auto ct2It = subt::ConnectionHelper::circuitTypes.find(
             _vertexData[j].tileType);
           if (ct2It == subt::ConnectionHelper::circuitTypes.end())
           {
-            ignwarn << "No circuit information for: " << _vertexData[j].tileType
-                    << std::endl;
+            std::cerr << "No circuit information for: "
+              << _vertexData[j].tileType << std::endl;
           }
 
           // Is one of the tile a starting area? If so, the cost should be 1.
@@ -191,7 +191,16 @@ void generateDOT(const std::string &_sdfFile, const std::string &_circuit)
       filter = [](const std::string &/*_name*/,
       const std::string &_type)
   {
-    return subt::ConnectionHelper::connectionPoints.count(_type) <= 0;
+    for (const auto &connection : subt::ConnectionHelper::connectionPoints)
+    {
+      if (ignition::common::lowercase(connection.first) ==
+          ignition::common::lowercase(_type))
+      {
+        return false;
+      }
+    }
+
+    return true;
   };
 
   std::vector<VertexData> vertexData;
@@ -201,6 +210,7 @@ void generateDOT(const std::string &_sdfFile, const std::string &_circuit)
     std::string includeStr = SdfParser::Parse("include", str, result);
     if (result == std::string::npos || result > str.size())
       break;
+
 
     VertexData vd;
     bool filled = SdfParser::FillVertexData(includeStr, vd, filter);

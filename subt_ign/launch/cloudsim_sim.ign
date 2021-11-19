@@ -141,8 +141,8 @@
     "CORO_KAREN" => ["CERBERUS_RMF", "CORO_PAM", "CORO_CRYSTAL"],
     "CORO_MIKE" => ["CERBERUS_RMF", "CORO_PAM", "CORO_CRYSTAL"],
     "EXPLORER_X1" =>["X3", "MARBLE_QAV500", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER", "CORO_PAM", "CTU_CRAS_NORLAB_X500", "CORO_CRYSTAL"],
-    "EXPLORER_R2" => ["X3", "X4", "SSCI_X4", "SOPHISTICATED_ENGINEERING_X4", "EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER", "CORO_PAM", "CTU_CRAS_NORLAB_X500", "CORO_CRYSTAL"],
-    "CSIRO_DATA61_OZBOT_ATR" =>["X3", "X4", "SSCI_X4", "SOPHISTICATED_ENGINEERING_X4","EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER", "CORO_PAM", "CTU_CRAS_NORLAB_X500", "CORO_CRYSTAL"]
+    "EXPLORER_R2" => ["X3", "X4", "SSCI_X4", "SOPHISTICATED_ENGINEERING_X4", "EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER", "CORO_PAM", "CTU_CRAS_NORLAB_X500", "CORO_CRYSTAL", "EMESENT_HOVERMAP"],
+    "CSIRO_DATA61_OZBOT_ATR" =>["X3", "X4", "SSCI_X4", "SOPHISTICATED_ENGINEERING_X4","EXPLORER_DS1", "MARBLE_QAV500", "CERBERUS_M100", "CERBERUS_GAGARIN", "CERBERUS_RMF", "COSTAR_SHAFTER", "CORO_PAM", "CTU_CRAS_NORLAB_X500", "CORO_CRYSTAL", "EMESENT_HOVERMAP"]
   }
 
   MARSUPIAL_PARENT_ROBOT_POSITION_OFFSETS = {
@@ -344,6 +344,17 @@
     <authorization_key><%= $websocketAuthKey %></authorization_key>
     <admin_authorization_key><%= $websocketAdminAuthKey %></admin_authorization_key>
     <max_connections><%= $websocketMaxConnections  %></max_connections>
+    <queue_size_per_connection>10</queue_size_per_connection>
+    <subscription_limit_per_connection>
+      <subscription>
+        <msg_type>ignition.msgs.PointCloudPacked</msg_type>
+        <limit>1</limit>
+      </subscription>
+      <subscription>
+        <msg_type>ignition.msgs.Image</msg_type>
+        <limit>6</limit>
+      </subscription>
+    </subscription_limit_per_connection>
     <ssl>
       <cert_file><%= $websocketSSLCertFile %></cert_file>
       <private_key_file><%= $websocketSSLKeyFile %></private_key_file>
@@ -364,6 +375,9 @@
     <% elsif $worldName.include?('final_event') &&
           !$worldName.include?('practice') %>
       <world_file>final_event/<%= worldNumber %>/<%= $worldName %>.sdf</world_file>
+    <% elsif $worldName.include?('final_prelim') &&
+          !$worldName.include?('practice') %>
+      <world_file>final_prelim/<%= worldNumber %>/<%= $worldName %>.sdf</world_file>
     <% else %>
       <world_file><%= $worldName %>.sdf</world_file>
     <% end %>
@@ -441,7 +455,7 @@
             name="subt::GameLogicPlugin">
       <world_name><%= $worldName %></world_name>
       <ros><%= $ros %></ros>
-      <ke_height>0.078</ke_height>
+      <ke_height>0.24</ke_height>
 
       <duration_seconds><%= $durationSec %></duration_seconds>
 
@@ -1330,7 +1344,7 @@
       <model name='#{_name}'>
         <pose>#{_x} #{_y} #{_z} 0 0 #{_yaw}</pose>
         <static>true</static>
-        <link name='link'>
+        <link name='teambase_link'>
           <pose>0 0 0.05 0 0 0</pose>
           <visual name='visual'>
             <geometry>
