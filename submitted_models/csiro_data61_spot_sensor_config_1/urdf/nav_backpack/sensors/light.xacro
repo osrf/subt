@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find csiro_data61_spot_sensor_config_1)/urdf/nav_backpack/utils/colours.xacro"/>
+  <!-- Light -->
+  <xacro:macro name="nav_backpack_light" params="name *origin parent pose">
+    <link name="$(arg prefix)${name}_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.01 0.05 0.02"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.01 0.05 0.02"/>
+        </geometry>
+      </collision>
+      <xacro:box_inertial x="0.01" y="0.05" z="0.02" mass="0.05"/>
+    </link>
+    <gazebo reference="$(arg prefix)${name}_link">
+      <xacro:colour_gray/>
+      <light name="${name}_source" type="spot">
+        <pose>${pose}</pose>
+        <attenuation>
+          <range>50</range>
+          <linear>0.05</linear>
+          <constant>0.1</constant>
+          <quadratic>0.0025</quadratic>
+        </attenuation>
+        <diffuse>0.8 0.8 0.5 1</diffuse>
+        <specular>0.8 0.8 0.5 1</specular>
+        <spot>
+          <inner_angle>2.0</inner_angle>
+          <outer_angle>2.0</outer_angle>
+          <falloff>1</falloff>
+        </spot>
+        <direction>0 0 -1</direction>
+      </light>
+    </gazebo>
+
+    <joint name="$(arg prefix)${parent}_to_$(arg prefix)${name}_link" type="fixed">
+      <xacro:insert_block name="origin"/>
+      <parent link="$(arg prefix)${parent}"/>
+      <child link="$(arg prefix)${name}_link"/>
+    </joint>
+
+  </xacro:macro>
+</robot>

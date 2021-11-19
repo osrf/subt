@@ -7,7 +7,10 @@ This specifications.md file is a description and proof of virtual model validati
 This configuration is based on Clearpath Robotics Husky ground robot. The marble sensor suite is located at the front of the husky and includes 2 3D LIDARs, 1 Planar LIDAR, 4 RGB Cameras, and 2 Picco Flexx TOF cameras  
 
 ## Usage Instructions
-The robot can be used in the same manner as the COSTAR Husky robot.  It accepts twist messages on the cmd_vel topic.  
+The robot can be used in the same manner as the COSTAR Husky robot.  It accepts twist messages on the cmd_vel topic. 
+
+## Marsupial Configuration
+This vehicle has a platform behind it with mechanical grippers (not modeled) that allow for deployment of UAVs. A QAV500 vehicle is the target marsupial vehicle but multiple vehicle platforms are possible and that is represented accordingly here in simulation.
 
 ## Usage Rights
 The same Rights are granted for the configuration as for the COSTAR Husky. No additional restrictions have to be taken into account for this configuration.

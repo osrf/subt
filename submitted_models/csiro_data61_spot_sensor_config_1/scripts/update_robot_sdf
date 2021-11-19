@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+set -e
+
+# This script re-generates the model.sdf file in the root of this package based on the Xacro files.
+# This script is only intended to be run from the source space and is intentionally not a part of
+# the installed package.
+
+# If you want to test some local changes, you can pass arguments to this script and it will relay
+# them to the Xacro call (usually the key:=value pairs for setting xacro args).
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+MODEL_DIR="${DIR}/.."
+BASE_MODEL_DIR="${MODEL_DIR}/../bosdyn_spot"
+[ -z "${OUTPUT_FILE}" ] && OUTPUT_FILE="${MODEL_DIR}/model.sdf"
+
+# load local modifications of configuration and apply them over the config from bosdyn_spot
+
+config=""
+for file in "${BASE_MODEL_DIR}/config/model/common.yaml" "${BASE_MODEL_DIR}/config/model/ign.yaml" "${MODEL_DIR}/config/model/common.yaml" "${MODEL_DIR}/config/model/ign.yaml"; do
+  [ -f "$file" ] && config="${config} $("${BASE_MODEL_DIR}/scripts/yaml_to_xacro_args" "$file")"
+done
+
+sdf8_version="$(ign sdf --versions | grep '^8')" || true
+[ -z "$sdf8_version" ] && echo "libsdformat8 not found. It is required to update this robot's SDF. Please install libsdformat8-dev and try again." >&2 && exit 1
+echo "Found libsdformat ${sdf8_version}" >&2
+
+echo -e "Rendering Ignition Gazebo SDF of $(basename "$(realpath "$MODEL_DIR")") with the following Xacro arguments:\n${config}" "$@" >&2
+rosrun xacro xacro "${MODEL_DIR}/urdf/spot.urdf.xacro" ${config} "$@" > "${OUTPUT_FILE}.urdf"
+ign sdf --force-version "$sdf8_version" -p "${OUTPUT_FILE}.urdf" | "${BASE_MODEL_DIR}/scripts/high_precision_constants.py" - > "${OUTPUT_FILE}"
+
+"${BASE_MODEL_DIR}/scripts/clean_sdf" "${OUTPUT_FILE}"
+
+# fix resource paths
+sed -i -e 's#model://csiro_data61_spot_sensor_config_1/##g' "${OUTPUT_FILE}"
+
+# remove script elements
+sed -i -e '/<script>/,/<\/script>/d' "${OUTPUT_FILE}"
+
+# sensor configs which reuse the original bosdyn_spot meshes would use the following:
+sed -i -e 's#model://bosdyn_spot/#https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/BOSDYN_SPOT/tip/files/#g' "${OUTPUT_FILE}"

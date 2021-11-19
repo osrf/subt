@@ -1,4 +1,5 @@
 #include <memory>
+#include <mutex>
 #include <optional>
 #include <ignition/gazebo/System.hh>
 
@@ -6,9 +7,11 @@
 #include <ignition/transport/Node.hh>
 
 #include "ignition/gazebo/components/JointPosition.hh"
+#include "ignition/gazebo/components/JointEffortLimitsCmd.hh"
 #include "ignition/gazebo/components/JointVelocityCmd.hh"
 #include "ignition/gazebo/components/JointAxis.hh"
 #include "ignition/gazebo/Model.hh"
+#include "ignition/gazebo/Util.hh"
 
 #include <sdf/JointAxis.hh>
 
@@ -36,6 +39,10 @@ namespace cras
 /// messages. This element is optional, and the default value is
 /// `/model/{name_of_model}/joints/{joint_name}/cmd_pos_rel`.
 ///
+/// `<topic_pos_max_vel>`: Custom topic that this system will subscribe to in order to receive max velocity to be used
+/// for position control commands. The value is additionally limited by the velocity limit of the joint. This element
+/// is optional, and the default value is `/model/{name_of_model}/joints/{joint_name}/cmd_pos_max_vel`.
+///
 /// `<topic_max_torque>`: Custom topic that this system will subscribe to in order to receive torque limit command
 /// messages. This element is optional, and the default value is
 /// `/model/{name_of_model}/joints/{joint_name}/cmd_max_torque`. This feature is not yet implemented.
@@ -48,8 +55,9 @@ namespace cras
 /// setting. Default is 30 Nm. This feature is not yet implemented.
 ///
 /// `<position_correction_gain>`: The gain used for positional control. The correcting velocity is computed as
-/// gain * (current_position - setpoint) and limited by <max_velocity>. The higher this gain is, the faster will the
-/// flipper reach its positional control setpoint. Default is 20.0.
+/// gain * (current_position - setpoint) and limited by <max_velocity> and possibly also by position control max
+/// velocity. The higher this gain is, the faster will the flipper reach its positional control setpoint.
+/// Default is 20.0.
 ///
 /// `<position_correction_tolerance>`: Angular tolerance of positional control (in radians). When the positional error
 /// is lower than this threshold, the controller will stop the flipper and try to keep it at the given position. Default
@@ -60,6 +68,7 @@ namespace cras
 /// `{topic_vel}` (`ignition::msgs::Double`): The desired rotation velocity of the flipper.
 /// `{topic_pos_abs}` (`ignition::msgs::Double`): The positional setpoint of the flipper.
 /// `{topic_pos_rel}` (`ignition::msgs::Double`): Relative positional setpoint of the flipper.
+/// `{topic_pos_max_vel}` (`ignition::msgs::Double`): Maximum velocity used for position control.
 /// `{topic_max_torque}` (`ignition::msgs::Double`): Maximum torque allowed for the flipper.
 class FlipperControlPlugin : public System, public ISystemConfigure, public ISystemPreUpdate
 {
@@ -114,25 +123,22 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
         _sdf->Get<double>(
             "position_correction_tolerance", this->positionCorrectionTolerance.Radian()).first);
 
-    std::string topicTorque {"/model/" + this->model.Name(_ecm) + "/joint/" + this->jointName + "/cmd_max_torque"};
-    if (_sdf->HasElement("topic_max_torque"))
-      topicTorque = _sdf->Get<std::string>("topic_max_torque");
-    this->node.Subscribe(topicTorque, &FlipperControlPlugin::OnCmdTorque, this);
+    const auto topicPrefix = "/model/" + this->model.Name(_ecm) + "/joint/" + this->jointName;
 
-    std::string topicVel {"/model/" + this->model.Name(_ecm) + "/joint/" + this->jointName + "/cmd_vel"};
-    if (_sdf->HasElement("topic_vel"))
-      topicVel = _sdf->Get<std::string>("topic_vel");
-    this->node.Subscribe(topicVel, &FlipperControlPlugin::OnCmdVel, this);
+    std::string topicTorque = _sdf->Get("topic_max_torque", topicPrefix + "/cmd_max_torque").first;
+    this->node.Subscribe(gazebo::validTopic({topicTorque}), &FlipperControlPlugin::OnCmdTorque, this);
 
-    std::string topicPosAbs {"/model/" + this->model.Name(_ecm) + "/joint/" + this->jointName + "/cmd_pos"};
-    if (_sdf->HasElement("topic_pos_abs"))
-      topicPosAbs = _sdf->Get<std::string>("topic_pos_abs");
-    this->node.Subscribe(topicPosAbs, &FlipperControlPlugin::OnCmdPosAbs, this);
+    std::string topicVel = _sdf->Get("topic_vel", topicPrefix + "/cmd_vel").first;
+    this->node.Subscribe(gazebo::validTopic({topicVel}), &FlipperControlPlugin::OnCmdVel, this);
 
-    std::string topicPosRel {"/model/" + this->model.Name(_ecm) + "/joint/" + this->jointName + "/cmd_pos_rel"};
-    if (_sdf->HasElement("topic_pos_rel"))
-      topicPosRel = _sdf->Get<std::string>("topic_pos_rel");
-    this->node.Subscribe(topicPosRel, &FlipperControlPlugin::OnCmdPosRel, this);
+    std::string topicPosAbs = _sdf->Get("topic_pos_abs", topicPrefix + "/cmd_pos").first;
+    this->node.Subscribe(gazebo::validTopic({topicPosAbs}), &FlipperControlPlugin::OnCmdPosAbs, this);
+
+    std::string topicPosRel = _sdf->Get("topic_pos_rel", topicPrefix + "/cmd_pos_rel").first;
+    this->node.Subscribe(gazebo::validTopic({topicPosRel}), &FlipperControlPlugin::OnCmdPosRel, this);
+
+    std::string topicPosMaxVel = _sdf->Get("topic_pos_max_vel", topicPrefix + "/cmd_pos_max_vel").first;
+    this->node.Subscribe(gazebo::validTopic({topicPosMaxVel}), &FlipperControlPlugin::OnCmdPosMaxVel, this);
 
     // cached command for flipper joint velocity; the joint has 1 axis, so this vector needs to hold 1 item
     this->velocityCommand.push_back(0.0);
@@ -153,6 +159,7 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
       return;
     }
 
+    std::lock_guard<std::mutex> lock(this->cmdMutex);
     const auto& angle = _ecm.ComponentDefault<components::JointPosition>(this->joint)->Data()[0];
 
     if (this->cmdVel.has_value())
@@ -199,6 +206,8 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
     if (fabs((currentPos - staticPos).Radian()) > this->positionCorrectionTolerance.Radian())
     {
       const auto correctingVelocity = this->positionCorrectionGain * (staticPos - currentPos).Radian();
+      if (this->positionCorrectionMaxVelocity.has_value())
+        return math::clamp(correctingVelocity, -this->positionCorrectionMaxVelocity.value(), this->positionCorrectionMaxVelocity.value());
       return correctingVelocity;
     }
     return 0.0;
@@ -207,40 +216,45 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
   protected: void UpdateMaxTorque(const double maxTorqueCmd, EntityComponentManager& _ecm)
   {
     const auto torque = math::clamp(maxTorqueCmd, 0.0, this->maxTorque);
-    // TODO max effort cannot be changed during run time, waiting for resolution of
-    //  https://github.com/ignitionrobotics/ign-physics/issues/96
-    static bool informed{false};
-    if (!informed)
-    {
-      ignwarn << "FlipperControlPlugin: Max torque commands are not yet supported." << std::endl;
-      informed = true;
-    }
+    _ecm.SetComponentData<components::JointEffortLimitsCmd>(this->joint, {{-torque, torque}});
   }
 
   public: void OnCmdTorque(const msgs::Double &_msg)
   {
+    std::lock_guard<std::mutex> lock(this->cmdMutex);
     this->cmdTorque = _msg.data();
   }
 
   public: void OnCmdVel(const msgs::Double &_msg)
   {
+    std::lock_guard<std::mutex> lock(this->cmdMutex);
     this->cmdVel = _msg.data();
   }
 
   public: void OnCmdPosAbs(const msgs::Double &_msg)
   {
+    std::lock_guard<std::mutex> lock(this->cmdMutex);
     this->cmdPosAbs = _msg.data();
   }
 
   public: void OnCmdPosRel(const msgs::Double &_msg)
   {
+    std::lock_guard<std::mutex> lock(this->cmdMutex);
     this->cmdPosRel = _msg.data();
+  }
+
+  public: void OnCmdPosMaxVel(const msgs::Double &_msg)
+  {
+    std::lock_guard<std::mutex> lock(this->cmdMutex);
+    this->positionCorrectionMaxVelocity = _msg.data();
   }
 
   public: void Reset(EntityComponentManager& _ecm)
   {
+    std::lock_guard<std::mutex> lock(this->cmdMutex);
     this->angularSpeed = 0;
     this->staticAngle.reset();
+    this->positionCorrectionMaxVelocity.reset();
 
     if (this->joint != kNullEntity)
     {
@@ -263,9 +277,11 @@ class FlipperControlPlugin : public System, public ISystemConfigure, public ISys
   protected: double angularSpeed{0.0};
   protected: double maxTorque{30.0};
   protected: double positionCorrectionGain{20.0};
+  protected: std::optional<double> positionCorrectionMaxVelocity;
   protected: math::Angle positionCorrectionTolerance{math::Angle::Pi / 180.0};  // 1 degree
   protected: double maxAngularVelocity{0.5};
   protected: std::vector<double> velocityCommand;
+  protected: std::mutex cmdMutex;
 };
 
 }
