@@ -6,6 +6,9 @@ This specifications.md file is a description and proof of virtual model validati
 ## Description
 This configuration is based on Clearpath Robotics Husky ground robot. The marble sensor suite is located at the front of the husky and includes stationary sensors and some sensors and a light on a pan/tilt mechanism.  
 
+## Marsupial Configuration
+This vehicle has a platform behind it with mechanical grippers (not modeled) that allow for deployment of UAVs. A QAV500 vehicle is the target marsupial vehicle but multiple vehicle platforms are possible and that is represented accordingly here in simulation.
+
 ## Usage Instructions
 The robot can be used in the same manner as the COSTAR Husky robot.  It accepts twist messages on the cmd_vel topic.  The gimbal can be controlled using the test_gimbal.sh script (in this folder).  There are also scripts to print the current angles from the pan and tilt axes of the gimbal (pan_echo.sh and tilt_echo.sh). 
 
