@@ -46,7 +46,7 @@ this vehicle has the following motion constraint characteristics.
 * Turning radius of 0m, can turn on the spot
 
 ### Endurance Characteristics
-Due to operational restrictions, a full drain test of the battery onboard was not able to be performed. Thus the endurance has been set at 60 minutes until such time as the endurance is validated.
+Endurance of the platform is approximately 134 minutes
 
 ### Diversions from Physical Hardware of DTR
 * Currently the model does not have an accurate collision body of the track system, as diff-drive control currently requires the use of simulated multi-wheel systems. The multi-wheel system on the sim model is intended to provide a reasonable approximation of the track contact geometry for driving.
@@ -55,6 +55,8 @@ Due to operational restrictions, a full drain test of the battery onboard was no
 ## DTR Validation and Specification Links
 * [Validation video](https://youtu.be/mn4ddq0abGg)
 * [Validation Data](https://drive.google.com/file/d/1wX8Gb1ggkL-l686XKJ47P9bc2NSvp3Cv/view?usp=sharing)
+* [Endurance Validation video](https://youtu.be/TUxBU33ikdk)
+* [Endurance Validation Data](https://drive.google.com/file/d/1cetE1hUbXE4iRtCPVHkMPLYaykbL5oar/view?usp=sharing)
 * [LIDAR - Velodyne VLP-16](https://velodynelidar.com/products/puck/)
 * [IMU - Microstrain CV5-25](https://www.microstrain.com/inertial/3dm-cv5-25)
-* [Cameras - ECON e-CAM130_CUXVR ](https://www.e-consystems.com/nvidia-cameras/jetson-agx-xavier-cameras/four-synchronized-4k-cameras.asp)
+* [Cameras - ECON e-CAM130_CUXVR](https://www.e-consystems.com/nvidia-cameras/jetson-agx-xavier-cameras/four-synchronized-4k-cameras.asp)

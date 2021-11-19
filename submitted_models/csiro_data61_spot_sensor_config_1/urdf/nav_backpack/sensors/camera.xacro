@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find csiro_data61_spot_sensor_config_1)/urdf/nav_backpack/utils/colours.xacro"/>
+  <!-- Cameras -->
+  <xacro:macro name="nav_backpack_camera" params="name *origin parent">
+
+    <link name="$(arg prefix)${name}_link">
+      <xacro:box_inertial x="0.001" y="0.02" z="0.02" mass="0.05"/>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.001 0.02 0.02"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.001 0.02 0.02"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <gazebo reference="$(arg prefix)${name}_link">
+      <mu1>0.9</mu1>
+      <mu2>0.9</mu2>
+      <minDepth>0.005</minDepth>
+      <fdir1>1 0 0</fdir1>
+      <selfCollide>false</selfCollide>
+      <gravity>true</gravity>
+      <xacro:colour_gray/>
+      <sensor name="${name}" type="camera">
+        <update_rate>15</update_rate>
+        <visualize>0</visualize>
+        <camera name="${name}_sensor">
+          <lens>
+            <intrinsics>
+              <fx>1008</fx>
+              <fy>1008</fy>
+              <cx>1007.5</cx>
+              <cy>755.5</cy>
+              <s>0</s>
+            </intrinsics>
+          </lens>
+          <image>
+            <width>2016</width>
+            <height>1512</height>
+          </image>
+          <clip>
+            <near>0.02</near>
+            <far>300</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+          <horizontal_fov>1.5707963267948966</horizontal_fov>
+          <aspect_ratio>1.333333333333</aspect_ratio>
+        </camera>
+      </sensor>
+
+    </gazebo>
+
+    <joint name="$(arg prefix)${parent}_to_${name}_link" type="fixed">
+      <xacro:insert_block name="origin"/>
+      <parent link="$(arg prefix)${parent}"/>
+      <child link="$(arg prefix)${name}_link"/>
+    </joint>
+
+  </xacro:macro>
+</robot>

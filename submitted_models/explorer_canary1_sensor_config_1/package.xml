@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>explorer_canary1_sensor_config_1</name>
+  <version>0.1.0</version>
+  <description>
+    CMU Explorer canary1: 2 3D medium range lidar (one velodyne and one vertically oriented ouster), IMU, 4 Cameras (the real robot has 2 fisheye cameras that together have a total of 360 degrees field of view, but 4 cameras are used in sim to get a 360 field of view since fisheyes aren't modeled in sim), Gas sensor, Pressure sensor, Magnetometer.
+  </description>
+  <maintainer email="fanyang2@andrew.cmu.edu">Fan Yang</maintainer>
+  <author email="fanyang2@andrew.cmu.edu">Fan Yang</author>
+
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <exec_depend>roslaunch</exec_depend>
+  <exec_depend>subt_ros</exec_depend>
+  <exec_depend>urdf</exec_depend>
+  <exec_depend>xacro</exec_depend>
+
+</package>
