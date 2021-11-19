@@ -684,8 +684,8 @@
       <sensor name="nav_imu" type="imu">
         <always_on>1</always_on>
         <update_rate>100</update_rate>
-        <enable_orientation>0</enable_orientation>
         <imu>
+          <enable_orientation>0</enable_orientation>
           <angular_velocity>
             <x>
               <noise type="gaussian">
@@ -1951,8 +1951,8 @@
       <sensor name="imu" type="imu">
         <always_on>1</always_on>
         <update_rate>50</update_rate>
-        <enable_orientation>0</enable_orientation>
         <imu>
+          <enable_orientation>0</enable_orientation>
           <angular_velocity>
             <x>
               <noise type="gaussian">
