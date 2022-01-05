@@ -36,6 +36,7 @@ def _spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw, _add
   wheelSlip = ""
   trackControllers = ""
   trackLinks = ""
+  power_draining_topics = ""
 
   for track in tracks
     if useWheels
@@ -61,6 +62,7 @@ def _spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw, _add
           </plugin>
         HEREDOC
         trackLinks += "<#{track}_track><link>#{track}_track</link></#{track}_track>"
+        power_draining_topics += "<power_draining_topic>/model/#{_name}/link/#{track}_track/track_cmd_vel</power_draining_topic>"
     end
     for flipper in flippersOfTrack[track]
       if useWheels
@@ -86,6 +88,7 @@ def _spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw, _add
           </plugin>
         HEREDOC
         trackLinks += "<#{track}_track><link>#{flipper}_flipper</link></#{track}_track>"
+        power_draining_topics += "<power_draining_topic>/model/#{_name}/link/#{flipper}_flipper/track_cmd_vel</power_draining_topic>"
       end
     end
   end
@@ -177,6 +180,7 @@ def _spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw, _add
         <smooth_current_tau>1.9499</smooth_current_tau>
         <power_load>4.95</power_load>
         <start_on_motion>true</start_on_motion>
+        #{power_draining_topics}
       </plugin>
       <!-- Gas Sensor plugin -->
       <plugin filename="libGasEmitterDetectorPlugin.so"

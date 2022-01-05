@@ -33,6 +33,7 @@ def _spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw, _add
   diff_drive = ""
   trackControllers = ""
   trackedVehicle = ""
+  power_draining_topics = ""
   if num_wheels > 0
       for wheel_num in 1..num_wheels
         # we only want odometry from the first diffdrive
@@ -71,6 +72,7 @@ def _spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw, _add
               </plugin>
             HEREDOC
             trackLinks += "<#{track}_track><link>#{flipper}_flipper</link></#{track}_track>"
+            power_draining_topics += "<power_draining_topic>/model/#{_name}/link/#{flipper}_flipper/track_cmd_vel</power_draining_topic>"
         end
     end
     trackedVehicle += <<-HEREDOC
@@ -131,6 +133,7 @@ def _spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw, _add
         <smooth_current_tau>1.9499</smooth_current_tau>
         <power_load>9.9</power_load>
         <start_on_motion>true</start_on_motion>
+        #{power_draining_topics}
       </plugin>
       <!-- Gas Sensor plugin -->
       <plugin filename="libGasEmitterDetectorPlugin.so"
