@@ -74,6 +74,8 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <smooth_current_tau>1.9499</smooth_current_tau>
         <power_load>9.9</power_load>
         <start_on_motion>true</start_on_motion>
+        <power_draining_topic>/model/#{_name}/link/left_track/track_cmd_vel</power_draining_topic>
+        <power_draining_topic>/model/#{_name}/link/right_track/track_cmd_vel</power_draining_topic>
       </plugin>
     </include>
     </sdf>
