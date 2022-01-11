@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<launch>
+  <env name="IGN_TRANSPORT_TOPIC_STATISTICS" value="1"/>
+  <arg name="world_name"/>
+  <arg name="name"/>
+  <arg name="link_prefix" value="/world/$(arg world_name)/model/$(arg name)/link"/>
+  <arg name="breadcrumbs" default="0"/>
+  <arg name="description_print_command" default="" />
+
+  <include file="$(dirname)/description.launch" pass_all_args="true">
+    <arg name="print_command" value="$(arg description_print_command)" if="$(eval description_print_command != '')" />
+  </include>
+
+  <group ns="$(arg name)">
+
+    <!-- Common -->
+
+    <include file="$(find subt_ros)/launch/models_common/all_robots.launch">
+      <arg name="name" value="$(arg name)" />
+      <arg name="world_name" value="$(arg world_name)" />
+    </include>
+
+    <include file="$(find subt_ros)/launch/models_common/all_ugvs.launch">
+      <arg name="name" value="$(arg name)" />
+      <arg name="world_name" value="$(arg world_name)" />
+    </include>
+
+    <!-- 3D lidar Ouster -->
+    <include file="$(find subt_ros)/launch/models_common/lidar_3d.launch">
+      <arg name="node_name_suffix" value="laser" />
+      <arg name="gazebo_topic" value="$(arg link_prefix)/laser/sensor/laser/scan/points" />
+    </include>
+
+    <!-- Omnicamera -->
+
+    <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
+      <arg name="node_name_suffix" value="omnicam_0" />
+      <arg name="gazebo_topic" value="$(arg link_prefix)/camera_0/sensor/camera_0" />
+      <arg name="ros_topic" value="omni/camera_0" />
+    </include>
+
+    <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
+      <arg name="node_name_suffix" value="omnicam_1" />
+      <arg name="gazebo_topic" value="$(arg link_prefix)/camera_1/sensor/camera_1" />
+      <arg name="ros_topic" value="omni/camera_1" />
+    </include>
+
+    <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
+      <arg name="node_name_suffix" value="omnicam_2" />
+      <arg name="gazebo_topic" value="$(arg link_prefix)/camera_2/sensor/camera_2" />
+      <arg name="ros_topic" value="omni/camera_2" />
+    </include>
+
+    <include file="$(find subt_ros)/launch/models_common/rgb_camera.launch">
+      <arg name="node_name_suffix" value="omnicam_3" />
+      <arg name="gazebo_topic" value="$(arg link_prefix)/camera_3/sensor/camera_3" />
+      <arg name="ros_topic" value="omni/camera_3" />
+    </include>
+
+    <!--IMU-->
+    <include file="$(find subt_ros)/launch/models_common/imu.launch">
+      <arg name="gazebo_topic" value="$(arg link_prefix)/imu/sensor/imu/imu" />
+    </include>
+
+    <!-- Breadcrumbs -->
+    <include if="$(eval breadcrumbs > 0)" file="$(find subt_ros)/launch/models_common/breadcrumbs.launch">
+      <arg name="name" value="$(arg name)" />
+    </include>
+    
+    <!-- Mapping Server -->
+    <include file="$(find subt_ros)/launch/models_common/mapping_server_relays.launch">
+      <arg name="name" value="$(arg name)"/>
+    </include>
+  </group>
+
+  <!-- As URDF->SDF conversion "swallows" all fixed joints (and thus static transforms), we need to re-create them from the URDF  -->
+  <!-- Due to an internal limitation of robot_state_publisher, it has to be created in the global namespace. -->
+  <node name="$(anon robot_state_publisher)" pkg="robot_state_publisher" type="robot_state_publisher">
+    <remap from="/tf" to="/nonexistent" /> <!-- published by ign_ros bridge -->
+    <remap from="robot_description" to="/$(arg name)/robot_description" />
+  </node>
+</launch>

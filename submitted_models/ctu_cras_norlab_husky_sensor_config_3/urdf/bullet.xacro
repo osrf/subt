@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<root xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:arg name="bullet_pos_x" default="0" />
+    <xacro:arg name="bullet_pos_y" default="0" />
+    <xacro:arg name="bullet_pos_z" default="0" />
+    <xacro:arg name="bullet_rpy_y" default="0" />
+    <xacro:arg name="bullet_rpy_p" default="0" />
+    <xacro:arg name="bullet_rpy_r" default="0" />
+    <xacro:arg name="bullet_antenna_rotation" default="0" />
+    <xacro:arg name="bullet_antenna_tilt" default="0" />
+    <xacro:arg name="bullet_antenna_radius" default="0.01" />
+    <xacro:arg name="bullet_antenna_length" default="0.17" />
+    <xacro:arg name="bullet_parent_link" default="base_link" />
+    <xacro:arg name="bullet_use_visual_mesh" default="1" />
+
+    <xacro:property name="bullet_mass" value="0.25" scope="global" />
+    
+    <xacro:if value="$(arg has_bullet)">
+        <link name="$(arg prefix)bullet">
+            <visual>
+                <xacro:if value="$(arg bullet_use_visual_mesh)">
+                    <geometry>
+                        <mesh filename="package://ctu_cras_norlab_husky_sensor_config_3/meshes/bullet.dae" />
+                    </geometry>
+                </xacro:if>
+                <xacro:unless value="$(arg bullet_use_visual_mesh)">
+                    <origin rpy="0 ${pi/2} 0" xyz="${0.138/2} 0 0" />
+                    <geometry>
+                        <cylinder length="0.138" radius="${0.037/2}" />
+                    </geometry>
+                    <material name="bullet_white">
+                        <color rgba="0.9 0.9 0.9 1"/>
+                    </material>
+                </xacro:unless>
+            </visual>
+            <collision>
+                <origin rpy="0 ${pi/2} 0" xyz="${0.138/2} 0 0" />
+                <geometry>
+                    <cylinder length="0.138" radius="${0.037/2}" />
+                </geometry>
+            </collision>
+            <xacro:cylinder_inertial radius="${0.037/2}" length="0.138" mass="${bullet_mass}" xyz="${0.138/2} 0 0" rpy="0 ${pi/2} 0" />
+        </link>
+        <xacro:solid_color_link_material link="$(arg prefix)bullet" r="0.9" g="0.9" b="0.9" />
+        <xacro:calibrated_fixed_joint name="bullet_j" parent="$(arg bullet_parent_link)" child="bullet" lump="1" />
+
+        <link name="$(arg prefix)bullet_antenna">
+            <visual>
+                <origin rpy="0 0 0" xyz="0 0 ${$(arg bullet_antenna_length)/2}" />
+                <geometry>
+                    <cylinder radius="$(arg bullet_antenna_radius)" length="$(arg bullet_antenna_length)" />
+                </geometry>
+                <material name="bullet_antenna_white">
+                    <color rgba="0.9 0.9 0.9 1"/>
+                </material>
+            </visual>
+            <collision>
+                <origin rpy="0 0 0" xyz="0 0 ${$(arg bullet_antenna_length)/2}" />
+                <geometry>
+                    <cylinder radius="$(arg bullet_antenna_radius)" length="$(arg bullet_antenna_length)" />
+                </geometry>
+            </collision>
+            <xacro:default_inertial />
+        </link>
+        <xacro:solid_color_link_material link="$(arg prefix)bullet_antenna" r="0.9" g="0.9" b="0.9" />
+        <joint name="bullet_antenna_j" type="fixed">
+            <parent link="$(arg prefix)bullet"/>
+            <child link="$(arg prefix)bullet_antenna"/>
+            <origin xyz="${0.138 + $(arg bullet_antenna_radius)} 0 0"
+                    rpy="$(arg bullet_antenna_rotation) $(arg bullet_antenna_tilt) 0"/>
+        </joint>
+    </xacro:if>
+
+</root>

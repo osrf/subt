@@ -1,0 +1,33 @@
+has_jetson: True
+has_basler_cameras: True
+has_ouster_lidar: True
+has_mote_deployer: False
+
+has_top_box: True
+top_box_j_x: 0.182
+top_box_j_y: 0.123
+
+has_bullet: True
+bullet_parent_link: top_box
+bullet_pos_x: -0.08
+bullet_pos_y: 0.15
+bullet_pos_z: 0.045
+bullet_antenna_rotation: 0.3
+
+has_mobilicom: True
+mobilicom_antenna_l_rotation: -1
+mobilicom_antenna_l_tilt: 0
+mobilicom_antenna_r_rotation: 1
+mobilicom_antenna_r_tilt: 0
+mobilicom_antennas_length: 0.1
+mobilicom_has_antenna_box: 0
+mobilicom_antennas_radius: 0.005
+mobilicom_is_lite: True
+mobilicom_parent_link: top_box
+mobilicom_use_visual_mesh: True
+mobilicom_rpy_r: 3.141592
+mobilicom_rpy_p: -1.5758
+mobilicom_rpy_y: 0
+mobilicom_pos_x: 0.07
+mobilicom_pos_y: -0.04
+mobilicom_pos_z: 0.06
