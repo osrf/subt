@@ -3,15 +3,15 @@
   <model name="ctu_cras_norlab_husky_sensor_config_3">
     <link name="base_link">
       <inertial>
-        <pose>0.007802 0.00085 0.078005 0 -0 0</pose>
-        <mass>44.514</mass>
+        <pose>0.007802 0.00085 0.079129 0 -0 0</pose>
+        <mass>44.5141</mass>
         <inertia>
-          <ixx>0.791871</ixx>
-          <ixy>0.000832095</ixy>
-          <ixz>-0.0499498</ixz>
-          <iyy>2.01006</iyy>
-          <iyz>-0.00763233</iyz>
-          <izz>2.19359</izz>
+          <ixx>0.813788</ixx>
+          <ixy>0.000834011</ixy>
+          <ixz>-0.0529492</ixz>
+          <iyy>2.03197</iyy>
+          <iyz>-0.00771766</iyz>
+          <izz>2.19559</izz>
         </inertia>
       </inertial>
       <collision name="base_link_collision_bumper_collision">
@@ -147,7 +147,7 @@
         </geometry>
       </collision>
       <collision name="base_link_fixed_joint_lump__mote_deployer_l_collision_16">
-        <pose>0.337827 0.166 0.222059 0 0.66 0</pose>
+        <pose>0.337827 0.166 0.232059 0 0.66 0</pose>
         <geometry>
           <box>
             <size>0.18 0.072 0.075</size>
@@ -155,14 +155,14 @@
         </geometry>
       </collision>
       <collision name="base_link_fixed_joint_lump__mote_deployer_r_collision_17">
-        <pose>0.337827 -0.164 0.222059 0 0.66 0</pose>
+        <pose>0.337827 -0.164 0.232059 0 0.66 0</pose>
         <geometry>
           <box>
             <size>0.18 0.072 0.075</size>
           </box>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__top_box_collision_18">
+      <collision name="base_link_fixed_joint_lump__tower_collision_18">
         <pose>-0.078 -0.077 0.36 0 -0 0</pose>
         <geometry>
           <box>
@@ -170,7 +170,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__top_box_collision_19">
+      <collision name="base_link_fixed_joint_lump__tower_collision_19">
         <pose>0.082 -0.077 0.36 0 -0 0</pose>
         <geometry>
           <box>
@@ -178,7 +178,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__top_box_collision_20">
+      <collision name="base_link_fixed_joint_lump__tower_collision_20">
         <pose>0.082 0.083 0.36 0 -0 0</pose>
         <geometry>
           <box>
@@ -186,7 +186,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__top_box_collision_21">
+      <collision name="base_link_fixed_joint_lump__tower_collision_21">
         <pose>-0.078 0.083 0.36 0 -0 0</pose>
         <geometry>
           <box>
@@ -194,7 +194,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__top_box_collision_22">
+      <collision name="base_link_fixed_joint_lump__tower_collision_22">
         <pose>-0.078 0.003 0.25 1.5707963267948966 -0 0</pose>
         <geometry>
           <box>
@@ -202,7 +202,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__top_box_collision_23">
+      <collision name="base_link_fixed_joint_lump__tower_collision_23">
         <pose>0.082 0.003 0.25 1.5707963267948966 -0 0</pose>
         <geometry>
           <box>
@@ -252,6 +252,14 @@
             <length>0.1</length>
             <radius>0.025</radius>
           </cylinder>
+        </geometry>
+      </collision>
+      <collision name="base_link_fixed_joint_lump__tower_cap_collision_29">
+        <pose>0.002 0.003 0.471 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.19 0.19 0.052</size>
+          </box>
         </geometry>
       </collision>
       <visual name="base_link_visual_visual">
@@ -341,22 +349,22 @@
         </material>
       </visual>
       <visual name="base_link_fixed_joint_lump__mote_deployer_l_visual_8">
-        <pose>0.23 0.19 0.185 0 0.33 0</pose>
+        <pose>0.23 0.19 0.195 0 0.33 0</pose>
         <geometry>
           <mesh>
-            <uri>meshes/mote_deployer.dae</uri>
+            <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/CTU_CRAS_NORLAB_HUSKKY_SENSOR_CONFIG_3/tip/files/meshes/mote_deployer.dae</uri>
           </mesh>
         </geometry>
       </visual>
       <visual name="base_link_fixed_joint_lump__mote_deployer_r_visual_9">
-        <pose>0.23 -0.14 0.185 0 0.33 0</pose>
+        <pose>0.23 -0.14 0.195 0 0.33 0</pose>
         <geometry>
           <mesh>
-            <uri>meshes/mote_deployer.dae</uri>
+            <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/CTU_CRAS_NORLAB_HUSKKY_SENSOR_CONFIG_3/tip/files/meshes/mote_deployer.dae</uri>
           </mesh>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__top_box_visual_10">
+      <visual name="base_link_fixed_joint_lump__tower_visual_10">
         <pose>-0.078 -0.077 0.36 0 -0 0</pose>
         <geometry>
           <box>
@@ -370,7 +378,7 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
-      <visual name="base_link_fixed_joint_lump__top_box_visual_11">
+      <visual name="base_link_fixed_joint_lump__tower_visual_11">
         <pose>0.082 -0.077 0.36 0 -0 0</pose>
         <geometry>
           <box>
@@ -384,7 +392,7 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
-      <visual name="base_link_fixed_joint_lump__top_box_visual_12">
+      <visual name="base_link_fixed_joint_lump__tower_visual_12">
         <pose>0.082 0.083 0.36 0 -0 0</pose>
         <geometry>
           <box>
@@ -398,7 +406,7 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
-      <visual name="base_link_fixed_joint_lump__top_box_visual_13">
+      <visual name="base_link_fixed_joint_lump__tower_visual_13">
         <pose>-0.078 0.083 0.36 0 -0 0</pose>
         <geometry>
           <box>
@@ -412,7 +420,7 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
-      <visual name="base_link_fixed_joint_lump__top_box_visual_14">
+      <visual name="base_link_fixed_joint_lump__tower_visual_14">
         <pose>-0.078 0.003 0.25 1.5707963267948966 -0 0</pose>
         <geometry>
           <box>
@@ -426,7 +434,7 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
-      <visual name="base_link_fixed_joint_lump__top_box_visual_15">
+      <visual name="base_link_fixed_joint_lump__tower_visual_15">
         <pose>0.082 0.003 0.25 1.5707963267948966 -0 0</pose>
         <geometry>
           <box>
@@ -444,7 +452,7 @@
         <pose>-0.078 0.153 0.285 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>meshes/bullet.dae</uri>
+            <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/CTU_CRAS_NORLAB_HUSKKY_SENSOR_CONFIG_3/tip/files/meshes/bullet.dae</uri>
           </mesh>
         </geometry>
         <material>
@@ -473,7 +481,7 @@
         <pose>0.09175 -0.037 0.350099 -1e-06 -1.56579 3.1415926535897931</pose>
         <geometry>
           <mesh>
-            <uri>meshes/mobilicom.dae</uri>
+            <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/CTU_CRAS_NORLAB_HUSKKY_SENSOR_CONFIG_3/tip/files/meshes/mobilicom.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -493,6 +501,14 @@
             <length>0.1</length>
             <radius>0.005</radius>
           </cylinder>
+        </geometry>
+      </visual>
+      <visual name="base_link_fixed_joint_lump__tower_cap_visual_21">
+        <pose>0.002 0.003 0.462 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/CTU_CRAS_NORLAB_HUSKKY_SENSOR_CONFIG_3/tip/files/meshes/tower_cap_v1.dae</uri>
+          </mesh>
         </geometry>
       </visual>
       <light name="light_left" type="spot">
@@ -933,21 +949,20 @@
         </ode>
       </physics>
     </joint>
-    <link name="top_box_camera_floor">
+    <link name="tower_camera_floor">
       <pose>0.002 0.003 0.46 0 -0 0</pose>
       <inertial>
-        <pose>0 0 0.001 0 -0 0</pose>
-        <mass>2e-05</mass>
+        <mass>1e-05</mass>
         <inertia>
-          <ixx>0.002</ixx>
-          <ixy>2e-06</ixy>
-          <ixz>2e-06</ixz>
-          <iyy>0.002</iyy>
-          <iyz>2e-06</iyz>
-          <izz>0.002</izz>
+          <ixx>0.001</ixx>
+          <ixy>1e-06</ixy>
+          <ixz>1e-06</ixz>
+          <iyy>0.001</iyy>
+          <iyz>1e-06</iyz>
+          <izz>0.001</izz>
         </inertia>
       </inertial>
-      <collision name="top_box_camera_floor_collision">
+      <collision name="tower_camera_floor_collision">
         <pose>0 0 -0.001 0 -0 0</pose>
         <geometry>
           <box>
@@ -955,15 +970,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="top_box_camera_floor_fixed_joint_lump__top_box_cap_collision_1">
-        <pose>0 0 0.011 0 -0 0</pose>
-        <geometry>
-          <box>
-            <size>0.19 0.19 0.052</size>
-          </box>
-        </geometry>
-      </collision>
-      <visual name="top_box_camera_floor_visual">
+      <visual name="tower_camera_floor_visual">
         <pose>0 0 -0.001 0 -0 0</pose>
         <geometry>
           <box>
@@ -977,17 +984,9 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
-      <visual name="top_box_camera_floor_fixed_joint_lump__top_box_cap_visual_1">
-        <pose>0 0 0.002 0 -0 0</pose>
-        <geometry>
-          <mesh>
-            <uri>meshes/top_box_cap_v1.dae</uri>
-          </mesh>
-        </geometry>
-      </visual>
     </link>
-    <joint name="top_box_camera_floor_j" type="fixed">
-      <child>top_box_camera_floor</child>
+    <joint name="tower_camera_floor_j" type="fixed">
+      <child>tower_camera_floor</child>
       <parent>base_link</parent>
       <axis>
         <dynamics>
@@ -1045,7 +1044,7 @@
         <pose>0 0 0.0145 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>meshes/basler_ace2_pro.dae</uri>
+            <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/CTU_CRAS_NORLAB_HUSKKY_SENSOR_CONFIG_3/tip/files/meshes/basler_ace2_pro.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -1053,7 +1052,7 @@
         <pose>0.042964 0 0.0145 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>meshes/evetar_lens.dae</uri>
+            <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/CTU_CRAS_NORLAB_HUSKKY_SENSOR_CONFIG_3/tip/files/meshes/evetar_lens.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -1093,7 +1092,7 @@
     </link>
     <joint name="camera_0_j" type="fixed">
       <child>camera_0</child>
-      <parent>top_box_camera_floor</parent>
+      <parent>tower_camera_floor</parent>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
@@ -1150,7 +1149,7 @@
         <pose>0 0 0.0145 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>meshes/basler_ace2_pro.dae</uri>
+            <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/CTU_CRAS_NORLAB_HUSKKY_SENSOR_CONFIG_3/tip/files/meshes/basler_ace2_pro.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -1158,7 +1157,7 @@
         <pose>0.042964 0 0.0145 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>meshes/evetar_lens.dae</uri>
+            <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/CTU_CRAS_NORLAB_HUSKKY_SENSOR_CONFIG_3/tip/files/meshes/evetar_lens.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -1198,7 +1197,7 @@
     </link>
     <joint name="camera_1_j" type="fixed">
       <child>camera_1</child>
-      <parent>top_box_camera_floor</parent>
+      <parent>tower_camera_floor</parent>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
@@ -1255,7 +1254,7 @@
         <pose>0 0 0.0145 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>meshes/basler_ace2_pro.dae</uri>
+            <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/CTU_CRAS_NORLAB_HUSKKY_SENSOR_CONFIG_3/tip/files/meshes/basler_ace2_pro.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -1263,7 +1262,7 @@
         <pose>0.042964 0 0.0145 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>meshes/evetar_lens.dae</uri>
+            <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/CTU_CRAS_NORLAB_HUSKKY_SENSOR_CONFIG_3/tip/files/meshes/evetar_lens.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -1303,7 +1302,7 @@
     </link>
     <joint name="camera_2_j" type="fixed">
       <child>camera_2</child>
-      <parent>top_box_camera_floor</parent>
+      <parent>tower_camera_floor</parent>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
@@ -1360,7 +1359,7 @@
         <pose>0 0 0.0145 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>meshes/basler_ace2_pro.dae</uri>
+            <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/CTU_CRAS_NORLAB_HUSKKY_SENSOR_CONFIG_3/tip/files/meshes/basler_ace2_pro.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -1368,7 +1367,7 @@
         <pose>0.042964 0 0.0145 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>meshes/evetar_lens.dae</uri>
+            <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/CTU_CRAS_NORLAB_HUSKKY_SENSOR_CONFIG_3/tip/files/meshes/evetar_lens.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -1408,7 +1407,7 @@
     </link>
     <joint name="camera_3_j" type="fixed">
       <child>camera_3</child>
-      <parent>top_box_camera_floor</parent>
+      <parent>tower_camera_floor</parent>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
@@ -1430,7 +1429,7 @@
         </ode>
       </physics>
     </joint>
-    <link name="top_box_cap_top">
+    <link name="tower_cap_top">
       <pose>0.002 0.003 0.497 0 -0 0</pose>
       <inertial>
         <mass>2e-05</mass>
@@ -1443,7 +1442,7 @@
           <izz>0.002</izz>
         </inertia>
       </inertial>
-      <collision name="top_box_cap_top_fixed_joint_lump__ouster_mount_collision">
+      <collision name="tower_cap_top_fixed_joint_lump__ouster_mount_collision">
         <pose>0 0 0.0225 0 -0 0</pose>
         <geometry>
           <cylinder>
@@ -1452,17 +1451,17 @@
           </cylinder>
         </geometry>
       </collision>
-      <visual name="top_box_cap_top_fixed_joint_lump__ouster_mount_visual">
+      <visual name="tower_cap_top_fixed_joint_lump__ouster_mount_visual">
         <geometry>
           <mesh>
-            <uri>meshes/ouster_mount_v1.dae</uri>
+            <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/CTU_CRAS_NORLAB_HUSKKY_SENSOR_CONFIG_3/tip/files/meshes/ouster_mount_v1.dae</uri>
           </mesh>
         </geometry>
       </visual>
     </link>
-    <joint name="top_box_cap_top_j" type="fixed">
-      <child>top_box_cap_top</child>
-      <parent>top_box_camera_floor</parent>
+    <joint name="tower_cap_top_j" type="fixed">
+      <child>tower_cap_top</child>
+      <parent>base_link</parent>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
@@ -1500,7 +1499,7 @@
     </link>
     <joint name="ouster_mount_top_j" type="fixed">
       <child>ouster_mount_top</child>
-      <parent>top_box_cap_top</parent>
+      <parent>tower_cap_top</parent>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
@@ -1548,7 +1547,7 @@
       <visual name="laser_visual">
         <geometry>
           <mesh>
-            <uri>meshes/ouster-os0.dae</uri>
+            <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/CTU_CRAS_NORLAB_HUSKKY_SENSOR_CONFIG_3/tip/files/meshes/ouster-os0.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -1609,7 +1608,7 @@
         </ode>
       </physics>
     </joint>
-    <link name="top_box_lower_floor">
+    <link name="tower_lower_floor">
       <pose>0.002 0.003 0.262 0 -0 0</pose>
       <inertial>
         <pose>0 0 0.0325 0 -0 0</pose>
@@ -1623,7 +1622,7 @@
           <izz>0.00412375</izz>
         </inertia>
       </inertial>
-      <collision name="top_box_lower_floor_collision">
+      <collision name="tower_lower_floor_collision">
         <pose>0 0 -0.001 0 -0 0</pose>
         <geometry>
           <box>
@@ -1631,7 +1630,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="top_box_lower_floor_fixed_joint_lump__jetson_collision_1">
+      <collision name="tower_lower_floor_fixed_joint_lump__jetson_collision_1">
         <pose>0 0 0.0325 0 -0 0</pose>
         <geometry>
           <box>
@@ -1639,7 +1638,7 @@
           </box>
         </geometry>
       </collision>
-      <visual name="top_box_lower_floor_visual">
+      <visual name="tower_lower_floor_visual">
         <pose>0 0 -0.001 0 -0 0</pose>
         <geometry>
           <box>
@@ -1653,7 +1652,7 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
-      <visual name="top_box_lower_floor_fixed_joint_lump__jetson_visual_1">
+      <visual name="tower_lower_floor_fixed_joint_lump__jetson_visual_1">
         <pose>0 0 0.0325 0 -0 0</pose>
         <geometry>
           <box>
@@ -1668,8 +1667,8 @@
         </material>
       </visual>
     </link>
-    <joint name="top_box_lower_floor_j" type="fixed">
-      <child>top_box_lower_floor</child>
+    <joint name="tower_lower_floor_j" type="fixed">
+      <child>tower_lower_floor</child>
       <parent>base_link</parent>
       <axis>
         <dynamics>
@@ -1717,7 +1716,7 @@
       <visual name="imu_visual">
         <geometry>
           <mesh>
-            <uri>meshes/mti-30.dae</uri>
+            <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/CTU_CRAS_NORLAB_HUSKKY_SENSOR_CONFIG_3/tip/files/meshes/mti-30.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -1800,7 +1799,7 @@
     </link>
     <joint name="imu_j" type="fixed">
       <child>imu</child>
-      <parent>top_box_lower_floor</parent>
+      <parent>tower_lower_floor</parent>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>

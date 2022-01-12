@@ -59,19 +59,19 @@
             All these configuration values should be set in common.yaml.
     -->
 
-    <xacro:arg name="has_top_box" default="1" />
+    <xacro:arg name="has_tower" default="1" />
     <!-- Distance from rear_right_corner to the rear part of the rear right ITEM of the top box. -->
-    <xacro:arg name="top_box_j_x" default="0.17" />
+    <xacro:arg name="tower_j_x" default="0.17" />
     <!-- Distance from rear_right_corner to the rightmost part of the rightmost ITEM of the top box. -->
-    <xacro:arg name="top_box_j_y" default="0.11" />
+    <xacro:arg name="tower_j_y" default="0.11" />
     <!-- Length of the top box along the X dimension -->
-    <xacro:arg name="top_box_x_dim" default="0.18" />
+    <xacro:arg name="tower_x_dim" default="0.18" />
     <!-- Length of the top box along the X dimension -->
-    <xacro:arg name="top_box_y_dim" default="0.18" />
-    <xacro:arg name="top_box_height" default="0.23" />
-    <xacro:arg name="top_box_item_height" default="0.2" />
-    <xacro:arg name="top_box_lower_floor_z" default="0.002" />
-    <xacro:arg name="top_box_cap_revision" default="v1" />
+    <xacro:arg name="tower_y_dim" default="0.18" />
+    <xacro:arg name="tower_height" default="0.23" />
+    <xacro:arg name="tower_item_height" default="0.2" />
+    <xacro:arg name="tower_lower_floor_z" default="0.002" />
+    <xacro:arg name="tower_cap_revision" default="v1" />
 
     <xacro:arg name="has_xsens_mti_30_imu" default="1" />
     <xacro:arg name="has_ouster_lidar" default="1" />
@@ -94,7 +94,7 @@
     <!-- MEASURED CONSTANTS -->
     <xacro:property name="body_mass" value="41.064" />
     <xacro:property name="wheel_mass" value="2.637" />
-    <xacro:property name="top_box_mass" value="2.0" />
+    <xacro:property name="tower_mass" value="2.0" />
 
     <!-- MACRO SPECIFICATIONS -->
 
@@ -295,7 +295,7 @@
     <xacro:husky_wheel name="rear_left_wheel" front="0" left="1" />
     <xacro:husky_wheel name="rear_right_wheel" front="0" left="0" />
 
-    <!-- Payload ITEM frame -->
+    <!-- Payload ITEM frame; do not attach stuff to it, rather attach it to rear_right_corner -->
     <link name="$(arg prefix)payload_frame">
         <xacro:item_20mm length="0.54" xyz="0 -0.2 0" rpy="0 ${pi/2} 0" black="1" />
         <xacro:item_20mm length="0.54" xyz="0 0.2 0" rpy="0 ${pi/2} 0" black="1" />
@@ -307,49 +307,54 @@
                        lump="1" xyz="0 0 0.23" />
     <xacro:solid_color_link_material link="$(arg prefix)payload_frame" r="0.1" g="0.1" b="0.1" />
     
-    <xacro:if value="$(arg has_top_box)">
-        <link name="$(arg prefix)top_box">
-            <xacro:item_20mm length="$(arg top_box_item_height)" xyz="${-$(arg top_box_x_dim)/2+0.01} ${-$(arg top_box_y_dim)/2+0.01} ${$(arg top_box_item_height)/2+0.02}" />
-            <xacro:item_20mm length="$(arg top_box_item_height)" xyz="${$(arg top_box_x_dim)/2-0.01} ${-$(arg top_box_y_dim)/2+0.01} ${$(arg top_box_item_height)/2+0.02}" />
-            <xacro:item_20mm length="$(arg top_box_item_height)" xyz="${$(arg top_box_x_dim)/2-0.01} ${$(arg top_box_y_dim)/2-0.01} ${$(arg top_box_item_height)/2+0.02}" />
-            <xacro:item_20mm length="$(arg top_box_item_height)" xyz="${-$(arg top_box_x_dim)/2+0.01} ${$(arg top_box_y_dim)/2-0.01} ${$(arg top_box_item_height)/2+0.02}" />
-            <xacro:item_20mm length="0.42" xyz="${-$(arg top_box_x_dim)/2+0.01} 0 0.01" rpy="${pi/2} 0 0" />
-            <xacro:item_20mm length="0.42" xyz="${$(arg top_box_x_dim)/2-0.01} 0 0.01" rpy="${pi/2} 0 0" />
+    <xacro:if value="$(arg has_tower)">
+        <!-- Manual calibration link in the bottom rear right corner of the tower (on top of the two transverse ITEMs). -->
+        <xacro:empty_link name="$(arg prefix)tower_rear_right_corner" />
+        <xacro:fixed_joint name="tower_rear_right_corner_j" parent="$(arg prefix)rear_right_corner" child="$(arg prefix)tower_rear_right_corner"
+                           xyz="$(arg tower_j_x) $(arg tower_j_y) 0.02" lump="1"/>
+
+        <link name="$(arg prefix)tower">
+            <xacro:item_20mm length="$(arg tower_item_height)" xyz="${-$(arg tower_x_dim)/2+0.01} ${-$(arg tower_y_dim)/2+0.01} ${$(arg tower_item_height)/2}" />
+            <xacro:item_20mm length="$(arg tower_item_height)" xyz="${$(arg tower_x_dim)/2-0.01} ${-$(arg tower_y_dim)/2+0.01} ${$(arg tower_item_height)/2}" />
+            <xacro:item_20mm length="$(arg tower_item_height)" xyz="${$(arg tower_x_dim)/2-0.01} ${$(arg tower_y_dim)/2-0.01} ${$(arg tower_item_height)/2}" />
+            <xacro:item_20mm length="$(arg tower_item_height)" xyz="${-$(arg tower_x_dim)/2+0.01} ${$(arg tower_y_dim)/2-0.01} ${$(arg tower_item_height)/2}" />
+            <xacro:item_20mm length="0.42" xyz="${-$(arg tower_x_dim)/2+0.01} 0 -0.01" rpy="${pi/2} 0 0" />
+            <xacro:item_20mm length="0.42" xyz="${$(arg tower_x_dim)/2-0.01} 0 -0.01" rpy="${pi/2} 0 0" />
             
             <inertial>
                 <origin xyz="0 0 0.041" rpy="0 0 0"/>
-                <mass value="${top_box_mass}"/>
+                <mass value="${tower_mass}"/>
                 <xacro:inertia_meshlab
                         ixx="0.0026136" ixy="0" ixz="0"
                         iyy="0.0049426" iyz="0"
                         izz="0.0070334"
-                        scale="1" mass="${top_box_mass}" />
+                        scale="1" mass="${tower_mass}" />
             </inertial>
         </link>
-        <xacro:solid_color_link_material link="$(arg prefix)top_box" r="0.8" g="0.8" b="0.8" />
-        <xacro:fixed_joint name="top_box_j" parent="$(arg prefix)rear_right_corner" child="$(arg prefix)top_box" xyz="${$(arg top_box_j_x)+$(arg top_box_x_dim)/2} ${$(arg top_box_j_y)+$(arg top_box_y_dim)/2} 0.0" rpy="0 0 0" />
-        
-        <link name="$(arg prefix)top_box_camera_floor">
-            <xacro:box_vis_col size="$(arg top_box_x_dim) $(arg top_box_y_dim) 0.002" xyz="0 0 -0.001" />
-            <xacro:default_inertial />
-        </link>
-        <xacro:solid_color_link_material link="$(arg prefix)top_box_camera_floor" r="0.8" g="0.8" b="0.8" />
-        <xacro:fixed_joint name="top_box_camera_floor_j" parent="$(arg prefix)top_box" child="$(arg prefix)top_box_camera_floor"
-                           lump="0" xyz="0 0 ${$(arg top_box_item_height)+0.02}" />
-        
-        <link name="$(arg prefix)top_box_lower_floor">
-            <xacro:box_vis_col size="$(arg top_box_x_dim) $(arg top_box_y_dim) 0.002" xyz="0 0 -0.001" />
-            <xacro:default_inertial />
-        </link>
-        <xacro:solid_color_link_material link="$(arg prefix)top_box_lower_floor" r="0.8" g="0.8" b="0.8" />
-        <xacro:fixed_joint name="top_box_lower_floor_j" parent="$(arg prefix)top_box" child="$(arg prefix)top_box_lower_floor"
-                           lump="0" xyz="0 0 ${$(arg top_box_lower_floor_z)+0.02}" />
+        <xacro:solid_color_link_material link="$(arg prefix)tower" r="0.8" g="0.8" b="0.8" />
+        <xacro:fixed_joint name="tower_j" parent="$(arg prefix)tower_rear_right_corner" child="$(arg prefix)tower" xyz="${$(arg tower_x_dim)/2} ${$(arg tower_y_dim)/2} 0.0" rpy="0 0 0" />
 
-        <xacro:if value="${'$(arg top_box_cap_revision)' == 'v1'}">
-            <link name="$(arg prefix)top_box_cap">
+        <link name="$(arg prefix)tower_camera_floor">
+            <xacro:box_vis_col size="$(arg tower_x_dim) $(arg tower_y_dim) 0.002" xyz="0 0 -0.001" />
+            <xacro:default_inertial />
+        </link>
+        <xacro:solid_color_link_material link="$(arg prefix)tower_camera_floor" r="0.8" g="0.8" b="0.8" />
+        <xacro:fixed_joint name="tower_camera_floor_j" parent="$(arg prefix)tower" child="$(arg prefix)tower_camera_floor"
+                           lump="0" xyz="0 0 $(arg tower_item_height)" />
+        
+        <link name="$(arg prefix)tower_lower_floor">
+            <xacro:box_vis_col size="$(arg tower_x_dim) $(arg tower_y_dim) 0.002" xyz="0 0 -0.001" />
+            <xacro:default_inertial />
+        </link>
+        <xacro:solid_color_link_material link="$(arg prefix)tower_lower_floor" r="0.8" g="0.8" b="0.8" />
+        <xacro:fixed_joint name="tower_lower_floor_j" parent="$(arg prefix)tower" child="$(arg prefix)tower_lower_floor"
+                           lump="0" xyz="0 0 $(arg tower_lower_floor_z)" />
+
+        <xacro:if value="${'$(arg tower_cap_revision)' == 'v1'}">
+            <link name="$(arg prefix)tower_cap">
                 <visual>
                     <geometry>
-                        <mesh filename="package://ctu_cras_norlab_husky_sensor_config_3/meshes/top_box_cap_v1.dae" />
+                        <mesh filename="package://ctu_cras_norlab_husky_sensor_config_3/meshes/tower_cap_v1.dae" />
                     </geometry>
                 </visual>
                 <collision>
@@ -360,10 +365,10 @@
                 </collision>
                 <xacro:default_inertial />
             </link>
-            <xacro:fixed_joint name="top_box_cap_j" parent="$(arg prefix)top_box_camera_floor" child="$(arg prefix)top_box_cap"
-                               lump="1" xyz="0 0 0.002" />
-            <xacro:empty_link name="$(arg prefix)top_box_cap_top" />
-            <xacro:fixed_joint name="top_box_cap_top_j" parent="$(arg prefix)top_box_cap" child="$(arg prefix)top_box_cap_top"
+            <xacro:fixed_joint name="tower_cap_j" parent="$(arg prefix)tower" child="$(arg prefix)tower_cap"
+                               lump="1" xyz="0 0 ${$(arg tower_item_height)+0.002}" />
+            <xacro:empty_link name="$(arg prefix)tower_cap_top" />
+            <xacro:fixed_joint name="tower_cap_top_j" parent="$(arg prefix)tower_cap" child="$(arg prefix)tower_cap_top"
                                lump="0" xyz="0 0 ${0.052-0.017}" />
         </xacro:if>
 
@@ -374,26 +379,26 @@
                 <xacro:box_inertial depth="0.105" width="0.105" height="0.065" xyz="0 0 ${0.065/2}" mass="${jetson_mass}" />
             </link>
             <xacro:solid_color_link_material link="$(arg prefix)jetson" r="0.1" g="0.1" b="0.1" />
-            <xacro:fixed_joint name="jetson_j" parent="$(arg prefix)top_box_lower_floor" child="$(arg prefix)jetson" lump="1" />
+            <xacro:fixed_joint name="jetson_j" parent="$(arg prefix)tower_lower_floor" child="$(arg prefix)jetson" lump="1" />
         </xacro:if>
         
         <!-- IMU -->
         <xacro:xsens_mti_30 name="imu" simulate="$(arg simulate_imu)" />
-        <xacro:calibrated_fixed_joint name="imu_j" parent="top_box_lower_floor" child="imu" lump="0" />
+        <xacro:calibrated_fixed_joint name="imu_j" parent="tower_lower_floor" child="imu" lump="0" />
     
         <!-- Omnicamera -->
         <xacro:if value="$(arg has_basler_cameras)">
             <xacro:basler_ace_omnicam name="camera_0" simulate="$(arg simulate_basler_cams)" visualize="$(arg visualize_sensors)" />
-            <xacro:calibrated_fixed_joint name="camera_0_j" parent="top_box_camera_floor" child="camera_0" lump="0" />
+            <xacro:calibrated_fixed_joint name="camera_0_j" parent="tower_camera_floor" child="camera_0" lump="0" />
     
             <xacro:basler_ace_omnicam name="camera_1" simulate="$(arg simulate_basler_cams)" visualize="$(arg visualize_sensors)" />
-            <xacro:calibrated_fixed_joint name="camera_1_j" parent="top_box_camera_floor" child="camera_1" lump="0" />
+            <xacro:calibrated_fixed_joint name="camera_1_j" parent="tower_camera_floor" child="camera_1" lump="0" />
     
             <xacro:basler_ace_omnicam name="camera_2" simulate="$(arg simulate_basler_cams)" visualize="$(arg visualize_sensors)" />
-            <xacro:calibrated_fixed_joint name="camera_2_j" parent="top_box_camera_floor" child="camera_2" lump="0" />
+            <xacro:calibrated_fixed_joint name="camera_2_j" parent="tower_camera_floor" child="camera_2" lump="0" />
     
             <xacro:basler_ace_omnicam name="camera_3" simulate="$(arg simulate_basler_cams)" visualize="$(arg visualize_sensors)" />
-            <xacro:calibrated_fixed_joint name="camera_3_j" parent="top_box_camera_floor" child="camera_3" lump="0" />
+            <xacro:calibrated_fixed_joint name="camera_3_j" parent="tower_camera_floor" child="camera_3" lump="0" />
         </xacro:if>
     
         <!-- 3D lidar -->
@@ -416,7 +421,7 @@
                     </collision>
                     <xacro:default_inertial />
                 </link>
-                <xacro:fixed_joint name="ouster_mount_j" parent="$(arg prefix)top_box_cap_top" child="$(arg prefix)ouster_mount"
+                <xacro:fixed_joint name="ouster_mount_j" parent="$(arg prefix)tower_cap_top" child="$(arg prefix)ouster_mount"
                                    lump="1" xyz="0 0 0" />
                 <xacro:empty_link name="$(arg prefix)ouster_mount_top" />
                 <xacro:fixed_joint name="ouster_mount_top_j" parent="$(arg prefix)ouster_mount" child="$(arg prefix)ouster_mount_top"
@@ -428,12 +433,12 @@
     <!-- Mote deployer -->
     <xacro:if value="$(arg has_mote_deployer)">
         <xacro:mote_deployer name="mote_deployer_l" />
-        <xacro:fixed_joint name="mote_deployer_l_j" parent="$(arg prefix)payload_frame" child="$(arg prefix)mote_deployer_l"
-                           xyz="0.23 0.19 -0.045" rpy="0 0.33 0" />
+        <xacro:fixed_joint name="mote_deployer_l_j" parent="$(arg prefix)rear_right_corner" child="$(arg prefix)mote_deployer_l"
+                           xyz="0.5 0.40 -0.045" rpy="0 0.33 0" />
 
         <xacro:mote_deployer name="mote_deployer_r" />
-        <xacro:fixed_joint name="mote_deployer_r_j" parent="$(arg prefix)payload_frame" child="$(arg prefix)mote_deployer_r"
-                           xyz="0.23 -0.14 -0.045" rpy="0 0.33 0" />
+        <xacro:fixed_joint name="mote_deployer_r_j" parent="$(arg prefix)rear_right_corner" child="$(arg prefix)mote_deployer_r"
+                           xyz="0.5 0.07 -0.045" rpy="0 0.33 0" />
     </xacro:if>
 
     <gazebo reference="$(arg prefix)base_link">

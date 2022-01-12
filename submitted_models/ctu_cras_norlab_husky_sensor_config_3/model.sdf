@@ -3,15 +3,15 @@
   <model name="ctu_cras_norlab_husky_sensor_config_3">
     <link name="base_link">
       <inertial>
-        <pose>0.000371 0.000847 0.074752 0 -0 0</pose>
-        <mass>43.514</mass>
+        <pose>0.000371 0.000847 0.075671 0 -0 0</pose>
+        <mass>43.5141</mass>
         <inertia>
-          <ixx>0.742116</ixx>
-          <ixy>0.000881627</ixy>
-          <ixz>-0.00359047</ixz>
-          <iyy>1.87818</iyy>
-          <iyz>-0.00761064</iyz>
-          <izz>2.05615</izz>
+          <ixx>0.761381</ixx>
+          <ixy>0.000883549</ixy>
+          <ixz>-0.00365347</ixz>
+          <iyy>1.89744</iyy>
+          <iyz>-0.00769461</iyz>
+          <izz>2.05815</izz>
         </inertia>
       </inertial>
       <collision name="base_link_collision_bumper_collision">
@@ -146,7 +146,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__top_box_collision_16">
+      <collision name="base_link_fixed_joint_lump__tower_collision_16">
         <pose>-0.078 -0.077 0.36 0 -0 0</pose>
         <geometry>
           <box>
@@ -154,7 +154,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__top_box_collision_17">
+      <collision name="base_link_fixed_joint_lump__tower_collision_17">
         <pose>0.082 -0.077 0.36 0 -0 0</pose>
         <geometry>
           <box>
@@ -162,7 +162,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__top_box_collision_18">
+      <collision name="base_link_fixed_joint_lump__tower_collision_18">
         <pose>0.082 0.083 0.36 0 -0 0</pose>
         <geometry>
           <box>
@@ -170,7 +170,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__top_box_collision_19">
+      <collision name="base_link_fixed_joint_lump__tower_collision_19">
         <pose>-0.078 0.083 0.36 0 -0 0</pose>
         <geometry>
           <box>
@@ -178,7 +178,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__top_box_collision_20">
+      <collision name="base_link_fixed_joint_lump__tower_collision_20">
         <pose>-0.078 0.003 0.25 1.5707963267948966 -0 0</pose>
         <geometry>
           <box>
@@ -186,7 +186,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="base_link_fixed_joint_lump__top_box_collision_21">
+      <collision name="base_link_fixed_joint_lump__tower_collision_21">
         <pose>0.082 0.003 0.25 1.5707963267948966 -0 0</pose>
         <geometry>
           <box>
@@ -236,6 +236,14 @@
             <length>0.1</length>
             <radius>0.025</radius>
           </cylinder>
+        </geometry>
+      </collision>
+      <collision name="base_link_fixed_joint_lump__tower_cap_collision_27">
+        <pose>0.002 0.003 0.471 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.19 0.19 0.052</size>
+          </box>
         </geometry>
       </collision>
       <visual name="base_link_visual_visual">
@@ -324,7 +332,7 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
-      <visual name="base_link_fixed_joint_lump__top_box_visual_8">
+      <visual name="base_link_fixed_joint_lump__tower_visual_8">
         <pose>-0.078 -0.077 0.36 0 -0 0</pose>
         <geometry>
           <box>
@@ -338,7 +346,7 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
-      <visual name="base_link_fixed_joint_lump__top_box_visual_9">
+      <visual name="base_link_fixed_joint_lump__tower_visual_9">
         <pose>0.082 -0.077 0.36 0 -0 0</pose>
         <geometry>
           <box>
@@ -352,7 +360,7 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
-      <visual name="base_link_fixed_joint_lump__top_box_visual_10">
+      <visual name="base_link_fixed_joint_lump__tower_visual_10">
         <pose>0.082 0.083 0.36 0 -0 0</pose>
         <geometry>
           <box>
@@ -366,7 +374,7 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
-      <visual name="base_link_fixed_joint_lump__top_box_visual_11">
+      <visual name="base_link_fixed_joint_lump__tower_visual_11">
         <pose>-0.078 0.083 0.36 0 -0 0</pose>
         <geometry>
           <box>
@@ -380,7 +388,7 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
-      <visual name="base_link_fixed_joint_lump__top_box_visual_12">
+      <visual name="base_link_fixed_joint_lump__tower_visual_12">
         <pose>-0.078 0.003 0.25 1.5707963267948966 -0 0</pose>
         <geometry>
           <box>
@@ -394,7 +402,7 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
-      <visual name="base_link_fixed_joint_lump__top_box_visual_13">
+      <visual name="base_link_fixed_joint_lump__tower_visual_13">
         <pose>0.082 0.003 0.25 1.5707963267948966 -0 0</pose>
         <geometry>
           <box>
@@ -461,6 +469,14 @@
             <length>0.1</length>
             <radius>0.005</radius>
           </cylinder>
+        </geometry>
+      </visual>
+      <visual name="base_link_fixed_joint_lump__tower_cap_visual_19">
+        <pose>0.002 0.003 0.462 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/tower_cap_v1.dae</uri>
+          </mesh>
         </geometry>
       </visual>
       <light name="light_left" type="spot">
@@ -901,21 +917,20 @@
         </ode>
       </physics>
     </joint>
-    <link name="top_box_camera_floor">
+    <link name="tower_camera_floor">
       <pose>0.002 0.003 0.46 0 -0 0</pose>
       <inertial>
-        <pose>0 0 0.001 0 -0 0</pose>
-        <mass>2e-05</mass>
+        <mass>1e-05</mass>
         <inertia>
-          <ixx>0.002</ixx>
-          <ixy>2e-06</ixy>
-          <ixz>2e-06</ixz>
-          <iyy>0.002</iyy>
-          <iyz>2e-06</iyz>
-          <izz>0.002</izz>
+          <ixx>0.001</ixx>
+          <ixy>1e-06</ixy>
+          <ixz>1e-06</ixz>
+          <iyy>0.001</iyy>
+          <iyz>1e-06</iyz>
+          <izz>0.001</izz>
         </inertia>
       </inertial>
-      <collision name="top_box_camera_floor_collision">
+      <collision name="tower_camera_floor_collision">
         <pose>0 0 -0.001 0 -0 0</pose>
         <geometry>
           <box>
@@ -923,15 +938,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="top_box_camera_floor_fixed_joint_lump__top_box_cap_collision_1">
-        <pose>0 0 0.011 0 -0 0</pose>
-        <geometry>
-          <box>
-            <size>0.19 0.19 0.052</size>
-          </box>
-        </geometry>
-      </collision>
-      <visual name="top_box_camera_floor_visual">
+      <visual name="tower_camera_floor_visual">
         <pose>0 0 -0.001 0 -0 0</pose>
         <geometry>
           <box>
@@ -945,17 +952,9 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
-      <visual name="top_box_camera_floor_fixed_joint_lump__top_box_cap_visual_1">
-        <pose>0 0 0.002 0 -0 0</pose>
-        <geometry>
-          <mesh>
-            <uri>meshes/top_box_cap_v1.dae</uri>
-          </mesh>
-        </geometry>
-      </visual>
     </link>
-    <joint name="top_box_camera_floor_j" type="fixed">
-      <child>top_box_camera_floor</child>
+    <joint name="tower_camera_floor_j" type="fixed">
+      <child>tower_camera_floor</child>
       <parent>base_link</parent>
       <axis>
         <dynamics>
@@ -1061,7 +1060,7 @@
     </link>
     <joint name="camera_0_j" type="fixed">
       <child>camera_0</child>
-      <parent>top_box_camera_floor</parent>
+      <parent>tower_camera_floor</parent>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
@@ -1166,7 +1165,7 @@
     </link>
     <joint name="camera_1_j" type="fixed">
       <child>camera_1</child>
-      <parent>top_box_camera_floor</parent>
+      <parent>tower_camera_floor</parent>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
@@ -1271,7 +1270,7 @@
     </link>
     <joint name="camera_2_j" type="fixed">
       <child>camera_2</child>
-      <parent>top_box_camera_floor</parent>
+      <parent>tower_camera_floor</parent>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
@@ -1376,7 +1375,7 @@
     </link>
     <joint name="camera_3_j" type="fixed">
       <child>camera_3</child>
-      <parent>top_box_camera_floor</parent>
+      <parent>tower_camera_floor</parent>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
@@ -1398,7 +1397,7 @@
         </ode>
       </physics>
     </joint>
-    <link name="top_box_cap_top">
+    <link name="tower_cap_top">
       <pose>0.002 0.003 0.497 0 -0 0</pose>
       <inertial>
         <mass>2e-05</mass>
@@ -1411,7 +1410,7 @@
           <izz>0.002</izz>
         </inertia>
       </inertial>
-      <collision name="top_box_cap_top_fixed_joint_lump__ouster_mount_collision">
+      <collision name="tower_cap_top_fixed_joint_lump__ouster_mount_collision">
         <pose>0 0 0.0225 0 -0 0</pose>
         <geometry>
           <cylinder>
@@ -1420,7 +1419,7 @@
           </cylinder>
         </geometry>
       </collision>
-      <visual name="top_box_cap_top_fixed_joint_lump__ouster_mount_visual">
+      <visual name="tower_cap_top_fixed_joint_lump__ouster_mount_visual">
         <geometry>
           <mesh>
             <uri>meshes/ouster_mount_v1.dae</uri>
@@ -1428,9 +1427,9 @@
         </geometry>
       </visual>
     </link>
-    <joint name="top_box_cap_top_j" type="fixed">
-      <child>top_box_cap_top</child>
-      <parent>top_box_camera_floor</parent>
+    <joint name="tower_cap_top_j" type="fixed">
+      <child>tower_cap_top</child>
+      <parent>base_link</parent>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
@@ -1468,7 +1467,7 @@
     </link>
     <joint name="ouster_mount_top_j" type="fixed">
       <child>ouster_mount_top</child>
-      <parent>top_box_cap_top</parent>
+      <parent>tower_cap_top</parent>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
@@ -1577,7 +1576,7 @@
         </ode>
       </physics>
     </joint>
-    <link name="top_box_lower_floor">
+    <link name="tower_lower_floor">
       <pose>0.002 0.003 0.262 0 -0 0</pose>
       <inertial>
         <pose>0 0 0.0325 0 -0 0</pose>
@@ -1591,7 +1590,7 @@
           <izz>0.00412375</izz>
         </inertia>
       </inertial>
-      <collision name="top_box_lower_floor_collision">
+      <collision name="tower_lower_floor_collision">
         <pose>0 0 -0.001 0 -0 0</pose>
         <geometry>
           <box>
@@ -1599,7 +1598,7 @@
           </box>
         </geometry>
       </collision>
-      <collision name="top_box_lower_floor_fixed_joint_lump__jetson_collision_1">
+      <collision name="tower_lower_floor_fixed_joint_lump__jetson_collision_1">
         <pose>0 0 0.0325 0 -0 0</pose>
         <geometry>
           <box>
@@ -1607,7 +1606,7 @@
           </box>
         </geometry>
       </collision>
-      <visual name="top_box_lower_floor_visual">
+      <visual name="tower_lower_floor_visual">
         <pose>0 0 -0.001 0 -0 0</pose>
         <geometry>
           <box>
@@ -1621,7 +1620,7 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
-      <visual name="top_box_lower_floor_fixed_joint_lump__jetson_visual_1">
+      <visual name="tower_lower_floor_fixed_joint_lump__jetson_visual_1">
         <pose>0 0 0.0325 0 -0 0</pose>
         <geometry>
           <box>
@@ -1636,8 +1635,8 @@
         </material>
       </visual>
     </link>
-    <joint name="top_box_lower_floor_j" type="fixed">
-      <child>top_box_lower_floor</child>
+    <joint name="tower_lower_floor_j" type="fixed">
+      <child>tower_lower_floor</child>
       <parent>base_link</parent>
       <axis>
         <dynamics>
@@ -1768,7 +1767,7 @@
     </link>
     <joint name="imu_j" type="fixed">
       <child>imu</child>
-      <parent>top_box_lower_floor</parent>
+      <parent>tower_lower_floor</parent>
       <axis>
         <dynamics>
           <spring_reference>0</spring_reference>
