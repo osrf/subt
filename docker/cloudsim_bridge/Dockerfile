@@ -87,18 +87,18 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu 
     python-catkin-tools \
     python-rosdep \
     python-rosinstall \
-    ros-melodic-desktop \
-    ros-melodic-joystick-drivers \
-    ros-melodic-pcl-ros \
-    ros-melodic-pointcloud-to-laserscan \
-    ros-melodic-robot-localization \
-    ros-melodic-spacenav-node \
-    ros-melodic-tf2-sensor-msgs \
-    ros-melodic-twist-mux \
-    ros-melodic-rviz-imu-plugin \
-    ros-melodic-rotors-control \
-    ros-melodic-theora-image-transport \
-    ros-melodic-control-toolbox \
+    ros-noetic-desktop \
+    ros-noetic-joystick-drivers \
+    ros-noetic-pcl-ros \
+    ros-noetic-pointcloud-to-laserscan \
+    ros-noetic-robot-localization \
+    ros-noetic-spacenav-node \
+    ros-noetic-tf2-sensor-msgs \
+    ros-noetic-twist-mux \
+    ros-noetic-rviz-imu-plugin \
+    ros-noetic-rotors-control \
+    ros-noetic-theora-image-transport \
+    ros-noetic-control-toolbox \
  && sudo rosdep init \
  && sudo apt-get clean
 
@@ -127,10 +127,10 @@ RUN mkdir -p subt_ws/src \
  && cd subt_ws/src \
  && git config --global http.postBuffer 1048576000 \
  && git clone https://github.com/osrf/subt -b fortress \
- && git clone https://github.com/ignitionrobotics/ros_ign -b melodic
+ && git clone https://github.com/ignitionrobotics/ros_ign -b noetic
 
 # Install dependencies
-RUN . /opt/ros/melodic/setup.sh \
+RUN . /opt/ros/noetic/setup.sh \
  && rosdep update \
  && sudo apt-get update \
  && rosdep install -y --from-paths . --ignore-src -r \
@@ -144,8 +144,8 @@ RUN . /opt/ros/melodic/setup.sh \
 
 WORKDIR /home/$USERNAME/subt_ws
 
-RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && IGNITION_VERSION=fortress catkin_make -DCMAKE_BUILD_TYPE=Release install'
-RUN /bin/sh -c 'echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc' \
+RUN /bin/bash -c 'source /opt/ros/noetic/setup.bash && IGNITION_VERSION=fortress catkin_make -DCMAKE_BUILD_TYPE=Release install'
+RUN /bin/sh -c 'echo ". /opt/ros/noetic/setup.bash" >> ~/.bashrc' \
  && /bin/sh -c 'echo ". ~/subt_ws/install/setup.sh" >> ~/.bashrc'
 
 # Create a directory required by cloudsim

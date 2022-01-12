@@ -56,7 +56,7 @@ namespace systems
   class SpeedLimiterPrivate;
 
   /// \brief Class to limit velocity, acceleration and jerk.
-  /// \ref https://github.com/ros-controls/ros_controllers/tree/melodic-devel/diff_drive_controller
+  /// \ref https://github.com/ros-controls/ros_controllers/tree/noetic-devel/diff_drive_controller
   class IGNITION_GAZEBO_VISIBLE SpeedLimiter
   {
     /// \brief Constructor.

@@ -78,7 +78,7 @@
 
 <ignition version='1.0'>
   <!-- Start ROS first. This is a bit hacky for now. -->
-  <!-- Make sure to source /opt/ros/melodic/setup.bash -->
+  <!-- Make sure to source /opt/ros/noetic/setup.bash -->
   <executable name='ros'>
 
     <command>roslaunch subt_ros competition_init.launch world_name:=<%=$worldName%> enable_ground_truth:=<%=($enableGroundTruth)?"1":"0"%> robot_names:=<%= robotNames.join(",") %></command>

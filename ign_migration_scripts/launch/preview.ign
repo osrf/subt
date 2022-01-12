@@ -40,7 +40,7 @@
   </env>
 
   <!-- Start ROS first. This is a bit hacky for now. -->
-  <!-- Make sure to source /opt/ros/melodic/setup.bash -->
+  <!-- Make sure to source /opt/ros/noetic/setup.bash -->
   <executable name='ros'>
     <command>roslaunch subt_ros competition_init.launch world_name:=<%=$worldName%> vehicle_topics:=0 enable_ground_truth:=<%=($enableGroundTruth)?"1":"0"%></command>
   </executable>

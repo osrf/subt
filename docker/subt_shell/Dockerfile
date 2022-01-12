@@ -72,16 +72,16 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.ros.org/ros/ubuntu 
     python-catkin-tools \
     python-rosdep \
     python-rosinstall \
-    ros-melodic-desktop \
-    ros-melodic-joystick-drivers \
-    ros-melodic-pcl-ros \
-    ros-melodic-pointcloud-to-laserscan \
-    ros-melodic-robot-localization \
-    ros-melodic-spacenav-node \
-    ros-melodic-tf2-sensor-msgs \
-    ros-melodic-twist-mux \
-    ros-melodic-rviz-imu-plugin \
-    ros-melodic-rotors-control \
+    ros-noetic-desktop \
+    ros-noetic-joystick-drivers \
+    ros-noetic-pcl-ros \
+    ros-noetic-pointcloud-to-laserscan \
+    ros-noetic-robot-localization \
+    ros-noetic-spacenav-node \
+    ros-noetic-tf2-sensor-msgs \
+    ros-noetic-twist-mux \
+    ros-noetic-rviz-imu-plugin \
+    ros-noetic-rotors-control \
  && sudo rosdep init \
  && sudo apt-get clean -qq
 
@@ -98,7 +98,7 @@ RUN sudo /bin/sh -c 'echo "deb [trusted=yes] http://packages.osrfoundation.org/g
 # install the ros to ign bridge
 RUN sudo apt-get update -qq \
  && sudo apt-get install -y -qq \
-    ros-melodic-ros-ign \
+    ros-noetic-ros-ign \
  && sudo apt-get clean -qq
 
 # Clone all the subt models so that you don't download them every time
@@ -118,9 +118,9 @@ WORKDIR /home/$USERNAME/subt_ws
 
 # build the subt tech repo (set gcc to version 8 first)
 RUN sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 800 --slave /usr/bin/g++ g++ /usr/bin/g++-8 --slave /usr/bin/gcov gcov /usr/bin/gcov-8
-RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash && catkin_make -DCMAKE_BUILD_TYPE=Release install'
+RUN /bin/bash -c 'source /opt/ros/noetic/setup.bash && catkin_make -DCMAKE_BUILD_TYPE=Release install'
 
-RUN /bin/sh -c 'echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc' \
+RUN /bin/sh -c 'echo ". /opt/ros/noetic/setup.bash" >> ~/.bashrc' \
  && /bin/sh -c 'echo ". ~/subt_ws/install/setup.sh" >> ~/.bashrc'
 
 # Customize your image here.
