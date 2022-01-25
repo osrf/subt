@@ -437,7 +437,7 @@
                     <mesh filename="package://ctu_cras_norlab_marv_sensor_config_1/meshes/small_wheel.dae"/>
                 </geometry>
             </visual>
-            <xacro:if value="${'$(arg rendering_target)' == 'urdf'}">
+            <xacro:if value="${'$(arg rendering_target)' == 'urdf' or $(arg num_wheels) == 0}">
                 <xacro:property name="inflated_big_wheel" value="${$(arg flipper_inflation_ratio) * $(arg rover_flipperBigRadius)}" />
                 <xacro:property name="inflated_small_wheel" value="${$(arg flipper_inflation_ratio) * $(arg rover_flipperSmallRadius)}" />
                 <xacro:property name="flipper_edge_angle" value="${atan2(inflated_big_wheel - inflated_small_wheel, rover_flipperAxleDistance)}" />
@@ -474,7 +474,20 @@
                     </geometry>
                 </collision>
             </xacro:if>
-            <xacro:default_inertial />
+            <xacro:if value="${$(arg num_wheels) > 0}">
+                <xacro:default_inertial />
+            </xacro:if>
+            <xacro:if value="${$(arg num_wheels) == 0}">
+                <inertial>
+                    <origin xyz="${reflect_y*0.08} 0 0.0" rpy="0 0 0"/>
+                    <mass value="${flipper_arm_mass + flipper_big_wheel_mass + 2*flipper_small_wheel_mass + belt_mass}"/>
+                    <xacro:inertia_meshlab
+                            ixx="1.7491e-003" ixy="2.8512e-007" ixz="1.8277e-003"
+                            iyy="1.2277e-002" iyz="-3.6288e-007"
+                            izz="1.0941e-002" scale="1.0"
+                            mass="${flipper_arm_mass + flipper_big_wheel_mass + 2*flipper_small_wheel_mass + belt_mass}" />
+                </inertial>
+            </xacro:if>
         </link>
 
         <joint name="${prefix1}_${prefix2}_flipper_j" type="revolute">
@@ -749,7 +762,7 @@
         </xacro:macro>
         <xacro:flipper_wheel_tags wheel_num="${$(arg num_wheels)}" />
 
-        <xacro:if value="${'$(arg rendering_target)' == 'ign'}">
+        <xacro:if value="${'$(arg rendering_target)' == 'ign' and $(arg num_wheels) > 0}">
             <gazebo>
                 <xacro:property name="inflation_coef" value="$(arg flipper_inflation_ratio)" />
                 <xacro:property name="small_wheel_radius" value="${$(arg rover_flipperSmallRadius) * inflation_coef}" />
@@ -843,6 +856,7 @@
                 <always_on>1</always_on>
                 <update_rate>50</update_rate>
                 <imu>
+                    <enable_orientation>0</enable_orientation>
                     <angular_velocity>
                         <xacro:macro name="angular_imu_noise">
                             <noise type="gaussian">

@@ -22,31 +22,76 @@ def _spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw, _add
   max_vel = config["rover_maxTrackSpeed"]
   max_accel = config["rover_maxTrackAcceleration"]
 
+  tracks = ["left", "right"]
+  flippers = ["front_left", "front_right", "rear_left", "rear_right"]
+
+  flippersOfTrack = Hash.new
+  flippersOfTrack["left"] = ["front_left", "rear_left"]
+  flippersOfTrack["right"] = ["front_right", "rear_right"]
+
   # generate a bunch of DiffDrive plugins (one for each simulated wheel size)
   diff_drive = ""
-  for wheel_num in 1..num_wheels
-    # we only want odometry from the first diffdrive
-    no_odom = ""
-    if wheel_num > 1
-      no_odom = "<odom_topic>unused_odom</odom_topic>\n"
+  trackControllers = ""
+  trackedVehicle = ""
+  power_draining_topics = ""
+  if num_wheels > 0
+      for wheel_num in 1..num_wheels
+        # we only want odometry from the first diffdrive
+        no_odom = ""
+        if wheel_num > 1
+          no_odom = "<odom_topic>unused_odom</odom_topic>\n"
+        end
+        diff_drive += "
+          <plugin filename=\"libignition-gazebo-diff-drive-system.so\"
+                  name=\"ignition::gazebo::systems::DiffDrive\">
+              <left_joint>front_left_flipper_wheel#{wheel_num}_j</left_joint>
+              <left_joint>rear_left_flipper_wheel#{wheel_num}_j</left_joint>
+              <right_joint>front_right_flipper_wheel#{wheel_num}_j</right_joint>
+              <right_joint>rear_right_flipper_wheel#{wheel_num}_j</right_joint>
+              <wheel_separation>#{wheel_separation}</wheel_separation>
+              <wheel_radius>#{small_wheel_radius + wheel_radius_increment * (num_wheels - wheel_num)}</wheel_radius>
+              <topic>/model/#{_name}/cmd_vel_relay</topic>
+              <min_velocity>#{-max_vel}</min_velocity>
+              <max_velocity>#{max_vel}</max_velocity>
+              <min_acceleration>#{-max_accel}</min_acceleration>
+              <max_acceleration>#{max_accel}</max_acceleration>
+              #{no_odom}
+          </plugin>"
+      end
+  else
+    trackLinks = ""
+    for track in tracks
+        for flipper in flippersOfTrack[track]
+            trackControllers += <<-HEREDOC
+              <plugin name='ignition::gazebo::systems::TrackController' filename='libignition-gazebo-track-controller-system.so'>
+                  <link>#{flipper}_flipper</link>
+                  <min_velocity>-#{max_vel}</min_velocity>
+                  <max_velocity>#{max_vel}</max_velocity>
+                  <min_acceleration>-#{max_accel}</min_acceleration>
+                  <max_acceleration>#{max_accel}</max_acceleration>
+              </plugin>
+            HEREDOC
+            trackLinks += "<#{track}_track><link>#{flipper}_flipper</link></#{track}_track>"
+            power_draining_topics += "<power_draining_topic>/model/#{_name}/link/#{flipper}_flipper/track_cmd_vel</power_draining_topic>"
+        end
     end
-    diff_drive += "
-      <plugin filename=\"libignition-gazebo-diff-drive-system.so\"
-              name=\"ignition::gazebo::systems::DiffDrive\">
-          <left_joint>front_left_flipper_wheel#{wheel_num}_j</left_joint>
-          <left_joint>rear_left_flipper_wheel#{wheel_num}_j</left_joint>
-          <right_joint>front_right_flipper_wheel#{wheel_num}_j</right_joint>
-          <right_joint>rear_right_flipper_wheel#{wheel_num}_j</right_joint>
-          <wheel_separation>#{wheel_separation}</wheel_separation>
-          <wheel_radius>#{small_wheel_radius + wheel_radius_increment * (num_wheels - wheel_num)}</wheel_radius>
-          <topic>/model/#{_name}/cmd_vel_relay</topic>
-          <min_velocity>#{-max_vel}</min_velocity>
-          <max_velocity>#{max_vel}</max_velocity>
-          <min_acceleration>#{-max_accel}</min_acceleration>
-          <max_acceleration>#{max_accel}</max_acceleration>
-          #{no_odom}
-      </plugin>"
+    trackedVehicle += <<-HEREDOC
+        <plugin name="ignition::gazebo::systems::TrackedVehicle" filename="ignition-gazebo-tracked-vehicle-system">
+              #{trackLinks}
+              <tracks_separation>#{wheel_separation}</tracks_separation>
+              <tracks_height>#{2 * wheel_radius_increment}</tracks_height>
+              <steering_efficiency>0.5</steering_efficiency>
+              <topic>/model/#{_name}/cmd_vel_relay</topic>
+              <linear_velocity>
+                  <min_velocity>-#{max_vel}</min_velocity>
+                  <max_velocity>#{max_vel}</max_velocity>
+                  <min_acceleration>-#{max_accel}</min_acceleration>
+                  <max_acceleration>#{max_accel}</max_acceleration>
+              </linear_velocity>
+          </plugin>
+    HEREDOC
   end
+
 
   <<-HEREDOC
   <spawn name='#{_name}'>
@@ -61,6 +106,8 @@ def _spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw, _add
       <uri>#{_modelURI}</uri>
       <!-- Diff drive -->
       #{diff_drive}
+      #{trackedVehicle}
+      #{trackControllers}
       <!-- Publish robot state information -->
       <plugin filename="libignition-gazebo-pose-publisher-system.so"
         name="ignition::gazebo::systems::PosePublisher">
@@ -86,6 +133,7 @@ def _spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw, _add
         <smooth_current_tau>1.9499</smooth_current_tau>
         <power_load>9.9</power_load>
         <start_on_motion>true</start_on_motion>
+        #{power_draining_topics}
       </plugin>
       <!-- Gas Sensor plugin -->
       <plugin filename="libGasEmitterDetectorPlugin.so"
