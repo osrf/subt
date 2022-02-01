@@ -13,3 +13,5 @@ for file in "${MODEL_DIR}/config/common.yaml" "${MODEL_DIR}/config/ign.yaml"; do
 done
 
 OUTPUT_FILE="$OUTPUT_FILE" "${BASE_MODEL_DIR}/scripts/update_robot_sdf_ign" $config "$@"
+
+sed -i -e '/https/! s#<uri>\([^>]*\)</uri>#<uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/CTU_CRAS_NORLAB_HUSKKY_SENSOR_CONFIG_3/tip/files/\1</uri>#' "${OUTPUT_FILE}"
