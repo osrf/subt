@@ -10,24 +10,20 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
     <include>
       <name>#{_name}</name>
       <uri>#{_modelURI}</uri>
-      <!-- Diff drive -->
-      <plugin filename="libignition-gazebo-diff-drive-system.so"
-              name="ignition::gazebo::systems::DiffDrive">
-        <left_joint>front_left_wheel_joint</left_joint>
-        <left_joint>front_middle_left_wheel_joint</left_joint>
-        <left_joint>rear_middle_left_wheel_joint</left_joint>
-        <left_joint>rear_left_wheel_joint</left_joint>
-        <right_joint>front_right_wheel_joint</right_joint>
-        <right_joint>front_middle_right_wheel_joint</right_joint>
-        <right_joint>rear_middle_right_wheel_joint</right_joint>
-        <right_joint>rear_right_wheel_joint</right_joint>
-        <wheel_separation>#{0.525}</wheel_separation>
-        <wheel_radius>0.129</wheel_radius>
+      <!-- Tracked vehicle controller -->
+      <plugin name="ignition::gazebo::systems::TrackedVehicle" filename="ignition-gazebo-tracked-vehicle-system">
+        <left_track><link>left_track</link></left_track>
+        <right_track><link>right_track</link></right_track>
+        <tracks_separation>#{0.525}</tracks_separation>
+        <tracks_height>0.258</tracks_height>
+        <steering_efficiency>0.5</steering_efficiency>
         <topic>/model/#{_name}/cmd_vel_relay</topic>
-        <min_velocity>-1</min_velocity>
-        <max_velocity>1</max_velocity>
-        <min_acceleration>-3</min_acceleration>
-        <max_acceleration>3</max_acceleration>
+        <linear_velocity>
+          <min_velocity>-1</min_velocity>
+          <max_velocity>1</max_velocity>
+          <min_acceleration>-3</min_acceleration>
+          <max_acceleration>3</max_acceleration>
+        </linear_velocity>
       </plugin>
       <!-- Publish robot state information -->
       <plugin filename="libignition-gazebo-pose-publisher-system.so"
@@ -41,78 +37,12 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
         <static_publisher>true</static_publisher>
         <static_update_frequency>1</static_update_frequency>
       </plugin>
-      <!-- Battery plugin -->
-      <plugin filename="libignition-gazebo-linearbatteryplugin-system.so"
-        name="ignition::gazebo::systems::LinearBatteryPlugin">
-        <battery_name>linear_battery</battery_name>
-        <voltage>12.694</voltage>
-        <open_circuit_voltage_constant_coef>12.694</open_circuit_voltage_constant_coef>
-        <open_circuit_voltage_linear_coef>-3.1424</open_circuit_voltage_linear_coef>
-        <initial_charge>78.4</initial_charge>
-        <capacity>78.4</capacity>
-        <resistance>0.061523</resistance>
-        <smooth_current_tau>1.9499</smooth_current_tau>
-        <power_load>9.9</power_load>
-        <start_on_motion>true</start_on_motion>
-      </plugin>
       <!-- Gas Sensor plugin -->
       <plugin filename="libGasEmitterDetectorPlugin.so"
         name="subt::GasDetector">
         <topic>/model/#{_name}/gas_detected</topic>
         <update_rate>10</update_rate>
         <type>gas</type>
-      </plugin>
-      <!-- Wheel slip -->
-      <plugin filename="libignition-gazebo-wheel-slip-system.so"
-        name="ignition::gazebo::systems::WheelSlip">
-        <wheel link_name="front_left_wheel_link">
-          <slip_compliance_lateral>0.086</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-          <wheel_normal_force>63.765</wheel_normal_force>
-          <wheel_radius>0.129</wheel_radius>
-        </wheel>
-        <wheel link_name="front_middle_left_wheel_link">
-          <slip_compliance_lateral>0.086</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-          <wheel_normal_force>63.765</wheel_normal_force>
-          <wheel_radius>0.129</wheel_radius>
-        </wheel>
-        <wheel link_name="rear_middle_left_wheel_link">
-          <slip_compliance_lateral>0.086</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-          <wheel_normal_force>63.765</wheel_normal_force>
-          <wheel_radius>0.129</wheel_radius>
-        </wheel>
-        <wheel link_name="rear_left_wheel_link">
-          <slip_compliance_lateral>0.086</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0.25</slip_compliance_longitudinal>
-          <wheel_normal_force>63.765</wheel_normal_force>
-          <wheel_radius>0.129</wheel_radius>
-        </wheel>
-        <wheel link_name="front_right_wheel_link">
-          <slip_compliance_lateral>0.086</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-          <wheel_normal_force>63.765</wheel_normal_force>
-          <wheel_radius>0.129</wheel_radius>
-        </wheel>
-        <wheel link_name="front_middle_right_wheel_link">
-          <slip_compliance_lateral>0.086</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-          <wheel_normal_force>63.765</wheel_normal_force>
-          <wheel_radius>0.129</wheel_radius>
-        </wheel>
-        <wheel link_name="rear_middle_right_wheel_link">
-          <slip_compliance_lateral>0.086</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-          <wheel_normal_force>63.765</wheel_normal_force>
-          <wheel_radius>0.129</wheel_radius>
-        </wheel>
-        <wheel link_name="rear_right_wheel_link">
-          <slip_compliance_lateral>0.086</slip_compliance_lateral>
-          <slip_compliance_longitudinal>0</slip_compliance_longitudinal>
-          <wheel_normal_force>63.765</wheel_normal_force>
-          <wheel_radius>0.129</wheel_radius>
-        </wheel>
       </plugin>
       <plugin filename="libignition-gazebo-breadcrumbs-system.so"
             name="ignition::gazebo::systems::Breadcrumbs">
@@ -130,6 +60,22 @@ def spawner(_name, _modelURI, _worldName, _x, _y, _z, _roll, _pitch, _yaw)
            </model>
          </sdf>
        </breadcrumb>
+      </plugin>
+      <!-- Battery plugin -->
+      <plugin filename="libignition-gazebo-linearbatteryplugin-system.so"
+        name="ignition::gazebo::systems::LinearBatteryPlugin">
+        <battery_name>linear_battery</battery_name>
+        <voltage>12.694</voltage>
+        <open_circuit_voltage_constant_coef>12.694</open_circuit_voltage_constant_coef>
+        <open_circuit_voltage_linear_coef>-3.1424</open_circuit_voltage_linear_coef>
+        <initial_charge>78.4</initial_charge>
+        <capacity>78.4</capacity>
+        <resistance>0.061523</resistance>
+        <smooth_current_tau>1.9499</smooth_current_tau>
+        <power_load>9.9</power_load>
+        <start_on_motion>true</start_on_motion>
+        <power_draining_topic>/model/#{_name}/link/left_track/track_cmd_vel</power_draining_topic>
+        <power_draining_topic>/model/#{_name}/link/right_track/track_cmd_vel</power_draining_topic>
       </plugin>
     </include>
     </sdf>

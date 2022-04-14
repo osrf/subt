@@ -38,7 +38,7 @@ Sensor Config 2 adds 12 breadcrumbs:
 * 12 x Raspberry Pi Zero W
 
 ### Control
-This HD2 is controlled by the DiffDrive plugin and accepts a linear x velocity and a rotational z velocity.
+This HD2 is controlled by the TrackedVehicle plugin and accepts a linear x velocity and a rotational z velocity.
 Sensors are published on the standard topics.
 
 ### Motion Characteristics
@@ -60,8 +60,6 @@ Endurance set to 1 hour until validation testing is completed.
 
 ### Diversions from Physical Hardware
 Fisheye cameras are not modeled, so 4 cameras were used for simulation in place of the two fisheye cameras on the physical robot.
-
-Tank tracks are approximated by wheels.
 
 
 ## Validation and Specification Links

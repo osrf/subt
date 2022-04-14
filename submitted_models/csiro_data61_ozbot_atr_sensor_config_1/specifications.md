@@ -12,7 +12,7 @@ This robot configuration is based on the BIA5 OZBOT-ATR Tracked AGV. It has a st
 The robot accepts standard twist commands on the cmd_vel topic. The gimbal for the lidar can be controlled on the following topic:
 lidar_gimbal/pan_rate_cmd_double (std_msgs/Double)
 
-The position of the gimbal is accessed on the joint state topic. The joint state topic also contains the states of all the other joints on the robot (for the wheels used to simulate track drive), but the gimbal state is the first joint on the topic, e.g joint_states/position[0]
+The position of the gimbal is accessed on the joint state topic joint_states/position[0]
 
 ## Usage Rights
 This software is released under a [BSD 3-Clause license](LICENSE).
@@ -31,7 +31,7 @@ The following specific sensors are declared payloads of this vehicle:
 * 12 communication breadcrumbs are also available as a payload for this robot in sensor configuration 2.
 
 ### Control
-The platform is controlled by the standard diff-drive plugin for ignition gazebo, with twist inputs on "/<robotName>/cmd_vel", The robot has the following motion characteristics. Note there is also a gimbal for spinning the lidar, which is controlled on "/"<robotName>/lidar_gimbal/pan_rate_cmd_double"
+The platform is controlled by TrackedVehicle plugin for ignition gazebo, with twist inputs on `/<robotName>/cmd_vel`, The robot has the following motion characteristics. Note there is also a gimbal for spinning the lidar, which is controlled on `/<robotName>/lidar_gimbal/pan_rate_cmd_double`
 
 ### Motion Characteristics
 Based on the tests specified in the DARPA SubT Challenge [Model Preparation
@@ -50,7 +50,6 @@ this vehicle has the following motion constraint characteristics.
 Endurance of the platform is approximately 312 minutes
 
 ### Diversions from Physical Hardware of OZBOT_ATR
-* Currently the model does not have an accurate render of the track system, as diff-drive control currently requires the use of simulated multi-wheel systems. The multi-wheel system on the sim model is intended to provide a reasonable approximation of the track contact geometry for driving.
 * The physical version of the robot features a complex suspension system for the tracks, this is not feasible to model in the simulation and thus in simulation the robot is completely rigid.
 
 ## OZBOT ATR Validation and Specification Links

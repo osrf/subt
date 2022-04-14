@@ -10,7 +10,7 @@ This Ignition Gazebo model is based on the Team MARBLE's HD2, namely on the mesh
 Thanks to the original authors Derek Vasquez (dvasquez@ssci.com), Neil Johnson (njohnson@ssci.com) and Hector Escobar (hescobar@ssci.com) for making our lives easier! 
 
 ## Usage Instructions
-The robot motion is controlled via standard `cmd_vel` commands and produces standard odometry. The tracks are modeled by 4 virtual wheels on each side.
+The robot motion is controlled via standard `cmd_vel` commands and produces standard odometry. The tracks are modeled by `TrackController` Gazebo plugin.
 
 ## Usage Rights
 No additional restrictions have to be taken into account for this configuration.
@@ -33,7 +33,7 @@ This Marmotte with sensor configuration 1 includes the following sensors. The sp
 * Xsens MTi-100 IMU, modeled by the `imu_sensor` plugin
 
 ### Control
-The robot is controlled by the DiffDrive plugin. It accepts twist inputs which drive the vehicle along the x-direction and around the z-axis. The model follow the MARBLE's approach with 4 wheels on each side approximating tracks.
+The robot is controlled by the TrackedVehicle plugin. It accepts twist inputs which drive the vehicle along the x-direction and around the z-axis.
 
 ### Motion Characteristics
 The characteristics are identical to the MARBLE HD2 robot:
@@ -51,8 +51,6 @@ We leave the same endurance as the Team MARBLE, i.e. 1 hour. Based on the experi
 
 ### Diversions from Physical Hardware of the Marmotte
 The Marmotte HD2 has a payload bay similar to those on ClearPath Husky robots. This detail is not shown in the mesh visualization. Moreover, the sensor rack visualization is based on our CAD file of the robot and misses wiring and light bulbs. We consider these details irrelevant for the simulation.
-
-The tracks have to be approximated by wheels, as DartSim/Ignition Gazebo have no support for tracked vehicles. There is a working model for ODE/Gazebo, but there is no straight way of transferring it to Ignition Gazebo. This approximation results in worse performance on obstacles, and it can even happen that a piece of terrain gets "stuck" right between two wheels and the robot would completely stop in a case that would not be a problem with real tracks.
 
 Cameras have no distortion as the simulator doesn't support it.
 

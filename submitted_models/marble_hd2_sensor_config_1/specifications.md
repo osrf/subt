@@ -14,8 +14,8 @@ pan_tilt/pan_rate_cmd_double (send a std_msgs/Double message)
 pan_tilt/tilt_rate_cmd_double (send a std_msgs/Double message)
 
 The position of the pan and tilt axes can be accessed through the joint_state topic.  The name of each axis is available inside that message, but as of today the pan and tilt can be accessed as follows:
-Pan: joint_state/position[4]
-Tilt: joint_state/position[5]
+Pan: joint_state/position[0]
+Tilt: joint_state/position[1]
 
 ## Usage Rights
 The same Rights are granted for the configuration as for the MARBLE Husky. No additional restrictions have to be taken into account for this configuration.
@@ -46,7 +46,7 @@ The following specific sensors are declared payloads of this vehicle:
 * 12 communication breadcrumbs are also available as a payload for this robot in sensor configuration 2.
 
 ### Control
-This MARBLE HD2 is controlled by the DiffDrive plugin.  It accepts twist inputs which drive the vehicle along the x-direction and around the z-axis.  We add additional pseudo-wheels where the HD2's treads are to better approximate a track vehicle.  Currently, we are not aware of a track-vehicle plugin for ignition-gazebo.  A TrackedVehicle plugin does exist in gazebo8+, but it is not straightforward to port to ignition-gazebo.  We hope to work with other SubT teams and possibly experts among the ignition-gazebo developers to address this in the future.
+This MARBLE HD2 is controlled by the TrackedVehicle plugin.  It accepts twist inputs which drive the vehicle along the x-direction and around the z-axis.
 
 ### Motion Characteristics
 Based on the tests specified in the DARPA SubT Challenge [Model Preparation Guide](https://subtchallenge.com/resources/Simulation_Model_Preparation_Guide.pdf), this vehicle has the following motion constraint characteristics:
@@ -56,7 +56,7 @@ Based on the tests specified in the DARPA SubT Challenge [Model Preparation Guid
 
 The constraints can be found in the following locations within the simulation model package:
 
-* `spawner.rb`, lines 27-30
+* `spawner.rb`, lines 22-25
 
 This configuration has roughly the same motion characteristics as the COSTAR/MARBLE husky vehicles, except it also has a pan/tilt mechanism which has additional motion characteristics.  We have included a test script in this folder (test_gimbal.sh) which sends pan and tilt commands using ROS topics.  This script assumes you have named your vehicle X1.
 
