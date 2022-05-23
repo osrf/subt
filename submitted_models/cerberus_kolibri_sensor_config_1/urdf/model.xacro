@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name='kolibri' xmlns:xacro='http://ros.org/wiki/xacro'>
+  <xacro:arg name="name" default="shafter"/>
+  <xacro:property name="robot_namespace" value="$(arg name)"/>
+  <link name='${robot_namespace}/base_link'>
+    <inertial>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <mass value='5.7'/>
+      <inertia ixx='0.59' ixy='0' ixz='0' iyy='0.59' iyz='0' izz='0.95'/>
+    </inertial>
+    <collision name='collision'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://cerberus_kolibri_sensor_config_1/meshes/voliro_t.stl' scale='1 1 1'/>
+      </geometry>
+    </collision>
+    <visual name='base_link_visual'>
+      <origin xyz='0 0 0' rpy='0 -0 0'/>
+      <geometry>
+        <mesh filename='package://cerberus_kolibri_sensor_config_1/meshes/voliro_t.dae' scale='1 1 1'/>
+      </geometry>
+    </visual>
+  </link>
+  <sensor name='imu_sensor' update_rate='250'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0 0 0' rpy='0 -0 0'/>
+  </sensor>
+  <sensor name='top_lidar' update_rate='10'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0.27 0 0.2676' rpy='0 -0 0'/>
+  </sensor>
+  <sensor name='camera_front_left' update_rate='20'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0.1 0.15 -0.05' rpy='0 -0 0'/>
+    <camera>
+      <image width='728' height='544' format='R8G8B8' hfov='1.9' near='0.02' far='100' />
+    </camera>
+  </sensor>
+  <sensor name='camera_front_right' update_rate='20'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0.1 -0.15 -0.05' rpy='0 -0 0'/>
+    <camera>
+      <image width='728' height='544' format='R8G8B8' hfov='1.9' near='0.02' far='100' />
+    </camera>
+  </sensor>
+  <sensor name='camera_down' update_rate='20'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='0 0 -0.1' rpy='0 1.5708 0'/>
+    <camera>
+      <image width='728' height='544' format='R8G8B8' hfov='1.9' near='0.02' far='100' />
+    </camera>
+  </sensor>
+  <sensor name='camera_back_left' update_rate='20'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='-0.3 0.1 -0.05' rpy='0 0.09 2.35619'/>
+    <camera>
+      <image width='728' height='544' format='R8G8B8' hfov='1.9' near='0.02' far='100' />
+    </camera>
+  </sensor>
+  <sensor name='camera_back_left2' update_rate='20'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='-0.3 0.1 -0.02' rpy='0 0.09 2.35619'/>
+    <camera>
+      <image width='728' height='544' format='R8G8B8' hfov='1.9' near='0.02' far='100' />
+    </camera>
+  </sensor>
+  <sensor name='camera_back_right' update_rate='20'>
+    <parent link='${robot_namespace}/base_link'/>
+    <origin xyz='-0.3 -0.1 -0.05' rpy='0 0.09 -2.35619'/>
+    <camera>
+      <image width='728' height='544' format='R8G8B8' hfov='1.9' near='0.02' far='100' />
+    </camera>
+  </sensor>
+</robot>
