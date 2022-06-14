@@ -1,0 +1,524 @@
+Panels:
+  - Class: rviz/Displays
+    Help Height: 0
+    Name: Displays
+    Property Tree Widget:
+      Expanded:
+        - /Global Options1
+        - /Status1
+        - /Omnicam1
+      Splitter Ratio: 0.5
+    Tree Height: 813
+  - Class: rviz/Selection
+    Name: Selection
+  - Class: rviz/Tool Properties
+    Expanded:
+      - /2D Pose Estimate1
+      - /2D Nav Goal1
+      - /Publish Point1
+    Name: Tool Properties
+    Splitter Ratio: 0.5886790156364441
+  - Class: rviz/Views
+    Expanded:
+      - /Current View1
+    Name: Views
+    Splitter Ratio: 0.5
+  - Class: rviz/Time
+    Experimental: false
+    Name: Time
+    SyncMode: 0
+    SyncSource: ""
+Preferences:
+  PromptSaveOnExit: true
+Toolbars:
+  toolButtonStyle: 2
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Alpha: 0.5
+      Cell Size: 1
+      Class: rviz/Grid
+      Color: 160; 160; 164
+      Enabled: true
+      Line Style:
+        Line Width: 0.029999999329447746
+        Value: Lines
+      Name: Grid
+      Normal Cell Count: 0
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Plane: XY
+      Plane Cell Count: 10
+      Reference Frame: <Fixed Frame>
+      Value: true
+    - Alpha: 1
+      Class: rviz/RobotModel
+      Collision Enabled: false
+      Enabled: true
+      Links:
+        All Links Enabled: true
+        Expand Joint Details: false
+        Expand Link Details: false
+        Expand Tree: false
+        Link Tree Style: Links in Alphabetic Order
+        base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        bullet:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        bullet_antenna:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        camera_0:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        camera_1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        camera_2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        camera_3:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        front_left_wheel_axle:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        front_left_wheel_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        front_right_wheel_axle:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        front_right_wheel_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        imu:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        jetson:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        laser:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        mobilicom:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        mobilicom_antenna_l:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        mobilicom_antenna_r:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        mote_deployer_l:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        mote_deployer_r:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ouster_mount:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ouster_mount_top:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        payload_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rear_left_wheel_axle:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rear_left_wheel_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rear_right_corner:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        rear_right_wheel_axle:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rear_right_wheel_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        top_box:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        top_box_camera_floor:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        top_box_cap:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        top_box_cap_top:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        top_box_lower_floor:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        total_mass_47_697:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+      Name: RobotModel
+      Robot Description: robot_description
+      TF Prefix: ""
+      Update Interval: 0
+      Value: true
+      Visual Enabled: true
+    - Alpha: 1
+      Class: rviz_plugin_tutorials/Imu
+      Color: 204; 51; 204
+      Enabled: false
+      History Length: 1
+      Name: Imu
+      Topic: /X1/imu/data
+      Unreliable: false
+      Value: false
+    - Class: rviz/Group
+      Displays:
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: omni/camera_0/optical/image_raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Camera 0
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: omni/camera_1/optical/image_raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Camera 1
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: omni/camera_2/optical/image_raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Camera 2
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+        - Class: rviz/Image
+          Enabled: true
+          Image Topic: omni/camera_3/optical/image_raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: Camera 3
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: true
+      Enabled: true
+      Name: Omnicam
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 19.20396614074707
+        Min Value: -5.9556097984313965
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 255; 255; 255
+      Color Transformer: AxisColor
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Min Color: 0; 0; 0
+      Name: 3D lidar
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.009999999776482582
+      Style: Points
+      Topic: points
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
+    - Class: rviz/TF
+      Enabled: true
+      Frame Timeout: 15
+      Frames:
+        All Enabled: true
+        base_link:
+          Value: true
+        bullet:
+          Value: true
+        bullet_antenna:
+          Value: true
+        camera_0:
+          Value: true
+        camera_1:
+          Value: true
+        camera_2:
+          Value: true
+        camera_3:
+          Value: true
+        front_left_wheel_axle:
+          Value: true
+        front_left_wheel_link:
+          Value: true
+        front_right_wheel_axle:
+          Value: true
+        front_right_wheel_link:
+          Value: true
+        imu:
+          Value: true
+        jetson:
+          Value: true
+        laser:
+          Value: true
+        mobilicom:
+          Value: true
+        mobilicom_antenna_l:
+          Value: true
+        mobilicom_antenna_r:
+          Value: true
+        mote_deployer_l:
+          Value: true
+        mote_deployer_r:
+          Value: true
+        ouster_mount:
+          Value: true
+        ouster_mount_top:
+          Value: true
+        payload_frame:
+          Value: true
+        rear_left_wheel_axle:
+          Value: true
+        rear_left_wheel_link:
+          Value: true
+        rear_right_corner:
+          Value: true
+        rear_right_wheel_axle:
+          Value: true
+        rear_right_wheel_link:
+          Value: true
+        top_box:
+          Value: true
+        top_box_camera_floor:
+          Value: true
+        top_box_cap:
+          Value: true
+        top_box_cap_top:
+          Value: true
+        top_box_lower_floor:
+          Value: true
+        total_mass_47_697:
+          Value: true
+      Marker Scale: 0.20000000298023224
+      Name: TF
+      Show Arrows: true
+      Show Axes: true
+      Show Names: true
+      Tree:
+        base_link:
+          front_left_wheel_link:
+            front_left_wheel_axle:
+              {}
+          front_right_wheel_link:
+            front_right_wheel_axle:
+              {}
+          payload_frame:
+            mote_deployer_l:
+              {}
+            mote_deployer_r:
+              {}
+          rear_left_wheel_link:
+            rear_left_wheel_axle:
+              {}
+          rear_right_corner:
+            top_box:
+              bullet:
+                bullet_antenna:
+                  {}
+              mobilicom:
+                mobilicom_antenna_l:
+                  {}
+                mobilicom_antenna_r:
+                  {}
+              top_box_camera_floor:
+                camera_0:
+                  {}
+                camera_1:
+                  {}
+                camera_2:
+                  {}
+                camera_3:
+                  {}
+                top_box_cap:
+                  top_box_cap_top:
+                    ouster_mount:
+                      ouster_mount_top:
+                        laser:
+                          {}
+              top_box_lower_floor:
+                imu:
+                  {}
+                jetson:
+                  {}
+          rear_right_wheel_link:
+            rear_right_wheel_axle:
+              {}
+          total_mass_47_697:
+            {}
+      Update Interval: 0
+      Value: true
+  Enabled: true
+  Global Options:
+    Background Color: 48; 48; 48
+    Default Light: true
+    Fixed Frame: base_link
+    Frame Rate: 30
+  Name: root
+  Tools:
+    - Class: rviz/Interact
+      Hide Inactive Objects: true
+    - Class: rviz/MoveCamera
+    - Class: rviz/Select
+    - Class: rviz/FocusCamera
+    - Class: rviz/Measure
+    - Class: rviz/SetInitialPose
+      Theta std deviation: 0.2617993950843811
+      Topic: /initialpose
+      X std deviation: 0.5
+      Y std deviation: 0.5
+    - Class: rviz/SetGoal
+      Topic: /move_base_simple/goal
+    - Class: rviz/PublishPoint
+      Single click: true
+      Topic: /clicked_point
+  Value: true
+  Views:
+    Current:
+      Class: rviz/Orbit
+      Distance: 1.8979061841964722
+      Enable Stereo Rendering:
+        Stereo Eye Separation: 0.05999999865889549
+        Stereo Focal Distance: 1
+        Swap Stereo Eyes: false
+        Value: false
+      Focal Point:
+        X: 0.029040828347206116
+        Y: 0.0678446888923645
+        Z: 0.07722548395395279
+      Focal Shape Fixed Size: false
+      Focal Shape Size: 0.05000000074505806
+      Invert Z Axis: false
+      Name: Current View
+      Near Clip Distance: 0.009999999776482582
+      Pitch: 0.41539818048477173
+      Target Frame: <Fixed Frame>
+      Value: Orbit (rviz)
+      Yaw: 1.0922183990478516
+    Saved: ~
+Window Geometry:
+  Camera 0:
+    collapsed: false
+  Camera 1:
+    collapsed: false
+  Camera 2:
+    collapsed: false
+  Camera 3:
+    collapsed: false
+  Displays:
+    collapsed: false
+  Height: 1172
+  Hide Left Dock: false
+  Hide Right Dock: true
+  QMainWindow State: 000000ff00000000fd0000000400000000000001560000036afc020000000afb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003d0000036a000000c900fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000001a005200650061006c00730065006e0073006500200052004700420100000183000000e60000000000000000fb0000001e005200650061006c00730065006e00730065002000440065007000740068010000026f000000c00000000000000000000000010000010f000002f2fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000003d000002f2000000a400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000073d000000cafc0100000008fb0000001000430061006d006500720061002000300100000000000001d30000007400fffffffb0000001000430061006d0065007200610020003101000001d9000001c20000007400fffffffb0000001000430061006d0065007200610020003201000003a1000001ca0000007400fffffffb0000001000430061006d006500720061002000330100000571000001cc0000007400fffffffb0000001000430061006d0065007200610020003401000004a4000001280000000000000000fb0000001000430061006d0065007200610020003501000005d20000016b0000000000000000fb0000000800540069006d006500000000000000073d000004f300fffffffb0000000800540069006d00650100000000000004500000000000000000000005e10000036a00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  Selection:
+    collapsed: false
+  Time:
+    collapsed: false
+  Tool Properties:
+    collapsed: false
+  Views:
+    collapsed: true
+  Width: 1853
+  X: 1267
+  Y: 308

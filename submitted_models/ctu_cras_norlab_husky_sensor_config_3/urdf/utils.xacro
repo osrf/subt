@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<root xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:macro name="inertia_meshlab" params="ixx ixy ixz iyy iyz izz scale mass">
+        <inertia
+                ixx="${ixx*scale*scale}" ixy="${ixy*scale*scale}" ixz="${ixz*scale*scale}"
+                iyy="${iyy*scale*scale}" iyz="${iyz*scale*scale}"
+                izz="${izz*scale*scale}"/>
+    </xacro:macro>
+
+    <xacro:macro name="sphere_inertial" params="radius mass xyz:='0 0 0'">
+        <inertial>
+            <mass value="${mass}" />
+            <origin xyz="${xyz}" rpy="0 0 0"/>
+            <inertia ixx="${2.0/5 * mass * radius * radius}" ixy="0.0" ixz="0.0"
+                     iyy="${2.0/5 * mass * radius * radius}" iyz="0.0"
+                     izz="${2.0/5 * mass * radius * radius}" />
+        </inertial>
+    </xacro:macro>
+
+    <xacro:macro name="box_inertial" params="width height depth mass xyz:='0 0 0' rpy:='0 0 0'">
+        <inertial>
+            <mass value="${mass}" />
+            <origin xyz="${xyz}" rpy="${rpy}"/>
+            <inertia ixx="${1.0/12 * mass * (width * width + height * height)}" ixy="0.0" ixz="0.0"
+                     iyy="${1.0/12 * mass * (height * height + depth * depth)}" iyz="0.0"
+                     izz="${1.0/12 * mass * (width * width + depth * depth)}" />
+        </inertial>
+    </xacro:macro>
+
+    <xacro:macro name="cylinder_inertial" params="radius length mass xyz:='0 0 0' rpy:='0 0 0'">
+        <inertial>
+            <mass value="${mass}" />
+            <origin xyz="${xyz}" rpy="${rpy}"/>
+            <inertia ixx="${1.0/12 * mass * (3 * radius * radius + length * length)}" ixy="0.0" ixz="0.0"
+                     iyy="${1.0/12 * mass * (3 * radius * radius + length * length)}" iyz="0.0"
+                     izz="${0.5 * mass * radius * radius}" />
+        </inertial>
+    </xacro:macro>
+
+    <xacro:macro name="default_inertial">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="1e-5" />
+            <inertia ixx="1e-3" ixy="1e-6" ixz="1e-6"
+                     iyy="1e-3" iyz="1e-6"
+                     izz="1e-3" />
+        </inertial>
+    </xacro:macro>
+
+    <xacro:macro name="empty_link" params="name">
+        <link name="${name}">
+            <xacro:default_inertial />
+        </link>
+    </xacro:macro>
+
+    <xacro:macro name="fixed_joint" params="name parent child xyz:='0 0 0' rpy:='0 0 0' lump:=1">
+        <joint name="${name}" type="fixed">
+            <parent link="${parent}"/>
+            <child link="${child}"/>
+            <origin xyz="${xyz}" rpy="${rpy}"/>
+        </joint>
+        <xacro:if value="${lump == 0}">
+            <!-- workaround for https://github.com/osrf/sdformat/issues/378 -->
+            <gazebo reference="${name}">
+                <preserveFixedJoint>true</preserveFixedJoint>
+            </gazebo>
+        </xacro:if>
+    </xacro:macro>
+
+    <xacro:macro name="calibrated_fixed_joint" params="name parent child prefix:='' lump:='1'">
+        <xacro:if value="${prefix == ''}">
+            <xacro:property name="pref" value="${child}" />
+        </xacro:if>
+        <xacro:if value="${prefix != ''}">
+            <xacro:property name="pref" value="${prefix}" />
+        </xacro:if>
+        <xacro:fixed_joint name="${name}" parent="$(arg prefix)${parent}" child="$(arg prefix)${child}"
+                           xyz="$(arg ${pref}_pos_x) $(arg ${pref}_pos_y) $(arg ${pref}_pos_z)"
+                           rpy="$(arg ${pref}_rpy_r) $(arg ${pref}_rpy_p) $(arg ${pref}_rpy_y)"
+                           lump="${lump}"/>
+    </xacro:macro>
+
+    <xacro:macro name="solid_color_link_material" params="link r g b">
+        <xacro:unless value="${'$(arg rendering_target)' == 'urdf'}">
+            <gazebo reference="${link}">
+                <visual>
+                    <material>
+                        <ambient>0 0 0 0</ambient>
+                        <!-- Ignition Gazebo seems to use much brighter colors... -->
+                        <diffuse>${max(0, r - 60/255.0)} ${max(0, g - 60/255.0)} ${max(0, b - 60/255.0)} 1</diffuse>
+                        <specular>0 0 0 0</specular>
+                        <emissive>0 0 0 0</emissive>
+                    </material>
+                </visual>
+            </gazebo>
+        </xacro:unless>
+    </xacro:macro>
+
+    <xacro:macro name="box_vis_col" params="size xyz:='0 0 0' rpy:='0 0 0' rgba:='0.8 0.8 0.8 1' material_name:='aluminium'">
+        <visual>
+            <origin xyz="${xyz}" rpy="${rpy}" />
+            <geometry>
+                <box size="${size}" />
+            </geometry>
+            <material name="${material_name}">
+                <color rgba="${rgba}"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="${xyz}" rpy="${rpy}" />
+            <geometry>
+                <box size="${size}" />
+            </geometry>
+        </collision>
+    </xacro:macro>
+
+    <xacro:macro name="cylinder_vis_col" params="length radius xyz:='0 0 0' rpy:='0 0 0' rgba:='0.8 0.8 0.8 1' material_name:='aluminium'">
+        <visual>
+            <origin xyz="${xyz}" rpy="${rpy}" />
+            <geometry>
+                <cylinder length="${length}" radius="${radius}" />
+            </geometry>
+            <material name="${material_name}">
+                <color rgba="${rgba}"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="${xyz}" rpy="${rpy}" />
+            <geometry>
+                <cylinder length="${length}" radius="${radius}" />
+            </geometry>
+        </collision>
+    </xacro:macro>
+    
+    <xacro:macro name="item_20mm" params="length xyz:='0 0 0' rpy:='0 0 0' black:=0">
+        <xacro:if value="${black == 0}">
+            <xacro:box_vis_col size="0.02 0.02 ${length}" xyz="${xyz}" rpy="${rpy}" rgba="0.8 0.8 0.8 1" material_name="aluminum" />
+        </xacro:if>
+        <xacro:if value="${black == 1}">
+            <xacro:box_vis_col size="0.02 0.02 ${length}" xyz="${xyz}" rpy="${rpy}" rgba="0.1 0.1 0.1 1" material_name="black_aluminum" />
+        </xacro:if>
+    </xacro:macro>
+</root>

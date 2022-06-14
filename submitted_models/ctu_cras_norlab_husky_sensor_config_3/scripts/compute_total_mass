@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -e
+
+# compute the total mass of the robot by summing all <mass> elements in SDF
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+sdf="${1:-"${DIR}/../model.sdf"}"
+
+grep -i mass "$sdf" | grep -o '[0-9e.-]*' | grep -vi 'e-0' | numsum

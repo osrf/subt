@@ -1,0 +1,514 @@
+<?xml version="1.0" ?>
+<robot name="ctu_cras_norlab_husky_sensor_config_3" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:arg name="name" default="" />
+    <xacro:if value="${len('$(arg name)') == 0}">
+        <xacro:arg name="prefix" default="" />
+    </xacro:if>
+    <xacro:unless value="${len('$(arg name)') == 0}">
+        <xacro:arg name="prefix" default="$(arg name)/" />
+    </xacro:unless>
+
+    <xacro:arg name="camera_0_pos_x" default="0.01"/>
+    <xacro:arg name="camera_0_pos_y" default="0.048"/>
+    <xacro:arg name="camera_0_pos_z" default="0.002"/>
+    <xacro:arg name="camera_0_rpy_r" default="0"/>
+    <xacro:arg name="camera_0_rpy_p" default="0"/>
+    <xacro:arg name="camera_0_rpy_y" default="0"/>
+
+    <xacro:arg name="camera_1_pos_x" default="0.048"/>
+    <xacro:arg name="camera_1_pos_y" default="-0.01"/>
+    <xacro:arg name="camera_1_pos_z" default="0.002"/>
+    <xacro:arg name="camera_1_rpy_r" default="0"/>
+    <xacro:arg name="camera_1_rpy_p" default="0"/>
+    <xacro:arg name="camera_1_rpy_y" default="-1.5707963267948966"/>
+
+    <xacro:arg name="camera_2_pos_x" default="-0.01"/>
+    <xacro:arg name="camera_2_pos_y" default="-0.048"/>
+    <xacro:arg name="camera_2_pos_z" default="0.002"/>
+    <xacro:arg name="camera_2_rpy_r" default="0"/>
+    <xacro:arg name="camera_2_rpy_p" default="0"/>
+    <xacro:arg name="camera_2_rpy_y" default="3.14159265359"/>
+
+    <xacro:arg name="camera_3_pos_x" default="-0.048"/>
+    <xacro:arg name="camera_3_pos_y" default="0.01"/>
+    <xacro:arg name="camera_3_pos_z" default="0.002"/>
+    <xacro:arg name="camera_3_rpy_r" default="0"/>
+    <xacro:arg name="camera_3_rpy_p" default="0"/>
+    <xacro:arg name="camera_3_rpy_y" default="1.5707963267948966"/>
+
+    <xacro:arg name="ouster_pos_x" default="0.000000"/>
+    <xacro:arg name="ouster_pos_y" default="0.000000"/>
+    <xacro:arg name="ouster_pos_z" default="0.000000"/>
+    <xacro:arg name="ouster_rpy_r" default="0.000000"/>
+    <xacro:arg name="ouster_rpy_p" default="0.000000"/>
+    <xacro:arg name="ouster_rpy_y" default="0.785398163"/>
+
+    <xacro:arg name="imu_pos_x" default="0.000000"/>
+    <xacro:arg name="imu_pos_y" default="0.000000"/>
+    <xacro:arg name="imu_pos_z" default="0.000000"/>
+    <xacro:arg name="imu_rpy_r" default="3.14159265359"/>
+    <xacro:arg name="imu_rpy_p" default="0.000000"/>
+    <xacro:arg name="imu_rpy_y" default="0.000000"/>
+    
+    <!-- ARGUMENTS FOR DETERMINING REMOVABLE ROBOT PARTS PRESENCE AND POSITION ON THE BODY. -->
+    <!-- Positions of parts attachable to the top ITEM rectangle are given in a coordinate system whose
+            zero point is in the rear right corner of the rectangle (rear_right_corner). This way, all parts'
+            coordinates should only be positive numbers and are easily measured. To find out the zero points
+            of the parts, refer either to comments here or to the 3D models of the parts.
+
+            All these configuration values should be set in common.yaml.
+    -->
+
+    <xacro:arg name="has_tower" default="1" />
+    <!-- Distance from rear_right_corner to the rear part of the rear right ITEM of the top box. -->
+    <xacro:arg name="tower_j_x" default="0.17" />
+    <!-- Distance from rear_right_corner to the rightmost part of the rightmost ITEM of the top box. -->
+    <xacro:arg name="tower_j_y" default="0.11" />
+    <!-- Length of the top box along the X dimension -->
+    <xacro:arg name="tower_x_dim" default="0.18" />
+    <!-- Length of the top box along the X dimension -->
+    <xacro:arg name="tower_y_dim" default="0.18" />
+    <xacro:arg name="tower_height" default="0.23" />
+    <xacro:arg name="tower_item_height" default="0.2" />
+    <xacro:arg name="tower_lower_floor_z" default="0.002" />
+    <xacro:arg name="tower_cap_revision" default="v1" />
+
+    <xacro:arg name="has_xsens_mti_30_imu" default="1" />
+    <xacro:arg name="has_ouster_lidar" default="1" />
+    <xacro:arg name="has_basler_cameras" default="1" />
+    <xacro:arg name="has_mote_deployer" default="0" />
+    <xacro:arg name="has_mobilicom" default="0" />
+    <xacro:arg name="has_bullet" default="1" />
+    <xacro:arg name="has_jetson" default="1" />
+
+    <xacro:arg name="ouster_mount_revision" default="v1" />
+
+    <xacro:arg name="rendering_target" default="urdf" /> <!-- Pass either "urdf" or "ign" to tell the parser what is the desired target format. -->
+
+    <xacro:arg name="simulate_ouster_lidar" default="True" />
+    <xacro:arg name="simulate_basler_cams" default="True" />
+    <xacro:arg name="simulate_imu" default="True" />
+
+    <xacro:arg name="visualize_sensors" default="False" />
+
+    <!-- MEASURED CONSTANTS -->
+    <xacro:property name="body_mass" value="41.064" />
+    <xacro:property name="wheel_mass" value="2.637" />
+    <xacro:property name="tower_mass" value="2.0" />
+
+    <!-- MACRO SPECIFICATIONS -->
+
+    <xacro:include filename="$(find ctu_cras_norlab_husky_sensor_config_3)/urdf/utils.xacro" />
+
+    <!-- SPECIAL LINKS -->
+
+    <!-- This is a virtual link that specifies the origin to which parts attachable to the top of the robot should be related. -->
+    <xacro:empty_link name="$(arg prefix)rear_right_corner" />
+    <xacro:fixed_joint name="rear_right_corner_j" parent="$(arg prefix)base_link" child="$(arg prefix)rear_right_corner"
+                       xyz="-0.27 -0.21 0.24"/>
+
+    <!-- PAYLOAD -->
+    <xacro:if value="$(arg has_bullet)">
+        <xacro:include filename="$(find ctu_cras_norlab_husky_sensor_config_3)/urdf/bullet.xacro" />
+    </xacro:if>
+    <xacro:if value="$(arg has_mobilicom)">
+        <xacro:include filename="$(find ctu_cras_norlab_husky_sensor_config_3)/urdf/mobilicom.xacro" />
+    </xacro:if>
+    <xacro:if value="$(arg has_ouster_lidar)">
+        <xacro:include filename="$(find ctu_cras_norlab_husky_sensor_config_3)/urdf/ouster_lidar.xacro" />
+    </xacro:if>
+    <xacro:if value="$(arg has_mote_deployer)">
+        <xacro:include filename="$(find ctu_cras_norlab_husky_sensor_config_3)/urdf/mote_deployer.xacro" />
+    </xacro:if>
+    <xacro:if value="$(arg has_basler_cameras)">
+        <xacro:include filename="$(find ctu_cras_norlab_husky_sensor_config_3)/urdf/basler_cameras.xacro" />
+    </xacro:if>
+    <xacro:if value="$(arg has_xsens_mti_30_imu)">
+        <xacro:include filename="$(find ctu_cras_norlab_husky_sensor_config_3)/urdf/xsens_mti_30.xacro" />
+    </xacro:if>
+
+    <!-- ROBOT LINKS AND JOINTS SPECIFICATION -->
+
+    <link name='$(arg prefix)base_link'>
+        <collision name='base_link_collision_bumper'>
+            <origin xyz='0 0 0.091' rpy='0 -0 0'/>
+            <geometry>
+                <box size='0.9874 0.42 0.05'/>
+            </geometry>
+        </collision>
+        <collision name='base_link_collision_middle'>
+            <origin xyz='0 0 0.07' rpy='0 -0 0'/>
+            <geometry>
+                <box size='0.82 0.42 0.05'/>
+            </geometry>
+        </collision>
+        <collision name='base_link_collision_bottom'>
+            <origin xyz='0 0 0.046' rpy='0 -0 0'/>
+            <geometry>
+                <box size='0.7 0.42 0.095'/>
+            </geometry>
+        </collision>
+        <collision name='base_link_collision_top'>
+            <origin xyz='0 0 0.169' rpy='0 -0 0'/>
+            <geometry>
+                <box size='0.54 0.42 0.11'/>
+            </geometry>
+        </collision>
+        <collision name='base_link_collision_front_bottom'>
+            <origin xyz='0.3683 0 0.0367' rpy='0 -0.66 0'/>
+            <geometry>
+                <box size='0.0759 0.42 0.038'/>
+            </geometry>
+        </collision>
+        <collision name='base_link_collision_rear_bottom'>
+            <origin xyz='-0.3683 0 0.0367' rpy='0 0.66 0'/>
+            <geometry>
+                <box size='0.0759 0.42 0.038'/>
+            </geometry>
+        </collision>
+        <collision name='base_link_collision_front_top'>
+            <origin xyz='0.305 0 0.134' rpy='0 0.7 0'/>
+            <geometry>
+                <box size='0.18 0.42 0.1'/>
+            </geometry>
+        </collision>
+        <collision name='base_link_collision_rear_top'>
+            <origin xyz='-0.305 0 0.134' rpy='0 -0.7 0'/>
+            <geometry>
+                <box size='0.18 0.42 0.1'/>
+            </geometry>
+        </collision>
+        <collision name='base_link_collision_front_bumper_left_side'>
+            <origin xyz='0.419 0.2 0.091' />
+            <geometry>
+                <cylinder length="0.05" radius="0.075"/>
+            </geometry>
+        </collision>
+        <collision name='base_link_collision_front_bumper_right_side'>
+            <origin xyz='0.419 -0.2 0.091' />
+            <geometry>
+                <cylinder length="0.05" radius="0.075"/>
+            </geometry>
+        </collision>
+        <collision name='base_link_collision_rear_bumper_left_side'>
+            <origin xyz='-0.419 0.2 0.091' />
+            <geometry>
+                <cylinder length="0.05" radius="0.075"/>
+            </geometry>
+        </collision>
+        <collision name='base_link_collision_rear_bumper_right_side'>
+            <origin xyz='-0.419 -0.2 0.091' />
+            <geometry>
+                <cylinder length="0.05" radius="0.075"/>
+            </geometry>
+        </collision>
+        <visual name='base_link_visual'>
+            <origin xyz='0 0 0' rpy='0 -0 0'/>
+            <geometry>
+                <mesh filename='package://ctu_cras_norlab_husky_sensor_config_1/meshes/base_link.dae' scale='1 1 1'/>
+            </geometry>
+        </visual>
+        <visual name='base_link_front_bumper_visual'>
+            <origin xyz='0.48 0 0.091' rpy='0 -0 0'/>
+            <geometry>
+                <mesh filename='package://ctu_cras_norlab_husky_sensor_config_1/meshes/bumper.dae' scale='1 1 1'/>
+            </geometry>
+        </visual>
+        <visual name='base_link__rear_bumper_visual'>
+            <origin xyz='-0.48 0 0.091' rpy='0 -0 3.14159'/>
+            <geometry>
+                <mesh filename='package://ctu_cras_norlab_husky_sensor_config_1/meshes/bumper.dae' scale='1 1 1'/>
+            </geometry>
+        </visual>
+        <visual name='base_link_fixed_joint_lump__top_chassis_link_visual_5'>
+            <origin xyz='0 0 0' rpy='0 -0 0'/>
+            <geometry>
+                <mesh filename='package://ctu_cras_norlab_husky_sensor_config_1/meshes/top_chassis.dae' scale='1 1 1'/>
+            </geometry>
+        </visual>
+        <inertial>
+            <origin xyz="0 0 0.062329" rpy="0 0 0"/>
+            <mass value="41.064"/>
+            <inertia ixx="0.615397" ixy="0" ixz="0"
+                     iyy="1.75388" iyz="0"
+                     izz="2.03641" />
+        </inertial>
+    </link>
+    
+    <xacro:macro name="husky_wheel" params="name front left">
+        <link name='$(arg prefix)${name}_link'>
+            <collision name='${name}_link_collision'>
+                <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+                <geometry>
+                    <cylinder radius='0.1651' length='0.1143'/>
+                </geometry>
+            </collision>
+            <visual name='${name}_link_visual'>
+                <origin xyz='0 0 0' rpy='0 -0 0'/>
+                <geometry>
+                    <mesh filename='package://ctu_cras_norlab_husky_sensor_config_1/meshes/wheel.dae' scale='1 1 1'/>
+                </geometry>
+            </visual>
+            <inertial>
+                <mass value="${wheel_mass}" />
+                <inertia ixx="0.02467" ixy="0" ixz="0" iyy="0.04411" iyz="0" izz="0.02467" />
+            </inertial>
+        </link>
+        <joint name='${name}_joint' type='revolute'>
+            <origin xyz='${(front * 2 - 1) * 0.256} ${(left * 2 - 1) * 0.2854} 0.03282' rpy='0 0 0'/>
+            <parent link='$(arg prefix)base_link'/>
+            <child link='$(arg prefix)${name}_link'/>
+            <dynamics damping='0' friction='0' />
+            <axis xyz='0 1 0'/>
+            <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+        </joint>
+        <link name="$(arg prefix)${name}_axle">
+            <xacro:cylinder_vis_col length="0.03" radius="0.01" xyz="0 ${-(left*2-1)*0.065} 0" rpy="${pi/2} 0 0" />
+            <xacro:default_inertial/>
+        </link>
+        <xacro:fixed_joint name="${name}_axle_j" parent="$(arg prefix)${name}_link" child="$(arg prefix)${name}_axle" lump="0" />
+
+        <gazebo reference="$(arg prefix)${name}_link">
+            <collision>
+                <surface>
+                    <contact>
+                        <ode>
+                            <kp>1e+07</kp>
+                            <kd>1</kd>
+                        </ode>
+                    </contact>
+                    <friction>
+                        <ode>
+                            <mu>0.5</mu>
+                            <mu2>1</mu2>
+                            <slip1>0.00062</slip1>
+                            <slip2>0</slip2>
+                            <fdir1>0 0 1</fdir1>
+                        </ode>
+                    </friction>
+                </surface>
+            </collision>
+        </gazebo>
+    </xacro:macro>
+    <xacro:husky_wheel name="front_left_wheel" front="1" left="1" />
+    <xacro:husky_wheel name="front_right_wheel" front="1" left="0" />
+    <xacro:husky_wheel name="rear_left_wheel" front="0" left="1" />
+    <xacro:husky_wheel name="rear_right_wheel" front="0" left="0" />
+
+    <!-- Payload ITEM frame; do not attach stuff to it, rather attach it to rear_right_corner -->
+    <link name="$(arg prefix)payload_frame">
+        <xacro:item_20mm length="0.54" xyz="0 -0.2 0" rpy="0 ${pi/2} 0" black="1" />
+        <xacro:item_20mm length="0.54" xyz="0 0.2 0" rpy="0 ${pi/2} 0" black="1" />
+        <xacro:item_20mm length="0.4" xyz="-0.26 0 0" rpy="${pi/2} 0 0" black="1" />
+        <xacro:item_20mm length="0.4" xyz="0.26 0 0" rpy="${pi/2} 0 0" black="1" />
+        <xacro:default_inertial/>
+    </link>
+    <xacro:fixed_joint name="payload_frame_j" parent="$(arg prefix)base_link" child="$(arg prefix)payload_frame"
+                       lump="1" xyz="0 0 0.23" />
+    <xacro:solid_color_link_material link="$(arg prefix)payload_frame" r="0.1" g="0.1" b="0.1" />
+    
+    <xacro:if value="$(arg has_tower)">
+        <!-- Manual calibration link in the bottom rear right corner of the tower (on top of the two transverse ITEMs). -->
+        <xacro:empty_link name="$(arg prefix)tower_rear_right_corner" />
+        <xacro:fixed_joint name="tower_rear_right_corner_j" parent="$(arg prefix)rear_right_corner" child="$(arg prefix)tower_rear_right_corner"
+                           xyz="$(arg tower_j_x) $(arg tower_j_y) 0.02" lump="1"/>
+
+        <link name="$(arg prefix)tower">
+            <xacro:item_20mm length="$(arg tower_item_height)" xyz="${-$(arg tower_x_dim)/2+0.01} ${-$(arg tower_y_dim)/2+0.01} ${$(arg tower_item_height)/2}" />
+            <xacro:item_20mm length="$(arg tower_item_height)" xyz="${$(arg tower_x_dim)/2-0.01} ${-$(arg tower_y_dim)/2+0.01} ${$(arg tower_item_height)/2}" />
+            <xacro:item_20mm length="$(arg tower_item_height)" xyz="${$(arg tower_x_dim)/2-0.01} ${$(arg tower_y_dim)/2-0.01} ${$(arg tower_item_height)/2}" />
+            <xacro:item_20mm length="$(arg tower_item_height)" xyz="${-$(arg tower_x_dim)/2+0.01} ${$(arg tower_y_dim)/2-0.01} ${$(arg tower_item_height)/2}" />
+            <xacro:item_20mm length="0.42" xyz="${-$(arg tower_x_dim)/2+0.01} 0 -0.01" rpy="${pi/2} 0 0" />
+            <xacro:item_20mm length="0.42" xyz="${$(arg tower_x_dim)/2-0.01} 0 -0.01" rpy="${pi/2} 0 0" />
+            
+            <inertial>
+                <origin xyz="0 0 0.041" rpy="0 0 0"/>
+                <mass value="${tower_mass}"/>
+                <xacro:inertia_meshlab
+                        ixx="0.0026136" ixy="0" ixz="0"
+                        iyy="0.0049426" iyz="0"
+                        izz="0.0070334"
+                        scale="1" mass="${tower_mass}" />
+            </inertial>
+        </link>
+        <xacro:solid_color_link_material link="$(arg prefix)tower" r="0.8" g="0.8" b="0.8" />
+        <xacro:fixed_joint name="tower_j" parent="$(arg prefix)tower_rear_right_corner" child="$(arg prefix)tower" xyz="${$(arg tower_x_dim)/2} ${$(arg tower_y_dim)/2} 0.0" rpy="0 0 0" />
+
+        <link name="$(arg prefix)tower_camera_floor">
+            <xacro:box_vis_col size="$(arg tower_x_dim) $(arg tower_y_dim) 0.002" xyz="0 0 -0.001" />
+            <xacro:default_inertial />
+        </link>
+        <xacro:solid_color_link_material link="$(arg prefix)tower_camera_floor" r="0.8" g="0.8" b="0.8" />
+        <xacro:fixed_joint name="tower_camera_floor_j" parent="$(arg prefix)tower" child="$(arg prefix)tower_camera_floor"
+                           lump="0" xyz="0 0 $(arg tower_item_height)" />
+        
+        <link name="$(arg prefix)tower_lower_floor">
+            <xacro:box_vis_col size="$(arg tower_x_dim) $(arg tower_y_dim) 0.002" xyz="0 0 -0.001" />
+            <xacro:default_inertial />
+        </link>
+        <xacro:solid_color_link_material link="$(arg prefix)tower_lower_floor" r="0.8" g="0.8" b="0.8" />
+        <xacro:fixed_joint name="tower_lower_floor_j" parent="$(arg prefix)tower" child="$(arg prefix)tower_lower_floor"
+                           lump="0" xyz="0 0 $(arg tower_lower_floor_z)" />
+
+        <xacro:if value="${'$(arg tower_cap_revision)' == 'v1'}">
+            <link name="$(arg prefix)tower_cap">
+                <visual>
+                    <geometry>
+                        <mesh filename="package://ctu_cras_norlab_husky_sensor_config_3/meshes/tower_cap_v1.dae" />
+                    </geometry>
+                </visual>
+                <collision>
+                    <origin xyz="0 0 ${0.052/2 - 0.017}" />
+                    <geometry>
+                        <box size="0.19 0.19 0.052" />
+                    </geometry>
+                </collision>
+                <xacro:default_inertial />
+            </link>
+            <xacro:fixed_joint name="tower_cap_j" parent="$(arg prefix)tower" child="$(arg prefix)tower_cap"
+                               lump="1" xyz="0 0 ${$(arg tower_item_height)+0.002}" />
+            <xacro:empty_link name="$(arg prefix)tower_cap_top" />
+            <xacro:fixed_joint name="tower_cap_top_j" parent="$(arg prefix)tower_cap" child="$(arg prefix)tower_cap_top"
+                               lump="0" xyz="0 0 ${0.052-0.017}" />
+        </xacro:if>
+
+        <xacro:if value="$(arg has_jetson)">
+            <xacro:property name="jetson_mass" value="1.7" scope="global" />
+            <link name="$(arg prefix)jetson">
+                <xacro:box_vis_col size="0.105 0.105 0.065" xyz="0 0 ${0.065/2}" rgba="0.1 0.1 0.1 1" material_name="jetson_black" />
+                <xacro:box_inertial depth="0.105" width="0.105" height="0.065" xyz="0 0 ${0.065/2}" mass="${jetson_mass}" />
+            </link>
+            <xacro:solid_color_link_material link="$(arg prefix)jetson" r="0.1" g="0.1" b="0.1" />
+            <xacro:fixed_joint name="jetson_j" parent="$(arg prefix)tower_lower_floor" child="$(arg prefix)jetson" lump="1" />
+        </xacro:if>
+        
+        <!-- IMU -->
+        <xacro:xsens_mti_30 name="imu" simulate="$(arg simulate_imu)" />
+        <xacro:calibrated_fixed_joint name="imu_j" parent="tower_lower_floor" child="imu" lump="0" />
+    
+        <!-- Omnicamera -->
+        <xacro:if value="$(arg has_basler_cameras)">
+            <xacro:basler_ace_omnicam name="camera_0" simulate="$(arg simulate_basler_cams)" visualize="$(arg visualize_sensors)" />
+            <xacro:calibrated_fixed_joint name="camera_0_j" parent="tower_camera_floor" child="camera_0" lump="0" />
+    
+            <xacro:basler_ace_omnicam name="camera_1" simulate="$(arg simulate_basler_cams)" visualize="$(arg visualize_sensors)" />
+            <xacro:calibrated_fixed_joint name="camera_1_j" parent="tower_camera_floor" child="camera_1" lump="0" />
+    
+            <xacro:basler_ace_omnicam name="camera_2" simulate="$(arg simulate_basler_cams)" visualize="$(arg visualize_sensors)" />
+            <xacro:calibrated_fixed_joint name="camera_2_j" parent="tower_camera_floor" child="camera_2" lump="0" />
+    
+            <xacro:basler_ace_omnicam name="camera_3" simulate="$(arg simulate_basler_cams)" visualize="$(arg visualize_sensors)" />
+            <xacro:calibrated_fixed_joint name="camera_3_j" parent="tower_camera_floor" child="camera_3" lump="0" />
+        </xacro:if>
+    
+        <!-- 3D lidar -->
+        <xacro:if value="$(arg has_ouster_lidar)">
+            <xacro:ouster_os0_128 name="laser" simulate="$(arg simulate_ouster_lidar)" visualize="$(arg visualize_sensors)" horiz_samples="1024"/>
+            <xacro:calibrated_fixed_joint name="laser_j" parent="ouster_mount_top" child="laser" prefix="ouster" lump="0"/>
+
+            <xacro:if value="${'$(arg ouster_mount_revision)' == 'v1'}">
+                <link name="$(arg prefix)ouster_mount">
+                    <visual>
+                        <geometry>
+                            <mesh filename="package://ctu_cras_norlab_husky_sensor_config_3/meshes/ouster_mount_v1.dae" />
+                        </geometry>
+                    </visual>
+                    <collision>
+                        <origin xyz="0 0 ${0.045/2}" />
+                        <geometry>
+                            <cylinder length="0.045" radius="0.055" />
+                        </geometry>
+                    </collision>
+                    <xacro:default_inertial />
+                </link>
+                <xacro:fixed_joint name="ouster_mount_j" parent="$(arg prefix)tower_cap_top" child="$(arg prefix)ouster_mount"
+                                   lump="1" xyz="0 0 0" />
+                <xacro:empty_link name="$(arg prefix)ouster_mount_top" />
+                <xacro:fixed_joint name="ouster_mount_top_j" parent="$(arg prefix)ouster_mount" child="$(arg prefix)ouster_mount_top"
+                                   lump="0" xyz="0 0 0.045" />
+            </xacro:if>
+        </xacro:if>
+    </xacro:if>
+
+    <!-- Mote deployer -->
+    <xacro:if value="$(arg has_mote_deployer)">
+        <xacro:mote_deployer name="mote_deployer_l" />
+        <xacro:fixed_joint name="mote_deployer_l_j" parent="$(arg prefix)rear_right_corner" child="$(arg prefix)mote_deployer_l"
+                           xyz="0.5 0.40 -0.045" rpy="0 0.33 0" />
+
+        <xacro:mote_deployer name="mote_deployer_r" />
+        <xacro:fixed_joint name="mote_deployer_r_j" parent="$(arg prefix)rear_right_corner" child="$(arg prefix)mote_deployer_r"
+                           xyz="0.5 0.07 -0.045" rpy="0 0.33 0" />
+    </xacro:if>
+
+    <gazebo reference="$(arg prefix)base_link">
+        <light name="light_left" type="spot">
+            <pose>0 0.215 0.23 0 ${pi/2} ${-pi/2}</pose>
+            <attenuation>
+                <range>50</range>
+                <linear>0</linear>
+                <constant>0.1</constant>
+                <quadratic>0.0025</quadratic>
+            </attenuation>
+            <diffuse>0.8 0.8 0.5 1</diffuse>
+            <specular>0.8 0.8 0.5 1</specular>
+            <spot>
+                <inner_angle>2.8</inner_angle>
+                <outer_angle>2.9</outer_angle>
+                <falloff>1</falloff>
+            </spot>
+            <direction>1 0 0</direction>
+        </light>
+        <light name="light_right" type="spot">
+            <pose>0 -0.215 0.23 0 ${pi/2} ${pi/2}</pose>
+            <attenuation>
+                <range>50</range>
+                <linear>0</linear>
+                <constant>0.1</constant>
+                <quadratic>0.0025</quadratic>
+            </attenuation>
+            <diffuse>0.8 0.8 0.5 1</diffuse>
+            <specular>0.8 0.8 0.5 1</specular>
+            <spot>
+                <inner_angle>2.8</inner_angle>
+                <outer_angle>2.9</outer_angle>
+                <falloff>1</falloff>
+            </spot>
+            <direction>1 0 0</direction>
+        </light>
+        <light name="light_rear" type="spot">
+            <pose>-0.275 0 0.23 0 ${pi/2} 0</pose>
+            <attenuation>
+                <range>50</range>
+                <linear>0</linear>
+                <constant>0.1</constant>
+                <quadratic>0.0025</quadratic>
+            </attenuation>
+            <diffuse>0.8 0.8 0.5 1</diffuse>
+            <specular>0.8 0.8 0.5 1</specular>
+            <spot>
+                <inner_angle>1.8</inner_angle>
+                <outer_angle>1.9</outer_angle>
+                <falloff>1</falloff>
+            </spot>
+            <direction>1 0 0</direction>
+        </light>
+        <light name="light_front" type="spot">
+            <pose>0.275 0 0.23 0 ${pi/2} ${pi}</pose>
+            <attenuation>
+                <range>50</range>
+                <linear>0</linear>
+                <constant>0.1</constant>
+                <quadratic>0.0025</quadratic>
+            </attenuation>
+            <diffuse>0.8 0.8 0.5 1</diffuse>
+            <specular>0.8 0.8 0.5 1</specular>
+            <spot>
+                <inner_angle>1.8</inner_angle>
+                <outer_angle>1.9</outer_angle>
+                <falloff>1</falloff>
+            </spot>
+            <direction>1 0 0</direction>
+        </light>
+    </gazebo>
+</robot>
