@@ -164,6 +164,14 @@ class subt::GameLogicPluginPrivate
                const ignition::msgs::StringMsg &_req,
                ignition::msgs::Pose &_res);
 
+  /// \brief Ignition service callback triggered when the service is called.
+  /// \param[in]  _req The message containing the object name.
+  /// \param[out] _res The response message.
+  /// \return true on success.
+  public: bool OnPoseFromWorld(
+               const ignition::msgs::StringMsg &_req,
+               ignition::msgs::Pose &_res);
+
   /// \brief Update the score.yml and summary.yml files. This function also
   /// returns the time point used to calculate the elapsed real time. By
   /// returning this time point, we can make sure that the ::Finish function
@@ -744,6 +752,9 @@ void GameLogicPlugin::Configure(const ignition::gazebo::Entity & /*_entity*/,
 
   this->dataPtr->node.Advertise("/subt/pose_from_artifact_origin",
       &GameLogicPluginPrivate::OnPoseFromArtifact, this->dataPtr.get());
+
+  this->dataPtr->node.Advertise("/subt/pose_from_world",
+      &GameLogicPluginPrivate::OnPoseFromWorld, this->dataPtr.get());
 
   this->dataPtr->node.Advertise("/subt/start",
       &GameLogicPluginPrivate::OnStartCall, this->dataPtr.get());
@@ -3018,6 +3029,49 @@ bool GameLogicPluginPrivate::PoseFromArtifactHelper(const std::string &_robot,
 
   // Pose.
   _result = robotPose - this->artifactOriginPose;
+  return true;
+}
+
+/////////////////////////////////////////////////
+bool GameLogicPluginPrivate::OnPoseFromWorld(
+    const ignition::msgs::StringMsg &_req,
+    ignition::msgs::Pose &_res)
+{
+  if (_req.data() != subt::kArtifactOriginName &&
+      _req.data() != "staging_area" &&
+      _req.data() != subt::kBaseStationName)
+  {
+    ignerr << "[GameLogicPlugin]: Querying the pose of [" << _req.data()
+           << "] is not allowed. Ignoring PoseFromWorld request" << std::endl;
+    return false;
+  }
+
+  if (_req.data() == subt::kArtifactOriginName)
+  {
+    if (this->artifactOriginPose == ignition::math::Pose3d::Zero)
+      return false;
+    ignition::msgs::Set(&_res, this->artifactOriginPose);
+  }
+  else
+  {
+    std::lock_guard<std::mutex> lock(this->posesMutex);
+
+    auto iter = this->poses.find(_req.data());
+    if (iter == this->poses.end())
+    {
+      ignerr << "[GameLogicPlugin]: Unable to find object [" << _req.data()
+             << "]. Ignoring PoseFromWorld request" << std::endl;
+      return false;
+    }
+
+    ignition::msgs::Set(&_res, iter->second);
+  }
+
+  _res.mutable_header()->mutable_stamp()->CopyFrom(this->simTime);
+  ignition::msgs::Header::Map *frame = _res.mutable_header()->add_data();
+  frame->set_key("frame_id");
+  frame->add_value("world");
+
   return true;
 }
 
