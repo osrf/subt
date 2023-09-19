@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="name" default="Edge540XL" doc="Name of Vehicle"/>
+  <param name="$(arg name)/robot_description" command="$(find xacro)/xacro '$(find jhuapl_edge540xl_sensor_config_1)/urdf/Edge540XLPlant.urdf' name:=$(arg name)"/>
+</launch>

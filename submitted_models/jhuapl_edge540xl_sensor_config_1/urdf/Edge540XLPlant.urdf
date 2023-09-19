@@ -1,0 +1,401 @@
+<?xml version="1.0" ?>
+<robot name="Edge540XL">
+  <model>
+    <options>
+      <use_attitude_only value="false"/>
+      <use_world_velocity value="true"/>
+      <use_quaternions value="false"/>
+      <use_wind_state value="false"/>
+      <use_rbf_function_approximator value="false"/>
+      <use_angular_acceleration_input value="false"/>
+      <use_control_surface_angle_input value="false"/>
+      <cg_pos xyz="-0.065 0 0"/>
+      <scale value="1.0"/>
+      <initial_conditions
+        xyz="0 0 1.0"
+        rpy="0.1 0.1 0.1"
+        xyz_dot="7.0 1.0 1.0"
+        rpy_dot="0.1 0.1 0.1"/>
+      <use_body_drag value="true"/>
+      <body_drag coefficient="0.47" area="0.15"/>
+    </options>
+    <surface name="fuselage">
+      <parent link="fuselage"/>
+      <origin xyz="-0.0932 0 0" rpy="0 0 0" />
+      <force area="0.1459" coefficient="1.0"/>
+      <is_control_surface value="false"/>
+      <is_low_ar_surface value="false"/>
+      <use_backwash value="false"/>
+      <prop_backwash_index value="0"/>
+      <aerodynamic_model
+        type="rbf" file="Edge540XL/rbf"/>
+    </surface>
+    <surface name="aileron_right">
+      <parent link="aileron_right"/>
+      <origin xyz="-0.0554 -0.0119 0" rpy="0 0 0"/>
+      <force area="0.0549" coefficient="1.0"/>
+      <is_control_surface value="true"/>
+      <use_backwash value="true"/>
+      <backwash_coefficient value="0.1"/>
+      <prop_backwash_index value="0"/>
+    </surface>
+    <surface name="aileron_left">
+      <parent link="aileron_left"/>
+      <origin xyz="-0.0554 0.0119 0" rpy="0 0 0"/>
+      <force area="0.0549" coefficient="1.0"/>
+      <is_control_surface value="true"/>
+      <use_backwash value="true"/>
+      <backwash_coefficient value="0.1"/>
+      <prop_backwash_index value="0"/>
+      <is_kinematically_linked value="true"/>
+      <kinematic_parent value="aileron_right"/>
+      <kinematic_mapping params="0.0442 -1.3193 0.0 1.0 0.0"/>
+    </surface>
+    <surface name="elevator">
+      <parent link="elevator"/>
+      <origin xyz="-0.0489 0 0" rpy="0 0 0"/>
+      <force area="0.0505" coefficient="1.0"/>
+      <is_control_surface value="true"/>
+      <use_backwash value="true"/>
+      <backwash_coefficient value="0.3"/>
+      <prop_backwash_index value="0"/>
+    </surface>
+    <surface name="rudder">
+      <parent link="rudder"/>
+      <origin xyz="-0.0671 0 0.0571" rpy="-1.5707963267949 0 0"/>
+      <force area="0.0490" coefficient="1.0"/>
+      <is_control_surface value="true"/>
+      <use_backwash value="true"/>
+      <backwash_coefficient value="0.1"/>
+      <prop_backwash_index value="0"/>
+    </surface>
+    <surface name="wing_right">
+      <parent link="fuselage"/>
+      <origin xyz="0.0313 0  0" rpy="0 0 0" />
+      <force area="0.0633" coefficient="1.5"/>
+      <is_control_surface value="false"/>
+      <use_backwash value="false"/>
+      <backwash_coefficient value="0.1"/>
+      <prop_backwash_index value="0"/>
+    </surface>
+    <surface name="wing_left">
+      <parent link="fuselage"/>
+      <origin xyz="0.0313 0  0" rpy="0 0 0" />
+      <force area="0.0633" coefficient="1.5"/>
+      <is_control_surface value="false"/>
+      <use_backwash value="false"/>
+      <backwash_coefficient value="0.1"/>
+      <prop_backwash_index value="0"/>
+    </surface>
+    <surface name="fuselagev">
+      <parent link="fuselage"/>
+      <origin xyz="-0.1586 -0.0036 0" rpy="-1.5707963267949 0 0" />
+      <force area="0.0902" coefficient="1.0"/>
+      <is_control_surface value="false"/>
+      <use_backwash value="false"/>
+      <prop_backwash_index value="0"/>
+    </surface>
+    <surface name="tail_h">
+      <parent link="fuselage"/>
+      <origin xyz="-0.5569 0 0" rpy="0 0 0" />
+      <force area="0.0163" coefficient="1.0"/>
+      <is_control_surface value="false"/>
+      <use_backwash value="false"/>
+      <prop_backwash_index value="0"/>
+    </surface>
+    <surface name="tail_v">
+      <parent link="fuselage"/>
+      <origin xyz="-0.6325 -0.0223 0" rpy="-1.5707963267949 0 0" />
+      <force area="0.0058" coefficient="1.0"/>
+      <is_control_surface value="false"/>
+      <use_backwash value="false"/>
+      <prop_backwash_index value="0"/>
+    </surface>
+    <thrust_source name="prop">
+      <parent link="fuselage"/>
+      <origin xyz="0.3 0 0" rpy="0 0 0"/>
+      <direction axis="1 0 0"/>
+      <thrust_coefficient value="1"/>
+      <torque_coefficient value="0"/>
+      <prop_diameter value="0.32"/>
+      <thrust_dynamics_a value="-4.905"/>
+      <thrust_dynamics_b value="78.48"/>
+      <has_gimbal value="false"/>
+      <use_thrust_dot value="true"/>
+      <thrust_limit lower="0.0" upper="16.0"/>
+      <thrust_dot_limit lower="0.0" upper="1.0"/>
+    </thrust_source>
+  </model>
+<link
+    name="fuselage">
+    <inertial>
+      <origin
+        xyz="-0.0738050691241206 -0.00206432203155754 0.00142957108928204"
+        rpy="0 0 0" />
+      <mass
+        value="1.135" />
+   <inertia 
+            ixx="0.0263"    
+            ixy="-0.00" 
+            ixz="0.0"   
+            iyy="0.040835853"   
+            iyz="0.0"   
+            izz="0.050016542" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://jhuapl_edge540xl_sensor_config_1/meshes/fuselage.obj" scale = "1.8 1.8 1.8"/>
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.988235294117647 0.737254901960784 0.517647058823529 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://jhuapl_edge540xl_sensor_config_1/meshes/fuselage.obj" scale = "1.8 1.8 1.8"/>
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="aileron_left">
+    <inertial>
+      <origin
+        xyz="-0.03082 0.006569 -0.003"
+        rpy="0 0 0" />
+      <mass
+        value="0.10167" />
+      <inertia
+        ixx="0.00056832"
+        ixy="-0.00011948"
+        ixz="1.6682E-22"
+        iyy="6.5384E-05"
+        iyz="8.9669E-22"
+        izz="0.00063309" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://jhuapl_edge540xl_sensor_config_1/meshes/aileron_left.obj" scale = "1.8 1.8 1.8"/>
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.98824 0.73725 0.51765 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://jhuapl_edge540xl_sensor_config_1/meshes/aileron_left.obj" scale = "1.8 1.8 1.8"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="aileron_left_hinge"
+    type="revolute">
+    <origin
+      xyz="-0.0293 0.2777 0"
+      rpy="0 0 0" />
+    <parent
+      link="fuselage" />
+    <child
+      link="aileron_left" />
+    <axis
+      xyz="0.0 1.0 0" />
+    <limit
+      effort="30"
+      lower="-0.51"
+      upper="0.54"
+      velocity="10" />
+  </joint>
+  <link
+    name="aileron_right">
+    <inertial>
+      <origin
+        xyz="-0.03082 -0.0065692 0.000"
+        rpy="0 0 0" />
+      <mass
+        value="0.10167" />
+      <inertia
+        ixx="0.00056832"
+        ixy="0.00011948"
+        ixz="7.0143E-22"
+        iyy="6.5384E-05"
+        iyz="-1.7502E-21"
+        izz="0.00063309" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://jhuapl_edge540xl_sensor_config_1/meshes/aileron_right.obj" scale = "1.8 1.8 1.8"/>
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.98824 0.73725 0.51765 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://jhuapl_edge540xl_sensor_config_1/meshes/aileron_right.obj" scale = "1.8 1.8 1.8"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="aileron_right_hinge"
+    type="revolute">
+    <origin
+      xyz="-0.0293 -0.2777 0"
+      rpy="0 0 0" />
+    <parent
+      link="fuselage" />
+    <child
+      link="aileron_right" />
+    <axis
+      xyz="0 1.0 0" />
+    <limit
+      effort="30"
+      lower="-0.51"
+      upper="0.54"
+      velocity="10" />
+  </joint>
+  <link
+    name="elevator">
+    <inertial>
+      <origin
+        xyz="-0.02704 0.0 -0.000"
+        rpy="0 0 0" />
+      <mass
+        value="0.092527" />
+         <inertia
+        ixx="0.00057225"
+        ixy="2.0113E-19"
+        ixz="-3.3011E-22"
+        iyy="3.7112E-05"
+        iyz="2.0959E-21"
+        izz="0.0006088" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://jhuapl_edge540xl_sensor_config_1/meshes/elevator.obj" scale = "1.8 1.8 1.8"/>
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.98824 0.73725 0.51765 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://jhuapl_edge540xl_sensor_config_1/meshes/elevator.obj" scale = "1.8 1.8 1.8"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="elevator_hinge"
+    type="revolute">
+    <origin
+      xyz="-0.5843 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="fuselage" />
+    <child
+      link="elevator" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      effort="30"
+      lower="-0.8412"
+      upper="0.9355"
+      velocity="10" />
+  </joint>
+  <link
+    name="rudder">
+    <inertial>
+      <origin
+        xyz="-0.037261 0.031658 0.000"
+        rpy="0 0 0" />
+      <mass
+        value="0.090788" />
+      <inertia
+        ixx="0.00020448"
+        ixy="-4.1266E-05"
+        ixz="1.0668E-21"
+        iyy="7.7098E-05"
+        iyz="-1.5715E-22"
+        izz="0.00028104" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://jhuapl_edge540xl_sensor_config_1/meshes/rudder.obj" scale = "1.8 1.8 1.8"/>
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.98824 0.73725 0.51765 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="meshes/rudder.obj" scale = "1.8 1.8 1.8"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="rudder_hinge"
+    type="revolute">
+    <origin
+      xyz="-0.6536 0 0.0238"
+      rpy="1.5708 0 0" />
+    <parent
+      link="fuselage" />
+    <child
+      link="rudder" />
+    <axis
+      xyz="0 -1 0" />
+    <limit
+      effort="0"
+      lower="-0.7854"
+      upper="0.7854"
+      velocity="10" />
+  </joint>
+</robot>

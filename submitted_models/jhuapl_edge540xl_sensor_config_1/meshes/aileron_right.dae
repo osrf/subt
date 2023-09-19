@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <asset>
+    <contributor>
+      <author>Blender User</author>
+      <authoring_tool>Blender 2.80.75 commit date:2019-07-29, commit time:14:47, hash:f6cb5f54494e</authoring_tool>
+    </contributor>
+    <created>2021-03-29T17:29:43</created>
+    <modified>2021-03-29T17:29:43</modified>
+    <unit name="meter" meter="1"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  <library_effects>
+    <effect id="Default_OBJ-effect">
+      <profile_COMMON>
+        <technique sid="common">
+          <lambert>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <diffuse>
+              <color sid="diffuse">0.2048324 1 0.06722112 1</color>
+            </diffuse>
+            <index_of_refraction>
+              <float sid="ior">1.45</float>
+            </index_of_refraction>
+          </lambert>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_images/>
+  <library_materials>
+    <material id="Default_OBJ-material" name="Default OBJ">
+      <instance_effect url="#Default_OBJ-effect"/>
+    </material>
+  </library_materials>
+  <library_geometries>
+    <geometry id="aileron_right-mesh" name="aileron_right">
+      <mesh>
+        <source id="aileron_right-mesh-positions">
+          <float_array id="aileron_right-mesh-positions-array" count="180">-0.01386296 0.113713 0 0.01386296 -0.113713 0 -0.01386296 0.113713 -0.005999982 -0.01386296 0.113713 -0.005999982 0.01386296 -0.113713 0 0.01386296 -0.113713 -0.005999982 -0.09486299 0.113713 0 -0.01386296 0.113713 0 -0.09486299 0.113713 -0.005999982 -0.09486299 0.113713 -0.005999982 -0.01386296 0.113713 0 -0.01386296 0.113713 -0.005999982 -0.03091198 -0.140668 0 -0.09486299 0.113713 0 -0.03091198 -0.140668 -0.005999982 -0.03091198 -0.140668 -0.005999982 -0.09486299 0.113713 0 -0.09486299 0.113713 -0.005999982 0.03858798 -0.140668 0 -0.03091198 -0.140668 0 0.03858798 -0.140668 -0.005999982 0.03858798 -0.140668 -0.005999982 -0.03091198 -0.140668 0 -0.03091198 -0.140668 -0.005999982 0.03330999 -0.115458 0 0.03858798 -0.140668 0 0.03330999 -0.115458 -0.005999982 0.03330999 -0.115458 -0.005999982 0.03858798 -0.140668 0 0.03858798 -0.140668 -0.005999982 0.01386296 -0.113713 0 0.03330999 -0.115458 0 0.01386296 -0.113713 -0.005999982 0.01386296 -0.113713 -0.005999982 0.03330999 -0.115458 0 0.03330999 -0.115458 -0.005999982 0.03330999 -0.115458 -0.005999982 0.03858798 -0.140668 -0.005999982 0.01386296 -0.113713 -0.005999982 0.01386296 -0.113713 -0.005999982 0.03858798 -0.140668 -0.005999982 -0.03091198 -0.140668 -0.005999982 0.01386296 -0.113713 -0.005999982 -0.03091198 -0.140668 -0.005999982 -0.01386296 0.113713 -0.005999982 -0.01386296 0.113713 -0.005999982 -0.03091198 -0.140668 -0.005999982 -0.09486299 0.113713 -0.005999982 -0.01386296 0.113713 0 -0.09486299 0.113713 0 0.01386296 -0.113713 0 0.01386296 -0.113713 0 -0.09486299 0.113713 0 -0.03091198 -0.140668 0 0.01386296 -0.113713 0 -0.03091198 -0.140668 0 0.03330999 -0.115458 0 0.03330999 -0.115458 0 -0.03091198 -0.140668 0 0.03858798 -0.140668 0</float_array>
+          <technique_common>
+            <accessor source="#aileron_right-mesh-positions-array" count="60" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="aileron_right-mesh-normals">
+          <float_array id="aileron_right-mesh-normals-array" count="33">0.9926506 0.1210162 0 0 1 0 -0.9698226 -0.2438119 0 -0.9698226 -0.2438119 0 0 -1 0 0.9787791 0.2049184 0 0.08937162 0.9959984 0 0.08937162 0.9959985 0 0 0 -1 0 0 -1 0 0 1</float_array>
+          <technique_common>
+            <accessor source="#aileron_right-mesh-normals-array" count="11" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="aileron_right-mesh-vertices">
+          <input semantic="POSITION" source="#aileron_right-mesh-positions"/>
+        </vertices>
+        <triangles material="Default_OBJ-material" count="20">
+          <input semantic="VERTEX" source="#aileron_right-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#aileron_right-mesh-normals" offset="1"/>
+          <p>0 0 1 0 2 0 3 0 4 0 5 0 6 1 7 1 8 1 9 1 10 1 11 1 12 2 13 2 14 2 15 3 16 3 17 3 18 4 19 4 20 4 21 4 22 4 23 4 24 5 25 5 26 5 27 5 28 5 29 5 30 6 31 6 32 6 33 7 34 7 35 7 36 8 37 8 38 8 39 9 40 9 41 9 42 9 43 9 44 9 45 9 46 9 47 9 48 10 49 10 50 10 51 10 52 10 53 10 54 10 55 10 56 10 57 10 58 10 59 10</p>
+        </triangles>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_visual_scenes>
+    <visual_scene id="Scene" name="Scene">
+      <node id="aileron_right" name="aileron_right" type="NODE">
+        <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+        <instance_geometry url="#aileron_right-mesh" name="aileron_right">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="Default_OBJ-material" target="#Default_OBJ-material"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#Scene"/>
+  </scene>
+</COLLADA>

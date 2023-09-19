@@ -1,0 +1,399 @@
+<sdf version='1.7'>
+  <model name='Edge540XL'>
+    <link name='fuselage'>
+      <inertial>
+        <pose>-0.073805 -0.002064 0.00143 0 -0 0</pose>
+        <mass>1.135</mass>
+        <inertia>
+          <ixx>0.0263</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.0408359</iyy>
+          <iyz>0</iyz>
+          <izz>0.0500165</izz>
+        </inertia>
+      </inertial>
+      <collision name='fuselage_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1.8 1.8 1.8</scale>
+            <uri>meshes/fuselage.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='fuselage_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1.8 1.8 1.8</scale>
+            <uri>meshes/fuselage.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <sensor name="imu_sensor" type="imu">
+        <always_on>1</always_on>
+        <update_rate>50</update_rate>
+        <imu>
+          <angular_velocity>
+            <x>
+              <noise type="gaussian">
+                <mean>0</mean>
+                <stddev>0.009</stddev>
+                <bias_mean>0.00075</bias_mean>
+                <bias_stddev>0.005</bias_stddev>
+                <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                <precision>0.00025</precision>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0</mean>
+                <stddev>0.009</stddev>
+                <bias_mean>0.00075</bias_mean>
+                <bias_stddev>0.005</bias_stddev>
+                <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                <precision>0.00025</precision>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0</mean>
+                <stddev>0.009</stddev>
+                <bias_mean>0.00075</bias_mean>
+                <bias_stddev>0.005</bias_stddev>
+                <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                <precision>0.00025</precision>
+              </noise>
+            </z>
+          </angular_velocity>
+          <linear_acceleration>
+            <x>
+              <noise type="gaussian">
+                <mean>0</mean>
+                <stddev>0.021</stddev>
+                <bias_mean>0.05</bias_mean>
+                <bias_stddev>0.0075</bias_stddev>
+                <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                <precision>0.005</precision>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0</mean>
+                <stddev>0.021</stddev>
+                <bias_mean>0.05</bias_mean>
+                <bias_stddev>0.0075</bias_stddev>
+                <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                <precision>0.005</precision>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0</mean>
+                <stddev>0.021</stddev>
+                <bias_mean>0.05</bias_mean>
+                <bias_stddev>0.0075</bias_stddev>
+                <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                <precision>0.005</precision>
+              </noise>
+            </z>
+          </linear_acceleration>
+      </imu>
+      </sensor>
+      <sensor name="camera_front" type="rgbd_camera">
+        <camera name="camera_front">
+          <horizontal_fov>1.5184</horizontal_fov>
+          <lens>
+            <intrinsics>
+              <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+              <fx>168.61097</fx>
+              <fy>168.61097</fy>
+              <!-- cx = ( width + 1 ) / 2 -->
+              <cx>160.5</cx>
+              <!-- cy = ( height + 1 ) / 2 -->
+              <cy>120.5</cy>
+              <s>0</s>
+            </intrinsics>
+          </lens>
+          <distortion>
+            <k1>0.0</k1>
+            <k2>0.0</k2>
+            <k3>0.0</k3>
+            <p1>0.0</p1>
+            <p2>0.0</p2>
+            <center>0.5 0.5</center>
+          </distortion>
+          <image>
+            <width>320</width>
+            <height>240</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.01</near>
+            <far>300</far>
+          </clip>
+          <depth_camera>
+            <clip>
+              <near>0.1</near>
+              <far>10</far>
+            </clip>
+          </depth_camera>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+        <always_on>1</always_on>
+        <update_rate>20</update_rate>
+        <visualize>0</visualize>
+        <pose frame="">0.438 0 0.272 0 -0 0</pose>
+      </sensor>
+      <sensor name="air_pressure" type="air_pressure">
+          <always_on>1</always_on>
+          <update_rate>20</update_rate>
+          <air_pressure>
+              <reference_altitude>0</reference_altitude>
+              <noise type="gaussian">
+                <mean>0.00000008</mean>
+              </noise>
+          </air_pressure>
+      </sensor>
+      <sensor name="magnetometer" type="magnetometer">
+          <always_on>1</always_on>
+          <update_rate>20</update_rate>
+          <magnetometer>
+              <x>
+                <noise type="gaussian">
+                  <mean>0.000000080</mean>
+                  <bias_mean>0.000000400</bias_mean>
+                </noise>
+              </x>
+              <y>
+                <noise type="gaussian">
+                  <mean>0.000000080</mean>
+                  <bias_mean>0.000000400</bias_mean>
+                </noise>
+              </y>
+              <z>
+                <noise type="gaussian">
+                  <mean>0.000000080</mean>
+                  <bias_mean>0.000000400</bias_mean>
+                </noise>
+              </z>
+          </magnetometer>
+      </sensor>
+    </link>
+    <joint name='aileron_left_hinge' type='revolute'>
+      <pose relative_to='fuselage'>-0.0293 0.2777 0 0 -0 0</pose>
+      <parent>fuselage</parent>
+      <child>aileron_left</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-0.51</lower>
+          <upper>0.54</upper>
+          <effort>30</effort>
+          <velocity>10</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='aileron_left'>
+      <pose relative_to='aileron_left_hinge'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>-0.03082 0.006569 -0.003 0 -0 0</pose>
+        <mass>0.10167</mass>
+        <inertia>
+          <ixx>0.00056832</ixx>
+          <ixy>-0.00011948</ixy>
+          <ixz>1.6682e-22</ixz>
+          <iyy>6.5384e-05</iyy>
+          <iyz>8.9669e-22</iyz>
+          <izz>0.00063309</izz>
+        </inertia>
+      </inertial>
+      <collision name='aileron_left_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1.8 1.8 1.8</scale>
+            <uri>meshes/aileron_left.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='aileron_left_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1.8 1.8 1.8</scale>
+            <uri>meshes/aileron_left.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='aileron_right_hinge' type='revolute'>
+      <pose relative_to='fuselage'>-0.0293 -0.2777 0 0 -0 0</pose>
+      <parent>fuselage</parent>
+      <child>aileron_right</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-0.51</lower>
+          <upper>0.54</upper>
+          <effort>30</effort>
+          <velocity>10</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='aileron_right'>
+      <pose relative_to='aileron_right_hinge'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>-0.03082 -0.006569 0 0 -0 0</pose>
+        <mass>0.10167</mass>
+        <inertia>
+          <ixx>0.00056832</ixx>
+          <ixy>0.00011948</ixy>
+          <ixz>7.0143e-22</ixz>
+          <iyy>6.5384e-05</iyy>
+          <iyz>-1.7502e-21</iyz>
+          <izz>0.00063309</izz>
+        </inertia>
+      </inertial>
+      <collision name='aileron_right_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1.8 1.8 1.8</scale>
+            <uri>meshes/aileron_right.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='aileron_right_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1.8 1.8 1.8</scale>
+            <uri>meshes/aileron_right.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='elevator_hinge' type='revolute'>
+      <pose relative_to='fuselage'>-0.5843 0 0 0 -0 0</pose>
+      <parent>fuselage</parent>
+      <child>elevator</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-0.8412</lower>
+          <upper>0.9355</upper>
+          <effort>30</effort>
+          <velocity>10</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='elevator'>
+      <pose relative_to='elevator_hinge'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>-0.02704 0 0 0 -0 0</pose>
+        <mass>0.092527</mass>
+        <inertia>
+          <ixx>0.00057225</ixx>
+          <ixy>2.0113e-19</ixy>
+          <ixz>-3.3011e-22</ixz>
+          <iyy>3.7112e-05</iyy>
+          <iyz>2.0959e-21</iyz>
+          <izz>0.0006088</izz>
+        </inertia>
+      </inertial>
+      <collision name='elevator_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1.8 1.8 1.8</scale>
+            <uri>meshes/elevator.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='elevator_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1.8 1.8 1.8</scale>
+            <uri>meshes/elevator.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='rudder_hinge' type='revolute'>
+      <pose relative_to='fuselage'>-0.6536 0 0.0238 1.5707963267948966 -0 0</pose>
+      <parent>fuselage</parent>
+      <child>rudder</child>
+      <axis>
+        <xyz>0 -1 0</xyz>
+        <limit>
+          <lower>-0.7854</lower>
+          <upper>0.7854</upper>
+          <effort>30</effort>
+          <velocity>10</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='rudder'>
+      <pose relative_to='rudder_hinge'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>-0.037261 0.031658 0 0 -0 0</pose>
+        <mass>0.090788</mass>
+        <inertia>
+          <ixx>0.00020448</ixx>
+          <ixy>-4.1266e-05</ixy>
+          <ixz>1.0668e-21</ixz>
+          <iyy>7.7098e-05</iyy>
+          <iyz>-1.5715e-22</iyz>
+          <izz>0.00028104</izz>
+        </inertia>
+      </inertial>
+      <collision name='rudder_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1.8 1.8 1.8</scale>
+            <uri>meshes/rudder.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='rudder_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1.8 1.8 1.8</scale>
+            <uri>meshes/rudder.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>
