@@ -33,10 +33,14 @@
 #include <subt_ign/VisibilityTable.hh>
 
 #include <fcl/config.h>
+#if FCL_MAJOR_VERSION == 0 && FCL_MINOR_VERSION == 5
 #include <fcl/data_types.h>
 #include <fcl/shape/geometric_shapes.h>
-
 #include <fcl/distance.h>
+#else
+#include <fcl/common/types.h>
+#include <fcl/narrowphase/distance.h>
+#endif
 
 using namespace ignition;
 using namespace subt;
@@ -167,7 +171,11 @@ void VisibilityTable::SetModelBoundingBoxes(
 
 //////////////////////////////////////////////////
 void VisibilityTable::SetModelCollisionObjects(
+#if FCL_MAJOR_VERSION == 0 && FCL_MINOR_VERSION == 5
     const std::map<std::string, std::shared_ptr<fcl::CollisionObject>> &_collObjs)
+#else
+    const std::map<std::string, std::shared_ptr<fcl::CollisionObjectd>> &_collObjs)
+#endif
 {
   this->collisionObjs= _collObjs;
 }
@@ -209,10 +217,17 @@ uint64_t VisibilityTable::Index(const ignition::math::Vector3d &_position) const
   else
   {
     // Fall back to using FCL to find the closest mesh.
+#if FCL_MAJOR_VERSION == 0 && FCL_MINOR_VERSION == 5
     auto box = std::make_shared<fcl::Box>(0.01, 0.01, 0.01);
     auto boxObj = std::make_shared<fcl::CollisionObject>(box,
       fcl::Matrix3f::getIdentity(),
       fcl::Vec3f(_position.X(), _position.Y(), _position.Z()));
+#else
+    auto box = std::make_shared<fcl::Boxd>(0.01, 0.01, 0.01);
+    auto boxObj = std::make_shared<fcl::CollisionObjectd>(box,
+      fcl::Matrix3d::Identity(),
+      fcl::Vector3d(_position.X(), _position.Y(), _position.Z()));
+#endif
 
     uint64_t closestIdx = 0;
     float closestDist = 1e9;
@@ -230,8 +245,13 @@ uint64_t VisibilityTable::Index(const ignition::math::Vector3d &_position) const
       if (meshIt == this->collisionObjs.end())
         continue;
 
+#if FCL_MAJOR_VERSION == 0 && FCL_MINOR_VERSION == 5
       fcl::DistanceRequest request(true, true);
       fcl::DistanceResult fclResult;
+#else
+      fcl::DistanceRequestd request(true, true);
+      fcl::DistanceResultd fclResult;
+#endif
       fcl::distance(meshIt->second.get(), boxObj.get(), request, fclResult);
 
       if (fclResult.min_distance < closestDist)
