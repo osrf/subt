@@ -28,9 +28,16 @@
 #include <ignition/math/graph/Vertex.hh>
 #include <subt_ign/VisibilityTypes.hh>
 
+#include <fcl/config.h>
+
 namespace fcl
 {
+#if FCL_MAJOR_VERSION == 0 && FCL_MINOR_VERSION == 5
   class CollisionObject;
+#else
+  template<typename> class CollisionObject;
+  using CollisionObjectd = CollisionObject<double>;
+#endif
 }
 
 namespace subt
@@ -95,7 +102,11 @@ namespace subt
     /// \param[in] _collObjs Collision Objects of models.
     /// \sa Generate
     public: void SetModelCollisionObjects(
+#if FCL_MAJOR_VERSION == 0 && FCL_MINOR_VERSION == 5
         const std::map<std::string, std::shared_ptr<fcl::CollisionObject>> &_collObjs);
+#else
+        const std::map<std::string, std::shared_ptr<fcl::CollisionObjectd>> &_collObjs);
+#endif
 
     /// \brief Get the collection of sampled 3D points and their associated
     /// vertex id.
@@ -218,7 +229,11 @@ namespace subt
 
     /// \brief A map of model name to its bounding box. Used for generating LUT
     private: std::map<std::string,
+#if FCL_MAJOR_VERSION == 0 && FCL_MINOR_VERSION == 5
              std::shared_ptr<fcl::CollisionObject>> collisionObjs;
+#else
+             std::shared_ptr<fcl::CollisionObjectd>> collisionObjs;
+#endif
 
     /// \brief A map that stores 3D points an the vertex id in which are located
     private: std::map<std::tuple<int32_t, int32_t, int32_t>, uint64_t> vertices;

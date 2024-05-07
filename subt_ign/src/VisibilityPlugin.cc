@@ -61,7 +61,11 @@ class subt::VisibilityPluginPrivate
   /// \brief A map of model name ot its bounding box
   public: std::map<std::string, ignition::math::AxisAlignedBox> bboxes;
 
+#if FCL_MAJOR_VERSION == 0 && FCL_MINOR_VERSION == 5
   public: std::map<std::string, std::shared_ptr<fcl::CollisionObject>> fclObjs;
+#else
+  public: std::map<std::string, std::shared_ptr<fcl::CollisionObjectd>> fclObjs;
+#endif
 
   /// \brief Name of the world
   public: std::string worldName;
