@@ -89,11 +89,24 @@ const std::string kAddrUnregistrationSrv = "/address/unregister";
 /// \brief Service used to register an end point.
 const std::string kEndPointRegistrationSrv = "/end_point/register";
 
+/// \brief Service used to unregister an end point.
+const std::string kEndPointUnregistrationSrv = "/end_point/unregister";
+
 /// \brief Address used to receive neighbor updates.
 const std::string kNeighborsTopic = "/neighbors";
 
 /// \brief Default port.
 const uint32_t kDefaultPort = 4100u;
+
+/// \brief ID of a broker client.
+typedef uint32_t ClientID;
+/// \brief ID denoting an invalid broker client.
+constexpr ClientID invalidClientId {0};
+
+/// \brief ID of a bound endpoint belonging to a particular client.
+typedef uint32_t EndpointID;
+/// \brief ID denoting an invalid endpoint.
+constexpr EndpointID invalidEndpointId {0};
 
 }
 }

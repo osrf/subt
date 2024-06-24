@@ -45,10 +45,22 @@ namespace subt
     /// \param[in] _useIgnition Set to true if you are using Ignition
     /// transport (i.e. not ROS). This is needed by the base station,
     /// and tests. If you are a regular robot, then you really really do not
-    /// want to set this to true as your Commsclient will not work.
-    public: CommsClient(const std::string &_localAddress,
-                        const bool _isPrivate = false,
-                        const bool _useIgnition = false);
+    /// want to set this to true as your Commsclient will not work. For each
+    /// address (robot), there can be only one client with _useIgnition set to
+    /// true. There can be multiple clients with _useIgnition set to false.
+    /// \param[in] _listenBeacons If true (the default), the commsclient will
+    /// listen to beacon packets on port 4000. This (or another regular stream
+    /// of data) is required for the Neighbors() function to work.
+    /// \param[in] _rosNh The ROS node handle used to create ROS subscribers for
+    /// incoming messages. Only used when _useIgnition is false. If not given,
+    /// a default node handle is used (in the current namespace).
+    public:
+    explicit
+    CommsClient(const std::string& _localAddress,
+                bool _isPrivate = false,
+                bool _useIgnition = false,
+                bool _listenBeacons = true,
+                ros::NodeHandle* _rosNh = nullptr);
 
     /// \brief Destructor.
     public: virtual ~CommsClient();
@@ -59,7 +71,9 @@ namespace subt
 
     /// \brief This method can bind a local address and a port to a
     /// virtual socket. This is a required step if your agent needs to
-    /// receive messages.
+    /// receive messages. It is possible to bind multiple callbacks to the
+    /// same address:port endpoint, even from the same client ID. Just call
+    /// Bind() multiple times.
     ///
     /// \param[in] _cb Callback function to be executed when a new message is
     /// received associated to the specified <_address, port>.
@@ -74,22 +88,31 @@ namespace subt
     /// You will receive all the messages sent from any node to this multicast
     /// group.
     /// \param[in] _port Port used to receive messages.
-    /// \return True when success or false otherwise.
+    /// \return List of endpoints that were created in result of this bind call.
+    /// It can be up to two endpoints - one for the unicast/multicast address,
+    /// and one for the broadcast address. The returned pairs contain the IDs
+    /// of the endpoints and their names (i.e. address:port). If the returned
+    /// list is empty, binding failed. You may test for this case using the
+    /// overloaded operator! on the result vector.
     ///
     /// * Example usage (bind on the local address and default port):
     ///    this->Bind(&OnDataReceived, "192.168.1.3");
     /// * Example usage (Bind on the multicast group and custom port.):
     ///    this->Bind(&OnDataReceived, this->kMulticast, 5123);
-    public: bool Bind(std::function<void(const std::string &_srcAddress,
-                                         const std::string &_dstAddress,
-                                         const uint32_t _dstPort,
-                                         const std::string &_data)> _cb,
-                      const std::string &_address = "",
-                      const int _port = communication_broker::kDefaultPort);
+    public:
+    std::vector<std::pair<communication_broker::EndpointID, std::string>>
+    Bind(std::function<void(const std::string& _srcAddress,
+                            const std::string& _dstAddress,
+                            uint32_t _dstPort,
+                            const std::string& _data)> _cb,
+         const std::string& _address = "",
+         int _port = communication_broker::kDefaultPort);
 
     /// \brief This method can bind a local address and a port to a
     /// virtual socket. This is a required step if your agent needs to
-    /// receive messages.
+    /// receive messages. It is possible to bind multiple callbacks to the
+    /// same address:port endpoint, even from the same client ID. Just call
+    /// Bind() multiple times.
     ///
     /// \param[in] _cb Callback function to be executed when a new message is
     /// received associated to the specified <_address, port>.
@@ -105,20 +128,27 @@ namespace subt
     /// You will receive all the messages sent from any node to this multicast
     /// group.
     /// \param[in] _port Port used to receive messages.
-    /// \return True when success or false otherwise.
+    /// \return List of endpoints that were created in result of this bind call.
+    /// It can be up to two endpoints - one for the unicast/multicast address,
+    /// and one for the broadcast address. The returned pairs contain the IDs
+    /// of the endpoints and their names (i.e. address:port). If the returned
+    /// list is empty, binding failed. You may test for this case using the
+    /// overloaded operator! on the result vector.
     ///
     /// * Example usage (bind on the local address and default port):
     ///    this->Bind(&MyClass::OnDataReceived, this, "192.168.1.3");
     /// * Example usage (Bind on the multicast group and custom port.):
     ///    this->Bind(&MyClass::OnDataReceived, this, this->kMulticast, 5123);
-    public: template<typename C>
-    bool Bind(void(C::*_cb)(const std::string &_srcAddress,
-                            const std::string &_dstAddress,
-                            const uint32_t _dstPort,
-                            const std::string &_data),
-              C *_obj,
-              const std::string &_address = "",
-              const int _port = communication_broker::kDefaultPort)
+    public:
+    template<typename C>
+    std::vector<std::pair<communication_broker::EndpointID, std::string>>
+    Bind(void(C::*_cb)(const std::string& _srcAddress,
+                       const std::string& _dstAddress,
+                       uint32_t _dstPort,
+                       const std::string& _data),
+         C* _obj,
+         const std::string& _address = "",
+         int _port = communication_broker::kDefaultPort)
     {
       return this->Bind(std::bind(_cb, _obj,
                                   std::placeholders::_1,
@@ -127,6 +157,14 @@ namespace subt
                                   std::placeholders::_4),
                         _address, _port);
     }
+
+    /// \brief This method can unbind from a "socket" acquired by Bind(). Once
+    /// unbound, the registered callback will no longer be called.
+    ///
+    /// \param[in] _endpointId ID of the endpoint to unbind. This is the ID
+    /// returned from Bind() call.
+    /// \return Success of the unbinding.
+    public: bool Unbind(communication_broker::EndpointID _endpointId);
 
     /// \brief Send some data to other/s member/s of the team.
     ///
@@ -141,7 +179,7 @@ namespace subt
     /// bigger than 1500 bytes).
     public: bool SendTo(const std::string &_data,
                         const std::string &_dstAddress,
-                        const uint32_t _port = communication_broker::kDefaultPort);
+                        uint32_t _port = communication_broker::kDefaultPort);
 
     /// \brief Type for storing neighbor data
     public: typedef std::map<std::string, std::pair<double, double>> Neighbor_M;
@@ -150,6 +188,11 @@ namespace subt
     ///
     /// \return A map of addresses and signal strength from your
     /// local neighbors.
+    /// \note For this function to work reliably, you need to be sure there is
+    /// a regular flow of data from all other robots towards this address.
+    /// One way to achieve it is to send and listen to beacons (see constructor
+    /// argument _listenBeacons and function StartBeaconInterval() or
+    /// SendBeacons()).
     public: Neighbor_M Neighbors() const;
 
     /// \brief Broadcast a BEACON packet
@@ -165,8 +208,9 @@ namespace subt
     private: bool Register();
 
     /// \brief Unregister the current address. This will make a synchronous call
-    /// to the broker to unregister the address.
-    /// \return True when the unregistration succeed or false otherwise.
+    /// to the broker to unregister the address. It will also unbind all
+    /// bound callbacks from this client.
+    /// \return True when the unregistration succeeded or false otherwise.
     private: bool Unregister();
 
     /// \brief Function called each time a new datagram message is received.
@@ -174,9 +218,8 @@ namespace subt
     private: void OnMessage(const msgs::Datagram &_msg);
 
     /// \brief Function called each time a new datagram message is received.
-    /// \param[in] _msg The incoming message.
-    private: bool OnMessageRos(subt_msgs::DatagramRos::Request &_req,
-                               subt_msgs::DatagramRos::Response &_res);
+    /// \param[in] _req The incoming message.
+    private: void OnMessageRos(const subt_msgs::DatagramRos::Request &_req);
 
     /// \brief On clock message. This is used primarily/only by the
     /// BaseStation.
@@ -192,7 +235,7 @@ namespace subt
     private: using Callback_t =
       std::function<void(const std::string &_srcAddress,
                          const std::string &_dstAddress,
-                         const uint32_t _dstPort,
+                         uint32_t _dstPort,
                          const std::string &_data)>;
 
     /// \brief The local address.
@@ -216,9 +259,12 @@ namespace subt
     /// \brief An Ignition Transport node for communications.
     private: ignition::transport::Node node;
 
+    private: using Callbacks =
+      std::unordered_map<communication_broker::EndpointID, Callback_t>;
+
     /// \brief User callbacks. The key is the topic name
     /// (e.g.: "/subt/192.168.2.1/4000") and the value is the user callback.
-    private: std::map<std::string, Callback_t> callbacks;
+    private: std::map<std::string, Callbacks> callbacks;
 
     /// \brief True when the broker validated my address. Enabled must be true
     /// for being able to send and receive data.
@@ -235,8 +281,8 @@ namespace subt
     /// \brief A mutex for avoiding race conditions.
     private: mutable std::mutex mutex;
 
-    /// \brief Service that receives comms messages.
-    private: ros::ServiceServer commsModelOnMessageService;
+    /// \brief Subscriber that receives comms messages from SubtRosRelay.
+    private: ros::Subscriber commsSub;
 
     /// \brief Clock message from simulation. Used by the base station.
     /// The base station is run as a plugin alongside simulation, and does
@@ -254,6 +300,20 @@ namespace subt
 
     /// \brief Period of the beacon in nanoseconds.
     private: int64_t beaconPeriodNs{0};
+
+    private: communication_broker::ClientID clientId {
+      communication_broker::invalidClientId
+    };
   };
 }
+
+/// \brief Backwards compatibility that allows easily testing Bind() success.
+/// \param _val Result of a Bind() operation.
+/// \return True if the Bind() operation failed.
+bool operator !(const std::vector<
+  std::pair<subt::communication_broker::EndpointID, std::string>>& _val)
+{
+  return _val.empty();
+}
+
 #endif
